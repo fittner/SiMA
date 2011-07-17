@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Quantified quotas of affect and thing presentations are transported from F45 to F18.
  * 
  * @author deutsch
  * 03.03.2011, 16:32:07

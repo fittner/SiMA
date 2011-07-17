@@ -7,14 +7,12 @@
 package pa._v38.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
-
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 
 /**
@@ -73,7 +71,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	
 
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Start the method to compare the input container with all other images in the storage
 	 *
 	 * @since 30.06.2011 23:03:27
 	 *
@@ -84,9 +82,9 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * A listsearch, which uses the whole container to search the memory with.
 	 */
 	@Override
-	public ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType,clsDataStructureContainer poDataContainerInput) {
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType,clsDataStructureContainer poDataContainerInput) {
 		//In this function, the container content is compared with saved template images, which are the data structure in generated containers
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 	//Result
+		//ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 	//Result
 		
 		/* Parameters:
 		 * - Boolean Strong match: Default=true. If one compared TP belonging to a TI is false, the whole match is = 0
@@ -96,49 +94,15 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		 * - double Threshold: Default=0.0 Association threshold for adding the image as a match
 		 */
 		
-		double mrActivationThreshold = 0.0;
-		
 		//Steps
-		//1. From the DataStructure, get data structure
-		clsDataStructurePA oDS = poDataContainerInput.getMoDataStructure();
-		//2. Search for all DataStructures (without containers), which matches this one
-		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		//2b. Set the Content type of oDS
-		oDS.setMoContentType("IMAGE");	
-		oMatchedDataStructures = compareElements(oDS);	//Get a List of all matching structures in the memory
-		//The internal comparison is made in compareElements
-		
-		//3. Depending on the type of the structure, different operations are made with the objects in the list
-		if (oDS instanceof clsTemplateImage) {
-			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures) {	
-			//The element a in the pair is not used as a new weight is generated
-				//4. Get all associated elements for each container
-				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
-				//5. Compare the input container with container from the memory
-				double mrMatchValue = compareContainer((clsPrimaryDataStructureContainer)oDataStructureContainer, (clsPrimaryDataStructureContainer)poDataContainerInput);
-				//6. Add the found container to the list together with the match value
-				if (mrMatchValue >= mrActivationThreshold) {
-					oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(mrMatchValue, oDataStructureContainer));
-				}
-			}
-		} else {
-			//TODO AW: Add other data type comparisons. Until now, no other data types are necessary to compare in this way
-		}
-		return oDataStructureContainerList;
+		//poDataContainerInput.getMoDataStructure().setMoContentType("IMAGE");	
+		oMatchedDataStructures = compareElementsContainer(poDataContainerInput);	//Get a List of all matching structures in the memory
+	
+		return oMatchedDataStructures;
 	}
 	
-	private double compareContainer(clsPrimaryDataStructureContainer poSearchFor, clsPrimaryDataStructureContainer poTarget) {
-		//poSearchFor is the container, where the content is necessary and sufficient. poTarget is the input container
-		//TODO AW: Fill function with content from MZ compare algorithm
-		
-		//Cases: 
-		/*if(oDS.getMoDS_ID() > -1 ) {	//If the data structure already has an ID, no matching is necessary and it has found itself
-		oMatchedDataStructures.add(new clsPair<Double, clsDataStructureContainer>(1.0, poDataContainerInput)); 
-		}*/
-		
-		return 1;
-	}
-
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -185,16 +149,19 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 	
-	
 	/**
-	 * DOCUMENT (wendt) - Function overloading, search for the whole content of a container in the memeory
+	 * Search for the whole content of a container in the memory and compare the found structures with the input structure
 	 *
 	 * @since 08.07.2011 11:53:35
 	 *
 	 * @param poContainerUnknown
 	 * @return
 	 */
-	private ArrayList<clsPair<Double,clsDataStructureContainer>> compareElements(clsDataStructureContainer poContainerUnknown) {
-		return clsDataStructureComparison.compareDataStructures(poContainerUnknown, moSearchSpaceHandler.returnSearchSpace());
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> compareElementsContainer(clsDataStructureContainer poContainerUnknown) {
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		
+		oRetVal = clsDataStructureComparison.compareDataStructuresContainer(moSearchSpaceHandler, poContainerUnknown);	
+		
+		return oRetVal;
 	}
 }

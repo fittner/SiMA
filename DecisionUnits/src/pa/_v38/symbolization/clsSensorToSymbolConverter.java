@@ -16,7 +16,6 @@ import pa._v38.symbolization.representationsymbol.clsSymbolPositionChange;
 import pa._v38.symbolization.representationsymbol.clsSymbolRadiation;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import pa._v38.enums.eSymbolExtType;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsEatableArea;

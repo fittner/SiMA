@@ -183,15 +183,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @param oContentListUnknown
 	 * @return
 	 */
-	//AW 20110703: The previous function
 	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown) {
-		return getMatchScore(poContentListTemplate, poContentListUnknown, false); 
-	}
-	
-	//AW 20110703: Function extended, in order to compare specializations with generalizations
-	
-	//Vergleiche CONTENT UND CONTENT TYPE und wenn sie gleich sind ist Spezialisierungsvergleich erlaubt.
-	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown, boolean bMatchSpecialization) {
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
@@ -214,14 +206,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
 				 * association element of the next association in poContentListUnknown is compared again with the same element.*/
 				clsPair <Double, Integer> oMatch = new clsPair<Double, Integer>(0.0,-1);
-				boolean bAttributeFound = false;	//Default is false. At first find, it is true
 					
-				for(E oClonedKnownDS : oClonedTemplateList){
-					//Check if data attribute was found 
-					if (oUnknownDS.moContentType.equals(oClonedKnownDS.moContentType)) {
-						bAttributeFound = true;
-					}
-				
+				for(E oClonedKnownDS : oClonedTemplateList){				
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
 						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
@@ -237,12 +223,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 						oMatch.a = rMatchScoreTemp; 
 						oMatch.b = oClonedTemplateList.indexOf(oClonedKnownDS);
 					}
-				}
-				//If the searched attribute was not found, the association counts as fulfilled, here option is added
-				if (bAttributeFound==false && bMatchSpecialization==true) {
-					oMatch.a = 1.0;
-				}
-				
+				}				
 				//Sums up the match score; Takes always the highest possible score 
 				oMatchScore += oMatch.a;
 			

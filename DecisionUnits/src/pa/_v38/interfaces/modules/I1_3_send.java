@@ -12,7 +12,7 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Connection of a bodily module to its neurosymbolization module. F10->F11
  * 
  * @author deutsch
  * 18.05.2010, 14:16:25

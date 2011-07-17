@@ -13,18 +13,18 @@ import java.util.SortedMap;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 13:40:06
  * 
  */
@@ -35,9 +35,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:57:33
 	 *
 	 * @param poPrefix

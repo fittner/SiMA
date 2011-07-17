@@ -13,12 +13,12 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Superego bans and rules are transported from F7 to F6.
  * 
  * @author deutsch
  * 18.05.2010, 14:05:44
  * 
  */
 public interface I5_13_send {
-	public void send_I5_13(int[] poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
+	public void send_I5_13(ArrayList<String> poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
 }

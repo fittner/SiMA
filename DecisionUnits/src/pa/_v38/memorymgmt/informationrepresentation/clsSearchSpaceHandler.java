@@ -59,8 +59,13 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	public void setSearchSpace(clsSearchSpaceBase poSearchSpaceBase){
 		moSearchSpace = poSearchSpaceBase;
 	}
+	
+	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure) {
+		return readOutSearchSpace(poReturnType, poDataStructure, false);
+	}
+	
 	//This function returns all associations of the input of a certain type and a certain data structure
-	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure){
+	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure, boolean blCompareInstance){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace
 		                                        .returnSearchSpaceTable()
@@ -69,18 +74,32 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		                                              	.get(poDataStructure.getMoDS_ID()).b;
 		
 		for(clsAssociation oAssociationElement : oList){
-			clsDataStructurePA elementB; 
+			clsDataStructurePA elementB = null; 
 			
-			if(oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()){ 
-				elementB = oAssociationElement.getMoAssociationElementB(); 
+			if (blCompareInstance == false) {
+				if ((oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID()==0) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID()==0)){ 	//Only a type is taken, no instances
+					if(oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) {
+						elementB = oAssociationElement.getMoAssociationElementB(); 
+					}
+					else if (oAssociationElement.getMoAssociationElementB().getMoDS_ID()  == poDataStructure.getMoDS_ID()) {
+						elementB = oAssociationElement.getMoAssociationElementA();
+					}
+					else {throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
+				}
+			} else {
+				if(oAssociationElement.getRootElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()){ 
+					elementB = oAssociationElement.getLeafElement(); 
+				} else if (oAssociationElement.getLeafElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()) {
+					elementB = oAssociationElement.getRootElement();
+				} //else if ((oAssociationElement.getLeafElement().getMoDataStructureType() == eDataType.DM) && (oAssociationElement.getRootElement().getMoDSInstance_ID() == 0)) {
+				//	elementB = oAssociationElement.getLeafElement();
+				//}
 			}
-			else if(oAssociationElement.getMoAssociationElementB().getMoDS_ID()  == poDataStructure.getMoDS_ID()){
-				elementB = oAssociationElement.getMoAssociationElementA();
-			}
-			else {throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
-		
-			if((poReturnType & elementB.getMoDataStructureType().nBinaryValue) != 0x0){
-				oAssociatedDataStructureList.add(oAssociationElement); 
+			
+			if (elementB != null) {
+				if((poReturnType & elementB.getMoDataStructureType().nBinaryValue) != 0x0){
+					oAssociatedDataStructureList.add(oAssociationElement); 
+				}
 			}
 		}
 		return oAssociatedDataStructureList; 

@@ -1,52 +1,69 @@
 /**
- * clsPsychoAnalysis.java: DecisionUnits - pa
+ * CHANGELOG
  * 
- * @author deutsch
- * 12.08.2009, 10:18:56
+ * 2011/07/11 TD - added javadoc comments. code sanitation.
  */
 package pa;
 
-import pa.enums.eModelVersion;
 import config.clsBWProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * This class wraps the implementation of the psychoanalytically inspired decision units to be compatible 
+ * with the interface specified in decisionunit.clsBaseDecisionUnit. Can distinguish between v19, v30, and v38. The default
+ * value is v38 currently. To specify a different version, please change the provided proterites.
  * 
  * @author deutsch
- * 12.08.2009, 10:18:56
+ * 11.07.2011, 16:45:48
  * 
  */
 public class clsPsychoAnalysis extends clsBaseDecisionUnit {
-	public static final String P_PROCESSOR = "processor";
+	/** prefix for all property entries for this class. @since 11.07.2011 16:50:30 */
+	public static final String P_PROCESSOR = "processor"; 
+	/** the version of this class. not to be confused with the model version of the selected implementation; @since 11.07.2011 16:50:55 */
 	public static final String P_VERSION = "version";
+	/** the version of the decsion unit to be used.; @since 11.07.2011 16:51:38 */
 	public static final String P_MODELVERSION = "modelversion";
 	
-	//obsolete and replaced by enum eModelVersion
-	//private static final boolean mnUseOld = false;
-	
-	//private static final eModelVersion P_MODEL = eModelVersion.v30;
 	private static final eModelVersion P_MODEL = eModelVersion.v38; 	//AW 20110519 Start with V38 now.
 	
-	/**
-	 * @author muchitsch
-	 * 05.04.2011, 16:41:35
-	 * 
-	 * @return the mnuseold
-	 */
-	public static String getModelVersion() {
-		return P_MODEL.name();
-	}
-
 	private itfProcessor moProcessor;
 	
+	/**
+	 * Creates an instance of the class with the provided properties and the uid.
+	 *
+	 * @since 11.07.2011 16:47:28
+	 *
+	 * @param poPrefix - prefix for the properties
+	 * @param poProp - the stored properties
+	 * @param uid - the unique id for this agent. the same for the body and the decision unit. eases debugging and logging.
+	 */
 	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp, uid);
 	}
 
+	/**
+	 * Returns the selected model of the psychoanalytically inspired decision unit. 
+	 *
+	 * @since 11.07.2011 16:48:51
+	 *
+	 * @return
+	 */
+	public static String getModelVersion() {
+		return P_MODEL.name();
+	}
+
+	/**
+	 * returns the default properties for this class and the default properties for the default decision unit.
+	 *
+	 * @since 11.07.2011 16:52:35
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
 	@SuppressWarnings("deprecation")
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -75,6 +92,16 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		return oProp;
 	}	
 	
+	/**
+	 * applies the provided properties and creates an instance of the decision unit. to be more precise, an instance of a class that 
+	 * implements the interface pa.itfProcessor.
+	 *
+	 * @since 11.07.2011 16:53:16
+	 *
+	 * @param poPrefix
+	 * @param poProp
+	 * @param uid
+	 */
 	@SuppressWarnings("deprecation")
 	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -107,12 +134,11 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 * Returns the processor. Thus, with this method the instance of the decision unit implementation can be accessed.
 	 *
-	 * @author langr
-	 * 13.08.2009, 00:07:30
+	 * @since 11.07.2011 16:54:20
 	 *
-	 * @return
+	 * @return The instance to the processor/decision unit.
 	 */
 	public itfProcessor getProcessor() {
 		return moProcessor;

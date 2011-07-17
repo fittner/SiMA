@@ -9,11 +9,11 @@ package pa._v38.interfaces.modules;
 import java.util.HashMap;
 
 
+import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import pa._v38.enums.eSymbolExtType;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Neurosymbols derived from external sensors are transmitted from F11 to F14.
  * 
  * @author deutsch
  * 11.08.2009, 14:16:31

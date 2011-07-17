@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Connects the last psychic module in the chain F30 to the neurodesymbolization of the actions F31.	
  * 
  * @author deutsch
  * 11.08.2009, 14:53:28

@@ -14,6 +14,21 @@ package pa._v38.interfaces;
  * 
  */
 public interface itfMinimalModelMode {
+	/**
+	 * Setter for the minimal mode.
+	 *
+	 * @since 12.07.2011 11:27:58
+	 *
+	 * @param pnMinial
+	 */
 	public void setMinimalModelMode(boolean pnMinial);
+	
+	/**
+	 * Getter for the minimal mode.
+	 *
+	 * @since 12.07.2011 11:28:00
+	 *
+	 * @return
+	 */
 	public boolean getMinimalModelMode();
 }

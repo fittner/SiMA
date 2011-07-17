@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Analogous to I5.17, I5.16 transports quota of affects which have formerly been attached to thing presentations representing perceived contents. They are forwarded from F19 to F20.
  * 
  * @author deutsch
  * 11.08.2009, 14:37:14

@@ -1,8 +1,7 @@
 /**
- * clsProcessor.java: DecisionUnits - pa
+ * CHANGELOG
  * 
- * @author deutsch
- * 12.08.2009, 09:30:54
+ * 2011/07/12 TD - added javadoc comments. code sanitation.
  */
 package pa._v38;
 
@@ -20,25 +19,52 @@ import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentation
 import pa._v38.modules.clsPsychicApparatus;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The clsProcessor of the implemenation v38 is responsible for feeding the sensor data into the decision unit, calling all modules to process this data
+ * in the correct order, and to extract the produced action command from the decision unit. The modules themselves are created within the class clsPsychicApparatus.
+ * Further the knowledgebasehandler is created in this class.
+ * 
+ * @see pa._v38.modules.clsPsychicApparatus
  * 
  * @author deutsch
  * 12.08.2009, 09:30:54
  * 
  */
 public class clsProcessor implements itfProcessor  {
+	/** prefix to the properties file for all entries related to the psychic apparatus; @since 12.07.2011 10:58:05 */
 	public static final String P_PSYCHICAPPARATUS = "psychicapparatus";
+	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
 	public static final String P_KNOWLEDGEABASE = "knowledgebase";
+	/** the value entry that defines the constantly produced libido stream. used for the properties file; @since 12.07.2011 10:59:01 */
 	public static final String P_LIBIDOSTREAM = "libidostream";
 	
+	/** the private instance of the psychic apparatus; @since 12.07.2011 11:00:15 */
 	private clsPsychicApparatus moPsyApp;
+	/** the private instance of the knowledgebasehandeler/memory; @since 12.07.2011 11:00:30 */
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	/** the rate of the constantly produced libido; @since 12.07.2011 11:00:52 */
 	private double mrLibidostream;
 		
+	/**
+	 * Creates an instance of the processor and thus the decision unit with the provided properties.
+	 *
+	 * @since 12.07.2011 11:01:51
+	 *
+	 * @param poPrefix Prefix for the property-entries in the property file.
+	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
+	 */
 	public clsProcessor(String poPrefix, clsBWProperties poProp, int uid) {
 		applyProperties(poPrefix, poProp, uid);
 	}
 	
+	/**
+	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+	 *
+	 * @since 12.07.2011 11:02:53
+	 *
+	 * @param poPrefix Prefix for the entries in the property file.
+	 * @return An instance of clsBWProperties with the added default properties.
+	 */
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
@@ -52,6 +78,15 @@ public class clsProcessor implements itfProcessor  {
 		return oProp;
 	}	
 	
+	/**
+	 * Applies the provided properties to the class and creates the knowledgebasehandler and the psychicapparatus.
+	 *
+	 * @since 12.07.2011 11:04:27
+	 *
+	 * @param poPrefix Prefix for the property-entries in the property file.
+	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
+	 */
 	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
 		String pre = clsBWProperties.addDot(poPrefix);
 	
@@ -71,12 +106,12 @@ public class clsProcessor implements itfProcessor  {
 	}
 
 	/**
-	 * collects homeostatic value only
+	 * Extracts the homeostatic data from the whole set of sensor data. Necessary to create the input for F1.
 	 *
 	 * @author langr
 	 * 12.08.2009, 20:42:17
 	 *
-	 * @param poData
+	 * @param poData The sensor data collected by the various sources of the body.
 	 * @return
 	 */
 	private HashMap<eSensorIntType, clsDataBase> separateHomeostaticData(clsSensorData poData) {
@@ -98,12 +133,12 @@ public class clsProcessor implements itfProcessor  {
 	}
 
 	/**
-	 * collects environmental data only
+	 * Extracts the external sensor data (more or less the five senses) from the rest of the sensor data. Necessary to create the input for F10.
 	 *
 	 * @author langr
 	 * 12.08.2009, 20:41:51
 	 *
-	 * @param poData
+	 * @param poData The sensor data collected by the various sources of the body.
 	 * @return
 	 */
 	private HashMap<eSensorExtType, clsSensorExtern> separateEnvironmentalData(clsSensorData poData) {
@@ -128,12 +163,12 @@ public class clsProcessor implements itfProcessor  {
 	}
 
 	/**
-	 * collects bodily data only
+	 * Extract the internal sensor data (like pain or position of the elbow) from the rest of the sensor data. Necessary to create the input for F12.
 	 *
 	 * @author langr
 	 * 12.08.2009, 20:41:48
 	 *
-	 * @param poData
+	 * @param poData The sensor data collected by the various sources of the body.
 	 * @return
 	 */
 	private HashMap<eSensorExtType, clsSensorExtern> separateBodyData(clsSensorData poData) {
@@ -242,12 +277,12 @@ public class clsProcessor implements itfProcessor  {
 	}
 
 	/**
-	 * DOCUMENT (langr) - insert description
+	 * Getter method for the psychic apparatus. Needed primarily by the various inspectors.
 	 *
 	 * @author langr
 	 * 13.08.2009, 00:08:10
 	 *
-	 * @return
+	 * @return An instance of clsPsychicApparatus.
 	 */
 	public clsPsychicApparatus getPsychicApparatus() {
 		return moPsyApp;

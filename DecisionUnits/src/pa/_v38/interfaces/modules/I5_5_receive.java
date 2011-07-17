@@ -15,7 +15,7 @@ import pa._v38.tools.clsPair;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Selected drive content is forwarded from F55 to F6
  * 
  * @author deutsch
  * 11.08.2009, 14:35:43

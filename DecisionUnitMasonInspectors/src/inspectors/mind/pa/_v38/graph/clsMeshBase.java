@@ -135,7 +135,15 @@ public abstract class clsMeshBase extends clsGraphBase {
 			while (oI.hasNext()) {
 				Object oKey = oI.next();
 				Object oValue = t.get(oKey);
-				generateGraphCell(poParent, oValue);
+				
+				//if the value of the map is a simple double, display the key aswell
+				if(oValue instanceof Double ) {
+					String otmpValue = oKey.toString() + " | " + oValue.toString();
+					generateGraphCell(poParent, otmpValue);
+				}
+				else {
+					generateGraphCell(poParent, oValue);
+				}
 			}
 
 		} else if (oO instanceof clsDataStructurePA) {
@@ -662,7 +670,8 @@ public abstract class clsMeshBase extends clsGraphBase {
 	 */
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, String popoMemoryObject)
 	{
-		DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
+		DefaultGraphCell oCell = createDefaultGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
+		//DefaultGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell

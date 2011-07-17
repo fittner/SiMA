@@ -12,15 +12,14 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsBlockedContentStorage;
@@ -43,9 +42,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
-	
-	//AW 20110521: Old Output
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
 	
 	private double mrContextSensitivity = 0.8;
 	private boolean mnMinimalModel;
@@ -86,8 +82,10 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		
 		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
-		text += toText.valueToTEXT("moEnvironmentalTP_Input", moEnvironmentalPerception_IN);
-		text += toText.listToTEXT("moAttachedRepressed_Output", moAttachedRepressed_Output);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		text += toText.valueToTEXT("mrContextSensitivity", mrContextSensitivity);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
@@ -120,7 +118,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)deepCopy(moEnvironmentalPerception_IN);
+		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
 		 * inside enrichWithBlockedContent. This was done so that in the future
@@ -317,7 +315,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)

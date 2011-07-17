@@ -15,13 +15,12 @@ import pa._v38.storage.clsLibidoBuffer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_9_send;
 import pa._v38.interfaces.modules.I5_8_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -29,15 +28,16 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
+ * whether they qualify for libido discharge and thus for pleasure gain. If so, the value of the libido buffer 
+ * is reduced (tension reduction is pleasure gain). The pleasure gain is forwarded to F18 as an additional value 
+ * for the composition of the quota of affect. 
  * 
  * @author deutsch
  * 03.03.2011, 16:29:55
@@ -46,25 +46,33 @@ import config.clsBWProperties;
 public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I5_8_receive, I5_9_send {
 	public static final String P_MODULENUMBER = "45";
 	
+	/** Perceived Image in; @since 14.07.2011 14:02:10 */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	/** Associated memories in; @since 14.07.2011 14:02:10 */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
+	/** Perceived Image in, enriched with LIBIDO DMs; @since 14.07.2011 14:02:10 */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	/** Associated memories out, which are enriched with LIBIDO DM; @since 14.07.2011 14:02:10 */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
-	private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
+	//private ArrayList<clsPair<String, Double>> moLibidioDischargeCandidates; //pair of IDENTIFIER and qualification from 0 to 1
 	
 	/* Module parameters */
+	/** Threshold for the matching process of images */
+	// TODO AW: This function is not in use yet, but will be very soon
 	private double mrMatchThreshold = 0.6;
-	private double mrAvailablePsychicEnergy = 1.0;
 	
 	// Other variables
-	private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
+	/** Available Libido, double */
 	private double mrAvailableLibido;
+	/** The amount of libido, of which the libido buffer is reduced by */
 	private double mrLibidoReducedBy;
+	/** instance of libidobuffer */
 	private clsLibidoBuffer moLibidoBuffer;	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * Constructor of the libido buffer. Here the libido buffer is assigned 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:30:00
@@ -85,11 +93,37 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		applyProperties(poPrefix, poProp);	
 		
-		fillLibidioDischargeCandidates();	//FIXME: REPLACE
+		//fillLibidioDischargeCandidates();
 	}
 	
-	//FIXME: REPLACE
-	private void fillLibidioDischargeCandidates() {
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {
+		String text ="";
+		
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		
+		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		
+		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
+		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
+		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
+		
+		return text;
+	}	
+	
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
+	/*private void fillLibidioDischargeCandidates() {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultDM = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResultObjects = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		ArrayList<clsDataStructurePA> oDriveMeshList = new ArrayList<clsDataStructurePA>(); 
@@ -116,23 +150,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 												((clsDriveMesh)oDriveMeshList.get(oCandidateList.indexOf(oCandidate))).getMrPleasure()));
 		}
 		
-		//FIXME (Zeilinger): bitte irgendwie aus dem protege auslesen
-//		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
-	}
+	}*/
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 22.04.2011, 10:41:34
-	 *
-	 * @param oSearchResultDM
-	 * @param oDriveMeshList 
-	 */
-	private void extractDriveMatches(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult, 
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
+	/*private void extractDriveMatches(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult, 
 									ArrayList<clsDataStructurePA> poDriveMatchList) {
 				
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
@@ -140,18 +161,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					poDriveMatchList.add(oMatch.b.getMoDataStructure());
 				}
 		}
-	}
+	}*/
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 22.04.2011, 11:29:37
-	 *
-	 * @param oSearchResultObjects
-	 * @param oCandidateList
-	 */
-	private void extractCandidateMatches(
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
+	/*private void extractCandidateMatches(
 			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResultObjects,
 			ArrayList<clsDataStructurePA> poCandidateList) {
 		
@@ -163,29 +176,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			}
 		}
 		
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 14.04.2011, 17:36:19
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
-	 */
-	@Override
-	public String stateToTEXT() {
-		String text ="";
-		
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);	
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);		
-		text += toText.listToTEXT("moLibidioDischargeCandidates", moLibidioDischargeCandidates);
-		text += toText.valueToTEXT("mrDischargePiece", mrDischargePiece);		
-		text += toText.valueToTEXT("mrAvailableLibido", mrAvailableLibido);
-		text += toText.valueToTEXT("mrReducedLibido", mrLibidoReducedBy);
-		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
-		
-		return text;
-	}		
+	}*/
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
 		String pre = clsBWProperties.addDot(poPrefix);
@@ -210,42 +201,28 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	protected void process_basic() {
-		
-		//AW Test
-		testImage();
-		
-		
-		
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
 		
-		//Clone input structure
-		try {
-			moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
+		//Clone input structure and make modification directly on the output
+		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
+		
+		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, 1.0);
+		
+		//Go through all associated memories
+		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
+			mrLibidoReducedBy += setImageLibido(oContainer, 0.5);
 		}
 		
-		/* Here, spread activation for Libido shall be placed.
-		 * 1. Go through all perception and memories
-		 * 2. In spread activation, only very little psychic energy is available
-		 * 3. if an object match > 60% in an image is found, the libido-DM in the image is added to the input image 
-		 * 
-		 */
 		
+		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
+
 		
-		
-		
-		//FIXME: Hack remove
-		double rChunk = mrAvailableLibido * mrDischargePiece; //each match can reduce the libido by a maximum of rChunk.
-		//FIXME: if more than ten piece fit 100% ... the last pieces will get nothing ...
-		
-		mrLibidoReducedBy = 0;
-				
+		//TODO AW: Remove outcommented code as soon as the functionality is confirmed	
 		//moMergedPrimaryInformation_Snd = new ArrayList<clsPair<clsPrimaryDataStructureContainer,clsDriveMesh>>();
-		//FIXME (ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
-		for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
+		//ZEILINGER): das ganze zeug geht noch nicht so ganz .. irgendwie ... plz - wobei. das kann ich morgen auch noch debuggen.
+		/*for (clsPair<String,Double> oCandidate:moLibidioDischargeCandidates) {
 			String oSearchPattern = oCandidate.a;
 			Double rFactor = oCandidate.b;
 			double rReduction = rChunk * rFactor;
@@ -287,39 +264,118 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			}
 		}
 		
-		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-		
-		//Pass the memories forward. Later, they are enriched repressed content
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
-	}
-
-	private void testImage() {
-		/* AW Testsetup for image search
-		 * Use the input image as seach image
-		 */
-		clsPrimaryDataStructureContainer oTestImage=null;
-		try {
-			oTestImage = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
-		} catch (CloneNotSupportedException e1) {
-			// TODO (wendt) - Auto-generated catch block
-			e1.printStackTrace();
-		}
-		//Get Image in the search function
-		//Create seach pattern
-		clsDataStructureContainer oSearchPattern = oTestImage;
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
-		//String oPattern = oSearchPattern.toString();
-		//search(new ArrayList<clsPrimaryDataStructureContainer>(Arrays.asList(oSearchPattern)), oSearchResultContainer);
-		search(oSearchPattern, oSearchResultContainer);
+		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);*/
+	
 	}
 	
-	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
+	//TODO AW: Remove outcommented code as soon as the functionality is confirmed
+	/*private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
 				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
 				);
+		
+		return oRetVal;
+	}*/
+	
+	
+	/**
+	 * Search matches for the input image. Assign the libido drive meshes from the best match with the objects (TPM) 
+	 * in the input image. Return the reduced amount of libido
+	 *
+	 * @since 16.07.2011 10:19:10
+	 *
+	 * @param poInput
+	 * @param prLibidoReduceRate
+	 * @return
+	 */
+	private double setImageLibido(clsPrimaryDataStructureContainer poInput, double prLibidoReduceRate) {
+		//Search for matches for the input image
+		double rReducedValue = 0.0;
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		
+		//Find matching images for the input image
+		//FIXME AW: Set Threshold for matching = 0.9
+		
+		searchContainer(poInput, oSearchResultContainer, "LIBIDOIMAGE");
+		
+		// Here, spread activation for Libido shall be placed.
+		//searchContainer(oPerceptionInput, oSearchResultContainer);
+		// 2. In spread activation, only very little psychic energy is available
+		// 3. if an object match > 60% in an image is found, the libido-DM in the image is added to the input image 
+		
+		//Get the match with the highest match
+		//FIXME AW: Check if the result is correctly sorted
+		clsPrimaryDataStructureContainer oBestCompareContainer = getBestMatch(oSearchResultContainer);
+		//Get a list of corresponding objects for the libido DMs in the input image
+		ArrayList<clsPair<clsDataStructurePA, clsAssociation>> oLibidoDM = clsDataStructureComparison.getSpecificAssociatedContent(oBestCompareContainer, poInput, eDataType.DM, "LIBIDO");
+		
+		rReducedValue = addDriveMeshes(new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPair<clsDataStructurePA, clsAssociation>>>(poInput, oLibidoDM), prLibidoReduceRate);
+		
+		return rReducedValue;
+	}
+	
+	/**
+	 * With a match pair, which consist of the target container as element a and a list of the objects within that container and the fitting
+	 * drivemesh association as element b. This function copies the drive assignments to the objects in the target container. The 
+	 * libido reduce rate sets how much of the mrPleasure in the drive mesh shall be "transferred" to the new drive mesh. The sum of all
+	 * mrPleasure of all created drive meshes forms the output, which is the total reduction of libido within this turn.
+	 *
+	 * @since 16.07.2011 10:21:08
+	 *
+	 * @param poAssignment
+	 * @param prLibidoReduceRate
+	 * @return
+	 */
+	private double addDriveMeshes (clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPair<clsDataStructurePA, clsAssociation>>> poAssignment, double prLibidoReduceRate) {
+		//For each Pair, assign the drive meshes
+		double rTotalReduce = 0.0;
+		for (clsPair<clsDataStructurePA, clsAssociation> oAssignmentElement : poAssignment.b) {
+			clsDriveMesh oDM = (clsDriveMesh) oAssignmentElement.b.getLeafElement();
+			//With this amount the libido puffer shall be reduced
+			double rDMReduce = oDM.getMrPleasure() * prLibidoReduceRate;
+			//if the total reduction of libido is smaller than the buffer, then the DM can be assigned
+			//For perception, the reduce rate shall be 1.0 and for associated content, only 0.5
+			if (rTotalReduce + rDMReduce <= mrAvailableLibido) {
+				try {
+					//Clone the original DM
+					clsDriveMesh oNewDriveMesh = (clsDriveMesh) oDM.clone();
+					//Set new Pleasurevalue, which depends on the reducevalue
+					oNewDriveMesh.setMrPleasure(rDMReduce);
+					//Create new identifier
+					clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+					//Create new association drivemesh but with the new root element
+					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsPrimaryDataStructure)oAssignmentElement.a);
+					//Add the assocation to the input container
+					poAssignment.a.addMoAssociatedDataStructure(oDriveAss);
+					rTotalReduce += rDMReduce;
+				} catch (CloneNotSupportedException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return rTotalReduce;
+	}
+	
+	/**
+	 * Equal to the function in F46. It extracts the first element in the arraylist. Precondition: The arrayList is sorted.
+	 * This funtion is only a temporary function and shall be replaced by a more flexible one.
+	 *
+	 * @since 16.07.2011 10:25:21
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private clsPrimaryDataStructureContainer getBestMatch (ArrayList<clsPair<Double,clsDataStructureContainer>> poInput) {
+		//Get the first structure from the sorted list
+		clsPrimaryDataStructureContainer oRetVal;
+		if (poInput.size()!=0) {
+			oRetVal = (clsPrimaryDataStructureContainer) poInput.get(0).b;
+		} else {
+			oRetVal = null;
+		}
 		
 		return oRetVal;
 	}

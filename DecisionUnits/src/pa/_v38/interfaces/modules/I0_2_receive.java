@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The second incoming connection to F39 originates in the erogenous zones.
  * 
  * @author deutsch
  * 03.03.2011, 15:28:33

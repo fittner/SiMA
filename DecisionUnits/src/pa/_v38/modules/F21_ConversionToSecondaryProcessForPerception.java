@@ -16,13 +16,13 @@ import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I5_15_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -152,8 +152,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)this.deepCopy(poEnvironmentalPerception);
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAssociatedMemories);
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalPerception.clone();
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)

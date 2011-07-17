@@ -10,7 +10,8 @@ import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.SortedMap;
-import pa._v38.interfaces.eInterfaces;
+
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 import panels.TextOutputPanel;
 import sim.portrayal.Inspector;

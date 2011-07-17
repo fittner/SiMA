@@ -12,13 +12,13 @@ import java.util.Arrays;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D2_2_send;
 import pa._v38.interfaces.modules.D2_3_receive;
 import pa._v38.interfaces.modules.D2_4_receive;
 import pa._v38.interfaces.modules.D2_4_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -741,12 +741,39 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * This method is used by "F06: defense mechanisms for drives"
 	 * 
 	 */ 
-    //FIXME: Add template images and drivemeshes
+	/**
+	 * Add DMs to repressed content storage
+	 *
+	 * @since 12.07.2011 16:09:03
+	 *
+	 * @param poDM
+	 */
 	public void add(clsDriveMesh poDM){
-    	//Input könnte dann ein Container sein
+		//Input könnte dann ein Container sein
 		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
 		moBlockedContent.add(oAddDM);
     }
+	
+	/**
+	 * Add TPMs, TI and TPs to the repressed content storage
+	 *
+	 * @since 12.07.2011 16:08:32
+	 *
+	 * @param poDS
+	 */
+	public void add(clsPhysicalRepresentation poDS) {
+		
+		if ((poDS instanceof clsTemplateImage) == false) {
+			clsTemplateImage newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDDRIVEOBJECT");
+			newTI.assignDataStructure(new clsAssociationTime(new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
+			
+			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, new ArrayList<clsAssociation>());
+			moBlockedContent.add(oAddDS);
+		} else {
+			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDS, new ArrayList<clsAssociation>());
+			moBlockedContent.add(oAddDS);
+		}
+	}
 	
 
 

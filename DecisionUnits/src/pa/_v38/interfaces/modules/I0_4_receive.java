@@ -13,7 +13,7 @@ import du.itf.sensors.clsSensorExtern;
 
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Environment sensors signals are fed into F10.
  * 
  * @author deutsch
  * 03.03.2011, 15:29:38

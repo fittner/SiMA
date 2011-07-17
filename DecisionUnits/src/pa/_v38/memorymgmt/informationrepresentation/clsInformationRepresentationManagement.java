@@ -153,25 +153,22 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		}
 		
 		
-		//AW 20110629: New function
 		/**
-		 * DOCUMENT (wendt) - insert description
+		 * Ini memeory search for searching in memories with one single complete container as input
 		 *
 		 * @since 29.06.2011 15:03:32
 		 *
 		 * @param poSearchPatternList
 		 * @return
-		 * 
-		 * Function overloading for searching in memories with one single complete container
-		 * 
+		 *  
 		 */
 		@Override
-		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearch(clsPair<Integer, clsDataStructureContainer> poSearchPattern){
+		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern){
 			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 			
 			//Search for all template images in the store
-			oSearchPatternMatch = triggerModuleSearch((int)poSearchPattern.a, poSearchPattern.b);
+			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b);
 			moSearchResult.add(oSearchPatternMatch);
 			
 			return oSearchPatternMatch;
@@ -205,7 +202,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * For each type of Information representation management, start the search.
 	 *
 	 * @since 30.06.2011 22:36:54
 	 *
@@ -213,11 +210,10 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poDataStructure
 	 * @return
 	 * 
-	 * This function overload only accepts containers
 	 */
-	private ArrayList<clsPair<Double, clsDataStructureContainer>> triggerModuleSearch(Integer poReturnType, clsDataStructureContainer poDataContainer) {
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearchContainer(Integer poReturnType, clsDataStructureContainer poDataContainer) {
 		
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
 		
 		if(poDataContainer instanceof clsSecondaryDataStructureContainer){
 			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison

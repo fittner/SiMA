@@ -14,10 +14,10 @@ import java.util.SortedMap;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I3_1_receive;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_3_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -41,7 +41,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public static final String P_PARTIAL_PHALLIC = "phallic";
 	public static final String P_PARTIAL_GENITAL = "genital";
 	
-	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
+	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moLibidoDriveDemands;
 	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
 	
@@ -74,7 +74,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moHomeostaticDriveDemands", moHomeostaticDriveDemands);
+		text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrives);
 		
@@ -124,7 +124,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	protected void process_basic()  {
 		moDriveCandidates = new ArrayList<clsPair<clsTripple<clsDriveMesh,clsDriveDemand,Double>,clsTripple<clsDriveMesh,clsDriveDemand,Double>>>();
 		for (clsPair<String, Double> oPSD:moPartialSexualDrives) {
-			if (moHomeostaticDriveDemands.size() == 2) {
+			if (moLibidoDriveDemands.size() == 2) {
 				moDriveCandidates.add( createDMT_Double(oPSD) );
 			} else {
 				throw new java.lang.NoSuchMethodError();
@@ -133,18 +133,27 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		}
 	}
 	
-	//generate pairs of opposites. should be only one life and one death instinct available -> straight forward
+	/**
+	 * generate pairs of opposites. should be only one life and one death instinct available -> straight forward
+	 *
+	 * @since 12.07.2011 10:49:22
+	 *
+	 * @param oPSD
+	 * @return
+	 */
 	private clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
 		String oContentType;
 		String oContext;
 		clsPair<clsDriveMesh, clsDriveDemand> oHDD;
 		
-		oHDD = moHomeostaticDriveDemands.get(0);
+		oHDD = moLibidoDriveDemands.get(0);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
 		clsTripple<clsDriveMesh,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
+		//oPSD.b  for the c part of the Tripple is the factor read from the propety files. no calculation is done! just added 
+		//to pass the factor down to module F54
 
-		oHDD = moHomeostaticDriveDemands.get(1);
+		oHDD = moLibidoDriveDemands.get(1);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
 		clsTripple<clsDriveMesh,clsDriveDemand,Double> oT_B =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
@@ -178,8 +187,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
@@ -189,10 +197,15 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#process_final()
 	 */
+	/* (non-Javadoc)
+	 *
+	 * @since 12.07.2011 10:49:10
+	 * 
+	 * @see pa._v38.modules.clsModuleBase#process_final()
+	 */
 	@Override
 	protected void process_final() {
-		// TODO (deutsch) - Auto-generated method stub
-
+		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
@@ -231,7 +244,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
-		moHomeostaticDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
+		moLibidoDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
 	}
 
 

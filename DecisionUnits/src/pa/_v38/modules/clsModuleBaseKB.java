@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
-import pa._v38.interfaces.eInterfaces;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -18,33 +18,31 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 
+
 /**
- * DOCUMENT (deutsch) - insert description 
+ * The module base class for all functional modules that need to access the knowledgebase. 
+ * 
+ * @see clsModuleBase 
  * 
  * @author deutsch
- * 21.04.2011, 11:50:00
- * 
- */
-/**
- * DOCUMENT (wendt) - insert description 
- * 
- * @author wendt
- * 29.06.2011, 13:40:58
+ * 13.07.2011, 13:46:24
  * 
  */
 public abstract class clsModuleBaseKB extends clsModuleBase {
+	/** The knowledgebasehandler (aka the memory); @since 13.07.2011 13:46:56 */
 	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * This constructor creates all functional modules with the provided properties. Additionally the provided reference
+	 * to the knowledgebasehandler is assigned to the internal member variable.
 	 * 
-	 * @author deutsch
-	 * 21.04.2011, 11:50:32
+	 * @since 13.07.2011 14:59:39
 	 *
-	 * @param poPrefix
-	 * @param poProp
-	 * @param poModuleList
-	 * @param poInterfaceData
+ 	 * @param poPrefix Prefix for the property-entries in the property file.
+ 	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poModuleList A reference to an empty map that is filled with references to the created modules. Needed by the clsProcessor.
+	 * @param poInterfaceData A reference to an empty map that is filled with data that is transmitted via the interfaces each step.
+	 * @param poKnowledgeBaseHandler A reference to the knowledgebase handler.
 	 * @throws Exception
 	 */
 	public clsModuleBaseKB(String poPrefix, clsBWProperties poProp,
@@ -89,6 +87,16 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		createSearchPattern(poDataType, poList, false, poSearchPattern);
 	}*/
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @since 13.07.2011 13:47:03
+	 *
+	 * @param <E>
+	 * @param poDataType
+	 * @param poList
+	 * @param poSearchPattern
+	 */
 	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList, 
 			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
 		
@@ -103,7 +111,8 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Search function for whole containers. It will always return a container list and a match factor. The specialized use is if
+	 * the data structure is a template image.
 	 *
 	 * @since 29.06.2011 13:54:58
 	 *
@@ -112,42 +121,66 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poPattern
 	 * @param poSearchResult
 	 * 
-	 * Search function for whole containers. It will always return a containerlist. The specialized use is if
-	 * the data structure is a template image.
 	 */
-	public void search(
+	public void searchContainer(
 			clsDataStructureContainer poPattern,
-			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
+			
+			//FIXME AW: Make a better solution than renaming the content types at the search
+			String oInputContentType = poPattern.getMoDataStructure().getMoContentType();
+			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
+			//in the search
+			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
+			
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBase(poSearchResult, oSearchPattern); 
+			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
+			
+			//Set the old content type again...this is hack dirty bastard shit
+			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		}
 			
 	}
 	
-	/* (non-Javadoc)
+
+	/**
+	 * DOCUMENT (zeilinger) - insert description
 	 *
-	 * @author zeilinger
-	 * 14.03.2011, 22:34:44
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
+	 * @since 13.07.2011 13:47:40
+	 *
+	 * @param poSearchResult
+	 * @param poSearchPattern
 	 */
-	
 	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
 									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {		
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 	
-	//AW 20110629: New function for searching one total container
-	public void accessKnowledgeBase(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
-			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {		
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
+	/**
+	 * Access knowledgebase with a container and not a clsDataStructurePA
+	 * 
+	 * @since 13.07.2011 13:47:08
+	 *
+	 * @param poSearchResult
+	 * @param poSearchPattern
+	 */
+	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
+			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {
+		//AW 20110629: New function for searching one total container
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern));
 	}
 
+	/**
+	 * Getter for moKnowledgeBaseHandler.
+	 *
+	 * @since 13.07.2011 13:47:12
+	 *
+	 * @return
+	 */
 	public clsKnowledgeBaseHandler getKnowledgeBaseHandler() {
 		return moKnowledgeBaseHandler;
 	}

@@ -14,7 +14,7 @@ import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Connection of a bodily module to its neurosymbolization module. F1->F2
  * 
  * @author deutsch
  * 11.08.2009, 12:13:01

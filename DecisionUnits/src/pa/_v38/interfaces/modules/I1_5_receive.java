@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import du.itf.actions.clsActionCommand;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Connection of a neurosymbolization module with its body module. F31->F32
  * 
  * @author deutsch
  * 11.08.2009, 14:53:33

@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.interfaces.modules.I5_7_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -109,7 +109,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)deepCopy(poEnvironmentalTP); //die Wahrnehmung muss auch weitergesendet werden 
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
@@ -149,14 +149,14 @@ protected void process_basic() {
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	@SuppressWarnings({ "static-access", "unchecked" })
+	@SuppressWarnings({ "static-access" })
 	private <clsPhysicalDataStructure> void attachDriveCandidatesToEnvironPerception() 
 	{
 		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte
 		
 		{
 			
-			    System.out.println(eDataType.TPM.ASSOCIATIONDM.values());
+			    //System.out.println(eDataType.TPM.ASSOCIATIONDM.values()); //TD 2011/07/12 - commented out. useless output to console. please try to make more meaningfull outputs and use the inspectors.
 			
 				
 				ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 

@@ -7,7 +7,7 @@
 package pa._v38.interfaces.modules;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Differentiated experienced moods (Feelings, Thing Presentations, Symbol Presentations) are transported from F20 to F26, F52, and F29.
  * 
  * @author deutsch
  * 18.05.2010, 14:37:34

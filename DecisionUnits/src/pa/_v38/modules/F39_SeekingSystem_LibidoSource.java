@@ -10,18 +10,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.eInterfaces;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I0_1_receive;
 import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.storage.clsLibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (wendt) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author deutsch
  * 03.03.2011, 15:16:06
@@ -38,7 +38,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private double mrOutgoingLibido;
 	
 	/**
-	 * DOCUMENT (wendt) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 15:42:22

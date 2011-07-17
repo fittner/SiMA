@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Three action goals are passed on to F52. Word and thing presentations representing the result of module F26 are distributed to F52.
  * 
  * @author deutsch
  * 18.05.2010, 14:52:56

@@ -79,16 +79,23 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	
-	
-	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
+	/**
+	 * Start the list search for a container as input
+	 *
+	 * @since 14.07.2011 16:12:29
+	 *
+	 * @param poReturnType
+	 * @param poDataContainerUnknown
+	 * @return
+	 */
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
 		//Use Listsearch for containers
 		
-		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataContainerUnknown);}
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown);}
 		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
-	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
+	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
 }
