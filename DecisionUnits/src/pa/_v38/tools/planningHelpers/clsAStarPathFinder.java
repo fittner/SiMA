@@ -9,7 +9,7 @@ import pa._v38.tools.planningHelpers.heuristics.clsClosestHeuristic;
  * A path finder implementation that uses the AStar heuristic based algorithm
  * to determine a path. 
  * 
- * @author Kevin Glass
+ * @author Kevin Glass / modified Andreas Perner
  */
 public class clsAStarPathFinder implements clsPathFinder {
 	/** The set of nodes that have been searched through */
