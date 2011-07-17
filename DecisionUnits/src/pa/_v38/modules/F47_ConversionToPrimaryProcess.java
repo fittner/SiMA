@@ -15,27 +15,41 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsGlobalFunctions;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * Contents of various action plans can be used to reduce libido tension in E45. 
+ * Before they can be processed by primary process functions, they have to be converted back again. 
+ * The preconscious parts of the contents - the word presentations - are removed by this module. 
  * 
- * @author deutsch
+ * @author wendt
  * 03.03.2011, 15:22:59
  * 
  */
 public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itfMinimalModelMode, I6_9_receive, I5_19_send {
 	public static final String P_MODULENUMBER = "47";
+
+	
+	/** Minimal model */
+	private boolean mnMinimalModel;
+	/** One primary data structure container, which is input for F46 */
+	private clsPrimaryDataStructureContainer moReturnedTPMemory_OUT;
+	/** The list of generated actions and their associated memories */
+	private ArrayList<clsDataStructureContainer> moReturnedWPMemories_IN;
+	
 	/**
-	 * DOCUMENT (WENDT) - insert description 
+	 * Constructor of F47. Apply properties
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:56:27
@@ -45,11 +59,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	
-	private boolean mnMinimalModel;
-	private clsPrimaryDataStructureContainer moReturnedTPMemory_OUT;
-	private ArrayList<clsSecondaryDataStructureContainer> moReturnedWPMemory_IN;
-	
 	public F47_ConversionToPrimaryProcess(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
@@ -68,9 +77,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
+		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
-		text += toText.valueToTEXT("moReturnedWPMemory_IN", moReturnedWPMemory_IN);
+		text += toText.valueToTEXT("moReturnedWPMemories_IN", moReturnedWPMemories_IN);
 		
 		return text;
 	}		
@@ -97,17 +106,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_basic() {
-		/**
-		 * DOCUMENT (WENDT)
-		 *
-		 * @since 20110625
-		 *
-		 * ${tags}
-		 * 
-		 * This function picks one memory trace in the form of a template image from a secondary process container and
-		 * sends to the primary process, where it is used as input of the association of new memories
-		 */	
-		moReturnedTPMemory_OUT = getMemoryFromWP(moReturnedWPMemory_IN);
+			
+		moReturnedTPMemory_OUT = getMemoryFromWP(moReturnedWPMemories_IN);
 	}
 
 	/* (non-Javadoc)
@@ -135,15 +135,127 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 
 	}
-
-	private clsPrimaryDataStructureContainer getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poInput) {
-		clsPrimaryDataStructureContainer oRetVal;
+	/**
+	 * This function picks one memory trace in the form of a template image from a secondary process container and
+	 * sends to the primary process, where it is used as input of the association of new memories
+	 *
+	 * @since 20110625
+	 *
+	 * ${tags}
+	 * 
+	 */
+	private clsPrimaryDataStructureContainer getMemoryFromWP(ArrayList<clsDataStructureContainer> poInput) {
+		clsPrimaryDataStructureContainer oRetVal = null;
+		clsSecondaryDataStructureContainer oBestPlan = null;
 		
-		//TODO: Dummyfunction from SP
-		oRetVal = new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory")), new ArrayList<clsAssociation>());
+		//Get the most important plan in the list, probably the first item in the list, which is a secondarydatastructurecontainer
+		for (int i=0;i<poInput.size();i++) {
+			if (poInput.get(i) instanceof clsSecondaryDataStructureContainer) {
+				oBestPlan = (clsSecondaryDataStructureContainer)poInput.get(i);	//Most important plan found
+				break;
+			}
+		}
+		
+		clsPrimaryDataStructureContainer oHighestQoAImage = null;
+		
+		//If a best plan was found, search through all associated structures
+		if (oBestPlan != null) {
+			double rMaxQuotaOfAffect = 0.0;
+			double rThisQuotaOfAffect = 0.0;
+			//Search for associated structures, over secondary associations
+			for (clsAssociation oAss : oBestPlan.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					//Get the whole container from this structure
+					clsSecondaryDataStructureContainer oAssWPMemoryContainer = (clsSecondaryDataStructureContainer) getActivatedContainerFromDS(oAss.getLeafElement(),poInput);
+					//Get the primary data structure from the secondary container
+					clsPrimaryDataStructure oImage = getAssociatedPrimaryStructure(oAssWPMemoryContainer);
+					//Get the whole primary container from the received data structure
+					clsPrimaryDataStructureContainer oAssTPMemoryContainer = (clsPrimaryDataStructureContainer) getActivatedContainerFromDS(oImage, poInput);
+					//Calculate the total quota of affect for that container
+					rThisQuotaOfAffect = clsGlobalFunctions.calculateAbsoluteAffect(oAssTPMemoryContainer);
+					//If the total quota of affect is higher than the max value, this quota of affect will be the max value
+					if (rThisQuotaOfAffect > rMaxQuotaOfAffect) {
+						rMaxQuotaOfAffect = rThisQuotaOfAffect;
+						oHighestQoAImage = oAssTPMemoryContainer;
+					}
+				}
+			}
+		}
+		//The highest match is returned
+		oRetVal = oHighestQoAImage;
+		//oRetVal = new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory")), new ArrayList<clsAssociation>());
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Extracts the corresponding primary data structure from a secondary datastructure. It will always find a structure, if such an association  
+	 * structure is present, else null is returned
+	 *
+	 * @since 17.07.2011 09:17:43
+	 *
+	 * @param oSecondaryContainer
+	 * @return
+	 */
+	private clsPrimaryDataStructure getAssociatedPrimaryStructure (clsSecondaryDataStructureContainer oSecondaryContainer) {
+		clsPrimaryDataStructure oRetVal = null;
+		
+		for (clsAssociation oAss : oSecondaryContainer.getMoAssociatedDataStructures()) {
+			if ((oAss instanceof clsAssociationWordPresentation) && (oAss.getRootElement().getMoDSInstance_ID() == oSecondaryContainer.getMoDataStructure().getMoDSInstance_ID())) {
+				oRetVal = (clsPrimaryDataStructure) oAss.getLeafElement();
+				break;
+			}
+		}
+		
+		return oRetVal;
+		
+	}
+	
+	/**
+	 * If a found data element is activated, its container shall be found in a list. By instanceID, the container of a data structure 
+	 * is searched for in the list and the first match is returned.
+	 *
+	 * @since 17.07.2011 09:28:36
+	 *
+	 * @param poInput
+	 * @param poContainerList
+	 * @return
+	 */
+	private clsDataStructureContainer getActivatedContainerFromDS(clsDataStructurePA poInput, ArrayList<clsDataStructureContainer> poContainerList) {
+		clsDataStructureContainer oRetVal = null;
+		
+		if (poInput!=null) {
+			for (clsDataStructureContainer oContainer : poContainerList) {
+				//There can be only one container of the same instance in the list, therefore only the first match is taken
+				if ((oContainer instanceof clsPrimaryDataStructureContainer) && (oContainer.getMoDataStructure().getMoDSInstance_ID() == poInput.getMoDSInstance_ID())) {
+					oRetVal = (clsPrimaryDataStructureContainer)oContainer;
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	//FIXME AW: Remove if this function will not be used.
+	/*private ArrayList<clsSecondaryDataStructureContainer> getAssociatedWPMemories(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poContainerList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		if (poInput != null) {
+			//Search for associated structures, over secondary associations
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				//FIXME AW: Which type of clsAssociationSecondary? What shall be the Attribute?
+				if ((oAss instanceof clsAssociationSecondary) && (poInput.getMoDataStructure().getMoDSInstance_ID() == oAss.getRootElement().getMoDSInstance_ID()) && 
+						(oAss.getLeafElement() instanceof clsSecondaryDataStructure)) {	
+					//For each found association, search the attached list for the word presentation
+					//Precondition: All associated WP-Containers are already loaded into the arraylist
+					oRetVal.add((clsSecondaryDataStructureContainer) getActivatedContainerFromDS(oAss, poContainerList));
+				}
+			}
+		}
+		
+		return oRetVal;
+	}*/
 	
 	
 	/* (non-Javadoc)
@@ -226,8 +338,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
-		moReturnedWPMemory_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
+		moReturnedWPMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poActionCommands);
+
 		
 	}
 	/* (non-Javadoc)
