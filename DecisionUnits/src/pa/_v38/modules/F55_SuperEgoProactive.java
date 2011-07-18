@@ -36,6 +36,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public static final String P_MODULENUMBER = "55";
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
+	public int ReducedPsychicEnergy;
+	public int PsychicEnergy_IN;
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -102,6 +105,22 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author hinterleitner
+	 * 04.05.2011, 09:36:17
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_4_receive#receive_I5_4(java.util.ArrayList)
+	 */
+	
+	public void receive_D2_3(int ReducedPsychicEnergy)
+	{
+		receive_D2_3(ReducedPsychicEnergy); 
+		PsychicEnergy_IN = ReducedPsychicEnergy;  
+		
+		
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
