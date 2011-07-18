@@ -15,6 +15,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
@@ -133,8 +134,39 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	@Override
 	protected void process_final() {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
-
+		
 	}
+	
+	/*private clsAct getTestDataForAct() {
+		
+		String poPreCondition = "XX";
+			
+		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
+		//here - only the consequence part is filled
+		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
+		//String oContent = eActState.PRECONDITION.name() + "||" 
+		//		   + eActState.ACTION.name() + "||" 
+		//		   + eActState.CONSEQUENCE.name() + "|" + poPreCondition;
+		//String oActualGoal = oContent;
+	/*	
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object>(
+				eDataType.ACT.name(), new ArrayList<clsSecondaryDataStructure>(), oActualGoal));
+		
+		//clsAct oAct = generateAct(oActualGoal); 
+		
+		search(eDataType.UNDEFINED, new ArrayList<clsAct>(Arrays.asList(poDummy)), oSearchResult);*/
+	/*}*/
+	
+	private clsPrimaryDataStructureContainer getPrimaryDataStructureFromActionPlan(clsAct poInput) {
+		clsPrimaryDataStructureContainer oRetVal = null;
+		
+		ArrayList<clsPrimaryDataStructureContainer> oObjectList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		
+		
+		return oRetVal;
+	}
+	
 	/**
 	 * This function picks one memory trace in the form of a template image from a secondary process container and
 	 * sends to the primary process, where it is used as input of the association of new memories

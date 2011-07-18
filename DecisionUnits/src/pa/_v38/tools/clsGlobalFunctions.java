@@ -12,8 +12,10 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -37,6 +39,24 @@ public class clsGlobalFunctions {
 			}
 		}
 		return rAbsoluteAffect;
+	}
+	
+	public static clsDataStructurePA getDataStructureFromImage(clsDataStructurePA poSearchStructure, clsPrimaryDataStructureContainer poSearchInImage) {
+		clsDataStructurePA oRetVal = null;
+
+		if (poSearchStructure.getMoDS_ID() == poSearchInImage.getMoDataStructure().getMoDS_ID()) {
+			oRetVal = poSearchInImage.getMoDataStructure();
+		} else {
+			clsTemplateImage oDS = (clsTemplateImage)poSearchInImage.getMoDataStructure();
+			for (clsAssociation oSubDS : oDS.getMoAssociatedContent()) {
+				if (oSubDS.getLeafElement().getMoDS_ID() == poSearchStructure.getMoDS_ID()) {
+					oRetVal = oSubDS.getLeafElement();
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
 	}
 	
 	/**
