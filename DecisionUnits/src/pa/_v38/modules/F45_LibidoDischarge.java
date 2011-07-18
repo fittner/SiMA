@@ -465,11 +465,13 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * 
 	 * @see pa.interfaces.receive._v38.I2_8_receive#receive_I2_8(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		//moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
-		moEnvironmentalPerception_IN = poMergedPrimaryInformation;
-		moAssociatedMemories_IN = poAssociatedMemories;
+		
+		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer) poMergedPrimaryInformation.clone();
+		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
