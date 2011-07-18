@@ -35,10 +35,11 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 * @since 14.07.2011 16:40:17
 		 *
 		 */
+	
 		public clsPsychicEnergyStorage() {
 
 	    }
-		
+public int PsychicEnergy_IN;	
 		
 
 		/* (non-Javadoc)
@@ -65,17 +66,34 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 * 
 		 * @see pa.interfaces.send._v38.D3_2_send#send_D3_2(java.util.ArrayList)
 		 */
-		public void D3_2_send(int ReducedPsychicEnergy) {
-			
-			
-		}
-		
-		
-		public void D3_2_receive(int ReducedPsychicEnergy) {
-			
+		public int D3_2_send(int ReducedPsychicEnergy) {
+			//FixMe
+			return ReducedPsychicEnergy;
 			
 		}
 		
+		
+		public int D3_2_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy;  
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		/**
+		 * DOCUMENT (hinterleitner) - insert description
+		 *
+		 * @since 18.07.2011 23:06:50
+		 *
+		 * @param reducedPsychicEnergy
+		 */
+		private void receive_D3_2(int reducedPsychicEnergy) {
+			// TODO (hinterleitner) - Auto-generated method stub
+			
+		}
+
+
+
 		/* (non-Javadoc)
 		 *
 		 * @since 14.07.2011 16:38:05

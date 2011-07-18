@@ -113,9 +113,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_4_receive#receive_I5_4(java.util.ArrayList)
 	 */
 	
-	public void receive_D2_3(int ReducedPsychicEnergy)
+	public void receive_D3_2(int ReducedPsychicEnergy)
 	{
-		receive_D2_3(ReducedPsychicEnergy); 
+		receive_D3_2(ReducedPsychicEnergy); 
 		PsychicEnergy_IN = ReducedPsychicEnergy;  
 		
 		
