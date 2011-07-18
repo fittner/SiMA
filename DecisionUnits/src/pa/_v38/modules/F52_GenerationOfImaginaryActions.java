@@ -24,6 +24,8 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.tools.toText;
+import pa._v38.tools.planningHelpers.PlanningGraph;
+import pa._v38.tools.planningHelpers.PlanningWizard;
 import pa._v38.tools.planningHelpers.eDirection;
 import pa._v38.tools.planningHelpers.eDistance;
 import pa._v38.tools.planningHelpers.eObjectCategorization;
@@ -329,8 +331,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (perner) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+		PlanningGraph plGraph = new PlanningGraph();
+		
+		// add plans and connections between plans
+		try {
+			PlanningWizard.initPlGraphWithActions(m_availablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithPlConnections(m_availablePlanFragments, plGraph);
+		} catch (Exception e) {
+			System.out.println("FATAL: Planning Wizard coldn't be initialized");
+		}
+		
+		//plGraph.setStartPlanningNode(n)
 	}
 
 	/*
@@ -370,4 +381,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public void setDescription() {
 		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
 	}
+	
+	
 }

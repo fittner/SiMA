@@ -6,6 +6,8 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import pa._v38.tools.planningHelpers.PlanningNode;
+
 /**
  * DOCUMENT (perner) - insert description 
  * 
@@ -13,16 +15,16 @@ package pa._v38.memorymgmt.datatypes;
  * 03.07.2011, 15:38:18
  * 
  */
-public class clsPlanFragment {
+public class clsPlanFragment extends PlanningNode{
 	
 	/** set of wordpresentations that holds the information about the action */ 
-	private clsAct m_act; 
+	public clsAct m_act; 
 	
 	/** image that stores the information about how the world looks like before this action is carried out */
-	private clsImage m_preconditionImage;
+	public clsImage m_preconditionImage;
 	
 	/** image that stores the information about how the world looks like after the actions was carried out */ 
-	private clsImage m_effectImage;
+	public clsImage m_effectImage;
 
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -31,10 +33,22 @@ public class clsPlanFragment {
 	 *
 	 */
 	public clsPlanFragment() {
-		// TODO (perner) - Auto-generated constructor stub
+		super("empty");
 	}
-	
+
+	/**
+	 * 
+	 * DOCUMENT (perner) - constructs a new plan fragment 
+	 *
+	 * @since 17.07.2011 12:38:57
+	 *
+	 * @param act
+	 * @param precdImage
+	 * @param effectImage
+	 */
 	public clsPlanFragment (clsAct act, clsImage precdImage, clsImage effectImage ) {
+		
+		super(act.toString());
 		m_act = act;
 		m_preconditionImage = precdImage;
 		m_effectImage = effectImage;
