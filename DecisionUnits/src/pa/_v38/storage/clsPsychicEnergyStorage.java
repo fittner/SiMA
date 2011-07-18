@@ -28,7 +28,7 @@ import pa._v38.interfaces.modules.eInterfaces;
  * 09.07.2011, 16:39:44
  * 
  */
-public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfInterfaceDescription {
+public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfInterfaceDescription{
 		/**
 		 * DOCUMENT (hinterleitner) - insert description 
 		 *
@@ -39,24 +39,7 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 
 	    }
 		
-		/**
-		 * DOCUMENT (hinterleitner) - insert description
-		 *
-		 * @since 14.07.2011 16:40:19
-		 *
-		 * @param <result>
-		 * @param mrPsychicEnergy
-		 * @return
-		 */
-		public <result> Object calculateDistributionKey(Object mrPsychicEnergy)	{
-			double mnPsychicEnergy = 6.0;
-			
-			if (mnPsychicEnergy == 6.0) {
-				mnPsychicEnergy = 6.0 / 6;
-	    		
-			}
-			return mrPsychicEnergy;
-		}
+		
 
 		/* (non-Javadoc)
 		 *
@@ -74,6 +57,25 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 			   "The free psychic Energy is forwarded via interface {I5.4} to the next module.";
 		}
 
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_2_send#send_D3_2(java.util.ArrayList)
+		 */
+		public void D3_2_send(int ReducedPsychicEnergy) {
+			
+			
+		}
+		
+		
+		public void D3_2_receive(int ReducedPsychicEnergy) {
+			
+			
+		}
+		
 		/* (non-Javadoc)
 		 *
 		 * @since 14.07.2011 16:38:05
