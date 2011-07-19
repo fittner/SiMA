@@ -215,6 +215,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			mrLibidoReducedBy += setImageLibido(oContainer, 0.5);
 		}
 		
+		//Test
+		//clsDataStructureContainer x = this.searchCompleteContainer(moAssociatedMemories_OUT.get(0).getMoDataStructure());
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 

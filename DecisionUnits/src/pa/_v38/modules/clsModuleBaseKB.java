@@ -173,6 +173,25 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		//AW 20110629: New function for searching one total container
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern));
 	}
+	
+	
+	/**
+	 * Purpose: Put any data structure here and this function searches the memory for all associated assoications. 
+	 * Difference to search: This function only gets the container and not any other matches.
+	 * 
+	 * AW
+	 * @since 18.07.2011 16:07:35
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	public clsDataStructureContainer searchCompleteContainer(clsDataStructurePA poInput) {
+		clsDataStructureContainer oRetVal = null;
+		
+		oRetVal = moKnowledgeBaseHandler.initContainerRetrieval(poInput);
+		
+		return oRetVal;
+	}
 
 	/**
 	 * Getter for moKnowledgeBaseHandler.

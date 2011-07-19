@@ -22,6 +22,8 @@ import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -79,6 +81,8 @@ public class clsOntologyLoader {
 		eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
 								eDataType.ASSOCIATIONDM, 
 								eDataType.ASSOCIATIONATTRIBUTE,
+								eDataType.ASSOCIATIONPRI,
+								eDataType.ASSOCIATIONSEC,
 								eDataType.ACT,
 								eDataType.AFFECT, 
 								eDataType.DM,
@@ -138,7 +142,9 @@ public class clsOntologyLoader {
 			case ASSOCIATIONDM:	createAssociation(poRootElement, poElement, poDataContainer); 	break; 
 			case ASSOCIATIONWP:  createAssociation(poRootElement, poElement, poDataContainer); 			break; 
 			case ASSOCIATIONTEMP:  createAssociation(poRootElement, poElement, poDataContainer); 		break;
-			case ASSOCIATIONATTRIBUTE:  createAssociation(poRootElement, poElement, poDataContainer); 	break; 
+			case ASSOCIATIONATTRIBUTE:  createAssociation(poRootElement, poElement, poDataContainer); 	break;
+			case ASSOCIATIONPRI:	createAssociation(poRootElement, poElement, poDataContainer); 	break;
+			case ASSOCIATIONSEC:	createAssociationSec(poRootElement, poElement, poDataContainer); 	break;
 			case DM:	 createDM(poRootElement, poElement, poDataContainer);	break; 
 			case TI:	 createTI(poRootElement, poElement, poDataContainer);	break; 
 			case TPM:	 createTPM(poRootElement, poElement, poDataContainer);	break; 
@@ -504,6 +510,62 @@ public class clsOntologyLoader {
 	    poDataContainer.b.put(oAssName, oDataStructure);
 	}
 	
+	/**
+	 * Create the AssociationSecondary. It is almost the same as the normal association, but with
+	 * an additional field "predicate".
+	 *
+	 * AW
+	 * @since 19.07.2011 19:27:02
+	 *
+	 * @param poRootElement
+	 * @param poAssociation
+	 * @param poDataContainer
+	 */
+	private static void createAssociationSec(Instance poRootElement, Instance poAssociation,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+
+		//HZ Checks if the tree depth does not exceed a certain limit => avoids
+		// endless loops
+		checkStackDepth(); 
+
+		clsAssociation oDataStructure = null;
+		String oAssName = poAssociation.getName(); 
+		eDataType eAssociationType = getElementDataType(poAssociation); 
+
+		if(poRootElement == null){
+			Instance oIns_a = (Instance)getSlotValues("element", poAssociation).toArray()[0]; 
+			Instance oIns_b = (Instance)getSlotValues("element", poAssociation).toArray()[1]; 
+			
+			//Extract predicate
+			String oPredicate = (String)getSlotValue("predicate", poAssociation);
+			
+			initDataStructure(null, oIns_a, poDataContainer);
+			initDataStructure(null, oIns_b, poDataContainer);
+			clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(), poDataContainer.b);
+			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(), poDataContainer.b);
+			oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
+		}
+		else {
+			//Extract predicate
+			String oPredicate = (String)getSlotValue("predicate", poAssociation);
+			for(Object oElement : getSlotValues("element", poAssociation)){
+				String oRootName = poRootElement.getName(); 
+				String oElementName = ((Instance) oElement).getName(); 
+
+				if(!(oElementName.equals(oRootName))){
+					initDataStructure(poRootElement, (Instance)oElement, poDataContainer);
+					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
+					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
+					oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
+				}
+			}
+		}
+
+		//TODO HZ: Define other attributes!!
+		poDataContainer.b.put(oAssName, oDataStructure);
+	}
+
+	
 
 	private static void checkStackDepth() {
 		/*long depth = Thread.currentThread().getStackTrace().length;
@@ -514,6 +576,22 @@ public class clsOntologyLoader {
 	}
 
 	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.07.2011 19:37:33
+	 *
+	 * @param peElementType
+	 * @param poAssociation
+	 * @param poElementA
+	 * @param poElementB
+	 * @return
+	 */
+	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
+		//Specialize the create association function, by not applying an attribute
+		return getNewAssociation(peElementType, poAssociation, poElementA, poElementB, "");
+	}
+	
+	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
 	 * @author zeilinger
@@ -523,7 +601,9 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
+	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
+		
+		//Use oPredicate if an AssociationSecondary is used, else the predicate is not used in the function.
 		
 		int oID = DS_ID++;  
 		String oElementValueType = peElementType.toString();
@@ -547,7 +627,19 @@ public class clsOntologyLoader {
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);
 				return new clsAssociationWordPresentation(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 						   (clsWordPresentation)oAssociationElements.a, 
-						   (clsDataStructurePA)oAssociationElements.b); 
+						   (clsDataStructurePA)oAssociationElements.b);
+			
+			case ASSOCIATIONPRI:
+				return new clsAssociationPrimary(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB);
+			
+			//Special case, where the String "Predicate" is added
+			case ASSOCIATIONSEC:
+				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);	//In association secondary, the same conditions as in WP are used. This association has a direction
+				return new clsAssociationSecondary(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+						   (clsWordPresentation)oAssociationElements.a, 
+						   (clsDataStructurePA)oAssociationElements.b, oPredicate);
+				
 		}
 		throw new NoSuchFieldError(" association of unknown type: " + peElementType.toString());
 	}
