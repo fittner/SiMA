@@ -1,9 +1,8 @@
 #!/bin/bash
 
+export authors_file=authorconvfile
 
 git filter-branch -f --env-filter '
-
-export authors_file=/s/ARSIN_V01/authorconvfile
 
 get_name () {
  grep "^$1=" "$authors_file" |
