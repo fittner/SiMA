@@ -45,12 +45,12 @@ public class clsAct extends clsSecondaryDataStructure {
 	}
 
 	public clsAct (ArrayList<clsWordPresentation> wp) {
-		super(null);
+		super(new clsTripple<Integer, eDataType, String>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_alWordpresentations = wp;
 	}
 	
 	public clsAct (String str) {
-		super(null);
+		super(new clsTripple<Integer, eDataType, String>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_strTestDummy = str;
 	}
 	
