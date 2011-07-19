@@ -39,7 +39,8 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		public clsPsychicEnergyStorage() {
 
 	    }
-public int PsychicEnergy_IN;	
+		public int PsychicEnergy_IN;
+		public int PsychicEnergy_OUT;
 		
 
 		/* (non-Javadoc)
@@ -53,11 +54,40 @@ public int PsychicEnergy_IN;
 			return  "Module {F56} sends free psychic energy that is constituted out of the affect values and emotions from {I5.3}." +
 			   "A special storage containing these psychic values contents is necessary in order to distribute them. " +
 			   "The stored data is drive meshes with attached quota (affect values). " +
-			   "The modules are connected to this special type of storage with ({D2.2} and {D2.4}),({D2.1} and {D2.3}) interface. " +
-			   "The incoming interface into module {F56} is {I5.3}, where Affect values and Emotions are transfered.  " +
-			   "The free psychic Energy is forwarded via interface {I5.4} to the next module.";
+			   "The modules are connected to this special type of storage with ({D2.1} and {D2.2}),({D2.3}, {D2.4}),{D2.5}), {D2.6})interface. " +
+			   "The incoming interface into module {F56} is {I5.3}, where Affect values and Emotions are transfered.  ";
 		}
 
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_1_send#send_D3_1(java.util.ArrayList)
+		 */
+		public int D3_1_send(int ReducedPsychicEnergy) {
+			//FixMe
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_1_receive#receive_D3_1(java.util.ArrayList)
+		 */
+		public int D3_1_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
+			return ReducedPsychicEnergy;
+			
+		}
+		
+	
 		
 		/* (non-Javadoc)
 		 *
@@ -67,33 +97,152 @@ public int PsychicEnergy_IN;
 		 * @see pa.interfaces.send._v38.D3_2_send#send_D3_2(java.util.ArrayList)
 		 */
 		public int D3_2_send(int ReducedPsychicEnergy) {
-			//FixMe
+			
+			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
 		
 		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_2_receive#receive_D3_2(java.util.ArrayList)
+		 */
 		public int D3_2_receive(int ReducedPsychicEnergy) {
 		
-			PsychicEnergy_IN = ReducedPsychicEnergy;  
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
 			return ReducedPsychicEnergy;
 			
 		}
 		
-		/**
-		 * DOCUMENT (hinterleitner) - insert description
+
+		/* (non-Javadoc)
 		 *
-		 * @since 18.07.2011 23:06:50
-		 *
-		 * @param reducedPsychicEnergy
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_3_send#send_D3_3(java.util.ArrayList)
 		 */
-		private void receive_D3_2(int reducedPsychicEnergy) {
-			// TODO (hinterleitner) - Auto-generated method stub
+		public int D3_3_send(int ReducedPsychicEnergy) {
+			
+			PsychicEnergy_OUT = ReducedPsychicEnergy;
+			return ReducedPsychicEnergy;
 			
 		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_3_receive#receive_D3_3(java.util.ArrayList)
+		 */
+		public int D3_3_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_4_send#send_D3_4(java.util.ArrayList)
+		 */
+		public int D3_4_send(int ReducedPsychicEnergy) {
+			
+			PsychicEnergy_OUT = ReducedPsychicEnergy;
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_4_receive#receive_D3_4(java.util.ArrayList)
+		 */
+		public int D3_4_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_5_send#send_D3_5(java.util.ArrayList)
+		 */
+		public int D3_5_send(int ReducedPsychicEnergy) {
+			
+			PsychicEnergy_OUT = ReducedPsychicEnergy;
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_5_receive#receive_D3_5(java.util.ArrayList)
+		 */
+		public int D3_5_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
+			return ReducedPsychicEnergy;
+			
+		}
+		
+	
 
-
-
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:15:13
+		 * 
+		 * @see pa.interfaces.send._v38.D3_5_send#send_D3_5(java.util.ArrayList)
+		 */
+		public int D3_6_send(int ReducedPsychicEnergy) {
+			
+			PsychicEnergy_OUT = ReducedPsychicEnergy;
+			return ReducedPsychicEnergy;
+			
+		}
+		
+		
+		/* (non-Javadoc)
+		 *
+		 * @author hinterleitner
+		 * 09.03.2011, 17:18:20
+		 * 
+		 * @see pa.interfaces.send._v38.D3_6_receive#receive_D3_6(java.util.ArrayList)
+		 */
+		public int D3_6_receive(int ReducedPsychicEnergy) {
+		
+			PsychicEnergy_IN = ReducedPsychicEnergy; 
+			
+			return ReducedPsychicEnergy;
+			
+		}
 		/* (non-Javadoc)
 		 *
 		 * @since 14.07.2011 16:38:05
