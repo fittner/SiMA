@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
@@ -129,7 +130,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
 		moActionCommands_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
 	}
 	
@@ -162,9 +163,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
-		for (clsSecondaryDataStructureContainer oCont: poInput) {
-			oRetVal.add((clsWordPresentation)oCont.getMoDataStructure());
-		}
+		/*for (clsSecondaryDataStructureContainer oCont: poInput) {
+			oRetVal.add((clsAct)oCont.getMoDataStructure());
+		}*/
 		
 		return oRetVal;
 	}

@@ -183,7 +183,7 @@ public abstract class clsDataStructureComparison {
 					//Do nothing, because Thing Presentations shall not be treated
 				}
 			} else {
-				oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(0, poInput));
+				oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(poInput));
 			}
 		}
 		

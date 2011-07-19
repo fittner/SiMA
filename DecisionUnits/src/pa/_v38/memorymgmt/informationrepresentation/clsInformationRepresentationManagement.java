@@ -189,7 +189,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		clsDataStructureContainer oRetVal = null; 
 		
 		if(poInput instanceof clsSecondaryDataStructure){
-			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
+			oRetVal = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.getContainer(poInput);
 		}
 		else if(poInput instanceof clsPhysicalRepresentation){
 			oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.getContainer(poInput);

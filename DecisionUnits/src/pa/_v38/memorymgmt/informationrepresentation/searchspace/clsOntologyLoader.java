@@ -75,6 +75,8 @@ public class clsOntologyLoader {
 				initDataStructure(null, oDataElement, new clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>>(oFrameKB, poDataStructureList)); 
 			}
 		}
+		
+		
 	}
 	
 	public static eDataType[] initValues(){
@@ -90,6 +92,7 @@ public class clsOntologyLoader {
 								eDataType.TP,
 								eDataType.TPM,
 								eDataType.WP};
+		
 		return oRetVal;
 	}
 	
@@ -356,7 +359,6 @@ public class clsOntologyLoader {
 								System.out.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned");
 								e.printStackTrace();
 							}
-
 						}
 					}
 				}

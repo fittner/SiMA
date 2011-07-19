@@ -145,7 +145,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
 		// TODO (Kohlhauser) - Auto-generated method stub
 		
 	}
