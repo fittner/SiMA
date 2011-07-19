@@ -115,8 +115,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		//moOutput =  deepCopy(moInput); 
-		moOutput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		moOutput =  deepCopy(moInput); 
+		//moOutput = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
 	}
 
