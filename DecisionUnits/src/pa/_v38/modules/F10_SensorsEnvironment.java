@@ -22,9 +22,10 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * These sensors collect data of the environment. Typical sensors are the five senses: sight, 
+ * hearing, smell, touch, and taste. Also non-humanoid sensors like radar are part of this module. 
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 14:13:27
  * 
  */
@@ -37,7 +38,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 16:03:16
 	 *
 	 * @param poPrefix

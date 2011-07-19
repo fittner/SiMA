@@ -27,9 +27,11 @@ import pa._v38.memorymgmt.enums.eDataType;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Each sexual drive is split apart into four drives representing the four partial drives. Module {F43} 
+ * takes the aggressive and libidinous drives transmitted from {E41} and splits them according to 
+ * predefined but individual templates. The result are eight sexual drives.
  * 
- * @author deutsch
+ * @author muchitsch
  * 03.03.2011, 15:19:56
  * 
  */
@@ -46,9 +48,9 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
 	
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 17:56:43
 	 *
 	 * @param poPrefix

@@ -22,7 +22,8 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Primal repressed content is associated to the remembered drive contents. If a assoc.
+ * is possible we get remembered drive contents with assoc. primal repressions
  * 
  * @author muchitsch
  * 02.05.2011, 15:47:30

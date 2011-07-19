@@ -30,9 +30,9 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Conversion of raw data into neuro-symbols.
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 12:12:02
  * 
  */
@@ -48,7 +48,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:55:32
 	 *
 	 * @param poPrefix

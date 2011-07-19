@@ -19,9 +19,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Although, modules {F39} and {F1} are collecting information on internal body values too, {F12} focuses 
+ * on sensors comparable to the one from Module {F10} but which are directed inwardly. Thus, the sensors 
+ * detect painful stimuli, tactile stimuli, balance and acceleration, body temperature and others.
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 14:20:47
  * 
  */
@@ -34,7 +36,7 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 16:08:23
 	 *
 	 * @param poPrefix

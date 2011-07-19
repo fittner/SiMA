@@ -21,7 +21,7 @@ import config.clsBWProperties;
 /**
  * DOCUMENT (muchitsch) - insert description 
  * 
- * @author deutsch
+ * @author muchitsch
  * 03.03.2011, 15:18:01
  * 
  */
@@ -30,9 +30,9 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		
 	private double mrLibido;
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * Conversion of raw data into neuro-symbols.
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 17:52:37
 	 *
 	 * @param poPrefix
