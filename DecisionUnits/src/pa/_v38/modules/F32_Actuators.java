@@ -18,7 +18,8 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (brandstaetter) - insert description 
+ * How the body executes action commands is defined in this module. 
+ * Various motor controls are operated from here. 
  * 
  * @author brandstaetter
  * 11.08.2009, 15:00:44
@@ -31,7 +32,7 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
 	
 	/**
-	 * DOCUMENT (brandstaetter) - insert description 
+	 * Constructor of Actuators
 	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:02:05

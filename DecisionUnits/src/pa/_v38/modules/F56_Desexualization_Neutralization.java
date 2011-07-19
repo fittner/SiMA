@@ -10,13 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.modules.D3_2_send;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -30,13 +30,14 @@ import config.clsBWProperties;
  * 
  */
 public class F56_Desexualization_Neutralization extends clsModuleBase
-		implements I5_3_receive, I5_4_send{
+		implements I5_3_receive, I5_4_send {
 
 	public static final String P_MODULENUMBER = "56";
+	int ReducedPsychicEnergy;
+	int PsychicEnergy;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
-	private clsBlockedContentStorage moBlockedContentStorage;
-	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output; 
+	 
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -114,16 +115,45 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		moDrives_OUT = moDrives_IN;
-		moDrives_IN.get(mnTest);
-		//System.out.println(moBlockedContentStorage);
-		//System.out.println(moAttachedRepressed_Output);
-		//System.out.println(mnTest);
+		//moDrives_OUT = moDrives_IN;
 		
-	//	ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		reducedAffectValues(moDrives_IN);
+	
+	
+	}
+
+	
+	/**
+	 * DOCUMENT (hinterleitner) - Affect values are reduced according to the modules that need psychic energy.
+	 * Psychic energy is calculated based on the hash code, in order not to take pseudo values. 
+	 * As there can be nagative values in the hash code there is maultiplication with the factor (-1), because psychic energy can 
+	 * not be negative. Finaly the affect values are divided based on the number of modules.
+	 *
+	 * @since 17.07.2011 17:10:36
+	 *
+	 * @param moDrives_OUT2
+	 */
+	private void reducedAffectValues(
+			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN) {
 		
-	//	moBlockedContentStorage.receive_D2_4(oContainerList);
-	//	moAttachedRepressed_Output = moBlockedContentStorage.receive_D2_3(poData);
+	
+		PsychicEnergy = moDrives_IN.hashCode();
+		
+	
+			if (PsychicEnergy < 0)
+			{
+			
+				PsychicEnergy = (PsychicEnergy * (-1))/100000000;	//Positive Zahl daraus machen
+			
+			} 
+			else
+			{
+				PsychicEnergy = (PsychicEnergy / 100000000);
+				
+			}
+				
+			ReducedPsychicEnergy = PsychicEnergy / 6;  // durch die anzahl der Module dividieren wo aufgeteilt wird	 
+		 
 	}
 
 	/* (non-Javadoc)
@@ -134,6 +164,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 * @see pa._v38.modules.clsModuleBase#process_draft()
 	 */
 	@Override
+
+	
 	protected void process_draft() {
 		// TODO (zeilinger) - Auto-generated method stub
 		
@@ -159,10 +191,13 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 * 
 	 * @see pa._v38.modules.clsModuleBase#send()
 	 */
-	@Override
+	@Override	
 	protected void send() {
 		send_I5_4(moDrives_OUT);
+		send_D3_2(); //schicke Energie zu D3_2
+
 	}
+
 
 	/* (non-Javadoc)
 	 *
@@ -222,6 +257,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_4_send#send_I5_4(java.util.ArrayList)
 	 */
+	
+	
 	@Override
 	public void send_I5_4(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
@@ -230,4 +267,25 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 		putInterfaceData(I5_4_send.class, poDrives);
 	}
+
+
+	/**
+	 * DOCUMENT (hinterleitner) - Reduced Psychic energy is send to the clsPsychicEnergyStorage, where the interfaces are implemented  
+	 * @return 
+	 *
+	 * @since 17.07.2011 17:26:35
+	 *
+	 */
+	public int send_D3_2() {
+	
+		putInterfaceData(D3_2_send.class, ReducedPsychicEnergy);
+		
+		return ReducedPsychicEnergy; 
+		//putInterfaceData(I5_4_send.class);
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+
+
 }

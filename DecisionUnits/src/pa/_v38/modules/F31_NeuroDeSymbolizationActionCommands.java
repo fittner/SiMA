@@ -30,9 +30,8 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (brandstaetter) - insert description 
- * 
- * CB: F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32
+ * Conversion of neuro-symbols into raw data
+ * F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32
  * 
  * @author brandstaetter
  * 11.08.2009, 14:59:58
@@ -51,7 +50,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	//                hat es aber keinen Effekt, also brauch ich es auch nicht setzen.
 	
 	/**
-	 * DOCUMENT (brandstaetter) - insert description 
+	 * Constructor of NeuroDeSymbolization
 	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:01:32
@@ -235,7 +234,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (branstaetter) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -248,7 +246,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (branstaetter) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();	
 	}
 
