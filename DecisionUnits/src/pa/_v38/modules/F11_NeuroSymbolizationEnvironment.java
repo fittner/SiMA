@@ -30,9 +30,9 @@ import pa._v38.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Conversion of raw data into neuro-symbols.
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 14:19:23
  * 
  */
@@ -50,7 +50,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 16:04:58
 	 *
 	 * @param poPrefix
