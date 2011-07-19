@@ -188,7 +188,7 @@ public abstract class clsDataStructureComparison {
 		}
 		
 		//Remove duplicate structures
-		oCompareContainer.setMoAssociatedDataStructures(removeDuplicateStructures(oCompareContainer.getMoAssociatedDataStructures()));
+		oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
 		
 		return oCompareContainer;
 	}
@@ -201,19 +201,37 @@ public abstract class clsDataStructureComparison {
 	 * @param poInput
 	 * @return
 	 */
-	private static <E extends clsDataStructurePA> ArrayList<E> removeDuplicateStructures(ArrayList<E> poInput) {
-		ArrayList<E> oRetVal = new ArrayList<E>();
+	private static <E extends clsDataStructureContainer> ArrayList<clsAssociation> removeNonBelongingStructures(E poInput) {
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
 		
-		for (int i=0; i<poInput.size()-1;i++) {
+		ArrayList<clsAssociation> oAssList = poInput.getMoAssociatedDataStructures();
+		for (int i=0; i<oAssList.size()-1;i++) {
 			int iNumberOfMatches = 0;
-			for (int j=i; j<poInput.size()-1;j++) {
-				if (poInput.get(i) == poInput.get(j)) {
+			boolean bStructureFound = false;
+			
+			//Remove duplicates
+			for (int j=i; j<oAssList.size()-1;j++) {
+				if (oAssList.get(i) == oAssList.get(j)) {
 					iNumberOfMatches++;
 				}
 			}
 			
-			if (iNumberOfMatches<2) {
-				oRetVal.add(poInput.get(i));
+			//Check the roots of the structures
+			clsDataStructurePA oDS = poInput.getMoDataStructure();
+			if ((oDS.getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
+					(oDS.getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
+				bStructureFound = true;
+			} else if (oDS instanceof clsTemplateImage) {
+				for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+					if ((oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
+							(oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
+						bStructureFound = true;
+					}
+				}
+			}
+			
+			if ((iNumberOfMatches<2) && (bStructureFound==true)) {
+				oRetVal.add(oAssList.get(i));
 			}
 		}
 		

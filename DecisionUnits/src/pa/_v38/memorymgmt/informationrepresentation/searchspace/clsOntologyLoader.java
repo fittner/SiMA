@@ -80,8 +80,9 @@ public class clsOntologyLoader {
 	}
 	
 	public static eDataType[] initValues(){
-		eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
-								eDataType.ASSOCIATIONDM, 
+		//As AssociationDM is independent from most other structures, they have to be initialized first, else the prinstance will not work correctly
+		eDataType [] oRetVal = {eDataType.ASSOCIATIONDM,	
+								eDataType.ASSOCIATIONWP, 
 								eDataType.ASSOCIATIONATTRIBUTE,
 								eDataType.ASSOCIATIONPRI,
 								eDataType.ASSOCIATIONSEC,
@@ -92,6 +93,19 @@ public class clsOntologyLoader {
 								eDataType.TP,
 								eDataType.TPM,
 								eDataType.WP};
+		
+		/*eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
+				eDataType.ASSOCIATIONDM, 
+				eDataType.ASSOCIATIONATTRIBUTE,
+				eDataType.ASSOCIATIONPRI,
+				eDataType.ASSOCIATIONSEC,
+				eDataType.ACT,
+				eDataType.AFFECT, 
+				eDataType.DM,
+				eDataType.TI,
+				eDataType.TP,
+				eDataType.TPM,
+				eDataType.WP};*/
 		
 		return oRetVal;
 	}
