@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists. 
  * 
  * @author muchitsch
  * 11.08.2009, 13:40:06

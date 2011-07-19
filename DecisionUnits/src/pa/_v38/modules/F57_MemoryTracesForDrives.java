@@ -152,6 +152,10 @@ protected void process_basic() {
 	@SuppressWarnings({ "static-access" })
 	private <clsPhysicalDataStructure> void attachDriveCandidatesToEnvironPerception() 
 	{
+		//initializing of the list, because it cannnot be null
+		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		
+		
 		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte
 		
 		{

@@ -21,9 +21,10 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * The seeking system is the basic motivational system. {E39} is collecting information on libido 
+ * produced by various inner somatic sources as well as by erogenous zones. 
  * 
- * @author deutsch
+ * @author muchitsch
  * 03.03.2011, 15:16:06
  * 
  */
@@ -38,9 +39,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private double mrOutgoingLibido;
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * basic constructor
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:42:22
 	 *
 	 * @param poPrefix
