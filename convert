@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export $authors_file=authorconvfile
+export authors_file=authorconvfile
 
 git filter-branch -f --env-filter '
 
