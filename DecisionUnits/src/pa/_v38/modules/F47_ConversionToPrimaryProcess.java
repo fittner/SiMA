@@ -10,11 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v30.tools.clsPair;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
@@ -23,8 +25,12 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsGlobalFunctions;
+import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
@@ -40,6 +46,8 @@ import config.clsBWProperties;
  */
 public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itfMinimalModelMode, I6_9_receive, I5_19_send {
 	public static final String P_MODULENUMBER = "47";
+	//FIXME AW: Extends ModulebaseKB is a hack until results from the planning can be used. Then it should be changed 
+	//to clsModuleBase
 
 	
 	/** Minimal model */
@@ -137,34 +145,27 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		
 	}
 	
-	/*private clsAct getTestDataForAct() {
+	private clsAct getTestDataForAct() {
 		
 		String poPreCondition = "XX";
 			
 		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
 		//here - only the consequence part is filled
 		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
-		//String oContent = eActState.PRECONDITION.name() + "||" 
-		//		   + eActState.ACTION.name() + "||" 
-		//		   + eActState.CONSEQUENCE.name() + "|" + poPreCondition;
-		//String oActualGoal = oContent;
-	/*	
+		String oContent = eActState.PRECONDITION.name() + "||" 
+				   + eActState.ACTION.name() + "||" 
+				   + eActState.CONSEQUENCE.name() + "|" + poPreCondition;
+		String oActualGoal = oContent;
+		
 		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsSecondaryDataStructure>(), oActualGoal));
 		
 		//clsAct oAct = generateAct(oActualGoal); 
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
 		
-		search(eDataType.UNDEFINED, new ArrayList<clsAct>(Arrays.asList(poDummy)), oSearchResult);*/
-	/*}*/
-	
-	private clsPrimaryDataStructureContainer getPrimaryDataStructureFromActionPlan(clsAct poInput) {
-		clsPrimaryDataStructureContainer oRetVal = null;
+		//search(eDataType.DM, new ArrayList<clsDataStructurePA>(Arrays.asList(oAct)), oSearchResult);
+		return oAct;
 		
-		ArrayList<clsPrimaryDataStructureContainer> oObjectList = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		
-		
-		return oRetVal;
 	}
 	
 	/**

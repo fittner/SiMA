@@ -21,6 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -130,7 +132,7 @@ public abstract class clsDataStructureComparison {
 	 * @param iReturnTypes
 	 * @return
 	 */
-	private static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
+	public static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
 		//Readoutsearchspace searches everything with a certain moDSID
 		
 		//Create Container for the TI
@@ -145,6 +147,35 @@ public abstract class clsDataStructureComparison {
 		}
 		
 		oCompareContainer.setMoAssociatedDataStructures(oAssList);
+		return oCompareContainer;
+	}
+	
+	public static clsDataStructureContainer getCompleteContainer(clsDataStructurePA poInput, clsSearchSpaceHandler poSearchSpaceHandler) {
+		//Readoutsearchspace searches everything with a certain moDSID
+		//Everything shall be returned
+		
+		//Create Container for the DataStructure
+		clsDataStructureContainer oCompareContainer = null;
+		if (poInput instanceof clsPrimaryDataStructure) {
+			oCompareContainer = new clsPrimaryDataStructureContainer((clsPrimaryDataStructure)poInput, poSearchSpaceHandler.readOutSearchSpace(0, (clsPhysicalRepresentation)poInput));
+			//Add associations from intrinsic structures
+			//TI, TPM
+			if (poInput instanceof clsTemplateImage) {
+				for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoAssociatedContent()) {
+					//Recursive function
+					clsDataStructureContainer oSubContainer = getCompleteContainer(oAss, poSearchSpaceHandler);
+					oCompareContainer.getMoAssociatedDataStructures().addAll(oSubContainer.getMoAssociatedDataStructures());	
+				}
+			} else if (poInput instanceof clsThingPresentationMesh) {
+				//Do nothing, because Thing Presentations shall not be treated
+			}
+		} else {
+			oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(0, poInput));
+		}
+		
+		//Add all associations from the intrinsic associated elements
+		//ArrayList<clsAssociation> oAssList = oCompareContainer.getMoAssociatedDataStructures();
+		
 		return oCompareContainer;
 	}
 	

@@ -121,6 +121,11 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			
 		return oDataStructureContainer;
 	}
+	
+	/*@Override
+	public clsDataStructureContainer getDataCompleteStructureContainer(clsDataStructurePA poInput) {
+		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+	}*/
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description

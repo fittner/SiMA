@@ -171,8 +171,37 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b);
 			moSearchResult.add(oSearchPatternMatch);
 			
+			if(moSearchResult.size() != 1){
+				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+			}
+			
+			try {
+				return (ArrayList<clsPair<Double,clsDataStructureContainer>>)oSearchPatternMatch.clone();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			return oSearchPatternMatch;
 		}
+		
+	@Override
+	public clsDataStructureContainer initContainerRetrieval(clsDataStructurePA poInput) {
+		clsDataStructureContainer oRetVal = null; 
+		
+		if(poInput instanceof clsSecondaryDataStructure){
+			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
+		}
+		else if(poInput instanceof clsPhysicalRepresentation){
+			oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.getContainer(poInput);
+		}
+		else if(poInput instanceof clsHomeostaticRepresentation){
+			//oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+		}
+		
+		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+		
+		return oRetVal;
+	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
