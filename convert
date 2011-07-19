@@ -1,14 +1,16 @@
 #!/bin/bash
 
+export authors_file=/s/ARSIN_V01/authorconvfile
+
 git filter-branch -f --env-filter '
 
 get_name () {
- grep "^$1=" "authorconvfile" |
+ grep "^$1=" "$authors_file" |
  sed "s/^.*=\(.*\) <.*>$/\1/"
 }
 
 get_email () {
- grep "^$1=" "authorconvfile" |
+ grep "^$1=" "$authors_file" |
  sed "s/^.*=.* <\(.*\)>$/\1/"
 }
 
