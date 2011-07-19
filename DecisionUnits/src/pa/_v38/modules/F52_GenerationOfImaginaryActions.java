@@ -160,8 +160,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
 		// such println lines, no one will be able to extract any meaningfull information from the flood auf console output! //TD 2011/07/19
 		//System.out.println(poGoalInput.size()); 
-		
-		generateTestData(); // FIXME (perner) - shouldn't the test data be generated in the constructor? //TD 2011/07/19
+				
 	}
 	
 	/**
@@ -192,6 +191,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.PLANT)));
 
 		
+		
+		// TODO (perner) add generic actions like right, left
 		/**
 		 * test
 		 */		
@@ -206,6 +207,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+		
+		process_draft();
 		// HZ 2010.08.28
 		// E27 should retrieve required acts through E28. However, it can be
 		// doubted if this works without a loop between E27 and E28. In addition
@@ -349,6 +352,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
+		
+		// just used to see if planning module does not show compile errors
+		generateTestData();
+		
 		PlanningGraph plGraph = new PlanningGraph();
 		
 		// add plans and connections between plans

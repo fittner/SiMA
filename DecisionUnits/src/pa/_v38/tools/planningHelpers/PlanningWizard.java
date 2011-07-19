@@ -51,7 +51,19 @@ public class PlanningWizard {
 	 */
 	static ArrayList<clsPlanFragment> findPlanFragmentsBasedOnDestImg(clsImage searchImage, ArrayList<clsPlanFragment> plans) {
 		
-		return null;
+		ArrayList<clsPlanFragment> possibleCandiates = new ArrayList<clsPlanFragment>();
+		
+		for (clsPlanFragment singlePlan : plans) {
+			
+			clsImage myPreImg = singlePlan.m_preconditionImage;
+			clsImage myPostImg = singlePlan.m_effectImage;
+
+			// TODO(perner) add deep and narrow search (e.g. to link turn left with a more specific image like object, direction and distance)
+			if (myPreImg == searchImage)
+				possibleCandiates.add(singlePlan);
+		}
+		
+		return possibleCandiates;
 	}
 	
 	
@@ -81,8 +93,10 @@ public class PlanningWizard {
 			ArrayList<clsPlanFragment> subsequentPlans = PlanningWizard.findPlanFragmentsBasedOnDestImg(plFragment.m_effectImage, plans);
 			
 			// add connection for every plan with parent plan
-			for (clsPlanFragment subseqPlan : subsequentPlans ) {
-				plGraph.connectNode(plFragment, subseqPlan);
+			if (subsequentPlans != null) {
+				for (clsPlanFragment subseqPlan : subsequentPlans ) {
+					plGraph.connectNode(plFragment, subseqPlan);
+				}
 			}
 			  
 		}
