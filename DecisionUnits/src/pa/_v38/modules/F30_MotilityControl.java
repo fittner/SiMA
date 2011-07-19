@@ -20,7 +20,8 @@ import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (brandstaetter) - insert description 
+ * pass ActionCommands to F31_NeuroDeSymbolizationActionCommands
+ * when no action command are present, do some seeking
  * 
  * @author brandstaetter
  * 11.08.2009, 14:58:20
@@ -34,8 +35,6 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	private int mnCounter, lastTurnDirection, mnTurns;
 	
 	/**
-	 * DOCUMENT (brandstaetter) - insert description 
-	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:00:42
 	 *
