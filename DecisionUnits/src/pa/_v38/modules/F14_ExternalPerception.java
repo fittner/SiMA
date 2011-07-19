@@ -23,9 +23,11 @@ import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
+ * environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others 
+ * according to their temporal and spatial vicinity and likeness.
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 14:26:13
  * 
  */
@@ -43,7 +45,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 16:15:27
 	 *
 	 * @param poPrefix

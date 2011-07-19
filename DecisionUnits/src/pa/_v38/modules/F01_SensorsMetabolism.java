@@ -21,9 +21,10 @@ import du.itf.sensors.clsDataBase;
 
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Sensor of Module {F1} are collecting information on bodily functions like metabolism, blood pressure, 
+ * heart beat, respiration. Thus the current state of the body and its needs is made available.
  * 
- * @author deutsch
+ * @author muchitsch
  * 11.08.2009, 12:09:14
  * 
  */
@@ -36,7 +37,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	/**
 	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author muchitsch
 	 * 03.03.2011, 15:52:11
 	 *
 	 * @param poPrefix
