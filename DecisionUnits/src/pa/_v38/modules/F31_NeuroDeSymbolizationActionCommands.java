@@ -50,6 +50,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	//                hat es aber keinen Effekt, also brauch ich es auch nicht setzen.
 	
 	/**
+	 * Constructor of NeuroDeSymbolization
+	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:01:32
 	 *

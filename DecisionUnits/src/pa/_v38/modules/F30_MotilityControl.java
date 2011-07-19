@@ -35,6 +35,8 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	private int mnCounter, lastTurnDirection, mnTurns;
 	
 	/**
+	 * Constructor of the NeuroDeSymbolization
+	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:00:42
 	 *

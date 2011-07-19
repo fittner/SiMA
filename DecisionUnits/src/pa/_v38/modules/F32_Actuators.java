@@ -32,6 +32,8 @@ public class F32_Actuators extends clsModuleBase implements I1_5_receive, I0_6_s
 	private ArrayList<clsActionCommand> moActionCommandList_Input;
 	
 	/**
+	 * Constructor of Actuators
+	 * 
 	 * @author brandstaetter
 	 * 03.03.2011, 17:02:05
 	 *
