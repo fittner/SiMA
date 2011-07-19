@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
@@ -60,11 +61,53 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		moSearchSpace = poSearchSpaceBase;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.07.2011 16:50:35
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	public ArrayList <clsAssociation> readOutSearchSpace(clsDataStructurePA poDataStructure) {
+		ArrayList <clsAssociation> oRetVal = new ArrayList <clsAssociation>();
+		
+		//Set all returntypes
+		ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
+		iReturnTypes.add(eDataType.DM.nBinaryValue);
+		iReturnTypes.add(eDataType.TP.nBinaryValue);
+		
+		for (Integer iType :iReturnTypes) {
+			oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
+		}
+		
+		return oRetVal; 
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.07.2011 16:50:40
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @return
+	 */
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure) {
 		return readOutSearchSpace(poReturnType, poDataStructure, false);
 	}
 	
 	//This function returns all associations of the input of a certain type and a certain data structure
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.07.2011 16:50:44
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @param blCompareInstance
+	 * @return
+	 */
 	public ArrayList <clsAssociation> readOutSearchSpace(int poReturnType, clsDataStructurePA poDataStructure, boolean blCompareInstance){
 		ArrayList <clsAssociation> oAssociatedDataStructureList = new ArrayList<clsAssociation>();
 		ArrayList <clsAssociation> oList = moSearchSpace

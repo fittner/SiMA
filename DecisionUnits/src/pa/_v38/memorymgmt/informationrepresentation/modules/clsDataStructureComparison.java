@@ -154,23 +154,34 @@ public abstract class clsDataStructureComparison {
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
 		
+
+		
 		//Create Container for the DataStructure
 		clsDataStructureContainer oCompareContainer = null;
-		if (poInput instanceof clsPrimaryDataStructure) {
-			oCompareContainer = new clsPrimaryDataStructureContainer((clsPrimaryDataStructure)poInput, poSearchSpaceHandler.readOutSearchSpace(0, (clsPhysicalRepresentation)poInput));
-			//Add associations from intrinsic structures
-			//TI, TPM
-			if (poInput instanceof clsTemplateImage) {
-				for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoAssociatedContent()) {
-					//Recursive function
-					clsDataStructureContainer oSubContainer = getCompleteContainer(oAss, poSearchSpaceHandler);
-					oCompareContainer.getMoAssociatedDataStructures().addAll(oSubContainer.getMoAssociatedDataStructures());	
+		
+		//Check if that data structure can be found in the database, else return null
+		if (poInput.getMoDS_ID()>0) {
+			if (poInput instanceof clsPrimaryDataStructure) {
+				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsPhysicalRepresentation)poInput));
+				
+				oCompareContainer = new clsPrimaryDataStructureContainer((clsPrimaryDataStructure)poInput, oAssList);
+				//Add associations from intrinsic structures
+				//TI, TPM
+				if (poInput instanceof clsTemplateImage) {
+					for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoAssociatedContent()) {
+						//Recursive function
+						clsDataStructureContainer oSubContainer = getCompleteContainer(oAss.getLeafElement(), poSearchSpaceHandler);
+						if (oSubContainer!=null) {
+							oCompareContainer.getMoAssociatedDataStructures().addAll(oSubContainer.getMoAssociatedDataStructures());
+						}
+					}
+				} else if (poInput instanceof clsThingPresentationMesh) {
+					//Do nothing, because Thing Presentations shall not be treated
 				}
-			} else if (poInput instanceof clsThingPresentationMesh) {
-				//Do nothing, because Thing Presentations shall not be treated
+			} else {
+				oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(0, poInput));
 			}
-		} else {
-			oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(0, poInput));
 		}
 		
 		//Add all associations from the intrinsic associated elements
