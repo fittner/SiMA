@@ -98,7 +98,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_2_send(int ReducedPsychicEnergy) {
 			
-			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
@@ -112,8 +111,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 * @see pa.interfaces.send._v38.D3_2_receive#receive_D3_2(java.util.ArrayList)
 		 */
 		public int D3_2_receive(int ReducedPsychicEnergy) {
-		
-			PsychicEnergy_IN = ReducedPsychicEnergy; 
 			
 			return ReducedPsychicEnergy;
 			
@@ -129,7 +126,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_3_send(int ReducedPsychicEnergy) {
 			
-			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
@@ -144,7 +140,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_3_receive(int ReducedPsychicEnergy) {
 		
-			PsychicEnergy_IN = ReducedPsychicEnergy; 
 			
 			return ReducedPsychicEnergy;
 			
@@ -160,7 +155,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_4_send(int ReducedPsychicEnergy) {
 			
-			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
@@ -175,7 +169,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_4_receive(int ReducedPsychicEnergy) {
 		
-			PsychicEnergy_IN = ReducedPsychicEnergy; 
 			
 			return ReducedPsychicEnergy;
 			
@@ -191,7 +184,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_5_send(int ReducedPsychicEnergy) {
 			
-			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
@@ -205,8 +197,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 * @see pa.interfaces.send._v38.D3_5_receive#receive_D3_5(java.util.ArrayList)
 		 */
 		public int D3_5_receive(int ReducedPsychicEnergy) {
-		
-			PsychicEnergy_IN = ReducedPsychicEnergy; 
 			
 			return ReducedPsychicEnergy;
 			
@@ -223,7 +213,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 */
 		public int D3_6_send(int ReducedPsychicEnergy) {
 			
-			PsychicEnergy_OUT = ReducedPsychicEnergy;
 			return ReducedPsychicEnergy;
 			
 		}
@@ -237,8 +226,6 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 * @see pa.interfaces.send._v38.D3_6_receive#receive_D3_6(java.util.ArrayList)
 		 */
 		public int D3_6_receive(int ReducedPsychicEnergy) {
-		
-			PsychicEnergy_IN = ReducedPsychicEnergy; 
 			
 			return ReducedPsychicEnergy;
 			
