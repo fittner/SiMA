@@ -37,9 +37,10 @@ public class clsAssociationSecondary extends clsAssociation{
 	public clsAssociationSecondary(
 			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsWordPresentation poAssociationElementA,
-			clsDataStructurePA poAssociationElementB) {
+			clsDataStructurePA poAssociationElementB, String oPredicate) {
 			
-			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB); 
+			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
+			moAttribute = oPredicate;
 	}
 
 	/* (non-Javadoc)
