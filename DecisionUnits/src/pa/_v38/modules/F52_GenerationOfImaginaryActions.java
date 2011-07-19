@@ -64,8 +64,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData,
 				poKnowledgeBaseHandler);
+		
+		m_availablePlanFragments = new ArrayList<clsPlanFragment>();
+		
 		applyProperties(poPrefix, poProp);
 
+		
 		// ArrayList<clsPlanAction> moActions_Output = new
 		// ArrayList<clsPlanAction>(); //never used!
 
@@ -151,8 +155,22 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public void receive_I6_8(
 			ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
 		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
-		System.out.println(poGoalInput.size());
-
+		// FIXME (perner) - please create more meaningfull debbuging output 
+		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
+		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
+		// such println lines, no one will be able to extract any meaningfull information from the flood auf console output! //TD 2011/07/19
+		//System.out.println(poGoalInput.size()); 
+		
+		generateTestData(); // FIXME (perner) - shouldn't the test data be generated in the constructor? //TD 2011/07/19
+	}
+	
+	/**
+	 * Fill m_availablePlanFragments with test data.
+	 *
+	 * @since 19.07.2011 10:24:29
+	 *
+	 */
+	private void generateTestData() {
 		/**
 		 * test test dummy to fill internal database
 		 */
@@ -176,7 +194,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		/**
 		 * test
-		 */
+		 */		
 	}
 
 	/*
