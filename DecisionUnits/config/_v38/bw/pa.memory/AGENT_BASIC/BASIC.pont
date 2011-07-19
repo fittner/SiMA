@@ -1,4 +1,4 @@
-; Fri Jul 15 13:31:56 GMT 2011
+; Tue Jul 19 19:07:53 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -761,17 +761,45 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass ASSOCIATIONPRIMARY
+(defclass ASSOCIATIONPRI
 	(is-a ASSOCIATION)
 	(role concrete)
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes IMAGE)
+		(cardinality 2 2)
+		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
-;+		(value "ASSOCIATIONPRIMARY")
+;+		(value "ASSOCIATIONPRI")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
-;+		(value "ASSOCIATIONPRIMARY")
+;+		(value "ASSOCIATIONPRI")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass ASSOCIATIONSEC "IMPORTANT: This association has a direction. Therefore the first element in the elementlist has to be the domain and the second element has to be the range"
+	(is-a ASSOCIATION)
+	(role concrete)
+	(multislot element
+		(type INSTANCE)
+;+		(allowed-classes WP ACT)
+		(cardinality 2 2)
+		(create-accessor read-write))
+	(single-slot predicate
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(value "ASSOCIATIONSEC")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(value "ASSOCIATIONSEC")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -1108,42 +1136,5 @@
 	(single-slot instance_type
 		(type INSTANCE)
 ;+		(allowed-classes TPM TP)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass ASSOCIATIONSECONDARY
-	(is-a USER)
-	(role concrete)
-	(multislot weight
-		(type FLOAT)
-		(range -1.0 1.0)
-		(default 1.0 1.0)
-		(create-accessor read-write))
-	(single-slot predicate
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot elementA
-		(type INSTANCE)
-;+		(allowed-classes WP)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot elementB
-		(type INSTANCE)
-;+		(allowed-classes WP)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "ASSOCIATIONSECONDARY")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "ASSOCIATIONSECONDARY")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))

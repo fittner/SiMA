@@ -113,4 +113,6 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 		//TODO: AW Add something here, or else the function will not be used
 		return null;
 	}
+	
+	
 }

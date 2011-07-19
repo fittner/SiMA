@@ -18,6 +18,6 @@ abstract public class PlanningNode {
 	public boolean visited = false;
 
 	public PlanningNode(String l) {
-		this.label = l;
+		label = l;
 	}
 }
