@@ -102,10 +102,13 @@ public abstract class clsDataStructureComparison {
 			clsDataStructurePA oCompareElement = oEntry.getValue().a;
 			//Create a container,
 			//FIXME: Only the primary Datastructurecontainer is used  //External Associations of FIXME AW: are NOT inside the containers
-			ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
-			iReturnTypes.add(eDataType.DM.nBinaryValue);
-			iReturnTypes.add(eDataType.TP.nBinaryValue);
-			clsDataStructureContainer oCompareContainer = getCompleteContainer((clsTemplateImage)oCompareElement, poSearchSpaceHandler, iReturnTypes);
+			//ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
+			//iReturnTypes.add(eDataType.DM.nBinaryValue);
+			//iReturnTypes.add(eDataType.TP.nBinaryValue);
+			//iReturnTypes.add(eDataType.TPM.nBinaryValue);
+			//iReturnTypes.add(eDataType.TI.nBinaryValue);
+			//clsDataStructureContainer oCompareContainer = getCompleteContainer((clsTemplateImage)oCompareElement, poSearchSpaceHandler, iReturnTypes);
+			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
 			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
 		
 			if (oMatch < oThreshold)
@@ -132,7 +135,8 @@ public abstract class clsDataStructureComparison {
 	 * @param iReturnTypes
 	 * @return
 	 */
-	public static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
+	//FIXME AW: Remove after confirmed functionality
+	/*public static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
 		//Readoutsearchspace searches everything with a certain moDSID
 		
 		//Create Container for the TI
@@ -148,13 +152,12 @@ public abstract class clsDataStructureComparison {
 		
 		oCompareContainer.setMoAssociatedDataStructures(oAssList);
 		return oCompareContainer;
-	}
+	}*/
 	
 	public static clsDataStructureContainer getCompleteContainer(clsDataStructurePA poInput, clsSearchSpaceHandler poSearchSpaceHandler) {
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
-		
-
+		//A special case of the searchspace was used
 		
 		//Create Container for the DataStructure
 		clsDataStructureContainer oCompareContainer = null;
@@ -184,10 +187,37 @@ public abstract class clsDataStructureComparison {
 			}
 		}
 		
-		//Add all associations from the intrinsic associated elements
-		//ArrayList<clsAssociation> oAssList = oCompareContainer.getMoAssociatedDataStructures();
+		//Remove duplicate structures
+		oCompareContainer.setMoAssociatedDataStructures(removeDuplicateStructures(oCompareContainer.getMoAssociatedDataStructures()));
 		
 		return oCompareContainer;
+	}
+	
+	/**
+	 * Remove duplicates in an arraylist of 
+	 *
+	 * @since 19.07.2011 21:22:12
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private static <E extends clsDataStructurePA> ArrayList<E> removeDuplicateStructures(ArrayList<E> poInput) {
+		ArrayList<E> oRetVal = new ArrayList<E>();
+		
+		for (int i=0; i<poInput.size()-1;i++) {
+			int iNumberOfMatches = 0;
+			for (int j=i; j<poInput.size()-1;j++) {
+				if (poInput.get(i) == poInput.get(j)) {
+					iNumberOfMatches++;
+				}
+			}
+			
+			if (iNumberOfMatches<2) {
+				oRetVal.add(poInput.get(i));
+			}
+		}
+		
+		return oRetVal;
 	}
 	
 	/**

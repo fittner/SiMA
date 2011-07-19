@@ -76,6 +76,8 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
 		iReturnTypes.add(eDataType.DM.nBinaryValue);
 		iReturnTypes.add(eDataType.TP.nBinaryValue);
+		iReturnTypes.add(eDataType.TPM.nBinaryValue);
+		iReturnTypes.add(eDataType.TI.nBinaryValue);
 		
 		for (Integer iType :iReturnTypes) {
 			oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
