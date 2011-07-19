@@ -5,12 +5,12 @@ export authors_file=authorconvfile
 git filter-branch -f --env-filter '
 
 get_name () {
- grep "^$1=" "$authors_file" |
+ grep "^$1=" "/s/ARSIN_V01/authorconvfile" |
  sed "s/^.*=\(.*\) <.*>$/\1/"
 }
 
 get_email () {
- grep "^$1=" "$authors_file" |
+ grep "^$1=" "/s/ARSIN_V01/authorconvfile" |
  sed "s/^.*=.* <\(.*\)>$/\1/"
 }
 
