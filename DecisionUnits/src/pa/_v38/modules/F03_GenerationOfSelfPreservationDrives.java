@@ -55,7 +55,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * basic CTOR 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:56:22

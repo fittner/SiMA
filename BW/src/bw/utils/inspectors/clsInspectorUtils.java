@@ -11,7 +11,7 @@ package bw.utils.inspectors;
 import java.util.Formatter;
 
 /**
- * DOCUMENT (muchitsch) - a static class for several utility functions for inspectors
+ * a static class for several utility functions for inspectors
  * 
  * @author muchitsch
  * Jul 22, 2009, 6:53:29 PM

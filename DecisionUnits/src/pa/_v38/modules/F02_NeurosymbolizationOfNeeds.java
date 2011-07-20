@@ -46,7 +46,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
 	private HashMap<String, Double> moHomeostaticSymbol;
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:55:32

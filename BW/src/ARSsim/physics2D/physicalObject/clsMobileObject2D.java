@@ -128,7 +128,7 @@ public class clsMobileObject2D extends
 	}
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 * returns the clsEntry
 	 * 
 	 * @return
 	 */
