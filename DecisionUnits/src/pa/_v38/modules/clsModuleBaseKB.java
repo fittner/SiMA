@@ -12,9 +12,15 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 
@@ -202,5 +208,96 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public clsKnowledgeBaseHandler getKnowledgeBaseHandler() {
 		return moKnowledgeBaseHandler;
+	}
+	
+	/**
+	 * Extracts associated memories (images) from a certain container, by creating new containers for the 
+	 * associated structures and filling them with the content of the root/leaf elements of the associations
+	 * DOCUMENT (wendt)
+	 *
+	 * @since 19.07.2011 23:43:49
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	//TODO AW: Make this function available somewhere else
+	protected ArrayList<clsDataStructureContainer> extractAssociatedContainers(clsDataStructureContainer poInput) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+		
+		//Go through all associated content of the containers and use only the AssociationSecondary and Primary
+		if (poInput instanceof clsPrimaryDataStructureContainer) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationPrimary) {
+					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
+					oRetVal.addAll(extractContainerList(oAss, poInput));
+				}
+			}
+		//Almost the same, if the container is of secondary structure
+		} else if (poInput instanceof clsSecondaryDataStructureContainer) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
+					oRetVal.addAll(extractContainerList(oAss, poInput));
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Help function for extractAssociatedContainers. From an association, where the root or leaf element are different from the data
+	 * structure in the source container, search the complete container and return it.
+	 * (wendt)
+	 *
+	 * @since 20.07.2011 13:47:16
+	 *
+	 * @param poAss
+	 * @param poSourceContainer
+	 * @return
+	 */
+	private ArrayList<clsDataStructureContainer> extractContainerList(clsAssociation poAss, clsDataStructureContainer poSourceContainer) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+		
+		if (poAss.getLeafElement().getMoDS_ID() == poSourceContainer.getMoDataStructure().getMoDS_ID()) {
+			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getRootElement());
+			if (oContainer!=null) {
+				oRetVal.add(oContainer);	
+			}
+		} else {
+			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getLeafElement());
+			if (oContainer!=null) {
+				oRetVal.add(oContainer);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * This function extracts the primary structure part of a secondary structure via the clsAssociationWP
+	 * DOCUMENT (wendt)
+	 *
+	 * @since 19.07.2011 23:58:08
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	protected clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput) {
+		clsPrimaryDataStructureContainer oRetVal = null;
+		
+		//Go through the container and search for associationWP
+		for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationWordPresentation) {
+				//Check if the primary data structure is a part of the root or the leaf element
+				if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
+					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getLeafElement());
+				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
+					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
+				}
+			}
+		}
+		
+		return oRetVal;
 	}
 }

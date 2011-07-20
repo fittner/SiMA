@@ -15,14 +15,8 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.tools.clsGlobalFunctions;
 import pa._v38.tools.clsPair;
@@ -31,9 +25,13 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * Contents of various action plans can be used to reduce libido tension in E45. 
- * Before they can be processed by primary process functions, they have to be converted back again. 
- * The preconscious parts of the contents - the word presentations - are removed by this module. 
+ * From an incoming list of action plan together with a list of their associated data structures, the primary data structures
+ * (in containers) are extracted and ranked according to the total quota of affect (the highest first). This list of primary data structure
+ * images (clsTemplateImage) are returned and sent to F46.
+ * 
+ * Note: This module does not have any memory access. Therefore, it can only extract data from the available
+ * lists. All necessary data is therefore loaded in F52
+ *   
  * 
  * @author wendt
  * 03.03.2011, 15:22:59
@@ -47,10 +45,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	
 	/** Minimal model */
 	private boolean mnMinimalModel;
-	/** One primary data structure container, which is input for F46 */
+	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
 	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_OUT;
-	/** The list of generated actions and their associated memories */
+	/** The list of generated actions */
 	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_IN;
+	/** The list of associated memories of the generated actions */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_IN;
 	
 	/**
@@ -142,9 +141,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	}
 	
 	/**
-	 * This function picks one memory trace in the form of a template image from a secondary process container and
-	 * sends to the primary process, where it is used as input of the association of new memories
-	 *
+	 * This function extracts all primary data structure containers from the input list, calcultates their
+	 * total quota of affect and returns a sorted list of primary data structure containers, which are sorted
+	 * according to total quota of affect (the highest first)
+	 * (wendt)
 	 * @since 20110625
 	 *
 	 * ${tags}
@@ -227,7 +227,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * @param oSecondaryContainer
 	 * @return
 	 */
-	private clsPrimaryDataStructure getAssociatedPrimaryStructure (clsSecondaryDataStructureContainer oSecondaryContainer) {
+	//TODO AW: Remove if not used
+	/*private clsPrimaryDataStructure getAssociatedPrimaryStructure (clsSecondaryDataStructureContainer oSecondaryContainer) {
 		clsPrimaryDataStructure oRetVal = null;
 		
 		for (clsAssociation oAss : oSecondaryContainer.getMoAssociatedDataStructures()) {
@@ -239,7 +240,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		
 		return oRetVal;
 		
-	}
+	}*/
 	
 	/**
 	 * If a found data element is activated, its container shall be found in a list. By instanceID, the container of a data structure 
@@ -251,7 +252,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * @param poContainerList
 	 * @return
 	 */
-	private clsDataStructureContainer getActivatedContainerFromDS(clsDataStructurePA poInput, ArrayList<clsDataStructureContainer> poContainerList) {
+	//TODO AW: Remove if not used
+	/*private clsDataStructureContainer getActivatedContainerFromDS(clsDataStructurePA poInput, ArrayList<clsDataStructureContainer> poContainerList) {
 		clsDataStructureContainer oRetVal = null;
 		
 		if (poInput!=null) {
@@ -265,10 +267,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		}
 		
 		return oRetVal;
-	}
+	}*/
 	
-	//FIXME AW: Remove if this function will not be used.
-	private ArrayList<clsSecondaryDataStructureContainer> getAssociatedWPMemories(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poContainerList) {
+	//TODO AW: Remove if this function will not be used.
+	/*private ArrayList<clsSecondaryDataStructureContainer> getAssociatedWPMemories(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poContainerList) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
 		if (poInput != null) {
@@ -285,7 +287,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		}
 		
 		return oRetVal;
-	}
+	}*/
 	
 	
 	/* (non-Javadoc)
