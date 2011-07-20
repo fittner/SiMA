@@ -182,24 +182,43 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 */
 
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
-				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.PLANT), 
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.PLANT)));
+				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.PLANT), 
-				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.PLANT)));
+				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE)));
 		
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
-				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.PLANT), 
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.PLANT)));
+				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.CAKE), 
+				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
-				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.PLANT), 
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.PLANT)));
+				new clsImage(eDirection.right, eObjectCategorization.CAKE), 
+				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
+				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
+		
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
+				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eObjectCategorization.NONE)));
+		
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
+				new clsImage(eObjectCategorization.NONE), 
+				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
+		
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
+				new clsImage(eObjectCategorization.NONE), 
+				new clsImage(eDirection.right, eObjectCategorization.CAKE)));
+		
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
+				new clsImage(eObjectCategorization.NONE), 
+				new clsImage(eDirection.left, eObjectCategorization.CAKE)));
 		
 		
-		// TODO (perner) add generic actions like right, left
+		// TODO (perner) add generic actions like right, left without objects
 		/**
 		 * test
 		 */		

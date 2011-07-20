@@ -16,6 +16,7 @@ package pa._v38.tools.planningHelpers;
 public enum eObjectCategorization {
 	CAKE,
 	PLANT,
-	ARSIN
+	ARSIN,
+	NONE
 
 }

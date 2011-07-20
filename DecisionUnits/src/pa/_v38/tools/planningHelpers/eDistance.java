@@ -17,6 +17,8 @@ public enum eDistance {
 
 	far,
 	medium,
-	close
+	close,
+	unknown,
+	inHand
 	
 }
