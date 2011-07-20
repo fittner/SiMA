@@ -70,6 +70,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
+		moForbiddenDrives = new ArrayList<String>(); //TD 2011/07/20 - added initialization of member field
+		moForbiddenPerceptions = new ArrayList<clsPair<String,String>>(); //TD 2011/07/20 - added initialization of member field
+		
 		applyProperties(poPrefix, poProp); 
 	}
 	
