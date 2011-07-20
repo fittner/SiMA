@@ -26,10 +26,12 @@ public class clsActionLogger {
 	/** A list containing an entry of type pair with the start time (long) and the action command (string); @since 20.07.2011 16:16:59 */
 	public ArrayList<clsPair<Long, String>> actions;
 	
-	/** All history sizes of moDataStorage entries drop old entries if their history exceeds this value. If maxentries=0, size of history is set to infinity. The current value is set to 0.; @since 20.07.2011 16:18:04 */
+	/** Drops old entries if the size of actions is above this value. If maxentries=0, size of history is set to infinity. The current value is set to 0.; @since 20.07.2011 16:18:04 */
 	private long maxentries = 0;
 	/** Cache that stores the content of System.getProperty("line.separator").; @since 20.07.2011 16:18:38 */
-	public static final String newline = System.getProperty("line.separator");
+	private static final String newline = System.getProperty("line.separator");
+	/** Seperator for the CSV values. Default is ";".; @since 20.07.2011 16:41:48 */
+	private static final String csvseperator = ";";
 	
 	/** Stores the first timestamp. The action logger can be started whenever appropriate.; @since 20.07.2011 16:19:31 */
 	private long first;
@@ -142,7 +144,7 @@ public class clsActionLogger {
 	   	    // Create file 
 	   	    FileWriter fstream = new FileWriter(moLogFilename,true);
 	        BufferedWriter out = new BufferedWriter(fstream);
-	        out.write(poLine.a+";"+poLine.b); out.newLine();
+	        out.write(poLine.a+csvseperator+poLine.b); out.newLine();
 	        out.flush();
 	   	    //Close the output stream
 	   	    out.close();
