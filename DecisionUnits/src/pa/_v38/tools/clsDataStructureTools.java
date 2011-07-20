@@ -1,19 +1,16 @@
 /**
  * CHANGELOG
  *
- * 25.06.2011 wendt - File created
+ * 20.07.2011 deutsch - File created
  *
  */
 package pa._v38.tools;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 
@@ -21,26 +18,20 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 25.06.2011, 09:29:24
- * 
- * Here, "diverse" functions can be put, which are used in several modules
+ * 20.07.2011, 13:58:07
  * 
  */
-public class clsGlobalFunctions {
+public class clsDataStructureTools {
 	
-	public static double calculateAbsoluteAffect(clsPrimaryDataStructureContainer poImage) {
-		double rAbsoluteAffect;
-		
-		rAbsoluteAffect = 0;
-		
-		for (clsAssociation oAss: poImage.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationDriveMesh) {
-				rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAss.getLeafElement()).getPleasure());
-			}
-		}
-		return rAbsoluteAffect;
-	}
-	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 20.07.2011 13:58:43
+	 *
+	 * @param poSearchStructure
+	 * @param poSearchInImage
+	 * @return
+	 */
 	public static clsDataStructurePA getDataStructureFromImage(clsDataStructurePA poSearchStructure, clsPrimaryDataStructureContainer poSearchInImage) {
 		clsDataStructurePA oRetVal = null;
 
@@ -73,9 +64,8 @@ public class clsGlobalFunctions {
 	 * @param poInput
 	 * @return
 	 **/
-	@SuppressWarnings("unchecked")
 	public static <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
-		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);
+		ArrayList<E> oRetVal = poInput; //TD 2011/07/20 - removed deepCopy. this has to be decided by the one who calls this method and done there.
 		
 		//Set Unique IDs for all root elements
 		for (E oElement : oRetVal) {
@@ -99,41 +89,4 @@ public class clsGlobalFunctions {
 		
 		return oRetVal;
 	}
-	
-	//Copied from clsModuleBase.java
-	/**
-	 * Deepcopy for arraylist objects. Clones not only the arraylist but also all elements that are stored within the arraylist.
-	 *
-	 * @since 13.07.2011 13:27:48
-	 *
-	 * @param other
-	 * @return
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static java.util.ArrayList deepCopy(java.util.ArrayList other) {
-		java.util.ArrayList clone = null;
-		if (other != null) {
-			clone = new java.util.ArrayList();
-			
-			for (Object entry:other) {
-				try {
-					if (!(entry instanceof Cloneable)) {
-						clone.add(entry);
-					} else {
-						Class<?> clzz = entry.getClass();
-				    	Method   meth = clzz.getMethod("clone", new Class[0]);
-				    	Object   dupl = meth.invoke(entry, new Object[0]);
-				    	clone.add(dupl);
-					}
-				} catch (Exception e) {
-					clone.add(entry);
-					// no deep copy possible.
-				}
-			}
-		}
-				
-		return clone;
-	}
 }
-
-

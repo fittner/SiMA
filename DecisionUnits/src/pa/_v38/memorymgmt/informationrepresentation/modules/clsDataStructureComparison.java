@@ -154,6 +154,15 @@ public abstract class clsDataStructureComparison {
 		return oCompareContainer;
 	}*/
 	
+	/**
+	 * Get a whole container from a data structure including all associated structures
+	 * AW
+	 * @since 20.07.2011 02:00:14
+	 *
+	 * @param poInput
+	 * @param poSearchSpaceHandler
+	 * @return
+	 */
 	public static clsDataStructureContainer getCompleteContainer(clsDataStructurePA poInput, clsSearchSpaceHandler poSearchSpaceHandler) {
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
@@ -194,7 +203,8 @@ public abstract class clsDataStructureComparison {
 	}
 	
 	/**
-	 * Remove duplicates in an arraylist of 
+	 * Remove duplicates in an arraylist and also non belongen associations of the containers.
+	 * AW
 	 *
 	 * @since 19.07.2011 21:22:12
 	 *

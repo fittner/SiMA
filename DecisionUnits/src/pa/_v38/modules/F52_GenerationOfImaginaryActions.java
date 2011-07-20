@@ -20,14 +20,9 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -211,6 +206,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	}
 	
 	//FIXME AW: @Andi, test function for F47. I don't have any memory access in F47. You may delete this as soon as your stuff works
+	/**
+	 * Generate test data of one act
+	 *
+	 * @since 20.07.2011 13:42:13
+	 *
+	 * @return
+	 */
 	private clsSecondaryDataStructureContainer getTestDataForAct() {
 		clsSecondaryDataStructureContainer oWPActContainer = null;
 			
@@ -244,6 +246,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oWPActContainer;
 	}
 	
+	/**
+	 * From a list of plans (clsAct or other type), where there are associations to other memories in the secondary process,
+	 * extract those direct associated memories as complete containers. The result is a mix of secondary process containers
+	 * and primary process containers, where the link between the secondary process containers and the primary process containers
+	 * is found in an clsAssociationWP
+	 * 
+	 * wendt
+	 * @since 20.07.2011 13:42:05
+	 *
+	 * @param poInput
+	 * @return
+	 */
 	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
@@ -259,86 +273,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsDataStructureContainer oAssociatedMemory : oAssociatedMemoryList) {
 			if (oAssociatedMemory instanceof clsSecondaryDataStructureContainer) {
 				oRetVal.add(extractPrimaryContainer((clsSecondaryDataStructureContainer)oAssociatedMemory));
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	
-	/**
-	 * Extracts associated memories (images) from a certain container, by creating new containers for the associated structures
-	 * DOCUMENT (wendt)
-	 *
-	 * @since 19.07.2011 23:43:49
-	 *
-	 * @param poInput
-	 * @return
-	 */
-	//TODO AW: Make this function available somewhere else
-	private ArrayList<clsDataStructureContainer> extractAssociatedContainers(clsDataStructureContainer poInput) {
-		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
-		
-		//Go through all associated content of the containers and use only the AssociationSecondary and Primary
-		if (poInput instanceof clsPrimaryDataStructureContainer) {
-			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
-				if (oAss instanceof clsAssociationPrimary) {
-					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
-					oRetVal.addAll(extractContainerList(oAss, poInput));
-				}
-			}
-		//Almost the same, if the container is of secondary structure
-		} else if (poInput instanceof clsSecondaryDataStructureContainer) {
-			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
-				if (oAss instanceof clsAssociationSecondary) {
-					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
-					oRetVal.addAll(extractContainerList(oAss, poInput));
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	private ArrayList<clsDataStructureContainer> extractContainerList(clsAssociation poAss, clsDataStructureContainer poSourceContainer) {
-		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
-		
-		if (poAss.getLeafElement().getMoDS_ID() == poSourceContainer.getMoDataStructure().getMoDS_ID()) {
-			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getRootElement());
-			if (oContainer!=null) {
-				oRetVal.add(oContainer);	
-			}
-		} else {
-			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getLeafElement());
-			if (oContainer!=null) {
-				oRetVal.add(oContainer);
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * This function extracts the primary structure part of a secondary structure memory
-	 * DOCUMENT (wendt)
-	 *
-	 * @since 19.07.2011 23:58:08
-	 *
-	 * @param poInput
-	 * @return
-	 */
-	private clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput) {
-		clsPrimaryDataStructureContainer oRetVal = null;
-		
-		//Go through the container and search for associationWP
-		for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationWordPresentation) {
-				//Check if the primary data structure is a part of the root or the leaf element
-				if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
-					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getLeafElement());
-				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
-					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
-				}
 			}
 		}
 		

@@ -139,11 +139,12 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	     for(int index = 0; index < moDrives_IN.size(); index++){
 				
 	     } int i=0;
-				System.out.println(moDrives_IN.indexOf(i));
+	     
+				System.out.println("clsPhysical_RepresemoDrives_In "+ moDrives_IN.indexOf(i));
 			i++;
 		 }
 	     
-	       // aus all den drive meshes die reinkommen 
+	     //alle drive meshes die reinkommen  durchgehen 
 	     //pleasure = affect value siehe Heimo Diss
 	     //search for all DM . Zahlenwert
 	     
