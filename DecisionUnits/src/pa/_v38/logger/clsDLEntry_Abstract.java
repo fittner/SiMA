@@ -104,7 +104,6 @@ public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, 
 		values.add( new clsPair<Long, ArrayList<Double>>(step, moModule.getTimeChartData()) );
 	}
 	
-	@SuppressWarnings("unused") // if clsDataLogger.maxentries is set to 0 a warning occurs ...
 	private void enforceMaxSize() {
 		if (clsDataLogger.maxentries > 0) {
 			while (values.size() > clsDataLogger.maxentries) {
