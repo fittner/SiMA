@@ -48,7 +48,7 @@ public class clsActionLogger {
 	 *
 	 * @since 20.07.2011 16:24:35
 	 *
-	 * @param uid Unique identifier provided for the decision unit.
+	 * @param uid Unique identifier provided by the decision unit.
 	 */
 	public clsActionLogger(int uid) {
 		moLogFilename = clsGetARSPath.getLogFilename("action_"+uid);
