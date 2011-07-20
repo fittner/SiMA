@@ -27,6 +27,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -699,7 +700,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}

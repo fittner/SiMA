@@ -41,6 +41,15 @@ public class clsDataStructureConverter {
 //		return null; 
 //	}
 	
+	/**
+	 * Converts the incomming external symbols to either TP's or TPM's and returns them in the form of a clsDataStructurePA.
+	 * This is done by invoking the methods given by the interface of every symbol type.
+	 *
+	 * @since 20.07.2011 11:12:29
+	 *
+	 * @param poSymbolObject
+	 * @return clsDataStructurePA
+	 */
 	public static clsDataStructurePA convertExtSymbolsToPsychicDataStructures(itfSymbol poSymbolObject){
 			if(poSymbolObject instanceof itfIsContainer) {return convertSymbolsToTPM(poSymbolObject);} 
 			else {return convertSymbolsToTP(poSymbolObject);}				

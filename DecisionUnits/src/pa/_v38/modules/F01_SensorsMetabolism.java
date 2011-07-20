@@ -35,7 +35,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_OUT;
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * basic CTOR
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:52:11
