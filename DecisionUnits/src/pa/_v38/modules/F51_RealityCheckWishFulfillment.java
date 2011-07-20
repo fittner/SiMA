@@ -15,6 +15,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
@@ -31,7 +32,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
 	//AW 20110602 Added associated memories to the input 
-	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
 	
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
@@ -124,10 +125,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
-			ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+			ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		moFocusedPerception_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poFocusedPerception);
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
-		moAssociatedMemoriesSecondary_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -152,7 +153,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 		}
 	}
 	
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsSecondaryDataStructureContainer> oInput) {
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsDataStructureContainer> oInput) {
 		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
 		
 		return oRetVal;

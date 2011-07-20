@@ -35,9 +35,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			implements I5_1_receive, I5_2_send{
 
 	public static final String P_MODULENUMBER = "49";
-	@SuppressWarnings("unused")
+
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
-	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moOutput;
 	
 	/** DOCUMENT (muchitsch) - insert description; @since 19.07.2011 14:06:33 */

@@ -9,6 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
@@ -19,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_1_receive {
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary);
+	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary);
 }

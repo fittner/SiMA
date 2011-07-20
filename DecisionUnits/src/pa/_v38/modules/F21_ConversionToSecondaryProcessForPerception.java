@@ -56,7 +56,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	//AW 20110602 New output of the module
-	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
+	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
@@ -505,8 +505,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;  
 	}
 	
-	private ArrayList<clsSecondaryDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+	private ArrayList<clsDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
 		return oRetVal;
 	}
@@ -534,7 +534,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+	public void send_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
 		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
 		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
