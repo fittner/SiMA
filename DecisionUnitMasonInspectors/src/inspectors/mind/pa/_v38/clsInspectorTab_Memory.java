@@ -30,7 +30,7 @@ import sim.portrayal.LocationWrapper;
 import sim.portrayal.inspector.TabbedInspector;
 
 /**
- * DOCUMENT (muchitsch) - Inspector instertion point to show the actual state of the semantic memory 
+ * Inspector instertion point to show the actual state of the semantic memory 
  * 
  * @author muchitsch
  * 03.08.2010, 13:58:44
@@ -39,7 +39,7 @@ import sim.portrayal.inspector.TabbedInspector;
 public class clsInspectorTab_Memory extends Inspector implements TreeSelectionListener {
 
 	/**
-	 * DOCUMENT (muchitsch) - a inspector for the memory. it displays the memory information on a tab in the inspectors.
+	 * A inspector for the memory. it displays the memory information on a tab in the inspectors.
 	 * different filters etc to come
 	 * 
 	 * @author muchitsch

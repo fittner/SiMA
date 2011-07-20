@@ -13,7 +13,8 @@ import java.util.SortedMap;
 import java.util.Map.Entry;
 
 import bfg.tools.clsMutableDouble;
-import pa._v38.tools.clsGlobalFunctions;
+import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
@@ -137,7 +138,12 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsGlobalFunctions.createInstanceFromType(oContainerWithTypes));
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); //FIXME (wendt) - is this deepcopy really necessary?
+		
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromType(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
+		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
 		assignDriveMeshes(oEnvPerceptionNoDM);
@@ -470,7 +476,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Associated memories
 		//Decide which image will be the input for spread activation
 		if (oReturnedMemory!=null) {
-			if (clsGlobalFunctions.calculateAbsoluteAffect(oPerceptionInput) < clsGlobalFunctions.calculateAbsoluteAffect(oReturnedMemory)) {
+			if (clsAffectTools.calculateAbsoluteAffect(oPerceptionInput) < clsAffectTools.calculateAbsoluteAffect(oReturnedMemory)) {
 				blUsePerception = false;
 			}
 		}

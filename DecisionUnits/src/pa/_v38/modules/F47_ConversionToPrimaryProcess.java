@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.tools.clsGlobalFunctions;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -159,7 +159,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 		for (clsDataStructureContainer oContainer : poAssociatedMemories) {
 			if (oContainer instanceof clsPrimaryDataStructureContainer) {
 				//Calculate Total Affect value
-				clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsGlobalFunctions.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oContainer),(clsPrimaryDataStructureContainer) oContainer);
+				clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oContainer),(clsPrimaryDataStructureContainer) oContainer);
 				//Add with sort
 				int i = 0;
 				while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {

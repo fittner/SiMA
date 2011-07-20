@@ -49,7 +49,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * basic CTOR, sets Libido to 0
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:47:47

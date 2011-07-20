@@ -19,7 +19,7 @@ import pa._v38.tools.toText;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (muchitsch) - insert description 
+ * Conversion of raw data into neuro-symbols
  * 
  * @author muchitsch
  * 03.03.2011, 15:18:01

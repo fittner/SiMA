@@ -43,7 +43,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	/** DOCUMENT (muchitsch) - insert description; @since 19.07.2011 14:06:33 */
 	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * CTOR, and filles the primal repression memory
 	 * 
 	 * @author muchitsch
 	 * 02.05.2011, 15:51:29
