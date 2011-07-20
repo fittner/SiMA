@@ -57,6 +57,8 @@ public class clsDataStructureConverter {
 			throw new java.lang.IllegalArgumentException("can only convert symbols with excatly 1 getMethod (except getSymbolObjects()). ("+eDataStructureType.toString()+"; "+oContentType+"; "+oMethods.length+")");
 		}
 		
+		//the interface forces to have the methods, so this is fairly secure, not very beautiful though. 
+		//see pa._v38.symbolization.representationsymbol for the interfaces and the implementing classes
 		try {
 			if (oMethods[0].getName().equals("getSymbolObjects")) {
 				oContent = oMethods[1].invoke(poSymbolObject,  new Object[0]);

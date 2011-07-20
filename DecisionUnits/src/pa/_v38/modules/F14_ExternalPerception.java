@@ -40,10 +40,11 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
+	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description 
+	 * CTOR of F14, nothing unusual
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:15:27
@@ -151,6 +152,9 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//here also the body data should be processed, but nothing is coming from this path until now.
+		
 		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		for(itfSymbol oSymbol : moEnvironmentalData.values()){
 				if(oSymbol!=null){
