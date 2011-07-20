@@ -10,19 +10,29 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
+import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTripple;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningWizard;
@@ -43,6 +53,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
+	
+	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 
 	private ArrayList<clsPlanFragment> m_availablePlanFragments;
@@ -197,6 +209,142 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 * test
 		 */		
 	}
+	
+	//FIXME AW: @Andi, test function for F47. I don't have any memory access in F47. You may delete this as soon as your stuff works
+	private clsSecondaryDataStructureContainer getTestDataForAct() {
+		clsSecondaryDataStructureContainer oWPActContainer = null;
+			
+		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
+		//here - only the consequence part is filled
+		//The string looks like: "PRECONDITION||ACTION||CONSEQUENCE|NOURISH" or "PRECONDITION||ACTION||CONSEQUENCE|LOCATION:xy|"
+		String oContent = "FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
+		String oActualGoal = oContent;
+		
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object>(
+				eDataType.ACT.name(), new ArrayList<clsSecondaryDataStructure>(), oActualGoal));
+		
+		//clsAct oAct = generateAct(oActualGoal); 
+		//ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
+		
+		//ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN = new ArrayList<clsPrimaryDataStructureContainer>();
+		ArrayList<clsAct> oActList = new ArrayList<clsAct>();
+		
+		oActList.add(oAct);
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		
+		search(eDataType.WP, oActList, oSearchResult); 
+		
+		if (oSearchResult.isEmpty()==false) {
+			oWPActContainer = (clsSecondaryDataStructureContainer) oSearchResult.get(0).get(4).b;	//Hack
+		}
+		//Not safe operation but it does not matter for test data
+		//oWPActContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oWPActContainer.getMoDataStructure());
+		
+		return oWPActContainer;
+	}
+	
+	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+		
+		
+		//Go through all plans/acts and extract all associated memories (WP)
+		ArrayList<clsDataStructureContainer> oAssociatedMemoryList = new ArrayList<clsDataStructureContainer>();
+		for (clsSecondaryDataStructureContainer oPlan : poInput) {
+			oAssociatedMemoryList = extractAssociatedContainers(oPlan);
+		}
+		
+		oRetVal.addAll(oAssociatedMemoryList);
+		//Go through all extracted associated WP-Memories and extract their primary structure parts
+		for (clsDataStructureContainer oAssociatedMemory : oAssociatedMemoryList) {
+			if (oAssociatedMemory instanceof clsSecondaryDataStructureContainer) {
+				oRetVal.add(extractPrimaryContainer((clsSecondaryDataStructureContainer)oAssociatedMemory));
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	
+	/**
+	 * Extracts associated memories (images) from a certain container, by creating new containers for the associated structures
+	 * DOCUMENT (wendt)
+	 *
+	 * @since 19.07.2011 23:43:49
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	//TODO AW: Make this function available somewhere else
+	private ArrayList<clsDataStructureContainer> extractAssociatedContainers(clsDataStructureContainer poInput) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+		
+		//Go through all associated content of the containers and use only the AssociationSecondary and Primary
+		if (poInput instanceof clsPrimaryDataStructureContainer) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationPrimary) {
+					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
+					oRetVal.addAll(extractContainerList(oAss, poInput));
+				}
+			}
+		//Almost the same, if the container is of secondary structure
+		} else if (poInput instanceof clsSecondaryDataStructureContainer) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					//As there is no direction, if the data structure is equal the leaf, then the root is chosen for the association
+					oRetVal.addAll(extractContainerList(oAss, poInput));
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	private ArrayList<clsDataStructureContainer> extractContainerList(clsAssociation poAss, clsDataStructureContainer poSourceContainer) {
+		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+		
+		if (poAss.getLeafElement().getMoDS_ID() == poSourceContainer.getMoDataStructure().getMoDS_ID()) {
+			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getRootElement());
+			if (oContainer!=null) {
+				oRetVal.add(oContainer);	
+			}
+		} else {
+			clsDataStructureContainer oContainer = searchCompleteContainer(poAss.getLeafElement());
+			if (oContainer!=null) {
+				oRetVal.add(oContainer);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * This function extracts the primary structure part of a secondary structure memory
+	 * DOCUMENT (wendt)
+	 *
+	 * @since 19.07.2011 23:58:08
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput) {
+		clsPrimaryDataStructureContainer oRetVal = null;
+		
+		//Go through the container and search for associationWP
+		for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationWordPresentation) {
+				//Check if the primary data structure is a part of the root or the leaf element
+				if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
+					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getLeafElement());
+				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
+					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+
 
 	/*
 	 * (non-Javadoc)
@@ -207,7 +355,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		
 		process_draft();
 		// HZ 2010.08.28
 		// E27 should retrieve required acts through E28. However, it can be
@@ -242,8 +389,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// is implemented to retrieve and put acts together which means that it
 		// takes over
 		// a kind of planning.
+		
 		moActions_Output = new ArrayList<clsSecondaryDataStructureContainer>();
+	
 		moActions_Output = getActions();
+		
+		/* ==================================================================== */
+		//FIXME AW: Testdata for the F47 interface. DELETEME
+		moActions_Output.add(getTestDataForAct());
+		/*=======================================================================*/
+		
+		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
+		//F47 does not have any memory access. 
+		//If you receive errors in this function, you may inactivate it and AW will correct the errors.
+		moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(moActions_Output);
 	}
 
 	/**
@@ -318,7 +477,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_9(moActions_Output);
+		send_I6_9(moActions_Output, moAssociatedMemories_OUT);
 
 	}
 
@@ -331,15 +490,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I6_9(
-			ArrayList<clsSecondaryDataStructureContainer> poActionCommands) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands);
-		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands);
-		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands);
+			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories);
+		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories);
+		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories);
+		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories);
+		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories);
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories);
 
-		putInterfaceData(I6_9_send.class, poActionCommands);
+		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
 
 	}
 

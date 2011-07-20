@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
@@ -74,10 +76,15 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		
 		//Set all returntypes
 		ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
-		iReturnTypes.add(eDataType.DM.nBinaryValue);
-		iReturnTypes.add(eDataType.TP.nBinaryValue);
-		iReturnTypes.add(eDataType.TPM.nBinaryValue);
-		iReturnTypes.add(eDataType.TI.nBinaryValue);
+		if (poDataStructure instanceof clsPrimaryDataStructure) {
+			iReturnTypes.add(eDataType.DM.nBinaryValue);
+			iReturnTypes.add(eDataType.TP.nBinaryValue);
+			iReturnTypes.add(eDataType.TPM.nBinaryValue);
+			iReturnTypes.add(eDataType.TI.nBinaryValue);
+		} else if (poDataStructure instanceof clsSecondaryDataStructure) {
+			iReturnTypes.add(eDataType.ACT.nBinaryValue);
+			iReturnTypes.add(eDataType.WP.nBinaryValue);
+		}
 		
 		for (Integer iType :iReturnTypes) {
 			oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));

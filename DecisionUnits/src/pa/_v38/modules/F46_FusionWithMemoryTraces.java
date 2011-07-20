@@ -53,7 +53,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
-	private clsPrimaryDataStructureContainer moReturnedTPMemory_IN; 
+	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_IN; 
 	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
 	
@@ -147,7 +147,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
 		/* Perception - Activation of associated memories */
-		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, moReturnedTPMemory_IN);
+		//FIXME AW This is a hack
+		clsPrimaryDataStructureContainer oBestPhantasyInput = null;
+		if (moReturnedTPMemory_IN != null) {
+			if (moReturnedTPMemory_IN.isEmpty()==false) {
+				oBestPhantasyInput = moReturnedTPMemory_IN.get(0);	//This input shall be sorted in F47
+			}
+		}
+		
+		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 
 		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
@@ -681,12 +689,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(clsPrimaryDataStructureContainer poReturnedMemory) {
-		if (poReturnedMemory!=null) {
-			moReturnedTPMemory_IN = (clsPrimaryDataStructureContainer)poReturnedMemory.clone();
-		} else {
-			moReturnedTPMemory_IN = null; 
-		}
+	public void receive_I5_19(ArrayList<clsPrimaryDataStructureContainer> poReturnedMemory) {
+		moReturnedTPMemory_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poReturnedMemory);
 	}
 
 	/* (non-Javadoc)

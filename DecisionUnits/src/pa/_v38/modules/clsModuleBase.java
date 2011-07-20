@@ -341,6 +341,9 @@ public abstract class clsModuleBase implements
 	protected void putInterfaceData(eInterfaces pnInterface, Object... poData) {
 		ArrayList<Object> oData = new ArrayList<Object>();
 		for (Object d:poData) {
+			if (d==null) {
+				throw new java.lang.NullPointerException("clsModuleBase.puInterfaceData: null is not valid value to be transmitted via the interfaces between the funcitonal modules.");
+			}
 			oData.add(d);
 		}
 		

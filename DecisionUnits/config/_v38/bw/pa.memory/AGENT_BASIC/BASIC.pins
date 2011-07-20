@@ -1,4 +1,4 @@
-; Tue Jul 19 19:07:53 GMT 2011
+; Tue Jul 19 22:36:13 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -492,7 +492,7 @@
 ([AS%3AHASASSOCIATION%3AACT_EAT%3AA1I1] of  ASSOCIATIONSEC
 
 	(element
-		[ACT%3AMOVE%3AFORWARD_EATABLE]
+		[ACT%3AMOVE%3AFORWARD_MANIPULATEABLE]
 		[WP%3AIMAGE%3AA1I1])
 	(predicate "HASASSOCIATION")
 	(weight 1.0 1.0))
@@ -1058,6 +1058,27 @@
 	(element
 		[TI%3ALOCATION%3ANEARRIGHT]
 		[WP%3ALOCATION%3ANEARRIGHT])
+	(weight 1.0 1.0))
+
+([AW%3AWPA1I1%3ATIA1I1] of  ASSOCIATIONWP
+
+	(element
+		[WP%3AIMAGE%3AA1I1]
+		[TI%3AIMAGE%3AA1I1])
+	(weight 1.0 1.0))
+
+([AW%3AWPA1I2%3ATIA1I2] of  ASSOCIATIONWP
+
+	(element
+		[WP%3AIMAGE%3AA1I2]
+		[TI%3AIMAGE%3AA1I2])
+	(weight 1.0 1.0))
+
+([AW%3AWPA1TOP%3ATIA1TOP] of  ASSOCIATIONWP
+
+	(element
+		[WP%3AIMAGE%3AA1TOP]
+		[TI%3AIMAGE%3AA1TOP])
 	(weight 1.0 1.0))
 
 ([DM%3ABITE%3ACAKEBASIC] of  BITE
@@ -1753,19 +1774,16 @@
 
 ([WP%3AIMAGE%3AA1I1] of  WP%3AIMAGE
 
-	(instance_association [TI%3AIMAGE%3AA1I1])
 	(value "A1I1")
 	(value_type "IMAGE"))
 
 ([WP%3AIMAGE%3AA1I2] of  WP%3AIMAGE
 
-	(instance_association [TI%3AIMAGE%3AA1I2])
 	(value "A1I2")
 	(value_type "IMAGE"))
 
 ([WP%3AIMAGE%3AA1TOP] of  WP%3AIMAGE
 
-	(instance_association [TI%3AIMAGE%3AA1TOP])
 	(value "A1TOP")
 	(value_type "IMAGE"))
 
