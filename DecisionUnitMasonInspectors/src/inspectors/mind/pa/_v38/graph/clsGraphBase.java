@@ -12,8 +12,11 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.Rectangle2D;
 
 import java.util.ArrayList;
@@ -137,8 +140,69 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
      * @param poModuleMemoryMemberName 
      */
     public clsGraphBase()  {
-		initializePanel();	//put all components on the panel		
+		initializePanel();	//put all components on the panel	
+		
     }
+    
+    /**
+     * initializes special action listeners to the JGraph panel, the rest is in the initialize panel
+     *
+     * @since 20.07.2011 16:17:49
+     *
+     */
+    protected void initializeListeners()
+    {
+            // Installs mouse wheel listener for zooming
+            MouseWheelListener wheelTracker = new MouseWheelListener()
+            {
+ 
+                @Override
+				public void mouseWheelMoved(MouseWheelEvent e)
+                {
+                    if (e.getSource() instanceof JGraph || e.isControlDown())
+                    {
+                            mouseWheelMovedAction(e);
+                    }
+                }
+            };
+
+            // Handles mouse wheel events in the outline and graph component
+            moGraph.addMouseWheelListener(wheelTracker);
+    }
+    
+    /**
+     * implementation of the mouse wheel action listener
+     *
+     * @since 20.07.2011 16:17:07
+     *
+     * @param e
+     */
+    private void mouseWheelMovedAction(MouseWheelEvent e)
+    {
+    	//get the position of the visible rect
+    	Rectangle rxy = getVisibleRect();
+    	rxy.x= rxy.x+e.getX();
+    	rxy.y= rxy.y+e.getY();
+    	//alter the visible rect to the mouse position, so we zoom on the mouse cursor
+    	moGraph.scrollRectToVisible(rxy);
+    	
+    	int oWheelRotation = e.getWheelRotation();
+            if (oWheelRotation < 0)
+            { //zoom in
+            	if(oWheelRotation < -5) // -5 is max
+            		oWheelRotation = -5;
+            		
+            		moGraph.setScale(1.3 * moGraph.getScale()); //scale change can be up to 1.5, but thats a bit to big of a change
+            }
+            else
+            { //zoom out
+            	if(oWheelRotation > 5) 
+            		oWheelRotation = 5;
+            	
+            		moGraph.setScale(moGraph.getScale() / 1.3);
+            }
+    }
+    
     
 	/**
 	 * loads the TPMesh-List from the corresponding container
@@ -219,6 +283,8 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 		moLabelStatusBar.setBorder(BorderFactory.createEmptyBorder(2, 2, 2, 2));
 		moLabelStatusBar.setFont(moLabelStatusBar.getFont().deriveFont(Font.PLAIN));
 		this.add(moLabelStatusBar, BorderLayout.SOUTH);
+		
+		initializeListeners();
     }
     
     /**
@@ -563,12 +629,15 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	 * Resets the graph to a circular layout.
 	 */
     private void reset() {
-		performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_CIRCLE));
+		performGraphLayoutChange(new JGraphSimpleLayout(JGraphSimpleLayout.TYPE_RANDOM));
 		moGraph.clearSelection();
 		JGraphLayoutMorphingManager.fitViewport(moGraph);
 		
 		moLabelStatusBar.setText("JGraph reseted to start");
 	}
+    
+    
+
 
 	/**
 	 * Hook from GraphEd to set attributes of a new cell
