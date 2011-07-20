@@ -136,8 +136,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	private void reducedAffectValues(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN) {
 		
-	
-		PsychicEnergy = moDrives_IN.hashCode();
+	/*
+	    PsychicEnergy = moDrives_IN.hashCode();
 		
 	
 			if (PsychicEnergy < 0)
@@ -148,12 +148,12 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 			} 
 			else
 			{
-				PsychicEnergy = (PsychicEnergy / 100000000);
+				PsychicEnergy = (PsychicEnergy / 1000000);
 				
 			}
 				
 			ReducedPsychicEnergy = PsychicEnergy / 6;  // durch die anzahl der Module dividieren wo aufgeteilt wird	 
-		 
+		*/	
 	}
 
 	/* (non-Javadoc)
