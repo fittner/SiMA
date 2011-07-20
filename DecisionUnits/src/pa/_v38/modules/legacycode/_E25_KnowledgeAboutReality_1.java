@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.modules.clsModuleBase;
@@ -126,7 +127,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	@Override
 	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   					ArrayList<clsSecondaryDataStructureContainer> poDriveList,
-			   					ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+			   					ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
 		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 
 	}
@@ -244,7 +245,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements itf
 	 */
 	@Override
 	public void send_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		// 
 		
 	}	

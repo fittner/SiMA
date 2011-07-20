@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -34,7 +35,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception;
 	//AW 20110602 New input of the module
-	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
 	
 	
 	
@@ -42,7 +43,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
 	
 	//AW 20110602 New output of the module
-	private ArrayList<clsSecondaryDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
+	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	private boolean mnMinimalModel;
 	/**
@@ -129,10 +130,10 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary) {
+	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 		//AW 20110602 Added Associtated memories
-		moAssociatedMemoriesSecondary_IN = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -208,7 +209,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	@Override
 	protected void send() {
 		if (mnMinimalModel) {		
-			send_I6_6(moPerception, new ArrayList<clsSecondaryDataStructureContainer>(), new ArrayList<clsSecondaryDataStructureContainer>());
+			send_I6_6(moPerception, new ArrayList<clsSecondaryDataStructureContainer>(), new ArrayList<clsDataStructureContainer>());
 		} else {
 			send_I6_6(moFocusedPerception_Output, moDriveList, moAssociatedMemoriesSecondary_OUT);
 		}
@@ -224,7 +225,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	@Override
 	public void send_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList,
-			   				ArrayList<clsSecondaryDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+			   				ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
 		
 		putInterfaceData(I6_6_send.class, poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
