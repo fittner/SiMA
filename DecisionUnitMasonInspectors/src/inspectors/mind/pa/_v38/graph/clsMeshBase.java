@@ -34,6 +34,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -230,6 +231,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		else if(poMemoryObject instanceof clsThingPresentationMesh)
 		{
 			clsThingPresentationMesh tmpRootMemoryObject = (clsThingPresentationMesh)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsTemplateImage)
+		{
+			clsTemplateImage tmpRootMemoryObject = (clsTemplateImage)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else
@@ -802,6 +808,30 @@ public abstract class clsMeshBase extends clsGraphBase {
 		}
 
 		return poParentCell;
+	}
+	
+	/** [TI]
+	 * Generating cells from clsThingPresentation
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsTemplateImage poMemoryObject)
+	{
+		String oDescription = "TI";
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = poMemoryObject.toString();
+		}
+		
+		DefaultGraphCell oCell = createDefaultGraphVertex(oDescription, moColorTI);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
 	}
 	
 }
