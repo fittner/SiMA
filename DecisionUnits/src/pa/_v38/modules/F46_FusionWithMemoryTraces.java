@@ -137,7 +137,12 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsGlobalFunctions.createInstanceFromType(oContainerWithTypes));
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); //FIXME (wendt) - is this deepcopy really necessary?
+		
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsGlobalFunctions.createInstanceFromType(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
+		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
 		assignDriveMeshes(oEnvPerceptionNoDM);

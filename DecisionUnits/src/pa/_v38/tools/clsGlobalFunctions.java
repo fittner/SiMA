@@ -6,9 +6,7 @@
  */
 package pa._v38.tools;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
-
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -73,9 +71,8 @@ public class clsGlobalFunctions {
 	 * @param poInput
 	 * @return
 	 **/
-	@SuppressWarnings("unchecked")
 	public static <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromType(ArrayList<E> poInput) {
-		ArrayList<E> oRetVal = (ArrayList<E>)deepCopy(poInput);
+		ArrayList<E> oRetVal = poInput; //TD 2011/07/20 - removed deepCopy. this has to be decided by the one who calls this method and done there.
 		
 		//Set Unique IDs for all root elements
 		for (E oElement : oRetVal) {
@@ -100,40 +97,6 @@ public class clsGlobalFunctions {
 		return oRetVal;
 	}
 	
-	//Copied from clsModuleBase.java
-	/**
-	 * Deepcopy for arraylist objects. Clones not only the arraylist but also all elements that are stored within the arraylist.
-	 *
-	 * @since 13.07.2011 13:27:48
-	 *
-	 * @param other
-	 * @return
-	 */
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static java.util.ArrayList deepCopy(java.util.ArrayList other) {
-		java.util.ArrayList clone = null;
-		if (other != null) {
-			clone = new java.util.ArrayList();
-			
-			for (Object entry:other) {
-				try {
-					if (!(entry instanceof Cloneable)) {
-						clone.add(entry);
-					} else {
-						Class<?> clzz = entry.getClass();
-				    	Method   meth = clzz.getMethod("clone", new Class[0]);
-				    	Object   dupl = meth.invoke(entry, new Object[0]);
-				    	clone.add(dupl);
-					}
-				} catch (Exception e) {
-					clone.add(entry);
-					// no deep copy possible.
-				}
-			}
-		}
-				
-		return clone;
-	}
 }
 
 
