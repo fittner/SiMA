@@ -9,7 +9,6 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.interfaces.modules.D3_2_send;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
@@ -17,7 +16,6 @@ import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -39,8 +37,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
 	
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
-	private ArrayList<clsDriveMesh> moDriveList_Input;
+
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
