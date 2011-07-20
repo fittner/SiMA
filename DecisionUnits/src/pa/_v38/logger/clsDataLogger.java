@@ -26,9 +26,10 @@ import statictools.clsGetARSPath;
  */
 public class clsDataLogger {
 	public ArrayList<clsDLEntry_Abstract> moDataStorage;
-	public static final long maxentries = 0; // all history sizes of moDataStorage entries drop old entries if their history exceeds this value. if maxentries=0, size of history is set to infinity.
-	public static final String csvseperator = ";";
-	public static final String newline = System.getProperty("line.separator");
+	
+	public static long maxentries = 0; // all history sizes of moDataStorage entries drop old entries if their history exceeds this value. if maxentries=0, size of history is set to infinity.
+	protected static final String csvseperator = ";";
+	protected static final String newline = System.getProperty("line.separator");
 	
 	private long first;
 	private long last;
