@@ -68,6 +68,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		
+		moDeniedAffects = new ArrayList<clsAssociationDriveMesh>();  //TD 2011/07/20 - added initialization of member field
+		
  		applyProperties(poPrefix, poProp);		
 	}
 
