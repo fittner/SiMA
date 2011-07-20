@@ -17,6 +17,7 @@ import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -33,11 +34,13 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		implements I5_3_receive, I5_4_send {
 
 	public static final String P_MODULENUMBER = "56";
+	
 	int ReducedPsychicEnergy;
-	int PsychicEnergy;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
-	 
+	
+	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
+	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -118,8 +121,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 		moDrives_OUT = moDrives_IN;
 		
-		reducedAffectValues(moDrives_IN);
-	
+		reducedAffectValues();
 	
 	}
 
@@ -134,28 +136,23 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 *
 	 * @param moDrives_OUT2
 	 */
-	private void reducedAffectValues(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN) {
-		
-	/*
-	    PsychicEnergy = moDrives_IN.hashCode();
-		
-	
-			if (PsychicEnergy < 0)
-			{
-			
-				PsychicEnergy = (PsychicEnergy * (-1))/100000000;	//Positive Zahl daraus machen
-			
-			} 
-			else
-			{
-				PsychicEnergy = (PsychicEnergy / 1000000);
+	private void reducedAffectValues() {
+
+
+	     for(int index = 0; index < moDrives_IN.size(); index++){
 				
-			}
-				
-			ReducedPsychicEnergy = PsychicEnergy / 6;  // durch die anzahl der Module dividieren wo aufgeteilt wird	 
-		*/	
-	}
+	     } int i=0;
+				System.out.println(moDrives_IN.indexOf(i));
+			i++;
+		 }
+	     
+	       // aus all den drive meshes die reinkommen 
+	     //pleasure = affect value siehe Heimo Diss
+	     //search for all DM . Zahlenwert
+	     
+	     //in double 
+	     //auf eins normalisieren
+
 
 	/* (non-Javadoc)
 	 *
