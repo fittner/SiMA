@@ -185,6 +185,14 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
+				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
+		
+		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
+				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
+				new clsImage(eObjectCategorization.NONE)));
+		
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE)));
@@ -197,14 +205,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDirection.right, eObjectCategorization.CAKE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
-		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
-				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eObjectCategorization.NONE)));
-		
 		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));

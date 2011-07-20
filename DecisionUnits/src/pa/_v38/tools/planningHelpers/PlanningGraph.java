@@ -55,8 +55,7 @@ public class PlanningGraph {
 	       * @param end
 	       */
 	      public void connectNode(PlanningNode start,PlanningNode end) {
-	          if(m_adjMatrix==null)
-	          {
+	          if(m_adjMatrix==null) {
 	              m_iSize=m_nodes.size();
 	              m_adjMatrix=new int[m_iSize][m_iSize];
 	          }

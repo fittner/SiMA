@@ -72,4 +72,70 @@ public class clsImage {
 	}
 
 	
+	
+	/**
+	 * 
+	 * DOCUMENT (perner) - compares this instance of an image to a given image
+	 * if alle values are equal in both images true is returned
+	 * if a null-is found and this value is set at the other image, false is returned
+	 *
+	 * @since 20.07.2011 19:19:33
+	 *
+	 * @param srcCompare
+	 * @return
+	 */
+	public boolean isEqualStrictTo(clsImage srcCompare) {
+		
+		if (m_eDist != null) {
+			if (m_eDist.compareTo(srcCompare.m_eDist) != 0)
+				return false;
+		} else if (srcCompare.m_eDist != null)
+			return false;
+
+		if (m_eDir != null) {
+			if (m_eDir.compareTo(srcCompare.m_eDir) != 0)
+				return false;
+		} else if (srcCompare.m_eDir != null)
+			return false;
+
+		if (m_eObj != null) {
+			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
+				return false;
+		} else if (srcCompare.m_eObj != null)
+			return false;
+
+		return true;
+	}
+
+	/**
+	 * 
+	 * DOCUMENT (perner) - compares this instance of an image to a given image
+	 * if only the set values are equal in both images true is returned
+	 * null-values are ignored
+	 *
+	 * @since 20.07.2011 19:18:28
+	 *
+	 * @param srcCompare
+	 * @return true if the images are loose equal
+	 */
+	public boolean isEqualLooseTo(clsImage srcCompare) {
+		
+		if (m_eDist != null && srcCompare.m_eDist != null) {
+			if (m_eDist.compareTo(srcCompare.m_eDist) != 0)
+				return false;
+		}
+
+		if (m_eDir != null && srcCompare.m_eDir != null) {
+			if (m_eDir.compareTo(srcCompare.m_eDir) != 0)
+				return false;
+		}
+
+		if (m_eObj != null && srcCompare.m_eObj != null) {
+			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
+				return false;
+		}
+
+		return true;
+	}
+
 }

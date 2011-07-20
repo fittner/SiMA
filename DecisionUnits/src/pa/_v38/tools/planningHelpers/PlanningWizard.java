@@ -53,21 +53,46 @@ public class PlanningWizard {
 		
 		ArrayList<clsPlanFragment> possibleCandiates = new ArrayList<clsPlanFragment>();
 		
+		// run through plans and see which plans can be connected
 		for (clsPlanFragment singlePlan : plans) {
 			
-			clsImage myPreImg = singlePlan.m_preconditionImage;
-			clsImage myPostImg = singlePlan.m_effectImage;
-
-			// TODO(perner) add deep and narrow search (e.g. to link turn left with a more specific image like object, direction and distance)
-			if (myPreImg == searchImage)
+//			if (myPreImg == searchImage)
+			if (compareImagesLoose(singlePlan.m_preconditionImage, searchImage))
 				possibleCandiates.add(singlePlan);
 		}
 		
 		return possibleCandiates;
 	}
+
+	/**
+	 * 
+	 * DOCUMENT (perner) - static wrapper to compare two images (strict)
+	 *
+	 * @since 20.07.2011 19:22:38
+	 *
+	 * @param A
+	 * @param B
+	 * @return
+	 */
+	public static boolean compareImagesStrict(clsImage A, clsImage B) {
+		return A.isEqualStrictTo(B);		
+	}
 	
-	
-	
+
+	/**
+	 * 
+	 * DOCUMENT (perner) - static wrapper to compare two images (loose)
+	 *
+	 * @since 20.07.2011 19:22:38
+	 *
+	 * @param A
+	 * @param B
+	 * @return
+	 */
+	public static boolean compareImagesLoose(clsImage A, clsImage B) {
+		return A.isEqualLooseTo(B);		
+	}
+
 	
 	/**
 	 * 
