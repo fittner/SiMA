@@ -120,8 +120,6 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	}
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
 		//nothing to do
 	}	
 	
@@ -133,7 +131,9 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	protected void setModuleNumber() {mnModuleNumber = Integer.parseInt(P_MODULENUMBER);}
 
 	private void updateTempLibido() {
+		//send the libido amount
 		moLibidoBuffer.receive_D1_1(mrIncomingLibido);
+		//return the total value
 		mrTotalLibido = moLibidoBuffer.send_D1_2();
 	}
 	/* (non-Javadoc)
