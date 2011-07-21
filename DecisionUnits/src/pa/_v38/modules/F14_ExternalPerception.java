@@ -38,7 +38,9 @@ public class F14_ExternalPerception extends clsModuleBase implements
 					{
 	public static final String P_MODULENUMBER = "14";
 	
+	/** this holds the symbols from the environmental perception @since 21.07.2011 11:37:01 */
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
+	/** this holds the symbols from the bodily perception  @since 21.07.2011 11:37:06 */
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
 	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
@@ -89,7 +91,6 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
 		//nothing to do
 	}
 
@@ -157,12 +158,24 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		
 		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		for(itfSymbol oSymbol : moEnvironmentalData.values()){
-				if(oSymbol!=null){
-					for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-						clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-						moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
-					}	
-				}
+			if(oSymbol!=null){
+				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+					//convert the symbol to a PDSC/TP
+					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+				}	
+			}
+		}
+		
+		//prepared, but nothing is coming through so not much to do
+		for(itfSymbol oSymbol : moBodyData.values()){
+			if(oSymbol!=null){
+				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+					//convert the symbol to a PDSC/TP
+					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+				}	
+			}
 		}
 	}
 
@@ -189,7 +202,6 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	public void send_I2_6(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
 		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poEnvironmentalTP);
 		putInterfaceData(I2_6_send.class, poEnvironmentalTP);
-		
 	}
 
 	/* (non-Javadoc)
@@ -201,7 +213,6 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -214,7 +225,6 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
