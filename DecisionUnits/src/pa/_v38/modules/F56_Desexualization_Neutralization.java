@@ -9,7 +9,12 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import pa._v30.interfaces.modules.D3_8_send;
 import pa._v38.interfaces.modules.D3_2_send;
+import pa._v38.interfaces.modules.D3_3_send;
+import pa._v38.interfaces.modules.D3_4_send;
+import pa._v38.interfaces.modules.D3_5_send;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
@@ -33,14 +38,23 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "56";
 	
-	int ReducedPsychicEnergy;
+	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
+
+	/** property key where the selected implemenation stage is stored.; @since 12.07.2011 14:54:42 */
+	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
+	public static final String P_SPLITFACTORLABEL = "label";
+	public static final String P_SPLITFACTORVALUE = "value";
+	public static final String P_NUM_SPLIFACTOR = "num";
+	private HashMap<String, Double> moSplitterFactor;	
+	public int j;
+	public int ReducedPsychicEnergy = 0;
 	
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) - class 
 	 * 
 	 * @author zeilinger
 	 * 02.05.2011, 15:54:40
@@ -58,23 +72,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
-		applyProperties(poPrefix, poProp); 
+		applyPropertiesAndReduce(poPrefix, poProp); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		
-		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
-		return oProp;
-	}	
-	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-	
-		//nothing to do
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -87,7 +87,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		text += toText.valueToTEXT("moDrives_IN", moDrives_IN);	
-		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);		
+		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);	
+		text += toText.valueToTEXT("ReducedPsychicEnergy", ReducedPsychicEnergy);	
+		
 		return text;
 	}
 	
@@ -118,7 +120,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 		moDrives_OUT = moDrives_IN;
 		
-		reducedAffectValues();
+		getDefaultProperties(moDescription); 
+		
+
 	
 	}
 
@@ -133,16 +137,79 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 *
 	 * @param moDrives_OUT2
 	 */
-	private void reducedAffectValues() {
+	
+	public static clsBWProperties getDefaultProperties(String poPrefix) {
+		
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		clsBWProperties oProp = new clsBWProperties();
+		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
+		
+		// see PhD Deutsch2011 p82 for what this is used for		
+		int i=0;
+		
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "BITE");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "RELAX");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "DEPOSIT");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "REPRESS");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "SLEEP");
+		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
+		i++;
 
-
-	     for(int index = 0; index < moDrives_IN.size(); index++){
-				
-	     } int i=0;
-	     
-				//System.out.println("clsPhysical_RepresemoDrives_In "+ moDrives_IN.indexOf(i));
-			i++;
-		 }
+		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
+		
+		return oProp;
+	}	
+ 
+	private void applyPropertiesAndReduce(String poPrefix, clsBWProperties poProp) {
+		String pre = clsBWProperties.addDot(poPrefix);
+		moSplitterFactor = new HashMap<String, Double>();
+		
+		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
+		for (j=0; j<num;j++) {
+			String oKey = poProp.getProperty(pre+j+"."+P_SPLITFACTORLABEL);
+			Double oValue = poProp.getPropertyDouble(pre+j+"."+P_SPLITFACTORVALUE);
+			moSplitterFactor.put(oKey, oValue);
+			ReducedPsychicEnergy = j+2;
+			ReducedPsychicEnergy = ReducedPsychicEnergy / 7; //Divided into per Amount Modules
+	
+		}		
+		
+//		//sum up property values
+//		for (int i=0; i<num; i++) {
+//			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_SPLITFACTORVALUE);
+//			ReducedPsychicEnergy = moSplitterFactor.get(oValue);
+//		}		
+//		
+		
+	}
+	
+//	private void reducedAffectValues(String poPrefix, clsBWProperties poProp) {
+//	  
+//		String pre = clsBWProperties.addDot(poPrefix);
+//		moSplitterFactor = new HashMap<String, Double>();
+//		
+//		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
+//		for (j=0; j<num;j++) {
+//			String oKey = poProp.getProperty(pre+j+"."+P_SPLITFACTORLABEL);
+//			Double oValue = poProp.getPropertyDouble(pre+j+"."+P_SPLITFACTORVALUE);
+//			moSplitterFactor.put(oKey, oValue);
+//			
+//
+//		}		
+		
+	
 	     
 	     //alle drive meshes die reinkommen  durchgehen 
 	     //pleasure = affect value siehe Heimo Diss
@@ -266,13 +333,13 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 
 
 	/**
-	 * DOCUMENT (hinterleitner) - Reduced Psychic energy is send to the clsPsychicEnergyStorage, where the interfaces are implemented  
+	 * DOCUMENT (hinterleitner) - Reduced psychic energy is send to the clsPsychicEnergyStorage, where the interfaces are implemented  
 	 * @return 
 	 *
 	 * @since 17.07.2011 17:26:35
 	 *
 	 */
-	public int send_D3_2() {
+	public double send_D3_2() {
 	
 		putInterfaceData(D3_2_send.class, ReducedPsychicEnergy);
 		
@@ -281,6 +348,64 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
+	
+	
+	public double send_D3_3() {
+		
+		putInterfaceData(D3_3_send.class, ReducedPsychicEnergy);
+		
+		return ReducedPsychicEnergy; 
+		//putInterfaceData(I5_4_send.class);
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	
+	public double send_D3_4() {
+		
+		putInterfaceData(D3_4_send.class, ReducedPsychicEnergy);
+		
+		return ReducedPsychicEnergy; 
+		
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+	public double send_D3_5() {
+	
+	putInterfaceData(D3_5_send.class, ReducedPsychicEnergy);
+
+	return ReducedPsychicEnergy; 
+	// TODO (hinterleitner) - Auto-generated method stub
+	
+}
+	
+	public double send_D3_6() {
+		
+		putInterfaceData(D3_6_send.class, ReducedPsychicEnergy);
+
+		return ReducedPsychicEnergy; 
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}	
+
+	public double send_D3_7() {
+		
+		putInterfaceData(D3_7_send.class, ReducedPsychicEnergy);
+
+		return ReducedPsychicEnergy; 
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+	public double send_D3_8() {
+		
+		putInterfaceData(D3_8_send.class, ReducedPsychicEnergy);
+
+		return ReducedPsychicEnergy; 
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
 
 
 
