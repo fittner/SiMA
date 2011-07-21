@@ -16,11 +16,12 @@ import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
@@ -61,6 +62,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
+		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();	//If no drive candidate is there, then it is initialized
 	}
 	
 	public static clsBWProperties getDefaultProperties(String poPrefix) {
@@ -138,7 +140,7 @@ protected void process_basic() {
 		
 		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
 		
-		attachDriveCandidatesToEnvironPerception();
+		moDrivesAndTraces_OUT = attachDriveCandidatesToEnvironPerception(moDriveCandidates, moEnvironmentalPerception_IN);
 		
 	}
 
@@ -149,42 +151,44 @@ protected void process_basic() {
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	@SuppressWarnings({ "static-access" })
-	private <clsPhysicalDataStructure> void attachDriveCandidatesToEnvironPerception() 
-	{
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidatesToEnvironPerception(ArrayList<clsDriveMesh> poDriveCandidates, clsPrimaryDataStructureContainer poEnvironmentalPerception) { 
 		//initializing of the list, because it cannnot be null
-		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		
+		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte	
+		//1. Compare drive meshes with drive meshes in the perception
+		for (clsDriveMesh oDM : poDriveCandidates) {
+			clsDataStructurePA oDS=null;
+			double rMaxMatchfactor = 0.0; 
+			for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
+				//FIXME ISABELLA: Which type of comparison will be used, content, contenttype or drive qualities???????????????????????????
+				if (oAss.getLeafElement()instanceof clsDriveMesh) {
+					if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > 0.1) {
+						if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > rMaxMatchfactor) {
+							rMaxMatchfactor = ((clsDriveMesh)oAss.getLeafElement()).getPleasure();
+							oDS = oAss.getRootElement();
+						}
+					}
+				}
+			}
+			if (oDS!=null) {
+				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+			}
+		}
 		
 		
-		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte
+		//ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>();
+		//createSearchPattern(eDataType.TPM, poDriveCandidates, oSearchPattern);
 		
-		{
-			
-			    //System.out.println(eDataType.TPM.ASSOCIATIONDM.values()); //TD 2011/07/12 - commented out. useless output to console. please try to make more meaningfull outputs and use the inspectors.
-			
-				
-				ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
-			
-				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-				
-		    	search(eDataType.TPM.ASSOCIATIONDM, oContainerList, oSearchResult); //Suche nach TPMs, die mit Trieben assoziiert sind
+		//ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		//search(eDataType.TPM, poDriveCandidates, oSearchResult); //Suche nach TPMs, die mit Trieben assoziiert sind
 		    	
-				
-		    	//oSearchResult muss umgewandelt werden in clsPair<clsPhysicalRepresentation, clsDriveMesh>
-				
-		       
-		    //	moDrivesAndTraces_OUT = ArrayList.class.cast(clsPair.create(clsPhysicalRepresentation.class.cast(oSearchResult), clsDriveMesh.class.cast(moDriveCandidates)));
-		    	
-		    	
-			//}
+		//2. Find the drive structures in the perception
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oReducedList = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		//for 
+		//if (poEnvironmentalPerception.containsInstanceType(poInput))
 
-			
-		  //  System.out.println(moEnvironmentalPerception_IN);
-			//System.out.println(oContainerList); //constructed perception
-
-	     }
-				
+	return oRetVal;	
 	}
 	/* (non-Javadoc)
 	 *

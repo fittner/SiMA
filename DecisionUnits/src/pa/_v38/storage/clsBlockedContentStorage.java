@@ -354,19 +354,23 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 
 		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrivePair : poInput){ 
 			clsDriveMesh oInputDrive = oDrivePair.b;
-			clsPair<Double, clsDriveMesh> oMatch =  getMatchesForDrives(oInputDrive, 0).get(0); //You could use mrActivationThreshold
+			clsPair<Double, clsDriveMesh> oMatch = null;
+			if ((getMatchesForDrives(oInputDrive, 0).isEmpty()==false)) {
+				oMatch =  getMatchesForDrives(oInputDrive, 0).get(0); //You could use mrActivationThreshold			
+				double rMatchValue = oMatch.a; 
 			
-			double rMatchValue = oMatch.a; 
-			
-			if(rMatchValue > rHighestMatch) {
-					rHighestMatch = rMatchValue;
-					oRetVal = oMatch.b;
+				if(rMatchValue > rHighestMatch) {
+						rHighestMatch = rMatchValue;
+						oRetVal = oMatch.b;
+				}
+				if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
 			}
-			if(rHighestMatch >= 1) { break;	} //do the doublebreak to abort search --> first come first serve
 		}
 		
 		// activated content has to be deleted from the blocked content storage
-		this.removeBlockedContent(oRetVal);
+		if (oRetVal!=null) {
+			this.removeBlockedContent(oRetVal);
+		}
 		
 		return oRetVal;
 	}
