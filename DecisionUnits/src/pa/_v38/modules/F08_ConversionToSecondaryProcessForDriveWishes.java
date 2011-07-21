@@ -1,7 +1,7 @@
 /**
  * E8_ConversionToSecondaryProcess.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:11:38
  */
 package pa._v38.modules;
@@ -33,9 +33,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import statictools.clsExceptionUtils;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:11:38
  * 
  */
@@ -50,7 +50,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:42:48
 	 *
 	 * @param poPrefix
@@ -68,7 +68,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -101,7 +101,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -113,7 +113,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -125,7 +125,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:12:33
 	 * 
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
@@ -139,7 +139,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 04.05.2011, 11:33:52
 	 * 
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
@@ -152,7 +152,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:15:14
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -169,9 +169,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 10:01:29
 	 *
 	 * @param oDM_A
@@ -190,15 +190,15 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
 			moDriveList_Output.add(oCon);
 			} catch (java.lang.IndexOutOfBoundsException e) {
-				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); //FIXME (Zeilinger): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
+				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); //FIXME (kohlhauser): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
 			}
 		}
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 09:17:07
 	 *
 	 * @return
@@ -216,9 +216,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 09:39:27
 	 *
 	 * @param oPattern
@@ -232,9 +232,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 09:40:18
 	 *
 	 * @param oRetVal
@@ -252,9 +252,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 09:41:39
 	 *
 	 * @return
@@ -273,9 +273,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.03.2011, 09:59:26
 	 *
 	 * @param oPattern
@@ -292,7 +292,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:15:14
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -306,7 +306,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 18.05.2010, 16:51:16
 	 * 
 	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
@@ -321,7 +321,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 18.05.2010, 16:51:16
 	 * 
 	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
@@ -335,7 +335,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:45:47
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
@@ -348,7 +348,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:45:47
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
@@ -361,7 +361,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:42:55
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -374,7 +374,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 15.04.2011, 13:52:57
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()
