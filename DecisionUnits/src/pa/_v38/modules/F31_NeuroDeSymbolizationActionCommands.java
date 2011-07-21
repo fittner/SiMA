@@ -30,8 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
 
 /**
- * Conversion of neuro-symbols into raw data
- * F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32
+ * Conversion of neuro-symbols into raw data. F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32.
  * 
  * @author brandstaetter
  * 11.08.2009, 14:59:58

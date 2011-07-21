@@ -18,8 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
 /**
- * How the body executes action commands is defined in this module. 
- * Various motor controls are operated from here. 
+ * How the body executes action commands is defined in this module. Various motor controls are operated from here. 
  * 
  * @author brandstaetter
  * 11.08.2009, 15:00:44

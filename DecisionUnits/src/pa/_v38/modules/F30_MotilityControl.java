@@ -20,8 +20,7 @@ import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 /**
- * pass ActionCommands to F31_NeuroDeSymbolizationActionCommands
- * when no action command are present, do some seeking
+ * Pass ActionCommands to F31_NeuroDeSymbolizationActionCommands. When no action command are present, do some seeking. Motoric movement can be controlled by psychic functions up to some extend. Drive inhibitiona mechanism necessary for the defense mechanismsleads to the possibility to perform behavior in rehearsal. Module {E30} uses this concept to evaluate how the submitted action plan can be realized best. The resulting action commands are forwarded to {E31}.
  * 
  * @author brandstaetter
  * 11.08.2009, 14:58:20
