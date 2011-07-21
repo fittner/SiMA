@@ -1,7 +1,7 @@
 /**
  * E26_DecisionMaking.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:51:57
  */
 package pa._v38.modules;
@@ -35,9 +35,9 @@ import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (perner) - insert description 
+ * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:51:57
  * 
  */
@@ -57,9 +57,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
 	/**
-	 * DOCUMENT (perner) - insert description 
+	 * DOCUMENT (kohlhauser) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:51:33
 	 *
 	 * @param poPrefix
@@ -77,7 +77,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -110,7 +110,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -122,7 +122,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -134,7 +134,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
@@ -151,7 +151,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I2_13#receive_I2_13(int)
@@ -170,7 +170,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:52:37
 	 * 
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
@@ -185,7 +185,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:33
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -267,7 +267,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			oAL.add(oSDSC);
 		}
 		
-	//	badVoodoo(oSortedList); //FIXME (DEUTSCH): TD 2011/05/01 - bad voodoo!!!
+	//	badVoodoo(oSortedList); //FIXME (kohlhauser): TD 2011/05/01 - bad voodoo!!!
 		
 		moGoal_Output.clear();
 		NavigableSet<Double> oSLdKS = oSortedList.descendingKeySet();
@@ -311,9 +311,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	
 	
 	/**
-	 * DOCUMENT (zeilinger) -
+	 * DOCUMENT (kohlhauser) -
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 27.08.2010, 15:28:53
 	 * @return 
 	 *
@@ -364,9 +364,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 18.04.2011, 23:12:13
 	 *
 	 */
@@ -384,9 +384,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 25.04.2011, 15:02:31
 	 *
 	 * @param oObsoleteDrives
@@ -400,9 +400,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 25.04.2011, 14:54:15
 	 *
 	 * @param oRule
@@ -413,7 +413,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
 		
-		//FIXME (Deutsch): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
+		//FIXME (kohlhauser): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
 		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
 		//and the entered unpleasure in the superego rule. 
 		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
@@ -441,9 +441,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.04.2011, 14:40:54
 	 * @param poRule 
 	 *
@@ -474,9 +474,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.04.2011, 14:38:48
 	 *
 	 * @param oRule
@@ -498,9 +498,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.04.2011, 14:44:00
 	 *
 	 * @param oObsoleteGoals
@@ -513,9 +513,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	}
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 19.04.2011, 07:17:23
 	 *
 	 */
@@ -539,9 +539,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (kohlhauser) - insert description
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 02.11.2010, 17:04:15
 	 * @param moDriveList2
 	 * @return
@@ -583,7 +583,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		} else if (oList.size() > 1){
 			//priorize sleep. currently, the agent cannot die -> sleeping is more important than eating.
 			//TD 2011/05/01 - added deposit and repress
-			//FIXME (DEUTSCH)- this function is bad voodoo
+			//FIXME (kohlhauser)- this function is bad voodoo
 			ArrayList<String> oPriorityDrives = new ArrayList<String>( Arrays.asList("SLEEP", "RELAX", "DEPOSIT", "REPRESS") );
 			
 			oRetVal = null;
@@ -616,7 +616,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:33
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -628,7 +628,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 18.05.2010, 17:55:10
 	 * 
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
@@ -642,33 +642,33 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:36
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (perner) - Auto-generated method stub
+		// TODO (kohlhauser) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:36
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
+		// TODO (kohlhauser) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:51:39
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -681,19 +681,19 @@ public class F26_DecisionMaking extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 20.04.2011, 08:46:04
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "";
+		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author kohlhauser
 	 * 03.05.2011, 17:46:45
 	 * 
 	 * @see pa._v38.interfaces.modules.I6_1_receive#receive_I6_1(java.util.ArrayList)
@@ -701,7 +701,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	@Override
 	public void receive_I6_1(
 			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
-		// TODO (zeilinger) - Auto-generated method stub
+		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}
 	

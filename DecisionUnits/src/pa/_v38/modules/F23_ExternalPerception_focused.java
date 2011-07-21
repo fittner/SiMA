@@ -1,7 +1,7 @@
 /**
  * E23_ExternalPerception_focused.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:46:53
  */
 package pa._v38.modules;
@@ -22,11 +22,11 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check. 
  * 
- * TODO (deutsch) - freie energie irgendwie einarbeiten
+ * TODO (kohlhauser) - freie energie irgendwie einarbeiten
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:46:53
  * 
  */
@@ -49,7 +49,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:50:08
 	 *
 	 * @param poPrefix
@@ -66,7 +66,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -99,7 +99,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -111,7 +111,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -123,7 +123,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:47:49
 	 * 
 	 * @see pa.interfaces.I2_11#receive_I2_11(int)
@@ -138,7 +138,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:47:49
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
@@ -151,7 +151,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:20
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -201,7 +201,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:20
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -217,7 +217,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 18.05.2010, 17:50:35
 	 * 
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
@@ -233,7 +233,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:20
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
@@ -246,7 +246,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:20
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
@@ -259,7 +259,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:50:13
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -271,7 +271,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	}
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 15.04.2011, 13:52:57
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()

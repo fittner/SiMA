@@ -1,7 +1,7 @@
 /**
  * E24_RealityCheck.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:49:09
  */
 package pa._v38.modules;
@@ -21,9 +21,9 @@ import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (KOHLHAUSER) - insert description 
+ * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
  * 
- * @author deutsch
+ * @author kohlhauser
  * 11.08.2009, 14:49:09
  * 
  */
@@ -43,7 +43,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:50:46
 	 *
 	 * @param poPrefix
@@ -59,7 +59,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 14.04.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
@@ -93,7 +93,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setProcessType()
@@ -105,7 +105,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 12:09:34
 	 * 
 	 * @see pa.modules.clsModuleBase#setPsychicInstances()
@@ -117,7 +117,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 14:49:45
 	 * 
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
@@ -133,7 +133,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
@@ -161,7 +161,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 11.08.2009, 16:16:25
 	 * 
 	 * @see pa.modules.clsModuleBase#send()
@@ -178,7 +178,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 18.05.2010, 17:51:11
 	 * 
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
@@ -193,7 +193,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
@@ -206,7 +206,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 12.07.2010, 10:47:25
 	 * 
 	 * @see pa.modules.clsModuleBase#process_final()
@@ -219,7 +219,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 03.03.2011, 16:50:53
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
@@ -231,7 +231,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	}
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author kohlhauser
 	 * 15.04.2011, 13:52:57
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#setDescription()
