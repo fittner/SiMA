@@ -15,6 +15,8 @@ import pa._v38.interfaces.modules.D3_2_send;
 import pa._v38.interfaces.modules.D3_3_send;
 import pa._v38.interfaces.modules.D3_4_send;
 import pa._v38.interfaces.modules.D3_5_send;
+import pa._v38.interfaces.modules.D3_6_send;
+import pa._v38.interfaces.modules.D3_7_send;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
