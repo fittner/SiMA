@@ -129,6 +129,7 @@ public class clsOntologyLoader {
 		if(retrieveDataStructure(poElement.getName(), poDataContainer.b)== null){
 			 createDataStructure(oElementDataType, poElement, poRootElement, poDataContainer);
 		}
+		
 	}
 	
 	/**

@@ -14,5 +14,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface D3_3_send {
-	public void send_D3_3(int pnTest);
+	public void send_D3_3(int ReducedPsychicEnergy);
 }
