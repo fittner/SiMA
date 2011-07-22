@@ -136,8 +136,10 @@ public class clsDataStructureTools {
 				//Check if the primary data structure is a part of the root or the leaf element
 				if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
 					oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getLeafElement());
+					break;
 				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
 					oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getRootElement());
+					break;
 				}
 			}
 		}
@@ -155,12 +157,13 @@ public class clsDataStructureTools {
 	 * @param poDS
 	 * @return
 	 */
-	private static clsDataStructureContainer getContainerFromList(ArrayList<clsDataStructureContainer> poSourceList, clsDataStructurePA poDS) {
+	public static clsDataStructureContainer getContainerFromList(ArrayList<clsDataStructureContainer> poSourceList, clsDataStructurePA poDS) {
 		clsDataStructureContainer oRetVal = null;
 		
 		for (clsDataStructureContainer oContainer : poSourceList) {
 			if (oContainer.getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
 				oRetVal = oContainer;
+				break;
 			}
 		}
 		

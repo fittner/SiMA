@@ -221,7 +221,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 								new clsTripple<clsSecondaryDataStructureContainer, 
 								ArrayList<clsSecondaryDataStructureContainer>, 
 								clsSecondaryDataStructureContainer>((clsSecondaryDataStructureContainer)oContainer, new ArrayList<clsSecondaryDataStructureContainer>(), null);
-							oRetVal.add(oActTripple);	
+							oRetVal.add(oActTripple);
+							break;
 						}
 					}
 				}
@@ -248,6 +249,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
 			oActTripple.c = getBestMatchSubImage(oSubImageAss, poInput);
+			//System.out.print("");
 		}
 		
 	}
@@ -266,7 +268,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 		
 		for (clsAssociation oAss : poIntention.getMoAssociatedDataStructures()) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (poIntention.getMoDataStructure().getMoDS_ID() == oAss.getRootElement().getMoDS_ID())) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (poIntention.getMoDataStructure().getMoDS_ID() == oAss.getLeafElement().getMoDS_ID())) {
 					oRetVal.add(oAss);
 				}
 			}
@@ -287,6 +289,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 			for (clsDataStructureContainer oSContainer : poSourceList) {
 				if ((oSContainer instanceof clsSecondaryDataStructureContainer) && (oDS.getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID())) {
 					oCurrentSituationWPContainer = (clsSecondaryDataStructureContainer) oSContainer;
+					break;
 				}
 			}
 			
@@ -310,7 +313,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	}
 	
 	private double getMatchValueToPI(clsPrimaryDataStructureContainer poImageContainer) {
-		String oContent = "PERCEIVED_IMAGE";
+		String oContent = "PERCEPTION";
 		double rRetVal = 0.0;
 		
 		for (clsAssociation oAss : poImageContainer.getMoAssociatedDataStructures()) {
@@ -336,17 +339,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 			//3. Find the expectation in each Perception-act
 			//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 			//current situation
-			/*for (clsAssociation oIntAss : oIntention.getMoAssociatedDataStructures()) {
-				for (clsAssociation oCSAss : oCurrentSituation.getMoAssociatedDataStructures()) {
-					if (oCSAss.getRootElement().getMoDS_ID() == oCurrentSituation.getMoDataStructure().getMoDS_ID() && o) {
+			for (clsAssociation oCSAss : oCurrentSituation.getMoAssociatedDataStructures()) {
+				if (oCSAss instanceof clsAssociationSecondary) {
+					if (oCSAss.getRootElement().getMoDS_ID() == oCurrentSituation.getMoDataStructure().getMoDS_ID() && 
+							((clsAssociationSecondary)oCSAss).getMoPredicate() == oPredicateTemporal) {
+						//Get the purposed container of the expectation
+						clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oCSAss.getLeafElement());
+						//Confirm, that this expectation belongs to this perception-act
+						for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
+							if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
+								oActTripple.b.add(oPossibleExpectation);
+							}
+						}
 						
 					}
-					
-					
 				}
-			}*/
-			//ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			//oActTripple.c = getBestMatchSubImage(oSubImageAss, poInput);
+				
+			}
 		}
 	}
 	

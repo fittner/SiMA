@@ -65,12 +65,12 @@ public class clsAssociationSecondary extends clsAssociation{
 	 */
 	@Override
 	public clsDataStructurePA getLeafElement() {
-		return moAssociationElementA; 
+		return moAssociationElementB; 
 	}
 	
 	@Override
 	public clsDataStructurePA getRootElement() {
-		return moAssociationElementB;
+		return moAssociationElementA;
 	}
 	
 	public String getMoPredicate() {
