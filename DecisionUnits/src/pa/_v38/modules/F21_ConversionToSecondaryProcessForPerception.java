@@ -50,12 +50,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			I5_15_receive, I6_9_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
 	
-	//AW 20110522: New inputs
+	/** A perceived image */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
-	//AW 20110522: The input below will be used soon, in order to extract expectations.
+	/** Associated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
-	//AW 20110602 New output of the module
+
+	/** Associated memories out, enriched with word presentations of the associated thing presentations */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
@@ -505,9 +506,64 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;  
 	}
 	
-	private ArrayList<clsDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+	private ArrayList<clsDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
+		ArrayList<clsDataStructureContainer> oExtendedAssociationList = new ArrayList<clsDataStructureContainer>();
+		//Go through all incoming primary images
+		for (clsPrimaryDataStructureContainer oPContainer : poInput) {
+			//FIXME AW: Nothing from the repressed content must be interpreted here, as it is not yet saved in the memory. Everthing 
+			//from the repressed content storage must be saved in the memory
+			if (((clsTemplateImage)oPContainer.getMoDataStructure()).getMoContent() != "REPRESSED_IMAGE") {
+				//1. Get the secondary data structure for that image
+				clsAssociation oFoundAss = getWP(oPContainer.getMoDataStructure());
+				//2. Get the secondary data structure container for the WP of that association
+				clsSecondaryDataStructureContainer oSContainer=null;
+				if (oFoundAss.getRootElement() instanceof clsWordPresentation) {
+					oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
+				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentation) {
+					oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
+				}
+				
+				if (oSContainer != null) {
+					//3. Add container to the new list if it does not already exist
+					boolean bExistsAlready = false;
+					for (clsDataStructureContainer oExistingNewContainer : oExtendedAssociationList) {
+						//FIXME AW: No acts shall be loaded, but this is not a clean solution
+						if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
+								(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
+							bExistsAlready = true;
+						}
+					}
+					
+					//If the container does not exist in the list, then add it
+					if (bExistsAlready==false) {
+						oExtendedAssociationList.add(oSContainer);
+					}
+					
+					//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
+					ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oSContainer);
+					//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
+					//As all WP comes from the memory, it is enough to compare the moDS_ID
+					bExistsAlready = false;
+					for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
+						for (clsDataStructureContainer oExistingContainer : oExtendedAssociationList) {
+							if (oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainer.getMoDataStructure().getMoDS_ID()) {
+								bExistsAlready = true;
+								break;
+							}
+						}
+						if (bExistsAlready==false) {
+							oExtendedAssociationList.add(oAddContainer);
+						}
+					}
+				}
+			}
+		}
+		
+		oRetVal.addAll(poInput);
+		oRetVal.addAll(oExtendedAssociationList);
+
 		return oRetVal;
 	}
 	

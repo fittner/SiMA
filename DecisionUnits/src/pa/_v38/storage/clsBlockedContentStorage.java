@@ -33,6 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -101,7 +102,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	
     	// TestData: TemplateImage with a cake exactly like the one in the simulator
     	// create a new TemplateImage
-    	clsTemplateImage newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "CONSTRUCTED_PERCEPTION");
+    	clsTemplateImage newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	clsThingPresentationMesh newTPM = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(33, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	clsThingPresentation newTPMProperty = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -142,7 +143,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	
     	// TestData: TemplateImage with a cake that differs from the one in the simulator
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "CONSTRUCTED_PERCEPTION");
+    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(11033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -170,7 +171,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	
     	// TestData: TemplateImage with cake and a wall that is far away (Location FAR)
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "CONSTRUCTED_PERCEPTION");
+    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(12033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -205,7 +206,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
     	
     	// TestData: TemplateImage with cake and an agent that is far away (location FAR)
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "CONSTRUCTED_PERCEPTION");
+    	newTI = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTripple<Integer, eDataType, String>(13033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTripple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -414,7 +415,9 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 			if (oEntry.a instanceof clsTemplateImage) {
 				// if item is a TI, then calculate match with input TI
 				oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
-				clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = calculateTIMatch(oBlockedCont, poPerception);
+				//clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = calculateTIMatch(oBlockedCont, poPerception);
+				//Use structures from data structure comparison
+				clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception);
 				// ignore matches below threshold
 				if (oMatchResult.a < poThreshold)
 					continue;
@@ -493,7 +496,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 		return oRetVal;
 	}
 	
-	
+	//TODO AW: Remove as function is confirmed, moved to clsDataStructureComparison
 	/**
 	 * Calculates the match between two containers containing TemplateImages.<br>
 	 * <br>
@@ -528,7 +531,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * @see clsBlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
 	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
 	 */
-	private clsPair<Double, ArrayList<clsAssociationDriveMesh>> calculateTIMatch(
+	/*private clsPair<Double, ArrayList<clsAssociationDriveMesh>> calculateTIMatch(
 			clsPrimaryDataStructureContainer poBlockedContent,
 			clsPrimaryDataStructureContainer poPerceivedContent) {
 
@@ -579,7 +582,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 							 * not want to find the correct new roots those DMs in an
 							 * additional matching algorithm, we have to acquire them now! 
 							 */
-							bestMatchDriveMeshAssociations = 
+							/*bestMatchDriveMeshAssociations = 
 								createNewDMAssociations(perceivedTPM, 
 										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
 						}
@@ -615,8 +618,9 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 			oMatchValueTI = 0;
 		}
 		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
-	}
+	}*/
 
+	//TODO AW: Remove as function is confirmed, moved to clsDataStructureComparison
 	/**
 	 * Creates new AssociationDriveMeshes from the inputs.<br>
 	 * <br>
@@ -631,7 +635,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * @return								- a list of new associations between newRoot and the
 	 * DMs found in oldAssociations
 	 */
-	private ArrayList<clsAssociationDriveMesh> createNewDMAssociations(
+	/*private ArrayList<clsAssociationDriveMesh> createNewDMAssociations(
 			clsPrimaryDataStructure poNewRoot,
 			ArrayList<clsAssociation> poOldAssociations) {
 		ArrayList<clsAssociationDriveMesh> oReturnlist = new ArrayList<clsAssociationDriveMesh>();
@@ -648,7 +652,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 			}
 		}
 		return oReturnlist;
-	}
+	}*/
 
 	/**
 	 * Calculates the match between two lists of properties (of two items).<br>
@@ -673,7 +677,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	 * @return									- the quality of the match between the to lists of
 	 * properties.
 	 */
-	private double getAssocAttributeMatch(
+	/*private double getAssocAttributeMatch(
 			ArrayList<clsAssociation> poBlockedAssocs,
 			ArrayList<clsAssociation> poPerceivedAssocs,
 			double poRootMatch) {
@@ -708,9 +712,9 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 			 * but a stone without properties does NOT match any cake, therefore the match is zero.
 			 *  
 			 */
-			oMatchFactor = poRootMatch;
+			/*oMatchFactor = poRootMatch;
 		return oMatchFactor;
-	}
+	}*/
 	
 	/**
 	 * Removes the specified item from the blocked content storage.<br>

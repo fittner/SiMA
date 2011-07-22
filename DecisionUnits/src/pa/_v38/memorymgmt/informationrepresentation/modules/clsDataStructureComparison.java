@@ -274,7 +274,7 @@ public abstract class clsDataStructureComparison {
 	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
 	 */
 	
-	private static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
+	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
 			clsPrimaryDataStructureContainer poBlockedContent,
 			clsPrimaryDataStructureContainer poPerceivedContent) {
 
