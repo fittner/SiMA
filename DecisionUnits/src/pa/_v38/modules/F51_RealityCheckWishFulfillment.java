@@ -15,8 +15,15 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
@@ -153,10 +160,194 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 		}
 	}
 	
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsDataStructureContainer> oInput) {
+	/**
+	 * For each Perception-Act, extract 1. the current situation, the expectation and the intention
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 15:24:21
+	 *
+	 * @param oInput
+	 * @return
+	 */
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsDataStructureContainer> poInput) {
 		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
 		
+		//1. Find the intention in each Perception-act
+		//Do it with clsAssociationSecondary and ISA
+		//FIXME AW: Only the first "parent" is taken. It should be expanded to multiple parents
+		oRetVal.addAll(getIntention(poInput));
+		//Now, all acts are assigned and all intentions are known
+		
+		//2. Find the current situation in each Perception-act
+		//Do it hasAssociation, which is instanceof clsAssociationPrimary with Perceived Image and 
+		//with the highest association weight
+		//2.a Get all current situations, which are correspsonding to the intentions
+		/* 2.b A current situation has the following:
+		 * - For an intention, the highest match value of the associationPrimary
+		 */
+		setCurrentSituation(oRetVal, poInput);
+		//3. Find the expectation in each Perception-act
+		//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
+		//current situation
+		setCurrentExpectation(oRetVal, poInput);
+		
 		return oRetVal;
+	}
+	
+	
+	/**
+	 * Extract the intention from a containerlist and return it as in an ordered act structure
+	 * wendt
+	 *
+	 * @since 22.07.2011 17:46:45
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> getIntention(ArrayList<clsDataStructureContainer> poInput) {
+		
+		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
+		
+		for (clsDataStructureContainer oContainer : poInput) {
+			if (oContainer instanceof clsSecondaryDataStructureContainer) {
+				for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+					//If this container is a leaf element of an associationsecondary with the predicate ISA
+					if (oAss instanceof clsAssociationSecondary) {
+						if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
+							//The Perception-act is added
+							clsTripple<clsSecondaryDataStructureContainer, 
+							ArrayList<clsSecondaryDataStructureContainer>, 
+							clsSecondaryDataStructureContainer>	oActTripple = 
+								new clsTripple<clsSecondaryDataStructureContainer, 
+								ArrayList<clsSecondaryDataStructureContainer>, 
+								clsSecondaryDataStructureContainer>((clsSecondaryDataStructureContainer)oContainer, new ArrayList<clsSecondaryDataStructureContainer>(), null);
+							oRetVal.add(oActTripple);	
+						}
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract the current situation from an act
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 17:51:03
+	 *
+	 * @param poActList
+	 * @param poInput
+	 */
+	private void setCurrentSituation(ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+		
+		for (clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer> oActTripple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTripple.a;
+			//Precondition: All structures are already loaded and can be found in the input list
+			//Go through each association and search for all children
+			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
+			oActTripple.c = getBestMatchSubImage(oSubImageAss, poInput);
+		}
+		
+	}
+	
+	/**
+	 * Get sub images of a certain intention
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 17:58:37
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	private ArrayList<clsAssociation> getSubImages(clsSecondaryDataStructureContainer poIntention) {
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
+		
+		for (clsAssociation oAss : poIntention.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (poIntention.getMoDataStructure().getMoDS_ID() == oAss.getRootElement().getMoDS_ID())) {
+					oRetVal.add(oAss);
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	private clsSecondaryDataStructureContainer getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList) {
+		clsSecondaryDataStructureContainer oRetVal = null;
+		double rMaxValue = 0.0;
+		
+		for (clsAssociation oAss : poIntentionAssociations) {
+			//Get the Image DS
+			clsDataStructurePA oDS = oAss.getRootElement();
+			//Find the corresponding WP-container
+			clsSecondaryDataStructureContainer oCurrentSituationWPContainer = null;
+			for (clsDataStructureContainer oSContainer : poSourceList) {
+				if ((oSContainer instanceof clsSecondaryDataStructureContainer) && (oDS.getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID())) {
+					oCurrentSituationWPContainer = (clsSecondaryDataStructureContainer) oSContainer;
+				}
+			}
+			
+			//If this container could be found, search for the primary Data structure container
+			clsPrimaryDataStructureContainer oPContainer = null;
+			if (oCurrentSituationWPContainer!=null) {
+				oPContainer = clsDataStructureTools.extractPrimaryContainer(oCurrentSituationWPContainer, poSourceList);
+			}
+			
+			//Get the Matchvalue to the Perceived Image 
+			
+			if (oPContainer != null) {
+				double rMatchValue = getMatchValueToPI(oPContainer);
+				if (rMatchValue > rMaxValue) {
+					oRetVal = oCurrentSituationWPContainer;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	private double getMatchValueToPI(clsPrimaryDataStructureContainer poImageContainer) {
+		String oContent = "PERCEIVED_IMAGE";
+		double rRetVal = 0.0;
+		
+		for (clsAssociation oAss : poImageContainer.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationPrimary) {
+				if ((oAss.getMoAssociationElementA() instanceof clsTemplateImage) || (oAss.getMoAssociationElementB() instanceof clsTemplateImage)) {
+					if ((((clsTemplateImage)oAss.getMoAssociationElementA()).getMoContent() == oContent) || (((clsTemplateImage)oAss.getMoAssociationElementB()).getMoContent() == oContent)) {
+						rRetVal = oAss.getMrWeight();
+					}
+				}
+					
+			}
+		}
+		return rRetVal;
+	}
+	
+	private void setCurrentExpectation(ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+		String oPredicateTemporal = "HASNEXT";
+		String oPredicateIsA = "ISA";
+		
+		for (clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer> oActTripple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTripple.a;
+			clsSecondaryDataStructureContainer oCurrentSituation = oActTripple.c;
+			//3. Find the expectation in each Perception-act
+			//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
+			//current situation
+			/*for (clsAssociation oIntAss : oIntention.getMoAssociatedDataStructures()) {
+				for (clsAssociation oCSAss : oCurrentSituation.getMoAssociatedDataStructures()) {
+					if (oCSAss.getRootElement().getMoDS_ID() == oCurrentSituation.getMoDataStructure().getMoDS_ID() && o) {
+						
+					}
+					
+					
+				}
+			}*/
+			//ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
+			//oActTripple.c = getBestMatchSubImage(oSubImageAss, poInput);
+		}
 	}
 	
 	/* (non-Javadoc)

@@ -23,7 +23,7 @@ public class clsAssociationSecondary extends clsAssociation{
 	//This is the basic association in the secondary process for creating acts
 	
 	//Association attribute
-	private String moAttribute;	//This attribute is the predicate in an ontology
+	private String moPredicate;	//This attribute is the predicate in an ontology
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -40,7 +40,7 @@ public class clsAssociationSecondary extends clsAssociation{
 			clsDataStructurePA poAssociationElementB, String oPredicate) {
 			
 			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-			moAttribute = oPredicate;
+			moPredicate = oPredicate;
 	}
 
 	/* (non-Javadoc)
@@ -73,11 +73,11 @@ public class clsAssociationSecondary extends clsAssociation{
 		return moAssociationElementB;
 	}
 	
-	public String getMoAttribute() {
-		return moAttribute;
+	public String getMoPredicate() {
+		return moPredicate;
 	}
 	
-	public void setMrImperativeFactor(String oAttribute) {
-		this.moAttribute = oAttribute;
+	public void setMrPredicate(String oPredicate) {
+		this.moPredicate = oPredicate;
 	}
 }
