@@ -149,7 +149,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		assignDriveMeshes(oEnvPerceptionNoDM);
 		adaptCategories(oEnvPerceptionNoDM);
 		
-		
+		//Set Perceived image on the output
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
 		/* Perception - Activation of associated memories */
@@ -164,11 +164,11 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 
-		ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
+		//ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
  		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
 		
-	    addValues(oContainerList);			
-		attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
+	    //addValues(oContainerList);			
+		//attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
 		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
 		//AW: Is already done in retrieveActivatedMemories with the input moReturnedTPMemory_IN
 		
@@ -183,12 +183,12 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 *
 	 * @param oContainerList
 	 */
-	private void attachFantasies(
+	/*private void attachFantasies(
 			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
 		//This function is alread done in retrieveActivatedMemories
 		// TODO (hinterleitner) - Auto-generated method stub
 		
-	}
+	}*/
 
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
@@ -197,11 +197,12 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 *
 	 * @param oContainerList
 	 */
-	private void addValues(
+	/*private void addValues(
 			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
+	*/
 
 	/* (non-Javadoc)
 	 *
@@ -485,7 +486,13 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		if (blUsePerception==true) {
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
+			//Search for matches
 			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE");
+			//Create associations between the PI and those matches
+			for (clsPair<Double,clsDataStructureContainer> oPair : oSearchResultContainer) {
+				clsDataStructureTools.createAssociationPrimary(oPerceptionInput, oPair.b, oPair.a);
+				//Now all matched images are linked with the PI
+			}
 			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
 		} else {
 			//Use action-plan image as input of spread activation

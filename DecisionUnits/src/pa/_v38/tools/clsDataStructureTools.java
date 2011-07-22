@@ -8,7 +8,9 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -48,6 +50,24 @@ public class clsDataStructureTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Creates a new AssociationPri between 2 containers and adds this association to the associated data structures.
+	 * In this way, the match weight between a perceived image and a memory is stored
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 10:01:54
+	 *
+	 * @param poContainerA
+	 * @param poContainerB
+	 * @param prWeight
+	 */
+	public static void createAssociationPrimary(clsDataStructureContainer poContainerA, clsDataStructureContainer poContainerB, double prWeight) {
+		String oContentType = "PIASSOCIATION";
+		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poContainerA.getMoDataStructure(), poContainerB.getMoDataStructure(), prWeight);
+		poContainerA.getMoAssociatedDataStructures().add(oAssPri);
+		poContainerB.getMoAssociatedDataStructures().add(oAssPri);
 	}
 	
 	/**

@@ -117,7 +117,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	public clsAssociation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
 		super(poDataStructureIdentifier);
 		mrImperativeFactor = 1.0; 
-		mrWeight = 1.0; 
+		mrWeight = 1.0;	//TODO HZ: The weight shall be possible to set in the constructor 
 		moAssociationElementA = poAssociationElementA; 
 		moAssociationElementB = poAssociationElementB; 
 	}

@@ -16,11 +16,14 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
@@ -165,6 +168,28 @@ public abstract class clsDataStructureGenerator {
 //			//tbd
 //		}
 		oRetVal = new clsAct(new clsTripple<Integer, eDataType, String>(setID(), eDataType.ACT, oContentType), oAssociatedContent, oContent);
+		return oRetVal;
+	}
+	
+	public static clsAssociation generateASSOCIATIONPRI(String poContentType, 
+			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, double prWeight) {
+		clsAssociation oRetVal=null;
+		String oContentType = poContentType; 
+		
+		oRetVal = new clsAssociationPrimary(new clsTripple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), (clsPrimaryDataStructure)poRoot, (clsPrimaryDataStructure)poLeaf);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	
+	public static clsAssociation generateASSOCIATIONSEC(String poContentType, 
+			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, String poPredicate, double prWeight) {
+		clsAssociation oRetVal=null;
+		String oContentType = poContentType; 
+		
+		oRetVal = new clsAssociationSecondary(new clsTripple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONSEC, oContentType), (clsWordPresentation)poRoot, (clsWordPresentation)poLeaf, poPredicate);
+		oRetVal.setMrWeight(prWeight);
+		
 		return oRetVal;
 	}
 }
