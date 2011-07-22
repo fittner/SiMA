@@ -142,7 +142,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		@SuppressWarnings("unchecked")
 		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); //FIXME (wendt) - is this deepcopy really necessary?
 		
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromType(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
 		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images

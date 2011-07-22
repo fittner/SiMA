@@ -14,6 +14,7 @@ import java.util.ListIterator;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -142,17 +143,16 @@ public class clsDataStructureConverter {
 		return poName;
 	}
 	
-	//AW 2011-05-19 New function
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Convert an ArrayList with TPM-Containers to a TI-Container
 	 *
 	 * @since 06.07.2011 09:55:25
 	 *
 	 * @param oInput
 	 * @return
 	 * 
-	 * Convert an ArrayList with TPM-Containers to a TI-Container
+	 * 
 	 */
 	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		//Convert ArrayLists-Containers with TP and TPM to one container TI
@@ -168,7 +168,7 @@ public class clsDataStructureConverter {
 			oDataStructures.add((clsPhysicalRepresentation)oContainer.getMoDataStructure());
 			for (clsAssociation oContainerAss : oContainer.getMoAssociatedDataStructures()) {
 				try {
-					if ((oContainerAss.getRootElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID())) {
+					if ((oContainerAss.getRootElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID()) && (oContainerAss.getLeafElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID())) {
 						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
 					}
 				} catch (Exception e) {
@@ -180,6 +180,8 @@ public class clsDataStructureConverter {
 		}
 		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
 		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
+		//Set instanceID
+		oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
 		
 		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);
 		
@@ -208,20 +210,28 @@ public class clsDataStructureConverter {
 		
 		try {
 			if (oInput.getMoDataStructure() instanceof clsTemplateImage) {
+				
 				clsTemplateImage oInputDataStructure = (clsTemplateImage)oInput.getMoDataStructure();
+				
 				for (clsAssociation oAss : oInputDataStructure.getMoAssociatedContent()) {
 					clsPhysicalRepresentation oDS = (clsPhysicalRepresentation)oAss.getLeafElement();
 					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
-					
-					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();
+
+					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();	//IMPORTANT: The listiterator has to be initialized here, for each time this list is used
 					
 					while (oAllAssLI.hasNext()) {
 						clsAssociation oSingleAss = oAllAssLI.next();
-						if (oSingleAss.getRootElement().getMoDSInstance_ID()==oDS.getMoDSInstance_ID()) {	//Compare ID of the structure in the TI and the root element in the association
+						//In this conversation information is lost, i.e. all clsAssociationPrimary, because they are only linked between template images. 
+						//Therefore these structures have to be removed here
+						if (oSingleAss instanceof clsAssociationPrimary) {
+							oAllAssLI.remove();
+						}
+						else if (oSingleAss.getRootElement().getMoDSInstance_ID()==oDS.getMoDSInstance_ID()) {	//Compare ID of the structure in the TI and the root element in the association
 
 							oContainerAss.add(oSingleAss);
 							oAllAssLI.remove();
 						}
+
 					}
 					
 					oRetVal.add(new clsPrimaryDataStructureContainer(oDS, oContainerAss));

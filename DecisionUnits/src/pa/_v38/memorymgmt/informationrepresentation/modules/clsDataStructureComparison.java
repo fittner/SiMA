@@ -39,6 +39,14 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
  * 
  */
 public abstract class clsDataStructureComparison {
+	
+	/** Weight for the matching for the content */
+	private static double moMatchValContentFactor = 0.2;
+	/** Weight for the matching for the intrinsic values */
+	private static double moMatchValInstrinsicFactor = 0.2;
+	/** Weight for the matching for the extrinsic values */
+	private static double moMatchValExtrinsicFactor = 0.6;
+	
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructures
 									(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace){
 
@@ -100,14 +108,7 @@ public abstract class clsDataStructureComparison {
 		//For each template image in the storage compare with the input image
 		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
 			clsDataStructurePA oCompareElement = oEntry.getValue().a;
-			//Create a container,
-			//FIXME: Only the primary Datastructurecontainer is used  //External Associations of FIXME AW: are NOT inside the containers
-			//ArrayList<Integer> iReturnTypes = new ArrayList<Integer>();
-			//iReturnTypes.add(eDataType.DM.nBinaryValue);
-			//iReturnTypes.add(eDataType.TP.nBinaryValue);
-			//iReturnTypes.add(eDataType.TPM.nBinaryValue);
-			//iReturnTypes.add(eDataType.TI.nBinaryValue);
-			//clsDataStructureContainer oCompareContainer = getCompleteContainer((clsTemplateImage)oCompareElement, poSearchSpaceHandler, iReturnTypes);
+	
 			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
 			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
 		
@@ -124,35 +125,6 @@ public abstract class clsDataStructureComparison {
 			
 		return oRetVal;
 	}
-	
-	/**
-	 * Get a whole container including all associated structures of its sub elements
-	 *
-	 * @since 14.07.2011 16:14:38
-	 *
-	 * @param poInput
-	 * @param poSearchSpaceHandler
-	 * @param iReturnTypes
-	 * @return
-	 */
-	//FIXME AW: Remove after confirmed functionality
-	/*public static clsDataStructureContainer getCompleteContainer(clsTemplateImage poInput, clsSearchSpaceHandler poSearchSpaceHandler, ArrayList<Integer> iReturnTypes) {
-		//Readoutsearchspace searches everything with a certain moDSID
-		
-		//Create Container for the TI
-		clsDataStructureContainer oCompareContainer = new clsPrimaryDataStructureContainer(poInput, poSearchSpaceHandler.readOutSearchSpace(0, (clsPhysicalRepresentation)poInput));
-		
-		//Add all associations from the intrinsic associated elements
-		ArrayList<clsAssociation> oAssList = oCompareContainer.getMoAssociatedDataStructures();
-		for (clsAssociation oAss: poInput.getMoAssociatedContent()) {
-			for (Integer iType : iReturnTypes) {
-				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace(iType, ((clsPhysicalRepresentation)oAss.getLeafElement()), true));
-			}	
-		}
-		
-		oCompareContainer.setMoAssociatedDataStructures(oAssList);
-		return oCompareContainer;
-	}*/
 	
 	/**
 	 * Get a whole container from a data structure including all associated structures
@@ -341,7 +313,9 @@ public abstract class clsDataStructureComparison {
 										poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
 						}
 						// combine values to calculate overall match of a TPM. Weights are arbitrary!
-						double matchValCombined = ((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
+						
+						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, true);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
+						
 						// store best element match so far, because we need to find the highest matching element
 						if (matchValCombined > bestMatchValue) {
 							bestMatchValue = matchValCombined;
@@ -389,6 +363,37 @@ public abstract class clsDataStructureComparison {
 			oMatchValueTI = 0;
 		}
 		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
+	}
+	
+	/**
+	 * Formula for calculating the match between two images.
+	 * Option: Strong or weak match: If strong match is chosen, the extrinsic values like position must have 1.0 match.
+	 * If weak match, the position is only weighted together with the other parameters
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 10:27:56
+	 *
+	 * @param rMatchValContent
+	 * @param rMatchValIntrinsic
+	 * @param rMatchValExtrinsic
+	 * @param blStrongMatch
+	 * @return
+	 */
+	private static double matchFactorCalculation(double rMatchValContent, double rMatchValIntrinsic, double rMatchValExtrinsic, boolean blStrongMatch) {
+		double rRetVal = 0.0;
+		
+		if (blStrongMatch==false) {
+			rRetVal = ((moMatchValContentFactor * rMatchValContent) + (moMatchValInstrinsicFactor * rMatchValIntrinsic) + (moMatchValExtrinsicFactor * rMatchValExtrinsic));
+		} else {
+			if (rMatchValExtrinsic==1.0) {
+				rRetVal = ((moMatchValContentFactor * rMatchValContent) + (moMatchValInstrinsicFactor * rMatchValIntrinsic))/(moMatchValContentFactor + moMatchValInstrinsicFactor);
+			} else {
+				rRetVal = 0.0;
+			}
+			
+		}
+		
+		return rRetVal;		
 	}
 	
 	/**

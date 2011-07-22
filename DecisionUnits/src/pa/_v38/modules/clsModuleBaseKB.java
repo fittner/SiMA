@@ -146,6 +146,12 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			
 			//Set the old content type again...this is hack dirty bastard shit
 			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
+			
+			//Set IDs
+			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
+			//	clsDataStructureTools.createInstanceFromType(oPair.b);
+			//}
+			
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		}
