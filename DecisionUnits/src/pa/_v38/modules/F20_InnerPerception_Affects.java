@@ -18,15 +18,38 @@ import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_2_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAffect;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsPair;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * DOCUMENT (gelbard)
+ *   		
+ * input:
+ * clsPrimaryDataStructureContainer
+ *   will contain quota of affect for drives
+ *            and quota of affect for perceptions
+ *            
+ * output:
+ * output data structure will be clsSecondaryDataStructureContainer
+ *        will contain word presentations with the following content:  
+ * output = f(quota of affect for drives, quota of affect for perceptions)
+ *                      
+ * according to 2 thresholds the output will be on of 3 possible affects:
+ * moContent = "ANXIETY" (Angst)
+ * or
+ * moContent = "WORRIEDNESS" (Ängstlichkeit = leichte Angst)
+ * or
+ * moContent = "PRICKLE" (Kribbeln = ganz, ganz leichte Angst)	 
  * 
- * @author deutsch
+ * @author deutsch, gelbard
  * 11.08.2009, 14:40:29
  * 
  */
@@ -34,10 +57,12 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive,  I6_9_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
-	//private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList;
+	private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
+	
+	private ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -118,10 +143,11 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I5_1#receive_I5_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_17(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
 		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
-		//moAffectOnlyList = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAffectOnlyList);		
+		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAffectOnlyList);		
 	}
 
 	/* (non-Javadoc)
@@ -174,6 +200,64 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	protected void process_basic() {
 		mnTest++;
 		
+		// calculate average of separated quota of affect for drives and perceptions
+		double poAverageQuotaOfAffect_Input = calculateQuotaOfAffect(moAffectOnlyList_Input);
+		
+		// convert quota of affect of the primary process into affect of the secondary process according to 2 thresholds
+		clsWordPresentation poAffect = calculateAffect(poAverageQuotaOfAffect_Input);
+		
+		// add the calculated word-presentation with empty associations
+		// TODO FG: Which associations can be generated for ANXIETY, WORRIEDNESS, or PRICKL (for now the associations are empty)
+		moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
+
+	    // TODO FG: Hand over moSecondaryDataStructureContainer_Output to F26 and F29
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 21.07.2011, 16:16:08
+	 * 
+	 * calculates the sum of the separated quotas of affect
+	 * 
+	 */
+	private double calculateQuotaOfAffect(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList_Input) {
+		
+		double poAverageQuotaOfAffect = 0;
+		
+		for(clsPrimaryDataStructureContainer oContainer : poAffectOnlyList_Input){
+			
+			// if oContainer (element of moAffectOnlyList_Input) is an affect
+			// add pleasure-values of the affect
+			// TODO FG: The formula to calculate ANXIETY must be improved.
+			if(oContainer.getMoDataStructure() instanceof clsAffect){
+				poAverageQuotaOfAffect += ((clsAffect) oContainer.getMoDataStructure()).getPleasure();
+			}					
+		}
+		
+		return poAverageQuotaOfAffect;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 21.07.2011, 18:18:08
+	 * 
+	 */
+	private clsWordPresentation calculateAffect(double oAverageQuotaOfAffect) {
+		clsWordPresentation oAffect;
+			
+		if (oAverageQuotaOfAffect < 0.3) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "PRICKLE")); 
+		}
+		else if (oAverageQuotaOfAffect < 0.7) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "WORRIEDNESS")); 
+		}
+		else {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "ANXIETY")); 
+		}
+		
+		return oAffect;
 	}
 
 	/* (non-Javadoc)

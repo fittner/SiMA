@@ -129,7 +129,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I5_5(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		mnTest += 1;
+
 	}
 
 	/* Input from Super-Ego = E7
