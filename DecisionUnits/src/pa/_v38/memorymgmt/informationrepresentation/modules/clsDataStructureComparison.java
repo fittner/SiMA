@@ -187,12 +187,12 @@ public abstract class clsDataStructureComparison {
 		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
 		
 		ArrayList<clsAssociation> oAssList = poInput.getMoAssociatedDataStructures();
-		for (int i=0; i<oAssList.size()-1;i++) {
+		for (int i=0; i<oAssList.size();i++) {
 			int iNumberOfMatches = 0;
 			boolean bStructureFound = false;
 			
 			//Remove duplicates
-			for (int j=i; j<oAssList.size()-1;j++) {
+			for (int j=i; j<oAssList.size();j++) {
 				if (oAssList.get(i) == oAssList.get(j)) {
 					iNumberOfMatches++;
 				}
@@ -200,17 +200,30 @@ public abstract class clsDataStructureComparison {
 			
 			//Check the roots of the structures
 			clsDataStructurePA oDS = poInput.getMoDataStructure();
-			if ((oDS.getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
-					(oDS.getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
-				bStructureFound = true;
-			} else if (oDS instanceof clsTemplateImage) {
-				for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
-					if ((oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
-							(oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
-						bStructureFound = true;
+			//If the DS is a primary data structure, the instance ID have to be checked (all images have an instanceID), because
+			//there will be duplicates
+			if (oDS instanceof clsPrimaryDataStructure) {
+				if ((oDS.getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
+						(oDS.getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
+					bStructureFound = true;
+				} else if (oDS instanceof clsTemplateImage) {
+					for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+						if ((oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
+								(oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
+							bStructureFound = true;
+						}
 					}
 				}
+			//In secondary data structure, there are no duplicate WP...yet.
+			//TODO AW: All structure shall have an instance ID too.
+			} else if (oDS instanceof clsSecondaryDataStructure) {
+				if ((oDS.getMoDS_ID() == oAssList.get(i).getRootElement().getMoDS_ID()) || 
+						(oDS.getMoDS_ID() == oAssList.get(i).getLeafElement().getMoDS_ID())) {
+					bStructureFound = true;
+				}
 			}
+			
+			
 			
 			if ((iNumberOfMatches<2) && (bStructureFound==true)) {
 				oRetVal.add(oAssList.get(i));
