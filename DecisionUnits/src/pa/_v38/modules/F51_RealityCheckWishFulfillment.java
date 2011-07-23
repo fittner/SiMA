@@ -44,7 +44,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+	
+	/** A construction of an Intention, an arraylist with expectations and the current situation */
 	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_OUT;
+	
 	private boolean mnMinimalModel;
 
 	/**

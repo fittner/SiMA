@@ -201,6 +201,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
 		compriseExternalPerception();
+		
+		//Add AW 20110723
+		moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
+		
 		compriseRuleList(); 
 		compriseDrives();
 		
@@ -612,6 +616,24 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		}
 		
 		return oRetVal; 
+	}
+	
+	/**
+	 * Use expectations as goals. They have the correct acts in their associated memories.
+	 * (wendt)
+	 *
+	 * @since 23.07.2011 14:01:12
+	 *
+	 * @param poExtractedPrediction_IN
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsTripple<clsSecondaryDataStructureContainer, 
+			ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> 
+			poExtractedPrediction_IN) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		//Get the expectations of the acts, and make them to goals
+		
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)
