@@ -15,7 +15,6 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -28,6 +27,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -49,7 +49,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private ArrayList<clsAct> moRuleList; 
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
 	//AW 20110602 Added expectations, intentions and the current situation
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_IN;
+	private ArrayList<clsPrediction> moExtractedPrediction_IN;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output;
 	
@@ -163,9 +163,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception, 
-			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction) {
+			ArrayList<clsPrediction> poExtractedPrediction) {
 		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
-		moExtractedPrediction_IN = (ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>)deepCopy(poExtractedPrediction); 
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 	}
 	
 	/* (non-Javadoc)
@@ -627,8 +627,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param poExtractedPrediction_IN
 	 * @return
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsTripple<clsSecondaryDataStructureContainer, 
-			ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> 
+	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsPrediction> 
 			poExtractedPrediction_IN) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//Get the expectations of the acts, and make them to goals

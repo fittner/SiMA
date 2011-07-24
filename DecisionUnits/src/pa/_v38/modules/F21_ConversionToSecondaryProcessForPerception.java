@@ -516,14 +516,23 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			//from the repressed content storage must be saved in the memory
 			if (((clsTemplateImage)oPContainer.getMoDataStructure()).getMoContent() != "REPRESSED_IMAGE") {
 				//1. Get the secondary data structure for that image
-				clsAssociation oFoundAss = getWP(oPContainer.getMoDataStructure());
-				//2. Get the secondary data structure container for the WP of that association
 				clsSecondaryDataStructureContainer oSContainer=null;
-				if (oFoundAss.getRootElement() instanceof clsWordPresentation) {
-					oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
-				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentation) {
-					oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
+				try {
+					clsAssociation oFoundAss = getWP(oPContainer.getMoDataStructure());
+					//2. Get the secondary data structure container for the WP of that association
+					if (oFoundAss==null) {
+						throw new Exception("Error in F21_ConversationToSecondaryProcess, assignWPtoImages: This primary data structure does not have any secondary data structure. Define it in Protege");
+					}
+					
+					if (oFoundAss.getRootElement() instanceof clsWordPresentation) {
+						oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
+					} else if (oFoundAss.getLeafElement() instanceof clsWordPresentation) {
+						oSContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+				
 				
 				if (oSContainer != null) {
 					//3. Add container to the new list if it does not already exist

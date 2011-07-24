@@ -16,6 +16,7 @@ import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -94,10 +95,8 @@ public abstract class clsDataStructureComparison {
 	 */
 	public static ArrayList<clsPair<Double, clsDataStructureContainer>> compareDataStructuresContainer(
 			clsSearchSpaceHandler poSearchSpaceHandler,
-			clsDataStructureContainer poContainerUnknown) {
+			clsDataStructureContainer poContainerUnknown, double prThreshold) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		
-		double oThreshold = 0.5;
 		
 		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
@@ -112,7 +111,7 @@ public abstract class clsDataStructureComparison {
 			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
 			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
 		
-			if (oMatch < oThreshold)
+			if (oMatch < prThreshold)
 				continue;
 			// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 			int i = 0;
@@ -203,17 +202,34 @@ public abstract class clsDataStructureComparison {
 			//If the DS is a primary data structure, the instance ID have to be checked (all images have an instanceID), because
 			//there will be duplicates
 			if (oDS instanceof clsPrimaryDataStructure) {
-				if ((oDS.getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
-						(oDS.getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
-					bStructureFound = true;
-				} else if (oDS instanceof clsTemplateImage) {
-					for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
-						if ((oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) || 
-								(oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getLeafElement().getMoDSInstance_ID())) {
-							bStructureFound = true;
+				//Check directed associations. Directed associations are the following:
+				if ((oAssList.get(i) instanceof clsAssociationPrimary)==false) {
+					if (oDS.getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) {
+						bStructureFound = true;
+					} else if (oDS instanceof clsTemplateImage) {
+						//For each intrinsic data structures, the one element
+						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+							if (oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) {
+								bStructureFound = true;
+								break;
+							}
+						}
+					}
+				//Check not directed associations
+				} else {
+					if (((clsAssociationPrimary)oAssList.get(i)).containsInstanceID(oDS) != null) {
+						bStructureFound = true;
+					} else if (oDS instanceof clsTemplateImage) {
+						//For each intrinsic data structures, the one element
+						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+							if (((clsAssociationPrimary)oAssList.get(i)).containsInstanceID(oIntrinsicAss.getLeafElement()) != null) {
+								bStructureFound = true;
+								break;
+							}
 						}
 					}
 				}
+				
 			//In secondary data structure, there are no duplicate WP...yet.
 			//TODO AW: All structure shall have an instance ID too.
 			} else if (oDS instanceof clsSecondaryDataStructure) {
@@ -222,7 +238,6 @@ public abstract class clsDataStructureComparison {
 					bStructureFound = true;
 				}
 			}
-			
 			
 			
 			if ((iNumberOfMatches<2) && (bStructureFound==true)) {

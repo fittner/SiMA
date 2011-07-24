@@ -19,12 +19,13 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.tools.clsDataStructureTools;
-import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 
 /**
@@ -46,7 +47,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 	
 	/** A construction of an Intention, an arraylist with expectations and the current situation */
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_OUT;
+	
+	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	private boolean mnMinimalModel;
 
@@ -172,8 +174,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 * @param oInput
 	 * @return
 	 */
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> extractPredictions(ArrayList<clsDataStructureContainer> poInput) {
-		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
+	private ArrayList<clsPrediction> extractPredictions(ArrayList<clsDataStructureContainer> poInput) {
+		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
 		
 		//1. Find the intention in each Perception-act
 		//Do it with clsAssociationSecondary and ISA
@@ -207,9 +209,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> getIntention(ArrayList<clsDataStructureContainer> poInput) {
+	private ArrayList<clsPrediction> getIntention(ArrayList<clsDataStructureContainer> poInput) {
 		
-		ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>();
+		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
 		
 		for (clsDataStructureContainer oContainer : poInput) {
 			if (oContainer instanceof clsSecondaryDataStructureContainer) {
@@ -218,12 +220,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 					if (oAss instanceof clsAssociationSecondary) {
 						if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
 							//The Perception-act is added
-							clsTripple<clsSecondaryDataStructureContainer, 
-							ArrayList<clsSecondaryDataStructureContainer>, 
-							clsSecondaryDataStructureContainer>	oActTripple = 
-								new clsTripple<clsSecondaryDataStructureContainer, 
-								ArrayList<clsSecondaryDataStructureContainer>, 
-								clsSecondaryDataStructureContainer>((clsSecondaryDataStructureContainer)oContainer, new ArrayList<clsSecondaryDataStructureContainer>(), null);
+							clsDataStructureContainerPair oIntention = new clsDataStructureContainerPair((clsSecondaryDataStructureContainer)oContainer, null);
+							
+							clsPrediction oActTripple = new clsPrediction(oIntention, new ArrayList<clsDataStructureContainerPair>(), new clsDataStructureContainerPair(null, null));
+							//((new clsPair<clsSecondaryDataStructureContainer)oContainer, clsPrimaryDataStructureContainer>, new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPrimaryDataStructureContainer>>(), null);
 							oRetVal.add(oActTripple);
 							break;
 						}
@@ -244,14 +244,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 * @param poActList
 	 * @param poInput
 	 */
-	private void setCurrentSituation(ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+	private void setCurrentSituation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
 		
-		for (clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer> oActTripple : poActList) {
-			clsSecondaryDataStructureContainer oIntention = oActTripple.a;
+		for (clsPrediction oActTripple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
 			//Precondition: All structures are already loaded and can be found in the input list
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			oActTripple.c = getBestMatchSubImage(oSubImageAss, poInput);
+			oActTripple.getMoment().setSecondaryComponent(getBestMatchSubImage(oSubImageAss, poInput));
 			//System.out.print("");
 		}
 		
@@ -332,13 +332,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 		return rRetVal;
 	}
 	
-	private void setCurrentExpectation(ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+	private void setCurrentExpectation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
 		String oPredicateTemporal = "HASNEXT";
 		String oPredicateIsA = "ISA";
 		
-		for (clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer> oActTripple : poActList) {
-			clsSecondaryDataStructureContainer oIntention = oActTripple.a;
-			clsSecondaryDataStructureContainer oCurrentSituation = oActTripple.c;
+		for (clsPrediction oActTripple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
+			clsSecondaryDataStructureContainer oCurrentSituation = oActTripple.getMoment().getSecondaryComponent();
 			//3. Find the expectation in each Perception-act
 			//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 			//current situation
@@ -351,7 +351,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 						//Confirm, that this expectation belongs to this perception-act
 						for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
 							if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
-								oActTripple.b.add(oPossibleExpectation);
+								oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, null));
 							}
 						}
 						
@@ -372,7 +372,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	@Override
 	protected void send() {
 		if (mnMinimalModel) {
-			send_I6_7(moFocusedPerception_Input, new ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>());
+			send_I6_7(moFocusedPerception_Input, new ArrayList<clsPrediction>());
 		} else {
 			//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
 			send_I6_7(moRealityPerception_Output, moExtractedPrediction_OUT);
@@ -388,7 +388,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 */
 	@Override
 	public void send_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception,
-			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction) {
+			ArrayList<clsPrediction> poExtractedPrediction) {
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction);
 		
 		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction);

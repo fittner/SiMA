@@ -130,7 +130,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public void searchContainer(
 			clsDataStructureContainer poPattern,
-			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType, double prThreshold) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
@@ -142,7 +142,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
 			
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
+			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern, prThreshold); 
 			
 			//Set the old content type again...this is hack dirty bastard shit
 			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
@@ -181,9 +181,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchPattern
 	 */
 	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
-			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {
+			clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold) {
 		//AW 20110629: New function for searching one total container
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern));
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern, prThreshold));
 	}
 	
 	

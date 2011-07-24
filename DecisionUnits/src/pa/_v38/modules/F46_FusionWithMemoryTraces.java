@@ -487,7 +487,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
 			//Search for matches
-			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE");
+			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE", 0.1);
 			//Create associations between the PI and those matches
 			for (clsPair<Double,clsDataStructureContainer> oPair : oSearchResultContainer) {
 				clsDataStructureTools.createAssociationPrimary(oPerceptionInput, oPair.b, oPair.a);
@@ -498,7 +498,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE");
+			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE", 0.1);
 		}
 		
 		for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {

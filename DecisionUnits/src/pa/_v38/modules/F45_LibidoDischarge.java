@@ -298,7 +298,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Find matching images for the input image
 		//FIXME AW: Set Threshold for matching = 0.9
 		
-		searchContainer(poInput, oSearchResultContainer, "LIBIDOIMAGE");
+		searchContainer(poInput, oSearchResultContainer, "LIBIDOIMAGE", 0.7);
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);
