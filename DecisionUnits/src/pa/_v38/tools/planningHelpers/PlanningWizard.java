@@ -153,4 +153,28 @@ public class PlanningWizard {
 		return true;
 	}
 
+	
+	/**
+	 * 
+	 * DOCUMENT (perner) - reduces the set of plans to the plans which can be applied to the current environmental situation
+	 *
+	 * @since 24.07.2011 12:19:08
+	 *
+	 * @param availablePlans all available plans
+	 * @param currentEnvironmentalSituation snapshot of the current environmental situation
+	 * @return set of plans that can be applied right now
+	 */
+	public static ArrayList<clsPlanFragment> getCurrentApplicablePlanningNodes(ArrayList<clsPlanFragment> availableFragments, clsImage currentEnvironmentalSituation) {
+	
+		ArrayList<clsPlanFragment> applicablePlanFragments = new ArrayList<clsPlanFragment>();
+		
+		// run through plan fragments and see if a plan fragment can be applied right now
+		for (clsPlanFragment myFrag : availableFragments) {
+			
+			if (myFrag.m_preconditionImage.isEqualLooseTo(currentEnvironmentalSituation))
+				applicablePlanFragments.add(myFrag);
+			
+		}
+		return applicablePlanFragments;
+	}
 }

@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:49:45
  * 
  */
-public class clsTemplateImage extends clsPhysicalStructureComposition{
+public class clsTemplateImage extends clsPhysicalStructureComposition {
 	private String moContent = "UNDEFINED";	
 	/**
 	 * @author zeilinger

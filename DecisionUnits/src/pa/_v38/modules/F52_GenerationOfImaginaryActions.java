@@ -53,6 +53,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 
 	private ArrayList<clsPlanFragment> m_availablePlanFragments;
+	
+	private ArrayList<clsPlanFragment> m_currentApplicalbePlans;
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -458,14 +460,14 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @author deutsch 12.07.2010, 10:47:41
+	 * @author perner 12.07.2010, 10:47:41
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
 	@Override
 	protected void process_draft() {
 		
-		// just used to see if planning module does not show compile errors
+		// just used to test if the planning module does not have any compile errors
 		generateTestData();
 		
 		PlanningGraph plGraph = new PlanningGraph();
@@ -474,6 +476,19 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		try {
 			PlanningWizard.initPlGraphWithActions(m_availablePlanFragments, plGraph);
 			PlanningWizard.initPlGraphWithPlConnections(m_availablePlanFragments, plGraph);
+
+			//TODO (perner) add current available environmental situation
+			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(m_availablePlanFragments, 
+					new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE));
+			
+			// run through applicable plans and see which results can be achieved by executing plFragment
+			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
+				plGraph.setStartPlanningNode(plFragment);
+				plGraph.breathFirstSearch();
+			}
+			
+			
+			
 		} catch (Exception e) {
 			System.out.println("FATAL: Planning Wizard coldn't be initialized");
 		}
