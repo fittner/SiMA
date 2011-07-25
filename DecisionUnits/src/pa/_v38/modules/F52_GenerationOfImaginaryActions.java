@@ -52,9 +52,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 
-	private ArrayList<clsPlanFragment> m_availablePlanFragments;
+	private ArrayList<clsPlanFragment> moAvailablePlanFragments; //TD 2011/07/21 - changed name to fit coding guidelines
 	
-	private ArrayList<clsPlanFragment> m_currentApplicalbePlans;
+	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans; //TD 2011/07/21 - changed name to fit coding guidelines
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -74,7 +74,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		super(poPrefix, poProp, poModuleList, poInterfaceData,
 				poKnowledgeBaseHandler);
 		
-		m_availablePlanFragments = new ArrayList<clsPlanFragment>();
+		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 		
 		applyProperties(poPrefix, poProp);
 
@@ -183,39 +183,39 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 * test test dummy to fill internal database
 		 */
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
 				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eObjectCategorization.NONE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
 				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
 				new clsImage(eDirection.right, eObjectCategorization.CAKE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.right, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.left, eObjectCategorization.CAKE)));
 		
@@ -474,11 +474,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		// add plans and connections between plans
 		try {
-			PlanningWizard.initPlGraphWithActions(m_availablePlanFragments, plGraph);
-			PlanningWizard.initPlGraphWithPlConnections(m_availablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
 
 			//TODO (perner) add current available environmental situation
-			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(m_availablePlanFragments, 
+			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, 
 					new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE));
 			
 			// run through applicable plans and see which results can be achieved by executing plFragment
