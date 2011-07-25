@@ -9,6 +9,11 @@ package bw.entities;
 
 import java.awt.Color;
 
+import sim.physics2D.shape.Shape;
+import statictools.eventlogger.Event;
+import statictools.eventlogger.clsEventLogger;
+import statictools.eventlogger.eEvent;
+
 import config.clsBWProperties;
 
 import du.enums.eActionKissIntensity;
@@ -39,7 +44,15 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  * 
  */
 public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
-
+	public static final String P_SHAPE_ALIVE		= "shape_alive";
+	public static final String P_SHAPE_DEAD 		= "shape_dead";
+	public static final String P_ALIVE              = "alive";
+	
+	private Shape moAlive;
+	private Shape moDead;
+	
+	private boolean mnAlive;
+	
 	public clsBubble(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
@@ -50,6 +63,8 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 
 		clsBWProperties oProp = new clsBWProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		
+		oProp.setProperty(pre+P_ALIVE, true);
 		
 		// remove whatever body has been assigned by getDefaultProperties
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY);
@@ -62,13 +77,19 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 
 	
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, new Color(0,0,0));
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_grey.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		
 		//add attributes
@@ -98,10 +119,15 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		// String pre = clsBWProperties.addDot(poPrefix);
-		// nothing to do
+		String pre = clsBWProperties.addDot(poPrefix);
+		
+		moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		
+		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
+		updateShape();
 	}
-
+	
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
 	public double getInternalEnergyConsuptionSUM() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getSum();	} 
 	public Object[] getInternalEnergyConsumption() { return ((itfGetInternalEnergyConsumption)moBody).getInternalEnergyConsumption().getMergedList().values().toArray();	}
@@ -120,20 +146,64 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 	protected void setEntityType() {
 		meEntityType = eEntityType.BUBBLE;
 	}
+
 	/* (non-Javadoc)
 	 *
-	 * @author langr
-	 * 25.02.2009, 17:36:09
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
 	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
+	 * @see bw.entities.clsEntity#execution()
+	 */
+	@Override
+	public void execution() {
+		if (isAlive()) {
+			super.execution();
+		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#processing()
 	 */
 	@Override
 	public void processing() {
-
-//	    ((clsRemoteControl)(moBody.getBrain().getDecisionUnit())).setKeyPressed(clsKeyListener.getKeyPressed());		
-		super.processing();
+		if (isAlive()) {
+			super.processing();
+		}
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#sensing()
+	 */
+	@Override
+	public void sensing() {
+		if (isAlive()) {
+			super.sensing();
+		}
+	}
+
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 08.07.2009, 10:59:18
+	 * 
+	 * @see bw.entities.clsEntity#updateInternalState()
+	 */
+	@Override
+	public void updateInternalState() {
+		if (isAlive()) {
+			super.updateInternalState();
+		}
+	}
+	
 	/*
 	 * (non-Javadoc)
 	 *
@@ -146,6 +216,7 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 	public boolean tryKiss(eActionKissIntensity peIntensity) {
 		return true;
 	}
+	
 	@Override
 	public void kiss(eActionKissIntensity peIntensity) {
 		double rIntensity=1;
@@ -155,4 +226,24 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		((clsComplexBody) this.getBody()).getInterBodyWorldSystem().getEffectKiss().kiss(null, rIntensity);
 	}
 	
+	public boolean isAlive() {
+		if (mnAlive != ((clsComplexBody)moBody).isAlive()) {
+			mnAlive = ((clsComplexBody)moBody).isAlive();
+			updateShape();
+		}
+		
+		return mnAlive;
+	}	
+	
+	private void updateShape() {
+		 if (!mnAlive) {
+			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
+			setShape(moDead, getTotalWeight());
+			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
+		} else {
+			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""));
+			setShape(moAlive, getTotalWeight());
+			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
+		}
+	}	
 }

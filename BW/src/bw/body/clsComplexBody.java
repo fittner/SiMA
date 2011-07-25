@@ -180,4 +180,8 @@ public class clsComplexBody extends clsBaseBody implements
 		meBodyType = eBodyType.COMPLEX;		
 	}
 	
+	public boolean isAlive() {
+		return moInternalSystem.getHealthSystem().getIsAlive();
+	}
+	
 }

@@ -301,7 +301,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	@Override
 	public void updateInternalState() {
 		super.updateInternalState();
-		if (((clsComplexBody)moBody).getInternalSystem().getHealthSystem().getHealth().getContent() < 0.0001) {
+		if (!((clsComplexBody)moBody).isAlive()) {
 			setAlive(false);
 		}
 		updateShape();

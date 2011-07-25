@@ -32,11 +32,12 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		return moHealth;
 	}
 
-	boolean mnIsAlive;
+	private boolean mnIsAlive;
 	private static final double mrIsDeadThreshold = 0.001;
 	
 	public clsHealthSystem(String poPrefix, clsBWProperties poProp) {
 		applyProperties(poPrefix, poProp);
+		mnIsAlive = true;
 		updateIsAlive();
 	}
 
@@ -59,6 +60,10 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		String pre = clsBWProperties.addDot(poPrefix);
 		
 		moHealth = new clsFillLevel(pre, poProp);
+	}
+	
+	public boolean getIsAlive() {
+		return mnIsAlive;
 	}
 	
 	public void hurt(double prHealthRemoved) {
