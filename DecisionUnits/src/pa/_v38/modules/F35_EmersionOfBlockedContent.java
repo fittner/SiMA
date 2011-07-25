@@ -47,15 +47,18 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private boolean mnMinimalModel;
 	
 
+
 	/**
 	 * DOCUMENT (wendt) - insert description 
-	 * 
-	 * @author deutsch
-	 * 03.03.2011, 16:24:23
+	 *
+	 * @since 25.07.2011 11:05:42
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poInterfaceData
+	 * @param poKnowledgeBaseHandler
+	 * @param poBlockedContentStorage
 	 * @throws Exception
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
@@ -69,12 +72,12 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		applyProperties(poPrefix, poProp);
 	}
 	
+
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 14.04.2011, 17:36:19
+	 * @since 25.07.2011 11:05:44
 	 * 
-	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToTEXT()
 	 */
 	@Override
 	public String stateToTEXT() {
@@ -300,9 +303,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation);
 	}*/
 	public void send_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-	((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
+		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
 	
-	putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
+		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)

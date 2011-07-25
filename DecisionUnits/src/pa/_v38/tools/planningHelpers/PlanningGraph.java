@@ -116,7 +116,7 @@ public class PlanningGraph {
 	                  child.visited=true;
 	                  
 	                  savePlanningNode(child, iLevel);
-	                  System.out.println("planning searchlevel: " + iLevel);
+	                  //System.out.println("planning searchlevel: " + iLevel);	//FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
 	                  printPlanningNodeToSysOut(child);
 	                  q.add(child);
 	              }
@@ -185,7 +185,7 @@ public class PlanningGraph {
 	       * @param n
 	       */
 	      private void printPlanningNodeToSysOut(PlanningNode n) {
-	          System.out.println(n.label+" ");
+	          //System.out.println(n.label+" "); //FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
 	      }	
 	      
 	      private void savePlanningNode(PlanningNode n, int iLevel) {
