@@ -334,30 +334,36 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	private void setCurrentExpectation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
 		String oPredicateTemporal = "HASNEXT";
-		String oPredicateIsA = "ISA";
+		//String oPredicateIsA = "ISA";
 		
 		for (clsPrediction oActTripple : poActList) {
 			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
-			clsSecondaryDataStructureContainer oCurrentSituation = oActTripple.getMoment().getSecondaryComponent();
+			clsSecondaryDataStructureContainer oCurrentSituation = null;
+			if (oIntention!=null) {
+				oCurrentSituation = oActTripple.getMoment().getSecondaryComponent();
+			}
+			
 			//3. Find the expectation in each Perception-act
 			//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 			//current situation
-			for (clsAssociation oCSAss : oCurrentSituation.getMoAssociatedDataStructures()) {
-				if (oCSAss instanceof clsAssociationSecondary) {
-					if (oCSAss.getRootElement().getMoDS_ID() == oCurrentSituation.getMoDataStructure().getMoDS_ID() && 
-							((clsAssociationSecondary)oCSAss).getMoPredicate() == oPredicateTemporal) {
-						//Get the purposed container of the expectation
-						clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oCSAss.getLeafElement());
-						//Confirm, that this expectation belongs to this perception-act
-						for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
-							if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
-								oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, null));
+			if (oCurrentSituation!=null) {
+				for (clsAssociation oCSAss : oCurrentSituation.getMoAssociatedDataStructures()) {
+					if (oCSAss instanceof clsAssociationSecondary) {
+						if (oCSAss.getRootElement().getMoDS_ID() == oCurrentSituation.getMoDataStructure().getMoDS_ID() && 
+								((clsAssociationSecondary)oCSAss).getMoPredicate() == oPredicateTemporal) {
+							//Get the purposed container of the expectation
+							clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oCSAss.getLeafElement());
+							//Confirm, that this expectation belongs to this perception-act
+							for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
+								if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
+									oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, null));
+								}
 							}
+							
 						}
-						
 					}
+					
 				}
-				
 			}
 		}
 	}
