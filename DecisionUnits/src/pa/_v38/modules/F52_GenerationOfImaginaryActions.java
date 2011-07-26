@@ -78,6 +78,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		applyProperties(poPrefix, poProp);
 
+		// just used to test if the planning module does not have any compile errors
+		generateTestData(); // TD 2011/07/26: moved to constructor. list grew by nine identical elements each iteration.
 		
 		// ArrayList<clsPlanAction> moActions_Output = new
 		// ArrayList<clsPlanAction>(); //never used!
@@ -467,8 +469,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	protected void process_draft() {
 		
-		// just used to test if the planning module does not have any compile errors
-		generateTestData();
 		
 		PlanningGraph plGraph = new PlanningGraph();
 		
