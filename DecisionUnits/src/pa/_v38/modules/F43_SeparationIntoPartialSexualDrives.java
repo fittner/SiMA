@@ -48,7 +48,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
 	
 	/**
-	 * basic CTOR
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 17:56:43

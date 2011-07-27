@@ -48,7 +48,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
-	 * basic CTOR  
+	 * basic constructor  
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:04:58

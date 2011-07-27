@@ -46,7 +46,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**
-	 * CTOR of F14, nothing unusual
+	 * Constructor of F14, nothing unusual
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:15:27

@@ -34,7 +34,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
-	 * basic CTOR
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:14:24

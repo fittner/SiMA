@@ -36,7 +36,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	private final int uid;
 	
 	/**
-	 * basic CTOR & initialization 
+	 * basic constructor & initialization 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:03:16

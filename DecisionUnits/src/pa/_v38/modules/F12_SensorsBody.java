@@ -34,7 +34,7 @@ public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_OUT;
 
 	/**
-	 * basic CTOR  
+	 * basic constructor  
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:08:23

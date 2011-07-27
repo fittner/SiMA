@@ -48,7 +48,7 @@ public class clsInspectorARSin extends Inspector {
 	
 
 	/**
-	 * CTOR Bubble Inspectors, only give the Entity when it is a Bubble! 
+	 * Constructor Bubble Inspectors, only give the Entity when it is a Bubble! 
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:53:51 PM
