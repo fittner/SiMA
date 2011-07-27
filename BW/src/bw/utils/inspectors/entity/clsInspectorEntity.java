@@ -70,6 +70,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	private JButton moBtnEntityInspectors;
 	private JButton moBtnBodyInspectors;
 	private JButton moBtnBrainInspectors;
+	private JButton moBtnPropertiesInspectors;
 
 	private PropertyField moPropEntityType;
 	private PropertyField moPropBodyType;
@@ -133,6 +134,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moBtnEntityInspectors = new JButton("Entity Details...");
 		moBtnBodyInspectors = new JButton("Body Details... ");
 		moBtnBrainInspectors = new JButton("Brain Details...");
+		moBtnPropertiesInspectors = new JButton("Prop. Details...");
 
 
 		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
@@ -146,12 +148,14 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		oPropertyLayoutContainerBox.add(moBtnEntityInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBodyInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBrainInspectors, BorderLayout.AFTER_LAST_LINE);
+		oPropertyLayoutContainerBox.add(moBtnPropertiesInspectors, BorderLayout.AFTER_LAST_LINE);
 
 		add(oPropertyLayoutContainerBox, BorderLayout.AFTER_LAST_LINE);
 
 		moBtnEntityInspectors.addActionListener(this);
 		moBtnBodyInspectors.addActionListener(this);
 		moBtnBrainInspectors.addActionListener(this);
+		moBtnPropertiesInspectors.addActionListener(this);
 	}
 
 	/*
@@ -242,6 +246,24 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 
 			}
+
+		}else if (source == moBtnPropertiesInspectors) {
+			// define the inspector-content for each entity in the responsible
+			// InspectorMapping-class
+			try {
+				//TODO call the property Inspector here
+				System.out.print("Properties Inspector not finished yet, come again later (CM)\n");
+//				TabbedInspector oMasonInspector = clsInspectorMappingEntity
+//				.getInspectorEntity(moOriginalInspector, moWrapper,
+//						moGuiState, moEntity);
+//
+//				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Properties Inspector"));
+				
+			} catch (java.lang.ClassCastException ex) {
+				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
+	
+			}
 		}
+		
 	}
 }
