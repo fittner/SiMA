@@ -25,7 +25,15 @@ import pa._v38.tools.toText;
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
  * environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others 
- * according to their temporal and spatial vicinity and likeness.
+ * according to their temporal and spatial vicinity and likeness.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * <i>moEnvironmentalData</i> this holds the symbols from the environmental perception (IN I2.3)<br>
+ * <i>moBodyData</i> this holds the symbols from the bodily perception (IN I2.4) <br>
+ * 
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moEnvironmentalTP</i> OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT 2.6)<br>
  * 
  * @author muchitsch
  * 11.08.2009, 14:26:13
@@ -38,11 +46,11 @@ public class F14_ExternalPerception extends clsModuleBase implements
 					{
 	public static final String P_MODULENUMBER = "14";
 	
-	/** this holds the symbols from the environmental perception @since 21.07.2011 11:37:01 */
+	/** this holds the symbols from the environmental perception (IN I2.3) @since 21.07.2011 11:37:01 */
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
-	/** this holds the symbols from the bodily perception  @since 21.07.2011 11:37:06 */
+	/** this holds the symbols from the bodily perception (IN I2.4)  @since 21.07.2011 11:37:06 */
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
-	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths @since 20.07.2011 10:26:23 */
+	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 
 	/**

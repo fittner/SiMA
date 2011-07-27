@@ -30,7 +30,17 @@ import pa._v38.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v38.tools.toText;
 
 /**
- * Conversion of raw data into neuro-symbols.
+ * Conversion of raw data into neuro-symbols.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * SPECIAL CASE<br>
+ * <i>moEnvironmentalData</i> holds the sensor symbols of the external perception (IN I1.3)<br>
+ * HashMap:<br>
+ * <i>eSensorExtType</i> enum eSensorExtType<br>
+ * <i>clsSensorExtern</i> Base class for all external sensors like vision, mouth area, nose, bump<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moSymbolData</i> holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3)
  * 
  * @author muchitsch
  * 11.08.2009, 14:19:23
@@ -40,7 +50,9 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 			implements I1_3_receive, I2_3_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "11";
 	
+	/** holds the sensor symbols of the external perception (IN I1.3) @since 27.07.2011 13:58:58 */
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	/** holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3) @since 27.07.2011 14:00:18 */
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
