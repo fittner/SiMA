@@ -24,9 +24,24 @@ public class clsPrediction {
 			ArrayList<clsDataStructureContainerPair> poExpectations, 
 			clsDataStructureContainerPair poMoment) {
 		
-		moIntention = poIntention;
-		moExpectations = poExpectations;
-		moMoment = poMoment;
+		//Create empty instances if the input is null
+		if (poIntention==null) {
+			moIntention = new clsDataStructureContainerPair(null, null);
+		} else {
+			moIntention = poIntention;
+		}
+		
+		if (poExpectations==null) {
+			moExpectations = new ArrayList<clsDataStructureContainerPair>();
+		} else {
+			moExpectations = poExpectations;
+		}
+		
+		if (poMoment==null) {
+			moMoment = new clsDataStructureContainerPair(null, null);
+		} else {
+			moMoment = poMoment;
+		}
 		
 	}
 	

@@ -553,7 +553,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
 		clsPair <String, clsSecondaryDataStructureContainer> oRetVal = null;
 		
-		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > > oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
+		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer>>> oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
 		
 		//fill oSortedDrives. the result is the drives grouped by their intensity
 		for(clsSecondaryDataStructureContainer oContainer : moDriveList){
@@ -631,6 +631,39 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			poExtractedPrediction_IN) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//Get the expectations of the acts, and make them to goals
+		
+		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		String oGoalContent; 
+		clsWordPresentation oGoal = null; 
+		
+		//Get the drive with the higest value
+		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//find this drive
+		
+		if(oMaxDemand != null){
+			String oDriveContent = oMaxDemand.a; 
+			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
+					
+			for (clsSecondaryDataStructureContainer oExternalPerception : moRealityPerception ){
+					String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
+								
+					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+					// only one goal is selected!
+					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
+					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
+					// only by the first part.
+					if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
+						oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+						oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+						oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
+						oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+						
+						moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+					}
+			}
+		}
+		
 		
 		return oRetVal;
 	}

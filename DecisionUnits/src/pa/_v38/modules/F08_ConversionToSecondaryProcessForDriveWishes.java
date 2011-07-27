@@ -216,6 +216,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	}
 
 	/**
+	 * Get DriveMesh
 	 * DOCUMENT (kohlhauser) - insert description
 	 *
 	 * @author kohlhauser
@@ -273,6 +274,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 
 	
 	/**
+	 * Create Affect from drivemesh
 	 * DOCUMENT (kohlhauser) - insert description
 	 *
 	 * @author kohlhauser

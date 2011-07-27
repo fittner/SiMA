@@ -167,10 +167,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moTemporaryDM = new HashMap<Integer, clsDriveMesh>(); 
-		moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		//moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
-		defineTemplateImage(); 
-		convertToSecondary(); 
+		moOrderedResult = defineTemplateImage(moEnvironmentalPerception_IN); 
+		moPerception_Output = convertToSecondary(moOrderedResult); 
 		
 		//AW 20110602: Added function
 		//Processing of associated images
@@ -184,7 +184,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 19.08.2010, 22:39:28
 	 *
 	 */
-	private void defineTemplateImage() {
+	private ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> defineTemplateImage(clsPrimaryDataStructureContainer poEnvironmentalPerception_IN) {
 		/*HZ 20.08.2010: There are two possibilities of receiving the matching Template images.
 		 * 	1. create a TI out of received Information and search in the memory for matching 
 		 * 	   TIs
@@ -214,10 +214,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		 *    I am sure that the last part is not explained in the way that anyone will understand it... for clarification please
 		 *    talk to the programmer or read the code... read the code first.     
 		 */
-		moOrderedResult = new ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
+		ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> oOrderedResult = new ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
 		
 		//AW 20110522: Convert from new input
-		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN);
+		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(poEnvironmentalPerception_IN);
 		
 		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
@@ -226,8 +226,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					
 			extractPattern(oContainer, oSearchResult);
 			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
-			moOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); 
+			oOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); 
 		}
+		return oOrderedResult;
 	}
 	
 	/**
@@ -386,10 +387,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 19.08.2010, 22:39:32
 	 *
 	 */
-	private void convertToSecondary() {
-		moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+	private ArrayList<clsSecondaryDataStructureContainer> convertToSecondary(ArrayList<clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> poOrderedResult) {
+		ArrayList<clsSecondaryDataStructureContainer> oPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
-		for(clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple : moOrderedResult){
+		for(clsTripple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple : poOrderedResult){
 			ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
 			clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
 			
@@ -398,10 +399,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
 						
 			if(!oNewWP.getMoContent().contains("DEFAULT")){
-				moPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
+				oPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
 			}
 			
 		}
+		return oPerception_Output;
 	}
 	
 	/**
@@ -575,6 +577,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		return oRetVal;
 	}
+	
+	/*private ArrayList<clsSecondaryDataStructure> convertDriveCompontentsFromContainer(clsPrimaryDataStructureContainer poPContainer) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+	}*/
 	
 	
 	/* (non-Javadoc)
