@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
@@ -305,5 +306,27 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get the WP for a TP
+	 * (wendt)
+	 *
+	 * @since 27.07.2011 09:39:49
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	protected clsAssociation getWP(clsPrimaryDataStructure poDataStructure){
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		clsAssociation oRetVal = null; 
+		
+		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
+		
+		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
+			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+		}
+		
+		return oRetVal;  
 	}
 }
