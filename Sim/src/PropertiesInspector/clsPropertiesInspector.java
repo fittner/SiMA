@@ -44,16 +44,16 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 
 	
 	private static final long serialVersionUID = 1L;
-	// Fields for the Components of the config inspector's pane.
-	private static JTree jtrConfigTree;
-	private static JTextArea jtaTextArea1;
-	private static JMenuBar menuBar;
-	private static JMenu menuFile;
-	private static JMenuItem menuItemOpenFile;
-	private static JScrollPane jspScrollPane1, jspScrollPane2;
-	private static JFileChooser jfcFileChooser;
-	private static clsBWProperties BWProperies;
-	private static String propertyFilename = ""; // Fully qualified name of the loaded property file.
+	// Fields for the Components of the properties inspector's pane.
+	private JTree jtrConfigTree;
+	private JTextArea jtaTextArea1;
+	private JMenuBar menuBar;
+	private JMenu menuFile;
+	private JMenuItem menuItemOpenFile;
+	private JScrollPane jspScrollPane1, jspScrollPane2;
+	private JFileChooser jfcFileChooser;
+	private clsBWProperties BWProperies;
+	private String propertyFilename = ""; // Fully qualified name of the loaded property file.
 
 	
 	// Configuration Constants
@@ -64,7 +64,7 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	private static final int HEIGHT_FIXED_FOR_TEXT_AREA1 = 50;
 	private static final int HEIGHT_PREFERRED_FOR_TREE_PANE = 600;
 	private static final int WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS = 400;
-	private static final String APPLICATION_FRAME_TITLE = "Configuration Inspector";
+	private static final String APPLICATION_FRAME_TITLE = "Properties Inspector";
 	private static final String LABEL_FOR_MENU_FILE = "File";
 	private static final String LABEL_FOR_MENUITEM_FILE_OPEN = "Open …";
 	private static final String LABEL_FOR_ROOTNODE_DEFAULT = "Properties";
@@ -73,9 +73,10 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	
 	/**
 	 * @throws HeadlessException
-	 * Is used when class is called as main program.
+	 * Is used when class is called as main program or without the specification of a property file.
 	 */
 	public clsPropertiesInspector() throws HeadlessException {
+		this.setVisible(true); // Sets the frame of the program visible.
 	    initComponents(); // Constructs the layout of the programs pane (window).
 	}
 
@@ -85,18 +86,20 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	 */
 	public clsPropertiesInspector(GraphicsConfiguration arg0) {
 		super(arg0);
-		// TODO Auto-generated constructor stub
+		// Auto-generated constructor stub
 	}
 
 	
 	/**
 	 * @throws HeadlessException
-	 * Is used when class is called by another program which provides the fully qualified name of the properties file as parameter.
+	 * Is used when class is called with the fully qualified name of the properties file as parameter.
 	 * !!! This deviates from the definition of the constructor for JFrame objects !!!
 	 */
 	public clsPropertiesInspector(String arg0) throws HeadlessException {
-		String[] args = {arg0};
-		main (args);
+		this.setVisible(true); // Sets the frame of the program visible.
+	    initComponents(); // Constructs the layout of the programs pane (window).
+	    propertyFilename = arg0;
+		setBWProperties (propertyFilename); // Sets the BWProperties object from the property file.
 	}
 
 	
@@ -105,8 +108,10 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	 * Is used when class is called by another program which provides the path name and local file name of the properties file as parameters.
 	 */
 	public clsPropertiesInspector(String arg0, String arg1) throws HeadlessException {
-		String[] args = {arg0, arg1};
-		main (args);
+		this.setVisible(true); // Sets the frame of the program visible.
+	    initComponents(); // Constructs the layout of the programs pane (window).
+	    propertyFilename = arg0 + SEPARATOR_FOR_PATH + arg1;
+		setBWProperties (propertyFilename); // Sets the BWProperties object from the property file.
 	}
 
 	
@@ -116,7 +121,7 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	 */
 	public clsPropertiesInspector(String arg0, GraphicsConfiguration arg1) {
 		super(arg0, arg1);
-		// TODO Auto-generated constructor stub
+		// Auto-generated constructor stub
 	}
 
 	
@@ -126,8 +131,8 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	 */
 	public clsPropertiesInspector(clsBWProperties receivedProperties) throws HeadlessException {
 		this.setVisible(true); // Sets the frame of the program visible.
-		BWProperies = receivedProperties; // Stores the received clsBWProperties object in the foreseen private field.
 	    initComponents(); // Constructs the layout of the programs pane (window).
+		BWProperies = receivedProperties; // Stores the received clsBWProperties object in the foreseen private field.
 	    jtrConfigTree = setPropertiesTree (BWProperies); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
 	    jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
 	}
@@ -137,27 +142,18 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		final String[] arguments = args;
 
-		switch (args.length) { //In the case of one argument, this is taken as the name of the to be used config file. In the
-			case 1: propertyFilename = args[0]; break; //In the case of one argument, this is taken as the name of the to be used config file.
-			case 2: propertyFilename = args[0] + SEPARATOR_FOR_PATH + args[1]; break; //In the case of two arguments the name of the to be used config file is composed from the first argument as path name and the second argument as local file name.
-		}
-		
-        EventQueue.invokeLater(new Runnable() { // Automatically generated call back object.
+		EventQueue.invokeLater(new Runnable() { // Automatically generated call back object.
 
-            @Override
-			public void run() { // Automatically generated call back method.
-            	int iOfBackslash;
-            	
-            	if (propertyFilename.isEmpty())
-            		new clsPropertiesInspector().setVisible(true); // If there is no config file specified, the application is called without an initially loaded clsBWProperties object.
-            	else {
-            		iOfBackslash = propertyFilename.lastIndexOf(SEPARATOR_FOR_PATH);
-            		BWProperies = clsBWProperties.readProperties(propertyFilename.substring (0, iOfBackslash), propertyFilename.substring (iOfBackslash + 1));
-            			// If there is a property file specified, the corresponding clsBWProperties object is loaded. For this purpose, the filename is split into path name and local filename at the position of the last '\'-character. 
-            		new clsPropertiesInspector(BWProperies).setVisible(true); // The application is called with the loaded clsBWProperties object.
-            	}
-            }
+			@Override
+        	public void run() { // Automatically generated call back method.
+				switch (arguments.length) {
+				case 1: new clsPropertiesInspector(arguments[0]); break; // The application is called without an initially loaded clsBWProperties object.
+				case 2: new clsPropertiesInspector(arguments[0], arguments[1]); break; // The application is called without an initially loaded clsBWProperties object.
+				default: new clsPropertiesInspector(); // The application is called without an initially loaded clsBWProperties object.
+				}
+            }            	
         });
 	}
 
@@ -299,8 +295,8 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
     		}
     	});
     	
-    	jspScrollPane1.setViewportView(jtaTextArea1); // The text area to display the selected config value is put into scroll pane 2.
-    	jspScrollPane2.setViewportView(jtaTextArea1); // The text area to display the selected config value is put into scroll pane 2.
+    	jspScrollPane1.setViewportView(jtaTextArea1); // The text area to display the selected property value is put into scroll pane 2.
+    	jspScrollPane2.setViewportView(jtaTextArea1); // The text area to display the selected property value is put into scroll pane 2.
       
     	GroupLayout layout = new GroupLayout(getContentPane()); // Creates a GroupLayout object.
         getContentPane().setLayout(layout); // Specifies, that the layout used to build the application window has to be the created GroupLayout.
