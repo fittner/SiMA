@@ -21,12 +21,12 @@ import bw.utils.tools.clsVectorCalculation;
  * 27.06.2011, 09:32:54
  * 
  */
+@SuppressWarnings("deprecation")
 public class tstVectorCalculation {
 
 	/**
 	 * Test method for {@link bw.utils.tools.clsVectorCalculation#getDirectionPolar(sim.physics2D.util.Double2D)}.
 	 */
-	@SuppressWarnings("deprecation")
 	@Test
 	public void testGetDirectionPolar() {
 		double angle = 0;

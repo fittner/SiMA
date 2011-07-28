@@ -49,6 +49,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_OUT; 
 	
 	//New Output
+	@SuppressWarnings("unused")
 	private clsTemplateImage moPerceivedImage_OUT;
 	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
@@ -204,6 +205,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	
 	
+	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
 		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
 		
@@ -212,6 +214,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
+	@SuppressWarnings("unused")
 	private clsTemplateImage tempConvertInput(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		return clsDataStructureConverter.convertMultiplePDSCtoTI (oInput);
 	}

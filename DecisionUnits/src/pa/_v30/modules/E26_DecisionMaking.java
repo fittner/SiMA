@@ -290,6 +290,7 @@ public class E26_DecisionMaking extends clsModuleBase implements
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
 		// : remove this method!!!
 		//TD 2011/05/01 - remove nourish or bit if sleep, repress, deposit, relax is at the same importance level
