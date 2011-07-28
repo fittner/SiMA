@@ -141,7 +141,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements I6_
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {
-			mnTest++;
+			//
 		}
 	}
 

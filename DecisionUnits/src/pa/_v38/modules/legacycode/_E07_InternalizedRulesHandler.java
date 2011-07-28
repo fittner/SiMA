@@ -169,7 +169,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {		
-			mnTest++;
+			//
 		}
 		
 	}

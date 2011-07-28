@@ -198,8 +198,6 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
-		
 		// calculate average of separated quota of affect for drives and perceptions
 		double poAverageQuotaOfAffect_Input = calculateQuotaOfAffect(moAffectOnlyList_Input);
 		
@@ -269,7 +267,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_2(mnTest);
+		send_I6_2(0);
 		
 	}
 

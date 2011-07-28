@@ -44,10 +44,6 @@ public abstract class clsModuleBase implements
 	/** Module ID - unique among all modules of the model v38; @since 12.07.2011 14:57:40 */
 	protected Integer mnModuleNumber;
 		
-	/** Variable for testing purposes.; @since 12.07.2011 14:58:06 */
-	@Deprecated
-	protected int mnTest = 0;
-	
 	/** The selected implementation stage; @since 12.07.2011 14:58:42 */
 	private eImplementationStage mnImplementationStage;
 	/** A map that contains an instance of each functional module. The integer is equivalent to mnModuleNumber and thus unique.; @since 12.07.2011 14:58:54 */

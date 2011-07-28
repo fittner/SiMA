@@ -89,7 +89,6 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 	}
 
@@ -102,7 +101,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I6_10(mnTest);
+		send_I6_10(0);
 	}
 
 	/* (non-Javadoc)

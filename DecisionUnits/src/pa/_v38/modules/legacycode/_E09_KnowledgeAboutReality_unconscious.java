@@ -144,7 +144,7 @@ public class _E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void process_basic() {
-		mnTest++;
+		//
 		
 	}
 

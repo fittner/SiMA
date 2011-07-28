@@ -104,8 +104,8 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I6_
 	protected void process_basic() {
 		if (!mnMinimalModel) {
 			// 
-			mnTest++;
-		}
+			//
+			}
 	}
 
 	/* (non-Javadoc)
