@@ -22,6 +22,12 @@ import pa._v38.tools.toText;
  * Although, modules {F39} and {F1} are collecting information on internal body values too, {F12} focuses 
  * on sensors comparable to the one from Module {F10} but which are directed inwardly. Thus, the sensors 
  * detect painful stimuli, tactile stimuli, balance and acceleration, body temperature and others.
+ * <br><br> 
+ * <b>INPUT:</b><br>
+ * <i>moBodyData_IN</i> should be filled in the receive function by the clsProcessor with bodily perception symbols.(IN I0.5)<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moBodyData_OUT</i> no further processing, in=out (OUT I1.4)
  * 
  * @author muchitsch
  * 11.08.2009, 14:20:47
@@ -30,7 +36,9 @@ import pa._v38.tools.toText;
 public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4_send {
 	public static final String P_MODULENUMBER = "12";
 	
+	/** should be filled in the receive function by the clsProcessor with bodily perception symbols.(IN I0.5) @since 28.07.2011 13:14:22 */
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_IN;
+	/** no further processing, in=out (OUT I1.4) @since 28.07.2011 13:14:27 */
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData_OUT;
 
 	/**

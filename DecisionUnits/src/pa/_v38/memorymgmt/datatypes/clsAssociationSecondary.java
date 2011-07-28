@@ -35,12 +35,12 @@ public class clsAssociationSecondary extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationSecondary(
-			clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsWordPresentation poAssociationElementA,
-			clsDataStructurePA poAssociationElementB, String oPredicate) {
+		clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+		clsSecondaryDataStructure poAssociationElementA,
+		clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
 			
-			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-			moPredicate = oPredicate;
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
+		moPredicate = oPredicate;
 	}
 
 	/* (non-Javadoc)

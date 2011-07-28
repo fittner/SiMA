@@ -1,4 +1,4 @@
-; Sun Jul 24 11:57:15 GMT 2011
+; Wed Jul 27 18:54:50 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -514,55 +514,55 @@
 
 	(element
 		[ACT%3AMOVE%3AFORWARD_MANIPULATEABLE]
-		[WP%3AIMAGE%3AA1I1])
+		[WPM%3AIMAGE%3AA1I1])
 	(predicate "HASASSOCIATION")
 	(weight 1.0 1.0))
 
 ([AS%3AHASNEXT%3AA1I1%3AA1I2] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA1I1]
-		[WP%3AIMAGE%3AA1I2])
+		[WPM%3AIMAGE%3AA1I1]
+		[WPM%3AIMAGE%3AA1I2])
 	(predicate "HASNEXT")
 	(weight 1.0 1.0))
 
 ([AS%3AHASNEXT%3AA2I1%3AA2A2] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA2I1]
-		[WP%3AIMAGE%3AA2I2])
+		[WPM%3AIMAGE%3AA2I1]
+		[WPM%3AIMAGE%3AA2I2])
 	(predicate "HASNEXT")
 	(weight 1.0 1.0))
 
 ([AS%3AISA%3AA1I1%3AA1%3ATOP] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA1I1]
-		[WP%3AIMAGE%3AA1TOP])
+		[WPM%3AIMAGE%3AA1I1]
+		[WPM%3AIMAGE%3AA1TOP])
 	(predicate "ISA")
 	(weight 1.0 1.0))
 
 ([AS%3AISA%3AA1I2%3AA1TOP] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA1I2]
-		[WP%3AIMAGE%3AA1TOP])
+		[WPM%3AIMAGE%3AA1I2]
+		[WPM%3AIMAGE%3AA1TOP])
 	(predicate "ISA")
 	(weight 1.0 1.0))
 
 ([AS%3AISA%3AA2A2%3AA2TOP] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA2I2]
-		[WP%3AIMAGE%3AA2TOP])
+		[WPM%3AIMAGE%3AA2I2]
+		[WPM%3AIMAGE%3AA2TOP])
 	(predicate "ISA")
 	(weight 1.0 1.0))
 
 ([AS%3AISA%3AA2I1%3AA2TOP] of  ASSOCIATIONSEC
 
 	(element
-		[WP%3AIMAGE%3AA2I1]
-		[WP%3AIMAGE%3AA2TOP])
+		[WPM%3AIMAGE%3AA2I1]
+		[WPM%3AIMAGE%3AA2TOP])
 	(predicate "ISA")
 	(weight 1.0 1.0))
 
@@ -1143,42 +1143,42 @@
 ([AW%3AWPA1I1%3ATIA1I1] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA1I1]
+		[WPM%3AIMAGE%3AA1I1]
 		[TI%3AIMAGE%3AA1I1])
 	(weight 1.0 1.0))
 
 ([AW%3AWPA1I2%3ATIA1I2] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA1I2]
+		[WPM%3AIMAGE%3AA1I2]
 		[TI%3AIMAGE%3AA1I2])
 	(weight 1.0 1.0))
 
 ([AW%3AWPA1TOP%3ATIA1TOP] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA1TOP]
+		[WPM%3AIMAGE%3AA1TOP]
 		[TI%3AIMAGE%3AA1TOP])
 	(weight 1.0 1.0))
 
 ([AW%3AWPA2I1%3ATIA2I1] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA2I1]
+		[WPM%3AIMAGE%3AA2I1]
 		[TI%3AIMAGE%3AA2I1])
 	(weight 1.0 1.0))
 
 ([AW%3AWPA2I2%3ATIA2I2] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA2I2]
+		[WPM%3AIMAGE%3AA2I2]
 		[TI%3AIMAGE%3AA2I2])
 	(weight 1.0 1.0))
 
 ([AW%3AWPA2ITOP%3ATIA2ITOP] of  ASSOCIATIONWP
 
 	(element
-		[WP%3AIMAGE%3AA2TOP]
+		[WPM%3AIMAGE%3AA2TOP]
 		[TI%3AIMAGE%3AA2TOP])
 	(weight 1.0 1.0))
 
@@ -1908,36 +1908,6 @@
 
 	(value "HIGH"))
 
-([WP%3AIMAGE%3AA1I1] of  WP%3AIMAGE
-
-	(value "A1I1")
-	(value_type "IMAGE"))
-
-([WP%3AIMAGE%3AA1I2] of  WP%3AIMAGE
-
-	(value "A1I2")
-	(value_type "IMAGE"))
-
-([WP%3AIMAGE%3AA1TOP] of  WP%3AIMAGE
-
-	(value "A1TOP")
-	(value_type "IMAGE"))
-
-([WP%3AIMAGE%3AA2I1] of  WP%3AIMAGE
-
-	(value "A2I1")
-	(value_type "IMAGE"))
-
-([WP%3AIMAGE%3AA2I2] of  WP%3AIMAGE
-
-	(value "A2I2")
-	(value_type "IMAGE"))
-
-([WP%3AIMAGE%3AA2TOP] of  WP%3AIMAGE
-
-	(value "A2TOP")
-	(value_type "IMAGE"))
-
 ([WP%3ALOCATION%3AEATABLE] of  WP%3ALOCATION
 
 	(value "EATABLE"))
@@ -2077,3 +2047,33 @@
 ([WP%3AWALL] of  WP%3AENTITY
 
 	(value "WALL"))
+
+([WPM%3AIMAGE%3AA1I1] of  WPM%3AIMAGE
+
+	(value "A1I1")
+	(value_type "IMAGE"))
+
+([WPM%3AIMAGE%3AA1I2] of  WPM%3AIMAGE
+
+	(value "A1I2")
+	(value_type "IMAGE"))
+
+([WPM%3AIMAGE%3AA1TOP] of  WPM%3AIMAGE
+
+	(value "A1TOP")
+	(value_type "IMAGE"))
+
+([WPM%3AIMAGE%3AA2I1] of  WPM%3AIMAGE
+
+	(value "A2I1")
+	(value_type "IMAGE"))
+
+([WPM%3AIMAGE%3AA2I2] of  WPM%3AIMAGE
+
+	(value "A2I2")
+	(value_type "IMAGE"))
+
+([WPM%3AIMAGE%3AA2TOP] of  WPM%3AIMAGE
+
+	(value "A2TOP")
+	(value_type "IMAGE"))

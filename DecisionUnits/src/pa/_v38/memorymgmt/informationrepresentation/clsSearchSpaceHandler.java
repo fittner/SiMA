@@ -82,8 +82,11 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 			iReturnTypes.add(eDataType.TPM.nBinaryValue);
 			iReturnTypes.add(eDataType.TI.nBinaryValue);
 		} else if (poDataStructure instanceof clsSecondaryDataStructure) {
-			iReturnTypes.add(eDataType.ACT.nBinaryValue);
-			iReturnTypes.add(eDataType.WP.nBinaryValue);
+			iReturnTypes.add(eDataType.ACT.nBinaryValue);	//Add action plans, TODO AW: Add Andis plan structure here
+			iReturnTypes.add(eDataType.WP.nBinaryValue);	//WP-WP/WPM-WPM associations
+			//iReturnTypes.add(eDataType.WPM.nBinaryValue);	//FIXME AW: It is inefficient that WP and WPM have the same binary values
+			iReturnTypes.add(eDataType.TI.nBinaryValue);	//Image associations for the secondary process
+			
 		}
 		
 		for (Integer iType :iReturnTypes) {
@@ -128,8 +131,10 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		for(clsAssociation oAssociationElement : oList){
 			clsDataStructurePA elementB = null; 
 			
+			//If compare instance = false, then only the moID is used
 			if (blCompareInstance == false) {
-				if ((oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID()==0) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID()==0)){ 	//Only a type is taken, no instances
+				//FIXME AW: Correct the outcommented part if necessary
+				//if ((oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID()==0) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID()==0)){ 	//Only a type is taken, no instances
 					if(oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) {
 						elementB = oAssociationElement.getMoAssociationElementB(); 
 					}
@@ -137,15 +142,13 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 						elementB = oAssociationElement.getMoAssociationElementA();
 					}
 					else {throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
-				}
+				//}
 			} else {
 				if(oAssociationElement.getRootElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()){ 
 					elementB = oAssociationElement.getLeafElement(); 
 				} else if (oAssociationElement.getLeafElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()) {
 					elementB = oAssociationElement.getRootElement();
-				} //else if ((oAssociationElement.getLeafElement().getMoDataStructureType() == eDataType.DM) && (oAssociationElement.getRootElement().getMoDSInstance_ID() == 0)) {
-				//	elementB = oAssociationElement.getLeafElement();
-				//}
+				}
 			}
 			
 			if (elementB != null) {

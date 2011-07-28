@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -157,6 +158,13 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
+	public static clsWordPresentationMesh generateWPM(clsPair <String, Object> poContent, ArrayList<clsAssociation> poAssociations){
+		String oContentType = poContent.a; 
+		String oContent = (String)poContent.b;
+		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.WP, oContentType), poAssociations, oContent); 
+		return oRetVal;
+	}
+	
 	public static clsAct generateACT(clsTriple <String, ArrayList<clsSecondaryDataStructure>, Object> poContent){
 		clsAct oRetVal; 
 		String oContentType = poContent.a;
@@ -187,7 +195,7 @@ public abstract class clsDataStructureGenerator {
 		clsAssociation oRetVal=null;
 		String oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationSecondary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONSEC, oContentType), (clsWordPresentation)poRoot, (clsWordPresentation)poLeaf, poPredicate);
+		oRetVal = new clsAssociationSecondary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONSEC, oContentType), (clsSecondaryDataStructure)poRoot, (clsSecondaryDataStructure)poLeaf, poPredicate);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
