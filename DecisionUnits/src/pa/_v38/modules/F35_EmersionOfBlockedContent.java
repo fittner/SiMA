@@ -43,9 +43,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	private double mrContextSensitivity = 0.8;
-	private boolean mnMinimalModel;
-	
-
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -82,7 +79,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
@@ -107,7 +103,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
-		//mnMinimalModel = false;
 	}
 
 	/* (non-Javadoc)

@@ -42,8 +42,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private int mnCounter;
-	// CB 2011-07-06: bisher war hier mnMinimalModel = false gesetzt, wenn ich es hier aendere
-	//                hat es aber keinen Effekt, also brauch ich es auch nicht setzen.
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -181,7 +179,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			}
 		} else {
 			/*
-			if (true || !mnMinimalModel) {
+			if (true) {
 				if (mnCounter == 75) {
 					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 					mnCounter = 0;

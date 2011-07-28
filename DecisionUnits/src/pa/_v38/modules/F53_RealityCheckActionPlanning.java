@@ -17,7 +17,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.tools.toText;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -29,7 +28,6 @@ import pa._v38.tools.toText;
 public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send {
 	
 	public static final String P_MODULENUMBER = "53";
-	private boolean mnMinimalModel;
 	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
@@ -64,8 +62,6 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
-		
 		return text;
 	}
 	
@@ -81,7 +77,6 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	@SuppressWarnings("unused")
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
 		//nothing to do
 	}	
 
@@ -94,10 +89,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		if (mnMinimalModel) {
-			mnTest++;
-			// TODO (KOHLHAUSER) - Auto-generated method stub
-		}
+		mnTest++;
+		// TODO (KOHLHAUSER) - Auto-generated method stub
 	}
 
 	/* (non-Javadoc)
@@ -109,12 +102,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {
-			send_I6_10(-1);
-		} else {
-			send_I6_10(mnTest);
-		}
-
+		send_I6_10(mnTest);
 	}
 
 	/* (non-Javadoc)

@@ -41,8 +41,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	//to clsModuleBase
 
 	
-	/** Minimal model */
-	private boolean mnMinimalModel;
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
 	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_OUT;
 	/** The list of generated actions */
@@ -79,7 +77,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
 		text += toText.valueToTEXT("moActionCommands_IN", moActionCommands_IN);
 		
@@ -96,7 +93,6 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	}
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -297,12 +293,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {
-			send_I5_19(moReturnedTPMemory_OUT);
-		} else {
-			send_I5_19(moReturnedTPMemory_OUT);
-		}
-
+		send_I5_19(moReturnedTPMemory_OUT);
 	}
 
 	/* (non-Javadoc)
