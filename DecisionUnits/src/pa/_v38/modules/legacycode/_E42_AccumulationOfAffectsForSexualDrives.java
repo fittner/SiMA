@@ -28,7 +28,7 @@ import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * (deutsch) - insert description 
@@ -63,7 +63,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 * @throws Exception
 	 */
 	public _E42_AccumulationOfAffectsForSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
@@ -87,10 +87,10 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		int i=0;
@@ -114,8 +114,8 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moSplitterFactor = new HashMap<String, Double>();
 		

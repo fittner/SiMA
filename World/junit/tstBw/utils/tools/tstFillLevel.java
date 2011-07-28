@@ -14,7 +14,7 @@ import bw.utils.tools.clsFillLevel;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -39,7 +39,7 @@ public class tstFillLevel {
 
 	@Test 
 	public void testPropertyConstructor() {
-		clsBWProperties oProp = clsFillLevel.getDefaultProperties("");
+		clsProperties oProp = clsFillLevel.getDefaultProperties("");
 		clsFillLevel oColumn = null;
 	
 		oColumn = new clsFillLevel("", oProp);

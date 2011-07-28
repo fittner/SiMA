@@ -20,7 +20,7 @@ import bw.utils.tools.clsFood;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -85,7 +85,7 @@ public class tstFood {
 
 	@Test 
 	public void testPropertyConstructor() {
-		clsBWProperties oProp = clsFood.getDefaultProperties("");
+		clsProperties oProp = clsFood.getDefaultProperties("");
 		clsFood oFood = null;
 	
 		oFood = new clsFood("", oProp);

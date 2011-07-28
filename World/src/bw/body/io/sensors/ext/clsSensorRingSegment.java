@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -39,15 +39,15 @@ public class clsSensorRingSegment extends clsSensorExt {
    private double mrMaxDistance;
    private double mrOffsetX;
 	
-   public clsSensorRingSegment(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+   public clsSensorRingSegment(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI);
 		oProp.setProperty(pre+P_SENSOR_MIN_DISTANCE, 0);
@@ -55,8 +55,8 @@ public class clsSensorRingSegment extends clsSensorExt {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);

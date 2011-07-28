@@ -5,7 +5,7 @@
  */
 package pa;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
@@ -39,7 +39,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param poProp - the stored properties
 	 * @param uid - the unique id for this agent. the same for the body and the decision unit. eases debugging and logging.
 	 */
-	public clsPsychoAnalysis(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsPsychoAnalysis(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp, uid);
@@ -65,10 +65,10 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @return
 	 */
 	@SuppressWarnings("deprecation")
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty( pre+P_VERSION , 1);
 
@@ -103,8 +103,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	 * @param uid
 	 */
 	@SuppressWarnings("deprecation")
-	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, int uid) {
+		String pre = clsProperties.addDot(poPrefix);
 	 
 		String oModelVersion = poProp.getProperty(P_MODELVERSION);
 		

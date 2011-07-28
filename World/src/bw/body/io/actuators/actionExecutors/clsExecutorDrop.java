@@ -8,7 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import java.util.ArrayList;
 import bw.body.io.actuators.clsActionExecutor;
@@ -30,7 +30,7 @@ public class clsExecutorDrop  extends clsActionExecutor{
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
-	public clsExecutorDrop(String poPrefix, clsBWProperties poProp, clsMobile poEntity) {
+	public clsExecutorDrop(String poPrefix, clsProperties poProp, clsMobile poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
@@ -40,9 +40,9 @@ public class clsExecutorDrop  extends clsActionExecutor{
 		moMutEx.add(clsActionToInventory.class);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}

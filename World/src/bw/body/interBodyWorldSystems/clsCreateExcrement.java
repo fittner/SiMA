@@ -18,7 +18,7 @@ import bw.entities.clsEntity;
 import bw.entities.clsSmartExcrement;
 import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.enums.eNutritions;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -44,20 +44,20 @@ public class clsCreateExcrement {
 	private double mrPlacementDistance;
 	private double mrVariationDirection;
 	private double mrVariationDistance;
-	private clsBWProperties moSmartExcrementProps;
+	private clsProperties moSmartExcrementProps;
 
 
-	public clsCreateExcrement(String poPrefix, clsBWProperties poProp, clsStomachSystem poStomach, clsEntity poEntity) {
+	public clsCreateExcrement(String poPrefix, clsProperties poProp, clsStomachSystem poStomach, clsEntity poEntity) {
 		moStomachSystem = poStomach;
 		moEntity = poEntity;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_GARBAGENUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
 		oProp.setProperty(pre+P_WEIGHT, 1);
@@ -69,8 +69,8 @@ public class clsCreateExcrement {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		String temp = poProp.getProperty(pre+P_GARBAGENUTRITIONTYPE);
 		mnGarbageNutritionType = eNutritions.valueOf(temp);

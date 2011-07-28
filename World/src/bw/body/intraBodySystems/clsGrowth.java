@@ -7,7 +7,7 @@
  */
 package bw.body.intraBodySystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 
 /**
@@ -18,22 +18,22 @@ import bw.body.itfStepUpdateInternalState;
  */
 public class clsGrowth implements itfStepUpdateInternalState {
 
-	public clsGrowth(String poPrefix, clsBWProperties poProp) {
+	public clsGrowth(String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		// nothing to do
 				
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		//nothing to do ...
 	}	

@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * Each sexual drive is split apart into four drives representing the four partial drives. Module {F43} 
@@ -59,7 +59,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public F43_SeparationIntoPartialSexualDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
@@ -83,10 +83,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		return text;
 	}	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
 		oProp.setProperty(pre+P_PARTIAL_ORAL, 0.1);
@@ -97,8 +97,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moPartialSexualDrives = new ArrayList<clsPair<String,Double>>();
 		

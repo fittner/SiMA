@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 
 import bw.entities.tools.clsShapeCreator;
@@ -26,23 +26,23 @@ import bw.utils.enums.eShapeType;
 public class clsStone extends clsInanimate {
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
 		
-	public clsStone(String poPrefix, clsBWProperties poProp, int uid)
+	public clsStone(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid); 
 		applyProperties(poPrefix, poProp);
     }
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp){	
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){	
+		String pre = clsProperties.addDot(poPrefix);
 		double rMass = poProp.getPropertyDouble(pre+P_SHAPE+".0."+clsShapeCreator.P_RADIUS)*
 			poProp.getPropertyDouble(poPrefix+ P_RADIUS_TO_MASS_CONVERSION);
 		setStructuralWeight(rMass);
 	}	
 		
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
@@ -52,25 +52,25 @@ public class clsStone extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_RADIUS, "15.0");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock1.png");
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/rock1.png");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_RADIUS, "15.0");
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock2.png");
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/rock2.png");
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_RADIUS, "15.0");
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock3.png");
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/rock3.png");
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_RADIUS, "15.0");
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/rock4.png");
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/rock4.png");
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());				
 	   			
 		return oProp;

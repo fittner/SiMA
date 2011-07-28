@@ -1,7 +1,7 @@
 package bw.world.surface;
 
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import sim.field.grid.IntGrid2D;
 import sim.physics2D.util.Double2D;
@@ -75,9 +75,9 @@ public class clsSurfaceHandler implements itfSurface
 	
 
 	//TODO: Rewrite: Use properties
-	public void createWorld(String poPrefix, clsBWProperties poProp)
+	public void createWorld(String poPrefix, clsProperties poProp)
 	{
-		// String pre = clsBWProperties.addDot(poPrefix);
+		// String pre = clsProperties.addDot(poPrefix);
 	}
 	
 	public IntGrid2D getGrid()

@@ -11,7 +11,7 @@ import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.tools.clsFood;
 import java.lang.Math;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -28,24 +28,24 @@ public class clsFlesh extends clsFood {
 	}
 	
 	
-	public clsFlesh(String poPrefix, clsBWProperties poProp) {
+	public clsFlesh(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 		totallyConsumed();
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsFood.getDefaultProperties(pre) );
 				
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		//nothing to do ...
 	}

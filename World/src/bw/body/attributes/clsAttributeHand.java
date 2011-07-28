@@ -9,7 +9,7 @@ package bw.body.attributes;
 import sim.physics2D.shape.Shape;
 import bw.body.itfget.itfGetBotHand;
 import bw.utils.enums.eBodyAttributes;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -21,7 +21,7 @@ import config.clsBWProperties;
 public class clsAttributeHand extends clsBaseAttribute {
 	protected itfGetBotHand moHand;
 	
-    public clsAttributeHand(String poPrefix, clsBWProperties poProp, itfGetBotHand poHand, eBodyAttributes mnHandLeftRight) {
+    public clsAttributeHand(String poPrefix, clsProperties poProp, itfGetBotHand poHand, eBodyAttributes mnHandLeftRight) {
     	super(poPrefix, poProp);
     	moHand = poHand;
     	
@@ -33,15 +33,15 @@ public class clsAttributeHand extends clsBaseAttribute {
 		applyProperties(poPrefix, poProp);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		return oProp;
 	}

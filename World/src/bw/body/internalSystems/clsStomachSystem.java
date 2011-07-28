@@ -10,7 +10,7 @@ package bw.body.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
@@ -39,7 +39,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private double mrMaxWeight;
 	private double mrWeight;
 	
-	public clsStomachSystem(String poPrefix, clsBWProperties poProp) {
+	public clsStomachSystem(String poPrefix, clsProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moEnergyEfficiency = new HashMap<eNutritions, Double>();
 		moEnergyMetabolismFactor = new HashMap<eNutritions, Double>();
@@ -49,10 +49,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		updateEnergy();
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		int i = 0;
 		
@@ -110,8 +110,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-	    String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+	    String pre = clsProperties.addDot(poPrefix);
 		
         int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
         for (int i=0; i<num; i++) {

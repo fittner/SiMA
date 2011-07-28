@@ -6,7 +6,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 
 import bw.body.clsComplexBody;
@@ -33,16 +33,16 @@ public class clsExecutorFacialExpressions extends clsActionExecutor{
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
 
-	public clsExecutorFacialExpressions(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorFacialExpressions(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
 
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 		
 		return oProp;
 	}

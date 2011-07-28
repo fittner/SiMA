@@ -7,7 +7,7 @@
  */
 package bw.body.intraBodySystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsEntity;
@@ -35,14 +35,14 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     private clsStomachPainTension moStomachDamageTension;
     private clsStomachToSlowMessenger moStomachToSlowMessenger;
     
-    public clsIntraBodySystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
+    public clsIntraBodySystem(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsBodyColor.getDefaultProperties(pre+P_BODYCOLOR) );
 		oProp.putAll( clsGrowth.getDefaultProperties(pre+P_GROWTHSYSTEM) );
@@ -55,8 +55,8 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		moColorSystem 				= new clsBodyColor(pre+P_BODYCOLOR, poProp, poEntity);
 		moGrowthSystem 				= new clsGrowth(pre+P_GROWTHSYSTEM, poProp);

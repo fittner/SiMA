@@ -10,7 +10,7 @@ package bw.body.intraBodySystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
@@ -39,7 +39,7 @@ public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 
-	public clsStomachDamageNutrition(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsStomachDamageNutrition(String poPrefix, clsProperties poProp, clsHealthSystem poHealthSystem, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
@@ -47,10 +47,10 @@ public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_PAINTHRESHOLD, 0.1);
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
@@ -59,8 +59,8 @@ public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
 		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);

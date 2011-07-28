@@ -11,7 +11,7 @@ import java.util.HashMap;
 import bw.body.itfget.itfGetBotHand;
 import bw.entities.clsEntity;
 import bw.utils.enums.eBodyAttributes;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -27,13 +27,13 @@ public class clsAttributes {
 	
 	protected HashMap<eBodyAttributes, clsBaseAttribute> moAttributes;
 
-    public clsAttributes(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+    public clsAttributes(String poPrefix, clsProperties poProp, clsEntity poEntity) {
     	moAttributes = new HashMap<eBodyAttributes, clsBaseAttribute>();
 		applyProperties(poPrefix, poProp, poEntity);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		int num = poProp.getPropertyInt(pre+P_NUMATTRIBUTES);
 		for (int i=0; i<num; i++) {
@@ -86,10 +86,10 @@ public class clsAttributes {
 		}
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		int i = 0;
 		

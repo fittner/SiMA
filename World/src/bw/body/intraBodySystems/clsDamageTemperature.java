@@ -7,7 +7,7 @@
  */
 package bw.body.intraBodySystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
@@ -33,7 +33,7 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 	
-	public clsDamageTemperature(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsTemperatureSystem poTemperatureSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsDamageTemperature(String poPrefix, clsProperties poProp, clsHealthSystem poHealthSystem, clsTemperatureSystem poTemperatureSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moTemperatureSystem = poTemperatureSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
@@ -41,10 +41,10 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_PAINTHRESHOLD, 0.1);
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
@@ -53,8 +53,8 @@ public class clsDamageTemperature implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
 		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);

@@ -11,7 +11,7 @@ import bw.utils.tools.clsContentColumn;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * @author deutsch
@@ -57,7 +57,7 @@ public class tstContentColumn {
 	
 	@Test 
 	public void testPropertyConstructor() {
-		clsBWProperties oProp = clsContentColumn.getDefaultProperties("");
+		clsProperties oProp = clsContentColumn.getDefaultProperties("");
 		clsContentColumn oColumn = null;
 		oColumn = new clsContentColumn("", oProp);
 		assertNotNull(oColumn);

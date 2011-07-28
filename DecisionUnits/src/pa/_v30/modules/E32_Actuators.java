@@ -9,7 +9,7 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.itfActionProcessor;
 import pa._v30.interfaces.eInterfaces;
@@ -41,7 +41,7 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E32_Actuators(String poPrefix, clsBWProperties poProp,
+	public E32_Actuators(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 				
@@ -67,17 +67,17 @@ public class E32_Actuators extends clsModuleBase implements I8_2_receive, I0_6_s
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

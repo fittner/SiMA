@@ -8,7 +8,7 @@
  */
 package bw.body;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.entities.clsEntity;
@@ -29,15 +29,15 @@ public class clsMeatBody extends clsBaseBody {
 	private double mrRegrowRate;
 	private double mrMaxWeight;
 
-	public clsMeatBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsMeatBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsFlesh.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_REGROWRATE, 0);
@@ -48,8 +48,8 @@ public class clsMeatBody extends clsBaseBody {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		moFlesh = new clsFlesh(pre, poProp);
 		mrRegrowRate = poProp.getPropertyDouble(pre+P_REGROWRATE);

@@ -6,7 +6,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
@@ -42,7 +42,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	
 	public static final String P_RANGEDEST = "rangedest";
 
-	public clsExecutorMoveToArea(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorMoveToArea(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
@@ -59,16 +59,16 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	}
 
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
 		
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
 	}
 

@@ -7,7 +7,7 @@
  */
 package bw.body.internalSystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyParts;
@@ -41,14 +41,14 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     
     private double mrBaseEnergyConsumption;
     
-	public clsInternalSystem(String poPrefix, clsBWProperties poProp) {
+	public clsInternalSystem(String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsFlesh.getDefaultProperties(pre+P_FLESH) );
 		oProp.putAll( clsSlowMessengerSystem.getDefaultProperties(pre+P_SLOWMESSENGER) );
@@ -64,8 +64,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
   	    moFlesh 				= new clsFlesh(pre+P_FLESH, poProp);
   	    moSlowMessengerSystem 	= new clsSlowMessengerSystem(pre+P_SLOWMESSENGER, poProp);

@@ -19,7 +19,7 @@ import pa._v30.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v30.tools.toText;
 import pa._v38.tools.clsTriple;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -47,7 +47,7 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public E37_PrimalRepressionForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -100,16 +100,16 @@ public class E37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void setModuleNumber() {mnModuleNumber = Integer.parseInt(P_MODULENUMBER);}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

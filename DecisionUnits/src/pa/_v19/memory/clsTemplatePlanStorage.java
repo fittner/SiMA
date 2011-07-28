@@ -14,7 +14,7 @@ import pa._v19.loader.plan.clsPlanAction;
 import pa._v19.loader.plan.clsPlanBaseMesh;
 import pa._v19.loader.plan.clsPlanLoader;
 import pa._v19.tools.clsPair;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -27,23 +27,23 @@ public class clsTemplatePlanStorage {
 
 	public ArrayList<clsSecondaryInformation> moTemplatePlans;
 
-	public clsTemplatePlanStorage(String poPrefix, clsBWProperties poProp) {
+	public clsTemplatePlanStorage(String poPrefix, clsProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moTemplatePlans = clsPlanLoader.createTemplatePlanList("1", "PSY_10");
     }
     
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+//		String pre = clsProperties.addDot(poPrefix);
     	 
     	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-//    	String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+//    	String pre = clsProperties.addDot(poPrefix);
     	
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
 		
 		//oProp.putAll(clsOtherClass.getDefaultProperties(pre) );
 		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );

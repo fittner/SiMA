@@ -8,7 +8,7 @@
  */
 package bw.factories;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,14 +18,14 @@ import config.clsBWProperties;
  * 
  */
 public class clsSingletonProperties {
-	private clsBWProperties moProperties; 
-	private clsBWProperties moSystemProperties;
+	private clsProperties moProperties; 
+	private clsProperties moSystemProperties;
 	private boolean mnDrawImages;
 	private boolean mnDrawSensors;
 	
 	protected clsSingletonProperties() {
-		moProperties = new clsBWProperties();
-		moSystemProperties = new clsBWProperties();
+		moProperties = new clsProperties();
+		moSystemProperties = new clsProperties();
 		mnDrawImages = false;
 		mnDrawSensors = false;
 	}
@@ -39,19 +39,19 @@ public class clsSingletonProperties {
 		return _instance;
 	}
 	
-	static public clsBWProperties getProperties() {
+	static public clsProperties getProperties() {
 		return (clsSingletonProperties.instance()).moProperties;
 	}
 	
-	static public void setProperties(clsBWProperties poProperties) {
+	static public void setProperties(clsProperties poProperties) {
 		(clsSingletonProperties.instance()).moProperties = poProperties;
 	}
 
-	static public clsBWProperties getSystemProperties() {
+	static public clsProperties getSystemProperties() {
 		return (clsSingletonProperties.instance()).moSystemProperties;
 	}
 	
-	static public void setSystemProperties(clsBWProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS) {
+	static public void setSystemProperties(clsProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS) {
 		(clsSingletonProperties.instance()).moSystemProperties = poProperties;
 		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(P_DRAWIMAGES);
 		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(P_DRAWSENSORS);

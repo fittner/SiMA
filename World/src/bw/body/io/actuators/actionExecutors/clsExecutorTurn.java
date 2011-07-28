@@ -8,7 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
@@ -35,15 +35,15 @@ public class clsExecutorTurn extends clsActionExecutor{
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
 	
-	public clsExecutorTurn(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorTurn(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}

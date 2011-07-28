@@ -10,7 +10,7 @@ package bw.entities;
 
 import java.util.TreeMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.itf.itfDecisionUnit;
 import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
@@ -27,24 +27,24 @@ import bw.utils.enums.eBodyType;
  */
 public abstract class clsAnimate extends clsMobile {
 
-	public clsAnimate(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
+	public clsAnimate(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poDU, poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsMobile.getDefaultProperties(pre) );
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		return oProp;
 	}	
 	
-	private void applyProperties(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp) {
-	//	String pre 	= clsBWProperties.addDot(poPrefix);
+	private void applyProperties(itfDecisionUnit poDU, String poPrefix, clsProperties poProp) {
+	//	String pre 	= clsProperties.addDot(poPrefix);
 
 		setDecisionUnit( poDU );		
 	}	

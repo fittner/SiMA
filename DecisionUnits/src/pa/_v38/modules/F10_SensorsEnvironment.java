@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -55,7 +55,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public F10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
+	public F10_SensorsEnvironment(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -79,17 +79,17 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		return text;
 	}	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

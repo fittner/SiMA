@@ -8,7 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
@@ -31,15 +31,15 @@ import bw.utils.enums.eShapeType;
  */
 public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
 
-	public clsFungusEater(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
+	public clsFungusEater(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
 		// remove whatever body has been assigned by getDefaultProperties
@@ -52,7 +52,7 @@ public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, it
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/arsin_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/arsin_red.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
@@ -60,8 +60,8 @@ public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, it
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		// String pre = clsProperties.addDot(poPrefix);
 		// nothing to do
 	}
 

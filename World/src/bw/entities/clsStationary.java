@@ -7,7 +7,7 @@
  */
 package bw.entities;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import bw.entities.tools.clsShapeCreator;
@@ -27,15 +27,15 @@ public abstract class clsStationary extends clsEntity {
 	private double mrDefaultRestitution; 			 //0.5 
 
 	
-	public clsStationary(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsStationary(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
 		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
@@ -47,8 +47,8 @@ public abstract class clsStationary extends clsEntity {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
 		

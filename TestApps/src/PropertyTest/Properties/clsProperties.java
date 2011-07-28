@@ -12,7 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 
-public class clsBWProperties extends Properties {
+public class clsProperties extends Properties {
 	private static final String P_INCLUDE = "@";
 	private static final String P_RANDOM = "§"; //don't blame me - roland states that the law is pure random
 	private static final String P_DELIMITER = ";";
@@ -221,7 +221,7 @@ public class clsBWProperties extends Properties {
 	private void insertInclude(String key) {
 		String includeFileName = (super.getProperty(key)).substring( P_INCLUDE.length() );
 		
-		clsBWProperties oOtherProperties = clsBWProperties.readProperties(includeFileName);
+		clsProperties oOtherProperties = clsProperties.readProperties(includeFileName);
 		oOtherProperties.addPrefix(key);
 		
 		remove(key);
@@ -229,8 +229,8 @@ public class clsBWProperties extends Properties {
 		putAll(oOtherProperties);
 	}
 	
-	public static clsBWProperties readProperties(String poFilename) {
-		clsBWProperties p2 = new clsBWProperties();
+	public static clsProperties readProperties(String poFilename) {
+		clsProperties p2 = new clsProperties();
         
 	    try
 	    {
@@ -246,7 +246,7 @@ public class clsBWProperties extends Properties {
         return p2;
 	}
 	
-	public static void writeProperties(clsBWProperties poProp, String poFilename, String poComments) {
+	public static void writeProperties(clsProperties poProp, String poFilename, String poComments) {
 	    try
 	    {
 	      FileOutputStream propOutFile =

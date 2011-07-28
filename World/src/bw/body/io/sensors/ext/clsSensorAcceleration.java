@@ -8,7 +8,7 @@ package bw.body.io.sensors.ext;
 
 import java.util.ArrayList;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -55,7 +55,7 @@ public class clsSensorAcceleration extends clsSensorExt{
 	 * @param poProp
 	 * @param poBaseIO
 	 */
-	public clsSensorAcceleration(String poPrefix, clsBWProperties poProp,
+	public clsSensorAcceleration(String poPrefix, clsProperties poProp,
 			clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		clsEntity oEntity = ((clsExternalIO)poBaseIO).moEntity; 
@@ -67,10 +67,10 @@ public class clsSensorAcceleration extends clsSensorExt{
 		applyProperties(poPrefix, poProp); 
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
@@ -79,8 +79,8 @@ public class clsSensorAcceleration extends clsSensorExt{
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		curVelocity = new Double2D(poProp.getPropertyDouble(pre+P_START_VELOCITY_X),
 									poProp.getPropertyDouble(pre+P_START_VELOCITY_Y));

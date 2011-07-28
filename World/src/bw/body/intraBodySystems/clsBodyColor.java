@@ -9,7 +9,7 @@ package bw.body.intraBodySystems;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.entities.clsEntity;
 
@@ -32,7 +32,7 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 	private int mnGreenResetRate;
 	private int mnBlueResetRate;
 
-	public clsBodyColor(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsBodyColor(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		moEntity = poEntity;
 		
 		moNormColor = null;
@@ -40,10 +40,10 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_REDRATE, 5);
 		oProp.setProperty(pre+P_GREENRATE, 5);
@@ -52,8 +52,8 @@ public class clsBodyColor implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		mnRedResetRate = poProp.getPropertyInt(pre+P_REDRATE);
 		mnGreenResetRate = poProp.getPropertyInt(pre+P_GREENRATE);

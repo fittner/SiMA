@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfMinimalModelMode;
@@ -92,7 +92,7 @@ public class clsPsychicApparatus {
 	private static boolean mnMinimalModel;
 	private int uid;
 
-	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
+	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
 		moModules = new HashMap<Integer, clsModuleBase>();
@@ -110,10 +110,10 @@ public class clsPsychicApparatus {
 		fillInterfaces_Recv_Send();
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty( pre + P_MINIMALMODEL, false);
 		
 		oProp.putAll( E01_SensorsMetabolism.getDefaultProperties( pre + E01_SensorsMetabolism.P_MODULENUMBER ));
@@ -164,8 +164,8 @@ public class clsPsychicApparatus {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		try {
 			// HZ - Integrate to Properties

@@ -11,7 +11,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
@@ -56,7 +56,7 @@ public class tstDecayColumn {
 	
 	@Test 
 	public void testPropertyConstructor() {
-		clsBWProperties oProp = clsDecayColumn.getDefaultProperties("");
+		clsProperties oProp = clsDecayColumn.getDefaultProperties("");
 		clsDecayColumn oColumn = null;
 		try {
 			oColumn = new clsDecayColumn("", oProp);

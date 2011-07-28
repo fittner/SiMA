@@ -9,7 +9,7 @@ package bw.body;
 import bw.body.attributes.clsAttributes;
 import bw.entities.clsEntity;
 import bw.utils.enums.eBodyType;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,21 +20,21 @@ import config.clsBWProperties;
  */
 public class clsSimpleBody extends clsBaseBody {
 	
-	public clsSimpleBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsSimpleBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);	
 		applyProperties(poPrefix, poProp, poEntity);	
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+		//String pre = clsProperties.addDot(poPrefix);
 		
 		// nothing to do
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 			

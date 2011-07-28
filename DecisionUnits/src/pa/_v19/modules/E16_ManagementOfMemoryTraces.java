@@ -9,7 +9,7 @@ package pa._v19.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I2_6_receive;
 import pa._v19.interfaces.receive.I2_7_receive;
@@ -52,7 +52,7 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E16_ManagementOfMemoryTraces(String poPrefix, clsBWProperties poProp,
+	public E16_ManagementOfMemoryTraces(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
@@ -60,17 +60,17 @@ public class E16_ManagementOfMemoryTraces extends clsModuleBase implements I2_6_
 		moPerceptPlusMemories_Output = new ArrayList<clsTripple<clsPrimaryDataStructureContainer, clsDriveMesh,ArrayList<clsDriveMesh>>>(); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

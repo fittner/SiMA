@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.itfStep;
 
@@ -42,7 +42,7 @@ public class clsInternalEnergyConsumption implements itfStep {
 	/**
 	 * This constructor initializes moList with an empty HashMap, mnDirtyFlag is set to true, and mnSum is set to 0.
 	 */
-	public clsInternalEnergyConsumption(String poPrefix, clsBWProperties poProp) {
+	public clsInternalEnergyConsumption(String poPrefix, clsProperties poProp) {
 		moList = new HashMap<eBodyParts, clsMutableDouble>();
 		moListOnce = new HashMap<eBodyParts, clsMutableDouble>();
 		moPartList = new ArrayList<eBodyParts>();
@@ -52,17 +52,17 @@ public class clsInternalEnergyConsumption implements itfStep {
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 		
 		// no properties
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
         // nothing to do		
 	}	
 	

@@ -7,7 +7,7 @@
  */
 package bw.body.interBodyWorldSystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSlowMessenger;
 import bw.body.itfStep;
 import bw.body.internalSystems.clsFastMessengerSystem;
@@ -44,7 +44,7 @@ public class clsDamageBump implements itfStep {
 	private clsFastMessengerSystem moFastMessengerSystem; // reference
 	private clsSlowMessengerSystem moSlowMessengerSystem;
 	
-	public clsDamageBump(String poPrefix, clsBWProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
+	public clsDamageBump(String poPrefix, clsProperties poProp, clsHealthSystem poHealthSystem, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moFastMessengerSystem = poFastMessengerSystem;
 		moSlowMessengerSystem = poSlowMessengerSystem;
@@ -52,10 +52,10 @@ public class clsDamageBump implements itfStep {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_PAINTHRESHOLD, 0);
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
@@ -67,8 +67,8 @@ public class clsDamageBump implements itfStep {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
 		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);

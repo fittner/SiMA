@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 
 import bw.entities.tools.clsShapeCreator;
@@ -25,15 +25,15 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsWallAxisAlign extends clsStationary  {	
-    public clsWallAxisAlign(String poPrefix, clsBWProperties poProp, int uid) {
+    public clsWallAxisAlign(String poPrefix, clsProperties poProp, int uid) {
     	super(poPrefix, poProp, uid);
     	
     	applyProperties(poPrefix, poProp);
     } 
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -45,7 +45,7 @@ public class clsWallAxisAlign extends clsStationary  {
 		return oProp;
 	}	
 		
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+	private void applyProperties(String poPrefix, clsProperties poProp){		
 		// nothing to do
 	}	
 	

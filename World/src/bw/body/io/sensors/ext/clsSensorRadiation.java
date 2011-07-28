@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -48,24 +48,24 @@ public class clsSensorRadiation extends clsSensorExt {
 	 * @param poProp
 	 * @param poBaseIO
 	 */
-	public clsSensorRadiation(String poPrefix, clsBWProperties poProp,
+	public clsSensorRadiation(String poPrefix, clsProperties poProp,
 			clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);

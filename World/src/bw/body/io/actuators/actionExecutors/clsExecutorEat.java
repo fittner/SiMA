@@ -8,7 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
@@ -45,7 +45,7 @@ public class clsExecutorEat extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_BIZESIZE = "bitesize";
 
-	public clsExecutorEat(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorEat(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
@@ -56,17 +56,17 @@ public class clsExecutorEat extends clsActionExecutor{
 		applyProperties(poPrefix,poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
 		oProp.setProperty(pre+P_BIZESIZE, 3f); //0.3f
 		
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
 		mrBiteSize=poProp.getPropertyFloat(pre+P_BIZESIZE);
 	}

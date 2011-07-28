@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 
 /**
@@ -41,14 +41,14 @@ public class clsContentColumn {
 	public clsContentColumn() {
 	}
 	
-	public clsContentColumn(String poPrefix, clsBWProperties poProp) {
+	public clsContentColumn(String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_MAXCONTENT, new Double(java.lang.Double.MAX_VALUE).toString());
 		oProp.setProperty(pre+P_CONTENT, 0);
@@ -56,8 +56,8 @@ public class clsContentColumn {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrMaxContent = poProp.getPropertyDouble(pre+P_MAXCONTENT);
 		mrContent = poProp.getPropertyDouble(pre+P_CONTENT);		

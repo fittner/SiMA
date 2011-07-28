@@ -7,7 +7,7 @@
 package bw.body.attributes;
 
 import bw.utils.enums.eBodyAttributes;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEyeSize;
 import du.enums.eLensShape;
 import du.enums.eLensSize;
@@ -28,22 +28,22 @@ public class clsAttributeEye extends clsBaseAttribute {
 	protected eEyeSize mnEyeSize;
 	protected eLensSize mnLensSize;
 	
-    public clsAttributeEye(String poPrefix, clsBWProperties poProp) {
+    public clsAttributeEye(String poPrefix, clsProperties poProp) {
     	super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		mnLensShape = eLensShape.valueOf( poProp.getPropertyString(pre+P_LENSSHAPE) );
 		mnEyeSize = eEyeSize.valueOf( poProp.getPropertyString(pre+P_EYESIZE) );
 		mnLensSize = eLensSize.valueOf( poProp.getPropertyString(pre+P_LENSSIZE) );		
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_LENSSHAPE, eLensShape.ROUND.name() );
 		oProp.setProperty(pre+P_EYESIZE, eEyeSize.MEDIUM.name() );

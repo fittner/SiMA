@@ -9,7 +9,7 @@ package bw.body.intraBodySystems;
 import bw.body.attributes.clsAttributeAntenna;
 import bw.body.attributes.clsAttributeEye;
 import bw.entities.clsEntity;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eAntennaPositions;
 import du.enums.eEyeSize;
 import du.enums.eLensShape;
@@ -27,24 +27,24 @@ public class clsFacialExpression {
 	private clsAttributeAntenna moAntennaLeft;
 	private clsAttributeAntenna moAntennaRight;
 	
-	public clsFacialExpression(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsFacialExpression(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 	// nothing to do
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		// nothing to do
 	}
 	

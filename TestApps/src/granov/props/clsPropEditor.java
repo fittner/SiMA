@@ -42,7 +42,7 @@ import java.io.RandomAccessFile;
  * 
  */
 
-public class clsBWPropEditor extends JPanel implements TreeSelectionListener, ActionListener, 
+public class clsPropEditor extends JPanel implements TreeSelectionListener, ActionListener, 
 														MouseListener, Runnable 
 {
 	  private JEditorPane valuePane;
@@ -57,7 +57,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	  private static final long serialVersionUID = 200908081130L;
 	  
 	  //public clsBWPropEditor() {
-	  public clsBWPropEditor(String s) {
+	  public clsPropEditor(String s) {
 		  super(new GridLayout(2,0));
 		  
 	        //Create the nodes.
@@ -155,7 +155,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	    @Override
 		public void actionPerformed(ActionEvent e) {
 	    	if (e.getSource() == pbOpenFile) { // Open the file and create nodes   
-	    		int returnVal = fc.showOpenDialog(clsBWPropEditor.this);
+	    		int returnVal = fc.showOpenDialog(clsPropEditor.this);
 	    		if (returnVal == JFileChooser.APPROVE_OPTION) {
 	    			DefaultTreeModel model = (DefaultTreeModel)tree.getModel();
 	    			
@@ -311,7 +311,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	        frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 
 	        //Add content to the window.
-	        frame.add(new clsBWPropEditor(s));
+	        frame.add(new clsPropEditor(s));
 
 	        //Display the window.
 	        frame.pack();
@@ -322,7 +322,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 	  public static void main(String[] args) {
 	        //Schedule a job for the event dispatch thread:
 	        //creating and showing this application's GUI.
-		  (new Thread(new clsBWPropEditor(""))).run();
+		  (new Thread(new clsPropEditor(""))).run();
 	    }
 
 	@Override
@@ -334,7 +334,7 @@ public class clsBWPropEditor extends JPanel implements TreeSelectionListener, Ac
 				if(sVal.indexOf("@") == 0) { //if the value marks a file to be included
 					sFileName = sVal.substring(1);
 					//Open the file in new window 
-					Thread th = new Thread(new clsBWPropEditor(sVal.substring(1)));
+					Thread th = new Thread(new clsPropEditor(sVal.substring(1)));
 					th.run();
 				}
 			}

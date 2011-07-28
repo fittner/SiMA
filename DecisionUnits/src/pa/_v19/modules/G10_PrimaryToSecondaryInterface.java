@@ -24,7 +24,7 @@ import pa._v19.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -64,16 +64,16 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G10_PrimaryToSecondaryInterface(String poPrefix, clsBWProperties poProp,
+	public G10_PrimaryToSecondaryInterface(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E08_ConversionToSecondaryProcess.getDefaultProperties(pre+P_E08) );
 		oProp.putAll( E20_InnerPerception_Affects.getDefaultProperties(pre+P_E20) );
@@ -82,8 +82,8 @@ public class G10_PrimaryToSecondaryInterface extends clsModuleContainer implemen
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE08ConversionToSecondaryProcess = new E08_ConversionToSecondaryProcess(pre+P_E08, poProp, this, moInterfaceHandler);
 		moE20InnerPerception_Affects = new E20_InnerPerception_Affects(pre+P_E20, poProp, this, moInterfaceHandler);

@@ -8,7 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.physicalObjects.bodyparts.clsBotHands;
@@ -50,21 +50,21 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
     private clsBotHands moBotHand1;
     private clsBotHands moBotHand2;
 	
-    public clsRemoteBot(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
+    public clsRemoteBot(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		addBotHands( pre, poProp ); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
@@ -144,8 +144,8 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 	 * 26.02.2009, 11:38:59
 	 *
 	 */
-	private void addBotHands(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void addBotHands(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		//FIXME hands are only added correctly if - and only if - direction of bot is 0 ...
 		//Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity

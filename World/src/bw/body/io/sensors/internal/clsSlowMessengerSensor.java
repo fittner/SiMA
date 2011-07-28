@@ -14,7 +14,7 @@ import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsDecayColumn;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSlowMessenger;
 
 /**
@@ -39,7 +39,7 @@ public class clsSlowMessengerSensor extends clsSensorInt {
 	 * @param poProp
 	 * @param poBaseIO
 	 */
-	public clsSlowMessengerSensor(String poPrefix, clsBWProperties poProp,
+	public clsSlowMessengerSensor(String poPrefix, clsProperties poProp,
 			clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
 
@@ -54,18 +54,18 @@ public class clsSlowMessengerSensor extends clsSensorInt {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		//nothing to do
 	}	

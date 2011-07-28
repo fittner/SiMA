@@ -23,13 +23,13 @@ import java.util.Set;
 import java.util.regex.Matcher;
 
 /**
- * clsBWProperties is a specialization of the java.util.Properties class. 
+ * clsProperties is a specialization of the java.util.Properties class. 
  * 
  * Next to the regular functionalities, include of other property files and generation of random numbers for values is supported. In the bw project 
  * exists a singleton �bw.factories.clsPropertiesGetter�. It provides access to the properties and should be filled with an instance of 
- * clsBWProperties as soon as possible. Currently, this is done in the constructor sim.creation.clsLoader. 
+ * clsProperties as soon as possible. Currently, this is done in the constructor sim.creation.clsLoader. 
  * 
- * Currently, the following list of values is supported by clsBWProperties: String, boolean, int, float, double, semicolon 
+ * Currently, the following list of values is supported by clsProperties: String, boolean, int, float, double, semicolon 
  * separated list of any type listed before, excluding lists within lists(e.g. �23;12;43�). corresponding setter and getter functions are available.
  * 
  * Special config tags: 
@@ -45,7 +45,7 @@ import java.util.regex.Matcher;
  * 22.07.2009, 09:48:56
  * 
  */
-public class clsBWProperties extends Properties {
+public class clsProperties extends Properties {
 	/**
 	 * delimiter for list entries 
 	 * 
@@ -121,7 +121,7 @@ public class clsBWProperties extends Properties {
 	 *
 	 * @param poBaseDir
 	 */
-	public clsBWProperties(String poBaseDir) {
+	public clsProperties(String poBaseDir) {
 		setBaseDir(poBaseDir);
 	}
 	
@@ -133,7 +133,7 @@ public class clsBWProperties extends Properties {
 	 *
 	 * @param poBaseDir
 	 */
-	public clsBWProperties() {
+	public clsProperties() {
 		setBaseDir("");
 	}
 	
@@ -280,8 +280,8 @@ public class clsBWProperties extends Properties {
 	 * @param poFilename
 	 * @return a property map
 	 */
-	public static clsBWProperties readProperties(String poBaseDir, String poFilename) {
-		clsBWProperties p2 = new clsBWProperties(poBaseDir);
+	public static clsProperties readProperties(String poBaseDir, String poFilename) {
+		clsProperties p2 = new clsProperties(poBaseDir);
 		
 		poFilename = poBaseDir + System.getProperty("file.separator") + poFilename;
         
@@ -313,7 +313,7 @@ public class clsBWProperties extends Properties {
 	 * @param poFilename
 	 * @param poComments
 	 */
-	public static void writeProperties(clsBWProperties poProp, String poBaseDir, String poFilename, String poComments) {
+	public static void writeProperties(clsProperties poProp, String poBaseDir, String poFilename, String poComments) {
     
 		if (!poBaseDir.endsWith(System.getProperty("file.separator")) && poBaseDir.length()>0 ) {
 			poBaseDir += System.getProperty("file.separator");
@@ -535,7 +535,7 @@ public class clsBWProperties extends Properties {
 	private void insertInclude(String key) {
 		String includeFileName = (super.getProperty(key)).substring( P_INCLUDE.length() );
 		
-		clsBWProperties oOtherProperties = clsBWProperties.readProperties(moBaseDir, includeFileName);
+		clsProperties oOtherProperties = clsProperties.readProperties(moBaseDir, includeFileName);
 		oOtherProperties.addPrefix(key);
 		
 		remove(key);
@@ -729,7 +729,7 @@ public class clsBWProperties extends Properties {
 	 * @param prefix
 	 */
 	public void addPrefix(String prefix) {
-		prefix = clsBWProperties.addDot(prefix);
+		prefix = clsProperties.addDot(prefix);
 		
 		Iterator<String> i = stringPropertyNames().iterator();
 		
@@ -860,8 +860,8 @@ public class clsBWProperties extends Properties {
 	 * @param poPrefix
 	 * @return
 	 */
-	public clsBWProperties getSubset(String poPrefix) {
-		clsBWProperties oSubset = new clsBWProperties();
+	public clsProperties getSubset(String poPrefix) {
+		clsProperties oSubset = new clsProperties();
 
 		Set<Object> oKeyList = this.keySet();
 		

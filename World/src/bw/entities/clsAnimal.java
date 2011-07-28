@@ -12,7 +12,7 @@ import java.awt.Color;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.body.itfget.itfIsAlive;
@@ -37,22 +37,22 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 
 	private boolean mnAlive;
 	
-	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
+	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 		setAlive(true);
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		//add additional fields here
 	}
 	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);

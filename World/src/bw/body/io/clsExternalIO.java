@@ -10,7 +10,7 @@ package bw.body.io;
 import java.util.ArrayList;
 //import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
@@ -84,7 +84,7 @@ public class clsExternalIO extends clsBaseIO {
 	//public HashMap<eSensorExtType, clsSensorExt> moSensorExternal;
 	public clsEntity moEntity;
 
-	public clsExternalIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody, clsEntity poEntity) {
+	public clsExternalIO(String poPrefix, clsProperties poProp, clsBaseBody poBody, clsEntity poEntity) {
 		super(poPrefix, poProp, poBody);
 		moEntity = poEntity; //the entity for physics engine access
 
@@ -94,10 +94,10 @@ public class clsExternalIO extends clsBaseIO {
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultSensorProperties(String poPrefix, boolean pnThreeRangeVision) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultSensorProperties(String poPrefix, boolean pnThreeRangeVision) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();		
+		clsProperties oProp = new clsProperties();		
 
 		oProp.putAll( clsSensorEngine.getDefaultProperties(pre+P_SENSORENGINE) );
 		oProp.setProperty(pre+P_SENSORRANGE, 0.0); // Default - changed later on
@@ -181,10 +181,10 @@ public class clsExternalIO extends clsBaseIO {
 		return oProp;
 	}
 	
-	public static clsBWProperties getDefaultActionProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultActionProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsActionProcessor.getDefaultProperties( pre+P_ACTIONPROCESSOR) );
 
@@ -246,10 +246,10 @@ public class clsExternalIO extends clsBaseIO {
 		return oProp;		
 	}
 		
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(getDefaultSensorProperties(pre+P_SENSORS, false));
 		oProp.putAll(getDefaultActionProperties(pre+P_ACTIONS));
@@ -257,8 +257,8 @@ public class clsExternalIO extends clsBaseIO {
 		return oProp;
 	}
 	
-	private void applySensorProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applySensorProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moSensorEngine = new clsSensorEngine(pre+P_SENSORENGINE, poProp, this);
 		clsSensorExt sensorExt = null; 
 		
@@ -295,8 +295,8 @@ public class clsExternalIO extends clsBaseIO {
 		}		
 	}
 	
-	private void applyActionProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyActionProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		//Register actionexecutors
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
@@ -334,8 +334,8 @@ public class clsExternalIO extends clsBaseIO {
 		}		
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		applySensorProperties(pre+P_SENSORS, poProp);
 		applyActionProperties(pre+P_ACTIONS, poProp);

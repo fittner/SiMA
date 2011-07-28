@@ -8,7 +8,7 @@ package bw.body.intraBodySystems;
 
 import java.util.HashMap;
 import java.util.Map;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsSlowMessengerSystem;
@@ -31,25 +31,25 @@ public class clsStomachToSlowMessenger implements itfStepUpdateInternalState  {
 	private clsStomachSystem moStomachSystem;
 	private clsSlowMessengerSystem moSlowMessengerSystem;
 	
-	public clsStomachToSlowMessenger(String poPrefix, clsBWProperties poProp, clsStomachSystem poStomachSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
+	public clsStomachToSlowMessenger(String poPrefix, clsProperties poProp, clsStomachSystem poStomachSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moStomachSystem = poStomachSystem;		
 		moSlowMessengerSystem = poSlowMessengerSystem;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		// nothing to do
 				
 		return oProp;
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		// nothing to do
 		

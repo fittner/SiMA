@@ -10,7 +10,7 @@ import java.lang.reflect.Method;
 import java.util.Iterator;
 
 import pa._v19.clsInterfaceHandler;
-import config.clsBWProperties;
+import config.clsProperties;
 
 
 /**
@@ -34,7 +34,7 @@ public abstract class clsModuleBase {
 	
 	private eImplementationStage mnImplementationStage;
 	
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+	public clsModuleBase(String poPrefix, clsProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		moEnclosingContainer = poEnclosingContainer;
 		moInterfaceHandler = poInterfaceHandler;
 		
@@ -44,18 +44,18 @@ public abstract class clsModuleBase {
 		applyProperties(poPrefix, poProp);		
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		//nothing to do
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
 	}

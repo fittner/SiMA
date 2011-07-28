@@ -12,7 +12,7 @@ import static org.junit.Assert.*;
 import java.util.ArrayList;
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 
 /**
@@ -25,26 +25,26 @@ import config.clsBWProperties;
 public class tstBWProperties {
 
 	/**
-	 * Test method for {@link config.clsBWProperties#ListToString(java.util.List)}.
+	 * Test method for {@link config.clsProperties#ListToString(java.util.List)}.
 	 */
 	@Test
 	public void testListToString() {
 	    ArrayList<String> oA = new ArrayList<String>(); 
 	    String res = "";
 	    
-	    res = clsBWProperties.ListToString(oA);
+	    res = clsProperties.ListToString(oA);
 	    assertTrue(res.equals(""));
 	    
 	    oA.add("1");
 	    oA.add("2");
 	    
-	    res = clsBWProperties.ListToString(oA);
+	    res = clsProperties.ListToString(oA);
 	    assertTrue(res.equals("1;2"));
 	    
 	    try {
 	    	oA.add(";");
 	    	oA.add("3");	    
-	    	res = clsBWProperties.ListToString(oA);
+	    	res = clsProperties.ListToString(oA);
 	    	assertTrue(res.equals("1;2;\\;;3"));
 	    } catch (java.lang.Exception e) {
 	    	fail(e.toString());
@@ -53,7 +53,7 @@ public class tstBWProperties {
 	    try {	    
 		    oA.add("\\;");
 		    oA.add("4");	    
-		    res = clsBWProperties.ListToString(oA);
+		    res = clsProperties.ListToString(oA);
 		    assertTrue(res.equals("1;2;\\;;3;\\\\\\;;4"));
 	    } catch (java.lang.Exception e) {
 	    	fail(e.toString());
@@ -61,7 +61,7 @@ public class tstBWProperties {
 	}
 
 	/**
-	 * Test method for {@link config.clsBWProperties#StringToList(java.lang.String)}.
+	 * Test method for {@link config.clsProperties#StringToList(java.lang.String)}.
 	 */
 	@Test
 	public void testStringToList() {
@@ -76,38 +76,38 @@ public class tstBWProperties {
 	    String oA = "";
 	    String t = "";
 	    
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[]"));
 	    
 	    oA = "1;2";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2]"));	    
 	    
 	    oA = "1;2;\\;;3";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, ;, 3]"));	    
 
 	    oA = "1;2;\\;;3;\\\\\\;;4";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, ;, 3, \\;, 4]"));
 	    
 	    oA = "a;\\\\;c";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[a, \\, c]"));	   
 	    
 	    oA = "a;\\\\\\;c";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[a, \\;c]"));	 	    
 	}
 
 	/**
-	 * Test method for {@link config.clsBWProperties#StringToList(java.lang.String)}.
+	 * Test method for {@link config.clsProperties#StringToList(java.lang.String)}.
 	 */
 	@Test
 	public void testStringToListX() {
@@ -123,37 +123,37 @@ public class tstBWProperties {
 	    String t = "";
 	    
 	    oA = "1;2;x\\;;3";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, x;, 3]"));	    
 
 	    oA = "1;2;x\\;;3;x\\\\\\;;4";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, x;, 3, x\\;, 4]"));
 	    
 	    oA = "a;x\\\\;c";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[a, x\\, c]"));	   
 	    
 	    oA = "a;x\\\\\\;c";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[a, x\\;c]"));
 	    
 	    oA = "1;2;x\\;y;3";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, x;y, 3]"));	    
 
 	    oA = "1;2;x\\;y;3;x\\\\\\;y;4";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[1, 2, x;y, 3, x\\;y, 4]"));
 	    
 	    oA = "a;x\\\\y;c";
-	    res = (ArrayList<String>) clsBWProperties.StringToList(oA);
+	    res = (ArrayList<String>) clsProperties.StringToList(oA);
 	    t = res.toString();
 	    assertTrue(t.equals("[a, x\\y, c]"));	   
 	}

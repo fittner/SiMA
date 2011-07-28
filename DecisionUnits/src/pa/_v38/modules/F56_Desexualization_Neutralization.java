@@ -26,7 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (zeilinger) - This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive energy and generates lust 
@@ -68,7 +68,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F56_Desexualization_Neutralization(String poPrefix,
-			clsBWProperties poProp,
+			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
@@ -140,11 +140,11 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	 * @param moDrives_OUT2
 	 */
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
+	public static clsProperties getDefaultProperties(String poPrefix) {
 		
-		String pre = clsBWProperties.addDot(poPrefix);
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
 		// see PhD Deutsch2011 p82 for what this is used for		
@@ -174,8 +174,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		return oProp;
 	}	
  
-	private void applyPropertiesAndReduce(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyPropertiesAndReduce(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moSplitterFactor = new HashMap<String, Double>();
 		
 		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
@@ -197,9 +197,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 	}
 	
-//	private void reducedAffectValues(String poPrefix, clsBWProperties poProp) {
+//	private void reducedAffectValues(String poPrefix, clsProperties poProp) {
 //	  
-//		String pre = clsBWProperties.addDot(poPrefix);
+//		String pre = clsProperties.addDot(poPrefix);
 //		moSplitterFactor = new HashMap<String, Double>();
 //		
 //		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);

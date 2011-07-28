@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.exceptions.exFoodAlreadyNormalized;
 import bw.exceptions.exFoodNotFinalized;
@@ -48,7 +48,7 @@ public class clsFood {
 	}
 	
 	
-	public clsFood(String poPrefix, clsBWProperties poProp) {
+	public clsFood(String poPrefix, clsProperties poProp) {
 		moComposition = new HashMap<eNutritions, clsMutableDouble>();
 		mrWeight = 0.0f;
 		mnFinalized = false;
@@ -56,10 +56,10 @@ public class clsFood {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_WEIGHT, 5.0 );
 		oProp.setProperty(pre+P_NUMNUTRITIONS, 6 );
@@ -84,8 +84,8 @@ public class clsFood {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		mrWeight = poProp.getPropertyDouble(pre+P_WEIGHT);
 		

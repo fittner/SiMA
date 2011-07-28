@@ -26,7 +26,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * The constant flow of libido/psychic energy provided by the neurosymbols originating from {F40} 
@@ -59,7 +59,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public F41_Libidostasis(String poPrefix, clsBWProperties poProp,
+	public F41_Libidostasis(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			DT1_LibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -110,16 +110,16 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//nothing to do
 	}	
 	

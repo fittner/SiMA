@@ -7,7 +7,7 @@
  */
 package bw.body.interBodyWorldSystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsEntity;
@@ -31,14 +31,14 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	private clsCreateExcrement moCreateExcrement;
 	private clsEffectKiss moEffectKiss;
     
-	public clsInterBodyWorldSystem(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
+	public clsInterBodyWorldSystem(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsConsumeFood.getDefaultProperties(pre+P_CONSUMEFOOD) );
 		oProp.putAll( clsDamageBump.getDefaultProperties(pre+P_DAMAGEBUMP) );
@@ -49,8 +49,8 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		moConsumeFood 		= new clsConsumeFood(pre+P_CONSUMEFOOD, poProp, poInternalSystem.getStomachSystem());
 		moCreateExcrement 	= new clsCreateExcrement(pre+P_CREATEEXCREMENT, poProp, poInternalSystem.getStomachSystem(), poEntity);		

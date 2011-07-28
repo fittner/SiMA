@@ -7,7 +7,7 @@
 package pa._v30.memorymgmt;
 
 import pa._v30.interfaces.itfInspectorInternalState;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -28,17 +28,17 @@ public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler
 	 * 30.05.2010, 12:33:06
 	 *
 	 */
-	public clsKnowledgeBaseHandler (String poPrefix, clsBWProperties poProp) {
+	public clsKnowledgeBaseHandler (String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 	}
 }

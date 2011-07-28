@@ -7,7 +7,7 @@
  */
 package bw.entities;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShapeCreator;
 import sim.physics2D.shape.Shape;
@@ -39,7 +39,7 @@ public abstract class clsMobile extends clsEntity {
 	protected clsInventory moInventory;
 	
 
-	public clsMobile(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsMobile(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		setEntityInventory();
@@ -50,10 +50,10 @@ public abstract class clsMobile extends clsEntity {
 	}
 
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
 		
@@ -70,8 +70,8 @@ public abstract class clsMobile extends clsEntity {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		mrDefaultCoeffFriction = poProp.getPropertyDouble(pre+P_DEF_COEFF_FRICTION);
 		mrDefaultStaticFriction = poProp.getPropertyDouble(pre+P_DEF_STATIC_FRICTION);

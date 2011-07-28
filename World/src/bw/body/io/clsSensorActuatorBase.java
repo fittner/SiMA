@@ -7,7 +7,7 @@
  */
 package bw.body.io;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import statictools.clsUniqueIdGenerator;
 import bw.utils.enums.eBodyParts;
 
@@ -30,7 +30,7 @@ public abstract class clsSensorActuatorBase {
 	
 	protected double mrBaseEnergyConsumption;
 	
-	public clsSensorActuatorBase(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+	public clsSensorActuatorBase(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO) {
 		setBodyPartId();
 		setName();
 		moBaseIO = poBaseIO;
@@ -38,18 +38,18 @@ public abstract class clsSensorActuatorBase {
 		applyProperties(poPrefix, poProp);
 	}		
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0);
 
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
 		

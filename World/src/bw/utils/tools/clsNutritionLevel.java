@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStep;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
@@ -35,15 +35,15 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 		setDecreasePerStep(prDecreasePerStep);
 	}
 
-	public clsNutritionLevel(String poPrefix, clsBWProperties poProp) {
+	public clsNutritionLevel(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 0.75);
 		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1.2);
@@ -54,8 +54,8 @@ public class clsNutritionLevel extends clsFillLevel implements itfStep {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		//no params to be set - everything done in clsFillLevel and clsContentColumn	
 	}	

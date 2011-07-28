@@ -10,7 +10,7 @@ package bw.body.internalSystems;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
@@ -32,16 +32,16 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 	
 	private HashMap<eSlowMessenger, clsDecayColumn> moSlowMessengerContainer;
 	 
-	public clsSlowMessengerSystem(String poPrefix, clsBWProperties poProp) {
+	public clsSlowMessengerSystem(String poPrefix, clsProperties poProp) {
 		moSlowMessengerContainer = new HashMap<eSlowMessenger, clsDecayColumn>();
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_NUMSLOWMESSENGERS, 2);
 		
@@ -56,8 +56,8 @@ public class clsSlowMessengerSystem implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-	    String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+	    String pre = clsProperties.addDot(poPrefix);
 		
         int num = poProp.getPropertyInt(pre+P_NUMSLOWMESSENGERS);
         for (int i=0; i<num; i++) {

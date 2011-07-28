@@ -8,7 +8,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 
 
@@ -29,7 +29,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsSmartExcrement extends clsInanimate {
-	public clsSmartExcrement(String poPrefix, clsBWProperties poProp, int uid, double prWeight)
+	public clsSmartExcrement(String poPrefix, clsProperties poProp, int uid, double prWeight)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
@@ -42,16 +42,16 @@ public class clsSmartExcrement extends clsInanimate {
 		setVariableWeight(getFlesh().getWeight());
     } 
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){		
+//		String pre = clsProperties.addDot(poPrefix);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 			
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		
@@ -67,7 +67,7 @@ public class clsSmartExcrement extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 2);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, new Color(165, 42, 42));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/smartexcrement.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/smartexcrement.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 1 );

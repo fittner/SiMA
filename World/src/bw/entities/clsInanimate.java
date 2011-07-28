@@ -8,7 +8,7 @@
 package bw.entities;
 
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 
 
@@ -33,22 +33,22 @@ public abstract class clsInanimate extends clsMobile {
 	 * @param pnId
 	 */
 	
-	public clsInanimate(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsInanimate(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		applyProperties(poPrefix, poProp);
 	}
 
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsMobile.getDefaultProperties(pre));
 		return oProp;
 	}	
 		
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {		
+	private void applyProperties(String poPrefix, clsProperties poProp) {		
 	
 		
 	}	

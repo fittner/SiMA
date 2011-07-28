@@ -11,7 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
@@ -28,14 +28,14 @@ import sim.physics2D.util.Double2D;
  */
 public class clsSensorTactile extends clsSensorExt {
 
-	public clsSensorTactile(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+	public clsSensorTactile(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-    	clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+    	clsProperties oProp = new clsProperties();
 	
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
@@ -43,8 +43,8 @@ public class clsSensorTactile extends clsSensorExt {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);

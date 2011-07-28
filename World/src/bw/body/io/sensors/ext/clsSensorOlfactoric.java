@@ -11,7 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
@@ -39,7 +39,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	 * @param poSensorEngine
 	 */
 
-	public clsSensorOlfactoric(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO) {
+	public clsSensorOlfactoric(String poPrefix, clsProperties poProp,clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 
 		// TODO (zeilinger) - Auto-generated constructor stub
@@ -47,18 +47,18 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	}
 
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import statictools.clsUniqueIdGenerator;
 import du.enums.eCallPriority;
@@ -53,13 +53,13 @@ public class clsActionProcessor implements itfActionProcessor {
 		return mnUniqueId;
 	 }
 	 
-	 public clsActionProcessor(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	 public clsActionProcessor(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		 moEntity=poEntity;	 
 	 }
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 
 		return oProp;
 	}

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
@@ -46,7 +46,7 @@ public class tssInformationRepresentationManagementARSi10 {
 	public void tssInitMemorySearch(){
 		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPatternList = null;
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oResultList = null; 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsInformationRepresentationManagement.getDefaultProperties(""));
 		oProp.setProperty(clsKnowledgeBaseHandler.P_SOURCE_NAME, ""); 
 		clsKnowledgeBaseHandler oKnowledgeBaseTEST = new clsInformationRepresentationManagement("", oProp); 

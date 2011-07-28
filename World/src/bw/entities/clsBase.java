@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import sim.engine.SimState;
@@ -42,7 +42,7 @@ public class clsBase extends clsStationary {
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
 	
 	
-    public clsBase(String poPrefix, clsBWProperties poProp, int uid) {
+    public clsBase(String poPrefix, clsProperties poProp, int uid) {
     	super(poPrefix, poProp, uid);
     	
 		mnStoredOre = 0;
@@ -51,17 +51,17 @@ public class clsBase extends clsStationary {
     }
     
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+		String pre = clsProperties.addDot(poPrefix);
 		
     	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
     	moSensorEatable = new clsSensorEatableArea(pre+P_SENSOR, poProp, null);		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 /*
@@ -87,7 +87,7 @@ public class clsBase extends clsStationary {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 17);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.white);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/base.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/base.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		return oProp;

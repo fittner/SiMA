@@ -6,7 +6,7 @@
  */
 package bw.body.intraBodySystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsStomachSystem;
@@ -29,17 +29,17 @@ public class clsStomachPainTension implements itfStepUpdateInternalState  {
 	private clsStomachSystem moStomachSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 	
-	public clsStomachPainTension(String poPrefix, clsBWProperties poProp, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsStomachPainTension(String poPrefix, clsProperties poProp, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_PAINTHRESHOLD, 0.8);
 		oProp.setProperty(pre+P_PAINFACTOR, 1);
@@ -47,8 +47,8 @@ public class clsStomachPainTension implements itfStepUpdateInternalState  {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrPainThreshold = poProp.getPropertyDouble(pre+P_PAINTHRESHOLD);
 		mrPainFactor = poProp.getPropertyDouble(pre+P_PAINFACTOR);

@@ -15,7 +15,7 @@ import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.factories.eImages;
 import bw.utils.enums.eBodyType;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
@@ -77,7 +77,7 @@ public abstract class clsEntity implements itfGetBody {
 	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	
-	public clsEntity(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
 		mnCurrentOverlay = eImages.NONE;
 		setEntityType();
@@ -101,10 +101,10 @@ public abstract class clsEntity implements itfGetBody {
 		return moPositionLogger;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		oProp.setProperty(pre+P_ID, -1);
@@ -115,8 +115,8 @@ public abstract class clsEntity implements itfGetBody {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		setId( poProp.getPropertyString(pre+P_ID ) );
 		setStructuralWeight(poProp.getPropertyDouble(pre+P_STRUCTURALWEIGHT));
@@ -127,8 +127,8 @@ public abstract class clsEntity implements itfGetBody {
 		moBody = poBody;
 	}
 	
-	protected clsBaseBody createBody(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	protected clsBaseBody createBody(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		eBodyType oBodyType = eBodyType.valueOf( poProp.getPropertyString(pre+P_BODY_TYPE) );
 		
 		clsBaseBody oRetVal = null;

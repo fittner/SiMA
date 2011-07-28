@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
@@ -33,19 +33,19 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	
 	public double mrRadiationIntensity;
 	
-	public clsUraniumOre(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsUraniumOre(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){
+    private void applyProperties(String poPrefix, clsProperties poProp){
     	mrRadiationIntensity = poProp.getPropertyDouble(poPrefix +P_RADIATION_INTENSITY);
 	}	
     
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5.0);
@@ -55,7 +55,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "4.0");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.green);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/uranium.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/uranium.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		return oProp;

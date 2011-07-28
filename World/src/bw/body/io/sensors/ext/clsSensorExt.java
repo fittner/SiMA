@@ -11,7 +11,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
@@ -46,7 +46,7 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 	/**
 	 * @param poBaseIO
 	 */
-	public clsSensorExt(String poPrefix, clsBWProperties poProp,  
+	public clsSensorExt(String poPrefix, clsProperties poProp,  
 						clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
@@ -54,10 +54,10 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		moSensorEngine = ((clsExternalIO)poBaseIO).moSensorEngine; 			
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
+		clsProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
 		
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, 2*Math.PI);
 		oProp.setProperty(pre+P_SENSOR_OFFSET_X, 0.0);
@@ -66,8 +66,8 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	}		
 	
 	public void assignSensorData(Double2D poSensorOffset,Double pnRange, Double pnAngle){

@@ -11,7 +11,7 @@ package bw.entities.tools;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import sim.physics2D.shape.Shape;
 import statictools.clsGetARSPath;
@@ -41,8 +41,8 @@ public class clsShapeCreator {
 	public static final String P_Y			= "y";
 	public static final String P_ANGLE      = "angle"; //rotate image and shape by this angle
 	
-	public static Shape createShape(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static Shape createShape(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		Shape oShape = null; 
 
@@ -67,8 +67,8 @@ public class clsShapeCreator {
 		return oShape;
 	}
 	
-	private static Shape createCircle(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private static Shape createCircle(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		Shape oShape = null; 
 		String oImagePath = "";
 		
@@ -97,8 +97,8 @@ public class clsShapeCreator {
 		return oShape;
 	}
 	
-	private static Shape createRectangle(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private static Shape createRectangle(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		Shape oShape = null; 
 		String oImagePath = "";
 		
@@ -129,8 +129,8 @@ public class clsShapeCreator {
 		return oShape;
 	}
 	
-	private static Shape createPolygon(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private static Shape createPolygon(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		ArrayList<clsPoint> oPoints = new ArrayList<clsPoint>();
 		
@@ -146,9 +146,9 @@ public class clsShapeCreator {
 //		return null;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix, eShapeType pnShape) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix, eShapeType pnShape) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 
 		switch(pnShape) {
 			case CIRCLE: 

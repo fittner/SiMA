@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * Extends the content column by two concepts: 1. dividing the column into three parts (low, normal, high);  
@@ -37,15 +37,15 @@ public class clsFillLevel extends clsContentColumn {
 		checkBounds();		
 	}
 	
-	public clsFillLevel(String poPrefix, clsBWProperties poProp) {
+	public clsFillLevel(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
 		
@@ -56,8 +56,8 @@ public class clsFillLevel extends clsContentColumn {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		mrLowerBound = poProp.getPropertyDouble(pre+P_LOWERBOUND);
 		mrUpperBound = poProp.getPropertyDouble(pre+P_UPPERBOUND);		

@@ -7,7 +7,7 @@
  */
 package bw.body.io;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -18,27 +18,27 @@ import config.clsBWProperties;
  * 
  */
 public abstract class clsSensorActuatorBaseInt extends clsSensorActuatorBase{
-	public clsSensorActuatorBaseInt(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+	public clsSensorActuatorBaseInt(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public clsSensorActuatorBaseInt(String poPrefix, clsBWProperties poProp) {
+	public clsSensorActuatorBaseInt(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp, null);
 		applyProperties(poPrefix, poProp);
 	}
 	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = clsSensorActuatorBase.getDefaultProperties(poPrefix);
+		clsProperties oProp = clsSensorActuatorBase.getDefaultProperties(poPrefix);
 
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	}
 
 }

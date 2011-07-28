@@ -8,7 +8,7 @@
  */
 package bw.body.io.sensors.ext;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;
 
@@ -22,15 +22,15 @@ import bw.utils.enums.eBodyParts;
 
 public class clsSensorEatableArea extends clsSensorRingSegment{
 
-	public clsSensorEatableArea(String poPrefix, clsBWProperties poProp,clsBaseIO poBaseIO) {
+	public clsSensorEatableArea(String poPrefix, clsProperties poProp,clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties( );
+		clsProperties oProp = new clsProperties( );
 		oProp.putAll( clsSensorRingSegment.getDefaultProperties(pre) );
 		oProp.setProperty(pre+P_SENSOR_FIELD_OF_VIEW, Math.PI/4); 
 
@@ -41,8 +41,8 @@ public class clsSensorEatableArea extends clsSensorRingSegment{
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		
 		//nothing to do
 	}

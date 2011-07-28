@@ -9,7 +9,7 @@ package bw.body.io.sensors.ext;
 import java.util.ArrayList;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import config.clsBWProperties;
+import config.clsProperties;
 
 import ARSsim.physics2D.util.clsPose;
 import bw.body.io.clsBaseIO;
@@ -41,7 +41,7 @@ public class clsSensorPositionChange extends clsSensorExt{
 	 * @param poProp
 	 * @param poBaseIO
 	 */
-	public clsSensorPositionChange(String poPrefix, clsBWProperties poProp,
+	public clsSensorPositionChange(String poPrefix, clsProperties poProp,
 			clsBaseIO poBaseIO) {
 		super(poPrefix, poProp, poBaseIO);
 		moEntity = ((clsExternalIO)poBaseIO).moEntity;
@@ -51,18 +51,18 @@ public class clsSensorPositionChange extends clsSensorExt{
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsSensorExt.getDefaultProperties(pre));
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 				
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double nFieldOfView= poProp.getPropertyDouble(pre+P_SENSOR_FIELD_OF_VIEW);
 		double nRange = poProp.getPropertyDouble(pre+clsExternalIO.P_SENSORRANGE);

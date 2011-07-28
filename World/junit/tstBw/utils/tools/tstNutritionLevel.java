@@ -14,7 +14,7 @@ import bw.utils.tools.clsNutritionLevel;
 
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -50,7 +50,7 @@ public class tstNutritionLevel {
 	
 	@Test 
 	public void testPropertyConstructor() {
-		clsBWProperties oProp = clsNutritionLevel.getDefaultProperties("");
+		clsProperties oProp = clsNutritionLevel.getDefaultProperties("");
 		clsNutritionLevel oColumn = null;
 	
 		oColumn = new clsNutritionLevel("", oProp);

@@ -26,7 +26,7 @@ import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toText;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -55,7 +55,7 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public E41_Libidostasis(String poPrefix, clsBWProperties poProp,
+	public E41_Libidostasis(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			clsLibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -106,17 +106,17 @@ public class E41_Libidostasis extends clsModuleBase implements I1_9_receive, I1_
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

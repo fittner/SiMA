@@ -7,7 +7,7 @@
  */
 package bw.body.internalSystems;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
@@ -27,14 +27,14 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 	
 	private double mrSelfRegulationAdaption;
 	
-	public clsTemperatureSystem(String poPrefix, clsBWProperties poProp) {
+	public clsTemperatureSystem(String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 1);
 		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 2);
@@ -46,8 +46,8 @@ public class clsTemperatureSystem implements itfStepUpdateInternalState {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mrSelfRegulationAdaption = poProp.getPropertyDouble(pre+P_SELFREGULATION);
 		moTemperature = new clsFillLevel(pre, poProp);

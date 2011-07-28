@@ -9,7 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -28,19 +28,19 @@ import bw.utils.enums.eShapeType;
 public class clsPlant extends clsInanimate {
 
 	
-	public clsPlant(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsPlant(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
     }
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
+    private void applyProperties(String poPrefix, clsProperties poProp){		
 		// nothing to do
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
@@ -50,7 +50,7 @@ public class clsPlant extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.ORANGE);
 		
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/plant01.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/plant01.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		return oProp;

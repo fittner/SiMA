@@ -10,7 +10,7 @@ package bw.entities;
 
 import java.awt.Color;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.entities.tools.clsShapeCreator;
 import bw.entities.tools.eImagePositioning;
@@ -33,14 +33,14 @@ public class clsWallVertical extends clsWallAxisAlign {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsWallVertical(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsWallVertical(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
     	applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -48,13 +48,13 @@ public class clsWallVertical extends clsWallAxisAlign {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, 6);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, 200);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.black);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/wall2.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/wall2.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		return oProp;
 	}		
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
+	private void applyProperties(String poPrefix, clsProperties poProp){		
 		// nothing to do
 	}
 }

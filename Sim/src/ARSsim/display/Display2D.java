@@ -9,7 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.Rectangle2D;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 
 import sim.display.GUIState;
@@ -91,11 +91,11 @@ public class Display2D extends sim.display.Display2D {
 	 * Static factory method that produces a Display2D instance according to the provided parameters
 	 *
 	 * @param poPrefix identifier prefix for the properites
-	 * @param poProp properties in the form of clsBWProperties
+	 * @param poProp properties in the form of clsProperties
 	 * @param simulation GUIState
 	 * @return a new instance of Display2D
 	 */
-	public static Display2D createDisplay2d(String poPrefix, clsBWProperties poProp, GUIState simulation) {
+	public static Display2D createDisplay2d(String poPrefix, clsProperties poProp, GUIState simulation) {
 		return applyProperties(poPrefix, poProp, simulation);
 	}
 	
@@ -103,12 +103,12 @@ public class Display2D extends sim.display.Display2D {
 	 * Creates an instance of Display2D according to the provided properties.
 	 * 
 	 * @param poPrefix identifier prefix for the properites
-	 * @param poProp properties in the form of clsBWProperties
+	 * @param poProp properties in the form of clsProperties
 	 * @param simulation GUIState
 	 * @return a new instance of Display2D
 	 */
-	private static Display2D applyProperties(String poPrefix, clsBWProperties poProp, GUIState simulation) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private static Display2D applyProperties(String poPrefix, clsProperties poProp, GUIState simulation) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		double width = poProp.getPropertyDouble(pre+P_WIDTH);
 		double height = poProp.getPropertyDouble(pre+P_HEIGHT);
@@ -120,9 +120,9 @@ public class Display2D extends sim.display.Display2D {
 	/**
 	 * Provides the default parameters for this class. 
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = new clsBWProperties();
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_HEIGHT, 600.0);
 		oProp.setProperty(pre+P_WIDTH, 600.0);

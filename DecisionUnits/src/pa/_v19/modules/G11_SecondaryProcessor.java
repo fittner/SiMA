@@ -26,7 +26,7 @@ import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsAct;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -69,16 +69,16 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G11_SecondaryProcessor(String poPrefix, clsBWProperties poProp,
+	public G11_SecondaryProcessor(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( G14_PerceptualPreprocessing.getDefaultProperties(pre+P_G14) );
 		oProp.putAll( G15_Deliberation.getDefaultProperties(pre+P_G15) );
@@ -87,8 +87,8 @@ public class G11_SecondaryProcessor extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moG14PerceptualPreprocessing = new G14_PerceptualPreprocessing(pre+P_G14, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 		moG15Deliberation = new G15_Deliberation(pre+P_G15, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);

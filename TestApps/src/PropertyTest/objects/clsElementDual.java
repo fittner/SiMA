@@ -1,6 +1,6 @@
 package PropertyTest.objects;
 
-import PropertyTest.Properties.clsBWProperties;
+import PropertyTest.Properties.clsProperties;
 
 
 
@@ -17,7 +17,7 @@ public class clsElementDual extends clsElement {
 		setB(B);
 	}
 	
-	public clsElementDual(String poPrefix, clsBWProperties poProp) {
+	public clsElementDual(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}	
@@ -41,13 +41,13 @@ public class clsElementDual extends clsElement {
 		return super.toString()+"A: "+mnA+"/B: "+mnB;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
+	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
 		}
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_NAME, "dual");
 		oProp.setProperty(pre+P_A, "0");
@@ -56,7 +56,7 @@ public class clsElementDual extends clsElement {
 		return oProp;
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";

@@ -7,7 +7,7 @@
  */
 package bw.body;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
@@ -47,13 +47,13 @@ public class clsComplexBody extends clsBaseBody implements
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
        
-    public clsComplexBody(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+    public clsComplexBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);
 		applyProperties(poPrefix, poProp, poEntity);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
 		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
@@ -64,10 +64,10 @@ public class clsComplexBody extends clsBaseBody implements
 		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorEngine.getMeRegisteredSensors(), moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsExternalIO.getDefaultProperties(pre+P_EXTERNALIO) );
 		oProp.putAll( clsInternalIO.getDefaultProperties(pre+P_INTERNALIO) );

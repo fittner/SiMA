@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import bw.body.internalSystems.clsStomachSystem;
 import bw.exceptions.exFoodNotFinalized;
@@ -33,24 +33,24 @@ public class clsConsumeFood {
 	private clsStomachSystem moStomachSystem; // reference to existing stomach
 
 
-	public clsConsumeFood(String poPrefix, clsBWProperties poProp, clsStomachSystem poStomach) {
+	public clsConsumeFood(String poPrefix, clsProperties poProp, clsStomachSystem poStomach) {
 		moStomachSystem = poStomach;
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_GARBAGENUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
 				
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		String temp = poProp.getProperty(pre+P_GARBAGENUTRITIONTYPE);
 		mnGarbageNutritionType = eNutritions.valueOf(temp);

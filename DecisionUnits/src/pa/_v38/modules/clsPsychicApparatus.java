@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
@@ -107,11 +107,11 @@ public class clsPsychicApparatus {
 	 * @since 13.07.2011 17:56:41
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param poKnowledgeBaseHandler A reference to the knowledgebasehandler.
 	 * @param uid Unique identifier. The same for the body and the decision unit.
 	 */
-	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
+	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
 		moModules = new HashMap<Integer, clsModuleBase>();
@@ -130,17 +130,17 @@ public class clsPsychicApparatus {
 	}
 	
 	/**
-	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface. 
+	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface. 
 	 *
 	 * @since 13.07.2011 17:56:42
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
 	 * @return
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( F02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
@@ -194,10 +194,10 @@ public class clsPsychicApparatus {
 	 * @since 13.07.2011 17:56:46
 	 * 
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 */
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		try {
 			//TODO HZ - Integrate to Properties

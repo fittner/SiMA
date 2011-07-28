@@ -7,7 +7,7 @@
 
 package sim;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import creation.clsLoader;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import du.enums.eDecisionType;
@@ -104,16 +104,16 @@ public class clsBWMain extends SimState{
 	
 		// read BW properties
 		
-		clsBWProperties oProp = clsBWProperties.readProperties(oPath, oFilename);
+		clsProperties oProp = clsProperties.readProperties(oPath, oFilename);
 		
 		if (oImplementationStagesFile != null) {
 			//read implementation stages file
-			clsBWProperties oPropImp = clsBWProperties.readProperties(oPath, oImplementationStagesFile);
+			clsProperties oPropImp = clsProperties.readProperties(oPath, oImplementationStagesFile);
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.PA);
 			//merge settings - overwrites exsiting entries
 			oProp.putAll(oPropImp);
 			
-			oPropImp = clsBWProperties.readProperties(oPath, oImplementationStagesFile);
+			oPropImp = clsProperties.readProperties(oPath, oImplementationStagesFile);
 			oPropImp.addPrefix(clsSimplePropertyLoader.P_DEFAULTSDECISIONUNIT+"."+eDecisionType.ActionlessTestPA);
 			//merge settings - overwrites exsiting entries
 			oProp.putAll(oPropImp);

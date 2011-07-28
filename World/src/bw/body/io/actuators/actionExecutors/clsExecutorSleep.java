@@ -6,7 +6,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 
 import bw.body.io.actuators.clsActionExecutor;
@@ -35,7 +35,7 @@ public class clsExecutorSleep extends clsActionExecutor{
 	private ArrayList<itfAPSleep> moNotifyDeep;
 	private clsEntity moEntity;
 
-	public clsExecutorSleep(String poPrefix, clsBWProperties poProp, clsEntity poEntity, ArrayList<itfAPSleep> poNotifyLight, ArrayList<itfAPSleep> poNotifyDeep ) {
+	public clsExecutorSleep(String poPrefix, clsProperties poProp, clsEntity poEntity, ArrayList<itfAPSleep> poNotifyLight, ArrayList<itfAPSleep> poNotifyDeep ) {
 		super(poPrefix, poProp);
 		
 		//moEntity=poEntity;
@@ -60,15 +60,15 @@ public class clsExecutorSleep extends clsActionExecutor{
 	}
 
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(poPrefix);
 		
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	}
 	
 

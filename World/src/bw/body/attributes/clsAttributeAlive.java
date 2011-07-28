@@ -6,7 +6,7 @@
  */
 package bw.body.attributes;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eTriState;
 import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfIsConsumeable;
@@ -26,7 +26,7 @@ public class clsAttributeAlive extends clsBaseAttribute {
 	private boolean mnIsAliveAvailable;
 	private boolean mnIsConsumableAvailable;	
 	
-    public clsAttributeAlive(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+    public clsAttributeAlive(String poPrefix, clsProperties poProp, clsEntity poEntity) {
     	super(poPrefix, poProp);
  
     	moEntity = poEntity;
@@ -46,15 +46,15 @@ public class clsAttributeAlive extends clsBaseAttribute {
 		applyProperties(poPrefix, poProp);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		
 		return oProp;

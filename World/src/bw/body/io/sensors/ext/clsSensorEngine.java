@@ -18,7 +18,7 @@ import java.util.TreeMap;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Circle;
 import sim.physics2D.util.Double2D;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -58,7 +58,7 @@ public class clsSensorEngine{
 	private double[] mnRange; 
 	private clsEntity moHostEntity; 
 		
-	public clsSensorEngine(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO){
+	public clsSensorEngine(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO){
 		meRegisteredSensors = new HashMap<eSensorExtType,clsSensorExt>();
 		moRegisteredSensorAtRange = new HashMap<Double,ArrayList<clsSensorExt>>();
 		moDetectedObj = new HashMap <Double,ArrayList<clsCollidingObject>>();
@@ -69,18 +69,18 @@ public class clsSensorEngine{
 		registerEngineEntity(); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre + P_MAX_RANGE, 60.0);
 		oProp.setProperty(pre + P_RANGEDIVISION, 3);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		int nNumSteps = poProp.getPropertyInt(pre+P_RANGEDIVISION);
 		double nStepRange = poProp.getPropertyDouble(pre+P_MAX_RANGE)/nNumSteps;

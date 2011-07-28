@@ -8,7 +8,7 @@ package bw.body.io.sensors.ext;
 
 import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (langr) - insert description 
@@ -19,21 +19,21 @@ import config.clsBWProperties;
  */
 public class clsSensorVision extends clsSensorRingSegment {
 
-	   public clsSensorVision(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO) {
+	   public clsSensorVision(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO) {
 			super(poPrefix, poProp, poBaseIO);
 			applyProperties(poPrefix, poProp);
 		}
 
-		public static clsBWProperties getDefaultProperties(String poPrefix) {
-			String pre = clsBWProperties.addDot(poPrefix);
+		public static clsProperties getDefaultProperties(String poPrefix) {
+			String pre = clsProperties.addDot(poPrefix);
 			
-			clsBWProperties oProp = clsSensorRingSegment.getDefaultProperties(poPrefix);
+			clsProperties oProp = clsSensorRingSegment.getDefaultProperties(poPrefix);
 			oProp.putAll( clsSensorRingSegment.getDefaultProperties(pre));
 			return oProp;
 		}	
 		
-		private void applyProperties(String poPrefix, clsBWProperties poProp) {
-			//String pre = clsBWProperties.addDot(poPrefix);
+		private void applyProperties(String poPrefix, clsProperties poProp) {
+			//String pre = clsProperties.addDot(poPrefix);
 		}
 		
 		@Override

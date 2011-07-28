@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.enums.eBodyParts;
 
@@ -30,24 +30,24 @@ public class clsFastMessengerSystem implements itfStepUpdateInternalState {
 
 	private int mnDefaultExpireTime;
 
-	public clsFastMessengerSystem(String poPrefix, clsBWProperties poProp) {
+	public clsFastMessengerSystem(String poPrefix, clsProperties poProp) {
 		moTargetList = new HashMap<eBodyParts, HashMap<eBodyParts, clsFastMessengerEntry>>();
 		moFromToMapping = new ArrayList<clsFastMessengerKeyTuple>();
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_EXPIRETIME, 3);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mnDefaultExpireTime = poProp.getPropertyInt(pre+P_EXPIRETIME);		
 	}	

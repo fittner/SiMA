@@ -8,7 +8,7 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
@@ -46,7 +46,7 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_FORCECALINGFACTOR = "forcescalingfactor";
 
-	public clsExecutorAttackBite(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+	public clsExecutorAttackBite(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
@@ -56,10 +56,10 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		applyProperties(poPrefix,poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = clsActionExecutor.getDefaultProperties(pre);
+		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
 		oProp.setProperty(pre+P_FORCECALINGFACTOR, 1f);
@@ -67,8 +67,8 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
 		mrForceScalingFactor=poProp.getPropertyFloat(pre+P_FORCECALINGFACTOR);
 	}

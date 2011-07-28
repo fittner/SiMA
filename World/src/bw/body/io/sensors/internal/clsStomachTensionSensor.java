@@ -6,7 +6,7 @@
  */
 package bw.body.io.sensors.internal;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsStomachSystem;
@@ -27,7 +27,7 @@ public class clsStomachTensionSensor  extends clsSensorInt {
 	private double mrTension;
 	
 
-	public clsStomachTensionSensor(String poPrefix, clsBWProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
+	public clsStomachTensionSensor(String poPrefix, clsProperties poProp, clsBaseIO poBaseIO, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBaseIO);
 		
 		mrTension = 0;
@@ -35,18 +35,18 @@ public class clsStomachTensionSensor  extends clsSensorInt {
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.0);
 				
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 
 		//nothing to do
 	}	

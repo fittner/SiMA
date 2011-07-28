@@ -9,7 +9,7 @@ package bw.body.interBodyWorldSystems;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsSlowMessengerSystem;
 import bw.utils.enums.eBodyParts;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,25 +25,25 @@ public class clsEffectKiss {
 	
 	
 
-	public clsEffectKiss(String poPrefix, clsBWProperties poProp, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
+	public clsEffectKiss(String poPrefix, clsProperties poProp, clsFastMessengerSystem poFastMessengerSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moFastMessengerSystem = poFastMessengerSystem;
 		//moSlowMessengerSystem = poSlowMessengerSystem; //never used!
 		
 		applyProperties(poPrefix, poProp);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		// nothing to do
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 		// nothing to do
 
 	}

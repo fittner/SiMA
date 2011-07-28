@@ -27,7 +27,7 @@ import pa._v19.symbolization.representationsymbol.itfSymbol;
 import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
 import pa._v19.enums.eSymbolExtType;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.clsActionCommand;
@@ -85,16 +85,16 @@ public class G01_Body extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G01_Body(String poPrefix, clsBWProperties poProp,
+	public G01_Body(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E01_Homeostases.getDefaultProperties(pre+P_E01) );
 		oProp.putAll( E02_NeurosymbolizationOfNeeds.getDefaultProperties(pre+P_E02) );
@@ -108,8 +108,8 @@ public class G01_Body extends clsModuleContainer implements
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE01Homeostases = new E01_Homeostases(pre+P_E01, poProp, this, moInterfaceHandler);
 		moE02NeurosymbolizationOfNeeds = new E02_NeurosymbolizationOfNeeds(pre+P_E02, poProp, this, moInterfaceHandler);

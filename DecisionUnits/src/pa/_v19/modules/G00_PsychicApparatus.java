@@ -43,7 +43,7 @@ import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
 import pa._v19.enums.eSymbolExtType;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
@@ -133,15 +133,15 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G00_PsychicApparatus(String poPrefix, clsBWProperties poProp, clsInterfaceHandler poInterfaceHandler) {
+	public G00_PsychicApparatus(String poPrefix, clsProperties poProp, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, null, poInterfaceHandler, null, null);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( G01_Body.getDefaultProperties(pre+P_G01) );
 		oProp.putAll( G02_Id.getDefaultProperties(pre+P_G02) );
@@ -153,8 +153,8 @@ public class G00_PsychicApparatus extends clsModuleContainer implements
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moMemory = new clsMemory(pre+P_MEMORY, poProp);
 		moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);

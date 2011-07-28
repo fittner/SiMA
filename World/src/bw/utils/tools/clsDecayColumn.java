@@ -7,7 +7,7 @@
  */
 package bw.utils.tools;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exValueNotWithinRange;
@@ -49,16 +49,16 @@ public class clsDecayColumn extends clsContentColumn {
 	}
 	
 	
-	public clsDecayColumn(String poPrefix, clsBWProperties poProp) throws exValueNotWithinRange {
+	public clsDecayColumn(String poPrefix, clsProperties poProp) throws exValueNotWithinRange {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 		checkZero();
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsContentColumn.getDefaultProperties(pre) );
 		
@@ -69,8 +69,8 @@ public class clsDecayColumn extends clsContentColumn {
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) throws exValueNotWithinRange {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) throws exValueNotWithinRange {
+		String pre = clsProperties.addDot(poPrefix);
 
 		this.setIncreaseRate(poProp.getPropertyDouble(pre+P_INCREASERATE));
 		this.setDecayRate(poProp.getPropertyDouble(pre+P_DECAYRATE));

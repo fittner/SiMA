@@ -9,7 +9,7 @@ package bw.body.io;
 
 import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorIntType;
 import bw.body.clsBaseBody;
 import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
@@ -39,7 +39,7 @@ public class clsInternalIO extends clsBaseIO{
 
 	public clsBaseBody moBody;
 	
-	public clsInternalIO(String poPrefix, clsBWProperties poProp, clsBaseBody poBody) {
+	public clsInternalIO(String poPrefix, clsProperties poProp, clsBaseBody poBody) {
 		super(poPrefix, poProp, poBody);
 		
 		moSensorInternal = new HashMap<eSensorIntType, clsSensorInt>();
@@ -48,10 +48,10 @@ public class clsInternalIO extends clsBaseIO{
 		applyProperties(poPrefix, poProp, poBody);
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		
 		int i=0;
@@ -110,8 +110,8 @@ public class clsInternalIO extends clsBaseIO{
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp, clsBaseBody poBody) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, clsBaseBody poBody) {
+		String pre = clsProperties.addDot(poPrefix);
 
 		int num = poProp.getPropertyInt(pre+P_NUMSENSORS);
 		for (int i=0; i<num; i++) {

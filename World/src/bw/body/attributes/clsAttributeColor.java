@@ -10,7 +10,7 @@ import java.awt.Color;
 
 import bw.entities.clsEntity;
 import bw.utils.enums.eBodyAttributes;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -22,21 +22,21 @@ import config.clsBWProperties;
 public class clsAttributeColor extends clsBaseAttribute {
 	protected clsEntity moEntity;
 	
-    public clsAttributeColor(String poPrefix, clsBWProperties poProp, clsEntity poEntity) {
+    public clsAttributeColor(String poPrefix, clsProperties poProp, clsEntity poEntity) {
     	super(poPrefix, poProp);
     	moEntity = poEntity;
 		applyProperties(poPrefix, poProp);
 	}
     
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 
 	}	    
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		return oProp;
 	}

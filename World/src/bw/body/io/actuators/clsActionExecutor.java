@@ -10,7 +10,7 @@ package bw.body.io.actuators;
 
 import java.util.ArrayList;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -48,24 +48,24 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsActionExecutor(String poPrefix, clsBWProperties poProp) {
+	public clsActionExecutor(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp);
 		applyProperties(poPrefix, poProp);
 	}
 	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
+		clsProperties oProp = clsSensorActuatorBaseExt.getDefaultProperties(pre);
 
 		oProp.setProperty(pre+P_ENERGYRELATION, 0.01);
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		srEnergyRelation = poProp.getPropertyDouble(pre+P_ENERGYRELATION);
 	}

@@ -11,7 +11,7 @@ package tstBw.body.io.actuators;
 import static org.junit.Assert.*;
 import org.junit.Test;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import du.enums.eCallPriority;
 import du.itf.actions.*;
@@ -234,7 +234,7 @@ public class tstActionProcessor {
 		 * @param poProp
 		 */
 		public tstTestExecutor() {
-			super("", new clsBWProperties());
+			super("", new clsProperties());
 		}
 
 		@Override
