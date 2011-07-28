@@ -28,7 +28,7 @@ import pa._v38.interfaces.modules.eInterfaces;
  * 09.07.2011, 16:39:44
  * 
  */
-public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfInterfaceDescription{
+public class DT3_PsychicEnergyStorage implements itfInspectorInternalState, itfInterfaceDescription{
 		/**
 		 * DOCUMENT (hinterleitner) - insert description 
 		 *
@@ -36,7 +36,7 @@ public class clsPsychicEnergyStorage implements itfInspectorInternalState, itfIn
 		 *
 		 */
 	
-		public clsPsychicEnergyStorage() {
+		public DT3_PsychicEnergyStorage() {
 
 	    }
 		public int PsychicEnergy_IN;

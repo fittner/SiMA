@@ -23,7 +23,7 @@ import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
@@ -70,7 +70,7 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	public F56_Desexualization_Neutralization(String poPrefix,
 			clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 

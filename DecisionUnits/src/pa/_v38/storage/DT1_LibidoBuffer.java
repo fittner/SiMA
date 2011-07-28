@@ -27,10 +27,10 @@ import pa._v38.tools.toText;
  * 09.03.2011, 17:04:55
  * 
  */
-public class clsLibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
+public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
 	private double mrBufferedLibido;
 	
-	public clsLibidoBuffer() {
+	public DT1_LibidoBuffer() {
 		mrBufferedLibido = 0;
 	}
 

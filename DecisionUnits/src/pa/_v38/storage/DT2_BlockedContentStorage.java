@@ -42,7 +42,7 @@ import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComp
  * 09.03.2011, 17:12:46
  * 
  */
-public class clsBlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
+public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
 	//Blocked content buffer
 	private ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> moBlockedContent;
 	
@@ -68,7 +68,7 @@ public class clsBlockedContentStorage implements itfInspectorInternalState, itfI
 	private int mnActivationLimit = 3;
 	
 	
-	public clsBlockedContentStorage() {
+	public DT2_BlockedContentStorage() {
     	// The storage consists of an ArrayList of clsPair, in each pair, the element A is the DataStructure and
     	// the element B contains the AssociatedDataStructures from the PrimaryDataStructureContainer that has been blocked.
     	moBlockedContent = new ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>();

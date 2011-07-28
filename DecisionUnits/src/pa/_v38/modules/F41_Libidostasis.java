@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -42,7 +42,7 @@ import config.clsBWProperties;
 public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_1_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "41";
 	
-	private clsLibidoBuffer moLibidoBuffer;
+	private DT1_LibidoBuffer moLibidoBuffer;
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
 	
@@ -61,7 +61,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 */
 	public F41_Libidostasis(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			clsLibidoBuffer poLibidoBuffer) throws Exception {
+			DT1_LibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;

@@ -26,7 +26,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import config.clsBWProperties;
 
 /**
@@ -64,7 +64,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
-			ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
+			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
 		throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
