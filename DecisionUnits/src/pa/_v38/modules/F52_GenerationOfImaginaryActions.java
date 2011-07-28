@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -245,7 +245,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		String oContent = "FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
 		String oActualGoal = oContent;
 		
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTriple <String, ArrayList<clsSecondaryDataStructure>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsSecondaryDataStructure>(), oActualGoal));
 		
 		//clsAct oAct = generateAct(oActualGoal); 

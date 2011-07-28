@@ -24,7 +24,7 @@ import du.itf.sensors.clsSensorIntern;
 
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -156,9 +156,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 			clsPair oNextMemoryObject = (clsPair)oO;
 			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
 			
-		} else if (oO instanceof clsTripple) {
+		} else if (oO instanceof clsTriple) {
 			@SuppressWarnings("rawtypes")
-			clsTripple oNextMemoryObject = (clsTripple)oO;
+			clsTriple oNextMemoryObject = (clsTriple)oO;
 			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
 			
 		} else if (oO instanceof clsDataStructureContainer)	{
@@ -745,7 +745,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	/** [TRIPPLE]
 	 * Generating cells from clsPair
 	 */
-	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsTripple<?,?,?> poMemoryObject) {
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsTriple<?,?,?> poMemoryObject) {
 		//create root of the tripple
 		DefaultGraphCell oTrippleCellRoot = createDefaultGraphVertex("TRI", moColorTrippleRoot);
 		moCellList.add(oTrippleCellRoot);

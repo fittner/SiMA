@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -243,7 +243,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 * @return
 	 */
 	private clsAct generateAct(String poActualGoal) {
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTriple<String, ArrayList<clsWordPresentation>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
 		
 		return oAct;
@@ -500,7 +500,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 */
 	@Override
 	public void send_I3_3(
-			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
 		// 
 		
 	}	

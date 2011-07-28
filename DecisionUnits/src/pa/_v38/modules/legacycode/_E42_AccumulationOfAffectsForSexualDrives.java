@@ -13,7 +13,7 @@ import java.util.SortedMap;
 
 import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -47,7 +47,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	public static final String P_SPLITFACTORVALUE = "value";
 	public static final String P_NUM_SPLIFACTOR = "num";
 	
-	private ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
+	private ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList<clsDriveMesh> moDriveList; 
 	private HashMap<String, Double> moSplitterFactor;
 	
@@ -145,7 +145,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	protected void process_basic() {
 		moDriveList = new ArrayList<clsDriveMesh>(); 
 		
-		for (clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
+		for (clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
 			double rFactor = 0.5;
 			try {
 				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
@@ -358,7 +358,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	public void receive_I3_3(
-			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
 		// 
 		
 	}		

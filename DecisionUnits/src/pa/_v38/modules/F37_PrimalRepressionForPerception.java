@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.storage.clsBlockedContentStorage;
 import config.clsBWProperties;
@@ -47,7 +47,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 
 
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output;
-	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	
 	 
 		
@@ -72,23 +72,23 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 	
 	private void fillPrimalRepressionMemory() {
-		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		moPrimalRepressionMemory = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
 		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
 	}
 	
@@ -174,7 +174,7 @@ private void matchRepressedContent(clsPrimaryDataStructureContainer moConstrPerc
 				new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
 						oPDSC, 
 						new clsDriveMesh(
-								new clsTripple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
+								new clsTriple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
 								0, 
 								new double[]{0.1,0.5,0.6,0.3}, 
 								null, null)

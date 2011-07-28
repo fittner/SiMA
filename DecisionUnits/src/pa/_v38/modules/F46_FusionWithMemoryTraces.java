@@ -16,7 +16,7 @@ import bfg.tools.clsMutableDouble;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
@@ -598,7 +598,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 			if(oEntry.size() > 0){
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
+				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
 							(clsPrimaryDataStructure)poNewImage.getMoDataStructure(), 
 							(clsPrimaryDataStructure)oBestMatch.getMoDataStructure());

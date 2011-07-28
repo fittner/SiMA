@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -49,7 +49,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsThingPresentationMesh(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
 									String poContent) {
 		

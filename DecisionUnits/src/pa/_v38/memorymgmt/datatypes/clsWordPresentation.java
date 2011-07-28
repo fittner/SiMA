@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -48,7 +48,7 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsWordPresentation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
+	public clsWordPresentation(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		super(poDataStructureIdentifier);
 		moContent = (String)poContent; 
 	}

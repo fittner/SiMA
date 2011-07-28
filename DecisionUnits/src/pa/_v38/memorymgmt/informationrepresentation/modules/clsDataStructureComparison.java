@@ -12,7 +12,7 @@ import java.util.Map;
 
 import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -448,7 +448,7 @@ public abstract class clsDataStructureComparison {
 				clsAssociationDriveMesh oldAssDM = (clsAssociationDriveMesh)entry;
 				clsAssociationDriveMesh newAssDM = 
 					new clsAssociationDriveMesh(
-							new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
+							new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
 							oldAssDM.getDM(),
 							poNewRoot);
 				oReturnlist.add(newAssDM);

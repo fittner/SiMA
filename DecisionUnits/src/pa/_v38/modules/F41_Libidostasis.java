@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.clsLibidoBuffer;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 import config.clsBWProperties;
@@ -85,7 +85,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		return oRetVal;

@@ -16,7 +16,7 @@ import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -158,15 +158,15 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 			moActionCommands_Output.clear();
 			if (mnCounter == 5) {
 			  if(rRand1<0.25) {
-				  if(lastTurnDirection == 1) moActionCommands_Output.add(new clsWordPresentation(new clsTripple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_LEFT"));
-				  else moActionCommands_Output.add(new clsWordPresentation(new clsTripple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_RIGHT"));
+				  if(lastTurnDirection == 1) moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_LEFT"));
+				  else moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_RIGHT"));
 				  if(rRand2>Math.pow(0.999,mnTurns)) { // change turning direction
 					lastTurnDirection=1-lastTurnDirection;
 					mnTurns=0;
 				  }
 				  mnTurns++;
 			  }
-			  else moActionCommands_Output.add(new clsWordPresentation(new clsTripple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "MOVE_FORWARD"));
+			  else moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "MOVE_FORWARD"));
 		      mnCounter = 0;
 			}
 			mnCounter++;

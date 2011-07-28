@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -38,7 +38,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */	
-	public clsDriveMesh(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
+	public clsDriveMesh(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
 												double prPleasure, double[] poDriveCathegories, 
 												ArrayList<clsAssociation> poAssociatedDriveSources,
 												String poContent) {

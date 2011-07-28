@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -25,7 +25,7 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 * 22.06.2010, 15:36:00
 	 *
 	 */
-	public clsPrimaryDataStructure(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsPrimaryDataStructure(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);  
 	}
 }
