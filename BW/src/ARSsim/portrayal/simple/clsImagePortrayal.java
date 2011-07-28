@@ -72,8 +72,8 @@ public class clsImagePortrayal extends ImagePortrayal2D{
 
         final int nxArc = (int)(info.draw.x - fWidthArc / 2.0 );
         final int nyArc = (int)(info.draw.y - fHeightArc / 2.0 );
-        final int nwArc = (int)(fWidthArc);
-        final int nhArc = (int)(fHeightArc);
+//        final int nwArc = (int)(fWidthArc);
+//        final int nhArc = (int)(fHeightArc);
 
         //displays the physical circle
         //graphics.fillOval(nxArc, nyArc, nwArc, nhArc); //fillOval(x,y,w,h); //scale automatic by mason

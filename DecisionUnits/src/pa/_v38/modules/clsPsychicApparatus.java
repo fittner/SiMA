@@ -16,8 +16,8 @@ import pa._v38.tools.clsPair;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.storage.clsBlockedContentStorage;
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.storage.DT1_LibidoBuffer;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -79,9 +79,9 @@ public class clsPsychicApparatus {
 	/** The knowlegdebase / aka memory; @since 13.07.2011 17:48:27 */
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	/** Libido buffer storage. Necessary for DT1.; @since 13.07.2011 17:48:42 */
-	public clsLibidoBuffer moLibidoBuffer;
+	public DT1_LibidoBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
-	public clsBlockedContentStorage moBlockedContentStorage;
+	public DT2_BlockedContentStorage moBlockedContentStorage;
 	
 	/** List of the currently transfered data via the interfaces. Has to be refilled each round at each send_I?_? method manually!; @since 13.07.2011 17:49:33 */
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
@@ -119,8 +119,8 @@ public class clsPsychicApparatus {
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
-		moLibidoBuffer = new clsLibidoBuffer();
-		moBlockedContentStorage = new clsBlockedContentStorage();
+		moLibidoBuffer = new DT1_LibidoBuffer();
+		moBlockedContentStorage = new DT2_BlockedContentStorage();
 					
 		applyProperties(poPrefix, poProp);
 		

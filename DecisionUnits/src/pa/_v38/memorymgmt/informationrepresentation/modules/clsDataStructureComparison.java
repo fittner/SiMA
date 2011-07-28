@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -298,8 +298,8 @@ public abstract class clsDataStructureComparison {
 	 * and their matching "partners" in the perception 
 	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
 	 * 
-	 * @see clsBlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
-	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
+	 * @see DT2_BlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
+	 * @see DT2_BlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
 	 */
 	
 	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(

@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -34,7 +34,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	public static final String P_MODULENUMBER = "35";
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
-	private clsBlockedContentStorage moBlockedContentStorage;
+	private DT2_BlockedContentStorage moBlockedContentStorage;
 	
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
@@ -59,7 +59,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsBlockedContentStorage poBlockedContentStorage)
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		

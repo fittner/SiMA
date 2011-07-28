@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -117,7 +117,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
+		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 
 		// To generate here an empty clsPhysicalRepresentation is total nonsense.
 		// I (FG) think that the module F54 must be placed before the module "F57 memory traces for drives"
