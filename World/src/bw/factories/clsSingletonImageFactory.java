@@ -1,0 +1,74 @@
+/**
+ * clsSingletonImageFactory.java: BW - bw.factories
+ * 
+ * @author muchitsch
+ * 04.05.2011, 11:34:14
+ */
+package bw.factories;
+
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.HashMap;
+
+import javax.imageio.ImageIO;
+
+import statictools.clsGetARSPath;
+
+/**
+ * DOCUMENT (muchitsch) - insert description 
+ * 
+ * @author muchitsch
+ * 04.05.2011, 11:34:14
+ * 
+ */
+public class clsSingletonImageFactory {
+    private static clsSingletonImageFactory instance = null;
+    private HashMap<eImages, BufferedImage> moImageBuffer;
+    
+    private clsSingletonImageFactory() {
+    	moImageBuffer = new HashMap<eImages, BufferedImage>();
+    }
+    
+	static private clsSingletonImageFactory instance() {
+		if (null == instance) {
+			instance = new clsSingletonImageFactory();
+		}
+		return instance;
+	}    
+	
+	static public BufferedImage getImage(eImages pnImage) throws IOException  {
+		BufferedImage oResult = null;
+		
+		if (!clsSingletonImageFactory.instance().moImageBuffer.containsKey(pnImage)) {
+			clsSingletonImageFactory.instance().loadImage(pnImage);		
+		}
+		
+		oResult = clsSingletonImageFactory.instance().moImageBuffer.get(pnImage);
+		
+		if (oResult == null) {
+			throw new IOException("clsSingletonImageFactory.getImage: file '"+clsGetARSPath.getImagePath() + pnImage.getFilename()+"' not found/not loadable.");
+		}
+		
+		return oResult;
+	}
+	
+	private void loadImage(eImages pnImage){
+		String oFilename = clsGetARSPath.getImagePath() + pnImage.getFilename();
+		
+		System.out.println("loading image into image buffer "+oFilename);
+		BufferedImage oBI = null;	
+
+		try {
+			File oFile = new File( oFilename ); 			
+			oBI = ImageIO.read( oFile );
+		} catch (IOException e) {
+			System.out.println("clsSingletonImageFactory.loadImage: "+e);
+		}
+		
+		moImageBuffer.put(pnImage, oBI);		
+	}
+	
+	
+
+}

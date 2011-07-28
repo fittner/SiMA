@@ -6,8 +6,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
-	<classpathentry kind="lib" path="/BW/lib/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="/BW/lib/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="/World/lib/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="/World/lib/jcommon-1.0.14.jar"/>
 	<classpathentry kind="lib" path="lib/l2fprod-common-all.jar"/>
 	<classpathentry kind="lib" path="lib/jgraphx.jar"/>
 	<classpathentry kind="output" path="bin"/>
