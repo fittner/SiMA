@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -28,7 +28,7 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationWordPresentation(
-			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+		clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsSecondaryDataStructure poAssociationElementA,
 			clsDataStructurePA poAssociationElementB) {
 			

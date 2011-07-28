@@ -180,7 +180,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_2(int pnData) {
-		mnTest += pnData;
+		//TODO
 	}
 
 	/* (non-Javadoc)

@@ -117,7 +117,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_2(int pnData) {
-		mnTest += pnData;
+		//TODO
 		
 	}
 

@@ -271,6 +271,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	}
 	
 	//AW 2011-04-18, new adaptpleasurefunction
+	@SuppressWarnings("unused")
 	private clsTemplateImage adaptPerceivedImageQuotaOfAffect(clsTemplateImage oPerceivedImageUnmerged) {
 		clsTemplateImage oPerceivedImageMerged = oPerceivedImageUnmerged;
 		
@@ -348,6 +349,7 @@ public class E18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private clsTemplateImage tempMergeDMs(ArrayList<clsTripple<clsPrimaryDataStructureContainer,clsDriveMesh,clsDriveMesh>> oInput) {
 		//Inputformat: Template Image with all DMs as associated to a certain TPM
 		ArrayList<clsPrimaryDataStructureContainer> oModifiedInputContainerList = new ArrayList<clsPrimaryDataStructureContainer>();

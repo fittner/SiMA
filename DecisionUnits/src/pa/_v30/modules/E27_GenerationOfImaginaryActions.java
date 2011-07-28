@@ -145,6 +145,7 @@ public class E27_GenerationOfImaginaryActions extends clsModuleBase implements I
 	 * 
 	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I7_1(ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
 		//HZ Not used up to now 16.03.2011

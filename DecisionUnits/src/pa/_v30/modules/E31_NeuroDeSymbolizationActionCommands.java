@@ -143,6 +143,7 @@ public class E31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings("unused")
 	@Override
 	protected void process_basic() {
 		

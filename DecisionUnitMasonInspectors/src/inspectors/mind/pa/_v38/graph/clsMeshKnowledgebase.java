@@ -6,10 +6,14 @@
  */
 package inspectors.mind.pa._v38.graph;
 
-import java.util.HashMap;
+//import java.util.HashMap;
 
+import java.util.ArrayList;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -20,7 +24,7 @@ import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentation
  */
 public class clsMeshKnowledgebase extends clsMeshBase {
 
-	private clsInformationRepresentationManagement moKnowledgeBaseHandler;
+	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -29,7 +33,7 @@ public class clsMeshKnowledgebase extends clsMeshBase {
 	 */
 	private static final long serialVersionUID = -753396202094570784L;
 
-	public clsMeshKnowledgebase(clsInformationRepresentationManagement poKnowledgeBaseHandler) {
+	public clsMeshKnowledgebase(clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		super();
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		setRootNodeName("KB");
@@ -43,7 +47,35 @@ public class clsMeshKnowledgebase extends clsMeshBase {
 	 */
 	@Override
 	protected void updateinspectorData() {
-		HashMap<String, clsDataStructurePA> oTemp = moKnowledgeBaseHandler.moSearchSpaceHandler.getSearchSpace().getDataStructureTable();
+		moMesh =  retrieveTPs();
+		//HashMap<String, clsDataStructurePA> oTemp = moKnowledgeBaseHandler.initContainerRetrieval(poInput)moSearchSpaceHandler.getSearchSpace().getDataStructureTable();
+	}
+	
+	private ArrayList<Object> retrieveTPs () {
+		ArrayList<Object> oRetVal = new ArrayList<Object>();
+		
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>oSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>(); 
+		
+		oSearchResult = MemorySearch(eDataType.TP ); 
+		oRetVal.addAll(oSearchResult);
+		return oRetVal;
+	}
+	
+	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> MemorySearch(
+			eDataType poDataType
+			) {
+		
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult = new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
+		
+		//FIXME CM what to do in search pattern to get all TP's
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		//oSearchPattern = createSearchPattern(poDataType, poPerception);
+		poSearchResult.addAll( moKnowledgeBaseHandler.initMemorySearch(oSearchPattern));
+		
+		//Set Instance values
+
+		return poSearchResult;
 	}
 
 }

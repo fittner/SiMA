@@ -24,6 +24,14 @@ import pa._v38.tools.toText;
 /**
  * These sensors collect data of the environment. Typical sensors are the five senses: sight, 
  * hearing, smell, touch, and taste. Also non-humanoid sensors like radar are part of this module. 
+ * The only processing is the removement of the perception of the agent itself, which should not be.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * SPECIAL CASE<br>
+ * <i>moEnvironmentalData</i> is filled in the receive function by the clsProcessor with environmental perception symbols.<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moEnvironmentalData</i> holds the sensor symbols of the external perception (OUT I1.3)
  * 
  * @author muchitsch
  * 11.08.2009, 14:13:27
@@ -32,11 +40,12 @@ import pa._v38.tools.toText;
 public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receive, I1_3_send {
 	public static final String P_MODULENUMBER = "10";
 	
+	/** holds the sensor symbols of the external perception (OUT I1.3) @since 27.07.2011 13:41:40 */
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	private final int uid;
 	
 	/**
-	 * basic CTOR & initialization 
+	 * basic constructor & initialization 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:03:16

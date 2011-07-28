@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
@@ -30,7 +29,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBase implements itfMinimalModelMode, I6_1_receive, I6_3_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBase implements I6_1_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception;
@@ -45,7 +44,6 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	//AW 20110602 New output of the module
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
-	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -75,7 +73,6 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.listToTEXT("moPerception", moPerception);
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
@@ -93,7 +90,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
+		
 		//nothing to do
 	}
 
@@ -158,45 +155,43 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_basic() {
-		if (!mnMinimalModel) {				
-			//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
-			//that depends on the evaluation of external and internal perception (moDriveList); 
-			//
-			//Actual state: no ordering! 
-			
-			boolean switched = false;
-			clsSecondaryDataStructureContainer sdsc;
-			
-			if (!moPerception.isEmpty())
+		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+		//that depends on the evaluation of external and internal perception (moDriveList); 
+		//
+		//Actual state: no ordering! 
+		
+		boolean switched = false;
+		clsSecondaryDataStructureContainer sdsc;
+		
+		if (!moPerception.isEmpty())
+		{
+			//bubblesort; if you want quicksort... have at it 
+			do
 			{
-				//bubblesort; if you want quicksort... have at it 
-				do
+				switched = false;
+				for (int i = 0; i < moPerception.size() - 1; i++)
 				{
-					switched = false;
-					for (int i = 0; i < moPerception.size() - 1; i++)
-					{
-						//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
-						//Correct this START
-						if (i+1 < moPerception.size()) {
-							if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
-								if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
-										((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
-										{
-											sdsc = moPerception.get(i);
-											moPerception.remove(i);
-											moPerception.add(i + 1, sdsc);
-											switched = true;
-										}
-							}
+					//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
+					//Correct this START
+					if (i+1 < moPerception.size()) {
+						if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
+							if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
+									((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
+									{
+										sdsc = moPerception.get(i);
+										moPerception.remove(i);
+										moPerception.add(i + 1, sdsc);
+										switched = true;
+									}
 						}
-						//Correct this END
 					}
-				} while (switched == true);
-			}
-			
-			moFocusedPerception_Output = moPerception;
-			moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
+					//Correct this END
+				}
+			} while (switched == true);
 		}
+		
+		moFocusedPerception_Output = moPerception;
+		moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
 	}
 	
 	/* (non-Javadoc)
@@ -208,11 +203,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {		
-			send_I6_6(moPerception, new ArrayList<clsSecondaryDataStructureContainer>(), new ArrayList<clsDataStructureContainer>());
-		} else {
-			send_I6_6(moFocusedPerception_Output, moDriveList, moAssociatedMemoriesSecondary_OUT);
-		}
+		send_I6_6(moFocusedPerception_Output, moDriveList, moAssociatedMemoriesSecondary_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -279,16 +270,6 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	@Override
 	public void setDescription() {
 		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
-	}	
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
 	}	
 	
 }

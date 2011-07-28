@@ -23,6 +23,16 @@ import pa._v38.tools.toText;
 
 /**
  * Conversion of raw data into neuro-symbols.
+ * <br><br>
+ * <b>INPUT:</b><br>
+ * <i>moBodyData</i> holds the sensor symbols of the external perception (IN I1.4)<br>
+ * HashMap:<br>
+ * <i>eSensorExtType</i> enum eSensorExtType<br>
+ * <i>clsSensorExtern</i> Base class for all external sensors like vision, mouth area, nose, bump<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moSymbolData</i> holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.4)<br>
+ * HashMap:<br>
  * 
  * @author muchitsch
  * 11.08.2009, 14:24:29
@@ -34,7 +44,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
-	 * basic CTOR
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:14:24

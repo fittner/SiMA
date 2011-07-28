@@ -15,19 +15,19 @@ import java.lang.reflect.Method;
  * 07.10.2009, 18:45:06
  * 
  */
-public class clsTripple<A, B, C> implements Cloneable {
+public class clsTriple<A, B, C> implements Cloneable {
 	public A a;
 	public B b;
 	public C c;	
  
-    public clsTripple(final A a, final B b, final C c) {
+    public clsTriple(final A a, final B b, final C c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
     
-    public static <A, B, C> clsTripple<A, B, C> create(A a, B b, C c) {
-        return new clsTripple<A, B, C>(a, b, c);
+    public static <A, B, C> clsTriple<A, B, C> create(A a, B b, C c) {
+        return new clsTriple<A, B, C>(a, b, c);
     }
  
 	@Override
@@ -35,7 +35,7 @@ public class clsTripple<A, B, C> implements Cloneable {
         if (!(o instanceof clsPair))
             return false;
  
-        final clsTripple<?, ?, ?> other = (clsTripple<?, ?, ?>) o;
+        final clsTriple<?, ?, ?> other = (clsTriple<?, ?, ?>) o;
         return equal(a, other.a) && equal(b, other.b) && equal(c, other.c);
     }
     
@@ -58,9 +58,9 @@ public class clsTripple<A, B, C> implements Cloneable {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Object clone() throws CloneNotSupportedException {
-		clsTripple<A, B, C> clon = null;
+		clsTriple<A, B, C> clon = null;
 	     try { 
-	       clon = (clsTripple<A, B, C>) super.clone(); // unchecked warning
+	       clon = (clsTriple<A, B, C>) super.clone(); // unchecked warning
 	     } catch (CloneNotSupportedException e) { 
 	       throw e; 
 	     }

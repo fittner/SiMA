@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 
@@ -50,7 +50,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * @param object 
 	 *
 	 */
-	public clsPhysicalStructureComposition(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsPhysicalStructureComposition(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		moAssociatedContent = new ArrayList<clsAssociation>(); 
 	}

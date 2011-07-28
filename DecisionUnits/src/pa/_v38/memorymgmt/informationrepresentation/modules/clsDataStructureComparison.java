@@ -10,10 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.storage.clsBlockedContentStorage;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -304,8 +303,8 @@ public abstract class clsDataStructureComparison {
 	 * and their matching "partners" in the perception 
 	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
 	 * 
-	 * @see clsBlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
-	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
+	 * @see DT2_BlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
+	 * @see DT2_BlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
 	 */
 	
 	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
@@ -454,7 +453,7 @@ public abstract class clsDataStructureComparison {
 				clsAssociationDriveMesh oldAssDM = (clsAssociationDriveMesh)entry;
 				clsAssociationDriveMesh newAssDM = 
 					new clsAssociationDriveMesh(
-							new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
+							new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
 							oldAssDM.getDM(),
 							poNewRoot);
 				oReturnlist.add(newAssDM);

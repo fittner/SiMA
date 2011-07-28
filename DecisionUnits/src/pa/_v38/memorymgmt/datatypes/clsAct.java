@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -36,7 +36,7 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsAct(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
+	public clsAct(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
 														ArrayList<clsSecondaryDataStructure> poAssociatedWordPresentations,
 														String poContent) {
 		super(poDataStructureIdentifier);
@@ -45,12 +45,12 @@ public class clsAct extends clsSecondaryDataStructure {
 	}
 
 	public clsAct (ArrayList<clsWordPresentation> wp) {
-		super(new clsTripple<Integer, eDataType, String>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+		super(new clsTriple<Integer, eDataType, String>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_alWordpresentations = wp;
 	}
 	
 	public clsAct (String str) {
-		super(new clsTripple<Integer, eDataType, String>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+		super(new clsTriple<Integer, eDataType, String>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_strTestDummy = str;
 	}
 	

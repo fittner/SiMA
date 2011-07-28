@@ -242,6 +242,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 
 			}
+
 		}
+		
 	}
 }

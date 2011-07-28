@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
@@ -181,7 +181,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     	// If nothing to repress return immediately (otherwise NullPointerException)
     	if (oForbiddenDrives_Input == null ) return;
     	
-		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
+		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 		
 		// Iterate over all forbidden drives
 		for (String oContentType : oForbiddenDrives_Input) {

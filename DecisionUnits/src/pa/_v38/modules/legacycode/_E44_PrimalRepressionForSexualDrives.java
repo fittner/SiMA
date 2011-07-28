@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorDrives;
 import pa._v38.interfaces.modules.I4_1_receive;
@@ -41,7 +41,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 			implements itfInspectorDrives, I4_1_receive, I5_1_send {
 	public static final String P_MODULENUMBER = "44";
 	
-	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	private ArrayList<clsDriveMesh> moDrives;
 	
 	/**
@@ -64,23 +64,23 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	}
 	
 	private void fillPrimalRepressionMemory() {
-		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		moPrimalRepressionMemory = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
 		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
 	}
 	
@@ -139,7 +139,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	}
 
 	private void categorizeDriveMesh(clsDriveMesh poMD) {
-		for (clsTripple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
+		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
 			String oContentType = oPRM.a; 
 			String oContext = oPRM.b;
 			

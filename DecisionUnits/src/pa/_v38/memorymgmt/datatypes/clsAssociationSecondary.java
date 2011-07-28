@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -35,12 +35,12 @@ public class clsAssociationSecondary extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationSecondary(
-			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsSecondaryDataStructure poAssociationElementA,
-			clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
+		clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+		clsSecondaryDataStructure poAssociationElementA,
+		clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
 			
-			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-			moPredicate = oPredicate;
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
+		moPredicate = oPredicate;
 	}
 
 	/* (non-Javadoc)

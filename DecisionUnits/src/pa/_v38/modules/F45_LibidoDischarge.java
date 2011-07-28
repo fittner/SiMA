@@ -11,9 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_9_receive;
@@ -70,7 +70,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** The amount of libido, of which the libido buffer is reduced by */
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
-	private clsLibidoBuffer moLibidoBuffer;	
+	private DT1_LibidoBuffer moLibidoBuffer;	
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned 
 	 * 
@@ -85,7 +85,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	public F45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			clsLibidoBuffer poLibidoBuffer,
+			DT1_LibidoBuffer poLibidoBuffer,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -344,7 +344,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Set new Pleasurevalue, which depends on the reducevalue
 					oNewDriveMesh.setMrPleasure(rDMReduce);
 					//Create new identifier
-					clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+					clsTriple<Integer, eDataType, String> oIdentifyer = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
 					//Create new association drivemesh but with the new root element
 					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsPrimaryDataStructure)oAssignmentElement.a);
 					//Add the assocation to the input container

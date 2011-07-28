@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 
@@ -30,7 +30,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @param poDataStructureIdentifier
 	 */
 	public clsWordPresentationMesh(
-			clsTripple<Integer, eDataType, String> poDataStructureIdentifier, 
+			clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
 			ArrayList<clsAssociation> poAssociatedStructures, Object poContent) {
 		super(poDataStructureIdentifier);
 		

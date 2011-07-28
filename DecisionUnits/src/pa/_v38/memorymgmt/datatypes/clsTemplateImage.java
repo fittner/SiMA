@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 
@@ -48,7 +48,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsTemplateImage(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 			ArrayList<clsAssociation> poAssociatedTemporalStructures,
 			String poContent) {
 		super(poDataStructureIdentifier); 

@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 //import java.util.List;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorDrives;
 //import pa._v38.interfaces.modules.I1_5_receive;
@@ -42,7 +42,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	public static final String P_MODULENUMBER = "38";
 	
 	private ArrayList<clsDriveMesh> moDriveList_IN;
-	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
 	 * (deutsch) - insert description 
 	 * 
@@ -63,21 +63,21 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	}
 	
 	private void fillPrimalRepressionMemory() {
-		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
+		moPrimalRepressionMemory = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
 		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "BITE", new ArrayList<Double>(Arrays.asList(0.9, 0.0, 0.1, 0.0)) ) );
 		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "RELAX", new ArrayList<Double>(Arrays.asList(0.1, 0.3, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "SLEEP", new ArrayList<Double>(Arrays.asList(0.0, 0.0, 0.0, 0.8)) ) );
 		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "REPRESS", new ArrayList<Double>(Arrays.asList(0.2, 0.4, 0.2, 0.0)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
+		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
 				"DEATH", "DEPOSIT", new ArrayList<Double>(Arrays.asList(0.0, 0.7, 0.0, 0.1)) ) );		
 	}
 	
@@ -126,7 +126,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	}
 
 	private void categorizeDriveMesh(clsDriveMesh poMD) {
-		for (clsTripple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
+		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
 			String oContentType = oPRM.a; 
 			String oContext = oPRM.b;
 			

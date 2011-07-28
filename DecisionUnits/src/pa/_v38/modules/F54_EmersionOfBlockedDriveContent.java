@@ -19,9 +19,9 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsBWProperties;
 
@@ -117,7 +117,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		clsBlockedContentStorage moBlockedContentStorage = new clsBlockedContentStorage();
+		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 
 		// To generate here an empty clsPhysicalRepresentation is total nonsense.
 		// I (FG) think that the module F54 must be placed before the module "F57 memory traces for drives"
@@ -132,7 +132,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		clsDriveMesh oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
 		if (oRep==null) {
 			//FIXME: AW 20110707: It has to be initialized with something here
-			oRep = clsDataStructureGenerator.generateDM(new clsTripple<String, ArrayList<clsThingPresentation>, Object>("DUMMY", new ArrayList<clsThingPresentation>(),"DUMMYDM"));
+			oRep = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("DUMMY", new ArrayList<clsThingPresentation>(),"DUMMYDM"));
 		}
 		moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
 		

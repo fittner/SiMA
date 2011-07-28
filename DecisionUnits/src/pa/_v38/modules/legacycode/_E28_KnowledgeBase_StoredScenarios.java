@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Queue;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 //import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_2_send;
@@ -327,7 +327,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @return
 	 */
 	private clsAct generateAct(String poActualGoal) {
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTriple<String, ArrayList<clsWordPresentation>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
 		
 		return oAct;

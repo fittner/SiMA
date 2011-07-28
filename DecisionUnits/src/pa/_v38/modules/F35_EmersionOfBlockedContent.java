@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
@@ -22,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -31,11 +30,11 @@ import pa._v38.storage.clsBlockedContentStorage;
  * 07.10.2009, 11:16:58
  * 
  */
-public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itfMinimalModelMode, I5_7_receive, I5_8_send {
+public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send {
 	public static final String P_MODULENUMBER = "35";
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
-	private clsBlockedContentStorage moBlockedContentStorage;
+	private DT2_BlockedContentStorage moBlockedContentStorage;
 	
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
@@ -44,9 +43,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	private double mrContextSensitivity = 0.8;
-	private boolean mnMinimalModel;
-	
-
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -63,7 +59,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
 			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsBlockedContentStorage poBlockedContentStorage)
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -83,7 +79,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
@@ -108,7 +103,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		String pre = clsBWProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
-		//mnMinimalModel = false;
 	}
 
 	/* (non-Javadoc)
@@ -333,14 +327,5 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		moDescription = "It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming primary process data structures. If one is found, the repressed content is attached to it. All incoming images are forwarded to next modules, some of them with additional information attached.";
 	}
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
 	
 }

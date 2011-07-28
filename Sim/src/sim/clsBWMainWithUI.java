@@ -136,6 +136,11 @@ public class clsBWMainWithUI extends GUIState {
 		clsEventLoggerInspector oELI = new clsEventLoggerInspector();
 		clsSingletonMasonGetter.getConsole().getTabPane().addTab("Eventlog", oELI);
 		clsEventLogger.setELI(oELI);
+		
+		//TODO CM load the properties Inspector Tab here
+		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();
+		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
+		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
 	}
 
 	

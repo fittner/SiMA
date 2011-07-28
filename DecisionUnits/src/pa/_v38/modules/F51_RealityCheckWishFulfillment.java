@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
@@ -35,7 +34,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:49:09
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBase implements itfMinimalModelMode, I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
@@ -50,8 +49,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
-	private boolean mnMinimalModel;
-
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -80,7 +77,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.listToTEXT("moFocusedPerception_Input", moFocusedPerception_Input);
 		text += toText.listToTEXT("moRealityPerception_Output", moRealityPerception_Output);
 		text += toText.listToTEXT("moDriveList", moDriveList);
@@ -99,7 +95,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
 		//nothing to do
 	}
 
@@ -152,17 +147,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 */
 	@Override
 	protected void process_basic() {
-		if (!mnMinimalModel) {
-			moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-			
-			//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
-			//adapted
-			for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
-				moRealityPerception_Output.add(oCon); 
-			}
-			
-			moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
+		moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		
+		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
+		//adapted
+		for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
+			moRealityPerception_Output.add(oCon); 
 		}
+		
+		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 	}
 	
 	/**
@@ -377,12 +370,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {
-			send_I6_7(moFocusedPerception_Input, new ArrayList<clsPrediction>());
-		} else {
-			//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-			send_I6_7(moRealityPerception_Output, moExtractedPrediction_OUT);
-		}
+		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
+		send_I6_7(moRealityPerception_Output, moExtractedPrediction_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -449,16 +438,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	public void setDescription() {
 		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
 	}		
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}	
 	
 }
 

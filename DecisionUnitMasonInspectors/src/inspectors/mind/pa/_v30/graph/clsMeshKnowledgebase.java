@@ -43,6 +43,7 @@ public class clsMeshKnowledgebase extends clsMeshBase {
 	 */
 	@Override
 	protected void updateinspectorData() {
+		@SuppressWarnings("unused")
 		HashMap<String, clsDataStructurePA> oTemp = moKnowledgeBaseHandler.moSearchSpaceHandler.getSearchSpace().getDataStructureTable();
 	}
 

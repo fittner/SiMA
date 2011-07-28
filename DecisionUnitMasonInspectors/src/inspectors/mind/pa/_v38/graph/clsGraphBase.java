@@ -105,23 +105,23 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
 		
 	//colors for all datatypes, used in clsMeshBase:
-	protected static Color moColorTP = new Color(0xff99FF33); //light green
-	protected static Color moColorNULL = new Color(0xff222222); // dark dark grey
-	protected static Color moColorString = Color.WHITE;
-	protected static Color moColorDouble = Color.WHITE;
-	protected static Color moColorWP = new Color(0xff6699FF); //light blue
-	protected static Color moColorDD = new Color(0xffCC66CC);  //Drive Demand, lavendel
-	protected static Color moColorACT = new Color(0xffFF9933); //brown
-	protected static Color moColorPairRoot = new Color(0xffFFCC00); //light orange
-	protected static Color moColorPair = new Color(0xffFFCC00);
-	protected static Color moColorTrippleRoot = new Color(0xffffFF99); //light yellow
-	protected static Color moColorTripple = new Color(0xffffFF99);
-	protected static Color moColorRoot = Color.GRAY;
-	protected static Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33); //dark green
-	protected static Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
-	protected static Color moColorDMRoot = new Color(0xffff0066); //pinkish red
-	protected static Color moColorTPMRoot = new Color(0xff99CC33); //dark green
-	protected static Color moColorTI = new Color(0xffFF9933); //brown
+	protected static final Color moColorTP = new Color(0xff99FF33); //light green
+	protected static final Color moColorNULL = new Color(0xff222222); // dark dark grey
+	protected static final Color moColorString = Color.WHITE;
+	protected static final Color moColorDouble = Color.WHITE;
+	protected static final Color moColorWP = new Color(0xff6699FF); //light blue
+	protected static final Color moColorDD = new Color(0xffCC66CC);  //Drive Demand, lavendel
+	protected static final Color moColorACT = new Color(0xffFF9933); //brown
+	protected static final Color moColorPairRoot = new Color(0xffFFCC00); //light orange
+	protected static final Color moColorPair = new Color(0xffFFCC00);
+	protected static final Color moColorTrippleRoot = new Color(0xffffFF99); //light yellow
+	protected static final Color moColorTripple = new Color(0xffffFF99);
+	protected static final Color moColorRoot = Color.GRAY;
+	protected static final Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33); //dark green
+	protected static final Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
+	protected static final Color moColorDMRoot = new Color(0xffff0066); //pinkish red
+	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
+	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 
 	public boolean UseSimpleView() {
 		return moUseSimpleView;

@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.awt.Color;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 
@@ -48,7 +48,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
+	public clsThingPresentation(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
 		
 		super(poDataStructureIdentifier);
 		moContent = poContent;

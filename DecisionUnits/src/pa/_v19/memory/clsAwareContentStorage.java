@@ -47,7 +47,7 @@ public class clsAwareContentStorage {
 		 * @author zeilinger
 		 * 20.10.2009, 23:42:56
 		 *
-		 * @param clsTripple
+		 * @param clsTriple
 		 * @return
 		 */
 		public clsPrimaryInformation getMappedContent(

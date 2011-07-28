@@ -30,7 +30,15 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 /**
- * Conversion of raw data into neuro-symbols.
+ * Conversion of raw homoestatic data into neuro-symbols. Also slow and fast messengers are created here.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * moHomeostasis holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2)<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * moHomeostaticSymbol holds the symbolized list of homoestatic values (OUT I2.2)<br>
+ * <i>String</i> is the name eSensorIntType.<br>
+ * <i>Double</i> is the tension of the specific symbol .<br>
  * 
  * @author muchitsch
  * 11.08.2009, 12:12:02
@@ -43,7 +51,11 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private boolean mnChartColumnsChanged = true;
 	private ArrayList<String> moChartColumnsCaptions;
 	
+	/** holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2) @since 27.07.2011 13:15:08 */
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	/** holds the symbolized list of homoestatic values (OUT I2.2)
+	 * String is the name eSensorIntType
+	 * Double is the tension of the specific symbol   @since 27.07.2011 13:15:08 */
 	private HashMap<String, Double> moHomeostaticSymbol;
 	/**
 	 * basic constructor
