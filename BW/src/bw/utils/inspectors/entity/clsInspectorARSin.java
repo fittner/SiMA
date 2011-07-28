@@ -11,7 +11,7 @@ package bw.utils.inspectors.entity;
 import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -22,7 +22,7 @@ import bw.utils.inspectors.clsInspectorUtils;
 import sim.util.gui.PropertyField;
 
 /**
- * Main Inspector for the Bubble class, add values you want to see on the bubble tab here
+ * Main Inspector for the ARSIN class, add values you want to see on the ARSIN tab here
  * don't forget to add values in the update function if they need to be updated too
  * 
  * @author muchitsch
@@ -32,14 +32,14 @@ import sim.util.gui.PropertyField;
 public class clsInspectorARSin extends Inspector {
 
 	/**
-	 * Main Inspector for the Bubble, displays all values we want on this
+	 * Main Inspector for the ARSIN, displays all values we want on this
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:24:40 PM
 	 */
 	private static final long serialVersionUID = 1L;
 	public Inspector moOriginalInspector;
-	private clsBubble moBubble;
+	private clsARSIN moARSIN;
 	LocationWrapper moWrapper;
 	GUIState moGuiState;
 	
@@ -48,7 +48,7 @@ public class clsInspectorARSin extends Inspector {
 	
 
 	/**
-	 * Constructor Bubble Inspectors, only give the Entity when it is a Bubble! 
+	 * Constructor ARSIN Inspectors, only give the Entity when it is a ARSIN! 
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:53:51 PM
@@ -56,26 +56,26 @@ public class clsInspectorARSin extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsBubble poBubble
+	 * @param clsARSIN poARSIN
 	 */
 	public clsInspectorARSin(Inspector poOriginalInspector,
             LocationWrapper poWrapper,
             GUIState poGuiState,
-            clsBubble poBubble) {
+            clsARSIN poARSIN) {
 		
 		moOriginalInspector = poOriginalInspector;
 		moWrapper = poWrapper;
 		moGuiState = poGuiState;
-		moBubble = poBubble;
+		moARSIN = poARSIN;
 		
 		//get the default things
-		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poBubble);
+		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poARSIN);
 		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moBubble.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 	
@@ -93,7 +93,7 @@ public class clsInspectorARSin extends Inspector {
 	@Override
 	public void updateInspector() {
 		
-		moProp1.setValue(clsInspectorUtils.FormatDouble(moBubble.getInternalEnergyConsuptionSUM()));
+		moProp1.setValue(clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()));
 		
 	}
 

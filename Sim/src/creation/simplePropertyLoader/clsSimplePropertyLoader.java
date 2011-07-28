@@ -26,7 +26,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
@@ -159,7 +159,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		clsBWProperties oProp = new clsBWProperties();
 		
-		oProp.putAll( clsBubble.getDefaultProperties		(pre+eEntityType.BUBBLE.name()) );
+		oProp.putAll( clsARSIN.getDefaultProperties		(pre+eEntityType.ARSIN.name()) );
 		oProp.putAll( clsFungusEater.getDefaultProperties	(pre+eEntityType.FUNGUS_EATER.name()) );
 		oProp.putAll( clsRemoteBot.getDefaultProperties		(pre+eEntityType.REMOTEBOT.name()) );
 		oProp.putAll( clsPlant.getDefaultProperties			(pre+eEntityType.PLANT.name()) );
@@ -233,7 +233,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 
 		int i=0;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.BUBBLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.ARSIN.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.PA.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 3);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
@@ -425,9 +425,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	clsEntity oEntity = null;
     	
     	switch(pnEntityType) {
-    		case BUBBLE:
-    			oEntity = new clsBubble(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsBubble)oEntity);		
+    		case ARSIN:
+    			oEntity = new clsARSIN(oDU, pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsARSIN)oEntity);		
     			break;
     		case FUNGUS_EATER:
     			oEntity = new clsFungusEater(oDU, pre, poPropEntity, uid);

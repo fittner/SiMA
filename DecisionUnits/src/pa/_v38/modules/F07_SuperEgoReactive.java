@@ -199,7 +199,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for repression of drives
 		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "ARSIN") &&
 			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
@@ -214,7 +214,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for denial of perceptions
 		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "ARSIN") &&
 			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
@@ -258,7 +258,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
 	private boolean searchInTPM (String oContentType, String oContent) {

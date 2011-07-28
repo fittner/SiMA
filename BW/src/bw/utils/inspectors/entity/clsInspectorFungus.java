@@ -57,7 +57,7 @@ public class clsInspectorFungus extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsBubble poBubble
+	 * @param clsFungus poFungus
 	 */
 	public clsInspectorFungus(Inspector poOriginalInspector,
             LocationWrapper poWrapper,

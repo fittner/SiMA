@@ -22,7 +22,7 @@ import du.itf.actions.*;
 /**
  * Action Executor for excrementing
  * Parameters: none
- * 	 prIntensityScalingFactor = Scales the intensity for small vs big animals/bubbles (default = 1)
+ * 	 prIntensityScalingFactor = Scales the intensity for small vs big animals/arsins (default = 1)
  * 
  * @author Benny D�nz
  * 15.04.2009, 16:31:13

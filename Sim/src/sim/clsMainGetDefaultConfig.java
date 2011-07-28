@@ -11,7 +11,7 @@ import statictools.clsGetARSPath;
 import bw.entities.clsAnimal;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
@@ -61,7 +61,7 @@ public class clsMainGetDefaultConfig {
 		clsBWProperties.writeProperties(clsAnimal.getDefaultProperties(""), oEntityDir, "animal"+oSubExt, "");
 		clsBWProperties.writeProperties(clsAnimate.getDefaultProperties(""), oEntityDir, "animate"+oSubExt, "");
 		clsBWProperties.writeProperties(clsBase.getDefaultProperties(""), oEntityDir, "base"+oSubExt, "");
-		clsBWProperties.writeProperties(clsBubble.getDefaultProperties(""), oEntityDir, "bubble"+oSubExt, "");
+		clsBWProperties.writeProperties(clsARSIN.getDefaultProperties(""), oEntityDir, "arsin"+oSubExt, "");
 		clsBWProperties.writeProperties(clsFungusEater.getDefaultProperties(""), oEntityDir, "funguseater"+oSubExt, "");
 		clsBWProperties.writeProperties(clsCake.getDefaultProperties(""), oEntityDir, "cake"+oSubExt, "");
 		clsBWProperties.writeProperties(clsCan.getDefaultProperties(""), oEntityDir, "can"+oSubExt, "");

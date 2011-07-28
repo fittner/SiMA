@@ -44,7 +44,7 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
-			"V_BUBBLE","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
+			"V_ARSIN","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
 			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
@@ -292,7 +292,7 @@ public class E11_NeuroSymbolizationEnvironment extends clsModuleBase
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
 							int x = -1;
 							switch (oE.getEntityType()) {
-								case BUBBLE: x=0; break;
+								case ARSIN: x=0; break;
 								case CAKE:   x=1; break;
 								case CAN:    x=2; break;
 								case CARROT: x=3; break;

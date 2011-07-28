@@ -22,7 +22,7 @@ import bw.utils.inspectors.clsInspectorUtils;
 import sim.util.gui.PropertyField;
 
 /**
- * Main Inspector for the Bubble class, add values you want to see on the bubble tab here
+ * Main Inspector for the ARSIN class, add values you want to see on the ARSIN tab here
  * don't forget to add values in the update function if they need to be updated too
  * 
  * @author muchitsch
@@ -32,7 +32,7 @@ import sim.util.gui.PropertyField;
 public class clsInspectorFungusEater extends Inspector {
 
 	/**
-	 * Main Inspector for the Bubble, displays all values we want on this
+	 * Main Inspector for the ARSIN, displays all values we want on this
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:24:40 PM
@@ -48,7 +48,7 @@ public class clsInspectorFungusEater extends Inspector {
 	
 
 	/**
-	 * CTOR Bubble Inspectors, only give the Entity when it is a Bubble! 
+	 * CTOR ARSIN Inspectors, only give the Entity when it is a ARSIN! 
 	 * 
 	 * @author muchitsch
 	 * Jul 15, 2009, 1:53:51 PM
@@ -56,7 +56,7 @@ public class clsInspectorFungusEater extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsBubble poBubble
+	 * @param clsFungusEater poFungusEater
 	 */
 	public clsInspectorFungusEater(Inspector poOriginalInspector,
             LocationWrapper poWrapper,

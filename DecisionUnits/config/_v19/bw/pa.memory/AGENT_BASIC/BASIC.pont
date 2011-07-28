@@ -167,7 +167,7 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass BUBBLE
+(defclass ARSIN
 	(is-a ENTITY)
 	(role concrete)
 	(multislot class_association
@@ -177,7 +177,7 @@
 		(create-accessor read-write))
 	(single-slot value
 		(type STRING)
-;+		(value "BUBBLE")
+;+		(value "ARSIN")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 

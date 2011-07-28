@@ -227,7 +227,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
 	private void deny_perception (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {

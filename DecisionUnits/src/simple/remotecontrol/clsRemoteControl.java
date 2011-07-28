@@ -160,11 +160,11 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
     		break;
 
     	case 76: //'L'
-    		attack(poActionProcessor,	eEntityType.BUBBLE);
+    		attack(poActionProcessor,	eEntityType.ARSIN);
     		break;
 
     	case 66: //'B'
-    		kill(poActionProcessor,	eEntityType.BUBBLE);
+    		kill(poActionProcessor,	eEntityType.ARSIN);
     		break;
     		
     	case 88: //'X'

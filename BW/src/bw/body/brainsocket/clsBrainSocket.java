@@ -68,7 +68,7 @@ import bw.body.io.sensors.internal.clsStomachTensionSensor;
 import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.body.io.sensors.internal.clsSensorInt;
 import bw.body.io.sensors.internal.clsStaminaSensor;
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 import bw.entities.clsRemoteBot;
@@ -482,7 +482,7 @@ public class clsBrainSocket implements itfStepProcessing {
 			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
 			
 			/*FIXME HZ actually the antenna positions are undefined*/
-			if (oEntity instanceof clsBubble || oEntity instanceof  clsRemoteBot){
+			if (oEntity instanceof clsARSIN || oEntity instanceof  clsRemoteBot){
 				oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
 				oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
 			}

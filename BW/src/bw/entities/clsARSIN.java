@@ -38,12 +38,12 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
 //import tstBw.*;
 
 /**
- * Host of the Bubble body and brain
+ * Host of the arsin body and brain
  * 
  * @author langr
  * 
  */
-public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
+public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
@@ -53,7 +53,7 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 	
 	private boolean mnAlive;
 	
-	public clsBubble(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
+	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsBWProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
 	}
@@ -81,13 +81,13 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/arsin_red.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, new Color(0,0,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/bubble_grey.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/arsin_grey.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
@@ -144,7 +144,7 @@ public class clsBubble extends clsAnimate implements itfGetSensorEngine, itfGetR
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.BUBBLE;
+		meEntityType = eEntityType.ARSIN;
 	}
 
 	/* (non-Javadoc)

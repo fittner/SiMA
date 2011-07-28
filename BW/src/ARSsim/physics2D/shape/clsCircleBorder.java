@@ -52,23 +52,23 @@ public class clsCircleBorder extends Circle
         	(int) (info.draw.x - radius * info.draw.width * Math.sin(currentAngle)),
         	(int) (info.draw.y + radius * info.draw.height  * Math.cos(currentAngle)));
         //draw middle lines
-        //left side of bubble
+        //left side of arsin
         graphics.drawLine((int) info.draw.x, 
             	(int) info.draw.y, 
             	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 1 * Math.PI/4)), 
             	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 1 * Math.PI/4)));
-        //right side of bubble
+        //right side of arsin
         graphics.drawLine((int) info.draw.x, 
             	(int) info.draw.y, 
             	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 3 * Math.PI/4)), 
             	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 3 * Math.PI/4)));
         //draw center lines
-        //left side of bubble
+        //left side of arsin
         graphics.drawLine((int) info.draw.x, 
         	(int) info.draw.y, 
         	(int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 17 * Math.PI/36)), 
         	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle + 17 * Math.PI/36)));
-        //right side of bubble
+        //right side of arsin
         graphics.drawLine((int) info.draw.x, 
             (int) info.draw.y, 
             (int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle + 19 * Math.PI/36)), 

@@ -227,7 +227,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	newAssocDSs.add(newAssocAttr);
     	    	
     	// create a agent to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "BUBBLE");
+    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "ARSIN");
     	// FIXME (zottl) add properties to Agent! look at properties of a perceived Agent to find out how to construct one
     	// add agent to TI 
     	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));

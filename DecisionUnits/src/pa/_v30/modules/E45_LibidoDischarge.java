@@ -106,7 +106,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 //		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
+//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("ARSIN", 0.1) );
 	}
 	
 	/**

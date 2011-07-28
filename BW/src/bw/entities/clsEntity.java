@@ -27,7 +27,7 @@ import ARSsim.physics2D.physicalObject.itfSetupFunctions;
 import ARSsim.physics2D.util.clsPose;
 
 /**
- * Entity is the base class of any object in the BubbleWorld.
+ * Entity is the base class of any object in the ArsinWorld.
  * With the containing PhysicalObject2D it holds the reference to the physical-object within the 
  * mason-framework.
  * 

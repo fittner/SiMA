@@ -46,7 +46,7 @@ public class clsInspectorFungusBase extends Inspector {
 	
 
 	/**
-	 * TODO (horvath) - CTOR Bubble Inspectors, only give the Entity when it is a Base! 
+	 * TODO (horvath) - CTOR ARSIN Inspectors, only give the Entity when it is a Base! 
 	 * 
 	 * @author horvath
 	 * Jul 22, 2009, 2:08:00 PM
@@ -54,7 +54,7 @@ public class clsInspectorFungusBase extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsEntity poEntity = is a Bubble
+	 * @param clsEntity poEntity = is a ARSIN
 	 */
 	public clsInspectorFungusBase(Inspector originalInspector,
             LocationWrapper wrapper,
@@ -84,7 +84,7 @@ public class clsInspectorFungusBase extends Inspector {
 		oBox1.add(oProp4, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(oProp5, BorderLayout.AFTER_LAST_LINE);
 		
-		//clsInspectorDefault defaultInspector = new clsInspectorDefault(moWrapper, moGuiState, (clsEntity)moBubble);
+		//clsInspectorDefault defaultInspector = new clsInspectorDefault(moWrapper, moGuiState, (clsEntity)moARSIN);
 		add(oBox1, BorderLayout.AFTER_LAST_LINE);
 		
 	}

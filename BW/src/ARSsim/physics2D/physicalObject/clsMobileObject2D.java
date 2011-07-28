@@ -56,7 +56,7 @@ public class clsMobileObject2D extends
 	//values identical to superclass but are declared private there 
 	protected final double mrZeroVelocity = 0.01;
 	protected final double mrGravity = 0.1;
-	protected double mrNormalForce = 80 * mrGravity; //assumes a bubble with 80kg and the given gravity resulting in N = 8
+	protected double mrNormalForce = 80 * mrGravity; //assumes an arsin with 80kg and the given gravity resulting in N = 8
 	//other things used for friction
 	protected clsSurfaceHandler moSurfaceHandler = clsSurfaceHandler.getInstance();
 	protected boolean mbUseSurfaces = false;

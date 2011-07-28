@@ -60,7 +60,7 @@ public class clsInspectorBasic extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsEntity poEntity = is a Bubble
+	 * @param clsEntity poEntity = is a ARSIN
 	 */
 	public clsInspectorBasic(Inspector poOriginalInspector,
             LocationWrapper poWrapper,

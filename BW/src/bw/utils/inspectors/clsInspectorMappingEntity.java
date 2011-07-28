@@ -12,9 +12,9 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
-//import bw.entities.clsBubble;
+//import bw.entities.clsARSIN;
 
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
 import bw.entities.clsBase;
 import bw.entities.clsCake;
@@ -86,8 +86,8 @@ public class clsInspectorMappingEntity {
     	//change the default inspector to the one you created for the entity if you want more inspected
     	if( poEntity instanceof clsMobile )
     	{
-	    	if( poEntity instanceof clsBubble) {
-	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsBubble)poEntity), "Bubble");
+	    	if( poEntity instanceof clsARSIN) {
+	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
 	    	}
 	    	else if( poEntity instanceof clsFungusEater) {
 	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");

@@ -15,8 +15,9 @@ package bw.factories;
  */
 public enum eImages {
 	NONE("none.png"),
-	BubbleRed("bubble_red.png"),
-	BubbleGreen("bubble_green.png"),
+	ARSINRed("arsin_red.png"),
+	ARSINGreen("arsin_green.png"),
+	ARSINGrey("arsin_grey.png"),
 	Cake("cake.png"),
 	Plant01("plant01.png"),
 	Rock01("rock1.png"),

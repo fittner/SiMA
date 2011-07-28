@@ -19,7 +19,7 @@ import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
 
 /**
- * Main Inspector for the RemoteBot class, add values you want to see on the bubble tab here
+ * Main Inspector for the RemoteBot class, add values you want to see on the ARSIN tab here
  * don't forget to add values in the update function if they need to be updated too
  * 
  * @author muchitsch
@@ -53,7 +53,7 @@ public class clsInspectorRemoteBot extends Inspector {
 	 * @param Inspector originalInspector
 	 * @param LocationWrapper wrapper
 	 * @param GUIState guiState
-	 * @param clsBubble poBubble
+	 * @param clsRemoteBot poRemoteBot
 	 */
 	public clsInspectorRemoteBot(Inspector poOriginalInspector,
             LocationWrapper poWrapper,

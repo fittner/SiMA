@@ -132,16 +132,16 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	}
 	
 	/**
-	 * due to some reason, the bubble sees himself in vision near. 
+	 * due to some reason, the ARSIN sees himself in vision near. 
 	 * remove this entry manually. should be dealt with in vision sensor in project BW.
-	 * it seems that this happens after the bubble has been moved manually. but not always!
+	 * it seems that this happens after the ARSIN has been moved manually. but not always!
 	 *
 	 * @since 12.07.2011 10:33:44
 	 */
 	private void removeSelfVision() {
-		//FIXME TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
+		//FIXME TD 2011/05/01 - due to some reason, the ARSIN sees himself in vision near. 
 		//remove this entry manually. should be dealt with in vision sensor in project BW.
-		//it seems that this happens after the bubble has been moved manually. but not always!
+		//it seems that this happens after the ARSIN has been moved manually. but not always!
 		
 		clsSensorRingSegment oVisionNear = (clsSensorRingSegment)moEnvironmentalData.get(eSensorExtType.VISION_NEAR);
 		ArrayList<clsSensorExtern> oDataObjects = oVisionNear.getDataObjects();
@@ -149,8 +149,8 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		for (clsSensorExtern oTemp:oDataObjects) {
 			clsSensorRingSegmentEntry oSRSE = (clsSensorRingSegmentEntry)oTemp;
 			
-			if (oSRSE.getEntityType() == eEntityType.BUBBLE) {
-				//ok its a bubble - now check if this bubble is us!
+			if (oSRSE.getEntityType() == eEntityType.ARSIN) {
+				//ok its a ARSIN - now check if this ARSIN is us!
 				if (oSRSE.getEntityId().endsWith("(#"+uid+")")) {
 					oDeleteCandidates.add(oSRSE);
 				}

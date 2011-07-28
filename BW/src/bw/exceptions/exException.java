@@ -8,7 +8,7 @@
 package bw.exceptions;
 
 /**
- * general abstract exception class for the bubble world. possible container for logging purposes ... 
+ * general abstract exception class for the arsin world. possible container for logging purposes ... 
  * 
  * @author deutsch
  * 

@@ -823,7 +823,7 @@ public class clsBWProperties extends Properties {
 	
 	/**
 	 * removes all entries from the hashmap which starts with a certain prefix. only the matching key and its subkeys are removed
-	 * e.g. "bubble.body" removes "bubble.body" and "bubble.body.*" but not "bubble.body_type".
+	 * e.g. "ARSIN.body" removes "ARSIN.body" and "ARSIN.body.*" but not "ARSIN.body_type".
 	 *
 	 * @author deutsch
 	 * 23.07.2009, 19:17:08

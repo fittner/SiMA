@@ -529,7 +529,7 @@ public class clsOntologyLoader {
 				oAssociation = loadAssociation(poDataElement, (Instance) element, poDataContainer); 
 				//Below the necessity of the association is defined. Entities are defined by their associations to different 
 				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
-				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
+				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity ARSIN has always the shape "circle"
 				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
 				//the instance associations are defined => moAssociationImperative is set to false => optional.
 				oAssociation.setMrImperativeFactor(eDataStructureMatch.OPTIONALMATCH.getMatchFactor()); 
@@ -586,7 +586,7 @@ public class clsOntologyLoader {
 				oAssociation = loadAssociation(null, oAssociationElement, poDataContainer); 
 				//Below the necessity of the association is defined. Entities are defined by their associations to different 
 				//types of data structures. Depending on their definition in the ontology (class_association or instance association)
-				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity bubble has always the shape "circle"
+				//the necessity is defined as true (mandatory) or false (optional). E.g. an entity ARSIN has always the shape "circle"
 				//but can differ in its color => shape is defined as class association while color is defined as instance association. Here,
 				//the class associations are defined => moAssociationImperative is set to true => mandatory. 
 				oAssociation.setMrImperativeFactor(eDataStructureMatch.MANDATORYMATCH.getMatchFactor()); 

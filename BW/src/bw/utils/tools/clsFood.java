@@ -20,7 +20,7 @@ import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eNutritions;
 
 /**
- * Food describes a piece of junk that can be transferred from one agent to the other (e.g. plant to bubble). It is
+ * Food describes a piece of junk that can be transferred from one agent to the other (e.g. plant to ARSIN). It is
  * a composition of nutritionfractions (which sum up to 1.0) and the amount (or weight) of the food piece.
  * 
  * FIXME (deutsch) is not working - debugging needed!
