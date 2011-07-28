@@ -321,7 +321,14 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		clsAssociation oRetVal = null; 
 		
-		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
+		//First check if WP can be found 
+		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+		
+		//If no WP can be found, try with WPM
+		if (oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() == 0) {
+			oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+			search(eDataType.WPM, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+		}
 		
 		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
 			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);

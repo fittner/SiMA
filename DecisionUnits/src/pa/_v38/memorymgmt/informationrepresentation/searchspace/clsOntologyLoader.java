@@ -34,6 +34,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 
@@ -92,7 +93,8 @@ public class clsOntologyLoader {
 								eDataType.TI,
 								eDataType.TP,
 								eDataType.TPM,
-								eDataType.WP};
+								eDataType.WP,
+								eDataType.WPM};
 		
 		/*eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
 				eDataType.ASSOCIATIONDM, 
@@ -168,6 +170,7 @@ public class clsOntologyLoader {
 			case TPM:	 createTPM(poRootElement, poElement, poDataContainer);	break; 
 			case TP:	 createTP(poRootElement, poElement, poDataContainer);	break; 
 			case WP:	 createWP(poRootElement, poElement, poDataContainer);	break; 
+			case WPM: 	 createWPM(poRootElement, poElement, poDataContainer);	break;
 			
 			//Special case in order to be able to create images
 			//FIXME AW: This is not a real datatype and should not be here.
@@ -200,6 +203,29 @@ public class clsOntologyLoader {
 		//TODO HZ: Define other attributes!! 
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @author wendt
+	 *
+	 * @param poRootElement
+	 * @param poElement
+	 * @param poDataContainer
+	 */
+	private static void createWPM(Instance poRootElement, Instance poElement,
+			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
+			
+			eDataType oElementType = eDataType.WPM; 
+			int oID = DS_ID++;  
+			String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+			String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
+									
+			clsWordPresentationMesh oDataStructure = new clsWordPresentationMesh(new clsTripple<Integer, eDataType, String>(oID ,oElementType,oElementValueType), new ArrayList<clsAssociation>(), oElementValue);
+			//The presentation does obey associations
+			//TODO AW: define how to add associations. At the moment it is not necessary to add intrinsic values 
+			poDataContainer.b.put(poElement.getName(), oDataStructure);
+		}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -640,22 +666,30 @@ public class clsOntologyLoader {
 												   (clsDriveMesh)oAssociationElements.a, 
 												   (clsPrimaryDataStructure)oAssociationElements.b); 
 			
-			case ASSOCIATIONWP:
-				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);
-				return new clsAssociationWordPresentation(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
-						   (clsWordPresentation)oAssociationElements.a, 
-						   (clsDataStructurePA)oAssociationElements.b);
 			
 			case ASSOCIATIONPRI:
 				return new clsAssociationPrimary(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB);
 			
+			case ASSOCIATIONWP:
+				if ((poElementA instanceof clsWordPresentationMesh) || (poElementB instanceof clsWordPresentationMesh)) {
+					oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WPM);
+					return new clsAssociationWordPresentation(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+							   (clsWordPresentationMesh)oAssociationElements.a, 
+							   (clsDataStructurePA)oAssociationElements.b);
+				} else {
+					oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);
+					return new clsAssociationWordPresentation(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+							   (clsWordPresentation)oAssociationElements.a, 
+							   (clsDataStructurePA)oAssociationElements.b);
+				}
+	
 			//Special case, where the String "Predicate" is added
 			case ASSOCIATIONSEC:
-				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);	//In association secondary, the same conditions as in WP are used. This association has a direction
+				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WPM);	//In association secondary, the same conditions as in WP are used. This association has a direction
 				return new clsAssociationSecondary(new clsTripple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
-						   (clsWordPresentation)oAssociationElements.a, 
-						   (clsDataStructurePA)oAssociationElements.b, oPredicate);
+						   (clsWordPresentationMesh)oAssociationElements.a, 
+						   (clsSecondaryDataStructure)oAssociationElements.b, oPredicate);
 				
 		}
 		throw new NoSuchFieldError(" association of unknown type: " + peElementType.toString());

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTripple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -118,6 +119,8 @@ public abstract class clsDataStructureComparison {
 			while ((i + 1 < oRetVal.size()) && oMatch < oRetVal.get(i).a) {
 				i++;
 			}
+			//Set moInstanceID for all structures in the container
+			clsDataStructureTools.createInstanceFromType(oCompareContainer);
 			//Add results
 			oRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
 		}
@@ -169,6 +172,9 @@ public abstract class clsDataStructureComparison {
 		
 		//Remove duplicate structures
 		oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
+		
+		//Set moInstanceID for all structures in the container
+		//clsDataStructureTools.createInstanceFromType(oCompareContainer);
 		
 		return oCompareContainer;
 	}

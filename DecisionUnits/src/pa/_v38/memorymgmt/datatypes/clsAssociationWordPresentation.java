@@ -29,7 +29,7 @@ public class clsAssociationWordPresentation extends clsAssociation{
 	 */
 	public clsAssociationWordPresentation(
 			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsWordPresentation poAssociationElementA,
+			clsSecondaryDataStructure poAssociationElementA,
 			clsDataStructurePA poAssociationElementB) {
 			
 			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB); 

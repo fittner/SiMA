@@ -36,8 +36,8 @@ public class clsAssociationSecondary extends clsAssociation{
 	 */
 	public clsAssociationSecondary(
 			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsWordPresentation poAssociationElementA,
-			clsDataStructurePA poAssociationElementB, String oPredicate) {
+			clsSecondaryDataStructure poAssociationElementA,
+			clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
 			
 			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 			moPredicate = oPredicate;
