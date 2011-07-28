@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsBWProperties;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
@@ -35,7 +34,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:49:09
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBase implements itfMinimalModelMode, I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
@@ -449,16 +448,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements it
 	public void setDescription() {
 		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
 	}		
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}	
 	
 }
 

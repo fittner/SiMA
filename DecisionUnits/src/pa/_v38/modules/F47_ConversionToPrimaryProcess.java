@@ -9,8 +9,6 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
@@ -37,7 +35,7 @@ import config.clsBWProperties;
  * 03.03.2011, 15:22:59
  * 
  */
-public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itfMinimalModelMode, I6_9_receive, I5_19_send {
+public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_9_receive, I5_19_send {
 	public static final String P_MODULENUMBER = "47";
 	//FIXME AW: Extends ModulebaseKB is a hack until results from the planning can be used. Then it should be changed 
 	//to clsModuleBase
@@ -387,15 +385,5 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
 	}	
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}	
-	
+		
 }

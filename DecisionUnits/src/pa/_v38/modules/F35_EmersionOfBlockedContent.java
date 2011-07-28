@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
@@ -31,7 +30,7 @@ import pa._v38.storage.clsBlockedContentStorage;
  * 07.10.2009, 11:16:58
  * 
  */
-public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itfMinimalModelMode, I5_7_receive, I5_8_send {
+public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send {
 	public static final String P_MODULENUMBER = "35";
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
@@ -333,14 +332,5 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		moDescription = "It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming primary process data structures. If one is found, the repressed content is attached to it. All incoming images are forwarded to next modules, some of them with additional information attached.";
 	}
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
 	
 }

@@ -14,7 +14,6 @@ import config.clsBWProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -48,7 +47,7 @@ import pa._v38.modules.ePsychicInstances;
  */
 //HZ 4.05.2011: Module is only required to transfer its functionality to v38
 @Deprecated
-public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMinimalModelMode, I6_3_receive, I6_1_receive, I3_3_send {
+public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_receive, I6_1_receive, I3_3_send {
 	public static final String P_MODULENUMBER = "22";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
@@ -481,16 +480,6 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 		moDescription = "Next to {E7}, {E22} is the only module which is assigned to the top level module Superego. While the contents processed by {E7} are unconscious and cannot become conscious at all, {E22} processes social rules which are at least preconscious and can become conscious. These rules, commands, and gratifications appear as word and thing presentations and influence decision making. Which rules are selected and forwarded is determined by comparing the drive wishes and the external perception with the stored trigger conditions.";
 	}	
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
