@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 
 /**
  * DOCUMENT (gelbard)
@@ -92,7 +93,8 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += "n/a";
+		text += toText.listToTEXT("moAffectOnlyList_Input", moAffectOnlyList_Input);
+		text += toText.listToTEXT("moSecondaryDataStructureContainer_Output", moSecondaryDataStructureContainer_Output);
 
 		return text;
 	}
@@ -267,7 +269,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_2(0);
+		send_I6_2(moSecondaryDataStructureContainer_Output);
 		
 	}
 
@@ -279,11 +281,11 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.send.I5_5_send#send_I5_5(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
-		((I6_2_receive)moModuleList.get(29)).receive_I6_2(pnData);
-		((I6_2_receive)moModuleList.get(26)).receive_I6_2(pnData);
+	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output) {
+		((I6_2_receive)moModuleList.get(29)).receive_I6_2(moSecondaryDataStructureContainer_Output);
+		((I6_2_receive)moModuleList.get(26)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		
-		putInterfaceData(I6_2_send.class, pnData);
+		putInterfaceData(I6_2_send.class, moSecondaryDataStructureContainer_Output);
 	}
 
 	/* (non-Javadoc)
