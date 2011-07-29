@@ -30,7 +30,6 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import statictools.clsExceptionUtils;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
@@ -44,7 +43,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	public static final String P_MODULENUMBER = "08";
 	
-	private ArrayList<clsDriveMesh> moDriveList_Input; 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input; 
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Output; 
 
 	/**
@@ -133,8 +132,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	public void receive_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		//moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDriveList);
-		moDriveList_Input = new ArrayList<clsDriveMesh>(); 
+		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDriveList);
+		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 	
 	/* (non-Javadoc)
@@ -181,16 +180,21 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 		for(int index = 0; index < moDriveList_Input.size(); index++){
 			try {
-			String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
+			//FIXME SOMEONE: HACK AW. Index out of bounds, because there are more DMs than WPs. Do not trust that the list order of DM corresponds
+			//to an element in another list. For that case, the pair is used.
+				if ((oDM_A.size()<=index) || (oAff_A.size()<=index)) {
+					break;
+				}
+				String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
 									+ ":" 
 									+ ((clsWordPresentation)oAff_A.get(index).getLeafElement()).getMoContent();
-			clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
+				clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
 										 new clsPair<String, Object>(eDataType.WP.name(), oContentWP));
-			clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
+				clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
 										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
-			moDriveList_Output.add(oCon);
+				moDriveList_Output.add(oCon);
 			} catch (java.lang.IndexOutOfBoundsException e) {
-				System.out.println(clsExceptionUtils.getCustomStackTrace(e)); //FIXME (kohlhauser): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
+				e.printStackTrace(); //(clsExceptionUtils.getCustomStackTrace(e))); //FIXME (kohlhauser): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
 			}
 		}
 	}
@@ -225,8 +229,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @param oPattern
 	 */
 	private void extractAssociatedElement(ArrayList<clsDataStructurePA> poPattern) {
-		for(clsDriveMesh oEntry : moDriveList_Input){
-			for(clsAssociation oAssociation : oEntry.getMoAssociatedContent()){
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oEntry : moDriveList_Input){
+			for(clsAssociation oAssociation : oEntry.b.getMoAssociatedContent()){
 				poPattern.add(oAssociation.getMoAssociationElementB()); 
 			}
 		}
@@ -283,9 +287,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @param oPattern
 	 */
 	private void extractAffect(ArrayList<clsDataStructurePA> poPattern) {
-		for(clsDriveMesh oEntry : moDriveList_Input){
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oEntry : moDriveList_Input){
 			clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
-					new clsPair<String, Object>(eDataType.AFFECT.toString(), oEntry.getPleasure()));
+					new clsPair<String, Object>(eDataType.AFFECT.toString(), oEntry.b.getPleasure()));
 			
 			poPattern.add(oAffect);
 		}
