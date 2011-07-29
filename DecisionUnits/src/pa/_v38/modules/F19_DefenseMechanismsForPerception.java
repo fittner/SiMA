@@ -27,9 +27,10 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ * Defends forbidden perceptions. Super-Ego (F7, F55) sends a list with forbidden perceptions to F19. F19 decides whether to defend the forbidden perceptions or not.
+ * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
- * @author deutsch
+ * @author deutsch, gelbard
  * 11.08.2009, 14:35:08
  * 
  */

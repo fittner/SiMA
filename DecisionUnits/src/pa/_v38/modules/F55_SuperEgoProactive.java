@@ -24,9 +24,9 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * Super-Ego proacvtive watches internalized rules like "Do a good deed every day" or "Be always friendly" 
  * 
- * @author zeilinger
+ * @author zeilinger, gelbard
  * 02.05.2011, 15:47:48
  * 
  */

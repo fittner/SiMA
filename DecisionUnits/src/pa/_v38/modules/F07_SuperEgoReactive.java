@@ -29,9 +29,14 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * Checks incoming drives and perceptions according to internalized rules.
+ * If one internalized rule fires a forbidden drive or perception is detected.
+ * The forbidden drive or perception is added to the list of forbidden drives or the list of forbidden perceptions, respectively. 
+ * The list with forbidden drives is sent to "F06: Defense mechanisms for drives".
+ * The list with forbidden perceptions is sent to "F19: Defense mechanisms for perseption".
+ * F06 or F19 (Ego) can decide now to defend the forbidden drives or not.
  * 
- * @author zeilinger
+ * @author zeilinger, gelbard
  * 02.05.2011, 15:47:53
  * 
  */
