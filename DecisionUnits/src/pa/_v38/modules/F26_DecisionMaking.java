@@ -27,10 +27,12 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -639,7 +641,17 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//Get the drive with the higest value
 		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
 		
-		//find this drive
+		//find all drive components in the predictions
+		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
+			//Extract drives from the intention, where they may trigger an action
+			String oDriveContent = null;
+			clsSecondaryDataStructureContainer oDriveContainer = null;
+			
+			
+		}
+		
+		
+		
 		
 		if(oMaxDemand != null){
 			String oDriveContent = oMaxDemand.a; 
@@ -662,6 +674,58 @@ public class F26_DecisionMaking extends clsModuleBase implements
 						moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
 					}
 			}
+		}
+		
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all possible goals from the intention of the perception act.
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 29.07.2011 10:03:27
+	 *
+	 * @param poPredictionInput
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getDriveGoalsFromPrediction(clsPrediction poPredictionInput) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		clsDataStructureContainerPair oIntention = poPredictionInput.getIntention();
+		if (oIntention.getSecondaryComponent()==null) {
+			return null;
+		}
+		clsSecondaryDataStructureContainer oIntentionSecondary = oIntention.getSecondaryComponent();
+		clsSecondaryDataStructure oIntentionBasicDS = (clsSecondaryDataStructure) oIntentionSecondary.getMoDataStructure();
+		
+		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		String oGoalContent=null; 
+		clsWordPresentation oGoal = null;
+		
+		if (oIntentionBasicDS instanceof clsSecondaryDataStructure) {
+			//If no Mesh
+			if (oIntentionBasicDS instanceof clsWordPresentation) {
+				//Define goal content
+				oGoalContent = ((clsWordPresentation)oIntentionBasicDS).getMoContent();//oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent;  
+				//Define data structure for the goal
+				oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+				//Get all associated structures with this goal
+				oAssociatedDS.addAll(oIntentionSecondary.getMoAssociatedDataStructures(oIntentionBasicDS));
+			} else if (oIntentionBasicDS instanceof clsWordPresentationMesh) {
+				//Almost the same as the word presentation but, with the extension that it has inner structures too
+				oGoalContent = ((clsWordPresentationMesh)oIntentionBasicDS).getMoContent();//oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+				oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+				//Get all associated structures with this goal
+				oAssociatedDS.addAll(oIntentionSecondary.getMoAssociatedDataStructures(oIntentionBasicDS));
+			}
+			
+			if (oGoalContent!=null) {
+				
+			}
+			
+			
+			
 		}
 		
 		
