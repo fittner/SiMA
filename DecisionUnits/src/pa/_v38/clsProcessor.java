@@ -6,7 +6,7 @@
 package pa._v38;
 
 import java.util.HashMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
@@ -50,25 +50,25 @@ public class clsProcessor implements itfProcessor  {
 	 * @since 12.07.2011 11:01:51
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
 	 */
-	public clsProcessor(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsProcessor(String poPrefix, clsProperties poProp, int uid) {
 		applyProperties(poPrefix, poProp, uid);
 	}
 	
 	/**
-	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
 	 *
 	 * @since 12.07.2011 11:02:53
 	 *
 	 * @param poPrefix Prefix for the entries in the property file.
-	 * @return An instance of clsBWProperties with the added default properties.
+	 * @return An instance of clsProperties with the added default properties.
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
@@ -84,11 +84,11 @@ public class clsProcessor implements itfProcessor  {
 	 * @since 12.07.2011 11:04:27
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
 	 */
-	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, int uid) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
 		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);

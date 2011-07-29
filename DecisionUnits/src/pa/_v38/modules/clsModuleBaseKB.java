@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -46,13 +46,13 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @since 13.07.2011 14:59:39
 	 *
  	 * @param poPrefix Prefix for the property-entries in the property file.
- 	 * @param poProp The property file in form of an instance of clsBWProperties.
+ 	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param poModuleList A reference to an empty map that is filled with references to the created modules. Needed by the clsProcessor.
 	 * @param poInterfaceData A reference to an empty map that is filled with data that is transmitted via the interfaces each step.
 	 * @param poKnowledgeBaseHandler A reference to the knowledgebase handler.
 	 * @throws Exception
 	 */
-	public clsModuleBaseKB(String poPrefix, clsBWProperties poProp,
+	public clsModuleBaseKB(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler)

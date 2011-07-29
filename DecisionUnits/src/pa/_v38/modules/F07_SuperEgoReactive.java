@@ -26,12 +26,17 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * Checks incoming drives and perceptions according to internalized rules.
+ * If one internalized rule fires a forbidden drive or perception is detected.
+ * The forbidden drive or perception is added to the list of forbidden drives or the list of forbidden perceptions, respectively. 
+ * The list with forbidden drives is sent to "F06: Defense mechanisms for drives".
+ * The list with forbidden perceptions is sent to "F19: Defense mechanisms for perseption".
+ * F06 or F19 (Ego) can decide now to defend the forbidden drives or not.
  * 
- * @author zeilinger
+ * @author zeilinger, gelbard
  * 02.05.2011, 15:47:53
  * 
  */
@@ -65,7 +70,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @param poKnowledgeBaseHandler
 	 * @throws Exception
 	 */
-	public F07_SuperEgoReactive(String poPrefix, clsBWProperties poProp,
+	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -76,17 +81,17 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		applyProperties(poPrefix, poProp); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -199,7 +204,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for repression of drives
 		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "ARSIN") &&
 			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
@@ -214,7 +219,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for denial of perceptions
 		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM("ENTITY", "BUBBLE") &&
+			searchInTPM("ENTITY", "ARSIN") &&
 			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
@@ -258,7 +263,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
 	private boolean searchInTPM (String oContentType, String oContent) {

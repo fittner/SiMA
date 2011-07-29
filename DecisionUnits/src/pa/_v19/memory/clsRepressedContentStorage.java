@@ -23,7 +23,7 @@ import pa._v19.memorymgmt.datatypes.clsThingPresentation;
 import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.pa.eContext;
 
 /**
@@ -39,7 +39,7 @@ public class clsRepressedContentStorage {
 	public ArrayList<clsPrimaryInformation> moRepressedContent;
 	public ArrayList<clsDriveMesh> moRepressedContentCONVERTED;
 	
-	public clsRepressedContentStorage(String poPrefix, clsBWProperties poProp) {
+	public clsRepressedContentStorage(String poPrefix, clsProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moRepressedContent = clsRepressedContentLoader.createRepressedList("1", "PSY_10");
@@ -48,16 +48,16 @@ public class clsRepressedContentStorage {
 		convertRepressedContent(); 
     }
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+//		String pre = clsProperties.addDot(poPrefix);
     	 
     	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-//    	String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+//    	String pre = clsProperties.addDot(poPrefix);
     	
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
 		
 		//oProp.putAll(clsOtherClass.getDefaultProperties(pre) );
 		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );

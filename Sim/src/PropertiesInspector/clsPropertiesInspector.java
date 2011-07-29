@@ -1,7 +1,7 @@
 package PropertiesInspector;
 
 
-import config.clsBWProperties;
+import config.clsProperties;
 import java.awt.EventQueue;
 import java.awt.GraphicsConfiguration;
 import java.awt.HeadlessException;
@@ -28,7 +28,7 @@ import javax.swing.tree.TreeNode;
 /**
  * @author Matthias Jakubec
  *
- * The class builds a GUI to display the contents of the clsBWProperties object,
+ * The class builds a GUI to display the contents of the clsProperties object,
  * which holds the property parameters in the project ARS V38.
  * 
  * It can be called
@@ -38,7 +38,7 @@ import javax.swing.tree.TreeNode;
  * 			In the case of no argument, the initially displayed properties object is empty.
  * 			In the case of one argument, this is interpreted as a fully qualified file name of a properties file.
  * 			In the case of one argument, these are interpreted as path name and local file name of a properties file.
- * 		.) by another application using the constructor with an existing clsBWProperties object as input parameter.
+ * 		.) by another application using the constructor with an existing clsProperties object as input parameter.
  */
 public class clsPropertiesInspector extends JFrame { // To appear at the desktop the class is defined as a child of JFrame (package "javax.swing").
 
@@ -52,7 +52,7 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	private JMenuItem menuItemOpenFile;
 	private JScrollPane jspScrollPane1, jspScrollPane2;
 	private JFileChooser jfcFileChooser;
-	private clsBWProperties BWProperies;
+	private clsProperties BWProperies;
 	private String propertyFilename = ""; // Fully qualified name of the loaded property file.
 
 	
@@ -127,13 +127,13 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 	
 	/**
 	 * @throws HeadlessException
-	 * Is used when class is called by another program which provides the clsBWProperties object.
+	 * Is used when class is called by another program which provides the clsProperties object.
 	 */
-	public clsPropertiesInspector(clsBWProperties receivedProperties) throws HeadlessException {
+	public clsPropertiesInspector(clsProperties receivedProperties) throws HeadlessException {
 		this.setVisible(true); // Sets the frame of the program visible.
 	    initComponents(); // Constructs the layout of the programs pane (window).
-		BWProperies = receivedProperties; // Stores the received clsBWProperties object in the foreseen private field.
-	    jtrConfigTree = setPropertiesTree (BWProperies); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+		BWProperies = receivedProperties; // Stores the received clsProperties object in the foreseen private field.
+	    jtrConfigTree = setPropertiesTree (BWProperies); // Creates the tree from the received clsProperties object and sets private field foreseen for the tree.
 	    jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
 	}
 
@@ -149,9 +149,9 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 			@Override
         	public void run() { // Automatically generated call back method.
 				switch (arguments.length) {
-				case 1: new clsPropertiesInspector(arguments[0]); break; // The application is called without an initially loaded clsBWProperties object.
-				case 2: new clsPropertiesInspector(arguments[0], arguments[1]); break; // The application is called without an initially loaded clsBWProperties object.
-				default: new clsPropertiesInspector(); // The application is called without an initially loaded clsBWProperties object.
+				case 1: new clsPropertiesInspector(arguments[0]); break; // The application is called without an initially loaded clsProperties object.
+				case 2: new clsPropertiesInspector(arguments[0], arguments[1]); break; // The application is called without an initially loaded clsProperties object.
+				default: new clsPropertiesInspector(); // The application is called without an initially loaded clsProperties object.
 				}
             }            	
         });
@@ -159,7 +159,7 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 
 	
     /**
-     * This method fetches the property value with the specified key from the clsBWProperties object displays it in text area 1 and sets this area to editable.
+     * This method fetches the property value with the specified key from the clsProperties object displays it in text area 1 and sets this area to editable.
      * If the key is an empty string, the method clears an eventually previously displayed value from text area 1 and blocks the editability of this text area.
      */
 	private void displayPropertyvalue (String key) { // The key identifies the property value in the object BWProperties. 
@@ -325,16 +325,16 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
     	jtaTextArea1.setText(""); // Cleans the text area.
     	jtaTextArea1.setEditable(false); // Inhibits to edit the initially empty text area.
 		iOfBackslash = propertyFilename.lastIndexOf(SEPARATOR_FOR_PATH);
-		BWProperies = clsBWProperties.readProperties(propertyFilename.substring (0, iOfBackslash), propertyFilename.substring (iOfBackslash + 1)); // Reads the given properties file and stores it in the clsBWProperties object.
-	    jtrConfigTree = setPropertiesTree (BWProperies); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+		BWProperies = clsProperties.readProperties(propertyFilename.substring (0, iOfBackslash), propertyFilename.substring (iOfBackslash + 1)); // Reads the given properties file and stores it in the clsProperties object.
+	    jtrConfigTree = setPropertiesTree (BWProperies); // Creates the tree from the received clsProperties object and sets private field foreseen for the tree.
 	    jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
 	}
 
     
     /**
-     * This method creates a JTree object from a clsBWProperties object.
+     * This method creates a JTree object from a clsProperties object.
      */
-	private JTree setPropertiesTree (clsBWProperties anyProperties) {
+	private JTree setPropertiesTree (clsProperties anyProperties) {
 		// Definition of local variables.
 		DefaultMutableTreeNode branch = null, currentNode, nextNode, top;
 		final JTree ljtrConfigTree; // local tree object
@@ -392,7 +392,7 @@ public class clsPropertiesInspector extends JFrame { // To appear at the desktop
 
 	
     /**
-     * This method writes the modified value back to the selected node in the clsBWPropertiesObject.
+     * This method writes the modified value back to the selected node in the clsPropertiesObject.
      */
 	private void writebackPropertyvalue (String propertyvalue) {
 		DefaultMutableTreeNode node;

@@ -26,7 +26,7 @@
 			<Context type="SEXUAL_AROUSAL" weight="0" affect_memory="0.0"/>
 		</ContextList>	
 	</TPMesh>
-	<TPMesh name="BUBBLE">
+	<TPMesh name="ARSIN">
 		<Description> Definition of the associated context</Description>
 			
 	</TPMesh>

@@ -7,7 +7,7 @@
 package pa._v30;
 
 import java.util.HashMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
@@ -35,14 +35,14 @@ public class clsProcessor implements itfProcessor  {
 	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	private double mrLibidostream;
 		
-	public clsProcessor(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsProcessor(String poPrefix, clsProperties poProp, int uid) {
 		applyProperties(poPrefix, poProp, uid);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
@@ -52,8 +52,8 @@ public class clsProcessor implements itfProcessor  {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp, int uid) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp, int uid) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
 		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);

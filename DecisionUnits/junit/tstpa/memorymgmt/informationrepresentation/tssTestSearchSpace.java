@@ -129,7 +129,7 @@ public class tssTestSearchSpace {
 		oDataStructureTable.put(Integer.toString(oID), oWordPresentation2);
 		clsWordPresentation oWordPresentation3 = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.WP,""), "cake");
 		oDataStructureTable.put(Integer.toString(oID), oWordPresentation3);
-		clsWordPresentation oWordPresentation4 = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.WP,""), "bubble");
+		clsWordPresentation oWordPresentation4 = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.WP,""), "arsin");
 		oDataStructureTable.put(Integer.toString(oID), oWordPresentation4);
 		clsWordPresentation oWordPresentation5 = new clsWordPresentation(new clsTripple<Integer, eDataType, String>(oID++, eDataType.WP,""), "aggressive");
 		oDataStructureTable.put(Integer.toString(oID), oWordPresentation5);

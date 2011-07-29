@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
@@ -82,7 +82,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
+	public F45_LibidoDischarge(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			DT1_LibidoBuffer poLibidoBuffer,
@@ -178,17 +178,17 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 	}*/
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

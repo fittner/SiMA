@@ -15,7 +15,7 @@ import pa._v19.interfaces.send.I1_4_send;
 import pa._v19.memorymgmt.datatypes.clsDriveDemand;
 import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.tools.clsPair;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -39,23 +39,23 @@ public class E04_FusionOfDrives extends clsModuleBase implements I1_3_receive, I
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E04_FusionOfDrives(String poPrefix, clsBWProperties poProp,
+	public E04_FusionOfDrives(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

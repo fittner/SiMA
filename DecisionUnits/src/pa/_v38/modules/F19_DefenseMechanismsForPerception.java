@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.interfaces.modules.I5_14_receive;
 import pa._v38.interfaces.modules.I5_15_receive;
 import pa._v38.interfaces.modules.I5_15_send;
@@ -27,9 +27,10 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ * Defends forbidden perceptions. Super-Ego (F7, F55) sends a list with forbidden perceptions to F19. F19 decides whether to defend the forbidden perceptions or not.
+ * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
- * @author deutsch
+ * @author deutsch, gelbard
  * 11.08.2009, 14:35:08
  * 
  */
@@ -65,7 +66,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F19_DefenseMechanismsForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -94,17 +95,17 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -227,7 +228,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a BUBBLE
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
 	private void deny_perception (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {

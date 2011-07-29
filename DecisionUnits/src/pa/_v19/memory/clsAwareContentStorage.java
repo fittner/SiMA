@@ -12,7 +12,7 @@ import java.util.HashMap;
 import pa._v19.datatypes.clsPrimaryInformation;
 import pa._v19.loader.clsAwareContentLoader;
 import pa._v19.tools.clsTripple;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -24,20 +24,20 @@ import config.clsBWProperties;
 public class clsAwareContentStorage {
 	public HashMap<String,ArrayList<clsTripple<clsPrimaryInformation,clsPrimaryInformation,clsPrimaryInformation>>> moAwareContent;
 	
-	public clsAwareContentStorage(String poPrefix, clsBWProperties poProp) {
+	public clsAwareContentStorage(String poPrefix, clsProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moAwareContent = clsAwareContentLoader.createAwareContent();
     }
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//			String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){		
+//			String pre = clsProperties.addDot(poPrefix);
 	    }	
 	    
-	    public static clsBWProperties getDefaultProperties(String poPrefix) {
-//	    	String pre = clsBWProperties.addDot(poPrefix);
+	    public static clsProperties getDefaultProperties(String poPrefix) {
+//	    	String pre = clsProperties.addDot(poPrefix);
 	    	
-	    	clsBWProperties oProp = new clsBWProperties();
+	    	clsProperties oProp = new clsProperties();
 				
 			return oProp;
 	    }

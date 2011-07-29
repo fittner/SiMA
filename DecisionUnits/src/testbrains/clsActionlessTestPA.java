@@ -7,7 +7,7 @@
 package testbrains;
 
 import pa.clsPsychoAnalysis;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eDecisionType;
 
 /**
@@ -26,7 +26,7 @@ public class clsActionlessTestPA extends clsPsychoAnalysis {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsActionlessTestPA(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsActionlessTestPA(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 	}
 

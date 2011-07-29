@@ -4,7 +4,7 @@
  * 2011/07/06 TD - added javadoc comments. code sanitation.
  */
 package decisionunit;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.itfDecisionUnitFactory;
@@ -32,7 +32,7 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	 */
 	@Override
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
-			String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException {
+			String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException {
 		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);
 	}
 
@@ -49,7 +49,7 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	 * @throws java.lang.IllegalArgumentException
 	 */
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
-				String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException {		
+				String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
 		
 		//create the defined decision unit...
@@ -95,7 +95,7 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	}
 
 	/**
-	 * Provides the default entries for the selected decision unit type. See config.clsBWProperties in project DecisionUnitInterface.
+	 * Provides the default entries for the selected decision unit type. See config.clsProperties in project DecisionUnitInterface.
 	 *
 	 * @since 06.07.2011 13:15:54
 	 *
@@ -104,8 +104,8 @@ public class clsDecisionUnitFactory implements itfDecisionUnitFactory {
 	 * @return
 	 * @throws java.lang.IllegalArgumentException
 	 */
-	public static clsBWProperties getDefaultProperties(eDecisionType nDecisionType, String poPrefix) throws java.lang.IllegalArgumentException {
-		clsBWProperties oProps = null;
+	public static clsProperties getDefaultProperties(eDecisionType nDecisionType, String poPrefix) throws java.lang.IllegalArgumentException {
+		clsProperties oProps = null;
 		
 		//create the defined decision unit...
 		switch(nDecisionType) {

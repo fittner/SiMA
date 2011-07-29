@@ -13,7 +13,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
-import config.clsBWProperties;
+import config.clsProperties;
 import statictools.clsGetARSPath;
 
 /**
@@ -425,7 +425,7 @@ class ScenarioEntry {
 	    this.moFilename = poFilename;
 	    
 	    String oPath = clsGetARSPath.getConfigPath();
-        clsBWProperties oProp = clsBWProperties.readProperties(oPath, moFilename);
+        clsProperties oProp = clsProperties.readProperties(oPath, moFilename);
  	   
         moName = oProp.getPropertyString("title");
         moShortDescription = oProp.getPropertyString("short_description");

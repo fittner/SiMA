@@ -11,7 +11,7 @@ import java.awt.GridLayout;
 import java.awt.Point;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * Generates a GUI that allows to change the number of entities within one entity group. In a property configuraiton file, several different groups
@@ -37,7 +37,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 	 * @param poTitle Title for the window
 	 * @param poProp Reference to the instance of the read property file that will be adapted.
 	 */
-	public clsBWFastEntityAdapter(JFrame poParent, String poTitle, clsBWProperties poProp) {
+	public clsBWFastEntityAdapter(JFrame poParent, String poTitle, clsProperties poProp) {
 	    super(poParent, poTitle, true);
 	    
 	    if (poParent != null) {

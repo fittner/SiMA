@@ -25,7 +25,7 @@ import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsAct;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -69,16 +69,16 @@ public class G15_Deliberation extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G15_Deliberation(String poPrefix, clsBWProperties poProp,
+	public G15_Deliberation(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E26_DecisionMaking.getDefaultProperties(pre+P_E26) );
 		oProp.putAll( E27_GenerationOfImaginaryActions.getDefaultProperties(pre+P_E27) );
@@ -88,8 +88,8 @@ public class G15_Deliberation extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE26DecisionMaking = new E26_DecisionMaking(pre+P_E26, poProp, this, moInterfaceHandler);
 		moE27GenerationOfImaginaryActions = new E27_GenerationOfImaginaryActions(pre+P_E27, poProp, this, moInterfaceHandler);

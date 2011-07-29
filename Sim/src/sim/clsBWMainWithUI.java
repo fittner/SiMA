@@ -18,7 +18,7 @@ import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
 import java.awt.Color;
 import java.awt.Dimension;
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import javax.swing.JFrame;
@@ -118,7 +118,7 @@ public class clsBWMainWithUI extends GUIState {
 			oPath = clsGetARSPath.getConfigPath();
 		}
 		
-		clsBWProperties oProp = clsBWProperties.readProperties(oPath, F_CONFIGFILENAME);
+		clsProperties oProp = clsProperties.readProperties(oPath, F_CONFIGFILENAME);
 		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS);
 		
 		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
@@ -148,19 +148,19 @@ public class clsBWMainWithUI extends GUIState {
 	 * @return String
 	 */
 	public static String getName() { 
-    	clsBWProperties oProp = clsSingletonProperties.getSystemProperties();
+    	clsProperties oProp = clsSingletonProperties.getSystemProperties();
     	String pre = "";
     	
 		return oProp.getPropertyString(pre+P_MAINWINDOWTITLE); 
 	} 
     
      /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-    	 String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+    	 String pre = clsProperties.addDot(poPrefix);
     	 
-    	 clsBWProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
+    	 clsProperties oProp = ARSsim.display.Display2D.getDefaultProperties(pre);
     	 
     	 oProp.setProperty(pre+P_BACKGROUNDCOLOR, Color.white);
     	 oProp.setProperty(pre+P_TITLE, "ARSin V1.0 GameGrid");
@@ -180,7 +180,7 @@ public class clsBWMainWithUI extends GUIState {
 	public void init(Controller poController){
     	super.init(poController);
 		
-    	clsBWProperties oProp = clsSingletonProperties.getSystemProperties();
+    	clsProperties oProp = clsSingletonProperties.getSystemProperties();
     	String pre = "";
     	
 		moDisplay = ARSsim.display.Display2D.createDisplay2d("", oProp, this);

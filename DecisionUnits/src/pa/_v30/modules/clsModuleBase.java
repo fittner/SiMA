@@ -16,7 +16,7 @@ import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.itfInspectorInternalState;
 import pa._v30.interfaces.itfInterfaceDescription;
 import pa._v30.interfaces.itfInterfaceInterfaceData;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -46,7 +46,7 @@ public abstract class clsModuleBase implements
 	private ArrayList<eInterfaces> moInterfacesSend;
 	private ArrayList<eInterfaces> moInterfaces;
 	
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+	public clsModuleBase(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
@@ -66,18 +66,18 @@ public abstract class clsModuleBase implements
 		applyProperties(poPrefix, poProp);		
 	}	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		//nothing to do
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
 	}

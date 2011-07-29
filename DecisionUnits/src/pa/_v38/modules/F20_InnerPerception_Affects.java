@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I6_5_receive;
@@ -28,26 +28,19 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (gelbard)
- *   		
- * input:
- * clsPrimaryDataStructureContainer
- *   will contain quota of affect for drives
- *            and quota of affect for perceptions
- *            
- * output:
- * output data structure will be clsSecondaryDataStructureContainer
- *        will contain word presentations with the following content:  
- * output = f(quota of affect for drives, quota of affect for perceptions)
- *                      
- * according to 2 thresholds the output will be on of 3 possible affects:
- * moContent = "ANXIETY" (Angst)
- * or
- * moContent = "WORRIEDNESS" (Ängstlichkeit = leichte Angst)
- * or
- * moContent = "PRICKLE" (Kribbeln = ganz, ganz leichte Angst)	 
+ * Converts separated quota of affect into affects for the secondary process.
+ * More precisely, it converts the separated quota of affect for drives and the separated quota of affect for perceptions
+ * from the primary process into one of the affects anxiety, worriedness, or prickle in the secondary process.
+ * <br />  		
+ * Input: clsPrimaryDataStructureContainer which contains 2 integer values: quota of affect for drives and quota of affect for perceptions
+ * <br />           
+ * Output: clsSecondaryDataStructureContainer which contains word presentations with the following content:
+ * anxiety (Angst), worriedness (Ängstlichkeit = leichte Angst), or prickle (Kribbeln = ganz, ganz leichte Angst)
+ * <br />               
+ * According to 2 thresholds the output will be on of the 3 possible affects: anxiety, worriedness, or prickle
  * 
  * @author deutsch, gelbard
  * 11.08.2009, 14:40:29
@@ -75,7 +68,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F20_InnerPerception_Affects(String poPrefix, clsBWProperties poProp,
+	public F20_InnerPerception_Affects(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
@@ -92,22 +85,23 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += "n/a";
+		text += toText.listToTEXT("moAffectOnlyList_Input", moAffectOnlyList_Input);
+		text += toText.listToTEXT("moSecondaryDataStructureContainer_Output", moSecondaryDataStructureContainer_Output);
 
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -267,7 +261,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_2(0);
+		send_I6_2(moSecondaryDataStructureContainer_Output);
 		
 	}
 
@@ -279,11 +273,11 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.send.I5_5_send#send_I5_5(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
-		((I6_2_receive)moModuleList.get(29)).receive_I6_2(pnData);
-		((I6_2_receive)moModuleList.get(26)).receive_I6_2(pnData);
+	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output) {
+		((I6_2_receive)moModuleList.get(29)).receive_I6_2(moSecondaryDataStructureContainer_Output);
+		((I6_2_receive)moModuleList.get(26)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		
-		putInterfaceData(I6_2_send.class, pnData);
+		putInterfaceData(I6_2_send.class, moSecondaryDataStructureContainer_Output);
 	}
 
 	/* (non-Javadoc)

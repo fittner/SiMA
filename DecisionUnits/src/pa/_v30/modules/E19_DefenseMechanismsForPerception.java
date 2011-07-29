@@ -9,7 +9,7 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I2_10_receive;
 import pa._v30.interfaces.modules.I2_10_send;
@@ -51,7 +51,7 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public E19_DefenseMechanismsForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
  		applyProperties(poPrefix, poProp);		
@@ -76,17 +76,17 @@ public class E19_DefenseMechanismsForPerception extends clsModuleBase implements
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

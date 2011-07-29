@@ -13,7 +13,7 @@ import java.util.SortedMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.clsTripple;
 import pa._v30.tools.toText;
@@ -59,7 +59,7 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implement
 	 * @throws Exception
 	 */
 	public E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -89,17 +89,17 @@ public class E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implement
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

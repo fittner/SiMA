@@ -27,7 +27,7 @@ import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -68,16 +68,16 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G12_PrimaryDecision(String poPrefix, clsBWProperties poProp,
+	public G12_PrimaryDecision(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E06_DefenseMechanismsForDriveContents.getDefaultProperties(pre+P_E06) );
 		oProp.putAll( E19_DefenseMechanismsForPerception.getDefaultProperties(pre+P_E19) );
@@ -85,8 +85,8 @@ public class G12_PrimaryDecision extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE06DefenseMechanismsForDriveContents = new E06_DefenseMechanismsForDriveContents(pre+P_E06, poProp, this, moInterfaceHandler);
 		moE19DefenseMechanismsForPerception = new E19_DefenseMechanismsForPerception(pre+P_E19, poProp, this, moInterfaceHandler);

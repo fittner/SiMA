@@ -13,7 +13,7 @@ import java.util.SortedMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -65,7 +65,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @throws Exception
 	 */
 	public _E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -95,17 +95,17 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -765,7 +765,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @see pa._v38.interfaces.modules.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
+	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		// 
 		
 	}	

@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.interfaces.modules.I6_8_receive;
@@ -67,7 +67,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp,
+			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
@@ -104,18 +104,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return text;
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE,
 				eImplementationStage.BASIC.toString());
 
 		return oProp;
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		// String pre = clsProperties.addDot(poPrefix);
 
 		// nothing to do
 	}

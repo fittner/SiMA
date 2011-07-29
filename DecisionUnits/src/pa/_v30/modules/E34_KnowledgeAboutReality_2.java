@@ -9,7 +9,7 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.tools.clsPair;
 import pa._v30.tools.toText;
 import pa._v30.interfaces.eInterfaces;
@@ -44,7 +44,7 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E34_KnowledgeAboutReality_2(String poPrefix, clsBWProperties poProp,
+	public E34_KnowledgeAboutReality_2(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -71,17 +71,17 @@ public class E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfM
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		mnMinimalModel = false;
 		//nothing to do
 	}

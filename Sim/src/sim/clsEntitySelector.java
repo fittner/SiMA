@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import statictools.clsGetARSPath;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * Entry for the clsBWFastEntityAdapter. Extracts the information from the provided properties. 
@@ -28,7 +28,7 @@ public class clsEntitySelector extends JPanel implements ActionListener {
 	private static final long serialVersionUID = -294815264176233253L;
 	private int mnInitCount;
 	private int mnCount;
-	private clsBWProperties moProp;
+	private clsProperties moProp;
 	private JLabel moCountLabel;
 	private String moCountPath;
 
@@ -40,7 +40,7 @@ public class clsEntitySelector extends JPanel implements ActionListener {
 	 * @param poCountPath pointer to the entry in the properties where the number is defined
 	 * @param oProp the properties to be adapted
 	 */
-	public clsEntitySelector(int pnCount, String poEntityName, String poCountPath, clsBWProperties oProp) {
+	public clsEntitySelector(int pnCount, String poEntityName, String poCountPath, clsProperties oProp) {
 		
 		mnInitCount = mnCount = pnCount;
 		moProp = oProp;

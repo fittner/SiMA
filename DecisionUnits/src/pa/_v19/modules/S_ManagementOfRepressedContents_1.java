@@ -14,7 +14,7 @@ import java.util.Map.Entry;
 
 import bfg.tools.clsMutableDouble;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.pa.eContext;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I2_5_receive;
@@ -47,24 +47,24 @@ public class S_ManagementOfRepressedContents_1 extends clsModuleBase implements 
 	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
 	
-	public S_ManagementOfRepressedContents_1(String poPrefix, clsBWProperties poProp,
+	public S_ManagementOfRepressedContents_1(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_CONTEXT_SENSTITIVITY, 0.8);
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
 	}
 	

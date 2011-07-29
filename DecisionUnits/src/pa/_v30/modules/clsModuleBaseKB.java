@@ -9,7 +9,7 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.memorymgmt.datatypes.clsDataStructureContainer;
@@ -40,7 +40,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poInterfaceData
 	 * @throws Exception
 	 */
-	public clsModuleBaseKB(String poPrefix, clsBWProperties poProp,
+	public clsModuleBaseKB(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler)

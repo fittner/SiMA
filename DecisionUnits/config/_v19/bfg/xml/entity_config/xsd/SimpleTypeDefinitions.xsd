@@ -134,7 +134,7 @@
             <xsd:enumeration value="Low"/>
             <xsd:enumeration value="Medium"/>
             <xsd:enumeration value="High"/>
-            <xsd:enumeration value="HeyBubbleGoOnAndTakeAShower!"/>
+            <xsd:enumeration value="HeyARSINGoOnAndTakeAShower!"/>
         </xsd:restriction>
     </xsd:simpleType>
     

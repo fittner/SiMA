@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -64,7 +64,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F48_AccumulationOfAffectsForDrives(String poPrefix,
-			clsBWProperties poProp,
+			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
@@ -73,10 +73,10 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
 		// see PhD Deutsch2011 p82 for what this is used for		
@@ -106,8 +106,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moSplitterFactor = new HashMap<String, Double>();
 		
 		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);

@@ -9,7 +9,7 @@ package pa._v19;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
@@ -106,7 +106,7 @@ public class clsProcessor implements itfProcessor {
 	private E33_RealityCheck2 moE33RealityCheck2;
 	private E34_KnowledgeAboutReality2 moE34KnowledgeAboutReality2;
 	
-	public clsProcessor(String poPrefix, clsBWProperties poProp) {
+	public clsProcessor(String poPrefix, clsProperties poProp) {
 		moModules = new ArrayList<clsModuleBase>();
 		moInterfaceHandler = new clsInterfaceHandler();
 
@@ -116,18 +116,18 @@ public class clsProcessor implements itfProcessor {
 		moInterfaceHandler.setModules(moModules);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( G00_PsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moPsychicApparatus = new G00_PsychicApparatus(pre+P_PSYCHICAPPARATUS, poProp, moInterfaceHandler);
 

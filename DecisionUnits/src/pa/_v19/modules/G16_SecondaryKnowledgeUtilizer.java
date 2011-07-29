@@ -20,7 +20,7 @@ import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsAct;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -57,16 +57,16 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
+	public G16_SecondaryKnowledgeUtilizer(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E25_KnowledgeAboutReality.getDefaultProperties(pre+P_E25) );
 		oProp.putAll( E28_KnowledgeBase_StoredScenarios.getDefaultProperties(pre+P_E28) );
@@ -75,8 +75,8 @@ public class G16_SecondaryKnowledgeUtilizer extends clsModuleContainer implement
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE25KnowledgeAboutReality = new E25_KnowledgeAboutReality(pre+P_E25, poProp, this, moInterfaceHandler);
 		moE28KnowledgeBase_StoredScenarios = new E28_KnowledgeBase_StoredScenarios(pre+P_E28, poProp, this, moInterfaceHandler);

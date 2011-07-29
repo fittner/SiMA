@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
@@ -56,7 +56,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
-			"V_BUBBLE","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
+			"V_ARSIN","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
 			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
@@ -71,7 +71,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F11_NeuroSymbolizationEnvironment(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
@@ -93,17 +93,17 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -304,7 +304,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
 							int x = -1;
 							switch (oE.getEntityType()) {
-								case BUBBLE: x=0; break;
+								case ARSIN: x=0; break;
 								case CAKE:   x=1; break;
 								case CAN:    x=2; break;
 								case CARROT: x=3; break;

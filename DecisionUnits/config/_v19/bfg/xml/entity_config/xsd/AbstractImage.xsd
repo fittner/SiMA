@@ -50,8 +50,8 @@
                             <xsd:element name="node" type="RuleTreeNode"/>                           
 <!--                        <xsd:element name="leafDrive" type="LeafDrive"/>
                             <xsd:element name="leafEmotion" type="LeafEmotion"/>
-                            <xsd:element name="leafBubblesVisible" type="LeafBubblesVisible"/>
-                            <xsd:element name="leafBubblesScentable" type="LeafBubblesScentable"/>
+                            <xsd:element name="leafARSINsVisible" type="LeafARSINsVisible"/>
+                            <xsd:element name="leafARSINsScentable" type="LeafARSINsScentable"/>
 -->                        </xsd:choice>                      
                     </xsd:sequence>
                 <xsd:attribute name="booleanOperator" type="typeBooleanOperator"/>
@@ -159,7 +159,7 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <xsd:complexType name="LeafBubblesVisible">
+    <xsd:complexType name="LeafARSINsVisible">
         <xsd:complexContent>
             <xsd:extension base="RuleTreeLeaf">
                 <xsd:sequence>
@@ -178,7 +178,7 @@
         </xsd:complexContent>
     </xsd:complexType>
 
-    <xsd:complexType name="LeafBubblesScentable">
+    <xsd:complexType name="LeafARSINsScentable">
         <xsd:complexContent>
             <xsd:extension base="RuleTreeLeaf">
                 <xsd:sequence>

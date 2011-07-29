@@ -9,7 +9,7 @@ package pa._v19.modules;
 import java.util.ArrayList;
 import java.util.List;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I2_5_receive;
 import pa._v19.interfaces.receive.I2_6_receive;
@@ -51,17 +51,17 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 	 * @param poMemory
 	 */
 	public E15_ManagementOfRepressedContents(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer,
+			clsProperties poProp, clsModuleContainer poEnclosingContainer,
 			clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll(S_ManagementOfRepressedContents_1.getDefaultProperties(pre+P_S_1));
 		oProp.putAll(S_ManagementOfRepressedContents_2.getDefaultProperties(pre+P_S_2));
@@ -69,8 +69,8 @@ public class E15_ManagementOfRepressedContents extends clsModuleContainer implem
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moS_ManagementOfRepressedContents_1 = new S_ManagementOfRepressedContents_1(pre+P_S_1, poProp, this, moInterfaceHandler);
 		moS_ManagementOfRepressedContents_2 = new S_ManagementOfRepressedContents_2(pre+P_S_2, poProp, this, moInterfaceHandler);

@@ -8,7 +8,7 @@ package pa._v19.modules;
 
 import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v19.clsInterfaceHandler;
@@ -38,23 +38,23 @@ public class E12_SensorsBody extends clsModuleBase implements itfProcessSensorBo
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E12_SensorsBody(String poPrefix, clsBWProperties poProp,
+	public E12_SensorsBody(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

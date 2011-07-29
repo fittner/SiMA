@@ -12,7 +12,7 @@ import pa.clsPsychoAnalysis;
 import pa._v30.clsProcessor;
 import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v30.modules.clsPsychicApparatus;
-import config.clsBWProperties;
+import config.clsProperties;
 import creation.clsLoader;
 import creation.eLoader;
 import decisionunit.clsDecisionUnitFactory;
@@ -26,7 +26,7 @@ import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
-import bw.entities.clsBubble;
+import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
@@ -112,7 +112,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 * @param poSimState
 	 * @param poProperties
 	 */
-	public clsSimplePropertyLoader(SimState poSimState, clsBWProperties poProperties) {
+	public clsSimplePropertyLoader(SimState poSimState, clsProperties poProperties) {
 		super(poSimState, poProperties);
 		applyProperties(getPrefix(), getProperties());
     }
@@ -126,15 +126,15 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param poPrefix
      * @param poProp
      */
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-    	String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+    	String pre = clsProperties.addDot(poPrefix);
     	
     	numentitygroups = poProp.getPropertyInt(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS);
     	
     	boolean usedefaults = poProp.getPropertyBoolean(pre+P_USEDEFAULTS); 
     	
     	if (usedefaults) {
-    		clsBWProperties oP = new clsBWProperties();
+    		clsProperties oP = new clsProperties();
 
     		oP.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
     		oP.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
@@ -147,19 +147,19 @@ public class clsSimplePropertyLoader extends clsLoader {
 	
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      *
      * @since 06.07.2011 13:01:59
      *
      * @param poPrefix
      * @return
      */
-    private static clsBWProperties getEntityDefaults(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+    private static clsProperties getEntityDefaults(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( clsBubble.getDefaultProperties		(pre+eEntityType.BUBBLE.name()) );
+		oProp.putAll( clsARSIN.getDefaultProperties		(pre+eEntityType.ARSIN.name()) );
 		oProp.putAll( clsFungusEater.getDefaultProperties	(pre+eEntityType.FUNGUS_EATER.name()) );
 		oProp.putAll( clsRemoteBot.getDefaultProperties		(pre+eEntityType.REMOTEBOT.name()) );
 		oProp.putAll( clsPlant.getDefaultProperties			(pre+eEntityType.PLANT.name()) );
@@ -178,12 +178,12 @@ public class clsSimplePropertyLoader extends clsLoader {
     
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	    
-    private static clsBWProperties getDecisionUnitDefaults(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+    private static clsProperties getDecisionUnitDefaults(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( simple.dumbmind.clsDumbMindA.getDefaultProperties				(pre+eDecisionType.DUMB_MIND_A.name()) );
 		oProp.putAll( simple.reactive.clsReactive.getDefaultProperties				(pre+eDecisionType.FUNGUS_EATER.name()) );
@@ -202,20 +202,20 @@ public class clsSimplePropertyLoader extends clsLoader {
     
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	    
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
+    public static clsProperties getDefaultProperties(String poPrefix) {
     	return getDefaultProperties(poPrefix, false, false);
     }
     
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	    
-    public static clsBWProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities, boolean pnAddDefaultDecisionUnits) {
-		String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities, boolean pnAddDefaultDecisionUnits) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsLoader.getDefaultProperties(pre) );
 		
@@ -233,7 +233,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 
 		int i=0;
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.BUBBLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.ARSIN.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPDECISIONUNITTYPE, eDecisionType.PA.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 3);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.LIST.name());
@@ -275,7 +275,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "1.5");
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/BW/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.png");
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
@@ -347,29 +347,29 @@ public class clsSimplePropertyLoader extends clsLoader {
     
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	
-    private clsBWProperties getEntityProperties(eEntityType pnType) {
-    	String pre = clsBWProperties.addDot( getPrefix() );    	
+    private clsProperties getEntityProperties(eEntityType pnType) {
+    	String pre = clsProperties.addDot( getPrefix() );    	
     	String oKey = pre+P_DEFAULTSENTITY+"."+pnType.name();
-    	clsBWProperties oResult = getProperties().getSubset(oKey);
+    	clsProperties oResult = getProperties().getSubset(oKey);
     	return oResult;
     }
     
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	
-    private clsBWProperties getDecisionUnitProperties(eDecisionType pnType) {
-    	String pre = clsBWProperties.addDot( getPrefix() );    	
+    private clsProperties getDecisionUnitProperties(eDecisionType pnType) {
+    	String pre = clsProperties.addDot( getPrefix() );    	
     	String oKey = pre+P_DEFAULTSDECISIONUNIT+"."+pnType.name();
-    	clsBWProperties oResult = getProperties().getSubset(oKey);
+    	clsProperties oResult = getProperties().getSubset(oKey);
     	return oResult;
     }    
     
     
     /**
-     * Creates and sets the position in clsBWProperties style.
+     * Creates and sets the position in clsProperties style.
      *
      * @since 20.06.2011 19:53:18
      *
@@ -379,13 +379,13 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param pnNumber
      * @return
      */
-    private clsBWProperties getPosition(String poPrefix, clsBWProperties poProp, String poPositionPrefix, int pnNumber) {
-    	String pre = clsBWProperties.addDot(poPrefix)+P_POSITIONS+".";
-    	poPositionPrefix = clsBWProperties.addDot(poPositionPrefix);
+    private clsProperties getPosition(String poPrefix, clsProperties poProp, String poPositionPrefix, int pnNumber) {
+    	String pre = clsProperties.addDot(poPrefix)+P_POSITIONS+".";
+    	poPositionPrefix = clsProperties.addDot(poPositionPrefix);
     	
     	ePositionType nPosType = ePositionType.valueOf( poProp.getPropertyString(pre+P_POSITIONTYPE) );
     	
-    	clsBWProperties oPos = null;
+    	clsProperties oPos = null;
     	
     	switch(nPosType) {
     		case RANDOM:
@@ -413,9 +413,9 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param pnDecisionType
      * @param uid
      */
-    private void createEntity(clsBWProperties poPropEntity, clsBWProperties poPropDecisionUnit, 
+    private void createEntity(clsProperties poPropEntity, clsProperties poPropDecisionUnit, 
     		eEntityType pnEntityType, eDecisionType pnDecisionType, int uid) {
-    	String pre = clsBWProperties.addDot("");
+    	String pre = clsProperties.addDot("");
     	
     	itfDecisionUnit oDU = null;
     	if (pnDecisionType != eDecisionType.NONE) {
@@ -425,9 +425,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	clsEntity oEntity = null;
     	
     	switch(pnEntityType) {
-    		case BUBBLE:
-    			oEntity = new clsBubble(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsBubble)oEntity);		
+    		case ARSIN:
+    			oEntity = new clsARSIN(oDU, pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsARSIN)oEntity);		
     			break;
     		case FUNGUS_EATER:
     			oEntity = new clsFungusEater(oDU, pre, poPropEntity, uid);
@@ -494,8 +494,8 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param poPrefix
      * @param poProp
      */
-    private void createEntityGroup(String poPrefix, clsBWProperties poProp) {
-    	String pre = clsBWProperties.addDot(poPrefix);
+    private void createEntityGroup(String poPrefix, clsProperties poProp) {
+    	String pre = clsProperties.addDot(poPrefix);
     	
     	//get enttity type
     	eEntityType nEntityType = eEntityType.valueOf(poProp.getPropertyString(pre+P_GROUPENTITYTYPE));
@@ -510,8 +510,8 @@ public class clsSimplePropertyLoader extends clsLoader {
     		
     	
     	//get overwritedefault subtrees from teh property file
-    	clsBWProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
-    	clsBWProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);
+    	clsProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
+    	clsProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);
 
     	//get list for remove specified entity subtrees
     	List<String> oRemoveEntityDefaults = null;
@@ -538,7 +538,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		int uid = clsUniqueIdGenerator.getUniqueId();
     		
     		//get entity default properties
-    		clsBWProperties oEntityProperties = getEntityProperties(nEntityType);
+    		clsProperties oEntityProperties = getEntityProperties(nEntityType);
     		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+uid+")" );    		
     		//remove entity keys
     		if (oRemoveEntityDefaults != null) {
@@ -551,7 +551,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
     		
     		//get default decision unit properties (if existing)
-    		clsBWProperties oDecisionUnitProperties = getDecisionUnitProperties(nDecisionType);
+    		clsProperties oDecisionUnitProperties = getDecisionUnitProperties(nDecisionType);
     		//remove decision unit keys
     		if (oRemoveDecisionUnitDefaults != null) {
 	    		for (String oRemoveKey:oRemoveDecisionUnitDefaults) {
@@ -576,7 +576,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 */
 	@Override
 	public void loadObjects() {
-		String pre = clsBWProperties.addDot( getPrefix() );
+		String pre = clsProperties.addDot( getPrefix() );
 		
 		//process all entity groups
 		System.out.print("Create "+numentitygroups+" groups:");
@@ -603,7 +603,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 */
 	private void generateWorldBoundaries() {
 		clsWallAxisAlign oWall = null;
-		clsBWProperties oProp = null;
+		clsProperties oProp = null;
 		
 		double rWidth = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
 		double rHeight = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
@@ -654,8 +654,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 * @see sim.creation.clsLoader#checkVersionCompatibility()
 	 */
 	@Override
-	protected void checkVersionCompatibility(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot( poPrefix );
+	protected void checkVersionCompatibility(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot( poPrefix );
 		int nLoaderVersion = poProp.getPropertyInt(pre+P_LOADER_VERSION);
 		
 		if (nLoaderVersion > mnVersion) {
@@ -672,11 +672,11 @@ public class clsSimplePropertyLoader extends clsLoader {
 	 * @author deutsch
 	 * Jul 26, 2009, 3:36:41 PM
 	 * 
-	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsBWProperties)
+	 * @see sim.creation.clsLoader#verifyLoaderType(java.lang.String, bw.utils.config.clsProperties)
 	 */
 	@Override
-	protected void verifyLoaderType(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot( poPrefix );
+	protected void verifyLoaderType(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot( poPrefix );
 		eLoader nLoader = eLoader.valueOf(poProp.getPropertyString(pre+P_LOADER_TYPE));
 		
 		if (nLoader != eLoader.SIMPLE_PROPERTY_LOADER) {

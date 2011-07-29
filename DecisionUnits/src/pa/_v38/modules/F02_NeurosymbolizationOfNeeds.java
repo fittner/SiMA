@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I2_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
 import du.itf.sensors.clsDataBase;
@@ -69,23 +69,23 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		moChartColumnsCaptions = new ArrayList<String>();
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

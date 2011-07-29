@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import java.util.List;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v30.interfaces.eInterfaces;
 import pa._v30.interfaces.modules.I4_1_receive;
 import pa._v30.interfaces.modules.I4_2_receive;
@@ -46,7 +46,7 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E36_RepressionHandler(String poPrefix, clsBWProperties poProp,
+	public E36_RepressionHandler(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -73,17 +73,17 @@ public class E36_RepressionHandler extends clsModuleBase implements I4_1_receive
 		return text;
 	}	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
