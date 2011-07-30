@@ -14,6 +14,7 @@ import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsProperties;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
@@ -32,7 +33,6 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -58,9 +58,6 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
-	
-	//Added by AW, in order to be able to add drive goals from perception and memories
-	private ArrayList<String> oPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
@@ -212,7 +209,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//Add goals from activated memeories
 		moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
 		
-		compriseRuleList(); 
+		compriseRuleList();
 		compriseDrives();
 		
 		try {
@@ -646,171 +643,60 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//Get the expectations of the acts, and make them to goals
 		
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		String oGoalContent; 
-		clsWordPresentation oGoal = null; 
-		
 		//Get the drive with the higest value
 		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
 		
 		//find all drive components in the predictions
 		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
 			//Extract drives from the intention, where they may trigger an action
-			String oDriveContent = null;
-			clsSecondaryDataStructureContainer oDriveContainer = null;
-			oRetVal.addAll(getDriveGoalsFromPrediction(oPrediction));
+			ArrayList<clsSecondaryDataStructureContainer> oFoundGoals = clsAffectTools.getDriveGoalsFromPrediction(oPrediction);
+			//Merge goals for the whole image
+			//The expectation shall be set as associated structure. If the expectation is known, the agent can act upon that, else it has to
+			// execute the associated action
+			//ArrayList<clsSecondaryDataStructureContainer> oImageGoal = mergeImageGoals(oFoundGoals, (clsWordPresentationMesh) oPrediction.getIntention().getSecondaryComponent().getMoDataStructure());
+			
+			//Add the correct actions for the goals from the expectations
+			for (clsSecondaryDataStructureContainer oGoalContainer : oFoundGoals) {
+				//Add all expectations (ArrayList)
+				for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
+					//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
+					oGoalContainer.getMoAssociatedDataStructures().addAll(oExpectation.getSecondaryComponent().getMoAssociatedDataStructures());
+				}
+			}
+			
+			oRetVal.addAll(oFoundGoals);
+			
+		}
+		return oRetVal;
+	}
+	
+	/**
+	 * From all of the goals in the list, they shall all be merged by type, in order to pass a complete content, of what can be found in the intention.
+	 * 
+	 * 
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 29.07.2011 21:21:35
+	 *
+	 * @param oFoundGoals
+	 * @return
+	 */
+	/*private ArrayList<clsSecondaryDataStructureContainer> mergeImageGoals(ArrayList<clsSecondaryDataStructureContainer> oFoundGoals, clsWordPresentationMesh poTopImage) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Create the ImageBase. This content shall be added to all 
+		String oContentBase = poTopImage.getMoContent();
+		
+		//For each found expression, build the goals
+		for (clsSecondaryDataStructureContainer oGoal : oFoundGoals) {
 			
 		}
 		
-//		if(oMaxDemand != null){
-//			String oDriveContent = oMaxDemand.a; 
-//			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
-//					
-//			for (clsSecondaryDataStructureContainer oExternalPerception : moRealityPerception ){
-//					String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
-//								
-//					
-//					
-//					
-//					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
-//					// only one goal is selected!
-//					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
-//					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
-//					// only by the first part.
-//					if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
-//						oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
-//						oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-//						oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
-//						oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-//						
-//						moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-//					}
-//			}
-//		}
-		
-		
 		return oRetVal;
-	}
+		
+	}*/
 	
-	/**
-	 * Get all possible goals from the intention of the perception act.
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 29.07.2011 10:03:27
-	 *
-	 * @param poPredictionInput
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getDriveGoalsFromPrediction(clsPrediction poPredictionInput) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		clsDataStructureContainerPair oIntention = poPredictionInput.getIntention();
-		if (oIntention.getSecondaryComponent()==null) {
-			return null;
-		}
-		clsSecondaryDataStructureContainer oIntentionSecondary = oIntention.getSecondaryComponent();
-		clsSecondaryDataStructure oIntentionBasicDS = (clsSecondaryDataStructure) oIntentionSecondary.getMoDataStructure();
-		
-		
-		if (oIntentionBasicDS instanceof clsSecondaryDataStructure) {
-			//If no Mesh
-			if (oIntentionBasicDS instanceof clsWordPresentation) {
-				try {
-					oRetVal = getDriveGoals((clsWordPresentation)oIntentionBasicDS, oIntentionSecondary);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else if (oIntentionBasicDS instanceof clsWordPresentationMesh) {
-				try {
-					oRetVal = getWPMDriveGoals(oIntentionSecondary);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 29.07.2011 14:16:25
-	 *
-	 * @param poWPInput
-	 * @param poContainer
-	 * @return
-	 * @throws Exception 
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getDriveGoals(clsSecondaryDataStructure poInput, clsSecondaryDataStructureContainer poContainer) throws Exception {
-		
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 
-		//Go through all drive goals in the list
-		for (String oDriveGoal : oPossibleDriveGoals) {
-			//Set the input 
-			String oExternalContent = "";
-			if (poInput instanceof clsWordPresentation) {
-				oExternalContent = ((clsWordPresentation)poInput).getMoContent();
-			} else if (poInput instanceof clsWordPresentationMesh) {
-				oExternalContent = ((clsWordPresentationMesh)poInput).getMoContent();
-			}
-			else {
-				throw new Exception("F26_DecisionMaking, getDriveGoals: This datatype is an unallowed input");
-			}
-			
-			//Check if the word presentation contains any of the possible drive goals
-			if(oExternalContent.contains(oDriveGoal)) {
-				String oGoalContent = oDriveGoal + _Delimiter02 + oExternalContent; 
-				//Define data structure for the goal
-				clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-				//Get all associated structures with this goal
-				ArrayList<clsAssociation> oAssociatedDS = poContainer.getMoAssociatedDataStructures(poInput);
-				//Create the container
-				oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-			}
-		}
-		return oRetVal;
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 29.07.2011 14:16:29
-	 *
-	 * @param poWPInput
-	 * @param poContainer
-	 * @return
-	 * @throws Exception 
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer) throws Exception {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		//FIXME AW Hack - Get Content from Base Image and drives from the sub images
-		//Go through the base element
-		if (poContainer.getMoDataStructure() instanceof clsWordPresentationMesh) {
-			//Get possible drive goals from the base structure
-			try {
-				oRetVal.addAll(getDriveGoals((clsSecondaryDataStructure) poContainer.getMoDataStructure(), poContainer));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			//Go through the sub elements
-			for (clsAssociation oAss : ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getMoAssociatedContent()) {
-				clsSecondaryDataStructure oSubDS = (clsSecondaryDataStructure) oAss.getRootElement();	//Get root from the association secondary
-				
-				try {
-					oRetVal.addAll(getDriveGoals(oSubDS, poContainer));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			
-		} else {
-			throw new Exception("F26_DecisionMaking, getWPMDriveGoals: This datatype is an unallowed input. Only WPM allowed"); 
-		}
-		
-		return oRetVal;
-	}
 	
 
 	/* (non-Javadoc)
