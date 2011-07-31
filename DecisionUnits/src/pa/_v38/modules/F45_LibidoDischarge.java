@@ -60,8 +60,14 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	
 	/* Module parameters */
 	/** Threshold for the matching process of images */
-	// TODO AW: This function is not in use yet, but will be very soon
-	private double mrMatchThreshold = 0.6;
+	private double mrMatchThreshold = 0.7;
+	/** The perceived image is compared to stored images in the libido storage in protege. For each found object, the attached
+	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
+	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
+	 * memories */
+	private double mrPerceptionReduceFactor = 1.0;
+	/** With this factor, the attached libido DM of a memory is multiplicated. */
+	private double mrMemoryReduceFactor = 0.5;
 	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
@@ -71,6 +77,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;	
+	
+	private String oLibidoImageString = "IMAGE:LIBIDO";
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned 
 	 * 
@@ -199,6 +207,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#process_basic()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//Get available amount of free libido 
@@ -207,12 +216,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Clone input structure and make modification directly on the output
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
 		
-		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, 1.0);
+		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, mrPerceptionReduceFactor);
 		
 		//Go through all associated memories
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
-			mrLibidoReducedBy += setImageLibido(oContainer, 0.5);
+			mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
 		}
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
@@ -298,7 +307,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Find matching images for the input image
 		//FIXME AW: Set Threshold for matching = 0.9
 		
-		searchContainer(poInput, oSearchResultContainer, "LIBIDOIMAGE", 0.7);
+		searchContainer(poInput, oSearchResultContainer, oLibidoImageString, 0.7);
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);

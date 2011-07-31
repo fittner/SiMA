@@ -27,8 +27,8 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -43,17 +43,31 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:51:57
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 31.07.2011, 14:13:58
+ * 
+ */
 public class F26_DecisionMaking extends clsModuleBase implements 
 			I6_1_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:13:56 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
 	//AW 20110602 Added expectations, intentions and the current situation
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
 	private ArrayList<clsPrediction> moExtractedPrediction_IN;
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output;
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
+	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
@@ -197,6 +211,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 *  
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
@@ -205,8 +220,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//Add Goals from the perception
 		moGoal_Output.addAll(compriseExternalPerception(moRealityPerception));
 		
-		//Add AW 20110723
-		//Add goals from activated memeories
+		//Add goals from activated memories
 		moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
 		
 		compriseRuleList();
@@ -217,6 +231,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+		//Pass the prediction to the planning
+		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 	}
 	
 	private void sortGoalOutput() throws Exception {
@@ -658,10 +675,13 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			//Add the correct actions for the goals from the expectations
 			for (clsSecondaryDataStructureContainer oGoalContainer : oFoundGoals) {
 				//Add all expectations (ArrayList)
-				for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
+				//for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
 					//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
-					oGoalContainer.getMoAssociatedDataStructures().addAll(oExpectation.getSecondaryComponent().getMoAssociatedDataStructures());
-				}
+					//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
+					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
+					
+					oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
+				//}
 			}
 			
 			oRetVal.addAll(oFoundGoals);
@@ -708,7 +728,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moGoal_Output);
+		send_I6_8(moGoal_Output, moExtractedPrediction_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -719,10 +739,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output);
+	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, ArrayList<clsPrediction> poExtractedPrediction) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poExtractedPrediction);
 		
-		putInterfaceData(I6_8_send.class, poGoal_Output);
+		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction);
 	}
 
 	/* (non-Javadoc)

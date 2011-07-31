@@ -227,7 +227,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poInput
 	 * @return
 	 */
-	//TODO AW: Make this function available somewhere else
 	protected ArrayList<clsDataStructureContainer> extractAssociatedContainers(clsDataStructureContainer poInput) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
