@@ -655,8 +655,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param poExtractedPrediction_IN
 	 * @return
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsPrediction> 
-			poExtractedPrediction_IN) {
+	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsPrediction> poExtractedPrediction_IN) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//Get the expectations of the acts, and make them to goals
 		
@@ -678,8 +677,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				//for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
 					//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
 					//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
-					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
-					
+					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
+							oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
 					oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
 				//}
 			}

@@ -20,7 +20,10 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
@@ -288,13 +291,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poActions_Output) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
 		
 		//Go through all plans/acts and extract all associated memories (WP)
 		ArrayList<clsDataStructureContainer> oAssociatedMemoryList = new ArrayList<clsDataStructureContainer>();
-		for (clsSecondaryDataStructureContainer oPlan : poInput) {
+		for (clsSecondaryDataStructureContainer oPlan : poActions_Output) {
 			oAssociatedMemoryList = extractAssociatedContainers(oPlan);
 		}
 		
@@ -303,6 +306,88 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsDataStructureContainer oAssociatedMemory : oAssociatedMemoryList) {
 			if (oAssociatedMemory instanceof clsSecondaryDataStructureContainer) {
 				oRetVal.add(extractPrimaryContainer((clsSecondaryDataStructureContainer)oAssociatedMemory));
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * From the goal list, first, get the intention, then get the expectation and then get the action (clsAct) which is associated with it.
+	 * (wendt)
+	 *
+	 * @since 01.08.2011 16:42:56
+	 *
+	 * @param poDriveGoalsInput
+	 * @param poPrediction
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getActionsFromExpectation(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Go through all goals
+		for (clsSecondaryDataStructureContainer oGoal : poDriveGoalsInput) {
+			//Go through all associations of all goals
+			for (clsAssociation oAss : oGoal.getMoAssociatedDataStructures()) {
+				//If the associationSecondary and hasIntention, then get the whole prediction
+				if (oAss instanceof clsAssociationSecondary) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASINTENTION") {
+						//Now the intention has been found
+						clsDataStructurePA oIntention = oAss.getLeafElement();
+						//Find the intention in the inputlist of the prediction
+						ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
+						//Go through each container and add the associated act
+						oRetVal.addAll(getActsFromExpectations(oExpectations));
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract the list of secondary structure expectations from a list of predictions for a certain intention
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 01.08.2011 16:59:46
+	 *
+	 * @param poIntention
+	 * @param poPrediction
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getExpectationFromPredictionList(clsSecondaryDataStructure poIntention, ArrayList<clsPrediction> poPrediction) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		if (poIntention!=null) {
+			for (clsPrediction oSinglePrediction : poPrediction) {
+				//If the instanceIDs are the same in the prediction, the give back 
+				if (poIntention.getMoDSInstance_ID()==oSinglePrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDSInstance_ID()) {
+					for (clsDataStructureContainerPair oCPair : oSinglePrediction.getExpectations()) {
+						oRetVal.add(oCPair.getSecondaryComponent());
+					}
+						
+				}
+			}
+		}
+
+		return oRetVal;
+	}
+	
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsSecondaryDataStructureContainer> poExpectations) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsSecondaryDataStructureContainer oSContainer : poExpectations) {
+			for (clsAssociation oAss : oSContainer.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASASSOCIATION") {
+						if (oAss.getLeafElement() instanceof clsAct) {
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), new ArrayList<clsAssociation>()));
+						} else if (oAss.getRootElement() instanceof clsAct) {
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), new ArrayList<clsAssociation>()));						
+						}
+					}
+				}
 			}
 		}
 		
@@ -360,7 +445,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		/* ==================================================================== */
 		//FIXME AW: Testdata for the F47 interface. DELETEME
-		moActions_Output.add(getTestDataForAct());
+		//moActions_Output.add(getTestDataForAct());
+		moActions_Output.addAll(getActionsFromExpectation(moGoalInput, moExtractedPrediction_IN));
 		/*=======================================================================*/
 		
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
