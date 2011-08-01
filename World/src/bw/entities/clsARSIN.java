@@ -47,11 +47,13 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
+	public static final String P_IMMORTAL			= "immortal"; 
 	
 	private Shape moAlive;
 	private Shape moDead;
 	
 	private boolean mnAlive;
+	private boolean mnImmortal;
 	
 	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
@@ -65,6 +67,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 		
 		oProp.setProperty(pre+P_ALIVE, true);
+		oProp.setProperty(pre+P_IMMORTAL, false);
 		
 		// remove whatever body has been assigned by getDefaultProperties
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY);
@@ -125,6 +128,11 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		
 		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
+		mnImmortal = poProp.getPropertyBoolean(pre+P_IMMORTAL);
+		if (mnImmortal) {
+			mnAlive = true;
+		}
+		
 		updateShape();
 	}
 	
@@ -227,9 +235,13 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	}
 	
 	public boolean isAlive() {
-		if (mnAlive != ((clsComplexBody)moBody).isAlive()) {
-			mnAlive = ((clsComplexBody)moBody).isAlive();
-			updateShape();
+		if (mnImmortal) {
+			mnAlive = true;
+		} else {
+			if (mnAlive != ((clsComplexBody)moBody).isAlive()) {
+				mnAlive = ((clsComplexBody)moBody).isAlive();
+				updateShape();
+			}
 		}
 		
 		return mnAlive;
