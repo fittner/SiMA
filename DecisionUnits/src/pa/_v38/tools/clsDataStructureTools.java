@@ -127,22 +127,34 @@ public class clsDataStructureTools {
 		}
 	}
 	
+	/**
+	 * For a secondary data structure in a container, get the primary data structure in a container if it is available in the input list
+	 * (wendt)
+	 *
+	 * @since 01.08.2011 16:14:31
+	 *
+	 * @param poInput
+	 * @param poSourceList
+	 * @return
+	 */
 	public static clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poSourceList) {
 		clsPrimaryDataStructureContainer oRetVal = null;
 		
 		//Go through the container and search for associationWP
-		for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationWordPresentation) {
-				//Check if the primary data structure is a part of the root or the leaf element
-				if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
-					oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getLeafElement());
-					break;
-				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
-					oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getRootElement());
-					break;
+		if (poInput!=null) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationWordPresentation) {
+					//Check if the primary data structure is a part of the root or the leaf element
+					if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
+						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getLeafElement());
+						break;
+					} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
+						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getRootElement());
+						break;
+					}
 				}
 			}
-		}
+	}
 		
 		return oRetVal;
 	}
@@ -169,4 +181,5 @@ public class clsDataStructureTools {
 		
 		return oRetVal;
 	}
+	
 }
