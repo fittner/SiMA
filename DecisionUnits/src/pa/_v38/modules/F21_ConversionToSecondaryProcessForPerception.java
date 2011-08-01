@@ -42,6 +42,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -201,8 +202,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		//Start with the DS-Element
 		//Create a new Perceived Image in the secondary process
+		String oNewContent = setSecondaryImageContent(oPImageContainer.getMoDataStructure());
 		clsSecondaryDataStructure oBasicSDS = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(oPImageContainer.getMoDataStructure().getMoContentType(), 
-				((clsTemplateImage)oPImageContainer.getMoDataStructure()).getMoContent()), new ArrayList<clsAssociation>());
+				oNewContent), new ArrayList<clsAssociation>());
 		
 		clsSecondaryDataStructureContainer oRetVal = new clsSecondaryDataStructureContainer(oBasicSDS, new ArrayList<clsAssociation>());
 		
@@ -232,7 +234,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Add secondary sub structures to the found secondary data structure container
 		//FIXME AW: oRetVal=null if repressed content is loaded
+		//This function checks null;
 		addSecondarySubStructures(oRetVal, oPImageContainer);
+		
 		
 		return oRetVal;
 	}
@@ -677,7 +681,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//FIXME AW: Nothing from the repressed content must be interpreted here, as it is not yet saved in the memory. Everthing 
 		//from the repressed content storage must be saved in the memory
-		if (((clsTemplateImage)poPContainer.getMoDataStructure()).getMoContent() != "REPRESSED_IMAGE") {
+		if ((poPContainer.getMoDataStructure()).getMoContentType() != "IMAGE:REPRESSED") {
 			//1. Get the secondary data structure for that image
 			//clsSecondaryDataStructureContainer oSContainer = null;
 			try {
@@ -692,6 +696,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentationMesh) {
 					oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
 				}
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -723,6 +728,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
 							(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
 						bExistsAlready = true;
+						break;
 					}
 				}
 					
@@ -749,13 +755,48 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				}
 			}
 		}
+		//Add the found containers
+		oRetVal.addAll(oExtendedAssociationList);
+		
+		//Refactor the content names of the data structures in the containers
+		//Set new content for the base image
+		for (clsDataStructureContainer oDC: oRetVal) {
+			if (oDC instanceof clsSecondaryDataStructureContainer) {
+				String oNewContent = setSecondaryImageContent(oDC.getMoDataStructure());
+				if (oDC.getMoDataStructure() instanceof clsWordPresentationMesh) {
+					((clsWordPresentationMesh)oDC.getMoDataStructure()).setMoContent(oNewContent);
+				}
+			}
+		}
 		
 		//Add the original primary containers
 		oRetVal.addAll(poInput);
-		//Add the found containers
-		oRetVal.addAll(oExtendedAssociationList);
 
 		return oRetVal;
+	}
+	
+	/**
+	 * Set new content for images
+	 * (wendt)
+	 *
+	 * @since 31.07.2011 09:37:22
+	 *
+	 * @param poContent
+	 * @return
+	 */
+	private String setSecondaryImageContent(clsDataStructurePA poInput) {
+		if (poInput instanceof clsWordPresentation) {
+			return  poInput.getMoContentType() + ":" + ((clsWordPresentation)poInput).getMoContent();
+		} else if (poInput instanceof clsWordPresentationMesh) {
+			return  poInput.getMoContentType() + ":" + ((clsWordPresentationMesh)poInput).getMoContent();
+		} else if (poInput instanceof clsTemplateImage) {
+			return  poInput.getMoContentType() + ":" + ((clsTemplateImage)poInput).getMoContent();
+		} else if (poInput instanceof clsThingPresentationMesh) {
+			return  poInput.getMoContentType() + ":" + ((clsThingPresentationMesh)poInput).getMoContent();
+		} else {
+			return "";
+		}
+		
 	}
 	
 	/* (non-Javadoc)

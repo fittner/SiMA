@@ -1,4 +1,4 @@
-; Wed Jul 27 18:54:50 GMT 2011
+; Sun Jul 31 11:30:11 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -367,10 +367,6 @@
 ;+		(value "CONTENT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
-
-(defclass WP%3AIMAGE
-	(is-a WP)
-	(role concrete))
 
 (defclass ACT
 	(is-a USER)
@@ -907,6 +903,14 @@
 		(default "IMAGE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass LIBIDOIMAGE
+	(is-a IMAGE)
+	(role concrete))
+
+(defclass REPRESSEDIMAGE
+	(is-a IMAGE)
+	(role concrete))
 
 (defclass DM
 	(is-a USER)

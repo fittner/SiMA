@@ -26,9 +26,10 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * Repressed drives are attached to incoming drives.
+ * According to a getBestMatch function F54 finds the repressed drive from the list of repressed drives (clsBlockedContentStoreage) which matches best the incoming drive.
  * 
- * @author zeilinger
+ * @author zeilinger, gelbard
  * 02.05.2011, 15:47:36
  * 
  */

@@ -26,9 +26,10 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (GELBARD) - insert description 
+ * Defends forbidden drives. Super-Ego (F7, F55) sends a list with forbidden drives to F06. F06 decides whether to defend the forbidden drives or not.
+ * If F06 decided to defend the forbidden drives F06 chooses the defense mechanism (repression, sublimation, deferral, ...).  
  * 
- * @author deutsch
+ * @author deutsch, gelbard
  * 11.08.2009, 14:01:06
  * 
  */

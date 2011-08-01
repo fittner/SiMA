@@ -107,7 +107,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	public void receive_I5_3(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
 		
-		moDrives_IN = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>(); 
+		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
+		//moDrives_IN = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>(); 
 	}
 
 	/* (non-Javadoc)

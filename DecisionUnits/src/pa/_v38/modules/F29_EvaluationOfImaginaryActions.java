@@ -116,7 +116,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
+	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		//TODO
 		
 	}

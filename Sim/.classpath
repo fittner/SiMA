@@ -4,7 +4,6 @@
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
-	<classpathentry kind="lib" path="/World/lib/jfreechart-1.0.11.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/World"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>

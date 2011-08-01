@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
@@ -163,7 +164,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
+	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
@@ -765,7 +766,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @see pa._v38.interfaces.modules.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
+	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		// 
 		
 	}	

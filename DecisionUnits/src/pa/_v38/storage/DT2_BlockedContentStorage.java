@@ -102,7 +102,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	
     	// TestData: TemplateImage with a cake exactly like the one in the simulator
     	// create a new TemplateImage
-    	clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+    	clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	clsThingPresentationMesh newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(33, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	clsThingPresentation newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -143,7 +143,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	
     	// TestData: TemplateImage with a cake that differs from the one in the simulator
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(11033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -171,7 +171,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	
     	// TestData: TemplateImage with cake and a wall that is far away (Location FAR)
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(12033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
@@ -206,7 +206,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	
     	// TestData: TemplateImage with cake and an agent that is far away (location FAR)
     	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
     	// create a cake to put into the TI
     	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
     	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");

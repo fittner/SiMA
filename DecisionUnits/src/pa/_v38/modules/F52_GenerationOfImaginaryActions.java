@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -49,7 +50,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
+	private ArrayList<clsPrediction> moExtractedPrediction_IN;
+	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:28 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
+	
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments; //TD 2011/07/21 - changed name to fit coding guidelines
@@ -164,8 +170,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(
-			ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
+			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 		// FIXME (perner) - please create more meaningfull debbuging output 
 		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
 		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
