@@ -37,9 +37,9 @@ import javax.swing.JFrame;
  *  </ul>
  *   
  * @author muchitsch
- * @see clsBWMain
+ * @see clsMain
  */
-public class clsBWMainWithUI extends GUIState {
+public class SimulatorMain extends GUIState {
 	
     /** background color of the game window */
     public static final String P_BACKGROUNDCOLOR = "backgroundcolor";
@@ -77,11 +77,11 @@ public class clsBWMainWithUI extends GUIState {
 	 * @since 20.06.2011 18:06:02
 	 *
 	 * @param args
-	 * @see clsBWMain
-	 * @see clsBWMainWithUI#main(java.lang.String[])
+	 * @see clsMain
+	 * @see SimulatorMain#main(java.lang.String[])
 	 */
-	public clsBWMainWithUI(String[] args) { 
-		super(new clsBWMain( System.currentTimeMillis(), args) ); 
+	public SimulatorMain(String[] args) { 
+		super(new clsMain( System.currentTimeMillis(), args) ); 
 	}
 	
 	/**
@@ -99,7 +99,7 @@ public class clsBWMainWithUI extends GUIState {
 	 * @author deutsch
 	 * Jul 26, 2009, 5:09:12 PM
 	 *
-	 * @see clsBWMain
+	 * @see clsMain
 	 * @param args
 	 */
 	public static void main(String[] args){
@@ -113,7 +113,7 @@ public class clsBWMainWithUI extends GUIState {
 		//  6. apply
 		//  7. start debuggin / running
 		
-		String oPath = clsBWMain.argumentForKey("-path", args, 0);
+		String oPath = clsMain.argumentForKey("-path", args, 0);
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
 		}
@@ -121,10 +121,10 @@ public class clsBWMainWithUI extends GUIState {
 		clsProperties oProp = clsProperties.readProperties(oPath, F_CONFIGFILENAME);
 		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS);
 		
-		clsBWMainWithUI oMainWithUI = new clsBWMainWithUI(args);
+		SimulatorMain oMainWithUI = new SimulatorMain(args);
 		
 		//check if autostarting and pausing the simulation is needed
-		String oAutostart = clsBWMain.argumentForKey("-autostart", args, 0);
+		String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
 		Boolean nAutostart = new Boolean(oAutostart);
 		
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor

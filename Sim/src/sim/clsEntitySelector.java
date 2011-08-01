@@ -19,7 +19,7 @@ import config.clsProperties;
 /**
  * Entry for the clsBWFastEntityAdapter. Extracts the information from the provided properties. 
  * 
- * @see sim.clsBWFastEntityAdapter
+ * @see sim.clsFastEntityAdapter
  * @author langr
  * 15.06.2011, 16:26:46
  * 

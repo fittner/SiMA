@@ -26,13 +26,13 @@ import statictools.clsGetARSPath;
  * This is just a neat way to start the simulation!
  * @author muchitsch
  */
-public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
+public class ScenarioSelectorUI extends javax.swing.JFrame {
 
 	private static final long serialVersionUID = -1592720371723582306L;
 	
 	/** Creates new form clsBWScenarioSelectorUI and initializes the JFrame and 
 	 * the other components. it also fills the List with the scenarios (config files)*/
-    public clsBWScenarioSelectorUI() {
+    public ScenarioSelectorUI() {
         initComponents();
         FillScenarioList();
     }
@@ -291,7 +291,7 @@ public class clsBWScenarioSelectorUI extends javax.swing.JFrame {
         	}
         	
         	//load the scenario
-    		clsBWMainWithUI.main(args);
+    		SimulatorMain.main(args);
     		
     		//close this
     		this.dispose();
@@ -376,7 +376,7 @@ private void FillScenarioList(){
 
             @Override
 			public void run() {
-                new clsBWScenarioSelectorUI().setVisible(true);
+                new ScenarioSelectorUI().setVisible(true);
             }
         });
     }

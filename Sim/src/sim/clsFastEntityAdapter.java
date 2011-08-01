@@ -23,7 +23,7 @@ import config.clsProperties;
  * 18.09.2009, 21:11:16
  * 
  */
-public class clsBWFastEntityAdapter extends JDialog {
+public class clsFastEntityAdapter extends JDialog {
 	private static final long serialVersionUID = -8502114600901820076L;
 	
 	/**
@@ -37,7 +37,7 @@ public class clsBWFastEntityAdapter extends JDialog {
 	 * @param poTitle Title for the window
 	 * @param poProp Reference to the instance of the read property file that will be adapted.
 	 */
-	public clsBWFastEntityAdapter(JFrame poParent, String poTitle, clsProperties poProp) {
+	public clsFastEntityAdapter(JFrame poParent, String poTitle, clsProperties poProp) {
 	    super(poParent, poTitle, true);
 	    
 	    if (poParent != null) {

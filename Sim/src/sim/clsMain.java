@@ -22,10 +22,10 @@ import statictools.clsSimState;
  * Main function for simulation (not to be called directly). Needs to be called by clsBWMainWithUI. The physics engine and some other tools
  * need the shape of the entities. Thus, if started without a GUI, the entities have no shape and the 2 dimensional world will not be populated.
  * 
- * @see clsBWMainWithUI
+ * @see SimulatorMain
  * @author muchitsch
  */
-public class clsBWMain extends SimState{
+public class clsMain extends SimState{
 	private static final long serialVersionUID = -1952879483933572186L;
 	
 	/** stores the runtime arguements. set by method main */
@@ -39,7 +39,7 @@ public class clsBWMain extends SimState{
      * @param pnSeed - seed for the random number generator
      * @param args - runtime arguments
      */
-    public clsBWMain(long pnSeed, String[] args) {
+    public clsMain(long pnSeed, String[] args) {
     	super(new MersenneTwisterFast(pnSeed), new Schedule());
     	moArgs = args;
     	clsSimState.setSimState(this);
@@ -122,7 +122,7 @@ public class clsBWMain extends SimState{
 		// show adapter if desired
 		if (nAdapter) {
 			@SuppressWarnings("unused")
-			clsBWFastEntityAdapter oAdapterFrame = new clsBWFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
+			clsFastEntityAdapter oAdapterFrame = new clsFastEntityAdapter(null, "BWv1 - Fast Entity Adapter", oProp);
 		}
 		
 		// process config

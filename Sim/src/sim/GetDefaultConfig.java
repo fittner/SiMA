@@ -39,7 +39,7 @@ import bw.entities.clsWallVertical;
  * @since 23.07.2009, 15:51:57
  * 
  */
-public class clsMainGetDefaultConfig {
+public class GetDefaultConfig {
 
 	/**
 	 * Executes the purpose of this class. See class description.
@@ -95,7 +95,7 @@ public class clsMainGetDefaultConfig {
 		
 		clsProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
 		
-		clsProperties.writeProperties(clsBWMainWithUI.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");
+		clsProperties.writeProperties(SimulatorMain.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");
 		
 		System.out.println("done ...");
 	}
