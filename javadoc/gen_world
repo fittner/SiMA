@@ -1,0 +1,4 @@
+#!/bin/bash
+# generate World
+javadoc -d ../javadoc/website/World -sourcepath ../World/src -overview ../World/src/overview.html -subpackages ARSsim:bw:resources: -use -splitIndex -version -author -doctitle "World" -quiet
+ 
