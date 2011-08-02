@@ -205,16 +205,22 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private ArrayList<clsPrediction> getIntention(ArrayList<clsDataStructureContainer> poInput) {
 		
 		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
+		clsDataStructureContainerPair oIntention = null;	//Declare it here, in order to use it to find the primary part of it
 		
+		//Add the secondary data structures
 		for (clsDataStructureContainer oContainer : poInput) {
 			if (oContainer instanceof clsSecondaryDataStructureContainer) {
 				for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
 					//If this container is a leaf element of an associationsecondary with the predicate ISA
 					if (oAss instanceof clsAssociationSecondary) {
 						if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
-							//The Perception-act is added
-							clsDataStructureContainerPair oIntention = new clsDataStructureContainerPair((clsSecondaryDataStructureContainer)oContainer, null);
 							
+							//Add the belonging primary data structure container
+							clsPrimaryDataStructureContainer oPriContainer = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInput);
+							
+							//The Perception-act is added
+							oIntention = new clsDataStructureContainerPair((clsSecondaryDataStructureContainer)oContainer, oPriContainer);
+							//Create the act triple							
 							clsPrediction oActTripple = new clsPrediction(oIntention, new ArrayList<clsDataStructureContainerPair>(), new clsDataStructureContainerPair(null, null));
 							//((new clsPair<clsSecondaryDataStructureContainer)oContainer, clsPrimaryDataStructureContainer>, new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPrimaryDataStructureContainer>>(), null);
 							oRetVal.add(oActTripple);
@@ -224,6 +230,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				}
 			}
 		}
+		
+		
+		
+
 		
 		return oRetVal;
 	}
@@ -244,7 +254,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Precondition: All structures are already loaded and can be found in the input list
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			oActTripple.getMoment().setSecondaryComponent(getBestMatchSubImage(oSubImageAss, poInput));
+			clsSecondaryDataStructureContainer oSMoment = getBestMatchSubImage(oSubImageAss, poInput);
+			clsPrimaryDataStructureContainer oPMoment = clsDataStructureTools.extractPrimaryContainer(oSMoment, poInput);
+			oActTripple.getMoment().setSecondaryComponent(oSMoment);
+			oActTripple.getMoment().setPrimaryComponent(oPMoment);
 			//System.out.print("");
 		}
 		
@@ -349,7 +362,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							//Confirm, that this expectation belongs to this perception-act
 							for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
 								if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
-									oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, null));
+									//Get the primary structure for this expectation
+									clsPrimaryDataStructureContainer oPExpectation = clsDataStructureTools.extractPrimaryContainer(oPossibleExpectation, poInput);
+									//Add the secondary and the primary (if available) to the expectations
+									oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, oPExpectation));
 								}
 							}
 							
