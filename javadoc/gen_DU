@@ -1,0 +1,4 @@
+#!/bin/bash
+# generate DecisionUnits
+javadoc -d ../javadoc/website/DecisionUnits -sourcepath ../DecisionUnits/src -overview ../DecisionUnits/src/overview.html -subpackages decisionunit:pa:pa._v38:pa.enums: -exclude pa._v30:pa._v19: -use -splitIndex -version -author -doctitle "Decision Unit v38" -quiet 
+ 
