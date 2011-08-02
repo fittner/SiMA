@@ -156,19 +156,43 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output = getWordPresentations(moActionCommands_Input); 
+		//FIXME Somebody. Temp by AW. Remove and adapt for your purposes
+		ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
+		for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
+			moActionCommandsTemp.add((clsWordPresentation) oC.getMoDataStructure());
+		}
+		//No nulls are allowed
+		moActionCommands_Output = new ArrayList<clsWordPresentation>();
+		//Get the first command
+		if (moActionCommandsTemp.isEmpty()==false) {
+			moActionCommands_Output.add(moActionCommandsTemp.get(0));
+		}
+		
+		
+		 
 	}
 	
 	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
-	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	/**
+	 * convert the act to a word presentation, temp function!!!
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 09:50:37
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	/*private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
-		/*for (clsSecondaryDataStructureContainer oCont: poInput) {
-			oRetVal.add((clsAct)oCont.getMoDataStructure());
-		}*/
+		for (clsSecondaryDataStructureContainer oCont: poInput) {
+			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", ((clsAct)oCont.getMoDataStructure()).getMoContent()));
+			
+			oRetVal.add(oWP);
+		}
 		
 		return oRetVal;
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 *

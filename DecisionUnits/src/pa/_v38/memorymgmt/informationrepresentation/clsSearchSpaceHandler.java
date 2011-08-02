@@ -135,14 +135,22 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 			if (blCompareInstance == false) {
 				//FIXME AW: Correct the outcommented part if necessary
 				//if ((oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID()==0) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID()==0)){ 	//Only a type is taken, no instances
-					if(oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) {
+					//Make a special case for drive meshes. //FIXME: Somehting has to be done with the instance IDs, else the stone or other structures will be erroneously addressed
+				if ((oAssociationElement.getMoAssociationElementA().getMoDataStructureType() == eDataType.DM)) {
+					if ((oAssociationElement.getMoAssociationElementB().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID() == 0)) {
+						elementB = oAssociationElement.getMoAssociationElementA();
+					}  else if ((oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID() == 0)) {
+							elementB = oAssociationElement.getMoAssociationElementB();
+					}
+				} else {
+					if (oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) {
 						elementB = oAssociationElement.getMoAssociationElementB(); 
 					}
 					else if (oAssociationElement.getMoAssociationElementB().getMoDS_ID()  == poDataStructure.getMoDS_ID()) {
 						elementB = oAssociationElement.getMoAssociationElementA();
-					}
-					else {throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
-				//}
+					} else {
+						throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
+					} 
 			} else {
 				if(oAssociationElement.getRootElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()){ 
 					elementB = oAssociationElement.getLeafElement(); 

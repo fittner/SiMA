@@ -360,6 +360,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							//Get the purposed container of the expectation
 							clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oCSAss.getLeafElement());
 							//Confirm, that this expectation belongs to this perception-act
+							if (oPossibleExpectation==null) {
+								try {
+									throw new Exception("Code/Protege error in F51_RealityCheckWishFulfillment, setCurrentExpectation: No expectation found, although it should be found.");
+								} catch (Exception e) {
+									// TODO (wendt) - Auto-generated catch block
+									e.printStackTrace();
+								}
+							}
 							for (clsAssociation oAss : oPossibleExpectation.getMoAssociatedDataStructures()) {
 								if (oAss.getLeafElement().getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
 									//Get the primary structure for this expectation

@@ -676,6 +676,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;  
 	}*/
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 09:45:57
+	 *
+	 * @param poPContainer
+	 * @return
+	 */
 	private clsSecondaryDataStructureContainer getImageBaseAssociations(clsPrimaryDataStructureContainer poPContainer) {
 		clsSecondaryDataStructureContainer oRetVal = null;
 		
@@ -691,12 +699,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					throw new Exception("Error in F21_ConversationToSecondaryProcess, assignWPtoImages: This primary data structure does not have any secondary data structure. Define it in Protege");
 				}
 				
+				clsSecondaryDataStructureContainer oFoundValue = null;
 				if (oFoundAss.getRootElement() instanceof clsWordPresentationMesh) {
-					oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
+					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
 				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentationMesh) {
-					oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
+					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
 				}
 				
+				//Clone the result, or else the memory is changed.
+				oRetVal = (clsSecondaryDataStructureContainer) oFoundValue.clone();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -710,6 +721,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 09:45:54
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	//FIXME AW: The TI are not correctly assigned to the WP, it is visible in the A2I2 WPM to A2I1 TI. This is an error.
 	private ArrayList<clsDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
@@ -741,8 +761,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oSContainer);
 				//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
 				//As all WP comes from the memory, it is enough to compare the moDS_ID
-				bExistsAlready = false;
 				for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
+					bExistsAlready = false;
 					for (clsDataStructureContainer oExistingContainer : oExtendedAssociationList) {
 						if (oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainer.getMoDataStructure().getMoDS_ID()) {
 							bExistsAlready = true;
@@ -785,14 +805,31 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @return
 	 */
 	private String setSecondaryImageContent(clsDataStructurePA poInput) {
+		//TODO AW: This is not nice programming...
 		if (poInput instanceof clsWordPresentation) {
-			return  poInput.getMoContentType() + ":" + ((clsWordPresentation)poInput).getMoContent();
+			if (((clsWordPresentation)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+				return  poInput.getMoContentType() + ":" + ((clsWordPresentation)poInput).getMoContent();
+			} else {
+				return ((clsWordPresentation)poInput).getMoContent();
+			}
 		} else if (poInput instanceof clsWordPresentationMesh) {
-			return  poInput.getMoContentType() + ":" + ((clsWordPresentationMesh)poInput).getMoContent();
+			if (((clsWordPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+				return  poInput.getMoContentType() + ":" + ((clsWordPresentationMesh)poInput).getMoContent();
+			} else {
+				return ((clsWordPresentationMesh)poInput).getMoContent();
+			}
 		} else if (poInput instanceof clsTemplateImage) {
-			return  poInput.getMoContentType() + ":" + ((clsTemplateImage)poInput).getMoContent();
+			if (((clsTemplateImage)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+				return  poInput.getMoContentType() + ":" + ((clsTemplateImage)poInput).getMoContent();
+			} else {
+				return ((clsTemplateImage)poInput).getMoContent();
+			}
 		} else if (poInput instanceof clsThingPresentationMesh) {
-			return  poInput.getMoContentType() + ":" + ((clsThingPresentationMesh)poInput).getMoContent();
+			if (((clsThingPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+				return  poInput.getMoContentType() + ":" + ((clsThingPresentationMesh)poInput).getMoContent();
+			} else {
+				return ((clsThingPresentationMesh)poInput).getMoContent();
+			}
 		} else {
 			return "";
 		}

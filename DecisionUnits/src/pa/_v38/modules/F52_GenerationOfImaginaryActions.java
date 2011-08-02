@@ -322,7 +322,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poPrediction
 	 * @return
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getActionsFromExpectation(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectation(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
 		//Go through all goals
@@ -374,6 +374,14 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 10:13:28
+	 *
+	 * @param poExpectations
+	 * @return
+	 */
 	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsSecondaryDataStructureContainer> poExpectations) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
@@ -381,10 +389,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			for (clsAssociation oAss : oSContainer.getMoAssociatedDataStructures()) {
 				if (oAss instanceof clsAssociationSecondary) {
 					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASASSOCIATION") {
+						ArrayList<clsAssociation> oAssociatedStructures = new ArrayList<clsAssociation>();
+						oAssociatedStructures.add(oAss);
 						if (oAss.getLeafElement() instanceof clsAct) {
-							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), new ArrayList<clsAssociation>()));
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), oAssociatedStructures));
 						} else if (oAss.getRootElement() instanceof clsAct) {
-							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), new ArrayList<clsAssociation>()));						
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), oAssociatedStructures));						
 						}
 					}
 				}
@@ -394,6 +404,48 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 
+	/**
+	 * Temp function, extract the exact action commands from a template act
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 10:14:54
+	 *
+	 * @param poActs
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> GetActionCommandFromAct(ArrayList<clsSecondaryDataStructureContainer> poActs) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsSecondaryDataStructureContainer oContainer : poActs) {
+			clsAct oAct = (clsAct) oContainer.getMoDataStructure();
+			String oActContent = oAct.getMoContent();
+			
+			String oNewActionCommand = getActionFromContent(oActContent);
+			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), new ArrayList<clsAssociation>()));
+		}
+		
+		return oRetVal;
+	}
+	
+	private String getActionFromContent(String poContent) {
+		String oRetVal = "";
+		//Input Structure
+		//"FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
+		
+		//Output structure
+		//MOVE_FORWARD
+		
+		String[] oParts = poContent.split("\\|");
+		for (String oE : oParts) {
+			if (oE.contains("ACTION:")) {
+				String oActionString = "ACTION:";
+				oRetVal = oE.substring(oActionString.length(), oE.length());
+				break;
+			}
+		}
+		
+		return oRetVal;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -446,8 +498,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		/* ==================================================================== */
 		//FIXME AW: Testdata for the F47 interface. DELETEME
 		//moActions_Output.add(getTestDataForAct());
-		moActions_Output.addAll(getActionsFromExpectation(moGoalInput, moExtractedPrediction_IN));
 		/*=======================================================================*/
+		ArrayList<clsSecondaryDataStructureContainer> oExtractedActs = new ArrayList<clsSecondaryDataStructureContainer>();
+		oExtractedActs = getActsFromExpectation(moGoalInput, moExtractedPrediction_IN);
+		
+		moActions_Output.addAll(GetActionCommandFromAct(oExtractedActs));
+		
 		
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
 		//F47 does not have any memory access. 
