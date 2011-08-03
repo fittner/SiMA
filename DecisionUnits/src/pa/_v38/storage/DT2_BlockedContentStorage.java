@@ -36,18 +36,19 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Blocked content buffer
  * 
- * @author deutsch
+ * @author wendt
  * 09.03.2011, 17:12:46
  * 
  */
 public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
-	//Blocked content buffer
+	/** Blocked content buffer */
 	private ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> moBlockedContent;
 	
-	//private ArrayList<clsTripple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>> oMatchedContent;
+	/** Input/Output, perception. This variable is changed as new content is added to the image */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception;
+	/** Input/Output, associated memories. This variable is changed as new content is added to the image */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories;
 	
 	
@@ -68,10 +69,18 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	private int mnActivationLimit = 3;
 	
 	
+	/**
+	 * Constructor of the blocked content. It instanciates the storage and fills it with test data 
+	 * 
+	 * @author Wendt
+	 * @since 03.08.2011 09:19:15
+	 *
+	 */
 	public DT2_BlockedContentStorage() {
     	// The storage consists of an ArrayList of clsPair, in each pair, the element A is the DataStructure and
     	// the element B contains the AssociatedDataStructures from the PrimaryDataStructureContainer that has been blocked.
     	moBlockedContent = new ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>();
+    	// Fill with inital test data
     	fillWithTestData();
     }
 	
@@ -342,10 +351,15 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		}
 	}
 	
-	// (FG) This method was copied from AW's method: public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput, boolean boRemoveAfterActivate)	
-	/*
+	/**
+	 * (FG) This method was copied from AW's method: public clsDriveMesh getBestMatchCONVERTED(clsPrimaryDataStructureContainer poInput, boolean boRemoveAfterActivate)	
 	 * finds best match in list of clsDriveMeshes of repressed content
 	 * Function overloading
+	 *
+	 * @since 03.08.2011 09:21:27
+	 *
+	 * @param poInput
+	 * @return
 	 */
 	public clsDriveMesh matchBlockedContentDrives(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput) {
 		// get only free drives
@@ -470,6 +484,15 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		return oMatchValues;
 	}
 	
+	/**
+	 * With the input of a DM and a threshold, the corresponding drive meshes is loaded from the storage
+	 *
+	 * @since 03.08.2011 09:21:55
+	 *
+	 * @param poDM
+	 * @param poThreshold
+	 * @return
+	 */
 	private ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
 		ArrayList<clsPair<Double, clsDriveMesh>> oRetVal = new ArrayList<clsPair<Double, clsDriveMesh>>();	
 		
@@ -495,226 +518,6 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		
 		return oRetVal;
 	}
-	
-	//TODO AW: Remove as function is confirmed, moved to clsDataStructureComparison
-	/**
-	 * Calculates the match between two containers containing TemplateImages.<br>
-	 * <br>
-	 * Returns the quality of the match and a list that contains associations
-	 * between any DMs in the blockedContent and the matching items in the
-	 * perceivedContent. The second part of the result is done here because it is
-	 * way more efficient to create those associations "on the fly" while
-	 * comparing the items than to later extract the DMs from a matching content
-	 * and find their correct "targets" in the perception - which would
-	 * essentially require a second match algorithm.<br>
-	 * <br>
-	 * - Quality of the match is the sum of the quality of the matches of the items
-	 * in the (blocked) TI divided by the total number of items.<br>
-	 * - Quality of the match of ThingPresentationMeshes is determined by comparing
-	 * the moContent (20%), intrinsic properties (moAssociatedData of the items)
-	 * (40%) and extrinsic properties (moAssociatedDataStructures in the
-	 * container) (40%).<br>
-	 * - Quality of the match of ThingPresentations is either 1 or 0.
-	 *
-	 * @author Zottl Marcus (e0226304),
-	 * 22.06.2011, 20:08:11
-	 *
-	 * @param poBlockedContent		- the item from the blockedContentStorage for
-	 * which the match quality should be calculated.
-	 * @param poPerceivedContent	- the perception to compare the
-	 * <i>blockedContent</i> to
-	 * @return									- a clsPair with A the quality of the match 
-	 * (double) and B = a list of Associations between DMs in <i>blockedContent</i>
-	 * and their matching "partners" in the perception 
-	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
-	 * 
-	 * @see clsBlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
-	 * @see clsBlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
-	 */
-	/*private clsPair<Double, ArrayList<clsAssociationDriveMesh>> calculateTIMatch(
-			clsPrimaryDataStructureContainer poBlockedContent,
-			clsPrimaryDataStructureContainer poPerceivedContent) {
-
-		clsTemplateImage oBlockedTI = (clsTemplateImage) poBlockedContent.getMoDataStructure();
-		clsTemplateImage oPerceivedTI = (clsTemplateImage) poPerceivedContent.getMoDataStructure();
-		double oMatchValueTI = 0.0;
-		int oElemCountTI = oBlockedTI.getMoAssociatedContent().size();
-		double oMatchSumElements = 0.0;
-		ArrayList<clsAssociationDriveMesh> oNewDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
-		
-		// for each element of the blockedContent, find the !best! matching element
-		// in the perceivedContent
-		for (clsAssociation blockedTIContent : oBlockedTI.getMoAssociatedContent()) {
-			double bestMatchValue = 0.0;
-			ArrayList<clsAssociationDriveMesh> bestMatchDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
-			for (clsAssociation perceivedTIContent : oPerceivedTI.getMoAssociatedContent()) {
-				if ((blockedTIContent.getLeafElement() instanceof clsThingPresentationMesh) &&
-						(perceivedTIContent.getLeafElement() instanceof clsThingPresentationMesh)) {
-					clsThingPresentationMesh blockedTPM = (clsThingPresentationMesh)blockedTIContent.getLeafElement();
-					clsThingPresentationMesh perceivedTPM = (clsThingPresentationMesh)perceivedTIContent.getLeafElement();
-					if (perceivedTPM.getMoContentType() == blockedTPM.getMoContentType()) {
-						double matchValContent = 0.0;
-						// first see if the contents match
-						if (perceivedTPM.getMoContent() == blockedTPM.getMoContent()) {
-							matchValContent = 1.0;
-						}
-						// now check how well the intrinsic properties match
-						double matchValIntrinsic = 
-							getAssocAttributeMatch(blockedTPM.getMoAssociatedContent(), perceivedTPM.getMoAssociatedContent(), matchValContent);
-						// only check the extrinsic properties if the content matches!
-						double matchValExtrinsic = 0.0;
-						if (matchValContent == 1.0){
-							matchValExtrinsic = 
-								getAssocAttributeMatch(
-										poBlockedContent.getMoAssociatedDataStructures(blockedTPM), 
-										poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
-						}
-						// combine values to calculate overall match of a TPM. Weights are arbitrary!
-						double matchValCombined = ((0.2 * matchValContent) + (0.4 * matchValIntrinsic) + (0.4 * matchValExtrinsic));
-						// store best element match so far, because we need to find the highest matching element
-						if (matchValCombined > bestMatchValue) {
-							bestMatchValue = matchValCombined;
-							/* In case the overall matchValueTI is 1 we need to associate all
-							 * DMs from the blockedContent with the perceivedContent. Since
-							 * the DMs are not associated with the whole TI but with one of 
-							 * its elements, we need to create new associations between the 
-							 * DMs and the matching elements in the perceivedContent. If we do
-							 * not want to find the correct new roots those DMs in an
-							 * additional matching algorithm, we have to acquire them now! 
-							 */
-							/*bestMatchDriveMeshAssociations = 
-								createNewDMAssociations(perceivedTPM, 
-										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
-						}
-					}
-				}
-				else if ((blockedTIContent.getLeafElement() instanceof clsThingPresentation) &&
-						(perceivedTIContent.getLeafElement() instanceof clsThingPresentation)) {
-					clsThingPresentation blockedTP = (clsThingPresentation)blockedTIContent.getLeafElement();
-					clsThingPresentation perceivedTP = (clsThingPresentation)perceivedTIContent.getLeafElement();
-
-					if((perceivedTP.getMoContentType() == blockedTP.getMoContentType()) &&
-							(perceivedTP.getMoContent() == blockedTP.getMoContent())) {
-						// we have found a match! No need to check anything else since TPs don't have any associatedContents
-						bestMatchValue = 1;
-						break; // since a TP match is simply 1 or 0 we just take the first match we find
-					}
-				}
-				else if ((blockedTIContent.getLeafElement() instanceof clsTemplateImage) &&
-						(perceivedTIContent.getLeafElement() instanceof clsTemplateImage)) {
-					//TODO matching of TIs nested inside a TI if this ever becomes necessary
-				}
-			}
-			// best matchValue is added to the sum of matchValues and related
-			// associations are added to the result
-			oMatchSumElements += bestMatchValue;
-			oNewDriveMeshAssociations.addAll(bestMatchDriveMeshAssociations);
-		}
-		// matchValue of two TIs is the average matchValue of their contents/elements or zero if the TI is empty (should not happen)
-		if (oElemCountTI != 0) {
-			oMatchValueTI = oMatchSumElements / oElemCountTI;
-		}
-		else {
-			oMatchValueTI = 0;
-		}
-		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
-	}*/
-
-	//TODO AW: Remove as function is confirmed, moved to clsDataStructureComparison
-	/**
-	 * Creates new AssociationDriveMeshes from the inputs.<br>
-	 * <br>
-	 * A list of new AssociationDriveMeshes with the argument newRoot as
-	 * rootElement and the DMs found in oldAssociations as leafElements. 
-	 *
-	 * @author Zottl Marcus (e0226304),
-	 * 28.06.2011, 20:08:58
-	 *
-	 * @param poNewRoot					- the root element for the new associations
-	 * @param poOldAssociations -	the old associations from which the DMs are taken
-	 * @return								- a list of new associations between newRoot and the
-	 * DMs found in oldAssociations
-	 */
-	/*private ArrayList<clsAssociationDriveMesh> createNewDMAssociations(
-			clsPrimaryDataStructure poNewRoot,
-			ArrayList<clsAssociation> poOldAssociations) {
-		ArrayList<clsAssociationDriveMesh> oReturnlist = new ArrayList<clsAssociationDriveMesh>();
-		
-		for (clsAssociation entry : poOldAssociations) {
-			if (entry instanceof clsAssociationDriveMesh) {
-				clsAssociationDriveMesh oldAssDM = (clsAssociationDriveMesh)entry;
-				clsAssociationDriveMesh newAssDM = 
-					new clsAssociationDriveMesh(
-							new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
-							oldAssDM.getDM(),
-							poNewRoot);
-				oReturnlist.add(newAssDM);
-			}
-		}
-		return oReturnlist;
-	}*/
-
-	/**
-	 * Calculates the match between two lists of properties (of two items).<br>
-	 * <br>
-	 * The quality of the match is the number of matching properties divided by
-	 * the total number of properties.<br>
-	 * If there are no blocked associations, then the result depends on whether
-	 * the roots of the associations match.<br> 
-	 * Example: a cake with no specified attributes matches any other cake,
-	 * therefore the result is a full match, but a stone without properties does
-	 * NOT match any cake, therefore the match is zero.
-	 *
-	 * @author Zottl Marcus (e0226304),
-	 * 22.06.2011, 23:41:36
-	 *
-	 * @param poBlockedAssocs		- list of associated properties of the blocked
-	 * content item.
-	 * @param poPerceivedAssocs	- list of associated properties of the perceived
-	 * content item.
-	 * @param poRootMatch				- a number indicating whether the root elements of
-	 * the associations are considered a match (1.0) or not (0.0).
-	 * @return									- the quality of the match between the to lists of
-	 * properties.
-	 */
-	/*private double getAssocAttributeMatch(
-			ArrayList<clsAssociation> poBlockedAssocs,
-			ArrayList<clsAssociation> poPerceivedAssocs,
-			double poRootMatch) {
-		double oMatchFactor;
-		int oAssocCount = 0;
-		int oAssocMatches = 0;
-		for(clsAssociation blockedAssocEntry : poBlockedAssocs) {
-			if(blockedAssocEntry.getLeafElement() instanceof clsThingPresentation) {
-			oAssocCount++; // we only count associated TPs, not DMs!
-			for(clsAssociation perceivedAssocEntry : poPerceivedAssocs) {
-					if(perceivedAssocEntry.getLeafElement() instanceof clsThingPresentation) {
-						clsThingPresentation blockedTP = (clsThingPresentation)blockedAssocEntry.getLeafElement();
-						clsThingPresentation perceivedTP = (clsThingPresentation)perceivedAssocEntry.getLeafElement();
-
-						if((perceivedTP.getMoContentType() == blockedTP.getMoContentType()) &&
-								(perceivedTP.getMoContent().toString() == blockedTP.getMoContent().toString())) {
-							oAssocMatches++; // we have found a match!
-							break; // leave inner loop, because there can't be more than one match: that would lead to matchFactor greater 1.
-						}
-					}
-				}
-				// matching ONLY calculated for TPs for now, DMs are simply ignored.
-			}
-		}
-		// (Association)matchFactor of two DataStructures is the number of matching Associations divided by the total number of
-		// Associations of the blocked DataStructure
-		if(oAssocCount > 0)
-			oMatchFactor = ((double) oAssocMatches) / oAssocCount;
-		else
-			/* if there are no (blocked) associations, then the result depends on whether the roots of the associations match. 
-			 * Example: a cake with no specified attributes matches any other cake, therefore the result is a full match,
-			 * but a stone without properties does NOT match any cake, therefore the match is zero.
-			 *  
-			 */
-			/*oMatchFactor = poRootMatch;
-		return oMatchFactor;
-	}*/
 	
 	/**
 	 * Removes the specified item from the blocked content storage.<br>
