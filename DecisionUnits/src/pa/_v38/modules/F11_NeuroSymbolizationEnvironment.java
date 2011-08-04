@@ -30,7 +30,9 @@ import pa._v38.symbolization.representationsymbol.itfSymbolVisionEntry;
 import pa._v38.tools.toText;
 
 /**
- * Conversion of raw data into neuro-symbols.<br><br>
+ * Conversion of raw data into neuro-symbols.
+ * 
+ * <br><br>
  * 
  * <b>INPUT:</b><br>
  * SPECIAL CASE<br>
