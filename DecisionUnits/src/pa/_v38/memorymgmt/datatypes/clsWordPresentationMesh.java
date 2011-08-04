@@ -107,11 +107,23 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsWordPresentationMesh oClone = (clsWordPresentationMesh)super.clone();
-           	return oClone;
+        	if (moAssociatedContent != null) {
+        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+          	return oClone;
         } catch (CloneNotSupportedException e) {
            return e;
         }
-	}		
+	}			
 	
 	@Override
 	public String toString(){

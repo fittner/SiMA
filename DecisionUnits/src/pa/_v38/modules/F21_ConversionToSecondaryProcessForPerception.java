@@ -756,27 +756,33 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				if (bExistsAlready==false) {
 					oExtendedAssociationList.add(oSContainer);
 				}
-					
-				//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
-				ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oSContainer);
-				//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
-				//As all WP comes from the memory, it is enough to compare the moDS_ID
-				for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
-					bExistsAlready = false;
-					for (clsDataStructureContainer oExistingContainer : oExtendedAssociationList) {
-						if (oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainer.getMoDataStructure().getMoDS_ID()) {
-							bExistsAlready = true;
-							break;
-						}
+			}
+		}
+		
+		//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
+		ArrayList<clsDataStructureContainer> oCompleteSecondaryStructureList = new ArrayList<clsDataStructureContainer>();
+		oCompleteSecondaryStructureList.addAll(oExtendedAssociationList);
+		for (clsDataStructureContainer oSContainer : oExtendedAssociationList) {
+			ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oSContainer);
+			//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
+			//As all WP comes from the memory, it is enough to compare the moDS_ID
+			boolean bExistsAlready = false;
+			for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
+				bExistsAlready = false;
+				for (clsDataStructureContainer oExistingContainer : oCompleteSecondaryStructureList) {
+					if (oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainer.getMoDataStructure().getMoDS_ID()) {
+						bExistsAlready = true;
+						break;
 					}
-					if (bExistsAlready==false) {
-						oExtendedAssociationList.add(oAddContainer);
-					}
+				}
+				if (bExistsAlready==false) {
+					oCompleteSecondaryStructureList.add(oAddContainer);
 				}
 			}
 		}
+		
 		//Add the found containers
-		oRetVal.addAll(oExtendedAssociationList);
+		oRetVal.addAll(oCompleteSecondaryStructureList);
 		
 		//Refactor the content names of the data structures in the containers
 		//Set new content for the base image
