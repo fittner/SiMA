@@ -431,7 +431,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
 				//clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = calculateTIMatch(oBlockedCont, poPerception);
 				//Use structures from data structure comparison
-				clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception);
+				clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception, true);
 				// ignore matches below threshold
 				if (oMatchResult.a < poThreshold)
 					continue;

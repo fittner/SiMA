@@ -42,11 +42,18 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 public abstract class clsDataStructureComparison {
 	
 	/** Weight for the matching for the content */
-	private static double moMatchValContentFactor = 0.2;
+	private static double moMatchValContentFactor = 0.2; //Max 1.0
 	/** Weight for the matching for the intrinsic values */
-	private static double moMatchValInstrinsicFactor = 0.2;
+	private static double moMatchValInstrinsicFactor = 0.2; //Max 1.0
 	/** Weight for the matching for the extrinsic values */
-	private static double moMatchValExtrinsicFactor = 0.6;
+	private static double moMatchValExtrinsicFactor = 0.6; //Max 1.0
+	/** If a match has the value 1.0, it is newly ordered by the second search */
+	private static double moBestMatchThreshold = 1.0; //Max 1.0
+	/** If there are many values with 1.0 as a match, the new values after the second search are somewhere between 0.9 and 1.0 */
+	private static double moCorrectionfactor = 0.9;	//Max 1.0
+	
+	
+	
 	
 	public static ArrayList<clsPair<Double,clsDataStructurePA>> compareDataStructures
 									(clsDataStructurePA poDS_Unknown, clsSearchSpaceBase poSearchSpace){
@@ -97,6 +104,7 @@ public abstract class clsDataStructureComparison {
 			clsSearchSpaceHandler poSearchSpaceHandler,
 			clsDataStructureContainer poContainerUnknown, double prThreshold) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
 		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
@@ -105,27 +113,106 @@ public abstract class clsDataStructureComparison {
 		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poContainerUnknown.getMoDataStructure().getMoContentType());
 		
 		//For each template image in the storage compare with the input image
+		//1. First search to get all matches
 		for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
 			clsDataStructurePA oCompareElement = oEntry.getValue().a;
 	
 			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
-			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown);
+			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
 		
 			if (oMatch < prThreshold)
 				continue;
 			// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 			int i = 0;
-			while ((i + 1 < oRetVal.size()) && oMatch < oRetVal.get(i).a) {
+			while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
 				i++;
 			}
+			
 			//Set moInstanceID for all structures in the container
 			clsDataStructureTools.createInstanceFromType(oCompareContainer);
 			//Add results
-			oRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
+			oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
 		}
-			
+		//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
+		oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poContainerUnknown, moBestMatchThreshold, moCorrectionfactor));
+		
+		//3. Sort the list
+		//TODO AW: Sort the output list
 		return oRetVal;
 	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 03.08.2011 14:27:59
+	 *
+	 * @param poInputList
+	 * @param poContainerUnknown
+	 * @param prBestResultsThreshold
+	 * @param prCorrectFactor
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructureContainer>> compareBestResults(ArrayList<clsPair<Double, clsDataStructureContainer>> poInputList, 
+			clsDataStructureContainer poContainerUnknown, double prBestResultsThreshold, double prCorrectFactor) {
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		
+		double rMaxMatchValue = 0.0;
+		
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oBestResults = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oOtherResults = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		
+		for (clsPair<Double, clsDataStructureContainer> oPair : poInputList) {
+			//1. Search for all values, which are >= prBestResultsThreshold
+			if (oPair.a >= prBestResultsThreshold) {
+				//2. Compare these values with the unknown image once again and return the match. This time the comparison is in the other way, i. e. the template image is searched in the input image
+				double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oPair.b, false);	//Strong matching deactivated
+				//Sort the list
+				int i = 0;
+				while ((i + 1 < oBestResults.size()) && oMatch < oBestResults.get(i).a) {
+					i++;
+				}
+				//Add the new container, sorted
+				oBestResults.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oPair.b));
+			} else {
+				oOtherResults.add(oPair);
+			}
+		}
+		
+		//3. Norm the values to the max match value
+		if (oBestResults.isEmpty()==false) {
+			//3a. Get the first value with the highest match if there are any matches
+			rMaxMatchValue = oBestResults.get(0).a;
+			
+			for (clsPair<Double, clsDataStructureContainer> oBestPair : oBestResults) {
+				//3b. Calculate the new Matchvalue acc. formula
+				double rNewMatchValue = calculateBestMatchValue(oBestPair.a, prBestResultsThreshold, prCorrectFactor, rMaxMatchValue);
+				//3c. Set the new match value
+				oBestPair.a = rNewMatchValue;
+			}
+		}
+		
+		//4. Merge the lists
+		oRetVal.addAll(oBestResults);
+		oRetVal.addAll(oOtherResults);
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 03.08.2011 14:23:32
+	 *
+	 * @param prBestMatchValue
+	 * @param prBestResultsThreshold
+	 * @param prCorrectFactor
+	 * @return
+	 */
+	private static double calculateBestMatchValue(double prBestMatchValue, double prBestResultsThreshold, double prCorrectFactor, double prMaxMatchValue) {
+		//The threshold does not play any role in the calculation the prMaxMatchValue there to norm the matching for all found parts
+		return (1-prCorrectFactor) * prBestMatchValue/prMaxMatchValue + prCorrectFactor;
+	}
+	
 	
 	/**
 	 * Get a whole container from a data structure including all associated structures
@@ -263,9 +350,9 @@ public abstract class clsDataStructureComparison {
 	 * @return
 	 */
 	private static double compareTIContainer(clsPrimaryDataStructureContainer poBlockedContent,
-			clsPrimaryDataStructureContainer poPerceivedContent) {
+			clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
 		double rRetVal = 0;
-		clsPair<Double, ArrayList<clsAssociationDriveMesh>> oPair = compareTIContainerInclDM(poBlockedContent, poPerceivedContent);
+		clsPair<Double, ArrayList<clsAssociationDriveMesh>> oPair = compareTIContainerInclDM(poBlockedContent, poPerceivedContent, pbStrongMatch);
 		rRetVal = oPair.a;
 		
 		return rRetVal;
@@ -309,7 +396,7 @@ public abstract class clsDataStructureComparison {
 	
 	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
 			clsPrimaryDataStructureContainer poBlockedContent,
-			clsPrimaryDataStructureContainer poPerceivedContent) {
+			clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
 
 		clsTemplateImage oBlockedTI = (clsTemplateImage) poBlockedContent.getMoDataStructure();
 		clsTemplateImage oPerceivedTI = (clsTemplateImage) poPerceivedContent.getMoDataStructure();
@@ -347,7 +434,7 @@ public abstract class clsDataStructureComparison {
 						}
 						// combine values to calculate overall match of a TPM. Weights are arbitrary!
 						
-						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, true);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
+						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, pbStrongMatch);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
 						
 						// store best element match so far, because we need to find the highest matching element
 						if (matchValCombined > bestMatchValue) {
