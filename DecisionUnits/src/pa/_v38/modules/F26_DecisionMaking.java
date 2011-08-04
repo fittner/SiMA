@@ -104,9 +104,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		String text ="";
 		
 		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moRuleList", moRuleList);
 		text += toText.listToTEXT("moRealityPerception", moRealityPerception);
 		text += toText.listToTEXT("moGoal_Output", moGoal_Output);
+		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
 		return text;
 	}		

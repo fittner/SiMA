@@ -32,16 +32,16 @@ import pa._v38.tools.toText;
 public class F23_ExternalPerception_focused extends clsModuleBase implements I6_1_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception;
 	//AW 20110602 New input of the module
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
-	
-	
-	
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
-	
-	//AW 20110602 New output of the module
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	/**
@@ -74,9 +74,11 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		String text = "";
 		
 		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
-
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
+		
 		return text;
 	}	
 	public static clsProperties getDefaultProperties(String poPrefix) {

@@ -78,9 +78,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;	
 	
+	/** String for searching for content type from the storage of images to libido */
 	private String oLibidoImageString = "IMAGE:LIBIDO";
 	/**
-	 * Constructor of the libido buffer. Here the libido buffer is assigned 
+	 * Constructor of the libido buffer. Here the libido buffer is assigned
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:30:00
@@ -307,7 +308,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Find matching images for the input image
 		//FIXME AW: Set Threshold for matching = 0.9
 		
-		searchContainer(poInput, oSearchResultContainer, oLibidoImageString, 0.7);
+		searchContainer(poInput, oSearchResultContainer, oLibidoImageString, mrMatchThreshold);
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);

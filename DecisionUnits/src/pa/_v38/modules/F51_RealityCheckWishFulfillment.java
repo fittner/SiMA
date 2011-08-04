@@ -37,16 +37,15 @@ import pa._v38.tools.toText;
 public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
 	
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input; 
-	//AW 20110602 Added associated memories to the input 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:45 */
+	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Input;  
+	/** Container of activated associated memories */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
-	
-	
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:49 */
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception_Output; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:50 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
-	
 	/** A construction of an Intention, an arraylist with expectations and the current situation */
-	
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	/**
@@ -78,7 +77,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		String text ="";
 		
 		text += toText.listToTEXT("moFocusedPerception_Input", moFocusedPerception_Input);
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 		text += toText.listToTEXT("moRealityPerception_Output", moRealityPerception_Output);
+		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		
 		return text;
@@ -230,11 +231,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				}
 			}
 		}
-		
-		
-		
-
-		
+	
 		return oRetVal;
 	}
 	
@@ -286,6 +283,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 04.08.2011 13:59:51
+	 *
+	 * @param poIntentionAssociations
+	 * @param poSourceList
+	 * @return
+	 */
 	private clsSecondaryDataStructureContainer getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList) {
 		clsSecondaryDataStructureContainer oRetVal = null;
 		double rMaxValue = 0.0;
@@ -321,6 +327,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 04.08.2011 13:59:56
+	 *
+	 * @param poImageContainer
+	 * @return
+	 */
 	private double getMatchValueToPI(clsPrimaryDataStructureContainer poImageContainer) {
 		String oContent = "PERCEPTION";
 		double rRetVal = 0.0;
@@ -338,6 +352,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return rRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 04.08.2011 14:00:02
+	 *
+	 * @param poActList
+	 * @param poInput
+	 */
 	private void setCurrentExpectation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
 		String oPredicateTemporal = "HASNEXT";
 		//String oPredicateIsA = "ISA";

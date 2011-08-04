@@ -63,6 +63,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	/** Activated memories together with their DMs */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	/** Threshold for matching for associated images */
+	private double mrMatchThreshold = 0.1;
 
 	/* Module-Parameters */
 	
@@ -101,7 +104,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
 		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);	
 		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		//text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		//Is not necessary to list here	
+		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
 		
 		return text;
 	}		
@@ -162,15 +165,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 		
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
-		
-
-		//ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
- 		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
-		
-	    //addValues(oContainerList);			
-		//attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
-		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
-		//AW: Is already done in retrieveActivatedMemories with the input moReturnedTPMemory_IN
 		
 	}
 	
@@ -487,7 +481,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
 			//Search for matches
-			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE", 0.1);
+			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE", mrMatchThreshold);
 			//Create associations between the PI and those matches
 			for (clsPair<Double,clsDataStructureContainer> oPair : oSearchResultContainer) {
 				clsDataStructureTools.createAssociationPrimary(oPerceptionInput, oPair.b, oPair.a);
@@ -498,7 +492,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE", 0.1);
+			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE", mrMatchThreshold);
 		}
 		
 		for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {

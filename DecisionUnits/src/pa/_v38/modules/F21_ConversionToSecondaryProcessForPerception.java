@@ -62,16 +62,17 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	/** Associated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
-	
-
 	/** Associated memories out, enriched with word presentations of the associated thing presentations */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:43 */
 	private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:45 */
 	private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
 	private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -104,6 +105,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		String text = "";
 		
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.listToTEXT("moPerception_Output", moPerception_Output);
 		text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);

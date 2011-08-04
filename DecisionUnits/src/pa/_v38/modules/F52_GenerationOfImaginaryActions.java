@@ -107,8 +107,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		String text = "";
 
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
+		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moActions_Output", moActions_Output);
 		text += toText.listToTEXT("moGoalInput", moGoalInput);
+		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
 		return text;
 	}

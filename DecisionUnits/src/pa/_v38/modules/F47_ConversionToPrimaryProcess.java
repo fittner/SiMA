@@ -77,8 +77,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
-		text += toText.valueToTEXT("moActionCommands_IN", moActionCommands_IN);
+		text += toText.listToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
+		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.listToTEXT("moActionCommands_IN", moActionCommands_IN);
 		
 		return text;
 	}		
