@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 
@@ -301,6 +302,23 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 				} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
 					oRetVal = (clsPrimaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
 				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	protected clsSecondaryDataStructureContainer extractSecondaryContainer(clsPrimaryDataStructure poInput) {
+		//Get the WP
+		clsSecondaryDataStructureContainer oRetVal = null;
+		
+		clsAssociation oAss = getWP(poInput);
+		
+		if (oAss!=null) {
+			if (oAss.getLeafElement() instanceof clsWordPresentation) {
+				oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oAss.getLeafElement());
+			} else if (oAss.getRootElement() instanceof clsWordPresentation) {
+				oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
 			}
 		}
 		

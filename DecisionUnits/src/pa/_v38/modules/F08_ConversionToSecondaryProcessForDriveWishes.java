@@ -7,11 +7,11 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -22,9 +22,9 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -158,13 +158,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
-		ArrayList<clsAssociation> oDM_A = new ArrayList<clsAssociation>(); 
-		ArrayList<clsAssociation> oAff_A = new ArrayList<clsAssociation>();
+		ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> oDMConstruct = 
+			new ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>>(); 
+		//ArrayList<clsAssociation> oAff_A = new ArrayList<clsAssociation>(); 
 		
-		moDriveList_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-		oDM_A = getDMWP(); 
-		oAff_A = getAffectWP(); 
-		generateSecondaryContainer(oDM_A, oAff_A); 
+		oDMConstruct = getWPAssociations(moDriveList_Input); 
+		moDriveList_Output = generateSecondaryContainer(oDMConstruct); 
 	}
 	
 	/**
@@ -176,28 +175,55 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @param oDM_A
 	 * @param oAff_A
 	 */
-	private void generateSecondaryContainer(ArrayList<clsAssociation> oDM_A, ArrayList<clsAssociation> oAff_A) {
+	private ArrayList<clsSecondaryDataStructureContainer> generateSecondaryContainer(ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> poDMConstruct) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
-		for(int index = 0; index < moDriveList_Input.size(); index++){
-			try {
-			//FIXME SOMEONE: HACK AW. Index out of bounds, because there are more DMs than WPs. Do not trust that the list order of DM corresponds
-			//to an element in another list. For that case, the pair is used.
-				if ((oDM_A.size()<=index) || (oAff_A.size()<=index)) {
-					break;
-				}
-				String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
-									+ ":" 
-									+ ((clsWordPresentation)oAff_A.get(index).getLeafElement()).getMoContent();
+		for (clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer> oTriple: poDMConstruct) {
+			if ((oTriple.a!=null) && (oTriple.b!=null) && (oTriple.c!=null)) {
+				//a: drive, b: drive object, c: affect
+				//Create WP String [DRIVE:AFFECT|ENTITY:CAKE]
+				String oDrive = ((clsWordPresentation)oTriple.a.getMoDataStructure()).getMoContent();
+				String oAffect = ((clsWordPresentation)oTriple.c.getMoDataStructure()).getMoContent();
+				String oDriveObject = oTriple.b.getMoDataStructure().getMoContentType() + ":" + ((clsWordPresentation)oTriple.b.getMoDataStructure()).getMoContent();
+				
+				String oContentWP = oDrive + ":" + oAffect + "|" + oDriveObject;
+				//Create WP
 				clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
-										 new clsPair<String, Object>(eDataType.WP.name(), oContentWP));
+						 new clsPair<String, Object>(eDataType.WP.name(), oContentWP));
+				//Create Container
 				clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
-										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
-				moDriveList_Output.add(oCon);
-			} catch (java.lang.IndexOutOfBoundsException e) {
-				e.printStackTrace(); //(clsExceptionUtils.getCustomStackTrace(e))); //FIXME (kohlhauser): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
-			}
+						 new ArrayList<clsAssociation>());
+				//Add to result
+				oRetVal.add(oCon);
+			}	
 		}
+		
+		return oRetVal;
 	}
+		
+		
+//		for(int index = 0; index < poDMConstruct..size(); index++){
+//			try {
+//			//FIXME SOMEONE: HACK AW. Index out of bounds, because there are more DMs than WPs. Do not trust that the list order of DM corresponds
+//			//to an element in another list. For that case, the pair is used.
+//				if ((oDM_A.size()<=index) || (oAff_A.size()<=index)) {
+//					break;
+//				}
+//				String oContentWP = ((clsWordPresentation)oDM_A.get(index).getLeafElement()).getMoContent() 
+//									+ ":" 
+//									+ ((clsWordPresentation)oAff_A.get(index).getLeafElement()).getMoContent();
+//				clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, 
+//										 new clsPair<String, Object>(eDataType.WP.name(), oContentWP));
+//				clsSecondaryDataStructureContainer oCon =  new clsSecondaryDataStructureContainer(oResWP, 
+//										 new ArrayList<clsAssociation>(Arrays.asList(oDM_A.get(index), oAff_A.get(index))));
+//				oRetVal.add(oCon);
+//			} catch (java.lang.IndexOutOfBoundsException e) {
+//				e.printStackTrace(); //(clsExceptionUtils.getCustomStackTrace(e))); //FIXME (kohlhauser): protege data structure is not complete. oDM_A is missing entries for sleep and relax. i have tried everything ... pleasse HEL!!! TD 2011/04/22
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 
 	/**
 	 * DOCUMENT (kohlhauser) - insert description
@@ -207,14 +233,27 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @return
 	 */
-	private ArrayList<clsAssociation> getDMWP() {
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
-		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>(); 
+	private ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList_Input) {
+		ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>> oRetVal = new ArrayList<clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>>();
 		
-		extractAssociatedElement(oPattern); 
-		search(eDataType.WP, oPattern, oSearchResult);
-		extractAssociations(oRetVal, oSearchResult);
+		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair : poDriveList_Input) {			
+			//Get Drive
+			clsSecondaryDataStructureContainer oDMSContainer = extractSecondaryContainer(oPair.b);
+			//Get Physical Representation
+			clsSecondaryDataStructureContainer oTPMSContainer = extractSecondaryContainer(oPair.a);
+			//Get Affect
+			clsAffect oAffect = extractAffect(oPair);
+			clsSecondaryDataStructureContainer oAffectContainer = extractSecondaryContainer(oAffect);
+			
+			if ((oDMSContainer!=null) && (oTPMSContainer!=null) && (oAffectContainer!=null)) {
+				//If these values exist, create a new container with the word presentation
+				oRetVal.add(new clsTriple<clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer, clsSecondaryDataStructureContainer>(oDMSContainer, oTPMSContainer, oAffectContainer));
+			}
+			
+			//Create new entry
+			//oRetVal.add(new clsTriple<ArrayList<clsAssociation>, ArrayList<clsAssociation>, clsPair<clsPhysicalRepresentation, clsDriveMesh>>(oDMAssociations, oAffectAssociations,oPair));
+			
+		}
 		
 		return oRetVal;
 	}
@@ -228,13 +267,35 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @param oPattern
 	 */
-	private void extractAssociatedElement(ArrayList<clsDataStructurePA> poPattern) {
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oEntry : moDriveList_Input){
-			for(clsAssociation oAssociation : oEntry.b.getMoAssociatedContent()){
-				poPattern.add(oAssociation.getMoAssociationElementB()); 
-			}
-		}
-	}
+//	private ArrayList<clsDataStructurePA> extractAssociatedElement(clsPair<clsPhysicalRepresentation, clsDriveMesh> poDrive_Input) {
+//		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
+//		
+//		for(clsAssociation oAssociation : poDrive_Input.b.getMoAssociatedContent()){
+//			oPattern.add(oAssociation.getMoAssociationElementB()); 
+//		}
+//		
+//		return oPattern;
+//	}
+	
+	/**
+	 * DOCUMENT (kohlhauser) - insert description
+	 *
+	 * @author kohlhauser
+	 * 19.03.2011, 09:41:39
+	 *
+	 * @return
+	 */
+//	//private ArrayList<clsAssociation> getAffectWP(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList_Input) {
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+//		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
+//		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>(); 
+//
+//		oPattern  = extractAffect(poDriveList_Input);
+//		search(eDataType.WP, oPattern, oSearchResult); 
+//		oRetVal = extractAssociations(oSearchResult);
+//		
+//		return oRetVal;
+//	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description
@@ -245,33 +306,16 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @param oRetVal
 	 * @param oSearchResult
 	 */
-	private void extractAssociations(ArrayList<clsAssociation> poRetVal,
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+	private ArrayList<clsAssociation> extractAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
 		
-			for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : poSearchResult){
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
+		for(ArrayList<clsPair<Double,clsDataStructureContainer>> oEntry : poSearchResult){
 				if(oEntry.size() > 0){
+					//Get all associated content from this structure
 					clsPair <Double,clsDataStructureContainer> oBestMatch = oEntry.get(0);
-					poRetVal.addAll(oBestMatch.b.getMoAssociatedDataStructures()); 
+					oRetVal.addAll(oBestMatch.b.getMoAssociatedDataStructures()); 
 			}
 		}
-	}
-	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.03.2011, 09:41:39
-	 *
-	 * @return
-	 */
-	private ArrayList<clsAssociation> getAffectWP() {
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
-		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>(); 
-
-		extractAffect(oPattern);
-		search(eDataType.WP, oPattern, oSearchResult); 
-		extractAssociations(oRetVal, oSearchResult);
 		
 		return oRetVal;
 	}
@@ -286,13 +330,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @param oPattern
 	 */
-	private void extractAffect(ArrayList<clsDataStructurePA> poPattern) {
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oEntry : moDriveList_Input){
-			clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
-					new clsPair<String, Object>(eDataType.AFFECT.toString(), oEntry.b.getPleasure()));
-			
-			poPattern.add(oAffect);
-		}
+	private clsAffect extractAffect(clsPair<clsPhysicalRepresentation, clsDriveMesh> poDriveList_Input) {
+		
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
+				new clsPair<String, Object>(eDataType.AFFECT.toString(), poDriveList_Input.b.getPleasure()));
+		
+		return oAffect;
 	}
 
 		

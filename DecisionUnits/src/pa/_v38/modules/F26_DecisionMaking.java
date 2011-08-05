@@ -573,7 +573,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	
 
 	/**
-	 * DOCUMENT (kohlhauser) - insert description
+	 * DOCUMENT (wendt) - insert description
 	 *
 	 * @author kohlhauser
 	 * 02.11.2010, 17:04:15
@@ -590,8 +590,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent(); 
 			clsPair<String, clsSecondaryDataStructureContainer> oVal = new clsPair<String, clsSecondaryDataStructureContainer>(oContent, oContainer);
 			
-			String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1];
-			int nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+			//String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1];
+			//int nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+			int nIntensity = getDriveIntensity(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent());
 			
 			ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > oList;
 			if (oSortedDrives.containsKey(nIntensity)) {
@@ -647,6 +648,18 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		return oRetVal; 
 	}
+	
+	private int getDriveIntensity(String poDriveContent) {
+		int nIntensity =  0;
+		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+		String oDriveIntensity = oDrive.split(_Delimiter01)[1];
+		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+		return nIntensity;
+	}
+	
+	/*private String getDriveObject(String poDriveContent) {
+		
+	}*/
 	
 	/**
 	 * Use expectations as goals. They have the correct acts in their associated memories.
