@@ -9,13 +9,12 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -218,27 +217,154 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	protected void process_basic() {
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
-		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		
+		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN); 
+		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
+		
+		
 		//Add Goals from the perception
-		moGoal_Output.addAll(compriseExternalPerception(moRealityPerception));
+		//moGoal_Output.addAll(compriseExternalPerception(moRealityPerception));
 		
 		//Add goals from activated memories
-		moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
+		//moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
 		
-		compriseRuleList();
-		compriseDrives();
 		
-		try {
+		compriseRuleList();	//This function does nothing
+		compriseDrives();	//If the goallist is empty get the highest priority goal
+		
+		/*try {
 			sortGoalOutput();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
 		
 		//Pass the prediction to the planning
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 	}
 	
-	private void sortGoalOutput() throws Exception {
+	private ArrayList<clsSecondaryDataStructureContainer> processGoals(
+			ArrayList<clsSecondaryDataStructureContainer> poPossibleGoalInputs, 
+			ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
+			ArrayList<clsAct> poRuleList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		//1. Process goals with Superego???
+			//TODO AW: Something for the superego
+		compriseRuleList();
+		//2. Sort the goals to get the most important goal first
+		ArrayList<clsSecondaryDataStructureContainer> oDriveListSorted = sortDriveDemands(poDriveList);
+		//3. Go through the drivelist
+		//The first drive is the one with the highest priority
+		for (int i=0; i<oDriveListSorted.size();i++) {
+			clsSecondaryDataStructureContainer oDriveGoal = oDriveListSorted.get(i);
+			String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
+			String oDriveObject = getDriveObjectType(oDriveGoalContent);
+			String oDriveType = getDriveType(oDriveGoalContent);
+			int oDriveIntensity = getDriveIntensity(oDriveGoalContent);
+			
+			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
+				//Get goal content
+				String oPossibleDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
+				//If the drive and the object is found, add this content to the list
+				if (oPossibleDriveGoalContent.contains(oDriveType) && oPossibleDriveGoalContent.contains(oDriveObject)) {
+					oRetVal.add(oDriveGoal);
+				}
+			}
+			
+			if (oRetVal.isEmpty()==false) {
+				//Only the first drive demand is taken, else the second drive demand is on the turn.
+				break;	
+			} else if (oDriveIntensity==4) {
+				//If the Drive intensity is very high, then a drive goal must be constructed without an object
+				compriseDrives();
+				break;
+			}
+		}
+		
+		//compriseRuleList();	//This function does nothing
+		//compriseDrives();	//If the goallist is empty get the highest priority goal
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all possible reachable goals
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:06:21
+	 *
+	 * @param poPerception
+	 * @param poExtractedPrediction_IN
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> extractReachableDriveGoals(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Add Goals from the perception
+		oRetVal.addAll(compriseExternalPerception(poPerception));
+		
+		//Add goals from activated memories
+		oRetVal.addAll(comprisePrediction(poExtractedPrediction_IN));
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Sort the input list of the drive demands according to max pleasure
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:16:51
+	 *
+	 * @param poDriveDemandsList
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> sortDriveDemands(ArrayList<clsSecondaryDataStructureContainer> poDriveDemandsList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//If the list is empty return
+		if (poDriveDemandsList.size()<=1) {
+			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
+		}
+		
+		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
+		//FIXME CM: What drives do exist????
+		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+		
+		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
+		
+		ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>>();
+		
+		//Go through the original list
+		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
+			//The the content of each drive
+			clsSecondaryDataStructureContainer oContainer = poDriveDemandsList.get(i);
+			//Get the content of the datatype in the container
+			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
+			//Sort first for affect
+			int nAffect = getDriveIntensity(oContent);
+			//Sort then for drive
+			String oDriveType = getDriveType(oContent);
+			int nDriveIndex = oKeyWords.size()-oKeyWords.indexOf(oDriveType)-1;	//The higher the better
+			
+			int nIndex = 0;
+			//Increase index if the list is not empty
+			while((oNewList.isEmpty()==false) && 
+					(nIndex<oNewList.size()) &&
+					(oNewList.get(nIndex).a >= nAffect) &&
+					(oNewList.get(nIndex).b > nDriveIndex)) {
+				nIndex++;
+			}
+			
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffect, nDriveIndex, oContainer));
+		}
+		
+		//Add results to the new list
+		for (int i=0; i<oNewList.size();i++) {
+			oRetVal.add(i, oNewList.get(i).c);
+		}
+		
+		return oRetVal;
+	}
+	
+	/*private void sortGoalOutput() throws Exception {
 		//TD this function sorts moGoal_Output such that the moset pleasureful goals are listed first. this
 		//is a feature-fix. none of the later modules make a selection of the best plan currently. they just
 		//select what is first in list.
@@ -310,9 +436,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				moGoal_Output.add(oTemp);
 			}
 		}
-	}
+	}*/
 	
-	private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
+	/*private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
 		//FIXME : remove this method!!!
 		//TD 2011/05/01 - remove nourish or bit if sleep, repress, deposit, relax is at the same importance level
 		//but nothing is visible - very bad voodoo! the problem is that if the agent is very hungry he is doing nothing
@@ -337,7 +463,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			}
 		}
 		
-	}
+	}*/
 	
 	
 	
@@ -649,17 +775,55 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		return oRetVal; 
 	}
 	
+	/**
+	 * Get drive intensity or affect of a drive
+	 * (wendt)
+	 *
+	 * @since 05.08.2011 22:30:45
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
 	private int getDriveIntensity(String poDriveContent) {
 		int nIntensity =  0;
 		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
 		String oDriveIntensity = oDrive.split(_Delimiter01)[1];
 		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+		
 		return nIntensity;
 	}
 	
-	/*private String getDriveObject(String poDriveContent) {
-		
-	}*/
+	/**
+	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content
+	 * (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:33:54
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	private String getDriveType(String poDriveContent) {
+		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+		String oDriveType = oDrive.split(_Delimiter01)[0];
+
+		return oDriveType;
+	}
+	
+	/**
+	 * Extract the Drive object from an input string of a drive content
+	 * (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:33:52
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	private String getDriveObjectType(String poDriveContent) {
+		String oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
+		//String oDriveContentType = oDrive.split(_Delimiter01)[1];
+
+		return oDriveObject;
+	}
 	
 	/**
 	 * Use expectations as goals. They have the correct acts in their associated memories.
