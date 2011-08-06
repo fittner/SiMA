@@ -30,7 +30,7 @@ import pa._v38.storage.clsBlockedContentStorage;
 import config.clsBWProperties;
 
 /**
- * DOCUMENT (HINTERLEITNER) - insert description 
+ *  This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
  * 
  * @author deutsch
  * 03.03.2011, 15:22:10
@@ -39,7 +39,9 @@ import config.clsBWProperties;
 public class F37_PrimalRepressionForPerception extends clsModuleBase implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	/** DOCUMENT (hinterleitner) - insert description; @since 26.07.2011 13:10:46 */
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN; //Fantasies
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
@@ -52,7 +54,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
+	 *  Fill primal repression memory
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
@@ -72,6 +74,15 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 	
 	private void fillPrimalRepressionMemory() {
+		
+		
+		//Kategorien 
+		// Copy über 5.6.
+		// match Funktionen 
+		// Speicher mit der Urverdrängung: TPM, TP, Wahrnehmung 
+		
+		// UC: Torte aus der Wahrnehmung gestrichen, grosser schlechter Affektbeträge 
+		
 		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
 		
 		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
@@ -99,6 +110,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
 	 */
+	
 	@Override
 	public String stateToTEXT() {
 		String text ="";
@@ -106,6 +118,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
 		text += toText.listToTEXT("moPrimalRepressionMemory", moPrimalRepressionMemory);
+		
 		
 		return text;
 	}	
@@ -127,7 +140,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 	private void applyProperties(String poPrefix, clsBWProperties poProp) {
 		//String pre = clsBWProperties.addDot(poPrefix);
-	
+			
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -291,6 +304,7 @@ private clsPrimaryDataStructureContainer ConvertToTIContainer(
 	@Override
 	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
+		
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 		
 	}

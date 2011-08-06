@@ -122,7 +122,9 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 		moDrives_OUT = moDrives_IN;
 		
-		getDefaultProperties(moDescription); 
+		//Applyproperties(); 
+		
+		//getDefaultProperties(moDescription); 
 		
 
 	
@@ -149,6 +151,11 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 		
 		// see PhD Deutsch2011 p82 for what this is used for		
 		int i=0;
+		
+		//Konfigurationsparameter
+		//Definieren und Auslesen von den Properties
+		//applyproperties aus dem 
+		
 		
 		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
 		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);

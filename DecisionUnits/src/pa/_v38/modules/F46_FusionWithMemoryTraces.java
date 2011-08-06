@@ -67,7 +67,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	/* Module-Parameters */
 	
 	/**
-	 * DOCUMENT (HINTERLEITNER) - Association of TPMs (TP + Emotion, fantasies) with thing presentations 
+	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
 	 * Secondly the fantasies are added from the TPMs to the thing presentations
 	 * 
@@ -173,36 +173,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//AW: Is already done in retrieveActivatedMemories with the input moReturnedTPMemory_IN
 		
 	}
-	
-	
-
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 28.06.2011 14:32:48
-	 *
-	 * @param oContainerList
-	 */
-	/*private void attachFantasies(
-			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
-		//This function is alread done in retrieveActivatedMemories
-		// TODO (hinterleitner) - Auto-generated method stub
-		
-	}*/
-
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 28.06.2011 14:32:45
-	 *
-	 * @param oContainerList
-	 */
-	/*private void addValues(
-			ArrayList<clsPrimaryDataStructureContainer> oContainerList) {
-		// TODO (hinterleitner) - Auto-generated method stub
-		
-	}
-	*/
+	 
 
 	/* (non-Javadoc)
 	 *

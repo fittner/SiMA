@@ -59,7 +59,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
 		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();	//If no drive candidate is there, then it is initialized
@@ -161,7 +161,7 @@ protected void process_basic() {
 			clsDataStructurePA oDS=null;
 			double rMaxMatchfactor = 0.0; 
 			for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
-				//FIXME ISABELLA: Which type of comparison will be used, content, contenttype or drive qualities???????????????????????????
+				//FIXME ISABELLA: Which type of comparison will be used, content, contenttype or drive qualities?
 				if (oAss.getLeafElement()instanceof clsDriveMesh) {
 					if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > 0.1) {
 						if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > rMaxMatchfactor) {
