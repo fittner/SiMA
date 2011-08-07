@@ -7,14 +7,11 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.TreeMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -180,7 +177,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception, 
+	public void receive_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception, 
 			ArrayList<clsPrediction> poExtractedPrediction) {
 		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
@@ -229,8 +226,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
 		
 		
-		compriseRuleList();	//This function does nothing
-		compriseDrives();	//If the goallist is empty get the highest priority goal
+		//compriseRuleList();	//This function does nothing
+		//compriseDrives();	//If the goallist is empty get the highest priority goal
 		
 		/*try {
 			sortGoalOutput();
@@ -249,40 +246,48 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//1. Process goals with Superego???
 			//TODO AW: Something for the superego
-		compriseRuleList();
+		compriseRuleList();	//FIXME someone: This function does not do anything
 		//2. Sort the goals to get the most important goal first
-		ArrayList<clsSecondaryDataStructureContainer> oDriveListSorted = sortDriveDemands(poDriveList);
+		ArrayList<clsSecondaryDataStructureContainer> oDriveListSorted = clsAffectTools.sortDriveDemands(poDriveList);
 		//3. Go through the drivelist
 		//The first drive is the one with the highest priority
 		for (int i=0; i<oDriveListSorted.size();i++) {
 			clsSecondaryDataStructureContainer oDriveGoal = oDriveListSorted.get(i);
 			String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
-			String oDriveObject = getDriveObjectType(oDriveGoalContent);
-			String oDriveType = getDriveType(oDriveGoalContent);
-			int oDriveIntensity = getDriveIntensity(oDriveGoalContent);
+			String oDriveObject = clsAffectTools.getDriveObjectType(oDriveGoalContent);
+			String oDriveType = clsAffectTools.getDriveType(oDriveGoalContent);
+			int oDriveIntensity = clsAffectTools.getDriveIntensity(oDriveGoalContent);
 			
 			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
 				//Get goal content
-				String oPossibleDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
-				//If the drive and the object is found, add this content to the list
-				if (oPossibleDriveGoalContent.contains(oDriveType) && oPossibleDriveGoalContent.contains(oDriveObject)) {
-					oRetVal.add(oDriveGoal);
+				String oPossibleDriveGoalContent = ((clsWordPresentation)oObjectContianer.getMoDataStructure()).getMoContent();
+				//If the drive and the object is found, add this content to the list from the possible drive goals from memory and perception
+				if (oPossibleDriveGoalContent.substring(0, oDriveType.length()).equals(oDriveType) && oPossibleDriveGoalContent.contains(oDriveObject)) {
+					oRetVal.add(oObjectContianer);
 				}
 			}
 			
 			if (oRetVal.isEmpty()==false) {
 				//Only the first drive demand is taken, else the second drive demand is on the turn.
+				//IF there are goals from the first drive goal, then no further search is necessary
 				break;	
-			} else if (oDriveIntensity==4) {
-				//If the Drive intensity is very high, then a drive goal must be constructed without an object
-				compriseDrives();
-				break;
+				//4 = VERY HIGH
+			} else {
+				if (oDriveIntensity==4) {
+					//If the drive does have Affect = VERY HIGH, if the next drive does exist and also have an affect = VERY HIGH
+					if (i+1<oDriveListSorted.size()) {
+						if (clsAffectTools.getDriveIntensity(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<4) {
+							//If the Drive intensity is very high and the following drives do not have an Affect=VERY HIGH, 
+							//then a drive goal must be constructed without an object
+							clsSecondaryDataStructureContainer oNecessaryDrive = compriseDrives(oDriveGoal);
+							//This container is always != null
+							oRetVal.add(oNecessaryDrive);
+							break;
+						}
+					} 
+				}
 			}
 		}
-		
-		//compriseRuleList();	//This function does nothing
-		//compriseDrives();	//If the goallist is empty get the highest priority goal
-		
 		return oRetVal;
 	}
 	
@@ -308,61 +313,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		return oRetVal;
 	}
 	
-	/**
-	 * Sort the input list of the drive demands according to max pleasure
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 05.08.2011 22:16:51
-	 *
-	 * @param poDriveDemandsList
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> sortDriveDemands(ArrayList<clsSecondaryDataStructureContainer> poDriveDemandsList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//If the list is empty return
-		if (poDriveDemandsList.size()<=1) {
-			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
-		}
-		
-		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
-		//FIXME CM: What drives do exist????
-		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
-		
-		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
-		
-		ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>>();
-		
-		//Go through the original list
-		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
-			//The the content of each drive
-			clsSecondaryDataStructureContainer oContainer = poDriveDemandsList.get(i);
-			//Get the content of the datatype in the container
-			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
-			//Sort first for affect
-			int nAffect = getDriveIntensity(oContent);
-			//Sort then for drive
-			String oDriveType = getDriveType(oContent);
-			int nDriveIndex = oKeyWords.size()-oKeyWords.indexOf(oDriveType)-1;	//The higher the better
-			
-			int nIndex = 0;
-			//Increase index if the list is not empty
-			while((oNewList.isEmpty()==false) && 
-					(nIndex<oNewList.size()) &&
-					(oNewList.get(nIndex).a >= nAffect) &&
-					(oNewList.get(nIndex).b > nDriveIndex)) {
-				nIndex++;
-			}
-			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffect, nDriveIndex, oContainer));
-		}
-		
-		//Add results to the new list
-		for (int i=0; i<oNewList.size();i++) {
-			oRetVal.add(i, oNewList.get(i).c);
-		}
-		
-		return oRetVal;
-	}
+
 	
 	/*private void sortGoalOutput() throws Exception {
 		//TD this function sorts moGoal_Output such that the moset pleasureful goals are listed first. this
@@ -490,35 +441,54 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		// the decision can be done, that exactly this drive has to be satisfied even there
 		// is no object in the area right now that can be used to do this. Hence the goal 
 		// would be to roam around and find an object that can be used to satisfy the drive. 
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		String oGoalContent; 
-		clsWordPresentation oGoal = null; 
 		
-		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
-		
-		if(oMaxDemand != null){
-			String oDriveContent = oMaxDemand.a; 
-			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
-					
-			for (clsSecondaryDataStructureContainer oExternalPerception : poExternalPerception ){
-					String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
-								
-					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
-					// only one goal is selected!
-					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
-					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
-					// only by the first part.
-					if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
-						oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
-						oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-						oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
-						oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-						
-						oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-					}
+		//new AW 20110807
+		//get the secondary structure
+		ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = new ArrayList<clsSecondaryDataStructureContainer>();
+		for (clsDataStructureContainer oCont : poExternalPerception) {
+			if (oCont instanceof clsSecondaryDataStructureContainer) {
+				try {
+					oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) oCont);
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			}
 		}
+		
+		oRetVal.addAll(oDriveGoals);
+	
+		
+		//ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		//String oGoalContent; 
+		//clsWordPresentation oGoal = null; 
+		
+		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+		//AW 20110807: The best goals are assigned later
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//if(oMaxDemand != null){
+		//	String oDriveContent = oMaxDemand.a; 
+		//	clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
+					
+//		for (clsSecondaryDataStructureContainer oExternalPerception : poExternalPerception ){
+//				String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
+//								
+//					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+//					// only one goal is selected!
+//					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
+//					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
+//					// only by the first part.
+//				if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
+//					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+//					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+//					oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
+//					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+//						
+//					oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+//			}
+//		}
 		
 		return oRetVal;
 	}
@@ -679,22 +649,24 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * 19.04.2011, 07:17:23
 	 *
 	 */
-	private void compriseDrives() {
+	private clsSecondaryDataStructureContainer compriseDrives(clsSecondaryDataStructureContainer oDriveContainer) {
 	   // In case moGoal_output was not filled, the drive with the highest priority used as output
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		clsSecondaryDataStructureContainer oRetVal = null;
 		
-		if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
-			String oDriveContent = oMaxDemand.a; 
-			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b;
+		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
+		String oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
+			//clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand;
 			
-			if( moGoal_Output.size() == 0 ){
-				String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
-				clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
-				oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-				moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-			}
-		}
+			//if( moGoal_Output.size() == 0 ){
+		String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
+		clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
+		oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+		oRetVal = new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS);
+		
+		return oRetVal;
 	}
 	
 
@@ -706,7 +678,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param moDriveList2
 	 * @return
 	 */
-	private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
+	/*private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
 		clsPair <String, clsSecondaryDataStructureContainer> oRetVal = null;
 		
 		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer>>> oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
@@ -773,57 +745,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		}
 		
 		return oRetVal; 
-	}
-	
-	/**
-	 * Get drive intensity or affect of a drive
-	 * (wendt)
-	 *
-	 * @since 05.08.2011 22:30:45
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	private int getDriveIntensity(String poDriveContent) {
-		int nIntensity =  0;
-		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
-		String oDriveIntensity = oDrive.split(_Delimiter01)[1];
-		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
-		
-		return nIntensity;
-	}
-	
-	/**
-	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content
-	 * (wendt) - insert description
-	 *
-	 * @since 05.08.2011 22:33:54
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	private String getDriveType(String poDriveContent) {
-		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
-		String oDriveType = oDrive.split(_Delimiter01)[0];
-
-		return oDriveType;
-	}
-	
-	/**
-	 * Extract the Drive object from an input string of a drive content
-	 * (wendt) - insert description
-	 *
-	 * @since 05.08.2011 22:33:52
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	private String getDriveObjectType(String poDriveContent) {
-		String oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
-		//String oDriveContentType = oDrive.split(_Delimiter01)[1];
-
-		return oDriveObject;
-	}
+	}*/
 	
 	/**
 	 * Use expectations as goals. They have the correct acts in their associated memories.
@@ -839,7 +761,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//Get the expectations of the acts, and make them to goals
 		
 		//Get the drive with the higest value
-		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
 		
 		//find all drive components in the predictions
 		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
@@ -859,10 +781,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
 							oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
 					oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
+					oRetVal.add(oGoalContainer);
 				//}
 			}
 			
-			oRetVal.addAll(oFoundGoals);
+			//oRetVal.addAll(oFoundGoals);
 			
 		}
 		return oRetVal;
@@ -983,7 +906,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+			ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}

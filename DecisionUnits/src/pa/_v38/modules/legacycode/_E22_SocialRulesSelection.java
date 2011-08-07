@@ -160,7 +160,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_r
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+	public void receive_I6_1(ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		//AW 20110602: Input added associated memories
 		moPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poPerception); 
 	}

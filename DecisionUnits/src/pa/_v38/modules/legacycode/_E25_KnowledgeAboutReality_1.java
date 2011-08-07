@@ -124,7 +124,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements I6_
 	 * @see pa.interfaces.I2_12#receive_I2_12(int)
 	 */
 	@Override
-	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+	public void receive_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception,
 			   					ArrayList<clsSecondaryDataStructureContainer> poDriveList,
 			   					ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
@@ -234,7 +234,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements I6_
 	 */
 	@Override
 	public void send_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+			ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		// 
 		
 	}	

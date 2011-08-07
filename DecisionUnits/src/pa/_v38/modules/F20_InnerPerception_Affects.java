@@ -178,7 +178,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
 	@Override
-	public void receive_I6_4(ArrayList<clsSecondaryDataStructureContainer> poPerception) {
+	public void receive_I6_4(ArrayList<clsDataStructureContainer> poPerception) {
 		//moPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception_old);
 		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 	}

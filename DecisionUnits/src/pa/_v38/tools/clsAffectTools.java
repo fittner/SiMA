@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -58,47 +59,6 @@ public class clsAffectTools {
 		}
 		return rAbsoluteAffect;
 	}
-	
-	/**
-	 * Create a list of affects from a list of drives
-	 * (wendt)
-	 *
-	 * @since 27.07.2011 09:45:00
-	 *
-	 * @param poDriveList_Input
-	 * @return
-	 */
-//	public static ArrayList<clsDataStructurePA> extractAffect(ArrayList<clsDriveMesh> poDriveList_Input) {
-//		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
-//		for(clsDriveMesh oEntry : poDriveList_Input){
-//			clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, 
-//					new clsPair<String, Object>(eDataType.AFFECT.toString(), oEntry.getPleasure()));
-//			
-//			oPattern.add(oAffect);
-//		}
-//		
-//		return oPattern;
-//	}
-	
-	/**
-	 * Get Associated content from input drives
-	 * (wendt)
-	 *
-	 * @since 27.07.2011 09:50:29
-	 *
-	 * @param poDriveList_Input
-	 * @return
-	 */
-//	public static ArrayList<clsDataStructurePA> extractAssociationsFromDriveMeshList(ArrayList<clsDriveMesh> poDriveList_Input) {
-//		ArrayList<clsDataStructurePA> oPattern = new ArrayList<clsDataStructurePA>();
-//		for(clsDriveMesh oEntry : poDriveList_Input){
-//			for(clsAssociation oAssociation : oEntry.getMoAssociatedContent()){
-//				oPattern.add(oAssociation.getMoAssociationElementB()); 
-//			}
-//		}
-//		
-//		return oPattern;
-//	}
 	
 	/**
 	 * Get all possible goals from the intention of the perception act.
@@ -155,7 +115,7 @@ public class clsAffectTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	private static ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer) throws Exception {
+	public static ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer) throws Exception {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//FIXME AW Hack - Get Content from Base Image and drives from the sub images
 		//Go through the base element
@@ -270,7 +230,7 @@ public class clsAffectTools {
 	private static String createSubcontents(String poBaseContent, String poBaseContentType, String poSubContent, String poDriveGoal) {
 		String oRetVal = "";
 		
-		String oEntityString = "ENTITY";
+		//String oEntityString = "ENTITY";
 		
 		
 		//If the content itself is the base content, then nothing has to be done, else the base content must be adapted to an image
@@ -280,12 +240,12 @@ public class clsAffectTools {
 		}
 		
 		//Create new subcontent
-		String oNewSubcontent = "";
+		//String oNewSubcontent = "";
 
 		//Split all parts of the sub base content
-		String[] oSubEntries = poSubContent.split("\\|");
+		//String[] oSubEntries = poSubContent.split("\\|");
 		//First add the entity if found
-		for (String oE : oSubEntries) {
+		/*for (String oE : oSubEntries) {
 			if (oE.contains(oEntityString)) {
 				oNewSubcontent += oE + _Delimiter03;
 				break;
@@ -296,14 +256,121 @@ public class clsAffectTools {
 			if (oE.contains(poDriveGoal)) {
 				oNewSubcontent += oE + _Delimiter03;
 			}
-		}
+		}*/
 
 		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|NOURISH:HIGH|BITE:HIGH|
 		
-		oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + oNewSubcontent;
+		//oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + oNewSubcontent;
+		oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + poSubContent;
 		
 		return oRetVal;
 		
+	}
+	
+	/**
+	 * Sort the input list of the drive demands according to max pleasure
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:16:51
+	 *
+	 * @param poDriveDemandsList
+	 */
+	public static ArrayList<clsSecondaryDataStructureContainer> sortDriveDemands(ArrayList<clsSecondaryDataStructureContainer> poDriveDemandsList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//If the list is empty return
+		if (poDriveDemandsList.size()<=1) {
+			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
+		}
+		
+		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
+		//FIXME CM: What drives do exist????
+		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+		
+		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
+		
+		ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>>();
+		
+		//Go through the original list
+		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
+			//The the content of each drive
+			clsSecondaryDataStructureContainer oContainer = poDriveDemandsList.get(i);
+			//Get the content of the datatype in the container
+			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
+			//Sort first for affect
+			int nAffect = getDriveIntensity(oContent);
+			//Sort then for drive
+			String oDriveType = getDriveType(oContent);
+			int nDriveIndex = oKeyWords.size()-oKeyWords.indexOf(oDriveType)-1;	//The higher the better
+			
+			int nIndex = 0;
+			//Increase index if the list is not empty
+			while((oNewList.isEmpty()==false) && 
+					(nIndex<oNewList.size()) &&
+					(oNewList.get(nIndex).a >= nAffect) &&
+					(oNewList.get(nIndex).b > nDriveIndex)) {
+				nIndex++;
+			}
+			
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffect, nDriveIndex, oContainer));
+		}
+		
+		//Add results to the new list
+		for (int i=0; i<oNewList.size();i++) {
+			oRetVal.add(i, oNewList.get(i).c);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get drive intensity or affect of a drive
+	 * (wendt)
+	 *
+	 * @since 05.08.2011 22:30:45
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	public static int getDriveIntensity(String poDriveContent) {
+		int nIntensity =  0;
+		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+		String oDriveIntensity = oDrive.split(_Delimiter01)[1];
+		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+		
+		return nIntensity;
+	}
+	
+	/**
+	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content
+	 * (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:33:54
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	public static String getDriveType(String poDriveContent) {
+		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+		String oDriveType = oDrive.split(_Delimiter01)[0];
+
+		return oDriveType;
+	}
+	
+	/**
+	 * Extract the Drive object from an input string of a drive content
+	 * (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:33:52
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	public static String getDriveObjectType(String poDriveContent) {
+		String oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
+		//String oDriveContentType = oDrive.split(_Delimiter01)[1];
+
+		return oDriveObject;
 	}
 
 	

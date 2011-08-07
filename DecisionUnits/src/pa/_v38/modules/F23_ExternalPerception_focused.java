@@ -11,13 +11,14 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.toText;
 
 /**
@@ -33,14 +34,14 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	public static final String P_MODULENUMBER = "23";
 	
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
-	private ArrayList<clsSecondaryDataStructureContainer> moPerception;
+	private ArrayList<clsDataStructureContainer> moEnvironmentalPerception_IN;
 	//AW 20110602 New input of the module
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
+	private ArrayList<clsDataStructureContainer> moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
@@ -73,10 +74,10 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 		text += toText.listToTEXT("moDriveList", moDriveList);
-		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
+		text += toText.listToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		
 		return text;
@@ -129,8 +130,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
-		moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
+	public void receive_I6_1(ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+		moEnvironmentalPerception_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poPerception);
 		//AW 20110602 Added Associtated memories
 		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poAssociatedMemoriesSecondary);
 	}
@@ -157,12 +158,29 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void process_basic() {
+		
+		moEnvironmentalPerception_OUT = new ArrayList<clsDataStructureContainer>();
+		
+		for (clsDataStructureContainer oCont : moEnvironmentalPerception_IN) {
+			if (oCont instanceof clsSecondaryDataStructureContainer) {
+				clsSecondaryDataStructureContainer oFocusedPerception = focusPerception((clsSecondaryDataStructureContainer) oCont);
+				moEnvironmentalPerception_OUT.add(oFocusedPerception);
+			} else if (oCont instanceof clsPrimaryDataStructureContainer) {
+				moEnvironmentalPerception_OUT.add(oCont);
+			}
+		}
+		
+		
+		
+		
+		
+		
 		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
 		//that depends on the evaluation of external and internal perception (moDriveList); 
 		//
 		//Actual state: no ordering! 
 		
-		boolean switched = false;
+		/*boolean switched = false;
 		clsSecondaryDataStructureContainer sdsc;
 		
 		if (!moPerception.isEmpty())
@@ -172,7 +190,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			{
 				switched = false;
 				for (int i = 0; i < moPerception.size() - 1; i++)
-				{
+				
 					//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
 					//Correct this START
 					if (i+1 < moPerception.size()) {
@@ -190,10 +208,37 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 					//Correct this END
 				}
 			} while (switched == true);
+		}*/
+		
+		
+		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
+	}
+	
+	/**
+	 * All drives within the perceived images are extracted and sorted. Only the 20 (or another number) of objects are passed
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 07.08.2011 23:05:42
+	 *
+	 * @param poPerceptionSeondary
+	 * @return
+	 */
+	private clsSecondaryDataStructureContainer focusPerception(clsSecondaryDataStructureContainer poPerceptionSecondary) {
+		clsSecondaryDataStructureContainer oRetVal = null;
+		
+		try {
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = clsAffectTools.getWPMDriveGoals(poPerceptionSecondary);
+			//ArrayList<clsSecondaryDataStructureContainer> oSortedDriveGoals  = clsAffectTools.sortDriveDemands(oDriveGoals);
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		moFocusedPerception_Output = moPerception;
-		moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
+		oRetVal = poPerceptionSecondary;
+				
+		
+		return oRetVal;
 	}
 	
 	/* (non-Javadoc)
@@ -205,7 +250,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I6_6(moFocusedPerception_Output, moDriveList, moAssociatedMemoriesSecondary_OUT);
+		send_I6_6(moEnvironmentalPerception_OUT, moDriveList, moAssociatedMemoriesSecondary_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -216,7 +261,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+	public void send_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList,
 			   				ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
