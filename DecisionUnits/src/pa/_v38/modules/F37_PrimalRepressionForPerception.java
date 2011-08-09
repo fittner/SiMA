@@ -1,14 +1,14 @@
 /**
  * E37_PrimalRepressionForPerception.java: DecisionUnits - pa.modules._v38
+ * This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
  * 
- * @author deutsch
- * 03.03.2011, 15:22:10
+ * @author hinterleitner
+ * 05.08.2011, 10:22:10
  */
 package pa._v38.modules;
 
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -30,10 +30,10 @@ import pa._v38.storage.clsBlockedContentStorage;
 import config.clsBWProperties;
 
 /**
- *  This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
  * 
- * @author deutsch
- * 03.03.2011, 15:22:10
+ * 
+ * @author hinterleitner
+ * 05.08.2011, 10:22:10
  * 
  */
 public class F37_PrimalRepressionForPerception extends clsModuleBase implements I5_6_receive, I5_7_send  {
@@ -76,31 +76,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	private void fillPrimalRepressionMemory() {
 		
 		
-		//Kategorien 
-		// Copy über 5.6.
-		// match Funktionen 
-		// Speicher mit der Urverdrängung: TPM, TP, Wahrnehmung 
 		
-		// UC: Torte aus der Wahrnehmung gestrichen, grosser schlechter Affektbeträge 
-		
-		moPrimalRepressionMemory = new ArrayList<clsTripple<String,String,ArrayList<Double>>>();
-		
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		moPrimalRepressionMemory.add( new clsTripple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
 	}
 	
 	/* (non-Javadoc)
