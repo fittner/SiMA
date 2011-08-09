@@ -144,7 +144,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	@Override
 	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
-		moForbiddenDrives_Input = poForbiddenDrives;
+		moForbiddenDrives_Input = (ArrayList<String>) deepCopy (poForbiddenDrives);
 	}
 
 	/* (non-Javadoc)
