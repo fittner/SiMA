@@ -6,7 +6,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/World"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry kind="lib" path="C:/Work/ARSIN_V01/ARSIN_V01/libraries/mason.jar"/>
-	<classpathentry kind="lib" path="C:/Work/ARSIN_V01/ARSIN_V01/libraries/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mason_physics2D.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
