@@ -3,6 +3,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Mason"/>
+	<classpathentry kind="lib" path="C:/Work/ARSIN_V01/ARSIN_V01/libraries/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
