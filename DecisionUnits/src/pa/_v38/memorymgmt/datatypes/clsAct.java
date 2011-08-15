@@ -25,7 +25,7 @@ public class clsAct extends clsSecondaryDataStructure {
 	private ArrayList<clsWordPresentation> m_alWordpresentations;
 	String m_strTestDummy;
 	
-	private String moContent = "UNDEFINED"; 
+	//private String moContent = "UNDEFINED"; 
 	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -61,19 +61,19 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * 
 	 * @return the moContent
 	 */
-	public String getMoContent() {
-		return moContent;
-	}
-
-	/**
-	 * @author zeilinger
-	 * 17.03.2011, 00:47:55
-	 * 
-	 * @param moContent the moContent to set
-	 */
-	public void setMoContent(String moContent) {
-		this.moContent = moContent;
-	}
+//	public String getMoContent() {
+//		return moContent;
+//	}
+//
+//	/**
+//	 * @author zeilinger
+//	 * 17.03.2011, 00:47:55
+//	 * 
+//	 * @param moContent the moContent to set
+//	 */
+//	public void setMoContent(String moContent) {
+//		this.moContent = moContent;
+//	}
 
 	/**
 	 * @author zeilinger

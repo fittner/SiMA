@@ -18,26 +18,26 @@ import pa._v38.memorymgmt.enums.eDataType;
  */
 public class clsWordPresentation extends clsSecondaryDataStructure{
 	
-	private String moContent = "UNDEFINED"; 
-	/**
-	 * @author zeilinger
-	 * 17.03.2011, 00:52:49
-	 * 
-	 * @return the moContent
-	 */
-	public String getMoContent() {
-		return moContent;
-	}
-
-	/**
-	 * @author zeilinger
-	 * 17.03.2011, 00:52:49
-	 * 
-	 * @param moContent the moContent to set
-	 */
-	public void setMoContent(String moContent) {
-		this.moContent = moContent;
-	}
+//	private String moContent = "UNDEFINED"; 
+//	/**
+//	 * @author zeilinger
+//	 * 17.03.2011, 00:52:49
+//	 * 
+//	 * @return the moContent
+//	 */
+//	public String getMoContent() {
+//		return moContent;
+//	}
+//
+//	/**
+//	 * @author zeilinger
+//	 * 17.03.2011, 00:52:49
+//	 * 
+//	 * @param moContent the moContent to set
+//	 */
+//	public void setMoContent(String moContent) {
+//		this.moContent = moContent;
+//	}
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 

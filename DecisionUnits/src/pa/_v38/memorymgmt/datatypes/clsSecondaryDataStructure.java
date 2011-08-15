@@ -26,6 +26,28 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
+	
+	protected String moContent = "UNDEFINED"; 
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:49
+	 * 
+	 * @return the moContent
+	 */
+	public String getMoContent() {
+		return moContent;
+	}
+
+	/**
+	 * @author zeilinger
+	 * 17.03.2011, 00:52:49
+	 * 
+	 * @param moContent the moContent to set
+	 */
+	public void setMoContent(String moContent) {
+		this.moContent = moContent;
+	}
+	
 	public clsSecondaryDataStructure(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 	}

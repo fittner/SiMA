@@ -257,8 +257,9 @@ public abstract class clsDataStructureComparison {
 		}
 		
 		//Remove duplicate structures
-		oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
-		
+		if (oCompareContainer!=null) {
+			oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
+		}
 		//Set moInstanceID for all structures in the container
 		//clsDataStructureTools.createInstanceFromType(oCompareContainer);
 		

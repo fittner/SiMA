@@ -106,7 +106,29 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
 		
 		for (clsAssociation oEntry : moAssociatedDataStructures) {
-			if (oEntry.getRootElement().getMoDSInstance_ID() == poAssociationRoot.getMoDSInstance_ID()) {
+			if ((oEntry.getRootElement().getMoDSInstance_ID() == poAssociationRoot.getMoDSInstance_ID()) && oEntry.getRootElement().moDSInstance_ID > 0) {
+				oReturnList.add(oEntry);
+			}
+		}
+		return oReturnList;
+	}
+	
+	/**
+	 * If the data structure can be found in the leaf or root of an association, it is taken, no matter if it is a part of the container
+	 * (wendt)
+	 *
+	 * @since 15.08.2011 23:21:29
+	 *
+	 * @param poDS
+	 * @return
+	 */
+	public ArrayList<clsAssociation> getAnyAssociatedDataStructures(clsDataStructurePA poDS) {
+		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
+		
+		for (clsAssociation oEntry : moAssociatedDataStructures) {
+			if (((oEntry.getRootElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID()) || 
+					(oEntry.getLeafElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID())) && 
+					(poDS.getMoDSInstance_ID() > 0)) {
 				oReturnList.add(oEntry);
 			}
 		}

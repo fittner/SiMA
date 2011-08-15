@@ -12,6 +12,7 @@ import java.util.Arrays;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
@@ -171,18 +172,20 @@ public class clsAffectTools {
 		
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 
+		String oExternalContent = "";
+		if (poInput instanceof clsWordPresentation) {
+			oExternalContent = ((clsWordPresentation)poInput).getMoContent();
+		} else if (poInput instanceof clsWordPresentationMesh) {
+			oExternalContent = ((clsWordPresentationMesh)poInput).getMoContent();
+		}
+		else {
+			throw new Exception("clsAffectTools: getDriveGoals: This datatype is an unallowed input");
+		}
+		
 		//Go through all drive goals in the list
 		for (String oDriveGoal : oPossibleDriveGoals) {
 			//Set the input 
-			String oExternalContent = "";
-			if (poInput instanceof clsWordPresentation) {
-				oExternalContent = ((clsWordPresentation)poInput).getMoContent();
-			} else if (poInput instanceof clsWordPresentationMesh) {
-				oExternalContent = ((clsWordPresentationMesh)poInput).getMoContent();
-			}
-			else {
-				throw new Exception("clsAffectTools: getDriveGoals: This datatype is an unallowed input");
-			}
+			
 			//Check if the word presentation contains any of the possible drive goals
 			if(oExternalContent.contains(oDriveGoal)) {
 			//Get the base expression
@@ -207,10 +210,19 @@ public class clsAffectTools {
 				
 				//Define data structure for the goal
 				clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-				//Get all associated structures with this goal
-				ArrayList<clsAssociation> oAssociatedDS = poContainer.getMoAssociatedDataStructures(poInput);
+				//Create an association with that word presentation of that goal
+				clsAssociationSecondary oGoalObjectAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoal, poInput, "HASASSOCIATION", 1.0);
+				ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+				oAssociatedDS.add(oGoalObjectAss);
 				//Create the container
 				oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+				
+				//Set Instance ID here
+				for (clsSecondaryDataStructureContainer oDS : oRetVal) {
+					oDS.getMoDataStructure().setMoDSInstance_ID(oDS.getMoDataStructure().hashCode());
+					//clsDataStructureTools.createInstanceFromType(oDS);
+				}
+				
 			}
 		}
 		return oRetVal;
@@ -297,6 +309,10 @@ public class clsAffectTools {
 			clsSecondaryDataStructureContainer oContainer = poDriveDemandsList.get(i);
 			//Get the content of the datatype in the container
 			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
+			
+			//Recognize if the string is a drive demand or a drive goal. If it is a drive demand, then do nothing, return the drive demand. If it is a drive goal, 
+			//convert to drive demand
+			
 			//Sort first for affect
 			int nAffect = getDriveIntensity(oContent);
 			//Sort then for drive
@@ -335,7 +351,24 @@ public class clsAffectTools {
 	public static int getDriveIntensity(String poDriveContent) {
 		int nIntensity =  0;
 		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
-		String oDriveIntensity = oDrive.split(_Delimiter01)[1];
+		String[] oDriveSplit = oDrive.split(_Delimiter01);
+		String oDriveIntensity = "";
+		//If it is a drive demand, then this string is > 1
+		if (oDriveSplit.length > 1) {
+			oDriveIntensity = oDriveSplit[1];
+		} else {
+		//else it is a goal
+			//Find oDrive
+			String[] oSplitParts = poDriveContent.split("\\" + _Delimiter03);
+			for (String oE : oSplitParts) {
+				if (oE.contains(oDrive + _Delimiter01)) {
+					oDriveIntensity = oE.substring(oE.indexOf(_Delimiter01)+1);
+					break;
+				}
+			}
+			
+		}
+		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
 		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
 		
 		return nIntensity;
