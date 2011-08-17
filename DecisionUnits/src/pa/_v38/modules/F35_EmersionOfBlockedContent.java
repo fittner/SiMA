@@ -9,58 +9,58 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsBlockedContentStorage;
+import pa._v38.storage.DT2_BlockedContentStorage;
 
 /**
- * DOCUMENT (wendt) - insert description 
+ * Emersion of blocked content. The inputs of the perception and associated memories are compared with
+ * content of the repressed content storage. The content of the repressed content storage is activated
+ * if there is a match. The blocked content storage contains both drive meshes and images 
  * 
- * @author deutsch
+ * @author wendt
  * 07.10.2009, 11:16:58
  * 
  */
-public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itfMinimalModelMode, I5_7_receive, I5_8_send {
+public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send {
 	public static final String P_MODULENUMBER = "35";
-	public static String P_CONTEXT_SENSTITIVITY = "CONTEXT_SENSITIVITY"; 
 	
-	private clsBlockedContentStorage moBlockedContentStorage;
+	/** The blocked content storage, which is an Arraylist for data structures */
+	private DT2_BlockedContentStorage moBlockedContentStorage;
 	
+	/** Input perceived image (type template image) */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	/** Input associated activated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
+	/** Output perceived image (type template image) */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	/** Output associated activated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
-	
-	private double mrContextSensitivity = 0.8;
-	private boolean mnMinimalModel;
-	
 
 	/**
-	 * DOCUMENT (wendt) - insert description 
-	 * 
-	 * @author deutsch
-	 * 03.03.2011, 16:24:23
+	 * Get the blocked content storage. Apply properties from the config files.  
+	 *
+	 * @since 25.07.2011 11:05:42
 	 *
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poInterfaceData
+	 * @param poKnowledgeBaseHandler
+	 * @param poBlockedContentStorage
 	 * @throws Exception
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsBlockedContentStorage poBlockedContentStorage)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -69,43 +69,39 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		applyProperties(poPrefix, poProp);
 	}
 	
+
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 14.04.2011, 17:36:19
+	 * @since 25.07.2011 11:05:44
 	 * 
-	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToTEXT()
 	 */
 	@Override
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		text += toText.valueToTEXT("mrContextSensitivity", mrContextSensitivity);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
 		return text;
 	}	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty(pre+P_CONTEXT_SENSTITIVITY, 0.8);
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
-		mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
-		//mnMinimalModel = false;
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
+		//mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
 	}
 
 	/* (non-Javadoc)
@@ -118,6 +114,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
+		//Make a deepcopy of the input parameter, else the difference cannot be correctly displayed in statetotext
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
@@ -161,7 +158,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	@Override
 	protected void send() {
 		send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
-			
 	}
 
 	/* (non-Javadoc)
@@ -216,64 +212,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		throw new java.lang.NoSuchMethodError();
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 19.03.2011, 08:36:59
-	 *
-	 * @param undefined
-	 * @param poDS
-	 * @param oSearchResult
-	 */
-	@Override
-	public <E> void search(
-			eDataType poDataType,
-			ArrayList<E> poPattern,
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
-		
-		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
-
-		createSearchPattern(poDataType, poPattern, oSearchPattern);
-		accessKnowledgeBase(poSearchResult, oSearchPattern); 
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 18.03.2011, 19:04:29
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#createSearchPattern(pa._v38.memorymgmt.enums.eDataType, java.lang.Object, java.util.ArrayList)
-	 */
-	@Override
-	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList,
-			ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
-		
-		for (E oEntry : poList){
-				if(oEntry instanceof clsDataStructurePA){
-					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
-				}
-				else if (oEntry instanceof clsPrimaryDataStructureContainer){
-					poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
-				}
-			}
-	}
-	
-	
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 22:34:44
-	 * 
-	 * @see pa.interfaces.knowledgebase.itfKnowledgeBaseAccess#accessKnowledgeBase(pa.tools.clsPair)
-	 */
-	@Override
-	public void accessKnowledgeBase(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult,
-									ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
-		
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
-	}
-	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -293,16 +231,16 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 	 * 
 	 * @see pa.interfaces.send._v38.I2_8_send#send_I2_8(java.util.ArrayList)
 	 */
-	@Override
-	/*public void send_I5_8(ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> poMergedPrimaryInformation) {
-		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation);
-		
-		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation);
+	/*public void send_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((D2_4_receive)moModuleList.get(D2_4)).receive_D2_4(poData, poAssociatedMemories);
 	}*/
-	public void send_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-	((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
 	
-	putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
+	
+	@Override
+	public void send_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
+	
+		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -330,14 +268,5 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements itf
 		moDescription = "It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming primary process data structures. If one is found, the repressed content is attached to it. All incoming images are forwarded to next modules, some of them with additional information attached.";
 	}
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
 	
 }

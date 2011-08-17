@@ -11,7 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I3_2_receive;
@@ -26,7 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * The neurosymbolic representation of bodily needs are converted to memory 
@@ -49,13 +49,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private HashMap<String, Double> moHomeostasisSymbols; 
 	
-	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
+	private ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
 	/**
-	 * basic CTOR 
+	 * basic constructor 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:56:22
@@ -66,17 +66,17 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @throws Exception 
 	 */
 	public F03_GenerationOfSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);			
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		int i=0;
@@ -96,8 +96,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		moHomeostaisImpactFactors = new HashMap<String, Double>();
 		
@@ -128,8 +128,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return text;
 	}
 		
-	private ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > createDriveMeshes() {
-		ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> > oDrives = new ArrayList< clsTripple<clsDriveMesh, String, ArrayList<String>> >();
+	private ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > createDriveMeshes() {
+		ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> >();
 		
 		oDrives.add( createDrives("LIFE", "NOURISH", "BLOODSUGAR") );
 		oDrives.add( createDrives("DEATH", "BITE", "BLOODSUGAR") );
@@ -143,11 +143,11 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return oDrives;
 	}
 	
-	private clsTripple<clsDriveMesh, String, ArrayList<String>> createDrives(String poContentType, String poContext, String poSource) {
+	private clsTriple<clsDriveMesh, String, ArrayList<String>> createDrives(String poContentType, String poContext, String poSource) {
 		clsDriveMesh oDriveMesh = createDriveMesh(poContentType, poContext);
 		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
 		
-		return new clsTripple<clsDriveMesh, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
+		return new clsTriple<clsDriveMesh, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
 	}
 /*	
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
@@ -199,7 +199,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		return oRetVal;
@@ -254,7 +254,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		moDriveTemplates = createDriveMeshes();
 		moDrives = new ArrayList< clsPair<clsDriveMesh,clsDriveDemand> >();
 		
-		for (clsTripple<clsDriveMesh, String, ArrayList<String>> oDT: moDriveTemplates) {
+		for (clsTriple<clsDriveMesh, String, ArrayList<String>> oDT: moDriveTemplates) {
 			clsDriveDemand oDD = getDriveDemand(oDT);
 			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDT.a, oDD) );
 		}
@@ -291,7 +291,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return rResult;
 	}
 	
-	private clsDriveDemand getDriveDemand(clsTripple<clsDriveMesh, String, ArrayList<String>> poDT) {
+	private clsDriveDemand getDriveDemand(clsTriple<clsDriveMesh, String, ArrayList<String>> poDT) {
 		double rDemand = 0.0;
 		
 		String oSource = poDT.b;

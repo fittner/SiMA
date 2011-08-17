@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -24,6 +24,14 @@ import pa._v38.tools.toText;
 /**
  * These sensors collect data of the environment. Typical sensors are the five senses: sight, 
  * hearing, smell, touch, and taste. Also non-humanoid sensors like radar are part of this module. 
+ * The only processing is the removement of the perception of the agent itself, which should not be.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * SPECIAL CASE<br>
+ * <i>moEnvironmentalData</i> is filled in the receive function by the clsProcessor with environmental perception symbols.<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moEnvironmentalData</i> holds the sensor symbols of the external perception (OUT I1.3)
  * 
  * @author muchitsch
  * 11.08.2009, 14:13:27
@@ -32,11 +40,12 @@ import pa._v38.tools.toText;
 public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receive, I1_3_send {
 	public static final String P_MODULENUMBER = "10";
 	
+	/** holds the sensor symbols of the external perception (OUT I1.3) @since 27.07.2011 13:41:40 */
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
 	private final int uid;
 	
 	/**
-	 * basic CTOR & initialization 
+	 * basic constructor & initialization 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:03:16
@@ -46,7 +55,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public F10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
+	public F10_SensorsEnvironment(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -70,17 +79,17 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		return text;
 	}	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -123,16 +132,16 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	}
 	
 	/**
-	 * due to some reason, the bubble sees himself in vision near. 
+	 * due to some reason, the ARSIN sees himself in vision near. 
 	 * remove this entry manually. should be dealt with in vision sensor in project BW.
-	 * it seems that this happens after the bubble has been moved manually. but not always!
+	 * it seems that this happens after the ARSIN has been moved manually. but not always!
 	 *
 	 * @since 12.07.2011 10:33:44
 	 */
 	private void removeSelfVision() {
-		//FIXME TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
+		//FIXME TD 2011/05/01 - due to some reason, the ARSIN sees himself in vision near. 
 		//remove this entry manually. should be dealt with in vision sensor in project BW.
-		//it seems that this happens after the bubble has been moved manually. but not always!
+		//it seems that this happens after the ARSIN has been moved manually. but not always!
 		
 		clsSensorRingSegment oVisionNear = (clsSensorRingSegment)moEnvironmentalData.get(eSensorExtType.VISION_NEAR);
 		ArrayList<clsSensorExtern> oDataObjects = oVisionNear.getDataObjects();
@@ -140,8 +149,8 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		for (clsSensorExtern oTemp:oDataObjects) {
 			clsSensorRingSegmentEntry oSRSE = (clsSensorRingSegmentEntry)oTemp;
 			
-			if (oSRSE.getEntityType() == eEntityType.BUBBLE) {
-				//ok its a bubble - now check if this bubble is us!
+			if (oSRSE.getEntityType() == eEntityType.ARSIN) {
+				//ok its a ARSIN - now check if this ARSIN is us!
 				if (oSRSE.getEntityId().endsWith("(#"+uid+")")) {
 					oDeleteCandidates.add(oSRSE);
 				}

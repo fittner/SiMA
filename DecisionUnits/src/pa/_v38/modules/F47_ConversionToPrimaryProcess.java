@@ -9,8 +9,6 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
@@ -22,7 +20,7 @@ import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * From an incoming list of action plan together with a list of their associated data structures, the primary data structures
@@ -37,14 +35,12 @@ import config.clsBWProperties;
  * 03.03.2011, 15:22:59
  * 
  */
-public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itfMinimalModelMode, I6_9_receive, I5_19_send {
+public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_9_receive, I5_19_send {
 	public static final String P_MODULENUMBER = "47";
 	//FIXME AW: Extends ModulebaseKB is a hack until results from the planning can be used. Then it should be changed 
 	//to clsModuleBase
 
 	
-	/** Minimal model */
-	private boolean mnMinimalModel;
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
 	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_OUT;
 	/** The list of generated actions */
@@ -64,7 +60,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 * @throws Exception
 	 */
 	public F47_ConversionToPrimaryProcess(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -81,24 +77,23 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
-		text += toText.valueToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
-		text += toText.valueToTEXT("moActionCommands_IN", moActionCommands_IN);
+		text += toText.listToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
+		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.listToTEXT("moActionCommands_IN", moActionCommands_IN);
 		
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -299,12 +294,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {
-			send_I5_19(moReturnedTPMemory_OUT);
-		} else {
-			send_I5_19(moReturnedTPMemory_OUT);
-		}
-
+		send_I5_19(moReturnedTPMemory_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -387,15 +377,5 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements itf
 	public void setDescription() {
 		moDescription = "Contents of various action plans can be used to reduce libido tension in E45. Before they can be processed by primary process functions, they have to be converted back again. The preconscious parts of the contents - the word presentations - are removed by this module.";
 	}	
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}	
-	
+		
 }

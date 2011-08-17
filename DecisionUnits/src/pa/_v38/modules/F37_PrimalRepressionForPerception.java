@@ -24,10 +24,10 @@ import pa._v38.memorymgmt.enums.eDataType;
 
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.storage.clsBlockedContentStorage;
-import config.clsBWProperties;
+import pa._v38.storage.DT2_BlockedContentStorage;
+import config.clsProperties;
 
 /**
  * 
@@ -49,7 +49,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 
 
 	private ArrayList<clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>> moAttachedRepressed_Output;
-	private ArrayList< clsTripple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	
 	 
 		
@@ -65,8 +65,8 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * @throws Exception
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
-			ArrayList<Object>> poInterfaceData, clsBlockedContentStorage poBlockedContentStorage)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
+			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
 		throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -74,9 +74,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 	
 	private void fillPrimalRepressionMemory() {
-		
-		
-		
+
 	}
 	
 	/* (non-Javadoc)
@@ -106,17 +104,19 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	@Override
 	protected void setModuleNumber() {mnModuleNumber = Integer.parseInt(P_MODULENUMBER);}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-			
+
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
+	
+
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -163,7 +163,7 @@ private void matchRepressedContent(clsPrimaryDataStructureContainer moConstrPerc
 				new clsPair<clsPrimaryDataStructureContainer, clsDriveMesh>(
 						oPDSC, 
 						new clsDriveMesh(
-								new clsTripple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
+								new clsTriple<Integer, eDataType, String>(0, eDataType.UNDEFINED, "c"), 
 								0, 
 								new double[]{0.1,0.5,0.6,0.3}, 
 								null, null)

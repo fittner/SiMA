@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
@@ -21,7 +21,6 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
@@ -37,16 +36,12 @@ import pa._v38.tools.toText;
  * 
  */
 public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase 
-			implements itfMinimalModelMode, I2_5_receive, I1_5_send, itfInspectorGenericActivityTimeChart  {
+			implements I2_5_receive, I1_5_send, itfInspectorGenericActivityTimeChart  {
 	public static final String P_MODULENUMBER = "31";
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private int mnCounter;
-	//private boolean mnMinimalModel = false;
-	private boolean mnMinimalModel; 
-	// CB 2011-07-06: bisher war hier mnMinimalModel = false gesetzt, wenn ich es hier aendere
-	//                hat es aber keinen Effekt, also brauch ich es auch nicht setzen.
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -60,7 +55,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F31_NeuroDeSymbolizationActionCommands(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
@@ -82,22 +77,21 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
 		
 		return text;
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -185,7 +179,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			}
 		} else {
 			/*
-			if (true || !mnMinimalModel) {
+			if (true) {
 				if (mnCounter == 75) {
 					moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 					mnCounter = 0;
@@ -346,30 +340,6 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	public void setDescription() {
 		moDescription = "Conversion of neuro-symbols into raw data.";
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author brandstaetter
-	 * 22.04.2011, 16:43:35
-	 * 
-	 * @see pa._v38.interfaces.itfMinimalModelMode#setMinimalModelMode(boolean)
-	 */
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author brandstaetter
-	 * 22.04.2011, 16:43:35
-	 * 
-	 * @see pa._v38.interfaces.itfMinimalModelMode#getMinimalModelMode()
-	 */
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
 	}
 
 	/* (non-Javadoc)

@@ -11,9 +11,9 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_9_receive;
@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
@@ -60,8 +60,14 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	
 	/* Module parameters */
 	/** Threshold for the matching process of images */
-	// TODO AW: This function is not in use yet, but will be very soon
-	private double mrMatchThreshold = 0.6;
+	private double mrMatchThreshold = 0.7;
+	/** The perceived image is compared to stored images in the libido storage in protege. For each found object, the attached
+	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
+	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
+	 * memories */
+	private double mrPerceptionReduceFactor = 1.0;
+	/** With this factor, the attached libido DM of a memory is multiplicated. */
+	private double mrMemoryReduceFactor = 0.5;
 	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
@@ -70,9 +76,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** The amount of libido, of which the libido buffer is reduced by */
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
-	private clsLibidoBuffer moLibidoBuffer;	
+	private DT1_LibidoBuffer moLibidoBuffer;	
+	
+	/** String for searching for content type from the storage of images to libido */
+	private String oLibidoImageString = "IMAGE:LIBIDO";
 	/**
-	 * Constructor of the libido buffer. Here the libido buffer is assigned 
+	 * Constructor of the libido buffer. Here the libido buffer is assigned
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:30:00
@@ -82,10 +91,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
+	public F45_LibidoDischarge(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			clsLibidoBuffer poLibidoBuffer,
+			DT1_LibidoBuffer poLibidoBuffer,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -178,17 +187,17 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 	}*/
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
@@ -199,6 +208,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#process_basic()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//Get available amount of free libido 
@@ -207,12 +217,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Clone input structure and make modification directly on the output
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
 		
-		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, 1.0);
+		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, mrPerceptionReduceFactor);
 		
 		//Go through all associated memories
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
-			mrLibidoReducedBy += setImageLibido(oContainer, 0.5);
+			mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
 		}
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
@@ -298,7 +308,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Find matching images for the input image
 		//FIXME AW: Set Threshold for matching = 0.9
 		
-		searchContainer(poInput, oSearchResultContainer, "LIBIDOIMAGE");
+		searchContainer(poInput, oSearchResultContainer, oLibidoImageString, mrMatchThreshold);
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);
@@ -344,7 +354,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Set new Pleasurevalue, which depends on the reducevalue
 					oNewDriveMesh.setMrPleasure(rDMReduce);
 					//Create new identifier
-					clsTripple<Integer, eDataType, String> oIdentifyer = new clsTripple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+					clsTriple<Integer, eDataType, String> oIdentifyer = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
 					//Create new association drivemesh but with the new root element
 					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsPrimaryDataStructure)oAssignmentElement.a);
 					//Add the assocation to the input container

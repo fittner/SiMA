@@ -16,7 +16,7 @@ import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * The base class for all functional module implementations. Provides functionality like three different implementation stages for the 
@@ -44,10 +44,6 @@ public abstract class clsModuleBase implements
 	/** Module ID - unique among all modules of the model v38; @since 12.07.2011 14:57:40 */
 	protected Integer mnModuleNumber;
 		
-	/** Variable for testing purposes.; @since 12.07.2011 14:58:06 */
-	@Deprecated
-	protected int mnTest = 0;
-	
 	/** The selected implementation stage; @since 12.07.2011 14:58:42 */
 	private eImplementationStage mnImplementationStage;
 	/** A map that contains an instance of each functional module. The integer is equivalent to mnModuleNumber and thus unique.; @since 12.07.2011 14:58:54 */
@@ -72,12 +68,12 @@ public abstract class clsModuleBase implements
 	 * @since 12.07.2011 15:11:07
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param poModuleList A reference to an empty map that is filled with references to the created modules. Needed by the clsProcessor.
 	 * @param poInterfaceData A reference to an empty map that is filled with data that is transmitted via the interfaces each step.
 	 * @throws Exception
 	 */
-	public clsModuleBase(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
+	public clsModuleBase(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		setProcessType();
 		setPsychicInstances();
@@ -98,17 +94,17 @@ public abstract class clsModuleBase implements
 	}	
 
 	/**
-	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface. 
+	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface. 
 	 *
 	 * @since 12.07.2011 15:14:56
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
 	 * @return
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		//nothing to do
 				
@@ -121,10 +117,10 @@ public abstract class clsModuleBase implements
 	 * @since 12.07.2011 15:15:03
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 */
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
 	}

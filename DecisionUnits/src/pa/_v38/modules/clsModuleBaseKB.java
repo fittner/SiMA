@@ -7,9 +7,10 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -21,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 
@@ -45,13 +47,13 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @since 13.07.2011 14:59:39
 	 *
  	 * @param poPrefix Prefix for the property-entries in the property file.
- 	 * @param poProp The property file in form of an instance of clsBWProperties.
+ 	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param poModuleList A reference to an empty map that is filled with references to the created modules. Needed by the clsProcessor.
 	 * @param poInterfaceData A reference to an empty map that is filled with data that is transmitted via the interfaces each step.
 	 * @param poKnowledgeBaseHandler A reference to the knowledgebase handler.
 	 * @throws Exception
 	 */
-	public clsModuleBaseKB(String poPrefix, clsBWProperties poProp,
+	public clsModuleBaseKB(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler)
@@ -130,7 +132,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public void searchContainer(
 			clsDataStructureContainer poPattern,
-			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType, double prThreshold) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
@@ -142,7 +144,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
 			
 			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern); 
+			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern, prThreshold); 
 			
 			//Set the old content type again...this is hack dirty bastard shit
 			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
@@ -181,9 +183,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchPattern
 	 */
 	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
-			clsPair<Integer, clsDataStructureContainer> poSearchPattern) {
+			clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold) {
 		//AW 20110629: New function for searching one total container
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern));
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern, prThreshold));
 	}
 	
 	
@@ -226,7 +228,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poInput
 	 * @return
 	 */
-	//TODO AW: Make this function available somewhere else
 	protected ArrayList<clsDataStructureContainer> extractAssociatedContainers(clsDataStructureContainer poInput) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
@@ -305,5 +306,51 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		}
 		
 		return oRetVal;
+	}
+	
+	protected clsSecondaryDataStructureContainer extractSecondaryContainer(clsPrimaryDataStructure poInput) {
+		//Get the WP
+		clsSecondaryDataStructureContainer oRetVal = null;
+		
+		clsAssociation oAss = getWP(poInput);
+		
+		if (oAss!=null) {
+			if (oAss.getLeafElement() instanceof clsWordPresentation) {
+				oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oAss.getLeafElement());
+			} else if (oAss.getRootElement() instanceof clsWordPresentation) {
+				oRetVal = (clsSecondaryDataStructureContainer) searchCompleteContainer(oAss.getRootElement());
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get the WP for a TP
+	 * (wendt)
+	 *
+	 * @since 27.07.2011 09:39:49
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	protected clsAssociation getWP(clsPrimaryDataStructure poDataStructure){
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		clsAssociation oRetVal = null; 
+		
+		//First check if WP can be found 
+		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+		
+		//If no WP can be found, try with WPM
+		if (oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() == 0) {
+			oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+			search(eDataType.WPM, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+		}
+		
+		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
+			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+		}
+		
+		return oRetVal;  
 	}
 }

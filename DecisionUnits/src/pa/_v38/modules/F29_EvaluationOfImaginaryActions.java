@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -46,7 +46,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F29_EvaluationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -69,17 +69,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -116,8 +116,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
-		mnTest += pnData;
+	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
+		//TODO
 		
 	}
 
@@ -156,19 +156,43 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommands_Output = getWordPresentations(moActionCommands_Input); 
+		//FIXME Somebody. Temp by AW. Remove and adapt for your purposes
+		ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
+		for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
+			moActionCommandsTemp.add((clsWordPresentation) oC.getMoDataStructure());
+		}
+		//No nulls are allowed
+		moActionCommands_Output = new ArrayList<clsWordPresentation>();
+		//Get the first command
+		if (moActionCommandsTemp.isEmpty()==false) {
+			moActionCommands_Output.add(moActionCommandsTemp.get(0));
+		}
+		
+		
+		 
 	}
 	
 	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
-	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	/**
+	 * convert the act to a word presentation, temp function!!!
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 09:50:37
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	/*private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
-		/*for (clsSecondaryDataStructureContainer oCont: poInput) {
-			oRetVal.add((clsAct)oCont.getMoDataStructure());
-		}*/
+		for (clsSecondaryDataStructureContainer oCont: poInput) {
+			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", ((clsAct)oCont.getMoDataStructure()).getMoContent()));
+			
+			oRetVal.add(oWP);
+		}
 		
 		return oRetVal;
-	}
+	}*/
 
 	/* (non-Javadoc)
 	 *

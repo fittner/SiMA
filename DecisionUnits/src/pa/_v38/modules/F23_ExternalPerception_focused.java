@@ -9,16 +9,16 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.interfaces.itfMinimalModelMode;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.toText;
 
 /**
@@ -30,22 +30,21 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBase implements itfMinimalModelMode, I6_1_receive, I6_3_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBase implements I6_1_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
-	private ArrayList<clsSecondaryDataStructureContainer> moPerception;
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
+	private ArrayList<clsDataStructureContainer> moEnvironmentalPerception_IN;
 	//AW 20110602 New input of the module
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
-	
-	
-	
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
-	private ArrayList<clsSecondaryDataStructureContainer> moFocusedPerception_Output; 
-	
-	//AW 20110602 New output of the module
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
+	private ArrayList<clsDataStructureContainer> moEnvironmentalPerception_OUT; 
+	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
-	private boolean mnMinimalModel;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -58,7 +57,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 * @throws Exception
 	 */
 	public F23_ExternalPerception_focused(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
@@ -75,25 +74,26 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("mnMinimalModel", mnMinimalModel);
-		text += toText.listToTEXT("moPerception", moPerception);
+		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 		text += toText.listToTEXT("moDriveList", moDriveList);
-		text += toText.listToTEXT("moFocusedPerception_Output", moFocusedPerception_Output);
-
+		text += toText.listToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
+		
 		return text;
 	}	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
-		mnMinimalModel = false;
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
+		
 		//nothing to do
 	}
 
@@ -130,8 +130,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
-		moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
+	public void receive_I6_1(ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+		moEnvironmentalPerception_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poPerception);
 		//AW 20110602 Added Associtated memories
 		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poAssociatedMemoriesSecondary);
 	}
@@ -158,45 +158,87 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void process_basic() {
-		if (!mnMinimalModel) {				
-			//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
-			//that depends on the evaluation of external and internal perception (moDriveList); 
-			//
-			//Actual state: no ordering! 
-			
-			boolean switched = false;
-			clsSecondaryDataStructureContainer sdsc;
-			
-			if (!moPerception.isEmpty())
-			{
-				//bubblesort; if you want quicksort... have at it 
-				do
-				{
-					switched = false;
-					for (int i = 0; i < moPerception.size() - 1; i++)
-					{
-						//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
-						//Correct this START
-						if (i+1 < moPerception.size()) {
-							if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
-								if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
-										((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
-										{
-											sdsc = moPerception.get(i);
-											moPerception.remove(i);
-											moPerception.add(i + 1, sdsc);
-											switched = true;
-										}
-							}
-						}
-						//Correct this END
-					}
-				} while (switched == true);
+		
+		moEnvironmentalPerception_OUT = new ArrayList<clsDataStructureContainer>();
+		
+		for (clsDataStructureContainer oCont : moEnvironmentalPerception_IN) {
+			if (oCont instanceof clsSecondaryDataStructureContainer) {
+				clsSecondaryDataStructureContainer oFocusedPerception = focusPerception((clsSecondaryDataStructureContainer) oCont);
+				moEnvironmentalPerception_OUT.add(oFocusedPerception);
+			} else if (oCont instanceof clsPrimaryDataStructureContainer) {
+				moEnvironmentalPerception_OUT.add(oCont);
 			}
-			
-			moFocusedPerception_Output = moPerception;
-			moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
 		}
+		
+		
+		
+		
+		
+		
+		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
+		//that depends on the evaluation of external and internal perception (moDriveList); 
+		//
+		//Actual state: no ordering! 
+		
+		/*boolean switched = false;
+		clsSecondaryDataStructureContainer sdsc;
+		
+		if (!moPerception.isEmpty())
+		{
+			//bubblesort; if you want quicksort... have at it 
+			do
+			{
+				switched = false;
+				for (int i = 0; i < moPerception.size() - 1; i++)
+				
+					//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
+					//Correct this START
+					if (i+1 < moPerception.size()) {
+						if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
+							if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
+									((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
+									{
+										sdsc = moPerception.get(i);
+										moPerception.remove(i);
+										moPerception.add(i + 1, sdsc);
+										switched = true;
+									}
+						}
+					}
+					//Correct this END
+				}
+			} while (switched == true);
+		}*/
+		
+		
+		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
+	}
+	
+	/**
+	 * All drives within the perceived images are extracted and sorted. Only the 20 (or another number) of objects are passed
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 07.08.2011 23:05:42
+	 *
+	 * @param poPerceptionSeondary
+	 * @return
+	 */
+	private clsSecondaryDataStructureContainer focusPerception(clsSecondaryDataStructureContainer poPerceptionSecondary) {
+		clsSecondaryDataStructureContainer oRetVal = null;
+		
+		try {
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = clsAffectTools.getWPMDriveGoals(poPerceptionSecondary);
+			//ArrayList<clsSecondaryDataStructureContainer> oSortedDriveGoals  = clsAffectTools.sortDriveDemands(oDriveGoals);
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		oRetVal = poPerceptionSecondary;
+				
+		
+		return oRetVal;
 	}
 	
 	/* (non-Javadoc)
@@ -208,11 +250,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 */
 	@Override
 	protected void send() {
-		if (mnMinimalModel) {		
-			send_I6_6(moPerception, new ArrayList<clsSecondaryDataStructureContainer>(), new ArrayList<clsDataStructureContainer>());
-		} else {
-			send_I6_6(moFocusedPerception_Output, moDriveList, moAssociatedMemoriesSecondary_OUT);
-		}
+		send_I6_6(moEnvironmentalPerception_OUT, moDriveList, moAssociatedMemoriesSecondary_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -223,7 +261,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	 * @see pa.interfaces.send.I2_12_send#send_I2_12(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+	public void send_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList,
 			   				ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
@@ -279,16 +317,6 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements itf
 	@Override
 	public void setDescription() {
 		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
-	}	
-	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
 	}	
 	
 }

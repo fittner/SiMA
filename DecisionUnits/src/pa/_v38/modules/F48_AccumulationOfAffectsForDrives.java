@@ -21,9 +21,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -39,7 +39,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 
 	/** c part of the Tripple is the factor read from the propety files. no calculation is done! 
 	 * just added to pass the factor down to module F54 @since 13.07.2011 14:05:14 */
-	private ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> moLibidoCandidates_IN;
+	private ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> moLibidoCandidates_IN;
 	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moHomoestasisCandidates_IN;
 
 	/** This private member is the output of the module, it contains the combined list of homeostatic and libidonues drives @since 14.07.2011 11:23:16 */
@@ -64,7 +64,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F48_AccumulationOfAffectsForDrives(String poPrefix,
-			clsBWProperties poProp,
+			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
@@ -73,10 +73,10 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
 		// see PhD Deutsch2011 p82 for what this is used for		
@@ -106,8 +106,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		moSplitterFactor = new HashMap<String, Double>();
 		
 		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
@@ -180,7 +180,7 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 		}
 		
 		//now some love for the libido drives
-		for (clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moLibidoCandidates_IN) {
+		for (clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moLibidoCandidates_IN) {
 			double rFactor = 0.5; //default value, the real values are taken from the config
 			try {
 				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
@@ -346,8 +346,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_3(
-			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
-		moLibidoCandidates_IN = (ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>>) deepCopy(poDriveCandidates);
+			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+		moLibidoCandidates_IN = (ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>>) deepCopy(poDriveCandidates);
 	}
 
 }

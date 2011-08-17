@@ -7,15 +7,11 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.NavigableSet;
 import java.util.SortedMap;
-import java.util.TreeMap;
-import config.clsBWProperties;
+import config.clsProperties;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -27,7 +23,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -41,21 +39,36 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 11.08.2009, 14:51:57
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 31.07.2011, 14:13:58
+ * 
+ */
 public class F26_DecisionMaking extends clsModuleBase implements 
 			I6_1_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:13:56 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
 	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
 	//AW 20110602 Added expectations, intentions and the current situation
-	private ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> moExtractedPrediction_IN;
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
+	private ArrayList<clsPrediction> moExtractedPrediction_IN;
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
 	private ArrayList<clsSecondaryDataStructureContainer> moGoal_Output;
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
+	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
+	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
 	 * 
@@ -67,7 +80,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F26_DecisionMaking(String poPrefix, clsBWProperties poProp,
+	public F26_DecisionMaking(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
@@ -87,24 +100,26 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		String text ="";
 		
 		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moRuleList", moRuleList);
 		text += toText.listToTEXT("moRealityPerception", moRealityPerception);
 		text += toText.listToTEXT("moGoal_Output", moGoal_Output);
+		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
 		return text;
 	}		
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		//nothing to do
 	}
 
@@ -162,10 +177,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception, 
-			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction) {
+	public void receive_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception, 
+			ArrayList<clsPrediction> poExtractedPrediction) {
 		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
-		moExtractedPrediction_IN = (ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>>)deepCopy(poExtractedPrediction); 
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 	}
 	
 	/* (non-Javadoc)
@@ -179,8 +194,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * 
 	 */
 	@Override
-	public void receive_I6_2(int pnData) {
-		mnTest += pnData;
+	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
+		//TODO
 	}
 
 	/* (non-Javadoc)
@@ -194,24 +209,113 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 *  
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
-		moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
-		compriseExternalPerception();
-		compriseRuleList(); 
-		compriseDrives();
+		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN); 
+		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
 		
-		try {
+		
+		//Add Goals from the perception
+		//moGoal_Output.addAll(compriseExternalPerception(moRealityPerception));
+		
+		//Add goals from activated memories
+		//moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
+		
+		
+		//compriseRuleList();	//This function does nothing
+		//compriseDrives();	//If the goallist is empty get the highest priority goal
+		
+		/*try {
 			sortGoalOutput();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}
+		}*/
+		
+		//Pass the prediction to the planning
+		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 	}
 	
-	private void sortGoalOutput() throws Exception {
+	private ArrayList<clsSecondaryDataStructureContainer> processGoals(
+			ArrayList<clsSecondaryDataStructureContainer> poPossibleGoalInputs, 
+			ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
+			ArrayList<clsAct> poRuleList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		//1. Process goals with Superego???
+			//TODO AW: Something for the superego
+		compriseRuleList();	//FIXME someone: This function does not do anything
+		//2. Sort the goals to get the most important goal first
+		ArrayList<clsSecondaryDataStructureContainer> oDriveListSorted = clsAffectTools.sortDriveDemands(poDriveList);
+		//3. Go through the drivelist
+		//The first drive is the one with the highest priority
+		for (int i=0; i<oDriveListSorted.size();i++) {
+			clsSecondaryDataStructureContainer oDriveGoal = oDriveListSorted.get(i);
+			String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
+			String oDriveObject = clsAffectTools.getDriveObjectType(oDriveGoalContent);
+			String oDriveType = clsAffectTools.getDriveType(oDriveGoalContent);
+			int oDriveIntensity = clsAffectTools.getDriveIntensity(oDriveGoalContent);
+			
+			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
+				//Get goal content
+				String oPossibleDriveGoalContent = ((clsWordPresentation)oObjectContianer.getMoDataStructure()).getMoContent();
+				//If the drive and the object is found, add this content to the list from the possible drive goals from memory and perception
+				if (oPossibleDriveGoalContent.substring(0, oDriveType.length()).equals(oDriveType) && oPossibleDriveGoalContent.contains(oDriveObject)) {
+					oRetVal.add(oObjectContianer);
+				}
+			}
+			
+			if (oRetVal.isEmpty()==false) {
+				//Only the first drive demand is taken, else the second drive demand is on the turn.
+				//IF there are goals from the first drive goal, then no further search is necessary
+				break;	
+				//4 = VERY HIGH
+			} else {
+				if (oDriveIntensity==4) {
+					//If the drive does have Affect = VERY HIGH, if the next drive does exist and also have an affect = VERY HIGH
+					if (i+1<oDriveListSorted.size()) {
+						if (clsAffectTools.getDriveIntensity(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<4) {
+							//If the Drive intensity is very high and the following drives do not have an Affect=VERY HIGH, 
+							//then a drive goal must be constructed without an object
+							clsSecondaryDataStructureContainer oNecessaryDrive = compriseDrives(oDriveGoal);
+							//This container is always != null
+							oRetVal.add(oNecessaryDrive);
+							break;
+						}
+					} 
+				}
+			}
+		}
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all possible reachable goals
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.08.2011 22:06:21
+	 *
+	 * @param poPerception
+	 * @param poExtractedPrediction_IN
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> extractReachableDriveGoals(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Add Goals from the perception
+		oRetVal.addAll(compriseExternalPerception(poPerception));
+		
+		//Add goals from activated memories
+		oRetVal.addAll(comprisePrediction(poExtractedPrediction_IN));
+		
+		return oRetVal;
+	}
+	
+
+	
+	/*private void sortGoalOutput() throws Exception {
 		//TD this function sorts moGoal_Output such that the moset pleasureful goals are listed first. this
 		//is a feature-fix. none of the later modules make a selection of the best plan currently. they just
 		//select what is first in list.
@@ -222,7 +326,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		//TD everything in here is a bad hack - problem is, i don't understand clsSecondaryDataStructureContainer ...
 		HashMap<String, Double> oValues = new HashMap<String, Double>();
-		oValues.put("VERYLOW", 0.0);oValues.put("LOW", 0.25);oValues.put("MEDIUM", 0.5);oValues.put("HIGH", 0.55);oValues.put("VERYHIGH", 1.0);
+		oValues.put("VERYLOW", 0.0);
+		oValues.put("LOW", 0.25);
+		oValues.put("MEDIUM", 0.5);
+		oValues.put("HIGH", 0.75);
+		oValues.put("VERYHIGH", 1.0);
 		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
 		
 		
@@ -279,9 +387,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				moGoal_Output.add(oTemp);
 			}
 		}
-	}
+	}*/
 	
-	private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
+	/*private void badVoodoo(TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer> > poSortedList) {
 		//FIXME : remove this method!!!
 		//TD 2011/05/01 - remove nourish or bit if sleep, repress, deposit, relax is at the same importance level
 		//but nothing is visible - very bad voodoo! the problem is that if the agent is very hungry he is doing nothing
@@ -306,7 +414,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			}
 		}
 		
-	}
+	}*/
 	
 	
 	
@@ -318,7 +426,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @return 
 	 *
 	 */
-	private void compriseExternalPerception() {
+	private ArrayList<clsSecondaryDataStructureContainer> compriseExternalPerception(ArrayList<clsSecondaryDataStructureContainer> poExternalPerception) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		// HZ 2010.08.27: This method selects a goal on the base of input parameters. Up to now
 		// these inputs are restricted to I_2.13 and I_1.7. As I_2.13 gives an image about the
 		// actual situation and I_1.7 retrieves an ordered list of actual "needs" in the form of 
@@ -332,35 +441,56 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		// the decision can be done, that exactly this drive has to be satisfied even there
 		// is no object in the area right now that can be used to do this. Hence the goal 
 		// would be to roam around and find an object that can be used to satisfy the drive. 
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		String oGoalContent; 
-		clsWordPresentation oGoal = null; 
 		
-		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
-		
-		if(oMaxDemand != null){
-			String oDriveContent = oMaxDemand.a; 
-			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
-					
-			for (clsSecondaryDataStructureContainer oExternalPerception : moRealityPerception ){
-					String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
-								
-					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
-					// only one goal is selected!
-					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
-					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
-					// only by the first part.
-					if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
-						oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
-						oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-						oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
-						oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-						
-						moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-					}
+		//new AW 20110807
+		//get the secondary structure
+		ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = new ArrayList<clsSecondaryDataStructureContainer>();
+		for (clsDataStructureContainer oCont : poExternalPerception) {
+			if (oCont instanceof clsSecondaryDataStructureContainer) {
+				try {
+					oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) oCont);
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
 			}
 		}
+		
+		oRetVal.addAll(oDriveGoals);
+	
+		
+		//ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		//String oGoalContent; 
+		//clsWordPresentation oGoal = null; 
+		
+		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+		//AW 20110807: The best goals are assigned later
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//if(oMaxDemand != null){
+		//	String oDriveContent = oMaxDemand.a; 
+		//	clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
+					
+//		for (clsSecondaryDataStructureContainer oExternalPerception : poExternalPerception ){
+//				String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
+//								
+//					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+//					// only one goal is selected!
+//					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
+//					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
+//					// only by the first part.
+//				if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
+//					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+//					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+//					oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
+//					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+//						
+//					oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+//			}
+//		}
+		
+		return oRetVal;
 	}
 
 	/**
@@ -519,45 +649,48 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * 19.04.2011, 07:17:23
 	 *
 	 */
-	private void compriseDrives() {
+	private clsSecondaryDataStructureContainer compriseDrives(clsSecondaryDataStructureContainer oDriveContainer) {
 	   // In case moGoal_output was not filled, the drive with the highest priority used as output
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		clsSecondaryDataStructureContainer oRetVal = null;
 		
-		if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
-			String oDriveContent = oMaxDemand.a; 
-			clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b;
+		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
+		String oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
+			//clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand;
 			
-			if( moGoal_Output.size() == 0 ){
-				String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
-				clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
-				oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-				moGoal_Output.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-			}
-		}
+			//if( moGoal_Output.size() == 0 ){
+		String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
+		clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
+		oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+		oRetVal = new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS);
+		
+		return oRetVal;
 	}
 	
 
 	/**
-	 * DOCUMENT (kohlhauser) - insert description
+	 * DOCUMENT (wendt) - insert description
 	 *
 	 * @author kohlhauser
 	 * 02.11.2010, 17:04:15
 	 * @param moDriveList2
 	 * @return
 	 */
-	private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
+	/*private clsPair<String, clsSecondaryDataStructureContainer> getDriveMaxDemand() {
 		clsPair <String, clsSecondaryDataStructureContainer> oRetVal = null;
 		
-		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > > oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
+		TreeMap<Integer, ArrayList< clsPair<String, clsSecondaryDataStructureContainer>>> oSortedDrives = new TreeMap<Integer, ArrayList<clsPair<String,clsSecondaryDataStructureContainer>>>();	
 		
 		//fill oSortedDrives. the result is the drives grouped by their intensity
 		for(clsSecondaryDataStructureContainer oContainer : moDriveList){
 			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent(); 
 			clsPair<String, clsSecondaryDataStructureContainer> oVal = new clsPair<String, clsSecondaryDataStructureContainer>(oContent, oContainer);
 			
-			String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1];
-			int nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+			//String oDriveIntensity = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent().split(_Delimiter01)[1];
+			//int nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+			int nIntensity = getDriveIntensity(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent());
 			
 			ArrayList< clsPair<String, clsSecondaryDataStructureContainer> > oList;
 			if (oSortedDrives.containsKey(nIntensity)) {
@@ -612,7 +745,80 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		}
 		
 		return oRetVal; 
+	}*/
+	
+	/**
+	 * Use expectations as goals. They have the correct acts in their associated memories.
+	 * (wendt)
+	 *
+	 * @since 23.07.2011 14:01:12
+	 *
+	 * @param poExtractedPrediction_IN
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> comprisePrediction(ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		//Get the expectations of the acts, and make them to goals
+		
+		//Get the drive with the higest value
+		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+		
+		//find all drive components in the predictions
+		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
+			//Extract drives from the intention, where they may trigger an action
+			ArrayList<clsSecondaryDataStructureContainer> oFoundGoals = clsAffectTools.getDriveGoalsFromPrediction(oPrediction);
+			//Merge goals for the whole image
+			//The expectation shall be set as associated structure. If the expectation is known, the agent can act upon that, else it has to
+			// execute the associated action
+			//ArrayList<clsSecondaryDataStructureContainer> oImageGoal = mergeImageGoals(oFoundGoals, (clsWordPresentationMesh) oPrediction.getIntention().getSecondaryComponent().getMoDataStructure());
+			
+			//Add the correct actions for the goals from the expectations
+			for (clsSecondaryDataStructureContainer oGoalContainer : oFoundGoals) {
+				//Add all expectations (ArrayList)
+				//for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
+					//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
+					//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
+					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
+							oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
+					oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
+					oRetVal.add(oGoalContainer);
+				//}
+			}
+			
+			//oRetVal.addAll(oFoundGoals);
+			
+		}
+		return oRetVal;
 	}
+	
+	/**
+	 * From all of the goals in the list, they shall all be merged by type, in order to pass a complete content, of what can be found in the intention.
+	 * 
+	 * 
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 29.07.2011 21:21:35
+	 *
+	 * @param oFoundGoals
+	 * @return
+	 */
+	/*private ArrayList<clsSecondaryDataStructureContainer> mergeImageGoals(ArrayList<clsSecondaryDataStructureContainer> oFoundGoals, clsWordPresentationMesh poTopImage) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Create the ImageBase. This content shall be added to all 
+		String oContentBase = poTopImage.getMoContent();
+		
+		//For each found expression, build the goals
+		for (clsSecondaryDataStructureContainer oGoal : oFoundGoals) {
+			
+		}
+		
+		return oRetVal;
+		
+	}*/
+	
+
+	
 
 	/* (non-Javadoc)
 	 *
@@ -623,7 +829,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moGoal_Output);
+		send_I6_8(moGoal_Output, moExtractedPrediction_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -634,10 +840,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output);
+	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, ArrayList<clsPrediction> poExtractedPrediction) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poExtractedPrediction);
 		
-		putInterfaceData(I6_8_send.class, poGoal_Output);
+		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction);
 	}
 
 	/* (non-Javadoc)
@@ -700,7 +906,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+			ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}

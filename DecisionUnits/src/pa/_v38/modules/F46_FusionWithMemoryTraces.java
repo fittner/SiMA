@@ -16,7 +16,7 @@ import bfg.tools.clsMutableDouble;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
@@ -36,7 +36,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.pa.eContext;
 
 /**
@@ -63,6 +63,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
 	/** Activated memories together with their DMs */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	/** Threshold for matching for associated images */
+	private double mrMatchThreshold = 0.1;
 
 	/* Module-Parameters */
 	
@@ -79,7 +82,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
+	public F46_FusionWithMemoryTraces(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -101,22 +104,22 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
 		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);	
 		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		//text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);		//Is not necessary to list here	
+		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
 		
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
@@ -162,15 +165,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 		
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
-		
-
-		//ArrayList<clsPrimaryDataStructureContainer> oContainerList = new ArrayList<clsPrimaryDataStructureContainer>(); 
- 		//oContainerList = clsDataStructureConverter.convertTIContToTPMCont(moEnvironmentalPerception_IN); 
-		
-	    //addValues(oContainerList);			
-		//attachFantasies(oContainerList);	//Siehe retrieveActivatedMemories
-		//Fantasiertes wird an die TP (Sachvorstellungen) angehängt
-		//AW: Is already done in retrieveActivatedMemories with the input moReturnedTPMemory_IN
 		
 	}
 	 
@@ -458,7 +452,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
 			//Search for matches
-			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE");
+			searchContainer(oPerceptionInput, oSearchResultContainer, "IMAGE", mrMatchThreshold);
 			//Create associations between the PI and those matches
 			for (clsPair<Double,clsDataStructureContainer> oPair : oSearchResultContainer) {
 				clsDataStructureTools.createAssociationPrimary(oPerceptionInput, oPair.b, oPair.a);
@@ -469,7 +463,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE");
+			searchContainer(oReturnedMemory, oSearchResultContainer, "IMAGE", mrMatchThreshold);
 		}
 		
 		for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {
@@ -569,7 +563,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 			if(oEntry.size() > 0){
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				clsAssociation oAssociation = new clsAssociationAttribute(new clsTripple<Integer, eDataType, String>(
+				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
 							(clsPrimaryDataStructure)poNewImage.getMoDataStructure(), 
 							(clsPrimaryDataStructure)oBestMatch.getMoDataStructure());

@@ -21,12 +21,12 @@ import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * The constant flow of libido/psychic energy provided by the neurosymbols originating from {F40} 
@@ -42,14 +42,14 @@ import config.clsBWProperties;
 public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_1_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "41";
 	
-	private clsLibidoBuffer moLibidoBuffer;
+	private DT1_LibidoBuffer moLibidoBuffer;
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
 	
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
 	/**
-	 * basic CTOR, sets Libido to 0
+	 * basic constructor, sets Libido to 0
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:47:47
@@ -59,9 +59,9 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public F41_Libidostasis(String poPrefix, clsBWProperties poProp,
+	public F41_Libidostasis(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			clsLibidoBuffer poLibidoBuffer) throws Exception {
+			DT1_LibidoBuffer poLibidoBuffer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
@@ -85,7 +85,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTripple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		return oRetVal;
@@ -110,16 +110,16 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//nothing to do
 	}	
 	

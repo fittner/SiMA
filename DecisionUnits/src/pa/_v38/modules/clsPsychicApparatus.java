@@ -11,14 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.storage.clsBlockedContentStorage;
-import pa._v38.storage.clsLibidoBuffer;
+import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.storage.DT1_LibidoBuffer;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -35,9 +34,6 @@ public class clsPsychicApparatus {
 	/** Propertykeyprefix for all entries that are relevant for the knowledgebase; @since 13.07.2011 17:47:23 */
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
 	
-	/** Propertykey for the boolean variable that defines if the minimal model should be used. Compare PhD T.Deutsch chapter 3.; @since 13.07.2011 17:47:55 */
-	public static final String P_MINIMALMODEL = "MINIMALMODEL";
-
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
 	public F03_GenerationOfSelfPreservationDrives moF03_GenerationOfSelfPreservationDrives;
@@ -83,9 +79,9 @@ public class clsPsychicApparatus {
 	/** The knowlegdebase / aka memory; @since 13.07.2011 17:48:27 */
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	/** Libido buffer storage. Necessary for DT1.; @since 13.07.2011 17:48:42 */
-	public clsLibidoBuffer moLibidoBuffer;
+	public DT1_LibidoBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
-	public clsBlockedContentStorage moBlockedContentStorage;
+	public DT2_BlockedContentStorage moBlockedContentStorage;
 	
 	/** List of the currently transfered data via the interfaces. Has to be refilled each round at each send_I?_? method manually!; @since 13.07.2011 17:49:33 */
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
@@ -101,8 +97,6 @@ public class clsPsychicApparatus {
 	 * @since 13.07.2011 17:52:06 */
 	public clsDataLogger moDataLogger;
 	
-	/** Boolean variable that defines if the minimal model or the full model should be used. Compare PhD T.Deutsch chapter 3.; @since 13.07.2011 17:54:52 */
-	private static boolean mnMinimalModel;
 	/** Unique identifier. The same for the body and the decision unit. Eases debugging and logging.; @since 13.07.2011 17:55:28 */
 	private int uid;
 
@@ -113,11 +107,11 @@ public class clsPsychicApparatus {
 	 * @since 13.07.2011 17:56:41
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param poKnowledgeBaseHandler A reference to the knowledgebasehandler.
 	 * @param uid Unique identifier. The same for the body and the decision unit.
 	 */
-	public clsPsychicApparatus(String poPrefix, clsBWProperties poProp, 
+	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
 		moModules = new HashMap<Integer, clsModuleBase>();
@@ -125,8 +119,8 @@ public class clsPsychicApparatus {
 		
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
 		
-		moLibidoBuffer = new clsLibidoBuffer();
-		moBlockedContentStorage = new clsBlockedContentStorage();
+		moLibidoBuffer = new DT1_LibidoBuffer();
+		moBlockedContentStorage = new DT2_BlockedContentStorage();
 					
 		applyProperties(poPrefix, poProp);
 		
@@ -136,19 +130,18 @@ public class clsPsychicApparatus {
 	}
 	
 	/**
-	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface. 
+	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface. 
 	 *
 	 * @since 13.07.2011 17:56:42
 	 *
 	 * @param poPrefix Prefix for the property-entries in the property file.
 	 * @return
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
-		oProp.setProperty( pre + P_MINIMALMODEL, false);
-		
+		clsProperties oProp = new clsProperties();
+
 		oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( F02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
 		oProp.putAll( F03_GenerationOfSelfPreservationDrives.getDefaultProperties( pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER ));
@@ -201,10 +194,10 @@ public class clsPsychicApparatus {
 	 * @since 13.07.2011 17:56:46
 	 * 
 	 * @param poPrefix Prefix for the property-entries in the property file.
-	 * @param poProp The property file in form of an instance of clsBWProperties.
+	 * @param poProp The property file in form of an instance of clsProperties.
 	 */
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 		
 		try {
 			//TODO HZ - Integrate to Properties
@@ -251,14 +244,6 @@ public class clsPsychicApparatus {
 			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
 			moF46_FusionWithMemoryTraces = new F46_FusionWithMemoryTraces(pre + F46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			
-			mnMinimalModel = poProp.getPropertyBoolean(pre + P_MINIMALMODEL);
-			
-			for (clsModuleBase oM:moModules.values()) {
-				if (oM instanceof itfMinimalModelMode) {
-					((itfMinimalModelMode) oM).setMinimalModelMode(mnMinimalModel);
-				}
-			}
 			
 		} catch (Exception e) {
 			

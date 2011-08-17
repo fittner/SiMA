@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I2_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
 import du.itf.sensors.clsDataBase;
@@ -30,7 +30,15 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 /**
- * Conversion of raw data into neuro-symbols.
+ * Conversion of raw homoestatic data into neuro-symbols. Also slow and fast messengers are created here.<br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * moHomeostasis holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2)<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * moHomeostaticSymbol holds the symbolized list of homoestatic values (OUT I2.2)<br>
+ * <i>String</i> is the name eSensorIntType.<br>
+ * <i>Double</i> is the tension of the specific symbol .<br>
  * 
  * @author muchitsch
  * 11.08.2009, 12:12:02
@@ -43,7 +51,11 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private boolean mnChartColumnsChanged = true;
 	private ArrayList<String> moChartColumnsCaptions;
 	
+	/** holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2) @since 27.07.2011 13:15:08 */
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	/** holds the symbolized list of homoestatic values (OUT I2.2)
+	 * String is the name eSensorIntType
+	 * Double is the tension of the specific symbol   @since 27.07.2011 13:15:08 */
 	private HashMap<String, Double> moHomeostaticSymbol;
 	/**
 	 * basic constructor
@@ -57,23 +69,23 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		moChartColumnsCaptions = new ArrayList<String>();
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

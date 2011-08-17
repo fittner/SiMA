@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (hinterleitner)  
@@ -56,7 +56,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @param poKnowledgeBaseHandler
 	 * @throws Exception
 	 */
-	public F57_MemoryTracesForDrives(String poPrefix, clsBWProperties poProp,
+	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
@@ -66,17 +66,17 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();	//If no drive candidate is there, then it is initialized
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

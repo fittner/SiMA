@@ -15,14 +15,22 @@ import pa._v38.interfaces.modules.I1_2_receive;
 import pa._v38.interfaces.modules.I1_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 
 
 /**
  * Sensor of Module {F1} are collecting information on bodily functions like metabolism, blood pressure, 
- * heart beat, respiration. Thus the current state of the body and its needs is made available.
+ * heart beat, respiration. Thus the current state of the body and its need is made available.
+ * No real processing has to be made here as the information is actually collected 
+ * in pa._v38.clsProcessor.separateHomeostaticData(clsSensorData) in every step of clsProcessor.<br><br>
+ * 
+ *  <b>INPUT:</b><br>
+ *  moHomeostasis_IN holds a map of all homoestatic values sorted by eSensorIntType as key. (IN I0.3)<br>
+ *  
+ *  <b>OUTPUT:</b><br>
+ *  moHomeostasis_OUT holds a map of all homoestatic values sorted by eSensorIntType as key. (OUT I1.2)<br>
  * 
  * @author muchitsch
  * 11.08.2009, 12:09:14
@@ -31,11 +39,13 @@ import du.itf.sensors.clsDataBase;
 public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive, I1_2_send {
 	public static final String P_MODULENUMBER = "01";
 	
+	/** holds a map of all homoestatic values sorted by eSensorIntType as key. (IN I0.3) @since 27.07.2011 13:09:03 */
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_IN;
+	/** holds a map of all homoestatic values sorted by eSensorIntType as key. (OUT I1.2) @since 27.07.2011 13:09:03 */
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_OUT;
 	
 	/**
-	 * basic CTOR
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:52:11
@@ -45,24 +55,24 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public F01_SensorsMetabolism(String poPrefix, clsBWProperties poProp,
+	public F01_SensorsMetabolism(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		applyProperties(poPrefix, poProp);		
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -90,7 +100,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.BODY;
 	}
-
 
 	/* (non-Javadoc)
 	 *
@@ -141,7 +150,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
 
@@ -154,7 +162,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (muchitsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();		
 	}
 
@@ -168,7 +175,6 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	@Override
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-		
 	}
 
 	/* (non-Javadoc)

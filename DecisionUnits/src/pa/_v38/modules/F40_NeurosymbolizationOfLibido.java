@@ -16,7 +16,7 @@ import pa._v38.interfaces.modules.I2_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * Conversion of raw data into neuro-symbols
@@ -41,7 +41,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 * @throws Exception
 	 */
 	public F40_NeurosymbolizationOfLibido(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		mrLibido = 0;
@@ -64,17 +64,17 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 		return text;
 	}	
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

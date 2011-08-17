@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
@@ -32,6 +32,18 @@ import pa._v38.tools.toText;
 /**
  * Conversion of raw data into neuro-symbols.
  * 
+ * <br><br>
+ * 
+ * <b>INPUT:</b><br>
+ * SPECIAL CASE<br>
+ * <i>moEnvironmentalData</i> holds the sensor symbols of the external perception (IN I1.3)<br>
+ * HashMap:<br>
+ * <i>eSensorExtType</i> enum eSensorExtType<br>
+ * <i>clsSensorExtern</i> Base class for all external sensors like vision, mouth area, nose, bump<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moSymbolData</i> holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3)
+ * 
  * @author muchitsch
  * 11.08.2009, 14:19:23
  * 
@@ -40,15 +52,17 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 			implements I1_3_receive, I2_3_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "11";
 	
+	/** holds the sensor symbols of the external perception (IN I1.3) @since 27.07.2011 13:58:58 */
 	private HashMap<eSensorExtType, clsSensorExtern> moEnvironmentalData;
+	/** holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3) @since 27.07.2011 14:00:18 */
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;
 
 	private ArrayList<String> moCaptions = new ArrayList<String>(Arrays.asList(
-			"V_BUBBLE","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
+			"V_ARSIN","V_CAKE","V_CAN","V_CARROT","V_EXCREMENT","V_PLANT","V_REMOTEBOT",
 			"V_STONE","V_WALL","MAN_AREA","EAT_AREA","BUMP")); 
 
 	/**
-	 * basic CTOR  
+	 * basic constructor  
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:04:58
@@ -59,7 +73,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F11_NeuroSymbolizationEnvironment(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 	}
@@ -81,17 +95,17 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -292,7 +306,7 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
 							int x = -1;
 							switch (oE.getEntityType()) {
-								case BUBBLE: x=0; break;
+								case ARSIN: x=0; break;
 								case CAKE:   x=1; break;
 								case CAN:    x=2; break;
 								case CARROT: x=3; break;

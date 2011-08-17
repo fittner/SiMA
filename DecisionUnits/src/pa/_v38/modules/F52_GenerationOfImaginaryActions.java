@@ -9,9 +9,9 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -20,9 +20,13 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -49,10 +53,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsSecondaryDataStructureContainer> moGoalInput;
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
 	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
+	private ArrayList<clsPrediction> moExtractedPrediction_IN;
+	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:28 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
+	
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
 
-	private ArrayList<clsPlanFragment> m_availablePlanFragments;
+	private ArrayList<clsPlanFragment> moAvailablePlanFragments; //TD 2011/07/21 - changed name to fit coding guidelines
+	
+	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans; //TD 2011/07/21 - changed name to fit coding guidelines
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -65,17 +76,19 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix,
-			clsBWProperties poProp,
+			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData,
 				poKnowledgeBaseHandler);
 		
-		m_availablePlanFragments = new ArrayList<clsPlanFragment>();
+		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 		
 		applyProperties(poPrefix, poProp);
 
+		// just used to test if the planning module does not have any compile errors
+		generateTestData(); // TD 2011/07/26: moved to constructor. list grew by nine identical elements each iteration.
 		
 		// ArrayList<clsPlanAction> moActions_Output = new
 		// ArrayList<clsPlanAction>(); //never used!
@@ -94,24 +107,26 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		String text = "";
 
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
+		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moActions_Output", moActions_Output);
 		text += toText.listToTEXT("moGoalInput", moGoalInput);
+		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
 		return text;
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE,
 				eImplementationStage.BASIC.toString());
 
 		return oProp;
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		// String pre = clsProperties.addDot(poPrefix);
 
 		// nothing to do
 	}
@@ -160,8 +175,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(
-			ArrayList<clsSecondaryDataStructureContainer> poGoalInput) {
+			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 		// FIXME (perner) - please create more meaningfull debbuging output 
 		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
 		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
@@ -181,39 +197,39 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 * test test dummy to fill internal database
 		 */
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
 				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eObjectCategorization.NONE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
 				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.CAKE), 
 				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
 				new clsImage(eDirection.right, eObjectCategorization.CAKE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.right, eObjectCategorization.CAKE)));
 		
-		m_availablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
 				new clsImage(eObjectCategorization.NONE), 
 				new clsImage(eDirection.left, eObjectCategorization.CAKE)));
 		
@@ -241,7 +257,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		String oContent = "FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
 		String oActualGoal = oContent;
 		
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTripple <String, ArrayList<clsSecondaryDataStructure>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateACT(new clsTriple <String, ArrayList<clsSecondaryDataStructure>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsSecondaryDataStructure>(), oActualGoal));
 		
 		//clsAct oAct = generateAct(oActualGoal); 
@@ -277,13 +293,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poActions_Output) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
 		
 		//Go through all plans/acts and extract all associated memories (WP)
 		ArrayList<clsDataStructureContainer> oAssociatedMemoryList = new ArrayList<clsDataStructureContainer>();
-		for (clsSecondaryDataStructureContainer oPlan : poInput) {
+		for (clsSecondaryDataStructureContainer oPlan : poActions_Output) {
 			oAssociatedMemoryList = extractAssociatedContainers(oPlan);
 		}
 		
@@ -297,7 +313,141 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * From the goal list, first, get the intention, then get the expectation and then get the action (clsAct) which is associated with it.
+	 * (wendt)
+	 *
+	 * @since 01.08.2011 16:42:56
+	 *
+	 * @param poDriveGoalsInput
+	 * @param poPrediction
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectation(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Go through all goals
+		for (clsSecondaryDataStructureContainer oGoal : poDriveGoalsInput) {
+			//Go through all associations of all goals
+			for (clsAssociation oAss : oGoal.getMoAssociatedDataStructures()) {
+				//If the associationSecondary and hasIntention, then get the whole prediction
+				if (oAss instanceof clsAssociationSecondary) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASINTENTION") {
+						//Now the intention has been found
+						clsDataStructurePA oIntention = oAss.getLeafElement();
+						//Find the intention in the inputlist of the prediction
+						ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
+						//Go through each container and add the associated act
+						oRetVal.addAll(getActsFromExpectations(oExpectations));
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract the list of secondary structure expectations from a list of predictions for a certain intention
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 01.08.2011 16:59:46
+	 *
+	 * @param poIntention
+	 * @param poPrediction
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getExpectationFromPredictionList(clsSecondaryDataStructure poIntention, ArrayList<clsPrediction> poPrediction) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		if (poIntention!=null) {
+			for (clsPrediction oSinglePrediction : poPrediction) {
+				//If the instanceIDs are the same in the prediction, the give back 
+				if (poIntention.getMoDSInstance_ID()==oSinglePrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDSInstance_ID()) {
+					for (clsDataStructureContainerPair oCPair : oSinglePrediction.getExpectations()) {
+						oRetVal.add(oCPair.getSecondaryComponent());
+					}
+						
+				}
+			}
+		}
 
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 10:13:28
+	 *
+	 * @param poExpectations
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsSecondaryDataStructureContainer> poExpectations) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsSecondaryDataStructureContainer oSContainer : poExpectations) {
+			for (clsAssociation oAss : oSContainer.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASASSOCIATION") {
+						ArrayList<clsAssociation> oAssociatedStructures = new ArrayList<clsAssociation>();
+						oAssociatedStructures.add(oAss);
+						if (oAss.getLeafElement() instanceof clsAct) {
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), oAssociatedStructures));
+						} else if (oAss.getRootElement() instanceof clsAct) {
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), oAssociatedStructures));						
+						}
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+
+	/**
+	 * Temp function, extract the exact action commands from a template act
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.08.2011 10:14:54
+	 *
+	 * @param poActs
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> GetActionCommandFromAct(ArrayList<clsSecondaryDataStructureContainer> poActs) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsSecondaryDataStructureContainer oContainer : poActs) {
+			clsAct oAct = (clsAct) oContainer.getMoDataStructure();
+			String oActContent = oAct.getMoContent();
+			
+			String oNewActionCommand = getActionFromContent(oActContent);
+			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), new ArrayList<clsAssociation>()));
+		}
+		
+		return oRetVal;
+	}
+	
+	private String getActionFromContent(String poContent) {
+		String oRetVal = "";
+		//Input Structure
+		//"FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
+		
+		//Output structure
+		//MOVE_FORWARD
+		
+		String[] oParts = poContent.split("\\|");
+		for (String oE : oParts) {
+			if (oE.contains("ACTION:")) {
+				String oActionString = "ACTION:";
+				oRetVal = oE.substring(oActionString.length(), oE.length());
+				break;
+			}
+		}
+		
+		return oRetVal;
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -349,8 +499,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		/* ==================================================================== */
 		//FIXME AW: Testdata for the F47 interface. DELETEME
-		moActions_Output.add(getTestDataForAct());
+		//moActions_Output.add(getTestDataForAct());
 		/*=======================================================================*/
+		ArrayList<clsSecondaryDataStructureContainer> oExtractedActs = new ArrayList<clsSecondaryDataStructureContainer>();
+		oExtractedActs = getActsFromExpectation(moGoalInput, moExtractedPrediction_IN);
+		
+		moActions_Output.addAll(GetActionCommandFromAct(oExtractedActs));
+		
 		
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
 		//F47 does not have any memory access. 
@@ -458,22 +613,33 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @author deutsch 12.07.2010, 10:47:41
+	 * @author perner 12.07.2010, 10:47:41
 	 * 
 	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
 	@Override
 	protected void process_draft() {
 		
-		// just used to see if planning module does not show compile errors
-		generateTestData();
 		
 		PlanningGraph plGraph = new PlanningGraph();
 		
 		// add plans and connections between plans
 		try {
-			PlanningWizard.initPlGraphWithActions(m_availablePlanFragments, plGraph);
-			PlanningWizard.initPlGraphWithPlConnections(m_availablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
+
+			//TODO (perner) add current available environmental situation
+			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, 
+					new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE));
+			
+			// run through applicable plans and see which results can be achieved by executing plFragment
+			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
+				plGraph.setStartPlanningNode(plFragment);
+				plGraph.breathFirstSearch();
+			}
+			
+			
+			
 		} catch (Exception e) {
 			System.out.println("FATAL: Planning Wizard coldn't be initialized");
 		}

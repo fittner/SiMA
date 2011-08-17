@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
 import pa._v38.interfaces.modules.I1_4_receive;
@@ -23,6 +23,16 @@ import pa._v38.tools.toText;
 
 /**
  * Conversion of raw data into neuro-symbols.
+ * <br><br>
+ * <b>INPUT:</b><br>
+ * <i>moBodyData</i> holds the sensor symbols of the external perception (IN I1.4)<br>
+ * HashMap:<br>
+ * <i>eSensorExtType</i> enum eSensorExtType<br>
+ * <i>clsSensorExtern</i> Base class for all external sensors like vision, mouth area, nose, bump<br>
+ * <br>
+ * <b>OUTPUT:</b><br>
+ * <i>moSymbolData</i> holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.4)<br>
+ * HashMap:<br>
  * 
  * @author muchitsch
  * 11.08.2009, 14:24:29
@@ -34,7 +44,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	private HashMap<eSensorExtType, clsSensorExtern> moBodyData;
 	private HashMap<eSymbolExtType, itfSymbol> moSymbolData;	
 	/**
-	 * basic CTOR
+	 * basic constructor
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 16:14:24
@@ -44,7 +54,7 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F13_NeuroSymbolizationBody(String poPrefix, clsBWProperties poProp,
+	public F13_NeuroSymbolizationBody(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
@@ -67,17 +77,17 @@ public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_re
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

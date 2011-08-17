@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists. 
@@ -35,7 +35,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	/**
-	 * basic CTOR, fills oposite pairs 
+	 * basic constructor, fills oposite pairs 
 	 * 
 	 * @author muchitsch
 	 * 03.03.2011, 15:57:33
@@ -46,7 +46,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 * @throws Exception 
 	 */
 	public F04_FusionOfSelfPreservationDrives(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		fillOppositePairs();
@@ -86,17 +86,17 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

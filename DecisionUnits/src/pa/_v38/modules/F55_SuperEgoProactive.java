@@ -21,12 +21,12 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * Super-Ego proacvtive watches internalized rules like "Do a good deed every day" or "Be always friendly" 
  * 
- * @author zeilinger
+ * @author zeilinger, gelbard
  * 02.05.2011, 15:47:48
  * 
  */
@@ -51,7 +51,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 * @param poInterfaceData
 	 * @throws Exception
 	 */
-	public F55_SuperEgoProactive(String poPrefix, clsBWProperties poProp,
+	public F55_SuperEgoProactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
@@ -60,17 +60,17 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		applyProperties(poPrefix, poProp); 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
