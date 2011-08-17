@@ -53,7 +53,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	private double mrAvailableFocusEnergy = 7.8;
 	
 	/** Threshold for letting through drive goals */
-	private int mnAffectThresold = 2;	//Everything with an affect >= MEDIUM is passed through
+	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through
 	
 	
 	/**
@@ -90,6 +90,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		text += toText.listToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
+		text += toText.valueToTEXT("mrAvailableFocusEnergy", mrAvailableFocusEnergy);
+		text += toText.valueToTEXT("mnAffectThresold", mnAffectThresold);
 		
 		return text;
 	}	
@@ -210,44 +212,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		aber mir persölich würde folgende varriante am besten gefallen: einen besetzungsschwellwert einführen. wird dieser überschritten, so geht der inhalt weiter und muss bearbeitet werden. so lässt man auch überforderungen zu, wie sie nun mal in extremsituationen beim menschen auftreten. (siehe film: „modern times“ von charly chaplin)
 		*/
 		
-		//TODO HZ 23.08.2010: Normally the perceived information has to be ordered by its priority
-		//that depends on the evaluation of external and internal perception (moDriveList); 
-		//
-		//Actual state: no ordering! 
 		
-		/*boolean switched = false;
-		clsSecondaryDataStructureContainer sdsc;
-		
-		if (!moPerception.isEmpty())
-		{
-			//bubblesort; if you want quicksort... have at it 
-			do
-			{
-				switched = false;
-				for (int i = 0; i < moPerception.size() - 1; i++)
-				
-					//AW 20110618 FIXME: Sometimes it crashes on get(i+1) and get(2). i+1 should be checked first and why is get(2) used?
-					//Correct this START
-					if (i+1 < moPerception.size()) {
-						if ((moPerception.get(i).getMoAssociatedDataStructures().size()>2) && (moPerception.get(i + 1).getMoAssociatedDataStructures().size()>2)){
-							if (((clsDriveMesh) moPerception.get(i).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure() <
-									((clsDriveMesh) moPerception.get(i + 1).getMoAssociatedDataStructures().get(2).getMoAssociationElementB()).getMrPleasure())
-									{
-										sdsc = moPerception.get(i);
-										moPerception.remove(i);
-										moPerception.add(i + 1, sdsc);
-										switched = true;
-									}
-						}
-					}
-					//Correct this END
-				}
-			} while (switched == true);
-		}*/
-		
-		
-		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
-		moAssociatedMemoriesSecondary_OUT = moAssociatedMemoriesSecondary_IN;
+		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemoriesSecondary_IN);
 	}
 	
 	/**

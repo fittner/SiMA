@@ -34,7 +34,10 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsAffectTools {
 	
 	//Added by AW, in order to be able to add drive goals from perception and memories
-	private static ArrayList<String> oPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+	/** The list of possible drives, sorted regarding importance */
+	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+	/** A list of possible affects sorted in the order of importance */
+	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(3,-3,2,1,0,-1,-2));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
@@ -183,7 +186,7 @@ public class clsAffectTools {
 		}
 		
 		//Go through all drive goals in the list
-		for (String oDriveGoal : oPossibleDriveGoals) {
+		for (String oDriveGoal : moPossibleDriveGoals) {
 			//Set the input 
 			
 			//Check if the word presentation contains any of the possible drive goals
@@ -250,29 +253,8 @@ public class clsAffectTools {
 		if (poBaseContent!=poSubContent) {	//i.e. it is a WP
 			oNewBaseContent = poBaseContentType + _Delimiter01  + poBaseContent;
 		}
-		
-		//Create new subcontent
-		//String oNewSubcontent = "";
-
-		//Split all parts of the sub base content
-		//String[] oSubEntries = poSubContent.split("\\|");
-		//First add the entity if found
-		/*for (String oE : oSubEntries) {
-			if (oE.contains(oEntityString)) {
-				oNewSubcontent += oE + _Delimiter03;
-				break;
-			}
-		}
-		//Then, add drive goal information
-		for (String oE : oSubEntries) {
-			if (oE.contains(poDriveGoal)) {
-				oNewSubcontent += oE + _Delimiter03;
-			}
-		}*/
 
 		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|NOURISH:HIGH|BITE:HIGH|
-		
-		//oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + oNewSubcontent;
 		oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + poSubContent;
 		
 		return oRetVal;
@@ -297,7 +279,7 @@ public class clsAffectTools {
 		
 		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
 		//FIXME CM: What drives do exist????
-		ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+		//ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
 		
 		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
 		
@@ -314,21 +296,23 @@ public class clsAffectTools {
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffect = getDriveIntensity(oContent);
-			//Sort then for drive
+			int nAffectValue = getDriveIntensity(oContent);
+			//Sort the affects for priority according to the order in the list in this class
+			int nAffectSortOrder = moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1;
+			//Sort then for drive according to the order in the list 
 			String oDriveType = getDriveType(oContent);
-			int nDriveIndex = oKeyWords.size()-oKeyWords.indexOf(oDriveType)-1;	//The higher the better
+			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
 			
 			int nIndex = 0;
 			//Increase index if the list is not empty
 			while((oNewList.isEmpty()==false) && 
 					(nIndex<oNewList.size()) &&
-					(oNewList.get(nIndex).a >= nAffect) &&
+					(oNewList.get(nIndex).a >= nAffectSortOrder) &&
 					(oNewList.get(nIndex).b > nDriveIndex)) {
 				nIndex++;
 			}
 			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffect, nDriveIndex, oContainer));
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffectSortOrder, nDriveIndex, oContainer));
 		}
 		
 		//Add results to the new list
@@ -369,7 +353,7 @@ public class clsAffectTools {
 			
 		}
 		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
-		nIntensity = eAffectLevel.valueOf(oDriveIntensity).ordinal();
+		nIntensity = eAffectLevel.valueOf(oDriveIntensity).mnAffectLevel;
 		
 		return nIntensity;
 	}

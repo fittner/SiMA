@@ -271,13 +271,14 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				//Only the first drive demand is taken, else the second drive demand is on the turn.
 				//IF there are goals from the first drive goal, then no further search is necessary
 				break;	
-				//4 = VERY HIGH
+				//-3 = HIGHNEGATIVE or +3 HIGHPOSITIVE then, special treatment
 			} else {
-				if (oDriveIntensity==4) {
-					//If the drive does have Affect = VERY HIGH, if the next drive does exist and also have an affect = VERY HIGH
+				//If the absolute intensity is equal to HIGHXXX, then ...
+				if (Math.abs(oDriveIntensity)>=3) {
+					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
 					if (i+1<oDriveListSorted.size()) {
-						if (clsAffectTools.getDriveIntensity(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<4) {
-							//If the Drive intensity is very high and the following drives do not have an Affect=VERY HIGH, 
+						if (clsAffectTools.getDriveIntensity(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
+							//If the Drive intensity is very high and the following drives do not have an Affect=HIGHPOS or HIGHNEG, 
 							//then a drive goal must be constructed without an object
 							clsSecondaryDataStructureContainer oNecessaryDrive = compriseDrives(oDriveGoal);
 							//This container is always != null
@@ -552,13 +553,13 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		int pos = poRule.getMoContent().indexOf("CONTENT:UNPLEASURE|INTENSITY:")+"CONTENT:UNPLEASURE|INTENSITY:".length();
 		String oRuleUnpleasure = poRule.getMoContent().substring(pos);
 		oRuleUnpleasure = oRuleUnpleasure.substring(0, oRuleUnpleasure.indexOf("|"));
-		int nRuleIntensity = eAffectLevel.valueOf(oRuleUnpleasure).ordinal();
+		int nRuleIntensity = eAffectLevel.valueOf(oRuleUnpleasure).mnAffectLevel;
 		
 		for(clsSecondaryDataStructureContainer oDrive : moDriveList){
 			String[] oTemp = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent().split(":");
 			String oDriveContent = oTemp[0];
 			String oDriveUnpleasure = oTemp[1];
-			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).ordinal();
+			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).mnAffectLevel;
 						
 			if(oDriveContent.contains(oRuleContent) && nDriveIntensity<=nRuleIntensity){ 
 //			if(oDriveContent.contains(oRuleContent)){
@@ -593,7 +594,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				String oDriveDemand = oDriveContent.substring(oDriveContent.indexOf(_Delimiter01) + 1); 
 				
 				if(oDriveContent.contains(oGoalContent) && oGoal.contains(oRuleContent)){
-					if(eAffectLevel.valueOf(oDriveDemand).ordinal() - pnUnpleasureIntensity <= 0){
+					if(eAffectLevel.valueOf(oDriveDemand).mnAffectLevel - pnUnpleasureIntensity <= 0){
 						oRetVal.add(oEntry); 
 					}
 				}
@@ -620,7 +621,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		for(clsSecondaryDataStructure oContent : oContentList){
 			if(oContent instanceof clsWordPresentation && ((clsWordPresentation)oContent).getMoContent().contains("UNPLEASURE")){
 				String oUnpleasure = ((clsWordPresentation)oContentList.get(oContentList.indexOf(oContent) + 1)).getMoContent();
-				oRetVal = eAffectLevel.valueOf(oUnpleasure).ordinal(); 
+				oRetVal = eAffectLevel.valueOf(oUnpleasure).mnAffectLevel; 
 			}
 		}
 		
