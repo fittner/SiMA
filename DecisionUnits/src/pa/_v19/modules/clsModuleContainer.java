@@ -9,7 +9,7 @@ package pa._v19.modules;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.memory.clsMemory;
 import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -25,7 +25,7 @@ public abstract class clsModuleContainer {
 	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler; 
 	protected clsInterfaceHandler moInterfaceHandler;	
 	
-	public clsModuleContainer(String poPrefix, clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
+	public clsModuleContainer(String poPrefix, clsProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		moEnclosingContainer = poEnclosingContainer;
 		moMemory = poMemory;
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler; 
@@ -34,18 +34,18 @@ public abstract class clsModuleContainer {
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		// String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		// String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		//nothing to do
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

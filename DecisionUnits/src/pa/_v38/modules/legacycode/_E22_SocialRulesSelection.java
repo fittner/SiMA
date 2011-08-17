@@ -10,11 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -48,7 +47,7 @@ import pa._v38.modules.ePsychicInstances;
  */
 //HZ 4.05.2011: Module is only required to transfer its functionality to v38
 @Deprecated
-public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMinimalModelMode, I6_3_receive, I6_1_receive, I3_3_send {
+public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_receive, I6_1_receive, I3_3_send {
 	public static final String P_MODULENUMBER = "22";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
@@ -69,7 +68,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public _E22_SocialRulesSelection(String poPrefix, clsBWProperties poProp,
+	public _E22_SocialRulesSelection(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
@@ -100,17 +99,17 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		mnMinimalModel = false;
 		//nothing to do
 	}
@@ -161,7 +160,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+	public void receive_I6_1(ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
 		//AW 20110602: Input added associated memories
 		moPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poPerception); 
 	}
@@ -243,7 +242,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 * @return
 	 */
 	private clsAct generateAct(String poActualGoal) {
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTriple<String, ArrayList<clsWordPresentation>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
 		
 		return oAct;
@@ -481,16 +480,6 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 		moDescription = "Next to {E7}, {E22} is the only module which is assigned to the top level module Superego. While the contents processed by {E7} are unconscious and cannot become conscious at all, {E22} processes social rules which are at least preconscious and can become conscious. These rules, commands, and gratifications appear as word and thing presentations and influence decision making. Which rules are selected and forwarded is determined by comparing the drive wishes and the external perception with the stored trigger conditions.";
 	}	
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -500,7 +489,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements itfMin
 	 */
 	@Override
 	public void send_I3_3(
-			ArrayList<clsPair<clsTripple<clsDriveMesh, clsDriveDemand, Double>, clsTripple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
 		// 
 		
 	}	

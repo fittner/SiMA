@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.enums;
 /**
  * DOCUMENT (kohlhauser) - Enumeration class for the affect levels and conversions to strings.
  * 
+ * XXXX OLD XXXXX
  * For comparisons see java API for Enum class
  * 
  * General comparison: compareTo(E)
@@ -25,26 +26,29 @@ package pa._v38.memorymgmt.enums;
  * returns "true"
  * 
  * For equality you can also use the equals(Object) method. 
+ * XXXX OLD XXXXX
  * 
  * @author kohlhauser
  * 31.08.2010, 13:38:25
  * 
  */
 public enum eAffectLevel {
-	VERYLOW ("VERYLOW"),
-	LOW ("LOW"),
-	MEDIUM ("MEDIUM"),
-	HIGH ("HIGH"),
-	VERYHIGH ("VERYHIGH");
+	HIGHNEGATIVE (-3),	//-10 < x <= -0.8
+	NEGATIVE (-2),		//-0.8 < x <= -0.5
+	LOWNEGATIVE (-1),			//-0.5 < x <= -0.1
+	INSIGNIFICANT (0),		//-0.1 < x <= 0.1
+	LOWPOSITIVE (1),			//0.1 < x <= 0.5
+	POSITIVE (2),		//0.5 < x <= 0.8
+	HIGHPOSITIVE (3);	//0.8 < x <= 10
 	
-	private String lvl;
+	public int mnAffectLevel;
 	
-	eAffectLevel(String lvl)
+	eAffectLevel(int pnAffectLevel)
 	{
-		this.lvl = lvl;
+		this.mnAffectLevel = pnAffectLevel;
 	}
 
-	@Override
+	/*@Override
 	public String toString()
 	{
 		return lvl;
@@ -78,5 +82,5 @@ public enum eAffectLevel {
 		else if (poAffectLevel1 == VERYHIGH){oRetVal = true;}
 		
 		return oRetVal;
-	}
+	}*/
 }

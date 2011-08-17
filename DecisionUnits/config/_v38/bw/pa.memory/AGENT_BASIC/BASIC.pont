@@ -1,4 +1,4 @@
-; Fri Jul 22 08:31:54 GMT 2011
+; Wed Aug 17 11:30:14 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -190,12 +190,12 @@
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 		(create-accessor read-write)))
 
-(defclass BUBBLE
+(defclass ARSIN
 	(is-a ENTITY)
 	(role concrete)
 	(single-slot value
 		(type STRING)
-;+		(value "BUBBLE")
+;+		(value "ARSIN")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
@@ -367,10 +367,6 @@
 ;+		(value "CONTENT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
-
-(defclass WP%3AIMAGE
-	(is-a WP)
-	(role concrete))
 
 (defclass ACT
 	(is-a USER)
@@ -785,7 +781,7 @@
 	(role concrete)
 	(multislot element
 		(type INSTANCE)
-;+		(allowed-classes WP ACT)
+;+		(allowed-classes WP ACT WPM)
 		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot predicate
@@ -907,6 +903,14 @@
 		(default "IMAGE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass LIBIDOIMAGE
+	(is-a IMAGE)
+	(role concrete))
+
+(defclass REPRESSEDIMAGE
+	(is-a IMAGE)
+	(role concrete))
 
 (defclass DM
 	(is-a USER)
@@ -1131,6 +1135,7 @@
 		(create-accessor read-write))
 	(single-slot type
 		(type STRING)
+;+		(value "PRIINSTANCE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(single-slot instance_type
@@ -1138,3 +1143,36 @@
 ;+		(allowed-classes TPM TP)
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass WPM "Word presentation mesh"
+	(is-a USER)
+	(role concrete)
+	(single-slot value
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot %3ANAME
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot instance_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(create-accessor read-write))
+	(single-slot type
+		(type STRING)
+;+		(value "WPM")
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot value_type
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass WPM%3AIMAGE
+	(is-a WPM)
+	(role concrete))

@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -22,5 +22,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I3_3_receive {
-	public void receive_I3_3(ArrayList< clsPair< clsTripple<clsDriveMesh,clsDriveDemand,Double>, clsTripple<clsDriveMesh,clsDriveDemand,Double> > > poDriveCandidates);
+	public void receive_I3_3(ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > poDriveCandidates);
 }

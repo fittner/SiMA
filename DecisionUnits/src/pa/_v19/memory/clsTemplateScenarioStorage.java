@@ -9,7 +9,7 @@ package pa._v19.memory;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 import pa._v19.datatypes.clsSecondaryInformation;
 import pa._v19.loader.scenario.clsScenarioBaseMesh;
@@ -27,23 +27,23 @@ public class clsTemplateScenarioStorage {
 
 	public ArrayList<clsSecondaryInformation> moTemplateScenarios;
 
-	public clsTemplateScenarioStorage(String poPrefix, clsBWProperties poProp) {
+	public clsTemplateScenarioStorage(String poPrefix, clsProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moTemplateScenarios = clsScenarioLoader.createTemplateScenarioList("1", "PSY_10");
     }
     
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+//		String pre = clsProperties.addDot(poPrefix);
     	 
     	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-//    	String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+//    	String pre = clsProperties.addDot(poPrefix);
     	
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
 		
 		//oProp.putAll(clsOtherClass.getDefaultProperties(pre) );
 		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );

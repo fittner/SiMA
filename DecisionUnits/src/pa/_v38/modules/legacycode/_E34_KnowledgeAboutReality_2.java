@@ -9,10 +9,9 @@ package pa._v38.modules.legacycode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I7_5_receive;
@@ -36,7 +35,7 @@ import pa._v38.modules.ePsychicInstances;
  */
 //HZ 4.05.2011: Module is only required to transfer its functionality to v38
 @Deprecated
-public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itfMinimalModelMode, I6_9_receive/*, I7_5_send*/ {
+public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I6_9_receive/*, I7_5_send*/ {
 	public static final String P_MODULENUMBER = "34";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
@@ -52,7 +51,7 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itf
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public _E34_KnowledgeAboutReality_2(String poPrefix, clsBWProperties poProp,
+	public _E34_KnowledgeAboutReality_2(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -79,17 +78,17 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itf
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		mnMinimalModel = false;
 		//nothing to do
 	}
@@ -105,8 +104,8 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itf
 	protected void process_basic() {
 		if (!mnMinimalModel) {
 			// 
-			mnTest++;
-		}
+			//
+			}
 	}
 
 	/* (non-Javadoc)
@@ -227,13 +226,4 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements itf
 		moDescription = "Semantic knowledge is retrieved from memory for all word and thing presentations send to these functions.";
 	}
 
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}	
 }

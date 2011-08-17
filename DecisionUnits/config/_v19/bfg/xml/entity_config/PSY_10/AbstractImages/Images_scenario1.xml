@@ -9,13 +9,13 @@
         </TreeRoot>
     </AbstractImage>
 
-    <AbstractImage ID="107" name="onebadbubble" fullMatchRequired="false">
-        <Description>one bad bubble in left close field</Description>
+    <AbstractImage ID="107" name="onebadARSIN" fullMatchRequired="false">
+        <Description>one bad ARSIN in left close field</Description>
 		<TreeRoot optional="MANDATORY" booleanOperator="OR" negated="false">
 			<leafVisionSegment compare=">=" count="ONE">
 	        	<sensortype>VISION_NEAR</sensortype>
                 <location>LEFT</location>
-                <entitytype>BUBBLE</entitytype>
+                <entitytype>ARSIN</entitytype>
                 <shapetype>CIRCLE</shapetype>
                 <alive>TRUE</alive>
                 <color>#FF0000</color>
@@ -24,7 +24,7 @@
 			</leafVisionSegment>
 			<leafEatable compare=">=" count="ONE">
 	        	<sensortype>EATABLE_AREA</sensortype>
-                <entitytype>BUBBLE</entitytype>
+                <entitytype>ARSIN</entitytype>
 			</leafEatable>ä
 		</TreeRoot>
 		

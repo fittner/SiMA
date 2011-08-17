@@ -9,7 +9,7 @@ package pa._v19.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I2_2_receive;
 import pa._v19.interfaces.receive.I2_4_receive;
@@ -55,16 +55,16 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsBWProperties poProp,
+	public G07_EnvironmentalInterfaceFunctions(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E14_PreliminaryExternalPerception.getDefaultProperties(pre+P_E14) );
 		oProp.putAll( E30_MotilityControl.getDefaultProperties(pre+P_E30) );
@@ -72,8 +72,8 @@ public class G07_EnvironmentalInterfaceFunctions extends clsModuleContainer impl
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE14PreliminaryExternalPerception = new E14_PreliminaryExternalPerception(pre+P_E14, poProp, this, moInterfaceHandler);
 		moE30MotilityControl = new E30_MotilityControl(pre+P_E30, poProp, this, moInterfaceHandler);

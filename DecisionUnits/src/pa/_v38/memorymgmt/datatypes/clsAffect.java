@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -28,7 +28,7 @@ public class clsAffect extends clsHomeostaticRepresentation{
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsAffect(clsTripple<Integer, eDataType, String> poDataStructureIdentifier, double prPleasure) {
+	public clsAffect(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, double prPleasure) {
 		super(poDataStructureIdentifier);
 		moContent = prPleasure; 
 	}

@@ -8,7 +8,7 @@ package pa._v38.memorymgmt;
 
 import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
 import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -24,12 +24,12 @@ public class clsKnowledgeBaseHandlerFactory {
 	 * @author zeilinger
 	 * 30.05.2010, 13:14:17
 	 * 
-	 * @see pa.informationrepresentation.itfInformationRepresentationManagementFactory#createInformationRepresentationManagement(pa.informationrepresentation.enums.eInformationRepresentationManagementType, java.lang.String, config.clsBWProperties)
+	 * @see pa.informationrepresentation.itfInformationRepresentationManagementFactory#createInformationRepresentationManagement(pa.informationrepresentation.enums.eInformationRepresentationManagementType, java.lang.String, config.clsProperties)
 	 */
 	
 	public static clsKnowledgeBaseHandler createInformationRepresentationManagement(
 			String poInformationRepresentationManagementType,
-			String poPrefix, clsBWProperties poProp)throws IllegalArgumentException {
+			String poPrefix, clsProperties poProp)throws IllegalArgumentException {
 		//TODO HZ intitialize the informationrepresentation in G00
 		return createInformationRepresentationManagement_static(poInformationRepresentationManagementType, poPrefix, poProp);
 	}
@@ -47,7 +47,7 @@ public class clsKnowledgeBaseHandlerFactory {
 	 */
 	private static clsKnowledgeBaseHandler createInformationRepresentationManagement_static(
 			String poInformationRepresentationManagementType,
-			String poPrefix, clsBWProperties poProp) {
+			String poPrefix, clsProperties poProp) {
 		
 		clsKnowledgeBaseHandler oInformationRepresentationManagement = null; 
 		
@@ -66,8 +66,8 @@ public class clsKnowledgeBaseHandlerFactory {
 	}
 	
 	
-	public static clsBWProperties getDefaultProperties(eInformationRepresentationManagementType pnInformationRepresentationManagementType, String poPrefix) throws java.lang.IllegalArgumentException {
-		clsBWProperties oProps = null;
+	public static clsProperties getDefaultProperties(eInformationRepresentationManagementType pnInformationRepresentationManagementType, String poPrefix) throws java.lang.IllegalArgumentException {
+		clsProperties oProps = null;
 		//TODO (zeilinger) set default properties
 		return oProps; 
 	}

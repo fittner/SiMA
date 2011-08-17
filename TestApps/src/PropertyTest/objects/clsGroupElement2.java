@@ -1,7 +1,7 @@
 package PropertyTest.objects;
 
 import java.util.ArrayList;
-import PropertyTest.Properties.clsBWProperties;
+import PropertyTest.Properties.clsProperties;
 
 public class clsGroupElement2 {
 	public static final String P_NUM_ELEMENTS = "num";
@@ -17,7 +17,7 @@ public class clsGroupElement2 {
 			addElement(i, i+1);
 		}
 	}
-	public clsGroupElement2(String poPrefix, clsBWProperties poProp) {
+	public clsGroupElement2(String poPrefix, clsProperties poProp) {
 		moElements = new ArrayList<clsElementDual>();
 		
 		applyProperties(poPrefix, poProp);
@@ -44,7 +44,7 @@ public class clsGroupElement2 {
 		return res;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
+	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";
@@ -52,7 +52,7 @@ public class clsGroupElement2 {
 		
 		int num = 4;
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.setProperty(pre+P_NUM_ELEMENTS, new Integer(num).toString());
 		
@@ -65,7 +65,7 @@ public class clsGroupElement2 {
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
+	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = poPrefix;
 		if (pre.length()>0) {
 			pre = pre+".";

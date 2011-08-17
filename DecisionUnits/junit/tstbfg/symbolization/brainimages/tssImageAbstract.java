@@ -70,7 +70,7 @@ public class tssImageAbstract {
 		//The list of abstract images that are matching
 		ArrayList<clsRuleCompareResult> oMatch = null;
 
-		//load the abstract images for the bubble of type PSY_10 (incl. AI's from parent xml's) into memory
+		//load the abstract images for the ARSIN of type PSY_10 (incl. AI's from parent xml's) into memory
 		Vector<String> oFilePaths = new Vector<String>(); 
 		oFilePaths.add("PSY_10");
 		clsContainerAbstractImages oTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
@@ -104,7 +104,7 @@ public class tssImageAbstract {
 		//The list of abstract images that are matching
 		ArrayList<clsRuleCompareResult> oMatch = null;
 
-		//load the abstract images for the bubble of type PSY_10 (incl. AI's from parent xml's) into memory
+		//load the abstract images for the ARSIN of type PSY_10 (incl. AI's from parent xml's) into memory
 		Vector<String> oFilePaths = new Vector<String>(); 
 		oFilePaths.add("PSY_10");
 		clsContainerAbstractImages oTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
@@ -117,7 +117,7 @@ public class tssImageAbstract {
 		oVision.setSensorType(eSensorExtType.VISION_NEAR);
 		clsVisionEntry oVisionEntries = new clsVisionEntry();
 		oVisionEntries.setAlive( true);
-		oVisionEntries.setEntityType(eEntityType.BUBBLE);
+		oVisionEntries.setEntityType(eEntityType.ARSIN);
 		oVisionEntries.setShapeType( eShapeType.CIRCLE);
 		oVisionEntries.setColor( java.awt.Color.RED);
 		oVisionEntries.setPolarcoordinate( new clsPolarcoordinate(8.0, 0.1));
@@ -127,7 +127,7 @@ public class tssImageAbstract {
 		oSensorData.addSensorExt(oVision.getSensorType(), oVision);
 		
 		clsEatableArea oEatableArea = new clsEatableArea(); 
-		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.BUBBLE);
+		clsEatableAreaEntry oEatableEntry = new clsEatableAreaEntry(eEntityType.ARSIN);
 		oEatableArea.getDataObjects().add(oEatableEntry);
 		
 		oSensorData.addSensorExt(eSensorExtType.EATABLE_AREA, oEatableArea);

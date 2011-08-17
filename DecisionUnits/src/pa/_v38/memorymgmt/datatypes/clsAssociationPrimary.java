@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -31,7 +31,7 @@ public class clsAssociationPrimary extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationPrimary(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationPrimary(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsPrimaryDataStructure poAssociationElementA,
 			clsPrimaryDataStructure poAssociationElementB) {
 		
@@ -69,6 +69,28 @@ public class clsAssociationPrimary extends clsAssociation{
 	@Override
 	public clsDataStructurePA getRootElement() {
 		return moAssociationElementA;
+	}
+	
+	/**
+	 * This association has no direction, therefore, it has to be checked if a structure is contained in this association
+	 * and return the other element, if the structure has been found, i. e. if the found element is the Element A, then the 
+	 * Element B is returned. If the structure is not found, null is returned
+	 * (wendt)
+	 *
+	 * @since 24.07.2011 13:33:00
+	 *
+	 * @param poDS
+	 * @return
+	 */
+	public clsDataStructurePA containsInstanceID(clsDataStructurePA poDS) {
+		if ((moAssociationElementB.moDSInstance_ID == poDS.getMoDSInstance_ID())) {
+			return moAssociationElementA;
+		}
+		if ((moAssociationElementA.moDSInstance_ID == poDS.getMoDSInstance_ID())) {
+			return moAssociationElementB;
+		} else {
+			return null;
+		}
 	}
 	
 }

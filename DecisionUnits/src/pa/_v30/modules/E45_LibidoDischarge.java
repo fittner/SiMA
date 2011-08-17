@@ -31,7 +31,7 @@ import pa._v30.memorymgmt.datatypes.clsThingPresentation;
 import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.enums.eDataType;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -61,7 +61,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E45_LibidoDischarge(String poPrefix, clsBWProperties poProp,
+	public E45_LibidoDischarge(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			clsLibidoBuffer poLibidoBuffer,
@@ -106,7 +106,7 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 //		moLibidioDischargeCandidates = new ArrayList<clsPair<String,Double>>();
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CAKE", 1.0) );
 //		moLibidioDischargeCandidates.add( new clsPair<String, Double>("CARROT", 0.5) );
-//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("BUBBLE", 0.1) );
+//		moLibidioDischargeCandidates.add( new clsPair<String, Double>("ARSIN", 0.1) );
 	}
 	
 	/**
@@ -173,17 +173,17 @@ public class E45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	

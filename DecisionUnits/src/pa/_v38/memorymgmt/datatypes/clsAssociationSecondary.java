@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -23,7 +23,7 @@ public class clsAssociationSecondary extends clsAssociation{
 	//This is the basic association in the secondary process for creating acts
 	
 	//Association attribute
-	private String moAttribute;	//This attribute is the predicate in an ontology
+	private String moPredicate;	//This attribute is the predicate in an ontology
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -35,12 +35,12 @@ public class clsAssociationSecondary extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationSecondary(
-			clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsWordPresentation poAssociationElementA,
-			clsDataStructurePA poAssociationElementB, String oPredicate) {
+		clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+		clsSecondaryDataStructure poAssociationElementA,
+		clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
 			
-			super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-			moAttribute = oPredicate;
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
+		moPredicate = oPredicate;
 	}
 
 	/* (non-Javadoc)
@@ -65,19 +65,19 @@ public class clsAssociationSecondary extends clsAssociation{
 	 */
 	@Override
 	public clsDataStructurePA getLeafElement() {
-		return moAssociationElementA; 
+		return moAssociationElementB; 
 	}
 	
 	@Override
 	public clsDataStructurePA getRootElement() {
-		return moAssociationElementB;
+		return moAssociationElementA;
 	}
 	
-	public String getMoAttribute() {
-		return moAttribute;
+	public String getMoPredicate() {
+		return moPredicate;
 	}
 	
-	public void setMrImperativeFactor(String oAttribute) {
-		this.moAttribute = oAttribute;
+	public void setMrPredicate(String oPredicate) {
+		this.moPredicate = oPredicate;
 	}
 }

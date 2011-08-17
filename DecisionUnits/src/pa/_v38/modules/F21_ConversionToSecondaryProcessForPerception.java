@@ -25,7 +25,6 @@ import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -349,28 +348,28 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 19.08.2010, 22:39:28
 	 *
 	 */
-	private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> defineTemplateImage(clsPrimaryDataStructureContainer poEnvironmentalPerception_IN) {
-		
-		ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> oOrderedResult = new ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
-		
-		//AW 20110522: Convert from new input
-		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(poEnvironmentalPerception_IN);
-		
-		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
-			/*ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
-							= new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-			ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
-					
-			extractPattern(oContainer, oSearchResult);
-			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
-			oOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); */
-			clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oObject = defineTemplateImageForObject(oContainer);
-			if (oObject != null) {
-				oOrderedResult.add(oObject);
-			}
-		}
-		return oOrderedResult;
-	}
+//	private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> defineTemplateImage(clsPrimaryDataStructureContainer poEnvironmentalPerception_IN) {
+//		
+//		ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> oOrderedResult = new ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>>(); 
+//		
+//		//AW 20110522: Convert from new input
+//		ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input = clsDataStructureConverter.convertTIContToTPMCont(poEnvironmentalPerception_IN);
+//		
+//		for(clsPrimaryDataStructureContainer oContainer : moGrantedPerception_Input){
+//			/*ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
+//							= new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+//			ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
+//					
+//			extractPattern(oContainer, oSearchResult);
+//			oEvaluatedResult = evaluateSearchResult(oContainer.getMoDataStructure(), oSearchResult);
+//			oOrderedResult.add(orderResult(oContainer.getMoDataStructure(), oEvaluatedResult)); */
+//			clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oObject = defineTemplateImageForObject(oContainer);
+//			if (oObject != null) {
+//				oOrderedResult.add(oObject);
+//			}
+//		}
+//		return oOrderedResult;
+//	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description
@@ -533,9 +532,16 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
 		clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
-			
-		oAssociatedWP.add(getWPforObject(oNewWP, poOrderedResult.a));
+		
+		clsAssociation oWPforObject = getWPforObject(oNewWP, poOrderedResult.a);
+		if (oWPforObject!=null) {
+			clsAssociationSecondary oLinkWPForObject = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oWPforObject.getLeafElement(), oNewWP, "HASASSOCIATION", 1.0);
+			oAssociatedWP.add(oWPforObject);
+			oAssociatedWP.add(oLinkWPForObject);
+		}
+		
 		oAssociatedWP.addAll(getTItoWP(oNewWP, poOrderedResult.b)); 
+		
 		oAssociatedWP.addAll(getWPforTP(oNewWP, poOrderedResult.c));
 						
 		if(!oNewWP.getMoContent().contains("DEFAULT")){
@@ -557,28 +563,28 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 19.08.2010, 22:39:32
 	 *
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> convertToSecondary(ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> poOrderedResult) {
-		ArrayList<clsSecondaryDataStructureContainer> oPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-		
-		for(clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple : poOrderedResult){
-		//	ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
-		//	clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
-
-			
-		//	oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
-		//	oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
-		//	oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
-						
-		//	if(!oNewWP.getMoContent().contains("DEFAULT")){
-		//		oPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
-		//	}
-			clsSecondaryDataStructureContainer oSContainer = convertToSecondaryForObject(oTripple);
-			if (oSContainer!=null) {
-				oPerception_Output.add(oSContainer);
-			}
-		}
-		return oPerception_Output;
-	}
+//	private ArrayList<clsSecondaryDataStructureContainer> convertToSecondary(ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> poOrderedResult) {
+//		ArrayList<clsSecondaryDataStructureContainer> oPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+//		
+//		for(clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple : poOrderedResult){
+//		//	ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
+//		//	clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
+//
+//			
+//		//	oAssociatedWP.add(getWPforObject(oNewWP, oTripple.a));
+//		//	oAssociatedWP.addAll(getTItoWP(oNewWP, oTripple.b)); 
+//		//	oAssociatedWP.addAll(getWPforTP(oNewWP, oTripple.c));
+//						
+//		//	if(!oNewWP.getMoContent().contains("DEFAULT")){
+//		//		oPerception_Output.add(new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP)); 
+//		//	}
+//			clsSecondaryDataStructureContainer oSContainer = convertToSecondaryForObject(oTripple);
+//			if (oSContainer!=null) {
+//				oPerception_Output.add(oSContainer);
+//			}
+//		}
+//		return oPerception_Output;
+//	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description

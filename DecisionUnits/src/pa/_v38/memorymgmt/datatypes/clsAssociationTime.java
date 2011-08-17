@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -29,7 +29,7 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsTripple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationTime(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 			clsPrimaryDataStructure poAssociationElementA,
 			clsPrimaryDataStructure poAssociationElementB) {
 		

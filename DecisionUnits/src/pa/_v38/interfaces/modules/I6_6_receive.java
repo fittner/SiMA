@@ -20,7 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_6_receive {
-	public void receive_I6_6(ArrayList<clsSecondaryDataStructureContainer> poFocusedPerception,
+	public void receive_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception,
 							  ArrayList<clsSecondaryDataStructureContainer> poDriveList,
 							  ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary);
 }

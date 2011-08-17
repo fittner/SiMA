@@ -13,9 +13,9 @@ import java.util.SortedMap;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Queue;
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 //import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_2_send;
@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
@@ -65,7 +66,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @throws Exception
 	 */
 	public _E28_KnowledgeBase_StoredScenarios(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -95,17 +96,17 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -163,7 +164,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input) {
+	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
@@ -327,7 +328,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @return
 	 */
 	private clsAct generateAct(String poActualGoal) {
-		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTripple<String, ArrayList<clsWordPresentation>, Object>(
+		clsAct oAct = (clsAct)clsDataStructureGenerator.generateDataStructure(eDataType.ACT, new clsTriple<String, ArrayList<clsWordPresentation>, Object>(
 				eDataType.ACT.name(), new ArrayList<clsWordPresentation>(), poActualGoal));
 		
 		return oAct;
@@ -765,7 +766,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @see pa._v38.interfaces.modules.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(int pnData) {
+	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		// 
 		
 	}	

@@ -30,7 +30,7 @@ import pa._v30.memorymgmt.datatypes.clsTemplateImage;
 import pa._v30.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v30.memorymgmt.enums.eDataType;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -49,6 +49,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_OUT; 
 	
 	//New Output
+	@SuppressWarnings("unused")
 	private clsTemplateImage moPerceivedImage_OUT;
 	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> moTemplateImages_OUT;
@@ -65,7 +66,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public E46_FusionWithMemoryTraces(String poPrefix, clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
+	public E46_FusionWithMemoryTraces(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -90,17 +91,17 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return text;
 	}		
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}	
@@ -204,6 +205,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	
 	
+	@SuppressWarnings("unused")
 	private ArrayList<clsTemplateImage> retrieveIndirectTI(clsTemplateImage oInput) {
 		ArrayList<clsTemplateImage> oRetVal = new ArrayList<clsTemplateImage>();
 		
@@ -212,6 +214,7 @@ public class E46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
+	@SuppressWarnings("unused")
 	private clsTemplateImage tempConvertInput(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		return clsDataStructureConverter.convertMultiplePDSCtoTI (oInput);
 	}

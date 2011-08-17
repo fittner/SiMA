@@ -9,7 +9,7 @@ package pa._v19.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I1_7_receive;
 import pa._v19.interfaces.receive.I2_11_receive;
@@ -55,7 +55,7 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E22_SuperEgo_preconscious(String poPrefix, clsBWProperties poProp,
+	public E22_SuperEgo_preconscious(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);	
@@ -63,17 +63,17 @@ public class E22_SuperEgo_preconscious extends clsModuleBase implements I1_7_rec
 		moRuleList = new ArrayList<clsAct>();
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

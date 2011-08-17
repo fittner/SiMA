@@ -79,7 +79,61 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		this.moAssociatedDataStructures.add(poAssociatedDataStructure);
 	}
 
-
+	/**
+	 * This variant of getMoAssociatedDataStructures is only useful for containers with a "combined"
+	 * DataStructure like a TemplateImage for example. Unlike the variant without an argument this
+	 * version does not return all AssociatedDataStructures, but only the ones that are associated
+	 * with the provided argument.If the DataStructure in the container is a single Item, like
+	 * a ThingPresentationMesh, then the result will be the whole list of AssociatedDataStructures,
+	 * just like the variant without an argument.<br>
+	 * <br>
+	 * <b>NOTE</b><br>
+	 * Comparison between the argument and the RootElements of the AssociatedDataStructures is done
+	 * on the basis of the moDS_ID. While this is sufficient for the problem that made this method
+	 * necessary in the first place, this is in general <b>NOT</b> a suitable way of identifying
+	 * individual objects! Therefore this method should either be made obsolete by replacing the use
+	 * of containers with composite DataStructures by a better suited type or a new way of identifying
+	 * individual DataStructures has to be introduced.  
+	 *
+	 * @author Zottl Marcus (e0226304),
+	 * 28.06.2011, 18:47:52
+	 *
+	 * @param poAssociationRoot - an element of the DataStructure in the container for which you need
+	 * the AssociatedDataStructures.
+	 * @return an ArrayList of <i>clsAssociation</i>s that belong to the provided argument.
+	 */
+	public ArrayList<clsAssociation> getMoAssociatedDataStructures(clsDataStructurePA poAssociationRoot) {
+		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
+		
+		for (clsAssociation oEntry : moAssociatedDataStructures) {
+			if ((oEntry.getRootElement().getMoDSInstance_ID() == poAssociationRoot.getMoDSInstance_ID()) && oEntry.getRootElement().moDSInstance_ID > 0) {
+				oReturnList.add(oEntry);
+			}
+		}
+		return oReturnList;
+	}
+	
+	/**
+	 * If the data structure can be found in the leaf or root of an association, it is taken, no matter if it is a part of the container
+	 * (wendt)
+	 *
+	 * @since 15.08.2011 23:21:29
+	 *
+	 * @param poDS
+	 * @return
+	 */
+	public ArrayList<clsAssociation> getAnyAssociatedDataStructures(clsDataStructurePA poDS) {
+		ArrayList<clsAssociation> oReturnList = new ArrayList<clsAssociation>();
+		
+		for (clsAssociation oEntry : moAssociatedDataStructures) {
+			if (((oEntry.getRootElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID()) || 
+					(oEntry.getLeafElement().getMoDSInstance_ID() == poDS.getMoDSInstance_ID())) && 
+					(poDS.getMoDSInstance_ID() > 0)) {
+				oReturnList.add(oEntry);
+			}
+		}
+		return oReturnList;
+	}
 
 	@Override
 	public String toString(){

@@ -82,7 +82,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * A listsearch, which uses the whole container to search the memory with.
 	 */
 	@Override
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType,clsDataStructureContainer poDataContainerInput) {
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType,clsDataStructureContainer poDataContainerInput, double prThreshold) {
 		//In this function, the container content is compared with saved template images, which are the data structure in generated containers
 		//ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 	//Result
 		
@@ -96,9 +96,8 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		
 		//Steps
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		//2b. Set the Content type of oDS
-		//poDataContainerInput.getMoDataStructure().setMoContentType("IMAGE");	
-		oMatchedDataStructures = compareElementsContainer(poDataContainerInput);	//Get a List of all matching structures in the memory
+		//2b. Set the Content type of oDS	
+		oMatchedDataStructures = compareElementsContainer(poDataContainerInput, prThreshold);	//Get a List of all matching structures in the memory
 	
 		return oMatchedDataStructures;
 	}
@@ -162,10 +161,10 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param poContainerUnknown
 	 * @return
 	 */
-	private ArrayList<clsPair<Double, clsDataStructureContainer>> compareElementsContainer(clsDataStructureContainer poContainerUnknown) {
+	private ArrayList<clsPair<Double, clsDataStructureContainer>> compareElementsContainer(clsDataStructureContainer poContainerUnknown, double prThreshold) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
-		oRetVal = clsDataStructureComparison.compareDataStructuresContainer(moSearchSpaceHandler, poContainerUnknown);	
+		oRetVal = clsDataStructureComparison.compareDataStructuresContainer(moSearchSpaceHandler, poContainerUnknown, prThreshold);	
 		
 		return oRetVal;
 	}

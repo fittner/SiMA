@@ -23,7 +23,7 @@ import pa._v19.memorymgmt.datatypes.clsAct;
 import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -58,16 +58,16 @@ public class G04_SuperEgo extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G04_SuperEgo(String poPrefix, clsBWProperties poProp,
+	public G04_SuperEgo(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( E07_SuperEgo_unconscious.getDefaultProperties(pre+P_E07) );
 		oProp.putAll( E22_SuperEgo_preconscious.getDefaultProperties(pre+P_E22) );
@@ -75,8 +75,8 @@ public class G04_SuperEgo extends clsModuleContainer implements
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE07SuperEgoUnconscious = new E07_SuperEgo_unconscious(pre+P_E07, poProp, this, moInterfaceHandler);
 		moE22SuperEgoPreconscious = new E22_SuperEgo_preconscious(pre+P_E22, poProp, this, moInterfaceHandler);

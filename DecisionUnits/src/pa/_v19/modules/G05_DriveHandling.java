@@ -18,7 +18,7 @@ import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsDriveDemand;
 import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.tools.clsPair;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -49,16 +49,16 @@ public class G05_DriveHandling extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G05_DriveHandling(String poPrefix, clsBWProperties poProp,
+	public G05_DriveHandling(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E03_GenerationOfDrives.getDefaultProperties(pre+P_E03) );
 		oProp.putAll( E04_FusionOfDrives.getDefaultProperties(pre+P_E04) );
@@ -66,8 +66,8 @@ public class G05_DriveHandling extends clsModuleContainer implements
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE03GenerationOfDrives = new E03_GenerationOfDrives(pre+P_E03, poProp, this, moInterfaceHandler);
 		moE04FusionOfDrives = new E04_FusionOfDrives(pre+P_E04, poProp, this, moInterfaceHandler);

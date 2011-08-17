@@ -21,6 +21,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
  */
 public interface itfKnowledgeBaseHandler {
 	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> initMemorySearch(ArrayList<clsPair<Integer,clsDataStructurePA>> poSearchPatternContainer);
-	public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern);
+	public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold);
 	public clsDataStructureContainer initContainerRetrieval(clsDataStructurePA poInput);
 }

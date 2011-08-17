@@ -39,7 +39,7 @@ public class clsImage {
 	 * @param dir
 	 * @param obj
 	 */
-	public clsImage(eDistance dist, eDirection dir, eObjectCategorization obj) {
+	public clsImage (eDistance dist, eDirection dir, eObjectCategorization obj) {
 		m_eDist = dist;
 		m_eDir = dir;
 		m_eObj = obj;

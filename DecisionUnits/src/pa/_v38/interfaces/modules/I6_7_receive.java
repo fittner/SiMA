@@ -9,8 +9,8 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.tools.clsTripple;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 
 /**
  * The results of the first reality check performed by module F51 is forwarded to F26.
@@ -20,6 +20,6 @@ import pa._v38.tools.clsTripple;
  * 
  */
 public interface I6_7_receive {
-	public void receive_I6_7(ArrayList<clsSecondaryDataStructureContainer> poRealityPerception,
-			ArrayList<clsTripple<clsSecondaryDataStructureContainer, ArrayList<clsSecondaryDataStructureContainer>, clsSecondaryDataStructureContainer>> poExtractedPrediction);
+	public void receive_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception,
+			ArrayList<clsPrediction> poExtractedPrediction);
 }

@@ -20,7 +20,7 @@ import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -53,16 +53,16 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsBWProperties poProp,
+	public G13_PrimaryKnowledgeUtilizer(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E09_KnowledgeAboutReality_unconscious.getDefaultProperties(pre+P_E09) );
 		oProp.putAll( E16_ManagementOfMemoryTraces.getDefaultProperties(pre+P_E16) );
@@ -70,8 +70,8 @@ public class G13_PrimaryKnowledgeUtilizer extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE09KnowledgeAboutReality_unconscious = new E09_KnowledgeAboutReality_unconscious(pre+P_E09, poProp, this, moInterfaceHandler);
 		moE16ManagementOfMemoryTraces = new E16_ManagementOfMemoryTraces(pre+P_E16, poProp, this, moInterfaceHandler);

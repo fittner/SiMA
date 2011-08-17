@@ -11,9 +11,12 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 
 /**
@@ -123,4 +126,60 @@ public class clsDataStructureTools {
 			}
 		}
 	}
+	
+	/**
+	 * For a secondary data structure in a container, get the primary data structure in a container if it is available in the input list
+	 * (wendt)
+	 *
+	 * @since 01.08.2011 16:14:31
+	 *
+	 * @param poInput
+	 * @param poSourceList
+	 * @return
+	 */
+	public static clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poSourceList) {
+		clsPrimaryDataStructureContainer oRetVal = null;
+		
+		//Go through the container and search for associationWP
+		if (poInput!=null) {
+			for (clsAssociation oAss : poInput.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationWordPresentation) {
+					//Check if the primary data structure is a part of the root or the leaf element
+					if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
+						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getLeafElement());
+						break;
+					} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
+						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getRootElement());
+						break;
+					}
+				}
+			}
+	}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract a primarydatastructurecontainer from a secondarydatastructurecontainer
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 18:26:09
+	 *
+	 * @param poSourceList
+	 * @param poDS
+	 * @return
+	 */
+	public static clsDataStructureContainer getContainerFromList(ArrayList<clsDataStructureContainer> poSourceList, clsDataStructurePA poDS) {
+		clsDataStructureContainer oRetVal = null;
+		
+		for (clsDataStructureContainer oContainer : poSourceList) {
+			if (oContainer.getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
+				oRetVal = oContainer;
+				break;
+			}
+		}
+		
+		return oRetVal;
+	}
+	
 }

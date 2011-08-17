@@ -12,9 +12,9 @@ import pa._v19.interfaces.itfPrimaryProcessStorage;
 import pa._v19.interfaces.itfSecondaryProcessAssociation;
 import pa._v19.interfaces.itfSecondaryProcessRetrieval;
 import pa._v19.interfaces.itfSecondaryProcessStorage;
-import config.clsBWProperties;
+import config.clsProperties;
 
-//import pa.datatypes.clsBWProperties;
+//import pa.datatypes.clsProperties;
 
 /**
  * 
@@ -57,13 +57,13 @@ public class clsMemory implements
 	 * 11.08.2009, 11:21:16
 	 *
 	 */
-	public clsMemory(String poPrefix, clsBWProperties poProp) {
+	public clsMemory(String poPrefix, clsProperties poProp) {
 		applyProperties(poPrefix, poProp);
     }
     
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+		String pre = clsProperties.addDot(poPrefix);
     	 
 		moRepressedContentsStore = new clsRepressedContentStorage(pre+P_REPRESSEDCONTENTSSTORAGE, poProp);
 		moAwareContentsStore = new clsAwareContentStorage(pre+P_AWARECONTENTSSTORAGE, poProp);
@@ -75,10 +75,10 @@ public class clsMemory implements
 		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-    	String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+    	String pre = clsProperties.addDot(poPrefix);
     	
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsRepressedContentStorage.getDefaultProperties(pre+P_REPRESSEDCONTENTSSTORAGE) );
 		oProp.putAll(clsAwareContentStorage.getDefaultProperties(pre+P_AWARECONTENTSSTORAGE) );

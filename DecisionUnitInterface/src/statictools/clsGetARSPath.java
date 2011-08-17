@@ -4,7 +4,7 @@ public class clsGetARSPath {
 	public static String getArsPath()
 	{
 		if (System.getProperty("file.separator").equals("/"))
-			return System.getProperty("user.home") + "/SVN/ARSIN_V01"; // Unix
+			return System.getProperty("user.home") + "/ARSIN_V01"; // Unix
 		else if (System.getProperty("file.separator").equals("\\"))
 			return "S:\\ARSIN_V01"; // Windows
 		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");
@@ -26,12 +26,12 @@ public class clsGetARSPath {
 	
 	public static String getIconPath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator")+"EntitySelectorIcon"+System.getProperty("file.separator");
+		return getArsPath()+System.getProperty("file.separator")+"World"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator")+"EntitySelectorIcon"+System.getProperty("file.separator");
 	}
 	
 	public static String getImagePath()
 	{
-		return getArsPath()+System.getProperty("file.separator")+"BW"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
+		return getArsPath()+System.getProperty("file.separator")+"World"+System.getProperty("file.separator")+"src"+System.getProperty("file.separator")+"resources"+System.getProperty("file.separator")+"images"+System.getProperty("file.separator");
 	}
 	
 	public static String getXMLPath()

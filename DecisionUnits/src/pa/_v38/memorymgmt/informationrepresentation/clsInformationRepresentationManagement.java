@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.informationrepresentation;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
@@ -49,7 +49,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poProp
 	 */
 	public clsInformationRepresentationManagement(String poPrefix,
-			clsBWProperties poProp) {
+			clsProperties poProp) {
 
 		super(poPrefix, poProp); 	
 		applyProperties(poPrefix, poProp);
@@ -98,8 +98,8 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		moM01InformationRepresentationMgmt = new M01_InformationRepresentationMgmt(moSearchSpaceHandler, moSearchMethod); 
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){		
+		String pre = clsProperties.addDot(poPrefix);
 		poProp.putAll(super.getDefaultProperties(poPrefix));
 		
 		moDatabaseSource = poProp.getProperty(pre+P_DATABASE_SOURCE);
@@ -107,9 +107,9 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		moSourceName = poProp.getProperty(pre+P_SOURCE_NAME);
 	}
 	
-	 public static clsBWProperties getDefaultProperties(String poPrefix) {
-	    	String pre = clsBWProperties.addDot(poPrefix);
-	    	clsBWProperties oProp = new clsBWProperties();
+	 public static clsProperties getDefaultProperties(String poPrefix) {
+	    	String pre = clsProperties.addDot(poPrefix);
+	    	clsProperties oProp = new clsProperties();
 	    	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
@@ -163,12 +163,12 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		 *  
 		 */
 		@Override
-		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern){
+		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold){
 			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 			
 			//Search for all template images in the store
-			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b);
+			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b, prThreshold);
 			moSearchResult.add(oSearchPatternMatch);
 			
 			if(moSearchResult.size() != 1){
@@ -240,7 +240,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @return
 	 * 
 	 */
-	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearchContainer(Integer poReturnType, clsDataStructureContainer poDataContainer) {
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearchContainer(Integer poReturnType, clsDataStructureContainer poDataContainer, double prThreshold) {
 		
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
 		
@@ -248,7 +248,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
 		}
 		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
-			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer, prThreshold);
 		}
 		
 		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}

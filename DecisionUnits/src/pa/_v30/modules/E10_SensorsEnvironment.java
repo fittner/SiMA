@@ -9,7 +9,7 @@ package pa._v30.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
 import du.itf.sensors.clsSensorExtern;
@@ -45,7 +45,7 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	 * @param poModuleList
 	 * @throws Exception 
 	 */
-	public E10_SensorsEnvironment(String poPrefix, clsBWProperties poProp,
+	public E10_SensorsEnvironment(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, int uid) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -69,17 +69,17 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		return text;
 	}	
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}
@@ -122,9 +122,9 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 	}
 	
 	private void removeSelfVision() {
-		// TD 2011/05/01 - due to some reason, the bubble sees himself in vision near. 
+		// TD 2011/05/01 - due to some reason, the ARSIN sees himself in vision near. 
 		//remove this entry manually. should be dealt with in vision sensor in project BW.
-		//it seems that this happens after the bubble has been moved manually. but not always!
+		//it seems that this happens after the ARSIN has been moved manually. but not always!
 		
 		clsSensorRingSegment oVisionNear = (clsSensorRingSegment)moEnvironmentalData.get(eSensorExtType.VISION_NEAR);
 		ArrayList<clsSensorExtern> oDataObjects = oVisionNear.getDataObjects();
@@ -132,8 +132,8 @@ public class E10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
 		for (clsSensorExtern oTemp:oDataObjects) {
 			clsSensorRingSegmentEntry oSRSE = (clsSensorRingSegmentEntry)oTemp;
 			
-			if (oSRSE.getEntityType() == eEntityType.BUBBLE) {
-				//ok its a bubble - now check if this bubble is us!
+			if (oSRSE.getEntityType() == eEntityType.ARSIN) {
+				//ok its a ARSIN - now check if this ARSIN is us!
 				if (oSRSE.getEntityId().endsWith("(#"+uid+")")) {
 					oDeleteCandidates.add(oSRSE);
 				}

@@ -38,7 +38,7 @@ import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *  
@@ -99,7 +99,7 @@ public class clsReactive extends clsBaseDecisionUnit {
 	private String moMode;
 	private String moLayer;
 	
-	public clsReactive(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsReactive(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		moRand = new Random(mnSEED);
@@ -111,18 +111,18 @@ public class clsReactive extends clsBaseDecisionUnit {
 		applyProperties(poPrefix, poProp);			
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 
 	}
 	

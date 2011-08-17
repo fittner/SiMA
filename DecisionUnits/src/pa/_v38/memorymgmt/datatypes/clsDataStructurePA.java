@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -49,7 +49,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 22.06.2010, 15:50:02
 	 *
 	 */
-	public clsDataStructurePA(clsTripple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsDataStructurePA(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		moDS_ID = poDataStructureIdentifier.a; 
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 

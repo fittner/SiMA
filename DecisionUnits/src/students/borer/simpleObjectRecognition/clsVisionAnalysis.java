@@ -38,7 +38,7 @@ public class clsVisionAnalysis {
 		
 		for( clsSensorExtern oVisionObj : oVision.getDataObjects() ) {
 			//no walls or bubbles at the moment
-			if (((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.BUBBLE)
+			if (((clsVisionEntry)oVisionObj).getEntityType() == eEntityType.ARSIN)
 				continue;
 			
 			//remember object in semantic memory

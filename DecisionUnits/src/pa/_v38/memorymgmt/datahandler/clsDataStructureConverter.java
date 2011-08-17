@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -131,7 +131,7 @@ public class clsDataStructureConverter {
 			oAssociatedContent.add(oTP); 
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, 
-										new clsTripple<String, Object, Object>(oContentType, oAssociatedContent, oContent)); 
+										new clsTriple<String, Object, Object>(oContentType, oAssociatedContent, oContent)); 
 		return oTPM; 	
 	}
 	
@@ -178,7 +178,7 @@ public class clsDataStructureConverter {
 			}
 			
 		}
-		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
+		clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
 		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
 		//Set instanceID
 		oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());

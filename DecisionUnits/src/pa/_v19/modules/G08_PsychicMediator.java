@@ -38,7 +38,7 @@ import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsWordPresentation;
 import pa._v19.tools.clsPair;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -88,16 +88,16 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G08_PsychicMediator(String poPrefix, clsBWProperties poProp,
+	public G08_PsychicMediator(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( G09_PrimaryProcessor.getDefaultProperties(pre+P_G09) );
 		oProp.putAll( G10_PrimaryToSecondaryInterface.getDefaultProperties(pre+P_G10) );
@@ -106,8 +106,8 @@ public class G08_PsychicMediator extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moG09PrimaryProcessor = new G09_PrimaryProcessor(pre+P_G09, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);
 		moG10PrimaryToSecondaryInterface1 = new G10_PrimaryToSecondaryInterface(pre+P_G10, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);

@@ -5,7 +5,7 @@
  */
 package du.itf;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eDecisionType;
 
 /**
@@ -28,5 +28,5 @@ public interface itfDecisionUnitFactory {
 	 * @return a fresh instance of the selected decision unit.
 	 * @throws java.lang.IllegalArgumentException
 	 */
-	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType, String poPrefix, clsBWProperties poProp, int uid) throws java.lang.IllegalArgumentException;
+	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType, String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException;
 }

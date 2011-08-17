@@ -9,7 +9,7 @@ package pa._v19.memorymgmt.informationrepresentation;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import pa._v19.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v19.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v19.memorymgmt.datatypes.clsDataStructurePA;
@@ -46,7 +46,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poProp
 	 */
 	public clsInformationRepresentationManagement(String poPrefix,
-			clsBWProperties poProp) {
+			clsProperties poProp) {
 
 		super(poPrefix, poProp); 	
 		applyProperties(poPrefix, poProp);
@@ -77,8 +77,8 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		moM01InformationRepresentationMgmt = new M01_InformationRepresentationMgmt(moSearchSpaceHandler, moSearchMethod); 
 	}
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){		
+		String pre = clsProperties.addDot(poPrefix);
 		poProp.putAll(super.getDefaultProperties(poPrefix));
 		
 		moDatabaseSource = poProp.getProperty(pre+P_DATABASE_SOURCE);
@@ -86,9 +86,9 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		moSourceName = poProp.getProperty(pre+P_SOURCE_NAME);
 	}
 	
-	 public static clsBWProperties getDefaultProperties(String poPrefix) {
-	    	String pre = clsBWProperties.addDot(poPrefix);
-	    	clsBWProperties oProp = new clsBWProperties();
+	 public static clsProperties getDefaultProperties(String poPrefix) {
+	    	String pre = clsProperties.addDot(poPrefix);
+	    	clsProperties oProp = new clsProperties();
 	    	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());

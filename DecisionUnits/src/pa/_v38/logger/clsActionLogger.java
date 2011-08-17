@@ -10,7 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTripple;
+import pa._v38.tools.clsTriple;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 
@@ -106,21 +106,21 @@ public class clsActionLogger {
 	 *
 	 * @return
 	 */
-	public ArrayList<clsTripple<Long,Long,String>> compress() {
-		ArrayList<clsTripple<Long,Long,String>> oResult = new ArrayList<clsTripple<Long,Long,String>>();
+	public ArrayList<clsTriple<Long,Long,String>> compress() {
+		ArrayList<clsTriple<Long,Long,String>> oResult = new ArrayList<clsTriple<Long,Long,String>>();
 		
 		long prev = -1;
-		clsTripple<Long, Long, String> oEntry = null;
+		clsTriple<Long, Long, String> oEntry = null;
 		
 		for (int i=0; i<actions.size(); i++) {
 			if (oEntry == null) {
-				oEntry = new clsTripple<Long, Long, String>(actions.get(i).a, (long) -1, actions.get(i).b);
+				oEntry = new clsTriple<Long, Long, String>(actions.get(i).a, (long) -1, actions.get(i).b);
 			}
 			
 			if (!oEntry.c.equals(actions.get(i).b)) {
 				oEntry.b = prev;
 				oResult.add( oEntry );
-				oEntry = new clsTripple<Long, Long, String>(actions.get(i).a, (long) -1, actions.get(i).b);
+				oEntry = new clsTriple<Long, Long, String>(actions.get(i).a, (long) -1, actions.get(i).b);
 			}
 			
 			prev = actions.get(i).a;
@@ -165,10 +165,10 @@ public class clsActionLogger {
 		
 		o += "** Action Logger ("+first+" to "+last+") **"+newline+newline;
 		
-		ArrayList<clsTripple<Long,Long,String>> oLines = compress();
+		ArrayList<clsTriple<Long,Long,String>> oLines = compress();
 		
 		for (int i=oLines.size()-1;i>=0;i--) {
-			clsTripple<Long,Long,String> oL = oLines.get(i);
+			clsTriple<Long,Long,String> oL = oLines.get(i);
 			
 			o += " - ["+oL.a+":";
 			if (i==oLines.size()-1) {

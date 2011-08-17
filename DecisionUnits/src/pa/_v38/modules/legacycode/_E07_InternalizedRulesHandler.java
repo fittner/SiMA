@@ -13,7 +13,6 @@ import java.util.SortedMap;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.itfMinimalModelMode;
 //import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_10_receive;
@@ -32,7 +31,7 @@ import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * (GELBARD) - insert description 
@@ -44,7 +43,7 @@ import config.clsBWProperties;
 //HZ 4.05.2011: Module is only required to transfer its functionality to v38
 @Deprecated
 public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements 
-								itfMinimalModelMode, /*I1_5_receive,*/ I5_10_receive, I5_1_receive, I5_13_send, I5_11_send {
+								/*I1_5_receive,*/ I5_10_receive, I5_1_receive, I5_13_send, I5_11_send {
 	public static final String P_MODULENUMBER = "07";
 	
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
@@ -66,7 +65,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public _E07_InternalizedRulesHandler(String poPrefix,
-			clsBWProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -95,17 +94,17 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 		return text;
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 		mnMinimalModel = false;
 		//nothing to do
 	}
@@ -170,7 +169,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 		if (!mnMinimalModel) {		
-			mnTest++;
+			//
 		}
 		
 	}
@@ -284,17 +283,6 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 		moDescription = "Rules which are only accessible to functions of the Superego are used to evaluate the incoming drive demands and perceptions. Three possible decisions can be made for each incoming information: they can be passed on without any changes, they can be passed forward but certain changes have to be made, and these contents are not allowed to pass at all. If the evaluated contents qualify for one of the latter two possibilities - a conflict occurs - defense mechanisms have to deal with them. ";
 	}
 	
-	@Override
-	public void setMinimalModelMode(boolean pnMinial) {
-		mnMinimalModel = pnMinial;
-	}
-
-	@Override
-	public boolean getMinimalModelMode() {
-		return mnMinimalModel;
-	}
-
-
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger

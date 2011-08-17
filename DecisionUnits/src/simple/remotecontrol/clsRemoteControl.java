@@ -6,7 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import statictools.clsGetARSPath;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eActionKissIntensity;
@@ -39,7 +39,7 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
         return dateFormat.format(date);
     }
     
-	public clsRemoteControl(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsRemoteControl(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
 		//mnUniqueId = clsUniqueIdGenerator.getUniqueId(); //TD 2011/04/11 - uid is the new unique id
@@ -49,18 +49,18 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
 
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( clsBaseDecisionUnit.getDefaultProperties(poPrefix) );
 		
 		return oProp;
 	}	
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 
 	}	
 	
@@ -160,11 +160,11 @@ public class clsRemoteControl extends clsBaseDecisionUnit implements itfProcessK
     		break;
 
     	case 76: //'L'
-    		attack(poActionProcessor,	eEntityType.BUBBLE);
+    		attack(poActionProcessor,	eEntityType.ARSIN);
     		break;
 
     	case 66: //'B'
-    		kill(poActionProcessor,	eEntityType.BUBBLE);
+    		kill(poActionProcessor,	eEntityType.ARSIN);
     		break;
     		
     	case 88: //'X'

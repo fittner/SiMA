@@ -13,7 +13,7 @@ import pa._v19.clsInterfaceHandler;
 import pa._v19.interfaces.receive.I1_1_receive;
 import pa._v19.interfaces.receive.I1_2_receive;
 import pa._v19.interfaces.send.I1_2_send;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
 import du.itf.sensors.clsDataBase;
@@ -48,22 +48,22 @@ public class E02_NeurosymbolizationOfNeeds extends clsModuleBase implements I1_1
 	 * @param poEnclosingContainer
 	 */
 	public E02_NeurosymbolizationOfNeeds(String poPrefix,
-			clsBWProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
+			clsProperties poProp, clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		applyProperties(poPrefix, poProp);		
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

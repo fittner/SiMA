@@ -6,7 +6,7 @@
  */
 package creation;
 
-import config.clsBWProperties;
+import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import sim.engine.SimState;
@@ -42,7 +42,7 @@ public abstract class clsLoader {
 	/** the version of the loader */
 	public static final String P_LOADER_VERSION = "loader_version";
 	
-	private clsBWProperties moProperties;
+	private clsProperties moProperties;
 	private static final String moPrefix = "";
 	private String moTitle;
 	private String moDescription;
@@ -59,7 +59,7 @@ public abstract class clsLoader {
      * @param poSimState
      * @param poProperties
      */
-    public clsLoader(SimState poSimState, clsBWProperties poProperties) {
+    public clsLoader(SimState poSimState, clsProperties poProperties) {
     	moProperties = poProperties;  	
     	clsSingletonProperties.setProperties(moProperties);    
     	
@@ -73,8 +73,8 @@ public abstract class clsLoader {
 		verifyLoaderType(moPrefix, moProperties);
     }
 
-	private void applyProperties(String poPrefix, clsBWProperties poProp){		
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp){		
+		String pre = clsProperties.addDot(poPrefix);
 		
 		moTitle = poProp.getPropertyString(pre+P_TITLE);
 		moShortDesc = poProp.getPropertyString(pre+P_SHORTDESC);
@@ -99,7 +99,7 @@ public abstract class clsLoader {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	protected abstract void checkVersionCompatibility(String poPrefix, clsBWProperties poProp);
+	protected abstract void checkVersionCompatibility(String poPrefix, clsProperties poProp);
 	
 	/**
 	 * Verifies that this is the correct loader for this property file.
@@ -109,20 +109,20 @@ public abstract class clsLoader {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	protected abstract void verifyLoaderType(String poPrefix, clsBWProperties poProp);
+	protected abstract void verifyLoaderType(String poPrefix, clsProperties poProp);
 	
     /**
-     * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
      */	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 	
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 
 		oProp.setProperty(pre+P_TITLE, "default title");
 		oProp.setProperty(pre+P_SHORTDESC, "loader which loads lots of entities");
 		oProp.setProperty(pre+P_DESCRIPTION, "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-		oProp.setProperty(pre+P_IMAGE, "/BW/src/resources/images/cake.gif");
+		oProp.setProperty(pre+P_IMAGE, "/World/src/resources/images/cake.gif");
 		
 		oProp.setProperty(pre+P_FIELD_WIDTH, 200.0);
 		oProp.setProperty(pre+P_FIELD_HEIGHT, 200.0);
@@ -148,9 +148,9 @@ public abstract class clsLoader {
 	}
 
 
-    private void createGrids(String poPrefix, clsBWProperties poProp)
+    private void createGrids(String poPrefix, clsProperties poProp)
     {
-    	String pre = clsBWProperties.addDot(poPrefix);
+    	String pre = clsProperties.addDot(poPrefix);
     	/**
     	 * Continuous2D is a Field: a representation of space. In particular, Continuous2D 
     	 * represents continuous 2-dimensional space it is actually infinite: the width 
@@ -171,8 +171,8 @@ public abstract class clsLoader {
 	 * @param P_POS_ANGLE
 	 * @return
 	 */
-	public static clsBWProperties generateRandomPose(String Prefix, String P_POS_X, String P_POS_Y, String P_POS_ANGLE) {
-		String pre = clsBWProperties.addDot(Prefix);
+	public static clsProperties generateRandomPose(String Prefix, String P_POS_X, String P_POS_Y, String P_POS_ANGLE) {
+		String pre = clsProperties.addDot(Prefix);
 		
 		double xMax = clsSingletonMasonGetter.getFieldEnvironment().getWidth();
 		double yMax = clsSingletonMasonGetter.getFieldEnvironment().getHeight();
@@ -181,7 +181,7 @@ public abstract class clsLoader {
         double yStartPos = Math.max(Math.min(clsSingletonMasonGetter.getSimState().random.nextDouble() * yMax, yMax - 20), 50);
         double rAngle = clsSingletonMasonGetter.getSimState().random.nextDouble() * Math.PI * 2;
         
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
         oProp.setProperty(pre+P_POS_X, xStartPos);
         oProp.setProperty(pre+P_POS_Y, yStartPos);
         oProp.setProperty(pre+P_POS_ANGLE, rAngle);
@@ -282,13 +282,13 @@ public abstract class clsLoader {
 		
 	
 	/**
-	 * Getter for moProperteries (instance of clsBWProperties).
+	 * Getter for moProperteries (instance of clsProperties).
 	 *
 	 * @since 20.06.2011 18:44:29
 	 *
 	 * @return
 	 */
-	protected clsBWProperties getProperties() {
+	protected clsProperties getProperties() {
 		return moProperties;
 	}
 	

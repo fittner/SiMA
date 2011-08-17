@@ -22,7 +22,7 @@ import pa._v19.memorymgmt.datatypes.clsThingPresentation;
 import pa._v19.memorymgmt.enums.eDataType;
 import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.pa.eContext;
 
 /**
@@ -63,7 +63,7 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public E03_GenerationOfDrives(String poPrefix, clsBWProperties poProp,
+	public E03_GenerationOfDrives(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler);
 		
@@ -78,23 +78,23 @@ public class E03_GenerationOfDrives extends clsModuleBase implements I1_2_receiv
 	 * 23.09.2009, 14:31:31
 	 *
 	 */
-	private void loadDriveDefinition(String poPrefix, clsBWProperties poProp) {
+	private void loadDriveDefinition(String poPrefix, clsProperties poProp) {
 	      
 		// - (langr): read team-name from property file!
 		moDriveDefinition = clsDriveLoader.createDriveList("1", "PSY_10");
 	}
 
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 				
 		return oProp;
 	}	
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		//String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		//String pre = clsProperties.addDot(poPrefix);
 	
 		//nothing to do
 	}

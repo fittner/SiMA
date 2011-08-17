@@ -8,6 +8,7 @@ package pa._v38.tools.planningHelpers;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Stack;
@@ -24,6 +25,8 @@ public class PlanningGraph {
 
 		// member to say where to start from
 	 	public PlanningNode m_rootNode;
+	 	
+	 	public HashMap<PlanningNode, HashMap<Integer, PlanningNode>> m_planningResults;
 	 	
 	 	// available plans
 	      public ArrayList <PlanningNode> m_nodes=new ArrayList<PlanningNode>();
@@ -80,12 +83,9 @@ public class PlanningGraph {
 	          
 	          int index=m_nodes.indexOf(n);
 	          int j=0;
-	          while(j<m_iSize)
-	          {
+	          while(j<m_iSize) {
 	              if(m_adjMatrix[index][j]==1 && ((PlanningNode)m_nodes.get(j)).visited==false)
-	              {
 	                  return (PlanningNode)m_nodes.get(j);
-	              }
 	              j++;
 	          }
 	          return null;
@@ -99,21 +99,25 @@ public class PlanningGraph {
 	       *
 	       */
 	      public void breathFirstSearch() {
+	    	  
+	    	  m_planningResults  = new HashMap<PlanningNode, HashMap<Integer, PlanningNode>>(); 
+	          Queue<PlanningNode> q = new LinkedList<PlanningNode>();
+	          int iLevel = 0;
 	          
-	          Queue<PlanningNode> q=new LinkedList<PlanningNode>();
 	          q.add(m_rootNode);
-	          
-	          //savePlanningNode(rootNode);
+	          printPlanningNodeToSysOut(m_rootNode);
 	          
 	          m_rootNode.visited=true;
 	          while(!q.isEmpty()){
 	        	  PlanningNode n=(PlanningNode)q.remove();
 	        	  PlanningNode child=null;
-	              while((child=getUnvisitedChildNode(n))!=null)
-	              {
+	        	  iLevel++;
+	              while((child=getUnvisitedChildNode(n))!=null) {
 	                  child.visited=true;
 	                  
-	                  //savePlanningNode(child);
+	                  savePlanningNode(child, iLevel);
+	                  //System.out.println("planning searchlevel: " + iLevel);	//FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
+	                  printPlanningNodeToSysOut(child);
 	                  q.add(child);
 	              }
 	          }
@@ -181,6 +185,11 @@ public class PlanningGraph {
 	       * @param n
 	       */
 	      private void printPlanningNodeToSysOut(PlanningNode n) {
-	          System.out.print(n.label+" ");
-	      }	  
+	          //System.out.println(n.label+" "); //FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
+	      }	
+	      
+	      private void savePlanningNode(PlanningNode n, int iLevel) {
+	    	
+	    	//  m_planningResults.put(arg0, arg1)
+	      }
 }

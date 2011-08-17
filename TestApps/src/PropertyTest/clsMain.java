@@ -1,6 +1,6 @@
 package PropertyTest;
 
-import PropertyTest.Properties.clsBWProperties;
+import PropertyTest.Properties.clsProperties;
 import PropertyTest.objects.clsObject;
 
 public class clsMain {
@@ -11,8 +11,8 @@ public class clsMain {
 	public static void main(String[] args) {
 		String poFilename = "test.properties";
 		
-		clsBWProperties.writeProperties( clsObject.getDefaultProperties("object"), poFilename, "test property file");		
-		clsBWProperties oProp = clsBWProperties.readProperties(poFilename);
+		clsProperties.writeProperties( clsObject.getDefaultProperties("object"), poFilename, "test property file");		
+		clsProperties oProp = clsProperties.readProperties(poFilename);
 		
 		
 //		oProp.list(System.out);
@@ -26,15 +26,15 @@ public class clsMain {
 		System.out.println(oObject2);
 
 		System.out.println("testA Property Object -------------------------------------");
-		clsObject oObject3 = new clsObject("object", clsBWProperties.readProperties("src\\PropertyTest\\resources\\testA.properties") );
+		clsObject oObject3 = new clsObject("object", clsProperties.readProperties("src\\PropertyTest\\resources\\testA.properties") );
 		System.out.println(oObject3);
 
 		System.out.println("testB Property Object -------------------------------------");
-		clsObject oObject4 = new clsObject("object", clsBWProperties.readProperties("src\\PropertyTest\\resources\\testB.properties") );
+		clsObject oObject4 = new clsObject("object", clsProperties.readProperties("src\\PropertyTest\\resources\\testB.properties") );
 		System.out.println(oObject4);
 		
 		System.out.println("testC Property Object -------------------------------------");
-		clsObject oObject5 = new clsObject("object", clsBWProperties.readProperties("src\\PropertyTest\\resources\\testC.properties") );
+		clsObject oObject5 = new clsObject("object", clsProperties.readProperties("src\\PropertyTest\\resources\\testC.properties") );
 		System.out.println(oObject5);
 		
 	}

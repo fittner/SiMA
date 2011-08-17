@@ -112,7 +112,6 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 				
 		return oProp;
 	}
-
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
 	

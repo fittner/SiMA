@@ -88,10 +88,10 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	 * @param poDataContainerUnknown
 	 * @return
 	 */
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown){
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold){
 		//Use Listsearch for containers
 		
-		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown);}
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown, prThreshold);}
 		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
@@ -101,6 +101,6 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
-	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown);
+	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
 	//public abstract clsDataStructureContainer getDataCompleteStructureContainer(clsDataStructurePA poInput);
 }

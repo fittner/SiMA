@@ -33,7 +33,7 @@ import pa._v19.memorymgmt.datatypes.clsDriveMesh;
 import pa._v19.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v19.tools.clsPair;
 import pa._v19.tools.clsTripple;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  *
@@ -80,16 +80,16 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 	 * @param poProp
 	 * @param poEnclosingContainer
 	 */
-	public G09_PrimaryProcessor(String poPrefix, clsBWProperties poProp,
+	public G09_PrimaryProcessor(String poPrefix, clsProperties poProp,
 			clsModuleContainer poEnclosingContainer, clsInterfaceHandler poInterfaceHandler, clsMemory poMemory, clsKnowledgeBaseHandler poKnowledgeBase) {
 		super(poPrefix, poProp, poEnclosingContainer, poInterfaceHandler, poMemory, poKnowledgeBase);
 		applyProperties(poPrefix, poProp);
 	}
 	
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
 		
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll( E17_FusionOfExternalPerceptionAndMemoryTraces.getDefaultProperties(pre+P_E17) );
 		oProp.putAll( G12_PrimaryDecision.getDefaultProperties(pre+P_G12) );
@@ -98,8 +98,8 @@ public class G09_PrimaryProcessor extends clsModuleContainer implements
 		return oProp;
 	}
 	
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		String pre = clsProperties.addDot(poPrefix);
 	
 		moE17FusionOfExternalPerceptionAndMemoryTraces = new E17_FusionOfExternalPerceptionAndMemoryTraces(pre+P_E17, poProp, this, moInterfaceHandler);
 		moG12PrimaryDecision = new G12_PrimaryDecision(pre+P_G12, poProp, this, moInterfaceHandler, moMemory, moKnowledgeBaseHandler);

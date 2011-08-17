@@ -6,7 +6,7 @@
 package decisionunit;
 
 import pa._v30.logger.clsActionLogger;
-import config.clsBWProperties;
+import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;
@@ -38,7 +38,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	 * @param poProp the property object.
 	 * @param uid unique identifier. the body and the brain get the same. eases debugging and logging.
 	 */
-	public clsBaseDecisionUnit(String poPrefix, clsBWProperties poProp, int uid) {
+	public clsBaseDecisionUnit(String poPrefix, clsProperties poProp, int uid) {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
 		moActionLogger = new clsActionLogger(uid);
@@ -125,17 +125,17 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	}
 	
 	/**
-	 * Provides the default entries for this class. See config.clsBWProperties in project DecisionUnitInterface.
+	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
 	 *
 	 * @since 06.07.2011 13:02:15
 	 *
 	 * @param poPrefix
 	 * @return
 	 */
-	public static clsBWProperties getDefaultProperties(String poPrefix) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	public static clsProperties getDefaultProperties(String poPrefix) {
+//		String pre = clsProperties.addDot(poPrefix);
 
-		clsBWProperties oProp = new clsBWProperties();
+		clsProperties oProp = new clsProperties();
 		
 		
 		return oProp;
@@ -149,8 +149,8 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	private void applyProperties(String poPrefix, clsBWProperties poProp) {
-//		String pre = clsBWProperties.addDot(poPrefix);
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+//		String pre = clsProperties.addDot(poPrefix);
 
 	}
 	

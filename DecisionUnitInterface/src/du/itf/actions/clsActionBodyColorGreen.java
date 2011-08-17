@@ -9,7 +9,7 @@ package du.itf.actions;
 /**
  * Set Body color: Green
  * Parameters
- * 	prGreen = Green component of the bubble's color (0=default, +/- for variation)
+ * 	prGreen = Green component of the ARSIN's color (0=default, +/- for variation)
  * 
  * @author Benny Dönz
  * 20.06.2009, 15:31:13

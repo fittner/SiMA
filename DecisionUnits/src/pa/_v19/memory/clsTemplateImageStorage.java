@@ -14,7 +14,7 @@ import pa._v19.loader.templateimage.clsTemplateImageLoader;
 import pa._v19.loader.templateimage.clsTemplateSecondaryInfo;
 import pa._v19.loader.templateimage.clsTemplateSecondaryMesh;
 import pa._v19.tools.clsPair;
-import config.clsBWProperties;
+import config.clsProperties;
 
 /**
  * 
@@ -28,23 +28,23 @@ public class clsTemplateImageStorage {
 	//these PrimaryInfos implement the itfTemplateComparable!!!!
 	public ArrayList<clsSecondaryInformation> moTemplateImages;
 	
-	public clsTemplateImageStorage(String poPrefix, clsBWProperties poProp) {
+	public clsTemplateImageStorage(String poPrefix, clsProperties poProp) {
 		
 		applyProperties(poPrefix, poProp);
 		moTemplateImages = clsTemplateImageLoader.createTemplateImageList("1", "PSY_10");
     }
     
     
-    private void applyProperties(String poPrefix, clsBWProperties poProp){		
-//		String pre = clsBWProperties.addDot(poPrefix);
+    private void applyProperties(String poPrefix, clsProperties poProp){		
+//		String pre = clsProperties.addDot(poPrefix);
     	 
     	//moVariable = new clsClass(pre+P_KEY, poProp, null,this);		
 	}	
     
-    public static clsBWProperties getDefaultProperties(String poPrefix) {
-//    	String pre = clsBWProperties.addDot(poPrefix);
+    public static clsProperties getDefaultProperties(String poPrefix) {
+//    	String pre = clsProperties.addDot(poPrefix);
     	
-    	clsBWProperties oProp = new clsBWProperties();
+    	clsProperties oProp = new clsProperties();
 		
 		//oProp.putAll(clsOtherClass.getDefaultProperties(pre) );
 		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );

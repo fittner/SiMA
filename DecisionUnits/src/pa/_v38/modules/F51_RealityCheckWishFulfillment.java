@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.I6_6_receive;
@@ -47,6 +48,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 	/** A construction of an Intention, an arraylist with expectations and the current situation */
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
+	
+	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
+	private double mrMomentActivationThreshold = 0.8;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -156,7 +160,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//	moRealityPerception_Output.add(oCon); 
 		//}
 		
-		//FIXME AW: Shoold anything be done with the perception here?
+		//FIXME AW: Should anything be done with the perception here?
 		moRealityPerception_Output = (ArrayList<clsDataStructureContainer>)deepCopy(moFocusedPerception_Input);
 		
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
@@ -187,13 +191,39 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		/* 2.b A current situation has the following:
 		 * - For an intention, the highest match value of the associationPrimary
 		 */
-		setCurrentSituation(oRetVal, poInput);
-		//3. Find the expectation in each Perception-act
+		setCurrentSituation(oRetVal, poInput, mrMomentActivationThreshold);
+		//2.c Check extrapolation of values
+		//XXXX
+		
+		
+		//3. Remove all predictions, where there is no current moment for an intention
+		cleanPredictions(oRetVal);
+		
+		//4. Find the expectation in each Perception-act
 		//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 		//current situation
 		setCurrentExpectation(oRetVal, poInput);
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Delete all predictions without a moment, because they cannot be interpreted
+	 * (wendt)
+	 *
+	 * @since 16.08.2011 21:16:29
+	 *
+	 * @param poPredictionList
+	 */
+	private void cleanPredictions(ArrayList<clsPrediction> poPredictionList) {
+		ListIterator<clsPrediction> liMainList = poPredictionList.listIterator();
+		
+		while (liMainList.hasNext()) {
+			clsPrediction oPred = liMainList.next();
+			if (oPred.getMoment().getSecondaryComponent()==null) {
+				liMainList.remove();
+			}
+		}
 	}
 	
 	
@@ -247,14 +277,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private void setCurrentSituation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
+	private void setCurrentSituation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
 		
 		for (clsPrediction oActTripple : poActList) {
 			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
 			//Precondition: All structures are already loaded and can be found in the input list
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			clsSecondaryDataStructureContainer oSMoment = getBestMatchSubImage(oSubImageAss, poInput);
+			clsSecondaryDataStructureContainer oSMoment = getBestMatchSubImage(oSubImageAss, poInput, prMomentActivationThreshold);
 			clsPrimaryDataStructureContainer oPMoment = clsDataStructureTools.extractPrimaryContainer(oSMoment, poInput);
 			oActTripple.getMoment().setSecondaryComponent(oSMoment);
 			oActTripple.getMoment().setPrimaryComponent(oPMoment);
@@ -295,7 +325,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poSourceList
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList) {
+	private clsSecondaryDataStructureContainer getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold) {
 		clsSecondaryDataStructureContainer oRetVal = null;
 		double rMaxValue = 0.0;
 		
@@ -321,7 +351,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			
 			if (oPContainer != null) {
 				double rMatchValue = getMatchValueToPI(oPContainer);
-				if (rMatchValue > rMaxValue) {
+				//If the new value is the highest value and it is higher than the threshold value
+				if ((rMatchValue > rMaxValue) && (rMatchValue >= prMomentActivationThreshold)) {
 					oRetVal = oCurrentSituationWPContainer;
 				}
 			}
