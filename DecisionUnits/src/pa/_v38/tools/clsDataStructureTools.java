@@ -87,12 +87,12 @@ public class clsDataStructureTools {
 	 * @param poInput
 	 * @return
 	 **/
-	public static <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromTypeList(ArrayList<E> poInput) {
+	public static <E extends clsDataStructureContainer> ArrayList<E> createInstanceFromTypeList(ArrayList<E> poInput, boolean pbResetInstanceID) {
 		ArrayList<E> oRetVal = poInput; //TD 2011/07/20 - removed deepCopy. this has to be decided by the one who calls this method and done there.
 		
 		//Set Unique IDs for all root elements
 		for (E oElement : oRetVal) {
-			createInstanceFromType(oElement);
+			createInstanceFromType(oElement, pbResetInstanceID);
 		}
 		
 		return oRetVal;
@@ -106,10 +106,10 @@ public class clsDataStructureTools {
 	 * @param <E>
 	 * @param poElement
 	 */
-	public static <E extends clsDataStructureContainer> void createInstanceFromType(E poElement) {
+	public static <E extends clsDataStructureContainer> void createInstanceFromType(E poElement, boolean pbResetInstanceID) {
 		int oInstanceID;	//
 		//Check if the root (DS) element already have an unique ID
-		if (poElement.getMoDataStructure().getMoDSInstance_ID() == 0) {
+		if ((poElement.getMoDataStructure().getMoDSInstance_ID() == 0) || (pbResetInstanceID==true)) {
 			oInstanceID = poElement.getMoDataStructure().hashCode();
 			poElement.getMoDataStructure().setMoDSInstance_ID(oInstanceID);
 		} else {

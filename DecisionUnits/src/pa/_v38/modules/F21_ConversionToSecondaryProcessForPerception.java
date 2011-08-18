@@ -550,7 +550,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Give the word presentations unique IDs
 		if (oPerception_Output!=null) {
-			clsDataStructureTools.createInstanceFromType(oPerception_Output);
+			clsDataStructureTools.createInstanceFromType(oPerception_Output, false);
 		}
 			
 		return oPerception_Output;
@@ -728,7 +728,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Give all structures unique IDs
 		if (oRetVal!=null) {
-			clsDataStructureTools.createInstanceFromType(oRetVal);
+			clsDataStructureTools.createInstanceFromType(oRetVal, false);
 		}
 		
 		return oRetVal;

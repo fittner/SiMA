@@ -351,7 +351,6 @@ public class clsOntologyLoader {
 		}
 	}
 	
-	
 	private static void createPRIINSTANCE(Instance poRootElement, Instance poElement,
 			clsPair<KnowledgeBase, HashMap<String,clsDataStructurePA>> poDataContainer) {
 		
@@ -368,7 +367,6 @@ public class clsOntologyLoader {
 		if (oDS != null) {
 			if (oDS instanceof clsThingPresentationMesh) {
 				//TODO AW: Only TPM is covered here
-				//oNewInstanceDS = (clsThingPresentationMesh)deepCopy(oDS);
 				clsThingPresentationMesh oNewInstanceTPMDS = null;
 				try {
 					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS).clone();
@@ -376,24 +374,36 @@ public class clsOntologyLoader {
 					System.out.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned");
 					e.printStackTrace();
 				}
-				oNewInstanceTPMDS.setMoDSInstance_ID(oNewInstanceTPMDS.hashCode());
+				//IMPORTANT NOTE: InstanceIDs should only be set outside of the memory management, but as association to drives has
+				//to be instanciated, instanceIDs are set here. It is only set for this data structure
+				//Get new instanceID
+				int nInstanceID = oNewInstanceTPMDS.hashCode();
+				oNewInstanceTPMDS.setMoDSInstance_ID(nInstanceID);
+				//Make this clsDataStructurePA to a TPM
 				oNewInstanceDS = oNewInstanceTPMDS;
 				
 				poDataContainer.b.put(poElement.getName(), oNewInstanceDS);	//Use the containername as identifier
-				//TODO: IMPORTANT NOTE TO DOCUMENT: In associationAttribute, the rootelement must be the first element
+				
+				//TODO: IMPORTANT NOTE TO DOCUMENTv: In associationAttribute, the rootelement must be the first element
+				
+				//As drive meshes are no intrinsic data structures and are bound to the type, they have to be cloned as well 
+				//and the cloned associations have to be assigned the new PRIInstances
 				
 				//Get associated drive meshes
 				ArrayList<clsAssociationDriveMesh> oDMAssList = new ArrayList<clsAssociationDriveMesh>();
 				Collection<clsDataStructurePA> oValueList = poDataContainer.b.values();	//Get all values from the hashtable
 				//FIXME AW: To get all values from the hashtable is no very nice solution, in order to extract the fitting associations for an element. 
 				//A memory-PhD should make this part more efficient
+				
 				for (clsDataStructurePA oStructure : oValueList) {
 					if ((oStructure instanceof clsAssociationDriveMesh)) {
 						clsAssociationDriveMesh oOriginalAssDM = (clsAssociationDriveMesh) oStructure;
+						//If the rootelement of a DM-Ass is the original data structure (e. g. CAKE)
 						if (oOriginalAssDM.getRootElement() == oDS) {
 							//For each found AssociationDriveMesh for that structure, create a clone and change the root element
 							try {
 								clsAssociationDriveMesh oNewAssDM = (clsAssociationDriveMesh)oOriginalAssDM.clone();
+								//In this case, the Root element is B. Therefore, set be
 								oNewAssDM.setMoAssociationElementB(oNewInstanceDS);
 								oDMAssList.add(oNewAssDM);
 							} catch (CloneNotSupportedException e) {
@@ -403,19 +413,16 @@ public class clsOntologyLoader {
 						}
 					}
 				}
+				
 				int i=0;
 				for (clsAssociationDriveMesh oAssDM : oDMAssList) {
 					//It would be better to create a real name as hash key.
 					String oName = poElement.getName() + ":DM:NO" + i;
 					poDataContainer.b.put(oName, oAssDM);	//Add the new association
 					i++;
-					//if (i==3) {
-					//	break;
-					//}
 				}
 			}
 		}
-		
 		
 	}
 	

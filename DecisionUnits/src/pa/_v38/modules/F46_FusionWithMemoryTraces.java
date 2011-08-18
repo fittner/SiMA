@@ -142,18 +142,31 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
 		
+		//IMPORTANT NOTE: As the same instance is used in all loaded containers, a deepcopy has to be made in order to 
+		//get separate instances for all loaded containers. These instances are then given an instanceID. Until then, the 
+		//instanceID has to be 0.
 		@SuppressWarnings("unchecked")
-		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); //FIXME (wendt) - is this deepcopy really necessary?
+		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); 
+		//IMPORTANT NOTE: Here the instance IDs are set for all TPM-Containers, which will form the perceived image
+		//Here the instance values are reset, else there is a provlem that e. g. all WALL have the same instanceID
+		clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT, true);
 		
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
+		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oCopyOfCWT);
 		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
-		assignDriveMeshes(oEnvPerceptionNoDM);
-		adaptCategories(oEnvPerceptionNoDM);
+		//assignDriveMeshes(oEnvPerceptionNoDM);
+		
+		//TODO AW: Remove, as nobody uses this functionality
+		//adaptCategories(oEnvPerceptionNoDM);
+		
+		//Set InstanceIDs for the PI and all its associations
+		clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
 		
 		//Set Perceived image on the output
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
+		
 		
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
@@ -164,6 +177,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			}
 		}
 		
+		ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}
@@ -237,11 +251,18 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		search(eDataType.TP, oPerceivedImage_IN, oSearchResult ); 
+		//Assign TP to the identified object in PerceivedImage_IN
+		search(eDataType.TP, oPerceivedImage_IN, oSearchResult); 
+		//Take the best match for object
 		oRetVal = createImage(oSearchResult);
 		
+		//Assign drive meshes to each found image
+		
+		assignDriveMeshes(oRetVal);
+		
 		return oRetVal;
-	}
+	}	
+	
 	
 	/**
 	 * Find DMs for objects in perception and assign them through associations.
@@ -256,14 +277,37 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see F35_EmersionOfBlockedContent#search(eDataType, clsPrimaryDataStructureContainer)
 	 * @see F35_EmersionOfBlockedContent#addAssociations(ArrayList, clsPrimaryDataStructureContainer)
 	 */
-	private void assignDriveMeshes(clsPrimaryDataStructureContainer poPerception) {
+	/*private void assignDriveMeshes(clsPrimaryDataStructureContainer poPerception) {
 		
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 	
-		oSearchResult = search(eDataType.DM, poPerception);
-
+		//oSearchResult = search(eDataType.DM, poPerception);
+		
+		search(eDataType.DM, poPerception, oSearchResult);
 		addAssociations(oSearchResult, poPerception);
+	}*/
+	
+	/**
+	 * Add associations 
+	 * wendt
+	 *
+	 * @since 18.08.2011 11:22:36
+	 *
+	 * @param poPerception
+	 */
+	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		//oSearchResult = search(eDataType.DM, poPerception);
+		
+		search(eDataType.DM, poPerception, oSearchResult);
+		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+		addAssociations(oSearchResult, poPerception);
+		//}
+		//addAssociations(oSearchResult, poPerception);
 	}
 	
 	/**
@@ -277,7 +321,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param poPerception	- the perception for which you want to find something 
 	 * @return							- the result of a MemorySearch in the KnowledgeBase
 	 */
-	public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> search(
+	/*public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> search(
 			eDataType poDataType, 
 			clsPrimaryDataStructureContainer poPerception) {
 		
@@ -291,7 +335,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 				moKnowledgeBaseHandler.initMemorySearch(oSearchPattern));
 		
 		//Set Instance values
-		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oStructure : poSearchResult) {
+		/*for (ArrayList<clsPair<Double, clsDataStructureContainer>> oStructure : poSearchResult) {
 			for (clsPair<Double, clsDataStructureContainer> oMatchingData : oStructure) {
 				int iInstID = oMatchingData.b.getMoDataStructure().getMoDSInstance_ID();
 				if (iInstID != 0) {
@@ -300,10 +344,10 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 					}
 				}
 			}
-		}
+		}*/
 		
-		return poSearchResult;
-	}
+		/*return poSearchResult;
+	}*/
 	
 	/**
 	 * Creates a search pattern for a perception and a DataType that is used to
@@ -347,17 +391,35 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	private void addAssociations(
 			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-			clsPrimaryDataStructureContainer poPerception) {
+			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
 
 		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
+		if (poSearchResult.size()!=poPerception.size()) {
+			try {
+				throw new Exception("F46: addAssociations, Error, different Sizes");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i=0;i<poSearchResult.size();i++) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
+			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
+			if (oSearchPair.size()>0) {
+				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+			}
+			
+		}
+		
+		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
 			if(oEntry.size() > 0){
 				//get associated DM from a the object e. g. CAKE
 				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
 				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
 				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
 			}
-		}
+		}*/
 	}
 	
 	/**

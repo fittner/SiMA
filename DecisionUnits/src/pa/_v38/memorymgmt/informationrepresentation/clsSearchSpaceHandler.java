@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -90,7 +91,16 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 		}
 		
 		for (Integer iType :iReturnTypes) {
-			oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
+			ArrayList<clsAssociation> oAssList = readOutSearchSpace(iType, poDataStructure, true);
+			for (clsAssociation oAss : oAssList) {
+				//Add all associations but association time, as it is already there
+				if ((oAss instanceof clsAssociationTime)==false) {
+					oRetVal.add(oAss);
+				}
+			}
+			
+			
+			//oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
 		}
 		
 		return oRetVal; 
@@ -133,16 +143,16 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 			
 			//If compare instance = false, then only the moID is used
 			if (blCompareInstance == false) {
-				//FIXME AW: Correct the outcommented part if necessary
-				//if ((oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID()==0) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID()==0)){ 	//Only a type is taken, no instances
-					//Make a special case for drive meshes. //FIXME: Somehting has to be done with the instance IDs, else the stone or other structures will be erroneously addressed
-				if ((oAssociationElement.getMoAssociationElementA().getMoDataStructureType() == eDataType.DM)) {
+				//Make a special case for drive meshes. //FIXME: Something has to be done with the instance IDs, else the stone or other structures will be erroneously addressed
+				//If in the association, the Type is a DM, it will have an instanceID already and therefore, only the InstanceID=0 shall be used
+				//if ((oAssociationElement.getMoAssociationElementA().getMoDataStructureType() == eDataType.DM)) {
 					if ((oAssociationElement.getMoAssociationElementB().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementB().getMoDSInstance_ID() == 0)) {
 						elementB = oAssociationElement.getMoAssociationElementA();
 					}  else if ((oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) && (oAssociationElement.getMoAssociationElementA().getMoDSInstance_ID() == 0)) {
 							elementB = oAssociationElement.getMoAssociationElementB();
 					}
-				} else {
+				//Else, it is no DM and will not have an instanceID
+				/*} else {
 					if (oAssociationElement.getMoAssociationElementA().getMoDS_ID() == poDataStructure.getMoDS_ID()) {
 						elementB = oAssociationElement.getMoAssociationElementB(); 
 					}
@@ -150,7 +160,8 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 						elementB = oAssociationElement.getMoAssociationElementA();
 					} else {
 						throw new NoSuchFieldError("Association " + oAssociationElement.getMoDS_ID() + " does not contain data structure " + poDataStructure.getMoDS_ID());}
-					} 
+					} */
+			//If compareInstance = true, i.e. only memory is checked
 			} else {
 				if(oAssociationElement.getRootElement().getMoDSInstance_ID() == poDataStructure.getMoDSInstance_ID()){ 
 					elementB = oAssociationElement.getLeafElement(); 

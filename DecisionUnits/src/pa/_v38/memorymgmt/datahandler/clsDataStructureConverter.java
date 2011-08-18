@@ -181,7 +181,7 @@ public class clsDataStructureConverter {
 		clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
 		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
 		//Set instanceID
-		oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
+		//oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
 		
 		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);
 		

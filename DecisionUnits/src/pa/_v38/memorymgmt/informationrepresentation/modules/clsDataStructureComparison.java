@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -129,7 +128,8 @@ public abstract class clsDataStructureComparison {
 			}
 			
 			//Set moInstanceID for all structures in the container
-			clsDataStructureTools.createInstanceFromType(oCompareContainer);
+			//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
+			//clsDataStructureTools.createInstanceFromType(oCompareContainer);
 			//Add results
 			oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
 		}
@@ -429,9 +429,7 @@ public abstract class clsDataStructureComparison {
 						double matchValExtrinsic = 0.0;
 						if (matchValContent == 1.0){
 							matchValExtrinsic = 
-								getAssocAttributeMatch(
-										poBlockedContent.getMoAssociatedDataStructures(blockedTPM), 
-										poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
+								getAssocAttributeMatch(poBlockedContent.getMoAssociatedDataStructures(blockedTPM), poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
 						}
 						// combine values to calculate overall match of a TPM. Weights are arbitrary!
 						
@@ -451,6 +449,10 @@ public abstract class clsDataStructureComparison {
 							bestMatchDriveMeshAssociations = 
 								createNewDMAssociations(perceivedTPM, 
 										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
+							//If a perfect match is made, then break, as no more comparison is necessary
+							if (bestMatchValue==1.0) {
+								break;
+							}
 						}
 					}
 				}
@@ -631,14 +633,17 @@ public abstract class clsDataStructureComparison {
 			ArrayList<clsPair<Double, clsDataStructurePA>> oDS_List = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 			
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : poMap.entrySet()){
-					clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+				clsDataStructurePA oCompareElement = oEntry.getValue().a; 
+				//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
+				//if (oCompareElement.getMoDSInstance_ID()==0) {
 					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 					
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 						int nInsert = sortList(oDS_List, rMatchScore); 
 						oDS_List.add(nInsert,new clsPair<Double, clsDataStructurePA>(rMatchScore, oCompareElement));
 					}
-				}
+				//}
+			}
 		
 			return oDS_List;
 	}
@@ -662,13 +667,15 @@ public abstract class clsDataStructureComparison {
 
 		for(Map.Entry<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oTableEntry : poMap.entrySet()){
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oTableEntry.getValue().entrySet()){
-					clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a; 
+				clsDataStructurePA oSearchSpaceElement = oEntry.getValue().a;
+				//InstanceID has to be 0, in the search part, in order to compare the structure
+				//if (oSearchSpaceElement.getMoDSInstance_ID()==0) {
 					rMatchScore = oSearchSpaceElement.compareTo(poDataStructureUnknown);
-						
+					
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
 						oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oSearchSpaceElement));
 					}
-	
+				//}
 			}
 		}
 				
