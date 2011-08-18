@@ -1,8 +1,9 @@
 /**
  * F57_MemoryTracesForDrives.java: DecisionUnits - pa._v38.modules
+ * For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs 
  * 
- * @author zeilinger
- * 02.05.2011, 15:47:23
+ * @author hinterleitner
+ * 05.08.2011, 10:20:03
  */
 package pa._v38.modules;
 
@@ -27,10 +28,10 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - For generated drive candidates (vector affect values), drive objects and actions (drive aims) are remembered (for the satisfaction of needs 
+ * DOCUMENT (hinterleitner)  
  * 
- * @author zeilinger
- * 02.05.2011, 15:47:23
+ * @author hinterleitner
+ * 05.08.2011, 10:23:13
  * 
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
@@ -43,7 +44,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 * DOCUMENT (zeilinger) 
 	 * 
 	 * @author zeilinger
 	 * 02.05.2011, 15:52:25
@@ -59,7 +60,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
 		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();	//If no drive candidate is there, then it is initialized
@@ -145,7 +146,7 @@ protected void process_basic() {
 	}
 
 	/**
-	 * DOCUMENT (hinterleitner) - insert description
+	 * DOCUMENT (hinterleitner) - Search for TPMs that are associated with the different drive candidates. 
 	 * @param <clsPhysicalDataStructure>
 	 *
 	 * @since 01.07.2011 10:24:34
@@ -161,7 +162,7 @@ protected void process_basic() {
 			clsDataStructurePA oDS=null;
 			double rMaxMatchfactor = 0.0; 
 			for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
-				//FIXME ISABELLA: Which type of comparison will be used, content, contenttype or drive qualities???????????????????????????
+				//FIXME ISABELLA: Bug bei der Wahrnehmung, wenn nichts gesehen wird 
 				if (oAss.getLeafElement()instanceof clsDriveMesh) {
 					if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > 0.1) {
 						if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > rMaxMatchfactor) {

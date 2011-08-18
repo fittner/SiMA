@@ -1,14 +1,14 @@
 /**
  * E37_PrimalRepressionForPerception.java: DecisionUnits - pa.modules._v38
+ * This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
  * 
- * @author deutsch
- * 03.03.2011, 15:22:10
+ * @author hinterleitner
+ * 05.08.2011, 10:22:10
  */
 package pa._v38.modules;
 
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -30,16 +30,18 @@ import pa._v38.storage.DT2_BlockedContentStorage;
 import config.clsProperties;
 
 /**
- * DOCUMENT (HINTERLEITNER) - insert description 
  * 
- * @author deutsch
- * 03.03.2011, 15:22:10
+ * 
+ * @author hinterleitner
+ * 05.08.2011, 10:22:10
  * 
  */
 public class F37_PrimalRepressionForPerception extends clsModuleBase implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	/** DOCUMENT (hinterleitner) - insert description; @since 26.07.2011 13:10:46 */
+	
+	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN; //Fantasies
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
@@ -52,7 +54,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 
 		
 	/**
-	 * DOCUMENT (HINTERLEITNER) - This function attaches the thing presentations to the repressed content and makes an association. The result is a constructed perception with associated repressed content.
+	 *  Fill primal repression memory
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:20:58
@@ -72,24 +74,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	}
 	
 	private void fillPrimalRepressionMemory() {
-		moPrimalRepressionMemory = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
-		
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_ORAL", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_ANAL", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_PHALLIC", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "LIBIDINOUS_GENITAL", new ArrayList<Double>(Arrays.asList(0.1, 0.5, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_ORAL", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_ANAL", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_PHALLIC", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		moPrimalRepressionMemory.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "AGGRESSIVE_GENITAL", new ArrayList<Double>(Arrays.asList(0.7, 0.7, 0.1, 0.9)) ) );
+
 	}
 	
 	/* (non-Javadoc)
@@ -99,6 +84,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
 	 */
+	
 	@Override
 	public String stateToTEXT() {
 		String text ="";
@@ -106,6 +92,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
 		text += toText.listToTEXT("moPrimalRepressionMemory", moPrimalRepressionMemory);
+		
 		
 		return text;
 	}	
@@ -128,6 +115,7 @@ public class F37_PrimalRepressionForPerception extends clsModuleBase implements 
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
 	
+
 		//nothing to do
 	}	
 	/* (non-Javadoc)
@@ -291,6 +279,7 @@ private clsPrimaryDataStructureContainer ConvertToTIContainer(
 	@Override
 	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
+		
 		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 		
 	}
