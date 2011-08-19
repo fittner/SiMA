@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -31,7 +30,6 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eActState;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningWizard;
@@ -248,7 +246,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 *
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer getTestDataForAct() {
+	/*private clsSecondaryDataStructureContainer getTestDataForAct() {
 		clsSecondaryDataStructureContainer oWPActContainer = null;
 			
 		//Acts are retrieved by the consequence they have on the agent - hence the content String of the Act is constructed
@@ -279,7 +277,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//oWPActContainer = (clsSecondaryDataStructureContainer) searchCompleteContainer(oWPActContainer.getMoDataStructure());
 		
 		return oWPActContainer;
-	}
+	}*/
 	
 	/**
 	 * From a list of plans (clsAct or other type), where there are associations to other memories in the secondary process,

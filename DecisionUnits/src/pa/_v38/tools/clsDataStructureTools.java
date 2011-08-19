@@ -11,11 +11,13 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 
@@ -176,6 +178,36 @@ public class clsDataStructureTools {
 			if (oContainer.getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
 				oRetVal = oContainer;
 				break;
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	public static ArrayList<clsSecondaryDataStructure> getDSFromSecondaryAssInContainer(clsSecondaryDataStructureContainer poSourceContainer, String poPredicate, boolean pbInverseDirection) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+		//pbInverseDirection: If FALSE, then the direction is to get the leafelement, if TRUE, then the rootelement is search for
+		
+		//Get the datastructure on the associationsecondary, which is not this structure
+		for (clsAssociation oSecAss : poSourceContainer.getMoAssociatedDataStructures()) {
+			if (oSecAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oSecAss).getMoPredicate() == poPredicate) {
+					//Get the purposed container of the expectation
+					//Normal case
+					if (pbInverseDirection==false) {
+						if ((oSecAss.getLeafElement().getMoDS_ID() != poSourceContainer.getMoDataStructure().getMoDS_ID()) && 
+								(oSecAss.getRootElement().getMoDS_ID() == poSourceContainer.getMoDataStructure().getMoDS_ID())) {
+							oRetVal.add((clsSecondaryDataStructure) oSecAss.getLeafElement());
+						}
+					} else {
+					//Inverse case
+						if ((oSecAss.getRootElement().getMoDS_ID() != poSourceContainer.getMoDataStructure().getMoDS_ID()) && 
+								(oSecAss.getLeafElement().getMoDS_ID() == poSourceContainer.getMoDataStructure().getMoDS_ID())) {
+							oRetVal.add((clsSecondaryDataStructure) oSecAss.getRootElement());
+						}
+					}
+				}
 			}
 		}
 		
