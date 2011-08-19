@@ -16,7 +16,6 @@ import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
@@ -25,8 +24,8 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
@@ -52,14 +51,18 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
 	private double mrMomentActivationThreshold = 0.8;
+	private double mrMomentMinRelevanceThreshold = 0.2;
+	private int mnMaxTimeValue = 8;
+	
 	
 	private String moPredicateTemporal = "HASNEXT";
 	private String moPredicateHierarchical = "ISA";
+	//private String moPredicateTimeValue = "HASTIMEVALUE";	//not necessary now
 	
 	
 	//FIXME AW: This is a cheat function, which is used until a short time memory is defined. Here, expectations are put
 	//TODO: Create real short time memory
-	private clsDataStructureContainerPair oCheatShortTimeMemory;
+	private clsPair<Integer, clsDataStructureContainerPair> moShortTimeMemory;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -162,35 +165,57 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		//moRealityPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
-		
-		//FIXME HZ 2010.08.24 Functionality of old code is taken; however I am rather sure that it has to be
-		//adapted
-		//for(clsSecondaryDataStructureContainer oCon : moFocusedPerception_Input){
-		//	moRealityPerception_Output.add(oCon); 
-		//}
+		//Update short time memory from last step
+		updateShortTimeMemory();
 		
 		//FIXME AW: Should anything be done with the perception here?
 		moRealityPerception_Output = (ArrayList<clsDataStructureContainer>)deepCopy(moFocusedPerception_Input);
 		
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		
-		//FIXME AW: Extend the function save to short time memory
-		if (moExtractedPrediction_OUT.isEmpty()==false) {
-			saveToShortTimeMemory(moExtractedPrediction_OUT.get(0).getMoment());
-		}
-		
 	}
 	
 	/**
+	 * Update the time value of the short time memory
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.08.2011 21:42:29
+	 *
+	 */
+	private void updateShortTimeMemory() {
+		if (moShortTimeMemory!=null) {
+			moShortTimeMemory.a++;
+			if (moShortTimeMemory.a>mnMaxTimeValue) {
+				clearShortTimeMemory();
+			}
+		}
+	}
+	
+	/**
+	 * Save a data structure to the short time memory
 	 * DOCUMENT (wendt) - insert description
 	 *
 	 * @since 19.08.2011 14:32:56
 	 *
 	 * @param poInput
 	 */
-	private void saveToShortTimeMemory(clsDataStructureContainerPair poInput) {
-		oCheatShortTimeMemory = poInput;
+	private void saveToShortTimeMemory(clsDataStructureContainerPair poInput, boolean forceSave) {
+		//save only if this moID is not already saved
+		
+		if (((moShortTimeMemory!=null) && 
+				(moShortTimeMemory.b.getSecondaryComponent()!=null) &&
+				(poInput.getSecondaryComponent().getMoDataStructure().getMoDS_ID() != moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) ||
+				(moShortTimeMemory==null) || 
+				(forceSave==true)) {
+					//Replace structure and set the time value
+					try {
+						clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) poInput.clone();
+						moShortTimeMemory = new clsPair<Integer, clsDataStructureContainerPair>(0, oAddPair);
+					} catch (CloneNotSupportedException e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
+		}
 	}
 	
 	/**
@@ -200,7 +225,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 */
 	private void clearShortTimeMemory() {
-		oCheatShortTimeMemory = null;
+		moShortTimeMemory = null;
 	}
 	
 	/**
@@ -221,6 +246,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		oRetVal.addAll(getIntention(poInput));
 		//Now, all acts are assigned and all intentions are known
 		
+		//If there is no intention, then the short time memory is cleared
+		manageIntentionEvents(oRetVal);
+		
 		//2. Find the current situation in each Perception-act
 		//Do it hasAssociation, which is instanceof clsAssociationPrimary with Perceived Image and 
 		//with the highest association weight
@@ -232,7 +260,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//2.c Check extrapolation of values
 		//XXXX
 		
-		extrapolateCurrentSituation(oRetVal, (clsDataStructureContainerPair) oCheatShortTimeMemory);
+		extrapolateCurrentSituation(oRetVal, moShortTimeMemory);
 		
 		
 		//3. Remove all predictions, where there is no current moment for an intention
@@ -273,10 +301,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poPrediction
 	 * @param poShortTimeMemory
 	 */
-	private void extrapolateCurrentSituation (ArrayList<clsPrediction> poPrediction, clsDataStructureContainerPair poShortTimeMemory) {
+	private void extrapolateCurrentSituation (ArrayList<clsPrediction> poPrediction, clsPair<Integer, clsDataStructureContainerPair> poShortTimeMemory) {
 		for (clsPrediction oP : poPrediction) {
 			if (oP.getMoment().getSecondaryComponent()==null) {
-				oP.getMoment().setSecondaryComponent(poShortTimeMemory.getSecondaryComponent());
+				if (poShortTimeMemory!=null) {
+					oP.getMoment().setSecondaryComponent(poShortTimeMemory.b.getSecondaryComponent());
+				}
 			}
 		}
 		
@@ -364,9 +394,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
 			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oSubImageAss, poInput, prMomentActivationThreshold);
-			
+			//Check if the last image or the 
+						
 			//Check temporal order
-			clsDataStructureContainerPair oVerifiedMoment = verifyTemporalOrder(oMoment, oCheatShortTimeMemory);
+			clsDataStructureContainerPair oVerifiedMoment = verifyTemporalOrder(oMoment, moShortTimeMemory, poInput);
 		
 			oActTripple.setMoment(oVerifiedMoment);
 
@@ -386,11 +417,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param oLastMomentInShortTimeMemory
 	 * @return
 	 */
-	private clsDataStructureContainerPair verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsDataStructureContainerPair oLastMomentInShortTimeMemory) {
+	private clsDataStructureContainerPair verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsPair<Integer, clsDataStructureContainerPair> oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
 		clsDataStructureContainerPair oRetVal = new clsDataStructureContainerPair(null, null);	//This is set, in case nothing is done here
 		
 		//A correct moment is either same moment as now or a moment, which is connected somehow with the last moment.
 		//FIXME AW: ********* In reinforcement of expectations, this topic has to be refactored *************
+		
+		//***** Checl nulls ************
 		
 		//Check null and return input
 		if (poBestImageMatch==null) {
@@ -399,25 +432,102 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		clsSecondaryDataStructureContainer oProposedMoment = poBestImageMatch.getSecondaryComponent();
 		//Check null and pass thorugh if no short time memory
-		if ((oLastMomentInShortTimeMemory==null) || (oProposedMoment==null)) {
+		if (oLastMomentInShortTimeMemory==null) {
+			saveToShortTimeMemory(poBestImageMatch, false);
 			oRetVal = poBestImageMatch;
 			return oRetVal;
 		}
 		
-		clsSecondaryDataStructureContainer oLastMoment = oLastMomentInShortTimeMemory.getSecondaryComponent();
+		//*****************************
+		
+		//Get preconditions
+		
+		clsSecondaryDataStructureContainer oLastMomentSecondary = oLastMomentInShortTimeMemory.b.getSecondaryComponent();
 
 		//If the last image is found again, it is passed
-		if (oProposedMoment.getMoDataStructure().getMoDS_ID() == oLastMoment.getMoDataStructure().getMoDS_ID()) {
-			oRetVal = poBestImageMatch;
-		//else if the best match is an expectation of the previous moment
-		} else {
-			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMoment, moPredicateTemporal, false);
-			
+		if (oProposedMoment!=null && oLastMomentSecondary!=null) {
+			if (oProposedMoment.getMoDataStructure().getMoDS_ID() == oLastMomentSecondary.getMoDataStructure().getMoDS_ID()) {
+				oRetVal = poBestImageMatch;
+				//Force to save the found image to the temporal memory
+				saveToShortTimeMemory(poBestImageMatch, true);
+				return oRetVal;
+			}
+		
+			//else if the best match is an expectation of the previous moment, then it is ok too
+			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentSecondary, moPredicateTemporal, false);
 			for (clsSecondaryDataStructure oPlausibleExp :  oPlausibleExpList) {
 				if (oPlausibleExp.getMoDS_ID() == oProposedMoment.getMoDataStructure().getMoDS_ID()) {
 					oRetVal = poBestImageMatch;
+					//Force to save the best match to the temporal memory
+					saveToShortTimeMemory(poBestImageMatch, true);
+					return oRetVal;
 				}
 			}
+		}
+		
+		//and if still nothing is found, then use the last possibility
+		boolean oPartiallyMatchesOK = checkMomentPreconditionMinMatch(oLastMomentInShortTimeMemory.b, poTotalList);
+		if ((oPartiallyMatchesOK==true) && (oLastMomentInShortTimeMemory.a<=mnMaxTimeValue)) {
+			oRetVal = oLastMomentInShortTimeMemory.b;
+			return oRetVal;
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Check if the last image or its expectations have a matc value > threshold. This is a precondition for using the saved
+	 * last image
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 19.08.2011 22:35:19
+	 *
+	 * @param oLastMomentInShortTimeMemory
+	 * @param poTotalList
+	 * @return
+	 */
+	private boolean checkMomentPreconditionMinMatch(clsDataStructureContainerPair oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
+		boolean oRetVal = false;
+		
+		//Get the Primary container in the list of current matches from the last known moment
+		clsPrimaryDataStructureContainer oLastMomentPriContainer = clsDataStructureTools.extractPrimaryContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), poTotalList);
+		double oLastMomentMatch = 0.0;
+		//If the container !=null, then get the match value with PI
+		if (oLastMomentPriContainer!=null) {
+			oLastMomentMatch = clsDataStructureTools.getMatchValueToPI(oLastMomentPriContainer);
+		}
+		
+		//If the last moment passes, the quit with true
+		if (oLastMomentMatch > mrMomentMinRelevanceThreshold) {
+			oRetVal = true;
+			return oRetVal;
+		}
+		
+		//else, check the expectations
+		
+		//Get the match values of the expectations of the last moment
+		double oBestExpectationMatch = 0.0;
+		if (oLastMomentInShortTimeMemory.getSecondaryComponent()!=null) {
+			double oExpectationMatch = 0.0;
+			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), moPredicateTemporal, false);
+			for (clsSecondaryDataStructure oS : oPlausibleExpList) {
+				clsSecondaryDataStructureContainer oSecondaryContainer = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poTotalList, oS);
+				if (oSecondaryContainer!=null) {
+					clsPrimaryDataStructureContainer oPrimaryContainer = clsDataStructureTools.extractPrimaryContainer(oSecondaryContainer, poTotalList);
+					if (oPrimaryContainer!=null) {
+						oExpectationMatch = clsDataStructureTools.getMatchValueToPI(oPrimaryContainer);
+						if (oExpectationMatch>oBestExpectationMatch) {
+							oBestExpectationMatch = oExpectationMatch;
+						}
+					}
+				}
+			}
+		}
+		
+		
+		if (oBestExpectationMatch > mrMomentMinRelevanceThreshold) {
+			oRetVal = true;
+			return oRetVal;
 		}
 		
 		return oRetVal;
@@ -480,7 +590,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Get the Matchvalue to the Perceived Image 
 			
 			if (oPContainer != null) {
-				double rMatchValue = getMatchValueToPI(oPContainer);
+				double rMatchValue = clsDataStructureTools.getMatchValueToPI(oPContainer);
 				//If the new value is the highest value and it is higher than the threshold value
 				if ((rMatchValue > rMaxValue) && (rMatchValue >= prMomentActivationThreshold)) {
 					rMaxValue = rMatchValue;
@@ -497,31 +607,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		return oRetVal;
 	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 04.08.2011 13:59:56
-	 *
-	 * @param poImageContainer
-	 * @return
-	 */
-	private double getMatchValueToPI(clsPrimaryDataStructureContainer poImageContainer) {
-		String oContent = "PERCEPTION";
-		double rRetVal = 0.0;
-		
-		for (clsAssociation oAss : poImageContainer.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationPrimary) {
-				if ((oAss.getMoAssociationElementA() instanceof clsTemplateImage) || (oAss.getMoAssociationElementB() instanceof clsTemplateImage)) {
-					if ((((clsTemplateImage)oAss.getMoAssociationElementA()).getMoContent() == oContent) || (((clsTemplateImage)oAss.getMoAssociationElementB()).getMoContent() == oContent)) {
-						rRetVal = oAss.getMrWeight();
-					}
-				}
-					
-			}
-		}
-		return rRetVal;
-	}
+
 	
 	/**
 	 * DOCUMENT (wendt) - insert description

@@ -14,7 +14,7 @@ package pa._v38.memorymgmt.datatypes;
  * 24.07.2011, 14:14:43
  * 
  */
-public class clsDataStructureContainerPair {
+public class clsDataStructureContainerPair implements Cloneable {
 	private clsSecondaryDataStructureContainer moSContainer;
 	private clsPrimaryDataStructureContainer moPContainer;
 	
@@ -38,5 +38,24 @@ public class clsDataStructureContainerPair {
 	public void setSecondaryComponent(clsSecondaryDataStructureContainer poSContainer)  {
 		moSContainer = poSContainer;
 	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsDataStructureContainerPair oClone = new clsDataStructureContainerPair(null, null);
+        	
+        	if (moSContainer != null) {
+        		oClone.moSContainer = (clsSecondaryDataStructureContainer) this.moSContainer.clone();
+        	}
+        	
+        	if (moPContainer != null) {
+        		oClone.moPContainer = (clsPrimaryDataStructureContainer) this.moPContainer.clone();
+        	}
+        		
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+	}	
 	
 }

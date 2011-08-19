@@ -184,6 +184,17 @@ public class clsDataStructureTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get a list of the remote data structure from all associationsecondary of a certain predicate for a secondary container
+	 * (wendt)
+	 *
+	 * @since 19.08.2011 22:06:00
+	 *
+	 * @param poSourceContainer
+	 * @param poPredicate
+	 * @param pbInverseDirection
+	 * @return
+	 */
 	public static ArrayList<clsSecondaryDataStructure> getDSFromSecondaryAssInContainer(clsSecondaryDataStructureContainer poSourceContainer, String poPredicate, boolean pbInverseDirection) {
 		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
 		
@@ -212,6 +223,55 @@ public class clsDataStructureTools {
 		}
 		
 		return oRetVal;
+	}
+	
+//	/**
+//	 * Get the primary association with the PI
+//	 *(wendt)
+//	 *
+//	 * @since 19.08.2011 22:05:34
+//	 *
+//	 * @param poContainer
+//	 * @return
+//	 */
+//	public static clsAssociationPrimary getAssociationPrimaryWithPI(clsPrimaryDataStructureContainer poContainer) {
+//		//Precondition: There is only one match with the PI in one container
+//		clsAssociationPrimary oRetVal = null;
+//		
+//		for (clsAssociation oAss : poContainer.getMoAssociatedDataStructures()) {
+//			if ((oAss instanceof clsAssociationPrimary) && (oAss.getMoContentType().equals("PIASSOCIATION"))) {
+//				oRetVal = (clsAssociationPrimary) oAss;
+//				break;
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+	/**
+	 * Get association of a primary data structure container with PI
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 04.08.2011 13:59:56
+	 *
+	 * @param poImageContainer
+	 * @return
+	 */
+	public static double getMatchValueToPI(clsPrimaryDataStructureContainer poImageContainer) {
+		String oContent = "PERCEPTION";
+		double rRetVal = 0.0;
+		
+		for (clsAssociation oAss : poImageContainer.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationPrimary) {
+				if ((oAss.getMoAssociationElementA() instanceof clsTemplateImage) || (oAss.getMoAssociationElementB() instanceof clsTemplateImage)) {
+					if ((((clsTemplateImage)oAss.getMoAssociationElementA()).getMoContent() == oContent) || (((clsTemplateImage)oAss.getMoAssociationElementB()).getMoContent() == oContent)) {
+						rRetVal = oAss.getMrWeight();
+					}
+				}
+					
+			}
+		}
+		return rRetVal;
 	}
 	
 }
