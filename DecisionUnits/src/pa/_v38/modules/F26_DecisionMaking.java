@@ -215,7 +215,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
-		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN); 
+		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN);
+		//if (moExtractedPrediction_IN.isEmpty()==false) {
+		//	System.out.print("\n" + ((clsSecondaryDataStructure)moExtractedPrediction_IN.get(0).getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent());
+		//}
+		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
 		
 		
