@@ -52,8 +52,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
 	private double mrMomentActivationThreshold = 0.8;
 	private double mrMomentMinRelevanceThreshold = 0.2;
-	private int mnMaxTimeValue = 8;
-	
+	private int mnMaxTimeValue = 30;
 	
 	private String moPredicateTemporal = "HASNEXT";
 	private String moPredicateHierarchical = "ISA";
@@ -393,7 +392,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Precondition: All structures are already loaded and can be found in the input list
 			//Go through each association and search for all children
 			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oSubImageAss, poInput, prMomentActivationThreshold);
+			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oSubImageAss, poInput, prMomentActivationThreshold, moShortTimeMemory);
 			//Check if the last image or the 
 						
 			//Check temporal order
@@ -446,6 +445,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 
 		//If the last image is found again, it is passed
 		if (oProposedMoment!=null && oLastMomentSecondary!=null) {
+			
+			//If there are no expectations, then this moment was the last moment and nothing from this act should be found any more
+			ArrayList<clsSecondaryDataStructure> oCurrentExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oProposedMoment, moPredicateTemporal, false);
+			if (oCurrentExpList.isEmpty()==true) {
+				//Return oRetVal without anything
+				return oRetVal;
+			}
+			
+			//If the best match was the saved moment in the short time memory, then return it with forced save
 			if (oProposedMoment.getMoDataStructure().getMoDS_ID() == oLastMomentSecondary.getMoDataStructure().getMoDS_ID()) {
 				oRetVal = poBestImageMatch;
 				//Force to save the found image to the temporal memory
@@ -565,7 +573,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poSourceList
 	 * @return
 	 */
-	private clsDataStructureContainerPair getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold) {
+	private clsDataStructureContainerPair getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold, clsPair<Integer, clsDataStructureContainerPair> moShortTimeMemory) {
 		clsDataStructureContainerPair oRetVal = new clsDataStructureContainerPair(null, null);
 		double rMaxValue = 0.0;
 		
@@ -588,9 +596,31 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			}
 			
 			//Get the Matchvalue to the Perceived Image 
-			
 			if (oPContainer != null) {
 				double rMatchValue = clsDataStructureTools.getMatchValueToPI(oPContainer);
+				
+				//Make additions if logical order is given and all matches are 1.0
+				//Conditions: There shall be something in the short time memory and the match shall be very good, i. e. >= 0.9
+				//Cases:
+				//1. The current situation is found => logical order adds 0.1 to the match value
+				//2. The expectation is found => logical order adds 0.1 to the match value
+				//Purpose: If there are 3 Images with 1.0 match, then the most probable shall be taken.
+				if ((moShortTimeMemory!=null) && (moShortTimeMemory.b.getSecondaryComponent() !=null ) && (rMatchValue >= 0.9)) {
+					double rBonusForOrderValue = 0.0;
+					if (moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
+						rBonusForOrderValue = 0.1;
+					} else {
+						ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(moShortTimeMemory.b.getSecondaryComponent(), moPredicateTemporal, false);
+						for (clsSecondaryDataStructure oSDS : oExpectationElement) {
+							if (oSDS.getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
+								rBonusForOrderValue = 0.1;
+							}
+						}
+					}
+					rMatchValue += rBonusForOrderValue;
+					 
+				}
+				
 				//If the new value is the highest value and it is higher than the threshold value
 				if ((rMatchValue > rMaxValue) && (rMatchValue >= prMomentActivationThreshold)) {
 					rMaxValue = rMatchValue;

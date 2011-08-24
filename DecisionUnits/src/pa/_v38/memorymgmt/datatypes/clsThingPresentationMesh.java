@@ -157,10 +157,6 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		if(this.moDS_ID == poDataStructure.moDS_ID){rRetVal = 1.0;}
 		//3. Compare similarity
 		
-		
-		
-		
-		
 		return rRetVal;
 	}
 	
