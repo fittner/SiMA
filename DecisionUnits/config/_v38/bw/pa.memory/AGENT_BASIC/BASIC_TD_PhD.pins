@@ -1,7 +1,7 @@
-; Sat Apr 30 22:56:22 CEST 2011
+; Thu Aug 25 12:18:47 CEST 2011
 ; 
-;+ (version "3.4.5")
-;+ (build "Build 608")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 ([AA%3AAGENT_HANDS_BASIC%3ABLUE] of  ASSOCIATIONATTRIBUTE
 
@@ -1452,11 +1452,11 @@
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLUE] of  COLOR
 
-	(value "#0000FF"))
+	(value "#FF"))
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ACYAN] of  COLOR
 
-	(value "#00FFFF"))
+	(value "#FFFF"))
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ADARKGREY] of  COLOR
 
@@ -1576,13 +1576,13 @@
 
 	(value "TURN_RIGHT"))
 
-([WP%3ABITE] of  WP%3ACONTENT
-
-	(value "BITE"))
-
 ([WP%3AARSIN01] of  WP%3AENTITY
 
 	(value "ARSINO"))
+
+([WP%3ABITE] of  WP%3ACONTENT
+
+	(value "BITE"))
 
 ([WP%3ACAKEBASIC] of  WP%3AENTITY
 

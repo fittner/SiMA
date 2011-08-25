@@ -1,4 +1,4 @@
-; Sun Jul 10 08:12:52 GMT 2011
+; Thu Aug 25 12:18:18 CEST 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1563,11 +1563,11 @@
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ABLUE] of  COLOR
 
-	(value "#0000FF"))
+	(value "#FF"))
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ACYAN] of  COLOR
 
-	(value "#00FFFF"))
+	(value "#FFFF"))
 
 ([TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ADARKGREY] of  COLOR
 
@@ -1687,13 +1687,13 @@
 
 	(value "TURN_RIGHT"))
 
-([WP%3ABITE] of  WP%3ACONTENT
-
-	(value "BITE"))
-
 ([WP%3AARSIN01] of  WP%3AENTITY
 
 	(value "ARSINO"))
+
+([WP%3ABITE] of  WP%3ACONTENT
+
+	(value "BITE"))
 
 ([WP%3ACAKEBASIC] of  WP%3AENTITY
 
