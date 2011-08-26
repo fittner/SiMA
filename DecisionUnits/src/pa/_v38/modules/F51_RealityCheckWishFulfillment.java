@@ -608,12 +608,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				if ((moShortTimeMemory!=null) && (moShortTimeMemory.b.getSecondaryComponent() !=null ) && (rMatchValue >= 0.9)) {
 					double rBonusForOrderValue = 0.0;
 					if (moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
-						rBonusForOrderValue = 0.1;
+						//FIXME AW: This bonus value is not necessary
+						//rBonusForOrderValue = 0.1;
 					} else {
 						ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(moShortTimeMemory.b.getSecondaryComponent(), moPredicateTemporal, false);
 						for (clsSecondaryDataStructure oSDS : oExpectationElement) {
 							if (oSDS.getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
-								rBonusForOrderValue = 0.1;
+								//FIXME AW: This bonus value is not necessary
+								//rBonusForOrderValue = 0.1;
 							}
 						}
 					}
@@ -670,7 +672,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							throw new Exception("Code/Protege error in F51_RealityCheckWishFulfillment, setCurrentExpectation: " +
 									"No expectation found, although it should be found. This error occurs if the intention " +
 									"does not have any of the objects, which is contained in one expectation, e. g. a current situation contains a WALL and " + 
-									"the intention does not");
+									"the intention does not" + "Images: oCurrentSituation: " + oCurrentSituation.getMoDataStructure().toString() + "oSecDS: " + oSecDS);
 						} catch (Exception e) {
 							// TODO (wendt) - Auto-generated catch block
 							e.printStackTrace();

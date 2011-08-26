@@ -177,7 +177,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			}
 		}
 		
+		//TestIF
 		ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
+		//Get activated content
 		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}
