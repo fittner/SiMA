@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
@@ -216,11 +217,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN);
-		/*if (moExtractedPrediction_IN.isEmpty()==false) {
-			System.out.print("\n" + ((clsSecondaryDataStructure)moExtractedPrediction_IN.get(0).getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent());
-		} else {
-			System.out.print("\n" + "nothing");
-		}*/
+		
+		
+		//printImageText(moExtractedPrediction_IN);
 		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
 		
@@ -243,6 +242,34 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		//Pass the prediction to the planning
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
+	}
+	
+	private void printImageText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		
+		String oStepInfo = "\nStep: ";
+		
+		for (clsPrediction oP : poExtractedPrediction_IN) {
+			String oMomentInfo = "";
+			if (oP.getMoment().getSecondaryComponent()!=null) {
+				String oImageName = ((clsSecondaryDataStructure)oP.getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent();
+				oMomentInfo += "Imagename: " + oImageName;
+			}
+			
+			if (oP.getMoment().getPrimaryComponent()!=null) {
+				double rMatch = clsDataStructureTools.getMatchValueToPI(oP.getMoment().getPrimaryComponent());
+				oMomentInfo += " - Match: " + rMatch;
+			}
+			
+			oStepInfo += oMomentInfo + "; ";
+			
+		}
+		
+		if (poExtractedPrediction_IN.isEmpty()==true) {
+			System.out.print(oStepInfo + "nothing");
+		} else {
+			System.out.print(oStepInfo);
+		}
+		
 	}
 	
 	private ArrayList<clsSecondaryDataStructureContainer> processGoals(

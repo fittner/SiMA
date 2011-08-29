@@ -47,7 +47,7 @@ public abstract class clsDataStructureComparison {
 	/** Weight for the matching for the extrinsic values */
 	private static double moMatchValExtrinsicFactor = 0.6; //Max 1.0
 	/** If a match has the value 1.0, it is newly ordered by the second search */
-	private static double moBestMatchThreshold = 1.0; //Max 1.0
+	private static double moBestMatchThreshold = 0.95; //Max 1.0
 	/** If there are many values with 1.0 as a match, the new values after the second search are somewhere between 0.9 and 1.0 */
 	private static double moCorrectionfactor = 0.9;	//Max 1.0
 	
@@ -168,11 +168,11 @@ public abstract class clsDataStructureComparison {
 				double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oPair.b, false);	//Strong matching deactivated
 				//Sort the list
 				int i = 0;
-				while ((i + 1 < oBestResults.size()) && oMatch < oBestResults.get(i).a) {
+				while ((i < oBestResults.size()) && (oMatch < oBestResults.get(i).a)) {
 					i++;
 				}
 				//Add the new container, sorted
-				oBestResults.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oPair.b));
+ 				oBestResults.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oPair.b));
 			} else {
 				oOtherResults.add(oPair);
 			}
