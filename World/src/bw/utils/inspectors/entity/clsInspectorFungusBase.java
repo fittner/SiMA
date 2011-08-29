@@ -76,7 +76,7 @@ public class clsInspectorFungusBase extends Inspector {
 		moProp2 = new  PropertyField("Stored ore", ""+moBase.getMnStoredOre(), false, null, PropertyField.SHOW_TEXTFIELD);
 		PropertyField oProp3 = new  PropertyField("Position X", ""+moBase.getPosition().x, false, null, PropertyField.SHOW_TEXTFIELD);
 		PropertyField oProp4 = new  PropertyField("Position Y", ""+moBase.getPosition().y, false, null, PropertyField.SHOW_TEXTFIELD);
-		PropertyField oProp5 = new  PropertyField("Color", ""+moBase.getShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
+		PropertyField oProp5 = new  PropertyField("Color", ""+moBase.get2DShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 			
 		oBox1.add(oProp1, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp2, BorderLayout.AFTER_LAST_LINE);

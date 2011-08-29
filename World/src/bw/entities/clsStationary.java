@@ -7,10 +7,13 @@
  */
 package bw.entities;
 
+import javax.media.j3d.TransformGroup;
+
 import config.clsProperties;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.clsShape3DCreator;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -56,9 +59,13 @@ public abstract class clsStationary extends clsEntity {
 		double oPosY = poProp.getPropertyDouble(pre+clsPose.P_POS_Y);
 		double oPosAngle = poProp.getPropertyDouble(pre+clsPose.P_POS_ANGLE);
 		
-		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE);
-		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
-		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape, getTotalWeight());
+		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE);
+		Shape oShape2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
+		
+		TransformGroup oShape3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
+		set3DShape(oShape3D);
+		
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), new Double2D(0.0,0.0), oShape2D, getTotalWeight());
 		
 		setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}	
@@ -68,7 +75,7 @@ public abstract class clsStationary extends clsEntity {
 		moPhysicalObject2D = new clsStationaryObject2D(this);
 		
 		setPose(poPose);
-		setShape(poShape, prMass);
+		set2DShape(poShape, prMass);
 		setCoefficients(Double.NaN, Double.NaN, mrDefaultRestitution);  // First two coeffs ignored for stationary objects, use NaN
 	}
 	

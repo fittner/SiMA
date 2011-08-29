@@ -465,7 +465,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		if(oEntity != null){
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
 		   oData.setShapeType( getShapeType(collidingObj.moCollider));
-		   oData.setColor( (Color) oEntity.getShape().getPaint());
+		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
 			
 		   oData.setObjectPosition( collidingObj.meColPos);  

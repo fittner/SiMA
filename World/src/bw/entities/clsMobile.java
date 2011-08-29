@@ -7,9 +7,12 @@
  */
 package bw.entities;
 
+import javax.media.j3d.TransformGroup;
+
 import config.clsProperties;
 import bw.entities.tools.clsInventory;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.clsShape3DCreator;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
@@ -84,9 +87,14 @@ public abstract class clsMobile extends clsEntity {
 											poProp.getPropertyDouble(pre+P_START_VELOCITY_Y) );
 		
 		
-		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE);
-		Shape oShape = clsShapeCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
-		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape, getTotalWeight());
+		String oDefaultShape = poProp.getPropertyString(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE);
+		Shape oShape2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
+		
+		TransformGroup oShape3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+oDefaultShape, poProp);
+		set3DShape(oShape3D);
+
+		initPhysicalObject2D(new clsPose(oPosX, oPosY, oPosAngle), oVelocity, oShape2D, getTotalWeight());
+		
 		
 		setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}
@@ -107,7 +115,7 @@ public abstract class clsMobile extends clsEntity {
 		
 		setPose(poPose);
 		setVelocity(poStartingVelocity);	
-		setShape(poShape, prMass);
+		set2DShape(poShape, prMass);
 		setCoefficients(mrDefaultCoeffFriction, mrDefaultStaticFriction, mrDefaultRestitution); //default coefficients
 	}
 

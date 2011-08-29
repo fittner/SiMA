@@ -63,11 +63,11 @@ public class clsAttributeShape extends clsBaseAttribute {
 	}
 	
 	public Shape getShape() {
-		return moEntity.getShape();
+		return moEntity.get2DShape();
 	}
 	
 	public void setShape(Shape poShape) {
-		moEntity.setShape(poShape, moEntity.getTotalWeight());
+		moEntity.set2DShape(poShape, moEntity.getTotalWeight());
 	}
 	
 	@Override

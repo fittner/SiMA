@@ -26,7 +26,7 @@ import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPAttackableLightning;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
@@ -47,8 +47,8 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	public static final String P_SHAPE_DEADANDEATEN 		= "shape_deadandeaten";
 	
 	//private Shape moAlive; //reactivate in case of resurrection
-	private Shape moDead;
-	private Shape moDeadAndEaten;
+	private Shape moDead2D;
+	private Shape moDeadAndEaten2D;
 	
 	public clsHare(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
@@ -59,9 +59,9 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
-		//moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); //reactivate in case of resurrection
-		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
-		moDeadAndEaten = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN, poProp);
+		//moAlive = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); //reactivate in case of resurrection
+		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		moDeadAndEaten2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN, poProp);
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -144,26 +144,26 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		//set shape
 		oProp.removeKeysStartingWith(pre+P_SHAPE);
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
 		
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, Color.LIGHT_GRAY);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/hase_grey.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_COLOR, Color.LIGHT_GRAY);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/hase_grey.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.RED);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/hase_red.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_COLOR, Color.RED);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/hase_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 				
 		
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_RADIUS, 2.5);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_COLOR, Color.BLACK);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/hase.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_RADIUS, 2.5);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_COLOR, Color.BLACK);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/hase.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		return oProp;
 	}
@@ -268,11 +268,11 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 			//This command removes the cake from the playground
 			//clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
-			setShape(moDeadAndEaten, getTotalWeight());
+			set2DShape(moDeadAndEaten2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else if (!isAlive()) {
 			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
-			setShape(moDead, getTotalWeight());
+			set2DShape(moDead2D, getTotalWeight());
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}		
 	}

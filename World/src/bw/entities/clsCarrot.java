@@ -22,7 +22,7 @@ import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBindingState;
@@ -44,8 +44,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	public static final String P_REGROW_STEPS_MIN 	= "regrow_steps_min";
 	public static final String P_REGROW_STEPS_MAX 	= "regrow_steps_max";
 
-	private Shape moFresh;
-	private Shape moDead;
+	private Shape moFresh2D;
+	private Shape moDead2D;
 	
 	private boolean mnShapeUpdated;
 		
@@ -83,8 +83,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	private void applyProperties(String poPrefix, clsProperties poProp){
 		String pre = clsProperties.addDot(poPrefix);
 		
-		moFresh = clsShapeCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_FRESH, poProp);
-		moDead = clsShapeCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_DEAD, poProp);
+		moFresh2D = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_FRESH, poProp);
+		moDead2D = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_DEAD, poProp);
 		
 		mrInitialFleshWeight = poProp.getPropertyDouble(pre+P_BODY+"."+clsFlesh.P_WEIGHT);
 				
@@ -107,17 +107,17 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
 
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_RADIUS, "5");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, "5");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, Color.gray);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_grayscale.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPE_FRESH);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_RADIUS, "5");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_RADIUS, "5");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_COLOR, Color.gray);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_grayscale.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 4);
@@ -163,7 +163,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	 *
 	 * @author deutsch
 	 * 08.07.2009, 10:46:55
-	 * 		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.jpg");
+	 * 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.jpg");
 
 	 * @see bw.body.io.actuators.actionProxies.itfAPEatable#Eat(float)
 	 */
@@ -267,13 +267,13 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			// update shape to the gray carrot
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
 			mnShapeUpdated = true;
-			setShape(moDead, getTotalWeight());		
+			set2DShape(moDead2D, getTotalWeight());		
 		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to food_available
 			// update shape to the orange carrot
 			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
 			mnShapeUpdated = true;
-			setShape(moFresh, getTotalWeight());
+			set2DShape(moFresh2D, getTotalWeight());
 		}		
 	}
 	

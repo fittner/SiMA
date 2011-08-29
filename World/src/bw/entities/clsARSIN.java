@@ -9,6 +9,8 @@ package bw.entities;
 
 import java.awt.Color;
 
+import javax.media.j3d.TransformGroup;
+
 import sim.physics2D.shape.Shape;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
@@ -27,7 +29,8 @@ import bw.body.attributes.clsAttributes;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.clsShape3DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
@@ -49,8 +52,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public static final String P_ALIVE              = "alive";
 	public static final String P_IMMORTAL			= "immortal"; 
 	
-	private Shape moAlive;
-	private Shape moDead;
+	private Shape moAlive2D;
+	private Shape moDead2D;
+	private TransformGroup moAlive3D;
+	private TransformGroup moDead3D;
 	
 	private boolean mnAlive;
 	private boolean mnImmortal;
@@ -80,18 +85,18 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 
 	
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_COLOR, new Color(0,200,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/arsin_red.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_COLOR, new Color(0,200,0));
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/arsin_red.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ALIVE+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_COLOR, new Color(0,0,0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/arsin_grey.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_COLOR, new Color(0,0,0));
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/arsin_grey.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		
@@ -124,8 +129,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
-		moAlive = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
-		moDead = clsShapeCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		moAlive2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		
 		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
 		mnImmortal = poProp.getPropertyBoolean(pre+P_IMMORTAL);
@@ -250,11 +257,13 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private void updateShape() {
 		 if (!mnAlive) {
 			clsEventLogger.add(new Event(this, getId(), eEvent.DEAD, ""));
-			setShape(moDead, getTotalWeight());
+			set2DShape(moDead2D, getTotalWeight());
+			set3DShape(moDead3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		} else {
 			clsEventLogger.add(new Event(this, getId(), eEvent.ALIVE, ""));
-			setShape(moAlive, getTotalWeight());
+			set2DShape(moAlive2D, getTotalWeight());
+			set3DShape(moAlive3D);
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}
 	}	

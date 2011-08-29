@@ -80,8 +80,7 @@ public class example4java3d {
 
 	private Sphere createSphere(float size) {
 	   // Create a ball to demonstrate textures
-	   int primflags = Primitive.GENERATE_NORMALS +
-	   Primitive.GENERATE_TEXTURE_COORDS;
+	   int primflags = Primitive.GENERATE_NORMALS + Primitive.GENERATE_TEXTURE_COORDS;
 	
 	   Sphere s = new Sphere(size, primflags, getAppearance("S:\\ARSIN_V01\\World\\src\\resources\\images\\arsin_red.png", Color.blue));
 	   return s;
@@ -150,6 +149,7 @@ public class example4java3d {
 	   groupEntities.addChild(getSphere(0.5f, 0.2f, 0));
 	   groupEntities.addChild(getSphere(0.4f, -0.7f, 0.3f));
 	   groupEntities.addChild(getSphere(0.3f, 1.2f, -1));
+
 	   universe.addBranchGraph(groupEntities);
 	}
 

@@ -18,7 +18,7 @@ import du.itf.itfDecisionUnit;
 import bw.body.itfget.itfIsAlive;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eShapeType;
 
 /**
@@ -55,10 +55,10 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
 
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "10.0");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.blue);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, "10.0");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.blue);
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0 );
 
