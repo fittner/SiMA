@@ -133,23 +133,24 @@ public class example4java3d {
 	public example4java3d() {
 	   // Create the universe
 	   SimpleUniverse universe = new SimpleUniverse();
-	   // Create a structure to contain objects
-	   BranchGroup group = new BranchGroup();
 	   // set looking direction
 	   setViewPane(universe);
-	   // Create lights
-	   group.addChild(getLighting());
 
+	   // Create a structure to contain objects
+	   BranchGroup groupBasics = new BranchGroup();
+	   // Create lights
+	   groupBasics.addChild(getLighting());
 	   // create the floor
-	   group.addChild(getFloorPane());
+	   groupBasics.addChild(getFloorPane());
+	   // add the group of objects to the Universe
+	   universe.addBranchGraph(groupBasics);
 	   
 	   // create the objects
-	   group.addChild(getSphere(0.5f, 0.2f, 0));
-	   group.addChild(getSphere(0.4f, -0.7f, 0.3f));
-	   group.addChild(getSphere(0.3f, 1.2f, -1));
-	
-	   // add the group of objects to the Universe
-	   universe.addBranchGraph(group);
+	   BranchGroup groupEntities = new BranchGroup();
+	   groupEntities.addChild(getSphere(0.5f, 0.2f, 0));
+	   groupEntities.addChild(getSphere(0.4f, -0.7f, 0.3f));
+	   groupEntities.addChild(getSphere(0.3f, 1.2f, -1));
+	   universe.addBranchGraph(groupEntities);
 	}
 
 	public static void main(String[] args) {
