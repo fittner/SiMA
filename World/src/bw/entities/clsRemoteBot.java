@@ -28,7 +28,7 @@ import bw.body.itfget.itfGetBotHand;
 import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfIsConsumeable;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
 
@@ -75,10 +75,10 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);
 		oProp.putAll( clsExternalIO.getDefaultSensorProperties(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS, true));
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, 10.0);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.CYAN);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 10.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.CYAN);
 
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 50.0);
 		
@@ -151,7 +151,7 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		//Angle oDirection = new Angle(getMobileObject2D().getOrientation().radians); //TODO add getDirection to clsEntity
 		getMobileObject2D().setPose(getPosition(), new Angle(0));
 
-		Color oColor = poProp.getPropertyColor(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShapeCreator.P_COLOR); 
+		Color oColor = poProp.getPropertyColor(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR); 
 		double offsetX = poProp.getPropertyDouble(pre+P_HANDOFFSETX); 
 		double offsetY = poProp.getPropertyDouble(pre+P_HANDOFFSETY); 
 		double radius = poProp.getPropertyDouble(pre+P_HANDSIZE); 

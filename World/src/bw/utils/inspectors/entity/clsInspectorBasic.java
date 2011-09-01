@@ -84,7 +84,7 @@ public class clsInspectorBasic extends Inspector {
 		moProp2 = new  PropertyField("Type", ""+moEntity.getEntityType().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp3 = new  PropertyField("Position X", clsInspectorUtils.FormatDouble(moEntity.getPosition().x), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp5 = new  PropertyField("Color", ""+moEntity.getShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp5 = new  PropertyField("Color", ""+moEntity.get2DShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp7 = new  PropertyField("Angle", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians), false, null, PropertyField.SHOW_TEXTFIELD);
 		
@@ -113,7 +113,7 @@ public class clsInspectorBasic extends Inspector {
 		//update the values that could change
 		moProp3.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().x));
 		moProp4.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().y));
-		moProp5.setValue(""+moEntity.getShape().getPaint().toString());
+		moProp5.setValue(""+moEntity.get2DShape().getPaint().toString());
 		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()));
 		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians));
 	}

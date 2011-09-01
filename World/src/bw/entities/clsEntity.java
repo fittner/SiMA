@@ -7,6 +7,8 @@
  */
 package bw.entities;
 
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.TransformGroup;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -19,6 +21,7 @@ import config.clsProperties;
 import du.enums.eEntityType;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
+import statictools.cls3DUniverse;
 import statictools.clsSimState;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
@@ -53,7 +56,7 @@ import ARSsim.physics2D.util.clsPose;
 public abstract class clsEntity implements itfGetBody {
 	public static final String P_ID = "id";
 	public static final String P_STRUCTURALWEIGHT = "weight_structural";
-	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShapeCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
+	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShape2DCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
 	public static final String P_SHAPE = "shape"; //prefix used for shape definitions
 	public static final String P_SHAPENAME = "_";
 	public static final String P_BODY_TYPE = "body_type";
@@ -77,11 +80,14 @@ public abstract class clsEntity implements itfGetBody {
 	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	
+	private BranchGroup shapes3D; 
+	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
 		mnCurrentOverlay = eImages.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
+		shapes3D = null;
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -250,6 +256,23 @@ public abstract class clsEntity implements itfGetBody {
 	 */
 	public void setPose(clsPose poPose) {
 		((itfSetupFunctions)moPhysicalObject2D).setPose(poPose);
+		
+		if (shapes3D != null) {
+/*			
+			for (int i=0; i<shapes3D.numChildren(); i++) {
+				TransformGroup oTG = (TransformGroup) shapes3D.getChild(i);
+				
+				Vector3f v = new Vector3f((float)poPose.getPosition().x, (float)poPose.getPosition().y, 0);
+				AxisAngle4f a = new AxisAngle4f(0,0,1, (float)poPose.getAngle().radians);
+				
+				Transform3D tr = new Transform3D();
+				tr.setTranslation(v);
+				tr.setRotation(a);
+				   
+//				oTG.setTransform(tr); //FIXME - ERROR
+			}
+*/			
+		}
 	}
 	
 	public clsPose getPose() {
@@ -265,7 +288,7 @@ public abstract class clsEntity implements itfGetBody {
 	 * @param poShape
 	 * @param poMass
 	 */
-	public void setShape(Shape poShape, double poMass) {
+	public void set2DShape(Shape poShape, double poMass) {
 		
 		//so we can set the shape null in constructor, for ex Stone //TODO (muchitsch) //TODO (langr)
 		if( poShape != null ) {
@@ -273,6 +296,28 @@ public abstract class clsEntity implements itfGetBody {
 		}
 	}
 	
+	public void set3DShape(TransformGroup poShape) {
+		if (shapes3D != null) {
+			try {
+				shapes3D.detach(); //remove previous shape(s)!
+			} catch (javax.media.j3d.CapabilityNotSetException e) {
+				
+			}
+		}
+		
+		if (poShape != null) { // add new shape(s)
+			shapes3D = new BranchGroup();
+			
+			//encapsulate all entity related shapes in a transformgroup.
+//			TransformGroup oTG = new TransformGroup();
+//			oTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ | TransformGroup.ALLOW_TRANSFORM_WRITE);
+//			oTG.addChild(poShape);
+//			shapes3D.addChild(oTG);
+			
+			shapes3D.addChild(poShape);
+			cls3DUniverse.getSimpleUniverse().addBranchGraph(shapes3D);
+		}
+	}
 	
 	/**
 	 * see implementation clsMobileObject2D
@@ -282,7 +327,7 @@ public abstract class clsEntity implements itfGetBody {
 	 *
 
 	 */
-	public Shape getShape() {
+	public Shape get2DShape() {
 		return ((itfSetupFunctions)moPhysicalObject2D).getShape();
 	}
 	

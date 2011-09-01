@@ -6,7 +6,21 @@
 package creation.simplePropertyLoader;
 
 import java.awt.Color;
+
+import com.sun.j3d.utils.geometry.Box;
+import com.sun.j3d.utils.universe.SimpleUniverse;
 import java.util.List;
+
+import javax.media.j3d.AmbientLight;
+import javax.media.j3d.Appearance;
+import javax.media.j3d.BoundingSphere;
+import javax.media.j3d.BranchGroup;
+import javax.media.j3d.Material;
+import javax.media.j3d.Transform3D;
+import javax.vecmath.AxisAngle4f;
+import javax.vecmath.Color3f;
+import javax.vecmath.Point3d;
+import javax.vecmath.Vector3d;
 
 import pa.clsPsychoAnalysis;
 import pa._v30.clsProcessor;
@@ -42,7 +56,7 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
-import bw.entities.tools.clsShapeCreator;
+import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
@@ -50,6 +64,7 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import sim.engine.SimState;
+import statictools.cls3DUniverse;
 import statictools.clsUniqueIdGenerator;
 
 /**
@@ -115,7 +130,51 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public clsSimplePropertyLoader(SimState poSimState, clsProperties poProperties) {
 		super(poSimState, poProperties);
 		applyProperties(getPrefix(), getProperties());
+		
+		setup3Dworld();
     }
+	
+	private Box getFloorPane() {
+		Color3f c3f = new Color3f(Color.white);
+		Appearance ap = new Appearance();
+        ap.setMaterial(new Material(c3f, c3f, c3f, c3f, 1.0f));
+		
+		Box b = new Box(1000, 1000, 0, ap);
+		return b;
+	}
+	
+	private AmbientLight getLighting() {
+		   BoundingSphere bounds = new BoundingSphere(new Point3d(0.0,0.0,0.0), 10000.0);
+		   AmbientLight ambientLight = new AmbientLight(new Color3f(1.0f,1.0f,1.0f));
+		   ambientLight.setInfluencingBounds(bounds);
+		   return ambientLight;
+	}
+	
+	private void setViewPane(SimpleUniverse universe) {
+		float x=0;
+		float y=-50;
+		float z=10f;
+		Transform3D t3d = new Transform3D();
+		t3d.setTranslation(new Vector3d(x, y, z));
+		t3d.setRotation(new AxisAngle4f(1,0,0, (float) (Math.PI/2.0)));
+		universe.getViewingPlatform().getViewPlatformTransform().setTransform(t3d);
+		//   universe.getViewingPlatform().setNominalViewingTransform();
+	}
+	
+	private void setup3Dworld() {
+		SimpleUniverse universe = cls3DUniverse.getSimpleUniverse();
+		// set looking direction
+		setViewPane(universe);
+
+		// Create a structure to contain objects
+		BranchGroup groupBasics = new BranchGroup();
+		// Create lights
+		groupBasics.addChild(getLighting());
+		// create the floor
+		groupBasics.addChild(getFloorPane());
+		// add the group of objects to the Universe
+		 universe.addBranchGraph(groupBasics);		
+	}
 
 	
     /**
@@ -248,7 +307,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+"2."+clsPose.P_POS_ANGLE, Math.PI*2/3);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+
 														clsInternalSystem.P_FLESH+"."+clsFlesh.P_WEIGHT, 15);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShapeCreator.P_COLOR, Color.RED);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsShape2DCreator.P_COLOR, Color.RED);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
@@ -271,12 +330,12 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_REMOVEENTITYDEFAULTS, "shape, body");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShapeCreator.P_DEFAULT_SHAPE, clsEntity.P_SHAPENAME);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_RADIUS, "1.5");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.png");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, clsEntity.P_SHAPENAME);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, "1.5");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.orange);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsEntity.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY_TYPE, eBodyType.MEAT.toString());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_REGROWRATE, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEENTITYDEFAULTS+"."+clsAnimate.P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 100);
@@ -611,8 +670,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		// add horizontal walls
 		oProp = clsWallHorizontal.getDefaultProperties("");
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, rWidth);
-		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, rWallThickness);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, rWidth);
+		oProp.setProperty(clsWallHorizontal.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_LENGTH, rWallThickness);
 		oProp.setProperty(clsPose.P_POS_X, rWidth/2);
 		oProp.setProperty(clsPose.P_POS_Y, rWallThickness/2);
 
@@ -629,8 +688,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		
 		// add vertical walls
 		oProp = clsWallVertical.getDefaultProperties("");
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_WIDTH, rWallThickness);
-		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShapeCreator.P_HEIGHT, rHeight);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, rWallThickness);
+		oProp.setProperty(clsWallVertical.P_SHAPE+"."+clsEntity.P_SHAPENAME+"."+clsShape2DCreator.P_LENGTH, rHeight);
 		oProp.setProperty(clsPose.P_POS_X, rWallThickness/2);
 		oProp.setProperty(clsPose.P_POS_Y, rHeight/2);
 		

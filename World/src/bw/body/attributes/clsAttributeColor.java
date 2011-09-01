@@ -54,11 +54,11 @@ public class clsAttributeColor extends clsBaseAttribute {
 	}	
 		
 	public Color getColor() {
-		return (Color) moEntity.getShape().getPaint();
+		return (Color) moEntity.get2DShape().getPaint();
 	}
 	
 	public void setColor(Color poColor) {
-		moEntity.getShape().setPaint(poColor);
+		moEntity.get2DShape().setPaint(poColor);
 	}
 	
 	@Override
