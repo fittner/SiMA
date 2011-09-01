@@ -172,13 +172,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@Override
 	protected void process_basic() {
 		//Update short time memory from last step
+		if (moShortTimeMemory==null) {
+			try {
+				throw new Exception("moShortTimeMemory==null");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		moShortTimeMemory.updateTimeSteps();
-		
 		//FIXME AW: Should anything be done with the perception here?
 		moRealityPerception_Output = (ArrayList<clsDataStructureContainer>)deepCopy(moFocusedPerception_Input);
 		
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
-		
 	}
 	
 //	/**
@@ -224,15 +230,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 //		}
 //	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 19.08.2011 14:32:58
-	 *
-	 */
-	private void clearShortTimeMemory() {
-		moShortTimeMemory = null;
-	}
 	
 	/**
 	 * For each Perception-Act, extract 1. the current situation, the expectation and the intention
@@ -251,9 +248,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//FIXME AW: Only the first "parent" is taken. It should be expanded to multiple parents
 		oRetVal.addAll(getIntention(poInput));
 		//Now, all acts are assigned and all intentions are known
-		
-		//If there is no intention, then the short time memory is cleared
-		manageIntentionEvents(oRetVal);
 		
 		//2. Find the current situation in each Perception-act
 		//Do it hasAssociation, which is instanceof clsAssociationPrimary with Perceived Image and 
@@ -280,21 +274,21 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return oRetVal;
 	}
 	
-	/**
-	 * Temporary short time memory function, which shall clear the short time memory, i. e. the last moment if the intention
-	 * cannot be found. It shall prevent the acting upon expectation, if the intention has been lost.
-	 * 
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 19.08.2011 13:34:31
-	 *
-	 * @param poInput
-	 */
-	private void manageIntentionEvents(ArrayList<clsPrediction> poInput) {
-		if (poInput.isEmpty()) {
-			clearShortTimeMemory();
-		}	
-	}
+//	/**
+//	 * Temporary short time memory function, which shall clear the short time memory, i. e. the last moment if the intention
+//	 * cannot be found. It shall prevent the acting upon expectation, if the intention has been lost.
+//	 * 
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 19.08.2011 13:34:31
+//	 *
+//	 * @param poInput
+//	 */
+//	private void manageIntentionEvents(ArrayList<clsPrediction> poInput) {
+//		if (poInput.isEmpty()) {
+//			clearShortTimeMemory();
+//		}	
+//	}
 	
 	/**
 	 * Cheat function, in order to have some type of short time memory. If no moment could be found, the last moment should be used
@@ -316,7 +310,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			clsDataStructureContainerPair oMomentCPair = getLastMomentFromShortTimeMemory(oP, poShortTimeMemory);
 			
 			if (oMomentCPair!=null) {
-				oP.getMoment().setSecondaryComponent(oMomentCPair.getSecondaryComponent());
+				oP.setMoment(oMomentCPair);
 			}
 		}
 	}
@@ -505,10 +499,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Check temporal order
 			clsDataStructureContainerPair oVerifiedMoment = verifyTemporalOrder(oMoment, oLastImageCPair, poInput);
 			
-			//If a valid moment was found, set the moment
-			if (oVerifiedMoment!=null) {
-				clsDataStructureTools.setClassification(oVerifiedMoment.getSecondaryComponent(), this.moObjectClassMOMENT);
-			}
 			//Add the moment to the triple
 			oActTripple.setMoment(oVerifiedMoment);
 
@@ -545,6 +535,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//Check null and pass thorugh if no short time memory
 		//If it is not null, then it must have a secondary container
 		if (oLastMomentInShortTimeMemory==null) {
+			//If a valid moment was found, set the moment
+			if (poBestImageMatch!=null) {
+				clsDataStructureTools.setClassification(poBestImageMatch.getSecondaryComponent(), this.moObjectClassMOMENT);
+			}
 			moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch);
 			oRetVal = poBestImageMatch;
 			return oRetVal;
@@ -568,9 +562,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			
 			//If the best match was the saved moment in the short time memory, then return it with forced save
 			if (oProposedMoment.getMoDataStructure().getMoDS_ID() == oLastMomentSecondary.getMoDataStructure().getMoDS_ID()) {
-				oRetVal = poBestImageMatch;
+				//If a valid moment was found, set the moment
+				if (poBestImageMatch!=null) {
+					clsDataStructureTools.setClassification(poBestImageMatch.getSecondaryComponent(), this.moObjectClassMOMENT);
+				}
 				//Force to save the found image to the temporal memory
 				moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch, true);
+				oRetVal = poBestImageMatch;
 				return oRetVal;
 			}
 		
@@ -578,9 +576,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentSecondary, moPredicateTemporal, false);
 			for (clsSecondaryDataStructure oPlausibleExp :  oPlausibleExpList) {
 				if (oPlausibleExp.getMoDS_ID() == oProposedMoment.getMoDataStructure().getMoDS_ID()) {
-					oRetVal = poBestImageMatch;
+					//If a valid moment was found, set the moment
+					if (poBestImageMatch!=null) {
+						clsDataStructureTools.setClassification(poBestImageMatch.getSecondaryComponent(), this.moObjectClassMOMENT);
+					}
 					//Force to save the best match to the temporal memory
 					moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch, true);
+					oRetVal = poBestImageMatch;
 					return oRetVal;
 				}
 			}

@@ -50,7 +50,6 @@ public class clsShortTimeMemory {
 	 */
 	public void updateTimeSteps() {
 		ArrayList<clsPair<Integer, clsDataStructureContainerPair>> oRemoveObjects = new ArrayList<clsPair<Integer, clsDataStructureContainerPair>>();
-		
 		for (clsPair<Integer, clsDataStructureContainerPair> oSingleMemory : moShortTimeMemory) {
 			//Update the step count
 			oSingleMemory.a++;
@@ -112,6 +111,16 @@ public class clsShortTimeMemory {
 	 */
 	public void saveToShortTimeMemory(clsDataStructureContainerPair poInput, boolean forceSave) {
 		//save only if this moID is not already saved
+		
+		//check input
+		if (poInput.getSecondaryComponent()==null) {
+			try {
+				throw new Exception("Error in clsShortTimeMemory saveToShortTimeMemory: A secondary component must not be saved, if it is null" + poInput.toString());
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		//Check if this memory already exists
 		clsPair<Integer, clsDataStructureContainerPair> oFoundMemory  = findMemory(poInput);
