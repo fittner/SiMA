@@ -60,6 +60,17 @@ public class clsShape3DCreator {
 		return res;
 	}
 	
+	private static Appearance getAppearance(Color c) {
+		   Color3f c3f = new Color3f(c);
+	   
+		   Appearance ap = new Appearance();
+
+		   //set up the material
+		   ap.setMaterial(new Material(c3f, c3f, c3f, c3f, 1.0f));
+	
+		   return ap;
+	}
+	
 	private static Appearance getAppearance(String url, Color c) {
 		   Color3f c3f = new Color3f(c);
 		   Color4f c4f = new Color4f(c); c4f.w = 0.0f;
@@ -127,11 +138,18 @@ public class clsShape3DCreator {
 		int primflags = Primitive.GENERATE_NORMALS + Primitive.GENERATE_TEXTURE_COORDS;
 		float height = 1.0f;
 		
+		Appearance ap = null;
+		try {
+			ap = getAppearance(poProp.getPropertyString(pre +clsShape2DCreator.P_IMAGE_PATH), poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR));
+		} catch (Exception e) {
+			ap = getAppearance(poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR));
+		}
+		
 		Box b = new Box( (float) poProp.getPropertyDouble(pre +clsShape2DCreator.P_WIDTH), 
 							(float) poProp.getPropertyDouble(pre +clsShape2DCreator.P_LENGTH),
 							height,
 							primflags, 
-							getAppearance(poProp.getPropertyString(pre +clsShape2DCreator.P_IMAGE_PATH), poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR)));
+							ap);
 		
 		TransformGroup tg = new TransformGroup();
 		tg.addChild(b);
@@ -157,7 +175,14 @@ public class clsShape3DCreator {
 	private static TransformGroup createSphere(String pre, clsProperties poProp) {
 		int primflags = Primitive.GENERATE_NORMALS + Primitive.GENERATE_TEXTURE_COORDS;
 		float r = (float) poProp.getPropertyDouble(pre +clsShape2DCreator.P_RADIUS);
-		Sphere s = new Sphere(r, primflags, getAppearance(poProp.getPropertyString(pre +clsShape2DCreator.P_IMAGE_PATH), poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR)));
+		
+		Appearance ap = null;
+		try {
+			ap = getAppearance(poProp.getPropertyString(pre +clsShape2DCreator.P_IMAGE_PATH), poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR));
+		} catch (Exception ex) {
+			ap = getAppearance(poProp.getPropertyColor(pre+clsShape2DCreator.P_COLOR));
+		}
+		Sphere s = new Sphere(r, primflags, ap);
 		
 		TransformGroup tg = new TransformGroup();
 		tg.addChild(s);
