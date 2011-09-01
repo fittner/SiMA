@@ -219,7 +219,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN);
 		
 		
-		printImageText(moExtractedPrediction_IN);
+		//printImageText(moExtractedPrediction_IN);
 		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
 		
