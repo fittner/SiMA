@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -52,16 +53,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
 	private double mrMomentActivationThreshold = 0.8;
 	private double mrMomentMinRelevanceThreshold = 0.2;
-	private int mnMaxTimeValue = 30;
 	
 	private String moPredicateTemporal = "HASNEXT";
 	private String moPredicateHierarchical = "ISA";
+	
+	private String moObjectClassMOMENT = "MOMENT";
+	private String moObjectClassINTENTION = "INTENTION";
+	private String moObjectClassEXPECTATION = "EXPECTATION";
+	
 	//private String moPredicateTimeValue = "HASTIMEVALUE";	//not necessary now
 	
 	
-	//FIXME AW: This is a cheat function, which is used until a short time memory is defined. Here, expectations are put
-	//TODO: Create real short time memory
-	private clsPair<Integer, clsDataStructureContainerPair> moShortTimeMemory;
+	/** Short time memory */
+	private clsShortTimeMemory moShortTimeMemory;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -77,7 +81,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);		
+		applyProperties(poPrefix, poProp);	
+		
+		//Init short time memory
+		moShortTimeMemory = new clsShortTimeMemory();
 	}
 
 	/* (non-Javadoc)
@@ -165,7 +172,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@Override
 	protected void process_basic() {
 		//Update short time memory from last step
-		updateShortTimeMemory();
+		moShortTimeMemory.updateTimeSteps();
 		
 		//FIXME AW: Should anything be done with the perception here?
 		moRealityPerception_Output = (ArrayList<clsDataStructureContainer>)deepCopy(moFocusedPerception_Input);
@@ -174,48 +181,48 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 	}
 	
-	/**
-	 * Update the time value of the short time memory
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 19.08.2011 21:42:29
-	 *
-	 */
-	private void updateShortTimeMemory() {
-		if (moShortTimeMemory!=null) {
-			moShortTimeMemory.a++;
-			if (moShortTimeMemory.a>mnMaxTimeValue) {
-				clearShortTimeMemory();
-			}
-		}
-	}
+//	/**
+//	 * Update the time value of the short time memory
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 19.08.2011 21:42:29
+//	 *
+//	 */
+//	private void updateShortTimeMemory() {
+//		if (moShortTimeMemory!=null) {
+//			moShortTimeMemory.a++;
+//			if (moShortTimeMemory.a>mnMaxTimeValue) {
+//				clearShortTimeMemory();
+//			}
+//		}
+//	}
 	
-	/**
-	 * Save a data structure to the short time memory
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 19.08.2011 14:32:56
-	 *
-	 * @param poInput
-	 */
-	private void saveToShortTimeMemory(clsDataStructureContainerPair poInput, boolean forceSave) {
-		//save only if this moID is not already saved
-		
-		if (((moShortTimeMemory!=null) && 
-				(moShortTimeMemory.b.getSecondaryComponent()!=null) &&
-				(poInput.getSecondaryComponent().getMoDataStructure().getMoDS_ID() != moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) ||
-				(moShortTimeMemory==null) || 
-				(forceSave==true)) {
-					//Replace structure and set the time value
-					try {
-						clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) poInput.clone();
-						moShortTimeMemory = new clsPair<Integer, clsDataStructureContainerPair>(0, oAddPair);
-					} catch (CloneNotSupportedException e) {
-						// TODO (wendt) - Auto-generated catch block
-						e.printStackTrace();
-					}
-		}
-	}
+//	/**
+//	 * Save a data structure to the short time memory
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 19.08.2011 14:32:56
+//	 *
+//	 * @param poInput
+//	 */
+//	private void saveToShortTimeMemory(clsDataStructureContainerPair poInput, boolean forceSave) {
+//		//save only if this moID is not already saved
+//		
+//		if (((moShortTimeMemory!=null) && 
+//				(moShortTimeMemory.b.getSecondaryComponent()!=null) &&
+//				(poInput.getSecondaryComponent().getMoDataStructure().getMoDS_ID() != moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) ||
+//				(moShortTimeMemory==null) || 
+//				(forceSave==true)) {
+//					//Replace structure and set the time value
+//					try {
+//						clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) poInput.clone();
+//						moShortTimeMemory = new clsPair<Integer, clsDataStructureContainerPair>(0, oAddPair);
+//					} catch (CloneNotSupportedException e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//		}
+//	}
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -255,11 +262,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		/* 2.b A current situation has the following:
 		 * - For an intention, the highest match value of the associationPrimary
 		 */
-		setCurrentSituation(oRetVal, poInput, mrMomentActivationThreshold);
+		getMoment(oRetVal, poInput, mrMomentActivationThreshold);
 		//2.c Check extrapolation of values
 		//XXXX
 		
-		extrapolateCurrentSituation(oRetVal, moShortTimeMemory);
+		getPreviousMomentFromShortTimeMemory(oRetVal, moShortTimeMemory);
 		
 		
 		//3. Remove all predictions, where there is no current moment for an intention
@@ -268,7 +275,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//4. Find the expectation in each Perception-act
 		//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 		//current situation
-		setCurrentExpectation(oRetVal, poInput);
+		getExpectations(oRetVal, poInput);
 		
 		return oRetVal;
 	}
@@ -300,16 +307,124 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poPrediction
 	 * @param poShortTimeMemory
 	 */
-	private void extrapolateCurrentSituation (ArrayList<clsPrediction> poPrediction, clsPair<Integer, clsDataStructureContainerPair> poShortTimeMemory) {
+	private void getPreviousMomentFromShortTimeMemory(ArrayList<clsPrediction> poPrediction, clsShortTimeMemory poShortTimeMemory) {
+		//Modify poPrediction
+		//Get moments
+		//ArrayList<clsDataStructureContainerPair> oMomentsInShortTimeMemory = poShortTimeMemory.findMemoriesClassification(moObjectClassMOMENT);
+		
 		for (clsPrediction oP : poPrediction) {
-			if (oP.getMoment().getSecondaryComponent()==null) {
-				if (poShortTimeMemory!=null) {
-					oP.getMoment().setSecondaryComponent(poShortTimeMemory.b.getSecondaryComponent());
+			clsDataStructureContainerPair oMomentCPair = getLastMomentFromShortTimeMemory(oP, poShortTimeMemory);
+			
+			if (oMomentCPair!=null) {
+				oP.getMoment().setSecondaryComponent(oMomentCPair.getSecondaryComponent());
+			}
+		}
+	}
+	
+	/**
+	 * Get the last moment for an intention from the short time memory
+	 *(wendt)
+	 *
+	 * @since 31.08.2011 14:58:38
+	 *
+	 * @param poPrediction
+	 * @param poShortTimeMemory
+	 * @return
+	 */
+	private clsDataStructureContainerPair getLastMomentFromShortTimeMemory(clsPrediction poPrediction, clsShortTimeMemory poShortTimeMemory) {
+		clsDataStructureContainerPair oRetVal = null;
+		
+		//Get all moments in the short time memory
+		ArrayList<clsPair<Integer, clsDataStructureContainerPair>> oMomentsInShortTimeMemory = poShortTimeMemory.findMemoriesClassification(moObjectClassMOMENT);
+		
+		int iTimeStep=1000;	//FIXME AW: This shall not be a hard coded number
+		
+		if (poPrediction.getIntention().getSecondaryComponent()!=null) {
+			//Get Intention
+			clsSecondaryDataStructureContainer oSIntention = poPrediction.getIntention().getSecondaryComponent();
+			//Check if the moment is a substructure of the intention
+			for (clsPair<Integer, clsDataStructureContainerPair> oCPair : oMomentsInShortTimeMemory) {
+				ArrayList<clsSecondaryDataStructure> oPossibleIntentionList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCPair.b.getSecondaryComponent(), moPredicateHierarchical, false);
+				//Go through the intentions to find a match
+				for (clsSecondaryDataStructure oPossibleIntention : oPossibleIntentionList) {
+					//If the "ISA" association of the moment in the short time memory was found, set the moment as the last moment from the memory
+					if (oPossibleIntention.getMoDS_ID() == oSIntention.getMoDataStructure().getMoDS_ID()) {
+						//Set first time step
+						if (oRetVal==null) {
+							iTimeStep = oCPair.a;
+						} 
+						
+						//Check if it is the newest moment
+						if (oCPair.a <= iTimeStep) {
+							oRetVal = oCPair.b;
+							iTimeStep = oCPair.a;
+						}
+					}
 				}
 			}
 		}
 		
+		return oRetVal;
 	}
+	
+	/**
+	 * Extract a list of all secondary data structure containers, which are defined as INTENTION from a containerlist
+	 * (wendt)
+	 *
+	 * @since 31.08.2011 13:27:30
+	 *
+	 * @param poInputList
+	 * @return
+	 */
+	private ArrayList<clsDataStructureContainerPair> getIntentionsFromList(ArrayList<clsDataStructureContainer> poInputList) {
+		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+		
+		//Go through all elements
+		for (clsDataStructureContainer oContainer : poInputList) {
+			if (oContainer instanceof clsSecondaryDataStructureContainer) {
+				for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+					//If this container is a leaf element of an associationsecondary with the predicate ISA
+					if (oAss instanceof clsAssociationSecondary) {
+						//An intention is recognized if the image is the Leaf element of a Hierarchical association (ISA)
+						if (((clsAssociationSecondary)oAss).getMoPredicate().equals(moPredicateHierarchical) && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
+							//The secondary data structure container found
+							clsSecondaryDataStructureContainer oSIntention = (clsSecondaryDataStructureContainer) oContainer;
+							
+							//Get the primary data structure container if they exist
+							clsPrimaryDataStructureContainer oPIntention = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInputList);
+							
+							//Create container
+							clsDataStructureContainerPair oIntentionCPair = new clsDataStructureContainerPair(oSIntention, oPIntention);
+							
+							//Check if it already exists and if it does not, then add the result
+							if (containerPairExists(oIntentionCPair, oRetVal)==null) {
+								//Add the intention also, if the primary data structure container was not found
+								oRetVal.add(oIntentionCPair);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	private clsDataStructureContainerPair containerPairExists(clsDataStructureContainerPair poCompareCPair, ArrayList<clsDataStructureContainerPair> poTargetList) {
+		clsDataStructureContainerPair oRetVal = null;
+		
+		for (clsDataStructureContainerPair oCPair : poTargetList) {
+			if ((poCompareCPair!=null) && (poCompareCPair.getSecondaryComponent()!=null) && (oCPair.getSecondaryComponent()!=null)) {
+				if (poCompareCPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+					oRetVal = oCPair;
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
 	
 	/**
 	 * Delete all predictions without a moment, because they cannot be interpreted
@@ -324,7 +439,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		while (liMainList.hasNext()) {
 			clsPrediction oPred = liMainList.next();
-			if (oPred.getMoment().getSecondaryComponent()==null) {
+			if (oPred.getMoment()==null) {
 				liMainList.remove();
 			}
 		}
@@ -343,33 +458,26 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private ArrayList<clsPrediction> getIntention(ArrayList<clsDataStructureContainer> poInput) {
 		
 		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
-		clsDataStructureContainerPair oIntention = null;	//Declare it here, in order to use it to find the primary part of it
 		
-		//Add the secondary data structures
-		for (clsDataStructureContainer oContainer : poInput) {
-			if (oContainer instanceof clsSecondaryDataStructureContainer) {
-				for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
-					//If this container is a leaf element of an associationsecondary with the predicate ISA
-					if (oAss instanceof clsAssociationSecondary) {
-						if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
-							
-							//Add the belonging primary data structure container
-							clsPrimaryDataStructureContainer oPriContainer = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInput);
-							
-							//The Perception-act is added
-							//Add intention ONLY if also a primary data structure container is found
-							//DOCUMENT AW: This fact should be documented
-							if (oPriContainer!=null) {
-								oIntention = new clsDataStructureContainerPair((clsSecondaryDataStructureContainer)oContainer, oPriContainer);
-								//Create the act triple							
-								clsPrediction oActTripple = new clsPrediction(oIntention, new ArrayList<clsDataStructureContainerPair>(), new clsDataStructureContainerPair(null, null));
-								//((new clsPair<clsSecondaryDataStructureContainer)oContainer, clsPrimaryDataStructureContainer>, new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPrimaryDataStructureContainer>>(), null);
-								oRetVal.add(oActTripple);
-								break;
-							}
-						}
-					}
-				}
+		//Get intentions, secondary and primary structures from the input list
+		ArrayList<clsDataStructureContainerPair> oIntentionList = getIntentionsFromList(poInput);
+		//Set intention classification
+		for (clsDataStructureContainerPair oIntentionCPair : oIntentionList) {
+			clsDataStructureTools.setClassification((clsSecondaryDataStructureContainer)oIntentionCPair.getSecondaryComponent(), this.moObjectClassINTENTION);
+		}
+		
+		
+		//Add Intentions to predictions
+		for (clsDataStructureContainerPair oIntentionCPair : oIntentionList) {
+			//Add intention ONLY if also a primary data structure container is found
+			//DOCUMENT AW: This fact should be documented or removed
+			if (oIntentionCPair.getPrimaryComponent()!=null) {
+				//Intention has been found and grounded by the primary container
+				
+				//Create the act triple							
+				clsPrediction oActTripple = new clsPrediction(oIntentionCPair, null, null);
+				//((new clsPair<clsSecondaryDataStructureContainer)oContainer, clsPrimaryDataStructureContainer>, new ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPrimaryDataStructureContainer>>(), null);
+				oRetVal.add(oActTripple);
 			}
 		}
 	
@@ -385,19 +493,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private void setCurrentSituation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
+	private void getMoment(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
 		
 		for (clsPrediction oActTripple : poActList) {
 			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
 			//Precondition: All structures are already loaded and can be found in the input list
 			//Go through each association and search for all children
-			ArrayList<clsAssociation> oSubImageAss = getSubImages(oIntention);
-			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oSubImageAss, poInput, prMomentActivationThreshold, moShortTimeMemory);
-			//Check if the last image or the 
-						
+			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oIntention, poInput, prMomentActivationThreshold);
+			//Check if the last image 
+			clsDataStructureContainerPair oLastImageCPair = getLastMomentFromShortTimeMemory(oActTripple, moShortTimeMemory);
 			//Check temporal order
-			clsDataStructureContainerPair oVerifiedMoment = verifyTemporalOrder(oMoment, moShortTimeMemory, poInput);
-		
+			clsDataStructureContainerPair oVerifiedMoment = verifyTemporalOrder(oMoment, oLastImageCPair, poInput);
+			
+			//If a valid moment was found, set the moment
+			if (oVerifiedMoment!=null) {
+				clsDataStructureTools.setClassification(oVerifiedMoment.getSecondaryComponent(), this.moObjectClassMOMENT);
+			}
+			//Add the moment to the triple
 			oActTripple.setMoment(oVerifiedMoment);
 
 		}
@@ -416,7 +528,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param oLastMomentInShortTimeMemory
 	 * @return
 	 */
-	private clsDataStructureContainerPair verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsPair<Integer, clsDataStructureContainerPair> oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
+	private clsDataStructureContainerPair verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsDataStructureContainerPair oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
 		clsDataStructureContainerPair oRetVal = new clsDataStructureContainerPair(null, null);	//This is set, in case nothing is done here
 		
 		//A correct moment is either same moment as now or a moment, which is connected somehow with the last moment.
@@ -431,8 +543,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		clsSecondaryDataStructureContainer oProposedMoment = poBestImageMatch.getSecondaryComponent();
 		//Check null and pass thorugh if no short time memory
+		//If it is not null, then it must have a secondary container
 		if (oLastMomentInShortTimeMemory==null) {
-			saveToShortTimeMemory(poBestImageMatch, false);
+			moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch);
 			oRetVal = poBestImageMatch;
 			return oRetVal;
 		}
@@ -441,7 +554,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		//Get preconditions
 		
-		clsSecondaryDataStructureContainer oLastMomentSecondary = oLastMomentInShortTimeMemory.b.getSecondaryComponent();
+		clsSecondaryDataStructureContainer oLastMomentSecondary = oLastMomentInShortTimeMemory.getSecondaryComponent();
 
 		//If the last image is found again, it is passed
 		if (oProposedMoment!=null && oLastMomentSecondary!=null) {
@@ -457,7 +570,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			if (oProposedMoment.getMoDataStructure().getMoDS_ID() == oLastMomentSecondary.getMoDataStructure().getMoDS_ID()) {
 				oRetVal = poBestImageMatch;
 				//Force to save the found image to the temporal memory
-				saveToShortTimeMemory(poBestImageMatch, true);
+				moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch, true);
 				return oRetVal;
 			}
 		
@@ -467,16 +580,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				if (oPlausibleExp.getMoDS_ID() == oProposedMoment.getMoDataStructure().getMoDS_ID()) {
 					oRetVal = poBestImageMatch;
 					//Force to save the best match to the temporal memory
-					saveToShortTimeMemory(poBestImageMatch, true);
+					moShortTimeMemory.saveToShortTimeMemory(poBestImageMatch, true);
 					return oRetVal;
 				}
 			}
 		}
 		
 		//and if still nothing is found, then use the last possibility
-		boolean oPartiallyMatchesOK = checkMomentPreconditionMinMatch(oLastMomentInShortTimeMemory.b, poTotalList);
-		if ((oPartiallyMatchesOK==true) && (oLastMomentInShortTimeMemory.a<=mnMaxTimeValue)) {
-			oRetVal = oLastMomentInShortTimeMemory.b;
+		boolean oPartiallyMatchesOK = checkMomentPreconditionMinMatch(oLastMomentInShortTimeMemory, poTotalList);
+		if (oPartiallyMatchesOK==true) {
+			oRetVal = oLastMomentInShortTimeMemory;
 			return oRetVal;
 		}
 		
@@ -542,29 +655,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	}
 	
 	/**
-	 * Get sub images of a certain intention
-	 * (wendt)
-	 *
-	 * @since 22.07.2011 17:58:37
-	 *
-	 * @param poIntention
-	 * @return
-	 */
-	private ArrayList<clsAssociation> getSubImages(clsSecondaryDataStructureContainer poIntention) {
-		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
-		
-		for (clsAssociation oAss : poIntention.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals("ISA") && (poIntention.getMoDataStructure().getMoDS_ID() == oAss.getLeafElement().getMoDS_ID())) {
-					oRetVal.add(oAss);
-				}
-			}
-		}
-		//comment
-		return oRetVal;
-	}
-	
-	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
 	 * @since 04.08.2011 13:59:51
@@ -573,13 +663,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poSourceList
 	 * @return
 	 */
-	private clsDataStructureContainerPair getBestMatchSubImage(ArrayList<clsAssociation> poIntentionAssociations, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold, clsPair<Integer, clsDataStructureContainerPair> moShortTimeMemory) {
-		clsDataStructureContainerPair oRetVal = new clsDataStructureContainerPair(null, null);
+	private clsDataStructureContainerPair getBestMatchSubImage(clsSecondaryDataStructureContainer poIntention, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold) {
+		clsDataStructureContainerPair oRetVal = null;
 		double rMaxValue = 0.0;
+				
+		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, moPredicateHierarchical, true);
 		
-		for (clsAssociation oAss : poIntentionAssociations) {
+		for (clsDataStructurePA oDS : oSubImages) {
 			//Get the Image DS
-			clsDataStructurePA oDS = oAss.getRootElement();
 			//Find the corresponding WP-container
 			clsSecondaryDataStructureContainer oCurrentSituationWPContainer = null;
 			for (clsDataStructureContainer oSContainer : poSourceList) {
@@ -605,23 +696,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				//1. The current situation is found => logical order adds 0.1 to the match value
 				//2. The expectation is found => logical order adds 0.1 to the match value
 				//Purpose: If there are 3 Images with 1.0 match, then the most probable shall be taken.
-				if ((moShortTimeMemory!=null) && (moShortTimeMemory.b.getSecondaryComponent() !=null ) && (rMatchValue >= 0.9)) {
-					double rBonusForOrderValue = 0.0;
-					if (moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
-						//FIXME AW: This bonus value is not necessary
-						//rBonusForOrderValue = 0.1;
-					} else {
-						ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(moShortTimeMemory.b.getSecondaryComponent(), moPredicateTemporal, false);
-						for (clsSecondaryDataStructure oSDS : oExpectationElement) {
-							if (oSDS.getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
-								//FIXME AW: This bonus value is not necessary
-								//rBonusForOrderValue = 0.1;
-							}
-						}
-					}
-					rMatchValue += rBonusForOrderValue;
-					 
-				}
+//				if ((moShortTimeMemory!=null) && (moShortTimeMemory.b.getSecondaryComponent() !=null ) && (rMatchValue >= 0.9)) {
+//					double rBonusForOrderValue = 0.0;
+//					if (moShortTimeMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
+//						//FIXME AW: This bonus value is not necessary
+//						//rBonusForOrderValue = 0.1;
+//					} else {
+//						ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(moShortTimeMemory.b.getSecondaryComponent(), moPredicateTemporal, false);
+//						for (clsSecondaryDataStructure oSDS : oExpectationElement) {
+//							if (oSDS.getMoDS_ID() == oCurrentSituationWPContainer.getMoDataStructure().getMoDS_ID()) {
+//								//FIXME AW: This bonus value is not necessary
+//								//rBonusForOrderValue = 0.1;
+//							}
+//						}
+//					}
+//					rMatchValue += rBonusForOrderValue;
+//					 
+//				}
 				
 				//If the new value is the highest value and it is higher than the threshold value
 				if ((rMatchValue > rMaxValue) && (rMatchValue >= prMomentActivationThreshold)) {
@@ -649,7 +740,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private void setCurrentExpectation(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
+	private void getExpectations(ArrayList<clsPrediction> poActList, ArrayList<clsDataStructureContainer> poInput) {
 		for (clsPrediction oActTripple : poActList) {
 			clsSecondaryDataStructureContainer oIntention = oActTripple.getIntention().getSecondaryComponent();
 			clsSecondaryDataStructureContainer oCurrentSituation = null;
@@ -686,6 +777,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 						if (oIntentionInAss.getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
 							//Get the primary structure for this expectation
 							clsPrimaryDataStructureContainer oPExpectation = clsDataStructureTools.extractPrimaryContainer(oPossibleExpectation, poInput);
+							//The expectation has been found and confirmed
+							//Set the classification
+							if (oPossibleExpectation!=null) {
+								clsDataStructureTools.setClassification(oPossibleExpectation, this.moObjectClassEXPECTATION);
+							}
+							
 							//Add the secondary and the primary (if available) to the expectations
 							oActTripple.getExpectations().add(new clsDataStructureContainerPair(oPossibleExpectation, oPExpectation));
 						}

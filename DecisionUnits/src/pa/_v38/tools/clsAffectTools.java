@@ -65,6 +65,44 @@ public class clsAffectTools {
 	}
 	
 	/**
+	 * Get the max Affect from an image
+	 *
+	 * @since 31.08.2011 07:50:44
+	 *
+	 * @param poImage
+	 * @return
+	 */
+
+	public static int calculateMaxAffectSecondary(clsSecondaryDataStructureContainer poImage) {
+		//Precondition: In the TI, the affect values are used
+		
+		int rThisAffect = 0;
+		int rMaxAffect = 0;
+		
+		try {
+			//Get all DriveGoals
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = getWPMDriveGoals(poImage);
+			for (clsSecondaryDataStructureContainer oGoal : oDriveGoals) {
+				//Get the drive intensity
+				rThisAffect = Math.abs(getDriveIntensity(((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent()));
+				
+				//Get the max value
+				if (rThisAffect>rMaxAffect) {
+					rMaxAffect = rThisAffect;
+				}
+			
+			}
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		
+		return rMaxAffect ;
+	}
+	
+	/**
 	 * Get all possible goals from the intention of the perception act.
 	 * DOCUMENT (wendt) - insert description
 	 *

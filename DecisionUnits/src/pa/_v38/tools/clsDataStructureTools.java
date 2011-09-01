@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -39,6 +40,8 @@ public class clsDataStructureTools {
 	 * @param poSearchInImage
 	 * @return
 	 */
+	private static String moPredicateClassification = "ISCLASSIFEDAS";
+	
 	public static clsDataStructurePA getDataStructureFromImage(clsDataStructurePA poSearchStructure, clsPrimaryDataStructureContainer poSearchInImage) {
 		clsDataStructurePA oRetVal = null;
 
@@ -272,6 +275,61 @@ public class clsDataStructureTools {
 			}
 		}
 		return rRetVal;
+	}
+	
+	/**
+	 * Add a classification to the secondary data structure, if it does not already exist
+	 * (wendt)
+	 *
+	 * @since 31.08.2011 11:53:55
+	 *
+	 * @param poContainer
+	 * @param poClassification
+	 */
+	public static void setClassification(clsSecondaryDataStructureContainer poContainer, String poClassification) {
+		//Check if such an association already exists
+		clsWordPresentation oWP = getClassification(poContainer);
+		//if (oWP)
+		//String oClassification = getClassification(poContainer);
+				
+		if (oWP==null) {
+			//Add new association
+			//Cases: "" != MOMENT and EXPECTATION != MOMENT
+			clsWordPresentation oClass = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("CLASSIFICATION", poClassification));
+			clsAssociationSecondary oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", poContainer.getMoDataStructure(), oClass, moPredicateClassification, 1.0);
+			poContainer.getMoAssociatedDataStructures().add(oNewAss);
+		} else if (oWP.getMoContent().equals(poClassification) == false) {
+			//Replace content of the current classification
+			oWP.setMoContent(poClassification);
+		}
+	}
+	
+	
+	/**
+	 * Check, which classification a secondary data structure has
+	 * (wendt)
+	 *
+	 * @since 31.08.2011 11:54:49
+	 *
+	 * @param poContainer
+	 * @return
+	 */
+	public static clsWordPresentation getClassification(clsSecondaryDataStructureContainer poContainer) {
+		clsWordPresentation oRetVal = null;
+		
+		//A container can only have ONE classification
+		//TODO AW: Check if more than one classification may be necessary
+		
+		for (clsAssociation oAss : poContainer.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(moPredicateClassification)) {
+					oRetVal = ((clsWordPresentation)oAss.getLeafElement());
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
 	}
 	
 }
