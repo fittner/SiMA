@@ -1,4 +1,4 @@
-; Fri Aug 26 12:30:54 GMT 2011
+; Fri Sep 02 13:05:56 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2948,6 +2948,10 @@
 
 	(value "UNPLEASURE")
 	(value_type "DEATH"))
+
+([TP%3AEMPTYSPACE%3AEMPTYSPACE01] of  EMPTYSPACE
+
+	(value "EMPTYSPACE"))
 
 ([TP%3AINTENSITY%3ADEEP] of  INTENSITY
 

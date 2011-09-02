@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
@@ -25,6 +26,7 @@ import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -33,6 +35,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -167,6 +170,12 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Set Perceived image on the output
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
+		clsPrimaryDataStructureContainer oC = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_OUT.clone();
+		//Create EMPTYSPACE objects
+		ArrayList<clsPrimaryDataStructureContainer> oX = createEmptySpaceObjects(oC);
+		//Add those to the PI
+		clsDataStructureTools.addContainersToImage(oX, oC);
+		
 		
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
@@ -180,7 +189,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//TestIF
 		ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
 		//Get activated content
-		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
+		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
+		moAssociatedMemories_OUT = retrieveActivatedMemories(oC, oBestPhantasyInput);
 		
 	}
 	 
@@ -635,6 +645,88 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			}
 		}
 	}
+	
+	private ArrayList<clsPrimaryDataStructureContainer> createEmptySpaceObjects(clsPrimaryDataStructureContainer poImage) {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Get all positions in the image
+		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oExistingPositions = clsDataStructureTools.getImageContentPositions(poImage);
+	
+		//Generate a matrix of all possible positions
+		ArrayList<String> oDistance = new ArrayList<String>();
+		//oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR"));	//Use only the things, which are relevant
+		ArrayList<String> oPosition = new ArrayList<String>();
+		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+		
+		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oAllPositions = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
+		for (int i=0; i< oDistance.size();i++) {
+			for (int j=0; j< oPosition.size();j++) {
+				oAllPositions.add(new clsTriple<clsPrimaryDataStructure, String, String>(null, oPosition.get(j), oDistance.get(i)));
+			}
+		}
+		
+		//Find all Objects in the oAllPositions and add them to oRemovePositions
+		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oNewPositions = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
+		for (clsTriple<clsPrimaryDataStructure, String, String> oAllPosPair: oAllPositions) {
+			boolean bFound = false;
+			for (clsTriple<clsPrimaryDataStructure, String, String> oExistPosPair : oExistingPositions) {
+				if ((oExistPosPair.b.equals(oAllPosPair.b)) && (oExistPosPair.c.equals(oAllPosPair.c))) {
+					bFound = true;
+					break;
+				}
+			}
+			if (bFound==false) {
+				oNewPositions.add(oAllPosPair);
+			}
+		}
+		
+		
+		//Search for one "Nothingobject"
+		//Create the TP
+		clsThingPresentation oGeneratedTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("EMPTYSPACE", "EMPTYSPACE"));
+		
+		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
+		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTP, new ArrayList<clsAssociation>()));
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		
+		search(eDataType.TP, oSearchStructure, oSearchResult); 
+		//If nothing is found, cancel
+		if (oSearchResult.isEmpty()==true) {
+			return oRetVal;
+		}
+		//Create "Nothing"-objects for each position
+		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
+		//for each position, fill it with a container
+		for (clsTriple<clsPrimaryDataStructure, String, String> oPosPair : oNewPositions) {
+			//Create a new TP-Container
+			clsPrimaryDataStructureContainer oCont = (clsPrimaryDataStructureContainer) oEmptySpaceContainer.clone();
+			
+			clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("LOCATION", oPosPair.b));
+			clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("LOCATION", oPosPair.c));
+			
+			//clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+			//clsPrimaryDataStructure poAssociationElementA, 
+		    //clsPrimaryDataStructure poAssociationElementB)
+			clsTriple<Integer, eDataType, String> poIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE");
+			clsAssociationAttribute oPositionAss = new clsAssociationAttribute(poIdentifier, (clsPrimaryDataStructure) oCont.getMoDataStructure(), oPositionTP);
+			clsAssociationAttribute oDistanceAss = new clsAssociationAttribute(poIdentifier, (clsPrimaryDataStructure) oCont.getMoDataStructure(), oDistanceTP);
+			
+			oCont.getMoAssociatedDataStructures().add(oPositionAss);
+			oCont.getMoAssociatedDataStructures().add(oDistanceAss);
+			
+			oRetVal.add(oCont);
+			
+		}
+		//Set new instance IDs
+		clsDataStructureTools.createInstanceFromTypeList(oRetVal, true);
+		
+		return oRetVal;
+	}
+	
+	
 
 	/**
 	 * Get the first element of the input arraylist
