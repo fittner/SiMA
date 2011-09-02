@@ -6,10 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
-
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 
 /**
  * Analogous to 6.5, this interface transports the perceptions in the form of word presentations, thing presentations, and affects from F21 to F20.
@@ -19,5 +16,5 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
  * 
  */
 public interface I6_4_receive {
-	public void receive_I6_4(ArrayList<clsDataStructureContainer> poPerception);
+	public void receive_I6_4(clsDataStructureContainerPair poPerception);
 }

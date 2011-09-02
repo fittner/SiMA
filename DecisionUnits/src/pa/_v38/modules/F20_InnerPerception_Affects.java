@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -178,7 +179,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
 	@Override
-	public void receive_I6_4(ArrayList<clsDataStructureContainer> poPerception) {
+	public void receive_I6_4(clsDataStructureContainerPair poPerception) {
 		//moPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception_old);
 		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 	}

@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsLogicalStructureComposition;
@@ -69,7 +70,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:43 */
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
-	private ArrayList<clsDataStructureContainer> moEnvironmentalPerception_OUT;
+	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:45 */
 	private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
@@ -200,20 +201,22 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @param oPImageContainer
 	 * @return
 	 */
-	private clsSecondaryDataStructureContainer convertToSecondaryPerceivedImage(clsPrimaryDataStructureContainer poPImageContainer) {
+	private clsDataStructureContainerPair convertToSecondaryPerceivedImage(clsPrimaryDataStructureContainer poPImageContainer) {
 		//ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		//Give back a complete container for a complete image
-
+		clsDataStructureContainerPair oRetVal = null;
 		//Start with the DS-Element
 		//Create a new Perceived Image in the secondary process
 		String oNewContent = setSecondaryImageContent(poPImageContainer.getMoDataStructure());
 		clsSecondaryDataStructure oBasicSDS = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poPImageContainer.getMoDataStructure().getMoContentType(), 
 				oNewContent), new ArrayList<clsAssociation>());
 		
-		clsSecondaryDataStructureContainer oRetVal = new clsSecondaryDataStructureContainer(oBasicSDS, new ArrayList<clsAssociation>());
+		clsSecondaryDataStructureContainer oSContainer = new clsSecondaryDataStructureContainer(oBasicSDS, new ArrayList<clsAssociation>());
 
 		//Add secondary sub structures to the found secondary data structure container
-		addSecondarySubStructures(oRetVal, poPImageContainer);
+		addSecondarySubStructures(oSContainer, poPImageContainer);
+		
+		oRetVal = new clsDataStructureContainerPair(oSContainer, poPImageContainer);
 		
 		return oRetVal;
 	}
@@ -734,14 +737,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		return oRetVal;
 	}
 	
-	private ArrayList<clsDataStructureContainer> assignWPtoPerceivedImage(clsPrimaryDataStructureContainer poInput) {
-		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+	private clsDataStructureContainerPair assignWPtoPerceivedImage(clsPrimaryDataStructureContainer poInput) {
+		clsDataStructureContainerPair oRetVal = null; //new ArrayList<clsDataStructureContainer>();
 		
 		//Convert to secondary data structure
-		oRetVal.add(convertToSecondaryPerceivedImage(poInput));
+		oRetVal = convertToSecondaryPerceivedImage(poInput);
 		
 		//Add the primary structures too
-		oRetVal.add(poInput);
+		//oRetVal.add(poInput);
 		
 		return oRetVal;
 	}
@@ -889,7 +892,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+	public void send_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
 		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
 		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
@@ -906,7 +909,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I5_4_send#send_I5_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_4(ArrayList<clsDataStructureContainer> poPerception) {
+	public void send_I6_4(clsDataStructureContainerPair poPerception) {
 		((I6_4_receive)moModuleList.get(20)).receive_I6_4(poPerception);
 		putInterfaceData(I6_4_send.class, poPerception);
 	}

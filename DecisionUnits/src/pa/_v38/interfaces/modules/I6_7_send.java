@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 
 /**
@@ -19,6 +19,6 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
  * 
  */
 public interface I6_7_send {
-	public void send_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception,
+	public void send_I6_7(clsDataStructureContainerPair poRealityPerception,
 			ArrayList<clsPrediction> poExtractedPrediction);
 }

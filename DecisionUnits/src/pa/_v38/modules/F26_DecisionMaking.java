@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -56,7 +57,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
-	private ArrayList<clsSecondaryDataStructureContainer> moRealityPerception;
+	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
 	//AW 20110602 Added expectations, intentions and the current situation
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
 	private ArrayList<clsPrediction> moExtractedPrediction_IN;
@@ -103,7 +104,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moRuleList", moRuleList);
-		text += toText.listToTEXT("moRealityPerception", moRealityPerception);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moGoal_Output", moGoal_Output);
 		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
@@ -178,9 +179,14 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception, 
+	public void receive_I6_7(clsDataStructureContainerPair poPerception, 
 			ArrayList<clsPrediction> poExtractedPrediction) {
-		moRealityPerception = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poRealityPerception); 
+		try {
+			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		} 
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 	}
 	
@@ -216,7 +222,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
-		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moRealityPerception, moExtractedPrediction_IN);
+		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
 		
 		
 		//printImageText(moExtractedPrediction_IN);
@@ -335,7 +341,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param poExtractedPrediction_IN
 	 * @return
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> extractReachableDriveGoals(ArrayList<clsSecondaryDataStructureContainer> poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
+	private ArrayList<clsSecondaryDataStructureContainer> extractReachableDriveGoals(clsDataStructureContainerPair poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
 		//Add Goals from the perception
@@ -460,7 +466,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @return 
 	 *
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> compriseExternalPerception(ArrayList<clsSecondaryDataStructureContainer> poExternalPerception) {
+	private ArrayList<clsSecondaryDataStructureContainer> compriseExternalPerception(clsDataStructureContainerPair poExternalPerception) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		// HZ 2010.08.27: This method selects a goal on the base of input parameters. Up to now
 		// these inputs are restricted to I_2.13 and I_1.7. As I_2.13 gives an image about the
@@ -479,16 +485,12 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//new AW 20110807
 		//get the secondary structure
 		ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = new ArrayList<clsSecondaryDataStructureContainer>();
-		for (clsDataStructureContainer oCont : poExternalPerception) {
-			if (oCont instanceof clsSecondaryDataStructureContainer) {
-				try {
-					oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) oCont);
-				} catch (Exception e) {
-					// TODO (wendt) - Auto-generated catch block
-					e.printStackTrace();
-				}
-				break;
-			}
+		
+		try {
+			oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) poExternalPerception.getSecondaryComponent());
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		oRetVal.addAll(oDriveGoals);
@@ -940,7 +942,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			ArrayList<clsDataStructureContainer> poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+			clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}

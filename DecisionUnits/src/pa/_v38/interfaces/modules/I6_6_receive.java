@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
@@ -20,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
  * 
  */
 public interface I6_6_receive {
-	public void receive_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception,
+	public void receive_I6_6(clsDataStructureContainerPair poPerception,
 							  ArrayList<clsSecondaryDataStructureContainer> poDriveList,
 							  ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary);
 }

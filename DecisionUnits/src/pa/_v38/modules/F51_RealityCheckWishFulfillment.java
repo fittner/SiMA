@@ -40,11 +40,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	public static final String P_MODULENUMBER = "51";
 	
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:45 */
-	private ArrayList<clsDataStructureContainer> moFocusedPerception_Input;  
+	private clsDataStructureContainerPair moEnvironmentalPerception_IN;  
 	/** Container of activated associated memories */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:49 */
-	private ArrayList<clsDataStructureContainer> moRealityPerception_Output; 
+	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:50 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 	/** A construction of an Intention, an arraylist with expectations and the current situation */
@@ -98,9 +98,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moFocusedPerception_Input", moFocusedPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
-		text += toText.listToTEXT("moRealityPerception_Output", moRealityPerception_Output);
+		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_OUT);
 		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		text += toText.listToTEXT("moDriveList", moDriveList);
 		
@@ -154,9 +154,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_6(ArrayList<clsDataStructureContainer> poFocusedPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
+	public void receive_I6_6(clsDataStructureContainerPair poPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
 			ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
-		moFocusedPerception_Input = (ArrayList<clsDataStructureContainer>)deepCopy(poFocusedPerception);
+		try {
+			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
 		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemoriesSecondary);
 	}
@@ -182,7 +187,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		}
 		moShortTimeMemory.updateTimeSteps();
 		//FIXME AW: Should anything be done with the perception here?
-		moRealityPerception_Output = (ArrayList<clsDataStructureContainer>)deepCopy(moFocusedPerception_Input);
+		try {
+			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 	}
@@ -840,7 +850,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moRealityPerception_Output, moExtractedPrediction_OUT);
+		send_I6_7(moEnvironmentalPerception_OUT, moExtractedPrediction_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -851,7 +861,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_7(ArrayList<clsDataStructureContainer> poRealityPerception,
+	public void send_I6_7(clsDataStructureContainerPair poRealityPerception,
 			ArrayList<clsPrediction> poExtractedPrediction) {
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction);
 		
