@@ -1,4 +1,4 @@
-; Fri Sep 02 13:05:56 GMT 2011
+; Wed Jul 27 18:52:03 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -190,12 +190,12 @@
 ;+		(value [TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 		(create-accessor read-write)))
 
-(defclass ARSIN
+(defclass BUBBLE
 	(is-a ENTITY)
 	(role concrete)
 	(single-slot value
 		(type STRING)
-;+		(value "ARSIN")
+;+		(value "BUBBLE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
@@ -367,6 +367,10 @@
 ;+		(value "CONTENT")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
+
+(defclass WP%3AIMAGE
+	(is-a WP)
+	(role concrete))
 
 (defclass ACT
 	(is-a USER)
@@ -668,19 +672,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass EMPTYSPACE
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "EMPTYSPACE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass ASSOCIATION
 	(is-a USER)
 	(role abstract)
@@ -794,7 +785,7 @@
 	(role concrete)
 	(multislot element
 		(type INSTANCE)
-;+		(allowed-classes WP ACT WPM)
+;+		(allowed-classes WP ACT)
 		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot predicate
@@ -916,14 +907,6 @@
 		(default "IMAGE")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
-
-(defclass LIBIDOIMAGE
-	(is-a IMAGE)
-	(role concrete))
-
-(defclass REPRESSEDIMAGE
-	(is-a IMAGE)
-	(role concrete))
 
 (defclass DM
 	(is-a USER)
@@ -1157,7 +1140,7 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass WPM "Word presentation mesh"
+(defclass WPM
 	(is-a USER)
 	(role concrete)
 	(single-slot value

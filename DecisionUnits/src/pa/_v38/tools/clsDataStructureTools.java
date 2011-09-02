@@ -7,11 +7,13 @@
 package pa._v38.tools;
 
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -20,7 +22,9 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.eDataType;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -330,6 +334,117 @@ public class clsDataStructureTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get the position of an object as a pair of Strings, where the position-TP are in some container
+	 * (wendt)
+	 *
+	 * @since 02.09.2011 14:27:26
+	 *
+	 * @param <E>
+	 * @param poObject
+	 * @param poPositionContainer
+	 * @return
+	 */
+	public static <E extends clsPrimaryDataStructure> clsTriple<E, String, String> getObjectPosition(E poObject, clsPrimaryDataStructureContainer poPositionContainer) {
+		clsTriple<E, String, String> oRetVal = null;
+		//Get object position only if both x and y are given
+		
+		String oLocationContentType = "LOCATION";
+		
+		ArrayList<String> oDistance = new ArrayList<String>();
+		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+		ArrayList<String> oPosition = new ArrayList<String>();
+		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+		
+		ArrayList<clsAssociation> oAllAss = poPositionContainer.getMoAssociatedDataStructures(poObject);
+		
+		boolean bDistanceFound = false;
+		boolean bPositionFound = false;
+		
+		clsTriple<E, String, String> oPositionPair = new clsTriple<E, String, String>(poObject, "", "");
+		
+		for (clsAssociation oSingleAss : oAllAss) {
+			if (oSingleAss instanceof clsAssociationAttribute) {
+				if (oSingleAss.getLeafElement().getMoContentType().equals(oLocationContentType)) {
+					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
+					if (bDistanceFound==false) {
+						for (String oDist : oDistance) {
+							if (oDist.equals(oContent)) {
+								oPositionPair.c = oDist;
+								bDistanceFound = true;
+								break;
+							}
+						}
+					}
+					if (bPositionFound==false) {
+						for (String oPos : oPosition) {
+							if (oPos.equals(oContent)) {
+								oPositionPair.b = oPos;
+								bPositionFound = true;
+								break;
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		if ((bPositionFound==true) && (bDistanceFound==true)) {
+			oRetVal = oPositionPair;
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all positions of all objects in an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 02.09.2011 14:30:53
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> getImageContentPositions(clsPrimaryDataStructureContainer poImage) {
+		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oRetVal = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
+		
+		for (clsAssociation oAss : ((clsTemplateImage)poImage.getMoDataStructure()).getMoAssociatedContent()) {
+			clsTriple<clsPrimaryDataStructure, String, String> oPosPair = getObjectPosition((clsPrimaryDataStructure)oAss.getLeafElement(), poImage);
+			if (oPosPair!=null) {
+				oRetVal.add(oPosPair);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 02.09.2011 22:43:58
+	 *
+	 * @param oAddList
+	 * @param oImage
+	 */
+	public static void addContainersToImage(ArrayList<clsPrimaryDataStructureContainer> oAddList, clsPrimaryDataStructureContainer oImage) {
+		//Modify the image by adding additional compontents
+		
+		for (clsPrimaryDataStructureContainer oC : oAddList) {
+			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
+			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+			(clsTemplateImage)oImage.getMoDataStructure(), 
+			(clsThingPresentation)oC.getMoDataStructure());
+			
+			//Add Timeassociation
+			((clsTemplateImage)oImage.getMoDataStructure()).assignDataStructure(oAssTime);
+			
+			//Add locations
+			oImage.getMoAssociatedDataStructures().addAll(oC.getMoAssociatedDataStructures());
+		}
+		
 	}
 	
 }
