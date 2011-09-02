@@ -21,7 +21,6 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -29,8 +28,8 @@ import config.clsProperties;
  * Repressed drives are attached to incoming drives.
  * According to a getBestMatch function F54 finds the repressed drive from the list of repressed drives (clsBlockedContentStoreage) which matches best the incoming drive.
  * 
- * @author zeilinger, gelbard
- * 02.05.2011, 15:47:36
+ * @author gelbard
+ * 02.09.2011, 00:20:36
  * 
  */
 public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
@@ -131,14 +130,9 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		moDrives = moInput;		
 				
 		clsDriveMesh oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
-		if (oRep==null) {
-			//FIXME: AW 20110707: It has to be initialized with something here
-			oRep = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("DUMMY", new ArrayList<clsThingPresentation>(),"DUMMYDM"));
+		if (oRep != null) {
+			moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
 		}
-		moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
-		
-
-		
 	}
 
 	/* (non-Javadoc)
