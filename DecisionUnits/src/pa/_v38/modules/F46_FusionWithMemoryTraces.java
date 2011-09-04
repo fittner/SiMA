@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
@@ -168,14 +169,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
 		
 		//Set Perceived image on the output
-		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
+		//moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
-		clsPrimaryDataStructureContainer oC = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_OUT.clone();
+		//clsPrimaryDataStructureContainer oC = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_OUT.clone();
 		//Create EMPTYSPACE objects
-		ArrayList<clsPrimaryDataStructureContainer> oX = createEmptySpaceObjects(oC);
+		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceList = createEmptySpaceObjects(oEnvPerceptionNoDM);
 		//Add those to the PI
-		clsDataStructureTools.addContainersToImage(oX, oC);
+		clsDataStructureTools.addContainersToImage(oEmptySpaceList, oEnvPerceptionNoDM);
 		
+		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
@@ -190,7 +192,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
 		//Get activated content
 		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
-		moAssociatedMemories_OUT = retrieveActivatedMemories(oC, oBestPhantasyInput);
+		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}
 	 
@@ -684,17 +686,18 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Search for one "Nothingobject"
 		//Create the TP
-		clsThingPresentation oGeneratedTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("EMPTYSPACE", "EMPTYSPACE"));
+		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>
+			("ENTITY", new ArrayList<clsPhysicalRepresentation>(),"EMPTYSPACE"));
 		
 		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
-		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTP, new ArrayList<clsAssociation>()));
+		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));
 		
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		search(eDataType.TP, oSearchStructure, oSearchResult); 
+		search(eDataType.TPM, oSearchStructure, oSearchResult); 
 		//If nothing is found, cancel
-		if (oSearchResult.isEmpty()==true) {
+		if (oSearchResult.get(0).isEmpty()==true) {
 			return oRetVal;
 		}
 		//Create "Nothing"-objects for each position

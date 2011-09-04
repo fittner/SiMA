@@ -51,7 +51,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
-	private double mrMomentActivationThreshold = 0.8;
+	private double mrMomentActivationThreshold = 1.0;
 	private double mrMomentMinRelevanceThreshold = 0.2;
 	
 	private String moPredicateTemporal = "HASNEXT";

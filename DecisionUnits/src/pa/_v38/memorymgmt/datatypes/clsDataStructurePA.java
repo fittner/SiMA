@@ -240,6 +240,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				oMatchScoreNorm = 0;
 			}
 		}
+				
 		
 		//return oMatchScore;
 		return oMatchScoreNorm;

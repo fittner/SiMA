@@ -436,7 +436,7 @@ public class clsDataStructureTools {
 			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
 			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
 			(clsTemplateImage)oImage.getMoDataStructure(), 
-			(clsThingPresentation)oC.getMoDataStructure());
+			(clsPrimaryDataStructure)oC.getMoDataStructure());
 			
 			//Add Timeassociation
 			((clsTemplateImage)oImage.getMoDataStructure()).assignDataStructure(oAssTime);

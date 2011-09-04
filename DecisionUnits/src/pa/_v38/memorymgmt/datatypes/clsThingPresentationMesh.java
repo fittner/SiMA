@@ -140,11 +140,21 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		//TPM content is represented by a list of attribute associations
 		//TODO HZ Define why there is no if statement regarding the content!
 		if(this.moContent.intern() == oDataStructure.moContent.intern()){
-			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+			//added by AW: If there are no associations in the TPM, then only content type and content makes a 1.0 equality
+			//FIXME AW: Also the EMPTYSPACE shall have som properties
+			if ((oContentListTemplate.isEmpty()==true) && (oContentListUnknown.isEmpty()==true)) {
+				oRetVal=1.0;
+			} else {
+				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+			}
+			
 		}
 		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
+		
+		//Special case, if the TPM is empty	
+		
 			
 		return oRetVal; 
 	}

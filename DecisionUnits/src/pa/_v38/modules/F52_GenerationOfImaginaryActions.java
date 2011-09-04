@@ -499,7 +499,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//FIXME AW: Testdata for the F47 interface. DELETEME
 		//moActions_Output.add(getTestDataForAct());
 		/*=======================================================================*/
+		
+		//Hack function because there is no planning in the agent
+		/* ==================================================================== */
+		//THIS IS A HACK!!!!!!
+		//ArrayList<clsSecondaryDataStructureContainer> oAct1 = new ArrayList<clsSecondaryDataStructureContainer>();
+		//oAct1 = hackActionFromA3TOP(moExtractedPrediction_IN);
+		//moActions_Output.addAll(GetActionCommandFromAct(oAct1));
+		/*=======================================================================*/
+		
 		ArrayList<clsSecondaryDataStructureContainer> oExtractedActs = new ArrayList<clsSecondaryDataStructureContainer>();
+		
 		oExtractedActs = getActsFromExpectation(moGoalInput, moExtractedPrediction_IN);
 		
 		moActions_Output.addAll(GetActionCommandFromAct(oExtractedActs));
@@ -509,6 +519,21 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//F47 does not have any memory access. 
 		//If you receive errors in this function, you may inactivate it and AW will correct the errors.
 		moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(moActions_Output);
+	}
+	
+	private ArrayList<clsSecondaryDataStructureContainer> hackActionFromA3TOP(ArrayList<clsPrediction> poInput) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsPrediction oP : poInput) {
+			if (((clsSecondaryDataStructure)oP.getIntention().getSecondaryComponent().getMoDataStructure()).getMoContent().equals("IMAGE:A3TOP")) {
+				ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure)oP.getIntention().getSecondaryComponent().getMoDataStructure(), poInput);
+				//Go through each container and add the associated act
+				oRetVal.addAll(getActsFromExpectations(oExpectations));
+				break;
+			}
+		}
+		
+		return oRetVal;
 	}
 
 	/**

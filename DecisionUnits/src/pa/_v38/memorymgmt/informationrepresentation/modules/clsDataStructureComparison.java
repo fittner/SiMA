@@ -41,15 +41,15 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
 public abstract class clsDataStructureComparison {
 	
 	/** Weight for the matching for the content */
-	private static double moMatchValContentFactor = 0.2; //Max 1.0
+	private static double mrMatchValContentFactor = 0.2; //Max 1.0
 	/** Weight for the matching for the intrinsic values */
-	private static double moMatchValInstrinsicFactor = 0.2; //Max 1.0
+	private static double mrMatchValInstrinsicFactor = 0.2; //Max 1.0
 	/** Weight for the matching for the extrinsic values */
-	private static double moMatchValExtrinsicFactor = 0.6; //Max 1.0
-	/** If a match has the value 1.0, it is newly ordered by the second search */
-	private static double moBestMatchThreshold = 0.95; //Max 1.0
-	/** If there are many values with 1.0 as a match, the new values after the second search are somewhere between 0.9 and 1.0 */
-	private static double moCorrectionfactor = 0.9;	//Max 1.0
+	private static double mrMatchValExtrinsicFactor = 0.6; //Max 1.0
+	/** If a match has the value here, it is newly ordered by the second search */
+	private static double mrBestMatchThreshold = 1.0; //Max 1.0
+	/** This factor says how much can be added to 1.0 as a max association strength */
+	private static double mrAssociationMaxValue = 1.2;	//Max unlimited
 	
 	
 	
@@ -134,7 +134,7 @@ public abstract class clsDataStructureComparison {
 			oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oCompareContainer));
 		}
 		//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
-		oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poContainerUnknown, moBestMatchThreshold, moCorrectionfactor));
+		oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poContainerUnknown, mrBestMatchThreshold, mrAssociationMaxValue));
 		
 		//3. Sort the list
 		//TODO AW: Sort the output list
@@ -153,7 +153,7 @@ public abstract class clsDataStructureComparison {
 	 * @return
 	 */
 	private static ArrayList<clsPair<Double, clsDataStructureContainer>> compareBestResults(ArrayList<clsPair<Double, clsDataStructureContainer>> poInputList, 
-			clsDataStructureContainer poContainerUnknown, double prBestResultsThreshold, double prCorrectFactor) {
+			clsDataStructureContainer poContainerUnknown, double prBestResultsThreshold, double prAssociationMaxValue) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
 		double rMaxMatchValue = 0.0;
@@ -179,22 +179,25 @@ public abstract class clsDataStructureComparison {
 		}
 		
 		//3. Norm the values to the max match value
-		if (oBestResults.isEmpty()==false) {
+		if (oBestResults.size()>1) {
+			//If there is only one 1.0 match nothing has to be done
 			//3a. Get the first value with the highest match if there are any matches
 			rMaxMatchValue = oBestResults.get(0).a;
 			
 			for (clsPair<Double, clsDataStructureContainer> oBestPair : oBestResults) {
 				//3b. Calculate the new Matchvalue acc. formula
-				double rNewMatchValue = calculateBestMatchValue(oBestPair.a, prBestResultsThreshold, prCorrectFactor, rMaxMatchValue);
+				double rNewMatchValue = calculateBestMatchValue(oBestPair.a, prBestResultsThreshold, prAssociationMaxValue, rMaxMatchValue);
 				//3c. Set the new match value
 				oBestPair.a = rNewMatchValue;
 			}
+			//4. Merge the lists
+			oRetVal.addAll(oBestResults);
+			oRetVal.addAll(oOtherResults);
+		} else {
+			//4b. Take the input list
+			oRetVal.addAll(poInputList);
 		}
-		
-		//4. Merge the lists
-		oRetVal.addAll(oBestResults);
-		oRetVal.addAll(oOtherResults);
-		
+	
 		return oRetVal;
 	}
 	
@@ -208,9 +211,11 @@ public abstract class clsDataStructureComparison {
 	 * @param prCorrectFactor
 	 * @return
 	 */
-	private static double calculateBestMatchValue(double prBestMatchValue, double prBestResultsThreshold, double prCorrectFactor, double prMaxMatchValue) {
+	private static double calculateBestMatchValue(double prInverseTemplateMatch, double prBestResultsThreshold, double prAssociationMaxValue, double prMaxMatchValue) {
+		//prMatchValueOfFullMatch Current match with inverse template comparison 
 		//The threshold does not play any role in the calculation the prMaxMatchValue there to norm the matching for all found parts
-		return (1-prCorrectFactor) * prBestMatchValue/prMaxMatchValue + prCorrectFactor;
+		//return (1-prCorrectFactor) * prBestMatchValue/prMaxMatchValue + prCorrectFactor;
+		return (prBestResultsThreshold+((prAssociationMaxValue-prBestResultsThreshold)*(prInverseTemplateMatch/prMaxMatchValue)));
 	}
 	
 	
@@ -506,10 +511,10 @@ public abstract class clsDataStructureComparison {
 		double rRetVal = 0.0;
 		
 		if (blStrongMatch==false) {
-			rRetVal = ((moMatchValContentFactor * rMatchValContent) + (moMatchValInstrinsicFactor * rMatchValIntrinsic) + (moMatchValExtrinsicFactor * rMatchValExtrinsic));
+			rRetVal = ((mrMatchValContentFactor * rMatchValContent) + (mrMatchValInstrinsicFactor * rMatchValIntrinsic) + (mrMatchValExtrinsicFactor * rMatchValExtrinsic));
 		} else {
 			if (rMatchValExtrinsic==1.0) {
-				rRetVal = ((moMatchValContentFactor * rMatchValContent) + (moMatchValInstrinsicFactor * rMatchValIntrinsic))/(moMatchValContentFactor + moMatchValInstrinsicFactor);
+				rRetVal = ((mrMatchValContentFactor * rMatchValContent) + (mrMatchValInstrinsicFactor * rMatchValIntrinsic))/(mrMatchValContentFactor + mrMatchValInstrinsicFactor);
 			} else {
 				rRetVal = 0.0;
 			}

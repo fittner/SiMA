@@ -258,7 +258,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			String oMomentInfo = "";
 			if (oP.getMoment().getSecondaryComponent()!=null) {
 				String oImageName = ((clsSecondaryDataStructure)oP.getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent();
-				oMomentInfo += "Imagename: " + oImageName;
+				oMomentInfo += "Image: " + oImageName;
 			}
 			
 			if (oP.getMoment().getPrimaryComponent()!=null) {

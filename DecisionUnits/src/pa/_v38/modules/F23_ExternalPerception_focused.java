@@ -179,9 +179,9 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		//moEnvironmentalPerception_OUT = new ArrayList<clsDataStructureContainer>();
 		
-		if (moEnvironmentalPerception_IN.getSecondaryComponent() != null) {
-			moEnvironmentalPerception_OUT = focusPerception(moEnvironmentalPerception_IN);
-		}
+		//if (moEnvironmentalPerception_IN.getSecondaryComponent() != null) {
+		moEnvironmentalPerception_OUT = focusPerception(moEnvironmentalPerception_IN);
+		//}
 		
 		
 		/*
