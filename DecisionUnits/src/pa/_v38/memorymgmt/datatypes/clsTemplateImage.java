@@ -13,7 +13,12 @@ import pa._v38.memorymgmt.enums.eDataType;
 
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - Class clsTemplateImage is filled with associations from the type clsTemporalAssociation. It merges TPMs and TPs 
+ * 						which are occur at the same time (Associated through time).
+ * 
+ * moContent (String) 
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+ * poAssociatedTemporalStructures (ArrayList):	List of temporal associations which combine objects of type TP, TPM, or TI to a template Image
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45

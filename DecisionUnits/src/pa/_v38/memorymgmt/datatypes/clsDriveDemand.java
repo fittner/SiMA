@@ -10,7 +10,10 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - The drive demand is received from the homeostasis and represents its unbalance. The temporal change of the drive demand results in the affect (see clsAffect). 
+ * 
+ * moContent (double): Holds the homeostatic tension
+ * poDataStructureIdentifier (clsTripple): Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
  * 
  * @author zeilinger
  * 23.05.2010, 21:40:24

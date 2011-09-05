@@ -13,7 +13,19 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - clsAssociation represents the base class for the four association types – attribute association, temporal association, word presentation association, drive mesh association (see Figure 3). Every association contains two objects of type clsDataStructurePA (Element A and Element B). In addition it holds a weight of the association. 
+ * There is only one weight defined for the association. Hence, “Element A” has the same level of dependency to “Element B” as the other way round. Keep in mind that the Protégé database defines a bi-directional connection; however the second weight is ignored during loading operation
+ * The imperative factor indicates if the association is defined as class association or instance association. This differentiation simplifies the search for data structures as well as influences the matching level (level of correspondence between two data structures being compared). For v30, the complexity of the entities is low => hence, the differentiation between class associations and instance associations is crucial; otherwise a lot of data structures would have the same matching factor.  
+ * Class association: It is differentiate between associations that define a specific object class (e.g. object “CAKE”) and those which are true for an instance of these objects (e.g. “red cake”). Class associations represent the first type of association. A higher weight is assigned to them by definition. 
+ * Instance association: Defines an association that is not true for the whole object type but only for single instances. 
+ * 
+ * The imperative factor is set at the initialization of the data structure. This is done in package pa._v30.memorymgmt.informationrepresentation.searchspace in class clsOntology loader. There the method setImperativeFactor(int variable) is invoked. Hence, the imperative factor can also be changed during run time. The information about the belonging to the group of class or instance associations is defined within the knowledge base (Protégé). 
+ * moAssociationElementA (clsDataStructurePA)
+ * moAssociationElementB (clsDataStructurePA)	
+ * mrWeight (double)	
+ * mrImperativeFactor (double)	
+ * poDataStructureIdentifier (clsTripple)	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+
  * 
  * @author zeilinger
  * 23.05.2010, 21:44:04

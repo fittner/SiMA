@@ -12,7 +12,14 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - In ARSi10, DMs are only associated with TPMs that represent objects as their impact on the individual’s homeostatic state.
+ * 					Class clsDriveMesh includes an array of double values that defines the categorizations of homeostatic demands (anal, oral, 
+ * 					genital, phallic) as well as the level of “pleasure” representing the affect in ARSi10.
+ * 
+ * moContent (String):	
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+ * prPleasure (double):	Temporal change of a drive demand
+ * poDriveCathegories (double []):	mrCathegoryAnal, mrCathegoryOral, mrCathegoryGenital, mrCathegoryPhalic
  * 
  * @author zeilinger
  * 23.06.2010, 20:36:25

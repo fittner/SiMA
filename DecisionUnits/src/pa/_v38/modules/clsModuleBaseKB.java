@@ -28,9 +28,17 @@ import pa._v38.tools.clsPair;
 
 
 /**
- * The module base class for all functional modules that need to access the knowledgebase. 
+ * The module base class for all functional modules that need to access the knowledgebase. clsModuleBaseKB introduces a number of methods which manage the definition of the search pattern as well as the request for and the retrieval of search result. 
+ * 
+ * In case a module must be equipped with a knowledge base interface following steps must be done:
+ * 		1.	It must be checked if the module inherits from clsModuleBaseKB
+ * 		2.	The list of data structures serving as patterns must be defined. 
  * 
  * @see clsModuleBase 
+ * 
+ * Public <E> void search(eDataType poPattern poSearchResult):	Is used to trigger the search method; hence it is invoked within the modules in order to start a request for stored knowledge. Thereby, it requires the pattern itself (poPattern) which should be searched for and an empty list which serves as container for the search results (poSerchResult); In case a specific type of associated data structures should be retrieved, eDataType must be defined
+ * Public <E> void createSearchPattern(searchList, searchpattern)	This method extracts the search patterns depending if they come as instance of clsDataStructurePa or in case they are summarized in a clsPrimaryDataStructureContainer. As it is not an isolated case that search patterns are represented in one or the other type, the extraction is sourced out to one file - clsModuleBaseKB
+ * Public void accessKnowledgeBase(searchResult, searchPattern)	Represents the access to the knowledgebase; the create search pattern as well as an empty list used for the searchresult is attached as parameter.
  * 
  * @author deutsch
  * 13.07.2011, 13:46:24

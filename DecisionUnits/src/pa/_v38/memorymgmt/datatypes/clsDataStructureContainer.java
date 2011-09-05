@@ -9,7 +9,23 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) -
+ * 
+ * An object of type clsDataStructureContainer is a container which holds a psychoanalytically inspired data 
+ * structure (moDataStructure) and data structures with which they are associated (moAssociatedDataStructures). 
+ * For example: A TPM representing the entity “CAKE” is associated with a number of data structures. On the 
+ * one hand, there are thing presentations that define shape, color, etc. of the entity. They are associations 
+ * of the type “attribute association” and define the TPM itself. Hence, they define the content (moContent) of
+ * the data structure TPM (see below). On the other hand, there exist data structures holding information 
+ * which is associated with the entity “CAKE” but do not define it. E.g. a drive mesh which holds the information 
+ * that the cake satisfies the drive NOURISH up to some certain level is associated with the TPM “CAKE” via a 
+ * “drive mesh association”. However, while the different thing presentations are merged to a TPM, the combination 
+ * of TPM and DM does not define a new type of data structure.
+ * 
+ * moDataStructure (clsDataStructurePA): Object of type clsDataStructurePA – root object for associated data structures
+ * 
+ * moAssociatedDataStructures (ArrayList): A List of associations which are all associated with moDataStructure
+ * 
  * 
  * @author zeilinger
  * 24.05.2010, 10:38:31

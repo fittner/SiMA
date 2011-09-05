@@ -10,7 +10,14 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - In ARSi10, the affect defines the temporal change of the drive demand. 
+ * 
+ * moContent (double):	moContent defines the temporal change of a specific demand (pleasure)
+ * mrMinVal
+ * mrMaxVal
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as 
+ * 							the content type. It is passed on to the super class
+ * 
  * 
  * @author zeilinger
  * 14.08.2010, 16:11:11

@@ -12,7 +12,12 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 
+ * 	The term TPM is introduced to the technical model only and does not occur in psychoanalytic theory. 
+ * 
+ * moContent (String) 
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+ * 				poAssociatedPhysicalRepresentations (ArrayList)	@@@Bug – ArrayList must be parameterized with objects of type clsAssociationAttributes
  * 
  * @author zeilinger
  * 24.05.2010, 12:51:07

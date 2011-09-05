@@ -14,7 +14,12 @@ import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - The class clsAct is defined by a list of secondary data structures. They define the act content by a combination of their content. 
+ * 				Acts are used to select and evaluate upcoming system actions. 
+ * 
+ * moContent (String):
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+ * poAssociatedWordPresentations (clsAssociation):	Ordered list of combined word presentation. The ArrayList can only be filled with objects from the type clsSecondaryDataStructure
  * 
  * @author zeilinger
  * 23.05.2010, 21:43:47
