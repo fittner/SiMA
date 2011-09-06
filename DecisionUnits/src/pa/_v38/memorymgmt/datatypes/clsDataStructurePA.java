@@ -14,7 +14,22 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) 
+ * 
+ * Every data structure inherits from clsDataStructurePA which represents the super class of all defined data structures. Class 
+ * clsDataStructurePA introduces three member variables which hence, are set for every psychoanalytical data structure.
+ * 
+ * moDS_ID (int): Represents the identifier for every data structure which is set during the generation (loading from the database or 
+ * 		within the ARS decision unit itself). Its value ranges in between -1 (data structure is created within the decision unit but 
+ * 		has not been compared with knowledge yet) and N. This value is introduced in order to allow a more efficient search – in case 
+ * 		a data structure has already been identified a number unequal to -1 is assigned and must not be compared with stored templates 
+ * 		anymore.
+ * 
+ * moDataStructureType (eDataType): Defines the type of data structure (TP, TPM, DM, WP, Affect, Act)
+ * 
+ * moContentType (String): Specifies the content of the data structure but not the content itself. The content is set within the data 
+ * 		structure class itself. For an atomic data structure like a thing presentation, the content type holds the String “Color”, 
+ * 		“Bump” etc. For data structure meshes, the content type defines the type of entity (e.g. “CAKE”)
  * 
  * @author zeilinger
  * 23.05.2010, 21:40:06

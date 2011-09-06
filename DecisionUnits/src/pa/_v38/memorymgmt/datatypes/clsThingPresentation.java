@@ -15,6 +15,13 @@ import pa._v38.memorymgmt.enums.eDataType;
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
+ * Introduces clsThingPresentation the atomic data structure TP to the model
+ * 
+ * moContent (Object):	Defines the content of a data structure – as a thing presentation can hold content of type 
+ * 			boolean (Bumb sensor), RGB values (Color), or double values (position), the variable is an object of type Object.  
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. 
+ * 			It is passed on to the super class
+ * 
  * @author zeilinger
  * 23.05.2010, 21:48:16
  * 

@@ -17,12 +17,15 @@ import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -91,9 +94,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
 		return text;
 	}
 	
@@ -174,6 +178,10 @@ protected void process_basic() {
 			}
 			if (oDS!=null) {
 				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+			} else {
+				// generate empty memory traces, if nothing is perceived
+				clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oTP, oDM));
 			}
 		}
 		

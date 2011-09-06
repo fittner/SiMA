@@ -10,7 +10,13 @@ import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (zeilinger) - 
+ * 
+ * The class clsWordPresentation realizes the WP data structure. The content is defined by the name of the primary data structure with which the WP is associated.
+ * 
+ * moContent (String)
+ * poDataStructureIdentifier (clsTripple):	Holds the data structure Id, the data type, as well as the content type. It is passed on to the super class
+
  * 
  * @author zeilinger
  * 23.05.2010, 21:43:40

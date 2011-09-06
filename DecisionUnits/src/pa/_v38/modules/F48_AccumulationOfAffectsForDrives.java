@@ -129,9 +129,9 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moLibidoCandidates_IN", moLibidoCandidates_IN);	
-		text += toText.valueToTEXT("moHomoestasisCandidates_IN", moHomoestasisCandidates_IN);	
-		text += toText.valueToTEXT("moDriveCandidates_OUT", moDriveCandidates_OUT);
+		text += toText.listToTEXT("moLibidoCandidates_IN", moLibidoCandidates_IN);	
+		text += toText.listToTEXT("moHomoestasisCandidates_IN", moHomoestasisCandidates_IN);	
+		text += toText.listToTEXT("moDriveCandidates_OUT", moDriveCandidates_OUT);
 				
 		return text;
 	}
@@ -169,12 +169,13 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
 					eDriveValueSplitter.ADVANCED, rFactor); 
 			
+			//set the calculated affects into the entry set of the loop, actually pleasure is not right here, this value is quota of affect not pleasure
 			double oLifeAffect  = oSplitResult.a;
 			double oDeathAffect = oSplitResult.b;
 			oEntry.a.a.setPleasure(oLifeAffect); 
 			oEntry.b.a.setPleasure(oDeathAffect); 
 			
-			//and add it to the outgoing list
+			//and add it to the outgoing list as two separate entries for life/death
 			moDriveCandidates_OUT.add(oEntry.a.a); 
 			moDriveCandidates_OUT.add(oEntry.b.a); 
 		}
