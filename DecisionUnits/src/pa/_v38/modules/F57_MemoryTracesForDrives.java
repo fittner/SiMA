@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -45,6 +45,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
+	
+	private double mrThreshold = 0.1;
 	
 	/**
 	 * DOCUMENT (zeilinger) 
@@ -145,7 +147,7 @@ protected void process_basic() {
 		
 		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
 		
-		moDrivesAndTraces_OUT = attachDriveCandidatesToEnvironPerception(moDriveCandidates, moEnvironmentalPerception_IN);
+		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moEnvironmentalPerception_IN, moAssociatedMemories_IN);
 		
 	}
 
@@ -156,21 +158,32 @@ protected void process_basic() {
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidatesToEnvironPerception(ArrayList<clsDriveMesh> poDriveCandidates, clsPrimaryDataStructureContainer poEnvironmentalPerception) { 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) { 
 		//initializing of the list, because it cannnot be null
 		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
+		//Get all DMs
+		ArrayList<clsAssociationDriveMesh> oAssDMList = getAllDriveMeshAssociations(poEnvironmentalPerception, poAssociatedMemories);
+		
 		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte	
-		//1. Compare drive meshes with drive meshes in the perception
+		//1. Compare drive meshes with drive meshes in the perception	
 		for (clsDriveMesh oDM : poDriveCandidates) {
 			clsDataStructurePA oDS=null;
-			double rMaxMatchfactor = 0.0; 
-			for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
-				//FIXME ISABELLA: Bug bei der Wahrnehmung, wenn nichts gesehen wird 
+			double rCurrentMatchFactor = 0.0;
+			double rMaxMatchfactor = 0.0;
+			double rMaxPleasurefactor = 0.0;
+			//For each DM in the memory
+			for (clsAssociationDriveMesh oAss : oAssDMList) {
 				if (oAss.getLeafElement()instanceof clsDriveMesh) {
-					if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > 0.1) {
-						if (((clsDriveMesh) oAss.getLeafElement()).matchCathegories(oDM) > rMaxMatchfactor) {
-							rMaxMatchfactor = ((clsDriveMesh)oAss.getLeafElement()).getPleasure();
+					//Get match categoriesfactor
+					rCurrentMatchFactor = ((clsDriveMesh)oAss.getLeafElement()).matchCathegories(oDM);
+					//It shall be more than the htreshold and more than the max factor
+					if ((rCurrentMatchFactor > mrThreshold) && (rCurrentMatchFactor > rMaxMatchfactor)) {
+						double rCurrentPleasureValue = ((clsDriveMesh)oAss.getLeafElement()).getMrPleasure();
+						//Get the one with the highest lust
+						if (rCurrentPleasureValue > rMaxPleasurefactor) {
+							rMaxPleasurefactor = rCurrentPleasureValue;
+							rMaxMatchfactor = rCurrentMatchFactor;
 							oDS = oAss.getRootElement();
 						}
 					}
@@ -185,20 +198,41 @@ protected void process_basic() {
 			}
 		}
 		
-		
-		//ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer, clsDataStructurePA>>();
-		//createSearchPattern(eDataType.TPM, poDriveCandidates, oSearchPattern);
-		
-		//ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-		//search(eDataType.TPM, poDriveCandidates, oSearchResult); //Suche nach TPMs, die mit Trieben assoziiert sind
-		    	
-		//2. Find the drive structures in the perception
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oReducedList = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		//for 
-		//if (poEnvironmentalPerception.containsInstanceType(poInput))
-
 	return oRetVal;	
 	}
+	
+	/**
+	 * Get all drive meshes in perception and associated memories
+	 * (wendt)
+	 *
+	 * @since 06.09.2011 16:36:10
+	 *
+	 * @param poEnvironmentalPerception
+	 * @param poAssociatedMemories
+	 * @return
+	 */
+	private ArrayList<clsAssociationDriveMesh> getAllDriveMeshAssociations(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
+		
+		//Get everything from perception
+		for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
+			if (oAss instanceof clsAssociationDriveMesh) {
+				oRetVal.add((clsAssociationDriveMesh) oAss);
+			}
+		}
+		
+		//Get everthing from the associated memories
+		for (clsPrimaryDataStructureContainer oPContainer : poAssociatedMemories) {
+			for (clsAssociation oAss : oPContainer.getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationDriveMesh) {
+					oRetVal.add((clsAssociationDriveMesh) oAss);
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
