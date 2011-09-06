@@ -403,6 +403,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		
 		oResult += " pleasure: " + mrPleasure;
 		
+		
 		return oResult; 
 	}
 
