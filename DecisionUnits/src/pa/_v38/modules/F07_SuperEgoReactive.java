@@ -206,10 +206,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//          All the internalized rules must be stored in an (XML-)file and processed one after another
 		
 		// sample rule for repression of drives
-		if (searchInDM ("NOURISH")/* &&
+		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
 			searchInTPM("ENTITY", "ARSIN") &&
-			searchInTPM("ENTITY", "CAKE")*/) {
+			searchInTPM("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
 			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -235,6 +235,18 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
 			moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
+		
+		/*
+		// sample rules for test purposes
+		if (searchInDM ("NOURISH")) {
+			if (!moForbiddenDrives.contains("NOURISH"))
+				moForbiddenDrives.add("NOURISH");
+		}
+		if (searchInDM ("AGGRESSIVE_GENITAL")) {
+			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
+				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
+		}
+		*/
 	}
 	
 	/* (non-Javadoc)

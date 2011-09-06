@@ -185,21 +185,28 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 		
 		// Iterate over all forbidden drives
-		for (String oContentType : oForbiddenDrives_Input) {
+		for (String oContent : oForbiddenDrives_Input) {
 				
 			int i = 0;
 			// search in list of incoming drives
 			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
 				// check DriveMesh
-				if (oDrives.b.getMoContentType() == oContentType){
-					// insert DriveMesh i into BlockedContentStorage
-					moBlockedContentStorage.add(moDriveList_Output.get(i).b);
-					
-					// remove DriveMesh i from output list
-				    moDriveList_Output.remove(i);
+				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+
+					// drive found
+				    break;
 				}
 				
 				i++;
+			}
+			
+			// if drive found -->	
+			if (i < moDriveList_Output.size()) {
+				// --> insert DriveMesh i into BlockedContentStorage
+				moBlockedContentStorage.add(moDriveList_Output.get(i).b);
+				
+				// --> remove DriveMesh i from output list
+				moDriveList_Output.remove(i);
 			}
 		}
     }	
