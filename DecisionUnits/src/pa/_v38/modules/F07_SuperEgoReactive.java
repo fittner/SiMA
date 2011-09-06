@@ -30,7 +30,7 @@ import config.clsProperties;
 
 /**
  * Checks incoming drives and perceptions according to internalized rules.
- * If one internalized rule fires a forbidden drive or perception is detected.
+ * If one internalized rule fires, a forbidden drive or perception is detected.
  * The forbidden drive or perception is added to the list of forbidden drives or the list of forbidden perceptions, respectively. 
  * The list with forbidden drives is sent to "F06: Defense mechanisms for drives".
  * The list with forbidden perceptions is sent to "F19: Defense mechanisms for perseption".
@@ -106,8 +106,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
+		
+		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
 		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
 		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		text += toText.valueToTEXT("moDrives", moDrives);		
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
 		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
 		return text;
@@ -202,10 +206,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//          All the internalized rules must be stored in an (XML-)file and processed one after another
 		
 		// sample rule for repression of drives
-		if (searchInDM ("NOURISH") &&
+		if (searchInDM ("NOURISH")/* &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
 			searchInTPM("ENTITY", "ARSIN") &&
-			searchInTPM("ENTITY", "CAKE")) {
+			searchInTPM("ENTITY", "CAKE")*/) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
 			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -213,7 +217,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			
 			// The following drive was found by Super-Ego as inappropriate or forbidden.
 			// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-			moForbiddenDrives.add("NOURISH");
+			if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
+				moForbiddenDrives.add("NOURISH");
 		}
 		
 		// sample rule for denial of perceptions
@@ -248,8 +253,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
 				
 				// check the color
-				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-					if(((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent() == oContent){
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((String) ((clsThingPresentation) oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
 						return true; 
 					}	
 				}	
@@ -274,8 +279,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
 				
 				// check if it is for example an ARSin
-				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent() == oContent){
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
 						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
 						return true;
 					}	
@@ -293,11 +298,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-DriveMesh for example for NOURISH
 	 * 
 	 */
-	private boolean searchInDM (String oContentType) {		
+	private boolean searchInDM (String oContent) {		
 		// search in drives
 		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives){
 			// check DriveMesh
-			if (oDrives.b.getMoContentType() == oContentType){
+			// oDrives.b.getMoContent() = for example "NOURISH"
+			// oDrives.b.getMoContentType() =  for example "LIFE"
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 				return true;
 			}
 		}
