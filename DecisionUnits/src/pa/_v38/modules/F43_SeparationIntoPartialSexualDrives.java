@@ -148,6 +148,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		String oContext;
 		clsPair<clsDriveMesh, clsDriveDemand> oHDD;
 		
+		//(0) = libido
 		oHDD = moLibidoDriveDemands.get(0);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
@@ -155,6 +156,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		//oPSD.b  for the c part of the Tripple is the factor read from the propety files. no calculation is done! just added 
 		//to pass the factor down to module F54
 
+		//(1) = agressive
 		oHDD = moLibidoDriveDemands.get(1);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
