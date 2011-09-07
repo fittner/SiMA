@@ -495,6 +495,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 		moActions_Output = getActions();
 		
+		//AW: not finished expectation generation for testing, has to influence plan generation later
+		TestAWsExpectations();
+		
+	}
+	
+	private void TestAWsExpectations(){
+		
 		/* ==================================================================== */
 		//FIXME AW: Testdata for the F47 interface. DELETEME
 		//moActions_Output.add(getTestDataForAct());
