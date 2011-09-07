@@ -96,10 +96,12 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	public String stateToTEXT() {
 		String text ="";
+		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
+		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
-		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
+		
+		
 		return text;
 	}
 	

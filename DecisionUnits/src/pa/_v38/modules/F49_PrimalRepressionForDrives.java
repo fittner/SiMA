@@ -117,8 +117,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moInput", moInput);	
-		text += toText.valueToTEXT("moOutput", moOutput);		
+		text += toText.listToTEXT("moInput", moInput);	
+		text += toText.listToTEXT("moOutput", moOutput);		
 				
 		return text;
 	}

@@ -88,8 +88,8 @@ public class F56_Desexualization_Neutralization extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moDrives_IN", moDrives_IN);	
-		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);	
+		text += toText.listToTEXT("moDrives_IN", moDrives_IN);	
+		text += toText.listToTEXT("moDrives_OUT", moDrives_OUT);	
 		text += toText.valueToTEXT("ReducedPsychicEnergy", ReducedPsychicEnergy);	
 		
 		return text;

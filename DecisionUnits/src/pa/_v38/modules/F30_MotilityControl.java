@@ -151,29 +151,46 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	 */
 	@Override
 	protected void process_basic() {
+		
+		if(moActionCommands_Input.size() < 1) {
+			//when there are no actions, we generate a random seeking sequence 
+			moActionCommands_Output = GenerateSeekingSequence();
+		}
+		else{
+			//TODO implement sub-functionality, until now forward the action commands
+			moActionCommands_Output = moActionCommands_Input;
+		}
+	}
+	
+	/**
+	 * This Method generates a simple random seeking sequence
+	 * @since 07.09.2011 14:02:14
+	 * @return
+	 */
+	private ArrayList<clsWordPresentation> GenerateSeekingSequence(){
 		double rRand1 = Math.random();
 		double rRand2 = Math.random();
-		if(moActionCommands_Input.size() < 1) {
-			// CD 2011-07-06: we did not get any ActionCommands, lets seek a little bit 
-			moActionCommands_Output.clear();
-			if (mnCounter == 5) {
-			  if(rRand1<0.25) {
-				  if(lastTurnDirection == 1) moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_LEFT"));
-				  else moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_RIGHT"));
-				  if(rRand2>Math.pow(0.999,mnTurns)) { // change turning direction
-					lastTurnDirection=1-lastTurnDirection;
-					mnTurns=0;
-				  }
-				  mnTurns++;
+		ArrayList<clsWordPresentation> oActionCommands_Seeking = new ArrayList<clsWordPresentation>();
+		oActionCommands_Seeking.clear();
+		
+		if (mnCounter == 5) {
+		  if(rRand1<0.25) {
+			  if(lastTurnDirection == 1) oActionCommands_Seeking.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_LEFT"));
+			  else oActionCommands_Seeking.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "TURN_RIGHT"));
+			  if(rRand2>Math.pow(0.999,mnTurns)) { // change turning direction
+				lastTurnDirection=1-lastTurnDirection;
+				mnTurns=0;
 			  }
-			  else moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "MOVE_FORWARD"));
-		      mnCounter = 0;
-			}
-			mnCounter++;
+			  mnTurns++;
+		  }
+		  else oActionCommands_Seeking.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"Test"), "MOVE_FORWARD"));
+	      mnCounter = 0;
 		}
-		else
-		  moActionCommands_Output = moActionCommands_Input;
+		mnCounter++;
+		
+		return oActionCommands_Seeking;
 	}
+	
 
 	/* (non-Javadoc)
 	 *
