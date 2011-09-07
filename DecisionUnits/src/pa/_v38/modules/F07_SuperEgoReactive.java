@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
@@ -237,7 +238,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		
 		/*
-		// sample rules for test purposes
+		// sample rules to test repression
 		if (searchInDM ("NOURISH")) {
 			if (!moForbiddenDrives.contains("NOURISH"))
 				moForbiddenDrives.add("NOURISH");
@@ -247,6 +248,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
 		}
 		*/
+		
+		// sample rule to test denial
+		if (searchInTI("IMAGE", "A2I6")) {
+			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A2I6"))) // no duplicate entries
+				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A2I6"));
+		}		
 	}
 	
 	/* (non-Javadoc)
@@ -259,6 +266,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInTP (String oContentType, String oContent) {
 		// search in perceptions
+		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
 		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
 			
 			// check a TP
@@ -301,6 +309,35 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 07.09.2011, 17:06:49
+	 * 
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
+	 * 
+	 */
+	private boolean searchInTI (String oContentType, String oContent) {
+		// search in perceptions
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
+			
+			// check a TI
+			if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
+				
+				// check if it is for example an ARSin
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
+						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
+						return true;
+					}	
+				}					
+			}
+		}
+		return false;
+	}
+
+	
 	
 	/* (non-Javadoc)
 	 *

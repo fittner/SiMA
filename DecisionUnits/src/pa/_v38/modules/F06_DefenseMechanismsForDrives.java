@@ -161,7 +161,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 moDriveList_Output = moDriveList_Input;
 		 
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
-		 // For now all the drives in moForbiddenDrives_Input are repressed.
+		 // For now: All the drives in moForbiddenDrives_Input are repressed.
 		 // ToDo FG: Implement other defense mechanisms beside repression
 		 repress_drive(moForbiddenDrives_Input);
 		 
