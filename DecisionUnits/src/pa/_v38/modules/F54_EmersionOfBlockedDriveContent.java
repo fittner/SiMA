@@ -86,8 +86,8 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moInput", moInput);
-		text += toText.valueToTEXT("moDrives", moDrives);
+		text += toText.listToTEXT("moInput", moInput);
+		text += toText.listToTEXT("moDrives", moDrives);
 		return text;
 	}
 	
