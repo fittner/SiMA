@@ -54,6 +54,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
 	private ArrayList<clsPrediction> moExtractedPrediction_IN;
 	
+	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
+	
+	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
+	
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:28 */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
 	
@@ -173,9 +177,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(
-			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, ArrayList<clsPrediction> poExtractedPrediction) {
+			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
-		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction);
+		try {
+			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poEnvironmentalPerception.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		// FIXME (perner) - please create more meaningfull debbuging output 
 		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
 		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 

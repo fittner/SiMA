@@ -97,4 +97,21 @@ public class clsPrediction implements Cloneable {
            return e;
         }
 	}
+	
+	@Override
+	public String toString(){
+		String oRetVal = ""; 
+		
+		oRetVal += "I:";
+		oRetVal += ((clsSecondaryDataStructure)moIntention.getSecondaryComponent().getMoDataStructure()).moContent.toString();
+		oRetVal += "::M:";
+		oRetVal += ((clsSecondaryDataStructure)moMoment.getSecondaryComponent().getMoDataStructure()).moContent.toString();
+		for (clsDataStructureContainerPair oP : moExpectations) {
+			oRetVal += ":";
+			oRetVal += "E:";
+			oRetVal += ((clsSecondaryDataStructure)oP.getSecondaryComponent().getMoDataStructure()).moContent.toString();
+		}
+	
+		return oRetVal;
+	}
 }

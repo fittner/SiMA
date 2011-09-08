@@ -58,6 +58,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private ArrayList<clsAct> moRuleList; 
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
+	
+	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
+	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
+	
 	//AW 20110602 Added expectations, intentions and the current situation
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
 	private ArrayList<clsPrediction> moExtractedPrediction_IN;
@@ -225,7 +229,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
 		
 		
-		//printImageText(moExtractedPrediction_IN);
+		printImageText(moExtractedPrediction_IN);
 		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
 		
@@ -246,6 +250,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			e.printStackTrace();
 		}*/
 		
+		//Pass PI to Planning
+		moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN;
+		
 		//Pass the prediction to the planning
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 	}
@@ -255,10 +262,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		String oStepInfo = "\nStep: ";
 		
 		for (clsPrediction oP : poExtractedPrediction_IN) {
+			
 			String oMomentInfo = "";
 			if (oP.getMoment().getSecondaryComponent()!=null) {
-				String oImageName = ((clsSecondaryDataStructure)oP.getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent();
-				oMomentInfo += "Image: " + oImageName;
+				//String oImageName = ((clsSecondaryDataStructure)oP.getMoment().getSecondaryComponent().getMoDataStructure()).getMoContent();
+				oMomentInfo += oP.toString();
 			}
 			
 			if (oP.getMoment().getPrimaryComponent()!=null) {
@@ -865,7 +873,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moGoal_Output, moExtractedPrediction_OUT);
+		send_I6_8(moGoal_Output, moEnvironmentalPerception_OUT, moExtractedPrediction_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -876,8 +884,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, ArrayList<clsPrediction> poExtractedPrediction) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poExtractedPrediction);
+	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poEnvironmentalPerception, poExtractedPrediction);
 		
 		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction);
 	}

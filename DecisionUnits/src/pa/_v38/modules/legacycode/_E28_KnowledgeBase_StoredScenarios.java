@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -164,7 +165,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input, ArrayList<clsPrediction> poExtractedPrediction) {
+	public void receive_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Input, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction) {
 		moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
