@@ -250,9 +250,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		*/
 		
 		// sample rule to test denial
-		if (searchInTI("IMAGE", "A2I6")) {
-			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A2I6"))) // no duplicate entries
-				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A2I6"));
+		if (searchInTI("IMAGE", "A3TOP")) {
+			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A3TOP"))) // no duplicate entries
+				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A3TOP"));
 		}		
 	}
 	
