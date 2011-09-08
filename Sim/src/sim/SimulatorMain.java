@@ -55,6 +55,8 @@ public class SimulatorMain extends GUIState {
     public static final String P_DRAWSENSORS = "draw_sensors";
     /** The title to be displayed in the tab/inspector console. */
     public static final String P_MAINWINDOWTITLE = "mainwindowtitle";
+    /** draw the range of the external sensors. */
+    public static final String P_USE3DPERCEPTION = "use_3dperception";
     
     /** filename of the system properties file. contains all the P_* params defined in this class. */
     public static final String  F_CONFIGFILENAME = "system.properties";
@@ -119,7 +121,7 @@ public class SimulatorMain extends GUIState {
 		}
 		
 		clsProperties oProp = clsProperties.readProperties(oPath, F_CONFIGFILENAME);
-		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS);
+		clsSingletonProperties.setSystemProperties(oProp, P_DRAWIMAGES, P_DRAWSENSORS, P_USE3DPERCEPTION);
 		
 		SimulatorMain oMainWithUI = new SimulatorMain(args);
 		
@@ -169,6 +171,7 @@ public class SimulatorMain extends GUIState {
     	 oProp.setProperty(pre+P_DRAWIMAGES, true);
     	 oProp.setProperty(pre+P_MAINWINDOWTITLE, "ARSin V1.0");
     	 oProp.setProperty(pre+P_DRAWSENSORS, true);
+    	 oProp.setProperty(pre+P_USE3DPERCEPTION, false);
     	 
     	 return oProp;
      }

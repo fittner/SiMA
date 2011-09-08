@@ -15,6 +15,7 @@ import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
+import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
 import bw.utils.enums.eBodyType;
 import config.clsProperties;
@@ -297,25 +298,29 @@ public abstract class clsEntity implements itfGetBody {
 	}
 	
 	public void set3DShape(TransformGroup poShape) {
-		if (shapes3D != null) {
-			try {
-				shapes3D.detach(); //remove previous shape(s)!
-			} catch (javax.media.j3d.CapabilityNotSetException e) {
-				
+		//this boolean prevents opening the 3D frame, as the static cls3DUniverse opens it if not there CM
+		if(clsSingletonProperties.use3DPerception())
+		{
+			if (shapes3D != null) {
+				try {
+					shapes3D.detach(); //remove previous shape(s)!
+				} catch (javax.media.j3d.CapabilityNotSetException e) {
+					
+				}
 			}
-		}
-		
-		if (poShape != null) { // add new shape(s)
-			shapes3D = new BranchGroup();
 			
-			//encapsulate all entity related shapes in a transformgroup.
-//			TransformGroup oTG = new TransformGroup();
-//			oTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ | TransformGroup.ALLOW_TRANSFORM_WRITE);
-//			oTG.addChild(poShape);
-//			shapes3D.addChild(oTG);
-			
-			shapes3D.addChild(poShape);
-			cls3DUniverse.getSimpleUniverse().addBranchGraph(shapes3D);
+			if (poShape != null) { // add new shape(s)
+				shapes3D = new BranchGroup();
+				
+				//encapsulate all entity related shapes in a transformgroup.
+	//			TransformGroup oTG = new TransformGroup();
+	//			oTG.setCapability(TransformGroup.ALLOW_TRANSFORM_READ | TransformGroup.ALLOW_TRANSFORM_WRITE);
+	//			oTG.addChild(poShape);
+	//			shapes3D.addChild(oTG);
+				
+				shapes3D.addChild(poShape);
+				cls3DUniverse.getSimpleUniverse().addBranchGraph(shapes3D);
+			}
 		}
 	}
 	
