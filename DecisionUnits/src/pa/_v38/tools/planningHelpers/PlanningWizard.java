@@ -8,6 +8,9 @@ package pa._v38.tools.planningHelpers;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 
@@ -176,5 +179,49 @@ public class PlanningWizard {
 			
 		}
 		return applicablePlanFragments;
+	}
+	
+	public static clsImage getCurrentEnvironmentalImage(ArrayList<clsAssociation> perception) {
+		eDistance dist;
+		
+		for (clsAssociation perceptionItem : perception) {
+			
+			if (perceptionItem instanceof clsAssociationSecondary) {
+				
+				clsAssociationSecondary myElem = (clsAssociationSecondary) perceptionItem;
+				
+				clsDataStructurePA el = myElem.getRootElement();
+				String str = el.toString();
+				
+				int pos1 = str.indexOf("ENTITY:");
+				int pos2 = str.indexOf("LOCATION:");
+				int pos3 = str.toString().indexOf("|", pos2);
+				
+				
+				if (pos1 >= 0 && pos2 >0 && pos3 > 0 && pos3 < str.length()) {
+					String entity = str.substring(pos1+7, pos2-1);
+					String location = str.substring(pos2+9, pos3);
+					
+//					if (entity != null && entity.length() > 0)
+//						dist = eDistance.valueOf(entity);
+					
+					int l = 3;
+				
+				} else {
+					return null;
+				}
+				
+				int i = 3;
+				
+			}
+		}
+		
+		int i = 0;
+		
+		
+		//clsImage currentEnvironmentalSituation = new clsImage();
+		
+		
+		return null; 
 	}
 }
