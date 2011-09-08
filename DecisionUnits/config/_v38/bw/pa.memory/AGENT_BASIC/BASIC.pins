@@ -1,4 +1,4 @@
-; Sun Sep 04 14:12:47 GMT 2011
+; Tue Sep 06 15:06:46 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -832,6 +832,13 @@
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
 		[DM%3AREPRESS%3ASTONE])
+	(weight 1.0 1.0))
+
+([AD%3ATIA2TOP%3ADEPOSIT] of  ASSOCIATIONDM
+
+	(element
+		[TI%3AIMAGE%3AA2TOP]
+		[DM%3ADEPOSIT%3ASTONE])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGHNEGATIVE] of  AFFECT

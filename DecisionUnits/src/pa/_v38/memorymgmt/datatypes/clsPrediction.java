@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * 24.07.2011, 14:26:38
  * 
  */
-public class clsPrediction {
+public class clsPrediction implements Cloneable {
 	private clsDataStructureContainerPair moIntention;
 	private ArrayList<clsDataStructureContainerPair> moExpectations;
 	private clsDataStructureContainerPair moMoment;
@@ -67,5 +67,34 @@ public class clsPrediction {
 	
 	public void setMoment(clsDataStructureContainerPair poMoment) {
 		moMoment = poMoment;
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	//Clone intention
+        	clsDataStructureContainerPair oCloneIntention = (clsDataStructureContainerPair) moIntention.clone();
+        	//Clone moment
+        	clsDataStructureContainerPair oCloneMoment = (clsDataStructureContainerPair) moMoment.clone();
+        	
+        	//Clone expectations
+        	ArrayList<clsDataStructureContainerPair> oCloneExpectations = null;
+        	if (moExpectations != null) {
+        		oCloneExpectations = new ArrayList<clsDataStructureContainerPair>();
+        		for(clsDataStructureContainerPair oP : moExpectations){
+        			try { 
+        				oCloneExpectations.add((clsDataStructureContainerPair) oP.clone());
+        			} catch (Exception e) {
+        				return e;
+        			}
+        		}
+        	}
+        	
+        	clsPrediction oClone = new clsPrediction(oCloneIntention, oCloneExpectations, oCloneMoment);
+   
+        	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
 	}
 }

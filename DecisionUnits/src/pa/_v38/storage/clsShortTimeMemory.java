@@ -9,6 +9,8 @@ package pa._v38.storage;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -22,7 +24,7 @@ import pa._v38.tools.clsPair;
  */
 public class clsShortTimeMemory {
 	/** The variable for the short time memory */
-	private ArrayList<clsPair<Integer, clsDataStructureContainerPair>> moShortTimeMemory;
+	private ArrayList<clsPair<Integer, Object>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
 	private int mnMaxTimeValue = 30;
@@ -39,7 +41,7 @@ public class clsShortTimeMemory {
 	 *
 	 */
 	public clsShortTimeMemory() {
-		moShortTimeMemory = new ArrayList<clsPair<Integer, clsDataStructureContainerPair>>();
+		moShortTimeMemory = new ArrayList<clsPair<Integer, Object>>();
 	}
 	
 	/**
@@ -49,8 +51,8 @@ public class clsShortTimeMemory {
 	 *
 	 */
 	public void updateTimeSteps() {
-		ArrayList<clsPair<Integer, clsDataStructureContainerPair>> oRemoveObjects = new ArrayList<clsPair<Integer, clsDataStructureContainerPair>>();
-		for (clsPair<Integer, clsDataStructureContainerPair> oSingleMemory : moShortTimeMemory) {
+		ArrayList<clsPair<Integer, Object>> oRemoveObjects = new ArrayList<clsPair<Integer, Object>>();
+		for (clsPair<Integer, Object> oSingleMemory : moShortTimeMemory) {
 			//Update the step count
 			oSingleMemory.a++;
 			//Remove memories, which are too old and haven´t been transferred to the long time memory
@@ -59,7 +61,7 @@ public class clsShortTimeMemory {
 			}
 		}
 		//Remove the overdue objects
-		for (clsPair<Integer, clsDataStructureContainerPair> oSingleRemoveObject : oRemoveObjects) {
+		for (clsPair<Integer, Object> oSingleRemoveObject : oRemoveObjects) {
 			removeMemory(oSingleRemoveObject);
 		}
 	}
@@ -72,7 +74,7 @@ public class clsShortTimeMemory {
 	 *
 	 * @param poRemoveMemory
 	 */
-	private void removeMemory(clsPair<Integer, clsDataStructureContainerPair> poRemoveMemory) {
+	private void removeMemory(clsPair<Integer, Object> poRemoveMemory) {
 		moShortTimeMemory.remove(poRemoveMemory);
 	}
 	
@@ -84,8 +86,8 @@ public class clsShortTimeMemory {
 	 *
 	 * @param poRemoveMemory
 	 */
-	private void addMemory(clsPair<Integer, clsDataStructureContainerPair> poRemoveMemory) {
-		moShortTimeMemory.add(poRemoveMemory);
+	private void addMemory(clsPair<Integer, Object> poAddMemory) {
+		moShortTimeMemory.add(poAddMemory);
 	}
 	
 	/**
@@ -109,13 +111,31 @@ public class clsShortTimeMemory {
 	 *
 	 * @param poInput
 	 */
-	public void saveToShortTimeMemory(clsDataStructureContainerPair poInput, boolean forceSave) {
+	public void saveToShortTimeMemory(Object poInput, boolean forceSave) {
 		//save only if this moID is not already saved
 		
 		//check input
-		if (poInput.getSecondaryComponent()==null) {
+		if (poInput instanceof clsDataStructureContainerPair) {
+			if (((clsDataStructureContainerPair)poInput).getSecondaryComponent()==null) {
+				try {
+					throw new Exception("Error in clsShortTimeMemory saveToShortTimeMemory: A secondary component must not be saved, if it is null" + poInput.toString());
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} else if (poInput instanceof clsPrediction) {
+			if (((clsPrediction)poInput).getIntention().getSecondaryComponent()==null) {
+				try {
+					throw new Exception("Error in clsShortTimeMemory saveToShortTimeMemory: A secondary component must not be saved in the intention, if it is null" + poInput.toString());
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		} else {
 			try {
-				throw new Exception("Error in clsShortTimeMemory saveToShortTimeMemory: A secondary component must not be saved, if it is null" + poInput.toString());
+				throw new Exception("Error in clsShortTimeMemory saveToShortTimeMemory: This data type is not allowed to be saved" + poInput.toString());
 			} catch (Exception e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -123,12 +143,12 @@ public class clsShortTimeMemory {
 		}
 		
 		//Check if this memory already exists
-		clsPair<Integer, clsDataStructureContainerPair> oFoundMemory  = findMemory(poInput);
+		clsPair<Integer, Object> oFoundMemory  = findMemory(poInput);
 		//Memory found and forced save true
 		if ((oFoundMemory!=null) && (forceSave==true)) {
 			//Here, the memory is replaced by the new memory, which may have some changed values
 			try {
-				clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) poInput.clone();
+				clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) ((clsDataStructureContainerPair) poInput).clone();
 				oFoundMemory.a = 0;
 				oFoundMemory.b = oAddPair;
 			} catch (CloneNotSupportedException e) {
@@ -138,20 +158,31 @@ public class clsShortTimeMemory {
 		//If there is free space in the short time memory, add the new memory
 		} else if (moShortTimeMemory.size()<mnMaxMemorySize) {
 			try {
-				clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) poInput.clone();
-				moShortTimeMemory.add(new clsPair<Integer, clsDataStructureContainerPair>(0, oAddPair));
+				Object oAddPair = null;
+				if (poInput instanceof clsDataStructureContainerPair) {
+					oAddPair = ((clsDataStructureContainerPair) poInput).clone();
+				} else if (poInput instanceof clsPrediction) {
+					oAddPair = ((clsPrediction) poInput).clone();
+				}
+				
+				addMemory(new clsPair<Integer, Object>(0, oAddPair));
 			} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
 			}
 		//If there is no space in the short time memory, delete the oldest one
 		} else if (moShortTimeMemory.size()>=mnMaxMemorySize) {
-			clsPair<Integer, clsDataStructureContainerPair> oObsoluteMemory = getMostObsoleteMemory();
+			clsPair<Integer, Object> oObsoluteMemory = getMostObsoleteMemory();
 			removeMemory(oObsoluteMemory);
-			clsDataStructureContainerPair oAddPair;
 			try {
-				oAddPair = (clsDataStructureContainerPair) poInput.clone();
-				addMemory(new clsPair<Integer, clsDataStructureContainerPair>(0, oAddPair));
+				Object oAddPair = null;
+				if (poInput instanceof clsDataStructureContainerPair) {
+					oAddPair = ((clsDataStructureContainerPair) poInput).clone();
+				} else if (poInput instanceof clsPrediction) {
+					oAddPair = ((clsPrediction) poInput).clone();
+				}
+				
+				addMemory(new clsPair<Integer, Object>(0, oAddPair));
 			} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -169,17 +200,36 @@ public class clsShortTimeMemory {
 	 * @param oToBeFound
 	 * @return
 	 */
-	public clsPair<Integer, clsDataStructureContainerPair> findMemory(clsDataStructureContainerPair oToBeFound) {
-		clsPair<Integer, clsDataStructureContainerPair> oRetVal = null;
+	public clsPair<Integer, Object> findMemory(Object oToBeFound) {
+		clsPair<Integer, Object> oRetVal = null;
 		
-		for (clsPair<Integer, clsDataStructureContainerPair> oMemory : moShortTimeMemory) {
-			if ((oToBeFound.getSecondaryComponent()!=null) && (oMemory.b.getSecondaryComponent()!=null)) {
-				if (oToBeFound.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oMemory.b.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-					oRetVal = oMemory;
+		//Check CPair
+		clsSecondaryDataStructureContainer oCompareContainer = null;
+		if (oToBeFound instanceof clsDataStructureContainerPair) {
+			oCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getSecondaryComponent();
+			
+			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
+				if (oMemory.b instanceof clsDataStructureContainerPair) {
+					if ((oCompareContainer!=null) && (((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent()!=null)) {
+						if (oCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+							oRetVal = oMemory;
+						}
+					}
 				}
 			}
-		}
-		
+		} else {
+			oCompareContainer = ((clsPrediction)oToBeFound).getIntention().getSecondaryComponent();
+			
+			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
+				if (oMemory.b instanceof clsPrediction) {
+					if ((oCompareContainer!=null) && (((clsPrediction)oMemory.b).getIntention().getSecondaryComponent()!=null)) {
+						if (oCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsPrediction)oMemory.b).getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+							oRetVal = oMemory;
+						}
+					}
+				}
+			}
+		}		
 		return oRetVal;
 	}
 	
@@ -194,18 +244,73 @@ public class clsShortTimeMemory {
 	 * @param poAttribute
 	 * @return
 	 */
-	public ArrayList<clsPair<Integer, clsDataStructureContainerPair>> findMemoriesClassification(String poClassification) {
-		ArrayList<clsPair<Integer, clsDataStructureContainerPair>> oRetVal = new ArrayList<clsPair<Integer, clsDataStructureContainerPair>>();
+	public ArrayList<clsPair<Integer, Object>> findMemoriesClassification(String poClassification) {
+		ArrayList<clsPair<Integer, Object>> oRetVal = new ArrayList<clsPair<Integer, Object>>();
 		//Case known Intention
 		//1. Get Intention
 		
 		//2. Check all moments in the short time memory, if the have this intention associated
-		for (clsPair<Integer, clsDataStructureContainerPair> oMemoryPair : moShortTimeMemory) {
-			//Check if 1. Attribute is OK
-			clsWordPresentation oClassWP = clsDataStructureTools.getClassification(oMemoryPair.b.getSecondaryComponent());
-			if (oClassWP!=null) {
-				if (oClassWP.getMoContent().equals(poClassification)) {
-					oRetVal.add(oMemoryPair);
+		for (clsPair<Integer, Object> oMemoryPair : moShortTimeMemory) {
+			
+			if (oMemoryPair.b instanceof clsDataStructureContainerPair) {
+				//Check if 1. Attribute is OK
+				clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsDataStructureContainerPair)oMemoryPair.b).getSecondaryComponent());
+				if (oClassWP!=null) {
+					if (oClassWP.getMoContent().equals(poClassification)) {
+						oRetVal.add(oMemoryPair);
+					}
+				}
+			} else if (oMemoryPair.b instanceof clsPrediction) {
+				//Give back the whole Object, clsPrediction, if this classification is found
+				//Check Intention
+				
+				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
+					//IMPORTANT: It is not allowed to save a Prediction without intention
+					clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent());
+					if (oClassWP!=null) {
+						if (oClassWP.getMoContent().equals(poClassification)) {
+							oRetVal.add(oMemoryPair);
+							//If found, then break
+							break;
+						}
+					}
+				} 
+				
+				//Check Moment
+				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent() != null) {
+					
+					if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
+						//IMPORTANT: It is not allowed to save a Prediction without intention
+						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent());
+						if (oClassWP!=null) {
+							if (oClassWP.getMoContent().equals(poClassification)) {
+								oRetVal.add(oMemoryPair);
+								//If found, then break
+								break;
+							}
+						}
+					}
+				}
+				
+				//Check Expectations
+				if (((clsPrediction)oMemoryPair.b).getExpectations().isEmpty()==false) {
+					boolean oFoundMatch = false;
+					for (clsDataStructureContainerPair oP : ((clsPrediction)oMemoryPair.b).getExpectations()) {
+						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(oP.getSecondaryComponent());
+						if (oClassWP!=null) {
+							if (oClassWP.getMoContent().equals(poClassification)) {
+								oRetVal.add(oMemoryPair);
+								oFoundMatch = true;
+								//If found, then break
+								break; //The first loop
+								
+							}
+						}
+					}
+					
+					if (oFoundMatch == true) {
+						break;
+					}
 				}
 			}
 		}
@@ -222,8 +327,8 @@ public class clsShortTimeMemory {
 	 *
 	 * @return
 	 */
-	private clsPair<Integer, clsDataStructureContainerPair> getMostObsoleteMemory() {
-		clsPair<Integer, clsDataStructureContainerPair> oRetVal = null;	//This value is only null, if the memory is empty
+	private clsPair<Integer, Object> getMostObsoleteMemory() {
+		clsPair<Integer, Object> oRetVal = null;	//This value is only null, if the memory is empty
 		
 		//Variables, which are used to get the oldest memory. If there are several memories, which are the oldest ones,
 		//then, the memory with the lowest total affect value is selected
@@ -234,7 +339,7 @@ public class clsShortTimeMemory {
 		//int nMaxAffect = 0;
 		//int nCurrentAffect = 0;
 		
-		for (clsPair<Integer, clsDataStructureContainerPair> oMemory : moShortTimeMemory) {
+		for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
 			nCurrentStep = oMemory.a;
 			
 			if (nCurrentStep>nMaxStep) {

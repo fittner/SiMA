@@ -339,7 +339,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		clsDataStructureContainerPair oRetVal = null;
 		
 		//Get all moments in the short time memory
-		ArrayList<clsPair<Integer, clsDataStructureContainerPair>> oMomentsInShortTimeMemory = poShortTimeMemory.findMemoriesClassification(moObjectClassMOMENT);
+		ArrayList<clsPair<Integer, Object>> oMomentsInShortTimeMemory = poShortTimeMemory.findMemoriesClassification(moObjectClassMOMENT);
 		
 		int iTimeStep=1000;	//FIXME AW: This shall not be a hard coded number
 		
@@ -347,21 +347,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Get Intention
 			clsSecondaryDataStructureContainer oSIntention = poPrediction.getIntention().getSecondaryComponent();
 			//Check if the moment is a substructure of the intention
-			for (clsPair<Integer, clsDataStructureContainerPair> oCPair : oMomentsInShortTimeMemory) {
-				ArrayList<clsSecondaryDataStructure> oPossibleIntentionList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCPair.b.getSecondaryComponent(), moPredicateHierarchical, false);
-				//Go through the intentions to find a match
-				for (clsSecondaryDataStructure oPossibleIntention : oPossibleIntentionList) {
-					//If the "ISA" association of the moment in the short time memory was found, set the moment as the last moment from the memory
-					if (oPossibleIntention.getMoDS_ID() == oSIntention.getMoDataStructure().getMoDS_ID()) {
-						//Set first time step
-						if (oRetVal==null) {
-							iTimeStep = oCPair.a;
-						} 
-						
-						//Check if it is the newest moment
-						if (oCPair.a <= iTimeStep) {
-							oRetVal = oCPair.b;
-							iTimeStep = oCPair.a;
+			for (clsPair<Integer, Object> oCPair : oMomentsInShortTimeMemory) {
+				if (oCPair.b instanceof clsDataStructureContainerPair) {
+					ArrayList<clsSecondaryDataStructure> oPossibleIntentionList = clsDataStructureTools.getDSFromSecondaryAssInContainer(((clsDataStructureContainerPair)oCPair.b).getSecondaryComponent(), moPredicateHierarchical, false);
+					//Go through the intentions to find a match
+					for (clsSecondaryDataStructure oPossibleIntention : oPossibleIntentionList) {
+						//If the "ISA" association of the moment in the short time memory was found, set the moment as the last moment from the memory
+						if (oPossibleIntention.getMoDS_ID() == oSIntention.getMoDataStructure().getMoDS_ID()) {
+							//Set first time step
+							if (oRetVal==null) {
+								iTimeStep = oCPair.a;
+							} 
+							
+							//Check if it is the newest moment
+							if (oCPair.a <= iTimeStep) {
+								oRetVal = (clsDataStructureContainerPair)oCPair.b;
+								iTimeStep = oCPair.a;
+							}
 						}
 					}
 				}
