@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
@@ -88,6 +89,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 		
 		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
 		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
+		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);
+		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
 		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
@@ -188,13 +191,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
 		//			    not have drives attached (even this is essential for an evaluation)
 		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
-		filterInput();
-		
+		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;		
 		moAssociatedMemories_Output = moAssociatedMemories_Input;
 		
 		deny_perception (moForbiddenPerceptions_Input);
 		
 	}
+	
+	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -204,12 +208,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 *
 	 * @return
 	 */
-	private void filterInput() {
-		//FIXME (gelbard) - Input changed
+/*	private void filterInput() {
+//FIXME (gelbard) - Input changed
 
-		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;
 		
-		//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
+//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
 //			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
 //				//HZ: if program steps into the if-statement it is known that 
 //				//	  a drive mesh is associated with the data structure => it has an affective evaluation
@@ -220,7 +223,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 //			}
 //		}
 	}
-	
+	*/
 	
 		
 	/* (non-Javadoc)
@@ -250,11 +253,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 				if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
 					
 					// check if it is for example an ARSin
-					if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent() == oContent){
+					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
 							
-							// remove thing-presentation mesh from list of associations
-							moAssociatedMemories_Output.remove(i);
+							// perception found
+						    break;
 						}	
 					}					
 				}
@@ -265,17 +268,39 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 				else if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
 					
 					// check if it is for example an ARSin
-					if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-						if(((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent() == oContent){
+					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+						if(((String) ((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
 							
-							// remove thing-presentation mesh from list of associations
-							moAssociatedMemories_Output.remove(i);
+							// perception found
+						    break;
+						}	
+					}					
+				}
+				
+				
+				// or oContainer can contain a template image
+				// in this case
+				// check a TI
+				else if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
+					
+					// check if it is for example an ARSin
+					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+						if(((String) ((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
+							
+							// perception found
+						    break;
 						}	
 					}					
 				}
 				
 				i++;
 				
+			}
+			
+			// if Perception found -->	
+			if (i < moAssociatedMemories_Output.size()) {				
+				// --> remove Perception i from output list
+				moAssociatedMemories_Output.remove(i);
 			}
 		}
 	}

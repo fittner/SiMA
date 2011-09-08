@@ -60,6 +60,7 @@ import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
+import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
@@ -131,7 +132,11 @@ public class clsSimplePropertyLoader extends clsLoader {
 		super(poSimState, poProperties);
 		applyProperties(getPrefix(), getProperties());
 		
-		setup3Dworld();
+		//this boolean prevents opening the 3D frame, as the static cls3DUniverse opens it if not there CM
+		if(clsSingletonProperties.use3DPerception())
+		{
+			setup3Dworld();
+		}
     }
 	
 	private Box getFloorPane() {

@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.tools.clsPair;
@@ -30,7 +31,7 @@ import config.clsProperties;
 
 /**
  * Checks incoming drives and perceptions according to internalized rules.
- * If one internalized rule fires a forbidden drive or perception is detected.
+ * If one internalized rule fires, a forbidden drive or perception is detected.
  * The forbidden drive or perception is added to the list of forbidden drives or the list of forbidden perceptions, respectively. 
  * The list with forbidden drives is sent to "F06: Defense mechanisms for drives".
  * The list with forbidden perceptions is sent to "F19: Defense mechanisms for perseption".
@@ -106,8 +107,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
+		
+		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
+		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
 		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
 		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		text += toText.valueToTEXT("moDrives", moDrives);		
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
 		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
 		return text;
@@ -213,7 +218,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			
 			// The following drive was found by Super-Ego as inappropriate or forbidden.
 			// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-			moForbiddenDrives.add("NOURISH");
+			if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
+				moForbiddenDrives.add("NOURISH");
 		}
 		
 		// sample rule for denial of perceptions
@@ -230,6 +236,24 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
 			moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
+		
+		/*
+		// sample rules to test repression
+		if (searchInDM ("NOURISH")) {
+			if (!moForbiddenDrives.contains("NOURISH"))
+				moForbiddenDrives.add("NOURISH");
+		}
+		if (searchInDM ("AGGRESSIVE_GENITAL")) {
+			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
+				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
+		}
+		*/
+		
+		// sample rule to test denial
+		if (searchInTI("IMAGE", "A2I6")) {
+			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A2I6"))) // no duplicate entries
+				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A2I6"));
+		}		
 	}
 	
 	/* (non-Javadoc)
@@ -242,14 +266,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInTP (String oContentType, String oContent) {
 		// search in perceptions
+		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
 		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
 			
 			// check a TP
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
 				
 				// check the color
-				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-					if(((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent() == oContent){
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((String) ((clsThingPresentation) oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
 						return true; 
 					}	
 				}	
@@ -274,8 +299,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
 				
 				// check if it is for example an ARSin
-				if(oContainer.getMoDataStructure().getMoContentType() == oContentType){
-					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent() == oContent){
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
 						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
 						return true;
 					}	
@@ -284,6 +309,35 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		return false;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 07.09.2011, 17:06:49
+	 * 
+	 * searches in the input-perception for example for an ENTITY like a ARSIN
+	 * 
+	 */
+	private boolean searchInTI (String oContentType, String oContent) {
+		// search in perceptions
+		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
+			
+			// check a TI
+			if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
+				
+				// check if it is for example an ARSin
+				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
+						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
+						return true;
+					}	
+				}					
+			}
+		}
+		return false;
+	}
+
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -293,11 +347,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-DriveMesh for example for NOURISH
 	 * 
 	 */
-	private boolean searchInDM (String oContentType) {		
+	private boolean searchInDM (String oContent) {		
 		// search in drives
 		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives){
 			// check DriveMesh
-			if (oDrives.b.getMoContentType() == oContentType){
+			// oDrives.b.getMoContent() = for example "NOURISH"
+			// oDrives.b.getMoContentType() =  for example "LIFE"
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 				return true;
 			}
 		}
