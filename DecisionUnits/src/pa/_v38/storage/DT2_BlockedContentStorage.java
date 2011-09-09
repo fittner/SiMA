@@ -14,6 +14,7 @@ import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
+import pa._v38.interfaces.modules.D2_1_receive;
 import pa._v38.interfaces.modules.D2_2_send;
 import pa._v38.interfaces.modules.D2_3_receive;
 import pa._v38.interfaces.modules.D2_4_receive;
@@ -42,7 +43,7 @@ import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComp
  * 09.03.2011, 17:12:46
  * 
  */
-public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
+public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_1_receive, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
 	/** Blocked content buffer */
 	private ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> moBlockedContent;
 	
@@ -614,23 +615,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		// TODO (deutsch) - Auto-generated method stub
 		
 	}*/
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 09.03.2011, 17:15:13
-	 * 
-	 * @see pa.interfaces.send._v38.D2_4_send#send_D2_4(java.util.ArrayList)
-	 */
-	@Override
-	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_4() {
-		//AW: This IF goes to F35
-		return new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(moEnvironmentalPerception, moAssociatedMemories);
-		
-	}
 	
 	@Override
-	public void receive_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	public void receive_D2_1(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		//AW: This IF goes to F35
 		//Here, an input image is received from F35, where matching is performed
 		matchBlockedContentPerception(poData, poAssociatedMemories);
@@ -643,12 +630,41 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @author deutsch
 	 * 09.03.2011, 17:15:13
 	 * 
+	 * @see pa.interfaces.send._v38.D2_4_send#send_D2_4(java.util.ArrayList)
+	 */
+	@Override
+	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_4() {
+		//TODO FG: Use this IF
+		
+		
+		return null;
+	}
+	
+	@Override
+	public void receive_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		//AW: This IF is not used to F35
+		//Here, an input image is received from F35, where matching is performed
+		//matchBlockedContentPerception(poData, poAssociatedMemories);
+		//moEnvironmentalPerception = poData;
+		//moAssociatedMemories = poAssociatedMemories;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 09.03.2011, 17:15:13
+	 * 
 	 * @see pa.interfaces.send._v38.D2_2_send#send_D2_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_D2_2(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
-		
+	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_2() {
+		//AW: This IF goes to F35
+		if ((moEnvironmentalPerception!=null) && (moAssociatedMemories!=null)) {
+			return new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(moEnvironmentalPerception, moAssociatedMemories);
+			
+		} else {
+			return null;
+		}
 		
 	}
 
