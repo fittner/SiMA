@@ -12,6 +12,8 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.modules.D2_1_send;
+import pa._v38.interfaces.modules.D2_2_receive;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
@@ -29,7 +31,7 @@ import pa._v38.storage.DT2_BlockedContentStorage;
  * 07.10.2009, 11:16:58
  * 
  */
-public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send {
+public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send, D2_1_send, D2_2_receive {
 	public static final String P_MODULENUMBER = "35";
 	
 	/** The blocked content storage, which is an Arraylist for data structures */
@@ -140,12 +142,16 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	private void enrichWithBlockedContent(clsPrimaryDataStructureContainer poPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
 		//Send inputs to the memeory
-		moBlockedContentStorage.receive_D2_4(poPerception, poAssociatedMemories);
+		//moBlockedContentStorage.receive_D2_4(poPerception, poAssociatedMemories);
+		this.send_D2_1(poPerception, poAssociatedMemories);
 		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oGetVal;
-		oGetVal = moBlockedContentStorage.send_D2_4();
+		oGetVal = this.receive_D2_2();
 		//modify inputs
-		poPerception = oGetVal.a;
-		poAssociatedMemories = oGetVal.b;
+		//Check null
+		if (oGetVal!=null) {
+			poPerception = oGetVal.a;
+			poAssociatedMemories = oGetVal.b;
+		}	
 	}
 
 	/* (non-Javadoc)
@@ -231,9 +237,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * 
 	 * @see pa.interfaces.send._v38.I2_8_send#send_I2_8(java.util.ArrayList)
 	 */
-	/*public void send_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((D2_4_receive)moModuleList.get(D2_4)).receive_D2_4(poData, poAssociatedMemories);
-	}*/
 	
 	
 	@Override
@@ -266,6 +269,36 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	@Override
 	public void setDescription() {
 		moDescription = "It is responsible for changing repressed contents such that they are more likely to pass the defense mechanisms. This is done by searching for fitting incoming primary process data structures. If one is found, the repressed content is attached to it. All incoming images are forwarded to next modules, some of them with additional information attached.";
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since 09.09.2011 09:48:42
+	 * 
+	 * @see pa._v38.interfaces.modules.D2_2_receive#receive_D2_2()
+	 */
+	@Override
+	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> receive_D2_2() {
+		return moBlockedContentStorage.send_D2_2();
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since 09.09.2011 09:48:42
+	 * 
+	 * @see pa._v38.interfaces.modules.D2_1_send#send_D2_1(pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer, java.util.ArrayList)
+	 */
+	@Override
+	public void send_D2_1(clsPrimaryDataStructureContainer poData,
+			ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+		// TODO (wendt) - Auto-generated method stub
+		
+		moBlockedContentStorage.receive_D2_4(poData, poAssociatedMemories);
+		
+		putInterfaceData(I5_8_send.class, poData, poAssociatedMemories);
+		
 	}
 	
 	
