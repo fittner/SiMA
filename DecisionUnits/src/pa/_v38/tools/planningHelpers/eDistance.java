@@ -15,10 +15,11 @@ package pa._v38.tools.planningHelpers;
  */
 public enum eDistance {
 
-	far,
-	medium,
-	close,
-	unknown,
-	inHand
+	FAR,
+	MEDIUM,
+	CLOSE,
+	UNKNOWN,
+	INHAND,
+	FARCENTER
 	
 }

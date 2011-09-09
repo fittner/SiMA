@@ -8,6 +8,9 @@ package pa._v38.tools.planningHelpers;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 
@@ -176,5 +179,59 @@ public class PlanningWizard {
 			
 		}
 		return applicablePlanFragments;
+	}
+	
+	/**
+	 * 
+	 * DOCUMENT (perner) - extracts object and its position out of the string 
+	 * ::WP::-1:WP:ENTITY:CAKE|LOCATION:MEDIUMMIDDLELEFT|BITE:LOWPOSITIVE|NOURISH:LOWPOSITIVE|
+	 *
+	 * @since 09.09.2011 08:47:58
+	 *
+	 * @param perception the image which can be used as current start image for planning 
+	 * @return
+	 */
+	public static clsImage getCurrentEnvironmentalImage(ArrayList<clsAssociation> perception) {
+		
+		for (clsAssociation perceptionItem : perception) {
+			
+			if (perceptionItem instanceof clsAssociationSecondary) {
+				
+				clsAssociationSecondary myElem = (clsAssociationSecondary) perceptionItem;
+				
+				clsDataStructurePA el = myElem.getRootElement();
+				String str = el.toString();
+				
+				int pos1 = str.indexOf("ENTITY:");
+				int pos2 = str.indexOf("LOCATION:");
+				int pos3 = str.toString().indexOf("|", pos2);
+				
+				
+				if (pos1 >= 0 && pos2 >0 && pos3 > 0 && pos3 < str.length()) {
+					String strEntity = str.substring(pos1+7, pos2-1);
+					String strLocation = str.substring(pos2+9, pos3);
+					
+					if (strEntity != null && strEntity.length() > 0 && strLocation != null && strLocation.length() > 0) {
+						eEntity entity = null;
+						eDistance distance = null;
+						try {
+							entity = eEntity.valueOf(strEntity);
+						} catch (Exception e) {
+//							System.out.println("distance enum not defined for "+ strEntity);
+						}
+						try {
+							distance = eDistance.valueOf(strLocation);
+						} catch (Exception e) {
+//							System.out.println("distance enum not defined for " + strLocation);
+						}
+						
+						if (entity != null && distance != null) {
+							return new clsImage(entity, distance);
+						}
+					}
+				} 
+			}
+		}
+		return null; 
 	}
 }

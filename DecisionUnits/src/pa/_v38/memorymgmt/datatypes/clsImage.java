@@ -8,7 +8,8 @@ package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.planningHelpers.eDirection;
 import pa._v38.tools.planningHelpers.eDistance;
-import pa._v38.tools.planningHelpers.eObjectCategorization;
+import pa._v38.tools.planningHelpers.eEntity;
+
 
 
 /**
@@ -27,7 +28,7 @@ public class clsImage {
 	 */
 	eDistance 				m_eDist = null;
 	eDirection 				m_eDir  = null;
-	eObjectCategorization 	m_eObj = null;
+	eEntity 				m_eObj = null;
 	
 	/**
 	 * 
@@ -39,7 +40,7 @@ public class clsImage {
 	 * @param dir
 	 * @param obj
 	 */
-	public clsImage (eDistance dist, eDirection dir, eObjectCategorization obj) {
+	public clsImage (eDistance dist, eDirection dir, eEntity obj) {
 		m_eDist = dist;
 		m_eDir = dir;
 		m_eObj = obj;
@@ -54,7 +55,7 @@ public class clsImage {
 	 * @param dir
 	 * @param obj
 	 */
-	public clsImage(eDirection dir, eObjectCategorization obj) {
+	public clsImage(eDirection dir, eEntity obj) {
 		m_eDir = dir;
 		m_eObj = obj;
 	}
@@ -67,11 +68,23 @@ public class clsImage {
 	 *
 	 * @param obj
 	 */
-	public clsImage(eObjectCategorization obj) {
+	public clsImage(eEntity obj) {
 		m_eObj = obj;
 	}
 
-	
+	/**
+	 * 
+	 * DOCUMENT (perner) - workaround constructor for current mix of distance and direction
+	 *
+	 * @since 09.09.2011 08:45:11
+	 *
+	 * @param obj
+	 * @param dist
+	 */
+	public clsImage(eEntity obj, eDistance dist) {
+		m_eObj = obj;
+		m_eDist = dist;
+	}
 	
 	/**
 	 * 

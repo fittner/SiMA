@@ -13,7 +13,7 @@ package pa._v38.tools.planningHelpers;
  * 12.07.2011, 18:25:37
  * 
  */
-public enum eObjectCategorization {
+public enum eEntity {
 	CAKE,
 	PLANT,
 	ARSIN,

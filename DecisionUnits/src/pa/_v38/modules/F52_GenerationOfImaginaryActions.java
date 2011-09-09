@@ -29,13 +29,14 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningWizard;
 import pa._v38.tools.planningHelpers.eDirection;
 import pa._v38.tools.planningHelpers.eDistance;
-import pa._v38.tools.planningHelpers.eObjectCategorization;
+import pa._v38.tools.planningHelpers.eEntity;
 
 /**
  * DOCUMENT (perner) - insert description
@@ -206,40 +207,40 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 */
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("vor gehen"),
-				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eDistance.FAR, eDirection.straight, eEntity.CAKE), 
+				new clsImage(eDistance.CLOSE, eDirection.straight, eEntity.CAKE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen aufnehmen"),
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eDistance.CLOSE, eDirection.straight, eEntity.CAKE), 
+				new clsImage(eDistance.INHAND, eDirection.straight, eEntity.CAKE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen essen"),
-				new clsImage(eDistance.inHand, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eObjectCategorization.NONE)));
+				new clsImage(eDistance.INHAND, eDirection.straight, eEntity.CAKE), 
+				new clsImage(eEntity.NONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("zurück gehen"),
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE), 
-				new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eDistance.CLOSE, eDirection.straight, eEntity.CAKE), 
+				new clsImage(eDistance.FAR, eDirection.straight, eEntity.CAKE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("rechts drehen"),
-				new clsImage(eDistance.close, eDirection.right, eObjectCategorization.CAKE), 
-				new clsImage(eDistance.close, eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eDistance.CLOSE, eDirection.right, eEntity.CAKE), 
+				new clsImage(eDistance.CLOSE, eDirection.straight, eEntity.CAKE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("links drehen"),
-				new clsImage(eDirection.right, eObjectCategorization.CAKE), 
-				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eDirection.right, eEntity.CAKE), 
+				new clsImage(eDirection.straight, eEntity.CAKE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen var1"),
-				new clsImage(eObjectCategorization.NONE), 
-				new clsImage(eDirection.straight, eObjectCategorization.CAKE)));
+				new clsImage(eEntity.NONE), 
+				new clsImage(eDirection.straight, eEntity.CAKE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var2"),
-				new clsImage(eObjectCategorization.NONE), 
-				new clsImage(eDirection.right, eObjectCategorization.CAKE)));
+				new clsImage(eEntity.NONE), 
+				new clsImage(eDirection.right, eEntity.CAKE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("kuchen suchen  var3"),
-				new clsImage(eObjectCategorization.NONE), 
-				new clsImage(eDirection.left, eObjectCategorization.CAKE)));
+				new clsImage(eEntity.NONE), 
+				new clsImage(eDirection.left, eEntity.CAKE)));
 		
 		
 		// TODO (perner) add generic actions like right, left without objects
@@ -659,10 +660,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
+
+		// get current environmental situation from moSContainer -> create an image
+		
+		clsImage currentImage = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) moEnvironmentalPerception_IN.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
 		
 		
 		PlanningGraph plGraph = new PlanningGraph();
-		
 		// add plans and connections between plans
 		try {
 			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
@@ -670,7 +674,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 			//TODO (perner) add current available environmental situation
 			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, 
-					new clsImage(eDistance.far, eDirection.straight, eObjectCategorization.CAKE));
+					new clsImage(eDistance.FAR, eDirection.straight, eEntity.CAKE));
 			
 			// run through applicable plans and see which results can be achieved by executing plFragment
 			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
