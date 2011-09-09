@@ -15,7 +15,9 @@ package pa._v38.tools.planningHelpers;
  */
 public enum eDirection {
 
-	left,
-	right,
-	straight
+	LEFT,
+	RIGHT,
+	CENTER,
+	MIDDLELEFT,
+	MIDDLERIGHT
 }
