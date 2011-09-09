@@ -181,8 +181,17 @@ public class PlanningWizard {
 		return applicablePlanFragments;
 	}
 	
+	/**
+	 * 
+	 * DOCUMENT (perner) - extracts object and its position out of the string 
+	 * ::WP::-1:WP:ENTITY:CAKE|LOCATION:MEDIUMMIDDLELEFT|BITE:LOWPOSITIVE|NOURISH:LOWPOSITIVE|
+	 *
+	 * @since 09.09.2011 08:47:58
+	 *
+	 * @param perception the image which can be used as current start image for planning 
+	 * @return
+	 */
 	public static clsImage getCurrentEnvironmentalImage(ArrayList<clsAssociation> perception) {
-		eDistance dist;
 		
 		for (clsAssociation perceptionItem : perception) {
 			
@@ -199,29 +208,55 @@ public class PlanningWizard {
 				
 				
 				if (pos1 >= 0 && pos2 >0 && pos3 > 0 && pos3 < str.length()) {
-					String entity = str.substring(pos1+7, pos2-1);
-					String location = str.substring(pos2+9, pos3);
+					String strEntity = str.substring(pos1+7, pos2-1);
+					String strLocation = str.substring(pos2+9, pos3);
 					
-//					if (entity != null && entity.length() > 0)
-//						dist = eDistance.valueOf(entity);
-					
-					int l = 3;
-				
-				} else {
-					return null;
-				}
-				
-				int i = 3;
-				
+					if (strEntity != null && strEntity.length() > 0 && strLocation != null && strLocation.length() > 0) {
+						eEntity myEntity = null;
+						eDistance myDist = null;
+						eDirection myDir  = null;
+						
+						try {
+							myEntity = eEntity.valueOf(strEntity);
+						} catch (Exception e) {
+//							System.out.println("distance enum not defined for "+ strEntity);
+						}
+						try {
+							
+							StringBuffer strDistance = new StringBuffer();
+							StringBuffer strDirection = new StringBuffer();
+							splitDistanceDirection(strLocation, strDirection, strDistance);
+							myDir = eDirection.valueOf(strDirection.toString());
+							myDist = eDistance.valueOf(strDistance.toString());
+
+						} catch (Exception e) {
+//							System.out.println("distance enum not defined for " + strLocation);
+						}
+						
+						if (myEntity != null && myDist != null && myDir != null) {
+							return new clsImage(myDist, myDir, myEntity);
+						}
+					}
+				} 
 			}
 		}
-		
-		int i = 0;
-		
-		
-		//clsImage currentEnvironmentalSituation = new clsImage();
-		
-		
 		return null; 
+	}
+	
+	public static void splitDistanceDirection(String strDistDir, StringBuffer sbdir, StringBuffer sbdist) {
+		
+		sbdist.delete(0, sbdist.length());
+		sbdir.delete(0, sbdir.length());
+		
+		for (eDistance value : eDistance.values()) {
+			int iPos = strDistDir.indexOf(value.toString());
+			
+			if (iPos >= 0 && iPos+value.toString().length() < strDistDir.length()) {
+				
+				sbdist.append(strDistDir.substring(iPos, value.toString().length()));
+				sbdir.append(strDistDir.substring(value.toString().length(), strDistDir.length()));
+				return;
+			}
+		}
 	}
 }
