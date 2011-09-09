@@ -247,13 +247,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
 				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
 		}
-		*/
+
 		
 		// sample rule to test denial
 		if (searchInTI("IMAGE", "A3TOP")) {
 			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A3TOP"))) // no duplicate entries
 				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A3TOP"));
-		}		
+		}
+		*/		
 	}
 	
 	/* (non-Javadoc)

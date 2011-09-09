@@ -17,6 +17,7 @@ import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.tools.toText;
@@ -33,7 +34,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	public static final String P_MODULENUMBER = "29";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_Input; 
-	private ArrayList<clsWordPresentation> moActionCommands_Output; 
+	private ArrayList<clsWordPresentation> moActionCommands_Output;
+	
+	// Anxiety from F20
+	private ArrayList<clsPrediction> moAnxiety_Input;
+	
 	/**
 	 * DOCUMENT (perner) - insert description 
 	 * 
@@ -65,6 +70,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 		
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
 		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
+		text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
+		
 		
 		return text;
 	}
@@ -115,8 +122,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * 
 	 * @see pa.interfaces.I5_5#receive_I5_5(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
+		moAnxiety_Input = (ArrayList<clsPrediction>)deepCopy(poAnxiety_Input);
 		//TODO
 		
 	}

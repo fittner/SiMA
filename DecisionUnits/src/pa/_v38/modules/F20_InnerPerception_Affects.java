@@ -201,8 +201,17 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 		
 		// add the calculated word-presentation with empty associations
 		// TODO FG: Which associations can be generated for ANXIETY, WORRIEDNESS, or PRICKL (for now the associations are empty)
+		
+		// clear the list first
+		// then create one element in the list.
+		//
+		// But we need a list here because:
+		// in later versions the list will have more elements like [anxiety, insecurity, self-hatred, ...]
+		moSecondaryDataStructureContainer_Output.clear();
 		moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
-
+		
+			
+		
 	    // TODO FG: Hand over moSecondaryDataStructureContainer_Output to F26 and F29
 	}
 	
