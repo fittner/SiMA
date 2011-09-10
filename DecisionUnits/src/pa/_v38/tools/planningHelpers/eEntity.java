@@ -17,6 +17,7 @@ public enum eEntity {
 	CAKE,
 	PLANT,
 	ARSIN,
+	STONE,
 	NONE
 
 }

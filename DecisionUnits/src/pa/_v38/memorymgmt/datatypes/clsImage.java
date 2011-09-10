@@ -45,6 +45,18 @@ public class clsImage {
 		m_eDir = dir;
 		m_eObj = obj;
 	}
+	
+	/**
+	 * 
+	 * DOCUMENT (perner) - set only the direction 
+	 *
+	 * @since 09.09.2011 15:38:25
+	 *
+	 * @param dir
+	 */
+	public clsImage (eDirection dir) {
+		m_eDir = dir;
+	}
 
 	/**
 	 * 

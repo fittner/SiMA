@@ -212,26 +212,51 @@ public class PlanningWizard {
 					String strLocation = str.substring(pos2+9, pos3);
 					
 					if (strEntity != null && strEntity.length() > 0 && strLocation != null && strLocation.length() > 0) {
-						eEntity entity = null;
-						eDistance distance = null;
+						eEntity myEntity = null;
+						eDistance myDist = null;
+						eDirection myDir  = null;
+						
 						try {
-							entity = eEntity.valueOf(strEntity);
+							myEntity = eEntity.valueOf(strEntity);
 						} catch (Exception e) {
 //							System.out.println("distance enum not defined for "+ strEntity);
 						}
 						try {
-							distance = eDistance.valueOf(strLocation);
+							
+							StringBuffer strDistance = new StringBuffer();
+							StringBuffer strDirection = new StringBuffer();
+							splitDistanceDirection(strLocation, strDirection, strDistance);
+							myDir = eDirection.valueOf(strDirection.toString());
+							myDist = eDistance.valueOf(strDistance.toString());
+
 						} catch (Exception e) {
 //							System.out.println("distance enum not defined for " + strLocation);
 						}
 						
-						if (entity != null && distance != null) {
-							return new clsImage(entity, distance);
+						if (myEntity != null && myDist != null && myDir != null) {
+							return new clsImage(myDist, myDir, myEntity);
 						}
 					}
 				} 
 			}
 		}
 		return null; 
+	}
+	
+	public static void splitDistanceDirection(String strDistDir, StringBuffer sbdir, StringBuffer sbdist) {
+		
+		sbdist.delete(0, sbdist.length());
+		sbdir.delete(0, sbdir.length());
+		
+		for (eDistance value : eDistance.values()) {
+			int iPos = strDistDir.indexOf(value.toString());
+			
+			if (iPos >= 0 && iPos+value.toString().length() < strDistDir.length()) {
+				
+				sbdist.append(strDistDir.substring(iPos, value.toString().length()));
+				sbdir.append(strDistDir.substring(value.toString().length(), strDistDir.length()));
+				return;
+			}
+		}
 	}
 }

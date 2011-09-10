@@ -71,6 +71,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
+	// Anxiety from F20
+	private ArrayList<clsPrediction> moAnxiety_Input;
+	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
@@ -111,6 +114,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.listToTEXT("moGoal_Output", moGoal_Output);
 		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
+		
+		text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
 		
 		return text;
 	}		
@@ -204,9 +209,12 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * TODO cua implement
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
+		moAnxiety_Input = (ArrayList<clsPrediction>)deepCopy(poAnxiety_Input);	
 		//TODO
+		
 	}
 
 	/* (non-Javadoc)
