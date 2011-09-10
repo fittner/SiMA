@@ -217,6 +217,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Clone input structure and make modification directly on the output
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_IN.clone();
 		
+		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
+		//added to the image and in mrLibidoReducedBy is set as mrPerceptionReduceFactor * Quota of affect
 		mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, mrPerceptionReduceFactor);
 		
 		//Go through all associated memories
@@ -306,8 +308,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
 		
 		//Find matching images for the input image
-		//FIXME AW: Set Threshold for matching = 0.9
-		
 		searchContainer(poInput, oSearchResultContainer, oLibidoImageString, mrMatchThreshold);
 		
 		// Here, spread activation for Libido shall be placed.

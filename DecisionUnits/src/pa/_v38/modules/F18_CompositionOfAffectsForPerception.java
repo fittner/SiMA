@@ -161,6 +161,8 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		 * type are summarized, e. g. moContentType is equal
 		 */
 		
+		//FIXME someone: All parts of this function are on the same level
+		
 		//Create a new empty List of associations, in which the modified associations are added
 		ArrayList<clsAssociation> oNewAss = new ArrayList<clsAssociation>();
 		

@@ -11,8 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.tools.clsPair;
 
 /**
@@ -148,9 +147,19 @@ public class clsShortTimeMemory {
 		if ((oFoundMemory!=null) && (forceSave==true)) {
 			//Here, the memory is replaced by the new memory, which may have some changed values
 			try {
-				clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) ((clsDataStructureContainerPair) poInput).clone();
-				oFoundMemory.a = 0;
-				oFoundMemory.b = oAddPair;
+				removeMemory(oFoundMemory);
+				if (poInput instanceof clsDataStructureContainerPair) {
+					clsDataStructureContainerPair oAddPair = (clsDataStructureContainerPair) ((clsDataStructureContainerPair) poInput).clone();
+					oFoundMemory.a = 0;
+					oFoundMemory.b = oAddPair;
+					addMemory(new clsPair<Integer, Object>(0, oAddPair));
+				} else if (poInput instanceof clsPrediction) {
+					clsPrediction oAddPair = (clsPrediction)((clsPrediction)poInput).clone();
+					oFoundMemory.a = 0;
+					oFoundMemory.b = oAddPair;
+					addMemory(new clsPair<Integer, Object>(0, oAddPair));
+				}
+				
 			} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -217,7 +226,7 @@ public class clsShortTimeMemory {
 					}
 				}
 			}
-		} else {
+		} else if (oToBeFound instanceof clsPrediction) {
 			oCompareContainer = ((clsPrediction)oToBeFound).getIntention().getSecondaryComponent();
 			
 			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
@@ -235,88 +244,122 @@ public class clsShortTimeMemory {
 	
 	
 	/**
-	 * Get all container pairs of a certain classification
+	 * Find all data in the short time memory, which have a certain datatype
 	 * (wendt)
 	 *
-	 * @since 31.08.2011 13:50:56
+	 * @since 09.09.2011 21:29:09
 	 *
-	 * @param oRefCPair
-	 * @param poAttribute
+	 * @param oDataType
 	 * @return
 	 */
-	public ArrayList<clsPair<Integer, Object>> findMemoriesClassification(String poClassification) {
+	public ArrayList<clsPair<Integer, Object>> findMemoriesDataType (eSupportDataType oDataType) {
 		ArrayList<clsPair<Integer, Object>> oRetVal = new ArrayList<clsPair<Integer, Object>>();
-		//Case known Intention
-		//1. Get Intention
 		
-		//2. Check all moments in the short time memory, if the have this intention associated
 		for (clsPair<Integer, Object> oMemoryPair : moShortTimeMemory) {
-			
-			if (oMemoryPair.b instanceof clsDataStructureContainerPair) {
-				//Check if 1. Attribute is OK
-				clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsDataStructureContainerPair)oMemoryPair.b).getSecondaryComponent());
-				if (oClassWP!=null) {
-					if (oClassWP.getMoContent().equals(poClassification)) {
-						oRetVal.add(oMemoryPair);
-					}
+			if ((oDataType == eSupportDataType.CONTAINERPAIR) && (oMemoryPair.b instanceof clsDataStructureContainerPair)) {
+				oRetVal.add(oMemoryPair);
+			} else if ((oDataType == eSupportDataType.PREDICTION) && (oMemoryPair.b instanceof clsPrediction)) {
+				oRetVal.add(oMemoryPair);
+			} else if ((oDataType == eSupportDataType.MOMENT) && (oMemoryPair.b instanceof clsPrediction)) {
+				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent()!=null) {
+					oRetVal.add(oMemoryPair);
 				}
-			} else if (oMemoryPair.b instanceof clsPrediction) {
-				//Give back the whole Object, clsPrediction, if this classification is found
-				//Check Intention
-				
-				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
-					//IMPORTANT: It is not allowed to save a Prediction without intention
-					clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent());
-					if (oClassWP!=null) {
-						if (oClassWP.getMoContent().equals(poClassification)) {
-							oRetVal.add(oMemoryPair);
-							//If found, then break
-							break;
-						}
-					}
-				} 
-				
-				//Check Moment
-				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent() != null) {
-					
-					if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
-						//IMPORTANT: It is not allowed to save a Prediction without intention
-						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent());
-						if (oClassWP!=null) {
-							if (oClassWP.getMoContent().equals(poClassification)) {
-								oRetVal.add(oMemoryPair);
-								//If found, then break
-								break;
-							}
-						}
-					}
+			} else if ((oDataType == eSupportDataType.INTENTION) && (oMemoryPair.b instanceof clsPrediction)) {
+				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent()!=null) {
+					oRetVal.add(oMemoryPair);
 				}
-				
-				//Check Expectations
+			} else if ((oDataType == eSupportDataType.EXPECTATION) && (oMemoryPair.b instanceof clsPrediction)) {
 				if (((clsPrediction)oMemoryPair.b).getExpectations().isEmpty()==false) {
-					boolean oFoundMatch = false;
-					for (clsDataStructureContainerPair oP : ((clsPrediction)oMemoryPair.b).getExpectations()) {
-						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(oP.getSecondaryComponent());
-						if (oClassWP!=null) {
-							if (oClassWP.getMoContent().equals(poClassification)) {
-								oRetVal.add(oMemoryPair);
-								oFoundMatch = true;
-								//If found, then break
-								break; //The first loop
-								
-							}
-						}
-					}
-					
-					if (oFoundMatch == true) {
-						break;
-					}
+					oRetVal.add(oMemoryPair);
 				}
 			}
 		}
-		
 		return oRetVal;
 	}
+	
+//	/**
+//	 * Get all container pairs of a certain classification
+//	 * (wendt)
+//	 *
+//	 * @since 31.08.2011 13:50:56
+//	 *
+//	 * @param oRefCPair
+//	 * @param poAttribute
+//	 * @return
+//	 */
+//	public ArrayList<clsPair<Integer, Object>> findMemoriesClassification(String poClassification) {
+//		ArrayList<clsPair<Integer, Object>> oRetVal = new ArrayList<clsPair<Integer, Object>>();
+//		//Case known Intention
+//		//1. Get Intention
+//		
+//		//2. Check all moments in the short time memory, if the have this intention associated
+//		for (clsPair<Integer, Object> oMemoryPair : moShortTimeMemory) {
+//			
+//			if (oMemoryPair.b instanceof clsDataStructureContainerPair) {
+//				//Check if 1. Attribute is OK
+//				clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsDataStructureContainerPair)oMemoryPair.b).getSecondaryComponent());
+//				if (oClassWP!=null) {
+//					if (oClassWP.getMoContent().equals(poClassification)) {
+//						oRetVal.add(oMemoryPair);
+//					}
+//				}
+//			} else if (oMemoryPair.b instanceof clsPrediction) {
+//				//Give back the whole Object, clsPrediction, if this classification is found
+//				//Check Intention
+//				
+//				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
+//					//IMPORTANT: It is not allowed to save a Prediction without intention
+//					clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent());
+//					if (oClassWP!=null) {
+//						if (oClassWP.getMoContent().equals(poClassification)) {
+//							oRetVal.add(oMemoryPair);
+//							//If found, then break
+//							break;
+//						}
+//					}
+//				} 
+//				
+//				//Check Moment
+//				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent() != null) {
+//					
+//					if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
+//						//IMPORTANT: It is not allowed to save a Prediction without intention
+//						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent());
+//						if (oClassWP!=null) {
+//							if (oClassWP.getMoContent().equals(poClassification)) {
+//								oRetVal.add(oMemoryPair);
+//								//If found, then break
+//								break;
+//							}
+//						}
+//					}
+//				}
+//				
+//				//Check Expectations
+//				if (((clsPrediction)oMemoryPair.b).getExpectations().isEmpty()==false) {
+//					boolean oFoundMatch = false;
+//					for (clsDataStructureContainerPair oP : ((clsPrediction)oMemoryPair.b).getExpectations()) {
+//						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(oP.getSecondaryComponent());
+//						if (oClassWP!=null) {
+//							if (oClassWP.getMoContent().equals(poClassification)) {
+//								oRetVal.add(oMemoryPair);
+//								oFoundMatch = true;
+//								//If found, then break
+//								break; //The first loop
+//								
+//							}
+//						}
+//					}
+//					
+//					if (oFoundMatch == true) {
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 	/**
 	 * Get the most obsolete memory. There are 2 criteria: 1) The oldest memory. If there are more than one memories
