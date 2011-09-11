@@ -15,7 +15,7 @@ import pa._v38.tools.planningHelpers.PlanningNode;
  * 03.07.2011, 15:38:18
  * 
  */
-public class clsPlanFragment extends PlanningNode{
+public class clsPlanFragment extends PlanningNode {
 	
 	/** set of wordpresentations that holds the information about the action */ 
 	public clsAct m_act; 

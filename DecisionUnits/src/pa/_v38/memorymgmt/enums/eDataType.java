@@ -15,6 +15,8 @@ package pa._v38.memorymgmt.enums;
  */
 public enum eDataType {
 	
+	// comment AP, why is there a hex-number added to a define?????
+	
 	UNDEFINED				(0x000000), 
 	ACT						(0x000001),
 	AFFECT					(0x000000),

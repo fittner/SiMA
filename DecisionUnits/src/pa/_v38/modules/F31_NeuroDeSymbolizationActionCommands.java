@@ -17,6 +17,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionSequenceFactory;
 //import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
@@ -148,14 +149,19 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentation oWP : moActionCommands_Input) {
 			
+				if (oWP == null) 
+					return;
+				
 				String oAction = oWP.getMoContent(); 
+				
+//				System.out.println(oAction);
 			
 				if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
 				} else if(oAction.equals("TURN_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 15.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
 				} else if(oAction.equals("TURN_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 15.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
 				} else if(oAction.equals("EAT")) {
 					moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("SLEEP")) {
@@ -173,7 +179,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					else if(oAction.equals("DANCE_1")) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
 				}
-*/				else {
+				
+*/				else if (oAction.equals("SEARCH1")) {
+					if (mnCounter == 75) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+						mnCounter = 0;
+					} 
+					mnCounter++;
+
+				}
+				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
 			}

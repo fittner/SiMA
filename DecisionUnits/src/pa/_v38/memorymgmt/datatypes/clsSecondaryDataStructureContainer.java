@@ -18,6 +18,10 @@ import java.util.ArrayList;
  */
 public class clsSecondaryDataStructureContainer extends clsDataStructureContainer {
 		
+	public clsSecondaryDataStructureContainer(String typ, String content) {
+		super(typ, content);
+	}
+	
 	public clsSecondaryDataStructureContainer(clsSecondaryDataStructure poDataStructure, ArrayList<clsAssociation>poAssociationList){
 		super(poDataStructure, poAssociationList);  
 	}
