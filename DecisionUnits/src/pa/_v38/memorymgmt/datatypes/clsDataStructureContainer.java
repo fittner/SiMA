@@ -41,7 +41,11 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		
 		if(poAssociationList != null) {moAssociatedDataStructures = poAssociationList;}
 	}
+
 	
+	public clsDataStructureContainer(String typ, String content) {
+		
+	}
 	
 	
 	/**

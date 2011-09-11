@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsAct extends clsSecondaryDataStructure {
 	
 	private ArrayList<clsWordPresentation> m_alWordpresentations;
-	String m_strTestDummy;
+	public String m_strAction;
 	
 	//private String moContent = "UNDEFINED"; 
 	private ArrayList<clsSecondaryDataStructure> moAssociatedContent; 
@@ -56,7 +56,7 @@ public class clsAct extends clsSecondaryDataStructure {
 	
 	public clsAct (String str) {
 		super(new clsTriple<Integer, eDataType, String>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
-		m_strTestDummy = str;
+		m_strAction = str;
 	}
 	
 	

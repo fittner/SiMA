@@ -26,9 +26,9 @@ public class clsImage {
 	 * possible entries
 	 * not all entries must be set - at least one entry holds a value
 	 */
-	eDistance 				m_eDist = null;
-	eDirection 				m_eDir  = null;
-	eEntity 				m_eObj = null;
+	public eDistance 				m_eDist = null;
+	public eDirection 				m_eDir  = null;
+	public eEntity 				m_eObj = null;
 	
 	/**
 	 * 

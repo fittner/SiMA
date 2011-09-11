@@ -204,34 +204,41 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 * test test dummy to fill internal database
 		 */
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FORWARD"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
 				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FORWARD"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
 		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("BACKWARD"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
 		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("BACKWARD"),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.CAKE)));
 		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("LEFT"),
-				new clsImage(eDirection.LEFT), 
-				new clsImage(eDirection.CENTER)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.LEFT, eEntity.CAKE), 
+				new clsImage(eDirection.MIDDLELEFT, eEntity.CAKE)));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RIGHT"),
-				new clsImage(eDirection.RIGHT), 
-				new clsImage(eDirection.CENTER)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.MIDDLELEFT, eEntity.CAKE), 
+				new clsImage(eDirection.CENTER, eEntity.CAKE)));
 
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.RIGHT, eEntity.CAKE), 
+				new clsImage(eDirection.MIDDLERIGHT, eEntity.CAKE)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.MIDDLERIGHT, eEntity.CAKE), 
+				new clsImage(eDirection.CENTER, eEntity.CAKE)));
 		
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),
@@ -505,13 +512,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// is implemented to retrieve and put acts together which means that it
 		// takes over
 		// a kind of planning.
-		
-		moActions_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 	
-		moActions_Output = getActions();
+		
+		
+		// deactivated by AP to use real generation of plans
+//		moActions_Output = new ArrayList<clsSecondaryDataStructureContainer>();
+//		moActions_Output = getActions();
 		
 		//AW: not finished expectation generation for testing, has to influence plan generation later
-		TestAWsExpectations();
+//		TestAWsExpectations();
 		
 	}
 	
@@ -665,14 +674,26 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	protected void process_draft() {
 
+		// create dummy value here
+		moAssociatedMemories_OUT = new ArrayList<clsDataStructureContainer>();
+		
 		// get current environmental situation from moSContainer -> create an image
 		
 		clsImage currentImage = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) moEnvironmentalPerception_IN.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
 		
-		// if no image of the current world-situation can be returned, we dont't know where to start with planning -> search sequence
-		if (currentImage == null)
-			return;
 		
+		// if no image of the current world-situation can be returned, we dont't know where to start with planning -> search sequence
+		if (currentImage == null) {
+			ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
+			tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
+					new clsImage(eEntity.NONE), 
+					new clsImage(eDirection.CENTER, eEntity.CAKE)));
+			moActions_Output = copyPlanFragments(tempPlanningNodes);
+			return;
+		}
+		
+		
+//		System.out.println(currentImage.m_eDist);
 		PlanningGraph plGraph = new PlanningGraph();
 		// add plans and connections between plans
 		try {
@@ -689,12 +710,27 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}
 			
 			
-			
+			// copy output -> workaround till planning works correctly
+			moActions_Output = copyPlanFragments(currentApplicalbePlanningNodes);
+
+			int i = 0;
 		} catch (Exception e) {
 			System.out.println("FATAL: Planning Wizard coldn't be initialized");
 		}
 		
+		
+		
 		//plGraph.setStartPlanningNode(n)
+	}
+	
+	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {
+		
+		ArrayList<clsSecondaryDataStructureContainer> moPlans = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsPlanFragment plFr : myPlans) {
+			moPlans.add(plFr);
+		}
+		return moPlans;
 	}
 
 	/*
