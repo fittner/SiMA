@@ -290,21 +290,20 @@ public class clsDataStructureTools {
 	 * @param poContainer
 	 * @param poClassification
 	 */
-	public static void setClassification(clsSecondaryDataStructureContainer poContainer, String poClassification) {
+	public static void setAttributeWordPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate, String poContentType, String poContent) {
 		//Check if such an association already exists
-		clsWordPresentation oWP = getClassification(poContainer);
+		clsWordPresentation oWP = getAttributeWordPresentation(poContainer, poPredicate);
 		//if (oWP)
-		//String oClassification = getClassification(poContainer);
 				
 		if (oWP==null) {
 			//Add new association
 			//Cases: "" != MOMENT and EXPECTATION != MOMENT
-			clsWordPresentation oClass = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("CLASSIFICATION", poClassification));
-			clsAssociationSecondary oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", poContainer.getMoDataStructure(), oClass, moPredicateClassification, 1.0);
+			clsWordPresentation oClass = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(poContentType, poContent));
+			clsAssociationSecondary oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", poContainer.getMoDataStructure(), oClass, poPredicate, 1.0);
 			poContainer.getMoAssociatedDataStructures().add(oNewAss);
-		} else if (oWP.getMoContent().equals(poClassification) == false) {
+		} else if (oWP.getMoContent().equals(poContent) == false) {
 			//Replace content of the current classification
-			oWP.setMoContent(poClassification);
+			oWP.setMoContent(poContent);
 		}
 	}
 	
@@ -318,7 +317,7 @@ public class clsDataStructureTools {
 	 * @param poContainer
 	 * @return
 	 */
-	public static clsWordPresentation getClassification(clsSecondaryDataStructureContainer poContainer) {
+	public static clsWordPresentation getAttributeWordPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
 		clsWordPresentation oRetVal = null;
 		
 		//A container can only have ONE classification
@@ -326,7 +325,7 @@ public class clsDataStructureTools {
 		
 		for (clsAssociation oAss : poContainer.getMoAssociatedDataStructures()) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(moPredicateClassification)) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
 					oRetVal = ((clsWordPresentation)oAss.getLeafElement());
 					break;
 				}
