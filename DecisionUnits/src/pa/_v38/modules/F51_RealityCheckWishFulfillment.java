@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -321,7 +322,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//1. Find the intention in each Perception-act
 		//Do it with clsAssociationSecondary and ISA
 		//FIXME AW: Only the first "parent" is taken. It should be expanded to multiple parents
-		ArrayList<clsPair<Integer, clsPrediction>> oIntentionList = getIntention(poInput, moShortTimeMemory);
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oIntentionList = getIntention(poInput, moShortTimeMemory);
 		//Now, all acts are assigned and all intentions are known
 		
 		//2. Find the current situation in each Perception-act
@@ -334,18 +335,22 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		//ArrayList<clsPair<Integer, clsPrediction>> oExtentedPredictionList = addSaveModeToPrediction(oPredictionList);
 		
-		ArrayList<clsPair<Integer, clsPrediction>> oIntentionMomentList = getMoment(oIntentionList, poInput, mrMomentActivationThreshold);
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oIntentionMomentList = getMoment(oIntentionList, poInput, mrMomentActivationThreshold);
 		//2.c Check extrapolation of values
 		//XXXX
 		
 		//4. Find the expectation in each Perception-act
 		//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 		//current situation
-		ArrayList<clsPair<Integer, clsPrediction>> oIntentionMomentExpectationList = getExpectations(oIntentionMomentList, poInput);
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oIntentionMomentExpectationList = getExpectations(oIntentionMomentList, poInput);
 		
 		
 		//3. Remove all predictions, where there is no current moment for an intention
 		cleanPredictions(oIntentionMomentExpectationList);
+		
+		//Set all Progress settings to the act
+		//If the act is new, then new progress settings shall be added, else, they shall be updated
+		addProgress(oIntentionMomentExpectationList, poInput);
 		
 		//5. Save prediction in short time memory
 		savePredictionToSMemory(oIntentionMomentExpectationList);
@@ -366,13 +371,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param pnSavePredictionMode
 	 */
-	private void savePredictionToSMemory(ArrayList<clsPair<Integer, clsPrediction>> poPredictionList) {
-		for (clsPair<Integer, clsPrediction> oP : poPredictionList) {
-			if (oP.a==1) {
-				moShortTimeMemory.saveToShortTimeMemory(oP.b, false);
-			} else if (oP.a==2) {
-				moShortTimeMemory.saveToShortTimeMemory(oP.b, true);
-			} else if (oP.a!=0) {
+	private void savePredictionToSMemory(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList) {
+		for (clsTriple<Integer, Integer, clsPrediction> oP : poPredictionList) {
+			if (oP.b==1) {
+				moShortTimeMemory.saveToShortTimeMemory(oP.c, false);
+			} else if (oP.b==2) {
+				moShortTimeMemory.saveToShortTimeMemory(oP.c, true);
+			} else if (oP.b!=0) {
 				try {
 					throw new Exception("Error in F51, savePredictionToMemory: Only the pnSavePredictionMode values 0, 1 and 2 are allowed");
 				} catch (Exception e) {
@@ -393,11 +398,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsPrediction> removeSaveModeFromPrediction(ArrayList<clsPair<Integer, clsPrediction>> poInput) {
+	private ArrayList<clsPrediction> removeSaveModeFromPrediction(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poInput) {
 		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
 		
-		for (clsPair<Integer, clsPrediction> oP : poInput) {
-			oRetVal.add(oP.b);
+		for (clsTriple<Integer, Integer, clsPrediction> oP : poInput) {
+			oRetVal.add(oP.c);
 		}
 		
 		return oRetVal;
@@ -524,13 +529,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poPredictionList
 	 */
-	private void cleanPredictions(ArrayList<clsPair<Integer, clsPrediction>> poPredictionList) {
-		ListIterator<clsPair<Integer, clsPrediction>> liMainList = poPredictionList.listIterator();
+	private void cleanPredictions(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList) {
+		ListIterator<clsTriple<Integer, Integer, clsPrediction>> liMainList = poPredictionList.listIterator();
 		
 		while (liMainList.hasNext()) {
-			clsPair<Integer, clsPrediction> oPred = liMainList.next();
+			clsTriple<Integer, Integer, clsPrediction> oPred = liMainList.next();
 			//If the secondary component of the prediction is null, then delete
-			if (oPred.b.getMoment().getSecondaryComponent()==null) {
+			if (oPred.c.getMoment().getSecondaryComponent()==null) {
 				liMainList.remove();
 			}
 		}
@@ -546,9 +551,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsPair<Integer, clsPrediction>> getIntention(ArrayList<clsDataStructureContainer> poInput, clsShortTimeMemory poShortTimeMemory) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getIntention(ArrayList<clsDataStructureContainer> poInput, clsShortTimeMemory poShortTimeMemory) {
 		
-		ArrayList<clsPair<Integer, clsPrediction>> oRetVal = new ArrayList<clsPair<Integer, clsPrediction>>();
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
 		//Get intentions, secondary and primary structures from the input list
 		ArrayList<clsDataStructureContainerPair> oIntentionList = getIntentionsFromList(poInput);
@@ -566,19 +571,22 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				
 				//Create the act triple
 				clsPrediction oFoundMemory = checkDuplicatePrediction(oIntentionCPair, poShortTimeMemory);
-				
+				//If it is a new intention, the value is 1, else 0. This is done, in order to add attributes to the intention
+				//in a later function
+				int oNewIntention = 0;
 				//Create the new tripple
 				clsPrediction oActTripple;
 				if (oFoundMemory!=null) {
+					oNewIntention = 0;
 					oActTripple = new clsPrediction(oFoundMemory.getIntention(), null, null);
 				} else {
-					//As the intention is new, add the confirmment factor
-					addProgressFactor(oIntentionCPair.getSecondaryComponent());
+					oNewIntention = 1;
 					//Create new prediction
 					oActTripple = new clsPrediction(oIntentionCPair, null, null);
+					
 				}
 			
-				oRetVal.add(new clsPair<Integer, clsPrediction>(0, oActTripple));
+				oRetVal.add(new clsTriple<Integer, Integer, clsPrediction>(oNewIntention, 0, oActTripple));
 			}
 		}
 	
@@ -632,8 +640,33 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		double rCurrentProgress = Double.valueOf(getIntentionProgress(poIntention));
 		double rNewProgress = rProgressFactor + rCurrentProgress;
 		
-		//Set the first progress
+		//Set the progress
 		setIntentionProgress(poIntention, String.valueOf(rNewProgress));
+		//As the intention is new, add the confirmment factor
+	}
+	
+	private void addProgress(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poExtendedInputList, ArrayList<clsDataStructureContainer> poAssociatedInputs) {
+		for (clsTriple<Integer, Integer, clsPrediction> oExtPrediction :  poExtendedInputList) {
+			//If the intention is new
+			if (oExtPrediction.a>0) {
+				//Add Progress factor
+				addProgressFactor(oExtPrediction.c, poAssociatedInputs);
+				//Set the first progress step
+				setFirstProgress(oExtPrediction.c);
+			}
+		}
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 11.09.2011 14:31:23
+	 *
+	 * @param poIntention
+	 */
+	private void setFirstProgress(clsPrediction poPrediction) {
+		double rProgressFactor = Double.valueOf(getProgressFactor(poPrediction.getIntention().getSecondaryComponent()));
+		setIntentionProgress(poPrediction.getIntention().getSecondaryComponent(), String.valueOf(rProgressFactor));
 	}
 	
 	/**
@@ -643,13 +676,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poIntention
 	 */
-	private void addProgressFactor(clsSecondaryDataStructureContainer poIntention) {
-		double rCountFactor = 1 / (double)countSubStructures(poIntention);
+	private void addProgressFactor(clsPrediction poPrediction, ArrayList<clsDataStructureContainer> poAssociatedInputs) {
+		int nNumberOfStructuresToEnd = countStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
+		double rCountFactor = 1 / (double)nNumberOfStructuresToEnd;
 		
-		//Set the default confirm factor
-		setProgressFactor(poIntention, String.valueOf(rCountFactor));
-		//Set the first progress
-		setIntentionProgress(poIntention, String.valueOf(rCountFactor));
+		//Set the default progress factor, which is only set once
+		setProgressFactor(poPrediction.getIntention().getSecondaryComponent(), String.valueOf(rCountFactor));
 	}
 	
 	/**
@@ -666,6 +698,47 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, moPredicateHierarchical, true);
 		nRetVal = oSubImages.size();
 		
+		return nRetVal;
+	}
+	
+	/**
+	 * From a certain image in an act, get the number of structures, until the end of the act is reached. 
+	 * This function is used in F51
+	 * (wendt)
+	 *
+	 * @since 11.09.2011 14:15:11
+	 *
+	 * @param poMoment
+	 * @param poActivatedInputList
+	 * @return
+	 */
+	private int countStructuresToActEnd(clsSecondaryDataStructureContainer poMoment, ArrayList<clsDataStructureContainer> poActivatedInputList) {
+		int nRetVal = 0;
+		int nNumberOfPassedMoments = 0;
+		//Get the first temporal next structure
+		ArrayList<clsSecondaryDataStructure> oNextStructureList = new ArrayList<clsSecondaryDataStructure>();
+		
+		
+		//Get only the first length
+		//TODO AW: Adapt to multiple expectations
+		clsSecondaryDataStructureContainer oCurrentMoment = poMoment;
+		do 
+		{
+			//Get all "HASNEXT" Association structures
+			oNextStructureList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentMoment, moPredicateTemporal, false);
+			//Get the first expectation
+			if (oNextStructureList.isEmpty()==false) {
+				clsSecondaryDataStructure oNextDS = oNextStructureList.get(0);
+				//Get the whole data structure container
+				oCurrentMoment = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poActivatedInputList, oNextDS);
+				
+				//Increment the number of images
+				nNumberOfPassedMoments++;
+			}
+		} while (oNextStructureList.isEmpty()==false);
+		
+		
+		nRetVal = nNumberOfPassedMoments;
 		return nRetVal;
 	}
 	
@@ -796,18 +869,18 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private ArrayList<clsPair<Integer, clsPrediction>> getMoment(ArrayList<clsPair<Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getMoment(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
 
-		ArrayList<clsPair<Integer, clsPrediction>> oRetVal = new ArrayList<clsPair<Integer, clsPrediction>>();
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
-		for (clsPair<Integer, clsPrediction> oActTripple : poActList) {
-			clsSecondaryDataStructureContainer oIntention = oActTripple.b.getIntention().getSecondaryComponent();
+		for (clsTriple<Integer, Integer, clsPrediction> oActTriple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTriple.c.getIntention().getSecondaryComponent();
 			//Precondition: All structures are already loaded and can be found in the input list
 			
 			//Go through each association and search for all children, get the best matching image in the list
 			clsDataStructureContainerPair oMoment = getBestMatchSubImage(oIntention, poInput, prMomentActivationThreshold);
 			//Check if the last moment in the short time memory
-			clsDataStructureContainerPair oLastImageCPair = getLastMomentFromShortTimeMemory(oActTripple.b, moShortTimeMemory);
+			clsDataStructureContainerPair oLastImageCPair = getLastMomentFromShortTimeMemory(oActTriple.c, moShortTimeMemory);
 			//Check temporal order
 			
 			clsPair<Integer,clsDataStructureContainerPair> oVerifiedPair = verifyTemporalOrder(oMoment, oLastImageCPair, poInput);
@@ -819,10 +892,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			}
 			
 			//Add the moment to the triple
-			oActTripple.b.setMoment(oVerifiedPair.b);
-			clsPair<Integer, clsPrediction> oPredictionPair = new clsPair<Integer, clsPrediction>(oVerifiedPair.a, oActTripple.b);
+			oActTriple.c.setMoment(oVerifiedPair.b);
+			clsTriple<Integer, Integer, clsPrediction> oPredictionTriple = new clsTriple<Integer, Integer, clsPrediction>(oActTriple.a, oVerifiedPair.a, oActTriple.c);
 			
-			oRetVal.add(oPredictionPair);
+			oRetVal.add(oPredictionTriple);
 		}
 		
 		return oRetVal;
@@ -1094,16 +1167,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private ArrayList<clsPair<Integer, clsPrediction>> getExpectations(ArrayList<clsPair<Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput) {
-		ArrayList<clsPair<Integer, clsPrediction>> oRetVal = new ArrayList<clsPair<Integer, clsPrediction>>();
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getExpectations(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
-		for (clsPair<Integer, clsPrediction> oActTripple : poActList) {
-			clsSecondaryDataStructureContainer oIntention = oActTripple.b.getIntention().getSecondaryComponent();
+		for (clsTriple<Integer, Integer, clsPrediction> oActTripple : poActList) {
+			clsSecondaryDataStructureContainer oIntention = oActTripple.c.getIntention().getSecondaryComponent();
 			clsSecondaryDataStructureContainer oCurrentSituation = null;
 			if (oIntention!=null) {
 				//A prediction always have set a moment, intention and expectationlist. If the secondary component of the 
 				//moment is null, then do nothing
-				oCurrentSituation = oActTripple.b.getMoment().getSecondaryComponent();
+				oCurrentSituation = oActTripple.c.getMoment().getSecondaryComponent();
 			}
 			
 			//3. Find the expectation in each Perception-act
@@ -1144,7 +1217,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							//Add the secondary and the primary (if available) to the expectations
 							clsDataStructureContainerPair oExpectation = new clsDataStructureContainerPair(oPossibleExpectation, oPExpectation);
 							
-							oActTripple.b.getExpectations().add(oExpectation);
+							oActTripple.c.getExpectations().add(oExpectation);
 						}
 					}
 					
