@@ -208,7 +208,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//Get the new predictions
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		
-		printImageText(moExtractedPrediction_OUT);
+		//printImageText(moExtractedPrediction_OUT);
 	}
 	
 	/**
