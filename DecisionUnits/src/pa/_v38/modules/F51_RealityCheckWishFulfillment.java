@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
@@ -59,12 +60,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private double mrMomentMinRelevanceThreshold = 0.2;
 	
 	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:09 */
-	private String moPredicateTemporal = "HASNEXT";
+	//private String moPredicateTemporal = "HASNEXT";
 	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:10 */
-	private String moPredicateHierarchical = "ISA";
+	//private String moPredicateHierarchical = "ISA";
 	
-	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:55 */
-	private int moNumberOfExpectationForConfirm = 3;
+	/** If a third of an act is gone though, it is considered as confirmed */
+	private int mnConfirmationParts = 3;
 	//private String moObjectClassMOMENT = "MOMENT";
 	//private String moObjectClassINTENTION = "INTENTION";
 	//private String moObjectClassEXPECTATION = "EXPECTATION";
@@ -207,7 +208,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//Get the new predictions
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		
-		//printImageText(moExtractedPrediction_OUT);
+		printImageText(moExtractedPrediction_OUT);
 	}
 	
 	/**
@@ -219,11 +220,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 */
 	private void printImageText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
 		
-		String oStepInfo = "\nStep: ";
+		String oStepInfo = "\n";
+		String oMomentInfo = "F51|";
 		
 		for (clsPrediction oP : poExtractedPrediction_IN) {
 			
-			String oMomentInfo = "F51::";
 			oMomentInfo += oP.toString();
 			
 			if (oP.getMoment().getPrimaryComponent()!=null) {
@@ -232,7 +233,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			}
 			
 			if (oP.getIntention().getSecondaryComponent()!=null) {
-				oMomentInfo += "|Progress: " + getIntentionProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Progress: " + getTemporalProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Confirm: " + getConfirmProgress(oP.getIntention().getSecondaryComponent());
 			}
 			
 			oStepInfo += oMomentInfo + "; ";
@@ -283,11 +285,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 									if (rMatch >= prMomentActivationThreshold) {
 										//Update the progress bar
 										if (bIntentionProgressUpdated == false) {
-											updateProgress(oPrediction.getIntention().getSecondaryComponent());
+											//Update the temporal and the confirmation progress of that perception act
+											updateTotalProgress(oPrediction.getIntention().getSecondaryComponent());
 											bIntentionProgressUpdated = true;
 										}
 										//Add WP that the expectation has been already used. An expectation must only be confirmed once
-										setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), "TRUE");
+										setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
 									}
 								}
 								break;
@@ -350,7 +353,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		//Set all Progress settings to the act
 		//If the act is new, then new progress settings shall be added, else, they shall be updated
-		addProgress(oIntentionMomentExpectationList, poInput);
+		addTotalProgress(oIntentionMomentExpectationList, poInput, mnConfirmationParts);
 		
 		//5. Save prediction in short time memory
 		savePredictionToSMemory(oIntentionMomentExpectationList);
@@ -481,7 +484,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 					//If this container is a leaf element of an associationsecondary with the predicate ISA
 					if (oAss instanceof clsAssociationSecondary) {
 						//An intention is recognized if the image is the Leaf element of a Hierarchical association (ISA)
-						if (((clsAssociationSecondary)oAss).getMoPredicate().equals(moPredicateHierarchical) && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
+						if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.ISA.toString()) && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
 							//The secondary data structure container found
 							clsSecondaryDataStructureContainer oSIntention = (clsSecondaryDataStructureContainer) oContainer;
 							
@@ -505,6 +508,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 10:38:39
+	 *
+	 * @param poCompareCPair
+	 * @param poTargetList
+	 * @return
+	 */
 	private clsDataStructureContainerPair containerPairExists(clsDataStructureContainerPair poCompareCPair, ArrayList<clsDataStructureContainerPair> poTargetList) {
 		clsDataStructureContainerPair oRetVal = null;
 		
@@ -614,20 +626,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		return oRetVal;
 	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 10.09.2011 16:37:53
-	 *
-	 * @param poIntention
-	 */
-	private void updateExpectationConfirmation(clsSecondaryDataStructureContainer poIntention) {
-		//double rConfirmFactor = Double.valueOf(arg0)
-	}
-	
-	
-	
+	// ============== TOTAL COMMON PROGRESS FUNCTIONS BEGIN ==============================//
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
@@ -635,27 +634,88 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poIntention
 	 */
-	private void updateProgress(clsSecondaryDataStructureContainer poIntention) {
-		double rProgressFactor = Double.valueOf(getProgressFactor(poIntention));
-		double rCurrentProgress = Double.valueOf(getIntentionProgress(poIntention));
-		double rNewProgress = rProgressFactor + rCurrentProgress;
+	private void updateTotalProgress(clsSecondaryDataStructureContainer poIntention) {
+		//Get temporal progress
+		double rTemporalProgressFactor = getTemporalProgressFactor(poIntention);
+		double rTemporalCurrentProgress = getTemporalProgress(poIntention);
+		double rTemporalNewProgress = rTemporalProgressFactor + rTemporalCurrentProgress;
 		
-		//Set the progress
-		setIntentionProgress(poIntention, String.valueOf(rNewProgress));
-		//As the intention is new, add the confirmment factor
+		//Set the new temporal progress
+		setTemporalProgress(poIntention, rTemporalNewProgress);
+		
+		//Get confirmation progress
+		double rConfirmProgressFactor = getConfirmFactor(poIntention);
+		double rConfirmCurrentProgress = getConfirmProgress(poIntention);
+		
+		double rConfirmNewProgress = rConfirmProgressFactor + rConfirmCurrentProgress;
+		//Correct values if the reinforcement is already complete
+		if ((rConfirmNewProgress<=1) && (rConfirmNewProgress>0)) {
+			//Set the new confirmation progress
+			//NOTE: The confirmation progress factor cannot be > 1 as at 1.0 the agent believes that it is confirmed
+			setConfirmProgress(poIntention, rConfirmNewProgress);
+		} 		
+		
 	}
 	
-	private void addProgress(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poExtendedInputList, ArrayList<clsDataStructureContainer> poAssociatedInputs) {
+	/**
+	 * For each intention, add the confirmation and the temporal factors as well as the first progress steps of them both
+	 * (wendt)
+	 *
+	 * @since 12.09.2011 09:49:54
+	 *
+	 * @param poExtendedInputList
+	 * @param poAssociatedInputs
+	 */
+	private void addTotalProgress(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poExtendedInputList, ArrayList<clsDataStructureContainer> poAssociatedInputs, int pnConfirmationParts) {
 		for (clsTriple<Integer, Integer, clsPrediction> oExtPrediction :  poExtendedInputList) {
 			//If the intention is new
 			if (oExtPrediction.a>0) {
 				//Add Progress factor
-				addProgressFactor(oExtPrediction.c, poAssociatedInputs);
+				addAllFactors(oExtPrediction.c, poAssociatedInputs, pnConfirmationParts);
 				//Set the first progress step
-				setFirstProgress(oExtPrediction.c);
+				setFirstTemporalProgress(oExtPrediction.c);
+				setFirstConfirmProgress(oExtPrediction.c);
+				
 			}
 		}
 	}
+	
+	/**
+	 * Add the factors: temporal progress and confirmation progress factors to the intention at the first time, where the intention is loaded
+	 * (wendt)
+	 *
+	 * @since 09.09.2011 22:31:55
+	 *
+	 * @param poIntention
+	 */
+	private void addAllFactors(clsPrediction poPrediction, ArrayList<clsDataStructureContainer> poAssociatedInputs, int pnConfirmationParts) {
+		//pnConfirmationParts is the number of parts, in which a perception-act is split into. As soon as the first part is confirmed, the whole 
+		//perception act is evaluated as confirmed
+		
+		//Count the number of structure until the end of the perception-act
+		int nNumberOfStructuresToEnd = countSubStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
+		//Calculate the temporal increment factor
+		double rTemporalIncreasementFactor = 1 / (double)nNumberOfStructuresToEnd;
+		
+		//Set the default progress factor, which is only set once
+		setTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent(), rTemporalIncreasementFactor);
+		
+		//Calculate the confirmation increment factor
+		//Get the number of images, which shall be confirmed, to get a complete confirmation
+		int nImagesForConfirmCount = (int)(nNumberOfStructuresToEnd/pnConfirmationParts);
+		double rConfirmIncreasementFactor = 0.0;
+		if (nImagesForConfirmCount==0) {
+			rConfirmIncreasementFactor = 1;
+		} else {
+			rConfirmIncreasementFactor = 1/(double)nImagesForConfirmCount;
+		}
+		
+		//Set the default progress factor, which is only set once
+		setConfirmFactor(poPrediction.getIntention().getSecondaryComponent(), rConfirmIncreasementFactor);
+		
+	}
+	
+	// ============== TEMPORAL PROGRESS FUNCTIONS BEGIN ==============================//	
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -664,26 +724,84 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poIntention
 	 */
-	private void setFirstProgress(clsPrediction poPrediction) {
-		double rProgressFactor = Double.valueOf(getProgressFactor(poPrediction.getIntention().getSecondaryComponent()));
-		setIntentionProgress(poPrediction.getIntention().getSecondaryComponent(), String.valueOf(rProgressFactor));
+	private void setFirstTemporalProgress(clsPrediction poPrediction) {
+		double rProgressFactor = getTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent());
+		setTemporalProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+	}
+		
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 09.09.2011 21:57:13
+	 *
+	 * @param poContainer
+	 * @param poPredicate
+	 * @param poContentType
+	 * @param poContent
+	 * @param pbReplace
+	 */
+	private void setTemporalProgressFactor(clsSecondaryDataStructureContainer poContainer, double prContent) {
+		clsDataStructureTools.setAttributeWordPresentation(poContainer, ePredicate.HASTEMPORALPROGRESSFACTOR.toString(), "PROGRESSFACTOR", String.valueOf(prContent));
 	}
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
-	 * @since 09.09.2011 22:31:55
+	 * @since 09.09.2011 21:57:15
 	 *
-	 * @param poIntention
+	 * @param poContainer
+	 * @param poPredicate
+	 * @return
 	 */
-	private void addProgressFactor(clsPrediction poPrediction, ArrayList<clsDataStructureContainer> poAssociatedInputs) {
-		int nNumberOfStructuresToEnd = countStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
-		double rCountFactor = 1 / (double)nNumberOfStructuresToEnd;
+	private double getTemporalProgressFactor(clsSecondaryDataStructureContainer poContainer) {
+		double oRetVal = 0;
 		
-		//Set the default progress factor, which is only set once
-		setProgressFactor(poPrediction.getIntention().getSecondaryComponent(), String.valueOf(rCountFactor));
+		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, ePredicate.HASTEMPORALPROGRESSFACTOR.toString());
+		
+		if (oWP!=null) {
+			oRetVal = Double.valueOf(oWP.getMoContent());
+		}
+			
+		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 09.09.2011 22:27:25
+	 *
+	 * @param poContainer
+	 * @param poContent
+	 */
+	private void setTemporalProgress(clsSecondaryDataStructureContainer poContainer, double prContent) {
+		clsDataStructureTools.setAttributeWordPresentation(poContainer, ePredicate.HASTEMPORALPROGRESS.toString(), "PROGRESS", String.valueOf(prContent));
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 10.09.2011 17:23:41
+	 *
+	 * @param poContainer
+	 * @return
+	 */
+	private double getTemporalProgress(clsSecondaryDataStructureContainer poContainer) {
+		double oRetVal = 0.0;
+		
+		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, ePredicate.HASTEMPORALPROGRESS.toString());
+		
+		if (oWP!=null) {
+			oRetVal = Double.valueOf(oWP.getMoContent());
+		}
+			
+		return oRetVal;
+	}
+	
+	// ============== PROGRESS FUNCTIONS END ==============================//
+	
+	
+	// ============== SECONDARY GENERAL INFORMATION EXTRACTION FUNCTIONS START ==============================//
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
@@ -692,10 +810,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poIntention
 	 * @return
 	 */
-	private int countSubStructures(clsSecondaryDataStructureContainer poIntention) {
+	private int countAllSubStructures(clsSecondaryDataStructureContainer poIntention) {
 		int nRetVal = 0;
 		
-		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, moPredicateHierarchical, true);
+		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, ePredicate.ISA.toString(), true);
 		nRetVal = oSubImages.size();
 		
 		return nRetVal;
@@ -712,7 +830,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActivatedInputList
 	 * @return
 	 */
-	private int countStructuresToActEnd(clsSecondaryDataStructureContainer poMoment, ArrayList<clsDataStructureContainer> poActivatedInputList) {
+	private int countSubStructuresToActEnd(clsSecondaryDataStructureContainer poMoment, ArrayList<clsDataStructureContainer> poActivatedInputList) {
 		int nRetVal = 0;
 		int nNumberOfPassedMoments = 0;
 		//Get the first temporal next structure
@@ -725,7 +843,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		do 
 		{
 			//Get all "HASNEXT" Association structures
-			oNextStructureList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentMoment, moPredicateTemporal, false);
+			oNextStructureList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentMoment, ePredicate.HASNEXT.toString(), false);
 			//Get the first expectation
 			if (oNextStructureList.isEmpty()==false) {
 				clsSecondaryDataStructure oNextDS = oNextStructureList.get(0);
@@ -742,6 +860,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return nRetVal;
 	}
 	
+	// ============== SECONDARY GENERAL INFORMATION EXTRACTION FUNCTIONS END ==============================//
+	
+	// ============== CONFIRMATION FUNCTIONS START ==============================//
+	
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 10:20:14
+	 *
+	 * @param poPrediction
+	 */
+	private void setFirstConfirmProgress(clsPrediction poPrediction) {
+		double rProgressFactor = getConfirmFactor(poPrediction.getIntention().getSecondaryComponent());
+		setConfirmProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+	}
+	
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
@@ -750,8 +885,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poContainer
 	 * @param poContent
 	 */
-	private void setConfirmFactor(clsSecondaryDataStructureContainer poContainer, String poContent) {
-		clsDataStructureTools.setAttributeWordPresentation(poContainer, "HASCONFIRMFACTOR", "CONFIRMFACTOR", poContent);
+	private void setConfirmFactor(clsSecondaryDataStructureContainer poContainer, double prContent) {
+		clsDataStructureTools.setAttributeWordPresentation(poContainer, ePredicate.HASCONFIRMFACTOR.toString(), "CONFIRMFACTOR", String.valueOf(prContent));
 	}
 	
 	/**
@@ -762,26 +897,74 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poContainer
 	 * @return
 	 */
-	private String getConfirmFactor(clsSecondaryDataStructureContainer poContainer) {
-		String oRetVal = "";
+	private double getConfirmFactor(clsSecondaryDataStructureContainer poContainer) {
+		double oRetVal = 0.0;
 		
-		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, "HASCONFIRMFACTOR");
+		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, ePredicate.HASCONFIRMFACTOR.toString());
 		
 		if (oWP!=null) {
-			oRetVal = oWP.getMoContent();
+			oRetVal = Double.valueOf(oWP.getMoContent());
 		}
 			
 		return oRetVal;
 	}
 	
-	private void setExpectationAlreadyConfirmed(clsSecondaryDataStructureContainer poContainer, String poContent) {
-		clsDataStructureTools.setAttributeWordPresentation(poContainer, "HASBEENCONFIRMED", "CONFIRMEDEXPECTATION", poContent);
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 09:44:57
+	 *
+	 * @param poContainer
+	 * @param poContent
+	 */
+	private void setConfirmProgress(clsSecondaryDataStructureContainer poContainer, double prContent) {
+		clsDataStructureTools.setAttributeWordPresentation(poContainer, ePredicate.HASCONFIRMPROGRESS.toString(), "CONFIRMPROGRESS", String.valueOf(prContent));
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 09:49:24
+	 *
+	 * @param poContainer
+	 * @return
+	 */
+	private double getConfirmProgress(clsSecondaryDataStructureContainer poContainer) {
+		double oRetVal = 0.0;
+		
+		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, ePredicate.HASCONFIRMPROGRESS.toString());
+		
+		if (oWP!=null) {
+			oRetVal = Double.valueOf(oWP.getMoContent());
+		}
+			
+		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 09:56:38
+	 *
+	 * @param poContainer
+	 * @param pbContent
+	 */
+	private void setExpectationAlreadyConfirmed(clsSecondaryDataStructureContainer poContainer, boolean pbContent) {
+		clsDataStructureTools.setAttributeWordPresentation(poContainer, ePredicate.HASBEENCONFIRMED.toString(), "CONFIRMEDEXPECTATION", String.valueOf(pbContent));
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 09:56:40
+	 *
+	 * @param poContainer
+	 * @return
+	 */
 	private boolean getExpectationAlreadyConfirmed(clsSecondaryDataStructureContainer poContainer) {
 		boolean oRetVal = false;
 		
-		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, "HASBEENCONFIRMED");
+		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, ePredicate.HASBEENCONFIRMED.toString());
 		
 		if (oWP!=null) {
 			oRetVal = true;
@@ -790,74 +973,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		return oRetVal;
 	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 09.09.2011 21:57:13
-	 *
-	 * @param poContainer
-	 * @param poPredicate
-	 * @param poContentType
-	 * @param poContent
-	 * @param pbReplace
-	 */
-	private void setProgressFactor(clsSecondaryDataStructureContainer poContainer, String poContent) {
-		clsDataStructureTools.setAttributeWordPresentation(poContainer, "HASPROGRESSFACTOR", "PROGRESSFACTOR", poContent);
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 09.09.2011 21:57:15
-	 *
-	 * @param poContainer
-	 * @param poPredicate
-	 * @return
-	 */
-	private String getProgressFactor(clsSecondaryDataStructureContainer poContainer) {
-		String oRetVal = "";
-		
-		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, "HASPROGRESSFACTOR");
-		
-		if (oWP!=null) {
-			oRetVal = oWP.getMoContent();
-		}
-			
-		return oRetVal;
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 09.09.2011 22:27:25
-	 *
-	 * @param poContainer
-	 * @param poContent
-	 */
-	private void setIntentionProgress(clsSecondaryDataStructureContainer poContainer, String poContent) {
-		clsDataStructureTools.setAttributeWordPresentation(poContainer, "HASPROGRESS", "PROGRESS", poContent);
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 10.09.2011 17:23:41
-	 *
-	 * @param poContainer
-	 * @return
-	 */
-	private String getIntentionProgress(clsSecondaryDataStructureContainer poContainer) {
-		String oRetVal = "";
-		
-		clsWordPresentation oWP = clsDataStructureTools.getAttributeWordPresentation(poContainer, "HASPROGRESS");
-		
-		if (oWP!=null) {
-			oRetVal = oWP.getMoContent();
-		}
-			
-		return oRetVal;
-	}
-	
+	// ============== CONFIRM FUNCTIONS END ==============================//
 	
 	
 	/**
@@ -959,7 +1075,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//If there are no expectations, then this moment was the last moment and nothing from this act should be found any more
 			//Return the best match image
 			if (bQuit==false) {
-				ArrayList<clsSecondaryDataStructure> oCurrentExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oProposedMoment, moPredicateTemporal, false);
+				ArrayList<clsSecondaryDataStructure> oCurrentExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oProposedMoment, ePredicate.HASNEXT.toString(), false);
 				if (oCurrentExpList.isEmpty()==true) {
 					//Return oRetVal without anything
 					//return oRetVal;
@@ -989,7 +1105,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//else if the best match is an expectation of the previous moment, then it is ok too
 			if (bQuit==false) {
 				//Get the expectations of the last moment
-				ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentSecondary, moPredicateTemporal, false);
+				ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentSecondary, ePredicate.HASNEXT.toString(), false);
 				for (clsSecondaryDataStructure oPlausibleExp :  oPlausibleExpList) {
 					if (oPlausibleExp.getMoDS_ID() == oProposedMoment.getMoDataStructure().getMoDS_ID()) {
 						//If a valid moment was found, set the moment
@@ -1057,7 +1173,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		double oBestExpectationMatch = 0.0;
 		if (oLastMomentInShortTimeMemory.getSecondaryComponent()!=null) {
 			double oExpectationMatch = 0.0;
-			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), moPredicateTemporal, false);
+			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), ePredicate.HASNEXT.toString(), false);
 			for (clsSecondaryDataStructure oS : oPlausibleExpList) {
 				clsSecondaryDataStructureContainer oSecondaryContainer = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poTotalList, oS);
 				if (oSecondaryContainer!=null) {
@@ -1094,7 +1210,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		clsDataStructureContainerPair oRetVal = null;
 		double rMaxValue = 0.0;
 				
-		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, moPredicateHierarchical, true);
+		ArrayList<clsSecondaryDataStructure> oSubImages = clsDataStructureTools.getDSFromSecondaryAssInContainer(poIntention, ePredicate.ISA.toString(), true);
 		
 		for (clsDataStructurePA oDS : oSubImages) {
 			//Get the Image DS
@@ -1184,7 +1300,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//current situation
 			if (oCurrentSituation!=null) {
 				//Get all associations with "HASNEXT" from the current situation
-				ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentSituation, moPredicateTemporal, false);
+				ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentSituation, ePredicate.HASNEXT.toString(), false);
 				
 				for (clsSecondaryDataStructure oSecDS : oExpectationElement) {
 					clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oSecDS);
@@ -1202,7 +1318,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 					}
 					
 					//Get all DS connected with a "ISA" from the expectation
-					ArrayList<clsSecondaryDataStructure> oIntentionFromPossibleExp = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentSituation, moPredicateHierarchical, false);
+					ArrayList<clsSecondaryDataStructure> oIntentionFromPossibleExp = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentSituation, ePredicate.ISA.toString(), false);
 					
 					for (clsSecondaryDataStructure oIntentionInAss : oIntentionFromPossibleExp) {
 						if (oIntentionInAss.getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
@@ -1227,6 +1343,27 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 10:39:41
+	 *
+	 * @param poPrediction
+	 */
+	private void realityCheckPredictions(ArrayList<clsPrediction> poPrediction) {
+		
+		for (clsPrediction oP : poPrediction) {
+			//1. Get progress and confirmation factors
+			
+			//2. Get all affects from the intention
+			
+			//3. For each affect from the intention, calculate a reduction affect
+			
+			//4. Add the reduction affect to the intention container for each object with an association secondary
+			//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
+		}
 	}
 	
 	/* (non-Javadoc)

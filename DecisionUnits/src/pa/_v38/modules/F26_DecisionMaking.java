@@ -255,7 +255,12 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		}*/
 		
 		//Pass PI to Planning
-		moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN;
+		try {
+			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		
 		//Pass the prediction to the planning
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);

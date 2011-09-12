@@ -10,18 +10,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
@@ -168,57 +170,67 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		
-		// run over all actions and sort out the most appropriate ones
-		ArrayList<clsSecondaryDataStructureContainer> sortedActions  = new ArrayList<clsSecondaryDataStructureContainer> ();
-		int iCursorPos = 0;
-		
-		int iIndexOfEat = -1;
-		int iIndexOfMoveForward = -1;
+		//AW HACK test, in order to be able to use both WP and plan fragements at the same time
+		boolean bPlanFragement = false;
 		for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
-			
-			
 			if (oC instanceof clsPlanFragment) {
-				clsPlanFragment plFr = (clsPlanFragment) oC;
-				String strAction = plFr.m_act.m_strAction;
-
-				if (strAction.equalsIgnoreCase("EAT")) 
-					iIndexOfEat = iCursorPos;
-				if (strAction.equalsIgnoreCase("MOVE_FORWARD"))
-					iIndexOfMoveForward = iCursorPos;
-			}
-			
-			iCursorPos ++;
-		}
-		
-		if (iIndexOfEat > 0) // only use eat 
-			sortedActions.add(moActionCommands_Input.get(iIndexOfEat));
-		else if (iIndexOfMoveForward > 0) // only use move forward
-			sortedActions.add(moActionCommands_Input.get(iIndexOfMoveForward));
-		else // use all other actions
-			sortedActions = moActionCommands_Input;
-		
-		
-		ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
-		for (clsSecondaryDataStructureContainer oC : sortedActions) {
-			
-			if (oC instanceof clsPlanFragment) {
-				clsPlanFragment plFr = (clsPlanFragment) oC;
-				String strAction = plFr.m_act.m_strAction;
-				clsWordPresentation myWP = new clsWordPresentation(new clsTriple(1, eDataType.ACT, strAction), strAction);
-
-				moActionCommandsTemp.add(myWP);
+				bPlanFragement = true;
+				break;
 			}
 		}
-		//No nulls are allowed
-		moActionCommands_Output = new ArrayList<clsWordPresentation>();
-		//Get the first command
-		if (moActionCommandsTemp.isEmpty()==false) {
-			moActionCommands_Output.add(moActionCommandsTemp.get(0));
+		
+		if (bPlanFragement==true) {
+			// run over all actions and sort out the most appropriate ones
+			ArrayList<clsSecondaryDataStructureContainer> sortedActions  = new ArrayList<clsSecondaryDataStructureContainer> ();
+			int iCursorPos = 0;
+			
+			int iIndexOfEat = -1;
+			int iIndexOfMoveForward = -1;
+			for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
+				
+				
+				if (oC instanceof clsPlanFragment) {
+					clsPlanFragment plFr = (clsPlanFragment) oC;
+					String strAction = plFr.m_act.m_strAction;
+
+					if (strAction.equalsIgnoreCase("EAT")) 
+						iIndexOfEat = iCursorPos;
+					if (strAction.equalsIgnoreCase("MOVE_FORWARD"))
+						iIndexOfMoveForward = iCursorPos;
+				}
+				
+				iCursorPos ++;
+			}
+			
+			if (iIndexOfEat > 0) // only use eat 
+				sortedActions.add(moActionCommands_Input.get(iIndexOfEat));
+			else if (iIndexOfMoveForward > 0) // only use move forward
+				sortedActions.add(moActionCommands_Input.get(iIndexOfMoveForward));
+			else // use all other actions
+				sortedActions = moActionCommands_Input;
+			
+			
+			ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
+			for (clsSecondaryDataStructureContainer oC : sortedActions) {
+				
+				if (oC instanceof clsPlanFragment) {
+					clsPlanFragment plFr = (clsPlanFragment) oC;
+					String strAction = plFr.m_act.m_strAction;
+					clsWordPresentation myWP = new clsWordPresentation(new clsTriple(1, eDataType.ACT, strAction), strAction);
+
+					moActionCommandsTemp.add(myWP);
+				}
+			}
+			//No nulls are allowed
+			moActionCommands_Output = new ArrayList<clsWordPresentation>();
+			//Get the first command
+			if (moActionCommandsTemp.isEmpty()==false) {
+				moActionCommands_Output.add(moActionCommandsTemp.get(0));
+			}
+		} else {
+			moActionCommands_Output = getWordPresentations(moActionCommands_Input);
 		}
-		
-		
-		 
+
 	}
 	
 	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
@@ -231,17 +243,17 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @param poInput
 	 * @return
 	 */
-	/*private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
 		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
 		for (clsSecondaryDataStructureContainer oCont: poInput) {
-			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", ((clsAct)oCont.getMoDataStructure()).getMoContent()));
+			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", ((clsWordPresentation)oCont.getMoDataStructure()).getMoContent()));
 			
 			oRetVal.add(oWP);
 		}
 		
 		return oRetVal;
-	}*/
+	}
 
 	/* (non-Javadoc)
 	 *

@@ -21,7 +21,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
@@ -30,6 +29,8 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
@@ -349,19 +350,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		//Go through all goals
 		for (clsSecondaryDataStructureContainer oGoal : poDriveGoalsInput) {
-			//Go through all associations of all goals
-			for (clsAssociation oAss : oGoal.getMoAssociatedDataStructures()) {
-				//If the associationSecondary and hasIntention, then get the whole prediction
-				if (oAss instanceof clsAssociationSecondary) {
-					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASINTENTION") {
-						//Now the intention has been found
-						clsDataStructurePA oIntention = oAss.getLeafElement();
-						//Find the intention in the inputlist of the prediction
-						ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
-						//Go through each container and add the associated act
-						oRetVal.addAll(getActsFromExpectations(oExpectations));
-					}
-				}
+			//Get the intentionDS
+			ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oGoal, ePredicate.HASINTENTION.toString(), false);
+			for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
+				ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
+				oRetVal.addAll(getActsFromExpectations(oExpectations));
 			}
 		}
 		
@@ -478,7 +471,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		process_draft();
+		//If the goal is a prediction, execute the default action, else use standard planning, i.e. if the goal is to use the PI
+		String oPI = "PERCEIVEDIMAGE";
+		if (moGoalInput.isEmpty()==false) {
+			if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oPI)==true) {
+				process_draft();
+			} else {
+				//AW: not finished expectation generation for testing, has to influence plan generation later
+				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
+			}
+		}		
+		
 		// HZ 2010.08.28
 		// E27 should retrieve required acts through E28. However, it can be
 		// doubted if this works without a loop between E27 and E28. In addition
@@ -512,57 +515,24 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// is implemented to retrieve and put acts together which means that it
 		// takes over
 		// a kind of planning.
-	
-		
-		
-		// deactivated by AP to use real generation of plans
-//		moActions_Output = new ArrayList<clsSecondaryDataStructureContainer>();
-//		moActions_Output = getActions();
-		
-		//AW: not finished expectation generation for testing, has to influence plan generation later
-//		TestAWsExpectations();
 		
 	}
 	
-	private void TestAWsExpectations(){
-		
-		/* ==================================================================== */
-		//FIXME AW: Testdata for the F47 interface. DELETEME
-		//moActions_Output.add(getTestDataForAct());
-		/*=======================================================================*/
-		
-		//Hack function because there is no planning in the agent
-		/* ==================================================================== */
-		//THIS IS A HACK!!!!!!
-		//ArrayList<clsSecondaryDataStructureContainer> oAct1 = new ArrayList<clsSecondaryDataStructureContainer>();
-		//oAct1 = hackActionFromA3TOP(moExtractedPrediction_IN);
-		//moActions_Output.addAll(GetActionCommandFromAct(oAct1));
-		/*=======================================================================*/
-		
+	private ArrayList<clsSecondaryDataStructureContainer> TestAWsExpectations(ArrayList<clsPrediction> poExtractedPrediction_IN, ArrayList<clsSecondaryDataStructureContainer> poGoalInput){
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		ArrayList<clsSecondaryDataStructureContainer> oExtractedActs = new ArrayList<clsSecondaryDataStructureContainer>();
 		
-		oExtractedActs = getActsFromExpectation(moGoalInput, moExtractedPrediction_IN);
+		oExtractedActs = getActsFromExpectation(poGoalInput, poExtractedPrediction_IN);
 		
-		moActions_Output.addAll(GetActionCommandFromAct(oExtractedActs));
+		ArrayList<clsSecondaryDataStructureContainer> oActions = GetActionCommandFromAct(oExtractedActs);
 		
 		
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
 		//F47 does not have any memory access. 
 		//If you receive errors in this function, you may inactivate it and AW will correct the errors.
-		moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(moActions_Output);
-	}
-	
-	private ArrayList<clsSecondaryDataStructureContainer> hackActionFromA3TOP(ArrayList<clsPrediction> poInput) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(oActions);
 		
-		for (clsPrediction oP : poInput) {
-			if (((clsSecondaryDataStructure)oP.getIntention().getSecondaryComponent().getMoDataStructure()).getMoContent().equals("IMAGE:A3TOP")) {
-				ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure)oP.getIntention().getSecondaryComponent().getMoDataStructure(), poInput);
-				//Go through each container and add the associated act
-				oRetVal.addAll(getActsFromExpectations(oExpectations));
-				break;
-			}
-		}
+		oRetVal = oActions;
 		
 		return oRetVal;
 	}
