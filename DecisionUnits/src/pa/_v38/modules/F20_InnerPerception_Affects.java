@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -51,7 +51,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive,  I6_9_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
-	private ArrayList<clsPrimaryDataStructureContainer> moAffectOnlyList_Input;
+	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
@@ -140,9 +140,9 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_17(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
+	public void receive_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
 		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
-		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructureContainer>)this.deepCopy(poAffectOnlyList);		
+		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructure>)this.deepCopy(poAffectOnlyList);		
 	}
 
 	/* (non-Javadoc)
@@ -208,7 +208,8 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 		// But we need a list here because:
 		// in later versions the list will have more elements like [anxiety, insecurity, self-hatred, ...]
 		moSecondaryDataStructureContainer_Output.clear();
-		moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
+		if (poAffect != null)
+			moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
 		
 			
 		
@@ -223,21 +224,24 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * calculates the sum of the separated quotas of affect
 	 * 
 	 */
-	private double calculateQuotaOfAffect(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList_Input) {
+	private double calculateQuotaOfAffect(ArrayList<clsPrimaryDataStructure> poAffectOnlyList_Input) {
 		
 		double poAverageQuotaOfAffect = 0;
 		
-		for(clsPrimaryDataStructureContainer oContainer : poAffectOnlyList_Input){
+		if (poAffectOnlyList_Input.isEmpty()) return 0;
+		
+		for(clsPrimaryDataStructure oContainer : poAffectOnlyList_Input){
 			
 			// if oContainer (element of moAffectOnlyList_Input) is an affect
 			// add pleasure-values of the affect
 			// TODO FG: The formula to calculate ANXIETY must be improved.
-			if(oContainer.getMoDataStructure() instanceof clsAffect){
-				poAverageQuotaOfAffect += ((clsAffect) oContainer.getMoDataStructure()).getPleasure();
+			if(oContainer instanceof clsAffect){
+				poAverageQuotaOfAffect += ((clsAffect) oContainer).getPleasure();
 			}					
 		}
 		
-		return poAverageQuotaOfAffect;
+		// calculate average quota of affect
+		return poAverageQuotaOfAffect / poAffectOnlyList_Input.size();
 	}
 	
 	/* (non-Javadoc)
@@ -247,16 +251,16 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * 
 	 */
 	private clsWordPresentation calculateAffect(double oAverageQuotaOfAffect) {
-		clsWordPresentation oAffect;
+		clsWordPresentation oAffect = null;
 			
-		if (oAverageQuotaOfAffect < 0.3) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "PRICKLE")); 
+		if (oAverageQuotaOfAffect > 0.7) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "ANXIETY")); 
 		}
-		else if (oAverageQuotaOfAffect < 0.7) {
+		else if (oAverageQuotaOfAffect > 0.3) {
 			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "WORRIEDNESS")); 
 		}
-		else {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "ANXIETY")); 
+		else if (oAverageQuotaOfAffect > 0){
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "PRICKLE")); 
 		}
 		
 		return oAffect;
