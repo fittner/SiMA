@@ -160,6 +160,7 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		String oRetVal = ""; 
 		
 		oRetVal += "DataStructureContainer:moDataStructure";
+		if (moDataStructure==null) return oRetVal += " -null-";
 		oRetVal += moDataStructure.toString();
 		for(clsAssociation oEntry : moAssociatedDataStructures){
 			oRetVal += "\n	:AssociatedDataStructures:" + oEntry.toString(); 
