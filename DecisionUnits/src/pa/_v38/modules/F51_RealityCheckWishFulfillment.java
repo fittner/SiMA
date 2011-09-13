@@ -69,21 +69,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:06 */
 	private double mrMomentMinRelevanceThreshold = 0.2;
 	
-	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:09 */
-	//private String moPredicateTemporal = "HASNEXT";
-	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:10 */
-	//private String moPredicateHierarchical = "ISA";
-	
 	/** If a third of an act is gone though, it is considered as confirmed */
 	private int mnConfirmationParts = 3;
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
 	private double mrReduceFactorForDrives = 1.0;
-	//private String moObjectClassMOMENT = "MOMENT";
-	//private String moObjectClassINTENTION = "INTENTION";
-	//private String moObjectClassEXPECTATION = "EXPECTATION";
-	
-	//private String moPredicateTimeValue = "HASTIMEVALUE";	//not necessary now
 	
 	
 	/** Short time memory */
@@ -221,7 +211,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//Get the new predictions
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		
-		printImageText(moExtractedPrediction_OUT);
+		//printImageText(moExtractedPrediction_OUT);
 	}
 	
 	/**
