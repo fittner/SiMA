@@ -17,9 +17,13 @@ import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_17_send;
 import pa._v38.interfaces.modules.I5_5_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -42,6 +46,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<String> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
+	private ArrayList<clsPrimaryDataStructure> moQuotasOfAffect_Output = new ArrayList<clsPrimaryDataStructure>();
 
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -77,6 +82,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);	
 		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
+		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
 		
 		
 		return text;
@@ -154,11 +160,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	protected void process_basic() {
-		//TODO HZ: Up to now the driveList is passed through (deepCopy is called in the next module); 
-		//The interfaces send_I4_1 and send_I5_1 are filled with empty Lists. 
-		 moDriveList_Output = moDriveList_Input;
+	protected void process_basic() { 
+		 moDriveList_Output = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy (moDriveList_Input);
 		 
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
 		 // For now: All the drives in moForbiddenDrives_Input are repressed.
@@ -184,6 +189,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     	
 		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 		
+		// empty the list from last step otherwise list only grows
+		moQuotasOfAffect_Output.clear();
+		
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
 				
@@ -200,12 +208,18 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				i++;
 			}
 			
-			// if drive found -->	
-			if (i < moDriveList_Output.size()) {
-				// --> insert DriveMesh i into BlockedContentStorage
+			// if drive found	
+			if (i < moDriveList_Output.size() 
+					//&& !moBlockedContentStorage.contains(moDriveList_Output.get(i).b)
+					) {
+				// insert DriveMesh i into BlockedContentStorage
 				moBlockedContentStorage.add(moDriveList_Output.get(i).b);
 				
-				// --> remove DriveMesh i from output list
+				// add single quotas of affect to affect only list
+				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
+				moQuotasOfAffect_Output.add(oAffect);
+				
+				// remove DriveMesh i from output list
 				moDriveList_Output.remove(i);
 			}
 		}
@@ -222,7 +236,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	protected void send() {
 		//HZ: null is a placeholder for the homeostatic information formed out of objects of the type pa._v38.memorymgmt.datatypes 
 		send_I5_18(moDriveList_Output);
-		send_I5_17(new ArrayList<clsPrimaryDataStructureContainer>());
+		send_I5_17(moQuotasOfAffect_Output);
 	}
 
 	/* (non-Javadoc)
@@ -246,7 +260,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.send.I5_1_send#send_I5_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_17(ArrayList<clsPrimaryDataStructureContainer> poAffectOnlyList) {
+	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
 		((I5_17_receive)moModuleList.get(20)).receive_I5_17(poAffectOnlyList);	
 		putInterfaceData(I5_17_send.class, poAffectOnlyList);		
 	}
