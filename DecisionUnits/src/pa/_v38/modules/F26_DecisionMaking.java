@@ -283,7 +283,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
 			String oDriveObject = clsAffectTools.getDriveObjectType(oDriveGoalContent);
 			String oDriveType = clsAffectTools.getDriveType(oDriveGoalContent);
-			int oDriveIntensity = clsAffectTools.getDriveIntensity(oDriveGoalContent);
+			int oDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oDriveGoalContent);
 			
 			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
 				//Get goal content
@@ -304,7 +304,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				if (Math.abs(oDriveIntensity)>=3) {
 					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
 					if (i+1<oDriveListSorted.size()) {
-						if (clsAffectTools.getDriveIntensity(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
+						if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
 							//If the Drive intensity is very high and the following drives do not have an Affect=HIGHPOS or HIGHNEG, 
 							//then a drive goal must be constructed without an object
 							clsSecondaryDataStructureContainer oNecessaryDrive = compriseDrives(oDriveGoal);

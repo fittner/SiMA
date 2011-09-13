@@ -84,7 +84,7 @@ public class clsAffectTools {
 			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = getWPMDriveGoals(poImage);
 			for (clsSecondaryDataStructureContainer oGoal : oDriveGoals) {
 				//Get the drive intensity
-				rThisAffect = Math.abs(getDriveIntensity(((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent()));
+				rThisAffect = Math.abs(getDriveIntensityAsInt(((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent()));
 				
 				//Get the max value
 				if (rThisAffect>rMaxAffect) {
@@ -334,7 +334,7 @@ public class clsAffectTools {
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffectValue = getDriveIntensity(oContent);
+			int nAffectValue = getDriveIntensityAsInt(oContent);
 			//Sort the affects for priority according to the order in the list in this class
 			int nAffectSortOrder = moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1;
 			//Sort then for drive according to the order in the list 
@@ -362,7 +362,7 @@ public class clsAffectTools {
 	}
 	
 	/**
-	 * Get drive intensity or affect of a drive
+	 * Get drive intensity or affect of a drive as an integer
 	 * (wendt)
 	 *
 	 * @since 05.08.2011 22:30:45
@@ -370,8 +370,31 @@ public class clsAffectTools {
 	 * @param poDriveContent
 	 * @return
 	 */
-	public static int getDriveIntensity(String poDriveContent) {
+	public static int getDriveIntensityAsInt(String poDriveContent) {
 		int nIntensity =  0;
+		
+		eAffectLevel oLevel = getDriveIntensityAsAffectLevel(poDriveContent);
+		
+		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
+		if (oLevel!=null) {
+			nIntensity = eAffectLevel.valueOf(oLevel.toString()).mnAffectLevel;
+		}
+		
+		return nIntensity;
+	}
+	
+	/**
+	 * Get drive intensity or affect of a drive as an Affect level
+	 * (wendt)
+	 *
+	 * @since 13.09.2011 09:35:53
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	public static eAffectLevel getDriveIntensityAsAffectLevel(String poDriveContent) {
+		eAffectLevel oRetVal = null;
+		
 		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
 		String[] oDriveSplit = oDrive.split(_Delimiter01);
 		String oDriveIntensity = "";
@@ -390,10 +413,10 @@ public class clsAffectTools {
 			}
 			
 		}
-		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
-		nIntensity = eAffectLevel.valueOf(oDriveIntensity).mnAffectLevel;
 		
-		return nIntensity;
+		oRetVal = eAffectLevel.valueOf(oDriveIntensity);
+		
+		return oRetVal;
 	}
 	
 	/**

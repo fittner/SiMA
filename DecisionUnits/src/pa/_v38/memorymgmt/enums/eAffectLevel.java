@@ -47,6 +47,17 @@ public enum eAffectLevel {
 	{
 		this.mnAffectLevel = pnAffectLevel;
 	}
+	
+	public static eAffectLevel elementAt(int i)
+	{
+		eAffectLevel oRetVal = null;
+		eAffectLevel lvls[] = eAffectLevel.values();
+		if ((i>=-3) && (i<=3)) {
+			oRetVal = lvls[i+3];
+		}
+		
+		return oRetVal;
+	}
 
 	/*@Override
 	public String toString()

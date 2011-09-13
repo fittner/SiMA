@@ -15,6 +15,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -25,9 +26,11 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -38,6 +41,13 @@ import pa._v38.tools.toText;
  * 
  * @author kohlhauser
  * 11.08.2009, 14:49:09
+ * 
+ */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 13.09.2011, 09:14:49
  * 
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
@@ -59,18 +69,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:06 */
 	private double mrMomentMinRelevanceThreshold = 0.2;
 	
-	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:09 */
-	//private String moPredicateTemporal = "HASNEXT";
-	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:10 */
-	//private String moPredicateHierarchical = "ISA";
-	
 	/** If a third of an act is gone though, it is considered as confirmed */
 	private int mnConfirmationParts = 3;
-	//private String moObjectClassMOMENT = "MOMENT";
-	//private String moObjectClassINTENTION = "INTENTION";
-	//private String moObjectClassEXPECTATION = "EXPECTATION";
 	
-	//private String moPredicateTimeValue = "HASTIMEVALUE";	//not necessary now
+	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
+	private double mrReduceFactorForDrives = 1.0;
 	
 	
 	/** Short time memory */
@@ -354,6 +357,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//Set all Progress settings to the act
 		//If the act is new, then new progress settings shall be added, else, they shall be updated
 		addTotalProgress(oIntentionMomentExpectationList, poInput, mnConfirmationParts);
+		addAffectReduceValues(oIntentionMomentExpectationList, mrReduceFactorForDrives);
 		
 		//5. Save prediction in short time memory
 		savePredictionToSMemory(oIntentionMomentExpectationList);
@@ -1352,17 +1356,72 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poPrediction
 	 */
-	private void realityCheckPredictions(ArrayList<clsPrediction> poPrediction) {
+	private void addAffectReduceValues(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList, double prReduceFactorForDrives) {
 		
-		for (clsPrediction oP : poPrediction) {
-			//1. Get progress and confirmation factors
-			
-			//2. Get all affects from the intention
-			
-			//3. For each affect from the intention, calculate a reduction affect
-			
-			//4. Add the reduction affect to the intention container for each object with an association secondary
+		for (clsTriple<Integer, Integer, clsPrediction> oP : poPredictionList) {
+			//1. Remove old associations in order to replace them
+			 removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALTYAFFECT);
+			//2. Get progress and confirmation factors
+			double rTemporalProgress = getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
+			double rConfirmationProgress = getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
+			//3. Get all affects from the intention
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = clsAffectTools.getDriveGoalsFromPrediction(oP.c);
+			//4. For each affect from the intention, calculate a reduction affect
+			for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
+				//5. Get the drive intensity of the drive connected to the goal
+				String oDriveType = clsAffectTools.getDriveType(((clsSecondaryDataStructure)oGoalContainer.getMoDataStructure()).getMoContent());
+				eAffectLevel oDriveIntensityAsAffect = clsAffectTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oGoalContainer.getMoDataStructure()).getMoContent());
+				double rDriveIntensity = (double)oDriveIntensityAsAffect.mnAffectLevel;
+				//6. Calculate the reduce intensity
+				double rReduceIntensity = -rDriveIntensity * prReduceFactorForDrives * (1 - rTemporalProgress * rConfirmationProgress);
+				//7. Convert this intensity to an affect value
+				eAffectLevel oReduceIntensity = eAffectLevel.elementAt((int)rReduceIntensity);
+				//8. Do anything if the reduceintensity is significant
+				if (oReduceIntensity.mnAffectLevel!=0) {
+					//9. Copy the goal
+					try {
+						clsWordPresentation oReduceGoal = (clsWordPresentation) ((clsWordPresentation)oGoalContainer.getMoDataStructure()).clone();
+						//10. Replace the old intensity with the new one
+						String oNewContent = oReduceGoal.getMoContent().replace(oDriveType + ":" + oDriveIntensityAsAffect.toString(), oDriveType + ":" + oReduceIntensity.toString());
+						oReduceGoal.setMoContent(oNewContent);
+						//11. Get the root object
+						clsSecondaryDataStructureContainer oIntention = oP.c.getIntention().getSecondaryComponent();
+						//12. Create an association between the intention and the WP
+						clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("REALITYAFFECT", oIntention.getMoDataStructure(), oReduceGoal, ePredicate.HASREALTYAFFECT.toString(), 1.0);
+						//13. Add the association to the container
+						oIntention.addMoAssociatedDataStructure(oAssSec);
+						
+					} catch (CloneNotSupportedException e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				
+			}
 			//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
+		}
+	}
+	
+	/**
+	 * Revove all associations with a certain predicate
+	 * (wendt)
+	 *
+	 * @since 13.09.2011 09:59:33
+	 *
+	 * @param oSContainer
+	 * @param oPredicate
+	 */
+	private void removeAssociation(clsSecondaryDataStructureContainer oSContainer, ePredicate oPredicate) {
+		ListIterator<clsAssociation> liMainList = oSContainer.getMoAssociatedDataStructures().listIterator();
+		
+		while (liMainList.hasNext()) {
+			clsAssociation oAss = liMainList.next();
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(oPredicate.toString())==true) {
+					liMainList.remove();
+				}
+			}
+			
 		}
 	}
 	
