@@ -241,7 +241,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			int nCurrentObjectNumber = 0;
 			ArrayList<clsSecondaryDataStructureContainer> oFilteredGoals = new ArrayList<clsSecondaryDataStructureContainer>();
 			for (int i=0; i<oSortedDriveGoals.size();i++) {
-				int nDriveIntensity = clsAffectTools.getDriveIntensity(((clsSecondaryDataStructure)oSortedDriveGoals.get(i).getMoDataStructure()).getMoContent());
+				int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oSortedDriveGoals.get(i).getMoDataStructure()).getMoContent());
 				
 				if (nCurrentObjectNumber<=nNumberOfAllowedObjects && (nDriveIntensity >= mnAffectThresold)) {
 					oFilteredGoals.add(oSortedDriveGoals.get(i));

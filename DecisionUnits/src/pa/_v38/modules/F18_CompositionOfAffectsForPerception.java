@@ -218,13 +218,11 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
 							//1. Add mrPleasure from the second to the first DM
 							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrPleasure(), oSecondDM.getMrPleasure());
-							//double mrNewPleasure = oFirstDM.getMrPleasure() + oSecondDM.getMrPleasure(); //No averaging was made here
 							oFirstDM.setMrPleasure(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM
 							//FIXME: AW 20110528: Add unpleasure too?
-							//double mrNewUnpleasure = oFirstDM.getMrUnpleasure() + oSecondDM.getMrUnpleasure(); //No averaging was made here
 							//oFirstDM.setMrPleasure(mrNewUnpleasure);
 							//3. Check if the quota of affect is higher for the second DM and exchange content
 						
@@ -251,7 +249,6 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		return oMergedResult;
 	}
 	
-	//AW 20110618 new function
 	/**
 	 * This function was made in order to be able to set the calculation function of the total 
 	 * quota of affect separately
@@ -263,10 +260,13 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @return
 	 */
 	private double setNewQuotaOfAffectValue(double rOriginal, double rAddValue) {
-		/* This function was made in order to be able to set the calculation function of the total 
-		 *  quota of affect separately 
-		 */
-		return (rOriginal + rAddValue);
+		// This function was made in order to be able to set the calculation function of the total 
+		//  quota of affect separately 
+		//
+		
+		//Averaging is used and normalization of quota of affect, as this quota of affect is only the "erinnerte Besetzung" and does not follow the law
+		//of constanct quota of affect
+		return (rOriginal + rAddValue)/2;
 	}
 	
 	/* (non-Javadoc)
