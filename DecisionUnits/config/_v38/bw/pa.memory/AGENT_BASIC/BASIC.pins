@@ -1,4 +1,4 @@
-; Wed Sep 14 10:29:25 CEST 2011
+; Wed Sep 14 13:36:21 CEST 2011
 ; 
 ;+ (version "3.4.7")
 ;+ (build "Build 620")
@@ -2127,7 +2127,7 @@
 
 	(element
 		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[WP%3ABODO])
+		[WP%3AARSIN02])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY_CAN%3ACANBASIC] of  ASSOCIATIONWP
@@ -2453,7 +2453,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.4)
+	(pleasure 0.8)
 	(value "BITE"))
 
 ([DM%3ABITE%3ACAKEBASIC] of  BITE
@@ -3502,13 +3502,13 @@
 
 	(value "ARSINO"))
 
+([WP%3AARSIN02] of  WP%3AENTITY
+
+	(value "BODO"))
+
 ([WP%3ABITE] of  WP%3ACONTENT
 
 	(value "BITE"))
-
-([WP%3ABODO] of  WP%3AENTITY
-
-	(value "BODO"))
 
 ([WP%3ACAKEBASIC] of  WP%3AENTITY
 
