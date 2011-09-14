@@ -219,7 +219,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		// sample rule for repression of drives
 		if (searchInDM ("NOURISH") &&
-			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
 			searchInAssociations("ENTITY", "ARSIN") &&
 			searchInAssociations ("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
@@ -232,6 +231,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
 				moForbiddenDrives.add("NOURISH");
 		}
+		else
+			moForbiddenDrives.remove("NOURISH");
 		
 		// sample rule for denial of perceptions
 		if (searchInDM ("NOURISH") &&

@@ -24,20 +24,21 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * Super-Ego proacvtive watches internalized rules like "Do a good deed every day" or "Be always friendly" 
+ * Super-Ego pro-active watches internalized rules like "Do a good deed every day" or "Be always friendly" 
  * 
- * @author zeilinger, gelbard
- * 02.05.2011, 15:47:48
+ * @author gelbard
+ * 14.09.2011, 15:47:48
  * 
  */
 public class F55_SuperEgoProactive extends clsModuleBase
 		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send{
 
 	public static final String P_MODULENUMBER = "55";
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_Input;
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_Output;
 	public int ReducedPsychicEnergy;
 	public int PsychicEnergy_IN;
+	private int step_count = 0;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -85,8 +86,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		text += toText.valueToTEXT("moDrives_IN", moDrives_IN);	
-		text += toText.valueToTEXT("moDrives_OUT", moDrives_OUT);		
+		text += toText.valueToTEXT("moDrives_Input", moDrives_Input);	
+		text += toText.valueToTEXT("moDrives_Output", moDrives_Output);		
 		return text;
 	}
 	
@@ -102,7 +103,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public void receive_I5_4(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
 
-		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
+		moDrives_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
 	}
 
 	/* (non-Javadoc)
@@ -130,8 +131,10 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (zeilinger) - Auto-generated method stub
-		moDrives_OUT = moDrives_IN;
+		moDrives_Output = moDrives_Input;
+		
+		// check drives and apply pro-active internalizes rules
+		//checkInternalizedRules();
 		
 	}
 
@@ -160,6 +163,106 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 14.09.2011, 14:47:14
+	 * 
+	 * Super-Ego pro-active checks drives and applies pro-active internalizes rules
+	 * like "Be always friendly!" 
+	 */
+	@SuppressWarnings("unused")
+	private void checkInternalizedRules() {
+		// count iteration steps of simulation
+		step_count++;
+		
+		if (step_count >= 10)
+		{
+			step_count = 0;
+			
+			// internalized pro-active rule: Be always friendly!
+			// shift quota of affect from negative to positive
+			// (sum of quota of affect is constant)
+			if (getQuotaOfAffectFromDM("NOURISH") < .9 &&
+				getQuotaOfAffectFromDM("BITE") > .5	)
+			{
+				increaseQuotaOfAffectFromDM("NOURISH", .1);
+				decreaseQuotaOfAffectFromDM("BITE", .1);
+			}
+		}	
+	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 14.09.2011, 14:53:50
+	 * 
+	 * searches the drive oContent (e.g. "NOURISH") in a drive mesh
+	 * and returns the quota of affect (moPleasure) of the drive
+	 * 
+	 */
+	private double getQuotaOfAffectFromDM (String oContent) {		
+		// search in drives
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+			// check DriveMesh
+			// oDrives.b.getMoContent() = for example "NOURISH"
+			// oDrives.b.getMoContentType() =  for example "LIFE"
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+				return oDrives.b.getMrPleasure();
+			}
+		}
+		return -1;
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 14.09.2011, 14:53:50
+	 * 
+	 * searches the drive oContent (e.g. "NOURISH") in a drive mesh
+	 * and increases the quota of affect (moPleasure) by the amount of oVal
+	 * 
+	 */
+	private void increaseQuotaOfAffectFromDM (String oContent, double oVal) {		
+		// search in drives
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+			// check DriveMesh
+			// oDrives.b.getMoContent() = for example "NOURISH"
+			// oDrives.b.getMoContentType() =  for example "LIFE"
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+				oDrives.b.setMrPleasure(oDrives.b.getMrPleasure() + oVal);
+				return; // only increase the drive which is found first 
+			}
+		}
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 14.09.2011, 14:53:50
+	 * 
+	 * searches the drive oContent (e.g. "NOURISH") in a drive mesh
+	 * and decreases the quota of affect (moPleasure) by the amount of oVal
+	 * 
+	 */
+	private void decreaseQuotaOfAffectFromDM (String oContent, double oVal) {		
+		// search in drives
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+			// check DriveMesh
+			// oDrives.b.getMoContent() = for example "NOURISH"
+			// oDrives.b.getMoContentType() =  for example "LIFE"
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+				oDrives.b.setMrPleasure(oDrives.b.getMrPleasure() - oVal);
+				return; // only decrease the drive which is found first 
+			}
+		}
+	}
+	
 
 	/* (non-Javadoc)
 	 *
@@ -171,7 +274,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_5(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
-		send_I5_12(moDrives_OUT);
+		send_I5_12(moDrives_Output);
 		send_I5_14(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
 	}
 

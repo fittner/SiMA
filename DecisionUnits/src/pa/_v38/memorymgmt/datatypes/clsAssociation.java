@@ -244,7 +244,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	{
 		String oResult = "";
 		if(moAssociationElement != null){
-			oResult += element + ":";
+			oResult += element;
 			oResult += moAssociationElement.moDataStructureType.toString() + ":";
 			oResult += moAssociationElement.moDS_ID + ":";
 			oResult += moAssociationElement.moContentType;
