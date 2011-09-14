@@ -226,19 +226,44 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		String oResult = "::"+this.moDataStructureType+"::";  
 		oResult += this.moDS_ID + ":" + this.moContentType + "|";
 		
-		if(moAssociationElementA!=null){
-			oResult += "elementA:";
-			oResult += moAssociationElementA.moDataStructureType.toString() + ":";
-			oResult += moAssociationElementA.moDS_ID;
-		}
+		oResult += associationToString("elementA:", moAssociationElementA);
 		oResult += ":"; 
-		if(moAssociationElementB!=null){
-			oResult += "elementB:";
-			oResult += moAssociationElementB.moDataStructureType.toString() + ":";
-			oResult += moAssociationElementB.moDS_ID;
-		}
+		oResult += associationToString("elementB:", moAssociationElementB);
+		
 		return oResult; 
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 14.09.2011, 10:32:48
+	 * 
+	 * converts the moContentType and moContent of an association to a String
+	 */ 
+	private String associationToString (String element, clsDataStructurePA moAssociationElement)
+	{
+		String oResult = "";
+		if(moAssociationElement != null){
+			oResult += element + ":";
+			oResult += moAssociationElement.moDataStructureType.toString() + ":";
+			oResult += moAssociationElement.moDS_ID + ":";
+			oResult += moAssociationElement.moContentType;
+			
+			// find moContent
+			if(moAssociationElement instanceof clsThingPresentationMesh){
+				// check if it is for example an ARSin
+				if (((clsThingPresentationMesh)moAssociationElement).getMoContent() != null)
+					oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getMoContent();
+				else
+					oResult += ":-null-";
+					
+			}
+		}
+		else
+			oResult = ":-null-";
+		return oResult;
+	}
+	
 
 	/**
 	 * DOCUMENT (wendt) - insert description
