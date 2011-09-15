@@ -177,7 +177,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 				}	
 			}
 		}
-		//add the perception of the floor
+		//add the perception of the floor, as we dont have a sensor detecting the floor
 		clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
 
 		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));

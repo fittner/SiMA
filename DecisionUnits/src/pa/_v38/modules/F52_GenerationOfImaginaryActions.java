@@ -217,6 +217,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
 		
+	
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
