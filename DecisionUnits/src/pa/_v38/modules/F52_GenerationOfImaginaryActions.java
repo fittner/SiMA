@@ -217,6 +217,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
 		
+	
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
@@ -253,6 +254,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH3"),
 				new clsImage(eEntity.NONE), 
 				new clsImage(eDirection.LEFT, eEntity.CAKE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
+				new clsImage(eEntity.NONE), 
+				new clsImage(eEntity.NONE)));
 		
 		
 		// TODO (perner) add generic actions like right, left without objects

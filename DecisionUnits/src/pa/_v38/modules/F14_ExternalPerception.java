@@ -16,10 +16,13 @@ import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
@@ -174,6 +177,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 				}	
 			}
 		}
+		//add the perception of the floor, as we dont have a sensor detecting the floor
+		clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
+
+		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
 		
 		//prepared, but nothing is coming through so not much to do
 		for(itfSymbol oSymbol : moBodyData.values()){

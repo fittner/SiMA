@@ -23,6 +23,7 @@ public enum eImages {
 	Rock01("rock1.png"),
 	SmartExcrement("smartexcrement.png"),
 	Overlay_Action_Eat("Action_Eat.png"),
+	Overlay_Action_EatNothing("Action_Eat_Nothing.png"),
 	Overlay_Action_Deposit("Action_Deposit.png"),
 	Overlay_Action_MoveForward("Action_MoveForward.png"),
 	Overlay_Action_Sleep("Action_Sleep.png"),
