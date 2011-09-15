@@ -266,7 +266,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		
 		//Averaging is used and normalization of quota of affect, as this quota of affect is only the "erinnerte Besetzung" and does not follow the law
 		//of constanct quota of affect
-		return (rOriginal + rAddValue)/2;
+		return (rOriginal + rAddValue);
 	}
 	
 	/* (non-Javadoc)
