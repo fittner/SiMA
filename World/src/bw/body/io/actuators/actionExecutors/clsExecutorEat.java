@@ -110,18 +110,23 @@ public class clsExecutorEat extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
-		//setting a overlay image
-		moEntity.setOverlayImage(eImages.Overlay_Action_Eat);
+		
 		
 		//Is something in range
 		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
 		
 		if (oEatenEntity==null) {
-			//Nothing in range then send fast Messenger
+			moEntity.setOverlayImage(eImages.Overlay_Action_EatNothing);
+			//Nothing in range then send fast Messenger, = "bites in hins tounge"
 			clsFastMessengerSystem oFastMessengerSystem = oBody.getInternalSystem().getFastMessengerSystem();
 			oFastMessengerSystem.addMessage(mePartId, eBodyParts.BRAIN, 1);
 			return false;
 		} 
+		else {
+			//setting a overlay image, normal eating
+			moEntity.setOverlayImage(eImages.Overlay_Action_Eat);
+		}
+			
 
 		//Check if eating is ok
 		double rDamage = ((itfAPEatable)oEatenEntity).tryEat();
