@@ -157,9 +157,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 		moAssociatedMemories_Input   = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 		
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
-		
-		//AW 20110522 What is this?
-		//mnTest = 0;
 	}
 	
 	/* (non-Javadoc)
@@ -186,44 +183,13 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		//moFilteredPerception_Output = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		//HZ 20.08.2010 All objects that do not have a drive evaluation attached are filtered in a first step =>
-		//				This makes sense as it is a problem to evaluate objects by the defense mechanisms that do
-		//			    not have drives attached (even this is essential for an evaluation)
-		//	 			The question that has to be discussed is if this filtering takes place in E18 or here.
+		
 		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;		
-		moAssociatedMemories_Output = moAssociatedMemories_Input;
+		moAssociatedMemories_Output      = moAssociatedMemories_Input;
 		
 		deny_perception (moForbiddenPerceptions_Input);
 		
 	}
-	
-	
-	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 20.08.2010, 12:01:38
-	 *
-	 * @return
-	 */
-/*	private void filterInput() {
-//FIXME (gelbard) - Input changed
-
-		
-//		for(clsPrimaryDataStructureContainer oContainer : moSubjectivePerception_Input){
-//			for(clsAssociation oAssociation : oContainer.getMoAssociatedDataStructures()){
-//				//HZ: if program steps into the if-statement it is known that 
-//				//	  a drive mesh is associated with the data structure => it has an affective evaluation
-//				if(oAssociation instanceof clsAssociationDriveMesh){
-//					moFilteredPerception_Output.add(oContainer);
-//					break; 
-//				}
-//			}
-//		}
-	}
-	*/
 	
 		
 	/* (non-Javadoc)

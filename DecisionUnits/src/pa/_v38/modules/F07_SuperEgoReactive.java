@@ -19,12 +19,14 @@ import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -45,6 +47,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send{
 
 	public static final String P_MODULENUMBER = "7";
+	private static final int threshold_psychicEnergy = 10;
+	private static final int consumed_psychicEnergyPerInteration = 1;
 	
 	//AW 20110522: New inputs
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
@@ -58,6 +62,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
 	private ArrayList<String> moForbiddenDrives;
 	private ArrayList<clsPair<String, String>> moForbiddenPerceptions;
+	
+	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage = new DT3_PsychicEnergyStorage();
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -162,9 +169,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//AW 20110522: Input from associated memories
 		moAssociatedMemories_Output = moAssociatedMemories_Input;
 		
-		// check perception and drives
-		// apply internalized rules
-		checkInternalizedRules();		
+		
+		// if there is enough psychic energy
+		if (moDT3_PsychicEnergyStorage.D3_2_receive(consumed_psychicEnergyPerInteration) > threshold_psychicEnergy
+				/* for test purposes only: */ || true)
+			// check perception and drives
+			// apply internalized rules
+			checkInternalizedRules();		
 	}
 
 	/* (non-Javadoc)
@@ -208,9 +219,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		// sample rule for repression of drives
 		if (searchInDM ("NOURISH") &&
-			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM("ENTITY", "ARSIN") &&
-			searchInTPM("ENTITY", "CAKE")) {
+			searchInAssociations("ENTITY", "ARSIN") &&
+			searchInAssociations ("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
 			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -221,12 +231,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
 				moForbiddenDrives.add("NOURISH");
 		}
+		else
+			moForbiddenDrives.remove("NOURISH");
 		
 		// sample rule for denial of perceptions
 		if (searchInDM ("NOURISH") &&
 			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
 			searchInTPM("ENTITY", "ARSIN") &&
-			searchInTPM("ENTITY", "CAKE")) {
+			searchInAssociations ("ENTITY", "CAKE")) {
 			// If all the conditions above are true then Super-Ego can fire.
 			// An internalized rule was detected to be true.
 			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -234,7 +246,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			
 			// The following perception was found by Super-Ego as inappropriate or forbidden.
 			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
-			moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
+			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
+				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
 		
 /*		
@@ -243,11 +256,24 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (!moForbiddenDrives.contains("NOURISH"))
 				moForbiddenDrives.add("NOURISH");
 		}
+		if (searchInDM ("BITE")) {
+			if (!moForbiddenDrives.contains("BITE"))
+				moForbiddenDrives.add("BITE");
+		}
 		if (searchInDM ("AGGRESSIVE_GENITAL")) {
 			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
 				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
 		}
 */
+/*		
+		// sample rule to recognize cake
+		if (searchInAssociations ("ENTITY", "CAKE")) {
+			// The following perception was found by Super-Ego as inappropriate or forbidden.
+			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
+			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
+				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
+		}
+*/		
 		/*
 		// sample rule to test denial
 		if (searchInTI("IMAGE", "A3TOP")) {
@@ -319,6 +345,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
+	@SuppressWarnings("unused")
 	private boolean searchInTI (String oContentType, String oContent) {
 		// search in perceptions
 		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
@@ -356,6 +383,31 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			// oDrives.b.getMoContentType() =  for example "LIFE"
 			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 				return true;
+			}
+		}
+		return false;
+	}
+	
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 03.07.2011, 17:06:50
+	 * 
+	 * searches in associations
+	 * 
+	 */
+	private boolean searchInAssociations (String oContentType, String oContent) {	
+		for(clsAssociation oAssociation : moEnvironmentalPerception_Output.getMoAssociatedDataStructures()){
+			// check a TMP
+			if(oAssociation.getMoAssociationElementA() instanceof clsThingPresentationMesh){
+				// check if it is for example an ARSin
+				if(oAssociation.getMoAssociationElementA().getMoContentType().equalsIgnoreCase(oContentType)){
+					if(((clsThingPresentationMesh)oAssociation.getMoAssociationElementA()).getMoContent().equalsIgnoreCase(oContent)){
+						return true;
+					}	
+				}					
 			}
 		}
 		return false;

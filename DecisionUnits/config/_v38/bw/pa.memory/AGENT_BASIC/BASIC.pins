@@ -1,7 +1,7 @@
-; Thu Sep 08 12:40:24 GMT 2011
+; Wed Sep 14 13:36:21 CEST 2011
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.7")
+;+ (build "Build 620")
 
 ([AA%3AA1I01%3AREMOTEBOT%3ADISTANCE%3AFAR] of  ASSOCIATIONATTRIBUTE
 
@@ -465,6 +465,20 @@
 		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ARED])
 	(weight 1.0 1.0))
 
+([AA%3ABODO%3AALIVE] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TP%3ASENSOR_EXT%3AALIVE%3ATRUE]
+		[TPM%3AENTITY%3AARSIN%3ABODO])
+	(weight 1.0 1.0))
+
+([AA%3ABODO%3ACOLOR_RED] of  ASSOCIATIONATTRIBUTE
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[TP%3ASENSOR_EXT%3AVISION%3ACOLOR%3ARED])
+	(weight 1.0 1.0))
+
 ([AA%3ACAKE_BASIC%3APINK] of  ASSOCIATIONATTRIBUTE
 
 	(element
@@ -734,6 +748,27 @@
 	(element
 		[TPM%3AENTITY%3AARSIN%3AARSIN01]
 		[DM%3ALIBIDO%3AARSIN_BASIC])
+	(weight 1.0 1.0))
+
+([AD%3ABODO%3AAGGRESSION] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[DM%3AAGGRESSION%3ABODO])
+	(weight 1.0 1.0))
+
+([AD%3ABODO%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3ABODO]
+		[TPM%3AENTITY%3AARSIN%3ABODO])
+	(weight 1.0 1.0))
+
+([AD%3ABODO%3ANOURISH] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[DM%3ANOURISH%3ABODO])
 	(weight 1.0 1.0))
 
 ([AD%3ACAKE%3ALIBIDO] of  ASSOCIATIONDM
@@ -1920,6 +1955,13 @@
 		[WP%3ACAKEBASIC])
 	(weight 1.0 1.0))
 
+([AW%3ADM_BITE%3ABITEBODO] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ABITE]
+		[DM%3ABITE%3ABODO])
+	(weight 1.0 1.0))
+
 ([AW%3ADM_BITE%3ABITECAKE] of  ASSOCIATIONWP
 
 	(element
@@ -1967,6 +2009,13 @@
 	(element
 		[WP%3ANOURISH]
 		[DM%3ANOURISH%3AARSIN])
+	(weight 1.0 1.0))
+
+([AW%3ADM_NOURISH%3ANOURISHBODO] of  ASSOCIATIONWP
+
+	(element
+		[WP%3ANOURISH]
+		[DM%3ANOURISH%3ABODO])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCAKE] of  ASSOCIATIONWP
@@ -2072,6 +2121,13 @@
 	(element
 		[TPM%3AENTITY%3AARSIN%3AARSIN01]
 		[WP%3AARSIN01])
+	(weight 1.0 1.0))
+
+([AW%3AENTITY_BODO%3ABODO] of  ASSOCIATIONWP
+
+	(element
+		[TPM%3AENTITY%3AARSIN%3ABODO]
+		[WP%3AARSIN02])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY_CAN%3ACANBASIC] of  ASSOCIATIONWP
@@ -2382,6 +2438,24 @@
 		[TI%3AIMAGE%3AA3TOP])
 	(weight 1.0 1.0))
 
+([DM%3AAGGRESSION%3ABODO] of  AGGRESSION
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(pleasure 0.1)
+	(value "AGGRESSION"))
+
+([DM%3ABITE%3ABODO] of  BITE
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(pleasure 0.8)
+	(value "BITE"))
+
 ([DM%3ABITE%3ACAKEBASIC] of  BITE
 
 	(cathegory%3Aanal 0.3)
@@ -2476,6 +2550,15 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.6)
+	(value "NOURISH"))
+
+([DM%3ANOURISH%3ABODO] of  NOURISH
+
+	(cathegory%3Aanal 0.0)
+	(cathegory%3Agenital 0.0)
+	(cathegory%3Aoral 0.0)
+	(cathegory%3Aphalic 0.0)
+	(pleasure 0.4)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACAKEBASIC] of  NOURISH
@@ -3343,6 +3426,12 @@
 		[AA%3AARSIN01%3AALIVE]
 		[AA%3AARSIN01%3ACOLOR_GREEN]))
 
+([TPM%3AENTITY%3AARSIN%3ABODO] of  ARSIN
+
+	(instance_association
+		[AA%3ABODO%3AALIVE]
+		[AA%3ABODO%3ACOLOR_RED]))
+
 ([TPM%3AENTITY%3ACAKE%3ABASIC] of  CAKE
 
 	(instance_association
@@ -3412,6 +3501,10 @@
 ([WP%3AARSIN01] of  WP%3AENTITY
 
 	(value "ARSINO"))
+
+([WP%3AARSIN02] of  WP%3AENTITY
+
+	(value "BODO"))
 
 ([WP%3ABITE] of  WP%3ACONTENT
 

@@ -27,6 +27,7 @@ public class clsCircleImage extends Circle
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
+	Paint moPaint = null;
 
 
 	/**
@@ -42,6 +43,7 @@ public class clsCircleImage extends Circle
     {
 		super(prRadius, poPaint);
 		this.mrRadius = prRadius; 
+		this.moPaint = poPaint;
       
     	File oFile = new File( psImageFilePath ); 
 
@@ -58,7 +60,21 @@ public class clsCircleImage extends Circle
 
    
     
-    /** Display the circle + image */
+    /* (non-Javadoc)
+	 *
+	 * @since 14.09.2011 11:52:46
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String retval = "Circle color=" + moPaint.toString() + ", radius=" + mrRadius;
+		return retval;
+	}
+
+
+
+	/** Display the circle + image */
 	@Override
     public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
         {

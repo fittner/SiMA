@@ -127,7 +127,15 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMesh,clsDriveDemand,Double>,clsTriple<clsDriveMesh,clsDriveDemand,Double>>>();
 		for (clsPair<String, Double> oPSD:moPartialSexualDrives) {
 			if (moLibidoDriveDemands.size() == 2) {
-				moDriveCandidates.add( createDMT_Double(oPSD) );
+				clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
+				
+				//set DM libido categories
+				oTMPDriveCandidate.a.a.setCategories(moPartialSexualDrives.get(0).b, moPartialSexualDrives.get(1).b, moPartialSexualDrives.get(3).b, moPartialSexualDrives.get(2).b);
+
+				//set DM agressive categories
+				oTMPDriveCandidate.b.a.setCategories(moPartialSexualDrives.get(0).b, moPartialSexualDrives.get(1).b, moPartialSexualDrives.get(3).b, moPartialSexualDrives.get(2).b);
+				
+				moDriveCandidates.add( oTMPDriveCandidate );
 			} else {
 				throw new java.lang.NoSuchMethodError();
 				//E43_SeparationIntoPartialSexualDrives.process_basic(): don't know how to handle different number of entries for moHomeostaticDriveDemands.
