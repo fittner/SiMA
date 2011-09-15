@@ -81,7 +81,7 @@ public class clsAffectTools {
 		
 		try {
 			//Get all DriveGoals
-			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = getWPMDriveGoals(poImage);
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = getWPMDriveGoals(poImage, false);
 			for (clsSecondaryDataStructureContainer oGoal : oDriveGoals) {
 				//Get the drive intensity
 				rThisAffect = Math.abs(getDriveIntensityAsInt(((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent()));
@@ -136,7 +136,7 @@ public class clsAffectTools {
 				}
 			} else if (oIntentionBasicDS instanceof clsWordPresentationMesh) {
 				try {
-					oRetVal = getWPMDriveGoals(oIntentionSecondary);
+					oRetVal = getWPMDriveGoals(oIntentionSecondary, false);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -147,7 +147,9 @@ public class clsAffectTools {
 	}
 	
 	/**
-	 * Extract possible drive goals from a word presentation mesh
+	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
+	 * with different instance ids of the objects are kept.
+	 * 
 	 * (wendt)
 	 *
 	 * @since 29.07.2011 14:16:29
@@ -157,7 +159,7 @@ public class clsAffectTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer) throws Exception {
+	public static ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer, boolean pbKeepDuplicates) throws Exception {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		//FIXME AW Hack - Get Content from Base Image and drives from the sub images
 		//Go through the base element
@@ -177,12 +179,16 @@ public class clsAffectTools {
 					//Check if this goal already exists and if it does not, then add the new goal
 					for (clsSecondaryDataStructureContainer oContainer : oReceivedGoals) {
 						boolean blFoundGoal = false;
-						for (clsSecondaryDataStructureContainer oRetValContainer : oRetVal) {
-							if (((clsWordPresentation)oRetValContainer.getMoDataStructure()).getMoContent().equals(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent())) {
-								blFoundGoal = true;
-								break;
+						//If the setting keep duplicates is false, then the comparison is made, else the goal is added
+						if (pbKeepDuplicates==false) {
+							for (clsSecondaryDataStructureContainer oRetValContainer : oRetVal) {
+								if (((clsWordPresentation)oRetValContainer.getMoDataStructure()).getMoContent().equals(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent())) {
+									blFoundGoal = true;
+									break;
+								}
 							}
 						}
+						
 						if (blFoundGoal == false) {
 							oRetVal.add(oContainer);
 						}	
@@ -361,7 +367,8 @@ public class clsAffectTools {
 			//Sort first for affect
 			int nAffectValue = getDriveIntensityAsInt(oContent);
 			//Sort the affects for priority according to the order in the list in this class
-			int nAffectSortOrder = moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1;
+			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
+			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
 			String oDriveType = getDriveType(oContent);
 			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
@@ -370,8 +377,7 @@ public class clsAffectTools {
 			//Increase index if the list is not empty
 			while((oNewList.isEmpty()==false) && 
 					(nIndex<oNewList.size()) &&
-					(oNewList.get(nIndex).a >= nAffectSortOrder) &&
-					(oNewList.get(nIndex).b > nDriveIndex)) {
+					(oNewList.get(nIndex).a + oNewList.get(nIndex).b > nAffectSortOrder + nDriveIndex)) {
 				nIndex++;
 			}
 			

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -239,6 +240,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			if (oP.getIntention().getSecondaryComponent()!=null) {
 				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
 				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
 			}
 			
 			oStepInfo += oMomentInfo + "; ";
@@ -349,7 +351,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		//4. Find the expectation in each Perception-act
 		//Do it with clsAssociationSecondary and ISA Intention and HASNEXT as leaf element of the association with the
 		//current situation
-		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oIntentionMomentExpectationList = getExpectations(oIntentionMomentList, poInput);
+		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oIntentionMomentExpectationList = getExpectations(oIntentionMomentList, poInput, moShortTimeMemory);
 		
 		
 		//3. Remove all predictions, where there is no current moment for an intention
@@ -391,6 +393,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				} catch (Exception e) {
 					// TODO (wendt) - Auto-generated catch block
 					e.printStackTrace();
+					System.exit(0);
 				}
 			}
 		}
@@ -1039,7 +1042,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getExpectations(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getExpectations(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput, clsShortTimeMemory poShortTimeMemory) {
 		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
 		for (clsTriple<Integer, Integer, clsPrediction> oActTripple : poActList) {
@@ -1059,8 +1062,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				ArrayList<clsSecondaryDataStructure> oExpectationElement = clsDataStructureTools.getDSFromSecondaryAssInContainer(oCurrentSituation, ePredicate.HASNEXT.toString(), false);
 				
 				for (clsSecondaryDataStructure oSecDS : oExpectationElement) {
-					clsSecondaryDataStructureContainer oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oSecDS);
-				
+					clsPair<Integer, Object> oExpectationMemory = poShortTimeMemory.findMemory(oSecDS);
+					
+					clsSecondaryDataStructureContainer oPossibleExpectation = null;
+					
+					if (oExpectationMemory==null) {
+						oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oSecDS);
+					} else {
+						oPossibleExpectation = ((clsDataStructureContainerPair)oExpectationMemory.b).getSecondaryComponent();
+					}
+					
 					if (oPossibleExpectation==null) {
 						try {
 							throw new Exception("Code/Protege error in F51_RealityCheckWishFulfillment, setCurrentExpectation: " +

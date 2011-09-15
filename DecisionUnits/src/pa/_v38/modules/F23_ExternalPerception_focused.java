@@ -230,7 +230,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		clsDataStructureContainerPair oRetVal = null;
 		
 		try {
-			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception.getSecondaryComponent());
+			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception.getSecondaryComponent(), true);
 			ArrayList<clsSecondaryDataStructureContainer> oSortedDriveGoals  = clsAffectTools.sortDriveDemands(oDriveGoals);
 			
 			//Select perception, which passes the filter
@@ -305,6 +305,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 					//Go through the associated content for a drive
 					boolean bObjectFound = false;
 					for (clsAssociation oDriveAss : oContainer.getMoAssociatedDataStructures()) {
+						//Get the object types
+						
 						//Get the right type
 						if (oDriveAss instanceof clsAssociationSecondary) {
 							//In this case the leaf element shall be the search data structure, but for safe both are tested

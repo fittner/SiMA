@@ -515,7 +515,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = new ArrayList<clsSecondaryDataStructureContainer>();
 		
 		try {
-			oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) poExternalPerception.getSecondaryComponent());
+			oDriveGoals = clsAffectTools.getWPMDriveGoals((clsSecondaryDataStructureContainer) poExternalPerception.getSecondaryComponent(), false);
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -880,7 +880,17 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				if ((oGoalAffectParts.a.equals(oReduceAffectParts.a) == true) && (oGoalAffectParts.c.equals(oReduceAffectParts.c) == true)) {
 					//calculate the new affect intensity
 					int nNewAffectIntensity = oReduceAffectParts.b.mnAffectLevel + oGoalAffectParts.b.mnAffectLevel;
+					if (nNewAffectIntensity>3 || nNewAffectIntensity<-3) {
+						try {
+							throw new Exception("Error in F26: ReduceAffect:" + oReduceAffectParts.b.mnAffectLevel + ", GoalAffect: " + oGoalAffectParts.b.mnAffectLevel);
+						} catch (Exception e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					//Replace the old goal intensity
+					//System.out.print("\n" + oGoalWP.getMoContent());
+					//System.out.print(nNewAffectIntensity);
 					String oNewGoalContent = clsAffectTools.replaceAffectIntensity(oGoalWP.getMoContent(), eAffectLevel.elementAt(nNewAffectIntensity));
 					//Replace the old goal content
 					oGoalWP.setMoContent(oNewGoalContent);

@@ -278,6 +278,14 @@ public class clsPredictionTools {
 		eAffectLevel oDriveIntensityAsAffect = clsAffectTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)poGoalContainer.getMoDataStructure()).getMoContent());
 		double rDriveIntensity = (double)oDriveIntensityAsAffect.mnAffectLevel;
 		//6. Calculate the reduce intensity
+		if (rConfirmationProgress>1 || rTemporalProgress > 1) {
+			try {
+				throw new Exception("Error in F51: rConfirmationProgress: " + rConfirmationProgress + ", rTemporalProgress:" + rTemporalProgress);
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		double rReduceIntensity = -rDriveIntensity * prReduceFactorForDrives * (1 - rTemporalProgress * rConfirmationProgress);
 		//7. Convert this intensity to an affect value
 		eAffectLevel oReduceIntensity = eAffectLevel.elementAt((int)rReduceIntensity);
