@@ -26,7 +26,7 @@ public class clsShortTimeMemory {
 	private ArrayList<clsPair<Integer, Object>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
-	private int mnMaxTimeValue = 30;
+	private int mnMaxTimeValue = 40;
 	/** Number of objects, which can be saved in the short time memory */
 	private int mnMaxMemorySize = 7;
 	
@@ -404,6 +404,15 @@ public class clsShortTimeMemory {
 		}
 		
 		return oRetVal;
+	}
+	
+	@Override
+	public String toString(){
+		if (moShortTimeMemory.isEmpty()==false) {
+			return moShortTimeMemory.get(0).a.toString() + "|" + moShortTimeMemory.get(0).b.toString();
+		} else {
+			return "empty";
+		}
 	}
 
 }

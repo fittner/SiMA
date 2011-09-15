@@ -12,6 +12,8 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -32,6 +34,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -76,6 +79,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
+	
+	/** Number of goals to pass */
+	private int mnNumberOfGoalsToPass = 3;
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
@@ -236,23 +242,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
 		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
-		
-		
-		//Add Goals from the perception
-		//moGoal_Output.addAll(compriseExternalPerception(moRealityPerception));
-		
-		//Add goals from activated memories
-		//moGoal_Output.addAll(comprisePrediction(moExtractedPrediction_IN));
-		
-		
-		//compriseRuleList();	//This function does nothing
-		//compriseDrives();	//If the goallist is empty get the highest priority goal
-		
-		/*try {
-			sortGoalOutput();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}*/
+		//System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
 		
 		//Pass PI to Planning
 		try {
@@ -271,47 +261,97 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
 			ArrayList<clsAct> poRuleList) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		int nAddedGoals = 0;
+		
 		//1. Process goals with Superego???
-			//TODO AW: Something for the superego
-		compriseRuleList();	//FIXME someone: This function does not do anything
+
 		//2. Sort the goals to get the most important goal first
 		ArrayList<clsSecondaryDataStructureContainer> oDriveListSorted = clsAffectTools.sortDriveDemands(poDriveList);
-		//3. Go through the drivelist
+		//3. Go through the drive list
 		//The first drive is the one with the highest priority
 		for (int i=0; i<oDriveListSorted.size();i++) {
 			clsSecondaryDataStructureContainer oDriveGoal = oDriveListSorted.get(i);
 			String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
-			String oDriveObject = clsAffectTools.getDriveObjectType(oDriveGoalContent);
-			String oDriveType = clsAffectTools.getDriveType(oDriveGoalContent);
-			int oDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oDriveGoalContent);
+			
+			//Get drive characteristics
+			clsTriple<String, eAffectLevel, String> oDriveCharacteristics = clsAffectTools.getAffectCharacteristics(oDriveGoalContent);
+			
+			//
+			ArrayList<clsSecondaryDataStructureContainer> oReachableGoalList = new ArrayList<clsSecondaryDataStructureContainer>();
 			
 			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
 				//Get goal content
 				String oPossibleDriveGoalContent = ((clsWordPresentation)oObjectContianer.getMoDataStructure()).getMoContent();
+				//Get drive characteristics of the possible goals
+				clsTriple<String, eAffectLevel, String> oReachableGoalCharacteristics = clsAffectTools.getAffectCharacteristics(oPossibleDriveGoalContent);
+				
 				//If the drive and the object is found, add this content to the list from the possible drive goals from memory and perception
-				if (oPossibleDriveGoalContent.substring(0, oDriveType.length()).equals(oDriveType) && oPossibleDriveGoalContent.contains(oDriveObject)) {
-					oRetVal.add(oObjectContianer);
+				if ((oDriveCharacteristics.a.equals(oReachableGoalCharacteristics.a)) && (oDriveCharacteristics.c.equals(oReachableGoalCharacteristics.c))) {
+					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
+					
+					//Set sortorder for this image. A PI is taken earlier than a RI
+					int nCurrentPISortOrder = 0;
+					if (oPossibleDriveGoalContent.contains("PERCEIVEDIMAGE")==true) {
+						nCurrentPISortOrder = 1;
+					}
+					//Get the level of affect
+					int nCurrentAffectLevel = oReachableGoalCharacteristics.b.mnAffectLevel;
+					
+					//Sortposition
+					int nSortPosition = oReachableGoalList.size();
+					for (int nSortIndex=0; nSortIndex<oReachableGoalList.size(); nSortIndex++) {
+						//Get target Affectlevel
+						int nAddedAffectLevel = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent());
+						//Get if target is a PI or RI
+						int nAddedPISortOrder = 0;
+						if (((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent().contains("PERCEIVEDIMAGE")==true) {
+							nAddedPISortOrder = 1;
+						}
+						
+						//Set the sort position
+						if ((nCurrentAffectLevel>=nAddedAffectLevel) && ((nCurrentPISortOrder >= nAddedPISortOrder))) {
+							nSortPosition = nSortIndex;
+							break;
+						}
+					}					
+					
+					//Add the container according to the sort position
+					oReachableGoalList.add(nSortPosition, oObjectContianer);
 				}
 			}
 			
-			if (oRetVal.isEmpty()==false) {
-				//Only the first drive demand is taken, else the second drive demand is on the turn.
-				//IF there are goals from the first drive goal, then no further search is necessary
+			//Add all goals to this list
+			for (clsSecondaryDataStructureContainer oSContainer : oReachableGoalList) {
+				if (nAddedGoals<mnNumberOfGoalsToPass) {
+					oRetVal.add(oSContainer);
+					nAddedGoals++;
+				} else {
+					break;
+				}
+
+			}
+			
+			//If there are no goals, take special actions
+			if (oRetVal.size()>=mnNumberOfGoalsToPass) {
+				//Remove all goals > 3
+				
 				break;	
 				//-3 = HIGHNEGATIVE or +3 HIGHPOSITIVE then, special treatment
 			} else {
 				//If the absolute intensity is equal to HIGHXXX, then ...
-				if (Math.abs(oDriveIntensity)>=3) {
+				if ((Math.abs(oDriveCharacteristics.b.mnAffectLevel)>=3) && (oReachableGoalList.isEmpty()==true)) {
 					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
 					if (i+1<oDriveListSorted.size()) {
-						if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
+						//if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
 							//If the Drive intensity is very high and the following drives do not have an Affect=HIGHPOS or HIGHNEG, 
 							//then a drive goal must be constructed without an object
 							clsSecondaryDataStructureContainer oNecessaryDrive = compriseDrives(oDriveGoal);
 							//This container is always != null
 							oRetVal.add(oNecessaryDrive);
-							break;
-						}
+							//break;
+							nAddedGoals++;
+						//}
 					} 
 				}
 			}
@@ -791,6 +831,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
 			//Extract drives from the intention, where they may trigger an action
 			ArrayList<clsSecondaryDataStructureContainer> oFoundGoals = clsAffectTools.getDriveGoalsFromPrediction(oPrediction);
+			//Add corrective reduce factor
+			modifyGoalAffectWithCorrectiveFactor(oFoundGoals,  oPrediction.getIntention().getSecondaryComponent());
 			//Merge goals for the whole image
 			//The expectation shall be set as associated structure. If the expectation is known, the agent can act upon that, else it has to
 			// execute the associated action
@@ -799,20 +841,56 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			//Add the correct actions for the goals from the expectations
 			for (clsSecondaryDataStructureContainer oGoalContainer : oFoundGoals) {
 				//Add all expectations (ArrayList)
-				//for (clsDataStructureContainerPair oExpectation: oPrediction.getExpectations()) {
-					//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
-					//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
-					clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
-							oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), "HASINTENTION", 1.0);
-					oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
-					oRetVal.add(oGoalContainer);
-				//}
+				//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
+				//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
+				clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
+						oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), ePredicate.HASINTENTION.toString(), 1.0);
+				oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
+				oRetVal.add(oGoalContainer);
+
 			}
-			
-			//oRetVal.addAll(oFoundGoals);
-			
 		}
 		return oRetVal;
+	}
+	
+	/**
+	 * If there is a reduceaffect attached to the intention, it is added to its corresponding goal. The goal itself is modified.
+	 * (wendt)
+	 *
+	 * @since 15.09.2011 11:18:41
+	 *
+	 * @param poGoalContainerList
+	 * @param poIntention
+	 */
+	private void modifyGoalAffectWithCorrectiveFactor(ArrayList<clsSecondaryDataStructureContainer> poGoalContainerList,  clsSecondaryDataStructureContainer poIntention) {
+		//ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		//Get additional corrective factors
+		ArrayList<clsSecondaryDataStructure> oReduceAffectList = clsPredictionTools.getReduceAffect(poIntention);
+		//Go through all extracted affects
+		for (clsSecondaryDataStructure oReduceWP : oReduceAffectList) {
+			//Get drive characteristics
+			clsTriple<String, eAffectLevel, String> oReduceAffectParts = clsAffectTools.getAffectCharacteristics(oReduceWP.getMoContent());
+			
+			//Go through all drive goals from the intention
+			for (clsSecondaryDataStructureContainer oGoalContainer : poGoalContainerList) {
+				clsWordPresentation oGoalWP = (clsWordPresentation) oGoalContainer.getMoDataStructure();
+				//Get the affact characteristics of the goal
+				clsTriple<String, eAffectLevel, String> oGoalAffectParts = clsAffectTools.getAffectCharacteristics(oGoalWP.getMoContent());
+				//Compare if they are the same goal
+				if ((oGoalAffectParts.a.equals(oReduceAffectParts.a) == true) && (oGoalAffectParts.c.equals(oReduceAffectParts.c) == true)) {
+					//calculate the new affect intensity
+					int nNewAffectIntensity = oReduceAffectParts.b.mnAffectLevel + oGoalAffectParts.b.mnAffectLevel;
+					//Replace the old goal intensity
+					String oNewGoalContent = clsAffectTools.replaceAffectIntensity(oGoalWP.getMoContent(), eAffectLevel.elementAt(nNewAffectIntensity));
+					//Replace the old goal content
+					oGoalWP.setMoContent(oNewGoalContent);
+					
+					break;
+				}
+			}
+		}
+		
+		
 	}
 	
 	/**

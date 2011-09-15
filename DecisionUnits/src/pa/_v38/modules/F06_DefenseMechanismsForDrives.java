@@ -213,7 +213,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 					//&& !moBlockedContentStorage.contains(moDriveList_Output.get(i).b)
 					) {
 				// insert DriveMesh i into BlockedContentStorage
-				moBlockedContentStorage.add(moDriveList_Output.get(i).b);
+				moBlockedContentStorage.add(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 

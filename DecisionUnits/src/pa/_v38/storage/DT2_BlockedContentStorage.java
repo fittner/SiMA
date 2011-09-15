@@ -255,24 +255,6 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     }
 
 	/**
-	 * Stores a new item into the blocked content.
-	 *
-	 * @author Zottl Marcus (e0226304),
-	 * 19.06.2011, 22:47:33
-	 *
-	 * @param poNewBlockedContent - the new item to be put into the
-	 * blockedContentStorage
-	 */
-	public void storeBlockedContent(
-			clsPrimaryDataStructureContainer poNewBlockedContent) {
-		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> newItem;
-		newItem = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(
-				poNewBlockedContent.getMoDataStructure(),
-				poNewBlockedContent.getMoAssociatedDataStructures());
-		moBlockedContent.add(newItem);
-	}
-	
-	/**
 	 * Stores a single DataStructurePA directly into the blocked content.<br>
 	 * <br>
 	 * This method is just for convenience to simplify storage of single
@@ -545,46 +527,85 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		}
 	}
     
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 30.06.2011, 14:40:39
-	 * 
-	 * This method is used by "F06: defense mechanisms for drives"
-	 * 
-	 */ 
-	/**
-	 * Add DMs to repressed content storage
-	 *
-	 * @since 12.07.2011 16:09:03
-	 *
-	 * @param poDM
-	 */
-	public void add(clsDriveMesh poDM){
-		//Input könnte dann ein Container sein
-		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
-		moBlockedContent.add(oAddDM);
-    }
+//	/* (non-Javadoc)
+//	 *
+//	 * @author gelbard
+//	 * 30.06.2011, 14:40:39
+//	 * 
+//	 * This method is used by "F06: defense mechanisms for drives"
+//	 * 
+//	 */ 
+//	/**
+//	 * Add DMs to repressed content storage
+//	 *
+//	 * @since 12.07.2011 16:09:03
+//	 *
+//	 * @param poDM
+//	 */
+//	public void add(clsDriveMesh poDM){
+//		//Input könnte dann ein Container sein
+//		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
+//		moBlockedContent.add(oAddDM);
+//    }
+//	
+//	/**
+//	 * Add TPMs, TI and TPs to the repressed content storage
+//	 *
+//	 * @since 12.07.2011 16:08:32
+//	 *
+//	 * @param poDS
+//	 */
+//	public void add(clsPhysicalRepresentation poDS) {
+//		
+//		if ((poDS instanceof clsTemplateImage) == false) {
+//			clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDDRIVEOBJECT");
+//			newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
+//			
+//			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, new ArrayList<clsAssociation>());
+//			moBlockedContent.add(oAddDS);
+//		} else {
+//			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDS, new ArrayList<clsAssociation>());
+//			moBlockedContent.add(oAddDS);
+//		}
+//	}
 	
-	/**
-	 * Add TPMs, TI and TPs to the repressed content storage
-	 *
-	 * @since 12.07.2011 16:08:32
-	 *
-	 * @param poDS
-	 */
-	public void add(clsPhysicalRepresentation poDS) {
+	public void add(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+		//Create container from physical representation
 		
 		if ((poDS instanceof clsTemplateImage) == false) {
-			clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDDRIVEOBJECT");
+			//New TI
+			clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
+			//Assign physical representation
 			newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
+			//Add DM as association
+			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.DM, "ASSOCIATIONDM"), poDM, poDS);
+			//Create ass list
+			ArrayList<clsAssociation> oContainerAssList = new ArrayList<clsAssociation>();
+			oContainerAssList.add(oAddDM);
+			//Create container
 			
-			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, new ArrayList<clsAssociation>());
-			moBlockedContent.add(oAddDS);
-		} else {
-			clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDS = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDS, new ArrayList<clsAssociation>());
-			moBlockedContent.add(oAddDS);
+			clsPrimaryDataStructureContainer poNewBlockedContent = new clsPrimaryDataStructureContainer(newTI, oContainerAssList);
+			
+			//Save to memory
+			add(poNewBlockedContent);
 		}
+	}
+	
+	/**
+	 * Stores a new item into the blocked content.
+	 *
+	 * @author Zottl Marcus (e0226304),
+	 * 19.06.2011, 22:47:33
+	 *
+	 * @param poNewBlockedContent - the new item to be put into the
+	 * blockedContentStorage
+	 */
+	public void add(clsPrimaryDataStructureContainer poNewBlockedContent) {
+		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> newItem;
+		newItem = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(
+				poNewBlockedContent.getMoDataStructure(),
+				poNewBlockedContent.getMoAssociatedDataStructures());
+		moBlockedContent.add(newItem);
 	}
 	
 
@@ -600,6 +621,10 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	@Override
 	public void receive_D2_3(ArrayList<Object> poData) {
 		// TODO (deutsch) - Auto-generated method stub
+		//TODO FG
+		//for x
+		//storeBlockedContent(Element);
+		//}
 
 	}
 
@@ -642,11 +667,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	
 	@Override
 	public void receive_D2_4(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		//AW: This IF is not used to F35
-		//Here, an input image is received from F35, where matching is performed
-		//matchBlockedContentPerception(poData, poAssociatedMemories);
-		//moEnvironmentalPerception = poData;
-		//moAssociatedMemories = poAssociatedMemories;
+		//TODO FG
 	}
 
 	/* (non-Javadoc)

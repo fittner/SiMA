@@ -8,6 +8,8 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.ListIterator;
+
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -16,6 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -25,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -292,19 +296,20 @@ public class clsDataStructureTools {
 	 */
 	public static void setAttributeWordPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate, String poContentType, String poContent) {
 		//Check if such an association already exists
-		clsWordPresentation oWP = getAttributeWordPresentation(poContainer, poPredicate);
+		ArrayList<clsSecondaryDataStructure> oWPList = getAttributeOfSecondaryPresentation(poContainer, poPredicate);
 		//if (oWP)
-				
-		if (oWP==null) {
+		
+		if (oWPList.isEmpty()==true) {
 			//Add new association
 			//Cases: "" != MOMENT and EXPECTATION != MOMENT
 			clsWordPresentation oClass = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(poContentType, poContent));
 			clsAssociationSecondary oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", poContainer.getMoDataStructure(), oClass, poPredicate, 1.0);
 			poContainer.getMoAssociatedDataStructures().add(oNewAss);
-		} else if (oWP.getMoContent().equals(poContent) == false) {
+		} else if (oWPList.get(0).getMoContent().equals(poContent) == false) {
 			//Replace content of the current classification
-			oWP.setMoContent(poContent);
+			oWPList.get(0).setMoContent(poContent);
 		}
+				
 	}
 	
 	
@@ -317,8 +322,8 @@ public class clsDataStructureTools {
 	 * @param poContainer
 	 * @return
 	 */
-	public static clsWordPresentation getAttributeWordPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
-		clsWordPresentation oRetVal = null;
+	public static ArrayList<clsSecondaryDataStructure> getAttributeOfSecondaryPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
 		
 		//A container can only have ONE classification
 		//TODO AW: Check if more than one classification may be necessary
@@ -326,8 +331,7 @@ public class clsDataStructureTools {
 		for (clsAssociation oAss : poContainer.getMoAssociatedDataStructures()) {
 			if (oAss instanceof clsAssociationSecondary) {
 				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
-					oRetVal = ((clsWordPresentation)oAss.getLeafElement());
-					break;
+					oRetVal.add((clsSecondaryDataStructure)oAss.getLeafElement());
 				}
 			}
 		}
@@ -444,6 +448,53 @@ public class clsDataStructureTools {
 			oImage.getMoAssociatedDataStructures().addAll(oC.getMoAssociatedDataStructures());
 		}
 		
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.09.2011 10:38:39
+	 *
+	 * @param poCompareCPair
+	 * @param poTargetList
+	 * @return
+	 */
+	public static clsDataStructureContainerPair containerPairExists(clsDataStructureContainerPair poCompareCPair, ArrayList<clsDataStructureContainerPair> poTargetList) {
+		clsDataStructureContainerPair oRetVal = null;
+		
+		for (clsDataStructureContainerPair oCPair : poTargetList) {
+			if ((poCompareCPair!=null) && (poCompareCPair.getSecondaryComponent()!=null) && (oCPair.getSecondaryComponent()!=null)) {
+				if (poCompareCPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oCPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+					oRetVal = oCPair;
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Revove all associations with a certain predicate
+	 * (wendt)
+	 *
+	 * @since 13.09.2011 09:59:33
+	 *
+	 * @param oSContainer
+	 * @param oPredicate
+	 */
+	public static void removeAssociation(clsSecondaryDataStructureContainer oSContainer, ePredicate oPredicate) {
+		ListIterator<clsAssociation> liMainList = oSContainer.getMoAssociatedDataStructures().listIterator();
+		
+		while (liMainList.hasNext()) {
+			clsAssociation oAss = liMainList.next();
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(oPredicate.toString())==true) {
+					liMainList.remove();
+				}
+			}
+			
+		}
 	}
 	
 }

@@ -231,11 +231,12 @@ public class clsAffectTools {
 			if(oExternalContent.contains(oDriveGoal)) {
 			//Get the base expression
 				String oBaseContent = "";
-				if (poContainer.getMoDataStructure() instanceof clsWordPresentation) {
-					oBaseContent = ((clsWordPresentation)poContainer.getMoDataStructure()).getMoContent();
-				} else if (poContainer.getMoDataStructure() instanceof clsWordPresentationMesh) {
-					oBaseContent = ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getMoContent();
+				if (poContainer.getMoDataStructure() instanceof clsSecondaryDataStructure) {
+					oBaseContent = ((clsSecondaryDataStructure)poContainer.getMoDataStructure()).getMoContent();
 				}
+				//} else if (poContainer.getMoDataStructure() instanceof clsWordPresentationMesh) {
+				//	oBaseContent = ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getMoContent();
+				//}
 				else {
 					throw new Exception("clsAffectTools, getDriveGoals: This datatype is an unallowed input");
 				}
@@ -284,7 +285,30 @@ public class clsAffectTools {
 		String oRetVal = "";
 		
 		//String oEntityString = "ENTITY";
+		//ENTITY:STONE|LOCATION:FARLEFT|DEPOSIT:LOWPOSITIVE|REPRESS:POSITIVE|
 		
+		String[] oSubContentSplit = poSubContent.split("\\" + _Delimiter03);
+		//Get the object
+		String oDriveObject = oSubContentSplit[0];
+		//Get the object position
+		String oObjectLocation = oSubContentSplit[1];
+		//Get the drive and intensity
+		String oDrive = "";
+		for (String oS : oSubContentSplit) {
+			if (oS.contains(poDriveGoal + ":")) {
+				oDrive = oS; 
+				break;
+			}
+		}
+		
+		if (oDrive.equals("")==true) {
+			try {
+				throw new Exception("Error in clsAffectTools:createSubcontents: A drive must be found");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		//If the content itself is the base content, then nothing has to be done, else the base content must be adapted to an image
 		String oNewBaseContent = "";
@@ -292,8 +316,9 @@ public class clsAffectTools {
 			oNewBaseContent = poBaseContentType + _Delimiter01  + poBaseContent;
 		}
 
-		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|NOURISH:HIGH|BITE:HIGH|
-		oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + poSubContent;
+		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|BITE:HIGH|
+		//oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + poSubContent;
+		oRetVal = poDriveGoal + _Delimiter02 + oNewBaseContent + _Delimiter03 + oDriveObject + _Delimiter03 + oDrive + _Delimiter03;
 		
 		return oRetVal;
 		
@@ -445,10 +470,72 @@ public class clsAffectTools {
 	 * @return
 	 */
 	public static String getDriveObjectType(String poDriveContent) {
-		String oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
+		//The drive content can be either a goal or drive demand
+		String oDriveObject = "";
+		
+		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+		String[] oDriveSplit = oDrive.split(_Delimiter01);
+		
+		//String[] oDrive = poDriveContent.split("\\" + _Delimiter03);
+		if (oDriveSplit.length > 1) {
+			oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
+		} else {
+			oDriveObject = poDriveContent.split("\\" + _Delimiter03)[3];
+		}
 		//String oDriveContentType = oDrive.split(_Delimiter01)[1];
-
+		//String oDriveObject = oDrive[3];
+		
 		return oDriveObject;
+	}
+	
+	/**
+	 * Get the characteristics of affect, which is drive type, affect level and drive object. The input must be a goal
+	 * (wendt)
+	 *
+	 * @since 15.09.2011 10:51:58
+	 *
+	 * @param poContent
+	 * @return
+	 */
+	public static clsTriple<String, eAffectLevel, String> getAffectCharacteristics(String poGoalContent) {
+		clsTriple<String, eAffectLevel, String> oRetVal = null;
+		
+		if (poGoalContent.equals("")==false) {
+			//Get drive type
+			String oReduceDriveType = clsAffectTools.getDriveType(poGoalContent);
+			//Get drive intensity
+			eAffectLevel oReduceDriveIntensity = clsAffectTools.getDriveIntensityAsAffectLevel(poGoalContent);
+			//Get drive object
+			String oReduceDriveObject = clsAffectTools.getDriveObjectType(poGoalContent);
+			
+			if ((oReduceDriveType.equals("") == false) && (oReduceDriveObject.equals("") == false) && (oReduceDriveIntensity != null)) {
+				oRetVal = new clsTriple<String, eAffectLevel, String>(oReduceDriveType, oReduceDriveIntensity, oReduceDriveObject);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Replace an affect intensity in a goal
+	 * (wendt)
+	 *
+	 * @since 15.09.2011 11:06:21
+	 *
+	 * @param poReplaceGoalString
+	 * @param poIntensity
+	 * @return
+	 */
+	public static String replaceAffectIntensity(String poReplaceGoalString, eAffectLevel poIntensity) {
+		String oRetVal = "";
+		
+		clsTriple<String, eAffectLevel, String> oSourceDrive = getAffectCharacteristics(poReplaceGoalString);
+		if (oSourceDrive!=null) {
+			String oNewContent = poReplaceGoalString.replace(oSourceDrive.a + ":" + oSourceDrive.b.toString(), oSourceDrive.a + ":" + poIntensity.toString());
+			oRetVal += oNewContent;
+		}
+		
+		return oRetVal;
 	}
 
 	

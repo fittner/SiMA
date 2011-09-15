@@ -473,12 +473,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void process_basic() {
 		//If the goal is a prediction, execute the default action, else use standard planning, i.e. if the goal is to use the PI
 		String oPI = "PERCEIVEDIMAGE";
+		String oRI = "IMAGE";
 		if (moGoalInput.isEmpty()==false) {
 			if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oPI)==true) {
 				process_draft();
-			} else {
+			} else if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oRI)==true) {
 				//AW: not finished expectation generation for testing, has to influence plan generation later
 				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
+			} else {
+				process_draft();
 			}
 		}		
 		
@@ -522,7 +525,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		ArrayList<clsSecondaryDataStructureContainer> oExtractedActs = new ArrayList<clsSecondaryDataStructureContainer>();
 		
-		oExtractedActs = getActsFromExpectation(poGoalInput, poExtractedPrediction_IN);
+		
+		ArrayList<clsSecondaryDataStructureContainer> oFirstGoal = new ArrayList<clsSecondaryDataStructureContainer>();
+		if (poGoalInput.isEmpty()==false) {
+			oFirstGoal.add(poGoalInput.get(0));
+		}
+		oExtractedActs = getActsFromExpectation(oFirstGoal, poExtractedPrediction_IN);
 		
 		ArrayList<clsSecondaryDataStructureContainer> oActions = GetActionCommandFromAct(oExtractedActs);
 		
