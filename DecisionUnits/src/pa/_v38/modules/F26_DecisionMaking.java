@@ -168,6 +168,43 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 16:16:33
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 * 
+	 * this module sends the perception input to module E27, E28 just bypasses the information and sends an additional counter which is not used
+	 *  
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void process_basic() {
+		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
+		//verified if a clsSecondaryDataStructureContainer is required.
+		
+		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
+		
+		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
+		//System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
+		
+		//Pass PI to Planning
+		try {
+			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Pass the prediction to the planning
+		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
+		
+		//Pass the associated memories forward
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -229,42 +266,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 16:16:33
-	 * 
-	 * @see pa.modules.clsModuleBase#process()
-	 * 
-	 * this module sends the perception input to module E27, E28 just bypasses the information and sends an additional counter which is not used
-	 *  
-	 * 
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	protected void process_basic() {
-		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
-		//verified if a clsSecondaryDataStructureContainer is required.
-		
-		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
-		
-		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
-		System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
-		
-		//Pass PI to Planning
-		try {
-			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		//Pass the prediction to the planning
-		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
-		
-		//Pass the associated memories forward
-		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
-	}
+	
 	
 	private ArrayList<clsSecondaryDataStructureContainer> processGoals(
 			ArrayList<clsSecondaryDataStructureContainer> poPossibleGoalInputs, 
@@ -574,147 +576,147 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * 18.04.2011, 23:12:13
 	 *
 	 */
-	private void compriseRuleList() {
-		//HZ 16.04.2011 - Here, the evaluation of received SUPER-Ego rules must be incorporated to the goal decision
-		//obsolete for v38
-//		for(clsAct oRule : moRuleList){
-//			
-//			int nUnpleasureIntensity = getUnpleasureIntensity (oRule); 
-//			ArrayList<clsSecondaryDataStructureContainer> oObsoleteGoals = getObsoleteGoals (nUnpleasureIntensity, oRule); 
-//			ArrayList<clsSecondaryDataStructureContainer> oObsoleteDrives = getObsoleteDrives(oRule); 
-//			deleteObsoleteGoals(oObsoleteGoals); 
-//			deleteObsoleteDrives(oObsoleteDrives); 
-//		}
-	}
+//	private void compriseRuleList() {
+//		//HZ 16.04.2011 - Here, the evaluation of received SUPER-Ego rules must be incorporated to the goal decision
+//		//obsolete for v38
+////		for(clsAct oRule : moRuleList){
+////			
+////			int nUnpleasureIntensity = getUnpleasureIntensity (oRule); 
+////			ArrayList<clsSecondaryDataStructureContainer> oObsoleteGoals = getObsoleteGoals (nUnpleasureIntensity, oRule); 
+////			ArrayList<clsSecondaryDataStructureContainer> oObsoleteDrives = getObsoleteDrives(oRule); 
+////			deleteObsoleteGoals(oObsoleteGoals); 
+////			deleteObsoleteDrives(oObsoleteDrives); 
+////		}
+//	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 25.04.2011, 15:02:31
-	 *
-	 * @param oObsoleteDrives
-	 */
-	private void deleteObsoleteDrives(
-			ArrayList<clsSecondaryDataStructureContainer> poObsoleteDrives) {
-		
-		for(clsSecondaryDataStructureContainer oObsoleteDrive : poObsoleteDrives){
-			moDriveList.remove(oObsoleteDrive); 
-		}
-	}
-
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 25.04.2011, 14:54:15
-	 *
-	 * @param oRule
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteDrives(clsAct poRule) {
-
-		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
-		
-		//FIXME (kohlhauser): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
-		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
-		//and the entered unpleasure in the superego rule. 
-		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
-		//from drivelist. as soon as drive names match AND the drives intensity is larger than the unpleasure of
-		//the superego rule, the drive is NOT added to the obsolete drives list!
-		int pos = poRule.getMoContent().indexOf("CONTENT:UNPLEASURE|INTENSITY:")+"CONTENT:UNPLEASURE|INTENSITY:".length();
-		String oRuleUnpleasure = poRule.getMoContent().substring(pos);
-		oRuleUnpleasure = oRuleUnpleasure.substring(0, oRuleUnpleasure.indexOf("|"));
-		int nRuleIntensity = eAffectLevel.valueOf(oRuleUnpleasure).mnAffectLevel;
-		
-		for(clsSecondaryDataStructureContainer oDrive : moDriveList){
-			String[] oTemp = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent().split(":");
-			String oDriveContent = oTemp[0];
-			String oDriveUnpleasure = oTemp[1];
-			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).mnAffectLevel;
-						
-			if(oDriveContent.contains(oRuleContent) && nDriveIntensity<=nRuleIntensity){ 
-//			if(oDriveContent.contains(oRuleContent)){
-				//TD 2011/04/30: remove drive from list iff the drives instensity is eauql or lower than the punishment of the superego rule
-				oRetVal.add(oDrive); 
-			}
-		}
-		
-		return oRetVal; 
-	}
-
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.04.2011, 14:40:54
-	 * @param poRule 
-	 *
-	 * @param nUnpleasureIntensity
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteGoals(int pnUnpleasureIntensity, clsAct poRule) {
-		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		for(clsSecondaryDataStructureContainer oEntry : moGoal_Output){
-			String oGoal = ((clsWordPresentation)oEntry.getMoDataStructure()).getMoContent();
-			String oGoalContent = (String)oGoal.subSequence(0, oGoal.indexOf(_Delimiter02)); 
-			String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
-						
-			for(clsSecondaryDataStructureContainer oDrive : moDriveList){
-				String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
-				String oDriveDemand = oDriveContent.substring(oDriveContent.indexOf(_Delimiter01) + 1); 
-				
-				if(oDriveContent.contains(oGoalContent) && oGoal.contains(oRuleContent)){
-					if(eAffectLevel.valueOf(oDriveDemand).mnAffectLevel - pnUnpleasureIntensity <= 0){
-						oRetVal.add(oEntry); 
-					}
-				}
-			}
-		}
-		
-		return oRetVal; 
-	}
-
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.04.2011, 14:38:48
-	 *
-	 * @param oRule
-	 * @return
-	 */
-	private int getUnpleasureIntensity(clsAct poRule) {
-		ArrayList <clsSecondaryDataStructure> oContentList = poRule.getMoAssociatedContent(); 
-		int oRetVal = 0; 
-		
-		//Read out the Unpleasure intensity
-		for(clsSecondaryDataStructure oContent : oContentList){
-			if(oContent instanceof clsWordPresentation && ((clsWordPresentation)oContent).getMoContent().contains("UNPLEASURE")){
-				String oUnpleasure = ((clsWordPresentation)oContentList.get(oContentList.indexOf(oContent) + 1)).getMoContent();
-				oRetVal = eAffectLevel.valueOf(oUnpleasure).mnAffectLevel; 
-			}
-		}
-		
-		return oRetVal;
-	}
-
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.04.2011, 14:44:00
-	 *
-	 * @param oObsoleteGoals
-	 */
-	private void deleteObsoleteGoals(ArrayList<clsSecondaryDataStructureContainer> poObsoleteGoals) {
-		
-		for(clsSecondaryDataStructureContainer oObsoleteGoal : poObsoleteGoals){
-			moGoal_Output.remove(oObsoleteGoal); 
-		}
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 25.04.2011, 15:02:31
+//	 *
+//	 * @param oObsoleteDrives
+//	 */
+//	private void deleteObsoleteDrives(
+//			ArrayList<clsSecondaryDataStructureContainer> poObsoleteDrives) {
+//		
+//		for(clsSecondaryDataStructureContainer oObsoleteDrive : poObsoleteDrives){
+//			moDriveList.remove(oObsoleteDrive); 
+//		}
+//	}
+//
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 25.04.2011, 14:54:15
+//	 *
+//	 * @param oRule
+//	 * @return
+//	 */
+//	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteDrives(clsAct poRule) {
+//
+//		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03));
+//		
+//		//FIXME (kohlhauser): TD 2011/04/30 bad hack - it seems that a drive demand is removed as soon as there
+//		//exists a superego rule for that drive. deposit has been removed regardless of the current drive tension
+//		//and the entered unpleasure in the superego rule. 
+//		//bugfix: extract unpleasure intesity from string and get nRuleIntensisty. the same is done for each drive
+//		//from drivelist. as soon as drive names match AND the drives intensity is larger than the unpleasure of
+//		//the superego rule, the drive is NOT added to the obsolete drives list!
+//		int pos = poRule.getMoContent().indexOf("CONTENT:UNPLEASURE|INTENSITY:")+"CONTENT:UNPLEASURE|INTENSITY:".length();
+//		String oRuleUnpleasure = poRule.getMoContent().substring(pos);
+//		oRuleUnpleasure = oRuleUnpleasure.substring(0, oRuleUnpleasure.indexOf("|"));
+//		int nRuleIntensity = eAffectLevel.valueOf(oRuleUnpleasure).mnAffectLevel;
+//		
+//		for(clsSecondaryDataStructureContainer oDrive : moDriveList){
+//			String[] oTemp = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent().split(":");
+//			String oDriveContent = oTemp[0];
+//			String oDriveUnpleasure = oTemp[1];
+//			int nDriveIntensity = eAffectLevel.valueOf(oDriveUnpleasure).mnAffectLevel;
+//						
+//			if(oDriveContent.contains(oRuleContent) && nDriveIntensity<=nRuleIntensity){ 
+////			if(oDriveContent.contains(oRuleContent)){
+//				//TD 2011/04/30: remove drive from list iff the drives instensity is eauql or lower than the punishment of the superego rule
+//				oRetVal.add(oDrive); 
+//			}
+//		}
+//		
+//		return oRetVal; 
+//	}
+//
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.04.2011, 14:40:54
+//	 * @param poRule 
+//	 *
+//	 * @param nUnpleasureIntensity
+//	 * @return
+//	 */
+//	private ArrayList<clsSecondaryDataStructureContainer> getObsoleteGoals(int pnUnpleasureIntensity, clsAct poRule) {
+//		ArrayList <clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		
+//		for(clsSecondaryDataStructureContainer oEntry : moGoal_Output){
+//			String oGoal = ((clsWordPresentation)oEntry.getMoDataStructure()).getMoContent();
+//			String oGoalContent = (String)oGoal.subSequence(0, oGoal.indexOf(_Delimiter02)); 
+//			String oRuleContent = poRule.getMoContent().substring(0, poRule.getMoContent().indexOf(_Delimiter03)); 
+//						
+//			for(clsSecondaryDataStructureContainer oDrive : moDriveList){
+//				String oDriveContent = ((clsWordPresentation)oDrive.getMoDataStructure()).getMoContent();
+//				String oDriveDemand = oDriveContent.substring(oDriveContent.indexOf(_Delimiter01) + 1); 
+//				
+//				if(oDriveContent.contains(oGoalContent) && oGoal.contains(oRuleContent)){
+//					if(eAffectLevel.valueOf(oDriveDemand).mnAffectLevel - pnUnpleasureIntensity <= 0){
+//						oRetVal.add(oEntry); 
+//					}
+//				}
+//			}
+//		}
+//		
+//		return oRetVal; 
+//	}
+//
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.04.2011, 14:38:48
+//	 *
+//	 * @param oRule
+//	 * @return
+//	 */
+//	private int getUnpleasureIntensity(clsAct poRule) {
+//		ArrayList <clsSecondaryDataStructure> oContentList = poRule.getMoAssociatedContent(); 
+//		int oRetVal = 0; 
+//		
+//		//Read out the Unpleasure intensity
+//		for(clsSecondaryDataStructure oContent : oContentList){
+//			if(oContent instanceof clsWordPresentation && ((clsWordPresentation)oContent).getMoContent().contains("UNPLEASURE")){
+//				String oUnpleasure = ((clsWordPresentation)oContentList.get(oContentList.indexOf(oContent) + 1)).getMoContent();
+//				oRetVal = eAffectLevel.valueOf(oUnpleasure).mnAffectLevel; 
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+//
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.04.2011, 14:44:00
+//	 *
+//	 * @param oObsoleteGoals
+//	 */
+//	private void deleteObsoleteGoals(ArrayList<clsSecondaryDataStructureContainer> poObsoleteGoals) {
+//		
+//		for(clsSecondaryDataStructureContainer oObsoleteGoal : poObsoleteGoals){
+//			moGoal_Output.remove(oObsoleteGoal); 
+//		}
+//	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description
