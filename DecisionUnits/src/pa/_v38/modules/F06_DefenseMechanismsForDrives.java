@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.modules.D2_3_send;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I5_18_send;
 import pa._v38.interfaces.modules.I5_13_receive;
@@ -33,12 +34,12 @@ import config.clsProperties;
  * Defends forbidden drives. Super-Ego (F7, F55) sends a list with forbidden drives to F06. F06 decides whether to defend the forbidden drives or not.
  * If F06 decided to defend the forbidden drives F06 chooses the defense mechanism (repression, sublimation, deferral, ...).  
  * 
- * @author deutsch, gelbard
- * 11.08.2009, 14:01:06
+ * @author gelbard
+ * 15.09.2009, 14:01:06
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
-					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send {
+					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send {
 	public static final String P_MODULENUMBER = "06";
 	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input;
@@ -47,12 +48,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructure> moQuotasOfAffect_Output = new ArrayList<clsPrimaryDataStructure>();
+	
+	private DT2_BlockedContentStorage moBlockedContentStorage; // storage for repressed drives and denied perceptions
 
-	/**
-	 * DOCUMENT (GELBARD) - insert description 
+	/** 
 	 * 
-	 * @author deutsch
-	 * 03.03.2011, 16:38:57
+	 * @author gelbard
+	 * 15.09.2011, 16:38:57
 	 *
 	 * @param poPrefix
 	 * @param poProp
@@ -60,16 +62,17 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F06_DefenseMechanismsForDrives(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		moBlockedContentStorage = poBlockedContentStorage;
 		applyProperties(poPrefix, poProp);	
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 14.04.2011, 17:36:19
+	 * @author gelbard
+	 * 15.09.2011, 17:36:19
 	 * 
 	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
 	 */
@@ -83,7 +86,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
 		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
-		
+		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		
 		return text;
 	}
@@ -155,8 +158,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 11.08.2009, 16:15:00
+	 * @author gelbard
+	 * 15.09.2011, 16:15:00
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
@@ -186,8 +189,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
     	
     	// If nothing to repress return immediately (otherwise NullPointerException)
     	if (oForbiddenDrives_Input == null ) return;
-    	
-		DT2_BlockedContentStorage moBlockedContentStorage = new DT2_BlockedContentStorage();
 		
 		// empty the list from last step otherwise list only grows
 		moQuotasOfAffect_Output.clear();
@@ -208,12 +209,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				i++;
 			}
 			
+			
 			// if drive found	
-			if (i < moDriveList_Output.size() 
-					//&& !moBlockedContentStorage.contains(moDriveList_Output.get(i).b)
-					) {
-				// insert DriveMesh i into BlockedContentStorage
-				moBlockedContentStorage.add(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
+			if (i < moDriveList_Output.size()) { 
+
+				// build an array list to get best matches for drive
+				ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moBl = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+				clsPair<clsPhysicalRepresentation, clsDriveMesh> moPair = new clsPair<clsPhysicalRepresentation, clsDriveMesh> (moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
+				moBl.add(moPair);
+				
+				// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
+				if (moBlockedContentStorage.matchBlockedContentDrives(moBl) == null)		
+					// insert DriveMesh i into BlockedContentStorage
+					;//send_D2_3(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
@@ -263,6 +271,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	public void send_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
 		((I5_17_receive)moModuleList.get(20)).receive_I5_17(poAffectOnlyList);	
 		putInterfaceData(I5_17_send.class, poAffectOnlyList);		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 15.09.2011, 16:48:13
+	 * 
+	 * Sends blocked drive aims (clsDriveMesh) and drive objects (clsPhysicalRepresentation) to DT2_BlockedContentStorage
+	 */
+	@Override
+	public void send_D2_3 (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+		moBlockedContentStorage.receive_D2_3(poDS, poDM);	
+		putInterfaceData(D2_3_send.class, poDS, poDM);		
 	}
 
 	/* (non-Javadoc)

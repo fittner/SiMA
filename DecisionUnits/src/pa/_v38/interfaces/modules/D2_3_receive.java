@@ -6,7 +6,8 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 
 
 
@@ -18,5 +19,5 @@ import java.util.ArrayList;
  * 
  */
 public interface D2_3_receive {
-	public void receive_D2_3(ArrayList<Object> poData);
+	public void receive_D2_3(clsPhysicalRepresentation poDS, clsDriveMesh poDM);
 }
