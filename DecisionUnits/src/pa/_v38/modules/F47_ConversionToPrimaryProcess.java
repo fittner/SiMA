@@ -13,10 +13,14 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.tools.clsAffectTools;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -148,26 +152,50 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	private ArrayList<clsPrimaryDataStructureContainer> getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		
-		//Until the planning is finished, this solution will be fine
-		ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
-		
-		for (clsDataStructureContainer oContainer : poAssociatedMemories) {
-			if (oContainer instanceof clsPrimaryDataStructureContainer) {
-				//Calculate Total Affect value
-				clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oContainer),(clsPrimaryDataStructureContainer) oContainer);
-				//Add with sort
-				int i = 0;
-				while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
-					i++;
-				}
-				oAffectEvaluatedContainers.add(i, oContainerAdd);
+		//TODO AP: Remove strange data type
+		boolean bPlanFragement = false;
+		for (clsSecondaryDataStructureContainer oC : poActionCommands) {
+			if (oC instanceof clsPlanFragment) {
+				bPlanFragement = true;
+				break;
 			}
 		}
 		
-		//Remove the match values
-		for (clsPair<Double, clsPrimaryDataStructureContainer> oPair : oAffectEvaluatedContainers) {
-			oRetVal.add(oPair.b);
+		if (bPlanFragement==false) {
+			//Until the planning is finished, this solution will be fine
+			ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
+			
+			for (clsSecondaryDataStructureContainer oContainer : poActionCommands) {
+				if (oContainer instanceof clsSecondaryDataStructureContainer) {
+					for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+						//The leaf element contains the wpm of the associated memory
+						if (oAss.getLeafElement() instanceof clsSecondaryDataStructure) {
+							//Get the primary container of this structure
+							clsSecondaryDataStructureContainer oSIntentionContainer = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
+							if (oSIntentionContainer!=null) {
+								clsPrimaryDataStructureContainer oPIntentionContainer = clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
+								if (oPIntentionContainer!=null) {
+									//Calculate Total Affect value
+									clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
+									//Add with sort
+									int i = 0;
+									while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
+										i++;
+									}
+									oAffectEvaluatedContainers.add(i, oContainerAdd);
+								}
+							}
+						}
+					}
+				}
+				
+			}
+			//Remove the match values
+			for (clsPair<Double, clsPrimaryDataStructureContainer> oPair : oAffectEvaluatedContainers) {
+				oRetVal.add(oPair.b);
+			}
 		}
+		
 			
 		return oRetVal;
 		

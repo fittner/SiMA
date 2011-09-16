@@ -61,7 +61,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
 	
-	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:28 */
+	/** Associated memories in */
+	private ArrayList<clsDataStructureContainer> moAssociatedMemories_IN;
+	
+	/** Associated memories out */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moActions_Output;
@@ -177,9 +180,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(
-			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction) {
+			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
 		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction);
+		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
 		try {
 			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poEnvironmentalPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -319,7 +323,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poActions_Output) {
+	/*private ArrayList<clsDataStructureContainer> getAssociatedMemoriesFromPlans(ArrayList<clsSecondaryDataStructureContainer> poActions_Output, ArrayList<clsPrediction> poPrediction) {
 		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
 		
 		
@@ -338,7 +342,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}
 		
 		return oRetVal;
-	}
+	}*/
 	
 	/**
 	 * From the goal list, first, get the intention, then get the expectation and then get the action (clsAct) which is associated with it.
@@ -359,7 +363,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oGoal, ePredicate.HASINTENTION.toString(), false);
 			for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
 				ArrayList<clsSecondaryDataStructureContainer> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
-				oRetVal.addAll(getActsFromExpectations(oExpectations));
+				//Add the intention as associated memories to the acts, the intention is added to the act
+				//for ()
+				
+				
+				oRetVal.addAll(getActsFromExpectations(oExpectations, oIntention));
 			}
 		}
 		
@@ -402,7 +410,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poExpectations
 	 * @return
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsSecondaryDataStructureContainer> poExpectations) {
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsSecondaryDataStructureContainer> poExpectations, clsSecondaryDataStructure poIntention) {
 		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
 		for (clsSecondaryDataStructureContainer oSContainer : poExpectations) {
@@ -410,10 +418,16 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				if (oAss instanceof clsAssociationSecondary) {
 					if (((clsAssociationSecondary)oAss).getMoPredicate() == "HASASSOCIATION") {
 						ArrayList<clsAssociation> oAssociatedStructures = new ArrayList<clsAssociation>();
-						oAssociatedStructures.add(oAss);
+						//oAssociatedStructures.add(oAss);
+						
 						if (oAss.getLeafElement() instanceof clsAct) {
+							//Add the intention
+							clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getLeafElement(), poIntention, "HASASSOCIATION", 1.0);
+							oAssociatedStructures.add(oAssSec);
 							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), oAssociatedStructures));
 						} else if (oAss.getRootElement() instanceof clsAct) {
+							clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getRootElement(), poIntention, "HASASSOCIATION", 1.0);
+							oAssociatedStructures.add(oAssSec);
 							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), oAssociatedStructures));						
 						}
 					}
@@ -441,12 +455,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			String oActContent = oAct.getMoContent();
 			
 			String oNewActionCommand = getActionFromContent(oActContent);
-			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), new ArrayList<clsAssociation>()));
+			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), oContainer.getMoAssociatedDataStructures()));
 		}
 		
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 16.09.2011 08:50:51
+	 *
+	 * @param poContent
+	 * @return
+	 */
 	private String getActionFromContent(String poContent) {
 		String oRetVal = "";
 		//Input Structure
@@ -485,10 +507,14 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			} else if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oRI)==true) {
 				//AW: not finished expectation generation for testing, has to influence plan generation later
 				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
+				
 			} else {
 				process_draft();
 			}
-		}		
+		}
+		
+		//Pass forward the associated memories
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		
 		// HZ 2010.08.28
 		// E27 should retrieve required acts through E28. However, it can be
@@ -543,7 +569,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
 		//F47 does not have any memory access. 
 		//If you receive errors in this function, you may inactivate it and AW will correct the errors.
-		moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(oActions);
+		//moAssociatedMemories_OUT = getAssociatedMemoriesFromPlans(oActions);
 		
 		oRetVal = oActions;
 		

@@ -73,6 +73,12 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
+	/** Associated memories IN */
+	private ArrayList<clsDataStructureContainer> moAssociatedMemories_IN;
+	
+	/** Associated memories OUT */
+	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
+	
 	// Anxiety from F20
 	private ArrayList<clsPrediction> moAnxiety_Input;
 	
@@ -194,7 +200,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_7(clsDataStructureContainerPair poPerception, 
-			ArrayList<clsPrediction> poExtractedPrediction) {
+			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
 		try {
 			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -202,6 +208,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			e.printStackTrace();
 		} 
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
+		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	
 	/* (non-Javadoc)
@@ -242,7 +249,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
 		
 		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
-		//System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
+		System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
 		
 		//Pass PI to Planning
 		try {
@@ -254,6 +261,9 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		//Pass the prediction to the planning
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
+		
+		//Pass the associated memories forward
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 	}
 	
 	private ArrayList<clsSecondaryDataStructureContainer> processGoals(
@@ -941,7 +951,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moGoal_Output, moEnvironmentalPerception_OUT, moExtractedPrediction_OUT);
+		send_I6_8(moGoal_Output, moEnvironmentalPerception_OUT, moExtractedPrediction_OUT, moAssociatedMemories_IN);
 	}
 
 	/* (non-Javadoc)
@@ -952,10 +962,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poEnvironmentalPerception, poExtractedPrediction);
+	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poEnvironmentalPerception, poExtractedPrediction, poAssociatedMemories);
 		
-		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction);
+		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)

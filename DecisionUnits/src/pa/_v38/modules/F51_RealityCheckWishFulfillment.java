@@ -56,6 +56,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN;  
 	/** Container of activated associated memories */
 	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	/** Associated memories out */
+	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:49 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:50 */
@@ -212,6 +214,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		
 		//Get the new predictions
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
+		
+		//Pass the associated memories forward
+		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainer>)deepCopy((ArrayList<clsDataStructureContainer>)moAssociatedMemoriesSecondary_IN);
 		
 		//printImageText(moExtractedPrediction_OUT);
 	}
@@ -1150,7 +1155,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moEnvironmentalPerception_OUT, moExtractedPrediction_OUT);
+		send_I6_7(moEnvironmentalPerception_OUT, moExtractedPrediction_OUT, moAssociatedMemoriesSecondary_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1162,10 +1167,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 */
 	@Override
 	public void send_I6_7(clsDataStructureContainerPair poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction) {
-		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction);
+			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories);
 		
-		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction);
+		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
