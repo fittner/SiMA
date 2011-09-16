@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -166,7 +167,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
 			
 			for (clsSecondaryDataStructureContainer oContainer : poActionCommands) {
-				if (oContainer instanceof clsSecondaryDataStructureContainer) {
+				
+				boolean bActivate = getConsciousPhantasyActivation(oContainer);
+				
+				if (bActivate==true) {
 					for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
 						//The leaf element contains the wpm of the associated memory
 						if (oAss.getLeafElement() instanceof clsSecondaryDataStructure) {
@@ -239,6 +243,18 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		//oRetVal = new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory")), new ArrayList<clsAssociation>());
 		*/
 		//return oRetVal;
+	}
+	
+	private boolean getConsciousPhantasyActivation(clsSecondaryDataStructureContainer poContainer) {
+		boolean oRetVal = false;
+		
+		ArrayList<clsSecondaryDataStructure> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poContainer, ePredicate.ACTIVATESPHANTASY.toString());
+		
+		if (oWPList.isEmpty()==false) {
+			oRetVal = true;
+		}
+			
+		return oRetVal;
 	}
 	
 	/**

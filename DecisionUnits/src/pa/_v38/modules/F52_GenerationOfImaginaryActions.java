@@ -565,6 +565,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		ArrayList<clsSecondaryDataStructureContainer> oActions = GetActionCommandFromAct(oExtractedActs);
 		
+		//Set that all associated action shall not trigger any phantasies
+		for (clsSecondaryDataStructureContainer oAction :  oActions) {
+			//setConsciousPhantasyActivation(oAction);
+		}
 		
 		//AW 20110720: This function extracts the associated memories from the plans. It has to be done here, as
 		//F47 does not have any memory access. 
@@ -575,7 +579,21 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * If a the associated content shall be a phantasy, this function is applied on the action-container. It sets a new association to a predefined 
+	 * word presentation, which is asked for in F47
+	 * (wendt)
+	 *
+	 * @since 16.09.2011 20:47:01
+	 *
+	 * @param poActioncommandContainer
+	 */
+	private void setConsciousPhantasyActivation(clsSecondaryDataStructureContainer poActioncommandContainer) {
+		clsDataStructureTools.setAttributeWordPresentation(poActioncommandContainer, ePredicate.ACTIVATESPHANTASY.toString(), "ACTIVATEPHANTASY", "TRUE");
+	}
 
+		
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * 
