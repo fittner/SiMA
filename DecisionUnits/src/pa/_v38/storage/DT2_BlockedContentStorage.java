@@ -610,24 +610,6 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	
 
 
-	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 09.03.2011, 17:15:13
-	 * 
-	 * @see pa.interfaces.receive._v38.D2_3_receive#receive_D2_3(java.util.ArrayList)
-	 */
-	@Override
-	public void receive_D2_3(ArrayList<Object> poData) {
-		// TODO (deutsch) - Auto-generated method stub
-		//TODO FG
-		//for x
-		//storeBlockedContent(Element);
-		//}
-
-	}
-
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -648,6 +630,42 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		matchBlockedContentPerception(poData, poAssociatedMemories);
 		moEnvironmentalPerception = poData;
 		moAssociatedMemories = poAssociatedMemories;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 09.03.2011, 17:15:13
+	 * 
+	 * @see pa.interfaces.send._v38.D2_2_send#send_D2_2(java.util.ArrayList)
+	 */
+	@Override
+	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_2() {
+		//AW: This IF goes to F35
+		if ((moEnvironmentalPerception!=null) && (moAssociatedMemories!=null)) {
+			return new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(moEnvironmentalPerception, moAssociatedMemories);
+			
+		} else {
+			return null;
+		}
+		
+	}
+
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 15.09.2011, 17:15:13
+	 * 
+	 * @see pa.interfaces.receive._v38.D2_3_receive#receive_D2_3(java.util.ArrayList)
+	 * 
+	 * Interface from F6
+	 * gets drive object and drive aim from F6
+	 */
+	@Override
+	public void receive_D2_3(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+		// store drive object (clsPhysicalRepresentation) and drive aim (clsDriveMesh) in blocked content storage
+		add(poDS, poDM);
 	}
 
 	/* (non-Javadoc)
@@ -670,24 +688,6 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		//TODO FG
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 09.03.2011, 17:15:13
-	 * 
-	 * @see pa.interfaces.send._v38.D2_2_send#send_D2_2(java.util.ArrayList)
-	 */
-	@Override
-	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_2() {
-		//AW: This IF goes to F35
-		if ((moEnvironmentalPerception!=null) && (moAssociatedMemories!=null)) {
-			return new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(moEnvironmentalPerception, moAssociatedMemories);
-			
-		} else {
-			return null;
-		}
-		
-	}
 
 	@Override
 	public String toString() {
