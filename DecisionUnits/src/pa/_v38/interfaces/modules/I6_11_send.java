@@ -8,6 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 
 /**
@@ -18,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
  * 
  */
 public interface I6_11_send {
-	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands);
+	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsDataStructureContainerPair poEnvironmentalPerception);
 }

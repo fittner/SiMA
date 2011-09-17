@@ -9,15 +9,16 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsProperties;
-import pa._v38.interfaces.modules.I6_2_receive;
-import pa._v38.interfaces.modules.I6_9_receive;
+
+import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
-import pa._v38.interfaces.modules.I6_10_receive;
+import pa._v38.interfaces.modules.I6_2_receive;
+import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -26,6 +27,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import config.clsProperties;
 
 /**
  * DOCUMENT (perner) - insert description 
@@ -43,6 +45,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	
 	// Anxiety from F20
 	private ArrayList<clsPrediction> moAnxiety_Input;
+	
+	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
+	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
 	
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -144,8 +149,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
 		moActionCommands_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
+		moEnvironmentalPerception_IN = poEnvironmentalPerception;
 	}
 	
 	/* (non-Javadoc)
@@ -231,6 +237,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 			moActionCommands_Output = getWordPresentations(moActionCommands_Input);
 		}
 
+		
+		// copy perception
+		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
 	}
 	
 	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
@@ -264,7 +273,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_11(moActionCommands_Output);
+		send_I6_11(moActionCommands_Output, moEnvironmentalPerception_OUT);
 		
 	}
 
@@ -276,8 +285,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands) {
-		((I6_11_receive)moModuleList.get(30)).receive_I6_11(poActionCommands);
+	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsDataStructureContainerPair poEnvironmentalPerception) {
+		((I6_11_receive)moModuleList.get(30)).receive_I6_11(poActionCommands, poEnvironmentalPerception);
 		
 		putInterfaceData(I6_11_send.class, poActionCommands);
 	}

@@ -9,15 +9,17 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsProperties;
-import pa._v38.interfaces.modules.I6_11_receive;
+
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
+import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import config.clsProperties;
 
 /**
  * Pass ActionCommands to F31_NeuroDeSymbolizationActionCommands. When no action command are present, do some seeking. Motoric movement can be controlled by psychic functions up to some extend. Drive inhibitiona mechanism necessary for the defense mechanismsleads to the possibility to perform behavior in rehearsal. Module {E30} uses this concept to evaluate how the submitted action plan can be realized best. The resulting action commands are forwarded to {E31}.
@@ -30,6 +32,7 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	public static final String P_MODULENUMBER = "30";
 	
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	private clsDataStructureContainerPair moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 	private int mnCounter, lastTurnDirection, mnTurns;
 	
@@ -138,8 +141,9 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsDataStructureContainerPair poEnvironmentalPerception) {
 		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
+		moEnvironmentalPerception_IN = poEnvironmentalPerception;
 	}
 
 	/* (non-Javadoc)

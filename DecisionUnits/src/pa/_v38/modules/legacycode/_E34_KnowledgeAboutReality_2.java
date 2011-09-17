@@ -9,15 +9,12 @@ package pa._v38.modules.legacycode;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsProperties;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.toText;
+
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-//import pa._v38.interfaces.modules.I7_5_receive;
-//import pa._v38.interfaces.modules.I7_5_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.modules.clsModuleBase;
@@ -25,6 +22,9 @@ import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
+import pa._v38.tools.clsPair;
+import pa._v38.tools.toText;
+import config.clsProperties;
 
 /**
  * (KOHLHAUSER) - insert description 
@@ -157,7 +157,7 @@ public class _E34_KnowledgeAboutReality_2 extends clsModuleBaseKB implements I6_
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
 		// 
 		
 	}

@@ -666,7 +666,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_9(moActions_Output, moAssociatedMemories_OUT);
+		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moEnvironmentalPerception_OUT);
 
 	}
 
@@ -679,13 +679,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I6_9(
-			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories);
-		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories);
-		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories);
+			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 
 		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
 
@@ -745,7 +745,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			System.out.println("FATAL: Planning Wizard coldn't be initialized");
 		}
 		
-		
+		// copy perception for movement control
+		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
 		
 		//plGraph.setStartPlanningNode(n)
 	}
@@ -757,6 +758,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsPlanFragment plFr : myPlans) {
 			moPlans.add(plFr);
 		}
+		
+		// add perception
 		return moPlans;
 	}
 
