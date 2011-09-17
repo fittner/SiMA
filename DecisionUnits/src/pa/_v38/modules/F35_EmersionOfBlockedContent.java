@@ -297,7 +297,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		
 		moBlockedContentStorage.receive_D2_4(poData, poAssociatedMemories);
 		
-		putInterfaceData(I5_8_send.class, poData, poAssociatedMemories);
+		putInterfaceData(D2_1_send.class, poData, poAssociatedMemories);
 		
 	}
 	

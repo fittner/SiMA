@@ -569,7 +569,38 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 //		}
 //	}
 	
-	public void add(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+	/**
+	 * 
+	 * checks whether there is a already a similar entry in blocked content storage.
+	 * if there is a similar entry  -> returns true
+	 *
+	 * @author gelbard
+	 * 16.09.2011, 22:47:33
+	 *
+	 * @param return - existsMatch() returns true if there is a similar entry in blocked content storage (otherwise false)
+	 *
+	 */
+	public boolean existsMatch (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+		
+		clsPrimaryDataStructureContainer poDSC = buildTemplateImage (poDS, poDM);
+		
+		if (getMatchesForPerception(poDSC, 1).isEmpty())
+			return false;
+		
+		return true;
+	}
+	
+	
+	
+	/* (non-Javadoc)
+	 * 
+	 * builds a template image from drive object (clsPhysicalRepresentation) and drive aim (clsDriveMesh)
+	 *
+	 * @author gelbard
+	 * 16.09.2011, 22:47:33
+	 *
+	 */
+	private clsPrimaryDataStructureContainer buildTemplateImage (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
 		//Create container from physical representation
 		
 		if ((poDS instanceof clsTemplateImage) == false) {
@@ -586,9 +617,23 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 			
 			clsPrimaryDataStructureContainer poNewBlockedContent = new clsPrimaryDataStructureContainer(newTI, oContainerAssList);
 			
-			//Save to memory
-			add(poNewBlockedContent);
+			return poNewBlockedContent;
 		}
+		
+		return null;
+	}
+	
+	/**
+	 * Creates a container (template image) from physical representation and drive mesh
+	 * Stores the new template image into the blocked content.
+	 *
+	 * @author gelbard
+	 * 16.09.2011, 22:47:33
+	 *
+	 */
+	public void add(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+
+			add (buildTemplateImage (poDS, poDM));
 	}
 	
 	/**
@@ -610,9 +655,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	
 
 
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 09.03.2011, 17:15:13
 	 * 
 	 * @see pa.interfaces.receive._v38.D2_1_receive#receive_D2_1(java.util.ArrayList)
@@ -632,9 +677,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		moAssociatedMemories = poAssociatedMemories;
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 09.03.2011, 17:15:13
 	 * 
 	 * @see pa.interfaces.send._v38.D2_2_send#send_D2_2(java.util.ArrayList)
@@ -652,7 +697,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	}
 
 	
-	/* (non-Javadoc)
+	/**
 	 *
 	 * @author gelbard
 	 * 15.09.2011, 17:15:13
@@ -668,9 +713,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		add(poDS, poDM);
 	}
 
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 09.03.2011, 17:15:13
 	 * 
 	 * @see pa.interfaces.send._v38.D2_4_send#send_D2_4(java.util.ArrayList)
@@ -694,9 +739,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		return moBlockedContent.toString();
 	}
 
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 21.04.2011, 15:02:51
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToHTML()
@@ -709,9 +754,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		return text;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 21.04.2011, 15:47:22
 	 * 
 	 * @see pa._v38.interfaces.itfInterfaceDescription#getDescription()
@@ -721,7 +766,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		return "Module {E36} retrieves blocked content from the defense mechanisms. This content tries to be become unblocked again by emerging from {E36} and {E35} into the flow of the functional model. A special storage containing these blocked contents is necessary. The stored data is of type thing presentations with attached quota. Figure \ref{fig:model:functional:repressed_content} shows that the two modules are connected to this special type of storage with a read ({D2.2} and {D2.4}) and a write ({D2.1} and {D2.3}) interface. The two incoming interfaces into module {E36} are {I4.1} and {I4.2}. The first one transports blocked drives in the form of thing presentations plus attached quota of affects. The other one transports blocked thing presentations representing incoming perceptions in the same format. Both incoming information are stored into the memory via interface {D2.3}. Depending on future results of the functions of the module {E36}, drives pushed into this storage try to pass the defense mechanisms. Thus, drives in the form of thing presentations and attached quota of affects are sent via interface {I4.3} back to {E6}. The alternative possibility to reappear for blocked contents is module {E35}. Incoming perceptions in the form of thing presentations (transfered through interface {I2.14}) are compared with stored blocked content. If matching content is found it is attached to the incoming perception. The stored thing presentation plus attached quota of affects can be used as a whole or it can be split and only the thing presentation or the quota of affect are attached. The enriched thing presentation of the perception is forwarded via interface {I2.15} to the next module.";
 	}
 
-	/* (non-Javadoc)
+	/**
 	 *
 	 * @author deutsch
 	 * 21.04.2011, 15:47:22
@@ -733,9 +778,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D2_1, eInterfaces.D2_3) );
 	}
 
-	/* (non-Javadoc)
+	/**
 	 *
-	 * @author deutsch
+	 * @author wendt
 	 * 21.04.2011, 15:47:22
 	 * 
 	 * @see pa._v38.interfaces.itfInterfaceDescription#getInterfacesSend()

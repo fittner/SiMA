@@ -211,17 +211,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			
 			
 			// if drive found	
-			if (i < moDriveList_Output.size()) { 
-
-				// build an array list to get best matches for drive
-				ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moBl = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
-				clsPair<clsPhysicalRepresentation, clsDriveMesh> moPair = new clsPair<clsPhysicalRepresentation, clsDriveMesh> (moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
-				moBl.add(moPair);
+			if (i < moDriveList_Output.size()) {
 				
 				// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
-				if (moBlockedContentStorage.matchBlockedContentDrives(moBl) == null)		
+				if (!moBlockedContentStorage.existsMatch(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b))		
 					// insert DriveMesh i into BlockedContentStorage
-					;//send_D2_3(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
+					send_D2_3(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
