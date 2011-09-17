@@ -100,6 +100,17 @@ public class clsImage {
 	
 	/**
 	 * 
+	 * DOCUMENT (perner) - empty constructor to create flee-action 
+	 *
+	 * @since 17.09.2011 15:38:28
+	 *
+	 */
+	public clsImage () {
+		
+	}
+	
+	/**
+	 * 
 	 * DOCUMENT (perner) - compares this instance of an image to a given image
 	 * if alle values are equal in both images true is returned
 	 * if a null-is found and this value is set at the other image, false is returned
@@ -155,6 +166,11 @@ public class clsImage {
 				return false;
 		}
 
+		// only use this function when object is not set to null
+		if (m_eObj == eEntity.NONE) {
+			int i =0;
+		}
+		
 		if (m_eObj != null && srcCompare.m_eObj != null) {
 			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
 				return false;

@@ -137,9 +137,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		moAnxiety_Input = (ArrayList<clsPrediction>)deepCopy(poAnxiety_Input);
 		
-		
-		int i = 0;
-		
 	}
 
 	/* (non-Javadoc)
@@ -178,6 +175,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
+		
 		//AW HACK test, in order to be able to use both WP and plan fragements at the same time
 		boolean bPlanFragement = false;
 		for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
@@ -187,6 +185,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 			}
 		}
 		
+		
+		
+		// normal use of actions -> without AW hack
 		if (bPlanFragement==true) {
 			// run over all actions and sort out the most appropriate ones
 			ArrayList<clsSecondaryDataStructureContainer> sortedActions  = new ArrayList<clsSecondaryDataStructureContainer> ();
@@ -194,6 +195,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 			
 			int iIndexOfEat = -1;
 			int iIndexOfMoveForward = -1;
+			int iIndexOfFlee = -1;
+			int iIndexOfOverrideAction = -1; // stores the index of an action which should be used over all others because of interface I.6_2
 			for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
 				
 				
@@ -205,22 +208,46 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 						iIndexOfEat = iCursorPos;
 					if (strAction.equalsIgnoreCase("MOVE_FORWARD"))
 						iIndexOfMoveForward = iCursorPos;
+					if (strAction.equalsIgnoreCase("FLEE"))
+						iIndexOfFlee = iCursorPos;
 				}
 				
 				iCursorPos ++;
 			}
+
+			if (moAnxiety_Input.size() > 0) {
+				for (Object myPred : moAnxiety_Input) {
+					
+					if (myPred instanceof clsSecondaryDataStructureContainer) {
+						String strVal = myPred.toString();
+						
+						if (strVal.contains("ANXIETY")) {
+							iIndexOfOverrideAction = iIndexOfFlee;
+						}
+					}
+				}
+			}
 			
-			if (iIndexOfEat > 0) // only use eat 
+			
+			// order of actions, use eat first, then move forward than all other actions
+			// flee is used as override action
+			if (iIndexOfOverrideAction > 0) 
+				sortedActions.add(moActionCommands_Input.get(iIndexOfOverrideAction));
+			else if (iIndexOfEat > 0) // only use eat 
 				sortedActions.add(moActionCommands_Input.get(iIndexOfEat));
 			else if (iIndexOfMoveForward > 0) // only use move forward
 				sortedActions.add(moActionCommands_Input.get(iIndexOfMoveForward));
 			else // use all other actions
 				sortedActions = moActionCommands_Input;
 			
+			// if agent feels anxiety -> flee and discard all other actions
+			
+			
 			
 			ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
 			for (clsSecondaryDataStructureContainer oC : sortedActions) {
 				
+				// convert actions back to wordpresentation -> only wordpresentations are allowed to be handled over to motility control
 				if (oC instanceof clsPlanFragment) {
 					clsPlanFragment plFr = (clsPlanFragment) oC;
 					String strAction = plFr.m_act.m_strAction;
@@ -229,8 +256,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 					moActionCommandsTemp.add(myWP);
 				}
 			}
+			
 			//No nulls are allowed
 			moActionCommands_Output = new ArrayList<clsWordPresentation>();
+			
 			//Get the first command
 			if (moActionCommandsTemp.isEmpty()==false) {
 				moActionCommands_Output.add(moActionCommandsTemp.get(0));

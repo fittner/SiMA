@@ -180,7 +180,12 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						moActionCommandList_Output.add( clsActionSequenceFactory.getWalzSequence(1, 2) );
 				}
 				
-*/				else if (oAction.equals("SEARCH1")) {
+*/				
+				else if (oAction.equals("FLEE")) {
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,60.0) );
+				}
+				else if (oAction.equals("SEARCH1")) {
 					if (mnCounter == 75) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 						mnCounter = 0;

@@ -263,6 +263,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eEntity.NONE), 
 				new clsImage(eEntity.NONE)));
 		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
+				new clsImage(), 
+				new clsImage()));
+		
+		
 		
 		// TODO (perner) add generic actions like right, left without objects
 		/**
