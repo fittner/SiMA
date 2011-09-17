@@ -136,7 +136,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	@Override
 	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		moAnxiety_Input = (ArrayList<clsPrediction>)deepCopy(poAnxiety_Input);
-		//TODO
+		
+		
+		int i = 0;
 		
 	}
 
