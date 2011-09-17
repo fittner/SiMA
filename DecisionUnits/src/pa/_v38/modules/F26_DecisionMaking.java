@@ -89,6 +89,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** Number of goals to pass */
 	private int mnNumberOfGoalsToPass = 3;
 	
+	private int mnAvoidIntensity = -3;
+	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
 	 * 
@@ -186,9 +188,14 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
+		//Get all potential goals
 		ArrayList<clsSecondaryDataStructureContainer> oPotentialGoals = extractReachableDriveGoals(moEnvironmentalPerception_IN, moExtractedPrediction_IN);
+		//Add drivedemands from potential goals, which shall be avoided
+		ArrayList<clsSecondaryDataStructureContainer> moExtendedDriveList = moDriveList;
+		moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));
 		
-		moGoal_Output = processGoals(oPotentialGoals, moDriveList, moRuleList);
+		//From the list of drives, match them with the list of potential goals
+		moGoal_Output = processGoals(oPotentialGoals, moExtendedDriveList, moRuleList);
 		//System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
 		
 		//Pass PI to Planning
@@ -911,8 +918,34 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Search the perception or memories for goals with very strong negative affect. These object are converted to drive demands
+	 * and put on the to of the priolist. This forces the agent to avoid these objects
+	 * (wendt)
+	 *
+	 * @since 17.09.2011 08:27:41
+	 *
+	 * @param poPotentialGoalList
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getAvoidDrives(ArrayList<clsSecondaryDataStructureContainer> poPotentialGoalList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
 		
+		for (clsSecondaryDataStructureContainer oGoal : poPotentialGoalList) {
+			String oGoalContent = ((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent();
+			int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oGoalContent);
+			
+			if (nDriveIntensity<=mnAvoidIntensity) {
+				String oDriveDemand = clsAffectTools.convertDriveGoalToDriveDemand(oGoalContent);
+				clsWordPresentation oDriveWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("DRIVEDEMAND", oDriveDemand));
+				clsSecondaryDataStructureContainer oNewGoalContainer = new clsSecondaryDataStructureContainer(oDriveWP, new ArrayList<clsAssociation>());
+				oRetVal.add(oNewGoalContainer);
+			}
+		}
 		
+		return oRetVal;
 	}
 	
 	/**

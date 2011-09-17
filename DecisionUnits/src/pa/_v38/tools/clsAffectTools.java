@@ -37,7 +37,7 @@ public class clsAffectTools {
 	/** The list of possible drives, sorted regarding importance */
 	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
 	/** A list of possible affects sorted in the order of importance */
-	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(3,-3,2,1,0,-1,-2));	//FIXME AW: Possibly use another solution for sorting
+	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(-3,3,2,1,0,-1,-2));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
@@ -520,6 +520,29 @@ public class clsAffectTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Convert a drive goal to a drive demand
+	 * Input Strings
+	 * (wendt)
+	 *
+	 * @since 17.09.2011 08:17:28
+	 *
+	 * @param poDriveGoal
+	 * @return
+	 */
+	public static String convertDriveGoalToDriveDemand(String poDriveGoal) {
+		String oRetVal = "";
+		
+		clsTriple<String, eAffectLevel, String> oDriveContent = getAffectCharacteristics(poDriveGoal);
+		
+		if (oDriveContent.equals("")==false) {
+			oRetVal = oDriveContent.a + _Delimiter01 + oDriveContent.b.toString() + _Delimiter03 + oDriveContent.c;
+		}
+		
+		return oRetVal;
+		
 	}
 	
 	/**
