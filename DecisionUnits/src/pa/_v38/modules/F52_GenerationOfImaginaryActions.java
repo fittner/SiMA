@@ -34,6 +34,7 @@ import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
+import pa._v38.tools.planningHelpers.PlanningNode;
 import pa._v38.tools.planningHelpers.PlanningWizard;
 import pa._v38.tools.planningHelpers.eDirection;
 import pa._v38.tools.planningHelpers.eDistance;
@@ -220,7 +221,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
-		
 	
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
@@ -247,7 +247,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDirection.CENTER, eEntity.CAKE)));
 		
 		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),
+/*		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),
 				new clsImage(eEntity.NONE), 
 				new clsImage(eDirection.CENTER, eEntity.CAKE)));
 		
@@ -266,7 +266,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
 				new clsImage(), 
 				new clsImage()));
-		
+	*/	
 		
 		
 		// TODO (perner) add generic actions like right, left without objects
@@ -744,6 +744,16 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			// copy output -> workaround till planning works correctly
 			moActions_Output = copyPlanFragments(currentApplicalbePlanningNodes);
+			
+			
+			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>(); 
+			
+			for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
+				plansTemp.add(myPlans);
+			
+			// output actions
+//			PlanningWizard.printPlansToSysout(plansTemp , 0);
+//			plGraph.m_planningResults.get(1)
 
 			int i = 0;
 		} catch (Exception e) {

@@ -166,11 +166,6 @@ public class clsImage {
 				return false;
 		}
 
-		// only use this function when object is not set to null
-		if (m_eObj == eEntity.NONE) {
-			int i =0;
-		}
-		
 		if (m_eObj != null && srcCompare.m_eObj != null) {
 			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
 				return false;
