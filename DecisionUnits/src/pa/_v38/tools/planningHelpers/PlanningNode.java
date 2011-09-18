@@ -6,6 +6,8 @@
  */
 package pa._v38.tools.planningHelpers;
 
+import java.util.ArrayList;
+
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 
 /**
@@ -18,6 +20,9 @@ abstract public class PlanningNode extends clsSecondaryDataStructureContainer{
 
 	public String label;
 	public boolean visited = false;
+	
+	public ArrayList<PlanningNode> parent = new ArrayList<PlanningNode>();
+	public ArrayList<PlanningNode> child = new ArrayList<PlanningNode>();
 
 	public PlanningNode(String l) {
 		super("planfragment", l);

@@ -26,7 +26,7 @@ public class PlanningGraph {
 		// member to say where to start from
 	 	public PlanningNode m_rootNode;
 	 	
-	 	public HashMap<PlanningNode, HashMap<Integer, PlanningNode>> m_planningResults;
+	 	public HashMap<Integer, ArrayList<PlanningNode>> m_planningResults;
 	 	
 	 	// available plans
 	      public ArrayList <PlanningNode> m_nodes=new ArrayList<PlanningNode>();
@@ -100,7 +100,7 @@ public class PlanningGraph {
 	       */
 	      public void breathFirstSearch() {
 	    	  
-	    	  m_planningResults  = new HashMap<PlanningNode, HashMap<Integer, PlanningNode>>(); 
+	    	  m_planningResults  = new HashMap<Integer, ArrayList<PlanningNode>>(); 
 	          Queue<PlanningNode> q = new LinkedList<PlanningNode>();
 	          int iLevel = 0;
 	          
@@ -109,16 +109,19 @@ public class PlanningGraph {
 	          
 	          m_rootNode.visited=true;
 	          while(!q.isEmpty()){
-	        	  PlanningNode n=(PlanningNode)q.remove();
-	        	  PlanningNode child=null;
+	        	  PlanningNode parentNode=(PlanningNode)q.remove();
+	        	  PlanningNode childNode=null;
 	        	  iLevel++;
-	              while((child=getUnvisitedChildNode(n))!=null) {
-	                  child.visited=true;
+	              while((childNode=getUnvisitedChildNode(parentNode))!=null) {
+	                  childNode.visited=true;
 	                  
-	                  savePlanningNode(child, iLevel);
+	                  childNode.parent.add(parentNode);
+	                  parentNode.child.add(childNode);
+	                  
+	                  savePlanningNode(childNode, parentNode, iLevel);
 	                  //System.out.println("planning searchlevel: " + iLevel);	//FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
-	                  printPlanningNodeToSysOut(child);
-	                  q.add(child);
+	                  printPlanningNodeToSysOut(childNode);
+	                  q.add(childNode);
 	              }
 	          }
 	          //Clear visited property of nodes
@@ -188,8 +191,16 @@ public class PlanningGraph {
 	          //System.out.println(n.label+" "); //FIXME AP: AW 20110725. No printouts without class and methodname shall be used.
 	      }	
 	      
-	      private void savePlanningNode(PlanningNode n, int iLevel) {
-	    	
-	    	//  m_planningResults.put(arg0, arg1)
+	      private void savePlanningNode(PlanningNode child, PlanningNode parent, int iLevel) {
+	    		    	  
+	    	  // check if for this level already something exists
+	    	  if (m_planningResults.containsKey(iLevel)) {
+	    		  m_planningResults.get(iLevel).add(child);
+	    	  } else {
+	    		  ArrayList<PlanningNode> plansAtCertainLevel = new ArrayList<PlanningNode> (); // all plans at level iLevel and new array-list if nothing was yet set at this level
+	    		  plansAtCertainLevel.add(child);
+	    		  m_planningResults.put(iLevel, plansAtCertainLevel);
+	    	  }
+	    	  
 	      }
 }
