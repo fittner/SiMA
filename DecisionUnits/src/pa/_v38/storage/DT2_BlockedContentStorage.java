@@ -36,6 +36,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
+
 /**
  * Blocked content buffer
  * 
@@ -69,7 +70,6 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 */
 	private int mnActivationLimit = 3;
 	
-	
 	/**
 	 * Constructor of the blocked content. It instanciates the storage and fills it with test data 
 	 * 
@@ -77,13 +77,14 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @since 03.08.2011 09:19:15
 	 *
 	 */
-	public DT2_BlockedContentStorage() {
-    	// The storage consists of an ArrayList of clsPair, in each pair, the element A is the DataStructure and
+	public DT2_BlockedContentStorage() {		
+		// The storage consists of an ArrayList of clsPair, in each pair, the element A is the DataStructure and
     	// the element B contains the AssociatedDataStructures from the PrimaryDataStructureContainer that has been blocked.
     	moBlockedContent = new ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>();
-    	// Fill with inital test data
+    	// Fill with initial test data
     	fillWithTestData();
     }
+
 	
 	/**
 	 * Cerates a few DriveMeshes and TemplateImages and puts them in the BlockedContentStorage
