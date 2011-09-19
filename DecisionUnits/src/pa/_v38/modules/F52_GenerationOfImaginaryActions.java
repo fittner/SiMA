@@ -520,6 +520,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			} else {
 				process_draft();
 			}
+			
+			
 		}
 		
 		//Pass forward the associated memories

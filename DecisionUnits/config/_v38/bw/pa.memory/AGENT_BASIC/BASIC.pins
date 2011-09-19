@@ -1,7 +1,7 @@
-; Wed Sep 14 13:36:21 CEST 2011
+; Mon Sep 19 08:02:24 GMT 2011
 ; 
-;+ (version "3.4.7")
-;+ (build "Build 620")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 ([AA%3AA1I01%3AREMOTEBOT%3ADISTANCE%3AFAR] of  ASSOCIATIONATTRIBUTE
 
@@ -839,6 +839,13 @@
 	(element
 		[DM%3ANOURISH%3AREMOTEBOT]
 		[TPM%3AENTITY%3AREMOTEBOT%3ARB01])
+	(weight 1.0 1.0))
+
+([AD%3AREMOTEBOT_INSTANCE%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3AREMOTEBOT_UNPLEASURE]
+		[PRI%3AA1TOP%3ATPM%3AENTITY%3AREMOTEBOT])
 	(weight 1.0 1.0))
 
 ([AD%3ASTONE%3ABITE] of  ASSOCIATIONDM
@@ -2490,6 +2497,15 @@
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
 	(pleasure 0.0)
+	(value "BITE"))
+
+([DM%3ABITE%3AREMOTEBOT_UNPLEASURE] of  BITE
+
+	(cathegory%3Aanal 0.6)
+	(cathegory%3Agenital 0.1)
+	(cathegory%3Aoral 0.1)
+	(cathegory%3Aphalic 0.3)
+	(pleasure -1.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3ASTONE] of  BITE
