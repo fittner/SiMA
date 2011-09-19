@@ -74,7 +74,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private int mnConfirmationParts = 3;
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
-	private double mrReduceFactorForDrives = 1.0;
+	private double mrReduceFactorForDrives = 0.5;
 	
 	
 	/** Short time memory */

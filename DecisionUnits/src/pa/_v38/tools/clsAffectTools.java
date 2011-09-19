@@ -37,7 +37,7 @@ public class clsAffectTools {
 	/** The list of possible drives, sorted regarding importance */
 	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
 	/** A list of possible affects sorted in the order of importance */
-	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(-3,3,2,1,0,-1,-2));	//FIXME AW: Possibly use another solution for sorting
+	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(-3,3,-2, 2, -1, 1,0));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";

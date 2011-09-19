@@ -89,7 +89,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** Number of goals to pass */
 	private int mnNumberOfGoalsToPass = 3;
 	
-	private int mnAvoidIntensity = -3;
+	private int mnAvoidIntensity = -2;
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
@@ -297,7 +297,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			clsTriple<String, eAffectLevel, String> oDriveCharacteristics = clsAffectTools.getAffectCharacteristics(oDriveGoalContent);
 			
 			//
-			ArrayList<clsSecondaryDataStructureContainer> oReachableGoalList = new ArrayList<clsSecondaryDataStructureContainer>();
+			ArrayList<clsPair<Integer, clsSecondaryDataStructureContainer>> oReachableGoalList = new ArrayList<clsPair<Integer, clsSecondaryDataStructureContainer>>();
 			
 			for (clsSecondaryDataStructureContainer oObjectContianer : poPossibleGoalInputs) {
 				//Get goal content
@@ -317,33 +317,47 @@ public class F26_DecisionMaking extends clsModuleBase implements
 					//Get the level of affect
 					int nCurrentAffectLevel = oReachableGoalCharacteristics.b.mnAffectLevel;
 					
-					//Sortposition
-					int nSortPosition = oReachableGoalList.size();
-					for (int nSortIndex=0; nSortIndex<oReachableGoalList.size(); nSortIndex++) {
-						//Get target Affectlevel
-						int nAddedAffectLevel = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent());
-						//Get if target is a PI or RI
-						int nAddedPISortOrder = 0;
-						if (((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent().contains("PERCEIVEDIMAGE")==true) {
-							nAddedPISortOrder = 1;
-						}
-						
-						//Set the sort position
-						if ((nCurrentAffectLevel>=nAddedAffectLevel) && ((nCurrentPISortOrder >= nAddedPISortOrder))) {
-							nSortPosition = nSortIndex;
-							break;
-						}
-					}					
+					//Create an artificial sort order number
+					//The absolute level is taken, as unpleasure counts as much as pleasure
+					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
 					
-					//Add the container according to the sort position
-					oReachableGoalList.add(nSortPosition, oObjectContianer);
+					int nIndex = 0;
+					//Increase index if the list is not empty
+					while((oReachableGoalList.isEmpty()==false) && 
+							(nIndex<oReachableGoalList.size()) &&
+							(oReachableGoalList.get(nIndex).a > nTotalCurrentAffectLevel)) {
+						nIndex++;
+					}
+					
+					oReachableGoalList.add(nIndex, new clsPair<Integer, clsSecondaryDataStructureContainer>(nTotalCurrentAffectLevel, oObjectContianer));
+
+//					//Sortposition
+//					int nSortPosition = oReachableGoalList.size();
+//					for (int nSortIndex=0; nSortIndex<oReachableGoalList.size(); nSortIndex++) {
+//						//Get target Affectlevel
+//						int nAddedAffectLevel = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent());
+//						//Get if target is a PI or RI
+//						int nAddedPISortOrder = 0;
+//						if (((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent().contains("PERCEIVEDIMAGE")==true) {
+//							nAddedPISortOrder = 1;
+//						}
+//						
+//						//Set the sort position
+//						if ((nCurrentAffectLevel>=nAddedAffectLevel) && ((nCurrentPISortOrder >= nAddedPISortOrder))) {
+//							nSortPosition = nSortIndex;
+//							break;
+//						}
+//					}					
+//					
+//					//Add the container according to the sort position
+//					oReachableGoalList.add(nSortPosition, oObjectContianer);
 				}
 			}
 			
 			//Add all goals to this list
-			for (clsSecondaryDataStructureContainer oSContainer : oReachableGoalList) {
+			for (clsPair<Integer, clsSecondaryDataStructureContainer> oSContainer : oReachableGoalList) {
 				if (nAddedGoals<mnNumberOfGoalsToPass) {
-					oRetVal.add(oSContainer);
+					oRetVal.add(oSContainer.b);
 					nAddedGoals++;
 				} else {
 					break;
