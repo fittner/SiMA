@@ -174,4 +174,21 @@ public class clsImage {
 		return true;
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 20.09.2011 14:22:46
+	 * 
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		String retval = "";
+
+		retval = "obj: " + m_eObj + " dist: " + m_eDist + " dir: " + m_eDir;
+	
+		return retval;
+	}
+	
+	
+
 }
