@@ -176,7 +176,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("SLEEP")) {
 					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
-				} else if (oAction.equals("EXCREMENT")) {
+				} else if (oAction.equals("DEPOSIT")) {
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				}
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined

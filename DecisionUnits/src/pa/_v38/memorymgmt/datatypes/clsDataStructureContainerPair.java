@@ -58,13 +58,25 @@ public class clsDataStructureContainerPair implements Cloneable {
         }
 	}
 	
+	
 	@Override
 	public String toString(){
 		String oRetVal = ""; 
 		
-		oRetVal += "SContainer:";
-		oRetVal += ((clsSecondaryDataStructure)moSContainer.getMoDataStructure()).moContent.toString();
-	
+		oRetVal += "SContainer: ";
+		
+		if (moSContainer==null) 
+			return oRetVal += " -null-";
+		else
+			oRetVal += moSContainer.toString();
+		
+		oRetVal += "\nPContainer: ";
+		
+		if (moPContainer==null) 
+			return oRetVal += " -null-";
+		else
+			oRetVal += moPContainer.toString();
+
 		return oRetVal;
 	}
 	

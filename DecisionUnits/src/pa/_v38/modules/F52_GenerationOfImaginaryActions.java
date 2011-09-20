@@ -219,8 +219,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
 	
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
@@ -263,8 +263,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		// AP: Who added this action? -> Entity none is not defined for searches!
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
-				new clsImage(eEntity.NONE), 
-				new clsImage(eEntity.NONE)));
+				new clsImage(), 
+				new clsImage()));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(), 
+				new clsImage()));
 		
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
