@@ -102,8 +102,10 @@ public class clsExecutorMove extends clsActionExecutor{
     	case MOVE_FORWARD:
     		moEntity.setOverlayImage(eImages.Overlay_Action_MoveForward);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
+    		break;
     	case MOVE_BACKWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
+    		break;
     	}
     	return true;
 	}	

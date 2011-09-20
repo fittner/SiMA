@@ -68,6 +68,13 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 		String text ="";
 		
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		if(moEnvironmentalPerception_IN == null)
+			text += toText.valueToTEXT("moEnvironmentalPerception", "null");
+		else {
+			text += toText.valueToTEXT("moEnvironmentalPerception_IN-PrimaryComponent", moEnvironmentalPerception_IN.getPrimaryComponent());		
+			text += toText.valueToTEXT("moEnvironmentalPerception_IN-SecondaryComponent", moEnvironmentalPerception_IN.getSecondaryComponent());
+			//text += toText.valueToTEXT("moEnvironmentalPerception", moEnvironmentalPerception_IN.toString());
+		}
 		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
 		
 		return text;

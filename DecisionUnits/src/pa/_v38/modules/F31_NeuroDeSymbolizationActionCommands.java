@@ -43,6 +43,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private int mnCounter;
+	private String lastoAction; 
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -61,7 +62,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);		
 		
-		mnCounter = 0; 
+		mnCounter = 0;
+		lastoAction = "";
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 	
@@ -75,10 +77,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		text += toText.valueToTEXT("mnCounter", mnCounter);		
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
-		
 		return text;
 	}
 
@@ -153,11 +154,20 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					return;
 				
 				String oAction = oWP.getMoContent(); 
-				
+				if(oAction!=lastoAction) { 
+					mnCounter = 0; 
+				}
+				else  {
+					mnCounter++;
+				}
 //				System.out.println(oAction);
 			
 				if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
+				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );
+				} else if(oAction.equals("MOVE_BACKWARD")){
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
 				} else if(oAction.equals("TURN_LEFT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
 				} else if(oAction.equals("TURN_RIGHT")){
@@ -166,7 +176,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("SLEEP")) {
 					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
-				} else if (oAction.equals("EXCREMENT")) {
+				} else if (oAction.equals("DEPOSIT")) {
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				}
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
@@ -182,20 +192,19 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				
 */				
 				else if (oAction.equals("FLEE")) {
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,60.0) );
+					if (mnCounter%70==0) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence(180.0f, 60) );
+					} 
 				}
 				else if (oAction.equals("SEARCH1")) {
-					if (mnCounter == 75) {
+					if (mnCounter%75==0) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-						mnCounter = 0;
 					} 
-					mnCounter++;
-
 				}
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
+				lastoAction=oWP.getMoContent();
 			}
 		} else {
 			/*
@@ -207,8 +216,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				mnCounter++;
 			}
 			*/
-		}
-			
+		}			
 	}
 
 	/* (non-Javadoc)
