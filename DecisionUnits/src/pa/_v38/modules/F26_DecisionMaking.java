@@ -89,7 +89,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	/** Number of goals to pass */
 	private int mnNumberOfGoalsToPass = 3;
 	
-	private int mnAvoidIntensity = -2;
+	private int mnAvoidIntensity = -1;
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 

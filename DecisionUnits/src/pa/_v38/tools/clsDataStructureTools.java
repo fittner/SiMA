@@ -497,4 +497,11 @@ public class clsDataStructureTools {
 		}
 	}
 	
+	public static clsDataStructureContainer checkExists(clsDataStructureContainer poImage, clsDataStructurePA poSearchDataStructure) {
+		clsDataStructureContainer oRetVal = null;
+		
+		
+		return oRetVal;
+	}
+	
 }
