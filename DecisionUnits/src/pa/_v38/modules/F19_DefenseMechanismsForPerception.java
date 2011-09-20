@@ -17,13 +17,16 @@ import pa._v38.interfaces.modules.I5_11_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I5_16_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -35,7 +38,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:35:08
  * 
  */
-public class F19_DefenseMechanismsForPerception extends clsModuleBase implements 
+public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send{
 	public static final String P_MODULENUMBER = "19";
 	
@@ -54,7 +57,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	private ArrayList<clsAssociationDriveMesh> moDeniedAffects;
 
 	@SuppressWarnings("unused")
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput; 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
+	
+	private DT2_BlockedContentStorage moBlockedContentStorage; // only needed here in F19 to initialize the blocked content storage
+
+	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -66,14 +73,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F19_DefenseMechanismsForPerception(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+	public F19_DefenseMechanismsForPerception(String poPrefix, clsProperties poProp,
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
+			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		moDeniedAffects = new ArrayList<clsAssociationDriveMesh>();  //TD 2011/07/20 - added initialization of member field
+ 		applyProperties(poPrefix, poProp);	
+ 		
+		moBlockedContentStorage = poBlockedContentStorage;
 		
- 		applyProperties(poPrefix, poProp);		
+		//fillBlockedContentStorageWithTestData();
 	}
 
 	/* (non-Javadoc)
@@ -271,7 +282,32 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBase implements
 		}
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 20.09.2011, 16:16:03
+	 * 
+	 * initializes the blocked content storage DT2_BlockedContentStorage with images
+	 */
+	private void fillBlockedContentStorageWithTestData (){
+		//Search for matches for the input image
+		double mrMatchThreshold = 1.0;
+		
+		// contains images for initialization of DT2_BlockedContentStorage
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		
+		// String for searching for content type from the storage of images to libido
+		final String oBlockedContentImageString = "IMAGE:BLOCKEDCONTENT";
+		
+		//Find matching images for the input image
+		searchContainer(null, oSearchResultContainer, oBlockedContentImageString, mrMatchThreshold);
 
+		for (clsPair<Double,clsDataStructureContainer> oInitImage : oSearchResultContainer) {
+			moBlockedContentStorage.add((clsPrimaryDataStructureContainer) oInitImage.b);
+		}
+	}
+	
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch

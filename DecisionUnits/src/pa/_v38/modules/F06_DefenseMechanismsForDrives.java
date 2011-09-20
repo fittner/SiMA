@@ -59,16 +59,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poInterfaceData
+	 * @param poBlockedContentStorage
 	 * @throws Exception
 	 */
-	public F06_DefenseMechanismsForDrives(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
+	public F06_DefenseMechanismsForDrives(String poPrefix, clsProperties poProp, HashMap<Integer,
+			clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		moBlockedContentStorage = poBlockedContentStorage;
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author gelbard

@@ -216,7 +216,7 @@ public class clsPsychicApparatus {
 			moF13_NeuroSymbolizationBody = new F13_NeuroSymbolizationBody(pre + F13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF14_ExternalPerception = new F14_ExternalPerception(pre + F14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfAffectsForPerception(pre + F18_CompositionOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moKnowledgeBaseHandler);
 			moF20_InnerPerception_Affects = new F20_InnerPerception_Affects(pre + F20_InnerPerception_Affects.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData);
