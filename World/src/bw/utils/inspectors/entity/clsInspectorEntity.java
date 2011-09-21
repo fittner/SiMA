@@ -25,6 +25,7 @@ import du.enums.eDecisionType;
 import bw.body.clsBaseBody;
 import bw.body.itfGetBrain;
 import bw.body.itfget.itfGetBody;
+import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import bw.utils.inspectors.clsInspectorMappingEntity;
 
@@ -70,6 +71,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	private JButton moBtnEntityInspectors;
 	private JButton moBtnBodyInspectors;
 	private JButton moBtnBrainInspectors;
+	private JButton moBtnOverviewInspectors;
 
 	private PropertyField moPropEntityType;
 	private PropertyField moPropBodyType;
@@ -133,7 +135,8 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moBtnEntityInspectors = new JButton("Entity Details...");
 		moBtnBodyInspectors = new JButton("Body Details... ");
 		moBtnBrainInspectors = new JButton("Brain Details...");
-
+		moBtnOverviewInspectors = new JButton("ARSin Overview");
+		
 
 		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moPropUID, BorderLayout.AFTER_LAST_LINE);
@@ -146,12 +149,16 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		oPropertyLayoutContainerBox.add(moBtnEntityInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBodyInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBrainInspectors, BorderLayout.AFTER_LAST_LINE);
+		oPropertyLayoutContainerBox.add(moBtnOverviewInspectors, BorderLayout.AFTER_LAST_LINE);
 
 		add(oPropertyLayoutContainerBox, BorderLayout.AFTER_LAST_LINE);
+		
+		
 
 		moBtnEntityInspectors.addActionListener(this);
 		moBtnBodyInspectors.addActionListener(this);
 		moBtnBrainInspectors.addActionListener(this);
+		moBtnOverviewInspectors.addActionListener(this);
 	}
 
 	/*
@@ -225,6 +232,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 			}
+			
 		} else if (source == moBtnBrainInspectors) {
 			// define the inspector-content for each entity in the responsible
 			// InspectorMapping-class
@@ -238,6 +246,27 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 				
 				moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - Brain Inspector"));
 				
+			} catch (java.lang.ClassCastException ex) {
+				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
+
+			}
+		//add the action for the overview Inspector	
+		} else if (source == moBtnOverviewInspectors) {
+			// define the inspector-content for each entity in the responsible
+			// InspectorMapping-class
+			try {
+				
+				if( moEntity instanceof clsARSIN) {
+					
+					TabbedInspector oMasonInspector = clsInspectorMappingEntity
+					.getInspectorARSINOverview(moOriginalInspector, moWrapper, moGuiState, moEntity);
+					
+					moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - ARSin Overview"));
+		    	}
+		    	else{
+		    		System.out.println("Error: Overview Inspector only works on Entity types of ARSin!!!");
+		    	}
+
 			} catch (java.lang.ClassCastException ex) {
 				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
 

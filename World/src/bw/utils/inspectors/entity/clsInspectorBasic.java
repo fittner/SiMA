@@ -75,7 +75,7 @@ public class clsInspectorBasic extends Inspector {
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		TitledBorder oTitle = BorderFactory.createTitledBorder("default");
+		TitledBorder oTitle = BorderFactory.createTitledBorder("Default Entity Values");
 		oBox1.setBorder(oTitle);
 		
 		//inspected defalt clsEntity fields, nothing else!....
@@ -86,7 +86,7 @@ public class clsInspectorBasic extends Inspector {
 		moProp4 = new  PropertyField("Position Y", clsInspectorUtils.FormatDouble(moEntity.getPosition().y), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp5 = new  PropertyField("Color", ""+moEntity.get2DShape().getPaint().toString(), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
-		moProp7 = new  PropertyField("Angle", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians), false, null, PropertyField.SHOW_TEXTFIELD);
+		moProp7 = new  PropertyField("Angle [deg]", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI), false, null, PropertyField.SHOW_TEXTFIELD);
 		
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp1_1, BorderLayout.AFTER_LAST_LINE);
@@ -115,7 +115,7 @@ public class clsInspectorBasic extends Inspector {
 		moProp4.setValue(clsInspectorUtils.FormatDouble(moEntity.getPosition().y));
 		moProp5.setValue(""+moEntity.get2DShape().getPaint().toString());
 		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()));
-		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians));
+		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI));
 	}
 	
 }

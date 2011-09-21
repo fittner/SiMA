@@ -11,12 +11,15 @@ package bw.utils.inspectors.entity;
 import java.awt.BorderLayout;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
+import bw.body.clsComplexBody;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import bw.utils.inspectors.clsInspectorUtils;
+import bw.utils.inspectors.body.clsInspectorBodyOverview;
 
 
 import sim.util.gui.PropertyField;
@@ -44,6 +47,8 @@ public class clsInspectorARSin extends Inspector {
 	GUIState moGuiState;
 	
 	private PropertyField moProp1;
+	private clsInspectorBodyOverview moInspectorBodyOverview;
+	private clsInspectorBasic moDefaultInspector;
 
 	
 
@@ -68,19 +73,29 @@ public class clsInspectorARSin extends Inspector {
 		moGuiState = poGuiState;
 		moARSIN = poARSIN;
 		
+		//*** Initilize Default Values
 		//get the default things
-		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poARSIN);
-		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
+		moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poARSIN);
+		
 		
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
+		//moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
 		
-		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
+		//oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 	
+		//*** Initialize Body Overview ***
+		Box oBoxBodyGraphs = new Box(BoxLayout.Y_AXIS);
+		clsComplexBody oBody = (clsComplexBody)((itfGetBody) poARSIN).getBody();
+		moInspectorBodyOverview = new clsInspectorBodyOverview(poOriginalInspector, poWrapper, poGuiState, oBody);
+		oBoxBodyGraphs.add(moInspectorBodyOverview);
 
-		add(oBox1, BorderLayout.AFTER_LAST_LINE);
+		//add all inspectors to the component
+		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
+		//add(oBox1, BorderLayout.AFTER_LAST_LINE);
+		add(oBoxBodyGraphs, BorderLayout.AFTER_LAST_LINE);
+
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +108,9 @@ public class clsInspectorARSin extends Inspector {
 	@Override
 	public void updateInspector() {
 		
-		moProp1.setValue(clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()));
+		//moProp1.setValue(clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()));
+		moDefaultInspector.updateInspector();
+		moInspectorBodyOverview.updateInspector();
 		
 	}
 
