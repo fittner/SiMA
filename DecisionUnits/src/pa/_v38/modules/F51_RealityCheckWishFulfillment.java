@@ -74,7 +74,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private int mnConfirmationParts = 3;
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
-	private double mrReduceFactorForDrives = 0.5;
+	private double mrReduceFactorForDrives = 0.0;
 	
 	
 	/** Short time memory */
@@ -219,45 +219,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainer>)deepCopy((ArrayList<clsDataStructureContainer>)moAssociatedMemoriesSecondary_IN);
 		
 		//printImageText(moExtractedPrediction_OUT);
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 10.09.2011 16:29:58
-	 *
-	 * @param poExtractedPrediction_IN
-	 */
-	private void printImageText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
-		
-		String oStepInfo = "\n";
-		String oMomentInfo = "F51|";
-		
-		for (clsPrediction oP : poExtractedPrediction_IN) {
-			
-			oMomentInfo += oP.toString();
-			
-			if (oP.getMoment().getPrimaryComponent()!=null) {
-				double rMatch = clsDataStructureTools.getMatchValueToPI(oP.getMoment().getPrimaryComponent());
-				oMomentInfo += "|Match: " + rMatch;
-			}
-			
-			if (oP.getIntention().getSecondaryComponent()!=null) {
-				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
-			}
-			
-			oStepInfo += oMomentInfo + "; ";
-			
-		}
-		
-		if (poExtractedPrediction_IN.isEmpty()==true) {
-			System.out.print(oStepInfo + "nothing");
-		} else {
-			System.out.print(oStepInfo);
-		}
-		
 	}
 	
 	/**

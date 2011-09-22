@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPredictionTools;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
@@ -564,6 +565,82 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// is implemented to retrieve and put acts together which means that it
 		// takes over
 		// a kind of planning.
+		
+		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		
+	}
+	
+	private void printData(ArrayList<clsSecondaryDataStructureContainer> poAction, ArrayList<clsSecondaryDataStructureContainer> poGoal, ArrayList<clsPrediction> poPrediction) {
+		String oPrintoutPlan = "Action: ";
+		
+		for (clsSecondaryDataStructureContainer oC : poAction) {
+			//AW HACK test, in order to be able to use both WP and plan fragements at the same time
+			boolean bPlanFragement = false;
+			if (oC instanceof clsPlanFragment) {
+				bPlanFragement = true;
+				//break;
+			}
+			
+			if (bPlanFragement==true) {
+				oPrintoutPlan += ((clsPlanFragment)oC).m_act.m_strAction + "; ";
+			} else {
+				oPrintoutPlan += oC.getMoDataStructure().toString() + "; ";
+			}
+		}
+		
+		String oPrintoutGoal = "Goal: ";
+		for (clsSecondaryDataStructureContainer oC : poGoal) {
+			oPrintoutGoal += oC.getMoDataStructure().toString() + ";";
+		}
+		
+		String oPrintoutPrediction = PredictionToText(poPrediction);
+		
+		System.out.println("BEGIN");
+		System.out.println(oPrintoutPrediction);
+		System.out.println(oPrintoutGoal);
+		System.out.println(oPrintoutPlan);
+		System.out.println("END");
+		
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 10.09.2011 16:29:58
+	 *
+	 * @param poExtractedPrediction_IN
+	 */
+	private String PredictionToText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		
+		String oStepInfo = "";
+		String oMomentInfo = "Prediction: ";
+		
+		for (clsPrediction oP : poExtractedPrediction_IN) {
+			
+			oMomentInfo += oP.toString();
+			
+			if (oP.getMoment().getPrimaryComponent()!=null) {
+				double rMatch = clsDataStructureTools.getMatchValueToPI(oP.getMoment().getPrimaryComponent());
+				oMomentInfo += "|Match: " + rMatch;
+			}
+			
+			if (oP.getIntention().getSecondaryComponent()!=null) {
+				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
+			}
+			
+			oStepInfo += oMomentInfo + "; ";
+			
+		}
+		
+		return oStepInfo;
+		
+		/*if (poExtractedPrediction_IN.isEmpty()==true) {
+			System.out.print(oStepInfo + "nothing");
+		} else {
+			System.out.print(oStepInfo);
+		}*/
 		
 	}
 	

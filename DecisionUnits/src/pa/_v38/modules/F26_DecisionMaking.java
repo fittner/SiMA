@@ -196,7 +196,6 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		//From the list of drives, match them with the list of potential goals
 		moGoal_Output = processGoals(oPotentialGoals, moExtendedDriveList, moRuleList);
-		//System.out.print("\n" + moGoal_Output.get(0).getMoDataStructure().toString());
 		
 		//Pass PI to Planning
 		try {

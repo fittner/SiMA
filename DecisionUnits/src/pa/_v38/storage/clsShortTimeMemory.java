@@ -27,7 +27,7 @@ public class clsShortTimeMemory {
 	private ArrayList<clsPair<Integer, Object>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
-	private int mnMaxTimeValue = 40;
+	private int mnMaxTimeValue = 60;
 	/** Number of objects, which can be saved in the short time memory */
 	private int mnMaxMemorySize = 7;
 	
