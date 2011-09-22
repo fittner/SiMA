@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -497,9 +498,35 @@ public class clsDataStructureTools {
 		}
 	}
 	
-	public static clsDataStructureContainer checkExists(clsDataStructureContainer poImage, clsDataStructurePA poSearchDataStructure) {
-		clsDataStructureContainer oRetVal = null;
-		
+	/**
+	 * Check if a selected secondary data structure exists in an image
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsSecondaryDataStructure findDataStructureInImage(clsSecondaryDataStructureContainer poTargetImage, clsSecondaryDataStructure poFindDataStructure) {
+		clsSecondaryDataStructure oRetVal = null;
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		if (poTargetImage.getMoDataStructure() instanceof clsWordPresentationMesh) {
+			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getMoAssociatedContent()) {
+				if (oImageDS.getRootElement().getMoDS_ID() == poFindDataStructure.getMoDS_ID()) {
+					oRetVal = (clsSecondaryDataStructure) oImageDS.getRootElement();
+					break;
+				}
+			}
+		} else {
+			try {
+				throw new Exception("Error in clsDataStructureTools, findDataStructureInImage: Only WPM are allowed");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 		
 		return oRetVal;
 	}

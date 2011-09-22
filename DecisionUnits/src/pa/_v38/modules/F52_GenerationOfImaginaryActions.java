@@ -28,8 +28,8 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPredictionTools;
@@ -161,6 +161,79 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void setPsychicInstances() {
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 16:16:38
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@Override
+	protected void process_basic() {
+		//If the goal is a prediction, execute the default action, else use standard planning, i.e. if the goal is to use the PI
+		String oPI = "PERCEIVEDIMAGE";
+		String oRI = "IMAGE";
+		if (moGoalInput.isEmpty()==false) {
+			if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oPI)==true) {
+				moActions_Output = planPerception(moEnvironmentalPerception_IN, moGoalInput);
+			} else if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oRI)==true) {
+				//AW: not finished expectation generation for testing, has to influence plan generation later
+				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
+				
+			} else {
+				moActions_Output = planPerception(moEnvironmentalPerception_IN, moGoalInput);
+			}
+			
+			
+		}
+		
+		//Pass forward the associated memories and perception
+		try {
+			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair) moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		
+		// HZ 2010.08.28
+		// E27 should retrieve required acts through E28. However, it can be
+		// doubted if this works without a loop between E27 and E28. In addition
+		// the functionality of
+		// E28 has to be discussed as it should only access the memory and
+		// retrieve acts.
+		// Reasons for my doubts: Actually E28 receives (like E27) the current
+		// goal
+		// that is formed out of a drive that should be satisfied and the object
+		// that should be used to satisfy it. Now it can be searched in the
+		// memory which
+		// actions have to be set to be able to satisfy the drive (e.g. action
+		// EAT in
+		// order to NOURISH a CAKE). However, in general the required object is
+		// not
+		// in the right position in order to use the action on it (A cake can
+		// only be eaten
+		// in case it is in the eatable area). Hence other Acts have to be
+		// triggered that
+		// help to put the agent into the right position. These acts are not
+		// part
+		// of the act "eat cake". They would be accomplished before the cake can
+		// be
+		// eaten. Hence the plan has to be rebuild by single acts that can only
+		// be
+		// retrieved from the memory in case there is a loop between E27 and E28
+		// or
+		// E27 has a memory access on its own => E28 woul dbe senseless.
+		//
+		// Until this question has been solved, E28
+		// is implemented to retrieve and put acts together which means that it
+		// takes over
+		// a kind of planning.
+		
+		printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		
+	}
 
 	/**
 	 * @author zeilinger 02.09.2010, 19:48:48
@@ -284,7 +357,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 */		
 	}
 	
-	//FIXME AW: @Andi, test function for F47. I don't have any memory access in F47. You may delete this as soon as your stuff works
 	/**
 	 * Generate test data of one act
 	 *
@@ -503,72 +575,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 11.08.2009, 16:16:38
-	 * 
-	 * @see pa.modules.clsModuleBase#process()
-	 */
-	@Override
-	protected void process_basic() {
-		//If the goal is a prediction, execute the default action, else use standard planning, i.e. if the goal is to use the PI
-		String oPI = "PERCEIVEDIMAGE";
-		String oRI = "IMAGE";
-		if (moGoalInput.isEmpty()==false) {
-			if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oPI)==true) {
-				process_draft();
-			} else if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oRI)==true) {
-				//AW: not finished expectation generation for testing, has to influence plan generation later
-				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
-				
-			} else {
-				process_draft();
-			}
-			
-			
-		}
-		
-		//Pass forward the associated memories
-		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
-		
-		// HZ 2010.08.28
-		// E27 should retrieve required acts through E28. However, it can be
-		// doubted if this works without a loop between E27 and E28. In addition
-		// the functionality of
-		// E28 has to be discussed as it should only access the memory and
-		// retrieve acts.
-		// Reasons for my doubts: Actually E28 receives (like E27) the current
-		// goal
-		// that is formed out of a drive that should be satisfied and the object
-		// that should be used to satisfy it. Now it can be searched in the
-		// memory which
-		// actions have to be set to be able to satisfy the drive (e.g. action
-		// EAT in
-		// order to NOURISH a CAKE). However, in general the required object is
-		// not
-		// in the right position in order to use the action on it (A cake can
-		// only be eaten
-		// in case it is in the eatable area). Hence other Acts have to be
-		// triggered that
-		// help to put the agent into the right position. These acts are not
-		// part
-		// of the act "eat cake". They would be accomplished before the cake can
-		// be
-		// eaten. Hence the plan has to be rebuild by single acts that can only
-		// be
-		// retrieved from the memory in case there is a loop between E27 and E28
-		// or
-		// E27 has a memory access on its own => E28 woul dbe senseless.
-		//
-		// Until this question has been solved, E28
-		// is implemented to retrieve and put acts together which means that it
-		// takes over
-		// a kind of planning.
-		
-		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
-		
-	}
+	
 	
 	private void printData(ArrayList<clsSecondaryDataStructureContainer> poAction, ArrayList<clsSecondaryDataStructureContainer> poGoal, ArrayList<clsPrediction> poPrediction) {
 		String oPrintoutPlan = "Action: ";
@@ -693,61 +700,61 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @return
 	 * 
 	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getActions() {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		ArrayList<clsAct> oPlan = evaluatePlans();
+//	private ArrayList<clsSecondaryDataStructureContainer> getActions() {
+//		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		ArrayList<clsAct> oPlan = evaluatePlans();
+//
+//		for (clsAct oAct : oPlan) {
+//			for (clsSecondaryDataStructure oSD : oAct.getMoAssociatedContent()) {
+//				if (oSD instanceof clsWordPresentation
+//						&& oSD.getMoContentType().equals(
+//								eActState.ACTION.name())) {
+//					// AW 20110629: Changed ArrayList<clsWordPresentation> to
+//					// ArrayList<clsSecondaryDataStructureContainer> in order to
+//					// fulfill
+//					// requirements of the interfaces
+//					clsSecondaryDataStructureContainer oPlanContainer = new clsSecondaryDataStructureContainer(
+//							(clsWordPresentation) oSD,
+//							new ArrayList<clsAssociation>());
+//					oRetVal.add(oPlanContainer);
+//
+//					return oRetVal;
+//				}
+//			}
+//		}
+//
+//		return oRetVal;
+//	}
 
-		for (clsAct oAct : oPlan) {
-			for (clsSecondaryDataStructure oSD : oAct.getMoAssociatedContent()) {
-				if (oSD instanceof clsWordPresentation
-						&& oSD.getMoContentType().equals(
-								eActState.ACTION.name())) {
-					// AW 20110629: Changed ArrayList<clsWordPresentation> to
-					// ArrayList<clsSecondaryDataStructureContainer> in order to
-					// fulfill
-					// requirements of the interfaces
-					clsSecondaryDataStructureContainer oPlanContainer = new clsSecondaryDataStructureContainer(
-							(clsWordPresentation) oSD,
-							new ArrayList<clsAssociation>());
-					oRetVal.add(oPlanContainer);
-
-					return oRetVal;
-				}
-			}
-		}
-
-		return oRetVal;
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 * 
-	 * edit-perner -> this should happen in module 29
-	 * 
-	 * @author zeilinger 03.09.2010, 17:19:37
-	 * 
-	 * @return
-	 */
-	@Deprecated
-	private ArrayList<clsAct> evaluatePlans() {
-		// HZ This method evaluates the retrieved plans. Actually this is rather
-		// simple
-		// as only the number of acts that are required to fulfill the plan are
-		// used
-		// for this evaluation (the plan with the fewest number of acts is
-		// selected)
-		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>();
-
-		// HZ obsolete as long asthe functionality of v30_E28 is not integrated
-		// in F52
-		// for(ArrayList<clsAct> oEntry : moPlanInput){
-		// if((oRetVal.size() == 0) || (oRetVal.size() > oEntry.size())){
-		// oRetVal = oEntry;
-		// }
-		// }
-
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (zeilinger) - insert description
+//	 * 
+//	 * edit-perner -> this should happen in module 29
+//	 * 
+//	 * @author zeilinger 03.09.2010, 17:19:37
+//	 * 
+//	 * @return
+//	 */
+//	@Deprecated
+//	private ArrayList<clsAct> evaluatePlans() {
+//		// HZ This method evaluates the retrieved plans. Actually this is rather
+//		// simple
+//		// as only the number of acts that are required to fulfill the plan are
+//		// used
+//		// for this evaluation (the plan with the fewest number of acts is
+//		// selected)
+//		ArrayList<clsAct> oRetVal = new ArrayList<clsAct>();
+//
+//		// HZ obsolete as long asthe functionality of v30_E28 is not integrated
+//		// in F52
+//		// for(ArrayList<clsAct> oEntry : moPlanInput){
+//		// if((oRetVal.size() == 0) || (oRetVal.size() > oEntry.size())){
+//		// oRetVal = oEntry;
+//		// }
+//		// }
+//
+//		return oRetVal;
+//	}
 
 	/*
 	 * (non-Javadoc)
@@ -782,34 +789,45 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
 
 	}
+	
+	private ArrayList<clsSecondaryDataStructureContainer> planPerception(clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsSecondaryDataStructureContainer> poGoalList) {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author perner 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
-
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
 		// create dummy value here
-		moAssociatedMemories_OUT = new ArrayList<clsDataStructureContainer>();
+		//moAssociatedMemories_OUT = new ArrayList<clsDataStructureContainer>();
 		
 		// get current environmental situation from moSContainer -> create an image
 		
-		clsImage currentImage = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) moEnvironmentalPerception_IN.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
+		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
 		
 		
 		// if no image of the current world-situation can be returned, we dont't know where to start with planning -> search sequence
-		if (currentImage == null) {
+		if (currentImageAllObjects.isEmpty()) {
 			ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
 			tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
 					new clsImage(eEntity.NONE), 
 					new clsImage(eDirection.CENTER, eEntity.CAKE)));
-			moActions_Output = copyPlanFragments(tempPlanningNodes);
-			return;
+			//moActions_Output = copyPlanFragments(tempPlanningNodes);
+			oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
+			return oRetVal;
 		}
+		
+		
+		
+		
+		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
+		//TODO AP: AW This loop considers the goal objects, put it where it should be
+		for (clsSecondaryDataStructureContainer oGoalContainer : poGoalList) {
+			String oDriveObject = clsAffectTools.getDriveObjectType(((clsWordPresentation)oGoalContainer.getMoDataStructure()).getMoContent());
+			
+			for (clsImage oImage : currentImageAllObjects) {
+				if (oDriveObject.equals("ENTITY:" + oImage.m_eObj)) {
+					currentImageSorted.add(oImage);
+				}
+			}
+		}
+		
 		
 		
 //		System.out.println(currentImage.m_eDist);
@@ -818,9 +836,23 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		try {
 			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
 			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
-
+		
+			
 			// check, which actions can be executed next
-			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, currentImage);
+			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, currentImageSorted);
+			ArrayList<clsPlanFragment> sortedApplicablePlanningNodes = new ArrayList<clsPlanFragment>();
+			
+			// Those plan fragments must fit to the goals, else, they are not applicated
+			//Remove those planning nodes, which are not conform with the goals
+			for (clsDataStructureContainer oGoalContainer : poGoalList) {
+				for (clsPlanFragment oPlanFragment : currentApplicalbePlanningNodes) {
+					//Extract Info from Planning Node
+					//oPlanFragment.m_act
+					
+				}
+				
+			}
+			
 			
 			// run through applicable plans and see which results can be achieved by executing plFragment
 			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
@@ -830,7 +862,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			
 			// copy output -> workaround till planning works correctly
-			moActions_Output = copyPlanFragments(currentApplicalbePlanningNodes);
+			oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
 			
 			
 			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>(); 
@@ -848,9 +880,24 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}
 		
 		// copy perception for movement control
-		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
 		
 		//plGraph.setStartPlanningNode(n)
+		return oRetVal;
+	}
+
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author perner 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+
 	}
 	
 	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {

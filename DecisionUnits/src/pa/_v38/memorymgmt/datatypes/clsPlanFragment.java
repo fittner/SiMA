@@ -53,4 +53,10 @@ public class clsPlanFragment extends PlanningNode {
 		m_preconditionImage = precdImage;
 		m_effectImage = effectImage;
 	}
+	
+	@Override
+	public String toString() {
+		return this.label;
+		
+	}
 }

@@ -167,17 +167,18 @@ public class PlanningWizard {
 	 * @param currentEnvironmentalSituation snapshot of the current environmental situation
 	 * @return set of plans that can be applied right now
 	 */
-	public static ArrayList<clsPlanFragment> getCurrentApplicablePlanningNodes(ArrayList<clsPlanFragment> availableFragments, clsImage currentEnvironmentalSituation) {
+	public static ArrayList<clsPlanFragment> getCurrentApplicablePlanningNodes(ArrayList<clsPlanFragment> availableFragments, ArrayList<clsImage> currentEnvironmentalSituation) {
 	
 		ArrayList<clsPlanFragment> applicablePlanFragments = new ArrayList<clsPlanFragment>();
 		
 		// run through plan fragments and see if a plan fragment can be applied right now
 		for (clsPlanFragment myFrag : availableFragments) {
-			
-			if (myFrag.m_preconditionImage.isEqualLooseTo(currentEnvironmentalSituation))
+			for (clsImage oImage : currentEnvironmentalSituation)
+			if (myFrag.m_preconditionImage.isEqualLooseTo(oImage)) {
 				applicablePlanFragments.add(myFrag);
-			
+			}
 		}
+		
 		return applicablePlanFragments;
 	}
 	
@@ -191,7 +192,9 @@ public class PlanningWizard {
 	 * @param perception the image which can be used as current start image for planning 
 	 * @return
 	 */
-	public static clsImage getCurrentEnvironmentalImage(ArrayList<clsAssociation> perception) {
+	public static ArrayList<clsImage> getCurrentEnvironmentalImage(ArrayList<clsAssociation> perception) {
+		
+		ArrayList<clsImage> oRetVal = new ArrayList<clsImage>();
 		
 		for (clsAssociation perceptionItem : perception) {
 			
@@ -234,13 +237,13 @@ public class PlanningWizard {
 						}
 						
 						if (myEntity != null && myDist != null && myDir != null) {
-							return new clsImage(myDist, myDir, myEntity);
+							oRetVal.add(new clsImage(myDist, myDir, myEntity));
 						}
 					}
 				} 
 			}
 		}
-		return null; 
+		return oRetVal; 
 	}
 	
 	public static void splitDistanceDirection(String strDistDir, StringBuffer sbdir, StringBuffer sbdist) {

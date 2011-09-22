@@ -74,7 +74,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private int mnConfirmationParts = 3;
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
-	private double mrReduceFactorForDrives = 0.0;
+	private double mrReduceFactorForDrives = 1.0;
 	
 	
 	/** Short time memory */
@@ -1088,19 +1088,24 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	private void addAffectReduceValues(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList, double prReduceFactorForDrives) {
 		
 		for (clsTriple<Integer, Integer, clsPrediction> oP : poPredictionList) {
-			//1. Remove old associations in order to replace them
-			clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALTYAFFECT);
-			//2. Get progress and confirmation factors
-			double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
-			double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
-			//3. Get all affects from the intention
-			ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = clsAffectTools.getDriveGoalsFromPrediction(oP.c);
-			//4. For each affect from the intention, calculate a reduction affect
-			for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
-				//5. Get the drive intensity of the drive connected to the goal
-				clsPredictionTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
+			//0. Check if the structure shall be processed with reduce value 
+			boolean bReduceAffect = clsPredictionTools.getActivateReduceFactor(oP.c.getIntention().getSecondaryComponent());
+			
+			if (bReduceAffect==true) {
+				//1. Remove old associations in order to replace them
+				clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALTYAFFECT);
+				//2. Get progress and confirmation factors
+				double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
+				double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
+				//3. Get all affects from the intention
+				ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = clsAffectTools.getDriveGoalsFromPrediction(oP.c);
+				//4. For each affect from the intention, calculate a reduction affect
+				for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
+					//5. Get the drive intensity of the drive connected to the goal
+					clsPredictionTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
+				}
+				//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
 			}
-			//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
 		}
 	}
 	

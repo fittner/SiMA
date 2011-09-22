@@ -326,5 +326,26 @@ public class clsPredictionTools {
 		
 	}
 	
+	/**
+	 * Check at the intention if there shall be a reduce affect calculation. If TRUE, then yes, if FALSE, then not
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 15:35:41
+	 *
+	 * @param poContainer
+	 * @return
+	 */
+	public static boolean getActivateReduceFactor(clsSecondaryDataStructureContainer poIntentionContainer) {
+		boolean oRetVal = false;
+		
+		ArrayList<clsSecondaryDataStructure> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poIntentionContainer, ePredicate.ACTIVATEAFFECTREDUCE.toString());
+		
+		if (oWPList.isEmpty()==false) {
+			oRetVal = true;
+		}
+			
+		return oRetVal;
+	}
+	
 	
 }

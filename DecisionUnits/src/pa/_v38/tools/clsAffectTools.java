@@ -23,6 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -35,7 +36,7 @@ public class clsAffectTools {
 	
 	//Added by AW, in order to be able to add drive goals from perception and memories
 	/** The list of possible drives, sorted regarding importance */
-	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "DEPOSIT", "SLEEP", "RELAX"));
 	/** A list of possible affects sorted in the order of importance */
 	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(-3,3,-2, 2, -1, 1,0));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
@@ -259,7 +260,7 @@ public class clsAffectTools {
 				//Define data structure for the goal
 				clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
 				//Create an association with that word presentation of that goal
-				clsAssociationSecondary oGoalObjectAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoal, poInput, "HASASSOCIATION", 1.0);
+				clsAssociationSecondary oGoalObjectAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoal, poInput, ePredicate.HASASSOCIATION.toString(), 1.0);
 				ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
 				oAssociatedDS.add(oGoalObjectAss);
 				//Create the container
@@ -486,7 +487,10 @@ public class clsAffectTools {
 		if (oDriveSplit.length > 1) {
 			oDriveObject = poDriveContent.split("\\" + _Delimiter03)[1];
 		} else {
-			oDriveObject = poDriveContent.split("\\" + _Delimiter03)[3];
+			String[] oDriveGoalSplit = poDriveContent.split("\\" + _Delimiter03);
+			if (oDriveGoalSplit.length>3) {
+				oDriveObject = oDriveGoalSplit[3];
+			}
 		}
 		//String oDriveContentType = oDrive.split(_Delimiter01)[1];
 		//String oDriveObject = oDrive[3];
