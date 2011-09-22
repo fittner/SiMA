@@ -6,10 +6,10 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/World"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry kind="lib" path="../libraries/mason.jar"/>
-	<classpathentry kind="lib" path="../libraries/mason_physics2D.jar"/>
-	<classpathentry kind="lib" path="../libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="../libraries/j3dutils.jar"/>
-	<classpathentry kind="lib" path="../libraries/vecmath.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/j3dcore.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/j3dutils.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

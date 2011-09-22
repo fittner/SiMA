@@ -5,10 +5,10 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
-	<classpathentry kind="lib" path="../libraries/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="../libraries/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="../libraries/jgraphx.jar"/>
-	<classpathentry kind="lib" path="../libraries/l2fprod-common-all.jar"/>
-	<classpathentry kind="lib" path="../libraries/mason.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/jgraphx.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/l2fprod-common-all.jar"/>
+	<classpathentry kind="lib" path="../ARSIN_V01/libraries/mason.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
