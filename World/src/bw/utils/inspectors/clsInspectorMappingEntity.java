@@ -12,7 +12,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
-//import bw.entities.clsARSIN;
+
 
 import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
@@ -29,7 +29,6 @@ import bw.entities.clsPlant;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.entities.clsUraniumOre;
-//import bw.entities.clsRemoteBot;
 import bw.entities.clsStationary;
 import bw.utils.inspectors.body.clsInspectorFastMessengers;
 import bw.utils.inspectors.body.clsInspectorFillLevel;
@@ -175,6 +174,37 @@ public class clsInspectorMappingEntity {
     	}
     	
 	    return oRetVal;
+	}
+	
+	/**
+	 * A inspector that holds the most important information of the arsin. to quick see what is going on
+	 *
+	 * @since 21.09.2011 10:46:32
+	 */
+	public static TabbedInspector getInspectorARSINOverview(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity)
+	{
+    	TabbedInspector oRetVal = new TabbedInspector();
+
+    	//change the default inspector to the one you created for the entity if you want more inspected
+
+	    	if( poEntity instanceof clsARSIN) {
+	    		
+	    		//***Body Overview***
+	    		//this like work because I can be sure we have a ARSin with a complex body, because there is no arsin without one!
+	    		//clsComplexBody oBody = (clsComplexBody)((itfGetBody) poEntity).getBody();
+	        	//oRetVal.addInspector( new clsInspectorBodyOverview(poSuperInspector, poWrapper, poState, oBody), "Body Overview");
+	        	
+	    		//add all information you want to add to the overview inspector here...
+	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
+	    		
+	    		
+	    	}
+	    	else{
+	    	
+	    		System.out.println("Error: Overview Inspector only works on Entity types of ARSin!!!");
+	    	}
+
+    	return oRetVal;
 	}
 }
 

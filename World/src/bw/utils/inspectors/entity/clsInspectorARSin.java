@@ -8,15 +8,22 @@
  */
 package bw.utils.inspectors.entity;
 
+import inspectors.mind.pa._v38.graph.clsDriveInspector;
+
 import java.awt.BorderLayout;
+
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+
+import bw.body.clsComplexBody;
+import bw.body.itfget.itfGetBody;
 import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
-import bw.utils.inspectors.clsInspectorUtils;
+import bw.utils.inspectors.body.clsInspectorBodyOverview;
 
 
 import sim.util.gui.PropertyField;
@@ -44,6 +51,10 @@ public class clsInspectorARSin extends Inspector {
 	GUIState moGuiState;
 	
 	private PropertyField moProp1;
+	private clsInspectorBodyOverview moInspectorBodyOverview;
+	private clsInspectorBasic moDefaultInspector;
+	private clsInspectorSensor moInspectorSensor;
+	private clsDriveInspector moDriveInspector;
 
 	
 
@@ -68,19 +79,72 @@ public class clsInspectorARSin extends Inspector {
 		moGuiState = poGuiState;
 		moARSIN = poARSIN;
 		
+		Box oBoxHorizontal1 = new Box(BoxLayout.X_AXIS);
+		Box oBoxHorizontal2 = new Box(BoxLayout.X_AXIS);
+		
+		//*** Initilize Default Values Inspector ***
 		//get the default things
-		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poARSIN);
-		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
+		moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, (clsEntity)poARSIN);
+		
 		
 		//inspected fields....
-		Box oBox1 = new Box(BoxLayout.Y_AXIS);
+		//Box oBox1 = new Box(BoxLayout.Y_AXIS);
 		
-		moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
+		//moProp1 = new  PropertyField("IntEnergyConsuptionSum", clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()), false, null, PropertyField.SHOW_TEXTFIELD);
 		
-		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
+		//oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 	
+		//*** Initialize Body Overview ***
+		Box oBoxBodyGraphs = new Box(BoxLayout.Y_AXIS);
+		oBoxBodyGraphs.setBorder(BorderFactory.createTitledBorder("Body Graphs"));
+		clsComplexBody oBody = (clsComplexBody)((itfGetBody) poARSIN).getBody();
+		moInspectorBodyOverview = new clsInspectorBodyOverview(poOriginalInspector, poWrapper, poGuiState, oBody);
+		oBoxBodyGraphs.add(moInspectorBodyOverview);
+		
+		//*** Perception ***
+		Box oBoxPerception = new Box(BoxLayout.Y_AXIS);
+		oBoxPerception.setBorder(BorderFactory.createTitledBorder("Perception - not workin yet!"));
+		moInspectorSensor = new clsInspectorSensor(poOriginalInspector, poWrapper, poGuiState, poARSIN);
+		oBoxPerception.add(moInspectorSensor);
+		
+		//*** Drives ***
+		Box oBoxDrives = new Box(BoxLayout.Y_AXIS);
+		oBoxDrives.setBorder(BorderFactory.createTitledBorder("Drives"));
+		//moDriveInspector = new clsDriveInspector();
+		//oBoxDrives.add(moDriveInspector);
+		
+		//*** Goals ***
+		Box oBoxGoals = new Box(BoxLayout.Y_AXIS);
+		oBoxGoals.setBorder(BorderFactory.createTitledBorder("Goals"));
+		//oBoxGoals.add(moInspectorBodyOverview);
+		
+		//*** Imaginary Actions ***
+		Box oBoxImaginary = new Box(BoxLayout.Y_AXIS);
+		oBoxImaginary.setBorder(BorderFactory.createTitledBorder("Imaginary Actions"));
+		
+		//*** Plans ***
+		Box oBoxPlans = new Box(BoxLayout.Y_AXIS);
+		oBoxPlans.setBorder(BorderFactory.createTitledBorder("Plans"));
+		
+		//*** Motion Control ***
+		Box oBoxMotionControl = new Box(BoxLayout.Y_AXIS);
+		oBoxMotionControl.setBorder(BorderFactory.createTitledBorder("Motion Control"));
 
-		add(oBox1, BorderLayout.AFTER_LAST_LINE);
+		//add all inspectors to the component
+		//first the horizontal placeholders
+		add(oBoxHorizontal1, BorderLayout.LINE_START);
+		add(oBoxHorizontal2, BorderLayout.LINE_START);
+		//add to line 1
+		oBoxHorizontal1.add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal1.add(oBoxBodyGraphs, BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal1.add(oBoxPerception, BorderLayout.AFTER_LAST_LINE);
+		//add to line 2
+		oBoxHorizontal2.add(oBoxDrives, BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal2.add(oBoxGoals, BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal2.add(oBoxImaginary, BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal2.add(oBoxPlans, BorderLayout.AFTER_LAST_LINE);
+		oBoxHorizontal2.add(oBoxMotionControl, BorderLayout.AFTER_LAST_LINE);
+
 	}
 
 	/* (non-Javadoc)
@@ -93,7 +157,10 @@ public class clsInspectorARSin extends Inspector {
 	@Override
 	public void updateInspector() {
 		
-		moProp1.setValue(clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()));
+		//moProp1.setValue(clsInspectorUtils.FormatDouble(moARSIN.getInternalEnergyConsuptionSUM()));
+		moDefaultInspector.updateInspector();
+		moInspectorBodyOverview.updateInspector();
+		moInspectorSensor.updateInspector();
 		
 	}
 

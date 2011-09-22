@@ -111,8 +111,9 @@ public class clsInspectorSensor extends Inspector {
 	 */
 	@Override
 	public void updateInspector() {
-		// TODO (zeilinger) - Auto-generated method stub
-		String tempString = getString(moEntityVision.getSensorData());// moSensorData.getMeDetectedObject().values()); 
+		String tempString = "null";
+		if(moEntityVision!=null)
+			tempString = getString(moEntityVision.getSensorData());// moSensorData.getMeDetectedObject().values()); 
 		moProp1.setValue(tempString);
 	}
 }
