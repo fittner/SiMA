@@ -31,7 +31,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPredictionTools;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
@@ -169,28 +168,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		//If the goal is a prediction, execute the default action, else use standard planning, i.e. if the goal is to use the PI
-//		String oPI = "PERCEIVEDIMAGE";
-//		String oRI = "IMAGE";
-//		if (moGoalInput.isEmpty()==false) {
-//			if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oPI)==true) {
-//				moActions_Output = planPerception(moEnvironmentalPerception_IN, moGoalInput);
-//			} else if (((clsWordPresentation)moGoalInput.get(0).getMoDataStructure()).getMoContent().contains(oRI)==true) {
-//				//AW: not finished expectation generation for testing, has to influence plan generation later
-//				moActions_Output = TestAWsExpectations(moExtractedPrediction_IN, moGoalInput);
-//				
-//			} else {
-//				moActions_Output = planPerception(moEnvironmentalPerception_IN, moGoalInput);
-//			}
-//			
-//			
-//		}
-		
 		//Generate actions for the top goal
 		moActions_Output = generatePlans(moEnvironmentalPerception_IN, moExtractedPrediction_IN, moGoalInput);
-		
 		
 		//Pass forward the associated memories and perception
 		try {
@@ -237,6 +219,327 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
+	}
+	
+	/**
+	 * This is the top class for planning, where it is chosen, which plan is selected, dependent on the content of the goal
+	 *
+	 * @since 26.09.2011 14:15:24
+	 *
+	 * @param poEnvironmentalPerception
+	 * @param poPredictionList
+	 * @param poGoalList
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> generatePlans(clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poPredictionList, ArrayList<clsSecondaryDataStructureContainer> poGoalList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		String oPI = "PERCEIVEDIMAGE";	//This is the perceived image
+		String oRI = "IMAGE";	//This is from the memory
+		
+		//Prepare perception to the Image structure of clsImage
+		ArrayList<clsImage> oPIImageStructure = preparePerception(poEnvironmentalPerception);
+		
+		
+		//Take only the first goal
+		//TODO: If plans shall be generated for more than one goals, this part shall be changed
+		ArrayList<clsSecondaryDataStructureContainer> poReducedGoalList = new ArrayList<clsSecondaryDataStructureContainer>();
+		if (poGoalList.isEmpty()==false) {
+			poReducedGoalList.add(poGoalList.get(0));
+		}
+		
+		//Go through each goal
+		for (clsSecondaryDataStructureContainer oGoal :  poReducedGoalList) {
+			ArrayList<clsSecondaryDataStructureContainer> oActionContainer = new ArrayList<clsSecondaryDataStructureContainer>();
+			
+			//If no plans could be generated for this goal, it is set false, else true
+			boolean bActionPlanOK = false;
+			
+			if ((((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oRI)==true) && (((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oPI)==false)) {
+				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromMemories(oGoal, poPredictionList);
+				oActionContainer.addAll(oActionFromMemoryContainerList);
+				
+				//If no plans could be generated for this goal, it is set false, else true
+				if (oActionContainer.isEmpty()==false) {
+					bActionPlanOK = true;
+					//continue;
+				}
+
+			}
+			
+			//If the image is a perceived image
+			if ((((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oPI)==true) && (bActionPlanOK==false)) {
+				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromPerception(oPIImageStructure, oGoal);
+				oActionContainer.addAll(oActionFromMemoryContainerList);
+				
+				//If no plans could be generated for this goal, it is set false, else true
+				if (oActionContainer.isEmpty()==false) {
+					//oRetVal.addAll(oActionContainer);
+					bActionPlanOK = true;
+					//continue;
+				}
+				
+			}
+			
+			//If the image is just a general goal without object, then search
+			if (bActionPlanOK==false) {
+				
+				//FIXME: Create search here
+				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromNoObject(oGoal);
+				oActionContainer.addAll(oActionFromMemoryContainerList);
+				
+				//If no plans could be generated for this goal, it is set false, else true
+				if (oActionContainer.isEmpty()==false) {
+					//oRetVal.addAll(oActionContainer);
+					bActionPlanOK = true;
+					//continue;
+				}
+				
+			}
+			
+			oRetVal.addAll(oActionContainer);
+			
+		}
+		//then select, if the goal is connected to perception or to an associated memory
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Planning taken from remembered images
+	 *
+	 * @since 26.09.2011 14:19:45
+	 *
+	 * @param poGoal
+	 * @param poPredictionList
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> planFromMemories(clsSecondaryDataStructureContainer poGoal, ArrayList<clsPrediction> poPredictionList) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Get the expectations, which are associated with this goal
+		ArrayList<clsDataStructureContainerPair> oExpectationList = getExpectationFromGoal(poGoal, poPredictionList);
+		//Get the act, which is associated with the expectations
+		ArrayList<clsSecondaryDataStructureContainer> oActList = getActsFromExpectations(oExpectationList);
+		
+		
+		ArrayList<clsSecondaryDataStructureContainer> oPlanFragmentList = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsSecondaryDataStructureContainer oActContainer : oActList) {
+			oPlanFragmentList.add(convertActToPlanFragment((clsAct)oActContainer.getMoDataStructure()));
+		}
+		
+		oRetVal.addAll(oPlanFragmentList);
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * convert clsAct as defined in Protege to a clsPlanFragment
+	 * (wendt)
+	 *
+	 * @since 26.09.2011 16:36:04
+	 *
+	 * @param poAct
+	 * @return
+	 */
+	private clsPlanFragment convertActToPlanFragment(clsAct poAct) {
+		clsPlanFragment oRetVal = null;
+		
+		String oActContent = poAct.getMoContent();
+		String oNewActionCommand = getActionStringFromContent(oActContent);
+		
+		poAct.m_strAction = oNewActionCommand;
+		
+		oRetVal = new clsPlanFragment(poAct, new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER, eEntity.CAKE));
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Planning, if no object is given
+	 *
+	 * @since 26.09.2011 14:20:06
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> planFromNoObject(clsSecondaryDataStructureContainer poGoal) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		oRetVal.addAll(planSearch());
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract clsImage from a normal Perceived Image
+	 * (wendt)
+	 *
+	 * @since 26.09.2011 16:35:19
+	 *
+	 * @param poEnvironmentalPerception
+	 * @return
+	 */
+	private ArrayList<clsImage> preparePerception(clsDataStructureContainerPair poEnvironmentalPerception) {
+		ArrayList<clsImage> oRetVal = new ArrayList<clsImage>();
+		
+		// get current environmental situation from moSContainer -> create an image
+		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
+		
+		oRetVal.addAll(currentImageAllObjects);
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Remove image parts, which are not active for this goal
+	 *
+	 * @since 26.09.2011 14:54:04
+	 *
+	 * @param poGoal
+	 * @param poCurrentImageAllObjects
+	 * @return
+	 */
+	private ArrayList<clsImage> filterForDecisionMakingGoal (clsSecondaryDataStructureContainer poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
+		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
+		//TODO AP: AW This loop considers the goal objects, put it where it should be
+		//for (clsSecondaryDataStructureContainer oGoalContainer : poGoalList) {
+			String oDriveObject = clsAffectTools.getDriveObjectType(((clsWordPresentation)poGoal.getMoDataStructure()).getMoContent());
+			
+			for (clsImage oImage : poCurrentImageAllObjects) {
+				if (oDriveObject.equals("ENTITY:" + oImage.m_eObj)) {
+					currentImageSorted.add(oImage);
+				}
+			}
+		//}
+			
+			return currentImageSorted;
+	}
+	
+	
+	/**
+	 * Generate a search plan
+	 * (wendt)
+	 *
+	 * @since 26.09.2011 14:27:40
+	 *
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> planSearch() {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//if (currentImageAllObjects.isEmpty()) {
+		ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
+		tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
+				new clsImage(eEntity.NONE), 
+				new clsImage(eDirection.CENTER, eEntity.CAKE)));
+		oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
+			//return oRetVal;
+		//}
+		
+		return oRetVal;
+	}
+		
+	
+	/**
+	 * Planning based on perception
+	 *
+	 * @since 26.09.2011 14:20:17
+	 *
+	 * @param poEnvironmentalPerception
+	 * @param poGoalList
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> planFromPerception(ArrayList<clsImage> poPIImageStructure, clsSecondaryDataStructureContainer poGoal) {
+
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		// get current environmental situation from moSContainer -> create an image
+		//ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
+		
+		// if no image of the current world-situation can be returned, we dont't know where to start with planning -> search sequence
+		//if (currentImageAllObjects.isEmpty()) {
+		//	ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
+		//	tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
+		//			new clsImage(eEntity.NONE), 
+		//			new clsImage(eDirection.CENTER, eEntity.CAKE)));
+		//	oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
+		//	return oRetVal;
+		//}
+		
+//		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
+//		//TODO AP: AW This loop considers the goal objects, put it where it should be
+//		for (clsSecondaryDataStructureContainer oGoalContainer : poGoalList) {
+//			String oDriveObject = clsAffectTools.getDriveObjectType(((clsWordPresentation)oGoalContainer.getMoDataStructure()).getMoContent());
+//			
+//			for (clsImage oImage : currentImageAllObjects) {
+//				if (oDriveObject.equals("ENTITY:" + oImage.m_eObj)) {
+//					currentImageSorted.add(oImage);
+//				}
+//			}
+//		}
+		
+		//Filter all object, which are not drive objects of this goal
+		ArrayList<clsImage> ofilteredImages = filterForDecisionMakingGoal(poGoal, poPIImageStructure);
+		
+		//Start planning according to the remaining drive objects
+		//		System.out.println(currentImage.m_eDist);
+		PlanningGraph plGraph = new PlanningGraph();
+		// add plans and connections between plans
+		try {
+			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
+			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
+		
+			
+			// check, which actions can be executed next
+			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, ofilteredImages);
+			//ArrayList<clsPlanFragment> sortedApplicablePlanningNodes = new ArrayList<clsPlanFragment>();
+			
+			// Those plan fragments must fit to the goals, else, they are not applicated
+			//Remove those planning nodes, which are not conform with the goals
+//			for (clsDataStructureContainer oGoalContainer : poGoalList) {
+//				for (clsPlanFragment oPlanFragment : currentApplicalbePlanningNodes) {
+//					//Extract Info from Planning Node
+//					//oPlanFragment.m_act
+//					
+//				}
+//				
+//			}
+			
+			// run through applicable plans and see which results can be achieved by executing plFragment
+			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
+				plGraph.setStartPlanningNode(plFragment);
+				plGraph.breathFirstSearch();
+			}
+			
+			
+			// copy output -> workaround till planning works correctly
+			oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
+			
+			
+			
+			
+			//FIXME AP: Dead code
+			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>(); 
+			
+			for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
+				plansTemp.add(myPlans);
+			
+			// output actions
+//			PlanningWizard.printPlansToSysout(plansTemp , 0);
+//			plGraph.m_planningResults.get(1)
+
+			int i = 0;
+		} catch (Exception e) {
+			System.out.println("FATAL: Planning Wizard coldn't be initialized");
+		}
+		
+		// copy perception for movement control
+		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		
+		//plGraph.setStartPlanningNode(n)
+		return oRetVal;
 	}
 
 	/**
@@ -362,6 +665,323 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	}
 	
 	/**
+	 * Extract the list of secondary structure expectations from a list of predictions for a certain intention
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 01.08.2011 16:59:46
+	 *
+	 * @param poIntention
+	 * @param poPrediction
+	 * @return
+	 */
+	private ArrayList<clsDataStructureContainerPair> getExpectationFromPredictionList(clsSecondaryDataStructure poIntention, ArrayList<clsPrediction> poPrediction) {
+		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+		
+		//Check if the intention == null
+		if (poIntention!=null) {
+			for (clsPrediction oSinglePrediction : poPrediction) {
+				//If the instanceIDs are the same in the prediction, the give back 
+				if (poIntention.getMoDSInstance_ID()==oSinglePrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDSInstance_ID()) {
+					oRetVal.addAll(oSinglePrediction.getExpectations());
+					break;
+				}
+			}
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Extracts the associated acts from a list of expectations. 
+	 * An expectation could have several acts associated
+	 * (wendt)
+	 *
+	 * @since 02.08.2011 10:13:28
+	 *
+	 * @param poExpectations
+	 * @return
+	 */
+	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsDataStructureContainerPair> poExpectations) {
+		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		//Go through all expectations
+		for (clsDataStructureContainerPair oSContainer : poExpectations) {
+			//Check associated data structures with the act
+			for (clsAssociation oAss : oSContainer.getSecondaryComponent().getMoAssociatedDataStructures()) {
+				if (oAss instanceof clsAssociationSecondary) {
+					//If the predicate of the association is a HASASSOCIATION, then 
+					if (((clsAssociationSecondary)oAss).getMoPredicate() == ePredicate.HASASSOCIATION.toString()) {
+						ArrayList<clsAssociation> oAssociatedStructures = new ArrayList<clsAssociation>();
+						
+						//Check if the act is the leaf or the root element and create a new data structure container
+						if (oAss.getLeafElement() instanceof clsAct) {
+						//oRetVal.add((clsAct) oAss.getLeafElement());
+						//Add the intention
+							clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getLeafElement(), oAss.getRootElement(), ePredicate.HASASSOCIATION.toString(), 1.0);
+							oAssociatedStructures.add(oAssSec);
+							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), oAssociatedStructures));
+						} else if (oAss.getRootElement() instanceof clsAct) {
+						clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getRootElement(), oAss.getLeafElement(), ePredicate.HASASSOCIATION.toString(), 1.0);
+						oAssociatedStructures.add(oAssSec);
+						oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), oAssociatedStructures));						
+						//	oRetVal.add((clsAct) oAss.getRootElement());
+						}
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 16.09.2011 08:50:51
+	 *
+	 * @param poContent
+	 * @return
+	 */
+	private String getActionStringFromContent(String poContent) {
+		String oRetVal = "";
+		//Input Structure
+		//"FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
+		
+		//Output structure
+		//MOVE_FORWARD
+		
+		String[] oParts = poContent.split("\\|");
+		for (String oE : oParts) {
+			if (oE.contains("ACTION:")) {
+				String oActionString = "ACTION:";
+				oRetVal = oE.substring(oActionString.length(), oE.length());
+				break;
+			}
+		}
+		
+		return oRetVal;
+	}
+
+	/**
+	 * For a goal, extract all expectations, which are bound to it through the intention
+	 * (wendt)
+	 *
+	 * @since 26.09.2011 09:00:44
+	 *
+	 * @param poGoal
+	 * @param poPredictionList
+	 * @return
+	 */
+	private ArrayList<clsDataStructureContainerPair> getExpectationFromGoal(clsSecondaryDataStructureContainer poGoal, ArrayList<clsPrediction> poPredictionList) {
+		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+		
+		//Get the intentionDS
+		ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(poGoal, ePredicate.HASINTENTION.toString(), false);
+		for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
+			//For a certain intention, get all expectations
+			ArrayList<clsDataStructureContainerPair> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPredictionList);
+			//Add the intention as associated memories to the acts, the intention is added to the act
+			
+			oRetVal.addAll(oExpectations);
+			//getActsFromExpectations(oExpectations, oIntention)
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * If a the associated content shall be a phantasy, this function is applied on the action-container. It sets a new association to a predefined 
+	 * word presentation, which is asked for in F47
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.09.2011 20:47:01
+	 *
+	 * @param poActioncommandContainer
+	 */
+	private void setConsciousPhantasyActivation(clsSecondaryDataStructureContainer poActioncommandContainer) {
+		clsDataStructureTools.setAttributeWordPresentation(poActioncommandContainer, ePredicate.ACTIVATESPHANTASY.toString(), "ACTIVATEPHANTASY", "TRUE");
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 16:16:38
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moEnvironmentalPerception_OUT);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 18.05.2010, 17:56:21
+	 * 
+	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I6_9(
+			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+
+		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
+
+	}
+	
+
+	
+	/**
+	 * Print goal, prediction and the actions
+	 * (wendt)
+	 *
+	 * @since 26.09.2011 16:31:19
+	 *
+	 * @param poAction
+	 * @param poGoal
+	 * @param poPrediction
+	 */
+	private void printData(ArrayList<clsSecondaryDataStructureContainer> poAction, ArrayList<clsSecondaryDataStructureContainer> poGoal, ArrayList<clsPrediction> poPrediction) {
+		String oPrintoutPlan = "Action: ";
+		
+		for (clsSecondaryDataStructureContainer oC : poAction) {
+			//AW HACK test, in order to be able to use both WP and plan fragements at the same time
+			boolean bPlanFragement = false;
+			if (oC instanceof clsPlanFragment) {
+				bPlanFragement = true;
+				//break;
+			}
+			
+			if (bPlanFragement==true) {
+				oPrintoutPlan += ((clsPlanFragment)oC).m_act.m_strAction + "; ";
+			} else {
+				oPrintoutPlan += oC.getMoDataStructure().toString() + "; ";
+			}
+		}
+		
+		String oPrintoutGoal = "Goal: ";
+		for (clsSecondaryDataStructureContainer oC : poGoal) {
+			oPrintoutGoal += oC.getMoDataStructure().toString() + ";";
+		}
+		
+		String oPrintoutPrediction = PredictionToText(poPrediction);
+		
+		System.out.println("BEGIN");
+		System.out.println(oPrintoutPrediction);
+		System.out.println(oPrintoutGoal);
+		System.out.println(oPrintoutPlan);
+		System.out.println("END");
+		
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 10.09.2011 16:29:58
+	 *
+	 * @param poExtractedPrediction_IN
+	 */
+	private String PredictionToText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
+		
+		String oStepInfo = "";
+		String oMomentInfo = "Prediction: ";
+		
+		for (clsPrediction oP : poExtractedPrediction_IN) {
+			
+			oMomentInfo += oP.toString();
+			
+			if (oP.getMoment().getPrimaryComponent()!=null) {
+				double rMatch = clsDataStructureTools.getMatchValueToPI(oP.getMoment().getPrimaryComponent());
+				oMomentInfo += "|Match: " + rMatch;
+			}
+			
+			if (oP.getIntention().getSecondaryComponent()!=null) {
+				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
+			}
+			
+			oStepInfo += oMomentInfo + "; ";
+			
+		}
+		
+		return oStepInfo;
+		
+	}
+
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author perner 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+
+	}
+	
+	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {
+		
+		ArrayList<clsSecondaryDataStructureContainer> moPlans = new ArrayList<clsSecondaryDataStructureContainer>();
+		
+		for (clsPlanFragment plFr : myPlans) {
+			moPlans.add(plFr);
+		}
+		
+		// add perception
+		return moPlans;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (perner) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 03.03.2011, 16:55:51
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
+	}
+	
+	/**
 	 * Generate test data of one act
 	 *
 	 * @since 20.07.2011 13:42:13
@@ -434,232 +1054,58 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}*/
 	
-	/**
-	 * From the goal list, first, get the intention, then get the expectation and then get the action (clsAct) which is associated with it.
-	 * (wendt)
-	 *
-	 * @since 01.08.2011 16:42:56
-	 *
-	 * @param poDriveGoalsInput
-	 * @param poPrediction
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getActsFromPrediction(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//Go through all goals
-		for (clsSecondaryDataStructureContainer oGoal : poDriveGoalsInput) {
-			//Get the intentionDS
-			ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oGoal, ePredicate.HASINTENTION.toString(), false);
-			for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
-				ArrayList<clsDataStructureContainerPair> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
-				//Add the intention as associated memories to the acts, the intention is added to the act
-				//for ()
-				
-				oRetVal.addAll(getActsFromExpectations(oExpectations));
-			}
-		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * From the goal list, first, get the intention, then get the expectation and then get the action (clsAct) which is associated with it.
+//	 * (wendt)
+//	 *
+//	 * @since 01.08.2011 16:42:56
+//	 *
+//	 * @param poDriveGoalsInput
+//	 * @param poPrediction
+//	 * @return
+//	 */
+//	private ArrayList<clsSecondaryDataStructureContainer> getActsFromPrediction(ArrayList<clsSecondaryDataStructureContainer> poDriveGoalsInput, ArrayList<clsPrediction> poPrediction) {
+//		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		
+//		//Go through all goals
+//		for (clsSecondaryDataStructureContainer oGoal : poDriveGoalsInput) {
+//			//Get the intentionDS
+//			ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oGoal, ePredicate.HASINTENTION.toString(), false);
+//			for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
+//				ArrayList<clsDataStructureContainerPair> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPrediction);
+//				//Add the intention as associated memories to the acts, the intention is added to the act
+//				//for ()
+//				
+//				oRetVal.addAll(getActsFromExpectations(oExpectations));
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 	
-	/**
-	 * Extract the list of secondary structure expectations from a list of predictions for a certain intention
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 01.08.2011 16:59:46
-	 *
-	 * @param poIntention
-	 * @param poPrediction
-	 * @return
-	 */
-	private ArrayList<clsDataStructureContainerPair> getExpectationFromPredictionList(clsSecondaryDataStructure poIntention, ArrayList<clsPrediction> poPrediction) {
-		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
-		
-		//Check if the intention == null
-		if (poIntention!=null) {
-			for (clsPrediction oSinglePrediction : poPrediction) {
-				//If the instanceIDs are the same in the prediction, the give back 
-				if (poIntention.getMoDSInstance_ID()==oSinglePrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDSInstance_ID()) {
-					oRetVal.addAll(oSinglePrediction.getExpectations());
-					break;
-				}
-			}
-		}
-
-		return oRetVal;
-	}
-	
-	/**
-	 * Extracts the associated acts from a list of expectations. 
-	 * An expectation could have several acts associated
-	 * (wendt)
-	 *
-	 * @since 02.08.2011 10:13:28
-	 *
-	 * @param poExpectations
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> getActsFromExpectations(ArrayList<clsDataStructureContainerPair> poExpectations) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//Go through all expectations
-		for (clsDataStructureContainerPair oSContainer : poExpectations) {
-			//Check associated data structures with the act
-			for (clsAssociation oAss : oSContainer.getSecondaryComponent().getMoAssociatedDataStructures()) {
-				if (oAss instanceof clsAssociationSecondary) {
-					//If the predicate of the association is a HASASSOCIATION, then 
-					if (((clsAssociationSecondary)oAss).getMoPredicate() == ePredicate.HASASSOCIATION.toString()) {
-						ArrayList<clsAssociation> oAssociatedStructures = new ArrayList<clsAssociation>();
-						
-						//Check if the act is the leaf or the root element and create a new data structure container
-						if (oAss.getLeafElement() instanceof clsAct) {
-						//oRetVal.add((clsAct) oAss.getLeafElement());
-						//Add the intention
-							clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getLeafElement(), oAss.getRootElement(), ePredicate.HASASSOCIATION.toString(), 1.0);
-							oAssociatedStructures.add(oAssSec);
-							oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getLeafElement(), oAssociatedStructures));
-						} else if (oAss.getRootElement() instanceof clsAct) {
-						clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oAss.getRootElement(), oAss.getLeafElement(), ePredicate.HASASSOCIATION.toString(), 1.0);
-						oAssociatedStructures.add(oAssSec);
-						oRetVal.add(new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) oAss.getRootElement(), oAssociatedStructures));						
-						//	oRetVal.add((clsAct) oAss.getRootElement());
-						}
-					}
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-
-	/**
-	 * Extract the action commands from a template act
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 02.08.2011 10:14:54
-	 *
-	 * @param poActs
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> GetActionCommandFromAct(ArrayList<clsSecondaryDataStructureContainer> poActList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		for (clsSecondaryDataStructureContainer oActContainer : poActList) {
-			clsAct oAct = (clsAct) oActContainer.getMoDataStructure();
-			String oActContent = oAct.getMoContent();
-			
-			String oNewActionCommand = getActionStringFromContent(oActContent);
-			//oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), oContainer.getMoAssociatedDataStructures()));
-			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), oActContainer.getMoAssociatedDataStructures()));
-		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 16.09.2011 08:50:51
-	 *
-	 * @param poContent
-	 * @return
-	 */
-	private String getActionStringFromContent(String poContent) {
-		String oRetVal = "";
-		//Input Structure
-		//"FORWARD|PRECONDITION|LOCATION:MANIPULATEABLE|ENTITY:ENTITY||ACTION|ACTION:MOVE_FORWARD||CONSEQUENCE|LOCATION:EATABLE|ENTITY:ENTITY|";
-		
-		//Output structure
-		//MOVE_FORWARD
-		
-		String[] oParts = poContent.split("\\|");
-		for (String oE : oParts) {
-			if (oE.contains("ACTION:")) {
-				String oActionString = "ACTION:";
-				oRetVal = oE.substring(oActionString.length(), oE.length());
-				break;
-			}
-		}
-		
-		return oRetVal;
-	}
-
-	
-	
-	private void printData(ArrayList<clsSecondaryDataStructureContainer> poAction, ArrayList<clsSecondaryDataStructureContainer> poGoal, ArrayList<clsPrediction> poPrediction) {
-		String oPrintoutPlan = "Action: ";
-		
-		for (clsSecondaryDataStructureContainer oC : poAction) {
-			//AW HACK test, in order to be able to use both WP and plan fragements at the same time
-			boolean bPlanFragement = false;
-			if (oC instanceof clsPlanFragment) {
-				bPlanFragement = true;
-				//break;
-			}
-			
-			if (bPlanFragement==true) {
-				oPrintoutPlan += ((clsPlanFragment)oC).m_act.m_strAction + "; ";
-			} else {
-				oPrintoutPlan += oC.getMoDataStructure().toString() + "; ";
-			}
-		}
-		
-		String oPrintoutGoal = "Goal: ";
-		for (clsSecondaryDataStructureContainer oC : poGoal) {
-			oPrintoutGoal += oC.getMoDataStructure().toString() + ";";
-		}
-		
-		String oPrintoutPrediction = PredictionToText(poPrediction);
-		
-		System.out.println("BEGIN");
-		System.out.println(oPrintoutPrediction);
-		System.out.println(oPrintoutGoal);
-		System.out.println(oPrintoutPlan);
-		System.out.println("END");
-		
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 10.09.2011 16:29:58
-	 *
-	 * @param poExtractedPrediction_IN
-	 */
-	private String PredictionToText(ArrayList<clsPrediction> poExtractedPrediction_IN) {
-		
-		String oStepInfo = "";
-		String oMomentInfo = "Prediction: ";
-		
-		for (clsPrediction oP : poExtractedPrediction_IN) {
-			
-			oMomentInfo += oP.toString();
-			
-			if (oP.getMoment().getPrimaryComponent()!=null) {
-				double rMatch = clsDataStructureTools.getMatchValueToPI(oP.getMoment().getPrimaryComponent());
-				oMomentInfo += "|Match: " + rMatch;
-			}
-			
-			if (oP.getIntention().getSecondaryComponent()!=null) {
-				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
-			}
-			
-			oStepInfo += oMomentInfo + "; ";
-			
-		}
-		
-		return oStepInfo;
-		
-		/*if (poExtractedPrediction_IN.isEmpty()==true) {
-			System.out.print(oStepInfo + "nothing");
-		} else {
-			System.out.print(oStepInfo);
-		}*/
-		
-	}
+//	/**
+//	 * Extract the action commands from a template act
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 02.08.2011 10:14:54
+//	 *
+//	 * @param poActs
+//	 * @return
+//	 */
+//	private ArrayList<clsSecondaryDataStructureContainer> GetActionCommandFromAct(ArrayList<clsSecondaryDataStructureContainer> poActList) {
+//		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		
+//		for (clsSecondaryDataStructureContainer oActContainer : poActList) {
+//			clsAct oAct = (clsAct) oActContainer.getMoDataStructure();
+//			String oActContent = oAct.getMoContent();
+//			
+//			String oNewActionCommand = getActionStringFromContent(oActContent);
+//			//oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), oContainer.getMoAssociatedDataStructures()));
+//			oRetVal.add(new clsSecondaryDataStructureContainer(clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", oNewActionCommand)), oActContainer.getMoAssociatedDataStructures()));
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 //	/**
 //	 * DOCUMENT (wendt) - insert description
@@ -698,47 +1144,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //		return oRetVal;
 //	}
 	
-	/**
-	 * For a goal, extract all expectations, which are bound to it through the intention
-	 * (wendt)
-	 *
-	 * @since 26.09.2011 09:00:44
-	 *
-	 * @param poGoal
-	 * @param poPredictionList
-	 * @return
-	 */
-	private ArrayList<clsDataStructureContainerPair> getExpectationFromGoal(clsSecondaryDataStructureContainer poGoal, ArrayList<clsPrediction> poPredictionList) {
-		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
-		
-		//Get the intentionDS
-		ArrayList<clsSecondaryDataStructure> oIntentionDSList = clsDataStructureTools.getDSFromSecondaryAssInContainer(poGoal, ePredicate.HASINTENTION.toString(), false);
-		for (clsSecondaryDataStructure oIntention : oIntentionDSList) {
-			//For a certain intention, get all expectations
-			ArrayList<clsDataStructureContainerPair> oExpectations = getExpectationFromPredictionList((clsSecondaryDataStructure) oIntention, poPredictionList);
-			//Add the intention as associated memories to the acts, the intention is added to the act
-			
-			oRetVal.addAll(oExpectations);
-			//getActsFromExpectations(oExpectations, oIntention)
-		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * If a the associated content shall be a phantasy, this function is applied on the action-container. It sets a new association to a predefined 
-	 * word presentation, which is asked for in F47
-	 * (wendt)
-	 *
-	 * @since 16.09.2011 20:47:01
-	 *
-	 * @param poActioncommandContainer
-	 */
-	private void setConsciousPhantasyActivation(clsSecondaryDataStructureContainer poActioncommandContainer) {
-		clsDataStructureTools.setAttributeWordPresentation(poActioncommandContainer, ePredicate.ACTIVATESPHANTASY.toString(), "ACTIVATEPHANTASY", "TRUE");
-	}
-
-		
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 * 
@@ -801,406 +1206,5 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //
 //		return oRetVal;
 //	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 11.08.2009, 16:16:38
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moEnvironmentalPerception_OUT);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 18.05.2010, 17:56:21
-	 * 
-	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I6_9(
-			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-
-		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
-
-	}
-	
-	/**
-	 * This is the top class for planning, where it is chosen, which plan is selected
-	 *
-	 * @since 26.09.2011 14:15:24
-	 *
-	 * @param poEnvironmentalPerception
-	 * @param poPredictionList
-	 * @param poGoalList
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> generatePlans(clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poPredictionList, ArrayList<clsSecondaryDataStructureContainer> poGoalList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		String oPI = "PERCEIVEDIMAGE";	//This is the perceived image
-		String oRI = "IMAGE";	//This is from the memory
-		
-		//Prepare perception to the Image structure of clsImage
-		ArrayList<clsImage> oPIImageStructure = preparePerception(poEnvironmentalPerception);
-		
-		
-		//Take only the first goal
-		//TODO: If plans shall be generated for more than one goals, this part shall be changed
-		ArrayList<clsSecondaryDataStructureContainer> poReducedGoalList = new ArrayList<clsSecondaryDataStructureContainer>();
-		if (poGoalList.isEmpty()==false) {
-			poReducedGoalList.add(poGoalList.get(0));
-		}
-		
-		//Go through each goal
-		for (clsSecondaryDataStructureContainer oGoal :  poReducedGoalList) {
-			ArrayList<clsSecondaryDataStructureContainer> oActionContainer = new ArrayList<clsSecondaryDataStructureContainer>();
-			
-			//If no plans could be generated for this goal, it is set false, else true
-			boolean bActionPlanOK = false;
-			
-			if ((((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oRI)==true) && (((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oPI)==false)) {
-				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromMemories(oGoal, poPredictionList);
-				oActionContainer.addAll(oActionFromMemoryContainerList);
-				
-				//If no plans could be generated for this goal, it is set false, else true
-				if (oActionContainer.isEmpty()==false) {
-					bActionPlanOK = true;
-					//continue;
-				}
-
-			}
-			
-			//If the image is a perceived image
-			if ((((clsWordPresentation)oGoal.getMoDataStructure()).getMoContent().contains(oPI)==true) && (bActionPlanOK==false)) {
-				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromPerception(oPIImageStructure, oGoal);
-				oActionContainer.addAll(oActionFromMemoryContainerList);
-				
-				//If no plans could be generated for this goal, it is set false, else true
-				if (oActionContainer.isEmpty()==false) {
-					//oRetVal.addAll(oActionContainer);
-					bActionPlanOK = true;
-					//continue;
-				}
-				
-			}
-			
-			//If the image is just a general goal without object, then search
-			if (bActionPlanOK==false) {
-				
-				//FIXME: Create search here
-				ArrayList<clsSecondaryDataStructureContainer> oActionFromMemoryContainerList = planFromNoObject(oGoal);
-				oActionContainer.addAll(oActionFromMemoryContainerList);
-				
-				//If no plans could be generated for this goal, it is set false, else true
-				if (oActionContainer.isEmpty()==false) {
-					//oRetVal.addAll(oActionContainer);
-					bActionPlanOK = true;
-					//continue;
-				}
-				
-			}
-			
-			oRetVal.addAll(oActionContainer);
-			
-		}
-		//then select, if the goal is connected to perception or to an associated memory
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Planning taken from remembered images
-	 *
-	 * @since 26.09.2011 14:19:45
-	 *
-	 * @param poGoal
-	 * @param poPredictionList
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> planFromMemories(clsSecondaryDataStructureContainer poGoal, ArrayList<clsPrediction> poPredictionList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//Get the expectations, which are associated with this goal
-		ArrayList<clsDataStructureContainerPair> oExpectationList = getExpectationFromGoal(poGoal, poPredictionList);
-		//Get the act, which is associated with the expectations
-		ArrayList<clsSecondaryDataStructureContainer> oActList = getActsFromExpectations(oExpectationList);
-		
-		
-		ArrayList<clsSecondaryDataStructureContainer> oPlanFragmentList = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		for (clsSecondaryDataStructureContainer oActContainer : oActList) {
-			oPlanFragmentList.add(convertActToPlanFragment((clsAct)oActContainer.getMoDataStructure()));
-		}
-		
-		oRetVal.addAll(oPlanFragmentList);
-		
-		return oRetVal;
-	}
-	
-	private clsPlanFragment convertActToPlanFragment(clsAct poAct) {
-		clsPlanFragment oRetVal = null;
-		
-		String oActContent = poAct.getMoContent();
-		String oNewActionCommand = getActionStringFromContent(oActContent);
-		
-		poAct.m_strAction = oNewActionCommand;
-		
-		oRetVal = new clsPlanFragment(poAct, new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER, eEntity.CAKE));
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Planning, if no object is given
-	 *
-	 * @since 26.09.2011 14:20:06
-	 *
-	 * @param poGoal
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> planFromNoObject(clsSecondaryDataStructureContainer poGoal) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		oRetVal.addAll(planSearch());
-		
-		return oRetVal;
-	}
-	
-	private ArrayList<clsImage> preparePerception(clsDataStructureContainerPair poEnvironmentalPerception) {
-		ArrayList<clsImage> oRetVal = new ArrayList<clsImage>();
-		
-		// get current environmental situation from moSContainer -> create an image
-		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
-		
-		oRetVal.addAll(currentImageAllObjects);
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Remove image parts, which are not active for this goal
-	 *
-	 * @since 26.09.2011 14:54:04
-	 *
-	 * @param poGoal
-	 * @param poCurrentImageAllObjects
-	 * @return
-	 */
-	private ArrayList<clsImage> filterForDecisionMakingGoal (clsSecondaryDataStructureContainer poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
-		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
-		//TODO AP: AW This loop considers the goal objects, put it where it should be
-		//for (clsSecondaryDataStructureContainer oGoalContainer : poGoalList) {
-			String oDriveObject = clsAffectTools.getDriveObjectType(((clsWordPresentation)poGoal.getMoDataStructure()).getMoContent());
-			
-			for (clsImage oImage : poCurrentImageAllObjects) {
-				if (oDriveObject.equals("ENTITY:" + oImage.m_eObj)) {
-					currentImageSorted.add(oImage);
-				}
-			}
-		//}
-			
-			return currentImageSorted;
-	}
-	
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 26.09.2011 14:27:40
-	 *
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> planSearch() {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//if (currentImageAllObjects.isEmpty()) {
-		ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
-		tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
-				new clsImage(eEntity.NONE), 
-				new clsImage(eDirection.CENTER, eEntity.CAKE)));
-		oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
-			//return oRetVal;
-		//}
-		
-		return oRetVal;
-	}
-		
-	
-	/**
-	 * Planning based on perception
-	 *
-	 * @since 26.09.2011 14:20:17
-	 *
-	 * @param poEnvironmentalPerception
-	 * @param poGoalList
-	 * @return
-	 */
-	private ArrayList<clsSecondaryDataStructureContainer> planFromPerception(ArrayList<clsImage> poPIImageStructure, clsSecondaryDataStructureContainer poGoal) {
-
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		// get current environmental situation from moSContainer -> create an image
-		//ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
-		
-		// if no image of the current world-situation can be returned, we dont't know where to start with planning -> search sequence
-		//if (currentImageAllObjects.isEmpty()) {
-		//	ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
-		//	tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"),
-		//			new clsImage(eEntity.NONE), 
-		//			new clsImage(eDirection.CENTER, eEntity.CAKE)));
-		//	oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
-		//	return oRetVal;
-		//}
-		
-//		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
-//		//TODO AP: AW This loop considers the goal objects, put it where it should be
-//		for (clsSecondaryDataStructureContainer oGoalContainer : poGoalList) {
-//			String oDriveObject = clsAffectTools.getDriveObjectType(((clsWordPresentation)oGoalContainer.getMoDataStructure()).getMoContent());
-//			
-//			for (clsImage oImage : currentImageAllObjects) {
-//				if (oDriveObject.equals("ENTITY:" + oImage.m_eObj)) {
-//					currentImageSorted.add(oImage);
-//				}
-//			}
-//		}
-		
-		//Filter all object, which are not drive objects of this goal
-		ArrayList<clsImage> ofilteredImages = filterForDecisionMakingGoal(poGoal, poPIImageStructure);
-		
-		//Start planning according to the remaining drive objects
-		//		System.out.println(currentImage.m_eDist);
-		PlanningGraph plGraph = new PlanningGraph();
-		// add plans and connections between plans
-		try {
-			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
-			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
-		
-			
-			// check, which actions can be executed next
-			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, ofilteredImages);
-			//ArrayList<clsPlanFragment> sortedApplicablePlanningNodes = new ArrayList<clsPlanFragment>();
-			
-			// Those plan fragments must fit to the goals, else, they are not applicated
-			//Remove those planning nodes, which are not conform with the goals
-//			for (clsDataStructureContainer oGoalContainer : poGoalList) {
-//				for (clsPlanFragment oPlanFragment : currentApplicalbePlanningNodes) {
-//					//Extract Info from Planning Node
-//					//oPlanFragment.m_act
-//					
-//				}
-//				
-//			}
-			
-			// run through applicable plans and see which results can be achieved by executing plFragment
-			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) { 
-				plGraph.setStartPlanningNode(plFragment);
-				plGraph.breathFirstSearch();
-			}
-			
-			
-			// copy output -> workaround till planning works correctly
-			oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
-			
-			
-			
-			
-			//FIXME AP: Dead code
-			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>(); 
-			
-			for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
-				plansTemp.add(myPlans);
-			
-			// output actions
-//			PlanningWizard.printPlansToSysout(plansTemp , 0);
-//			plGraph.m_planningResults.get(1)
-
-			int i = 0;
-		} catch (Exception e) {
-			System.out.println("FATAL: Planning Wizard coldn't be initialized");
-		}
-		
-		// copy perception for movement control
-		//moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
-		
-		//plGraph.setStartPlanningNode(n)
-		return oRetVal;
-	}
-
-	
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author perner 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
-
-	}
-	
-	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {
-		
-		ArrayList<clsSecondaryDataStructureContainer> moPlans = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		for (clsPlanFragment plFr : myPlans) {
-			moPlans.add(plFr);
-		}
-		
-		// add perception
-		return moPlans;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_final()
-	 */
-	@Override
-	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 03.03.2011, 16:55:51
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
-	 */
-	@Override
-	protected void setModuleNumber() {
-		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 15.04.2011, 13:52:57
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setDescription()
-	 */
-	@Override
-	public void setDescription() {
-		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
-	}
-	
 	
 }
