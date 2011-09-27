@@ -351,7 +351,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		poAct.m_strAction = oNewActionCommand;
 		
-		oRetVal = new clsPlanFragment(poAct, new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER, eEntity.CAKE));
+		oRetVal = new clsPlanFragment(poAct, new clsImage(), new clsImage());
 		
 		return oRetVal;
 	}
