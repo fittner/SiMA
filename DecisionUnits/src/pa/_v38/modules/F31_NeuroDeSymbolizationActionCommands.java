@@ -167,7 +167,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );
 				} else if(oAction.equals("MOVE_BACKWARD")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,10.0) );
 				} else if(oAction.equals("TURN_LEFT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
 				} else if(oAction.equals("TURN_RIGHT")){
@@ -192,9 +192,12 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				
 */				
 				else if (oAction.equals("FLEE")) {
-					if (mnCounter%70==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence(180.0f, 60) );
-					} 
+					//if (mnCounter%70==0) {
+					//TODO 
+						//moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence(180.0f, 60) );
+						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
+						
+					//} 
 				}
 				else if (oAction.equals("SEARCH1")) {
 					if (mnCounter%75==0) {

@@ -78,7 +78,7 @@ public class clsInspectorMappingDecision {
                 oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");
         	}
         	else if (clsPsychoAnalysis.getModelVersion().equals("v38")){
-        		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
+        		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modulesxxx");
             	oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
         	}

@@ -112,7 +112,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		moPartialDriveCategories = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
 		
 		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.1, 0.2, 0.3, 0.4)) ) );
+				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.6, 0.2, 0.3, 0.4)) ) );
 		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
 				"LIFE", "RELAX", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
 		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(

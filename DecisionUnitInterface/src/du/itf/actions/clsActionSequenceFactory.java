@@ -90,7 +90,7 @@ public class clsActionSequenceFactory {
 		
 		// move Back
 		int moveBackDistance=fleeDistance/2;
-		oSeq.add(0, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1),moveBackDistance);
+		//oSeq.add(0, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,10),moveBackDistance);
 		
 		// turn Right
 		double turnPerStepAngel=Math.sqrt(turnAngel);

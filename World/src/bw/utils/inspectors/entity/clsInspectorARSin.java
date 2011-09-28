@@ -16,6 +16,11 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 
+//import decisionunit.clsBaseDecisionUnit;
+
+//import pa._v38.clsProcessor;
+//import pa._v38.modules.clsPsychicApparatus;
+
 import bw.body.clsComplexBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.clsARSIN;
@@ -116,6 +121,8 @@ public class clsInspectorARSin extends Inspector {
 		//*** Goals ***
 		Box oBoxGoals = new Box(BoxLayout.Y_AXIS);
 		oBoxGoals.setBorder(BorderFactory.createTitledBorder("Goals"));
+		//clsBaseDecisionUnit poDU = (clsBaseDecisionUnit) poItfDU;
+		//clsPsychicApparatus oPsyApp = ((clsProcessor)poPA.getProcessor()).getPsychicApparatus();
 		//oBoxGoals.add(moInspectorBodyOverview);
 		
 		//*** Imaginary Actions ***

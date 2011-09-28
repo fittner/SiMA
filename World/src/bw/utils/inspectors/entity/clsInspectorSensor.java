@@ -77,8 +77,8 @@ public class clsInspectorSensor extends Inspector {
 									.getSensorEngine().getMeRegisteredSensors().get(eSensorExtType.VISION); 
 		
 		//get the default things
-		clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, moHostEntity);
-		add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
+		//clsInspectorBasic moDefaultInspector = new clsInspectorBasic(poOriginalInspector, poWrapper, poGuiState, moHostEntity);
+		//add(moDefaultInspector,  BorderLayout.AFTER_LAST_LINE);
 		
 		//inspected fields....
 		Box oBox1 = new Box(BoxLayout.Y_AXIS);
