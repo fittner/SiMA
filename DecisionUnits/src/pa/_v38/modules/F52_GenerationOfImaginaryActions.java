@@ -217,7 +217,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// takes over
 		// a kind of planning.
 		
-		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
 	}
 	
