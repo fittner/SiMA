@@ -656,6 +656,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 			generateWorldBoundaries();
 		}
 		System.out.println(" done.");
+		System.out.println("there is a glitch in the matrix ... happy coding and follow the white rabbit!"); //ein letzter gruﬂ ... :) TD
 	}
 
 	/**
