@@ -1,7 +1,7 @@
 /**
  * E27_GenerationOfImaginaryActions.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author deutsch/perner
  * 11.08.2009, 14:55:01
  */
 package pa._v38.modules;
@@ -42,9 +42,11 @@ import pa._v38.tools.planningHelpers.eEntity;
 import config.clsProperties;
 
 /**
- * DOCUMENT (perner) - insert description
+ * DOCUMENT (perner) - Based on the goal delivered from module F26_Decision_Making, a set of action-plans is created in order
+ * to achieve the goal. Each plan consists of plan-fragments. Based on images, actions a combined and the outcome of a 
+ * plan-fragment respective of a plan is defined. The generated action-plan is passed on the the next module F29_EvaluationOfImaginaryActions. 
  * 
- * @author deutsch 11.08.2009, 14:55:01
+ * @author perner 09.10.2011
  * 
  */
 public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
@@ -84,13 +86,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F52_GenerationOfImaginaryActions(String poPrefix,
-			clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData,
-				poKnowledgeBaseHandler);
+	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 		
@@ -98,69 +96,33 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// just used to test if the planning module does not have any compile errors
 		generateTestData(); // TD 2011/07/26: moved to constructor. list grew by nine identical elements each iteration.
-		
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @author deutsch 14.04.2011, 17:36:19
+	 * @author perner 12.07.2010, 10:47:41
 	 * 
-	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 * @see pa.modules.clsModuleBase#process_draft()
 	 */
 	@Override
-	public String stateToTEXT() {
-		String text = "";
+	protected void process_draft() {
 
-		text += toText.listToTEXT("moPlanInput", moPlanInput);
-		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
-		text += toText.listToTEXT("moActions_Output", moActions_Output);
-		text += toText.listToTEXT("moGoalInput", moGoalInput);
-		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-
-		return text;
-	}
-
-	public static clsProperties getDefaultProperties(String poPrefix) {
-		String pre = clsProperties.addDot(poPrefix);
-
-		clsProperties oProp = new clsProperties();
-		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE,
-				eImplementationStage.BASIC.toString());
-
-		return oProp;
-	}
-
-	private void applyProperties(String poPrefix, clsProperties poProp) {
-		// String pre = clsProperties.addDot(poPrefix);
-
-		// nothing to do
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 11.08.2009, 12:09:34
-	 * 
-	 * @see pa.modules.clsModuleBase#setProcessType()
-	 */
-	@Override
-	protected void setProcessType() {
-		mnProcessType = eProcessType.SECONDARY;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 11.08.2009, 12:09:34
-	 * 
-	 * @see pa.modules.clsModuleBase#setPsychicInstances()
-	 */
-	@Override
-	protected void setPsychicInstances() {
-		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (perner) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -219,6 +181,68 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
+	}
+	
+	
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 14.04.2011, 17:36:19
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {
+		String text = "";
+
+		text += toText.listToTEXT("moPlanInput", moPlanInput);
+		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
+		text += toText.listToTEXT("moActions_Output", moActions_Output);
+		text += toText.listToTEXT("moGoalInput", moGoalInput);
+		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+
+		return text;
+	}
+
+	public static clsProperties getDefaultProperties(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+
+		clsProperties oProp = new clsProperties();
+		oProp.setProperty(pre + P_PROCESS_IMPLEMENTATION_STAGE,
+				eImplementationStage.BASIC.toString());
+
+		return oProp;
+	}
+
+	private void applyProperties(String poPrefix, clsProperties poProp) {
+		// String pre = clsProperties.addDot(poPrefix);
+
+		// nothing to do
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setProcessType()
+	 */
+	@Override
+	protected void setProcessType() {
+		mnProcessType = eProcessType.SECONDARY;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 12:09:34
+	 * 
+	 * @see pa.modules.clsModuleBase#setPsychicInstances()
+	 */
+	@Override
+	protected void setPsychicInstances() {
+		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 	
 	/**
@@ -912,24 +936,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			oStepInfo += oMomentInfo + "; ";
 			
 		}
-		
 		return oStepInfo;
-		
 	}
 
 	
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author perner 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
 
-	}
+
 	
 	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {
 		
@@ -941,19 +954,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		// add perception
 		return moPlans;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_final()
-	 */
-	@Override
-	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
 	}
 
 	/*
@@ -980,6 +980,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public void setDescription() {
 		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
 	}
+	
+	
+	
+/*******************************************************************
+ * all functions below are commented -> zelinger test functionality
+ ******************************************************************/
+	
 	
 	/**
 	 * Generate test data of one act
