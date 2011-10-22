@@ -171,7 +171,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		
 		// if there is enough psychic energy
-		if (moDT3_PsychicEnergyStorage.D3_2_receive(consumed_psychicEnergyPerInteration) > threshold_psychicEnergy
+		if (moDT3_PsychicEnergyStorage.send_D3_1(mnModuleNumber) > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
 			// check perception and drives
 			// apply internalized rules

@@ -1,7 +1,7 @@
 /**
  * E27_GenerationOfImaginaryActions.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
+ * @author deutsch/perner
  * 11.08.2009, 14:55:01
  */
 package pa._v38.modules;
@@ -42,9 +42,11 @@ import pa._v38.tools.planningHelpers.eEntity;
 import config.clsProperties;
 
 /**
- * DOCUMENT (perner) - insert description
+ * DOCUMENT (perner) - Based on the goal delivered from module F26_Decision_Making, a set of action-plans is created in order
+ * to achieve the goal. Each plan consists of plan-fragments. Based on images, actions a combined and the outcome of a 
+ * plan-fragment respective of a plan is defined. The generated action-plan is passed on the the next module F29_EvaluationOfImaginaryActions. 
  * 
- * @author deutsch 11.08.2009, 14:55:01
+ * @author perner 09.10.2011
  * 
  */
 public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
@@ -84,13 +86,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F52_GenerationOfImaginaryActions(String poPrefix,
-			clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData,
-				poKnowledgeBaseHandler);
+	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 		
@@ -98,9 +96,101 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// just used to test if the planning module does not have any compile errors
 		generateTestData(); // TD 2011/07/26: moved to constructor. list grew by nine identical elements each iteration.
-		
+	}
+	
+	/***********************************************************************************************
+	 *  BEGINN generic class methods
+	 *  below are generic class methods which are shared through all implementations of ARS-modules 
+	 **********************************************************************************************/
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author perner 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 12.07.2010, 10:47:41
+	 * 
+	 * @see pa.modules.clsModuleBase#process_final()
+	 */
+	@Override
+	protected void process_final() {
+		// TODO (perner) - Auto-generated method stub
+		throw new java.lang.NoSuchMethodError();
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 16:16:38
+	 * 
+	 * @see pa.modules.clsModuleBase#process()
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	protected void process_basic() {
+		//Generate actions for the top goal
+		moActions_Output = generatePlans(moEnvironmentalPerception_IN, moExtractedPrediction_IN, moGoalInput);
+		
+		//Pass forward the associated memories and perception
+		try {
+			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair) moEnvironmentalPerception_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		
+		
+		/**		
+		 HZ 2010.08.28
+		 E27 should retrieve required acts through E28. However, it can be doubted if this works without a loop between E27 and E28. In addition the functionality of E28 has to be discussed as it should only access the memory and
+		 retrieve acts. Reasons for my doubts: Actually E28 receives (like E27) the current goal that is formed out of a drive that should be satisfied and the object  that should be used to satisfy it. Now it can be searched in the
+		 memory which actions have to be set to be able to satisfy the drive (e.g. action EAT in order to NOURISH a CAKE). However, in general the required object is not in the right position in order to use the action on it (A cake can only be eaten in case it is in the eatable area). Hence other Acts have to be
+		 triggered that help to put the agent into the right position. These acts are notpart of the act "eat cake". They would be accomplished before the cake can be eaten. Hence the plan has to be rebuild by single acts that can only be retrieved from the memory in case there is a loop between E27 and E28
+		 or E27 has a memory access on its own => E28 woul dbe senseless.  Until this question has been solved, E28 is implemented to retrieve and put acts together which means that it takes over a kind of planning.
+		 */
+		
+		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		
+	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 03.03.2011, 16:55:51
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
+	 */
+	@Override
+	protected void setModuleNumber() {
+		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 15.04.2011, 13:52:57
+	 * 
+	 * @see pa.modules._v38.clsModuleBase#setDescription()
+	 */
+	@Override
+	public void setDescription() {
+		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
+	}
+
+	
+	
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -132,9 +222,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	}
 
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		// String pre = clsProperties.addDot(poPrefix);
-
-		// nothing to do
+		
 	}
 
 	/*
@@ -164,62 +252,73 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @author deutsch 11.08.2009, 16:16:38
 	 * 
-	 * @see pa.modules.clsModuleBase#process()
+	 * @author deutsch 11.08.2009, 14:55:51
+	 * 
+	 * @see pa.interfaces.I7_1#receive_I7_1(int)
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	protected void process_basic() {
-		//Generate actions for the top goal
-		moActions_Output = generatePlans(moEnvironmentalPerception_IN, moExtractedPrediction_IN, moGoalInput);
-		
-		//Pass forward the associated memories and perception
+	public void receive_I6_8(
+			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
+		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction);
+		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
 		try {
-			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair) moEnvironmentalPerception_IN.clone();
+			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poEnvironmentalPerception.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
-		
-		// HZ 2010.08.28
-		// E27 should retrieve required acts through E28. However, it can be
-		// doubted if this works without a loop between E27 and E28. In addition
-		// the functionality of
-		// E28 has to be discussed as it should only access the memory and
-		// retrieve acts.
-		// Reasons for my doubts: Actually E28 receives (like E27) the current
-		// goal
-		// that is formed out of a drive that should be satisfied and the object
-		// that should be used to satisfy it. Now it can be searched in the
-		// memory which
-		// actions have to be set to be able to satisfy the drive (e.g. action
-		// EAT in
-		// order to NOURISH a CAKE). However, in general the required object is
-		// not
-		// in the right position in order to use the action on it (A cake can
-		// only be eaten
-		// in case it is in the eatable area). Hence other Acts have to be
-		// triggered that
-		// help to put the agent into the right position. These acts are not
-		// part
-		// of the act "eat cake". They would be accomplished before the cake can
-		// be
-		// eaten. Hence the plan has to be rebuild by single acts that can only
-		// be
-		// retrieved from the memory in case there is a loop between E27 and E28
-		// or
-		// E27 has a memory access on its own => E28 woul dbe senseless.
-		//
-		// Until this question has been solved, E28
-		// is implemented to retrieve and put acts together which means that it
-		// takes over
-		// a kind of planning.
-		
-		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
-		
+		// FIXME (perner) - please create more meaningfull debbuging output 
+		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
+		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
+		// such println lines, no one will be able to extract any meaningfull information from the flood auf console output! //TD 2011/07/19
+		//System.out.println(poGoalInput.size()); 
+				
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 11.08.2009, 16:16:38
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moEnvironmentalPerception_OUT);
+
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @author deutsch 18.05.2010, 17:56:21
+	 * 
+	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I6_9(
+			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+
+		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
+
+	}
+
+	/***********************************************************************************************
+	 *  END generic class methods
+	 **********************************************************************************************/
+	
+	/***********************************************************************************************
+	 *  BEGINN class specific methods (e.g. planning methods)
+	 **********************************************************************************************/
 	
 	/**
 	 * This is the top class for planning, where it is chosen, which plan is selected, dependent on the content of the goal
@@ -517,9 +616,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// copy output -> workaround till planning works correctly
 			oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
 			
-			
-			
-			
 			//FIXME AP: Dead code
 			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>(); 
 			
@@ -530,7 +626,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //			PlanningWizard.printPlansToSysout(plansTemp , 0);
 //			plGraph.m_planningResults.get(1)
 
-			int i = 0;
+
 		} catch (Exception e) {
 			System.out.println("FATAL: Planning Wizard coldn't be initialized");
 		}
@@ -542,44 +638,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 
-	/**
-	 * @author zeilinger 02.09.2010, 19:48:48
-	 * 
-	 * @return the moActions_Output
-	 */
-	public ArrayList<clsSecondaryDataStructureContainer> getMoActions_Output() {
-		return moActions_Output;
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * 
-	 * @author deutsch 11.08.2009, 14:55:51
-	 * 
-	 * @see pa.interfaces.I7_1#receive_I7_1(int)
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I6_8(
-			ArrayList<clsSecondaryDataStructureContainer> poGoalInput, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
-		moGoalInput = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poGoalInput);
-		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction);
-		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
-		try {
-			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poEnvironmentalPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		// FIXME (perner) - please create more meaningfull debbuging output 
-		// (something like System.out.println("F52_GenerationOfImaginaryActions.receive_I6_8: "+poGoalInput.size());). 
-		// or - much better - use the inspectors (e.g. stateToText()) for such output. if every of the 33 modules has 1-2 
-		// such println lines, no one will be able to extract any meaningfull information from the flood auf console output! //TD 2011/07/19
-		//System.out.println(poGoalInput.size()); 
-				
-	}
-	
 	/**
 	 * Fill m_availablePlanFragments with test data.
 	 *
@@ -803,40 +861,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		clsDataStructureTools.setAttributeWordPresentation(poActioncommandContainer, ePredicate.ACTIVATESPHANTASY.toString(), "ACTIVATEPHANTASY", "TRUE");
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 11.08.2009, 16:16:38
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moEnvironmentalPerception_OUT);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 18.05.2010, 17:56:21
-	 * 
-	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I6_9(
-			ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-
-		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
-
-	}
-	
 
 	
 	/**
@@ -912,24 +936,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			oStepInfo += oMomentInfo + "; ";
 			
 		}
-		
 		return oStepInfo;
-		
 	}
 
 	
 	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author perner 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
 
-	}
+
 	
 	public ArrayList<clsSecondaryDataStructureContainer> copyPlanFragments(ArrayList<clsPlanFragment> myPlans) {
 		
@@ -943,43 +956,32 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return moPlans;
 	}
 
-	/*
-	 * (non-Javadoc)
+	/***********************************************************************************************
+	 *  END class specific methods (e.g. planning methods)
+	 **********************************************************************************************/
+	
+	
+	/****************************************************
+	 * Zeilinger functions (probably not used any more)
+	 ****************************************************/
+	
+	/**
+	 * @author zeilinger 02.09.2010, 19:48:48
 	 * 
-	 * @author deutsch 12.07.2010, 10:47:41
-	 * 
-	 * @see pa.modules.clsModuleBase#process_final()
+	 * @return the moActions_Output
 	 */
-	@Override
-	protected void process_final() {
-		// TODO (perner) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+	public ArrayList<clsSecondaryDataStructureContainer> getMoActions_Output() {
+		return moActions_Output;
 	}
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 03.03.2011, 16:55:51
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setModuleNumber()
-	 */
-	@Override
-	protected void setModuleNumber() {
-		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
-
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @author deutsch 15.04.2011, 13:52:57
-	 * 
-	 * @see pa.modules._v38.clsModuleBase#setDescription()
-	 */
-	@Override
-	public void setDescription() {
-		moDescription = "By combination of the motives provided by {E26} and the experiences retrieved by {E28}, {E27} generates a set of imaginary actions. Before actions are passed to {E30} they are solely psychic contents and thus imaginary. An imaginary action (-plan) defines a more or less complex sequence of actions on how to satisfy a need based on actions taken in similar situations. ";
-	}
+	
+	
+	
+	
+/*******************************************************************
+ * all functions below are commented -> zelinger test functionality
+ ******************************************************************/
+	
 	
 	/**
 	 * Generate test data of one act

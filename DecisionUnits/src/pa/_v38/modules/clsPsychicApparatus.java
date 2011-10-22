@@ -18,6 +18,7 @@ import pa._v38.logger.clsDataLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -82,6 +83,8 @@ public class clsPsychicApparatus {
 	public DT1_LibidoBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
 	public DT2_BlockedContentStorage moBlockedContentStorage;
+	/** Free psychic energy storage. Necessary for DT3.; @since 12.10.2011 18:38:57 */
+	public DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	/** List of the currently transfered data via the interfaces. Has to be refilled each round at each send_I?_? method manually!; @since 13.07.2011 17:49:33 */
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
@@ -121,6 +124,7 @@ public class clsPsychicApparatus {
 		
 		moLibidoBuffer = new DT1_LibidoBuffer();
 		moBlockedContentStorage = new DT2_BlockedContentStorage();
+		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
 					
 		applyProperties(poPrefix, poProp);
 		
@@ -237,7 +241,7 @@ public class clsPsychicApparatus {
 			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage);
+			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moLibidoBuffer);
 			moF55_SuperEgoProactive = new F55_SuperEgoProactive(pre + F55_SuperEgoProactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
