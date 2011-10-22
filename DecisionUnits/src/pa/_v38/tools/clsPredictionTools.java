@@ -301,7 +301,7 @@ public class clsPredictionTools {
 				//11. Get the root object
 				clsSecondaryDataStructureContainer oIntention = poIntention;
 				//12. Create an association between the intention and the WP
-				clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("REALITYAFFECT", oIntention.getMoDataStructure(), oReduceGoal, ePredicate.HASREALTYAFFECT.toString(), 1.0);
+				clsAssociationSecondary oAssSec = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("REALITYAFFECT", oIntention.getMoDataStructure(), oReduceGoal, ePredicate.HASREALITYAFFECT.toString(), 1.0);
 				//13. Add the association to the container
 				oIntention.addMoAssociatedDataStructure(oAssSec);
 				
@@ -322,7 +322,7 @@ public class clsPredictionTools {
 	 * @return
 	 */
 	public static ArrayList<clsSecondaryDataStructure> getReduceAffect(clsSecondaryDataStructureContainer poIntention) {
-		return clsDataStructureTools.getAttributeOfSecondaryPresentation(poIntention, ePredicate.HASREALTYAFFECT.toString());
+		return clsDataStructureTools.getAttributeOfSecondaryPresentation(poIntention, ePredicate.HASREALITYAFFECT.toString());
 		
 	}
 	

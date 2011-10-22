@@ -1093,7 +1093,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			
 			if (bReduceAffect==true) {
 				//1. Remove old associations in order to replace them
-				clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALTYAFFECT);
+				clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALITYAFFECT);
 				//2. Get progress and confirmation factors
 				double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
 				double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());

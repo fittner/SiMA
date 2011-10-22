@@ -42,4 +42,16 @@ public enum eXPosition {
 		
 		return oRetVal;
 	}
+	
+	public static int getValue(String poInput) {
+		int oRetVal = -10;
+		
+		for (eXPosition oE : eXPosition.values()) {
+			if (poInput.equals(oE.toString())) {
+				oRetVal = oE.mnPos;
+			}
+		}
+		
+		return oRetVal;
+	}
 }
