@@ -20,9 +20,7 @@ import pa._v38.interfaces.modules.D2_3_receive;
 import pa._v38.interfaces.modules.D2_4_receive;
 import pa._v38.interfaces.modules.D2_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -31,8 +29,6 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
@@ -82,178 +78,178 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
     	// the element B contains the AssociatedDataStructures from the PrimaryDataStructureContainer that has been blocked.
     	moBlockedContent = new ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>();
     	// Fill with initial test data
-    	fillWithTestData();
+    	//fillWithTestData();
     }
 
 	
-	/**
-	 * Cerates a few DriveMeshes and TemplateImages and puts them in the BlockedContentStorage
-	 * to demonstrate the functionality of the matching algorithm.
-	 *
-	 * @author Marcus Zottl (e0226304),
-	 * 05.07.2011, 21:07:02
-	 *
-	 */
-	@SuppressWarnings("unchecked")
-	private void fillWithTestData() {
-    	ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
-    	oList.add( new ArrayList<Object>( Arrays.asList("PUNCH", "BITE", 0.0, 0.0, 0.8, 0.2, -0.5) ) );
-    	oList.add( new ArrayList<Object>( Arrays.asList("GREEDY", "NOURISH", 0.8, 0.2, 0.0, 0.0, -0.3) ) );
-    	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, -0.7) ) );
-
-    	for (ArrayList<Object> oData:oList) {
-			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 
-			clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
-																	   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
-																	   oData.get(0)));
-			oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
-			oDM.setPleasure( (Double)oData.get(6) ); 
-	    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDM, new ArrayList<clsAssociation>()));    	
-    	}
-    	
-    	// TestData: TemplateImage with a cake exactly like the one in the simulator
-    	// create a new TemplateImage
-    	clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
-    	// create a cake to put into the TI
-    	clsThingPresentationMesh newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(33, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
-    	clsThingPresentation newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(35, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(37, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(39, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(41, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	
-    	// add cake to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
-    	clsAssociationAttribute newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	ArrayList<clsAssociation> newAssocDSs = new  ArrayList<clsAssociation>();
-    	newAssocDSs.add(newAssocAttr);
-    	
-    	// add a DriveMesh to the cake to demonstrate how this DM gets added to the cake
-    	// in the perception if this blocked content is matched in the perception
-    	oList = new ArrayList<ArrayList<Object>>();
-    	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, -0.7) ) );
-
-    	for (ArrayList<Object> oData:oList) {
-			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 
-			clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
-																	   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
-																	   oData.get(0)));
-			oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
-			oDM.setPleasure( (Double)oData.get(6) );
-			newAssocDSs.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(10400, eDataType.DM, "ASSOCIATIONDM"), oDM, newTPM));
-    	}
-
-    	// add TI and associatedDataSructures to blockedContent
-    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
-    	
-    	// TestData: TemplateImage with a cake that differs from the one in the simulator
-    	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
-    	// create a cake to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(11033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11036, eDataType.TP, "Color"), "#61210B");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11038, eDataType.TP, "ShapeType"), "SQARE");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	// add cake to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs = new  ArrayList<clsAssociation>();
-    	newAssocDSs.add(newAssocAttr);
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11350, eDataType.TP, "LOCATION"), "RIGHT");
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs.add(newAssocAttr);
-
-    	// add TI and associatedDataSructures to blockedContent
-    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
-    	
-    	// TestData: TemplateImage with cake and a wall that is far away (Location FAR)
-    	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
-    	// create a cake to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(12033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	// add cake to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs = new  ArrayList<clsAssociation>();
-    	newAssocDSs.add(newAssocAttr);
-    	    	
-    	// create a wall to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(12050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "WALL");
-    	// add wall to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(120350, eDataType.TP, "LOCATION"), "FAR");
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs.add(newAssocAttr);
-
-    	// add TI and associatedDataSructures to blockedContent
-    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
-    	
-    	// TestData: TemplateImage with cake and an agent that is far away (location FAR)
-    	// create a new TemplateImage
-    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
-    	// create a cake to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
-    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
-    	// add cake to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs = new  ArrayList<clsAssociation>();
-    	newAssocDSs.add(newAssocAttr);
-    	    	
-    	// create a agent to put into the TI
-    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "ARSIN");
-    	// FIXME (zottl) add properties to Agent! look at properties of a perceived Agent to find out how to construct one
-    	// add agent to TI 
-    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
-    	
-    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(130340, eDataType.TP, "Alive"), true);
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs.add(newAssocAttr);
-    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(120350, eDataType.TP, "LOCATION"), "FAR");
-    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
-    	newAssocDSs.add(newAssocAttr);
-
-    	// add TI and associatedDataSructures to blockedContent
-    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
-    }
+//	/**
+//	 * Cerates a few DriveMeshes and TemplateImages and puts them in the BlockedContentStorage
+//	 * to demonstrate the functionality of the matching algorithm.
+//	 *
+//	 * @author Marcus Zottl (e0226304),
+//	 * 05.07.2011, 21:07:02
+//	 *
+//	 */
+//	@SuppressWarnings("unchecked")
+//	private void fillWithTestData() {
+//    	ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
+//    	oList.add( new ArrayList<Object>( Arrays.asList("PUNCH", "BITE", 0.0, 0.0, 0.8, 0.2, -0.5) ) );
+//    	oList.add( new ArrayList<Object>( Arrays.asList("GREEDY", "NOURISH", 0.8, 0.2, 0.0, 0.0, -0.3) ) );
+//    	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, -0.7) ) );
+//
+//    	for (ArrayList<Object> oData:oList) {
+//			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 
+//			clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
+//																	   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
+//																	   oData.get(0)));
+//			oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
+//			oDM.setPleasure( (Double)oData.get(6) ); 
+//	    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(oDM, new ArrayList<clsAssociation>()));    	
+//    	}
+//    	
+//    	// TestData: TemplateImage with a cake exactly like the one in the simulator
+//    	// create a new TemplateImage
+//    	clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+//    	// create a cake to put into the TI
+//    	clsThingPresentationMesh newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(33, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
+//    	clsThingPresentation newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(35, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(37, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(39, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(41, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	
+//    	// add cake to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
+//    	clsAssociationAttribute newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	ArrayList<clsAssociation> newAssocDSs = new  ArrayList<clsAssociation>();
+//    	newAssocDSs.add(newAssocAttr);
+//    	
+//    	// add a DriveMesh to the cake to demonstrate how this DM gets added to the cake
+//    	// in the perception if this blocked content is matched in the perception
+//    	oList = new ArrayList<ArrayList<Object>>();
+//    	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, -0.7) ) );
+//
+//    	for (ArrayList<Object> oData:oList) {
+//			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 
+//			clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
+//																	   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
+//																	   oData.get(0)));
+//			oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
+//			oDM.setPleasure( (Double)oData.get(6) );
+//			newAssocDSs.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(10400, eDataType.DM, "ASSOCIATIONDM"), oDM, newTPM));
+//    	}
+//
+//    	// add TI and associatedDataSructures to blockedContent
+//    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
+//    	
+//    	// TestData: TemplateImage with a cake that differs from the one in the simulator
+//    	// create a new TemplateImage
+//    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+//    	// create a cake to put into the TI
+//    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(11033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11036, eDataType.TP, "Color"), "#61210B");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11038, eDataType.TP, "ShapeType"), "SQARE");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(11041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	// add cake to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs = new  ArrayList<clsAssociation>();
+//    	newAssocDSs.add(newAssocAttr);
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(11350, eDataType.TP, "LOCATION"), "RIGHT");
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs.add(newAssocAttr);
+//
+//    	// add TI and associatedDataSructures to blockedContent
+//    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
+//    	
+//    	// TestData: TemplateImage with cake and a wall that is far away (Location FAR)
+//    	// create a new TemplateImage
+//    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+//    	// create a cake to put into the TI
+//    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(12033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(12041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	// add cake to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs = new  ArrayList<clsAssociation>();
+//    	newAssocDSs.add(newAssocAttr);
+//    	    	
+//    	// create a wall to put into the TI
+//    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(12050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "WALL");
+//    	// add wall to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(120350, eDataType.TP, "LOCATION"), "FAR");
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs.add(newAssocAttr);
+//
+//    	// add TI and associatedDataSructures to blockedContent
+//    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
+//    	
+//    	// TestData: TemplateImage with cake and an agent that is far away (location FAR)
+//    	// create a new TemplateImage
+//    	newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "REPRESSED_IMAGE");
+//    	// create a cake to put into the TI
+//    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13033, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "CAKE");
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(34, eDataType.TP, "TASTE"), "SWEET");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13035, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(36, eDataType.TP, "Color"), "#FFAFAF");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13037, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(38, eDataType.TP, "ShapeType"), "CIRCLE");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13039, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(40, eDataType.TP, "INTENSITY"), "MEDIUM");
+//    	newTPM.assignDataStructure(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(13041, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty));
+//    	// add cake to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(340, eDataType.TP, "Alive"), false);
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs = new  ArrayList<clsAssociation>();
+//    	newAssocDSs.add(newAssocAttr);
+//    	    	
+//    	// create a agent to put into the TI
+//    	newTPM = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(13050, eDataType.TPM, "ENTITY"), new ArrayList<clsAssociation>(), "ARSIN");
+//    	// FIXME (zottl) add properties to Agent! look at properties of a perceived Agent to find out how to construct one
+//    	// add agent to TI 
+//    	newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, newTPM));
+//    	
+//    	// create additional properties that are AssociatedDataStructures: properties that are not intrinsic to the object, like its location for example
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(130340, eDataType.TP, "Alive"), true);
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs.add(newAssocAttr);
+//    	newTPMProperty = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(120350, eDataType.TP, "LOCATION"), "FAR");
+//    	newAssocAttr = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE"), newTPM, newTPMProperty);
+//    	newAssocDSs.add(newAssocAttr);
+//
+//    	// add TI and associatedDataSructures to blockedContent
+//    	moBlockedContent.add(new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(newTI, newAssocDSs));
+//    }
 
 	/**
 	 * Stores a single DataStructurePA directly into the blocked content.<br>
@@ -652,6 +648,21 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				poNewBlockedContent.getMoDataStructure(),
 				poNewBlockedContent.getMoAssociatedDataStructures());
 		moBlockedContent.add(newItem);
+	}
+	
+	/**
+	 * Add a list of containers
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.10.2011 09:45:10
+	 *
+	 * @param poNewBlockedContent
+	 */
+	public void addAll(ArrayList<clsPrimaryDataStructureContainer> poNewBlockedContent) {
+		for (clsPrimaryDataStructureContainer oImageContainer : poNewBlockedContent) {
+			this.add(oImageContainer);
+		}
 	}
 	
 

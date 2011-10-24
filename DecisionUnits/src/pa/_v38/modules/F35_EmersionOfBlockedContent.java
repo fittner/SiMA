@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.D2_1_send;
 import pa._v38.interfaces.modules.D2_2_receive;
@@ -19,7 +20,11 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 
 /**
@@ -116,6 +121,8 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
+		//Test get protege content
+		
 		//Make a deepcopy of the input parameter, else the difference cannot be correctly displayed in statetotext
 		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
 		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
@@ -125,6 +132,23 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		 * manner.
 		 */
 		enrichWithBlockedContent(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
+	}
+	
+	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		
+		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
+		clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
+		
+		searchContainer(oPattern, oSearchResult, "IMAGE:REPRESSED", 0);
+		
+		for (clsPair<Double, clsDataStructureContainer> oPair : oSearchResult) {
+			oRetVal.add((clsPrimaryDataStructureContainer) oPair.b);
+		}
+		
+		return oRetVal;
 	}
 
 	/**

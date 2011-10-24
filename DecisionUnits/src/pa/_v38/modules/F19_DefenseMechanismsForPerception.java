@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I5_16_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -26,8 +27,10 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -82,9 +85,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		moDeniedAffects = new ArrayList<clsAssociationDriveMesh>();  //TD 2011/07/20 - added initialization of member field
  		applyProperties(poPrefix, poProp);	
  		
+ 		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
 		
-		//fillBlockedContentStorageWithTestData();
+		//Fill the blocked content storage with initial data from protege
+		moBlockedContentStorage.addAll(initialFillRepressedContent());
 	}
 
 	/* (non-Javadoc)
@@ -289,22 +294,49 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * initializes the blocked content storage DT2_BlockedContentStorage with images
 	 */
-	private void fillBlockedContentStorageWithTestData (){
-		//Search for matches for the input image
-		double mrMatchThreshold = 1.0;
+//	private void fillBlockedContentStorageWithTestData (){
+//		//Search for matches for the input image
+//		double mrMatchThreshold = 1.0;
+//		
+//		// contains images for initialization of DT2_BlockedContentStorage
+//		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+//		
+//		// String for searching for content type from the storage of images to libido
+//		final String oBlockedContentImageString = "IMAGE:BLOCKEDCONTENT";
+//		
+//		//Find matching images for the input image
+//		searchContainer(null, oSearchResultContainer, oBlockedContentImageString, mrMatchThreshold);
+//
+//		for (clsPair<Double,clsDataStructureContainer> oInitImage : oSearchResultContainer) {
+//			moBlockedContentStorage.add((clsPrimaryDataStructureContainer) oInitImage.b);
+//		}
+//	}
+	
+	/**
+	 * This function load all images with the content type "IMAGE:REPRESSED" from the knowledgebase. Those images are defined in
+	 * Protege
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.10.2011 09:40:43
+	 *
+	 * @return
+	 */
+	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		
-		// contains images for initialization of DT2_BlockedContentStorage
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
-		// String for searching for content type from the storage of images to libido
-		final String oBlockedContentImageString = "IMAGE:BLOCKEDCONTENT";
+		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
+		clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
 		
-		//Find matching images for the input image
-		searchContainer(null, oSearchResultContainer, oBlockedContentImageString, mrMatchThreshold);
-
-		for (clsPair<Double,clsDataStructureContainer> oInitImage : oSearchResultContainer) {
-			moBlockedContentStorage.add((clsPrimaryDataStructureContainer) oInitImage.b);
+		searchContainer(oPattern, oSearchResult, "IMAGE:REPRESSED", 0);
+		
+		for (clsPair<Double, clsDataStructureContainer> oPair : oSearchResult) {
+			oRetVal.add((clsPrimaryDataStructureContainer) oPair.b);
 		}
+		
+		return oRetVal;
 	}
 	
 	
