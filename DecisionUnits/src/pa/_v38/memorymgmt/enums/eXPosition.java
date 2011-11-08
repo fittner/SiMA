@@ -18,7 +18,7 @@ public enum eXPosition {
 
 	LEFT (-2),
 	MIDDLE_LEFT (-1),
-	CENTER (0),		
+	CENTER (0),
 	MIDDLE_RIGHT (1),	
 	RIGHT (2);		
 	
@@ -49,6 +49,25 @@ public enum eXPosition {
 		for (eXPosition oE : eXPosition.values()) {
 			if (poInput.equals(oE.toString())) {
 				oRetVal = oE.mnPos;
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	public static eXPosition elementAt(String poCompareString) {
+		eXPosition oRetVal = null;
+				
+		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATABLE")==true) {
+			//Eatable is everything around the agent
+			oRetVal = null;
+		} else {
+			eXPosition lvls[] = eXPosition.values();
+			for (int i=0;i<lvls.length;i++) {
+				if (poCompareString.equals(lvls[i].toString())) {
+					oRetVal = lvls[i];
+					break;
+				}
 			}
 		}
 		

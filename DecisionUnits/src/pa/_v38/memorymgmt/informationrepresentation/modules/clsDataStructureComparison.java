@@ -11,11 +11,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsSpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -117,7 +119,9 @@ public abstract class clsDataStructureComparison {
 			clsDataStructurePA oCompareElement = oEntry.getValue().a;
 	
 			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
-			double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
+			
+			double oMatch = clsSpatialTools.getImageMatch((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oCompareContainer);
+			//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
 		
 			if (oMatch < prThreshold)
 				continue;
@@ -161,18 +165,21 @@ public abstract class clsDataStructureComparison {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oBestResults = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oOtherResults = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
+		//Get all best results
 		for (clsPair<Double, clsDataStructureContainer> oPair : poInputList) {
 			//1. Search for all values, which are >= prBestResultsThreshold
 			if (oPair.a >= prBestResultsThreshold) {
-				//2. Compare these values with the unknown image once again and return the match. This time the comparison is in the other way, i. e. the template image is searched in the input image
-				double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oPair.b, false);	//Strong matching deactivated
+				//2. Get the number of found associations in the image for that RI
+				double rMatch = (double)countMatchAssociations((clsPrimaryDataStructureContainer)oPair.b);
+				//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oPair.b, false);	//Strong matching deactivated
+				
 				//Sort the list
 				int i = 0;
-				while ((i < oBestResults.size()) && (oMatch < oBestResults.get(i).a)) {
+				while ((i < oBestResults.size()) && (rMatch < oBestResults.get(i).a)) {
 					i++;
 				}
 				//Add the new container, sorted
- 				oBestResults.add(i, new clsPair<Double, clsDataStructureContainer>(oMatch, oPair.b));
+ 				oBestResults.add(i, new clsPair<Double, clsDataStructureContainer>(rMatch, oPair.b));
 			} else {
 				oOtherResults.add(oPair);
 			}
@@ -199,6 +206,18 @@ public abstract class clsDataStructureComparison {
 		}
 	
 		return oRetVal;
+	}
+	
+	private static int countMatchAssociations(clsPrimaryDataStructureContainer poRIContainer) {
+		int nRetVal = 0;
+		
+		for (clsAssociation oAss : poRIContainer.getMoAssociatedDataStructures()) {
+			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals("MATCHASSOCIATION")==true)) {
+				nRetVal++;
+			}
+		}
+		
+		return nRetVal;
 	}
 	
 	/**

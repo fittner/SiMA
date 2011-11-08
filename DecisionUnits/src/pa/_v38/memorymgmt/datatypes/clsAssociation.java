@@ -245,10 +245,14 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		String oResult = "";
 		if(moAssociationElement != null){
 			oResult += element;
-			oResult += moAssociationElement.moDataStructureType.toString() + ":";
+			//oResult += moAssociationElement.moDataStructureType.toString() + ":";
 			oResult += moAssociationElement.moDS_ID + ":";
 			oResult += moAssociationElement.moContentType;
-			
+			if (moAssociationElement instanceof clsThingPresentation) {
+				oResult += ":" + ((clsThingPresentation)moAssociationElement).getMoContent().toString();
+			}
+
+
 			// find moContent
 			if(moAssociationElement instanceof clsThingPresentationMesh){
 				// check if it is for example an ARSin

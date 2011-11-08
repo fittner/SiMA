@@ -17,7 +17,6 @@ import bfg.tools.clsMutableDouble;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_6_receive;
@@ -176,7 +175,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Create EMPTYSPACE objects
 		
 		//Add distance relations to the container
-		clsSpatialTools.addRelationAssociations(oEnvPerceptionNoDM, false);
+		//clsSpatialTools.addRelationAssociations(oEnvPerceptionNoDM, false);
 		
 		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceList = createEmptySpaceObjects(oEnvPerceptionNoDM);
 		//Add those to the PI

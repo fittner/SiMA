@@ -14,11 +14,9 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eYPosition {
-	//EATABLE (0),
-	MANIPULATEABLE (0),
-	NEAR (1),		
-	MEDIUM (2),	
-	FAR(3);		
+	NEAR (0),		
+	MEDIUM (1),	
+	FAR(2);		
 	
 	public int mnPos;
 	
@@ -51,6 +49,24 @@ public enum eYPosition {
 			}
 		}
 		
+		return oRetVal;
+	}
+	
+	public static eYPosition elementAt(String poCompareString) {
+		eYPosition oRetVal = null;
+		
+		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATABLE")==true) {
+			oRetVal = NEAR;
+		} else {
+			eYPosition lvls[] = eYPosition.values();
+			for (int i=0;i<lvls.length;i++) {
+				if (poCompareString.equals(lvls[i].toString())) {
+					oRetVal = lvls[i];
+					break;
+				}
+			}
+		}
+
 		return oRetVal;
 	}
 }

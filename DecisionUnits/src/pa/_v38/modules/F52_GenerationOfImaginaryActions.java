@@ -160,7 +160,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 or E27 has a memory access on its own => E28 woul dbe senseless.  Until this question has been solved, E28 is implemented to retrieve and put acts together which means that it takes over a kind of planning.
 		 */
 		
-		printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
 	}
 	
