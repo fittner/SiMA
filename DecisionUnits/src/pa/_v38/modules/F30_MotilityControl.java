@@ -16,8 +16,6 @@ import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -34,7 +32,7 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
-	private int mnCounter, lastTurnDirection, mnTurns;
+	//private int mnCounter, lastTurnDirection, mnTurns;
 	
 	/**
 	 * Constructor of the NeuroDeSymbolization
@@ -68,6 +66,7 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 		String text ="";
 		
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		/* 		// do not display Perception in stateToTEXT by now
 		if(moEnvironmentalPerception_IN == null)
 			text += toText.valueToTEXT("moEnvironmentalPerception", "null");
 		else {
@@ -75,6 +74,7 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 			text += toText.valueToTEXT("moEnvironmentalPerception_IN-SecondaryComponent", moEnvironmentalPerception_IN.getSecondaryComponent());
 			//text += toText.valueToTEXT("moEnvironmentalPerception", moEnvironmentalPerception_IN.toString());
 		}
+		*/
 		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
 		
 		return text;
@@ -163,14 +163,19 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	@Override
 	protected void process_basic() {
 		
-		if(moActionCommands_Input.size() < 1) {
-			//when there are no actions, we generate a random seeking sequence 
-			moActionCommands_Output = GenerateSeekingSequence();
-		}
-		else{
-			//TODO implement sub-functionality, until now forward the action commands
+		if(moActionCommands_Input.size() >= 1) {
 			moActionCommands_Output = moActionCommands_Input;
 		}
+		//else{
+			//when there are no actions, we generate a random seeking sequence 
+			//moActionCommands_Output = GenerateSeekingSequence();
+			
+			//when there are no actions, we deliver the ActionCommand SEARCH1
+			//moActionCommands_Output = new ArrayList<clsWordPresentation>();
+			//moActionCommands_Output.add(new clsWordPresentation(new clsTriple<Integer, eDataType, String>(-1,eDataType.WP,"SEARCH1"), "SEARCH1"));
+			
+			//when there are no actions, we do nothing
+		//}
 	}
 	
 	/**
@@ -178,6 +183,8 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	 * @since 07.09.2011 14:02:14
 	 * @return
 	 */
+	
+	/*  // not need any more, CB 2011-11-14
 	private ArrayList<clsWordPresentation> GenerateSeekingSequence(){
 		double rRand1 = Math.random();
 		double rRand2 = Math.random();
@@ -201,7 +208,7 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 		
 		return oActionCommands_Seeking;
 	}
-	
+	*/
 
 	/* (non-Javadoc)
 	 *

@@ -42,8 +42,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	private int mnCounter;
-	private String lastoAction; 
+	private int mnCounter, moActionBlockingTime;
+	private String lastAction; 
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -63,7 +63,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		applyProperties(poPrefix, poProp);		
 		
 		mnCounter = 0;
-		lastoAction = "";
+		moActionBlockingTime = 0;
+		lastAction = "";
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 	
@@ -78,7 +79,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
-		text += toText.valueToTEXT("mnCounter", mnCounter);		
+		text += toText.valueToTEXT("lastAction", lastAction);
+		text += toText.valueToTEXT("mnCounter", mnCounter);
+		text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
 		return text;
 	}
@@ -144,38 +147,81 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		
 		moActionCommandList_Output.clear();
-	
+			
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentation oWP : moActionCommands_Input) {
-			
+			    
 				if (oWP == null) 
 					return;
 				
 				String oAction = oWP.getMoContent(); 
-				if(oAction!=lastoAction) { 
-					mnCounter = 0; 
+				if(oAction.equals(lastAction)) { 
+					mnCounter++; 
 				}
 				else  {
-					mnCounter++;
+					mnCounter = 0;
 				}
-//				System.out.println(oAction);
 			
-				if(oAction.equals("MOVE_FORWARD")){
+				if(moActionBlockingTime>0) {
+					moActionBlockingTime--;
+					if(moActionBlockingTime==0) {
+						mnCounter = 0;
+					}
+				    return;
+				}
+
+				if (oAction.equals("FLEE")) {
+					if (mnCounter%90==0) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence3(180.0f, 60) );
+						mnCounter = 0;
+						moActionBlockingTime=90;
+						// old, simple flee sequence CB 2011-11-14
+						//moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
+					}
+				}
+				else if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
+					
 				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );
+
+				} else if(oAction.equals("STOP")){
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0) );
+					
 				} else if(oAction.equals("MOVE_BACKWARD")){
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,10.0) );
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
+					
 				} else if(oAction.equals("TURN_LEFT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
+					
+				} else if(oAction.equals("TURN_LEFT45")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
+					
+				} else if(oAction.equals("TURN_LEFT90")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 90.0));
+					
+				} else if(oAction.equals("TURN_LEFT180")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
+					
 				} else if(oAction.equals("TURN_RIGHT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
+					
+				} else if(oAction.equals("TURN_RIGHT45")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
+					
+				} else if(oAction.equals("TURN_RIGHT90")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+					
+				} else if(oAction.equals("TURN_RIGHT180")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 180.0));
+					
 				} else if(oAction.equals("EAT")) {
 					moActionCommandList_Output.add( new clsActionEat() );
+					
 				} else if (oAction.equals("SLEEP")) {
 					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
+					
 				} else if (oAction.equals("DEPOSIT")) {
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				}
@@ -191,23 +237,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 				
 */				
-				else if (oAction.equals("FLEE")) {
-					//if (mnCounter%70==0) {
-					//TODO 
-						//moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence(180.0f, 60) );
-						moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
-						
-					//} 
-				}
 				else if (oAction.equals("SEARCH1")) {
 					if (mnCounter%75==0) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+						mnCounter = 0;
 					} 
 				}
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
-				lastoAction=oWP.getMoContent();
+				lastAction=oWP.getMoContent();
 			}
 		} else {
 			/*

@@ -88,22 +88,56 @@ public class clsActionSequenceFactory {
 	public static clsActionSequence getFleeSequence(float turnAngel, int fleeDistance) {
 		clsActionSequence oSeq = new clsActionSequence();
 		
+		// move Back and turn Right
+		int moveBackDistance=fleeDistance/2;
+		for (int i=0;i<moveBackDistance;i++) {
+		  oSeq.add(i*2, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0f),1);
+		  oSeq.add(i*2+1, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, turnAngel/fleeDistance),1);
+		}
+        
+		// move Forward and turn Right
+		int moveForwardDistance=fleeDistance/2;
+		for (int i=0;i<moveForwardDistance;i++) {
+		  oSeq.add(moveBackDistance+1*2, new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0f),1);
+		  oSeq.add(moveBackDistance+i*2+1, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, turnAngel/fleeDistance),1);
+		}
+		return oSeq;
+	}
+	
+	public static clsActionSequence getFleeSequence2(float turnAngel, int fleeDistance) {
+		clsActionSequence oSeq = new clsActionSequence();
+		
+		// move back
+		oSeq.add(0, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0f),fleeDistance/3);
+		
+		// turn Right
+		oSeq.add(fleeDistance/3,new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 3*turnAngel/fleeDistance),fleeDistance/3);
+
+		// move Forward
+		oSeq.add(fleeDistance/3*2,new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0f),fleeDistance/3);
+
+		return oSeq;
+	}
+	
+	public static clsActionSequence getFleeSequence3(float turnAngel, int fleeDistance) {
+		clsActionSequence oSeq = new clsActionSequence();
+		
 		// move Back
 		int moveBackDistance=fleeDistance/2;
-		//oSeq.add(0, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,10),moveBackDistance);
+		oSeq.add(0, new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0f),moveBackDistance);
 		
 		// turn Right
 		double turnPerStepAngel=Math.sqrt(turnAngel);
 		int turnSteps=(int)turnPerStepAngel;
-		oSeq.add(moveBackDistance, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, turnPerStepAngel),turnSteps);
+		oSeq.add(moveBackDistance, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, turnPerStepAngel*2.0f),turnSteps);
         
 		// move Forward
 		int moveForwardDistance=fleeDistance/2;
-		oSeq.add(moveBackDistance+turnSteps, new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1),moveForwardDistance);
+		oSeq.add(moveBackDistance+turnSteps, new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0f),moveForwardDistance);
 		
+		// turn Around
+		oSeq.add(moveBackDistance+turnSteps+moveForwardDistance, new clsActionTurn(eActionTurnDirection.TURN_LEFT, 26), 13);
+
 		return oSeq;
-	}
-	
-	
-	
+	}	
 }
