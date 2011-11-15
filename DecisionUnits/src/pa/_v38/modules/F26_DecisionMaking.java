@@ -26,7 +26,6 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -74,10 +73,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	/** Associated memories IN */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemories_IN;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_IN;
 	
 	/** Associated memories OUT */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemories_OUT;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_OUT;
 	
 	// Anxiety from F20
 	private ArrayList<clsPrediction> moAnxiety_Input;
@@ -209,7 +208,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 		
 		//Pass the associated memories forward
-		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		moAssociatedMemories_OUT = (ArrayList<clsDataStructureContainerPair>)deepCopy(moAssociatedMemories_IN);
 	}
 
 	/* (non-Javadoc)
@@ -243,7 +242,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_7(clsDataStructureContainerPair poPerception, 
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
 		try {
 			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -251,7 +250,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 			e.printStackTrace();
 		} 
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
-		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
+		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainerPair>)deepCopy(poAssociatedMemories);
 	}
 	
 	/* (non-Javadoc)
@@ -1010,7 +1009,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+	public void send_I6_8(ArrayList<clsSecondaryDataStructureContainer> poGoal_Output, clsDataStructureContainerPair poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
 		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poEnvironmentalPerception, poExtractedPrediction, poAssociatedMemories);
 		
 		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction, poAssociatedMemories);
@@ -1076,7 +1075,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I6_1(
-			clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+			clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}

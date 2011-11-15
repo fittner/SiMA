@@ -14,7 +14,6 @@ import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -52,7 +51,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of generated actions */
 	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_IN;
 	/** The list of associated memories of the generated actions */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemories_IN;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_IN;
 	
 	/**
 	 * Constructor of F47. Apply properties
@@ -151,7 +150,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsPrimaryDataStructureContainer> getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+	private ArrayList<clsPrimaryDataStructureContainer> getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		
 		//TODO AP: Remove strange data type
@@ -176,9 +175,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 						//The leaf element contains the wpm of the associated memory
 						if (oAss.getLeafElement() instanceof clsSecondaryDataStructure) {
 							//Get the primary container of this structure
-							clsSecondaryDataStructureContainer oSIntentionContainer = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
-							if (oSIntentionContainer!=null) {
-								clsPrimaryDataStructureContainer oPIntentionContainer = clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
+							clsDataStructureContainerPair oIntentionContainer = clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
+							
+							
+							if (oIntentionContainer.getSecondaryComponent()!=null) {
+								clsPrimaryDataStructureContainer oPIntentionContainer = oIntentionContainer.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
 								if (oPIntentionContainer!=null) {
 									//Calculate Total Affect value
 									clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
@@ -404,10 +405,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
 		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
 		moActionCommands_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
-		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemories);
+		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainerPair>)deepCopy(poAssociatedMemories);
 
 		
 	}
