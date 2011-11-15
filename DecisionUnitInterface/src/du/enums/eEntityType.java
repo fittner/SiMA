@@ -24,6 +24,7 @@ public enum eEntityType {
 	URANIUM,
 	CARROT,
 	SMARTEXCREMENT, //shoud REALLY be renamed!
-	EXCREMENT
+	EXCREMENT,
+	TOILET
 }
 

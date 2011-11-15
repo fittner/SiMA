@@ -52,6 +52,7 @@ import bw.entities.clsLynx;
 import bw.entities.clsPlant;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
+import bw.entities.clsToilet;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
@@ -236,6 +237,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( clsFungus.getDefaultProperties		(pre+eEntityType.FUNGUS.name()) );
 		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
 		oProp.putAll( clsCarrot.getDefaultProperties		(pre+eEntityType.CARROT.name()) );
+		oProp.putAll( clsToilet.getDefaultProperties			(pre+eEntityType.TOILET.name()) );
 		
 		return oProp;
     }
@@ -400,6 +402,11 @@ public class clsSimplePropertyLoader extends clsLoader {
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.CARROT.name());
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
+		i++;
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.TOILET.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS, i+1);
@@ -540,7 +547,11 @@ public class clsSimplePropertyLoader extends clsLoader {
     		case CARROT:
     			oEntity = new clsCarrot(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsCarrot)oEntity);		
-    			break;     			
+    			break; 
+    		case TOILET:
+    			oEntity = new clsToilet(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsToilet)oEntity);		
+    			break;
 			default:
 				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	
     	}
