@@ -97,6 +97,9 @@ public class clsPsychicApparatus {
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTimeMemory moShortTimeMemory;
 	
+	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
+	public clsShortTimeMemory moTempLocalizationStorage;
+	
 	/** List of the currently transfered data via the interfaces. Has to be refilled each round at each send_I?_? method manually!; @since 13.07.2011 17:49:33 */
 	public SortedMap<eInterfaces, ArrayList<Object>> moInterfaceData;
 	/** List of the modules defined above. Needed for references within them.; @since 13.07.2011 17:49:56 */
@@ -136,7 +139,9 @@ public class clsPsychicApparatus {
 		moLibidoBuffer = new DT1_LibidoBuffer();
 		moBlockedContentStorage = new DT2_BlockedContentStorage();
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
-		moShortTimeMemory = new clsShortTimeMemory();
+		//Initialize short time memory
+		moShortTimeMemory = new clsShortTimeMemory(60, 7);
+		moTempLocalizationStorage = new clsShortTimeMemory(20, 7);
 					
 		applyProperties(poPrefix, poProp);
 		
@@ -236,7 +241,7 @@ public class clsPsychicApparatus {
 			moF20_InnerPerception_Affects = new F20_InnerPerception_Affects(pre + F20_InnerPerception_Affects.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory);
+			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moTempLocalizationStorage);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData);
@@ -258,7 +263,7 @@ public class clsPsychicApparatus {
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
-			moF46_FusionWithMemoryTraces = new F46_FusionWithMemoryTraces(pre + F46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
+			moF46_FusionWithMemoryTraces = new F46_FusionWithMemoryTraces(pre + F46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moTempLocalizationStorage);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			
 		} catch (Exception e) {

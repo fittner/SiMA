@@ -38,15 +38,8 @@ import pa._v38.tools.toText;
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
  * 
- * @author kohlhauser
- * 11.08.2009, 14:49:09
- * 
- */
-/**
- * DOCUMENT (wendt) - insert description 
- * 
  * @author wendt
- * 13.09.2011, 09:14:49
+ * 11.08.2009, 14:49:09
  * 
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
@@ -80,6 +73,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Short time memory */
 	private clsShortTimeMemory moShortTimeMemory;
 	
+	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
+	private clsShortTimeMemory moTempLocalizationStorage;
+	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -92,7 +88,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -101,6 +97,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Get short time memory
 		moShortTimeMemory = poShortTimeMemory;
+		moTempLocalizationStorage = poTempLocalizationStorage;
 	}
 
 	/* (non-Javadoc)
@@ -202,15 +199,18 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 		
 		//System.out.print("ShortTimeMemory: " + moShortTimeMemory.toString());
-		
 		moShortTimeMemory.updateTimeSteps();
 		//FIXME AW: Should anything be done with the perception here?
+		
 		try {
 			moEnvironmentalPerception_OUT = (clsDataStructureContainerPair)moEnvironmentalPerception_IN.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Perception, add objects to the localization storage
+		updateLocalization(moEnvironmentalPerception_OUT, moTempLocalizationStorage);
 		
 		//Check if some expectations are confirmed
 		confirmExpectations(moAssociatedMemoriesSecondary_IN, mrMomentActivationThreshold, moShortTimeMemory);
@@ -223,6 +223,21 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//printImageText(moExtractedPrediction_OUT);
 	}
+	
+	private void updateLocalization(clsDataStructureContainerPair poPerception, clsShortTimeMemory poMemory) {
+		//1. Update Memory with the time updates
+		poMemory.updateTimeSteps();
+		
+		//2. Extract all Objects from Perception as a containerPairlist
+		ArrayList<clsDataStructureContainerPair> oObjectList = clsDataStructureTools.getObjectContainerPairsFromImage(poPerception);
+		
+		//2. Go through each object and check if it can be found in the memory. The comparison must be with the primary part as the secondary parts do not have any IDs
+		for (clsDataStructureContainerPair oCPair : oObjectList) {
+			//3. Save the objects with forced save (sets the counter to delete on 0 
+			poMemory.saveToShortTimeMemory(oCPair, true);
+		}
+	}
+	
 	
 	/**
 	 * DOCUMENT (wendt) - insert description

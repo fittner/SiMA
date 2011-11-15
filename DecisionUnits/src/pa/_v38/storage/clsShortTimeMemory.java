@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eSupportDataType;
@@ -27,21 +28,25 @@ public class clsShortTimeMemory {
 	private ArrayList<clsPair<Integer, Object>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
-	private int mnMaxTimeValue = 60;
+	private int mnMaxTimeValue; // = 60;
 	/** Number of objects, which can be saved in the short time memory */
-	private int mnMaxMemorySize = 7;
+	private int mnMaxMemorySize; // = 7;
 	
 	
 	/**
 	 * Constructor, Init short time Memory with an empty arraylist
+	 * 
+	 * The values for the memory are set in clsPsychicApparatus
 	 * 
 	 * @author (wendt)
 	 *
 	 * @since 31.08.2011 07:15:02
 	 *
 	 */
-	public clsShortTimeMemory() {
+	public clsShortTimeMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
 		moShortTimeMemory = new ArrayList<clsPair<Integer, Object>>();
+		mnMaxTimeValue = pnMaxTimeValue;
+		mnMaxMemorySize = pnMaxMemorySize;
 	}
 	
 	/**
@@ -91,7 +96,7 @@ public class clsShortTimeMemory {
 	}
 	
 	/**
-	 * Save new structure to the short time memory if it does not exist already
+	 * Save new structure to the short time memory if it does not exist already. Forced save is disable here
 	 * (wendt)
 	 *
 	 * @since 31.08.2011 07:19:42
@@ -245,13 +250,17 @@ public class clsShortTimeMemory {
 			}
 		} else if (oToBeFound instanceof clsDataStructureContainerPair) {
 			//Check CPair
-			clsSecondaryDataStructureContainer oCompareContainer = null;
-			oCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getSecondaryComponent();
+			clsSecondaryDataStructureContainer oSCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getSecondaryComponent();
+			clsPrimaryDataStructureContainer oPCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getPrimaryComponent();
 			
 			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
 				if (oMemory.b instanceof clsDataStructureContainerPair) {
-					if ((oCompareContainer!=null) && (((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent()!=null)) {
-						if (oCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+					if ((oSCompareContainer!=null) && (((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent()!=null)) {
+						//If the secondary structure does not have an ID, which means that the ID is -1, it shall be looked for the primary structure
+						if ((oSCompareContainer.getMoDataStructure().getMoDS_ID() == -1) && (oPCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getPrimaryComponent().getMoDataStructure().getMoDS_ID())) {
+							oRetVal = oMemory;
+							break;
+						} else if ((oSCompareContainer.getMoDataStructure().getMoDS_ID() != -1) && oSCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
 							oRetVal = oMemory;
 							break;
 						}
@@ -259,15 +268,15 @@ public class clsShortTimeMemory {
 				} else if (oMemory.b instanceof clsPrediction) {
 					//Go through the prediction to find a pair
 					clsPrediction oPrediction = (clsPrediction) oMemory.b;
-					if (oCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+					if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
 						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getIntention());
 						break;
-					} else if (oCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getMoment().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+					} else if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getMoment().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
 						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getMoment());
 						break;
 					} else {
 						for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-							if (oCompareContainer.getMoDataStructure().getMoDS_ID() == oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
+							if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
 								oRetVal = new clsPair<Integer, Object>(oMemory.a, oExpectation);
 								break;
 							}

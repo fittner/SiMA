@@ -58,6 +58,8 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
 	
 	/**
 	 * Find a certain data structure in the container. If the data structure is not found, null is returned, else the instance of that data structure
+	 * 
+	 * The compare criterium is the Type ID and not the instance ID
 	 *
 	 * @since 21.07.2011 09:27:59
 	 *
@@ -78,7 +80,7 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
 					}
 				}
 			} else if (poInput instanceof clsThingPresentationMesh) {
-				for (clsAssociation oAss : ((clsThingPresentationMesh)this.moDataStructure).moAssociatedContent) {
+				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
 					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
 						oRetVal = oAss.getLeafElement();
 						break;

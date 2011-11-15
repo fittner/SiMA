@@ -14,6 +14,7 @@ import java.util.SortedMap;
 import java.util.Map.Entry;
 
 import bfg.tools.clsMutableDouble;
+import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
@@ -29,7 +30,9 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -39,6 +42,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eSupportDataType;
 
 import config.clsProperties;
 import du.enums.pa.eContext;
@@ -70,6 +74,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	/** Threshold for matching for associated images */
 	private double mrMatchThreshold = 0.1;
+	
+	/** (wendt) Localitzation of things for the primary process. With the localization, memories can be triggered; @since 15.11.2011 16:23:43 */
+	private clsShortTimeMemory moTempLocalizationStorage;
 
 	/* Module-Parameters */
 	
@@ -87,10 +94,11 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F46_FusionWithMemoryTraces(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-								clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
+		moTempLocalizationStorage = poTempLocalizationStorage;
 	}
 	
 	/* (non-Javadoc)
@@ -193,10 +201,14 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 		
 		//TestIF
-		ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
+		//ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
 		//Get activated content
 		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
-		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
+		//Clone the Output Perception and add knowledge about other objects
+		clsPrimaryDataStructureContainer oEnhancedPerception = enhancePerceptionWithLocalization(moEnvironmentalPerception_OUT, moTempLocalizationStorage);
+		
+		moAssociatedMemories_OUT = retrieveActivatedMemories(oEnhancedPerception, oBestPhantasyInput);
+		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}
 	 
@@ -224,6 +236,55 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_final() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
 
+	}
+	
+	/**
+	 * The PI is enhanced with all objects from the localization, which cannot be seen in the image.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 15.11.2011 16:42:41
+	 *
+	 * @param poPI
+	 * @param poTempLocalizationStorage
+	 * @return
+	 */
+	private clsPrimaryDataStructureContainer enhancePerceptionWithLocalization(clsPrimaryDataStructureContainer poPI, clsShortTimeMemory poTempLocalizationStorage) {
+		//Clone the PI
+		clsPrimaryDataStructureContainer oRetVal = (clsPrimaryDataStructureContainer) poPI.clone();
+		
+		//Get all objects from the localization
+		ArrayList<clsPair<Integer, Object>> oInvisibleObjects = poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
+		ArrayList<clsPrimaryDataStructureContainer> oPContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		for (clsPair<Integer, Object> oPair : oInvisibleObjects) {
+			//Get the Primary data structure container from that pair
+			clsPrimaryDataStructureContainer oPContainer = ((clsDataStructureContainerPair)oPair.b).getPrimaryComponent();
+			//Check if this object can be found in the perception
+			clsPrimaryDataStructure oFoundObject = (clsPrimaryDataStructure) oRetVal.containsInstanceType(oPContainer.getMoDataStructure());
+			//If no such object was found, then add the object to the template image
+			if (oFoundObject==null) {
+				//Get the associations
+				ArrayList<clsAssociation> oAllAssociationAttributes = oPContainer.getAnyAssociatedDataStructures(oPContainer.getMoDataStructure());
+				ArrayList<clsAssociation> oSelectedAssociationAttributes = new ArrayList<clsAssociation>();
+				for (clsAssociation oAss : oAllAssociationAttributes) {
+					//Add no localization attributes
+					if (oAss instanceof clsAssociationDriveMesh) {
+						oSelectedAssociationAttributes.add(oAss);
+					}
+				}
+				
+				//Replate container associations, i. e. remove the locations associations
+				oPContainer.setMoAssociatedDataStructures(oSelectedAssociationAttributes);
+				//Add the container to the list
+				oPContainerList.add(oPContainer);
+			}
+		}
+		
+		//Add the containerlist to the PI
+		clsDataStructureTools.addContainersToImage(oPContainerList, oRetVal);		
+		
+		return oRetVal;
 	}
 	
 	/**

@@ -428,7 +428,9 @@ public class clsDataStructureTools {
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * Add new data structures or objects to a template image
+	 * 
+	 * (wendt)
 	 *
 	 * @since 02.09.2011 22:43:58
 	 *
@@ -531,6 +533,44 @@ public class clsDataStructureTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	public static ArrayList<clsDataStructureContainerPair> getObjectContainerPairsFromImage(clsDataStructureContainerPair poImage) {
+		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+		//2. Check if a primary part is available, else, return nothing
+		//1. Check if it really is an image
+		if (((poImage.getPrimaryComponent()!=null) && (poImage.getPrimaryComponent().getMoDataStructure() instanceof clsTemplateImage) && (poImage.getSecondaryComponent().getMoDataStructure() instanceof clsWordPresentationMesh))) {
+			//3. go through all elements in the secondary container WPM and get all associations
+			for (clsAssociation oSecondaryIntrinsicAssociation : ((clsWordPresentationMesh)poImage.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()) {
+				//4. Get all associations for that WPM
+				clsSecondaryDataStructure poSingleWPObject = (clsSecondaryDataStructure) oSecondaryIntrinsicAssociation.getRootElement();
+				//5. Get all associated data structure from the WP container
+				ArrayList<clsAssociation> poWPAssList = poImage.getSecondaryComponent().getAnyAssociatedDataStructures(poSingleWPObject);
+				//6. Search for the WP-Association to the thing presentation part
+				clsPrimaryDataStructure poPriObject = null;
+				for (clsAssociation oSecondaryAss : poWPAssList) {
+					//7. If the association is a ass-WP, then is must be connected with a PP object
+					if (oSecondaryAss instanceof clsAssociationWordPresentation) {
+						poPriObject = (clsPrimaryDataStructure) oSecondaryAss.getRootElement();
+						//There is only one assocition per object 
+						break;
+					}
+				}
+				
+				//8. Find the whole container for that TPM
+				if (poPriObject!=null) {
+					ArrayList<clsAssociation> oPriAssList = poImage.getPrimaryComponent().getAnyAssociatedDataStructures(poPriObject);
+					//9. Create the new pair with the new objects
+					clsDataStructureContainerPair oCPair = new clsDataStructureContainerPair(new clsSecondaryDataStructureContainer(poSingleWPObject, poWPAssList), new clsPrimaryDataStructureContainer(poPriObject, oPriAssList));
+					//Add the new data structure
+					oRetVal.add(oCPair);
+				}	
+			}
+			
+		}
+		
+		return oRetVal;
+		
 	}
 	
 }
