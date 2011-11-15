@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -49,7 +50,7 @@ import pa._v38.tools.toText;
  * 13.09.2011, 09:14:49
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
 	
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:45 */
@@ -91,13 +92,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory) throws Exception {
+	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
+	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		//super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		//Init short time memory
-		moShortTimeMemory = new clsShortTimeMemory();
+		//Get short time memory
+		moShortTimeMemory = poShortTimeMemory;
 	}
 
 	/* (non-Javadoc)
