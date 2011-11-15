@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -127,7 +127,7 @@ public class clsPredictionTools {
 	 * @param poActivatedInputList
 	 * @return
 	 */
-	public static int countSubStructuresToActEnd(clsSecondaryDataStructureContainer poMoment, ArrayList<clsDataStructureContainer> poActivatedInputList) {
+	public static int countSubStructuresToActEnd(clsSecondaryDataStructureContainer poMoment, ArrayList<clsDataStructureContainerPair> poActivatedInputList) {
 		int nRetVal = 0;
 		int nNumberOfPassedMoments = 0;
 		//Get the first temporal next structure
@@ -137,6 +137,7 @@ public class clsPredictionTools {
 		//Get only the first length
 		//TODO AW: Adapt to multiple expectations
 		clsSecondaryDataStructureContainer oCurrentMoment = poMoment;
+		//clsDataStructureContainerPair oCurrentMoment = poMoment;
 		do 
 		{
 			//Get all "HASNEXT" Association structures
@@ -145,7 +146,8 @@ public class clsPredictionTools {
 			if (oNextStructureList.isEmpty()==false) {
 				clsSecondaryDataStructure oNextDS = oNextStructureList.get(0);
 				//Get the whole data structure container
-				oCurrentMoment = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poActivatedInputList, oNextDS);
+				clsDataStructureContainerPair oCPair = clsDataStructureTools.getContainerFromList(poActivatedInputList, oNextDS);
+				oCurrentMoment = oCPair.getSecondaryComponent();
 				
 				//Increment the number of images
 				nNumberOfPassedMoments++;

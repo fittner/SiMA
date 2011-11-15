@@ -62,9 +62,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	/** Associated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
-	/** Associated memories out, enriched with word presentations of the associated thing presentations */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
 	
+	
+	/** Associated memories out, enriched with word presentations of the associated thing presentations */
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
@@ -750,61 +751,86 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * For all associated memories, search for the WPM-Memory parts to them and associated WPMs and add them to an output list
+	 * 
+	 * (wendt)
 	 *
 	 * @since 02.08.2011 09:45:54
 	 *
 	 * @param poInput
 	 * @return
 	 */
-	//FIXME AW: The TI are not correctly assigned to the WP, it is visible in the A2I2 WPM to A2I1 TI. This is an error.
-	private ArrayList<clsDataStructureContainer> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
-		ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+	private ArrayList<clsDataStructureContainerPair> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
+		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
 		
-		ArrayList<clsDataStructureContainer> oExtendedAssociationList = new ArrayList<clsDataStructureContainer>();
+		ArrayList<clsDataStructureContainerPair> oExtendedAssociationList = new ArrayList<clsDataStructureContainerPair>();
 		//Go through all incoming primary images
 		for (clsPrimaryDataStructureContainer oPContainer : poInput) {
 			//Get a complete secondary container from a primary container
 			//clsSecondaryDataStructureContainer oSContainer = getImageBaseAssociations(oPContainer);
 			clsSecondaryDataStructureContainer oSContainer = convertToSecondaryMemoryImage(oPContainer);
-				
+			
+			//If the secondary container exists
 			if (oSContainer != null) {
-				//3. Add container to the new list if it does not already exist
-				boolean bExistsAlready = false;
-				for (clsDataStructureContainer oExistingNewContainer : oExtendedAssociationList) {
-					//FIXME AW: No acts shall be loaded, but this is not a clean solution
-					if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
-							(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
-						bExistsAlready = true;
-						break;
-					}
+				//2_5: Create new containerpair
+				clsDataStructureContainerPair oMemoryCPair = new clsDataStructureContainerPair(oSContainer, oPContainer);
+				
+				//3. Add container to the new list
+				//FIXME AW: No acts shall be loaded, but this is not a clean solution
+				if (oMemoryCPair.getSecondaryComponent().getMoDataStructure().getMoDataStructureType() != eDataType.ACT) {
+					oExtendedAssociationList.add(oMemoryCPair);
 				}
-					
-				//If the container does not exist in the list, then add it
-				if (bExistsAlready==false) {
-					oExtendedAssociationList.add(oSContainer);
-				}
+
+				
+//				boolean bExistsAlready = false;
+//				for (clsDataStructureContainer oExistingNewContainer : oExtendedAssociationList) {
+//					//FIXME AW: No acts shall be loaded, but this is not a clean solution
+//					if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
+//							(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
+//						bExistsAlready = true;
+//						break;
+//					}
+//				}
+//					
+//				//If the container does not exist in the list, then add it
+//				if (bExistsAlready==false) {
+//					oExtendedAssociationList.add(oSContainer);
+//				}
 			}
 		}
 		
 		//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
-		ArrayList<clsDataStructureContainer> oCompleteSecondaryStructureList = new ArrayList<clsDataStructureContainer>();
+		ArrayList<clsDataStructureContainerPair> oCompleteSecondaryStructureList = new ArrayList<clsDataStructureContainerPair>();
 		oCompleteSecondaryStructureList.addAll(oExtendedAssociationList);
-		for (clsDataStructureContainer oSContainer : oExtendedAssociationList) {
-			ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oSContainer);
+		for (clsDataStructureContainerPair oContainerPair : oExtendedAssociationList) {
+			//Get all associated WP/WPM-Associations from the secondary container
+			ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oContainerPair.getSecondaryComponent());
 			//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
 			//As all WP comes from the memory, it is enough to compare the moDS_ID
 			boolean bExistsAlready = false;
 			for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
 				bExistsAlready = false;
-				for (clsDataStructureContainer oExistingContainer : oCompleteSecondaryStructureList) {
-					if (oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainer.getMoDataStructure().getMoDS_ID()) {
+				//If the contianer erronerously would be a primary container, it shall not be added
+				if (oAddContainer instanceof clsPrimaryDataStructureContainer) {
+					bExistsAlready = true;
+					try {
+						throw new Exception("F21: assignWPtoImages: No primary container can be added here");
+					} catch (Exception e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
+					break;
+				}
+				
+				for (clsDataStructureContainerPair oExistingContainerPair : oCompleteSecondaryStructureList) {
+					//If the ID of the containers is equal or if the 
+					if ((oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainerPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) {
 						bExistsAlready = true;
 						break;
 					}
 				}
 				if (bExistsAlready==false) {
-					oCompleteSecondaryStructureList.add(oAddContainer);
+					oCompleteSecondaryStructureList.add(new clsDataStructureContainerPair((clsSecondaryDataStructureContainer) oAddContainer, null));
 				}
 			}
 		}
@@ -814,17 +840,17 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Refactor the content names of the data structures in the containers
 		//Set new content for the base image
-		for (clsDataStructureContainer oDC: oRetVal) {
-			if (oDC instanceof clsSecondaryDataStructureContainer) {
-				String oNewContent = setSecondaryImageContent(oDC.getMoDataStructure());
-				if (oDC.getMoDataStructure() instanceof clsWordPresentationMesh) {
-					((clsWordPresentationMesh)oDC.getMoDataStructure()).setMoContent(oNewContent);
+		for (clsDataStructureContainerPair oDCPair: oRetVal) {
+			if (oDCPair.getSecondaryComponent() instanceof clsSecondaryDataStructureContainer) {
+				String oNewContent = setSecondaryImageContent(oDCPair.getSecondaryComponent().getMoDataStructure());
+				if (oDCPair.getSecondaryComponent().getMoDataStructure() instanceof clsWordPresentationMesh) {
+					((clsWordPresentationMesh)oDCPair.getSecondaryComponent().getMoDataStructure()).setMoContent(oNewContent);
 				}
 			}
 		}
 		
 		//Add the original primary containers
-		oRetVal.addAll(poInput);
+		//oRetVal.addAll(poInput);
 
 		return oRetVal;
 	}
@@ -892,7 +918,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+	public void send_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
 		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
 		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
 		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
@@ -973,7 +999,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainer> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}	

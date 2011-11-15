@@ -16,9 +16,9 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
@@ -49,15 +49,15 @@ import pa._v38.tools.toText;
  * 13.09.2011, 09:14:49
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
 	
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:45 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN;  
 	/** Container of activated associated memories */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 	/** Associated memories out */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:49 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:50 */
@@ -91,13 +91,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory) throws Exception {
+	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
+	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+		//super(poPrefix, poProp, poModuleList, poInterfaceData);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		//Init short time memory
-		moShortTimeMemory = new clsShortTimeMemory();
+		//Get short time memory
+		moShortTimeMemory = poShortTimeMemory;
 	}
 
 	/* (non-Javadoc)
@@ -168,7 +171,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_6(clsDataStructureContainerPair poPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
-			ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+			ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
 		try {
 			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -176,7 +179,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			e.printStackTrace();
 		}
 		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
-		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainerPair>)deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -216,7 +219,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 		moExtractedPrediction_OUT = extractPredictions(moAssociatedMemoriesSecondary_IN);
 		
 		//Pass the associated memories forward
-		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainer>)deepCopy((ArrayList<clsDataStructureContainer>)moAssociatedMemoriesSecondary_IN);
+		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainerPair>)deepCopy((ArrayList<clsDataStructureContainerPair>)moAssociatedMemoriesSecondary_IN);
 		
 		//printImageText(moExtractedPrediction_OUT);
 	}
@@ -230,7 +233,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param prMomentActivationThreshold
 	 * @param poShortTimeMemory
 	 */
-	private void confirmExpectations(ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold, clsShortTimeMemory poShortTimeMemory) {
+	private void confirmExpectations(ArrayList<clsDataStructureContainerPair> poInput, double prMomentActivationThreshold, clsShortTimeMemory poShortTimeMemory) {
 		//Get all expectations from the Short time memory
 		ArrayList<clsPair<Integer, Object>> oExpectationList = poShortTimeMemory.findMemoriesDataType(eSupportDataType.EXPECTATION);
 		//For each found expectation
@@ -239,37 +242,39 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Intention shall only be updated once
 			boolean bIntentionProgressUpdated = false;
 			//Go through all associated memories
-			for (clsDataStructureContainer oActivatedDataContainer : poInput) {
+			for (clsDataStructureContainerPair oActivatedDataContainerPair : poInput) {
 				//If a secondary data structure container
-				if (oActivatedDataContainer instanceof clsSecondaryDataStructureContainer) {
-					//If they are equal
-					//FIXME: What if there are more expectations to one moment???? This should be considered
-					for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-						boolean bCheckProcessedExpectation = clsPredictionTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
-						if (bCheckProcessedExpectation==false) {
-							if (oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oActivatedDataContainer.getMoDataStructure().getMoDS_ID()) {
-								//Get the primary container
-								clsPrimaryDataStructureContainer oC = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer) oActivatedDataContainer, poInput);
-								if (oC != null) {
-									//Get match to PI
-									double rMatch = clsDataStructureTools.getMatchValueToPI(oC);
-									//If it is more than the activation threshold
-									if (rMatch >= prMomentActivationThreshold) {
-										//Update the progress bar
-										if (bIntentionProgressUpdated == false) {
-											//Update the temporal and the confirmation progress of that perception act
-											updateTotalProgress(oPrediction.getIntention().getSecondaryComponent());
-											bIntentionProgressUpdated = true;
-										}
-										//Add WP that the expectation has been already used. An expectation must only be confirmed once
-										clsPredictionTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
+				//if (oActivatedDataContainer instanceof clsSecondaryDataStructureContainer) {
+				clsSecondaryDataStructureContainer oSContainer = oActivatedDataContainerPair.getSecondaryComponent();
+				//If they are equal
+				//FIXME: What if there are more expectations to one moment???? This should be considered
+				for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
+					boolean bCheckProcessedExpectation = clsPredictionTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
+					if (bCheckProcessedExpectation==false) {
+						if (oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID()) {
+							//Get the primary container
+							//clsPrimaryDataStructureContainer oC = clsDataStructureTools.extractPrimaryContainer(oSContainer, poInput);
+							clsPrimaryDataStructureContainer oC = oActivatedDataContainerPair.getPrimaryComponent();
+							if (oC != null) {
+								//Get match to PI
+								double rMatch = clsDataStructureTools.getMatchValueToPI(oC);
+								//If it is more than the activation threshold
+								if (rMatch >= prMomentActivationThreshold) {
+									//Update the progress bar
+									if (bIntentionProgressUpdated == false) {
+										//Update the temporal and the confirmation progress of that perception act
+										updateTotalProgress(oPrediction.getIntention().getSecondaryComponent());
+										bIntentionProgressUpdated = true;
 									}
+									//Add WP that the expectation has been already used. An expectation must only be confirmed once
+									clsPredictionTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
 								}
-								break;
-							
 							}
+							break;
+					
 						}
 					}
+					//}
 				}
 			}
 		}
@@ -288,7 +293,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param oInput
 	 * @return
 	 */
-	private ArrayList<clsPrediction> extractPredictions(ArrayList<clsDataStructureContainer> poInput) {
+	private ArrayList<clsPrediction> extractPredictions(ArrayList<clsDataStructureContainerPair> poInput) {
 		ArrayList<clsPrediction> oRetVal = new ArrayList<clsPrediction>();
 		//ArrayList<clsPrediction> oPredictionList = new ArrayList<clsPrediction>();
 		
@@ -448,22 +453,24 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poInputList
 	 * @return
 	 */
-	private ArrayList<clsDataStructureContainerPair> getIntentionsFromList(ArrayList<clsDataStructureContainer> poInputList) {
+	private ArrayList<clsDataStructureContainerPair> getIntentionsFromList(ArrayList<clsDataStructureContainerPair> poInputList) {
 		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
 		
 		//Go through all elements
-		for (clsDataStructureContainer oContainer : poInputList) {
-			if (oContainer instanceof clsSecondaryDataStructureContainer) {
-				for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+		for (clsDataStructureContainerPair oContainerPair : poInputList) {
+			clsSecondaryDataStructureContainer oSContainer = oContainerPair.getSecondaryComponent();
+			//if (oContainer instanceof clsSecondaryDataStructureContainer) {
+				for (clsAssociation oAss : oSContainer.getMoAssociatedDataStructures()) {
 					//If this container is a leaf element of an associationsecondary with the predicate ISA
 					if (oAss instanceof clsAssociationSecondary) {
 						//An intention is recognized if the image is the Leaf element of a Hierarchical association (ISA)
-						if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.ISA.toString()) && (oAss.getLeafElement().getMoDS_ID() == oContainer.getMoDataStructure().getMoDS_ID())) {
+						if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.ISA.toString()) && (oAss.getLeafElement().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID())) {
 							//The secondary data structure container found
-							clsSecondaryDataStructureContainer oSIntention = (clsSecondaryDataStructureContainer) oContainer;
+							clsSecondaryDataStructureContainer oSIntention = (clsSecondaryDataStructureContainer) oSContainer;
 							
 							//Get the primary data structure container if they exist
-							clsPrimaryDataStructureContainer oPIntention = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInputList);
+							//clsPrimaryDataStructureContainer oPIntention = clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInputList);
+							clsPrimaryDataStructureContainer oPIntention = oContainerPair.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer((clsSecondaryDataStructureContainer)oContainer, poInputList);
 							
 							//Create container
 							clsDataStructureContainerPair oIntentionCPair = new clsDataStructureContainerPair(oSIntention, oPIntention);
@@ -475,7 +482,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							}
 						}
 					}
-				}
+				//}
 			}
 		}
 		
@@ -513,7 +520,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getIntention(ArrayList<clsDataStructureContainer> poInput, clsShortTimeMemory poShortTimeMemory) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getIntention(ArrayList<clsDataStructureContainerPair> poInput, clsShortTimeMemory poShortTimeMemory) {
 		
 		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
@@ -616,7 +623,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poExtendedInputList
 	 * @param poAssociatedInputs
 	 */
-	private void addTotalProgress(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poExtendedInputList, ArrayList<clsDataStructureContainer> poAssociatedInputs, int pnConfirmationParts) {
+	private void addTotalProgress(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poExtendedInputList, ArrayList<clsDataStructureContainerPair> poAssociatedInputs, int pnConfirmationParts) {
 		for (clsTriple<Integer, Integer, clsPrediction> oExtPrediction :  poExtendedInputList) {
 			//If the intention is new
 			if (oExtPrediction.a>0) {
@@ -638,7 +645,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 *
 	 * @param poIntention
 	 */
-	private void addAllFactors(clsPrediction poPrediction, ArrayList<clsDataStructureContainer> poAssociatedInputs, int pnConfirmationParts) {
+	private void addAllFactors(clsPrediction poPrediction, ArrayList<clsDataStructureContainerPair> poAssociatedInputs, int pnConfirmationParts) {
 		//pnConfirmationParts is the number of parts, in which a perception-act is split into. As soon as the first part is confirmed, the whole 
 		//perception act is evaluated as confirmed
 		
@@ -710,7 +717,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getMoment(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput, double prMomentActivationThreshold) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getMoment(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainerPair> poInput, double prMomentActivationThreshold) {
 
 		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
@@ -755,7 +762,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param oLastMomentInShortTimeMemory
 	 * @return
 	 */
-	private clsPair<Integer, clsDataStructureContainerPair> verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsDataStructureContainerPair poLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
+	private clsPair<Integer, clsDataStructureContainerPair> verifyTemporalOrder (clsDataStructureContainerPair poBestImageMatch, clsDataStructureContainerPair poLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainerPair> poTotalList) {
 		//pnSavePredictionMode is a refence, which is modified in the function
 		int nSavePredictionMode = 0;
 		boolean bQuit = false;		
@@ -875,15 +882,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poTotalList
 	 * @return
 	 */
-	private boolean checkMomentPreconditionMinMatch(clsDataStructureContainerPair oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainer> poTotalList) {
+	private boolean checkMomentPreconditionMinMatch(clsDataStructureContainerPair oLastMomentInShortTimeMemory, ArrayList<clsDataStructureContainerPair> poTotalList) {
 		boolean oRetVal = false;
 		
 		//Get the Primary container in the list of current matches from the last known moment
-		clsPrimaryDataStructureContainer oLastMomentPriContainer = clsDataStructureTools.extractPrimaryContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), poTotalList);
+		clsDataStructureContainerPair oLastMomentContainer = clsDataStructureTools.searchContainerPairList(oLastMomentInShortTimeMemory.getSecondaryComponent(), poTotalList);
 		double oLastMomentMatch = 0.0;
 		//If the container !=null, then get the match value with PI
-		if (oLastMomentPriContainer!=null) {
-			oLastMomentMatch = clsDataStructureTools.getMatchValueToPI(oLastMomentPriContainer);
+		if (oLastMomentContainer.getPrimaryComponent()!=null) {
+			oLastMomentMatch = clsDataStructureTools.getMatchValueToPI(oLastMomentContainer.getPrimaryComponent());
 		}
 		
 		//If the last moment passes, the quit with true
@@ -900,9 +907,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			double oExpectationMatch = 0.0;
 			ArrayList<clsSecondaryDataStructure> oPlausibleExpList = clsDataStructureTools.getDSFromSecondaryAssInContainer(oLastMomentInShortTimeMemory.getSecondaryComponent(), ePredicate.HASNEXT.toString(), false);
 			for (clsSecondaryDataStructure oS : oPlausibleExpList) {
-				clsSecondaryDataStructureContainer oSecondaryContainer = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poTotalList, oS);
-				if (oSecondaryContainer!=null) {
-					clsPrimaryDataStructureContainer oPrimaryContainer = clsDataStructureTools.extractPrimaryContainer(oSecondaryContainer, poTotalList);
+				clsDataStructureContainerPair oContainerPair = clsDataStructureTools.getContainerFromList(poTotalList, oS);
+				if (oContainerPair.getSecondaryComponent()!=null) {
+					clsPrimaryDataStructureContainer oPrimaryContainer = oContainerPair.getPrimaryComponent();//clsDataStructureTools.extractPrimaryContainer(oSecondaryContainer, poTotalList);
 					if (oPrimaryContainer!=null) {
 						oExpectationMatch = clsDataStructureTools.getMatchValueToPI(oPrimaryContainer);
 						if (oExpectationMatch>oBestExpectationMatch) {
@@ -931,7 +938,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poSourceList
 	 * @return
 	 */
-	private clsDataStructureContainerPair getBestMatchSubImage(clsSecondaryDataStructureContainer poIntention, ArrayList<clsDataStructureContainer> poSourceList, double prMomentActivationThreshold) {
+	private clsDataStructureContainerPair getBestMatchSubImage(clsSecondaryDataStructureContainer poIntention, ArrayList<clsDataStructureContainerPair> poSourceList, double prMomentActivationThreshold) {
 		clsDataStructureContainerPair oRetVal = null;
 		double rMaxValue = 0.0;
 				
@@ -941,18 +948,21 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 			//Get the Image DS
 			//Find the corresponding WP-container
 			clsSecondaryDataStructureContainer oCurrentSituationWPContainer = null;
-			for (clsDataStructureContainer oSContainer : poSourceList) {
-				if ((oSContainer instanceof clsSecondaryDataStructureContainer) && (oDS.getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID())) {
-					oCurrentSituationWPContainer = (clsSecondaryDataStructureContainer) oSContainer;
+			clsPrimaryDataStructureContainer oPContainer = null;
+			for (clsDataStructureContainerPair oContainerPair : poSourceList) {
+				clsSecondaryDataStructureContainer oSContainer = oContainerPair.getSecondaryComponent();
+				if (oDS.getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID()) {
+					oCurrentSituationWPContainer = oSContainer;
+					oPContainer = oContainerPair.getPrimaryComponent();
 					break;
 				}
 			}
 			
 			//If this container could be found, search for the primary Data structure container
-			clsPrimaryDataStructureContainer oPContainer = null;
-			if (oCurrentSituationWPContainer!=null) {
-				oPContainer = clsDataStructureTools.extractPrimaryContainer(oCurrentSituationWPContainer, poSourceList);
-			}
+			
+//			if (oCurrentSituationWPContainer!=null) {
+//				oPContainer = clsDataStructureTools.extractPrimaryContainer(oCurrentSituationWPContainer, poSourceList);
+//			}
 			
 			//Get the Matchvalue to the Perceived Image 
 			if (oPContainer != null) {
@@ -1008,7 +1018,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 * @param poActList
 	 * @param poInput
 	 */
-	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getExpectations(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainer> poInput, clsShortTimeMemory poShortTimeMemory) {
+	private ArrayList<clsTriple<Integer, Integer, clsPrediction>> getExpectations(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poActList, ArrayList<clsDataStructureContainerPair> poInput, clsShortTimeMemory poShortTimeMemory) {
 		ArrayList<clsTriple<Integer, Integer, clsPrediction>> oRetVal = new ArrayList<clsTriple<Integer, Integer, clsPrediction>>();
 		
 		for (clsTriple<Integer, Integer, clsPrediction> oActTripple : poActList) {
@@ -1030,15 +1040,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 				for (clsSecondaryDataStructure oSecDS : oExpectationElement) {
 					clsPair<Integer, Object> oExpectationMemory = poShortTimeMemory.findMemory(oSecDS);
 					
-					clsSecondaryDataStructureContainer oPossibleExpectation = null;
+					clsDataStructureContainerPair oPossibleExpectation = null;
 					
 					if (oExpectationMemory==null) {
-						oPossibleExpectation = (clsSecondaryDataStructureContainer) clsDataStructureTools.getContainerFromList(poInput, oSecDS);
+						oPossibleExpectation = clsDataStructureTools.getContainerFromList(poInput, oSecDS);
 					} else {
-						oPossibleExpectation = ((clsDataStructureContainerPair)oExpectationMemory.b).getSecondaryComponent();
+						oPossibleExpectation = ((clsDataStructureContainerPair)oExpectationMemory.b);
 					}
 					
-					if (oPossibleExpectation==null) {
+					if (oPossibleExpectation.getSecondaryComponent()==null) {
 						try {
 							throw new Exception("Code/Protege error in F51_RealityCheckWishFulfillment, setCurrentExpectation: " +
 									"No expectation found, although it should be found. This error occurs if the intention " +
@@ -1056,7 +1066,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 					for (clsSecondaryDataStructure oIntentionInAss : oIntentionFromPossibleExp) {
 						if (oIntentionInAss.getMoDS_ID() == oIntention.getMoDataStructure().getMoDS_ID()) {
 							//Get the primary structure for this expectation
-							clsPrimaryDataStructureContainer oPExpectation = clsDataStructureTools.extractPrimaryContainer(oPossibleExpectation, poInput);
+							//clsPrimaryDataStructureContainer oPExpectation = oPossibleExpectation.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oPossibleExpectation, poInput);
 							//The expectation has been found and confirmed
 							//Set the classification
 							//if (oPossibleExpectation!=null) {
@@ -1064,7 +1074,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 							//}
 							
 							//Add the secondary and the primary (if available) to the expectations
-							clsDataStructureContainerPair oExpectation = new clsDataStructureContainerPair(oPossibleExpectation, oPExpectation);
+							clsDataStructureContainerPair oExpectation = oPossibleExpectation; //new clsDataStructureContainerPair(oPossibleExpectation, oPExpectation);
 							
 							oActTripple.c.getExpectations().add(oExpectation);
 						}
@@ -1133,7 +1143,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBase implements I6
 	 */
 	@Override
 	public void send_I6_7(clsDataStructureContainerPair poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainer> poAssociatedMemories) {
+			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories);
 		
 		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories);

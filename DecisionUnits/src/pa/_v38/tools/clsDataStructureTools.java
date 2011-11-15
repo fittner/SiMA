@@ -142,7 +142,7 @@ public class clsDataStructureTools {
 	}
 	
 	/**
-	 * For a secondary data structure in a container, get the primary data structure in a container if it is available in the input list
+	 * For a secondary data structure in a container, get the fitting primary data structure in a container if it is available in the input list
 	 * (wendt)
 	 *
 	 * @since 01.08.2011 16:14:31
@@ -151,8 +151,8 @@ public class clsDataStructureTools {
 	 * @param poSourceList
 	 * @return
 	 */
-	public static clsPrimaryDataStructureContainer extractPrimaryContainer(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainer> poSourceList) {
-		clsPrimaryDataStructureContainer oRetVal = null;
+	public static clsDataStructureContainerPair searchContainerPairList(clsSecondaryDataStructureContainer poInput, ArrayList<clsDataStructureContainerPair> poSourceList) {
+		clsDataStructureContainerPair oRetVal = null;
 		
 		//Go through the container and search for associationWP
 		if (poInput!=null) {
@@ -160,21 +160,20 @@ public class clsDataStructureTools {
 				if (oAss instanceof clsAssociationWordPresentation) {
 					//Check if the primary data structure is a part of the root or the leaf element
 					if (oAss.getLeafElement() instanceof clsPrimaryDataStructure) {
-						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getLeafElement());
+						oRetVal = getContainerFromList(poSourceList, oAss.getLeafElement());
 						break;
 					} else if (oAss.getRootElement() instanceof clsPrimaryDataStructure) {
-						oRetVal = (clsPrimaryDataStructureContainer) getContainerFromList(poSourceList, oAss.getRootElement());
+						oRetVal = getContainerFromList(poSourceList, oAss.getRootElement());
 						break;
 					}
 				}
 			}
 	}
-		
 		return oRetVal;
 	}
 	
 	/**
-	 * Extract a primarydatastructurecontainer from a secondarydatastructurecontainer
+	 * Extract a container pair a data structure
 	 * (wendt)
 	 *
 	 * @since 22.07.2011 18:26:09
@@ -183,12 +182,15 @@ public class clsDataStructureTools {
 	 * @param poDS
 	 * @return
 	 */
-	public static clsDataStructureContainer getContainerFromList(ArrayList<clsDataStructureContainer> poSourceList, clsDataStructurePA poDS) {
-		clsDataStructureContainer oRetVal = null;
+	public static clsDataStructureContainerPair getContainerFromList(ArrayList<clsDataStructureContainerPair> poSourceList, clsDataStructurePA poDS) {
+		clsDataStructureContainerPair oRetVal = null;
 		
-		for (clsDataStructureContainer oContainer : poSourceList) {
-			if (oContainer.getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
-				oRetVal = oContainer;
+		for (clsDataStructureContainerPair oContainerPair : poSourceList) {
+			if (oContainerPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
+				oRetVal = oContainerPair;
+				break;
+			} else if (oContainerPair.getPrimaryComponent()!=null && oContainerPair.getPrimaryComponent().getMoDataStructure().getMoDS_ID() == poDS.getMoDS_ID()) {
+				oRetVal = oContainerPair;
 				break;
 			}
 		}

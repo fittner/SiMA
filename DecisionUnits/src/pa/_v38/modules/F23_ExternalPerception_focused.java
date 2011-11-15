@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -41,13 +40,13 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
 	//AW 20110602 New input of the module
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_IN;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
 	private ArrayList<clsSecondaryDataStructureContainer> moDriveList; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
-	private ArrayList<clsDataStructureContainer> moAssociatedMemoriesSecondary_OUT;
+	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrAvailableFocusEnergy = 7.8;
@@ -143,7 +142,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary) {
+	public void receive_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
 		try {
 			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -151,7 +150,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			e.printStackTrace();
 		}
 		//AW 20110602 Added Associtated memories
-		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainer>)this.deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainerPair>)this.deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -213,7 +212,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		*/
 		
 		
-		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainer>)deepCopy(moAssociatedMemoriesSecondary_IN);
+		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainerPair>)deepCopy(moAssociatedMemoriesSecondary_IN);
 	}
 	
 	/**
@@ -410,7 +409,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	@Override
 	public void send_I6_6(clsDataStructureContainerPair poFocusedPerception,
 			   				ArrayList<clsSecondaryDataStructureContainer> poDriveList,
-			   				ArrayList<clsDataStructureContainer> poAssociatedMemoriesSecondary_OUT) {
+			   				ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
 		
 		putInterfaceData(I6_6_send.class, poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
