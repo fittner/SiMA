@@ -897,7 +897,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		String oPrintoutPrediction = PredictionToText(poPrediction);
 		
-		System.out.println("BEGIN");
+		System.out.println("BEGIN" + this.hashCode());
 		System.out.println(oPrintoutPrediction);
 		System.out.println(oPrintoutGoal);
 		System.out.println(oPrintoutPlan);
