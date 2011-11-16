@@ -69,6 +69,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	/* Output */
 	/** A Perceived image incl. DMs */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	
+	private clsPrimaryDataStructureContainer moEnhancedPerception;
 	/** Activated memories together with their DMs */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
@@ -114,9 +116,11 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);	
+		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
 		
 		return text;
 	}		
@@ -205,9 +209,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Get activated content
 		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		//Clone the Output Perception and add knowledge about other objects
-		clsPrimaryDataStructureContainer oEnhancedPerception = enhancePerceptionWithLocalization(moEnvironmentalPerception_OUT, moTempLocalizationStorage);
+		 moEnhancedPerception = enhancePerceptionWithLocalization(moEnvironmentalPerception_OUT, moTempLocalizationStorage);
 		
-		moAssociatedMemories_OUT = retrieveActivatedMemories(oEnhancedPerception, oBestPhantasyInput);
+		moAssociatedMemories_OUT = retrieveActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}

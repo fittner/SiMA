@@ -50,6 +50,15 @@ public class clsShortTimeMemory {
 	}
 	
 	/**
+	 * @since 16.11.2011 10:43:20
+	 * 
+	 * @return the moShortTimeMemory
+	 */
+	public ArrayList<clsPair<Integer, Object>> getMoShortTimeMemory() {
+		return moShortTimeMemory;
+	}
+	
+	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
 	 * @since 31.08.2011 07:29:39
@@ -470,7 +479,7 @@ public class clsShortTimeMemory {
 	@Override
 	public String toString(){
 		if (moShortTimeMemory.isEmpty()==false) {
-			return moShortTimeMemory.get(0).a.toString() + "|" + moShortTimeMemory.get(0).b.toString();
+			return moShortTimeMemory.toString();// + //"|" + moShortTimeMemory.get(0).b.toString();
 		} else {
 			return "empty";
 		}
