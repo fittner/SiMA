@@ -46,7 +46,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
 	
-	private double mrThreshold = 0.1;
+	private double mrThreshold = 0.5;
 	
 	/**
 	 * DOCUMENT (zeilinger) 
@@ -178,7 +178,18 @@ protected void process_basic() {
 			for (clsAssociationDriveMesh oAss : oAssDMList) {
 				if (oAss.getLeafElement()instanceof clsDriveMesh) {
 					//Get match categoriesfactor
-					rCurrentMatchFactor = ((clsDriveMesh)oAss.getLeafElement()).matchCathegories(oDM);
+					
+					
+					
+					//FIXME CM: AW: This method does not work very well as the categories are not properly set. This has to be fixed. Until then, the comparison is made with the content instead
+					//rCurrentMatchFactor = ((clsDriveMesh)oAss.getLeafElement()).matchCathegories(oDM);
+					
+					if (((clsDriveMesh)oAss.getLeafElement()).getMoContent().equals(oDM.getMoContent())) {
+						rCurrentMatchFactor = 1.0;
+					} else {
+						rCurrentMatchFactor = 0.0;
+					}
+					
 					//It shall be more than the htreshold and more than the max factor
 					if ((rCurrentMatchFactor > mrThreshold) && (rCurrentMatchFactor > rMaxMatchfactor)) {
 						double rCurrentPleasureValue = ((clsDriveMesh)oAss.getLeafElement()).getMrPleasure();
