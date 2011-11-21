@@ -159,7 +159,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 or E27 has a memory access on its own => E28 woul dbe senseless.  Until this question has been solved, E28 is implemented to retrieve and put acts together which means that it takes over a kind of planning.
 		 */
 		
-		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
 	}
 	
@@ -683,6 +683,37 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
 				new clsImage(eDirection.MIDDLERIGHT, eEntity.CAKE), 
 				new clsImage(eDirection.CENTER, eEntity.CAKE)));
+		
+		
+		//AW 20111122: Add Deposit at the STONE only, if the stone is besides of the agent
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.STONE), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
+				new clsImage(eDistance.NEAR, eDirection.MIDDLELEFT, eEntity.STONE), 
+				new clsImage(eDistance.NEAR, eDirection.MIDDLELEFT, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.LEFT, eEntity.STONE), 
+				new clsImage(eDirection.MIDDLELEFT, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.MIDDLELEFT, eEntity.STONE), 
+				new clsImage(eDirection.CENTER, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.RIGHT, eEntity.STONE), 
+				new clsImage(eDirection.MIDDLERIGHT, eEntity.STONE)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.MIDDLERIGHT, eEntity.STONE), 
+				new clsImage(eDirection.CENTER, eEntity.STONE)));
+		
 		
 		
 /*		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),

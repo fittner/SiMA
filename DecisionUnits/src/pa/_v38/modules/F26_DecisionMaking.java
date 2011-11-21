@@ -371,7 +371,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 				//-3 = HIGHNEGATIVE or +3 HIGHPOSITIVE then, special treatment
 			} else {
 				//If the absolute intensity is equal to HIGHXXX, then ...
-				if ((Math.abs(oDriveCharacteristics.b.mnAffectLevel)>=3) && (oReachableGoalList.isEmpty()==true)) {
+				if ((Math.abs(oDriveCharacteristics.b.mnAffectLevel)>=1) && (oReachableGoalList.isEmpty()==true)) {
 					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
 					if (i+1<oDriveListSorted.size()) {
 						//if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
