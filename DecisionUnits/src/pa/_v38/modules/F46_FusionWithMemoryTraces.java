@@ -45,6 +45,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 
 import config.clsProperties;
+import du.enums.eDistance;
 import du.enums.pa.eContext;
 
 /**
@@ -153,6 +154,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
+		//Workaround of Bug Eatable/Manipulatable sensors bug
+		solveBUGFIXEATABLEAREA(moEnvironmentalPerception_IN);
+		
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
 		
@@ -240,6 +244,66 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_final() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
 
+	}
+	
+	/**
+	 * This is a temporary bugfix for the problem if there are objects in the eatable area. They are not loaded with all attributes and are recognized false
+	 * 
+	 * (wendt)
+	 *
+	 * @since 21.11.2011 16:30:06
+	 *
+	 * @param poEnvironmentalPerception_IN
+	 */
+	private void solveBUGFIXEATABLEAREA(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception_IN) {
+		//Exchange all objects in the EATABLE AREA with the objects in the MANIPULATEABLE AREA
+		ArrayList<clsPrimaryDataStructureContainer> oEatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Search in the input for an object with location EATABLE and add them to a new list
+		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				//Go through all associated structures
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+						oEatableList.add(oContainer);
+					}
+				}
+				
+			}
+		}
+		
+		//Search for all objects with the area MANIPULATABLE and add them to a new list
+		//for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+		//	if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+		//		//Go through all associated structures
+		//		for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
+		//			if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
+		//				oManipulatableList.add(oContainer);
+		//			}
+		//		}
+		//		
+		//	}
+		//}
+		
+		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
+		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
+			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
+				//When found, add all TP, which are not location to the EATABLE area
+				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoContent())) {
+						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoAssociatedContent()) {
+							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
+								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoAssociatedContent().add(oAss);
+								break;
+							}
+						}
+						
+						
+					}
+				}
+			}
+		}
 	}
 	
 	/**
