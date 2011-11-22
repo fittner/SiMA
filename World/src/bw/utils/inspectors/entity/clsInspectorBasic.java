@@ -13,7 +13,9 @@ import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.border.TitledBorder;
+
 import bw.entities.clsEntity;
+import bw.entities.clsMobile;
 import bw.utils.inspectors.clsInspectorUtils;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -50,6 +52,11 @@ public class clsInspectorBasic extends Inspector {
 	private PropertyField moProp5;
 	private PropertyField moProp6;
 	private PropertyField moProp7;
+	private PropertyField moProp8;
+	private PropertyField moProp9;
+	private PropertyField moProp10;
+	private PropertyField moProp11;
+	private PropertyField moProp12;
 
 	/**
 	 * CTOR Default Inspectors, 4 all entities 
@@ -88,6 +95,14 @@ public class clsInspectorBasic extends Inspector {
 		moProp6 = new  PropertyField("Mass", clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()), false, null, PropertyField.SHOW_TEXTFIELD);
 		moProp7 = new  PropertyField("Angle [deg]", clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI), false, null, PropertyField.SHOW_TEXTFIELD);
 		
+		if(moEntity instanceof clsMobile){
+			moProp8 = new  PropertyField("Velocity X", clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getVelocity().x), false, null, PropertyField.SHOW_TEXTFIELD);
+			moProp9 = new  PropertyField("Velocity X", clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getVelocity().y), false, null, PropertyField.SHOW_TEXTFIELD);
+			moProp10 = new  PropertyField("Ang. Velocity", clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getAngularVelocity()), false, null, PropertyField.SHOW_TEXTFIELD);
+			moProp11 = new  PropertyField("Force X", clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getMobileObject2D().getForceAccumulator().x), false, null, PropertyField.SHOW_TEXTFIELD);
+			moProp12 = new  PropertyField("Force Y", clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getMobileObject2D().getForceAccumulator().y), false, null, PropertyField.SHOW_TEXTFIELD);
+		}
+
 		oBox1.add(moProp1, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp1_1, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp2, BorderLayout.AFTER_LAST_LINE);
@@ -96,6 +111,11 @@ public class clsInspectorBasic extends Inspector {
 		oBox1.add(moProp7, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp5, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moProp6, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp8, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp9, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp10, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp11, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moProp12, BorderLayout.AFTER_LAST_LINE);
 		
 		add(oBox1, BorderLayout.AFTER_LAST_LINE);
 	}
@@ -116,6 +136,14 @@ public class clsInspectorBasic extends Inspector {
 		moProp5.setValue(""+moEntity.get2DShape().getPaint().toString());
 		moProp6.setValue(clsInspectorUtils.FormatDouble(moEntity.getTotalWeight()));
 		moProp7.setValue(clsInspectorUtils.FormatDouble(moEntity.getPose().getAngle().radians *180/Math.PI));
+		
+		if(moEntity instanceof clsMobile){
+			moProp8.setValue( clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getVelocity().x) );
+			moProp9.setValue( clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getVelocity().y) );
+			moProp10.setValue( clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getAngularVelocity()) );
+			moProp11.setValue( clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getMobileObject2D().getForceAccumulator().x) );
+			moProp12.setValue(  clsInspectorUtils.FormatDouble(((clsMobile)moEntity).getMobileObject2D().getForceAccumulator().y) );
+		}
 	}
 	
 }
