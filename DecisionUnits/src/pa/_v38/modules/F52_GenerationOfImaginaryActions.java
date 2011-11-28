@@ -159,7 +159,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 or E27 has a memory access on its own => E28 woul dbe senseless.  Until this question has been solved, E28 is implemented to retrieve and put acts together which means that it takes over a kind of planning.
 		 */
 		
-		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+		printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
 		
 	}
 	
@@ -647,45 +647,125 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		/**
 		 * test test dummy to fill internal database
 		 */
+		
+		//EAT CAKE
+		eEntity oEntity = eEntity.CAKE;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
-				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
-
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
 	
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
-				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.CAKE), 
-				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.LEFT, eEntity.CAKE), 
-				new clsImage(eDirection.MIDDLELEFT, eEntity.CAKE)));
+				new clsImage(eDirection.LEFT, oEntity), 
+				new clsImage(eDirection.MIDDLELEFT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.MIDDLELEFT, eEntity.CAKE), 
-				new clsImage(eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.RIGHT, eEntity.CAKE), 
-				new clsImage(eDirection.MIDDLERIGHT, eEntity.CAKE)));
+				new clsImage(eDirection.RIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.MIDDLERIGHT, eEntity.CAKE), 
-				new clsImage(eDirection.CENTER, eEntity.CAKE)));
+				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+		
+		//EAT REMOTEBOT
+		oEntity = eEntity.CARROT;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+	
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.LEFT, oEntity), 
+				new clsImage(eDirection.MIDDLELEFT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.RIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+		
+		
+		//EAT REMOTEBOT
+		oEntity = eEntity.REMOTEBOT;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+	
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.LEFT, oEntity), 
+				new clsImage(eDirection.MIDDLELEFT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
+				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.RIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
 		
 		
 		//AW 20111122: Add Deposit at the STONE only, if the stone is besides of the agent
+		//DEPOSIT STONE
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"),
 				new clsImage(eDistance.FAR, eDirection.CENTER, eEntity.STONE), 
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
@@ -739,6 +819,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(), 
 				new clsImage()));
 		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(), 
+				new clsImage()));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
 				new clsImage(), 

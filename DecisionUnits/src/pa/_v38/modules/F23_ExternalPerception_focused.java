@@ -49,7 +49,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
-	private double mrAvailableFocusEnergy = 7.8;
+	private double mrAvailableFocusEnergy = 20;
 	
 	/** Threshold for letting through drive goals */
 	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through

@@ -155,6 +155,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
 		//Workaround of Bug Eatable/Manipulatable sensors bug
+		//TODO CM: Remove this function, as the eatable area objects are working.
 		solveBUGFIXEATABLEAREA(moEnvironmentalPerception_IN);
 		
 		/* Construction of perceived images*/
@@ -781,6 +782,16 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 	}
 	
+	/**
+	 * Add Empty-Space-Objects to perception for all floor elements, which are not visible
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.11.2011 14:35:09
+	 *
+	 * @param poImage
+	 * @return
+	 */
 	private ArrayList<clsPrimaryDataStructureContainer> createEmptySpaceObjects(clsPrimaryDataStructureContainer poImage) {
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		

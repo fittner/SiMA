@@ -203,6 +203,12 @@ public class clsActionProcessor implements itfActionProcessor {
 		dispatchFinalize(oExecutionStack);
 		
 		moExecutionHistory=oExecutionStack;
+		
+		if (moExecutionHistory.isEmpty()==false) {
+			if (moExecutionHistory.get(0).meResult.toString().equals("EXECUTIONRESULT_EXECUTED")==false) {
+				System.out.println(this.moExecutionHistory.toString());
+			}
+		}
 	}
 
 	/*
@@ -514,6 +520,11 @@ public class clsActionProcessor implements itfActionProcessor {
 			 if (moCall.getActive() && meResult == eExecutionResult.EXECUTIONRESULT_NOTEXECUTED) return true;
 			 return false;
 		 }
+		 
+		 @Override
+		public String toString() {
+			return "Command: " + this.getCommand() + " | Executor: " + this.moExecutor + " | Result: " + this.getResult(); 
+		}
 	 }
  
 	 
