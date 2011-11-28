@@ -830,9 +830,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		
 		// TODO (perner) add generic actions like right, left without objects
-		/**
-		 * test
-		 */		
+		
 	}
 	
 	/**
