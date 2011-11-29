@@ -238,6 +238,78 @@ public abstract class clsDataStructureComparison {
 	}
 	
 	
+
+	/**
+	 * Get a whole container from a data structure including all associated structures
+	 * AW
+	 * @since 20.07.2011 02:00:14
+	 *
+	 * @param poInput
+	 * @param poSearchSpaceHandler
+	 * @return
+	 */
+	public static clsThingPresentationMesh getCompleteCompositionStructure(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler) {
+		//Readoutsearchspace searches everything with a certain moDSID
+		//Everything shall be returned
+		//A special case of the searchspace was used
+		
+		//Create Container for the DataStructure
+		
+		//clsDataStructureContainer oCompareContainer = null;
+		clsThingPresentationMesh oRetVal = null;
+		try {
+			oRetVal = (clsThingPresentationMesh) poInput.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		//Check if that data structure can be found in the database, else return null
+		if (poInput.getMoDS_ID()>0) {
+			if (poInput instanceof clsPrimaryDataStructure) {
+				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsPhysicalRepresentation)poInput));
+				
+				//oCompareContainer = new clsPrimaryDataStructureContainer((clsPrimaryDataStructure)poInput, oAssList);
+				oRetVal.setMoExternalAssociatedContent(oAssList);
+				//Add associations from intrinsic structures
+				//TI, TPM
+//				if (poInput instanceof clsTemplateImage) {
+//					for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoAssociatedContent()) {
+//						//Recursive function
+//						clsDataStructureContainer oSubContainer = getCompleteContainer(oAss.getLeafElement(), poSearchSpaceHandler);
+//						if (oSubContainer!=null) {
+//							oCompareContainer.getMoAssociatedDataStructures().addAll(oSubContainer.getMoAssociatedDataStructures());
+//						}
+//					}
+				//if (poInput instanceof clsThingPresentationMesh) {
+				//	for (clsAssociation oAss: poInput.getMoAssociatedContent()) {
+				//		//Recursive function
+				//		clsDataStructureContainer oSubContainer = getCompleteContainer(oAss.getLeafElement(), poSearchSpaceHandler);
+				//		if (oSubContainer!=null) {
+				//			oCompareContainer.getMoAssociatedDataStructures().addAll(oSubContainer.getMoAssociatedDataStructures());
+				//		}
+				//	}
+				//}
+			//} else {
+			//	oCompareContainer = new clsSecondaryDataStructureContainer((clsSecondaryDataStructure) poInput, poSearchSpaceHandler.readOutSearchSpace(poInput));
+			}
+		}
+		
+		//Remove duplicate structures
+		//if (oCompareContainer!=null) {
+		//	oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
+		//}
+		//Set moInstanceID for all structures in the container
+		//clsDataStructureTools.createInstanceFromType(oCompareContainer);
+		
+		return oRetVal;
+	}
+	
+	
+	
+	
+	
 	/**
 	 * Get a whole container from a data structure including all associated structures
 	 * AW

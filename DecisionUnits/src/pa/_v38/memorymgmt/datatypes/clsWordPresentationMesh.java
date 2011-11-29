@@ -64,7 +64,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 */
 	private void setAssociations(
 			ArrayList<clsAssociation> poAssociatedStructures) {
-		moAssociatedContent = poAssociatedStructures;
+		moInternalAssociatedContent = poAssociatedStructures;
 	}
 	
 	/* (non-Javadoc)
@@ -107,12 +107,24 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsWordPresentationMesh oClone = (clsWordPresentationMesh)super.clone();
-        	if (moAssociatedContent != null) {
-        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moAssociatedContent){
+        	if (moInternalAssociatedContent != null) {
+        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+        	if (moExternalAssociatedContent != null) {
+        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}

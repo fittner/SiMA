@@ -20,7 +20,11 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	protected ArrayList<clsAssociation> moAssociatedContent; 	
+	
+	/** Internal defining associations are put here, i.e. shape, color or other defining objects; @since 29.11.2011 11:13:05 */
+	protected ArrayList<clsAssociation> moAssociatedContent;
+	/** External associations to location, DMs or other TPMs (Images) are placed here; @since 29.11.2011 11:13:42 */
+	protected ArrayList<clsAssociation> moExternalAssociatedContent;
 	/**
 	 * @author zeilinger
 	 * 19.03.2011, 08:57:27
@@ -37,9 +41,35 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * 
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
-	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
-		this.moAssociatedContent = moAssociatedContent;
+	public void setMoAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
+		this.moAssociatedContent = poAssociatedContent;
 	}
+	
+	/**
+	 * Get external associated content
+	 * (wendt)
+	 *
+	 * @since 29.11.2011 11:16:49
+	 *
+	 * @return
+	 */
+	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+		return moExternalAssociatedContent;
+	}
+	
+	/**
+	 * Set external associated content
+	 * 
+	 * (wendt)
+	 *
+	 * @since 29.11.2011 11:16:52
+	 *
+	 * @param poExternalAssociatedContent
+	 */
+	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+		this.moExternalAssociatedContent = poExternalAssociatedContent;
+	}
+	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -53,6 +83,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	public clsPhysicalStructureComposition(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		moAssociatedContent = new ArrayList<clsAssociation>(); 
+		moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	}
 	
 	/**
@@ -77,15 +108,29 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	public abstract void assignDataStructure(clsAssociation poDataStructurePA); 
 	
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Add internal associations
+	 * 
+	 * (wendt)
 	 *
 	 * @author zeilinger
 	 * 24.05.2010, 14:40:45
 	 *
 	 * @param poAssociatedWordPresentations
-	 */
-		
-	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	 */	
+	protected void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moAssociatedContent.addAll(poAssociatedDataStructures);  
+	}
+	
+	/**
+	 * Add external associations
+	 * 
+	 * (wendt)
+	 *
+	 * @since 29.11.2011 11:21:45
+	 *
+	 * @param poAssociatedDataStructures
+	 */
+	protected void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moExternalAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 }

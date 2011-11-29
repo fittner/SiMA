@@ -20,7 +20,34 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure {
-	protected ArrayList<clsAssociation> moAssociatedContent; 	
+	/** Add internal associations to WP or other WPM, which are defining this structure; @since 29.11.2011 11:26:20 */
+	protected ArrayList<clsAssociation> moInternalAssociatedContent;
+	
+	/**Add external associations to other WPM; @since 29.11.2011 11:29:16 */
+	protected ArrayList<clsAssociation> moExternalAssociatedContent;
+	
+	/**
+	 * Get all external associations
+	 * 
+	 * @since 29.11.2011 11:30:33
+	 * 
+	 * @return the moExternalAssociatedContent
+	 */
+	public ArrayList<clsAssociation> getMoExternalAssociatedContent() {
+		return moExternalAssociatedContent;
+	}
+
+	/**
+	 * Set the external associations
+	 * 
+	 * @since 29.11.2011 11:30:33
+	 * 
+	 * @param moExternalAssociatedContent the moExternalAssociatedContent to set
+	 */
+	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+		this.moExternalAssociatedContent = poExternalAssociatedContent;
+	}
+
 	/**
 	 * @author wendt
 	 * 19.03.2011, 08:57:27
@@ -28,7 +55,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @return the moAssociatedContent
 	 */
 	public ArrayList<clsAssociation> getMoAssociatedContent() {
-		return moAssociatedContent;
+		return moInternalAssociatedContent;
 	}
 
 	/**
@@ -37,8 +64,8 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
-	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
-		this.moAssociatedContent = moAssociatedContent;
+	public void setMoAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
+		this.moInternalAssociatedContent = poAssociatedContent;
 	}
 
 	/**
@@ -52,7 +79,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 */
 	public clsLogicalStructureComposition(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
-		moAssociatedContent = new ArrayList<clsAssociation>(); 
+		moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	}
 	
 	/**
@@ -85,7 +112,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @param poAssociatedWordPresentations
 	 */
 		
-	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
-		moAssociatedContent.addAll(poAssociatedDataStructures);  
+	protected void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moInternalAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 }
