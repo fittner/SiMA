@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -26,7 +27,8 @@ import config.clsProperties;
  * 11.08.2009, 14:58:20
  * 
  */
-public class F30_MotilityControl extends clsModuleBase implements I6_11_receive, I2_5_send {
+public class F30_MotilityControl extends clsModuleBase 
+    implements I6_11_receive, I2_5_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "30";
 	
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
@@ -261,6 +263,61 @@ public class F30_MotilityControl extends clsModuleBase implements I6_11_receive,
 	protected void process_final() {
 		throw new java.lang.NoSuchMethodError();
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 07.11.2010, 11:55:48
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
+		double rNUM_INPUT_ACTIONS = moActionCommands_Input.size();
+		oRetVal.add(rNUM_INPUT_ACTIONS); 
+		return oRetVal; 
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 23.04.2011, 11:15:51
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Number of Incoming Action Commands";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 23.04.2011, 11:15:51
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Number of Incoming Action Commands";
+	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 15.04.2011, 17:41:33
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		oCaptions.add("NUM_INPUT_ACTIONS");
+		
+		return oCaptions;
+	}	
 
 	/* (non-Javadoc)
 	 *
