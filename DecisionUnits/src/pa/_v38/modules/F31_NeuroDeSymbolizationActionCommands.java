@@ -156,23 +156,28 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					return;
 				
 				String oAction = oWP.getMoContent(); 
+				
+				// mnCounter contains information for how much turns the current action is active
 				if(oAction.equals(lastAction)) { 
 					mnCounter++; 
 				}
 				else  {
 					mnCounter = 0;
 				}
-			
+			    
+				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
+				// currently only the action "FLEE" sets the moActionBlockingTime
 				if(moActionBlockingTime>0) {
 					moActionBlockingTime--;
-					if(moActionBlockingTime==0) {
+					if(moActionBlockingTime<=0) {
 						mnCounter = 0;
 					}
 				    return;
 				}
-
+                
+				// action "FLEE" has a special position, it is the most important action
 				if (oAction.equals("FLEE")) {
-					if (mnCounter%90==0) {
+					if (mnCounter>90) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence3(180.0f, 60) );
 						mnCounter = 0;
 						moActionBlockingTime=90;
@@ -182,40 +187,30 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 				else if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
-					
 				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );
-
 				} else if(oAction.equals("STOP")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0) );
-					
 				} else if(oAction.equals("MOVE_BACKWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
-					
 				} else if(oAction.equals("TURN_LEFT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
-					
 				} else if(oAction.equals("TURN_LEFT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
-					
 				} else if(oAction.equals("TURN_LEFT90")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 90.0));
-					
 				} else if(oAction.equals("TURN_LEFT180")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
-					
 				} else if(oAction.equals("TURN_RIGHT")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
-					
 				} else if(oAction.equals("TURN_RIGHT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
-					
 				} else if(oAction.equals("TURN_RIGHT90")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
-					
 				} else if(oAction.equals("TURN_RIGHT180")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 180.0));
-					
+				} else if(oAction.equals("LOOK_AROUND")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 360.0));
 				} else if(oAction.equals("EAT")) {
 					moActionCommandList_Output.add( new clsActionEat() );
 				//} else if(oAction.equals("BITE")) {
@@ -223,7 +218,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if (oAction.equals("SLEEP")) {
 					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
 				} else if (oAction.equals("RELAX")) {
-						moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );	
+					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );	
 				} else if (oAction.equals("DEPOSIT")) {
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				} else if (oAction.equals("REPRESS")) {
@@ -242,7 +237,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				
 */				
 				else if (oAction.equals("SEARCH1")) {
-					if (mnCounter%75==0) {
+					if (mnCounter>75) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 						mnCounter = 0;
 					} 
