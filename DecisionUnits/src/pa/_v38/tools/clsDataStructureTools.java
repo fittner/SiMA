@@ -26,8 +26,10 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -353,27 +355,25 @@ public class clsDataStructureTools {
 	 * @param poPositionContainer
 	 * @return
 	 */
-	public static <E extends clsPrimaryDataStructure> clsTriple<E, String, String> getObjectPosition(E poObject, clsPrimaryDataStructureContainer poPositionContainer) {
-		clsTriple<E, String, String> oRetVal = null;
+	public static clsTriple<clsThingPresentationMesh, String, String> getObjectPosition(clsThingPresentationMesh poObject) {
+		clsTriple<clsThingPresentationMesh, String, String> oRetVal = null;
 		//Get object position only if both x and y are given
-		
-		String oLocationContentType = "LOCATION";
 		
 		ArrayList<String> oDistance = new ArrayList<String>();
 		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
 		ArrayList<String> oPosition = new ArrayList<String>();
 		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
 		
-		ArrayList<clsAssociation> oAllAss = poPositionContainer.getMoAssociatedDataStructures(poObject);
+		ArrayList<clsAssociation> oAllAss = poObject.getExternalMoAssociatedContent();
 		
 		boolean bDistanceFound = false;
 		boolean bPositionFound = false;
 		
-		clsTriple<E, String, String> oPositionPair = new clsTriple<E, String, String>(poObject, "", "");
+		clsTriple<clsThingPresentationMesh, String, String> oPositionPair = new clsTriple<clsThingPresentationMesh, String, String>(poObject, "", "");
 		
 		for (clsAssociation oSingleAss : oAllAss) {
 			if (oSingleAss instanceof clsAssociationAttribute) {
-				if (oSingleAss.getLeafElement().getMoContentType().equals(oLocationContentType)) {
+				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
 					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
 					if (bDistanceFound==false) {
 						for (String oDist : oDistance) {
@@ -384,6 +384,10 @@ public class clsDataStructureTools {
 							}
 						}
 					}
+				}
+							
+				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
 					if (bPositionFound==false) {
 						for (String oPos : oPosition) {
 							if (oPos.equals(oContent)) {
@@ -414,11 +418,11 @@ public class clsDataStructureTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> getImageContentPositions(clsPrimaryDataStructureContainer poImage) {
-		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oRetVal = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
+	public static ArrayList<clsTriple<clsThingPresentationMesh, String, String>> getImageContentPositions(clsThingPresentationMesh poImage) {
+		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, String, String>>();
 		
-		for (clsAssociation oAss : ((clsTemplateImage)poImage.getMoDataStructure()).getMoAssociatedContent()) {
-			clsTriple<clsPrimaryDataStructure, String, String> oPosPair = getObjectPosition((clsPrimaryDataStructure)oAss.getLeafElement(), poImage);
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
+			clsTriple<clsThingPresentationMesh, String, String> oPosPair = getObjectPosition((clsThingPresentationMesh)oAss.getLeafElement());
 			if (oPosPair!=null) {
 				oRetVal.add(oPosPair);
 			}
@@ -451,6 +455,23 @@ public class clsDataStructureTools {
 			
 			//Add locations
 			oImage.getMoAssociatedDataStructures().addAll(oC.getMoAssociatedDataStructures());
+		}
+		
+	}
+	
+	public static void addTPMToImage(ArrayList<clsThingPresentationMesh> oAddList, clsThingPresentationMesh oImage) {
+		//Modify the image by adding additional compontents
+		
+		for (clsThingPresentationMesh oC : oAddList) {
+			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
+			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+			oImage, oC);
+			
+			//Add Timeassociation
+			oImage.assignDataStructure(oAssTime);
+			
+			//Add locations
+			oImage.getExternalMoAssociatedContent().addAll(oC.getExternalMoAssociatedContent());
 		}
 		
 	}
@@ -571,6 +592,37 @@ public class clsDataStructureTools {
 		
 		return oRetVal;
 		
+	}
+	
+	/**
+	 * Create a new TPM as Top-Object from a list of TPMs
+	 * 
+	 * (wendt)
+	 *
+	 * @since 29.11.2011 15:04:29
+	 *
+	 * @param poInput
+	 * @param poContentType
+	 * @param poContent
+	 * @return
+	 */
+	public static clsThingPresentationMesh createTPMImage(ArrayList<clsThingPresentationMesh> poInput, String poContentType, String poContent) {
+		clsThingPresentationMesh oRetVal = null;
+		
+		clsTriple<Integer, eDataType, String> oTPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, poContentType);
+		clsThingPresentationMesh oConstructedImage = new clsThingPresentationMesh(oTPMIdentifier, new ArrayList<clsAssociation>(), poContent);
+		
+		for (clsThingPresentationMesh oTPM : poInput) {
+			clsTriple<Integer, eDataType, String> oAssIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP");
+			clsAssociationTime oNewTimeAss = new clsAssociationTime(oAssIdentifier, oConstructedImage, oTPM);
+			//oTPM.getExternalMoAssociatedContent().add(oNewTimeAss);
+			oConstructedImage.assignDataStructure(oNewTimeAss);
+			
+		}
+		
+		oRetVal = oConstructedImage;
+		
+		return oRetVal;
 	}
 	
 }
