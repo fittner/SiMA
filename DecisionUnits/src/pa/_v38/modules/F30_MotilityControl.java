@@ -267,7 +267,7 @@ public class F30_MotilityControl extends clsModuleBase
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
-	 * 07.11.2010, 11:55:48
+	 * 29.11.2010, 11:00:00
 	 * 
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
 	 */
@@ -282,7 +282,7 @@ public class F30_MotilityControl extends clsModuleBase
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
-	 * 23.04.2011, 11:15:51
+	 * 29.11.2010, 11:00:00
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
 	 */
@@ -294,7 +294,7 @@ public class F30_MotilityControl extends clsModuleBase
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
-	 * 23.04.2011, 11:15:51
+	 * 29.11.2010, 11:00:00
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
 	 */
@@ -306,16 +306,14 @@ public class F30_MotilityControl extends clsModuleBase
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
-	 * 15.04.2011, 17:41:33
+	 * 29.11.2010, 11:00:00
 	 * 
 	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
 	 */
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
-		
 		oCaptions.add("NUM_INPUT_ACTIONS");
-		
 		return oCaptions;
 	}	
 

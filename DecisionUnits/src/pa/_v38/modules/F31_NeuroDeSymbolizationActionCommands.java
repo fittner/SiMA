@@ -222,7 +222,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if (oAction.equals("DEPOSIT")) {
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				} else if (oAction.equals("REPRESS")) {
-					moActionCommandList_Output.add( new clsActionExcrement(1) );
+					//moActionCommandList_Output.add( new clsActionExcrement(1) );
+					throw new UnknownError("Action " + oAction + " sould not occure in F31!");
 				}
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
 /*				else if(oAction.equals("PICKUP")) {
@@ -326,9 +327,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		double rTURN_LEFT = 0.0;
 		double rMOVE_FORWARD = 0.0;
 		double rEAT = 0.0;
-		double rSEEK = 0.0;
-		double rDEFECATE = 0.0;
 		double rSLEEP = 0.0;
+		double rEXCREMENT = 0.0;
+		double rSEARCH1 = 0.0;
+		double rUNKNOWN = 0.0;
 		
 		String oCurrentActionCommand = "";
 		
@@ -348,19 +350,22 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			rEAT = 1.0;
 		} else if (oCurrentActionCommand.equals("SLEEP")) {
 			rSLEEP = 1.0;
-		} else if (oCurrentActionCommand.equals("EXCREMENT")) {
-			rDEFECATE = 1.0;			
+		} else if (oCurrentActionCommand.equals("EXCREMENT")) {		
+			rEXCREMENT = 1.0;
+		} else if (oCurrentActionCommand.equals("SEARCH1")) {
+			rSEARCH1 = 1.0;
 		} else {
-			rSEEK = 1.0;
+			rUNKNOWN = 1.0;
 		}
 		
 		oRetVal.add(rTURN_RIGHT); 
 		oRetVal.add(rTURN_LEFT); 
 		oRetVal.add(rMOVE_FORWARD); 
 		oRetVal.add(rEAT); 
-		oRetVal.add(rSEEK);
 		oRetVal.add(rSLEEP);
-		oRetVal.add(rDEFECATE);
+		oRetVal.add(rEXCREMENT);
+		oRetVal.add(rSEARCH1);
+		oRetVal.add(rUNKNOWN);
 
 		return oRetVal; 
 	}
@@ -380,9 +385,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		oCaptions.add("TURN_LEFT");
 		oCaptions.add("MOVE_FORWARD");
 		oCaptions.add("EAT");
-		oCaptions.add("SEEK");
 		oCaptions.add("SLEEP");
 		oCaptions.add("EXCREMENT");
+		oCaptions.add("SEARCH1");
+		oCaptions.add("UNKNOWN");
 		
 		return oCaptions;
 	}		
