@@ -177,7 +177,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
                 
 				// action "FLEE" has a special position, it is the most important action
 				if (oAction.equals("FLEE")) {
-					if (mnCounter>90) {
+					if (mnCounter%90==0) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getFleeSequence3(180.0f, 60) );
 						mnCounter = 0;
 						moActionBlockingTime=90;
@@ -237,7 +237,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				
 */				
 				else if (oAction.equals("SEARCH1")) {
-					if (mnCounter>75) {
+					if (mnCounter%75==0) {
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 						mnCounter = 0;
 					} 
