@@ -1,7 +1,7 @@
 /**
  * E27_GenerationOfImaginaryActions.java: DecisionUnits - pa.modules
  * 
- * @author deutsch/perner
+ * @author deutsch/perner test
  * 11.08.2009, 14:55:01
  */
 package pa._v38.modules;
