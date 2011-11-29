@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
@@ -36,7 +37,7 @@ import config.clsProperties;
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements 
-					I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send {
+					I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "29";
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_Input; 
@@ -370,4 +371,59 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	public void setDescription() {
 		moDescription = "The imaginary actions are evaluated by this module based on the result of the second reality check. The result of this mental rating is a reduced list with the imaginary actions selected for execution. ";
 	}		
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 12:00:00
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
+		double rNUM_INPUT_ACTIONS = moActionCommands_Input.size();
+		oRetVal.add(rNUM_INPUT_ACTIONS); 
+		return oRetVal; 
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 12:00:00
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Number of Incoming Action Commands";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 12:00:00
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Number of Incoming Action Commands";
+	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 12:00:00
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		
+		oCaptions.add("NUM_INPUT_ACTIONS");
+		
+		return oCaptions;
+	}
 }

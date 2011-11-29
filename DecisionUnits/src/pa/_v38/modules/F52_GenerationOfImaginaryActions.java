@@ -1,7 +1,7 @@
 /**
  * E27_GenerationOfImaginaryActions.java: DecisionUnits - pa.modules
  * 
- * @author deutsch/perner
+ * @author deutsch/perner test
  * 11.08.2009, 14:55:01
  */
 package pa._v38.modules;
@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -49,7 +50,7 @@ import config.clsProperties;
  * 
  */
 public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
-		I6_8_receive, I6_9_send {
+		I6_8_receive, I6_9_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "52";
 
 	// HZ Not used up to now 16.03.2011
@@ -160,6 +161,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		 */
 		
 		//printData(moActions_Output, moGoalInput, moExtractedPrediction_IN);
+
 		
 	}
 	
@@ -1319,5 +1321,60 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //
 //		return oRetVal;
 //	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 15:00:00
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
+		double rNUM_IMAGINARY_ACTIONS = moActions_Output.size();
+		oRetVal.add(rNUM_IMAGINARY_ACTIONS); 
+		return oRetVal; 
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 15:00:00
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "Number of Imaginary Action Commands";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 15:00:00
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Number of Imaginary Action Commands";
+	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 29.11.2010, 15:00:00
+	 * 
+	 * @see pa.interfaces.itfTimeChartInformationContainer#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oCaptions = new ArrayList<String>();
+		oCaptions.add("rNUM_IMAGINARY_ACTIONS");
+		return oCaptions;
+	}	
+
 	
 }
