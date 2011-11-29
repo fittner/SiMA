@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -154,6 +155,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
+		
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, as the eatable area objects are working.
 		solveBUGFIXEATABLEAREA(moEnvironmentalPerception_IN);
@@ -161,7 +163,13 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
 		
+		//ArrayList<clsPrimaryDataStructureContainer> oTestC = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moEnvironmentalPerception_IN);
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
+		
+		 
+		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
+		
+		clsThingPresentationMesh oPITPM = createTPMImage(oCompleteThingPresentationMeshList);
 		
 		//IMPORTANT NOTE: As the same instance is used in all loaded containers, a deepcopy has to be made in order to 
 		//get separate instances for all loaded containers. These instances are then given an instanceID. Until then, the 
@@ -289,6 +297,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
 		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
+			boolean bFound=false;
 			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
 				//When found, add all TP, which are not location to the EATABLE area
 				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
@@ -296,6 +305,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoAssociatedContent()) {
 							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
 								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoAssociatedContent().add(oAss);
+								bFound=true;
 								break;
 							}
 						}
@@ -303,9 +313,31 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 						
 					}
 				}
+				
+				if (bFound==true) {
+					break;
+				}
 			}
 		}
 	}
+	
+	private clsThingPresentationMesh createTPMImage(ArrayList<clsThingPresentationMesh> poInput) {
+		clsThingPresentationMesh oRetVal = null;
+		
+		clsTriple<Integer, eDataType, String> oTPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, "PERCEPTION");
+		clsThingPresentationMesh oConstructedImage = new clsThingPresentationMesh(oTPMIdentifier, new ArrayList<clsAssociation>(), "PI");
+		
+		for (clsThingPresentationMesh oTPM : poInput) {
+			clsTriple<Integer, eDataType, String> oAssIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP");
+			clsAssociationTime oNewTimeAss = new clsAssociationTime(oAssIdentifier, oConstructedImage, oTPM);
+			oConstructedImage.assignDataStructure(oNewTimeAss);
+		}
+		
+		oRetVal = oConstructedImage;
+		
+		return oRetVal;
+	}
+	
 	
 	/**
 	 * The PI is enhanced with all objects from the localization, which cannot be seen in the image.
@@ -381,6 +413,22 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		return oRetVal;
 	}	
+	
+	private ArrayList<clsThingPresentationMesh> retrieveImagesTPM(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		//ArrayList<clsPrimaryDataStructureContainer> oContainerList  = retrieveImages(oPerceivedImage_IN);
+		
+		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
+				oTPM.setMoExternalAssociatedContent(oContainer.getMoAssociatedDataStructures());
+				oRetVal.add(oTPM);
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	
 	/**

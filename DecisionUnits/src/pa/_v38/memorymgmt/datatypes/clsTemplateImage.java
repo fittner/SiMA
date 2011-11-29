@@ -101,7 +101,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		applyAssociations(oDataStructureList);
+		addAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)

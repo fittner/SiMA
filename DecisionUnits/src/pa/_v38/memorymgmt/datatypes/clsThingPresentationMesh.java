@@ -103,7 +103,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		applyAssociations(oDataStructureList);
+		addAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -226,6 +226,18 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
         		}
         	}
         	
+        	if (moAssociatedContent != null) {
+        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone); 
+    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
           	return oClone;
         } catch (CloneNotSupportedException e) {
            return e;
@@ -235,7 +247,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+		//oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+		oResult += this.moContentType + ":" + this.moContent;
 		
 //		for (clsAssociation oEntry : moAssociatedContent) {
 //			oResult += oEntry.toString() + ":"; 
