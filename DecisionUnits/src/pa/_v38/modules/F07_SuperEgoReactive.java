@@ -48,6 +48,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "7";
 	private static final int threshold_psychicEnergy = 10;
+	
+	// Das muss erst noch von Isabella implementiert werden. Ist jetzt einmal nur vorbereitet.
 	private static final int consumed_psychicEnergyPerInteration = 1;
 	
 	//AW 20110522: New inputs
