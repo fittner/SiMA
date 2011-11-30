@@ -25,6 +25,8 @@ public enum eEntityType {
 	CARROT,
 	SMARTEXCREMENT, //shoud REALLY be renamed!
 	EXCREMENT,
-	TOILET
+	TOILET,
+	RECTANGLE_STATIONARY,
+	RECTANGLE_MOBILE
 }
 

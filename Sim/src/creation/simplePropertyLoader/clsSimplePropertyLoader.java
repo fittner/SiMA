@@ -50,6 +50,7 @@ import bw.entities.clsFungus;
 import bw.entities.clsHare;
 import bw.entities.clsLynx;
 import bw.entities.clsPlant;
+import bw.entities.clsRectangleStationary;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.entities.clsToilet;
@@ -238,6 +239,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
 		oProp.putAll( clsCarrot.getDefaultProperties		(pre+eEntityType.CARROT.name()) );
 		oProp.putAll( clsToilet.getDefaultProperties			(pre+eEntityType.TOILET.name()) );
+		oProp.putAll( clsRectangleStationary.getDefaultProperties			(pre+eEntityType.RECTANGLE_STATIONARY.name()) );
 		
 		return oProp;
     }
@@ -409,6 +411,11 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());	
 		
+		i++;
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.RECTANGLE_STATIONARY.name());
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_NUMENTITES, 1);
+		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_POSITIONS+"."+P_POSITIONTYPE, ePositionType.RANDOM.name());
+		
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+P_NUMENTITYGROUPS, i+1);
 		
 		oProp.setProperty(pre+P_WORLDBOUNDARYWALLS, new Boolean(true).toString());
@@ -551,6 +558,10 @@ public class clsSimplePropertyLoader extends clsLoader {
     		case TOILET:
     			oEntity = new clsToilet(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsToilet)oEntity);		
+    			break;
+    		case RECTANGLE_STATIONARY:
+    			oEntity = new clsRectangleStationary(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsRectangleStationary)oEntity);		
     			break;
 			default:
 				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	
