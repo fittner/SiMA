@@ -1,12 +1,15 @@
 /**
  * E6_DefenseMechanismsForDriveContents.java: DecisionUnits - pa.modules
  * 
- * @author deutsch
- * 11.08.2009, 14:01:06
+ * @author gelbard
+ * 30.11.2011, 14:01:06
  */
 package pa._v38.modules;
 
 import java.util.ArrayList;
+
+
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -24,9 +27,11 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -174,8 +179,181 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
 		 // For now: All the drives in moForbiddenDrives_Input are repressed.
 		 // ToDo FG: Implement other defense mechanisms beside repression
+		 
 		 repress_drive(moForbiddenDrives_Input);
 		 
+		 
+		 // Test reaction formation
+		 // (Samer Schaat)
+		 //test_reactionformation(moForbiddenDrives_Input);
+		 
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
+	 * 10.10.2011, 14:43:00
+	 * 
+	 * This is a test-function that calls the defense mechanism "reaction formation"
+	 *
+	 */
+	protected void test_reactionformation(ArrayList<String> oForbiddenDrives_Input) {
+	 
+	 // If nothing to repress return immediately (otherwise NullPointerException)
+   	if (oForbiddenDrives_Input == null ) return;
+		
+		// empty the list from last step otherwise list only grows
+		moQuotasOfAffect_Output.clear();
+		
+		// Iterate over all forbidden drives
+		for (String oContent : oForbiddenDrives_Input) {
+		
+			int i = 0;
+			// search in list of incoming drives
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Input){
+				// check DriveMesh
+				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+					
+					// remove DriveMesh i from output list
+					moDriveList_Output.remove(i);
+					// drive found
+					moDriveList_Output.add(reaction_formation(oDrives.a, oDrives.b));
+									
+				}
+				
+				i++;
+			}
+		
+		}
+		return;
+	 
+	 
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
+	 * 10.10.2011, 14:43:00
+	 * 
+	 * This method represents the defense mechanism "reaction formation"
+	 *
+	 */
+	protected clsPair<clsPhysicalRepresentation, clsDriveMesh> reaction_formation(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM) {
+		
+		// Helper
+		String oOppositeTPContent = "";
+		String oOppositeTPContentType= "";   
+		int j = 0;
+		double rPleasure = 0;
+		
+		// opposite Drive
+		clsPair<clsPhysicalRepresentation, clsDriveMesh> oOppositeDrive= null;
+		
+		// Testdata: Defining the opposite drive goal (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
+		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
+		HashMap<String, ArrayList> oOppositeTP = new HashMap<String, ArrayList> ();
+		oOppositeTP.put("NOURISH", new ArrayList<Object>( Arrays.asList("BITE", "DEATH", 0.3, 0.0, 0.7, 0.2) ));
+		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
+		oOppositeTP.put("BITE", new ArrayList<Object>( Arrays.asList("NOURISH", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
+		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
+		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
+		
+		// What is the opposite TP?	
+		String oOriginalTPContent = poOriginalDM.getMoContent();
+		oOppositeTPContent = (String) oOppositeTP.get(oOriginalTPContent).get(0);
+		oOppositeTPContentType = (String) oOppositeTP.get(oOriginalTPContent).get(1);
+		
+		
+		// Opposite drive goal found?
+		if(oOppositeTPContent.isEmpty()) {
+			// error
+			return null;
+		}
+		
+		// search in list of incoming drives if drive similar to opposite drive already exists
+		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+			// check DriveMesh (TODO: only one kind of TPM in drivelist, so no compare of TPM necessary?)
+			if (oDrives.b.getMoContent().equalsIgnoreCase(oOppositeTPContent)){
+				// drive found
+				oOppositeDrive = oDrives;
+				break;
+			}
+			
+			j++;
+											
+		}
+		
+		// If a drive similar to opposite drive exists in drivelist -> merge quota of affect
+		if(oOppositeDrive != null) {			
+			rPleasure = moDriveList_Output.get(j).b.getMrPleasure() + poOriginalDM.getMrPleasure();
+			
+			// remove from drivelist, new merged drive will be added to drivelist anyway
+			moDriveList_Output.remove(j);
+			
+			if(rPleasure <= 1.0){
+				oOppositeDrive.b.setPleasure(rPleasure);				
+			}
+			// overflow quota of affect will be sent to F20 (later) //orignialDM will be repressed with 0 quota of affect
+			else {
+				poOriginalDM.setPleasure(rPleasure - 1.0);
+				oOppositeDrive.b.setPleasure(1.0);
+			}
+		}
+		else {
+			// form opposite drive
+			
+			clsDriveMesh oNewDM = null;
+			//clsDriveMesh oAssDM = null;
+
+
+			// new DM needed
+			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(oOppositeTPContent,oOppositeTPContent)); 
+			oNewDM = clsDataStructureGenerator.generateDM(new clsTriple <String, ArrayList<clsThingPresentation>, Object>(oOppositeTPContentType, new ArrayList<clsThingPresentation>(Arrays.asList(oTP)) , oOppositeTPContent));
+			oNewDM.setCategories((Double)oOppositeTP.get(oOriginalTPContent).get(4), (Double)oOppositeTP.get(oOriginalTPContent).get(2), (Double)oOppositeTP.get(oOriginalTPContent).get(3), (Double)oOppositeTP.get(oOriginalTPContent).get(5));
+						
+			
+			oOppositeDrive = new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, oNewDM);	
+			
+			oOppositeDrive.b.setMrPleasure(poOriginalDM.getMrPleasure());
+				
+					
+			
+		}
+		
+		// overflow quota of affect will be sent to F20  
+		
+		// add single quotas of affect to affect only list
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrPleasure())); 
+		moQuotasOfAffect_Output.add(oAffect);
+		
+		// quota of affect is now assigned to opposite drive. Total quota of affect has to stay the same as before the application of the defense mechanism	
+		//orignialDM will be repressed with 0 quota of affect
+		poOriginalDM.setPleasure(0);
+		
+	    // repress old forbidden drive
+		repress_single_drive(poOriginalTPM, poOriginalDM);
+		
+		return oOppositeDrive;
+		
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
+	 * 10.10.2011, 14:43:00
+	 * 
+	 * This method represses a single drive. Copied from FG
+	 *
+	 */
+	protected void repress_single_drive(clsPhysicalRepresentation poTPM, clsDriveMesh poDM) {
+		
+	// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
+			if (!moBlockedContentStorage.existsMatch(poTPM, poDM)) {		
+				// insert DriveMesh i into BlockedContentStorage
+				send_D2_3(poTPM, poDM);
+			}
+			
 	}
 	
 	/* (non-Javadoc)
@@ -216,10 +394,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// if drive found	
 			if (i < moDriveList_Output.size()) {
 				
-				// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
-				if (!moBlockedContentStorage.existsMatch(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b))		
-					// insert DriveMesh i into BlockedContentStorage
-					send_D2_3(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);
+				repress_single_drive(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);				
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 

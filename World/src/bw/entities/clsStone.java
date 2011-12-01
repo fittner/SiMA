@@ -50,7 +50,7 @@ public class clsStone extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, "0");
 		
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_RADIUS, "15.0");
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_RADIUS, "10.0");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/rock1.png");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
