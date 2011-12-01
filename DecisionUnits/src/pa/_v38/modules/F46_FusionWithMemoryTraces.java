@@ -156,6 +156,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
+		//Convert LOCATION to DISTANCE and POSITION
+		
 		
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, as the eatable area objects are working.
@@ -252,6 +254,35 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_final() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
 
+	}
+	
+	/**
+	 * HACK by AW: This function converts all locations to either DISTANCE or POSITION
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 13:36:22
+	 *
+	 * @param poEnvironmentalPerception
+	 */
+	private void convertLOCATIONtoPOSITIONandDISTANCE(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception) {
+		ArrayList<String> oDistance = new ArrayList<String>();
+		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+		ArrayList<String> oPosition = new ArrayList<String>();
+		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+		
+		/*for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception) {
+			for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+				if (oAss.getLeafElement() instanceof clsThingPresentation) {
+					if ()
+					
+					
+					
+					
+				}
+			}
+		}*/
+		
 	}
 	
 	/**
