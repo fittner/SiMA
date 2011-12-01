@@ -176,13 +176,13 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//get separate instances for all loaded containers. These instances are then given an instanceID. Until then, the 
 		//instanceID has to be 0.
 		//@SuppressWarnings("unchecked")
-		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); 
+		//ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); 
 		//IMPORTANT NOTE: Here the instance IDs are set for all TPM-Containers, which will form the perceived image
 		//Here the instance values are reset, else there is a provlem that e. g. all WALL have the same instanceID
-		clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT, true);
+		//clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT, true);
 		
 		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oCopyOfCWT);
+		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oCopyOfCWT);
 		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
@@ -192,7 +192,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//adaptCategories(oEnvPerceptionNoDM);
 		
 		//Set InstanceIDs for the PI and all its associations
-		clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
+		//clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
 		
 		//Set Perceived image on the output
 		//moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
@@ -203,9 +203,15 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//clsSpatialTools.addRelationAssociations(oEnvPerceptionNoDM, false);
 		
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
+		
 		//Add those to the PI
 		//clsDataStructureTools.addContainersToImage(oEmptySpaceList, oEnvPerceptionNoDM);
 		clsDataStructureTools.addTPMToImage(oEmptySpaceList, oPerceivedImage);
+		
+		ArrayList<clsPrimaryDataStructureContainer> oTPMList = clsDataStructureConverter.convertTPMImageToTPMContainer(oPerceivedImage);
+		clsDataStructureTools.createInstanceFromTypeList(oTPMList, true);
+		
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oTPMList);
 		
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
@@ -946,7 +952,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		return oRetVal;
 	}
-	
 	
 
 	/**
