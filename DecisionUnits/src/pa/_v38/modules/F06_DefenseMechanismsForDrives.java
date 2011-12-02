@@ -177,15 +177,19 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 moDriveList_Output = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy (moDriveList_Input);
 		 
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
-		 // For now: All the drives in moForbiddenDrives_Input are repressed.
-		 // ToDo FG: Implement other defense mechanisms beside repression
+		 // Ego decides now which defense mechanisms to apply (depending on the quota of affect of the forbidden drive)
 		 
-		 repress_drive(moForbiddenDrives_Input);
+		 // get quota of affect of forbidden drive (for now only one forbidden drive is possible)
+		 // ToDo FG: many forbidden drives possible
+		 double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
 		 
-		 
-		 // Test reaction formation
-		 // (Samer Schaat)
-		 //test_reactionformation(moForbiddenDrives_Input);
+		 // select defense mechanism
+		 if (oQoA <= 0.5)
+			 defenseMechanism_Repression(moForbiddenDrives_Input);
+		 else if (oQoA <= 0.9)
+		 	 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+		 // else if (oQoA > 0.9)
+		 // if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 		 
 	}
 	
@@ -194,10 +198,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @author schaat
 	 * 10.10.2011, 14:43:00
 	 * 
-	 * This is a test-function that calls the defense mechanism "reaction formation"
+	 * This is a function that represents the defense mechanism "reaction formation"
 	 *
 	 */
-	protected void test_reactionformation(ArrayList<String> oForbiddenDrives_Input) {
+	protected void defenseMechanism_ReactionFormation(ArrayList<String> oForbiddenDrives_Input) {
 	 
 	 // If nothing to repress return immediately (otherwise NullPointerException)
    	if (oForbiddenDrives_Input == null ) return;
@@ -326,10 +330,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrPleasure())); 
 		moQuotasOfAffect_Output.add(oAffect);
 		
-		// quota of affect is now assigned to opposite drive. Total quota of affect has to stay the same as before the application of the defense mechanism	
-		//orignialDM will be repressed with 0 quota of affect
-		poOriginalDM.setPleasure(0);
-		
 	    // repress old forbidden drive
 		repress_single_drive(poOriginalTPM, poOriginalDM);
 		
@@ -366,7 +366,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * ToDo (FG): For now the whole DriveMesh and the PhysicalRepresentation are repressed.
 	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
 	 */
-    protected void repress_drive(ArrayList<String> oForbiddenDrives_Input) {
+    protected void defenseMechanism_Repression(ArrayList<String> oForbiddenDrives_Input) {
     	
     	// If nothing to repress return immediately (otherwise NullPointerException)
     	if (oForbiddenDrives_Input == null ) return;
@@ -406,7 +406,40 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		}
     }	
     
+
 	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 30.11.2011, 14:43:00
+	 * 
+	 * This method searches in the list of drives and returns the quota of affect (if a matching drive was found)
+	 * 
+	 */
+   private double getQuotaOfAffect(ArrayList<String> oForbiddenDrives_Input) {
+   	
+   	// If nothing to repress return immediately (otherwise NullPointerException)
+   	if (oForbiddenDrives_Input == null ) return 0.0;
+		
+		// Iterate over all forbidden drives
+		for (String oContent : oForbiddenDrives_Input) {
+				
+			// search in list of incoming drives
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+				// check DriveMesh
+				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+
+					// drive found
+					// return quota of affect
+				    return oDrives.b.getMrPleasure();
+				}
+			}
+		}
+		
+		return 0.0;
+   }	
+   
+    
+    /* (non-Javadoc)
 	 *
 	 * @author deutsch
 	 * 11.08.2009, 16:15:00
