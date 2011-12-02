@@ -31,7 +31,6 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -42,6 +41,8 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContent;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 
@@ -155,6 +156,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
+		//Convert LOCATION to DISTANCE and POSITION
+		
 		
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, as the eatable area objects are working.
@@ -162,26 +165,24 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
-		
-		//ArrayList<clsPrimaryDataStructureContainer> oTestC = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moEnvironmentalPerception_IN);
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
+		//Convert all objects to enhanced TPMs 
 		
-		 
 		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
-		clsThingPresentationMesh oPITPM = createTPMImage(oCompleteThingPresentationMeshList);
+		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PERCEPTION.toString(), eContent.PI.toString());
 		
 		//IMPORTANT NOTE: As the same instance is used in all loaded containers, a deepcopy has to be made in order to 
 		//get separate instances for all loaded containers. These instances are then given an instanceID. Until then, the 
 		//instanceID has to be 0.
-		@SuppressWarnings("unchecked")
-		ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); 
+		//@SuppressWarnings("unchecked")
+		//ArrayList<clsPrimaryDataStructureContainer> oCopyOfCWT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(oContainerWithTypes); 
 		//IMPORTANT NOTE: Here the instance IDs are set for all TPM-Containers, which will form the perceived image
 		//Here the instance values are reset, else there is a provlem that e. g. all WALL have the same instanceID
-		clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT, true);
+		//clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT, true);
 		
 		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(clsDataStructureTools.createInstanceFromTypeList(oCopyOfCWT)); //TD 2011/07/20 - added deepCopy to parameter of function call. deepCopy is removed from createInstanceFromType
-		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oCopyOfCWT);
+		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oCopyOfCWT);
 		
 		/* Assign drive meshes and adapt categories */
 		//Assign drivemeshes to the loaded images
@@ -191,20 +192,26 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//adaptCategories(oEnvPerceptionNoDM);
 		
 		//Set InstanceIDs for the PI and all its associations
-		clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
+		//clsDataStructureTools.createInstanceFromType(oEnvPerceptionNoDM, false);
 		
 		//Set Perceived image on the output
 		//moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
-		//clsPrimaryDataStructureContainer oC = (clsPrimaryDataStructureContainer) moEnvironmentalPerception_OUT.clone();
 		//Create EMPTYSPACE objects
 		
 		//Add distance relations to the container
 		//clsSpatialTools.addRelationAssociations(oEnvPerceptionNoDM, false);
 		
-		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceList = createEmptySpaceObjects(oEnvPerceptionNoDM);
+		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
+		
 		//Add those to the PI
-		clsDataStructureTools.addContainersToImage(oEmptySpaceList, oEnvPerceptionNoDM);
+		//clsDataStructureTools.addContainersToImage(oEmptySpaceList, oEnvPerceptionNoDM);
+		clsDataStructureTools.addTPMToImage(oEmptySpaceList, oPerceivedImage);
+		
+		ArrayList<clsPrimaryDataStructureContainer> oTPMList = clsDataStructureConverter.convertTPMImageToTPMContainer(oPerceivedImage);
+		clsDataStructureTools.createInstanceFromTypeList(oTPMList, true);
+		
+		oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oTPMList);
 		
 		moEnvironmentalPerception_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
 		
@@ -253,6 +260,35 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_final() {
 		// TODO (HINTERLEITNER) - Auto-generated method stub
 
+	}
+	
+	/**
+	 * HACK by AW: This function converts all locations to either DISTANCE or POSITION
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 13:36:22
+	 *
+	 * @param poEnvironmentalPerception
+	 */
+	private void convertLOCATIONtoPOSITIONandDISTANCE(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception) {
+		ArrayList<String> oDistance = new ArrayList<String>();
+		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+		ArrayList<String> oPosition = new ArrayList<String>();
+		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+		
+		/*for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception) {
+			for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+				if (oAss.getLeafElement() instanceof clsThingPresentation) {
+					if ()
+					
+					
+					
+					
+				}
+			}
+		}*/
+		
 	}
 	
 	/**
@@ -321,21 +357,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 	}
 	
-	private clsThingPresentationMesh createTPMImage(ArrayList<clsThingPresentationMesh> poInput) {
-		clsThingPresentationMesh oRetVal = null;
-		
-		clsTriple<Integer, eDataType, String> oTPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, "PERCEPTION");
-		clsThingPresentationMesh oConstructedImage = new clsThingPresentationMesh(oTPMIdentifier, new ArrayList<clsAssociation>(), "PI");
-		
-		for (clsThingPresentationMesh oTPM : poInput) {
-			clsTriple<Integer, eDataType, String> oAssIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP");
-			clsAssociationTime oNewTimeAss = new clsAssociationTime(oAssIdentifier, oConstructedImage, oTPM);
-			oConstructedImage.assignDataStructure(oNewTimeAss);
-		}
-		
-		oRetVal = oConstructedImage;
-		
-		return oRetVal;
+	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
+		return (clsThingPresentationMesh) poInput.getMoAssociatedContent().get(0).getMoAssociationElementB();
 	}
 	
 	
@@ -840,11 +863,11 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param poImage
 	 * @return
 	 */
-	private ArrayList<clsPrimaryDataStructureContainer> createEmptySpaceObjects(clsPrimaryDataStructureContainer poImage) {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+	private ArrayList<clsThingPresentationMesh> createEmptySpaceObjects(clsThingPresentationMesh poImage) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Get all positions in the image
-		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oExistingPositions = clsDataStructureTools.getImageContentPositions(poImage);
+		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oExistingPositions = clsDataStructureTools.getImageContentPositions(poImage);
 	
 		//Generate a matrix of all possible positions
 		ArrayList<String> oDistance = new ArrayList<String>();
@@ -853,18 +876,18 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<String> oPosition = new ArrayList<String>();
 		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
 		
-		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oAllPositions = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
+		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oAllPositions = new ArrayList<clsTriple<clsThingPresentationMesh, String, String>>();
 		for (int i=0; i< oDistance.size();i++) {
 			for (int j=0; j< oPosition.size();j++) {
-				oAllPositions.add(new clsTriple<clsPrimaryDataStructure, String, String>(null, oPosition.get(j), oDistance.get(i)));
+				oAllPositions.add(new clsTriple<clsThingPresentationMesh, String, String>(null, oPosition.get(j), oDistance.get(i)));
 			}
 		}
 		
 		//Find all Objects in the oAllPositions and add them to oRemovePositions
-		ArrayList<clsTriple<clsPrimaryDataStructure, String, String>> oNewPositions = new ArrayList<clsTriple<clsPrimaryDataStructure, String, String>>();
-		for (clsTriple<clsPrimaryDataStructure, String, String> oAllPosPair: oAllPositions) {
+		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oNewPositions = new ArrayList<clsTriple<clsThingPresentationMesh, String, String>>();
+		for (clsTriple<clsThingPresentationMesh, String, String> oAllPosPair: oAllPositions) {
 			boolean bFound = false;
-			for (clsTriple<clsPrimaryDataStructure, String, String> oExistPosPair : oExistingPositions) {
+			for (clsTriple<clsThingPresentationMesh, String, String> oExistPosPair : oExistingPositions) {
 				if ((oExistPosPair.b.equals(oAllPosPair.b)) && (oExistPosPair.c.equals(oAllPosPair.c))) {
 					bFound = true;
 					break;
@@ -895,32 +918,40 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Create "Nothing"-objects for each position
 		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
 		//for each position, fill it with a container
-		for (clsTriple<clsPrimaryDataStructure, String, String> oPosPair : oNewPositions) {
+		clsThingPresentationMesh oEmptySpaceTPM;
+		for (clsTriple<clsThingPresentationMesh, String, String> oPosPair : oNewPositions) {
 			//Create a new TP-Container
-			clsPrimaryDataStructureContainer oCont = (clsPrimaryDataStructureContainer) oEmptySpaceContainer.clone();
+			try {
+				oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
 			
-			clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("LOCATION", oPosPair.b));
-			clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>("LOCATION", oPosPair.c));
 			
-			//clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
-			//clsPrimaryDataStructure poAssociationElementA, 
-		    //clsPrimaryDataStructure poAssociationElementB)
-			clsTriple<Integer, eDataType, String> poIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE");
-			clsAssociationAttribute oPositionAss = new clsAssociationAttribute(poIdentifier, (clsPrimaryDataStructure) oCont.getMoDataStructure(), oPositionTP);
-			clsAssociationAttribute oDistanceAss = new clsAssociationAttribute(poIdentifier, (clsPrimaryDataStructure) oCont.getMoDataStructure(), oDistanceTP);
+				clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), oPosPair.b));
+				clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), oPosPair.c));
 			
-			oCont.getMoAssociatedDataStructures().add(oPositionAss);
-			oCont.getMoAssociatedDataStructures().add(oDistanceAss);
+				//clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+				//clsPrimaryDataStructure poAssociationElementA, 
+		    	//clsPrimaryDataStructure poAssociationElementB)
+				clsTriple<Integer, eDataType, String> poIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE");
+				clsAssociationAttribute oPositionAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oPositionTP);
+				clsAssociationAttribute oDistanceAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oDistanceTP);
 			
-			oRetVal.add(oCont);
+				oEmptySpaceTPM.getExternalMoAssociatedContent().add(oPositionAss);
+				oEmptySpaceTPM.getExternalMoAssociatedContent().add(oDistanceAss);
+			
+			
+				oRetVal.add(oEmptySpaceTPM);
+			
+			} catch (CloneNotSupportedException e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 		}
 		//Set new instance IDs
-		clsDataStructureTools.createInstanceFromTypeList(oRetVal, true);
+		//clsDataStructureTools.createInstanceFromTypeList(oRetVal, true);
 		
 		return oRetVal;
 	}
-	
 	
 
 	/**

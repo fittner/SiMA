@@ -188,8 +188,8 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
-	//AW 2011-05-19 New function
 	
+	//AW 2011-05-19 New function
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *
@@ -250,129 +250,18 @@ public class clsDataStructureConverter {
 		return oRetVal;
 	}
 	
-	
-	//New Function AW 2011-0519
-	/*public static clsTemplateImage convertPDSCtoTI(clsPrimaryDataStructureContainer oPDSC){
-		//Convert the data structure in the PDSC to a association time to TPM
-		//Take over the extrinsic properties from that data structure
-		clsTemplateImage oRetVal;
-		
-		//Get the data object
-		clsPrimaryDataStructure oAddTPM = (clsPrimaryDataStructure)oPDSC.getMoDataStructure();
-		clsPrimaryDataStructure oCloneStructure=null;
-		
-		String oContentType = eDataType.TI.toString();
-		
-		String oContent = "OBJECT_COMPLETE";
-		if (oAddTPM instanceof clsThingPresentation) {
-			oContent = ((clsThingPresentation)oAddTPM).getMoContent().toString() + "_COMPLETE";
-			oCloneStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <String, Object>(oAddTPM.getMoContentType(), ((clsThingPresentation) oAddTPM).getMoContent()));
-		} else if (oAddTPM instanceof clsDriveMesh) {
-			oContent = ((clsDriveMesh)oAddTPM).getMoContent().toString() + "_COMPLETE";
-			oCloneStructure = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure(eDataType.DM, new clsPair <String, Object>(oAddTPM.getMoContentType(), ((clsDriveMesh) oAddTPM).getMoContent()));
-		} else if (oAddTPM instanceof clsThingPresentationMesh) {
-			oContent = ((clsThingPresentationMesh)oAddTPM).getMoContent().toString() + "_COMPLETE";
-			
-			clsTripple<Integer, eDataType, String> oID = new clsTripple<Integer, eDataType, String> (clsDataStructureGenerator.setID(),eDataType.TPM,oAddTPM.getMoContentType());
-			
-			oCloneStructure = new clsThingPresentationMesh(oID, ((clsThingPresentationMesh)oAddTPM).getMoAssociatedContent(),((clsThingPresentationMesh)oAddTPM).getMoContent());
-		}
-		
-		//Get Data from Container
-		//Create an arraylist with all objects in the PrimaryDataStructureContainer
-		//Get all existing associations
-		
-		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
-		oAssociatedContent.addAll(oPDSC.getMoAssociatedDataStructures());	//Get all associations
-		
-		//Create new Template Image and add the existing associations
-		oRetVal = new clsTemplateImage(new clsTripple<Integer, eDataType, String>(clsDataStructureGenerator.setID(), eDataType.TI, oContentType), oAssociatedContent, oContent);
-		
-		//Add a time association to the word object
-		oAssociatedContent.add(new clsAssociationTime(new clsTripple<Integer, eDataType, String> (clsDataStructureGenerator.setID(), eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
-				oRetVal, oCloneStructure));
-
-		return oRetVal;
-	}
-	
-	//New Function AW 2011-0519
-	public static clsPrimaryDataStructureContainer convertTItoPDSC(clsTemplateImage oTIInput) throws Exception{
-		//Convert the data structure in the PDSC to a association time to TPM
-		//Take over the extrinsic properties from that data structure
-		clsPrimaryDataStructureContainer oRetVal;
-		
-		clsDataStructurePA oDataStructure = null;	//Not necessary to initialize
-		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();	//Empty initialized
-		
-		for (clsAssociation oAss : oTIInput.getMoAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime) {
-				//Check if more than one data structures in the template image
-				try {
-					if (oDataStructure != null) {
-						//Only one datastructure can be added from a template image to a PDSC. Else, it is not possible to
-						//convert backwards
-						throw new Exception("Error in convertTItoPDSC: More than one data structure in the image");
-					}
-				} catch (Exception e) {
-					throw new Exception(e.getMessage());
-				}
-					
-				oDataStructure = oAss.getLeafElement();
-			} else {
-				oAssociatedContent.add(oAss);
-			}
-		}
-		
-		//Check if no data structures in the template image
-		try {
-			if (oDataStructure==null) {
-				//Error, as at exactly one data structure has to exist
-				throw new Exception("Error in convertTItoPDSC: No data structure in the image");
-			}
-		} catch (Exception e) {
-			throw new Exception(e.getMessage());
-		}
-		
-		//Add content to the PDSC
-		oRetVal = new clsPrimaryDataStructureContainer(oDataStructure, oAssociatedContent);
-
-		return oRetVal;
-	}
-	
-	//New Function AW 2011-0519
-	public static clsTemplateImage convertMultiplePDSCtoTI(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		//Create ONE Template Image from an arraylist of Primary Data Structure Containers
-		clsTemplateImage oRetVal = null;
-		ArrayList<clsPhysicalRepresentation> oObjectList = new ArrayList<clsPhysicalRepresentation>();
-		
-		for (clsPrimaryDataStructureContainer oContainer : oInput) {
-			//Convert to TI
-			oObjectList.add(clsDataStructureConverter.convertPDSCtoTI((oContainer)));
-		}
-		
-		clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object> oTIInput = new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>(eDataType.TI.toString(), oObjectList, "Perception");
-		oRetVal = clsDataStructureGenerator.generateTI(oTIInput);
-		
-		return oRetVal;
-	}
-	
-	//New Function AW 2011-0519
-	public static ArrayList<clsPrimaryDataStructureContainer> convertTItoMultiplePDSC(clsTemplateImage oTIInput) throws Exception {
-		//TODO: This function is only for the purpose to convert template images from the primary process to
-		//PDSC, which is a special case. If the conversation shall be extended, this function has to be generalized
+	public static ArrayList<clsPrimaryDataStructureContainer> convertTPMImageToTPMContainer(clsThingPresentationMesh poTPM) {
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
 		
-		for(clsAssociation oAss : oTIInput.getMoAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime) {
-				try {
-					oRetVal.add(clsDataStructureConverter.convertTItoPDSC((clsTemplateImage)oAss.getLeafElement()));
-				} catch (Exception e) {
-					throw new Exception(e.getMessage());
-				}
-			}
+		for (clsAssociation oEnhTPMAss : poTPM.getMoAssociatedContent()) {
+			clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oEnhTPMAss.getLeafElement();
+			
+			ArrayList<clsAssociation> oExtAss = new ArrayList<clsAssociation>();
+			oExtAss.addAll(oTPM.getExternalMoAssociatedContent());
+			oRetVal.add(new clsPrimaryDataStructureContainer(oTPM, oExtAss));
 		}
 		
 		return oRetVal;
-	}*/
+	}
 
 }

@@ -1,4 +1,4 @@
-; Tue Nov 29 12:24:18 GMT 2011
+; Thu Dec 01 12:45:25 GMT 2011
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -541,7 +541,7 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass OBJECTPOSITION
+(defclass POSITION
 	(is-a TP)
 	(role concrete)
 	(single-slot value
