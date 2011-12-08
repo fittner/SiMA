@@ -596,6 +596,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, ofilteredImages);
 			//ArrayList<clsPlanFragment> sortedApplicablePlanningNodes = new ArrayList<clsPlanFragment>();
 			
+			//TODO create code for high depth plans here
+			
 			// Those plan fragments must fit to the goals, else, they are not applicated
 			//Remove those planning nodes, which are not conform with the goals
 //			for (clsDataStructureContainer oGoalContainer : poGoalList) {
