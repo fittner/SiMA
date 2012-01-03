@@ -6,10 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
-
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * Transports (unchanged or adapted) perceptions which passed the defense mechanisms from F19 to the conversion module F21.
@@ -19,5 +16,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_15_receive {
-	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
+	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh);
 }

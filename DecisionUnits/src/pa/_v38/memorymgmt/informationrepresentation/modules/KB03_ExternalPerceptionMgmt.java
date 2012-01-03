@@ -112,4 +112,16 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 		//TODO: AW Add something here, or else the function will not be used
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 05.12.2011 16:37:46
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchMesh(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA, double, int)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel) {
+		// TODO (wendt) - Auto-generated method stub
+		return null;
+	}
 }

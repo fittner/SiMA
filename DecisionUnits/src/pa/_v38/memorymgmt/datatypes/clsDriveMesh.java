@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -384,7 +385,34 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
         } catch (CloneNotSupportedException e) {
            return e;
         }
-	}		
+	}
+	
+	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+		clsDriveMesh oClone = null;
+		
+		try {
+        	oClone = (clsDriveMesh)super.clone();
+        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+        	if (moAssociatedContent != null) {
+        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
+        		
+        		for(clsAssociation oAssociation : moAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+		
+		return oClone;
+	}
+	
 
 	@Override
 	public String toString(){

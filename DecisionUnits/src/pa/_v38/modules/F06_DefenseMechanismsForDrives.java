@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
@@ -331,7 +332,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		poOriginalDM.setPleasure(0);
 		
 	    // repress old forbidden drive
-		repress_single_drive(poOriginalTPM, poOriginalDM);
+		repress_single_drive((clsThingPresentationMesh) poOriginalTPM, poOriginalDM);
 		
 		return oOppositeDrive;
 		
@@ -346,7 +347,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * This method represses a single drive. Copied from FG
 	 *
 	 */
-	protected void repress_single_drive(clsPhysicalRepresentation poTPM, clsDriveMesh poDM) {
+	protected void repress_single_drive(clsThingPresentationMesh poTPM, clsDriveMesh poDM) {
 		
 	// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
 			if (!moBlockedContentStorage.existsMatch(poTPM, poDM)) {		
@@ -394,7 +395,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// if drive found	
 			if (i < moDriveList_Output.size()) {
 				
-				repress_single_drive(moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);				
+				//FIXME FG: Added by AW. Exchange ALL physical representation with TPM. All objects are TPM
+				repress_single_drive((clsThingPresentationMesh) moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);				
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
@@ -454,7 +456,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * Sends blocked drive aims (clsDriveMesh) and drive objects (clsPhysicalRepresentation) to DT2_BlockedContentStorage
 	 */
 	@Override
-	public void send_D2_3 (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+	public void send_D2_3 (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
 		moBlockedContentStorage.receive_D2_3(poDS, poDM);	
 		putInterfaceData(D2_3_send.class, poDS, poDM);		
 	}

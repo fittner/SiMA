@@ -19,10 +19,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
@@ -42,14 +43,14 @@ implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
 
 		/** Input perceived image (type template image) */
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	/** Input associated activated memories */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 
 	/** Output evaluated image (type template image) */
-	private clsPrimaryDataStructureContainer moEvaluatedEnvironment_OUT;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	/** Output associated activated memories */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/** The storage for primal repressed drives*/
 	private ArrayList<clsDriveMesh> moPrimalRepressionMemory;
@@ -133,8 +134,8 @@ implements I5_6_receive, I5_7_send  {
 	public String stateToTEXT() {
 		String text ="";
 
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moEvaluatedEnvironment_OUT", moEvaluatedEnvironment_OUT);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		text += toText.listToTEXT("moPrimalRepressionMemory", moPrimalRepressionMemory);
 
 		return text;
@@ -173,13 +174,17 @@ implements I5_6_receive, I5_7_send  {
 	@Override
 	protected void process_basic() {
 		// clone input to allow for comparison before/after processing
-		moEvaluatedEnvironment_OUT = 
-			(clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
+		try {
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 
-		evaluatePerception(moEnvironmentalPerception_IN);
+		evaluatePerception(moPerceptionalMesh_OUT);
 		
 		//Pass memories forward
-		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 
 	/**
@@ -191,20 +196,20 @@ implements I5_6_receive, I5_7_send  {
 	 *
 	 * @param poPerception_IN
 	 */
-	private void evaluatePerception(
-			clsPrimaryDataStructureContainer poPerception_IN) {
-		ArrayList<clsPair<clsAssociationDriveMesh, Double>> oMatchedDrives;
+	private void evaluatePerception(clsThingPresentationMesh poPerception_OUT) {
+		ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>> oMatchedDrives;
 
 		// look up matching drives
-		oMatchedDrives = matchRepressedDrives(poPerception_IN);
+		oMatchedDrives = matchRepressedDrives(poPerception_OUT);
 		// now pick the topmost matches and process them accordingly
 		int i = 0;
-		for (clsPair<clsAssociationDriveMesh, Double> matchedItem : oMatchedDrives) {
+		for (clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double> matchedItem : oMatchedDrives) {
 			i++;
 			if (i >= mnActivationLimit) break;
 
 			// attach DMs in result to the perception
-			moEvaluatedEnvironment_OUT.getMoAssociatedDataStructures().add(matchedItem.a);
+			//moPerceptionalMesh_OUT.getExternalMoAssociatedContent().add(matchedItem.a);
+			matchedItem.a.getExternalMoAssociatedContent().add(matchedItem.b);
 		}
 	}
 
@@ -221,38 +226,44 @@ implements I5_6_receive, I5_7_send  {
 	 * @param poPerception_IN
 	 * @param moAttachedRepressed_Output
 	 */
-	private ArrayList<clsPair<clsAssociationDriveMesh, Double>> matchRepressedDrives(clsPrimaryDataStructureContainer poPerception_IN) {
-		ArrayList<clsPair<clsAssociationDriveMesh, Double>> oMatchValues = new ArrayList<clsPair<clsAssociationDriveMesh, Double>>();
+	private ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>> matchRepressedDrives(clsThingPresentationMesh poPerception_IN) {
+		ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>> oMatchValues = new ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>>();
 		
 		// compare each element from moPrimalRepressionMemory with the input
 		for (clsDriveMesh oEntry : moPrimalRepressionMemory) {
-			for(clsAssociation oInputAssociation : poPerception_IN.getMoAssociatedDataStructures()) {
-				if(oInputAssociation instanceof clsAssociationDriveMesh){
-					clsDriveMesh oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
-					if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
-						// calculate match between drives
-						double rMatchValue = oEntry.matchCathegories(oData);
-						// ignore matches below threshold
-						if (rMatchValue < mrActivationThreshold)
-							continue;
+			for(clsAssociation oInputAssociation : poPerception_IN.getMoAssociatedContent()) {
+				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
+				if (oObject instanceof clsThingPresentationMesh) {
+					
+					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalMoAssociatedContent()) {
+						if(oSubAss instanceof clsAssociationDriveMesh){
+							clsDriveMesh oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
+							if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
+								// calculate match between drives
+								double rMatchValue = oEntry.matchCathegories(oData);
+								// ignore matches below threshold
+								if (rMatchValue < mrActivationThreshold)
+									continue;
 
-						// add the association with the matching element to the output 
-						clsPrimaryDataStructure newRoot = (clsPrimaryDataStructure) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
-						clsAssociationDriveMesh oNewAssociation =	new clsAssociationDriveMesh(
-										new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
-										oEntry,
-										newRoot);
+								// add the association with the matching element to the output 
+								clsPrimaryDataStructure newRoot = (clsPrimaryDataStructure) ((clsAssociationDriveMesh)oSubAss).getRootElement();
+								clsAssociationDriveMesh oNewAssociation =	new clsAssociationDriveMesh(
+												new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
+												oEntry,
+												newRoot);
 
-						// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
-						int i = 0;
-						while ((i + 1 < oMatchValues.size()) && rMatchValue < oMatchValues.get(i).b) {
-							i++;
+								// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
+								int i = 0;
+								while ((i + 1 < oMatchValues.size()) && rMatchValue < oMatchValues.get(i).c) {
+									i++;
+								}
+								// add to results
+								oMatchValues.add(i, new clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>((clsThingPresentationMesh) oObject, oNewAssociation, rMatchValue));
+							}
 						}
-						// add to results
-						oMatchValues.add(i, new clsPair<clsAssociationDriveMesh, Double>(
-										oNewAssociation, rMatchValue));
 					}
 				}
+				
 			}
 		}
 		return oMatchValues;
@@ -329,7 +340,7 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	@Override
 	protected void send() {
-		send_I5_7(moEvaluatedEnvironment_OUT, moAssociatedMemories_OUT);
+		send_I5_7(moPerceptionalMesh_OUT);
 	}
 	
 	/* (non-Javadoc)
@@ -340,12 +351,12 @@ implements I5_6_receive, I5_7_send  {
 	 * @see pa.interfaces.send._v38.I2_14_send#send_I2_14(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	public void send_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
 
-		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poEnvironmentalTP, poAssociatedMemories);	//Associated memories only for perception
-		((I5_7_receive)moModuleList.get(57)).receive_I5_7(poEnvironmentalTP, poAssociatedMemories);
+		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poPerceptionalMesh);	//Associated memories only for perception
+		((I5_7_receive)moModuleList.get(57)).receive_I5_7(poPerceptionalMesh);
 
-		putInterfaceData(I5_7_send.class, poEnvironmentalTP, poAssociatedMemories);
+		putInterfaceData(I5_7_send.class, poPerceptionalMesh);
 	}
 	
 	/* (non-Javadoc)
@@ -357,9 +368,14 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_6(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/**
@@ -368,9 +384,9 @@ implements I5_6_receive, I5_7_send  {
 	 * 
 	 * @return the moEnvironmental_IN
 	 */
-	public clsPrimaryDataStructureContainer getMoEnvironmental_IN() {
-		return moEnvironmentalPerception_IN;
-	}
+	//public clsPrimaryDataStructureContainer getMoEnvironmental_IN() {
+	//	return moEnvironmentalPerception_IN;
+	//}
 	
 	/**
 	 * @author zeilinger
@@ -378,13 +394,13 @@ implements I5_6_receive, I5_7_send  {
 	 * 
 	 * @return the moEvaluatedEnvironment_OUT
 	 */
-	public clsPrimaryDataStructureContainer getMoEvaluatedEnvironment_OUT() {
-		return moEvaluatedEnvironment_OUT;
-	}
+	//public clsPrimaryDataStructureContainer getMoEvaluatedEnvironment_OUT() {
+	//	return moEvaluatedEnvironment_OUT;
+	//}
 
-	public ArrayList<clsPrimaryDataStructureContainer> getMoAssociatedMemories_OUT() {
-		return moAssociatedMemories_OUT;
-	}
+	//public ArrayList<clsPrimaryDataStructureContainer> getMoAssociatedMemories_OUT() {
+	//	return moAssociatedMemories_OUT;
+	//}
 	
 	/* (non-Javadoc)
 	 *

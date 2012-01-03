@@ -7,7 +7,7 @@
 package pa._v38.interfaces.modules;
 
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 
 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
  * 
  */
 public interface D2_3_send {
-	public void send_D2_3(clsPhysicalRepresentation poDS, clsDriveMesh poDM);
+	public void send_D2_3(clsThingPresentationMesh poDS, clsDriveMesh poDM);
 }

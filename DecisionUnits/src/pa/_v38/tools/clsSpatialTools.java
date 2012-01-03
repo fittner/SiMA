@@ -14,8 +14,9 @@ import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eXPosition;
 import pa._v38.memorymgmt.enums.eYPosition;
@@ -42,11 +43,63 @@ public class clsSpatialTools {
 	 * @param poRI
 	 * @return
 	 */
-	public static double getImageMatch(clsPrimaryDataStructureContainer poPI, clsPrimaryDataStructureContainer poRI) {
+//	public static double getImageMatch(clsPrimaryDataStructureContainer poPI, clsPrimaryDataStructureContainer poRI) {
+//		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
+//		double rRetVal = 0;
+//		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
+//		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPIPositionArray = getImageObjectPositions(poPI);
+//		
+//		//for (clsTriple<clsDataStructurePA, eXPosition, eYPosition> oP : oPIPositionArray) {
+//			//if (oP.b==null||oP.c==null) {
+//			//	try {
+//			//		throw new Exception("Error: null value oP: " + oP.toString());
+//			//	} catch (Exception e) {
+//			//		// TODO (wendt) - Auto-generated catch block
+//			//		e.printStackTrace();
+//			//	}
+//			//}
+//		//}
+//		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
+//		
+//		//Create position array for the RI
+//		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRIPositionArray = getImageObjectPositions(poRI);
+//		//Sort the RI array for generalization, the least generalized first
+//		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+//		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
+//		//Compare the RI-Array with the PA-Array and search for the closest matches between them
+//		//In RI and in PI position elements with null are allowed to occur
+//		ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> oRIPIMatchList = findMatchingObjects(oPISortedPositionArray, oRISortedPositionArray);
+//		//Add matching associations to the objects in the RI
+//		//Add distanceassociations
+//		
+//		//FIXME AW: Check how to handle this add RIAssociations shall not be outcommented
+//		
+//		//addRIAssociations(oRIPIMatchList, poRI);
+//		//Calculate the image match
+//		rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
+//		
+//		return rRetVal;
+//	}
+	
+	/**
+	 * This function calculates the match between 2 images and returns the matching value. In this process also the RI (Remembered Image) is modified as 
+	 * associations of the distance of the PI positions are added. 
+	 * 
+	 * 1 type of associations is added: Distance association where the association weight is extracted from the distance and the element a and b  
+	 * (wendt)
+	 *
+	 * @since 07.11.2011 11:54:02
+	 *
+	 * @param poPI
+	 * @param poRI
+	 * @return
+	 */
+	public static double getImageMatch(clsThingPresentationMesh poPI, clsThingPresentationMesh poRI) {
 		//Matching: All Objects in RI are searched for in PI, which means that RI is the more generalized image 
 		double rRetVal = 0;
 		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oPIPositionArray = getImageObjectPositions(poPI);
+		//Only references in the array
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPIPositionArray = getImageObjectPositions(poPI);
 		
 		//for (clsTriple<clsDataStructurePA, eXPosition, eYPosition> oP : oPIPositionArray) {
 			//if (oP.b==null||oP.c==null) {
@@ -58,19 +111,19 @@ public class clsSpatialTools {
 			//	}
 			//}
 		//}
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
 		
 		//Create position array for the RI
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRIPositionArray = getImageObjectPositions(poRI);
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oRIPositionArray = getImageObjectPositions(poRI);
 		//Sort the RI array for generalization, the least generalized first
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
 		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
 		//Compare the RI-Array with the PA-Array and search for the closest matches between them
 		//In RI and in PI position elements with null are allowed to occur
-		ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> oRIPIMatchList = findMatchingObjects(oPISortedPositionArray, oRISortedPositionArray);
+		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingObjects(oPISortedPositionArray, oRISortedPositionArray);
 		//Add matching associations to the objects in the RI
 		//Add distanceassociations
-		addRIAssociations(oRIPIMatchList, poRI);
+		addRIAssociations(oRIPIMatchList);
 		//Calculate the image match
 		rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
 		
@@ -117,6 +170,55 @@ public class clsSpatialTools {
 	}
 	
 	/**
+	 * Get the position coordinates in X, Y integers from thing presentations of a data structure
+	 * (wendt)
+	 *
+	 * @since 01.10.2011 09:50:49
+	 *
+	 * @param poDS
+	 * @param poImageContainer
+	 * @return
+	 */
+	public static clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> getPosition(clsThingPresentationMesh poDS) {
+		clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oRetVal = null;
+		
+		//Search for xy compontents
+		eXPosition X = null;	//default error value
+		eYPosition Y = null;
+		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
+		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
+			if (oAss instanceof clsAssociationAttribute) {
+				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
+					//Get content of the association
+					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
+					if (Y==null) {
+						Y = eYPosition.elementAt(oContent);
+					}
+					//Special case if EATABLE is used
+					//FIXME AW: EATABLE is center
+					if (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE")==true) {
+						if (X==null) {
+							X = eXPosition.CENTER;
+						}
+					}
+					
+				} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
+					//Get the X-Part
+					if (X==null) {
+						X = eXPosition.elementAt(oContent);
+					}
+				}
+			}
+		
+		}
+		
+		oRetVal = new clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>(poDS, X, Y);
+				
+		return oRetVal;
+	}
+	
+	/**
 	 * For an image, get an arraylist with all positions of the objects in the image
 	 * (wendt)
 	 *
@@ -125,46 +227,72 @@ public class clsSpatialTools {
 	 * @param poImageContainer
 	 * @return
 	 */
-	public static ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> getImageObjectPositions(clsPrimaryDataStructureContainer poImageContainer) {
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRetVal = new ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>>();
+	public static ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> getImageObjectPositions(clsThingPresentationMesh poImage) {
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
 		
-		//Get positions for all objects in the image
-		if (poImageContainer.getMoDataStructure() instanceof clsTemplateImage) {
-			//Get Image
-			clsTemplateImage oImageStripped = (clsTemplateImage) poImageContainer.getMoDataStructure();
-			for (clsAssociation oAss : oImageStripped.getMoAssociatedContent()) {
-				//Get the leaf elements
-				clsDataStructurePA oImageObject = oAss.getLeafElement();
-				//Get the position
-				clsTriple<clsDataStructurePA, eXPosition, eYPosition> oObjectPosition = getPosition(oImageObject, poImageContainer);
-
-				//Add position the results
-				//if (oObjectPosition.a.getMoContentType()!="BUMP" || oObjectPosition.b!=null || oObjectPosition.c!=null) {
-				//	if ((oObjectPosition.b==null||oObjectPosition.c==null) && (((clsTemplateImage)poImageContainer.getMoDataStructure()).getMoContent()=="PERCEPTION")) {
-				//		try {
-				//			throw new Exception("Error: oObjectPosition=null: " + oObjectPosition.toString());
-				//		} catch (Exception e) {
-				//			// TODO (wendt) - Auto-generated catch block
-				//			e.printStackTrace();
-				//		}
-				//	}
+		//Get positions for all objects in the image		
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
+			//Get the leaf elements
+			clsDataStructurePA oImageObject = oAss.getLeafElement();
+			//Get the position
+			if (oImageObject instanceof clsThingPresentationMesh) {
+				clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oObjectPosition = getPosition((clsThingPresentationMesh) oImageObject);
 				oRetVal.add(oObjectPosition);
-				//}
-
 			}
 		}
 		
 		return oRetVal;
 	}
 	
-	private static double calculateImageMatch(ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> poRIPIMatchList, ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> poRIPositionList) {
+//	/**
+//	 * For an image, get an arraylist with all positions of the objects in the image
+//	 * (wendt)
+//	 *
+//	 * @since 03.11.2011 22:42:31
+//	 *
+//	 * @param poImageContainer
+//	 * @return
+//	 */
+//	public static ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> getImageObjectPositions(clsPrimaryDataStructureContainer poImageContainer) {
+//		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
+//		
+//		//Get positions for all objects in the image
+//		if (poImageContainer.getMoDataStructure() instanceof clsTemplateImage) {
+//			//Get Image
+//			clsTemplateImage oImageStripped = (clsTemplateImage) poImageContainer.getMoDataStructure();
+//			for (clsAssociation oAss : oImageStripped.getMoAssociatedContent()) {
+//				//Get the leaf elements
+//				clsDataStructurePA oImageObject = oAss.getLeafElement();
+//				//Get the position
+//				clsTriple<clsDataStructurePA, eXPosition, eYPosition> oObjectPosition = getPosition(oImageObject, poImageContainer);
+//
+//				//Add position the results
+//				//if (oObjectPosition.a.getMoContentType()!="BUMP" || oObjectPosition.b!=null || oObjectPosition.c!=null) {
+//				//	if ((oObjectPosition.b==null||oObjectPosition.c==null) && (((clsTemplateImage)poImageContainer.getMoDataStructure()).getMoContent()=="PERCEPTION")) {
+//				//		try {
+//				//			throw new Exception("Error: oObjectPosition=null: " + oObjectPosition.toString());
+//				//		} catch (Exception e) {
+//				//			// TODO (wendt) - Auto-generated catch block
+//				//			e.printStackTrace();
+//				//		}
+//				//	}
+//				oRetVal.add(oObjectPosition);
+//				//}
+//
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+	private static double calculateImageMatch(ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> poRIPIMatchList, ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> poRIPositionList) {
 		double rRetVal = 0;
 		
 		//Get the number of elements in the RI position list
 		double rNormalizefactor = poRIPositionList.size();
 		//Get the sum of distance associations in the RIPI Match list
 		double rWeightSum = 0;
-		for (clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>> oRIPIMatch : poRIPIMatchList) {
+		for (clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
 			rWeightSum = rWeightSum + calculateAssociationWeightFromDistance(oRIPIMatch.b.b);
 		}
 		
@@ -183,15 +311,43 @@ public class clsSpatialTools {
 	 * @param popoRIPIMatchList
 	 * @param poRI
 	 */
-	private static void addRIAssociations(ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> poRIPIMatchList, clsPrimaryDataStructureContainer poRI) {
+	private static void addRIAssociations(ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> poRIPIMatchList) {
 		//For each found object, create an association
-		for (clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>> oRIPIMatch : poRIPIMatchList) {
+		for (clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
 			//Create an association, The root object is the RI and the leafobject is the PI
-			clsAssociationTime oMatchAssociation = createDistanceAssociation((clsPrimaryDataStructure)oRIPIMatch.b.a, (clsPrimaryDataStructure)oRIPIMatch.a.a, oRIPIMatch.b.b);
+			clsAssociationTime oMatchAssociation = createDistanceAssociation(oRIPIMatch.b.a, oRIPIMatch.a.a, oRIPIMatch.b.b);
 			//Add the association to the container
-			poRI.addMoAssociatedDataStructure(oMatchAssociation);
+			oRIPIMatch.b.a.getExternalMoAssociatedContent().add(oMatchAssociation);
+			
+			//Find that object in the RI
+			//for (clsAssociation oAss : poRI.getMoAssociatedContent()) {
+			//	if (oAss.getLeafElement().getMoDSInstance_ID()==oRIPIMatch.b.a.getMoDSInstance_ID()) {
+			//		poRI.getExternalMoAssociatedContent().add(oMatchAssociation);
+			//	}
+			//}
+			
 		}
 	}
+	
+//	/**
+//	 * With a data structure of the match between PI and RI, convert this data structure to an association, which is added to the RI container. With this function, each match is added as an
+//	 * associationTime to an object
+//	 * (wendt)
+//	 *
+//	 * @since 07.11.2011 12:25:54
+//	 *
+//	 * @param popoRIPIMatchList
+//	 * @param poRI
+//	 */
+//	private static void addRIAssociations(ArrayList<clsPair<clsTriple<clsPrimaryDataStructureContainer, eXPosition, eYPosition>, clsPair<clsPrimaryDataStructureContainer, Double>>> poRIPIMatchList, clsPrimaryDataStructureContainer poRI) {
+//		//For each found object, create an association
+//		for (clsPair<clsTriple<clsPrimaryDataStructureContainer, eXPosition, eYPosition>, clsPair<clsPrimaryDataStructureContainer, Double>> oRIPIMatch : poRIPIMatchList) {
+//			//Create an association, The root object is the RI and the leafobject is the PI
+//			clsAssociationTime oMatchAssociation = createDistanceAssociation((clsPrimaryDataStructureContainer)oRIPIMatch.b.a, (clsPrimaryDataStructureContainer)oRIPIMatch.a.a, oRIPIMatch.b.b);
+//			//Add the association to the container
+//			poRI.getExternalMoAssociatedContent().add(oMatchAssociation);
+//		}
+//	}
 	
 	/**
 	 * Sort the positions in the array concerning generalization. Sort order: More accurate first and generalized at last
@@ -201,10 +357,10 @@ public class clsSpatialTools {
 	 *
 	 * @param oPositionArray
 	 */
-	private static ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> sortPositionArray(ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oPositionArray) {
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oNewArray = new ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>>();
+	private static ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> sortPositionArray(ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPositionArray) {
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oNewArray = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
 		
-		for (clsTriple<clsDataStructurePA, eXPosition, eYPosition> oPos : oPositionArray) {
+		for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPos : oPositionArray) {
 			//Set score: 3: null, null; 2: null, X; 1: X,X
 			
 			//Calculate score for the current position
@@ -238,7 +394,7 @@ public class clsSpatialTools {
 	 * @param oPos
 	 * @return
 	 */
-	private static int getPositionArrayScore(clsTriple<clsDataStructurePA, eXPosition, eYPosition> oPos) {
+	private static int getPositionArrayScore(clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPos) {
 		int nRetVal = 1;
 		
 		if (oPos.b==null) {
@@ -252,30 +408,30 @@ public class clsSpatialTools {
 		return nRetVal;
 	}
 	
-	private static ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> findMatchingObjects(ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> poPIPositionList, ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> poRIPositionList) {
+	private static ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> findMatchingObjects(ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> poPIPositionList, ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> poRIPositionList) {
 		//Search the closest distance to objects in the perception
 		
 		//clsPair(PI-Part, RI-Part). PI-Part = PI, X, Y. RI-Part = RI, Distance
-		ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>> oRetVal = new ArrayList<clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>>();
+		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> oRetVal = new ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>>();
 		
-		ArrayList<clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oPIListCopy = poPIPositionList;
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oPIListCopy = poPIPositionList;
 		
 		//go through all objects in the RI List, where a distance shall be calculated
 		//In the quadrupel, the RI object ist given, where the position is already known. The corresponding position is searched in the PI and added here. At the end, the RI-Object will have
 		//Both its own and the PI positions and the distance between them. This is the foundation of the matching calculation
 		for (int j=0; j<poRIPositionList.size();j++) {
-			clsTriple<clsDataStructurePA, eXPosition, eYPosition> oRIPosition = poRIPositionList.get(j);
+			clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oRIPosition = poRIPositionList.get(j);
 			//Get Object type ID (Instance ID is not important here)
 			int nRIObjectID = oRIPosition.a.getMoDS_ID();
 			
 			//Position of the best match object, which shall be deleted from the list
-			clsTriple<clsDataStructurePA, eXPosition, eYPosition> oBestPIPosition = null;
+			clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oBestPIPosition = null;
 			int nObjectPositionInPIArray=-1;
 			double rBestDistance = -1;
 			//Boolean if there is any match
 			//boolean bMatchFound = false;
 			for (int i=0;i<oPIListCopy.size();i++) {
-				clsTriple<clsDataStructurePA, eXPosition, eYPosition> oPIPositionCopy = oPIListCopy.get(i);
+				clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPIPositionCopy = oPIListCopy.get(i);
 				//The ID has to be the same, in order to compare positions
 				if (nRIObjectID==oPIPositionCopy.a.getMoDS_ID()) {
 					//No match is set, get the first match. Define the oMatched Position. The first value will be taken
@@ -306,7 +462,7 @@ public class clsSpatialTools {
 			//If a best match was found, delete the found object from the PI-List, as it shall only be used in comparison once
 			if (nObjectPositionInPIArray!=-1) {
 				//Add the new element to the output list
-				oRetVal.add(new clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsPair<clsDataStructurePA, Double>>(oBestPIPosition, new clsPair<clsDataStructurePA, Double>(oRIPosition.a, rBestDistance)));
+				oRetVal.add(new clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>(oBestPIPosition, new clsPair<clsThingPresentationMesh, Double>(oRIPosition.a, rBestDistance)));
 				//Delete the element
 				oPIListCopy.remove(nObjectPositionInPIArray);
 			}
@@ -325,9 +481,9 @@ public class clsSpatialTools {
 	 * @param poPIElement
 	 * @return
 	 */
-	private static clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsTriple<clsDataStructurePA, eXPosition, eYPosition>> specializePositions(clsTriple<clsDataStructurePA, eXPosition, eYPosition> poPIElement, clsTriple<clsDataStructurePA, eXPosition, eYPosition> poRIElement) {
+	private static clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> specializePositions(clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> poPIElement, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> poRIElement) {
 		//Element a: PI, b: RI
-		clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oRetVal = new clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsTriple<clsDataStructurePA, eXPosition, eYPosition>>(poPIElement, poRIElement);
+		clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oRetVal = new clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>(poPIElement, poRIElement);
 		//Set default positions, if they are both not specialized
 		eXPosition oDefaultXPosition = eXPosition.CENTER;
 		eYPosition oDefaultYPosition = eYPosition.NEAR;
@@ -370,10 +526,10 @@ public class clsSpatialTools {
 	 * @param poRIElement
 	 * @return
 	 */
-	public static double getDistance(clsTriple<clsDataStructurePA, eXPosition, eYPosition> poPIElement, clsTriple<clsDataStructurePA, eXPosition, eYPosition> poRIElement) {
+	public static double getDistance(clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> poPIElement, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> poRIElement) {
 		
 		//Specialize RI positions for PI
-		clsPair<clsTriple<clsDataStructurePA, eXPosition, eYPosition>, clsTriple<clsDataStructurePA, eXPosition, eYPosition>> oSpecializedPositions = specializePositions(poPIElement, poRIElement);
+		clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oSpecializedPositions = specializePositions(poPIElement, poRIElement);
 		
 		if (oSpecializedPositions.a.b==null||oSpecializedPositions.a.c==null) {
 			try {
@@ -429,7 +585,9 @@ public class clsSpatialTools {
 	}
 	
 	/**
-	 * Create a temporal association between the objects in the image. The weight of this association is the inverted distance
+	 * Create a temporal association between the objects in the image and in the perception. The weight of this association is the inverted distance. This association is
+	 * added to the external associations of the objects. As it is no defining association, it is interpreted as a match association only
+	 * 
 	 * (wendt)
 	 *
 	 * @since 01.10.2011 10:07:38
@@ -441,7 +599,7 @@ public class clsSpatialTools {
 	 */
 	private static clsAssociationTime createDistanceAssociation(clsPrimaryDataStructure poElementA, clsPrimaryDataStructure poElementB, double prDistance) {
 		double prAssWeight = calculateAssociationWeightFromDistance(prDistance);
-		clsAssociationTime oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "MATCHASSOCIATION"), poElementA, poElementB);
+		clsAssociationTime oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, eContentType.MATCHASSOCIATION.toString()), poElementA, poElementB);
 		oRetVal.setMrWeight(prAssWeight);
 		return oRetVal;
 	}

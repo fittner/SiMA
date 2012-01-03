@@ -16,9 +16,9 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
@@ -45,19 +45,23 @@ public class clsAffectTools {
 	
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
+	 * The total affect of the mesh is calculated for one level.
+	 * 
+	 * !!!!!!!!!!!! THIS IS A SPECIALIZED FUNCTION, WHICH IS USED TO CALCULATE THE TOTAL AFFECT OF ONE LEVEL OF THE PI OR RI !!!!!!!!!!!!!!!!!
+	 * 
+	 * (wendt)
 	 *
 	 * @since 20.07.2011 13:58:37
 	 *
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAbsoluteAffect(clsPrimaryDataStructureContainer poImage) {
+	public static double calculateAbsoluteAffect(clsThingPresentationMesh poImage) {
 		double rAbsoluteAffect;
 		
 		rAbsoluteAffect = 0;
 		
-		for (clsAssociation oAss: poImage.getMoAssociatedDataStructures()) {
+		for (clsAssociation oAss: poImage.getMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationDriveMesh) {
 				rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAss.getLeafElement()).getPleasure());
 			}

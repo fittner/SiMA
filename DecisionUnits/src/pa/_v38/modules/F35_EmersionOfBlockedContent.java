@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.D2_1_send;
 import pa._v38.interfaces.modules.D2_2_receive;
@@ -20,11 +18,8 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.storage.DT2_BlockedContentStorage;
 
 /**
@@ -43,14 +38,14 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	private DT2_BlockedContentStorage moBlockedContentStorage;
 	
 	/** Input perceived image (type template image) */
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	/** Input associated activated memories */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	/** Output perceived image (type template image) */
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	/** Output associated activated memories */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/**
 	 * Get the blocked content storage. Apply properties from the config files.  
@@ -88,10 +83,10 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		String text ="";
 		
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
-		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		//text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
 		return text;
@@ -124,32 +119,37 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		//Test get protege content
 		
 		//Make a deepcopy of the input parameter, else the difference cannot be correctly displayed in statetotext
-		moEnvironmentalPerception_OUT = (clsPrimaryDataStructureContainer)moEnvironmentalPerception_IN.clone();
-		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+		try {
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
 		/* MZ 2011/07/05: everything that is done with the input is now happening
 		 * inside enrichWithBlockedContent. This was done so that in the future
 		 * the items in moAssociatedMemories_IN can also be processed in the same
 		 * manner.
 		 */
-		enrichWithBlockedContent(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
+		enrichWithBlockedContent(moPerceptionalMesh_OUT);
 	}
 	
-	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		
-		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
-		clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
-		
-		searchContainer(oPattern, oSearchResult, "IMAGE:REPRESSED", 0);
-		
-		for (clsPair<Double, clsDataStructureContainer> oPair : oSearchResult) {
-			oRetVal.add((clsPrimaryDataStructureContainer) oPair.b);
-		}
-		
-		return oRetVal;
-	}
+//	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
+//		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+//		
+//		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+//		
+//		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
+//		clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
+//		
+//		searchContainer(oPattern, oSearchResult, "IMAGE:REPRESSED", 0);
+//		
+//		for (clsPair<Double, clsDataStructureContainer> oPair : oSearchResult) {
+//			oRetVal.add((clsPrimaryDataStructureContainer) oPair.b);
+//		}
+//		
+//		return oRetVal;
+//	}
 
 	/**
 	 * looks for matching blocked content to enrich the
@@ -164,17 +164,17 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * @see F35_EmersionOfBlockedContent#adaptCategories(clsPrimaryDataStructureContainer)
 	 * @see F35_EmersionOfBlockedContent#matchBlockedContent(clsPrimaryDataStructureContainer)
 	 */
-	private void enrichWithBlockedContent(clsPrimaryDataStructureContainer poPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	private void enrichWithBlockedContent(clsThingPresentationMesh poPerceptionalMesh) {
 		//Send inputs to the memeory
 		//moBlockedContentStorage.receive_D2_4(poPerception, poAssociatedMemories);
-		this.send_D2_1(poPerception, poAssociatedMemories);
-		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oGetVal;
+		this.send_D2_1(poPerceptionalMesh);
+		clsThingPresentationMesh oGetVal;
 		oGetVal = this.receive_D2_2();
 		//modify inputs
 		//Check null
 		if (oGetVal!=null) {
-			poPerception = oGetVal.a;
-			poAssociatedMemories = oGetVal.b;
+			poPerceptionalMesh = oGetVal;
+			//poAssociatedMemories = oGetVal.b;
 		}	
 	}
 
@@ -187,7 +187,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	@Override
 	protected void send() {
-		send_I5_8(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
+		send_I5_8(moPerceptionalMesh_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -264,10 +264,10 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	
 	
 	@Override
-	public void send_I5_8(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poMergedPrimaryInformation, poAssociatedMemories);
+	public void send_I5_8(clsThingPresentationMesh poPerceptionalMesh) {
+		((I5_8_receive)moModuleList.get(45)).receive_I5_8(poPerceptionalMesh);
 	
-		putInterfaceData(I5_8_send.class, poMergedPrimaryInformation, poAssociatedMemories);
+		putInterfaceData(I5_8_send.class, poPerceptionalMesh);
 	}
 
 	/* (non-Javadoc)
@@ -279,9 +279,14 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		} //(clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
+		//moAssociatedMemories_IN = null; //(ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *
@@ -303,7 +308,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * @see pa._v38.interfaces.modules.D2_2_receive#receive_D2_2()
 	 */
 	@Override
-	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> receive_D2_2() {
+	public clsThingPresentationMesh receive_D2_2() {
 		return moBlockedContentStorage.send_D2_2();
 	}
 
@@ -315,13 +320,12 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 * @see pa._v38.interfaces.modules.D2_1_send#send_D2_1(pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer, java.util.ArrayList)
 	 */
 	@Override
-	public void send_D2_1(clsPrimaryDataStructureContainer poData,
-			ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	public void send_D2_1(clsThingPresentationMesh poMesh) {
 		// TODO (wendt) - Auto-generated method stub
 		
-		moBlockedContentStorage.receive_D2_4(poData, poAssociatedMemories);
+		moBlockedContentStorage.receive_D2_1(poMesh);
 		
-		putInterfaceData(D2_1_send.class, poData, poAssociatedMemories);
+		putInterfaceData(D2_1_send.class, poMesh);
 		
 	}
 	

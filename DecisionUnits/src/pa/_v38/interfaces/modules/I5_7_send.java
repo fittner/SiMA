@@ -6,10 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
-
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * Thing presentations and their quota of affects are transported from F37 to F35 and F57.
@@ -19,5 +16,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_7_send {
-	public void send_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
+	public void send_I5_7(clsThingPresentationMesh poPerceptionalMesh);
 }

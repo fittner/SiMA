@@ -20,11 +20,10 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
-	
-	/** Internal defining associations are put here, i.e. shape, color or other defining objects; @since 29.11.2011 11:13:05 */
-	protected ArrayList<clsAssociation> moAssociatedContent;
 	/** External associations to location, DMs or other TPMs (Images) are placed here; @since 29.11.2011 11:13:42 */
 	protected ArrayList<clsAssociation> moExternalAssociatedContent;
+	/** Internal defining associations are put here, i.e. shape, color or other defining objects; @since 29.11.2011 11:13:05 */
+	protected ArrayList<clsAssociation> moAssociatedContent;
 	/**
 	 * @author zeilinger
 	 * 19.03.2011, 08:57:27

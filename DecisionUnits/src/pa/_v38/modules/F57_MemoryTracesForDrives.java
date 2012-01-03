@@ -18,14 +18,14 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -41,8 +41,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		implements I4_1_receive, I5_7_receive, I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
+	private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
 	
@@ -98,8 +98,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		String text ="";
 		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
-		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		
 		
 		return text;
@@ -119,9 +119,14 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_7(clsPrimaryDataStructureContainer poEnvironmentalTP, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -145,11 +150,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @see pa._v38.modules.clsModuleBase#process_basic()
 	 */
 	@Override
-protected void process_basic() {
+	protected void process_basic() {
 		
 		//ArrayList<clsPair<clsPrimaryDataStructureContainer, ArrayList<clsDriveMesh>>>;
 		
-		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moEnvironmentalPerception_IN, moAssociatedMemories_IN);
+		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
 		
 	}
 
@@ -160,12 +165,12 @@ protected void process_basic() {
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) { 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates, clsThingPresentationMesh poPerceptionalMesh) { 
 		//initializing of the list, because it cannnot be null
 		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
 		//Get all DMs
-		ArrayList<clsAssociationDriveMesh> oAssDMList = getAllDriveMeshAssociations(poEnvironmentalPerception, poAssociatedMemories);
+		ArrayList<clsAssociationDriveMesh> oAssDMList = clsDataStructureTools.getAllDMInMesh(poPerceptionalMesh);
 		
 		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte	
 		//1. Compare drive meshes with drive meshes in the perception	
@@ -214,37 +219,7 @@ protected void process_basic() {
 	return oRetVal;	
 	}
 	
-	/**
-	 * Get all drive meshes in perception and associated memories
-	 * (wendt)
-	 *
-	 * @since 06.09.2011 16:36:10
-	 *
-	 * @param poEnvironmentalPerception
-	 * @param poAssociatedMemories
-	 * @return
-	 */
-	private ArrayList<clsAssociationDriveMesh> getAllDriveMeshAssociations(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
-		
-		//Get everything from perception
-		for (clsAssociation oAss : poEnvironmentalPerception.getMoAssociatedDataStructures()) {
-			if (oAss instanceof clsAssociationDriveMesh) {
-				oRetVal.add((clsAssociationDriveMesh) oAss);
-			}
-		}
-		
-		//Get everthing from the associated memories
-		for (clsPrimaryDataStructureContainer oPContainer : poAssociatedMemories) {
-			for (clsAssociation oAss : oPContainer.getMoAssociatedDataStructures()) {
-				if (oAss instanceof clsAssociationDriveMesh) {
-					oRetVal.add((clsAssociationDriveMesh) oAss);
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
+
 	
 	/* (non-Javadoc)
 	 *

@@ -102,6 +102,33 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		return oMatchedDataStructures;
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 05.12.2011 16:35:26
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchMesh(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA, double, int)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel) {
+		//In this function, the container content is compared with saved template images, which are the data structure in generated containers
+		//ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 	//Result
+		
+		/* Parameters:
+		 * - Boolean Strong match: Default=true. If one compared TP belonging to a TI is false, the whole match is = 0
+		 * - boolean Compare drives: Default=false. Compare DMs with each other
+		 * - String DataType: Default: MEMORY. TIs with this type are searched for
+		 * - Boolean AddItself: Default=true: If the structure itself is found in the memory, it adds itself to the result
+		 * - double Threshold: Default=0.0 Association threshold for adding the image as a match
+		 */
+		
+		//Steps
+		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		//2b. Set the Content type of oDS	
+		oMatchedDataStructures = compareElementsMesh(poDataStructureUnknown, prThreshold, pnLevel);	//Get a List of all matching structures in the memory
+	
+		return oMatchedDataStructures;
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -168,4 +195,21 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Search for the whole content of a container in the memory and compare the found structures with the input structure
+	 *
+	 * @since 08.07.2011 11:53:35
+	 *
+	 * @param poContainerUnknown
+	 * @return
+	 */
+	private ArrayList<clsPair<Double, clsDataStructurePA>> compareElementsMesh(clsDataStructurePA poUnknown, double prThreshold, int pnLevel) {
+		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		oRetVal = clsDataStructureComparison.compareDataStructuresMesh(moSearchSpaceHandler, poUnknown, prThreshold, pnLevel);	
+		
+		return oRetVal;
+	}
+
 }

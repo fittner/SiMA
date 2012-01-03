@@ -56,39 +56,39 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
 	}
 	
 	
-	/**
-	 * Find a certain data structure in the container. If the data structure is not found, null is returned, else the instance of that data structure
-	 * 
-	 * The compare criterium is the Type ID and not the instance ID
-	 *
-	 * @since 21.07.2011 09:27:59
-	 *
-	 * @param clsDataStructurePA
-	 * @return
-	 */
-	public clsDataStructurePA containsInstanceType(clsDataStructurePA poInput) {
-		clsDataStructurePA oRetVal = null;
-		
-		if (this.moDataStructure.moDS_ID == poInput.moDS_ID) {
-			oRetVal = this.moDataStructure;
-		} else {
-			if (poInput instanceof clsTemplateImage) {
-				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
-					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
-						oRetVal = oAss.getLeafElement();
-						break;
-					}
-				}
-			} else if (poInput instanceof clsThingPresentationMesh) {
-				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
-					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
-						oRetVal = oAss.getLeafElement();
-						break;
-					}
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * Find a certain data structure in the container. If the data structure is not found, null is returned, else the instance of that data structure
+//	 * 
+//	 * The compare criterium is the Type ID and not the instance ID
+//	 *
+//	 * @since 21.07.2011 09:27:59
+//	 *
+//	 * @param clsDataStructurePA
+//	 * @return
+//	 */
+//	public clsDataStructurePA containsInstanceType(clsDataStructurePA poInput) {
+//		clsDataStructurePA oRetVal = null;
+//		
+//		if (this.moDataStructure.moDS_ID == poInput.moDS_ID) {
+//			oRetVal = this.moDataStructure;
+//		} else {
+//			if (poInput instanceof clsTemplateImage) {
+//				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
+//					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
+//						oRetVal = oAss.getLeafElement();
+//						break;
+//					}
+//				}
+//			} else if (poInput instanceof clsThingPresentationMesh) {
+//				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
+//					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
+//						oRetVal = oAss.getLeafElement();
+//						break;
+//					}
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 }

@@ -108,9 +108,27 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 05.12.2011 16:35:18
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchContainer(int, pa._v38.memorymgmt.datatypes.clsDataStructureContainer, double)
+	 */
 	@Override
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType,clsDataStructureContainer poDataStructureUnknown, double prThreshold) {
 		//TODO: AW Add something here, or else the function will not be used
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 05.12.2011 16:34:58
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchMesh(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA, double, int)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel) {
+		// TODO (wendt) - Auto-generated method stub
 		return null;
 	}
 	

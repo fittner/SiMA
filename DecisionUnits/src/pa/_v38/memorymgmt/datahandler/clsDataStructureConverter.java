@@ -11,6 +11,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -21,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
 import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
@@ -260,6 +262,81 @@ public class clsDataStructureConverter {
 			oExtAss.addAll(oTPM.getExternalMoAssociatedContent());
 			oRetVal.add(new clsPrimaryDataStructureContainer(oTPM, oExtAss));
 		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Convert a mesh into the old container structure
+	 * 
+	 * (wendt)
+	 *
+	 * @since 02.01.2012 22:28:39
+	 *
+	 * @param poMesh
+	 * @return
+	 */
+	public static clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> TEMPconvertMeshToContainers(clsThingPresentationMesh poMesh) {
+		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oRetVal = null;
+		clsPrimaryDataStructureContainer oContainerA = null;
+		ArrayList<clsPrimaryDataStructureContainer> oContainerListB = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//1. Extract all images in the mesh
+		ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getAllTPMImages(poMesh, 1);
+		//2. For each Image
+		for (clsThingPresentationMesh oTPM : oTPMList) {
+			//2.1 Remove all AssPri in the external associations if the TPM is no RI or PI
+			if (((oTPM.getMoContentType().equals(eContentType.PI.toString())==false && oTPM.getMoContentType().equals(eContentType.RI.toString())==false))) {
+				//Go through external associations
+				ArrayList<clsAssociation> oRemoveObjectList  = new ArrayList<clsAssociation>();
+				for (clsAssociation oAss : oTPM.getExternalMoAssociatedContent()) {
+					if (oAss instanceof clsAssociationPrimary) {
+						oRemoveObjectList.add(oAss);
+					}
+				}
+				
+				//Remove objects from the list
+				for (clsAssociation oAss : oRemoveObjectList) {
+					oTPM.getExternalMoAssociatedContent().remove(oAss);
+				}
+			}
+			
+			//2.3 Convert the TPM-Image to a TI-Image
+			//Get all objects from the image
+//			ArrayList<clsPhysicalRepresentation> oInternalTPM = new ArrayList<clsPhysicalRepresentation>();
+//			for (clsAssociation oAss : oTPM.getMoAssociatedContent()) {
+//				oInternalTPM.add((clsThingPresentationMesh) oAss.getLeafElement());
+//			}
+			
+			//Create a new TI
+			clsTemplateImage oTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(oTPM.getMoDS_ID(), eDataType.TI, oTPM.getMoContentType()), new ArrayList<clsAssociation>(), oTPM.getMoContent());
+			//clsTemplateImage oTI = clsDataStructureGenerator.generateTI(new clsTriple<String, new ArrayList<clsPhysical>, Object>(oTPM.getMoContentType(), oInternalTPM, oTPM.getMoContent()));
+			
+			//Move all associations to the TI
+			ArrayList<clsAssociation> oContainerAssociationList = clsDataStructureTools.TEMPmoveAllAssociations(oTI, oTPM);
+			
+			//2.2 Create a list of external associations and transfer the current list to this list
+			//ArrayList<clsAssociation> oContainerAssociationList = new ArrayList<clsAssociation>();
+			//oContainerAssociationList.addAll(oTPM.getExternalMoAssociatedContent());
+			//for (clsAssociation oAss : oContainerAssociationList) {
+			///7	
+			//}
+			
+			//2.4 Create a container with the TI + ext. associations
+			clsPrimaryDataStructureContainer oContainer = new clsPrimaryDataStructureContainer(oTI, oContainerAssociationList);
+			
+			//2.5 If the image is a PI, set it as perception
+			if (oTI.getMoContentType().equals(eContentType.PI.toString())) {
+				oContainerA = oContainer;
+			//2.6 If the image is a RI, set it as associated memory
+			} else if (oTI.getMoContentType().equals(eContentType.RI.toString())) {
+				oContainerListB.add(oContainer);
+			}
+		}
+		
+		oRetVal = new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(oContainerA, oContainerListB);
+		
+
 		
 		return oRetVal;
 	}

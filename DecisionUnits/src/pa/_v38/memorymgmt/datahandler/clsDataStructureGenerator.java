@@ -179,12 +179,23 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
-	public static clsAssociation generateASSOCIATIONPRI(String poContentType, 
+	public static clsAssociationPrimary generateASSOCIATIONPRI(String poContentType, 
 			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, double prWeight) {
-		clsAssociation oRetVal=null;
+		clsAssociationPrimary oRetVal=null;
 		String oContentType = poContentType; 
 		
 		oRetVal = new clsAssociationPrimary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), (clsPrimaryDataStructure)poRoot, (clsPrimaryDataStructure)poLeaf);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	
+	public static clsAssociationTime generateASSOCIATIONTIME(String poContentType, 
+			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, double prWeight) {
+		clsAssociationTime oRetVal=null;
+		String oContentType = poContentType; 
+		
+		oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), (clsPrimaryDataStructure)poRoot, (clsPrimaryDataStructure)poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;

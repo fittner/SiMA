@@ -100,7 +100,28 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
 	}
 	
+	/**
+	 * Start the list search for a container as input
+	 *
+	 * @since 14.07.2011 16:12:29
+	 *
+	 * @param poReturnType
+	 * @param poDataContainerUnknown
+	 * @return
+	 */
+	public ArrayList<clsPair<Double, clsDataStructurePA>> searchDataMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel){
+		//Use Listsearch for containers
+		
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);}
+		
+		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
+	}
+	
+	public clsDataStructureContainer getMesh(clsDataStructurePA poInput) {
+		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+	}
+	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
-	//public abstract clsDataStructureContainer getDataCompleteStructureContainer(clsDataStructurePA poInput);
+	public abstract ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel);
 }

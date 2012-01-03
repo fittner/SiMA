@@ -20,7 +20,6 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -182,13 +181,13 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 								clsPrimaryDataStructureContainer oPIntentionContainer = oIntentionContainer.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
 								if (oPIntentionContainer!=null) {
 									//Calculate Total Affect value
-									clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
+									//clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
 									//Add with sort
-									int i = 0;
-									while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
-										i++;
-									}
-									oAffectEvaluatedContainers.add(i, oContainerAdd);
+									//int i = 0;
+									//while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
+									//	i++;
+									//}
+									//oAffectEvaluatedContainers.add(i, oContainerAdd);
 								}
 							}
 						}

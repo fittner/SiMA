@@ -285,4 +285,5 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		}
 		return oClone;
 	}
+
 }

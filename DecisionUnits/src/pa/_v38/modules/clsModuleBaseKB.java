@@ -168,6 +168,46 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			
 	}
 	
+	/**
+	 * Search function for datastructures, which matches the input structure. It will always return a list of data structures and a match factor. The specialized use is if
+	 * the data structure is a thing presentation mesh, which is a PI or RI.
+	 *
+	 * @since 29.06.2011 13:54:58
+	 *
+	 * @param <E>
+	 * @param poDataType
+	 * @param poPattern
+	 * @param poSearchResult
+	 * 
+	 */
+	public void searchMesh(clsDataStructurePA poPattern, ArrayList<clsPair<Double, clsDataStructurePA>> poSearchResult, String poSearchContentType, double prThreshold, int pnLevel) {
+
+		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
+		if (poPattern!=null)  {
+			
+			//FIXME AW: Make a better solution than renaming the content types at the search
+			String oInputContentType = poPattern.getMoContentType();
+			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
+			//in the search
+			poPattern.setMoContentType(poSearchContentType);
+			
+			clsPair<Integer, clsDataStructurePA> oSearchPattern = new clsPair<Integer, clsDataStructurePA>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
+			accessKnowledgeBaseMesh(poSearchResult, oSearchPattern, prThreshold, pnLevel); 
+			
+			//Set the old content type again...this is hack dirty bastard shit
+			poPattern.setMoContentType(oInputContentType);
+			
+			//Set IDs
+			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
+			//	clsDataStructureTools.createInstanceFromType(oPair.b);
+			//}
+			
+		} else {
+			poSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		}
+			
+	}
+	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -194,6 +234,20 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold) {
 		//AW 20110629: New function for searching one total container
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern, prThreshold));
+	}
+	
+	/**
+	 * Access knowledgebase with a container and not a clsDataStructurePA
+	 * 
+	 * @since 13.07.2011 13:47:08
+	 *
+	 * @param poSearchResult
+	 * @param poSearchPattern
+	 */
+	public void accessKnowledgeBaseMesh(ArrayList<clsPair<Double,clsDataStructurePA>> poSearchResult,
+			clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel) {
+		//AW 20110629: New function for searching one total container
+		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchMesh(poSearchPattern, prThreshold, pnLevel));
 	}
 	
 	

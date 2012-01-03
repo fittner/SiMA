@@ -19,14 +19,13 @@ import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -53,11 +52,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private static final int consumed_psychicEnergyPerInteration = 1;
 	
 	//AW 20110522: New inputs
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
@@ -117,10 +116,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
-		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
-		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
-		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		//text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);	
+		//text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
 		text += toText.valueToTEXT("moDrives", moDrives);		
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
 		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
@@ -136,9 +135,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_10(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer)poEnvironmentalPerception.clone();
-		moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_Input = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -167,9 +171,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// TODO (zeilinger) - Auto-generated method stub
 		
 		//AW 20110522: Input from perception
-		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;
+		try {
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		//AW 20110522: Input from associated memories
-		moAssociatedMemories_Output = moAssociatedMemories_Input;
+		//moAssociatedMemories_Output = moAssociatedMemories_Input;
 		
 		
 		// if there is enough psychic energy
@@ -296,19 +305,31 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private boolean searchInTP (String oContentType, String oContent) {
 		// search in perceptions
 		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
-		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
-			
-			// check a TP
-			if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
-				
-				// check the color
-				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-					if(((String) ((clsThingPresentation) oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
-						return true; 
-					}	
-				}	
-			}
+		
+		//Get a list of all attribute associations in a 
+		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
+		
+		//Association attribute are delivered here
+		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentType, oContent, true, 1);
+		if (oAttributeAss.isEmpty()==false) {
+			return true;
 		}
+		
+//		for(clsThingPresentationMesh oImage : oImages){
+//			
+//			
+//			
+//			// check a TP
+//			if(oImage instanceof clsThingPresentation){
+//				
+//				// check the color
+//				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+//					if(((String) ((clsThingPresentation) oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
+//						return true; 
+//					}	
+//				}	
+//			}
+//		}
 		return false;
 	}
 	
@@ -322,20 +343,28 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInTPM (String oContentType, String oContent) {
 		// search in perceptions
-		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
-			
-			// check a TPM
-			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
-				
-				// check if it is for example an ARSin
-				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
-						return true;
-					}	
-				}					
-			}
+		
+		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
+		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentType, oContent, true, 1);
+		
+		if (oTPMList.isEmpty()==false) {
+			return true;
 		}
+		
+//		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
+//			
+//			// check a TPM
+//			if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
+//				
+//				// check if it is for example an ARSin
+//				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+//					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
+//						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
+//						return true;
+//					}	
+//				}					
+//			}
+//		}
 		return false;
 	}
 
@@ -350,20 +379,28 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unused")
 	private boolean searchInTI (String oContentType, String oContent) {
 		// search in perceptions
-		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
-			
-			// check a TI
-			if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
-				
-				// check if it is for example an ARSin
-				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-					if(((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
-						return true;
-					}	
-				}					
-			}
+		
+		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 1);
+		ArrayList<clsThingPresentationMesh> oFilteredImages = clsDataStructureTools.FilterTPMList(oImages, null, oContent, true);
+		
+		if (oFilteredImages.isEmpty()==false) {
+			return true;
 		}
+		
+//		for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
+//			
+//			// check a TI
+//			if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
+//				
+//				// check if it is for example an ARSin
+//				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+//					if(((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
+//						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
+//						return true;
+//					}	
+//				}					
+//			}
+//		}
 		return false;
 	}
 
@@ -401,18 +438,21 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * 
 	 */
 	private boolean searchInAssociations (String oContentType, String oContent) {	
-		for(clsAssociation oAssociation : moEnvironmentalPerception_Output.getMoAssociatedDataStructures()){
-			// check a TMP
-			if(oAssociation.getMoAssociationElementA() instanceof clsThingPresentationMesh){
-				// check if it is for example an ARSin
-				if(oAssociation.getMoAssociationElementA().getMoContentType().equalsIgnoreCase(oContentType)){
-					if(((clsThingPresentationMesh)oAssociation.getMoAssociationElementA()).getMoContent().equalsIgnoreCase(oContent)){
-						return true;
-					}	
-				}					
-			}
-		}
-		return false;
+		
+		return searchInTPM(oContentType, oContent);
+		
+//		for(clsAssociation oAssociation : moEnvironmentalPerception_Output.getMoAssociatedDataStructures()){
+//			// check a TMP
+//			if(oAssociation.getMoAssociationElementA() instanceof clsThingPresentationMesh){
+//				// check if it is for example an ARSin
+//				if(oAssociation.getMoAssociationElementA().getMoContentType().equalsIgnoreCase(oContentType)){
+//					if(((clsThingPresentationMesh)oAssociation.getMoAssociationElementA()).getMoContent().equalsIgnoreCase(oContent)){
+//						return true;
+//					}	
+//				}					
+//			}
+//		}
+//		return false;
 	}
 	
 
@@ -426,7 +466,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_13(moForbiddenDrives, moDrives); 
-		send_I5_11(moForbiddenPerceptions, moEnvironmentalPerception_Output, moAssociatedMemories_Output); 
+		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT); 
 	}
 
 	/* (non-Javadoc)
@@ -502,9 +542,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poEnvironmentalPerception, poAssociatedMemories);
+	public void send_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh);
 		
-		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poEnvironmentalPerception, poAssociatedMemories);
+		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh);
 	}
 }

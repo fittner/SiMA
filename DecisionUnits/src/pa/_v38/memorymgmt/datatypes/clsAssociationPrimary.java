@@ -92,5 +92,31 @@ public class clsAssociationPrimary extends clsAssociation{
 			return null;
 		}
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 03.01.2012 20:02:03
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.clsAssociation#setLeafElement(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void setLeafElement(clsDataStructurePA poDS) {
+		moAssociationElementB = poDS;
+		// TODO (wendt) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 03.01.2012 20:02:03
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.clsAssociation#setRootElement(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public void setRootElement(clsDataStructurePA poDS) {
+		moAssociationElementA = poDS;
+		// TODO (wendt) - Auto-generated method stub
+		
+	}
 	
 }

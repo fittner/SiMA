@@ -6,9 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 
 
@@ -20,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface D2_1_send {
-	public void send_D2_1(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories);
+	public void send_D2_1(clsThingPresentationMesh poData);
 }

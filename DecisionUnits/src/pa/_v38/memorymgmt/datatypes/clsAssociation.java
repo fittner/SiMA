@@ -7,7 +7,9 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -141,6 +143,10 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	public abstract clsDataStructurePA getLeafElement();
 	
 	public abstract clsDataStructurePA getRootElement();
+	
+	public abstract void setLeafElement(clsDataStructurePA poDS);
+	
+	public abstract void setRootElement(clsDataStructurePA poDS);
 		
 	@Override
 	public Object clone() throws CloneNotSupportedException {
@@ -219,6 +225,85 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	    } 
 		
 	    return oClone;
+	}
+	
+	public Object cloneGraph(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+		clsAssociation oClone = null;
+		
+		//Clone the association itself
+	    try { 
+	    	//Clone the clsDataStructurePA for this association
+	    	oClone = (clsAssociation) super.clone(); 
+	    } catch (CloneNotSupportedException e) { 
+	    	throw e; 
+	    } catch (Exception e) {
+	    	
+	    }
+	    
+	    //Clone elementA
+	    try {
+	      	if (this.moAssociationElementA.equals(poOriginalObject)) {
+	    		//If the element A is the origin element, set the clone as association for A
+	    		oClone.moAssociationElementA = (clsDataStructurePA) poClonedObject;
+	    	} else {
+	    		//Check if element B exists in the list
+	    		boolean bElementFound = false;
+	    		for (clsPair<clsDataStructurePA, clsDataStructurePA> oObjectPair : poClonedNodeList) {
+	    			if (this.moAssociationElementA.equals(oObjectPair.a)==true) {
+	    				oClone.moAssociationElementA = oObjectPair.b;
+	    				bElementFound=true;
+	    				break;
+	    			}
+	    		}
+	    		
+	    		//Check if structure was not found
+	    		if (bElementFound==false) {
+	    			//The element was found in the list, only add its clone then
+	    			Class<?> clzz = this.moAssociationElementA.getClass();
+	    			Class[] argTypes = {Class.forName("java.util.ArrayList")};
+	    			Method cloneGraphExtended = clzz.getDeclaredMethod("cloneGraph", argTypes);
+	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementB, poClonedNodeList);
+					//Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
+					oClone.moAssociationElementA = (clsDataStructurePA) newDuplicate; // unchecked warning
+	    		}
+	    	}
+	    } catch (Exception e) {
+	    	
+	    }
+	    
+	    //Clone ElementB
+	    try {
+	      	if (this.moAssociationElementB.equals(poOriginalObject)) {
+	    		//If the element A is the origin element, set the clone as association for A
+	    		oClone.moAssociationElementB = (clsDataStructurePA) poClonedObject;
+	    	} else {
+	    		//Check if element B exists in the list
+	    		boolean bElementFound = false;
+	    		for (clsPair<clsDataStructurePA, clsDataStructurePA> oObjectPair : poClonedNodeList) {
+	    			if (this.moAssociationElementB.equals(oObjectPair.a)==true) {
+	    				oClone.moAssociationElementB = oObjectPair.b;
+	    				bElementFound=true;
+	    				break;
+	    			}
+	    		}
+	    		
+	    		//Check if structure was not found
+	    		if (bElementFound==false) {
+	    			//The element was found in the list, only add its clone then
+	    			Class<?> clzz = this.moAssociationElementB.getClass();
+	    			Class[] argTypes = {Class.forName("java.util.ArrayList")};
+	    			Method cloneGraphExtended = clzz.getDeclaredMethod("cloneGraph", argTypes);
+	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementB, poClonedNodeList);
+		    		//Method   meth = clzz.getMethod("cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList)", argTypes);
+					//Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);
+					oClone.moAssociationElementB = (clsDataStructurePA) newDuplicate; // unchecked warning
+	    		}
+	    	}
+	    } catch (Exception e) {
+	    	
+	    }
+		
+		return oClone;
 	}
 	
 	@Override

@@ -20,15 +20,14 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -46,11 +45,13 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public static final String P_MODULENUMBER = "19";
 	
 	//AW 20110522: New inputs
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
+	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Input;
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
+	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Output;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
 	private ArrayList<clsPair<String, String>> moForbiddenPerceptions_Input;
 	
@@ -103,10 +104,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("moEnvironmentalPerception_Input", moEnvironmentalPerception_Input);
-		text += toText.valueToTEXT("moEnvironmentalPerception_Output", moEnvironmentalPerception_Output);
-		text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);
-		text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		//text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);
+		//text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
 		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
@@ -167,10 +168,15 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_Input = (clsPrimaryDataStructureContainer) poEnvironmentalPerception.clone();
+	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		//FIXME AW 20110522: Why is this warning present???
-		moAssociatedMemories_Input   = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
+		//moAssociatedMemories_Input   = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 		
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 	}
@@ -200,8 +206,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	protected void process_basic() {
 		
-		moEnvironmentalPerception_Output = moEnvironmentalPerception_Input;		
-		moAssociatedMemories_Output      = moAssociatedMemories_Input;
+		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;		
+		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
 		
 		deny_perception (moForbiddenPerceptions_Input);
 		
@@ -217,7 +223,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 */
 	private void deny_perception (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
-
+		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
 		
@@ -227,63 +233,87 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			String oContent     = oOneForbiddenPerception.b;
 			
 			int i = 0;
+			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
-			for(clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_Output){
-				
-				// check a TPM
-				if(oContainer.getMoDataStructure() instanceof clsThingPresentationMesh){
-					
-					// check if it is for example an ARSin
-					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-							
-							// perception found
-						    break;
-						}	
-					}					
-				}
+			//Get all images and objects in the mesh
+			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
+			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentType, oContent, true, 1);
+			if (oTPMList.isEmpty()==false) {
+				oFoundObject = oTPMList.get(0);
+			}
+			
+//			for(clsThingPresentationMesh oContainer : oImages){
+//				
+//				// check a TPM
+//				if(oContainer instanceof clsThingPresentationMesh){
+//					
+//					// check if it is for example an ARSin
+//					if(oContainer.getMoContentType().equalsIgnoreCase(oContentType)){
+//						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
+//							
+//							// perception found
+//						    break;
+//						}	
+//					}					
+//				}
 				
 				// or oContainer can contain a thing-presentation
 				// in this case
 				// check a TP
-				else if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
-					
-					// check if it is for example an ARSin
-					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-						if(((String) ((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
-							
-							// perception found
-						    break;
-						}	
-					}					
-				}
+			
+			//The attribute list is clsAssociationAttribute
+			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentType, oContent, true, 1);
+			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
+			if (oAttributeList.isEmpty()==false) {
+				oFoundObject = oAttributeList.get(0);
+			}
+				
+//			else if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
+//					
+//					// check if it is for example an ARSin
+//					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+//						if(((String) ((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
+//							
+//							// perception found
+//						    break;
+//						}	
+//					}					
+//				}
 				
 				
 				// or oContainer can contain a template image
 				// in this case
 				// check a TI
-				else if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
-					
-					// check if it is for example an ARSin
-					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-						if(((String) ((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
-							
-							// perception found
-						    break;
-						}	
-					}					
-				}
+//				else if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
+//					
+//					// check if it is for example an ARSin
+//					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
+//						if(((String) ((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
+//							
+//							// perception found
+//						    break;
+//						}	
+//					}					
+//				}
 				
-				i++;
+//				i++;
 				
-			}
+		//	}	
+		
+		// if Perception found -->	
+		if (oFoundObject!=null) {
+			//Delete object from the perception
 			
-			// if Perception found -->	
-			if (i < moAssociatedMemories_Output.size()) {				
-				// --> remove Perception i from output list
-				moAssociatedMemories_Output.remove(i);
-			}
+			//TODO AW: Implement this function. It is not implemented yet!!!!!!!
+			clsDataStructureTools.deleteObjectInMesh(moPerceptionalMesh_OUT, oFoundObject);
+		}
+		
+		
+//			if (i < moAssociatedMemories_Output.size()) {				
+//				// --> remove Perception i from output list
+//				moAssociatedMemories_Output.remove(i);
+//			}
 		}
 	}
 
@@ -322,18 +352,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 *
 	 * @return
 	 */
-	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+	private ArrayList<clsThingPresentationMesh> initialFillRepressedContent() {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+		ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
 		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
-		clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
+		//clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
 		
-		searchContainer(oPattern, oSearchResult, "IMAGE:REPRESSED", 0);
+		searchMesh(newTI, oSearchResult, "IMAGE:REPRESSED", 0, 1);
 		
-		for (clsPair<Double, clsDataStructureContainer> oPair : oSearchResult) {
-			oRetVal.add((clsPrimaryDataStructureContainer) oPair.b);
+		for (clsPair<Double, clsDataStructurePA> oPair : oSearchResult) {
+			oRetVal.add((clsThingPresentationMesh) oPair.b);
 		}
 		
 		return oRetVal;
@@ -350,7 +380,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I5_15(moEnvironmentalPerception_Output, moAssociatedMemories_Output);
+		send_I5_15(moPerceptionalMesh_OUT);
 		send_I5_16(moDeniedAffects);
 	}
 	
@@ -362,9 +392,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.send.I2_10_send#send_I2_10(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poEnvironmentalPerception, poAssociatedMemories);
-		putInterfaceData(I5_15_send.class, poEnvironmentalPerception, poAssociatedMemories);
+	public void send_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
+		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poPerceptionalMesh);
+		putInterfaceData(I5_15_send.class, poPerceptionalMesh);
 		
 	}
 

@@ -25,6 +25,7 @@ import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -60,9 +61,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			I5_15_receive, I6_9_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
 	
-	/** A perceived image */
+	/** Perception IN */
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
+	
+	/** Perception OUT */
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	
+	/** TEMP A perceived image */
 	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
-	/** Associated memories */
+	/** TEMP Associated memories */
 	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	
@@ -167,9 +174,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_15(clsPrimaryDataStructureContainer poEnvironmentalPerception, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poEnvironmentalPerception.clone();
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 
 	/* (non-Javadoc)
@@ -181,6 +193,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//FIXME AW: This is only a temp function to convert a mesh into the old structure
+		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oPerceptionIN = clsDataStructureConverter.TEMPconvertMeshToContainers(moPerceptionalMesh_IN);
+		moEnvironmentalPerception_IN = oPerceptionIN.a;
+		moAssociatedMemories_IN = oPerceptionIN.b;
+		
 		//FIXME AW: Why is this initialized here?
 		moTemporaryDM = new HashMap<Integer, clsDriveMesh>(); 
 		//moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 

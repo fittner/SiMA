@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.modules.eImplementationStage;
@@ -154,7 +155,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 * @see pa.interfaces.I2_9#receive_I2_9(int)
 	 */
 	@Override
-	public void receive_I5_10(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	public void receive_I5_10(clsThingPresentationMesh moPerceptionalMesh_IN) {
 		
 		//DEEPCOPY
 	}
@@ -306,8 +307,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	@Override
 	public void send_I5_11(
 			ArrayList<clsPair<String, String>> poForbiddenPerceptions,
-			clsPrimaryDataStructureContainer poEnvironmentalPerception,
-			ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+			clsThingPresentationMesh poPerceptionalMesh) {
 		// 
 		
 	}

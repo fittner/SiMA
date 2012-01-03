@@ -10,11 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsSpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
@@ -120,7 +121,7 @@ public abstract class clsDataStructureComparison {
 	
 			clsDataStructureContainer oCompareContainer = getCompleteContainer(oCompareElement, poSearchSpaceHandler);
 			
-			double oMatch = clsSpatialTools.getImageMatch((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oCompareContainer);
+			double oMatch = 0.0; //clsSpatialTools.getImageMatch((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oCompareContainer);
 			//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
 		
 			if (oMatch < prThreshold)
@@ -144,6 +145,79 @@ public abstract class clsDataStructureComparison {
 		//TODO AW: Sort the output list
 		return oRetVal;
 	}
+	
+	
+	/**
+	 * Get matches for one input datastructure, which may be an image. A list with the activated containers and their match 
+	 * factors are returned
+	 *
+	 * @since 14.07.2011 16:06:16
+	 *
+	 * @param poSearchSpaceHandler
+	 * @param poContainerUnknown
+	 * @return
+	 */
+	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(
+			clsSearchSpaceHandler poSearchSpaceHandler,
+			clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
+		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		ArrayList<clsPair<Double, clsDataStructurePA>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		//Get searchspace
+		clsSearchSpaceBase poSearchSpace = poSearchSpaceHandler.returnSearchSpace();
+		//Get all objects of a certain type
+		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
+											= poSearchSpace.returnSearchSpaceTable().get(poDSUnknown.getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
+		
+		//Get Searchspace for a certain datatype
+		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getMoContentType());
+		
+		//Check, which search depth is used. 
+		//FIXME AW: ONLY Level 1 is allowed in this search.
+		//TODO AW: Allow Level 0
+		
+		if (pnLevel==2) {
+			//For each template image in the storage compare with the input image
+			//1. First search to get all matches
+			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
+				clsDataStructurePA oCompareElement = oEntry.getValue().a;
+				
+				//FIXME: Allow other values than TPMs
+				if (oCompareElement instanceof clsThingPresentationMesh) {
+					clsThingPresentationMesh oCompareStructure = getCompleteMesh((clsThingPresentationMesh) oCompareElement, poSearchSpaceHandler, pnLevel);
+					
+					double oMatch = clsSpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oCompareStructure);
+					//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
+				
+					if (oMatch < prThreshold)
+						continue;
+					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
+					int i = 0;
+					while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
+						i++;
+					}
+					
+					//Set moInstanceID for all structures in the container
+					//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
+					//clsDataStructureTools.createInstanceFromType(oCompareContainer);
+					//Add results
+					oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructurePA>(oMatch, oCompareStructure));
+				}
+			}
+			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
+			oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poDSUnknown, mrBestMatchThreshold, mrAssociationMaxValue));			
+		} else {
+			//return nothing
+		}
+		
+		
+		
+		//3. Sort the list
+		//TODO AW: Sort the output list
+		return oRetVal;
+	}
+	
+	
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -208,11 +282,102 @@ public abstract class clsDataStructureComparison {
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 03.08.2011 14:27:59
+	 *
+	 * @param poInputList
+	 * @param poContainerUnknown
+	 * @param prBestResultsThreshold
+	 * @param prCorrectFactor
+	 * @return
+	 */
+	private static ArrayList<clsPair<Double, clsDataStructurePA>> compareBestResults(ArrayList<clsPair<Double, clsDataStructurePA>> poInputList, 
+			clsDataStructurePA poContainerUnknown, double prBestResultsThreshold, double prAssociationMaxValue) {
+		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		double rMaxMatchValue = 0.0;
+		
+		ArrayList<clsPair<Double, clsDataStructurePA>> oBestResults = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		ArrayList<clsPair<Double, clsDataStructurePA>> oOtherResults = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		//Get all best results
+		for (clsPair<Double, clsDataStructurePA> oPair : poInputList) {
+			//1. Search for all values, which are >= prBestResultsThreshold
+			if (oPair.a >= prBestResultsThreshold) {
+				//2. Get the number of found associations in the image for that RI
+				double rMatch = (double)countMatchAssociations((clsThingPresentationMesh)oPair.b);
+				//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)poContainerUnknown, (clsPrimaryDataStructureContainer)oPair.b, false);	//Strong matching deactivated
+				
+				//Sort the list
+				int i = 0;
+				while ((i < oBestResults.size()) && (rMatch < oBestResults.get(i).a)) {
+					i++;
+				}
+				//Add the new container, sorted
+ 				oBestResults.add(i, new clsPair<Double, clsDataStructurePA>(rMatch, oPair.b));
+			} else {
+				oOtherResults.add(oPair);
+			}
+		}
+		
+		//3. Norm the values to the max match value
+		if (oBestResults.size()>1) {
+			//If there is only one 1.0 match nothing has to be done
+			//3a. Get the first value with the highest match if there are any matches
+			rMaxMatchValue = oBestResults.get(0).a;
+			
+			for (clsPair<Double, clsDataStructurePA> oBestPair : oBestResults) {
+				//3b. Calculate the new Matchvalue acc. formula
+				double rNewMatchValue = calculateBestMatchValue(oBestPair.a, prBestResultsThreshold, prAssociationMaxValue, rMaxMatchValue);
+				//3c. Set the new match value
+				oBestPair.a = rNewMatchValue;
+			}
+			//4. Merge the lists
+			oRetVal.addAll(oBestResults);
+			oRetVal.addAll(oOtherResults);
+		} else {
+			//4b. Take the input list
+			oRetVal.addAll(poInputList);
+		}
+	
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.12.2011 17:31:01
+	 *
+	 * @param poRIContainer
+	 * @return
+	 */
 	private static int countMatchAssociations(clsPrimaryDataStructureContainer poRIContainer) {
 		int nRetVal = 0;
 		
 		for (clsAssociation oAss : poRIContainer.getMoAssociatedDataStructures()) {
-			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals("MATCHASSOCIATION")==true)) {
+			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION.toString())==true)) {
+				nRetVal++;
+			}
+		}
+		
+		return nRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 05.12.2011 17:31:04
+	 *
+	 * @param poRIContainer
+	 * @return
+	 */
+	private static int countMatchAssociations(clsThingPresentationMesh poRI) {
+		int nRetVal = 0;
+		
+		for (clsAssociation oAss : poRI.getExternalMoAssociatedContent()) {
+			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION.toString())==true)) {
 				nRetVal++;
 			}
 		}
@@ -363,6 +528,70 @@ public abstract class clsDataStructureComparison {
 	}
 	
 	/**
+	 * Get a whole mesh from a data structure including all associated structures in its associated structures
+	 * AW
+	 * 
+	 * 
+	 * @since 20.07.2011 02:00:14
+	 *
+	 * @param poInput
+	 * @param poSearchSpaceHandler
+	 * @return
+	 * @throws CloneNotSupportedException 
+	 */
+	public static clsThingPresentationMesh getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
+		
+		clsThingPresentationMesh oRetVal = null;
+		
+		//Readoutsearchspace searches everything with a certain moDSID
+		//Everything shall be returned
+		//A special case of the searchspace was used
+		
+		//Create Container for the DataStructure		
+		//clsThingPresentationMesh oCompareStructure = null;	//DS PA, as both primary and secondary composition structures are allowed
+		
+		//Check if that data structure can be found in the database, else return null
+		if (poInput.getMoDS_ID()>0 && poInput instanceof clsThingPresentationMesh) {
+			//pnLevel MUST be at least 1, else no substructures are searched
+			if (pnLevel >0) {
+				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsPhysicalRepresentation)poInput));
+				
+				try {
+					oRetVal = (clsThingPresentationMesh) poInput.cloneGraph();
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				oRetVal.setMoExternalAssociatedContent(oAssList);
+				//Add associations from intrinsic structures
+				for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
+					//Recursive function
+					if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+						clsThingPresentationMesh oSubMesh = getCompleteMesh((clsThingPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
+						if (oSubMesh!=null) {
+							//Get the extended structures from the searched one and add them to the TPM
+							((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
+						}
+					}
+				}
+			} 
+		}
+		
+		//Remove duplicate structures
+		//if (oCompareContainer!=null) {
+		//	oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
+		//}
+		//Set moInstanceID for all structures in the container
+		//clsDataStructureTools.createInstanceFromType(oCompareContainer);
+		
+		
+		return oRetVal;
+	}
+	
+	
+	/**
 	 * Remove duplicates in an arraylist and also non belongen associations of the containers.
 	 * AW
 	 *
@@ -437,152 +666,276 @@ public abstract class clsDataStructureComparison {
 		return oRetVal;
 	}
 	
-	/**
-	 * Start the compareTIContainerInclDM and return only the data structures and not the matched DM associations
-	 *
-	 * @since 14.07.2011 16:16:47
-	 *
-	 * @param poBlockedContent
-	 * @param poPerceivedContent
-	 * @return
-	 */
-	private static double compareTIContainer(clsPrimaryDataStructureContainer poBlockedContent,
-			clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
-		double rRetVal = 0;
-		clsPair<Double, ArrayList<clsAssociationDriveMesh>> oPair = compareTIContainerInclDM(poBlockedContent, poPerceivedContent, pbStrongMatch);
-		rRetVal = oPair.a;
-		
-		return rRetVal;
-		
-	}
+//	/**
+//	 * Start the compareTIContainerInclDM and return only the data structures and not the matched DM associations
+//	 *
+//	 * @since 14.07.2011 16:16:47
+//	 *
+//	 * @param poBlockedContent
+//	 * @param poPerceivedContent
+//	 * @return
+//	 */
+//	private static double compareTIContainer(clsPrimaryDataStructureContainer poBlockedContent,
+//			clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
+//		double rRetVal = 0;
+//		clsPair<Double, ArrayList<clsAssociationDriveMesh>> oPair = compareTIContainerInclDM(poBlockedContent, poPerceivedContent, pbStrongMatch);
+//		rRetVal = oPair.a;
+//		
+//		return rRetVal;
+//		
+//	}
 	
-	/**
-	 * Calculates the match between two containers containing TemplateImages.<br>
-	 * <br>
-	 * Returns the quality of the match and a list that contains associations
-	 * between any DMs in the blockedContent and the matching items in the
-	 * perceivedContent. The second part of the result is done here because it is
-	 * way more efficient to create those associations "on the fly" while
-	 * comparing the items than to later extract the DMs from a matching content
-	 * and find their correct "targets" in the perception - which would
-	 * essentially require a second match algorithm.<br>
-	 * <br>
-	 * - Quality of the match is the sum of the quality of the matches of the items
-	 * in the (blocked) TI divided by the total number of items.<br>
-	 * - Quality of the match of ThingPresentationMeshes is determined by comparing
-	 * the moContent (20%), intrinsic properties (moAssociatedData of the items)
-	 * (40%) and extrinsic properties (moAssociatedDataStructures in the
-	 * container) (40%).<br>
-	 * - Quality of the match of ThingPresentations is either 1 or 0.
-	 *
-	 * @author Zottl Marcus (e0226304),
-	 * 22.06.2011, 20:08:11
-	 *
-	 * @param poBlockedContent		- the item from the blockedContentStorage for
-	 * which the match quality should be calculated.
-	 * @param poPerceivedContent	- the perception to compare the
-	 * <i>blockedContent</i> to
-	 * @return									- a clsPair with A the quality of the match 
-	 * (double) and B = a list of Associations between DMs in <i>blockedContent</i>
-	 * and their matching "partners" in the perception 
-	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
-	 * 
-	 * @see DT2_BlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
-	 * @see DT2_BlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
-	 */
+//	/**
+//	 * Calculates the match between two containers containing TemplateImages.<br>
+//	 * <br>
+//	 * Returns the quality of the match and a list that contains associations
+//	 * between any DMs in the blockedContent and the matching items in the
+//	 * perceivedContent. The second part of the result is done here because it is
+//	 * way more efficient to create those associations "on the fly" while
+//	 * comparing the items than to later extract the DMs from a matching content
+//	 * and find their correct "targets" in the perception - which would
+//	 * essentially require a second match algorithm.<br>
+//	 * <br>
+//	 * - Quality of the match is the sum of the quality of the matches of the items
+//	 * in the (blocked) TI divided by the total number of items.<br>
+//	 * - Quality of the match of ThingPresentationMeshes is determined by comparing
+//	 * the moContent (20%), intrinsic properties (moAssociatedData of the items)
+//	 * (40%) and extrinsic properties (moAssociatedDataStructures in the
+//	 * container) (40%).<br>
+//	 * - Quality of the match of ThingPresentations is either 1 or 0.
+//	 *
+//	 * @author Zottl Marcus (e0226304),
+//	 * 22.06.2011, 20:08:11
+//	 *
+//	 * @param poBlockedContent		- the item from the blockedContentStorage for
+//	 * which the match quality should be calculated.
+//	 * @param poPerceivedContent	- the perception to compare the
+//	 * <i>blockedContent</i> to
+//	 * @return									- a clsPair with A the quality of the match 
+//	 * (double) and B = a list of Associations between DMs in <i>blockedContent</i>
+//	 * and their matching "partners" in the perception 
+//	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
+//	 * 
+//	 * @see DT2_BlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
+//	 * @see DT2_BlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
+//	 */
+//	
+//	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(clsPrimaryDataStructureContainer poBlockedContent, clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
+//
+//		clsTemplateImage oBlockedTI = (clsTemplateImage) poBlockedContent.getMoDataStructure();
+//		clsTemplateImage oPerceivedTI = (clsTemplateImage) poPerceivedContent.getMoDataStructure();
+//		double oMatchValueTI = 0.0;
+//		int oElemCountTI = oBlockedTI.getMoAssociatedContent().size();
+//		double oMatchSumElements = 0.0;
+//		ArrayList<clsAssociationDriveMesh> oNewDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
+//		
+//		// for each element of the blockedContent, find the !best! matching element
+//		// in the perceivedContent
+//		for (clsAssociation blockedTIContent : oBlockedTI.getMoAssociatedContent()) {
+//			double bestMatchValue = 0.0;
+//			ArrayList<clsAssociationDriveMesh> bestMatchDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
+//			for (clsAssociation perceivedTIContent : oPerceivedTI.getMoAssociatedContent()) {
+//				if ((blockedTIContent.getLeafElement() instanceof clsThingPresentationMesh) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsThingPresentationMesh)) {
+//					clsThingPresentationMesh blockedTPM = (clsThingPresentationMesh)blockedTIContent.getLeafElement();
+//					clsThingPresentationMesh perceivedTPM = (clsThingPresentationMesh)perceivedTIContent.getLeafElement();
+//					if (perceivedTPM.getMoContentType() == blockedTPM.getMoContentType()) {
+//						double matchValContent = 0.0;
+//						// first see if the contents match
+//						if (perceivedTPM.getMoContent() == blockedTPM.getMoContent()) {
+//							matchValContent = 1.0;
+//						}
+//						// now check how well the intrinsic properties match
+//						double matchValIntrinsic = 
+//							getAssocAttributeMatch(blockedTPM.getMoAssociatedContent(), perceivedTPM.getMoAssociatedContent(), matchValContent);
+//						// only check the extrinsic properties if the content matches!
+//						double matchValExtrinsic = 0.0;
+//						if (matchValContent == 1.0){
+//							matchValExtrinsic = 
+//								getAssocAttributeMatch(poBlockedContent.getMoAssociatedDataStructures(blockedTPM), poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
+//						}
+//						// combine values to calculate overall match of a TPM. Weights are arbitrary!
+//						
+//						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, pbStrongMatch);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
+//						
+//						// store best element match so far, because we need to find the highest matching element
+//						if (matchValCombined > bestMatchValue) {
+//							bestMatchValue = matchValCombined;
+//							/* In case the overall matchValueTI is 1 we need to associate all
+//							 * DMs from the blockedContent with the perceivedContent. Since
+//							 * the DMs are not associated with the whole TI but with one of 
+//							 * its elements, we need to create new associations between the 
+//							 * DMs and the matching elements in the perceivedContent. If we do
+//							 * not want to find the correct new roots those DMs in an
+//							 * additional matching algorithm, we have to acquire them now! 
+//							 */
+//							bestMatchDriveMeshAssociations = 
+//								createNewDMAssociations(perceivedTPM, 
+//										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
+//							//If a perfect match is made, then break, as no more comparison is necessary
+//							if (bestMatchValue==1.0) {
+//								break;
+//							}
+//						}
+//					}
+//				}
+//				else if ((blockedTIContent.getLeafElement() instanceof clsThingPresentation) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsThingPresentation)) {
+//					clsThingPresentation blockedTP = (clsThingPresentation)blockedTIContent.getLeafElement();
+//					clsThingPresentation perceivedTP = (clsThingPresentation)perceivedTIContent.getLeafElement();
+//
+//					if((perceivedTP.getMoContentType() == blockedTP.getMoContentType()) &&
+//							(perceivedTP.getMoContent() == blockedTP.getMoContent())) {
+//						// we have found a match! No need to check anything else since TPs don't have any associatedContents
+//						bestMatchValue = 1;
+//						break; // since a TP match is simply 1 or 0 we just take the first match we find
+//					}
+//				}
+//				else if ((blockedTIContent.getLeafElement() instanceof clsTemplateImage) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsTemplateImage)) {
+//					//TODO matching of TIs nested inside a TI if this ever becomes necessary
+//				}
+//			}
+//			// best matchValue is added to the sum of matchValues and related
+//			// associations are added to the result
+//			oMatchSumElements += bestMatchValue;
+//			oNewDriveMeshAssociations.addAll(bestMatchDriveMeshAssociations);
+//		}
+//		// matchValue of two TIs is the average matchValue of their contents/elements or zero if the TI is empty (should not happen)
+//		if (oElemCountTI != 0) {
+//			oMatchValueTI = oMatchSumElements / oElemCountTI;
+//		}
+//		else {
+//			oMatchValueTI = 0;
+//		}
+//		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
+//	}
+//	
+//	/**
+//	 * Calculates the match between two containers containing TemplateImages.<br>
+//	 * <br>
+//	 * Returns the quality of the match and a list that contains associations
+//	 * between any DMs in the blockedContent and the matching items in the
+//	 * perceivedContent. The second part of the result is done here because it is
+//	 * way more efficient to create those associations "on the fly" while
+//	 * comparing the items than to later extract the DMs from a matching content
+//	 * and find their correct "targets" in the perception - which would
+//	 * essentially require a second match algorithm.<br>
+//	 * <br>
+//	 * - Quality of the match is the sum of the quality of the matches of the items
+//	 * in the (blocked) TI divided by the total number of items.<br>
+//	 * - Quality of the match of ThingPresentationMeshes is determined by comparing
+//	 * the moContent (20%), intrinsic properties (moAssociatedData of the items)
+//	 * (40%) and extrinsic properties (moAssociatedDataStructures in the
+//	 * container) (40%).<br>
+//	 * - Quality of the match of ThingPresentations is either 1 or 0.
+//	 *
+//	 * @author Zottl Marcus (e0226304),
+//	 * 22.06.2011, 20:08:11
+//	 *
+//	 * @param poBlockedContent		- the item from the blockedContentStorage for
+//	 * which the match quality should be calculated.
+//	 * @param poPerceivedContent	- the perception to compare the
+//	 * <i>blockedContent</i> to
+//	 * @return									- a clsPair with A the quality of the match 
+//	 * (double) and B = a list of Associations between DMs in <i>blockedContent</i>
+//	 * and their matching "partners" in the perception 
+//	 * (ArrayList&lt;clsAssociationDriveMesh&gt;)
+//	 * 
+//	 * @see DT2_BlockedContentStorage#getAssocAttributeMatch(ArrayList, ArrayList, double)
+//	 * @see DT2_BlockedContentStorage#createNewDMAssociations(clsPrimaryDataStructure, ArrayList)
+//	 */
 	
-	public static clsPair<Double, ArrayList<clsAssociationDriveMesh>> compareTIContainerInclDM(
-			clsPrimaryDataStructureContainer poBlockedContent,
-			clsPrimaryDataStructureContainer poPerceivedContent, boolean pbStrongMatch) {
-
-		clsTemplateImage oBlockedTI = (clsTemplateImage) poBlockedContent.getMoDataStructure();
-		clsTemplateImage oPerceivedTI = (clsTemplateImage) poPerceivedContent.getMoDataStructure();
-		double oMatchValueTI = 0.0;
-		int oElemCountTI = oBlockedTI.getMoAssociatedContent().size();
-		double oMatchSumElements = 0.0;
-		ArrayList<clsAssociationDriveMesh> oNewDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
-		
-		// for each element of the blockedContent, find the !best! matching element
-		// in the perceivedContent
-		for (clsAssociation blockedTIContent : oBlockedTI.getMoAssociatedContent()) {
-			double bestMatchValue = 0.0;
-			ArrayList<clsAssociationDriveMesh> bestMatchDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
-			for (clsAssociation perceivedTIContent : oPerceivedTI.getMoAssociatedContent()) {
-				if ((blockedTIContent.getLeafElement() instanceof clsThingPresentationMesh) &&
-						(perceivedTIContent.getLeafElement() instanceof clsThingPresentationMesh)) {
-					clsThingPresentationMesh blockedTPM = (clsThingPresentationMesh)blockedTIContent.getLeafElement();
-					clsThingPresentationMesh perceivedTPM = (clsThingPresentationMesh)perceivedTIContent.getLeafElement();
-					if (perceivedTPM.getMoContentType() == blockedTPM.getMoContentType()) {
-						double matchValContent = 0.0;
-						// first see if the contents match
-						if (perceivedTPM.getMoContent() == blockedTPM.getMoContent()) {
-							matchValContent = 1.0;
-						}
-						// now check how well the intrinsic properties match
-						double matchValIntrinsic = 
-							getAssocAttributeMatch(blockedTPM.getMoAssociatedContent(), perceivedTPM.getMoAssociatedContent(), matchValContent);
-						// only check the extrinsic properties if the content matches!
-						double matchValExtrinsic = 0.0;
-						if (matchValContent == 1.0){
-							matchValExtrinsic = 
-								getAssocAttributeMatch(poBlockedContent.getMoAssociatedDataStructures(blockedTPM), poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
-						}
-						// combine values to calculate overall match of a TPM. Weights are arbitrary!
-						
-						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, pbStrongMatch);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
-						
-						// store best element match so far, because we need to find the highest matching element
-						if (matchValCombined > bestMatchValue) {
-							bestMatchValue = matchValCombined;
-							/* In case the overall matchValueTI is 1 we need to associate all
-							 * DMs from the blockedContent with the perceivedContent. Since
-							 * the DMs are not associated with the whole TI but with one of 
-							 * its elements, we need to create new associations between the 
-							 * DMs and the matching elements in the perceivedContent. If we do
-							 * not want to find the correct new roots those DMs in an
-							 * additional matching algorithm, we have to acquire them now! 
-							 */
-							bestMatchDriveMeshAssociations = 
-								createNewDMAssociations(perceivedTPM, 
-										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
-							//If a perfect match is made, then break, as no more comparison is necessary
-							if (bestMatchValue==1.0) {
-								break;
-							}
-						}
-					}
-				}
-				else if ((blockedTIContent.getLeafElement() instanceof clsThingPresentation) &&
-						(perceivedTIContent.getLeafElement() instanceof clsThingPresentation)) {
-					clsThingPresentation blockedTP = (clsThingPresentation)blockedTIContent.getLeafElement();
-					clsThingPresentation perceivedTP = (clsThingPresentation)perceivedTIContent.getLeafElement();
-
-					if((perceivedTP.getMoContentType() == blockedTP.getMoContentType()) &&
-							(perceivedTP.getMoContent() == blockedTP.getMoContent())) {
-						// we have found a match! No need to check anything else since TPs don't have any associatedContents
-						bestMatchValue = 1;
-						break; // since a TP match is simply 1 or 0 we just take the first match we find
-					}
-				}
-				else if ((blockedTIContent.getLeafElement() instanceof clsTemplateImage) &&
-						(perceivedTIContent.getLeafElement() instanceof clsTemplateImage)) {
-					//TODO matching of TIs nested inside a TI if this ever becomes necessary
-				}
-			}
-			// best matchValue is added to the sum of matchValues and related
-			// associations are added to the result
-			oMatchSumElements += bestMatchValue;
-			oNewDriveMeshAssociations.addAll(bestMatchDriveMeshAssociations);
-		}
-		// matchValue of two TIs is the average matchValue of their contents/elements or zero if the TI is empty (should not happen)
-		if (oElemCountTI != 0) {
-			oMatchValueTI = oMatchSumElements / oElemCountTI;
-		}
-		else {
-			oMatchValueTI = 0;
-		}
-		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
-	}
+//	public static double compareTIContainerInclDM(clsThingPresentationMesh poBlockedContent, clsThingPresentationMesh poPerceivedContent, boolean pbStrongMatch) {
+//
+//		clsTemplateImage oBlockedTI = (clsTemplateImage) poBlockedContent.getMoDataStructure();
+//		clsTemplateImage oPerceivedTI = (clsTemplateImage) poPerceivedContent.getMoDataStructure();
+//		double oMatchValueTI = 0.0;
+//		int oElemCountTI = oBlockedTI.getMoAssociatedContent().size();
+//		double oMatchSumElements = 0.0;
+//		ArrayList<clsAssociationDriveMesh> oNewDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
+//		
+//		// for each element of the blockedContent, find the !best! matching element
+//		// in the perceivedContent
+//		for (clsAssociation blockedTIContent : oBlockedTI.getMoAssociatedContent()) {
+//			double bestMatchValue = 0.0;
+//			ArrayList<clsAssociationDriveMesh> bestMatchDriveMeshAssociations = new ArrayList<clsAssociationDriveMesh>();
+//			for (clsAssociation perceivedTIContent : oPerceivedTI.getMoAssociatedContent()) {
+//				if ((blockedTIContent.getLeafElement() instanceof clsThingPresentationMesh) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsThingPresentationMesh)) {
+//					clsThingPresentationMesh blockedTPM = (clsThingPresentationMesh)blockedTIContent.getLeafElement();
+//					clsThingPresentationMesh perceivedTPM = (clsThingPresentationMesh)perceivedTIContent.getLeafElement();
+//					if (perceivedTPM.getMoContentType() == blockedTPM.getMoContentType()) {
+//						double matchValContent = 0.0;
+//						// first see if the contents match
+//						if (perceivedTPM.getMoContent() == blockedTPM.getMoContent()) {
+//							matchValContent = 1.0;
+//						}
+//						// now check how well the intrinsic properties match
+//						double matchValIntrinsic = 
+//							getAssocAttributeMatch(blockedTPM.getMoAssociatedContent(), perceivedTPM.getMoAssociatedContent(), matchValContent);
+//						// only check the extrinsic properties if the content matches!
+//						double matchValExtrinsic = 0.0;
+//						if (matchValContent == 1.0){
+//							matchValExtrinsic = 
+//								getAssocAttributeMatch(poBlockedContent.getMoAssociatedDataStructures(blockedTPM), poPerceivedContent.getMoAssociatedDataStructures(perceivedTPM), matchValContent);	
+//						}
+//						// combine values to calculate overall match of a TPM. Weights are arbitrary!
+//						
+//						double matchValCombined = matchFactorCalculation(matchValContent, matchValIntrinsic, matchValExtrinsic, pbStrongMatch);//((0.2 * matchValContent) + (0.2 * matchValIntrinsic) + (0.6 * matchValExtrinsic));
+//						
+//						// store best element match so far, because we need to find the highest matching element
+//						if (matchValCombined > bestMatchValue) {
+//							bestMatchValue = matchValCombined;
+//							/* In case the overall matchValueTI is 1 we need to associate all
+//							 * DMs from the blockedContent with the perceivedContent. Since
+//							 * the DMs are not associated with the whole TI but with one of 
+//							 * its elements, we need to create new associations between the 
+//							 * DMs and the matching elements in the perceivedContent. If we do
+//							 * not want to find the correct new roots those DMs in an
+//							 * additional matching algorithm, we have to acquire them now! 
+//							 */
+//							bestMatchDriveMeshAssociations = 
+//								createNewDMAssociations(perceivedTPM, 
+//										poBlockedContent.getMoAssociatedDataStructures(blockedTPM));
+//							//If a perfect match is made, then break, as no more comparison is necessary
+//							if (bestMatchValue==1.0) {
+//								break;
+//							}
+//						}
+//					}
+//				}
+//				else if ((blockedTIContent.getLeafElement() instanceof clsThingPresentation) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsThingPresentation)) {
+//					clsThingPresentation blockedTP = (clsThingPresentation)blockedTIContent.getLeafElement();
+//					clsThingPresentation perceivedTP = (clsThingPresentation)perceivedTIContent.getLeafElement();
+//
+//					if((perceivedTP.getMoContentType() == blockedTP.getMoContentType()) &&
+//							(perceivedTP.getMoContent() == blockedTP.getMoContent())) {
+//						// we have found a match! No need to check anything else since TPs don't have any associatedContents
+//						bestMatchValue = 1;
+//						break; // since a TP match is simply 1 or 0 we just take the first match we find
+//					}
+//				}
+//				else if ((blockedTIContent.getLeafElement() instanceof clsTemplateImage) &&
+//						(perceivedTIContent.getLeafElement() instanceof clsTemplateImage)) {
+//					//TODO matching of TIs nested inside a TI if this ever becomes necessary
+//				}
+//			}
+//			// best matchValue is added to the sum of matchValues and related
+//			// associations are added to the result
+//			oMatchSumElements += bestMatchValue;
+//			oNewDriveMeshAssociations.addAll(bestMatchDriveMeshAssociations);
+//		}
+//		// matchValue of two TIs is the average matchValue of their contents/elements or zero if the TI is empty (should not happen)
+//		if (oElemCountTI != 0) {
+//			oMatchValueTI = oMatchSumElements / oElemCountTI;
+//		}
+//		else {
+//			oMatchValueTI = 0;
+//		}
+//		return new clsPair<Double, ArrayList<clsAssociationDriveMesh>>(oMatchValueTI, oNewDriveMeshAssociations);
+//	}
 	
 	/**
 	 * Formula for calculating the match between two images.
@@ -794,37 +1147,42 @@ public abstract class clsDataStructureComparison {
 	 * @param poContentType
 	 * @return
 	 */
-	public static ArrayList<clsPair<clsDataStructurePA, clsAssociation>> getSpecificAssociatedContent(clsPrimaryDataStructureContainer poFromImage, clsPrimaryDataStructureContainer poToImage, eDataType poDataType, String poContentType) {
-		ArrayList<clsPair<clsDataStructurePA, clsAssociation>> oRetVal = new ArrayList<clsPair<clsDataStructurePA, clsAssociation>>();
-		clsPair<clsDataStructurePA, clsAssociation> oMatch = null;
+	public static ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> getSpecificAssociatedContent(clsThingPresentationMesh poFromImage, clsThingPresentationMesh poToImage, eDataType poDataType, String poContentType) {
+		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>>();
+		clsPair<clsThingPresentationMesh, clsAssociation> oMatch = null;
 		//Get the data structure, which could also have DMs
 		//Only DM and TP can be copied
 		
 		if ((poFromImage != null) && (poToImage != null)) {	//Catch the problem if the data structure would be null
 			//Get Target structures
-			if ((poToImage.getMoDataStructure() instanceof clsTemplateImage)==false) {
-				try {
-					throw new Exception("Error in copySpecificAssociatedContent in F45_LibidoDischarge: Only data structures consisting of clsTemplateImage canbbe used.");
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-			clsTemplateImage oToImageObject = (clsTemplateImage)poToImage.getMoDataStructure();
-			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
 			
-			//For each DM or TP in the associated structures in the SourceContainer
-			for (clsAssociation oAssInFromImage : poFromImage.getMoAssociatedDataStructures()) {	//The association in the source file. The root element shall be found in that target file
-				if (poDataType == eDataType.DM) {
-					if (oAssInFromImage instanceof clsAssociationDriveMesh) {
-						if (poContentType != null) {	//Add only that content type of that structure type
-							if (oAssInFromImage.getLeafElement().getMoContentType() == poContentType) {
-								oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
-							}
-						} else {	//Add all
-							oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
+			//if ((poToImage.getMoDataStructure() instanceof clsTemplateImage)==false) {
+			//	try {
+			//		throw new Exception("Error in copySpecificAssociatedContent in F45_LibidoDischarge: Only data structures consisting of clsTemplateImage canbbe used.");
+			//	} catch (Exception e) {
+			//		e.printStackTrace();
+			//	}
+			//}
+			//clsTemplateImage oToImageObject = (clsTemplateImage)poToImage.getMoDataStructure();
+			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
+			if (poDataType == eDataType.DM) {
+				//Get all compare drive meshes
+				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsDataStructureTools.getAllDMInMesh(poFromImage);
+			
+				//For each DM or TP in the associated structures in the SourceContainer
+				for (clsAssociationDriveMesh oFromImageDM : oFromImageDriveMeshes) {	//The association in the source file. The root element shall be found in that target file
+				
+					//if (oAssInFromImage instanceof clsAssociationDriveMesh) {
+					if (poContentType != null) {	//Add only that content type of that structure type
+						if (oFromImageDM.getLeafElement().getMoContentType() == poContentType) {
+							oMatch = getMatchInDataStructure(oFromImageDM, poToImage);
 						}
+					} else {	//Add all
+						oMatch = getMatchInDataStructure(oFromImageDM, poToImage);
 					}
-				} else if (poDataType == eDataType.TP) {
+				}
+			
+				/*} else if (poDataType == eDataType.TP) {
 					if (oAssInFromImage instanceof clsAssociationAttribute) {
 						if (poContentType != null) {	//Add only that content type of that structure type
 							if (oAssInFromImage.getLeafElement().getMoContentType().toString() == "poContentType") {
@@ -833,8 +1191,9 @@ public abstract class clsDataStructureComparison {
 						} else {	//Add all
 							oMatch = getMatchInDataStructure(oAssInFromImage, oToImageObject);
 						}
-					}
-				} else {
+					}*/
+				//} 
+			} else {
 					try {
 						throw new Exception("Error in copySpecificAssociatedContent in F45_LibidoDischarge: A not allowed datatype was used");
 					} catch (Exception e) {
@@ -844,6 +1203,39 @@ public abstract class clsDataStructureComparison {
 				
 				if (oMatch != null) {
 					oRetVal.add(oMatch);
+				}
+			}
+		
+		return oRetVal;
+	}
+
+	/**
+	 * The root element of the association is searched in all intrinsic (de: innewohnenede, definierende) data structures in the
+	 * target image and the match is returned as a pair of the data structure of the target image and the association itself.
+	 * 
+	 * This function is a part of "getSpecificAssociatedContent"
+	 *
+	 * @since 16.07.2011 10:31:28
+	 *
+	 * @param poSourceAssociation
+	 * @param poTargetDataStructure
+	 * @return
+	 */
+	private static clsPair<clsThingPresentationMesh, clsAssociation> getMatchInDataStructure (clsAssociation poSourceAssociation, clsThingPresentationMesh poTargetDataStructure) {
+		clsPair<clsThingPresentationMesh, clsAssociation> oRetVal = null;
+		
+		//Get root element
+		clsThingPresentationMesh oCompareRootElement = (clsThingPresentationMesh) poSourceAssociation.getRootElement();
+		//Find the root element in the target image. Only an exact match is count
+		//1. Check if the root element is the same as the data structure in the target container
+		if ((oCompareRootElement.getMoDS_ID() == poTargetDataStructure.getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
+			oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>(poTargetDataStructure, poSourceAssociation);
+		} else {
+			//2. Check if the root element can be found in the associated data structures
+			for (clsAssociation oAssToImage : poTargetDataStructure.getMoAssociatedContent()) {
+				if ((oCompareRootElement.getMoDS_ID() == oAssToImage.getLeafElement().getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
+					oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>((clsThingPresentationMesh) oAssToImage.getLeafElement(), poSourceAssociation);
+					break;
 				}
 			}
 		}

@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -24,6 +25,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  */
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
+	
 	private String moContent = "UNDEFINED";
 	/**
 	 * @author zeilinger
@@ -164,16 +166,16 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		return oRetVal; 
 	}
 	
-	public double compareToMethod2(clsDataStructurePA poDataStructure) {
-		double rRetVal = 0;
-		//1. Types has to be equal
-		if(this.moDataStructureType != poDataStructure.moDataStructureType){return rRetVal;}
-		//2. If the TYPE-ID is the same, then there is a full match 1.0. If the ID matches, the intrinsic properties are automatically equal
-		if(this.moDS_ID == poDataStructure.moDS_ID){rRetVal = 1.0;}
-		//3. Compare similarity
-		
-		return rRetVal;
-	}
+//	public double compareToMethod2(clsDataStructurePA poDataStructure) {
+//		double rRetVal = 0;
+//		//1. Types has to be equal
+//		if(this.moDataStructureType != poDataStructure.moDataStructureType){return rRetVal;}
+//		//2. If the TYPE-ID is the same, then there is a full match 1.0. If the ID matches, the intrinsic properties are automatically equal
+//		if(this.moDS_ID == poDataStructure.moDS_ID){rRetVal = 1.0;}
+//		//3. Compare similarity
+//		
+//		return rRetVal;
+//	}
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -242,7 +244,78 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
         } catch (CloneNotSupportedException e) {
            return e;
         }
-	}		
+	}
+	
+	/**
+	 * Alternative clone for cloning directed graphs
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 16:29:38
+	 *
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	public Object cloneGraph() throws CloneNotSupportedException {
+		return cloneGraph(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+	}
+	
+	/**
+	 * Alternative clone for cloning directed graphs. This function adds cloned objects to a list and considers
+	 * that loops may occur
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 16:29:58
+	 *
+	 * @param poNodeList
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+		
+		clsThingPresentationMesh oClone = null;
+		
+		try {
+			//Clone the data structure without associated content. They only exists as empty lists
+			oClone = (clsThingPresentationMesh)super.clone();
+			oClone.moAssociatedContent = new ArrayList<clsAssociation>();
+			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
+			//Add this structure and the new clone to the list of cloned structures
+			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+			
+			//Go through all associations
+			if (moAssociatedContent != null) {
+				//Add internal associations to oClone 
+        		for(clsAssociation oAssociation : moAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+						
+			//Go through all associations
+			if (moExternalAssociatedContent != null) {
+				//Add internal associations to oClone 
+        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+			
+		} catch (CloneNotSupportedException e) {
+           return e;
+        }
+		
+		return oClone;
+	}
 	
 	@Override
 	public String toString(){

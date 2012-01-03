@@ -55,7 +55,7 @@ public enum eYPosition {
 	public static eYPosition elementAt(String poCompareString) {
 		eYPosition oRetVal = null;
 		
-		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATABLE")==true) {
+		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATEABLE")==true) {
 			oRetVal = NEAR;
 		} else {
 			eYPosition lvls[] = eYPosition.values();

@@ -17,6 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -39,6 +40,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	public M01_InformationRepresentationMgmt moM01InformationRepresentationMgmt;
 	public clsSearchSpaceHandler moSearchSpaceHandler; 
 	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> moSearchResult;
+	public ArrayList<ArrayList<clsPair<Double,clsDataStructurePA>>> moSearchMeshResult;
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -154,7 +156,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		
 		
 		/**
-		 * Ini memeory search for searching in memories with one single complete container as input
+		 * Init memeory search for searching in memories with one single complete container as input
 		 *
 		 * @since 29.06.2011 15:03:32
 		 *
@@ -177,6 +179,39 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			
 			try {
 				return (ArrayList<clsPair<Double,clsDataStructureContainer>>)oSearchPatternMatch.clone();
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			return oSearchPatternMatch;
+		}
+		
+
+		/* (non-Javadoc)
+		 *
+		 * @since 05.12.2011 16:23:58
+		 * 
+		 * @see pa._v38.memorymgmt.itfKnowledgeBaseHandler#initMemorySearchMesh(pa._v38.tools.clsPair, double)
+		 */
+		@Override
+		public ArrayList<clsPair<Double, clsDataStructurePA>> initMemorySearchMesh(
+			clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel) {
+			
+			moSearchMeshResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructurePA>>>(); 
+			ArrayList<clsPair<Double,clsDataStructurePA>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+			
+			//Search for all template images in the store
+			oSearchPatternMatch = triggerModuleSearchMesh((int)poSearchPattern.a, poSearchPattern.b, prThreshold, pnLevel);
+			moSearchMeshResult.add(oSearchPatternMatch);
+			
+			if(moSearchMeshResult.size() != 1){
+				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+			}
+			
+			try {
+				//This part must be cloned, in order not to interfer with the memory
+				//FIXME AW: CloneGraph here instead
+				return (ArrayList<clsPair<Double,clsDataStructurePA>>)oSearchPatternMatch.clone();
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -249,6 +284,32 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		}
 		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
 			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer, prThreshold);
+		}
+		
+		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+		
+		return oSearchResult;
+	}
+	
+	/**
+	 * For each type of Information representation management, start the search.
+	 *
+	 * @since 30.06.2011 22:36:54
+	 *
+	 * @param poReturnType
+	 * @param poDataStructure
+	 * @return
+	 * 
+	 */
+	private ArrayList<clsPair<Double,clsDataStructurePA>> triggerModuleSearchMesh(Integer poReturnType, clsDataStructurePA poDataStructure, double prThreshold, int pnLevel) {
+		
+		ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>(); 
+		
+		if(poDataStructure instanceof clsSecondaryDataStructure){
+			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
+		}
+		else if(poDataStructure instanceof clsPrimaryDataStructure){
+			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataMesh(poReturnType, poDataStructure, prThreshold, pnLevel);
 		}
 		
 		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}

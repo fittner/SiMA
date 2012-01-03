@@ -9,7 +9,9 @@ package pa._v38.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsSpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
@@ -20,17 +22,18 @@ import pa._v38.interfaces.modules.D2_3_receive;
 import pa._v38.interfaces.modules.D2_4_receive;
 import pa._v38.interfaces.modules.D2_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
 
 /**
@@ -42,12 +45,12 @@ import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComp
  */
 public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_1_receive, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
 	/** Blocked content buffer */
-	private ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> moBlockedContent;
+	private ArrayList<clsDataStructurePA> moBlockedContent;
 	
 	/** Input/Output, perception. This variable is changed as new content is added to the image */
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception;
+	private clsThingPresentationMesh moPerceptionalMesh;
 	/** Input/Output, associated memories. This variable is changed as new content is added to the image */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories;
 	
 	
 	/**
@@ -60,6 +63,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	
 	/**
 	 * Limit to adjust the number of activated blocked contents. 
+	 * 
+	 * PERSONALITY PARAMETER
 	 * 
 	 * @author Marcus Zottl (e0226304)
 	 * 28.06.2011, 20:21:28
@@ -76,7 +81,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	public DT2_BlockedContentStorage() {		
 		// The storage consists of an ArrayList of clsPair, in each pair, the element A is the DataStructure and
     	// the element B contains the AssociatedDataStructures from the PrimaryDataStructureContainer that has been blocked.
-    	moBlockedContent = new ArrayList<clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>();
+    	moBlockedContent = new ArrayList<clsDataStructurePA>();
     	// Fill with initial test data
     	//fillWithTestData();
     }
@@ -263,9 +268,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poNewDS	- the item to be put into the blockedContentStorage
 	 */
 	public void storeBlockedDataStructure(clsDataStructurePA poNewDS) {
-		moBlockedContent.add(
-				new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(
-						poNewDS, new ArrayList<clsAssociation>()));		
+		//Only TPM or DM are allowed
+		moBlockedContent.add(poNewDS);		
 	}
 	
 	/**
@@ -295,38 +299,58 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poPerception - the perceived input with attached DriveMeshes and adapted categories for
 	 * which you want to find matches in the blocked content storage. 
 	 */
-	private void matchBlockedContentPerception(clsPrimaryDataStructureContainer poPerception, ArrayList<clsPrimaryDataStructureContainer> poMemories) {
-		ArrayList<clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>> oMatchedContent;
+	private void matchBlockedContentPerception(clsThingPresentationMesh poPerception) {
+		ArrayList<clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>> oMatchedContent;
 		
 		// look up matching content
 		oMatchedContent = getMatchesForPerception(poPerception, mrActivationThreshold);
 		// now pick the topmost matches and process them accordingly
 		int i = 0;
-		for (clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>> matchedItem : oMatchedContent) {
+		for (clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>> matchedItem : oMatchedContent) {
 			i++;
 			if (i > mnActivationLimit) break;
 			
 			//case 1: the item is a TemplateImage
-			if (matchedItem.a.getMoDataStructure() instanceof clsTemplateImage) {
+			if (matchedItem.a instanceof clsThingPresentationMesh) {
 				// case 1a: full match (matchValue = 1)
-				if (matchedItem.b == 1) {
-					// attach all DMs in result to the input TI
-					poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
+				if (matchedItem.b == 1.0) {
+					//attach all DMs in result to the input TI, integrate all dm
+					//1. from the list with DM, find the correct root element in the image by comparing the ID
+					for (clsAssociationDriveMesh oDMAssociation : matchedItem.c) {
+						//Get a list of all found items
+						ArrayList<clsThingPresentationMesh> oFoundObjects = clsDataStructureTools.findDataStructureTypesInMesh(poPerception, (clsThingPresentationMesh) oDMAssociation.getRootElement() ,1);
+						//2. If found, create a new association with this dm and the found root element. This association shall be added to all these objects
+						for (clsThingPresentationMesh oObject : oFoundObjects) {
+							//3. create a new association
+							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
+							//4. Add the association to the external associations of the root element
+							oObject.getExternalMoAssociatedContent().add(oNewMesh);
+						}
+					}
 				}
 				// case 1b: partial match (matchValue < 1)
 				else {
-					// add complete result to associated memories
-					poMemories.add(matchedItem.a);
+					// add complete result to associated memories by creating
+					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eDataType.ASSOCIATIONPRI.toString(), poPerception, matchedItem.a, matchedItem.b);
+					poPerception.getExternalMoAssociatedContent().add(oNewPriAss);
 				}
 				// activated content has to be deleted from the blocked content storage
-				this.removeBlockedContent(matchedItem.a.getMoDataStructure());
+				this.removeBlockedContent(matchedItem.a);
 			}
 			// case 2: the item is a DriveMesh
-			else if (matchedItem.a.getMoDataStructure() instanceof clsDriveMesh) {
+			else if (matchedItem.a instanceof clsDriveMesh) {
 				// attach all DMs in result to the input TI
-				poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
+				//Here, only one association exists
+				for (clsAssociationDriveMesh oAssDM : matchedItem.c) {
+					//In the method getMatchWithPerception, the instance from the perception is linked with the DM
+					//Add this association the the object
+					clsThingPresentationMesh oNewSourceObject = (clsThingPresentationMesh) oAssDM.getRootElement();
+					oNewSourceObject.getExternalMoAssociatedContent().add(oAssDM);
+				}
+				//clsDataStructureTools.findDataStructureTypesInMesh(poPerception, (clsThingPresentationMesh) oDMAssociation.getRootElement() ,1);
+				//poPerception.getMoAssociatedDataStructures().addAll(matchedItem.c);
 				// activated content has to be deleted from the blocked content storage
-				this.removeBlockedContent(matchedItem.a.getMoDataStructure());
+				this.removeBlockedContent(matchedItem.a);
 			}
 		}
 	}
@@ -396,67 +420,73 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * and C = a list of Associations between DMs in A and their matching "partners"
 	 * in the perception (ArrayList&lt;clsAssociationDriveMesh&gt;)
 	 */
-	private ArrayList<clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>> getMatchesForPerception(
-			clsPrimaryDataStructureContainer poPerception,
-			double poThreshold) {
+	private ArrayList<clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>> getMatchesForPerception(clsThingPresentationMesh poImage, double poThreshold) {
 		
-		ArrayList<clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>> oMatchValues = 
-			new ArrayList<clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>>();
-		clsPrimaryDataStructureContainer oBlockedCont;
+		//Return 
+		//1: The repressed image with the match
+		//2: The match value
+		//3: The associated drive meshes from that image
+		ArrayList<clsTriple<clsDataStructurePA, Double,ArrayList<clsAssociationDriveMesh>>> oMatchValues = new ArrayList<clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>>();
+		clsDataStructurePA oBlockedCont;
 
+		//For comparison with DMs, get all DM in the mesh
+		ArrayList<clsAssociationDriveMesh> oDMFromMesh = clsDataStructureTools.getAllDMInMesh(poImage);
+		
 		// compare each element from moBlockedContent with the input
-		for (clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oEntry : moBlockedContent) {
-			if (oEntry.a instanceof clsTemplateImage) {
+		for (clsDataStructurePA oEntry : moBlockedContent) {
+			if (oEntry instanceof clsThingPresentationMesh) {
 				// if item is a TI, then calculate match with input TI
-				oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
+				oBlockedCont = oEntry;
+				//oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
 				//clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = calculateTIMatch(oBlockedCont, poPerception);
 				//Use structures from data structure comparison
-				clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception, true);
+				//clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception, true);
+
+				double oMatchResult = clsSpatialTools.getImageMatch(poImage, (clsThingPresentationMesh) oBlockedCont);
 				// ignore matches below threshold
-				if (oMatchResult.a < poThreshold)
+				if (oMatchResult < poThreshold)
 					continue;
 				// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 				int i = 0;
-				while ((i + 1 < oMatchValues.size()) && oMatchResult.a < oMatchValues.get(i).b) {
+				while ((i + 1 < oMatchValues.size()) && oMatchResult < oMatchValues.get(i).b) {
 					i++;
 				}
+				
+				//Get all drive meshes in the image
+				ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getAllDMInMesh((clsThingPresentationMesh) oBlockedCont);
+				
 				// add to results
-				oMatchValues.add(i, 
-						new clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>(
-								oBlockedCont, oMatchResult.a, oMatchResult.b));
+				oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>(poImage, oMatchResult, oDMList));
+				
 			}
-			else if (oEntry.a instanceof clsDriveMesh) {
+			else if (oEntry instanceof clsDriveMesh) {
+				oBlockedCont = oEntry;
+				
 				// if item is a DM, then compare with all associated DMs of the input
-				for(clsAssociation oInputAssociation : poPerception.getMoAssociatedDataStructures()) {
-					if(oInputAssociation instanceof clsAssociationDriveMesh){
-						clsDriveMesh oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
-						if(oEntry.a.getMoContentType().equals(oData.getMoContentType())) {
-							// calculate match between drive matches
-							double rMatchValue = ((clsDriveMesh)oEntry.a).matchCathegories(oData);
-							// ignore matches below threshold
-							if (rMatchValue < poThreshold)
-								continue;
+				for(clsAssociationDriveMesh oInputAssociation : oDMFromMesh) {
+					//if(oInputAssociation instanceof clsAssociationDriveMesh){
+					clsDriveMesh oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
+					if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
+						// calculate match between drive matches
+						double rMatchValue = ((clsDriveMesh)oEntry).matchCathegories(oData);
+						// ignore matches below threshold
+						if (rMatchValue < poThreshold)
+							continue;
 
-							// add the association with the matching element from the input to the return values
-							ArrayList<clsAssociationDriveMesh> newDMAssociations = new ArrayList<clsAssociationDriveMesh>();
-							clsPrimaryDataStructure newRoot = (clsPrimaryDataStructure) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
-							newDMAssociations.add( 
-								new clsAssociationDriveMesh(
-										new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
-										(clsDriveMesh)oEntry.a,
-										newRoot));
-							oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
-							// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
-							int i = 0;
-							while ((i + 1 < oMatchValues.size()) && rMatchValue < oMatchValues.get(i).b) {
-								i++;
-							}
-							// add to results
-							oMatchValues.add(i, 
-									new clsTriple<clsPrimaryDataStructureContainer, Double, ArrayList<clsAssociationDriveMesh>>(
-											oBlockedCont, rMatchValue, newDMAssociations));
+						// add the association with the matching element from the input to the return values
+						ArrayList<clsAssociationDriveMesh> newDMAssociations = new ArrayList<clsAssociationDriveMesh>();
+						clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
+						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), (clsDriveMesh)oEntry, newRoot));
+						//oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
+						// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
+						int i = 0;
+						while ((i + 1 < oMatchValues.size()) && rMatchValue < oMatchValues.get(i).b) {
+							i++;
 						}
+						// add to results
+						oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsDriveMesh) oEntry, rMatchValue, newDMAssociations));
 					}
+					//}
 				}
 			}
 			// no other types of data have to be considered yet
@@ -476,11 +506,11 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	private ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
 		ArrayList<clsPair<Double, clsDriveMesh>> oRetVal = new ArrayList<clsPair<Double, clsDriveMesh>>();	
 		
-		for (clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oEntry : moBlockedContent) {
-			if (oEntry.a instanceof clsDriveMesh) { 
-				if(oEntry.a.getMoContentType().equals(poDM.getMoContentType())) {
+		for (clsDataStructurePA oEntry : moBlockedContent) {
+			if (oEntry instanceof clsDriveMesh) { 
+				if(oEntry.getMoContentType().equals(poDM.getMoContentType())) {
 					// calculate match between drive matches
-					double rMatchValue = ((clsDriveMesh)oEntry.a).matchCathegories(poDM);
+					double rMatchValue = ((clsDriveMesh)oEntry).matchCathegories(poDM);
 					// ignore matches below threshold
 					if (rMatchValue < poThreshold)
 						continue;
@@ -491,7 +521,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 					}
 					// add to results
 					oRetVal.add(i, 
-							new clsPair<Double, clsDriveMesh>(rMatchValue, (clsDriveMesh)oEntry.a));
+							new clsPair<Double, clsDriveMesh>(rMatchValue, (clsDriveMesh)oEntry));
 				}
 			}
 		}
@@ -515,8 +545,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 */
 	public void removeBlockedContent(clsDataStructurePA poRemoveContent) {
 		int i = 0;
-		for (clsPair<clsDataStructurePA, ArrayList<clsAssociation>> entry : moBlockedContent) {
-			if (entry.a.equals(poRemoveContent)) {
+		for (clsDataStructurePA entry : moBlockedContent) {
+			if (entry.equals(poRemoveContent)) {
 				moBlockedContent.remove(i);
 				break;
 			}
@@ -577,9 +607,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param return - existsMatch() returns true if there is a similar entry in blocked content storage (otherwise false)
 	 *
 	 */
-	public boolean existsMatch (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+	public boolean existsMatch (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
 		
-		clsPrimaryDataStructureContainer poDSC = buildTemplateImage (poDS, poDM);
+		clsThingPresentationMesh poDSC = buildExtendedTPM (poDS, poDM);
 		
 		if (getMatchesForPerception(poDSC, 1).isEmpty())
 			return false;
@@ -597,27 +627,34 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * 16.09.2011, 22:47:33
 	 *
 	 */
-	private clsPrimaryDataStructureContainer buildTemplateImage (clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+	private clsThingPresentationMesh buildExtendedTPM (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+		clsThingPresentationMesh oRetVal = null;
+		
 		//Create container from physical representation
 		
-		if ((poDS instanceof clsTemplateImage) == false) {
+		//if ((poDS instanceof clsTemplateImage) == false) {
 			//New TI
-			clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
+			//clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "TI"), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
 			//Assign physical representation
-			newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
+			//newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
 			//Add DM as association
-			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.DM, "ASSOCIATIONDM"), poDM, poDS);
+			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.DM, eDataType.ASSOCIATIONDM.toString()), poDM, poDS);
 			//Create ass list
-			ArrayList<clsAssociation> oContainerAssList = new ArrayList<clsAssociation>();
-			oContainerAssList.add(oAddDM);
+			//ArrayList<clsAssociation> oContainerAssList = new ArrayList<clsAssociation>();
+			//oContainerAssList.add(oAddDM);
 			//Create container
 			
-			clsPrimaryDataStructureContainer poNewBlockedContent = new clsPrimaryDataStructureContainer(newTI, oContainerAssList);
+			poDS.getExternalMoAssociatedContent().add(oAddDM);
 			
-			return poNewBlockedContent;
-		}
-		
-		return null;
+			clsThingPresentationMesh oNewImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, eContentType.RI.toString()), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
+			oNewImage.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), oNewImage, poDS));
+
+			oRetVal = oNewImage;
+			
+			//clsPrimaryDataStructureContainer poNewBlockedContent = new clsPrimaryDataStructureContainer(newTI, oContainerAssList);
+			
+			return oRetVal;
+		//}
 	}
 	
 	/**
@@ -628,9 +665,9 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * 16.09.2011, 22:47:33
 	 *
 	 */
-	public void add(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
-
-			add (buildTemplateImage (poDS, poDM));
+	public void add(clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+		add (buildExtendedTPM (poDS, poDM));
+		
 	}
 	
 	/**
@@ -642,12 +679,11 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poNewBlockedContent - the new item to be put into the
 	 * blockedContentStorage
 	 */
-	public void add(clsPrimaryDataStructureContainer poNewBlockedContent) {
-		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> newItem;
-		newItem = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(
-				poNewBlockedContent.getMoDataStructure(),
-				poNewBlockedContent.getMoAssociatedDataStructures());
-		moBlockedContent.add(newItem);
+	public void add(clsThingPresentationMesh poEnhancedNewBlockedContent) {
+		//clsDataStructurePA newItem = 	newItem = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(
+		//		poNewBlockedContent.getMoDataStructure(),
+		//		poNewBlockedContent.getMoAssociatedDataStructures());
+		moBlockedContent.add(poEnhancedNewBlockedContent);
 	}
 	
 	/**
@@ -659,8 +695,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 *
 	 * @param poNewBlockedContent
 	 */
-	public void addAll(ArrayList<clsPrimaryDataStructureContainer> poNewBlockedContent) {
-		for (clsPrimaryDataStructureContainer oImageContainer : poNewBlockedContent) {
+	public void addAll(ArrayList<clsThingPresentationMesh> poNewBlockedContent) {
+		for (clsThingPresentationMesh oImageContainer : poNewBlockedContent) {
 			this.add(oImageContainer);
 		}
 	}
@@ -681,12 +717,12 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	}*/
 	
 	@Override
-	public void receive_D2_1(clsPrimaryDataStructureContainer poData, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
+	public void receive_D2_1(clsThingPresentationMesh poData) {
 		//AW: This IF goes to F35
 		//Here, an input image is received from F35, where matching is performed
-		matchBlockedContentPerception(poData, poAssociatedMemories);
-		moEnvironmentalPerception = poData;
-		moAssociatedMemories = poAssociatedMemories;
+		matchBlockedContentPerception(poData);
+		moPerceptionalMesh = poData;
+		//moAssociatedMemories = poAssociatedMemories;
 	}
 	
 	/**
@@ -697,10 +733,10 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @see pa.interfaces.send._v38.D2_2_send#send_D2_2(java.util.ArrayList)
 	 */
 	@Override
-	public clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> send_D2_2() {
+	public clsThingPresentationMesh send_D2_2() {
 		//AW: This IF goes to F35
-		if ((moEnvironmentalPerception!=null) && (moAssociatedMemories!=null)) {
-			return new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(moEnvironmentalPerception, moAssociatedMemories);
+		if (moPerceptionalMesh!=null) {
+			return moPerceptionalMesh;
 			
 		} else {
 			return null;
@@ -720,7 +756,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * gets drive object and drive aim from F6
 	 */
 	@Override
-	public void receive_D2_3(clsPhysicalRepresentation poDS, clsDriveMesh poDM) {
+	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMesh poDM) {
 		// store drive object (clsPhysicalRepresentation) and drive aim (clsDriveMesh) in blocked content storage
 		add(poDS, poDM);
 	}

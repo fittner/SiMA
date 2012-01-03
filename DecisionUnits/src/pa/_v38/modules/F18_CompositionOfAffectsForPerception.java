@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_9_receive;
@@ -20,7 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -32,11 +33,11 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 public class F18_CompositionOfAffectsForPerception extends clsModuleBase implements I5_9_receive, I5_10_send {
 	public static final String P_MODULENUMBER = "18";
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_OUT;
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/**
 	 * F18_CompositionOfAffectsForPerception - merge all DMs by type comparison
@@ -67,10 +68,10 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
-		text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		//text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		
 		return text;
 	}
@@ -124,10 +125,11 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	protected void process_basic() {
 		//Merge Drive meshes for environmental perception
-		moEnvironmentalPerception_OUT = mergeDriveMeshes(moEnvironmentalPerception_IN);
+		//moEnvironmentalPerception_OUT = mergeDriveMeshes(moEnvironmentalPerception_IN);
 		
 		//Merge Drive meshes for all associated content
-		moAssociatedMemories_OUT = mergeAssMemoryDriveMeshes(moAssociatedMemories_IN);
+		
+		moPerceptionalMesh_OUT = mergeAssMemoryDriveMeshes(moPerceptionalMesh_IN);
 		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 	
@@ -139,11 +141,20 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @param oInput
 	 * @return
 	 */
-	private ArrayList<clsPrimaryDataStructureContainer> mergeAssMemoryDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();	//The merged structures
+	private clsThingPresentationMesh mergeAssMemoryDriveMeshes(clsThingPresentationMesh poInput) {
+		clsThingPresentationMesh oRetVal = null;
+		try {
+			oRetVal = (clsThingPresentationMesh) poInput.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		for (clsPrimaryDataStructureContainer oMemoryContainer : oInput) {
-			oRetVal.add(mergeDriveMeshes(oMemoryContainer));
+		//RetVal is changed and returned. The images of oImages are for oRetVal
+		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(oRetVal, 1);
+		
+		for (clsThingPresentationMesh oImage : oImages) {
+			mergeDriveMeshesImage(oImage);
 		}
 		return oRetVal;
 	}
@@ -156,7 +167,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @param oInput
 	 * @return
 	 */
-	private clsPrimaryDataStructureContainer mergeDriveMeshes(clsPrimaryDataStructureContainer oInput) {
+	private void mergeDriveMeshesForObject(clsThingPresentationMesh poInput) {
 		/* DMs are added from F35 and F45 to the PDSC. In this function, all values, which are from the same
 		 * type are summarized, e. g. moContentType is equal
 		 */
@@ -172,8 +183,8 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		 * This is used for avoiding to add an association twice
 		 */
 		ArrayList<clsPair<clsAssociation, Boolean>> oArrAssFirst = new ArrayList<clsPair<clsAssociation, Boolean>>();
-		for (int i=0;i<oInput.getMoAssociatedDataStructures().size();i++) {
-			oArrAssFirst.add(new clsPair<clsAssociation, Boolean>(oInput.getMoAssociatedDataStructures().get(i),false));
+		for (int i=0;i<poInput.getExternalMoAssociatedContent().size();i++) {
+			oArrAssFirst.add(new clsPair<clsAssociation, Boolean>(poInput.getExternalMoAssociatedContent().get(i),false));
 		}
 		
 		ListIterator<clsPair<clsAssociation, Boolean>> liMainList = oArrAssFirst.listIterator();
@@ -244,10 +255,30 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 				oNewAss.add(oFirstAss);
 			}
 		}
-		clsPrimaryDataStructureContainer oMergedResult = new clsPrimaryDataStructureContainer(oInput.getMoDataStructure(), oNewAss);
+		//clsPrimaryDataStructureContainer oMergedResult = new clsPrimaryDataStructureContainer(oInput.getMoDataStructure(), oNewAss);
 		
-		return oMergedResult;
+		//Replace the old external associations with the smaller new list
+		poInput.setMoExternalAssociatedContent(oNewAss);
+		//return oMergedResult;
 	}
+	
+	/**
+	 * Merge drive meshes for a single image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 27.12.2011 23:40:43
+	 *
+	 * @param poImage
+	 */
+	private void mergeDriveMeshesImage(clsThingPresentationMesh poImage) {
+		ArrayList<clsThingPresentationMesh> oAllObjects = clsDataStructureTools.getAllTPMObjects(poImage, 1); 
+		
+		for (clsThingPresentationMesh oObject : oAllObjects) {
+			mergeDriveMeshesForObject(oObject);
+		}
+	}
+	
 	
 	/**
 	 * This function was made in order to be able to set the calculation function of the total 
@@ -278,7 +309,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		send_I5_10(moEnvironmentalPerception_OUT, moAssociatedMemories_OUT);
+		send_I5_10(moPerceptionalMesh_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -289,10 +320,10 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @see pa.interfaces.send.I2_9_send#send_I2_9(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_10(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poMergedPrimaryInformation, poAssociatedMemories);
+	public void send_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
+		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poPerceptionalMesh);
 		
-		putInterfaceData(I5_10_send.class, poMergedPrimaryInformation, poAssociatedMemories);
+		putInterfaceData(I5_10_send.class, poPerceptionalMesh);
 	}
 
 	/* (non-Javadoc)
@@ -343,9 +374,14 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_9(clsPrimaryDataStructureContainer poMergedPrimaryInformation, ArrayList<clsPrimaryDataStructureContainer> poAssociatedMemories) {
-		moEnvironmentalPerception_IN = (clsPrimaryDataStructureContainer)poMergedPrimaryInformation.clone();
-		moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+	public void receive_I5_9(clsThingPresentationMesh poPerceptionalMesh) {
+		try {
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 	/* (non-Javadoc)
 	 *

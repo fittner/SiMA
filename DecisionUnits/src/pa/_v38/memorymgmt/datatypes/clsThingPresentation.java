@@ -7,7 +7,9 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -154,7 +156,22 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
         } catch (CloneNotSupportedException e) {
            return e;
         }
-	}		
+	}
+	
+	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+		clsThingPresentation oClone = null;
+		
+		try {
+			oClone = (clsThingPresentation)super.clone();
+        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+        	
+         	
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
+        
+        return oClone;
+	}
 	
 	@Override
 	public String toString(){

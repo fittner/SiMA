@@ -347,7 +347,12 @@ public class clsOntologyLoader {
 		oAssociationList.addAll(loadClassAssociations(poElement, oDataStructure, poDataContainer));
 		
 		for(clsAssociation element : oAssociationList){
-			if(element instanceof clsAssociationAttribute){ oDataStructure.assignDataStructure(element);}
+			//Go through all associations of that structure. If the association is an association attribute, then add it to the internal associations
+			//Added by AW: If the association is of type associationTemp, then also add it to the internal associations. If associationTemp are used, then
+			//it means that it is an image.
+			if(element instanceof clsAssociationAttribute || element instanceof clsAssociationTime) { 
+				oDataStructure.assignDataStructure(element);
+			}
 		}
 	}
 	

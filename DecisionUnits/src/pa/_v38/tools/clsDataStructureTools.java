@@ -13,6 +13,7 @@ import java.util.ListIterator;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
@@ -20,6 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalStructureComposition;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -74,6 +77,9 @@ public class clsDataStructureTools {
 	/**
 	 * Creates a new AssociationPri between 2 containers and adds this association to the associated data structures.
 	 * In this way, the match weight between a perceived image and a memory is stored
+	 * 
+	 * ONLY TPM ARE ALLOWED TO HAVE AN ASSOCIATION PRIMARY IN ITS EXTERNAL ASSOCIATIONS
+	 * 
 	 * (wendt)
 	 *
 	 * @since 22.07.2011 10:01:54
@@ -82,12 +88,34 @@ public class clsDataStructureTools {
 	 * @param poContainerB
 	 * @param prWeight
 	 */
-	public static void createAssociationPrimary(clsDataStructureContainer poContainerA, clsDataStructureContainer poContainerB, double prWeight) {
-		String oContentType = "PIASSOCIATION";
-		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poContainerA.getMoDataStructure(), poContainerB.getMoDataStructure(), prWeight);
-		poContainerA.getMoAssociatedDataStructures().add(oAssPri);
-		poContainerB.getMoAssociatedDataStructures().add(oAssPri);
+	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
+		String oContentType = eContentType.PIASSOCIATION.toString();
+		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
+		poStructureA.getExternalMoAssociatedContent().add(oAssPri);
+		poStructureB.getExternalMoAssociatedContent().add(oAssPri);
 	}
+	
+	/**
+	 * Creates a new AssociationTemp between 2 structures and adds this association to the associated data structures.
+	 * 
+	 * ONLY TPM ARE ALLOWED TO HAVE AN ASSOCIATION TEMP IN ITS EXTERNAL ASSOCIATIONS
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.07.2011 10:01:54
+	 *
+	 * @param poContainerA
+	 * @param poContainerB
+	 * @param prWeight
+	 */
+	public static void createAssociationTemporary(clsThingPresentationMesh poSuperStructure, clsThingPresentationMesh poSubStructure, double prWeight) {
+		String oContentType = eContentType.PARTOFASSOCIATION.toString();
+		clsAssociationTime oAssTemp = (clsAssociationTime)clsDataStructureGenerator.generateASSOCIATIONTIME(oContentType, poSuperStructure, poSubStructure, prWeight);
+		poSuperStructure.getMoAssociatedContent().add(oAssTemp);
+		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+	}
+	
+
 	
 	/**
 	 * For each container, where the associations are not bound, the hash-code from the data structure was taken as id and
@@ -408,28 +436,28 @@ public class clsDataStructureTools {
 		return oRetVal;
 	}
 	
-	/**
-	 * Get all positions of all objects in an image
-	 * 
-	 * (wendt)
-	 *
-	 * @since 02.09.2011 14:30:53
-	 *
-	 * @param poImage
-	 * @return
-	 */
-	public static ArrayList<clsTriple<clsThingPresentationMesh, String, String>> getImageContentPositions(clsThingPresentationMesh poImage) {
-		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, String, String>>();
-		
-		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
-			clsTriple<clsThingPresentationMesh, String, String> oPosPair = getObjectPosition((clsThingPresentationMesh)oAss.getLeafElement());
-			if (oPosPair!=null) {
-				oRetVal.add(oPosPair);
-			}
-		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * Get all positions of all objects in an image
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 02.09.2011 14:30:53
+//	 *
+//	 * @param poImage
+//	 * @return
+//	 */
+//	public static ArrayList<clsTriple<clsThingPresentationMesh, String, String>> getImageContentPositions(clsThingPresentationMesh poImage) {
+//		ArrayList<clsTriple<clsThingPresentationMesh, String, String>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, String, String>>();
+//		
+//		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
+//			clsTriple<clsThingPresentationMesh, String, String> oPosPair = getObjectPosition((clsThingPresentationMesh)oAss.getLeafElement());
+//			if (oPosPair!=null) {
+//				oRetVal.add(oPosPair);
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 	/**
 	 * Add new data structures or objects to a template image
@@ -455,23 +483,6 @@ public class clsDataStructureTools {
 			
 			//Add locations
 			oImage.getMoAssociatedDataStructures().addAll(oC.getMoAssociatedDataStructures());
-		}
-		
-	}
-	
-	public static void addTPMToImage(ArrayList<clsThingPresentationMesh> oAddList, clsThingPresentationMesh oImage) {
-		//Modify the image by adding additional compontents
-		
-		for (clsThingPresentationMesh oC : oAddList) {
-			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
-			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
-			oImage, oC);
-			
-			//Add Timeassociation
-			oImage.assignDataStructure(oAssTime);
-			
-			//Add locations
-			oImage.getExternalMoAssociatedContent().addAll(oC.getExternalMoAssociatedContent());
 		}
 		
 	}
@@ -524,6 +535,61 @@ public class clsDataStructureTools {
 	}
 	
 	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsThingPresentationMesh findDataStructureInstanceInMesh(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel) {
+		clsThingPresentationMesh oRetVal = null;
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMImages(poTargetImageMesh, pnLevel);
+		
+		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
+			if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+				oRetVal = oObject;
+				break;
+			}
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Check the mesh for existing structures, where the input is a TPM. The type ID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> findDataStructureTypesInMesh(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMImages(poTargetImageMesh, pnLevel);
+		
+		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
+			if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+				oRetVal.add(oObject);
+			}
+		}
+
+		return oRetVal;
+	}
+	
+	/**
 	 * Check if a selected secondary data structure exists in an image
 	 * (wendt)
 	 *
@@ -533,14 +599,14 @@ public class clsDataStructureTools {
 	 * @param poFindDataStructure
 	 * @return
 	 */
-	public static clsSecondaryDataStructure findDataStructureInImage(clsSecondaryDataStructureContainer poTargetImage, clsSecondaryDataStructure poFindDataStructure) {
-		clsSecondaryDataStructure oRetVal = null;
+	public static clsWordPresentationMesh findDataStructureTypesInMesh(clsSecondaryDataStructureContainer poTargetImage, clsSecondaryDataStructure poFindDataStructure) {
+		clsWordPresentationMesh oRetVal = null;
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		if (poTargetImage.getMoDataStructure() instanceof clsWordPresentationMesh) {
 			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getMoAssociatedContent()) {
 				if (oImageDS.getRootElement().getMoDS_ID() == poFindDataStructure.getMoDS_ID()) {
-					oRetVal = (clsSecondaryDataStructure) oImageDS.getRootElement();
+					oRetVal = (clsWordPresentationMesh) oImageDS.getRootElement();
 					break;
 				}
 			}
@@ -594,8 +660,11 @@ public class clsDataStructureTools {
 		
 	}
 	
+	
+	//=================== PERCEIVED IMAGE FUNCTIONS =====================================//
+	
 	/**
-	 * Create a new TPM as Top-Object from a list of TPMs
+	 * Create a new TPM as Top-Object from a list of TPMs, i. e. an image
 	 * 
 	 * (wendt)
 	 *
@@ -612,17 +681,708 @@ public class clsDataStructureTools {
 		clsTriple<Integer, eDataType, String> oTPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, poContentType);
 		clsThingPresentationMesh oConstructedImage = new clsThingPresentationMesh(oTPMIdentifier, new ArrayList<clsAssociation>(), poContent);
 		
-		for (clsThingPresentationMesh oTPM : poInput) {
-			clsTriple<Integer, eDataType, String> oAssIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP");
-			clsAssociationTime oNewTimeAss = new clsAssociationTime(oAssIdentifier, oConstructedImage, oTPM);
-			//oTPM.getExternalMoAssociatedContent().add(oNewTimeAss);
-			oConstructedImage.assignDataStructure(oNewTimeAss);
-			
-		}
+		addTPMToImage(poInput, oConstructedImage);
 		
 		oRetVal = oConstructedImage;
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Add a list of TPM to another TPM as parts of it to its intrinsic structures
+	 * 
+	 * (wendt)
+	 *
+	 * @since 05.12.2011 15:33:14
+	 *
+	 * @param poInput
+	 * @param poMesh
+	 */
+	public static void addTPMToImage(ArrayList<clsThingPresentationMesh> oAddList, clsThingPresentationMesh oImage) {
+		//Modify the image by adding additional compontents
+		
+		for (clsThingPresentationMesh oC : oAddList) {
+			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
+			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+			oImage, oC);
+			
+			//Add Timeassociation
+			oImage.assignDataStructure(oAssTime);
+			
+			//Add locations
+			//oImage.getExternalMoAssociatedContent().addAll(oC.getExternalMoAssociatedContent());
+		}
+		
+	}
+	
+	/**
+	 * Find a certain data structure type in a directed graph. Only the first level is searched for in this function. In the case of a PI, its direct sub elements are searched.
+	 * 
+	 * The compare criterium is the Type ID and not the instance ID
+	 *
+	 * !!!!! THIS FUNCTION IS ONLY SPECIALIZED FOR GETTING OBJECTS FROM PERCEIVED IMAGES !!!!!!
+	 * 
+	 * @since 21.07.2011 09:27:59
+	 *
+	 * @param clsDataStructurePA
+	 * @return
+	 */
+	public static clsDataStructurePA containsInstanceType(clsDataStructurePA poSearchStructure, clsThingPresentationMesh poMesh) {
+		clsDataStructurePA oRetVal = null;
+		
+		if (poSearchStructure.getMoDS_ID() == poMesh.getMoDS_ID()) {
+			oRetVal = poMesh;
+		} else {
+			for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
+				if (oAss.getLeafElement().getMoDS_ID() == poSearchStructure.getMoDS_ID()) {
+					oRetVal = oAss.getLeafElement();
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all TPM structures in a mesh up to a certain level. A list with each TPM structure is returned
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.12.2011 09:51:50
+	 *
+	 * @param poMesh
+	 * @param pnLevel  - Level of search depth. If = 1, only direct matches are used
+	 * @return
+	 */
+	public static ArrayList<clsDataStructurePA> getDataStructureInMesh(clsThingPresentationMesh poMesh, eDataType poDataType, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+		ArrayList<clsThingPresentationMesh> oAddedElements = new ArrayList<clsThingPresentationMesh>();
+		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
+		
+		//Go through each TPM (Node) and search for the defined structures. This is a recursive function
+		searchDataStructureInMesh(poMesh, oAddedElements, oRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel);
+		
+		return oRetVal;
+	}
+	
+//	public static ArrayList<clsDataStructurePA> getStructureInMesh(clsThingPresentationMesh poMesh, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+//		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+//		
+//		getAllTPMInMesh(poMesh, oRetVal, poContentType, poContent, pbStopAtFirstMatch, pnLevel);
+//		
+//		return oRetVal;
+//	}
+	
+	
+	/**
+	 * Recursively go through all elements in the mesh to get all TPMs, but here, this function is only used if there already exists a list
+	 * 
+	 * (wendt)
+	 *
+	 * @since 06.12.2011 11:37:00
+	 *
+	 * @param poMesh
+	 * @return
+	 */
+	private static void searchDataStructureInMesh(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
+		
+		//Add the structure itself to the list of passed elements
+		poAddedElements.add(poMesh);
+		//Check this data structure for filter options and add the result to the result list if filter fits
+		if (poDataType.equals(eDataType.TPM)==true) {
+			//Check if this mesh matches the content and content type filter. If yes, then add the result
+			boolean bMatchFound = FilterTPM(poMesh, poContentType, poContent);
+			if (bMatchFound==true) {
+				poRetVal.add(poMesh);
+			}
+		} else if (poDataType.equals(eDataType.TP)==true) {
+			ArrayList<clsAssociationAttribute> oFoundTPAssList = getTPAssociations(poMesh, poContentType, poContent, pbStopAtFirstMatch);
+			poRetVal.addAll(oFoundTPAssList);
+		} else if (poDataType.equals(eDataType.DM)==true) {
+			ArrayList<clsAssociationDriveMesh> oFoundDMAssList = FilterDMList(poMesh.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch);
+			poRetVal.addAll(oFoundDMAssList);
+		} else {
+			try {
+				throw new Exception("clsDataStructureTools: searchDataStructureInMesh: Only TPM, TP or DM allowed as data types");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		if (pbStopAtFirstMatch==false || poRetVal.isEmpty()==true) {	//=NOT Stopatfirstmatch=true AND oRetVal is not empty
+			
+			//Add the substructures of the internal associations
+			if ((pnLevel>0) || (pnLevel==-1)) {
+				for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
+					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
+						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+					}
+				}
+			}
+			
+			//Add external associations
+			if ((pnLevel>1) || (pnLevel==-1)) {
+				for (clsAssociation oExtAss : poMesh.getExternalMoAssociatedContent()) {
+					if (poAddedElements.contains(oExtAss.getLeafElement())==false && oExtAss.getLeafElement() instanceof clsThingPresentationMesh) {
+						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+					} else if (poAddedElements.contains(oExtAss.getRootElement())==false && oExtAss.getRootElement() instanceof clsThingPresentationMesh) {
+						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+					}
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Filter a list of TPMs for certain content and content type. NULL counts as nothing and is not used as filter criterium
+	 * 
+	 * (wendt)
+	 *
+	 * @since 02.01.2012 21:57:09
+	 *
+	 * @param poAssList
+	 * @param poContentType
+	 * @param poContent
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	private static boolean FilterTPM(clsThingPresentationMesh poMesh, String poContentType, String poContent) {
+		//ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		boolean oRetVal = false;
+		
+			if (poContentType!=null && poContent!=null) {
+				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
+						(poContent.equals(poMesh.getMoContent())==true)) {
+					oRetVal = true;
+				}
+			} else if (poContentType!=null && poContent==null) {
+				if (poContentType.equals(poMesh.getMoContentType())==true) {
+					oRetVal = true;
+				}
+			} else if (poContentType==null && poContent!=null) {
+				if (poContent.equals(poMesh.getMoContent())==true) {
+					oRetVal = true;
+				}
+			} else {
+				oRetVal = true;
+			}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all properties TP in from a certain mesh perception and associated memories.
+	 * 
+	 * If poContent = null, then it is not a criteria
+	 * If poContentType = null, then it is not a criteria
+	 * 
+	 * pnMode
+	 * 0: External and internal associations of the TPM
+	 * 1: Only external associations of the TPM
+	 * 2: Only internal associations of the TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 06.09.2011 16:36:10
+	 *
+	 * @param poEnvironmentalPerception
+	 * @param poAssociatedMemories
+	 * @return
+	 */
+	private static ArrayList<clsAssociationAttribute> getTPAssociations(clsThingPresentationMesh poTPM, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
+
+		//Go through all external
+		oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
+		if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
+			//Go through the external list
+			oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Filter a List of TP for certain content and contenttype
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.12.2011 10:29:31
+	 *
+	 * @param poAssList
+	 * @param poContentType
+	 * @param poContent
+	 * @return
+	 */
+	private static ArrayList<clsAssociationAttribute> FilterTPList(ArrayList<clsAssociation> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
+		
+		for (clsAssociation oAss: poAssList) {
+			//Check if attribute
+			if (oAss instanceof clsAssociationAttribute) {
+				if (poContentType!=null && poContent!=null) {
+					if ((poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) &&
+							(poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
+						oRetVal.add((clsAssociationAttribute) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else if (poContentType!=null && poContent==null) {
+					if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+						oRetVal.add((clsAssociationAttribute) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else if (poContentType==null && poContent!=null) {
+					if (poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
+						oRetVal.add((clsAssociationAttribute) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					oRetVal.add((clsAssociationAttribute) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Filter a List of DM for certain content and contenttype
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.12.2011 10:29:31
+	 *
+	 * @param poAssList
+	 * @param poContentType
+	 * @param poContent
+	 * @return
+	 */
+	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
+		
+		for (clsAssociation oAss: poAssList) {
+			//Check if dm has the corrent content and content type
+			if (oAss instanceof clsAssociationDriveMesh) {
+				if (poContentType!=null && poContent!=null) {
+					if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
+							(poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true)) {
+						oRetVal.add((clsAssociationDriveMesh) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else if (poContentType!=null && poContent==null) {
+					if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
+						oRetVal.add((clsAssociationDriveMesh) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else if (poContentType==null && poContent!=null) {
+					if (poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true) {
+						oRetVal.add((clsAssociationDriveMesh) oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					oRetVal.add((clsAssociationDriveMesh) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+//	public static <E extends clsDataStructurePA> ArrayList<E> castArrayList(eDataType poDataType, ArrayList<clsDataStructurePA> poList) {
+//		if (poDataType==eDataType.TPM) {
+//			for (clsDataStructurePA oE : poList) {
+//				
+//			}
+//		}
+//		
+//	}
+	
+//	/**
+//	 * Get all properties TP in from a certain mesh perception and associated memories.
+//	 * 
+//	 * If poContent = null, then it is not a criteria
+//	 * If poContentType = null, then it is not a criteria
+//	 * 
+//	 * pnMode
+//	 * 0: External and internal associations of the TPM
+//	 * 1: Only external associations of the TPM
+//	 * 2: Only internal associations of the TPM
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 06.09.2011 16:36:10
+//	 *
+//	 * @param poEnvironmentalPerception
+//	 * @param poAssociatedMemories
+//	 * @return
+//	 */
+//	private static ArrayList<clsAssociationDriveMesh> getDMAssociations(clsThingPresentationMesh poTPM, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+//		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
+//
+//		//Go through all external
+//		oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
+//		if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
+//			//Go through the external list
+//			oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+	
+//	/**
+//	 * Get all drive meshes in perception and associated memories
+//	 * (wendt)
+//	 *
+//	 * @since 06.09.2011 16:36:10
+//	 *
+//	 * @param poEnvironmentalPerception
+//	 * @param poAssociatedMemories
+//	 * @return
+//	 */
+//	public static ArrayList<clsAssociationDriveMesh> getDriveMeshAssociations(clsThingPresentationMesh poPerceptionalMesh, int pnLevel) {
+//		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
+//		
+//		//Get all TPM
+//		ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
+//		
+//		//Go through all TPMs to find all DMs
+//		for (clsThingPresentationMesh oTPM : oAllTPM) {
+//			for (clsAssociation oExtAss : oTPM.getExternalMoAssociatedContent()) {
+//				if (oExtAss instanceof clsAssociationDriveMesh) {
+//					oRetVal.add((clsAssociationDriveMesh) oExtAss);
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+//	/**
+//	 * Filter a list of TPMs for certain content and content type. NULL counts as nothing and is not used as filter criterium
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 02.01.2012 21:57:09
+//	 *
+//	 * @param poAssList
+//	 * @param poContentType
+//	 * @param poContent
+//	 * @param pbStopAtFirstMatch
+//	 * @return
+//	 */
+//	public static ArrayList<clsThingPresentationMesh> FilterTPMList(ArrayList<clsThingPresentationMesh> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+//		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+//		
+//		for (clsThingPresentationMesh oTPM: poAssList) {
+//			if (poContentType!=null && poContent!=null) {
+//				if ((poContentType.equals(oTPM.getMoContentType())==true) &&
+//						(poContent.equals(oTPM.getMoContent())==true)) {
+//					oRetVal.add(oTPM);
+//					if (pbStopAtFirstMatch==true) {
+//						break;
+//					}
+//				}
+//			} else if (poContentType!=null && poContent==null) {
+//				if (poContentType.equals(oTPM.getMoContentType())==true) {
+//					oRetVal.add(oTPM);
+//					if (pbStopAtFirstMatch==true) {
+//						break;
+//					}
+//				}
+//			} else if (poContentType==null && poContent!=null) {
+//				if (poContent.equals(oTPM.getMoContent())==true) {
+//					oRetVal.add(oTPM);
+//					if (pbStopAtFirstMatch==true) {
+//						break;
+//					}
+//				}
+//			} else {
+//				oRetVal.add(oTPM);
+//				if (pbStopAtFirstMatch==true) {
+//					break;
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+	
+//	private static void getAllTPMInMesh(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+//		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
+//		
+//		//Add the structure itself
+//		poAddedElements.add(poMesh);
+//		
+//		//Add the substructures of the internal associations
+//		if ((pnLevel>0) || (pnLevel==-1)) {
+//			for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
+//				if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+//					getAllTPMInMesh((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, pnLevel-1);
+//				} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
+//					getAllTPMInMesh((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, pnLevel-1);
+//				}
+//			}
+//		}
+//		
+//		//Add external associations
+//		if ((pnLevel>1) || (pnLevel==-1)) {
+//			for (clsAssociation oExtAss : poMesh.getExternalMoAssociatedContent()) {
+//				if (poAddedElements.contains(oExtAss.getLeafElement())==false && oExtAss.getLeafElement() instanceof clsThingPresentationMesh) {
+//					getAllTPMInMesh((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, pnLevel-1);
+//				} else if (poAddedElements.contains(oExtAss.getRootElement())==false && oExtAss.getRootElement() instanceof clsThingPresentationMesh) {
+//					getAllTPMInMesh((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, pnLevel-1);
+//				}
+//			}
+//		}
+//		
+//	}
+	
+	/**
+	 * Get all images in a mesh, i. e. contentType = RI or PI
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.12.2011 10:30:25
+	 *
+	 * @param poPerceptionalMesh
+	 * @param pnLevel
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> getAllTPMImages(clsThingPresentationMesh poPerceptionalMesh, int pnLevel) {
+		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		//Get all TPM in the mesh
+		//ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
+		
+		//Add PI. There is only one
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.PI.toString(), null, true, pnLevel));
+		
+		//Add all RI. 
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel));
+		
+		for (clsDataStructurePA oTPM : oFoundImages) {
+			oRetVal.add((clsThingPresentationMesh) oTPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all TPM with a certain contenttype and content
+	 * 
+	 * (wendt)
+	 *
+	 * @since 02.01.2012 21:56:02
+	 *
+	 * @param poPerceptionalMesh
+	 * @param poContentType
+	 * @param poContent
+	 * @param pbStopAtFirstMatch
+	 * @param pnLevel
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> getAllTPMObjects(clsThingPresentationMesh poPerceptionalMesh, int pnLevel) {
+		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		//Get all TPM for that level
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, null, null, false, pnLevel));
+		
+		for (clsDataStructurePA oTPM : oFoundImages) {
+			oRetVal.add((clsThingPresentationMesh) oTPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	public static ArrayList<clsAssociationDriveMesh> getAllDMInMesh(clsThingPresentationMesh poPerceptionalMesh) {
+		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
+		//This is an unconverted clsAssociationDriveMesh
+		ArrayList<clsDataStructurePA> oFoundList = clsDataStructureTools.getDataStructureInMesh(poPerceptionalMesh, eDataType.DM, null, null, false, 1);
+		
+		for (clsDataStructurePA oAss : oFoundList) {
+			oRetVal.add((clsAssociationDriveMesh) oAss);
+		}
+		
+		return oRetVal;
+	}
+	 	/**
+	 * Filter a list of TPMs for certain content and content type. NULL counts as nothing and is not used as filter criterium
+	 * 
+	 * (wendt)
+	 *
+	 * @since 02.01.2012 21:57:09
+	 *
+	 * @param poAssList
+	 * @param poContentType
+	 * @param poContent
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> FilterTPMList(ArrayList<clsThingPresentationMesh> poMeshList, String poContentType, String poContent, boolean bStopAtFirstMatch) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		for (clsThingPresentationMesh oTPM : poMeshList)
+			if (poContentType!=null && poContent!=null) {
+				if ((poContentType.equals(oTPM.getMoContentType())==true) &&
+						(poContent.equals(oTPM.getMoContent())==true)) {
+					oRetVal.add(oTPM);
+					if (bStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else if (poContentType!=null && poContent==null) {
+				if (poContentType.equals(oTPM.getMoContentType())==true) {
+					oRetVal.add(oTPM);
+					if (bStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else if (poContentType==null && poContent!=null) {
+				if (poContent.equals(oTPM.getMoContent())==true) {
+					oRetVal.add(oTPM);
+					if (bStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else {
+				oRetVal.add(oTPM);
+				if (bStopAtFirstMatch==true) {
+					break;
+				}
+			}
+		
+		return oRetVal;
+	}
+	
+	public static void deleteObjectInMesh(clsThingPresentationMesh poPerceptionalMesh, clsDataStructurePA poDeleteObject) {
+		//In this function the whole tree shall be deleted, of which a structure is connected. Start with the focused element and
+		//delete the "delete-Element" as well as the whole tree connected with it.
+		
+		//Todo AW: Implement this function!!!!!!!!!
+		
+		
+	}
+	
+	/**
+	 * Move an association from the origin TPM to the target TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 03.01.2012 20:43:49
+	 *
+	 * @param poTargetTPM
+	 * @param poOriginTPM
+	 * @param poAssociation
+	 */
+	public static void moveAssociation(clsThingPresentationMesh poTargetTPM, clsThingPresentationMesh poOriginTPM, clsAssociation poAssociation) {
+		//1. Check if Element A or B has the origin structure
+		if ((poAssociation.getRootElement().equals(poOriginTPM)==true) || (poAssociation.getLeafElement().equals(poOriginTPM)==true)) {
+			if (poAssociation.getRootElement().equals(poOriginTPM)==true) {
+				poAssociation.setRootElement(poTargetTPM);
+			} else {
+				poAssociation.setLeafElement(poTargetTPM);
+			}
+			
+			if (poOriginTPM.getExternalMoAssociatedContent().contains(poAssociation)) {
+				//2. Add the changed association to the targetTPM
+				poTargetTPM.getExternalMoAssociatedContent().add(poAssociation);
+				//3. Remove the association from the originTPM
+				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
+			} else if (poOriginTPM.getMoAssociatedContent().contains(poAssociation)) {
+				//2. Add the changed association to the targetTPM
+				poTargetTPM.getMoAssociatedContent().add(poAssociation);
+				//3. Remove the association from the originTPM
+				poOriginTPM.getMoAssociatedContent().remove(poAssociation);
+			}
+
+		}
+	}
+	
+	/**
+	 * Move an association from the origin TPM to the target TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 03.01.2012 20:43:49
+	 *
+	 * @param poTargetTPM
+	 * @param poOriginTPM
+	 * @param poAssociation
+	 */
+	private static ArrayList<clsAssociation> TEMPmoveAssociation(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM, clsAssociation poAssociation) {
+		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
+		
+		//1. Check if Element A or B has the origin structure
+		if ((poAssociation.getRootElement().equals(poOriginTPM)==true) || (poAssociation.getLeafElement().equals(poOriginTPM)==true)) {
+			if (poAssociation.getRootElement().equals(poOriginTPM)==true) {
+				poAssociation.setRootElement(poTargetTI);
+			} else {
+				poAssociation.setLeafElement(poTargetTI);
+			}
+			
+			if (poOriginTPM.getExternalMoAssociatedContent().contains(poAssociation)) {
+				//2. Add the changed association to the targetTPM
+				oRetVal.add(poAssociation);
+				//poTargetTI.getExternalMoAssociatedContent().add(poAssociation);
+				//3. Remove the association from the originTPM
+				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
+			} else if (poOriginTPM.getMoAssociatedContent().contains(poAssociation)) {
+				//2. Add the changed association to the targetTPM
+				poTargetTI.getMoAssociatedContent().add(poAssociation);
+				//3. Remove the association from the originTPM
+				poOriginTPM.getMoAssociatedContent().remove(poAssociation);
+			}
+
+		}
+		return oRetVal;
+	}
+	
+	public static ArrayList<clsAssociation> TEMPmoveAllAssociations(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM) {
+		ArrayList<clsAssociation> oNewInternalList = new ArrayList<clsAssociation>();
+		ArrayList<clsAssociation> oNewExtAssociationList = new ArrayList<clsAssociation>();
+		
+		ArrayList<clsAssociation> oNewReturnAssociationList = new ArrayList<clsAssociation>();
+		
+		oNewExtAssociationList.addAll(poOriginTPM.getExternalMoAssociatedContent());
+		for (clsAssociation oAss1 : oNewExtAssociationList) {
+			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss1));
+		}
+		
+		oNewInternalList.addAll(poOriginTPM.getMoAssociatedContent());
+		for (clsAssociation oAss2 : oNewInternalList) {
+			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss2));
+		}
+		
+		return oNewExtAssociationList;
+	}
+	
+	
 	
 }
