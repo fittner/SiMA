@@ -237,6 +237,15 @@ public class clsSpatialTools {
 			//Get the position
 			if (oImageObject instanceof clsThingPresentationMesh) {
 				clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oObjectPosition = getPosition((clsThingPresentationMesh) oImageObject);
+				//Throw exception if some position is NULL
+				//if (oObjectPosition.b==null || oObjectPosition.c==null) {
+				//	try {
+				//		throw new Exception("clsSpatialTools, getImagePositions: Object position = null. Original object: " + oImageObject.toString() + ". Calculated object: " + oObjectPosition.toString());
+				//	} catch (Exception e) {
+				//		// TODO (wendt) - Auto-generated catch block
+				//		e.printStackTrace();
+				//	}
+				//}
 				oRetVal.add(oObjectPosition);
 			}
 		}

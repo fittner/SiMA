@@ -110,8 +110,11 @@ public class clsDataStructureTools {
 	 */
 	public static void createAssociationTemporary(clsThingPresentationMesh poSuperStructure, clsThingPresentationMesh poSubStructure, double prWeight) {
 		String oContentType = eContentType.PARTOFASSOCIATION.toString();
+		//Create association
 		clsAssociationTime oAssTemp = (clsAssociationTime)clsDataStructureGenerator.generateASSOCIATIONTIME(oContentType, poSuperStructure, poSubStructure, prWeight);
+		//Add association to the superstructure
 		poSuperStructure.getMoAssociatedContent().add(oAssTemp);
+		//Add association to the substructure
 		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
 	}
 	
@@ -681,7 +684,7 @@ public class clsDataStructureTools {
 		clsTriple<Integer, eDataType, String> oTPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, poContentType);
 		clsThingPresentationMesh oConstructedImage = new clsThingPresentationMesh(oTPMIdentifier, new ArrayList<clsAssociation>(), poContent);
 		
-		addTPMToImage(poInput, oConstructedImage);
+		addTPMToTPMImage(oConstructedImage, poInput);
 		
 		oRetVal = oConstructedImage;
 		
@@ -695,19 +698,20 @@ public class clsDataStructureTools {
 	 *
 	 * @since 05.12.2011 15:33:14
 	 *
-	 * @param poInput
-	 * @param poMesh
+	 * @param poInput: List of structures, which shall be added
+	 * @param poMesh: The image, which shall receive the structures
 	 */
-	public static void addTPMToImage(ArrayList<clsThingPresentationMesh> oAddList, clsThingPresentationMesh oImage) {
+	public static void addTPMToTPMImage(clsThingPresentationMesh oImage, ArrayList<clsThingPresentationMesh> oAddList) {
 		//Modify the image by adding additional compontents
 		
 		for (clsThingPresentationMesh oC : oAddList) {
-			clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
-			(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
-			oImage, oC);
+			createAssociationTemporary(oImage, oC, 1.0);
+			//clsAssociationTime oAssTime = new clsAssociationTime(new clsTriple<Integer, eDataType, String> 
+			//(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), 
+			//oImage, oC);
 			
 			//Add Timeassociation
-			oImage.assignDataStructure(oAssTime);
+			//oImage.assignDataStructure(oAssTime);
 			
 			//Add locations
 			//oImage.getExternalMoAssociatedContent().addAll(oC.getExternalMoAssociatedContent());
@@ -1184,7 +1188,7 @@ public class clsDataStructureTools {
 		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.PI.toString(), null, true, pnLevel));
 		
 		//Add all RI. 
-		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel));
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel+1));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);

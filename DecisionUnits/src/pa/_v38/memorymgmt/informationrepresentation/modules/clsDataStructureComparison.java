@@ -573,6 +573,9 @@ public abstract class clsDataStructureComparison {
 						if (oSubMesh!=null) {
 							//Get the extended structures from the searched one and add them to the TPM
 							((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
+							//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
+							//time associations of the subobject. This association is added to the external associations of the subobject
+							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
 						}
 					}
 				}

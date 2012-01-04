@@ -183,8 +183,6 @@ implements I5_6_receive, I5_7_send  {
 
 		evaluatePerception(moPerceptionalMesh_OUT);
 		
-		//Pass memories forward
-		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
 	}
 
 	/**

@@ -174,7 +174,6 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		//Check null
 		if (oGetVal!=null) {
 			poPerceptionalMesh = oGetVal;
-			//poAssociatedMemories = oGetVal.b;
 		}	
 	}
 

@@ -155,7 +155,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	protected void process_basic() {
 		
 		//Variables
-		clsPrimaryDataStructureContainer oEnvPerceptionNoDM;
 		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
 		
 		//Workaround of Bug Eatable/Manipulatable sensors bug
@@ -166,34 +165,21 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
 		
+		//Set new instance IDs
+		clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
 		//Convert LOCATION to DISTANCE and POSITION
 		//FIXME AW: Remove this when CM has implemented it in his modules
-		TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
+		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
 		
 		//Convert all objects to enhanced TPMs 
 		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
 		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
 		
-		//Test the cloning of a TPM Graph
-		//clsThingPresentationMesh oTestTP = null;
-		//try {
-		//	oTestTP = (clsThingPresentationMesh) oPerceivedImage.cloneGraph();
-		//} catch (CloneNotSupportedException e) {
-		//	// TODO (wendt) - Auto-generated catch block
-		//	e.printStackTrace();
-		//}
-		
 		//Create EMPTYSPACE objects
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
-		clsDataStructureTools.addTPMToImage(oEmptySpaceList, oPerceivedImage);
-		
-		//ArrayList<clsPrimaryDataStructureContainer> oTPMList = clsDataStructureConverter.convertTPMImageToTPMContainer(oPerceivedImage);
-		//clsDataStructureTools.createInstanceFromTypeList(oTPMList, true);
-		//oEnvPerceptionNoDM = clsDataStructureConverter.convertTPMContToTICont(oTPMList);
-		
-		//moPerceptionalMesh_OUT = oEnvPerceptionNoDM;	//The output is a perceived image
+		clsDataStructureTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
@@ -222,8 +208,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = moEnhancedPerception;
-		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
-		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
 		
 	}
 	 
@@ -406,7 +390,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 		
 		//Add the containerlist to the PI
-		clsDataStructureTools.addTPMToImage(oPTPMList, oRetVal);	
+		clsDataStructureTools.addTPMToTPMImage(oRetVal, oPTPMList);	
 		
 		return oRetVal;
 	}
@@ -439,8 +423,6 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	private ArrayList<clsThingPresentationMesh> retrieveImagesTPM(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
-		
-		//ArrayList<clsPrimaryDataStructureContainer> oContainerList  = retrieveImages(oPerceivedImage_IN);
 		
 		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
@@ -709,14 +691,14 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			//TODO AW: Only the first
 			//Search for matches
 			//Positions: 1: PI, 2: Resultstructure, 3: ContentType=RI, 4: Matchthreshold, 5: Associationactivationdepth
-			searchMesh(oPerceptionInput, oSearchResultContainer, "RI", mrMatchThreshold, 2);
+			searchMesh(oPerceptionInput, oSearchResultContainer, eContentType.RI.toString(), mrMatchThreshold, 2);
 		
 			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
 		} else {
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchMesh(oReturnedMemory, oSearchResultContainer, "RI", mrMatchThreshold, 2);
+			searchMesh(oReturnedMemory, oSearchResultContainer, eContentType.RI.toString(), mrMatchThreshold, 2);
 		}
 		
 		//Create associations between the PI and those matches

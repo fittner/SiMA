@@ -113,9 +113,19 @@ public class clsDataStructureConverter {
 			//FIXME HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
 			
-			if(oContentTypeTP.equals("ObjectPosition") || oContentTypeTP.equals("Distance")){
-				oContentTypeTP = "LOCATION"; 
+//			if(oContentTypeTP.equals("ObjectPosition") || oContentTypeTP.equals("Distance")){
+//				oContentTypeTP = "LOCATION"; 
+//			}
+			
+			if(oContentTypeTP.equals("ObjectPosition")) {
+				oContentTypeTP = "POSITION"; 
 			}
+			
+			if (oContentTypeTP.equals("Distance")) {
+				oContentTypeTP = "DISTANCE";
+			}
+			
+			
 		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
 	
