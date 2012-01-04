@@ -1188,7 +1188,7 @@ public class clsDataStructureTools {
 		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.PI.toString(), null, true, pnLevel));
 		
 		//Add all RI. 
-		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel+1));
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -1384,7 +1384,14 @@ public class clsDataStructureTools {
 			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss2));
 		}
 		
-		return oNewExtAssociationList;
+		//Move all internal associations to the container
+		for (clsAssociation oAss : poTargetTI.getMoAssociatedContent()) {
+			clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh) oAss.getLeafElement();
+			
+			oNewReturnAssociationList.addAll(oSubTPM.getExternalMoAssociatedContent());
+		}
+		
+		return oNewReturnAssociationList;
 	}
 	
 	

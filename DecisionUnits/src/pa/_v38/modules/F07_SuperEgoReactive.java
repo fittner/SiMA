@@ -380,7 +380,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private boolean searchInTI (String oContentType, String oContent) {
 		// search in perceptions
 		
-		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 1);
+		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
 		ArrayList<clsThingPresentationMesh> oFilteredImages = clsDataStructureTools.FilterTPMList(oImages, null, oContent, true);
 		
 		if (oFilteredImages.isEmpty()==false) {

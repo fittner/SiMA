@@ -151,7 +151,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 		}
 		
 		//RetVal is changed and returned. The images of oImages are for oRetVal
-		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(oRetVal, 1);
+		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(oRetVal, 2);
 		
 		for (clsThingPresentationMesh oImage : oImages) {
 			mergeDriveMeshesImage(oImage);

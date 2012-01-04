@@ -16,6 +16,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -296,7 +297,7 @@ public class clsDataStructureConverter {
 		//2. For each Image
 		for (clsThingPresentationMesh oTPM : oTPMList) {
 			//2.1 Remove all AssPri in the external associations if the TPM is no RI or PI
-			if (((oTPM.getMoContentType().equals(eContentType.PI.toString())==false && oTPM.getMoContentType().equals(eContentType.RI.toString())==false))) {
+			if (((oTPM.getMoContentType().equals(eContentType.PI.toString())==true || oTPM.getMoContentType().equals(eContentType.RI.toString())==true))) {
 				//Go through external associations
 				ArrayList<clsAssociation> oRemoveObjectList  = new ArrayList<clsAssociation>();
 				for (clsAssociation oAss : oTPM.getExternalMoAssociatedContent()) {
@@ -324,6 +325,19 @@ public class clsDataStructureConverter {
 			
 			//Move all associations to the TI
 			ArrayList<clsAssociation> oContainerAssociationList = clsDataStructureTools.TEMPmoveAllAssociations(oTI, oTPM);
+			
+			//Remove all temporal associations in the external association list
+			ArrayList<clsAssociation> oRemoveList = new ArrayList<clsAssociation>();
+			for (clsAssociation oAss : oContainerAssociationList) {
+				if (oAss instanceof clsAssociationTime) {
+					oRemoveList.add(oAss);
+				}
+			}
+			
+			for (clsAssociation oAss : oRemoveList) {
+				oContainerAssociationList.remove(oAss);
+			}
+			
 			
 			//2.2 Create a list of external associations and transfer the current list to this list
 			//ArrayList<clsAssociation> oContainerAssociationList = new ArrayList<clsAssociation>();

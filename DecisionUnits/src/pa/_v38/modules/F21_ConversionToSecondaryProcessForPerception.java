@@ -209,7 +209,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		moEnvironmentalPerception_OUT =  assignWPtoPerceivedImage(moEnvironmentalPerception_IN);
 		
 		//Processing of associated images
-		moAssociatedMemoriesSecondary_OUT = assignWPtoImages(moAssociatedMemories_IN);
+		moAssociatedMemoriesSecondary_OUT = new ArrayList<clsDataStructureContainerPair>();//assignWPtoImages(moAssociatedMemories_IN);
 	}
 	
 	//private clsSecondaryDataStructureContainer

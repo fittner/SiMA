@@ -222,7 +222,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		
 		//Perception and phantasy are treated equal, therefore, get all images in the mesh
-		ArrayList<clsThingPresentationMesh> oImageList = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 1);
+		ArrayList<clsThingPresentationMesh> oImageList = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
 		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {
