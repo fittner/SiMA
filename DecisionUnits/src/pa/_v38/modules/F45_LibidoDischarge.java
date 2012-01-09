@@ -78,7 +78,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private DT1_LibidoBuffer moLibidoBuffer;	
 	
 	/** String for searching for content type from the storage of images to libido */
-	private String oLibidoImageString = "IMAGE:LIBIDO";
+	private String oLibidoImageString = "RI:LIBIDO";
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned
 	 * 
@@ -259,7 +259,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
 		//Find matching images for the input image
-		searchMesh(poInput, oSearchResultContainer, oLibidoImageString, mrMatchThreshold, 1);	//About "1" = search only one level, i. e. direct matches
+		searchMesh(poInput, oSearchResultContainer, oLibidoImageString, mrMatchThreshold, 2);	//About "2" = search only one level except the current one, i. e. direct matches
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);

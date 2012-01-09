@@ -23,7 +23,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
@@ -65,6 +64,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	
 	private DT2_BlockedContentStorage moBlockedContentStorage; // only needed here in F19 to initialize the blocked content storage
 
+	private String moBlockedContentTypeString = "RI:REPRESSED";
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -357,10 +357,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
-		clsTemplateImage newTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(-1, eDataType.TI, "IMAGE:REPRESSED"), new ArrayList<clsAssociation>(), "EMPTY");
+		clsThingPresentationMesh newTPMImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, moBlockedContentTypeString), new ArrayList<clsAssociation>(), "EMPTY");
 		//clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
 		
-		searchMesh(newTI, oSearchResult, "IMAGE:REPRESSED", 0, 1);
+		searchMesh(newTPMImage, oSearchResult, moBlockedContentTypeString, 0.0, 2);	//Set pnLevel=2, in order to add direct matches
 		
 		for (clsPair<Double, clsDataStructurePA> oPair : oSearchResult) {
 			oRetVal.add((clsThingPresentationMesh) oPair.b);

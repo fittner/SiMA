@@ -581,9 +581,11 @@ public class clsDataStructureTools {
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		
-		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMImages(poTargetImageMesh, pnLevel);
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMObjects(poTargetImageMesh, pnLevel);
 		
+		//Go through all objects on this level in each image
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
+			
 			if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
 				oRetVal.add(oObject);
 			}
@@ -750,13 +752,17 @@ public class clsDataStructureTools {
 	
 	/**
 	 * Get all TPM structures in a mesh up to a certain level. A list with each TPM structure is returned
-	 * 
 	 * (wendt)
 	 *
-	 * @since 28.12.2011 09:51:50
+	 * @since 05.01.2012 10:42:02
 	 *
-	 * @param poMesh
-	 * @param pnLevel  - Level of search depth. If = 1, only direct matches are used
+	 * @param poMesh: The ThingPresentationMesh, normally the perception
+	 * @param poDataType: Filter: Returndatatype: TPM, TP or DM
+	 * @param poContentType: Filter ContentType. Set null for no filter
+	 * @param poContent: Filter Content. Set null for no filter
+	 * @param pbStopAtFirstMatch: Break at first match
+	 * @param pnLevel: Level of search depth. If = 1, only the current image is processed. 
+	 * If pnLevel = 2, all direct matches to the top image are processed
 	 * @return
 	 */
 	public static ArrayList<clsDataStructurePA> getDataStructureInMesh(clsThingPresentationMesh poMesh, eDataType poDataType, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
