@@ -679,31 +679,37 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Associated memories
 		//Decide which image will be the input for spread activation
+		//FIXME AW: calculateAbsoluteAffect shall contain a list of DMs, which is a filter for that function
 		if (oReturnedMemory!=null) {
-			if (clsAffectTools.calculateAbsoluteAffect(oPerceptionInput) < clsAffectTools.calculateAbsoluteAffect(oReturnedMemory)) {
+			
+			//FIXME AW: This is an empty list for the spread activation. This list should be replaced with the input from 
+			//F48
+			ArrayList<clsDriveMesh> oDMList = new ArrayList<clsDriveMesh>();
+			
+			if (clsAffectTools.calculateAbsoluteAffect(oPerceptionInput, oDMList) < clsAffectTools.calculateAbsoluteAffect(oReturnedMemory, oDMList)) {
 				blUsePerception = false;
 			}
 		}
 		
-		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		if (blUsePerception==true) {
 			//Use perceived image as input of spread activation
 			//TODO AW: Only the first
 			//Search for matches
 			//Positions: 1: PI, 2: Resultstructure, 3: ContentType=RI, 4: Matchthreshold, 5: Associationactivationdepth
-			searchMesh(oPerceptionInput, oSearchResultContainer, eContentType.RI.toString(), mrMatchThreshold, 2);
+			searchMesh(oPerceptionInput, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
 		
 			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
 		} else {
 			//Use action-plan image as input of spread activation
 			//TODO: This is only the first basic implementation of activation of phantsies
 			
-			searchMesh(oReturnedMemory, oSearchResultContainer, eContentType.RI.toString(), mrMatchThreshold, 2);
+			searchMesh(oReturnedMemory, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
 		}
 		
 		//Create associations between the PI and those matches
 		
-		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultContainer) {
+		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
 			clsDataStructureTools.createAssociationPrimary(oPerceptionInput, (clsThingPresentationMesh) oPair.b, oPair.a);
 			//Now all matched images are linked with the PI
 		}

@@ -765,12 +765,12 @@ public class clsDataStructureTools {
 	 * If pnLevel = 2, all direct matches to the top image are processed
 	 * @return
 	 */
-	public static ArrayList<clsDataStructurePA> getDataStructureInMesh(clsThingPresentationMesh poMesh, eDataType poDataType, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	public static ArrayList<clsDataStructurePA> getDataStructureInMesh(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		ArrayList<clsThingPresentationMesh> oAddedElements = new ArrayList<clsThingPresentationMesh>();
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		//Go through each TPM (Node) and search for the defined structures. This is a recursive function
-		searchDataStructureInMesh(poMesh, oAddedElements, oRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel);
+		searchDataStructureInMesh(poMesh, oAddedElements, oRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel);
 		
 		return oRetVal;
 	}
@@ -794,7 +794,7 @@ public class clsDataStructureTools {
 	 * @param poMesh
 	 * @return
 	 */
-	private static void searchDataStructureInMesh(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, String poContentType, String poContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	private static void searchDataStructureInMesh(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
 		//Add the structure itself to the list of passed elements
@@ -802,15 +802,23 @@ public class clsDataStructureTools {
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.TPM)==true) {
 			//Check if this mesh matches the content and content type filter. If yes, then add the result
-			boolean bMatchFound = FilterTPM(poMesh, poContentType, poContent);
-			if (bMatchFound==true) {
-				poRetVal.add(poMesh);
+			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+				//Check if this mesh has this filter
+				boolean bMatchFound = FilterTPM(poMesh, oCTC.a, oCTC.b);
+				
+				//As soon as positive, break loop
+				if (bMatchFound==true) {
+					poRetVal.add(poMesh);
+					break;
+				}
 			}
+
 		} else if (poDataType.equals(eDataType.TP)==true) {
-			ArrayList<clsAssociationAttribute> oFoundTPAssList = getTPAssociations(poMesh, poContentType, poContent, pbStopAtFirstMatch);
+			ArrayList<clsAssociationAttribute> oFoundTPAssList = getTPAssociations(poMesh, poContentTypeAndContent, pbStopAtFirstMatch);
 			poRetVal.addAll(oFoundTPAssList);
 		} else if (poDataType.equals(eDataType.DM)==true) {
-			ArrayList<clsAssociationDriveMesh> oFoundDMAssList = FilterDMList(poMesh.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch);
+			
+			ArrayList<clsAssociationDriveMesh> oFoundDMAssList = FilterDMList(poMesh.getExternalMoAssociatedContent(), poContentTypeAndContent, pbStopAtFirstMatch);
 			poRetVal.addAll(oFoundDMAssList);
 		} else {
 			try {
@@ -827,20 +835,20 @@ public class clsDataStructureTools {
 			if ((pnLevel>0) || (pnLevel==-1)) {
 				for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInMesh((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}
 			}
 			
-			//Add external associations
+			//Add external associations to other external images
 			if ((pnLevel>1) || (pnLevel==-1)) {
 				for (clsAssociation oExtAss : poMesh.getExternalMoAssociatedContent()) {
 					if (poAddedElements.contains(oExtAss.getLeafElement())==false && oExtAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oExtAss.getRootElement())==false && oExtAss.getRootElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentType, poContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInMesh((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}
 			}
@@ -888,8 +896,8 @@ public class clsDataStructureTools {
 	/**
 	 * Get all properties TP in from a certain mesh perception and associated memories.
 	 * 
-	 * If poContent = null, then it is not a criteria
-	 * If poContentType = null, then it is not a criteria
+	 * If poContent = null, then it is not a criteria (String 1)
+	 * If poContentType = null, then it is not a criteria (String 2)
 	 * 
 	 * pnMode
 	 * 0: External and internal associations of the TPM
@@ -904,14 +912,17 @@ public class clsDataStructureTools {
 	 * @param poAssociatedMemories
 	 * @return
 	 */
-	private static ArrayList<clsAssociationAttribute> getTPAssociations(clsThingPresentationMesh poTPM, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationAttribute> getTPAssociations(clsThingPresentationMesh poTPM, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
 
 		//Go through all external
-		oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
-		if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
-			//Go through the external list
-			oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), poContentType, poContent, pbStopAtFirstMatch));
+		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+			oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
+				//Go through the external list
+				oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+				break;
+			}
 		}
 		
 		return oRetVal;
@@ -981,40 +992,51 @@ public class clsDataStructureTools {
 	 * @param poContent
 	 * @return
 	 */
-	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		
+		
+		
 		for (clsAssociation oAss: poAssList) {
-			//Check if dm has the corrent content and content type
-			if (oAss instanceof clsAssociationDriveMesh) {
-				if (poContentType!=null && poContent!=null) {
-					if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
-							(poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true)) {
+			boolean bBreakAssLoop = false;
+			//Go through all pairs of contents and content types
+			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+				//Check if dm has the corrent content and content type
+				if (oAss instanceof clsAssociationDriveMesh) {
+					if (oCTC.a!=null && oCTC.b!=null) {
+						if ((oCTC.a.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
+								(oCTC.b.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true)) {
+							oRetVal.add((clsAssociationDriveMesh) oAss);
+							if (pbStopAtFirstMatch==true) {
+								bBreakAssLoop=true;
+							}
+							break;
+						}
+					} else if (oCTC.a!=null && oCTC.b==null) {
+						if (oCTC.a.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
+							oRetVal.add((clsAssociationDriveMesh) oAss);
+							if (pbStopAtFirstMatch==true) {
+								bBreakAssLoop=true;
+							}
+						}
+					} else if (oCTC.a==null && oCTC.b!=null) {
+						if (oCTC.b.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true) {
+							oRetVal.add((clsAssociationDriveMesh) oAss);
+							if (pbStopAtFirstMatch==true) {
+								bBreakAssLoop=true;
+							}
+						}
+					} else {
 						oRetVal.add((clsAssociationDriveMesh) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
 						}
-					}
-				} else if (poContentType!=null && poContent==null) {
-					if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
-						oRetVal.add((clsAssociationDriveMesh) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					}
-				} else if (poContentType==null && poContent!=null) {
-					if (poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true) {
-						oRetVal.add((clsAssociationDriveMesh) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					}
-				} else {
-					oRetVal.add((clsAssociationDriveMesh) oAss);
-					if (pbStopAtFirstMatch==true) {
-						break;
 					}
 				}
+			}
+			
+			if (bBreakAssLoop==true) {
+				break;
 			}
 		}
 		
@@ -1191,10 +1213,14 @@ public class clsDataStructureTools {
 		//ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
 		
 		//Add PI. There is only one
-		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.PI.toString(), null, true, pnLevel));
+		ArrayList<clsPair<String, String>> oContentTypeAndContentPairPI = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentPairPI.add(new clsPair<String, String>(eContentType.PI.toString(), null));
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPairPI, true, pnLevel));
 		
 		//Add all RI. 
-		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, eContentType.RI.toString(), null, false, pnLevel));
+		ArrayList<clsPair<String, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<String, String>(eContentType.RI.toString(), null));
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPairRI, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -1222,7 +1248,9 @@ public class clsDataStructureTools {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Get all TPM for that level
-		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, null, null, false, pnLevel));
+		ArrayList<clsPair<String, String>> oContentTypeAndContentPair = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentPair.add(new clsPair<String, String>(null, null));
+		oFoundImages.addAll(getDataStructureInMesh(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPair, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -1231,11 +1259,35 @@ public class clsDataStructureTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get a list of all drivemeshes in a certain thing presentation mesh, pnLevel=1 (Only this image)
+	 * (wendt)
+	 *
+	 * @since 15.01.2012 17:52:22
+	 *
+	 * @param poPerceptionalMesh
+	 * @return
+	 */
 	public static ArrayList<clsAssociationDriveMesh> getAllDMInMesh(clsThingPresentationMesh poPerceptionalMesh) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		//This is an unconverted clsAssociationDriveMesh
-		ArrayList<clsDataStructurePA> oFoundList = clsDataStructureTools.getDataStructureInMesh(poPerceptionalMesh, eDataType.DM, null, null, false, 1);
+		ArrayList<clsPair<String, String>> oContentTypeAndContentPair = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentPair.add(new clsPair<String, String>(null, null));
+		ArrayList<clsDataStructurePA> oFoundList = clsDataStructureTools.getDataStructureInMesh(poPerceptionalMesh, eDataType.DM, oContentTypeAndContentPair, false, 1);
 		
+		for (clsDataStructurePA oAss : oFoundList) {
+			oRetVal.add((clsAssociationDriveMesh) oAss);
+		}
+		
+		return oRetVal;
+	}
+	
+	
+	public static ArrayList<clsAssociationDriveMesh> getSelectedDMInImage(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsPair<String, String>> poFilterContentTypeAndContent) {
+		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
+		
+		ArrayList<clsDataStructurePA> oFoundList = clsDataStructureTools.getDataStructureInMesh(poPerceptionalMesh, eDataType.DM, poFilterContentTypeAndContent, false, 2);
+						
 		for (clsDataStructurePA oAss : oFoundList) {
 			oRetVal.add((clsAssociationDriveMesh) oAss);
 		}

@@ -238,7 +238,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentType, oContent, true, 1);
+			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
+			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -263,7 +265,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				// check a TP
 			
 			//The attribute list is clsAssociationAttribute
-			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentType, oContent, true, 1);
+
+			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);

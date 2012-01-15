@@ -310,7 +310,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
 		
 		//Association attribute are delivered here
-		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentType, oContent, true, 1);
+		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 		if (oAttributeAss.isEmpty()==false) {
 			return true;
 		}
@@ -345,7 +347,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// search in perceptions
 		
 		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
-		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentType, oContent, true, 1);
+		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 		
 		if (oTPMList.isEmpty()==false) {
 			return true;

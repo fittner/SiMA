@@ -56,16 +56,23 @@ public class clsAffectTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAbsoluteAffect(clsThingPresentationMesh poImage) {
+	public static double calculateAbsoluteAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
 		double rAbsoluteAffect;
 		
 		rAbsoluteAffect = 0;
 		
-		for (clsAssociation oAss: poImage.getMoAssociatedContent()) {
-			if (oAss instanceof clsAssociationDriveMesh) {
-				rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAss.getLeafElement()).getPleasure());
-			}
+		ArrayList<clsPair<String, String>> oDMConentType = new ArrayList<clsPair<String, String>>();
+		//Get all contenttypes from the DM
+		for (clsDriveMesh oDM : poDMList) {
+			oDMConentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
 		}
+		
+		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMConentType);
+		
+		for (clsAssociationDriveMesh oAssDMList : oDMList) {
+			rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());
+		}
+		
 		return rAbsoluteAffect;
 	}
 	
