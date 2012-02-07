@@ -331,8 +331,10 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				// case 1b: partial match (matchValue < 1)
 				else {
 					// add complete result to associated memories by creating
-					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eDataType.ASSOCIATIONPRI.toString(), poPerception, matchedItem.a, matchedItem.b);
+					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eDataType.ASSOCIATIONPRI.toString(), poPerception, (clsThingPresentationMesh) matchedItem.a, matchedItem.b);
 					poPerception.getExternalMoAssociatedContent().add(oNewPriAss);
+					((clsThingPresentationMesh)matchedItem.a).getExternalMoAssociatedContent().add(oNewPriAss);
+					
 				}
 				// activated content has to be deleted from the blocked content storage
 				this.removeBlockedContent(matchedItem.a);
@@ -455,8 +457,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				//Get all drive meshes in the image
 				ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getAllDMInMesh((clsThingPresentationMesh) oBlockedCont);
 				
-				// add to results
-				oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>(poImage, oMatchResult, oDMList));
+				// add the blocked content to results
+				oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsThingPresentationMesh) oBlockedCont, oMatchResult, oDMList));
 				
 			}
 			else if (oEntry instanceof clsDriveMesh) {

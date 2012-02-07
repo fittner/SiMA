@@ -215,7 +215,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		//Clone input structure and make modification directly on the output
 		try {
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -433,7 +434,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//moMergedPrimaryInformation_Rcv = poMergedPrimaryInformation;
 		
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

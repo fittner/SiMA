@@ -293,7 +293,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		//Remove all objects, which are not found in the drive list
 		if (oRetVal.getMoDataStructure() instanceof clsWordPresentationMesh) {
-			ArrayList<clsAssociation> oOldInternalAssList = ((clsWordPresentationMesh)oRetVal.getMoDataStructure()).getMoAssociatedContent();
+			ArrayList<clsAssociation> oOldInternalAssList = ((clsWordPresentationMesh)oRetVal.getMoDataStructure()).getAssociatedContent();
 			ArrayList<clsAssociation> oNewInternalAssList = new ArrayList<clsAssociation>();
 			ArrayList<clsAssociation> oNewContainerAssList = new ArrayList<clsAssociation>();
 			//For each association in the old list

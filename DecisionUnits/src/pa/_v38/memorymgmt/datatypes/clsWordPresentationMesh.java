@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
 /**
@@ -104,38 +105,109 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	}
 	
 	@Override
+//	public Object clone() throws CloneNotSupportedException {
+//        try {
+//        	clsWordPresentationMesh oClone = (clsWordPresentationMesh)super.clone();
+//        	if (moInternalAssociatedContent != null) {
+//        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+//        		for(clsAssociation oAssociation : moInternalAssociatedContent){
+//        			try { 
+//    					Object dupl = oAssociation.clone(this, oClone); 
+//    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+//    				} catch (Exception e) {
+//    					return e;
+//    				}
+//        		}
+//        	}
+//        	
+//        	if (moExternalAssociatedContent != null) {
+//        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+//        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+//        			try { 
+//    					Object dupl = oAssociation.clone(this, oClone); 
+//    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+//    				} catch (Exception e) {
+//    					return e;
+//    				}
+//        		}
+//        	}
+//        	
+//          	return oClone;
+//        } catch (CloneNotSupportedException e) {
+//           return e;
+//        }
+//	}
+	
+	/**
+	 * Alternative clone for cloning directed graphs
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 16:29:38
+	 *
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
 	public Object clone() throws CloneNotSupportedException {
-        try {
-        	clsWordPresentationMesh oClone = (clsWordPresentationMesh)super.clone();
-        	if (moInternalAssociatedContent != null) {
-        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+		return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+	}
+	
+	/**
+	 * Alternative clone for cloning directed graphs. This function adds cloned objects to a list and considers
+	 * that loops may occur
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.12.2011 16:29:58
+	 *
+	 * @param poNodeList
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+		
+		clsWordPresentationMesh oClone = null;
+		
+		try {
+			//Clone the data structure without associated content. They only exists as empty lists
+			oClone = (clsWordPresentationMesh)super.clone();
+			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
+			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
+			//Add this structure and the new clone to the list of cloned structures
+			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
+			
+			//Go through all associations
+			if (moInternalAssociatedContent != null) {
+				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
         		}
         	}
-        	
-        	if (moExternalAssociatedContent != null) {
-        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+						
+			//Go through all associations
+			if (moExternalAssociatedContent != null) {
+				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
         		}
         	}
-        	
-          	return oClone;
-        } catch (CloneNotSupportedException e) {
+			
+		} catch (CloneNotSupportedException e) {
            return e;
         }
-	}			
+		
+		return oClone;
+	}
 	
 	@Override
 	public String toString(){

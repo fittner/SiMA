@@ -144,7 +144,8 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	private clsThingPresentationMesh mergeAssMemoryDriveMeshes(clsThingPresentationMesh poInput) {
 		clsThingPresentationMesh oRetVal = null;
 		try {
-			oRetVal = (clsThingPresentationMesh) poInput.cloneGraph();
+			//oRetVal = (clsThingPresentationMesh) poInput.cloneGraph();
+			oRetVal = (clsThingPresentationMesh) poInput.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -376,7 +377,8 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	public void receive_I5_9(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

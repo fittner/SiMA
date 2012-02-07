@@ -35,7 +35,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
@@ -352,7 +351,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 */
 	private clsThingPresentationMesh enhancePerceptionWithLocalization(clsThingPresentationMesh poPI, clsShortTimeMemory poTempLocalizationStorage) throws CloneNotSupportedException {
 		//Clone the PI
-		clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.cloneGraph();
+		//clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.cloneGraph();
+		clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.clone();
 		
 		//Get all objects from the localization
 		ArrayList<clsPair<Integer, Object>> oInvisibleObjects = poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
@@ -813,8 +813,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
 				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(
 							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
-							(clsPrimaryDataStructure)poNewImage.getMoDataStructure(), 
-							(clsPrimaryDataStructure)oBestMatch.getMoDataStructure());
+							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
+							(clsThingPresentation)oBestMatch.getMoDataStructure());
 				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
 			}
 		}
@@ -867,8 +867,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		
 		//Search for one "Nothingobject"
 		//Create the TP
-		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>
-			("ENTITY", new ArrayList<clsPhysicalRepresentation>(),"EMPTYSPACE"));
+		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>
+			("ENTITY", new ArrayList<clsThingPresentation>(),"EMPTYSPACE"));
 		
 		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
 		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));

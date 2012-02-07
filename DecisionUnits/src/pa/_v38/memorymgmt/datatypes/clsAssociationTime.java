@@ -30,8 +30,8 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationType
 	 */
 	public clsAssociationTime(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsPrimaryDataStructure poAssociationElementA,
-			clsPrimaryDataStructure poAssociationElementB) {
+			clsThingPresentationMesh poAssociationElementA,
+			clsThingPresentationMesh poAssociationElementB) {
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 		// TODO (zeilinger) - Auto-generated constructor stub
@@ -58,15 +58,15 @@ public class clsAssociationTime extends clsAssociation{
 	 * @see pa._v38.memorymgmt.datatypes.clsAssociation#getLeafElement(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public clsDataStructurePA getLeafElement() {
+	public clsThingPresentationMesh getLeafElement() {
 		//TIs have one element that form the root for associated Time Associations
 		//This element is always moAssociationElementA; Hence the B element is returned
-		return moAssociationElementB;
+		return (clsThingPresentationMesh) moAssociationElementB;
 	}
 	
 	@Override
-	public clsDataStructurePA getRootElement() {
-		return moAssociationElementA;
+	public clsThingPresentationMesh getRootElement() {
+		return (clsThingPresentationMesh) moAssociationElementA;
 	}
 	
 	/* (non-Javadoc)

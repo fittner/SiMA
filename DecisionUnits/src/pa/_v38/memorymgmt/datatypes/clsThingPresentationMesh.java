@@ -213,38 +213,38 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 		
 	@Override
-	public Object clone() throws CloneNotSupportedException {
-        try {
-        	clsThingPresentationMesh oClone = (clsThingPresentationMesh)super.clone();
-        	if (moAssociatedContent != null) {
-        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-        	
-        	if (moAssociatedContent != null) {
-        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
-    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
-    				} catch (Exception e) {
-    					return e;
-    				}
-        		}
-        	}
-        	
-          	return oClone;
-        } catch (CloneNotSupportedException e) {
-           return e;
-        }
-	}
+//	public Object clone() throws CloneNotSupportedException {
+//        try {
+//        	clsThingPresentationMesh oClone = (clsThingPresentationMesh)super.clone();
+//        	if (moAssociatedContent != null) {
+//        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
+//        		for(clsAssociation oAssociation : moAssociatedContent){
+//        			try { 
+//    					Object dupl = oAssociation.clone(this, oClone); 
+//    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+//    				} catch (Exception e) {
+//    					return e;
+//    				}
+//        		}
+//        	}
+//        	
+//        	if (moAssociatedContent != null) {
+//        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+//        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+//        			try { 
+//    					Object dupl = oAssociation.clone(this, oClone); 
+//    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+//    				} catch (Exception e) {
+//    					return e;
+//    				}
+//        		}
+//        	}
+//        	
+//          	return oClone;
+//        } catch (CloneNotSupportedException e) {
+//           return e;
+//        }
+//	}
 	
 	/**
 	 * Alternative clone for cloning directed graphs
@@ -256,8 +256,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	public Object cloneGraph() throws CloneNotSupportedException {
-		return cloneGraph(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+	public Object clone() throws CloneNotSupportedException {
+	//public Object cloneGraph() throws CloneNotSupportedException {
+		return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
 	}
 	
 	/**
@@ -272,7 +273,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		
 		clsThingPresentationMesh oClone = null;
 		
@@ -289,7 +290,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
@@ -302,7 +303,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

@@ -167,6 +167,7 @@ public class clsDataStructureConverter {
 	 * 
 	 * 
 	 */
+	//FIXME AW: Remove this function as it is not used
 	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
 		//Convert ArrayLists-Containers with TP and TPM to one container TI
 		
@@ -192,7 +193,7 @@ public class clsDataStructureConverter {
 			
 		}
 		clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
-		clsTemplateImage oConstructedImage = (clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
+		clsTemplateImage oConstructedImage = null; //(clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
 		//Set instanceID
 		//oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
 		

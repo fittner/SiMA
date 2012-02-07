@@ -21,7 +21,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -175,7 +174,8 @@ implements I5_6_receive, I5_7_send  {
 	protected void process_basic() {
 		// clone input to allow for comparison before/after processing
 		try {
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.cloneGraph();
+			//moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.cloneGraph();
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -244,7 +244,7 @@ implements I5_6_receive, I5_7_send  {
 									continue;
 
 								// add the association with the matching element to the output 
-								clsPrimaryDataStructure newRoot = (clsPrimaryDataStructure) ((clsAssociationDriveMesh)oSubAss).getRootElement();
+								clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oSubAss).getRootElement();
 								clsAssociationDriveMesh oNewAssociation =	new clsAssociationDriveMesh(
 												new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
 												oEntry,
@@ -368,7 +368,8 @@ implements I5_6_receive, I5_7_send  {
 	@Override
 	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

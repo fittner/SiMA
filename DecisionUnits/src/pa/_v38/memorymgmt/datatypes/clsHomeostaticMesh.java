@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -62,7 +63,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
         		
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
+    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
     					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

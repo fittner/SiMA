@@ -137,7 +137,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	public void receive_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -172,7 +173,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		//AW 20110522: Input from perception
 		try {
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -312,7 +314,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//Association attribute are delivered here
 		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 		if (oAttributeAss.isEmpty()==false) {
 			return true;
 		}
@@ -349,7 +351,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
 		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 		
 		if (oTPMList.isEmpty()==false) {
 			return true;

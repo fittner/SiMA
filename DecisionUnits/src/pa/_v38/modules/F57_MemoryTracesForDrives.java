@@ -121,7 +121,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

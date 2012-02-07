@@ -9,6 +9,8 @@ package pa._v38.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import pa._v38.tools.clsPair;
+
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
@@ -35,7 +37,7 @@ public class clsSecondaryDataStructureContainer extends clsDataStructureContaine
         		oClone.moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
         		for(clsAssociation oAssociation : moAssociatedDataStructures){
         				try { 
-        					Object dupl = oAssociation.clone(this, oClone); 
+        					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
         					oClone.moAssociatedDataStructures.add((clsAssociation)dupl); 
         				} catch (Exception e) {
         					return e;

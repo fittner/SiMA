@@ -44,6 +44,7 @@ public class clsAffectTools {
 	private static String _Delimiter03 = "|";
 	
 	
+
 	/**
 	 * The total affect of the mesh is calculated for one level.
 	 * 
@@ -183,7 +184,7 @@ public class clsAffectTools {
 				e.printStackTrace();
 			}
 			//Go through the sub elements
-			for (clsAssociation oAss : ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getMoAssociatedContent()) {
+			for (clsAssociation oAss : ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getAssociatedContent()) {
 				clsSecondaryDataStructure oSubDS = (clsSecondaryDataStructure) oAss.getRootElement();	//Get root from the association secondary
 				
 				try {

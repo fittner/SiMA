@@ -1,4 +1,4 @@
-; Sun Jan 15 16:38:30 GMT 2012
+; Mon Feb 06 17:03:56 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -453,6 +453,24 @@
 	(is-a WP)
 	(role concrete))
 
+(defclass WP%3ADISTANCE
+	(is-a WP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "DISTANCE")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
+(defclass WP%3APOSITION
+	(is-a WP)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+;+		(value "POSITION")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
+
 (defclass ACT
 	(is-a USER)
 	(role concrete)
@@ -884,111 +902,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass TI
-	(is-a USER)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot %3ANAME
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-		(create-accessor read-write))
-	(single-slot type
-		(type STRING)
-;+		(value "TI")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass LOCATION
-	(is-a TI)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY])
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-;+		(value "LOCATION")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
-(defclass MEDIUM
-	(is-a LOCATION)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY] [TP%3ADISTANCE%3AMEDIUM])
-		(create-accessor read-write)))
-
-(defclass NEAR
-	(is-a LOCATION)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY] [TP%3ADISTANCE%3ANEAR])
-		(create-accessor read-write)))
-
-(defclass FAR
-	(is-a LOCATION)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY] [TP%3ADISTANCE%3AFAR])
-		(create-accessor read-write)))
-
-(defclass EATABLE
-	(is-a LOCATION)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY] [TP%3ADISTANCE%3AEATABLE])
-		(create-accessor read-write)))
-
-(defclass MANIPULATEABLE
-	(is-a LOCATION)
-	(role concrete)
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TPM%3AENTITY] [TP%3ADISTANCE%3AMANIPULATEABLE])
-		(create-accessor read-write)))
-
-(defclass INTERACTION
-	(is-a TI)
-	(role concrete))
-
-(defclass IMAGE_old
-	(is-a TI)
-	(role concrete)
-	(multislot instance_association
-		(type INSTANCE)
-;+		(allowed-classes ASSOCIATIONTEMP)
-		(create-accessor read-write))
-	(single-slot value_type
-		(type STRING)
-		(default "IMAGE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass DM
 	(is-a USER)
 	(role abstract)
@@ -1251,5 +1164,9 @@
 		(create-accessor read-write)))
 
 (defclass WPM%3AIMAGE
+	(is-a WPM)
+	(role concrete))
+
+(defclass WPM%3AENTITY
 	(is-a WPM)
 	(role concrete))

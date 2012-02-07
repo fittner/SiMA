@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
@@ -22,8 +23,12 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 
 
@@ -268,6 +273,58 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Purpose: Put any data structure here and this function searches the memory for all associated assoications. 
+	 * Difference to search: This function only gets the structure without comparison
+	 * 
+	 * Only for TPM and WPM
+	 * 
+	 * AW
+	 * @since 18.07.2011 16:07:35
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	public clsDataStructurePA searchCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
+		clsDataStructurePA oRetVal = null;
+		
+		oRetVal = moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
+		
+		//Transfer all meshes of the same ID to the same instance, i. e. all associations do contain this particular structure
+		if (poInput instanceof clsWordPresentationMesh) {
+			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);
+		}
+		
+		return oRetVal;
+	}
+	
+//	/**
+//	 * If only a part of a mesh is available, e. g. no external associations, this function is used to retrieve the rest of the
+//	 * mesh as well as associated structures until a certain depth decided by the level. level=1 means all of the own structure
+//	 * but no direct associated other structures. Level 2 means all directly associated structures
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 30.01.2012 19:54:53
+//	 *
+//	 * @param poInput
+//	 * @param pnLevel
+//	 * @return
+//	 */
+//	public clsDataStructurePA searchCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
+//		clsDataStructurePA oRetVal = null;
+//		
+//		ArrayList<clsPair<Double, clsDataStructurePA>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+//		
+//		searchMesh(poInput, oSearchResult, poInput.getMoContentType(), 1.0, pnLevel);
+//		
+//		if (oSearchResult.isEmpty()==false) {
+//			oRetVal = oSearchResult.get(0).b;
+//		}
+//		
+//		return oRetVal;
+//	}
 
 	/**
 	 * Getter for moKnowledgeBaseHandler.
@@ -387,6 +444,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		return oRetVal;
 	}
 	
+	
 	/**
 	 * Get the WP for a TP
 	 * (wendt)
@@ -415,4 +473,36 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		return oRetVal;  
 	}
+	
+	/**
+	 * Get the WP for a TP
+	 * (wendt)
+	 *
+	 * @since 27.07.2011 09:39:49
+	 *
+	 * @param poDataStructure
+	 * @return
+	 */
+	protected clsAssociationWordPresentation getWPMesh(clsPrimaryDataStructure poDataStructure){
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		clsAssociationWordPresentation oRetVal = null; 
+		
+		//If the input is a TPM, then search for a WPM
+		if (poDataStructure instanceof clsThingPresentationMesh) {
+			search(eDataType.WPM, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+			//If the input is a TP or DM, then search for the WP
+		} else if (poDataStructure instanceof clsAffect || poDataStructure instanceof clsThingPresentation) {
+			search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult);
+		}
+		
+		//If something was found
+		if(oSearchResult.isEmpty() == false && oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
+			//Get the best match
+			oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+		}
+		
+		return oRetVal;  
+	}
 }
+
+

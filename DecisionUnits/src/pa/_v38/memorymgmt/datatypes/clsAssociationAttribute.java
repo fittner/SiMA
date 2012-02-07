@@ -25,8 +25,8 @@ public class clsAssociationAttribute extends clsAssociation{
 	 *
 	 */
 	public clsAssociationAttribute(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
-									clsPrimaryDataStructure poAssociationElementA, 
-								    clsPrimaryDataStructure poAssociationElementB) {
+			clsPrimaryDataStructure poAssociationElementA, 
+			clsPrimaryDataStructure poAssociationElementB) {
 		super(poDataStructureIdentifier,poAssociationElementA, poAssociationElementB);
 	}
 	
@@ -51,15 +51,15 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * @see pa._v38.memorymgmt.datatypes.clsAssociation#getLeafElement(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public clsDataStructurePA getLeafElement() {
+	public clsPrimaryDataStructure getLeafElement() {
 		//TPMs have one element that form the root for associated Attribute Associations
 		//This element is always moAssociationElementA; Hence the B element is returned
-		return moAssociationElementB;
+		return (clsPrimaryDataStructure) moAssociationElementB;
 	}
 	
 	@Override
-	public clsDataStructurePA getRootElement() {
-		return moAssociationElementA; 
+	public clsPrimaryDataStructure getRootElement() {
+		return (clsPrimaryDataStructure) moAssociationElementA; 
 	}
 
 	/* (non-Javadoc)
@@ -70,6 +70,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 */
 	@Override
 	public void setLeafElement(clsDataStructurePA poDS) {
+		//The leaf element is always the TP
 		moAssociationElementB = poDS;
 		// TODO (wendt) - Auto-generated method stub
 		

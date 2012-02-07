@@ -12,7 +12,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -606,7 +605,7 @@ public class clsSpatialTools {
 	 * @param prDistance
 	 * @return
 	 */
-	private static clsAssociationTime createDistanceAssociation(clsPrimaryDataStructure poElementA, clsPrimaryDataStructure poElementB, double prDistance) {
+	private static clsAssociationTime createDistanceAssociation(clsThingPresentationMesh poElementA, clsThingPresentationMesh poElementB, double prDistance) {
 		double prAssWeight = calculateAssociationWeightFromDistance(prDistance);
 		clsAssociationTime oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, eContentType.MATCHASSOCIATION.toString()), poElementA, poElementB);
 		oRetVal.setMrWeight(prAssWeight);

@@ -24,4 +24,5 @@ public interface itfKnowledgeBaseHandler {
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold);
 	public ArrayList<clsPair<Double,clsDataStructurePA>> initMemorySearchMesh(clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel);
 	public clsDataStructureContainer initContainerRetrieval(clsDataStructurePA poInput);
+	public clsDataStructurePA initMeshRetrieval(clsDataStructurePA poInput, int pnLevel);
 }

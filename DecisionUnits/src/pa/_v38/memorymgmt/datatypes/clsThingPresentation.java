@@ -158,7 +158,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
         }
 	}
 	
-	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsThingPresentation oClone = null;
 		
 		try {

@@ -21,6 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
@@ -234,6 +236,31 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		}
 		
 		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+		
+		return oRetVal;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 30.01.2012 20:43:47
+	 * 
+	 * @see pa._v38.memorymgmt.itfKnowledgeBaseHandler#initMeshRetrieval(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public clsDataStructurePA initMeshRetrieval(clsDataStructurePA poInput, int pnLevel) {
+		clsDataStructurePA oRetVal = null; 
+		
+		if(poInput instanceof clsWordPresentationMesh){
+			oRetVal = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.getMesh((clsWordPresentationMesh) poInput, pnLevel);
+		}
+		else if(poInput instanceof clsThingPresentationMesh){
+			oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.getMesh((clsThingPresentationMesh) poInput, pnLevel);
+		}
+		//else if(poInput instanceof clsHomeostaticRepresentation){
+		//	//oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+		//}
+		
+		else{ throw new IllegalArgumentException("DataStructure unknown ");}
 		
 		return oRetVal;
 	}

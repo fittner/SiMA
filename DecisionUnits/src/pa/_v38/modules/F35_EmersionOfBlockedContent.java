@@ -120,7 +120,8 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		
 		//Make a deepcopy of the input parameter, else the difference cannot be correctly displayed in statetotext
 		try {
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -280,7 +281,8 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	@Override
 	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

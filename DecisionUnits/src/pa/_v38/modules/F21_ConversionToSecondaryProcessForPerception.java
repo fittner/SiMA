@@ -7,11 +7,11 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
+//import java.util.Arrays;
+//import java.util.Collection;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.Map;
+//import java.util.Map;
 import config.clsProperties;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -25,28 +25,31 @@ import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
+//import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsAssociationTime;
+//import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+//import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsLogicalStructureComposition;
-import pa._v38.memorymgmt.datatypes.clsPhysicalStructureComposition;
+//import pa._v38.memorymgmt.datatypes.clsLogicalStructureComposition;
+//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+//import pa._v38.memorymgmt.datatypes.clsPhysicalStructureComposition;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+//import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+//import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
+//import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -68,9 +71,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
 	/** TEMP A perceived image */
-	private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
+	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	/** TEMP Associated memories */
-	private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
+	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;
 	
 	
 	/** Associated memories out, enriched with word presentations of the associated thing presentations */
@@ -82,9 +85,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:45 */
-	private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
+	//private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
-	private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
+	//private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
+	
+	/** Load up to 98 indirectly associated structures; @since 30.01.2012 19:57:31 */
+	private int mnMaxLevel = 100;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -115,12 +121,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
-		text += toText.listToTEXT("moOrderedResult", moOrderedResult);
-		text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
+		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
+		//text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 
 		return text;
@@ -176,7 +182,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -193,177 +200,194 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		//Search for all images from the primary process in the memory
+		//Input: TPM
+		//1. Get all Images of the Mesh
+		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
+		//2. Search for WPM for the image
+		
+		
+		//3. Search for WPM for all internal objects in the WPM
+		
+		
+		//4. For each WPM, search for more SP-WPM-Parts and connect them 
+		
+		
+		//Output: ArrayList<WPM> for each TPM-Image. The WPM are already assigned their acts here
+		
+		
 		
 		//FIXME AW: This is only a temp function to convert a mesh into the old structure
-		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oPerceptionIN = clsDataStructureConverter.TEMPconvertMeshToContainers(moPerceptionalMesh_IN);
-		moEnvironmentalPerception_IN = oPerceptionIN.a;
-		moAssociatedMemories_IN = oPerceptionIN.b;
+		//clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oPerceptionIN = clsDataStructureConverter.TEMPconvertMeshToContainers(moPerceptionalMesh_IN);
+		//moEnvironmentalPerception_IN = oPerceptionIN.a;
+		//moAssociatedMemories_IN = oPerceptionIN.b;
 		
 		//FIXME AW: Why is this initialized here?
-		moTemporaryDM = new HashMap<Integer, clsDriveMesh>(); 
+		//moTemporaryDM = new HashMap<Integer, clsDriveMesh>(); 
 		//moPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 		
 		//moOrderedResult = defineTemplateImage(moEnvironmentalPerception_IN); 
 		//moEnvironmentalPerception_OUT = convertToSecondary(moOrderedResult); 
 		
-		moEnvironmentalPerception_OUT =  assignWPtoPerceivedImage(moEnvironmentalPerception_IN);
+		//moEnvironmentalPerception_OUT =  assignWPtoPerceivedImage(moEnvironmentalPerception_IN);
 		
 		//Processing of associated images
+		moEnvironmentalPerception_OUT = new clsDataStructureContainerPair(null, null);
 		moAssociatedMemoriesSecondary_OUT = new ArrayList<clsDataStructureContainerPair>();//assignWPtoImages(moAssociatedMemories_IN);
 	}
 	
 	//private clsSecondaryDataStructureContainer
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 28.07.2011 16:25:01
-	 *
-	 * @param oPImageContainer
-	 * @return
-	 */
-	private clsDataStructureContainerPair convertToSecondaryPerceivedImage(clsPrimaryDataStructureContainer poPImageContainer) {
-		//ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
-		//Give back a complete container for a complete image
-		clsDataStructureContainerPair oRetVal = null;
-		//Start with the DS-Element
-		//Create a new Perceived Image in the secondary process
-		String oNewContent = setSecondaryImageContent(poPImageContainer.getMoDataStructure());
-		clsSecondaryDataStructure oBasicSDS = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poPImageContainer.getMoDataStructure().getMoContentType(), 
-				oNewContent), new ArrayList<clsAssociation>());
-		
-		clsSecondaryDataStructureContainer oSContainer = new clsSecondaryDataStructureContainer(oBasicSDS, new ArrayList<clsAssociation>());
-
-		//Add secondary sub structures to the found secondary data structure container
-		addSecondarySubStructures(oSContainer, poPImageContainer);
-		
-		oRetVal = new clsDataStructureContainerPair(oSContainer, poPImageContainer);
-		
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 28.07.2011 16:25:01
+//	 *
+//	 * @param oPImageContainer
+//	 * @return
+//	 */
+//	private clsDataStructureContainerPair convertToSecondaryPerceivedImage(clsPrimaryDataStructureContainer poPImageContainer) {
+//		//ArrayList<clsDataStructureContainer> oRetVal = new ArrayList<clsDataStructureContainer>();
+//		//Give back a complete container for a complete image
+//		clsDataStructureContainerPair oRetVal = null;
+//		//Start with the DS-Element
+//		//Create a new Perceived Image in the secondary process
+//		String oNewContent = setSecondaryImageContent(poPImageContainer.getMoDataStructure());
+//		clsSecondaryDataStructure oBasicSDS = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poPImageContainer.getMoDataStructure().getMoContentType(), 
+//				oNewContent), new ArrayList<clsAssociation>());
+//		
+//		clsSecondaryDataStructureContainer oSContainer = new clsSecondaryDataStructureContainer(oBasicSDS, new ArrayList<clsAssociation>());
+//
+//		//Add secondary sub structures to the found secondary data structure container
+//		addSecondarySubStructures(oSContainer, poPImageContainer);
+//		
+//		oRetVal = new clsDataStructureContainerPair(oSContainer, poPImageContainer);
+//		
+//		return oRetVal;
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 28.07.2011 16:25:05
-	 *
-	 * @param oPImageContainer
-	 * @return
-	 */
-	private clsSecondaryDataStructureContainer convertToSecondaryMemoryImage(clsPrimaryDataStructureContainer oPImageContainer) {
-		//Give back a complete container for a complete image
-		//Define return vale as null until the data structure has been found
-		clsSecondaryDataStructureContainer oRetVal = null;
-
-		//Start with the DS-Element
-		//Create a new container with only the "own" associations
-		//Get the secondary container for this object
-		oRetVal = getImageBaseAssociations(oPImageContainer);
-		
-		//Add secondary sub structures to the found secondary data structure container
-		//FIXME AW: oRetVal=null if repressed content is loaded
-		//This function checks null;
-		addSecondarySubStructures(oRetVal, oPImageContainer);
-		
-		
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 28.07.2011 16:25:05
+//	 *
+//	 * @param oPImageContainer
+//	 * @return
+//	 */
+//	private clsSecondaryDataStructureContainer convertToSecondaryMemoryImage(clsPrimaryDataStructureContainer oPImageContainer) {
+//		//Give back a complete container for a complete image
+//		//Define return vale as null until the data structure has been found
+//		clsSecondaryDataStructureContainer oRetVal = null;
+//
+//		//Start with the DS-Element
+//		//Create a new container with only the "own" associations
+//		//Get the secondary container for this object
+//		oRetVal = getImageBaseAssociations(oPImageContainer);
+//		
+//		//Add secondary sub structures to the found secondary data structure container
+//		//FIXME AW: oRetVal=null if repressed content is loaded
+//		//This function checks null;
+//		addSecondarySubStructures(oRetVal, oPImageContainer);
+//		
+//		
+//		return oRetVal;
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 28.07.2011 14:51:06
-	 *
-	 * @param oSImageContainer - modify the input secondary container
-	 * @param oPImageContainer
-	 */
-	private void addSecondarySubStructures(clsSecondaryDataStructureContainer oSImageContainer, clsPrimaryDataStructureContainer oPImageContainer) {
-		
-		//Make only changes if both containers are != null. null is the case of a memory, which cannot be found, like the repressed content
-		if ((oSImageContainer!=null) && (oPImageContainer!=null)) {
-			//Get the main element in the secondary container
-			clsSecondaryDataStructure oSImage = (clsSecondaryDataStructure) oSImageContainer.getMoDataStructure();
-			//Get the basic data structure from the input image
-			clsDataStructurePA oDSPrimaryBasic = oPImageContainer.getMoDataStructure();
-			//Go through the associated elements if they are a composition
-			if (oDSPrimaryBasic instanceof clsPhysicalStructureComposition) {
-				for (clsAssociation oAssSubDS : ((clsPhysicalStructureComposition)oDSPrimaryBasic).getMoAssociatedContent()) {
-					//Get associated structures from a sub structure and create an own primary data structure container from it
-					clsDataStructurePA oSubDS = oAssSubDS.getLeafElement();
-					clsPrimaryDataStructureContainer oPSubContainer = new clsPrimaryDataStructureContainer(oSubDS, oPImageContainer.getMoAssociatedDataStructures(oSubDS));
-					//Use this primary data structure container and convert the content incl. DM, affects.
-					clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple = defineTemplateImageForObject(oPSubContainer);
-					clsSecondaryDataStructureContainer oSSubContainer = convertToSecondaryForObject(oTripple);
-					//Create instrinsic associations of the found word presentations
-					//FIXME AW: TP:BUMP is not converted. Is it an error or shall it be like that?
-					if (oSSubContainer!=null) {
-						clsAssociationSecondary oAssSecondary = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oSSubContainer.getMoDataStructure(), 
-								oSImage, "PARTOF", 1.0);
-						//Add container associations to the main container
-						((clsLogicalStructureComposition)oSImage).getMoAssociatedContent().add(oAssSecondary);
-						//Add the assigned associations
-						oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
-						
-						//TODO AW: Are these associations necessary? I don't think so
-						//oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
-					}
-				}
-			}
-		}
-		
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 28.07.2011 14:51:06
+//	 *
+//	 * @param oSImageContainer - modify the input secondary container
+//	 * @param oPImageContainer
+//	 */
+//	private void addSecondarySubStructures(clsSecondaryDataStructureContainer oSImageContainer, clsPrimaryDataStructureContainer oPImageContainer) {
+//		
+//		//Make only changes if both containers are != null. null is the case of a memory, which cannot be found, like the repressed content
+//		if ((oSImageContainer!=null) && (oPImageContainer!=null)) {
+//			//Get the main element in the secondary container
+//			clsSecondaryDataStructure oSImage = (clsSecondaryDataStructure) oSImageContainer.getMoDataStructure();
+//			//Get the basic data structure from the input image
+//			clsDataStructurePA oDSPrimaryBasic = oPImageContainer.getMoDataStructure();
+//			//Go through the associated elements if they are a composition
+//			if (oDSPrimaryBasic instanceof clsPhysicalStructureComposition) {
+//				for (clsAssociation oAssSubDS : ((clsPhysicalStructureComposition)oDSPrimaryBasic).getMoAssociatedContent()) {
+//					//Get associated structures from a sub structure and create an own primary data structure container from it
+//					clsDataStructurePA oSubDS = oAssSubDS.getLeafElement();
+//					clsPrimaryDataStructureContainer oPSubContainer = new clsPrimaryDataStructureContainer(oSubDS, oPImageContainer.getMoAssociatedDataStructures(oSubDS));
+//					//Use this primary data structure container and convert the content incl. DM, affects.
+//					clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple = defineTemplateImageForObject(oPSubContainer);
+//					clsSecondaryDataStructureContainer oSSubContainer = convertToSecondaryForObject(oTripple);
+//					//Create instrinsic associations of the found word presentations
+//					//FIXME AW: TP:BUMP is not converted. Is it an error or shall it be like that?
+//					if (oSSubContainer!=null) {
+//						clsAssociationSecondary oAssSecondary = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oSSubContainer.getMoDataStructure(), 
+//								oSImage, "PARTOF", 1.0);
+//						//Add container associations to the main container
+//						((clsLogicalStructureComposition)oSImage).getMoAssociatedContent().add(oAssSecondary);
+//						//Add the assigned associations
+//						oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
+//						
+//						//TODO AW: Are these associations necessary? I don't think so
+//						//oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
+//					}
+//				}
+//			}
+//		}
+//		
+//	}
 	
-	/**
-	 * Create an ordered list for only one element. 
-	 * If there is an error or something is not found, null is returned
-	 *
-	 * @author wendt
-	 * 19.08.2010, 22:39:28
-	 *
-	 */
-	private clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> defineTemplateImageForObject(clsPrimaryDataStructureContainer poImageObject) {
-		/*HZ 20.08.2010: There are two possibilities of receiving the matching Template images.
-		 * 	1. create a TI out of received Information and search in the memory for matching 
-		 * 	   TIs
-		 * 	   advantage: one TI is created and gets a best match; this match can be further processed 
-		 * 				  and mapped to word presentations in E21.
-		 * 	   
-		 * 	   disadvantage: There exist several disadvantages
-		 * 	   				 a. TIs are abstract definitions of "situations"/ they are not defined for 
-		 * 					    every object; e. g. the image "entity far right " is only defined for
-		 * 					    objects that are of the type entity but not explicitly for the 
-		 * 					    object "cake" or "can"
-		 * 					 b. Even abstract TIs are defined, in order to match an object and its 
-		 * 					    associations (additional TPs, TPMs, or DMs ) additional variations 
-		 * 					    would have to be added to the TI.
-		 * 					    e. g. if the search parameter is an object that associates a position (far right) and
-		 * 					          a drive mesh (extremely nourish), than the TI has to be defined (object at far right is
-		 * 							  extremely nourish). This variation would have to be done for every nourish object in any 
-		 * 							  position... this would be quiet an overkill
-		 * 
-		 * 2. Hence the second possibility is to get TIs that abstract certain situations (but not the whole situation); e. g. 
-		 *    there exist TIs for the position of objects and there exist separated TIs for the drive evaluation of the object
-		 *    and so on. 
-		 *    The data structures that are included in the received primary data structure container are used to retrieve
-		 *    their associated TIs. The retrieved TIs form a new TI. However the new TI is not merged to a data structure 
-		 *    called TI because a. it is an image that is not a real template but more an abstraction of the situation formed
-		 *    out of templates and b. will not be present in one of the acts => would be a problem for the planning part. 
-		 *    I am sure that the last part is not explained in the way that anyone will understand it... for clarification please
-		 *    talk to the programmer or read the code... read the code first.     
-		 */
-
-		clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oOrderedResult = null; 
-	
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
-			= new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
-				
-		extractPattern(poImageObject, oSearchResult);
-		oEvaluatedResult = evaluateSearchResult(poImageObject.getMoDataStructure(), oSearchResult);
-		oOrderedResult = orderResult(poImageObject.getMoDataStructure(), oEvaluatedResult);  
-		
-		return oOrderedResult;
-	}
+//	/**
+//	 * Create an ordered list for only one element. 
+//	 * If there is an error or something is not found, null is returned
+//	 *
+//	 * @author wendt
+//	 * 19.08.2010, 22:39:28
+//	 *
+//	 */
+//	private clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> defineTemplateImageForObject(clsPrimaryDataStructureContainer poImageObject) {
+//		/*HZ 20.08.2010: There are two possibilities of receiving the matching Template images.
+//		 * 	1. create a TI out of received Information and search in the memory for matching 
+//		 * 	   TIs
+//		 * 	   advantage: one TI is created and gets a best match; this match can be further processed 
+//		 * 				  and mapped to word presentations in E21.
+//		 * 	   
+//		 * 	   disadvantage: There exist several disadvantages
+//		 * 	   				 a. TIs are abstract definitions of "situations"/ they are not defined for 
+//		 * 					    every object; e. g. the image "entity far right " is only defined for
+//		 * 					    objects that are of the type entity but not explicitly for the 
+//		 * 					    object "cake" or "can"
+//		 * 					 b. Even abstract TIs are defined, in order to match an object and its 
+//		 * 					    associations (additional TPs, TPMs, or DMs ) additional variations 
+//		 * 					    would have to be added to the TI.
+//		 * 					    e. g. if the search parameter is an object that associates a position (far right) and
+//		 * 					          a drive mesh (extremely nourish), than the TI has to be defined (object at far right is
+//		 * 							  extremely nourish). This variation would have to be done for every nourish object in any 
+//		 * 							  position... this would be quiet an overkill
+//		 * 
+//		 * 2. Hence the second possibility is to get TIs that abstract certain situations (but not the whole situation); e. g. 
+//		 *    there exist TIs for the position of objects and there exist separated TIs for the drive evaluation of the object
+//		 *    and so on. 
+//		 *    The data structures that are included in the received primary data structure container are used to retrieve
+//		 *    their associated TIs. The retrieved TIs form a new TI. However the new TI is not merged to a data structure 
+//		 *    called TI because a. it is an image that is not a real template but more an abstraction of the situation formed
+//		 *    out of templates and b. will not be present in one of the acts => would be a problem for the planning part. 
+//		 *    I am sure that the last part is not explained in the way that anyone will understand it... for clarification please
+//		 *    talk to the programmer or read the code... read the code first.     
+//		 */
+//
+//		clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oOrderedResult = null; 
+//	
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult 
+//			= new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+//		ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
+//				
+//		extractPattern(poImageObject, oSearchResult);
+//		oEvaluatedResult = evaluateSearchResult(poImageObject.getMoDataStructure(), oSearchResult);
+//		oOrderedResult = orderResult(poImageObject.getMoDataStructure(), oEvaluatedResult);  
+//		
+//		return oOrderedResult;
+//	}
 
 	/**
 	 * DOCUMENT (kohlhauser) - insert description
@@ -395,203 +419,203 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 //		return oOrderedResult;
 //	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 20.08.2010, 17:44:55
-	 *
-	 * @param oEvaluatedResult
-	 * @return
-	 */
-	private clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> orderResult( clsDataStructurePA poDataStructure, ArrayList<clsDataStructurePA> poEvaluatedResult) {
-		/*HZ: 21.08.2010: This method may be merged with the method convertToSecondary() in the future.
-		 * It "orders" the evaluated result to a tripple of 
-		 * - The data structure to which the retrieved TIs are associated
-		 * - a list of associated TIs
-		 * - and a List of pairs that consist out of the associated drive mesh and its 
-		 * 	 affective evaluation (clsAffect)
-		 * 
-		 * This leads to tripples that can be simplified in the future (maybe?)
-		 * In addition the calculation effort is rather high => hence it can be discussed if the ordering
-		 * will directly lead to a match with word presentations 
-		 * */ 
-		clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oOrderedResult = 
-				new clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>(
-																							poDataStructure, 
-																							new ArrayList<clsTemplateImage>(), 
-																							new ArrayList<clsPair<clsDriveMesh, clsAffect>>()); 
-		
-		for(clsDataStructurePA oEntry : poEvaluatedResult){
-						
-			if(oEntry instanceof clsTemplateImage){
-				oOrderedResult.b.add((clsTemplateImage)oEntry); 
-			}
-			else if(oEntry instanceof clsAffect){
-				oOrderedResult.c.add(new clsPair<clsDriveMesh, clsAffect>(moTemporaryDM.get(poEvaluatedResult.indexOf(oEntry)),(clsAffect)oEntry));
-			}
-		}
-		
-		return oOrderedResult;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 20.08.2010, 17:44:55
+//	 *
+//	 * @param oEvaluatedResult
+//	 * @return
+//	 */
+//	private clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> orderResult( clsDataStructurePA poDataStructure, ArrayList<clsDataStructurePA> poEvaluatedResult) {
+//		/*HZ: 21.08.2010: This method may be merged with the method convertToSecondary() in the future.
+//		 * It "orders" the evaluated result to a tripple of 
+//		 * - The data structure to which the retrieved TIs are associated
+//		 * - a list of associated TIs
+//		 * - and a List of pairs that consist out of the associated drive mesh and its 
+//		 * 	 affective evaluation (clsAffect)
+//		 * 
+//		 * This leads to tripples that can be simplified in the future (maybe?)
+//		 * In addition the calculation effort is rather high => hence it can be discussed if the ordering
+//		 * will directly lead to a match with word presentations 
+//		 * */ 
+//		clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oOrderedResult = 
+//				new clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>(
+//																							poDataStructure, 
+//																							new ArrayList<clsTemplateImage>(), 
+//																							new ArrayList<clsPair<clsDriveMesh, clsAffect>>()); 
+//		
+//		for(clsDataStructurePA oEntry : poEvaluatedResult){
+//						
+//			if(oEntry instanceof clsTemplateImage){
+//				oOrderedResult.b.add((clsTemplateImage)oEntry); 
+//			}
+//			else if(oEntry instanceof clsAffect){
+//				oOrderedResult.c.add(new clsPair<clsDriveMesh, clsAffect>(moTemporaryDM.get(poEvaluatedResult.indexOf(oEntry)),(clsAffect)oEntry));
+//			}
+//		}
+//		
+//		return oOrderedResult;
+//	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 20.08.2010, 13:05:45
-	 *
-	 * @return
-	 */
-	private void extractPattern(clsPrimaryDataStructureContainer poContainer, 
-			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		
-		moTemporaryDM.clear();
-				
-		HashMap <String, ArrayList<clsDataStructurePA>> oTIList = new HashMap <String, ArrayList<clsDataStructurePA>>(); 
-		ArrayList<clsPair<eDataType, clsDataStructurePA>> oPattern = new ArrayList<clsPair<eDataType,clsDataStructurePA>>(); 
-		
-		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
-			
-			if(oAssociation instanceof clsAssociationAttribute){
-				String oCT = oAssociation.getLeafElement().getMoContentType(); 
-				
-				if(oTIList.containsKey(oCT)){ oTIList.get(oCT).add(oAssociation.getLeafElement());}
-				else {oTIList.put(oCT, new ArrayList<clsDataStructurePA>(Arrays.asList(oAssociation.getLeafElement()))); }
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 20.08.2010, 13:05:45
+//	 *
+//	 * @return
+//	 */
+//	private void extractPattern(clsPrimaryDataStructureContainer poContainer, 
+//			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+//		
+//		moTemporaryDM.clear();
+//				
+//		HashMap <String, ArrayList<clsDataStructurePA>> oTIList = new HashMap <String, ArrayList<clsDataStructurePA>>(); 
+//		ArrayList<clsPair<eDataType, clsDataStructurePA>> oPattern = new ArrayList<clsPair<eDataType,clsDataStructurePA>>(); 
+//		
+//		for(clsAssociation oAssociation : poContainer.getMoAssociatedDataStructures()){
+//			
+//			if(oAssociation instanceof clsAssociationAttribute){
+//				String oCT = oAssociation.getLeafElement().getMoContentType(); 
+//				
+//				if(oTIList.containsKey(oCT)){ oTIList.get(oCT).add(oAssociation.getLeafElement());}
+//				else {oTIList.put(oCT, new ArrayList<clsDataStructurePA>(Arrays.asList(oAssociation.getLeafElement()))); }
+//
+//			}
+//			
+//			if(oAssociation instanceof clsAssociationDriveMesh){
+//				clsDriveMesh oDM = (clsDriveMesh) oAssociation.getLeafElement(); 
+//				clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), oDM.getPleasure())); 
+//				oPattern.add(new clsPair<eDataType, clsDataStructurePA> (eDataType.AFFECT,  oAffect));
+//				moTemporaryDM.put(oPattern.size()-1, oDM);
+//			}
+//		}
+//		
+//		for(Map.Entry<String,  ArrayList<clsDataStructurePA>> oEntry : oTIList.entrySet()){
+//			clsTriple <String, ArrayList<clsDataStructurePA>, Object> oTIcontent = 
+//				new clsTriple<String, ArrayList<clsDataStructurePA>, Object>(oEntry.getKey(), oEntry.getValue(), "undefined"); 
+//			
+//			clsDataStructurePA oTI = clsDataStructureGenerator.generateDataStructure(eDataType.TI, oTIcontent);
+//			oPattern.add(new clsPair<eDataType, clsDataStructurePA>(eDataType.UNDEFINED, oTI)); 
+//		}
+//		
+//		for(clsPair<eDataType, clsDataStructurePA> oEntry : oPattern){
+//			search(oEntry.a, new ArrayList<clsDataStructurePA>(Arrays.asList(oEntry.b)),poSearchResult); 
+//		}
+//	}
 
-			}
-			
-			if(oAssociation instanceof clsAssociationDriveMesh){
-				clsDriveMesh oDM = (clsDriveMesh) oAssociation.getLeafElement(); 
-				clsDataStructurePA oAffect = clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), oDM.getPleasure())); 
-				oPattern.add(new clsPair<eDataType, clsDataStructurePA> (eDataType.AFFECT,  oAffect));
-				moTemporaryDM.put(oPattern.size()-1, oDM);
-			}
-		}
-		
-		for(Map.Entry<String,  ArrayList<clsDataStructurePA>> oEntry : oTIList.entrySet()){
-			clsTriple <String, ArrayList<clsDataStructurePA>, Object> oTIcontent = 
-				new clsTriple<String, ArrayList<clsDataStructurePA>, Object>(oEntry.getKey(), oEntry.getValue(), "undefined"); 
-			
-			clsDataStructurePA oTI = clsDataStructureGenerator.generateDataStructure(eDataType.TI, oTIcontent);
-			oPattern.add(new clsPair<eDataType, clsDataStructurePA>(eDataType.UNDEFINED, oTI)); 
-		}
-		
-		for(clsPair<eDataType, clsDataStructurePA> oEntry : oPattern){
-			search(oEntry.a, new ArrayList<clsDataStructurePA>(Arrays.asList(oEntry.b)),poSearchResult); 
-		}
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 20.08.2010, 13:15:06
+//	 *
+//	 * @param poSearchResult
+//	 * @param poDataStructure
+//	 * @return
+//	 */
+//	private ArrayList<clsDataStructurePA> evaluateSearchResult( clsDataStructurePA poDataStructure,
+//									ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
+//		
+//		ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
+//		
+//		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+//			clsDataStructurePA oBestMatch = getBestMatch(poDataStructure, oEntry); 
+//			oEvaluatedResult.add(oBestMatch); 
+//		}
+//		
+//		return oEvaluatedResult;
+//	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 20.08.2010, 13:15:06
-	 *
-	 * @param poSearchResult
-	 * @param poDataStructure
-	 * @return
-	 */
-	private ArrayList<clsDataStructurePA> evaluateSearchResult( clsDataStructurePA poDataStructure,
-									ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult) {
-		
-		ArrayList<clsDataStructurePA> oEvaluatedResult = new ArrayList<clsDataStructurePA>(); 
-		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			clsDataStructurePA oBestMatch = getBestMatch(poDataStructure, oEntry); 
-			oEvaluatedResult.add(oBestMatch); 
-		}
-		
-		return oEvaluatedResult;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 20.08.2010, 16:04:05
+//	 *
+//	 * @param poDataStructure
+//	 * @param value
+//	 * @return
+//	 */
+//	private clsDataStructurePA getBestMatch(clsDataStructurePA poDataStructure,
+//											ArrayList<clsPair<Double, clsDataStructureContainer>> poValue) {
+//		//HZ For now: the element with the best match THAT INCLUDES the content type of the object, the search 
+//		//	 patterns are associated to, is selected => selected TI has to include an object that has the same 
+//		//   content type as the root element (poDataStructure in this case)
+//
+//		for(clsPair<Double, clsDataStructureContainer> oPair : poValue){
+//			
+//			if(oPair.b.getMoDataStructure() instanceof clsAffect){
+//					return oPair.b.getMoDataStructure(); 
+//			}
+//			else{
+//				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.getMoDataStructure()).getMoAssociatedContent()){
+//					
+////					//Has to be discussed if this for loop and the if-statement are required: They
+////					//should verify if the retrieved images can be mapped to the object. As there
+////					//are different types of objects like bodyparts or entities I introduced this
+////					//request => e.g. a TI is maybe only mapped to bodyparts but not to 
+////					//entities 
+//					if(poDataStructure.getMoContentType().equals(oAssociation.getLeafElement().getMoContentType())){
+//						return oPair.b.getMoDataStructure();
+//					}
+//				}
+//			}
+//		}
+//		//FIXME HZ: never return null
+//		return null;
+//	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 20.08.2010, 16:04:05
-	 *
-	 * @param poDataStructure
-	 * @param value
-	 * @return
-	 */
-	private clsDataStructurePA getBestMatch(clsDataStructurePA poDataStructure,
-											ArrayList<clsPair<Double, clsDataStructureContainer>> poValue) {
-		//HZ For now: the element with the best match THAT INCLUDES the content type of the object, the search 
-		//	 patterns are associated to, is selected => selected TI has to include an object that has the same 
-		//   content type as the root element (poDataStructure in this case)
-
-		for(clsPair<Double, clsDataStructureContainer> oPair : poValue){
-			
-			if(oPair.b.getMoDataStructure() instanceof clsAffect){
-					return oPair.b.getMoDataStructure(); 
-			}
-			else{
-				for(clsAssociation oAssociation : ((clsTemplateImage)oPair.b.getMoDataStructure()).getMoAssociatedContent()){
-					
-//					//Has to be discussed if this for loop and the if-statement are required: They
-//					//should verify if the retrieved images can be mapped to the object. As there
-//					//are different types of objects like bodyparts or entities I introduced this
-//					//request => e.g. a TI is maybe only mapped to bodyparts but not to 
-//					//entities 
-					if(poDataStructure.getMoContentType().equals(oAssociation.getLeafElement().getMoContentType())){
-						return oPair.b.getMoDataStructure();
-					}
-				}
-			}
-		}
-		//FIXME HZ: never return null
-		return null;
-	}
-
-	/**
-	 * Create Secondary Data Structure Containers and process the content of the ordered list
-	 *
-	 * @author wendt
-	 * 19.08.2010, 22:39:32
-	 *
-	 */
-	private clsSecondaryDataStructureContainer convertToSecondaryForObject(clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> poOrderedResult) {
-		clsSecondaryDataStructureContainer oPerception_Output = null; 
-		
-		ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
-		clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
-		
-		clsAssociation oWPforObject = getWPforObject(oNewWP, poOrderedResult.a);
-		if (oWPforObject!=null) {
-			//Add additional Link association between the actual object and the template object WP
-			clsAssociationSecondary oLinkWPForObject = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oWPforObject.getLeafElement(), oNewWP, ePredicate.HASASSOCIATION.toString(), 1.0);
-			//create a new WP-Association between the TPM and the "new" object
-			clsAssociationWordPresentation oLinkNewObjectToTPM = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONWP, "ASSOCIATIONWP"), oNewWP, oWPforObject.getRootElement());
-			
-			oAssociatedWP.add(oWPforObject);
-			oAssociatedWP.add(oLinkWPForObject);
-			oAssociatedWP.add(oLinkNewObjectToTPM);
-		}
-		
-		oAssociatedWP.addAll(getTItoWP(oNewWP, poOrderedResult.b)); 
-		
-		oAssociatedWP.addAll(getWPforTP(oNewWP, poOrderedResult.c));
-						
-		if(!oNewWP.getMoContent().contains("DEFAULT")){
-			oPerception_Output = new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP); 
-		}
-		
-		//Give the word presentations unique IDs
-		if (oPerception_Output!=null) {
-			clsDataStructureTools.createInstanceFromType(oPerception_Output, false);
-		}
-			
-		return oPerception_Output;
-	}
+//	/**
+//	 * Create Secondary Data Structure Containers and process the content of the ordered list
+//	 *
+//	 * @author wendt
+//	 * 19.08.2010, 22:39:32
+//	 *
+//	 */
+//	private clsSecondaryDataStructureContainer convertToSecondaryForObject(clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> poOrderedResult) {
+//		clsSecondaryDataStructureContainer oPerception_Output = null; 
+//		
+//		ArrayList <clsAssociation> oAssociatedWP = new ArrayList<clsAssociation>();
+//		clsWordPresentation oNewWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eDataType.WP.name(), "DEFAULT")); 
+//		
+//		clsAssociation oWPforObject = getWPforObject(oNewWP, poOrderedResult.a);
+//		if (oWPforObject!=null) {
+//			//Add additional Link association between the actual object and the template object WP
+//			clsAssociationSecondary oLinkWPForObject = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSECONDARY", oWPforObject.getLeafElement(), oNewWP, ePredicate.HASASSOCIATION.toString(), 1.0);
+//			//create a new WP-Association between the TPM and the "new" object
+//			clsAssociationWordPresentation oLinkNewObjectToTPM = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONWP, "ASSOCIATIONWP"), oNewWP, oWPforObject.getRootElement());
+//			
+//			oAssociatedWP.add(oWPforObject);
+//			oAssociatedWP.add(oLinkWPForObject);
+//			oAssociatedWP.add(oLinkNewObjectToTPM);
+//		}
+//		
+//		oAssociatedWP.addAll(getTItoWP(oNewWP, poOrderedResult.b)); 
+//		
+//		oAssociatedWP.addAll(getWPforTP(oNewWP, poOrderedResult.c));
+//						
+//		if(!oNewWP.getMoContent().contains("DEFAULT")){
+//			oPerception_Output = new clsSecondaryDataStructureContainer(oNewWP, oAssociatedWP); 
+//		}
+//		
+//		//Give the word presentations unique IDs
+//		if (oPerception_Output!=null) {
+//			clsDataStructureTools.createInstanceFromType(oPerception_Output, false);
+//		}
+//			
+//		return oPerception_Output;
+//	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.08.2010, 22:39:32
-	 *
-	 */
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.08.2010, 22:39:32
+//	 *
+//	 */
 //	private ArrayList<clsSecondaryDataStructureContainer> convertToSecondary(ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> poOrderedResult) {
 //		ArrayList<clsSecondaryDataStructureContainer> oPerception_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
 //		
@@ -615,314 +639,600 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 //		return oPerception_Output;
 //	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 22.08.2010, 19:53:01
-	 *
-	 * @param oContentWP
-	 * @param a
-	 * @return
-	 */
-	private clsAssociation getWPforObject(clsWordPresentation poContentWP, clsDataStructurePA poDS) {
-		clsAssociation oAssWP = getWP((clsPrimaryDataStructure) poDS);
-		
-		if(oAssWP != null){
-			//Add the instanceID to the TPM/TP
-			oAssWP.getRootElement().setMoDSInstance_ID(poDS.getMoDSInstance_ID());
-			//Add text to the content
-			clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-			poContentWP.setMoContent(oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
-		}
-			
-		return oAssWP;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 22.08.2010, 19:53:01
+//	 *
+//	 * @param oContentWP
+//	 * @param a
+//	 * @return
+//	 */
+//	private clsAssociation getWPforObject(clsWordPresentation poContentWP, clsDataStructurePA poDS) {
+//		clsAssociation oAssWP = getWP((clsPrimaryDataStructure) poDS);
+//		
+//		if(oAssWP != null){
+//			//Add the instanceID to the TPM/TP
+//			oAssWP.getRootElement().setMoDSInstance_ID(poDS.getMoDSInstance_ID());
+//			//Add text to the content
+//			clsWordPresentation oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+//			poContentWP.setMoContent(oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
+//		}
+//			
+//		return oAssWP;
+//	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 22.08.2010, 19:53:10
-	 *
-	 * @param oContentWP
-	 * @param b
-	 * @return
-	 */
-	private Collection<? extends clsAssociation> getTItoWP(clsWordPresentation poContentWP, ArrayList<clsTemplateImage> poListTI) {
-		
-		clsAssociation oAssWP = null; 
-		clsWordPresentation oWP = null; 
-		ArrayList<clsAssociation> oTIWP = new ArrayList<clsAssociation>(); 
-				
-		for(clsTemplateImage oEntry : poListTI){
-			oAssWP = getWP(oEntry); 
-			
-			if(oAssWP != null){
-				oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
-				poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
-				oTIWP.add(oAssWP); 
-			}
-		}
-		
-		return oTIWP;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 22.08.2010, 19:53:10
+//	 *
+//	 * @param oContentWP
+//	 * @param b
+//	 * @return
+//	 */
+//	private Collection<? extends clsAssociation> getTItoWP(clsWordPresentation poContentWP, ArrayList<clsTemplateImage> poListTI) {
+//		
+//		clsAssociation oAssWP = null; 
+//		clsWordPresentation oWP = null; 
+//		ArrayList<clsAssociation> oTIWP = new ArrayList<clsAssociation>(); 
+//				
+//		for(clsTemplateImage oEntry : poListTI){
+//			oAssWP = getWP(oEntry); 
+//			
+//			if(oAssWP != null){
+//				oWP = (clsWordPresentation)oAssWP.getLeafElement(); 
+//				poContentWP.setMoContent(poContentWP.getMoContent() + oWP.getMoContentType() + ":" + oWP.getMoContent() + "|"); 
+//				oTIWP.add(oAssWP); 
+//			}
+//		}
+//		
+//		return oTIWP;
+//	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 22.08.2010, 19:53:07
-	 *
-	 * @param oContentWP
-	 * @param c
-	 * @return
-	 */
-	private Collection<? extends clsAssociation> getWPforTP(clsWordPresentation poContentWP, ArrayList<clsPair<clsDriveMesh, clsAffect>> poListDM) {
-		clsWordPresentation oWP_dm; 
-		clsWordPresentation oWP_affect;
-		ArrayList<clsAssociation> oDMWP = new ArrayList<clsAssociation>(); 
-		
-		for(clsPair<clsDriveMesh, clsAffect> oEntry : poListDM){
-			clsAssociation oAssWP_dm = getWP(oEntry.a);
-		
-			if(oAssWP_dm != null){
-				oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
-				oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
-				oWP_dm.setMoContent(oWP_dm.getMoContent() + ":" + oWP_affect.getMoContent());  
-				oDMWP.add( oAssWP_dm );
-				poContentWP.setMoContent( poContentWP.getMoContent() + oWP_dm.getMoContent() + "|"); 
-			}
-				
-		}
-		return oDMWP;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 22.08.2010, 19:53:07
+//	 *
+//	 * @param oContentWP
+//	 * @param c
+//	 * @return
+//	 */
+//	private Collection<? extends clsAssociation> getWPforTP(clsWordPresentation poContentWP, ArrayList<clsPair<clsDriveMesh, clsAffect>> poListDM) {
+//		clsWordPresentation oWP_dm; 
+//		clsWordPresentation oWP_affect;
+//		ArrayList<clsAssociation> oDMWP = new ArrayList<clsAssociation>(); 
+//		
+//		for(clsPair<clsDriveMesh, clsAffect> oEntry : poListDM){
+//			clsAssociation oAssWP_dm = getWP(oEntry.a);
+//		
+//			if(oAssWP_dm != null){
+//				oWP_dm = (clsWordPresentation)oAssWP_dm.getLeafElement();
+//				oWP_affect = (clsWordPresentation)getWP(oEntry.b).getLeafElement(); 
+//				oWP_dm.setMoContent(oWP_dm.getMoContent() + ":" + oWP_affect.getMoContent());  
+//				oDMWP.add( oAssWP_dm );
+//				poContentWP.setMoContent( poContentWP.getMoContent() + oWP_dm.getMoContent() + "|"); 
+//			}
+//				
+//		}
+//		return oDMWP;
+//	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 23.08.2010, 21:24:28
-	 *
-	 * @param poDataStructure
-	 * @return
-	 */
-	//TODO AW: Remove, this function is moved to clsModuleBaseKB
-	/*private clsAssociation getWP(clsDataStructurePA poDataStructure){
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		clsAssociation oRetVal = null; 
-		
-		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
-		
-		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
-			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
-		}
-		
-		return oRetVal;  
-	}*/
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 23.08.2010, 21:24:28
+//	 *
+//	 * @param poDataStructure
+//	 * @return
+//	 */
+//	//TODO AW: Remove, this function is moved to clsModuleBaseKB
+//	/*private clsAssociation getWP(clsDataStructurePA poDataStructure){
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+//		clsAssociation oRetVal = null; 
+//		
+//		search(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)), oSearchResult); 
+//		
+//		if(oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
+//			oRetVal = (clsAssociation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+//		}
+//		
+//		return oRetVal;  
+//	}*/
+	
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 02.08.2011 09:45:57
+//	 *
+//	 * @param poPContainer
+//	 * @return
+//	 */
+//	private clsSecondaryDataStructureContainer getImageBaseAssociations(clsPrimaryDataStructureContainer poPContainer) {
+//		clsSecondaryDataStructureContainer oRetVal = null;
+//		
+//		//FIXME AW: Nothing from the repressed content must be interpreted here, as it is not yet saved in the memory. Everything 
+//		//from the repressed content storage must be saved in the memory
+//		if ((poPContainer.getMoDataStructure()).getMoContentType() != "IMAGE:REPRESSED") {
+//			//1. Get the secondary data structure for that image
+//			//clsSecondaryDataStructureContainer oSContainer = null;
+//			try {
+//				clsAssociation oFoundAss = getWP((clsPrimaryDataStructure) poPContainer.getMoDataStructure());
+//				//2. Get the secondary data structure container for the WP of that association
+//				if (oFoundAss==null) {
+//					throw new Exception("Error in F21_ConversationToSecondaryProcess, assignWPtoImages: This primary data structure does not have any secondary data structure. Define it in Protege");
+//				}
+//				
+//				clsSecondaryDataStructureContainer oFoundValue = null;
+//				if (oFoundAss.getRootElement() instanceof clsWordPresentationMesh) {
+//					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
+//				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentationMesh) {
+//					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
+//				}
+//				
+//				//Clone the result, or else the memory is changed.
+//				oRetVal = (clsSecondaryDataStructureContainer) oFoundValue.clone();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		//Give all structures unique IDs
+//		if (oRetVal!=null) {
+//			clsDataStructureTools.createInstanceFromType(oRetVal, false);
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+//	private clsDataStructureContainerPair assignWPtoPerceivedImage(clsPrimaryDataStructureContainer poInput) {
+//		clsDataStructureContainerPair oRetVal = null; //new ArrayList<clsDataStructureContainer>();
+//		
+//		//Convert to secondary data structure
+//		oRetVal = convertToSecondaryPerceivedImage(poInput);
+//		
+//		//Add the primary structures too
+//		//oRetVal.add(poInput);
+//		
+//		return oRetVal;
+//	}
 	
 	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 02.08.2011 09:45:57
-	 *
-	 * @param poPContainer
-	 * @return
-	 */
-	private clsSecondaryDataStructureContainer getImageBaseAssociations(clsPrimaryDataStructureContainer poPContainer) {
-		clsSecondaryDataStructureContainer oRetVal = null;
-		
-		//FIXME AW: Nothing from the repressed content must be interpreted here, as it is not yet saved in the memory. Everthing 
-		//from the repressed content storage must be saved in the memory
-		if ((poPContainer.getMoDataStructure()).getMoContentType() != "IMAGE:REPRESSED") {
-			//1. Get the secondary data structure for that image
-			//clsSecondaryDataStructureContainer oSContainer = null;
-			try {
-				clsAssociation oFoundAss = getWP((clsPrimaryDataStructure) poPContainer.getMoDataStructure());
-				//2. Get the secondary data structure container for the WP of that association
-				if (oFoundAss==null) {
-					throw new Exception("Error in F21_ConversationToSecondaryProcess, assignWPtoImages: This primary data structure does not have any secondary data structure. Define it in Protege");
-				}
-				
-				clsSecondaryDataStructureContainer oFoundValue = null;
-				if (oFoundAss.getRootElement() instanceof clsWordPresentationMesh) {
-					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getRootElement());
-				} else if (oFoundAss.getLeafElement() instanceof clsWordPresentationMesh) {
-					oFoundValue = (clsSecondaryDataStructureContainer) searchCompleteContainer(oFoundAss.getLeafElement());
-				}
-				
-				//Clone the result, or else the memory is changed.
-				oRetVal = (clsSecondaryDataStructureContainer) oFoundValue.clone();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-		
-		//Give all structures unique IDs
-		if (oRetVal!=null) {
-			clsDataStructureTools.createInstanceFromType(oRetVal, false);
-		}
-		
-		return oRetVal;
-	}
-	
-	private clsDataStructureContainerPair assignWPtoPerceivedImage(clsPrimaryDataStructureContainer poInput) {
-		clsDataStructureContainerPair oRetVal = null; //new ArrayList<clsDataStructureContainer>();
-		
-		//Convert to secondary data structure
-		oRetVal = convertToSecondaryPerceivedImage(poInput);
-		
-		//Add the primary structures too
-		//oRetVal.add(poInput);
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * For all associated memories, search for the WPM-Memory parts to them and associated WPMs and add them to an output list
+	 * For the TPM as input, assign all of them with WPM images
+	 * Return a pair of 1) Peception, 2) A list of memories
 	 * 
 	 * (wendt)
 	 *
-	 * @since 02.08.2011 09:45:54
+	 * @since 25.01.2012 13:55:04
 	 *
-	 * @param poInput
+	 * @param poPerceivedImage
 	 * @return
 	 */
-	private ArrayList<clsDataStructureContainerPair> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
-		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+	private clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> getWordPresentationsForImages(clsThingPresentationMesh poPerceivedImage) {
+		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oRetVal = null;
+		//The input image is the perceived image (defined from the position). Therefore, this image is taken to get the secondary process image
+		clsWordPresentationMesh oPIWPM = convertCompleteTPMtoWPMRoot(poPerceivedImage);
+		//Search for all images from the primary process in the memory
 		
-		ArrayList<clsDataStructureContainerPair> oExtendedAssociationList = new ArrayList<clsDataStructureContainerPair>();
-		//Go through all incoming primary images
-		for (clsPrimaryDataStructureContainer oPContainer : poInput) {
-			//Get a complete secondary container from a primary container
-			//clsSecondaryDataStructureContainer oSContainer = getImageBaseAssociations(oPContainer);
-			clsSecondaryDataStructureContainer oSContainer = convertToSecondaryMemoryImage(oPContainer);
+		//Input: TPM
+		//1. Get all Images of the Mesh
+		ArrayList<clsThingPresentationMesh> oRITPMList = clsDataStructureTools.getAllTPMMemories(poPerceivedImage, 2);		
+		//2. Search for WPM for the image and add the found image to a list. The WPM is connected with the TPM by an associationWP
+		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
+		for (clsThingPresentationMesh oRITPM : oRITPMList) {
+			clsWordPresentationMesh oRIWPM = convertCompleteTPMtoWPMRoot(oRITPM);
+			//3. Search for WPM for all internal objects in the WPM if they are available
+			oRIWPMList.add(oRIWPM);
+		}
+		
+		//4. For each WPM, search for more SP-WPM-Parts and connect them 
+		ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new ArrayList<clsWordPresentationMesh>();
+		//Add all already loaded objects to the list of activated WPM
+		//oCompleteLoadedWPMObjectList.addAll(oRIWPMList);
+		//This is a list of single independent WPM
+		for (clsWordPresentationMesh oRIWPM : oRIWPMList) {
+			//Get the complete WPM-Object including all WPM associations until level 2. Input is a WPM, therefore, only WPM is returned
+			//FIXME AW: As the intention is loaded, all other connected containers are loaded here. This is too specialized
+			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
+			//Add the enhanced WPM to a new list, as the enhanced WPM are complete and the former RI are not.
+			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
-			//If the secondary container exists
-			if (oSContainer != null) {
-				//2_5: Create new containerpair
-				clsDataStructureContainerPair oMemoryCPair = new clsDataStructureContainerPair(oSContainer, oPContainer);
-				
-				//3. Add container to the new list
-				//FIXME AW: No acts shall be loaded, but this is not a clean solution
-				if (oMemoryCPair.getSecondaryComponent().getMoDataStructure().getMoDataStructureType() != eDataType.ACT) {
-					oExtendedAssociationList.add(oMemoryCPair);
+			//Check if all the loaded structures can be added by getting all WPM as a list
+			ArrayList<clsWordPresentationMesh> oEnhancedList = clsDataStructureTools.getAllWPMImages(oEnhancedWPM, 2);
+			//Go through all new found entities
+			for (clsWordPresentationMesh oWPM : oEnhancedList) {
+				//1. Check if this WPM is already loaded in the "all loaded WPM ". If it is already in the list, transfer all associations from the "all loaded WPM " list to the oRIWPM.
+				clsDataStructurePA oFoundDS = clsDataStructureTools.findPADataStructureInArrayList(oCompleteLoadedWPMObjectList, oWPM);
+				if (oFoundDS!=null) {
+					//Merge
+					clsDataStructureTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oFoundDS);
+				} else {
+					oCompleteLoadedWPMObjectList.add(oWPM);
 				}
+			}
 
-				
-//				boolean bExistsAlready = false;
-//				for (clsDataStructureContainer oExistingNewContainer : oExtendedAssociationList) {
-//					//FIXME AW: No acts shall be loaded, but this is not a clean solution
-//					if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
-//							(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
+		}
+		
+		//Output: ArrayList<WPM> for each TPM-Image. The WPM are already assigned their acts here
+		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oEnhancedRIWPMList);
+		
+		
+		return oRetVal;
+		
+	}
+	
+//	private clsWordPresentationMesh convertToSecondaryPerceivedImage(clsThingPresentationMesh poPI) {
+//		//Return the new PI as a WPM
+//		clsWordPresentationMesh oRetVal = null;
+//		//Start with the DS-Element
+//		
+//		//Create a new Perceived Image for the secondary process
+//		//String oNewContent = setSecondaryImageContent(poPImageContainer.getMoDataStructure());
+//		clsWordPresentationMesh oBasicSDS = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poPI.getMoContentType(), poPI.getMoContent()), new ArrayList<clsAssociation>());
+//
+//		//Add secondary sub structures to the found secondary data structure container
+//		addSecondarySubStructures(oSContainer, poPImageContainer);
+//		
+//		oRetVal = new clsDataStructureContainerPair(oSContainer, poPImageContainer);
+//		
+//		return oRetVal;
+//	}
+	
+	
+//	private void addSecondarySubStructures(clsWordPresentationMesh poPIWPM, clsThingPresentationMesh poPITPM) {
+//		
+//		//Make only changes if both containers are != null. null is the case of a memory, which cannot be found, like the repressed content
+//		if ((poPIWPM!=null) && (poPITPM!=null)) {
+//			//Get the main element in the secondary container
+//			//clsSecondaryDataStructure oSImage = (clsSecondaryDataStructure) oSImageContainer.getMoDataStructure();
+//			//Get the basic data structure from the input image
+//			//clsDataStructurePA oDSPrimaryBasic = oPImageContainer.getMoDataStructure();
+//			//Go through the associated elements if they are a composition
+//			//if (oDSPrimaryBasic instanceof clsPhysicalStructureComposition) {
+//			
+//			//Get all internal TPM of that image
+//			for (clsAssociation oAssSubDS : poPITPM.getMoAssociatedContent()) {
+//				//Get associated structures from a sub structure and create an own primary data structure container from it
+//				//This structure is ALWAYS a TPM	
+//				clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh) oAssSubDS.getLeafElement();
+//				//Get the WPM for the TPM
+//				clsAssociationWordPresentation oWPforObject = getWPMesh(oSubTPM);
+//				//If nothing was found, then the structure is null
+//				if (oWPforObject != null) {
+//					//Search for the other external substructures of the WPM, i. e. clsAttribute and clsDriveMesh
+//					
+//					//Add a secondary Association for that structure
+//					clsAssociationSecondary oAssSecondary = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oSSubContainer.getMoDataStructure(), 
+//							oSImage, "PARTOF", 1.0);
+//					
+//					
+//				}
+//
+//				//clsPrimaryDataStructureContainer oPSubContainer = new clsPrimaryDataStructureContainer(oSubDS, oPImageContainer.getMoAssociatedDataStructures(oSubDS));
+//				//Use this primary data structure container and convert the content incl. DM, affects.
+//				clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>> oTripple = defineTemplateImageForObject(oPSubContainer);
+//				clsSecondaryDataStructureContainer oSSubContainer = convertToSecondaryForObject(oTripple);
+//				//Create instrinsic associations of the found word presentations
+//				//TP:BUMP is not converted. No TP can be transferred to the SP alone
+//				if (oSSubContainer!=null) {
+//					clsAssociationSecondary oAssSecondary = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oSSubContainer.getMoDataStructure(), 
+//						oSImage, "PARTOF", 1.0);
+//					//Add container associations to the main container
+//					((clsLogicalStructureComposition)oSImage).getMoAssociatedContent().add(oAssSecondary);
+//					//Add the assigned associations
+//					oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
+//					
+//					//TODO AW: Are these associations necessary? I don't think so
+//					//oSImageContainer.getMoAssociatedDataStructures().addAll(oSSubContainer.getMoAssociatedDataStructures());
+//				}
+//			}
+//		}
+//	}
+	
+	private clsWordPresentationMesh convertCompleteTPMtoWPMRoot(clsThingPresentationMesh poTPM) {
+		return convertCompleteTPMtoWPM(poTPM, new ArrayList<clsThingPresentationMesh>(), 1);
+	}
+	
+	
+	/**
+	 * For each single image, get the complete image with their objects as WPM. Each image has internal associations to the objects within. These objects have external associations to their
+	 * positions and affects. For a TPM return a fully converted WPM
+	 * 
+	 * This is a recusive function
+	 * 
+	 * (wendt)
+	 * 
+	 * @since 25.01.2012 13:57:49
+	 *
+	 * @param poSubTPM
+	 * @return
+	 */
+	private clsWordPresentationMesh convertCompleteTPMtoWPM(clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel) {
+		clsWordPresentationMesh oRetVal = null;
+		
+		//add the current TPM to the list
+		poProcessedList.add(poTPM);
+		
+		//Get the WPM for the thing presentation itself
+		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM);
+		if (oWPforObject!=null) {
+			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
+				oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+				oRetVal.getExternalAssociatedContent().add(oWPforObject);
+			}
+		} else {
+			//It may be the PI, then create a new image with for the PI or from the repressed content
+			oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
+			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONWP, eDataType.ASSOCIATIONWP.toString()), oRetVal, poTPM);
+			oRetVal.getExternalAssociatedContent().add(oWPAss);
+		}
+		
+		//Go deeper, only if the pnLevel allows
+		//If nothing was found, then the structure is null
+		if (((pnLevel>=0) || (pnLevel==-1)) && oRetVal != null) {
+			//DOCUMENT AW: Internal sub structures are not considered here, as only the word of the object is relevant 
+			//Search for the other external substructures of the WPM, i. e. clsAttribute and clsDriveMesh
+			//DOCUMENT Important note: clsAssociationPrimary is not considered for the secondary process
+			for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
+				if (oTPMExternalAss instanceof clsAssociationAttribute) {
+					//Get the location templates
+					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement());
+					if (oWPforTPAttribute!=null) {
+						clsWordPresentation oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
+						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {
+							clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASDISTANCE.toString(), false);
+						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION.toString()) {
+							clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASPOSITION.toString(), false);
+						} else {
+							try {
+								throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
+							} catch (Exception e) {
+								// TODO (wendt) - Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+					}
+					
+				} else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
+					//Get the affect templates
+					//Get the DriveMesh
+					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement(); 
+					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
+					
+					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)
+					clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASAFFECT.toString(), false);
+					
+				}	
+			}
+		}
+		
+		if (((pnLevel>0) || (pnLevel==-1)) && oRetVal != null) {
+		
+			//Check the inner associations, if they are associationtime, as it means that is an image
+			for (clsAssociation oTPMInternalAss : poTPM.getMoAssociatedContent()) {
+				//Internal TP-Associations are NOT checked, as they must not be converted to WP
+				//Only one internal level is converted, i. e. no images in images are checked
+				if (oTPMInternalAss instanceof clsAssociationTime && 
+						poProcessedList.contains(((clsAssociationTime)oTPMInternalAss).getLeafElement())==false) {
+					
+					clsThingPresentationMesh oSubTPM = ((clsAssociationTime)oTPMInternalAss).getLeafElement();
+					//Convert the complete structure to a WPM
+					clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(oSubTPM, poProcessedList, pnLevel-1);
+					
+					//Add the subWPM to the WPM structure
+					clsDataStructureTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+				}
+			}
+		}
+		
+		return oRetVal;		
+	}
+	
+	/**
+	 * Convert a DM into an Affect, which is then converted into a word presentation affect
+	 * (wendt)
+	 *
+	 * @since 30.01.2012 16:30:20
+	 *
+	 * @param poDM
+	 * @return
+	 */
+	private clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
+		clsWordPresentation oRetVal = null;
+		
+		//Generate the instance of the class affect
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
+		//Search for the WP of the affect
+		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect);
+		
+		//Get drive Content String
+		String oDriveContentType = poDM.getMoContentType();
+		//Get the content of the affect strength
+		//the word presentation in an associationWP is ALWAYS the leaf element
+		String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
+		
+		//Construct WP
+		String oWPContent = oDriveContentType + ":" + oAffectContent;
+		
+		//Create the new WP for that drive
+		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eContentType.AFFECT.toString(), oWPContent));
+		
+		oRetVal = oResWP;
+		
+		return oRetVal;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+//	/**
+//	 * For all associated memories, search for the WPM-Memory parts to them and associated WPMs and add them to an output list
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 02.08.2011 09:45:54
+//	 *
+//	 * @param poInput
+//	 * @return
+//	 */
+//	private ArrayList<clsDataStructureContainerPair> assignWPtoImages(ArrayList<clsPrimaryDataStructureContainer> poInput) {
+//		ArrayList<clsDataStructureContainerPair> oRetVal = new ArrayList<clsDataStructureContainerPair>();
+//		
+//		ArrayList<clsDataStructureContainerPair> oExtendedAssociationList = new ArrayList<clsDataStructureContainerPair>();
+//		//Go through all incoming primary images
+//		for (clsPrimaryDataStructureContainer oPContainer : poInput) {
+//			//Get a complete secondary container from a primary container
+//			//clsSecondaryDataStructureContainer oSContainer = getImageBaseAssociations(oPContainer);
+//			clsSecondaryDataStructureContainer oSContainer = convertToSecondaryMemoryImage(oPContainer);
+//			
+//			//If the secondary container exists
+//			if (oSContainer != null) {
+//				//2_5: Create new containerpair
+//				clsDataStructureContainerPair oMemoryCPair = new clsDataStructureContainerPair(oSContainer, oPContainer);
+//				
+//				//3. Add container to the new list
+//				//FIXME AW: No acts shall be loaded, but this is not a clean solution
+//				if (oMemoryCPair.getSecondaryComponent().getMoDataStructure().getMoDataStructureType() != eDataType.ACT) {
+//					oExtendedAssociationList.add(oMemoryCPair);
+//				}
+//
+//				
+////				boolean bExistsAlready = false;
+////				for (clsDataStructureContainer oExistingNewContainer : oExtendedAssociationList) {
+////					//FIXME AW: No acts shall be loaded, but this is not a clean solution
+////					if (oExistingNewContainer.getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID() || 
+////							(oExistingNewContainer.getMoDataStructure().getMoDataStructureType() == eDataType.ACT)) {
+////						bExistsAlready = true;
+////						break;
+////					}
+////				}
+////					
+////				//If the container does not exist in the list, then add it
+////				if (bExistsAlready==false) {
+////					oExtendedAssociationList.add(oSContainer);
+////				}
+//			}
+//		}
+//		
+//		//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
+//		ArrayList<clsDataStructureContainerPair> oCompleteSecondaryStructureList = new ArrayList<clsDataStructureContainerPair>();
+//		oCompleteSecondaryStructureList.addAll(oExtendedAssociationList);
+//		for (clsDataStructureContainerPair oContainerPair : oExtendedAssociationList) {
+//			//Get all associated WP/WPM-Associations from the secondary container
+//			ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oContainerPair.getSecondaryComponent());
+//			//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
+//			//As all WP comes from the memory, it is enough to compare the moDS_ID
+//			boolean bExistsAlready = false;
+//			for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
+//				bExistsAlready = false;
+//				//If the contianer erronerously would be a primary container, it shall not be added
+//				if (oAddContainer instanceof clsPrimaryDataStructureContainer) {
+//					bExistsAlready = true;
+//					try {
+//						throw new Exception("F21: assignWPtoImages: No primary container can be added here");
+//					} catch (Exception e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//					break;
+//				}
+//				
+//				for (clsDataStructureContainerPair oExistingContainerPair : oCompleteSecondaryStructureList) {
+//					//If the ID of the containers is equal or if the 
+//					if ((oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainerPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) {
 //						bExistsAlready = true;
 //						break;
 //					}
 //				}
-//					
-//				//If the container does not exist in the list, then add it
 //				if (bExistsAlready==false) {
-//					oExtendedAssociationList.add(oSContainer);
+//					oCompleteSecondaryStructureList.add(new clsDataStructureContainerPair((clsSecondaryDataStructureContainer) oAddContainer, null));
 //				}
-			}
-		}
-		
-		//4. Load all associated containers of all clsAssociationSecondary, in order to get the whole sequence
-		ArrayList<clsDataStructureContainerPair> oCompleteSecondaryStructureList = new ArrayList<clsDataStructureContainerPair>();
-		oCompleteSecondaryStructureList.addAll(oExtendedAssociationList);
-		for (clsDataStructureContainerPair oContainerPair : oExtendedAssociationList) {
-			//Get all associated WP/WPM-Associations from the secondary container
-			ArrayList<clsDataStructureContainer> oExtractedWPAssociations = extractAssociatedContainers(oContainerPair.getSecondaryComponent());
-			//5. Add only, if the container does not exist yet. Compare the DS of the container. A DS must only exist once.
-			//As all WP comes from the memory, it is enough to compare the moDS_ID
-			boolean bExistsAlready = false;
-			for (clsDataStructureContainer oAddContainer : oExtractedWPAssociations) {
-				bExistsAlready = false;
-				//If the contianer erronerously would be a primary container, it shall not be added
-				if (oAddContainer instanceof clsPrimaryDataStructureContainer) {
-					bExistsAlready = true;
-					try {
-						throw new Exception("F21: assignWPtoImages: No primary container can be added here");
-					} catch (Exception e) {
-						// TODO (wendt) - Auto-generated catch block
-						e.printStackTrace();
-					}
-					break;
-				}
-				
-				for (clsDataStructureContainerPair oExistingContainerPair : oCompleteSecondaryStructureList) {
-					//If the ID of the containers is equal or if the 
-					if ((oAddContainer.getMoDataStructure().getMoDS_ID() == oExistingContainerPair.getSecondaryComponent().getMoDataStructure().getMoDS_ID())) {
-						bExistsAlready = true;
-						break;
-					}
-				}
-				if (bExistsAlready==false) {
-					oCompleteSecondaryStructureList.add(new clsDataStructureContainerPair((clsSecondaryDataStructureContainer) oAddContainer, null));
-				}
-			}
-		}
-		
-		//Add the found containers
-		oRetVal.addAll(oCompleteSecondaryStructureList);
-		
-		//Refactor the content names of the data structures in the containers
-		//Set new content for the base image
-		for (clsDataStructureContainerPair oDCPair: oRetVal) {
-			if (oDCPair.getSecondaryComponent() instanceof clsSecondaryDataStructureContainer) {
-				String oNewContent = setSecondaryImageContent(oDCPair.getSecondaryComponent().getMoDataStructure());
-				if (oDCPair.getSecondaryComponent().getMoDataStructure() instanceof clsWordPresentationMesh) {
-					((clsWordPresentationMesh)oDCPair.getSecondaryComponent().getMoDataStructure()).setMoContent(oNewContent);
-				}
-			}
-		}
-		
-		//Add the original primary containers
-		//oRetVal.addAll(poInput);
-
-		return oRetVal;
-	}
+//			}
+//		}
+//		
+//		//Add the found containers
+//		oRetVal.addAll(oCompleteSecondaryStructureList);
+//		
+//		//Refactor the content names of the data structures in the containers
+//		//Set new content for the base image
+//		for (clsDataStructureContainerPair oDCPair: oRetVal) {
+//			if (oDCPair.getSecondaryComponent() instanceof clsSecondaryDataStructureContainer) {
+//				String oNewContent = setSecondaryImageContent(oDCPair.getSecondaryComponent().getMoDataStructure());
+//				if (oDCPair.getSecondaryComponent().getMoDataStructure() instanceof clsWordPresentationMesh) {
+//					((clsWordPresentationMesh)oDCPair.getSecondaryComponent().getMoDataStructure()).setMoContent(oNewContent);
+//				}
+//			}
+//		}
+//		
+//		//Add the original primary containers
+//		//oRetVal.addAll(poInput);
+//
+//		return oRetVal;
+//	}
 	
-	/**
-	 * Set new content for images
-	 * (wendt)
-	 *
-	 * @since 31.07.2011 09:37:22
-	 *
-	 * @param poContent
-	 * @return
-	 */
-	private String setSecondaryImageContent(clsDataStructurePA poInput) {
-		//TODO AW: This is not nice programming...
-		if (poInput instanceof clsWordPresentation) {
-			if (((clsWordPresentation)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
-				return  poInput.getMoContentType() + ":" + ((clsWordPresentation)poInput).getMoContent();
-			} else {
-				return ((clsWordPresentation)poInput).getMoContent();
-			}
-		} else if (poInput instanceof clsWordPresentationMesh) {
-			if (((clsWordPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
-				return  poInput.getMoContentType() + ":" + ((clsWordPresentationMesh)poInput).getMoContent();
-			} else {
-				return ((clsWordPresentationMesh)poInput).getMoContent();
-			}
-		} else if (poInput instanceof clsTemplateImage) {
-			if (((clsTemplateImage)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
-				return  poInput.getMoContentType() + ":" + ((clsTemplateImage)poInput).getMoContent();
-			} else {
-				return ((clsTemplateImage)poInput).getMoContent();
-			}
-		} else if (poInput instanceof clsThingPresentationMesh) {
-			if (((clsThingPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
-				return  poInput.getMoContentType() + ":" + ((clsThingPresentationMesh)poInput).getMoContent();
-			} else {
-				return ((clsThingPresentationMesh)poInput).getMoContent();
-			}
-		} else {
-			return "";
-		}
-		
-	}
+//	/**
+//	 * Set new content for images
+//	 * (wendt)
+//	 *
+//	 * @since 31.07.2011 09:37:22
+//	 *
+//	 * @param poContent
+//	 * @return
+//	 */
+//	private String setSecondaryImageContent(clsDataStructurePA poInput) {
+//		//TODO AW: This is not nice programming...
+//		if (poInput instanceof clsWordPresentation) {
+//			if (((clsWordPresentation)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+//				return  poInput.getMoContentType() + ":" + ((clsWordPresentation)poInput).getMoContent();
+//			} else {
+//				return ((clsWordPresentation)poInput).getMoContent();
+//			}
+//		} else if (poInput instanceof clsWordPresentationMesh) {
+//			if (((clsWordPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+//				return  poInput.getMoContentType() + ":" + ((clsWordPresentationMesh)poInput).getMoContent();
+//			} else {
+//				return ((clsWordPresentationMesh)poInput).getMoContent();
+//			}
+//		} else if (poInput instanceof clsTemplateImage) {
+//			if (((clsTemplateImage)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+//				return  poInput.getMoContentType() + ":" + ((clsTemplateImage)poInput).getMoContent();
+//			} else {
+//				return ((clsTemplateImage)poInput).getMoContent();
+//			}
+//		} else if (poInput instanceof clsThingPresentationMesh) {
+//			if (((clsThingPresentationMesh)poInput).getMoContent().contains(poInput.getMoContentType())==false) {
+//				return  poInput.getMoContentType() + ":" + ((clsThingPresentationMesh)poInput).getMoContent();
+//			} else {
+//				return ((clsThingPresentationMesh)poInput).getMoContent();
+//			}
+//		} else {
+//			return "";
+//		}
+//		
+//	}
 	
 	/* (non-Javadoc)
 	 *

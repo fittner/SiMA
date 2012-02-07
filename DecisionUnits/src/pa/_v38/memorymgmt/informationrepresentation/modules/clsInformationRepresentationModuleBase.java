@@ -13,6 +13,8 @@ import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 
@@ -98,6 +100,14 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	
 	public clsDataStructureContainer getContainer(clsDataStructurePA poInput) {
 		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+	}
+	
+	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
+		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+	}
+	
+	public clsWordPresentationMesh getMesh(clsWordPresentationMesh poInput, int pnLevel) {
+		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 	}
 	
 	/**

@@ -32,8 +32,8 @@ public class clsAssociationPrimary extends clsAssociation{
 	 * @param poAssociationType
 	 */
 	public clsAssociationPrimary(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
-			clsPrimaryDataStructure poAssociationElementA,
-			clsPrimaryDataStructure poAssociationElementB) {
+			clsThingPresentationMesh poAssociationElementA,
+			clsThingPresentationMesh poAssociationElementB) {
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 		// TODO (zeilinger) - Auto-generated constructor stub

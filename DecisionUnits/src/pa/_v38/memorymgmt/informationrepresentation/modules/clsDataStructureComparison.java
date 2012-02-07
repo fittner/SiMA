@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
@@ -150,6 +151,8 @@ public abstract class clsDataStructureComparison {
 	/**
 	 * Get matches for one input datastructure, which may be an image. A list with the activated containers and their match 
 	 * factors are returned
+	 * 
+	 * Only thing presentation mesh allowed
 	 *
 	 * @since 14.07.2011 16:06:16
 	 *
@@ -176,7 +179,7 @@ public abstract class clsDataStructureComparison {
 		//FIXME AW: ONLY Level 1 is allowed in this search.
 		//TODO AW: Allow Level 0
 		
-		if (pnLevel==2) {
+		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
 			//1. First search to get all matches
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
@@ -184,11 +187,10 @@ public abstract class clsDataStructureComparison {
 				
 				//FIXME: Allow other values than TPMs
 				if (oCompareElement instanceof clsThingPresentationMesh) {
-					clsThingPresentationMesh oCompareStructure = getCompleteMesh((clsThingPresentationMesh) oCompareElement, poSearchSpaceHandler, pnLevel);
+					clsThingPresentationMesh oCompareStructure = (clsThingPresentationMesh) getCompleteMesh((clsThingPresentationMesh) oCompareElement, poSearchSpaceHandler, pnLevel);
 					
 					double oMatch = clsSpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oCompareStructure);
-					//double oMatch = compareTIContainer((clsPrimaryDataStructureContainer)oCompareContainer, (clsPrimaryDataStructureContainer)poContainerUnknown, true); //Strong matching deactivated
-				
+							
 					if (oMatch < prThreshold)
 						continue;
 					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
@@ -206,11 +208,7 @@ public abstract class clsDataStructureComparison {
 			}
 			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
 			oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poDSUnknown, mrBestMatchThreshold, mrAssociationMaxValue));			
-		} else {
-			//return nothing
 		}
-		
-		
 		
 		//3. Sort the list
 		//TODO AW: Sort the output list
@@ -527,8 +525,11 @@ public abstract class clsDataStructureComparison {
 		return oCompareContainer;
 	}
 	
+	
 	/**
 	 * Get a whole mesh from a data structure including all associated structures in its associated structures
+	 * Only TPM are allowed
+	 * 
 	 * AW
 	 * 
 	 * 
@@ -548,28 +549,31 @@ public abstract class clsDataStructureComparison {
 		//A special case of the searchspace was used
 		
 		//Create Container for the DataStructure		
-		//clsThingPresentationMesh oCompareStructure = null;	//DS PA, as both primary and secondary composition structures are allowed
-		
+	
 		//Check if that data structure can be found in the database, else return null
-		if (poInput.getMoDS_ID()>0 && poInput instanceof clsThingPresentationMesh) {
-			//pnLevel MUST be at least 1, else no substructures are searched
-			if (pnLevel >0) {
+		//pnLevel MUST be at least 1, else no substructures are searched
+		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
+			if (poInput instanceof clsThingPresentationMesh) {
 				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
-				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsPhysicalRepresentation)poInput));
-				
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
+					
+				//Clone the structure
 				try {
-					oRetVal = (clsThingPresentationMesh) poInput.cloneGraph();
+					//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
+					oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).clone();
 				} catch (CloneNotSupportedException e) {
 					// TODO (wendt) - Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				//clsThingPresentationMesh oTPMRetVal = oRetVal;
 				
 				oRetVal.setMoExternalAssociatedContent(oAssList);
 				//Add associations from intrinsic structures
 				for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
 					//Recursive function
 					if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						clsThingPresentationMesh oSubMesh = getCompleteMesh((clsThingPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
+						clsThingPresentationMesh oSubMesh = (clsThingPresentationMesh) getCompleteMesh((clsThingPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
 						if (oSubMesh!=null) {
 							//Get the extended structures from the searched one and add them to the TPM
 							((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
@@ -579,20 +583,75 @@ public abstract class clsDataStructureComparison {
 						}
 					}
 				}
-			} 
+			}
 		}
-		
-		//Remove duplicate structures
-		//if (oCompareContainer!=null) {
-		//	oCompareContainer.setMoAssociatedDataStructures(removeNonBelongingStructures(oCompareContainer));
-		//}
-		//Set moInstanceID for all structures in the container
-		//clsDataStructureTools.createInstanceFromType(oCompareContainer);
-		
 		
 		return oRetVal;
 	}
 	
+	/**
+	 * Get a whole mesh from a data structure including all associated structures in its associated structures
+	 * Only WPM are allowed
+	 * 
+	 * AW
+	 * 
+	 * 
+	 * @since 20.07.2011 02:00:14
+	 *
+	 * @param poInput
+	 * @param poSearchSpaceHandler
+	 * @return
+	 * @throws CloneNotSupportedException 
+	 */
+	public static clsWordPresentationMesh getCompleteMesh(clsWordPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
+		
+		clsWordPresentationMesh oRetVal = null;
+		
+		//Readoutsearchspace searches everything with a certain moDSID
+		//Everything shall be returned
+		//A special case of the searchspace was used
+		
+		//Create Container for the DataStructure		
+	
+		//Check if that data structure can be found in the database, else return null
+		//pnLevel MUST be at least 1, else no substructures are searched
+		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
+			if (poInput instanceof clsWordPresentationMesh) {
+				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsWordPresentationMesh)poInput));
+					
+				//Clone the structure
+				try {
+					oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) poInput).clone();
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//clsWordPresentationMesh oWPMRetVal = (clsWordPresentationMesh) oRetVal;
+				
+				oRetVal.setExternalAssociatedContent(oAssList);
+				//Add associations from intrinsic structures
+				for (clsAssociation oAss: oRetVal.getAssociatedContent()) {
+					//Recursive function
+					if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
+						clsWordPresentationMesh oSubMesh = (clsWordPresentationMesh) getCompleteMesh((clsWordPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
+						if (oSubMesh!=null) {
+							//Get the extended structures from the searched one and add them to the TPM
+							if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+								((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
+								//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
+								//time associations of the subobject. This association is added to the external associations of the subobject
+								((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+							}
+						}
+					}
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	/**
 	 * Remove duplicates in an arraylist and also non belongen associations of the containers.
@@ -986,7 +1045,7 @@ public abstract class clsDataStructureComparison {
 	 * DMs found in oldAssociations
 	 */
 	private static ArrayList<clsAssociationDriveMesh> createNewDMAssociations(
-			clsPrimaryDataStructure poNewRoot,
+			clsThingPresentationMesh poNewRoot,
 			ArrayList<clsAssociation> poOldAssociations) {
 		ArrayList<clsAssociationDriveMesh> oReturnlist = new ArrayList<clsAssociationDriveMesh>();
 		

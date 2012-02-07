@@ -485,7 +485,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsImage> oRetVal = new ArrayList<clsImage>();
 		
 		// get current environmental situation from moSContainer -> create an image
-		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()); 
+		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(((clsWordPresentationMesh) poEnvironmentalPerception.getSecondaryComponent().getMoDataStructure()).getAssociatedContent()); 
 		
 		oRetVal.addAll(currentImageAllObjects);
 		

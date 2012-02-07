@@ -174,60 +174,62 @@ public abstract class clsAssociation extends clsDataStructurePA{
 			 return e;
 		 }
 	}		
-	/**
-	 * special clone method. prevents infinite loops while cloning object A which has association X with object B.
-	 * A.clone() calls X.clone() which - consecutively - creates a new clone from A ... Thus, references to A and its clone A' 
-	 * are passed to the clone method from X. If X.moA refers to A, it is redirected to A'; if X.moB refers to B, it is 
-	 * redirected to A'.
-	 *
-	 * @author deutsch
-	 * 19.10.2009, 16:17:12
-	 * 20.07.2010, 08:20:00	adapted by zeilinger for the use in pa._v38.memorymgmt.datatypes	 
-	 *
-	 * @param obj_orig
-	 * @param obj_clon
-	 * @return oClone
-	 * @throws CloneNotSupportedException
-	 */
-	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
-		//FIXME HZ; checkDepth Method lowers performance 
-		//checkStackDepth();
-		
-		clsAssociation oClone = null;
-	    try { 
-	    	oClone = (clsAssociation) super.clone(); 
-	    } catch (CloneNotSupportedException e) { 
-	    	throw e; 
-	    }
-	    try {
-	    	if (this.moAssociationElementA.equals(obj_orig)) {
-	    		oClone.moAssociationElementA = (clsDataStructurePA) obj_clon;
-	    	} else {
-	    		Class<?> clzz = this.moAssociationElementA.getClass();
-	    		Method   meth = clzz.getMethod("clone", new Class[0]);
-				Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
-				oClone.moAssociationElementA = (clsDataStructurePA) dupl; // unchecked warning
-	    	}
-	    } catch (Exception e) {
-	    	 //...
-	    }
-	    try {
-	    	if (this.moAssociationElementB.equals(obj_orig)) {
-	    		oClone.moAssociationElementB = (clsDataStructurePA) obj_clon;
-	    	} else {	    	
-				Class<?> clzz = this.moAssociationElementB.getClass();
-				Method   meth = clzz.getMethod("clone", new Class[0]);
-				Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);
-				oClone.moAssociationElementB = (clsDataStructurePA) dupl; // unchecked warning
-	    	}
-	    } catch (Exception e) {
-	    	//...
-	    } 
-		
-	    return oClone;
-	}
+
+//	/**
+//	 * special clone method. prevents infinite loops while cloning object A which has association X with object B.
+//	 * A.clone() calls X.clone() which - consecutively - creates a new clone from A ... Thus, references to A and its clone A' 
+//	 * are passed to the clone method from X. If X.moA refers to A, it is redirected to A'; if X.moB refers to B, it is 
+//	 * redirected to A'.
+//	 *
+//	 * @author deutsch
+//	 * 19.10.2009, 16:17:12
+//	 * 20.07.2010, 08:20:00	adapted by zeilinger for the use in pa._v38.memorymgmt.datatypes	 
+//	 *
+//	 * @param obj_orig
+//	 * @param obj_clon
+//	 * @return oClone
+//	 * @throws CloneNotSupportedException
+//	 */
+//	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
+//		//FIXME HZ; checkDepth Method lowers performance 
+//		//checkStackDepth();
+//		
+//		clsAssociation oClone = null;
+//	    try { 
+//	    	oClone = (clsAssociation) super.clone(); 
+//	    } catch (CloneNotSupportedException e) { 
+//	    	throw e; 
+//	    }
+//	    try {
+//	    	if (this.moAssociationElementA.equals(obj_orig)) {
+//	    		oClone.moAssociationElementA = (clsDataStructurePA) obj_clon;
+//	    	} else {
+//	    		Class<?> clzz = this.moAssociationElementA.getClass();
+//	    		Method   meth = clzz.getMethod("clone", new Class[0]);
+//				Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
+//				oClone.moAssociationElementA = (clsDataStructurePA) dupl; // unchecked warning
+//	    	}
+//	    } catch (Exception e) {
+//	    	 //...
+//	    }
+//	    try {
+//	    	if (this.moAssociationElementB.equals(obj_orig)) {
+//	    		oClone.moAssociationElementB = (clsDataStructurePA) obj_clon;
+//	    	} else {	    	
+//				Class<?> clzz = this.moAssociationElementB.getClass();
+//				Method   meth = clzz.getMethod("clone", new Class[0]);
+//				Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);
+//				oClone.moAssociationElementB = (clsDataStructurePA) dupl; // unchecked warning
+//	    	}
+//	    } catch (Exception e) {
+//	    	//...
+//	    } 
+//		
+//	    return oClone;
+//	}
 	
-	public Object cloneGraph(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	//public Object cloneGraph(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsAssociation oClone = null;
 		
 		//Clone the association itself
@@ -261,8 +263,8 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	    			//The element was found in the list, only add its clone then
 	    			Class<?> clzz = this.moAssociationElementA.getClass();
 	    			Class[] argTypes = {Class.forName("java.util.ArrayList")};
-	    			Method cloneGraphExtended = clzz.getDeclaredMethod("cloneGraph", argTypes);
-	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementB, poClonedNodeList);
+	    			Method cloneGraphExtended = clzz.getDeclaredMethod("clone", argTypes);
+	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementA, poClonedNodeList);
 					//Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
 					oClone.moAssociationElementA = (clsDataStructurePA) newDuplicate; // unchecked warning
 	    		}
@@ -292,7 +294,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	    			//The element was found in the list, only add its clone then
 	    			Class<?> clzz = this.moAssociationElementB.getClass();
 	    			Class[] argTypes = {Class.forName("java.util.ArrayList")};
-	    			Method cloneGraphExtended = clzz.getDeclaredMethod("cloneGraph", argTypes);
+	    			Method cloneGraphExtended = clzz.getDeclaredMethod("clone", argTypes);
 	    			Object newDuplicate = cloneGraphExtended.invoke(this.moAssociationElementB, poClonedNodeList);
 		    		//Method   meth = clzz.getMethod("cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList)", argTypes);
 					//Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);

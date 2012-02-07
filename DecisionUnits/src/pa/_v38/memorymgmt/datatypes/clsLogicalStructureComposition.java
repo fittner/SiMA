@@ -33,7 +33,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @return the moExternalAssociatedContent
 	 */
-	public ArrayList<clsAssociation> getMoExternalAssociatedContent() {
+	public ArrayList<clsAssociation> getExternalAssociatedContent() {
 		return moExternalAssociatedContent;
 	}
 
@@ -44,7 +44,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @param moExternalAssociatedContent the moExternalAssociatedContent to set
 	 */
-	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+	public void setExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
 
@@ -54,7 +54,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @return the moAssociatedContent
 	 */
-	public ArrayList<clsAssociation> getMoAssociatedContent() {
+	public ArrayList<clsAssociation> getAssociatedContent() {
 		return moInternalAssociatedContent;
 	}
 
@@ -80,6 +80,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	public clsLogicalStructureComposition(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+		moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	}
 	
 	/**

@@ -90,7 +90,7 @@ public class clsOntologyLoader {
 								eDataType.ACT,
 								eDataType.AFFECT, 
 								eDataType.DM,
-								eDataType.TI,
+								//eDataType.TI,
 								eDataType.TP,
 								eDataType.TPM,
 								eDataType.WP,
@@ -670,16 +670,16 @@ public class clsOntologyLoader {
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
 			case ASSOCIATIONTEMP:
 				return new clsAssociationTime(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
-						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
+						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB); 
 			
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
 				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
 												   (clsDriveMesh)oAssociationElements.a, 
-												   (clsPrimaryDataStructure)oAssociationElements.b); 
+												   (clsThingPresentationMesh)oAssociationElements.b); 
 			case ASSOCIATIONPRI:
 				return new clsAssociationPrimary(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
-						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB);
+						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB);
 			
 			case ASSOCIATIONWP:
 				if ((poElementA instanceof clsWordPresentationMesh) || (poElementB instanceof clsWordPresentationMesh)) {

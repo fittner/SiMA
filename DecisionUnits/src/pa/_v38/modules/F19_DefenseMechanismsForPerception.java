@@ -170,7 +170,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
 		try {
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
+			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -240,7 +241,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
 			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -266,7 +267,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInMesh(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
@@ -308,8 +309,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		if (oFoundObject!=null) {
 			//Delete object from the perception
 			
-			//TODO AW: Implement this function. It is not implemented yet!!!!!!!
-			clsDataStructureTools.deleteObjectInMesh(moPerceptionalMesh_OUT, oFoundObject);
+			if (oFoundObject instanceof clsThingPresentationMesh)
+			clsDataStructureTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
 		}
 		
 		

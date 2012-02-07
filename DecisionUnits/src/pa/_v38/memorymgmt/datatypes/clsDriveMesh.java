@@ -293,10 +293,12 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 */
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
-		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
-		oDataStructureList.add(poDataStructurePA); 
+		//TODO AW: Remove function
 		
-		applyAssociations(oDataStructureList);
+		//ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
+		//oDataStructureList.add(poDataStructurePA); 
+		
+		//applyAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -324,7 +326,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 				 * of associated data structures and their number of associations. The idendityMatch number
 				 * is not used here as it would distort the result.   
 				 */
-				oRetVal = oDataStructure.getNumbAssociations();
+				//oRetVal = oDataStructure.getNumbAssociations();
+				oRetVal = 1.0;
 			}
 			else if (oDataStructure.moDS_ID > -1) {return oRetVal;}
 		//In case the data structure does not have an ID, it has to be compared to a stored 
@@ -333,7 +336,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		//Drive Mesh content is represented by a list of attribute associations	
 				
 		if(this.moContent.intern() == oDataStructure.moContent.intern()){
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+				//oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = 1.0;
 		}
 	
 		return oRetVal; 
@@ -373,7 +377,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
         		
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone); 
+    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
     					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
@@ -387,7 +391,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
         }
 	}
 	
-	public Object cloneGraph(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsDriveMesh oClone = null;
 		
 		try {
@@ -398,7 +402,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
         		
         		for(clsAssociation oAssociation : moAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.cloneGraph(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
@@ -421,9 +425,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		oResult += this.moContentType + ":";
 		oResult += this.moContent + ":";
 			
-//		for (clsAssociation oEntry : moAssociatedContent) {
-//			oResult += oEntry.toString() + ":"; 
-//		}
+		for (clsAssociation oEntry : moAssociatedContent) {
+			oResult += oEntry.toString() + ":"; 
+		}
 		oResult += " a: " + mrCathegoryAnal; 
 		oResult += " o: " + mrCathegoryOral;
 		oResult += " g: " + mrCathegoryGenital;
