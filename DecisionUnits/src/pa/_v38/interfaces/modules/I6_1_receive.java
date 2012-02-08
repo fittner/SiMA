@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 /**
  * The perception contents consisting of word presentations, thing presentations, and affects are sent from F21 to F26 and F23 for further processing.
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
  * 
  */
 public interface I6_1_receive {
-	public void receive_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary);
+	public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
 }

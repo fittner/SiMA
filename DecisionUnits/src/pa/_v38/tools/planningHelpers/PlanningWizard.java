@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 
 /**
  * DOCUMENT (perner) - insert description 
@@ -202,47 +204,68 @@ public class PlanningWizard {
 				
 				clsAssociationSecondary myElem = (clsAssociationSecondary) perceptionItem;
 				
-				clsDataStructurePA el = myElem.getRootElement();
-				String str = el.toString();
+				clsWordPresentationMesh el = (clsWordPresentationMesh) myElem.getLeafElement();
 				
-				int pos1 = str.indexOf("ENTITY:");
-				int pos2 = str.indexOf("LOCATION:");
-				int pos3 = str.toString().indexOf("|", pos2);
+				//Extract object name and positions
+				String oName = el.getMoContent();
+				String oDistance = "";
+				String oPosition = "";
 				
-				
-				if (pos1 >= 0 && pos2 >0 && pos3 > 0 && pos3 < str.length()) {
-					String strEntity = str.substring(pos1+7, pos2-1);
-					String strLocation = str.substring(pos2+9, pos3);
-					
-					if (strEntity != null && strEntity.length() > 0 && strLocation != null && strLocation.length() > 0) {
-						eEntity myEntity = null;
-						eDistance myDist = null;
-						eDirection myDir  = null;
-						
-						try {
-							myEntity = eEntity.valueOf(strEntity);
-						} catch (Exception e) {
-//							System.out.println("distance enum not defined for "+ strEntity);
+				for (clsAssociation oAss : el.getExternalAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
+						if (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATEABLE") || (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE"))) {
+							oDistance = "NEAR";
+						} else {
+							oDistance = ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 						}
-						try {
-							
-							StringBuffer strDistance = new StringBuffer();
-							StringBuffer strDirection = new StringBuffer();
-							splitDistanceDirection(strLocation, strDirection, strDistance);
-							myDir = eDirection.valueOf(strDirection.toString());
-							myDist = eDistance.valueOf(strDistance.toString());
-
-						} catch (Exception e) {
-//							System.out.println("distance enum not defined for " + strLocation);
-						}
-						
-						if (myEntity != null && myDist != null && myDir != null) {
-							oRetVal.add(new clsImage(myDist, myDir, myEntity));
-						}
+					} else if(oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+						oPosition = ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 					}
-				} 
+				}
+				
+				oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
+				
+				//@ANDI: No more parsing...
+//				String str = el.toString();
+//				
+//				int pos1 = str.indexOf("ENTITY:");
+//				int pos2 = str.indexOf("LOCATION:");
+//				int pos3 = str.toString().indexOf("|", pos2);
+//				
+//				
+//				if (pos1 >= 0 && pos2 >0 && pos3 > 0 && pos3 < str.length()) {
+//					String strEntity = str.substring(pos1+7, pos2-1);
+//					String strLocation = str.substring(pos2+9, pos3);
+//					
+//					if (strEntity != null && strEntity.length() > 0 && strLocation != null && strLocation.length() > 0) {
+//						eEntity myEntity = null;
+//						eDistance myDist = null;
+//						eDirection myDir  = null;
+//						
+//						try {
+//							myEntity = eEntity.valueOf(strEntity);
+//						} catch (Exception e) {
+////							System.out.println("distance enum not defined for "+ strEntity);
+//						}
+//						try {
+//							
+//							StringBuffer strDistance = new StringBuffer();
+//							StringBuffer strDirection = new StringBuffer();
+//							splitDistanceDirection(strLocation, strDirection, strDistance);
+//							myDir = eDirection.valueOf(strDirection.toString());
+//							myDist = eDistance.valueOf(strDistance.toString());
+//
+//						} catch (Exception e) {
+////							System.out.println("distance enum not defined for " + strLocation);
+//						}
+//						
+//						if (myEntity != null && myDist != null && myDir != null) {
+//							oRetVal.add(new clsImage(myDist, myDir, myEntity));
+//						}
+//					}
 			}
 		}
+		
 		return oRetVal; 
 	}
 	

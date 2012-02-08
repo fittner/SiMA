@@ -7,11 +7,8 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-//import java.util.Arrays;
-//import java.util.Collection;
 import java.util.HashMap;
 import java.util.SortedMap;
-//import java.util.Map;
 import config.clsProperties;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -25,27 +22,14 @@ import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-//import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
-//import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-//import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-//import pa._v38.memorymgmt.datatypes.clsLogicalStructureComposition;
-//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-//import pa._v38.memorymgmt.datatypes.clsPhysicalStructureComposition;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-//import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-//import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-//import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -68,7 +52,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	
 	/** Perception OUT */
-	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	private clsWordPresentationMesh moPerceptionalMesh_OUT;
+	
+	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
+	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
 	/** TEMP A perceived image */
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
@@ -77,13 +64,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	
 	/** Associated memories out, enriched with word presentations of the associated thing presentations */
-	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
+	//private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	//private ArrayList<clsPrimaryDataStructureContainer> moGrantedPerception_Input; 
 	//FIXME HZ: This would require a change in the interfaces!!! => different to the actual definition
 	//private ArrayList<clsPair<clsSecondaryDataStructureContainer, clsPair<clsWordPresentation, clsWordPresentation>>> moPerception_Output; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:43 */
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception_Output; 
-	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
+	//private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:51:45 */
 	//private ArrayList<clsTriple<clsDataStructurePA, ArrayList<clsTemplateImage>, ArrayList<clsPair<clsDriveMesh, clsAffect>>>> moOrderedResult; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
@@ -123,8 +110,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
-		text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
+		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		//text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
@@ -203,20 +190,18 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Search for all images from the primary process in the memory
 		//Input: TPM
 		//1. Get all Images of the Mesh
-		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 		//2. Search for WPM for the image
-		
-		
 		//3. Search for WPM for all internal objects in the WPM
+		//4. For each WPM, search for more SP-WPM-Parts and connect them
+		//5. Within the WPM-Structure, the allocation of images to acts is already done. Each image except the PI
+		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 		
-		
-		//4. For each WPM, search for more SP-WPM-Parts and connect them 
-		
+		//Assign the output to the meshes
+		moPerceptionalMesh_OUT = oWPMConstruct.a;
+		moAssociatedMemories_OUT = oWPMConstruct.b;
 		
 		//Output: ArrayList<WPM> for each TPM-Image. The WPM are already assigned their acts here
-		
-		
-		
+			
 		//FIXME AW: This is only a temp function to convert a mesh into the old structure
 		//clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oPerceptionIN = clsDataStructureConverter.TEMPconvertMeshToContainers(moPerceptionalMesh_IN);
 		//moEnvironmentalPerception_IN = oPerceptionIN.a;
@@ -232,8 +217,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//moEnvironmentalPerception_OUT =  assignWPtoPerceivedImage(moEnvironmentalPerception_IN);
 		
 		//Processing of associated images
-		moEnvironmentalPerception_OUT = new clsDataStructureContainerPair(null, null);
-		moAssociatedMemoriesSecondary_OUT = new ArrayList<clsDataStructureContainerPair>();//assignWPtoImages(moAssociatedMemories_IN);
+		//moEnvironmentalPerception_OUT = new clsDataStructureContainerPair(null, null);
+		//moAssociatedMemoriesSecondary_OUT = new ArrayList<clsDataStructureContainerPair>();//assignWPtoImages(moAssociatedMemories_IN);
 	}
 	
 	//private clsSecondaryDataStructureContainer
@@ -840,6 +825,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			//Get the complete WPM-Object including all WPM associations until level 2. Input is a WPM, therefore, only WPM is returned
 			//FIXME AW: As the intention is loaded, all other connected containers are loaded here. This is too specialized
 			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
+			if (oEnhancedWPM.getMoContent()=="A2TOP") {
+				System.out.println("A2TOP: Number of associations: " + oEnhancedWPM.getAssociatedContent().size());
+			}
 			//Add the enhanced WPM to a new list, as the enhanced WPM are complete and the former RI are not.
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
@@ -964,7 +952,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		if (oWPforObject!=null) {
 			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 				oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-				oRetVal.getExternalAssociatedContent().add(oWPforObject);
+				//oRetVal.getExternalAssociatedContent().add(oWPforObject); 	It is not necessary to add the WP-Association, as it is already a part of the object
 			}
 		} else {
 			//It may be the PI, then create a new image with for the PI or from the repressed content
@@ -1033,60 +1021,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		return oRetVal;		
 	}
-	
-	/**
-	 * Convert a DM into an Affect, which is then converted into a word presentation affect
-	 * (wendt)
-	 *
-	 * @since 30.01.2012 16:30:20
-	 *
-	 * @param poDM
-	 * @return
-	 */
-	private clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
-		clsWordPresentation oRetVal = null;
-		
-		//Generate the instance of the class affect
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
-		//Search for the WP of the affect
-		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect);
-		
-		//Get drive Content String
-		String oDriveContentType = poDM.getMoContentType();
-		//Get the content of the affect strength
-		//the word presentation in an associationWP is ALWAYS the leaf element
-		String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
-		
-		//Construct WP
-		String oWPContent = oDriveContentType + ":" + oAffectContent;
-		
-		//Create the new WP for that drive
-		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eContentType.AFFECT.toString(), oWPContent));
-		
-		oRetVal = oResWP;
-		
-		return oRetVal;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 //	/**
 //	 * For all associated memories, search for the WPM-Memory parts to them and associated WPMs and add them to an output list
@@ -1244,8 +1178,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_1(moEnvironmentalPerception_OUT, moAssociatedMemoriesSecondary_OUT);
-		send_I6_4(moEnvironmentalPerception_OUT);
+		send_I6_1(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
+		send_I6_4(moPerceptionalMesh_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1256,12 +1190,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I2_11_send#send_I2_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
+	public void send_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
 		//AW 20110602: Attention, the associated memeories contain images and not objects like in the perception
-		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
-		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemoriesSecondary);
+		((I6_1_receive)moModuleList.get(23)).receive_I6_1(poPerception, poAssociatedMemories);
+		((I6_1_receive)moModuleList.get(26)).receive_I6_1(poPerception, poAssociatedMemories);
 		
-		putInterfaceData(I6_1_send.class, poPerception, poAssociatedMemoriesSecondary);
+		putInterfaceData(I6_1_send.class, poPerception, poAssociatedMemories);
 		
 	}
 
@@ -1273,7 +1207,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.send.I5_4_send#send_I5_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_4(clsDataStructureContainerPair poPerception) {
+	public void send_I6_4(clsWordPresentationMesh poPerception) {
 		((I6_4_receive)moModuleList.get(20)).receive_I6_4(poPerception);
 		putInterfaceData(I6_4_send.class, poPerception);
 	}
@@ -1337,7 +1271,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
 		// TODO (kohlhauser) - Auto-generated method stub
 		
 	}	

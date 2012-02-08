@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
@@ -20,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -27,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -502,6 +505,40 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		}
 		
 		return oRetVal;  
+	}
+	
+	/**
+	 * Convert a DM into an Affect, which is then converted into a word presentation affect
+	 * (wendt)
+	 *
+	 * @since 30.01.2012 16:30:20
+	 *
+	 * @param poDM
+	 * @return
+	 */
+	public clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
+		clsWordPresentation oRetVal = null;
+		
+		//Generate the instance of the class affect
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
+		//Search for the WP of the affect
+		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect);
+		
+		//Get drive Content String
+		String oDriveContent = poDM.getMoContent();
+		//Get the content of the affect strength
+		//the word presentation in an associationWP is ALWAYS the leaf element
+		String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
+		
+		//Construct WP
+		String oWPContent = oDriveContent + ":" + oAffectContent;
+		
+		//Create the new WP for that drive
+		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eContentType.AFFECT.toString(), oWPContent));
+		
+		oRetVal = oResWP;
+		
+		return oRetVal;
 	}
 }
 

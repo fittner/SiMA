@@ -66,7 +66,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
-	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_IN; 
+	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_IN; 
 	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
 	
@@ -186,7 +186,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		if (moReturnedTPMemory_IN != null) {
 			if (moReturnedTPMemory_IN.isEmpty()==false) {
 				//FIXME: Containers shall be exchanged to TPMs
-				oBestPhantasyInput = (clsThingPresentationMesh) moReturnedTPMemory_IN.get(0).getMoDataStructure();	//This input shall be sorted in F47
+				oBestPhantasyInput = moReturnedTPMemory_IN.get(0);	//This input shall be sorted in F47
 			}
 		}
 		
@@ -1015,8 +1015,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @see pa.interfaces.receive._v38.I7_7_receive#receive_I7_7(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_19(ArrayList<clsPrimaryDataStructureContainer> poReturnedMemory) {
-		moReturnedTPMemory_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poReturnedMemory);
+	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory) {
+		moReturnedTPMemory_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
 	}
 
 	/* (non-Javadoc)

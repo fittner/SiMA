@@ -105,9 +105,9 @@ implements I5_6_receive, I5_7_send  {
 	@SuppressWarnings("unchecked")
 	private void fillPrimalRepressionMemory() {
 		ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
-  	oList.add( new ArrayList<Object>( Arrays.asList("PUNCH", "BITE", 0.0, 0.0, 0.8, 0.2, 0.5) ) );
-  	oList.add( new ArrayList<Object>( Arrays.asList("GREEDY", "NOURISH", 0.8, 0.2, 0.0, 0.0, 0.3) ) );
-  	oList.add( new ArrayList<Object>( Arrays.asList("DIRTY", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, 0.7) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList("BITE", "BITE", 0.0, 0.0, 0.8, 0.2, 0.5) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList("NOURISH", "NOURISH", 0.8, 0.2, 0.0, 0.0, 0.3) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, 0.7) ) );
   	oList.add( new ArrayList<Object>( Arrays.asList("NOURISH", "NOURISH", 0.1, 0.89, 0.0, 0.0, 0.1) ) );
 
   	for (ArrayList<Object> oData:oList) {

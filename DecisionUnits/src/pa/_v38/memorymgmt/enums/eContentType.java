@@ -22,6 +22,7 @@ public enum eContentType {
 	RI,
 	PARTOFASSOCIATION,
 	ASSOCIATIONSECONDARY,
-	AFFECT;
+	AFFECT,
+	ACTION;
 	
 }

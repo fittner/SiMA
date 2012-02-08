@@ -22,12 +22,14 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -165,7 +167,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
 	@Override
-	public void receive_I6_5(ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+	public void receive_I6_5(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList) {
 		//moDriveList_Input_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
 		//moDriveList_Input = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}
@@ -178,7 +180,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_4#receive_I5_4(int)
 	 */
 	@Override
-	public void receive_I6_4(clsDataStructureContainerPair poPerception) {
+	public void receive_I6_4(clsWordPresentationMesh poPerception) {
 		//moPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poPerception_old);
 		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poPerception);
 	}
@@ -351,7 +353,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}	

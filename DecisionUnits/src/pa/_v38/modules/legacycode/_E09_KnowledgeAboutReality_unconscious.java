@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import du.itf.actions.clsActionCommand;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
@@ -23,7 +24,8 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.modules.eImplementationStage;
@@ -247,7 +249,7 @@ public class _E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB impl
 	 */
 	@Override
 	public void send_I6_3(
-			ArrayList<clsSecondaryDataStructureContainer> poDriveList) {
+			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList) {
 		// 
 		
 	}

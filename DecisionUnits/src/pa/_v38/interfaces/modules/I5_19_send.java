@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I5_19_send {
-	public void send_I5_19(ArrayList<clsPrimaryDataStructureContainer> poReturnedMemory);
+	public void send_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory);
 }

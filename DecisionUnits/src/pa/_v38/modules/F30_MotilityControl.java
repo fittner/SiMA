@@ -15,8 +15,8 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -32,7 +32,7 @@ public class F30_MotilityControl extends clsModuleBase
 	public static final String P_MODULENUMBER = "30";
 	
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
-	private clsDataStructureContainerPair moEnvironmentalPerception_IN; // AP added environmental perception
+	private clsWordPresentationMesh moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 	//private int mnCounter, lastTurnDirection, mnTurns;
 	
@@ -150,7 +150,7 @@ public class F30_MotilityControl extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsWordPresentationMesh poEnvironmentalPerception) {
 		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
 		moEnvironmentalPerception_IN = poEnvironmentalPerception;
 	}

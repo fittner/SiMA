@@ -18,11 +18,10 @@ import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
-import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -40,14 +39,14 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 					I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "29";
 	
-	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_Input; 
+	private ArrayList<clsWordPresentationMesh> moActionCommands_Input; 
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 	
 	// Anxiety from F20
 	private ArrayList<clsPrediction> moAnxiety_Input;
 	
-	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
-	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
+	private clsWordPresentationMesh moPerceptionalMesh_IN;
+	private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	
 	/**
 	 * DOCUMENT (perner) - insert description 
@@ -148,9 +147,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked") //deepCopy can only perform an unchecked operation
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
-		moActionCommands_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
-		moEnvironmentalPerception_IN = poEnvironmentalPerception;
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
+		moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+		moPerceptionalMesh_IN = poEnvironmentalPerception;
 	}
 	
 	/* (non-Javadoc)
@@ -178,31 +177,33 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 		
 		//AW HACK test, in order to be able to use both WP and plan fragements at the same time
 		boolean bPlanFragement = false;
-		for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
-			if (oC instanceof clsPlanFragment) {
-				bPlanFragement = true;
-				break;
-			}
-		}
+//		for (clsWordPresentationMesh oC : moActionCommands_Input) {
+//			if (oC instanceof clsPlanFragment) {
+//				bPlanFragement = true;
+//				break;
+//			}
+//		}
 		
-		
+		bPlanFragement = true;
 		
 		// normal use of actions -> without AW hack
 		if (bPlanFragement==true) {
 			// run over all actions and sort out the most appropriate ones
-			ArrayList<clsSecondaryDataStructureContainer> sortedActions  = new ArrayList<clsSecondaryDataStructureContainer> ();
+			ArrayList<clsWordPresentationMesh> sortedActions  = new ArrayList<clsWordPresentationMesh> ();
 			int iCursorPos = 0;
 			
 			int iIndexOfEat = -1;
 			int iIndexOfMoveForward = -1;
 			int iIndexOfFlee = -1;
 			int iIndexOfOverrideAction = -1; // stores the index of an action which should be used over all others because of interface I.6_2
-			for (clsSecondaryDataStructureContainer oC : moActionCommands_Input) {
+			for (clsWordPresentationMesh oC : moActionCommands_Input) {
 				
 				
-				if (oC instanceof clsPlanFragment) {
-					clsPlanFragment plFr = (clsPlanFragment) oC;
-					String strAction = plFr.m_act.m_strAction;
+				//if (oC instanceof clsPlanFragment) {
+				//	clsPlanFragment plFr = (clsPlanFragment) oC;
+				//	String strAction = plFr.m_act.m_strAction;
+					
+					String strAction = oC.getMoContent();
 
 					if (strAction.equalsIgnoreCase("EAT")) 
 						iIndexOfEat = iCursorPos;
@@ -210,7 +211,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 						iIndexOfMoveForward = iCursorPos;
 					if (strAction.equalsIgnoreCase("FLEE"))
 						iIndexOfFlee = iCursorPos;
-				}
+				//}
 				
 				iCursorPos ++;
 			}
@@ -245,16 +246,16 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 			
 			
 			ArrayList<clsWordPresentation> moActionCommandsTemp = new ArrayList<clsWordPresentation>();
-			for (clsSecondaryDataStructureContainer oC : sortedActions) {
+			for (clsWordPresentationMesh oC : sortedActions) {
 				
 				// convert actions back to wordpresentation -> only wordpresentations are allowed to be handled over to motility control
-				if (oC instanceof clsPlanFragment) {
-					clsPlanFragment plFr = (clsPlanFragment) oC;
-					String strAction = plFr.m_act.m_strAction;
-					clsWordPresentation myWP = new clsWordPresentation(new clsTriple(1, eDataType.ACT, strAction), strAction);
+				//if (oC instanceof clsPlanFragment) {
+				//	clsPlanFragment plFr = (clsPlanFragment) oC;
+					String strAction = oC.getMoContent(); //plFr.m_act.m_strAction;
+					clsWordPresentation myWP = new clsWordPresentation(new clsTriple<Integer, eDataType, String>(1, eDataType.ACT, strAction), strAction);
 
 					moActionCommandsTemp.add(myWP);
-				}
+				//}
 			}
 			
 			//No nulls are allowed
@@ -270,7 +271,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 
 		
 		// copy perception
-		moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 	}
 	
 	//AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
@@ -283,11 +284,11 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @param poInput
 	 * @return
 	 */
-	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsSecondaryDataStructureContainer> poInput) {
+	private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsWordPresentationMesh> poInput) {
 		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
-		for (clsSecondaryDataStructureContainer oCont: poInput) {
-			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("ACTION", ((clsWordPresentation)oCont.getMoDataStructure()).getMoContent()));
+		for (clsWordPresentationMesh oCont: poInput) {
+			clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(oCont.getMoContentType(), oCont.getMoContent()));
 			
 			oRetVal.add(oWP);
 		}
@@ -304,7 +305,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_11(moActionCommands_Output, moEnvironmentalPerception_OUT);
+		send_I6_11(moActionCommands_Output, moPerceptionalMesh_OUT);
 		
 	}
 
@@ -316,7 +317,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsWordPresentationMesh poEnvironmentalPerception) {
 		((I6_11_receive)moModuleList.get(30)).receive_I6_11(poActionCommands, poEnvironmentalPerception);
 		
 		putInterfaceData(I6_11_send.class, poActionCommands);

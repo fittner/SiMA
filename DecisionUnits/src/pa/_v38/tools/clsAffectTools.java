@@ -13,15 +13,15 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -86,7 +86,7 @@ public class clsAffectTools {
 	 * @return
 	 */
 
-	public static int calculateMaxAffectSecondary(clsSecondaryDataStructureContainer poImage) {
+	public static int calculateMaxAffectSecondary(clsWordPresentationMesh poImage) {
 		//Precondition: In the TI, the affect values are used
 		
 		int rThisAffect = 0;
@@ -94,70 +94,67 @@ public class clsAffectTools {
 		
 		try {
 			//Get all DriveGoals
-			ArrayList<clsSecondaryDataStructureContainer> oDriveGoals = getWPMDriveGoals(poImage, false);
-			for (clsSecondaryDataStructureContainer oGoal : oDriveGoals) {
+			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveGoals = getWPMDriveGoals(poImage, false);
+			for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal : oDriveGoals) {
 				//Get the drive intensity
-				rThisAffect = Math.abs(getDriveIntensityAsInt(((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent()));
-				
+				rThisAffect = eAffectLevel.valueOf(oGoal.b.toString()).mnAffectLevel;
+								
 				//Get the max value
 				if (rThisAffect>rMaxAffect) {
 					rMaxAffect = rThisAffect;
-				}
-			
+				}	
 			}
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		
-		
 		return rMaxAffect ;
 	}
 	
-	/**
-	 * Get all possible goals from the intention of the perception act.
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 29.07.2011 10:03:27
-	 *
-	 * @param poPredictionInput
-	 * @return
-	 */
-	public static ArrayList<clsSecondaryDataStructureContainer> getDriveGoalsFromPrediction(clsPrediction poPredictionInput) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//Format WP: BITE||ENTITY:CARROT|LOCATION:FARLEFT|NOURISH:HIGH|BITE:HIGH|
-		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|NOURISH:HIGH|BITE:HIGH|
-		
-		//Get intention
-		clsDataStructureContainerPair oIntention = poPredictionInput.getIntention();
-		if (oIntention.getSecondaryComponent()==null) {
-			return null;
-		}
-		clsSecondaryDataStructureContainer oIntentionSecondary = oIntention.getSecondaryComponent();
-		clsSecondaryDataStructure oIntentionBasicDS = (clsSecondaryDataStructure) oIntentionSecondary.getMoDataStructure();
-		
-		//Get either from the word presentation or from the word presentation mesh
-		if (oIntentionBasicDS instanceof clsSecondaryDataStructure) {
-			//If no Mesh
-			if (oIntentionBasicDS instanceof clsWordPresentation) {
-				try {
-					oRetVal = getDriveGoals((clsWordPresentation)oIntentionBasicDS, oIntentionSecondary);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			} else if (oIntentionBasicDS instanceof clsWordPresentationMesh) {
-				try {
-					oRetVal = getWPMDriveGoals(oIntentionSecondary, false);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * Get all possible goals from the intention of the perception act.
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 29.07.2011 10:03:27
+//	 *
+//	 * @param poPredictionInput
+//	 * @return
+//	 */
+//	public static ArrayList<clsSecondaryDataStructureContainer> getDriveGoalsFromPrediction(clsPrediction poPredictionInput) {
+//		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		
+//		//Format WP: BITE||ENTITY:CARROT|LOCATION:FARLEFT|NOURISH:HIGH|BITE:HIGH|
+//		//Format these drive goals: BITE||IMAGE:A1TOP|ENTITY:CARROT|NOURISH:HIGH|BITE:HIGH|
+//		
+//		//Get intention
+//		clsDataStructureContainerPair oIntention = poPredictionInput.getIntention();
+//		if (oIntention.getSecondaryComponent()==null) {
+//			return null;
+//		}
+//		clsSecondaryDataStructureContainer oIntentionSecondary = oIntention.getSecondaryComponent();
+//		clsSecondaryDataStructure oIntentionBasicDS = (clsSecondaryDataStructure) oIntentionSecondary.getMoDataStructure();
+//		
+//		//Get either from the word presentation or from the word presentation mesh
+//		if (oIntentionBasicDS instanceof clsSecondaryDataStructure) {
+//			//If no Mesh
+//			if (oIntentionBasicDS instanceof clsWordPresentation) {
+//				try {
+//					oRetVal = getDriveGoals((clsWordPresentation)oIntentionBasicDS, oIntentionSecondary);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			} else if (oIntentionBasicDS instanceof clsWordPresentationMesh) {
+//				try {
+//					oRetVal = getWPMDriveGoals(oIntentionSecondary, false);
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 	/**
 	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
@@ -172,48 +169,87 @@ public class clsAffectTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsSecondaryDataStructureContainer> getWPMDriveGoals(clsSecondaryDataStructureContainer poContainer, boolean pbKeepDuplicates) throws Exception {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		//FIXME AW Hack - Get Content from Base Image and drives from the sub images
-		//Go through the base element
-		if (poContainer.getMoDataStructure() instanceof clsWordPresentationMesh) {
-			//Get possible drive goals from the base structure
-			try {
-				oRetVal.addAll(getDriveGoals((clsSecondaryDataStructure) poContainer.getMoDataStructure(), poContainer));
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			//Go through the sub elements
-			for (clsAssociation oAss : ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getAssociatedContent()) {
-				clsSecondaryDataStructure oSubDS = (clsSecondaryDataStructure) oAss.getRootElement();	//Get root from the association secondary
-				
-				try {
-					ArrayList<clsSecondaryDataStructureContainer> oReceivedGoals = getDriveGoals(oSubDS, poContainer);
-					//Check if this goal already exists and if it does not, then add the new goal
-					for (clsSecondaryDataStructureContainer oContainer : oReceivedGoals) {
-						boolean blFoundGoal = false;
-						//If the setting keep duplicates is false, then the comparison is made, else the goal is added
-						if (pbKeepDuplicates==false) {
-							for (clsSecondaryDataStructureContainer oRetValContainer : oRetVal) {
-								if (((clsWordPresentation)oRetValContainer.getMoDataStructure()).getMoContent().equals(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent())) {
-									blFoundGoal = true;
-									break;
-								}
-							}
-						}
-						
-						if (blFoundGoal == false) {
-							oRetVal.add(oContainer);
-						}	
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
+	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> getWPMDriveGoals(clsWordPresentationMesh poImage, boolean pbKeepDuplicates) {
+		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
+		
+		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
+		ArrayList<clsPair<String, String>> oContentTypeAndContent = new ArrayList<clsPair<String, String>>();
+		oContentTypeAndContent.add(new clsPair<String, String>(eContentType.AFFECT.toString(), ""));
+		oPrelResult = clsDataStructureTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
+		
+		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
+		for (clsDataStructurePA oDSPA : oPrelResult) {
+			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
 			
-		} else {
-			throw new Exception("clsAffectTools, getWPMDriveGoals: This datatype is an unallowed input. Only WPM allowed"); 
+			//Get the drive
+			String oDriveContent = clsAffectTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			
+			//Get the intensity
+			eAffectLevel oAffectLevel = clsAffectTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			
+			//Get the drive object
+			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
+			
+			//Create the goal
+			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal = new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oGoalObject);
+			//Check if the drive and the intensity already exists in the list
+			if (pbKeepDuplicates==false) {
+				boolean bFound = false;
+				for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oTriple : oRetVal) {
+					if (oGoal.a == oTriple.a && oGoal.b == oTriple.b && oGoal.c.getMoContent().equals(oTriple.c.getMoContent())) {
+						bFound = true;
+						break;
+					}
+				}
+				
+				if (bFound==false) {
+					oRetVal.add(oGoal);
+				}
+			} else {
+				oRetVal.add(oGoal);
+			}
 		}
+		
+		
+//		if (poContainer.getMoDataStructure() instanceof clsWordPresentationMesh) {
+//			//Get possible drive goals from the base structure
+//			try {
+//				oRetVal.addAll(getDriveGoals((clsSecondaryDataStructure) poContainer.getMoDataStructure(), poContainer));
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			//Go through the sub elements
+//			for (clsAssociation oAss : ((clsWordPresentationMesh)poContainer.getMoDataStructure()).getAssociatedContent()) {
+//				clsSecondaryDataStructure oSubDS = (clsSecondaryDataStructure) oAss.getRootElement();	//Get root from the association secondary
+//				
+//				try {
+//					ArrayList<clsSecondaryDataStructureContainer> oReceivedGoals = getDriveGoals(oSubDS, poContainer);
+//					//Check if this goal already exists and if it does not, then add the new goal
+//					for (clsSecondaryDataStructureContainer oContainer : oReceivedGoals) {
+//						boolean blFoundGoal = false;
+//						//If the setting keep duplicates is false, then the comparison is made, else the goal is added
+//						if (pbKeepDuplicates==false) {
+//							for (clsSecondaryDataStructureContainer oRetValContainer : oRetVal) {
+//								if (((clsWordPresentation)oRetValContainer.getMoDataStructure()).getMoContent().equals(((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent())) {
+//									blFoundGoal = true;
+//									break;
+//								}
+//							}
+//						}
+//						
+//						if (blFoundGoal == false) {
+//							oRetVal.add(oContainer);
+//						}	
+//					}
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//			}
+//			
+//		} else {
+//			throw new Exception("clsAffectTools, getWPMDriveGoals: This datatype is an unallowed input. Only WPM allowed"); 
+//		}
 		
 		return oRetVal;
 	}
@@ -351,8 +387,8 @@ public class clsAffectTools {
 	 *
 	 * @param poDriveDemandsList
 	 */
-	public static ArrayList<clsSecondaryDataStructureContainer> sortDriveDemands(ArrayList<clsSecondaryDataStructureContainer> poDriveDemandsList) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> sortDriveDemands(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveDemandsList) {
+		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
 		
 		//If the list is empty return
 		if (poDriveDemandsList.size()<=1) {
@@ -365,25 +401,25 @@ public class clsAffectTools {
 		
 		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
 		
-		ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>>();
+		ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>>();
 		
 		//Go through the original list
 		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
 			//The the content of each drive
-			clsSecondaryDataStructureContainer oContainer = poDriveDemandsList.get(i);
+			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal = poDriveDemandsList.get(i);
 			//Get the content of the datatype in the container
-			String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
+			//String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
 			
 			//Recognize if the string is a drive demand or a drive goal. If it is a drive demand, then do nothing, return the drive demand. If it is a drive goal, 
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffectValue = getDriveIntensityAsInt(oContent);
+			int nAffectValue = eAffectLevel.valueOf(oGoal.b.toString()).mnAffectLevel; //getDriveIntensityAsInt(oContent);
 			//Sort the affects for priority according to the order in the list in this class
 			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
-			String oDriveType = getDriveType(oContent);
+			String oDriveType = oGoal.a; //getDriveType(oContent);
 			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
 			
 			int nIndex = 0;
@@ -394,7 +430,7 @@ public class clsAffectTools {
 				nIndex++;
 			}
 			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsSecondaryDataStructureContainer>(nAffectSortOrder, nDriveIndex, oContainer));
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>(nAffectSortOrder, nDriveIndex, oGoal));
 		}
 		
 		//Add results to the new list
@@ -422,6 +458,28 @@ public class clsAffectTools {
 		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
 		if (oLevel!=null) {
 			nIntensity = eAffectLevel.valueOf(oLevel.toString()).mnAffectLevel;
+		}
+		
+		return nIntensity;
+	}
+	
+	/**
+	 * Get drive intensity or affect of a drive as an integer
+	 * (wendt)
+	 *
+	 * @since 05.08.2011 22:30:45
+	 *
+	 * @param poDriveContent
+	 * @return
+	 */
+	public static int getDriveIntensityAsInt(eAffectLevel oAffectLevel) {
+		int nIntensity =  0;
+		
+		//eAffectLevel oLevel = getDriveIntensityAsAffectLevel(poDriveContent);
+		
+		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
+		if (oAffectLevel!=null) {
+			nIntensity = eAffectLevel.valueOf(oAffectLevel.toString()).mnAffectLevel;
 		}
 		
 		return nIntensity;

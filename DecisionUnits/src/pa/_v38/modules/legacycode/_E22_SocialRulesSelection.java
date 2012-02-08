@@ -23,14 +23,15 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsModuleBaseKB;
@@ -148,7 +149,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_r
 	 */
 	//@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_3(ArrayList<clsSecondaryDataStructureContainer>poDriveList) {
+	public void receive_I6_3(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>poDriveList) {
 		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}
 
@@ -161,7 +162,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_r
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(clsDataStructureContainerPair poPerception, ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary_OUT) {
+	public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
 		//AW 20110602: Input added associated memories
 		//moPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poPerception); 
 	}

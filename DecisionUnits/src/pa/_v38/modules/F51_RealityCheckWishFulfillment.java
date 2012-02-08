@@ -25,10 +25,11 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
-import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPredictionTools;
@@ -44,6 +45,19 @@ import pa._v38.tools.toText;
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
 	public static final String P_MODULENUMBER = "51";
+	
+	/** Perception IN */
+	private clsWordPresentationMesh moPerceptionalMesh_IN;
+	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
+	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	/** Perception OUT */
+	private clsWordPresentationMesh moPerceptionalMesh_OUT;
+	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
+	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
+	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
+	private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moGoalList_IN;
+	
+	
 	
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:45 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_IN;  
@@ -167,16 +181,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_6(clsDataStructureContainerPair poPerception, ArrayList<clsSecondaryDataStructureContainer> poDriveList, 
-			ArrayList<clsDataStructureContainerPair> poAssociatedMemoriesSecondary) {
+	public void receive_I6_6(clsWordPresentationMesh poPerception, 
+			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		try {
-			moEnvironmentalPerception_IN = (clsDataStructureContainerPair)poPerception.clone();
+			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		moDriveList = (ArrayList<clsSecondaryDataStructureContainer>) deepCopy(poDriveList);
-		moAssociatedMemoriesSecondary_IN = (ArrayList<clsDataStructureContainerPair>)deepCopy(poAssociatedMemoriesSecondary);
+		moGoalList_IN = (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>) deepCopy(poDriveList);
+		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
 	}
 
 	/* (non-Javadoc)
@@ -188,6 +203,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	protected void process_basic() {
+		
+		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		moExtractedPrediction_OUT = new ArrayList<clsPrediction>();
+		
+		
+		/*
 		//Update short time memory from last step
 		if (moShortTimeMemory==null) {
 			try {
@@ -221,7 +243,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Pass the associated memories forward
 		moAssociatedMemoriesSecondary_OUT = (ArrayList<clsDataStructureContainerPair>)deepCopy((ArrayList<clsDataStructureContainerPair>)moAssociatedMemoriesSecondary_IN);
 		
-		//printImageText(moExtractedPrediction_OUT);
+		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
 	private void updateLocalization(clsDataStructureContainerPair poPerception, clsShortTimeMemory poMemory) {
@@ -1123,7 +1145,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
 				double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
 				//3. Get all affects from the intention
-				ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = clsAffectTools.getDriveGoalsFromPrediction(oP.c);
+				ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = new ArrayList<clsSecondaryDataStructureContainer>(); //FIXME AW: This part was excluded because of the mesh structure//clsAffectTools.getDriveGoalsFromPrediction(oP.c);
 				//4. For each affect from the intention, calculate a reduction affect
 				for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
 					//5. Get the drive intensity of the drive connected to the goal
@@ -1146,7 +1168,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moEnvironmentalPerception_OUT, moExtractedPrediction_OUT, moAssociatedMemoriesSecondary_OUT);
+		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1157,8 +1179,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_7(clsDataStructureContainerPair poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
+	public void send_I6_7(clsWordPresentationMesh poRealityPerception,
+			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories);
 		
 		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories);

@@ -14,11 +14,10 @@ import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
-import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -46,11 +45,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 
 	
 	/** A list of primarty data structure containers, which form the input for phantsies in F46 */
-	private ArrayList<clsPrimaryDataStructureContainer> moReturnedTPMemory_OUT;
+	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_OUT;
 	/** The list of generated actions */
-	private ArrayList<clsSecondaryDataStructureContainer> moActionCommands_IN;
+	private ArrayList<clsWordPresentationMesh> moActionCommands_IN;
 	/** The list of associated memories of the generated actions */
-	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_IN;
+	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
 	/**
 	 * Constructor of F47. Apply properties
@@ -149,56 +148,56 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsPrimaryDataStructureContainer> getMemoryFromWP(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories) {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+	private ArrayList<clsThingPresentationMesh> getMemoryFromWP(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//TODO AP: Remove strange data type
-		boolean bPlanFragement = false;
-		for (clsSecondaryDataStructureContainer oC : poActionCommands) {
-			if (oC instanceof clsPlanFragment) {
-				bPlanFragement = true;
-				break;
-			}
-		}
+//		boolean bPlanFragement = false;
+//		for (clsWordPresentationMesh oC : poActionCommands) {
+//			if (oC instanceof clsPlanFragment) {
+//				bPlanFragement = true;
+//				break;
+//			}
+//		}
 		
-		if (bPlanFragement==false) {
+//		if (bPlanFragement==false) {
 			//Until the planning is finished, this solution will be fine
-			ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
+		ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
 			
-			for (clsSecondaryDataStructureContainer oContainer : poActionCommands) {
+		for (clsWordPresentationMesh oContainer : poActionCommands) {
 				
-				boolean bActivate = getConsciousPhantasyActivation(oContainer);
+			boolean bActivate = getConsciousPhantasyActivation(oContainer);
 				
-				if (bActivate==true) {
-					for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
-						//The leaf element contains the wpm of the associated memory
-						if (oAss.getLeafElement() instanceof clsSecondaryDataStructure) {
-							//Get the primary container of this structure
-							clsDataStructureContainerPair oIntentionContainer = clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
-							
-							
-							if (oIntentionContainer.getSecondaryComponent()!=null) {
-								clsPrimaryDataStructureContainer oPIntentionContainer = oIntentionContainer.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
-								if (oPIntentionContainer!=null) {
-									//Calculate Total Affect value
-									//clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
-									//Add with sort
-									//int i = 0;
-									//while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
-									//	i++;
-									//}
-									//oAffectEvaluatedContainers.add(i, oContainerAdd);
-								}
-							}
-						}
+			if (bActivate==true) {
+				for (clsAssociation oAss : oContainer.getExternalAssociatedContent()) {
+					//The leaf element contains the wpm of the associated memory
+					if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
+						//Get the primary container of this structure
+							//clsDataStructureContainerPair oIntentionContainer = clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
+						
+						
+						//if (oIntentionContainer.getSecondaryComponent()!=null) {
+						//clsPrimaryDataStructureContainer oPIntentionContainer = oIntentionContainer.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
+						//if (oPIntentionContainer!=null) {
+								//Calculate Total Affect value
+								//clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
+								//Add with sort
+								//int i = 0;
+								//while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
+								//	i++;
+								//}
+								//oAffectEvaluatedContainers.add(i, oContainerAdd);
+						//Get the primary component
+						oRetVal.add(clsDataStructureTools.getPrimaryComponentOfWPM(oContainer));
+						
 					}
 				}
 				
 			}
 			//Remove the match values
-			for (clsPair<Double, clsPrimaryDataStructureContainer> oPair : oAffectEvaluatedContainers) {
-				oRetVal.add(oPair.b);
-			}
+			//for (clsPair<Double, clsPrimaryDataStructureContainer> oPair : oAffectEvaluatedContainers) {
+			//	oRetVal.add(oPair.b);
+			//}
 		}
 		
 			
@@ -246,10 +245,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		//return oRetVal;
 	}
 	
-	private boolean getConsciousPhantasyActivation(clsSecondaryDataStructureContainer poContainer) {
+	private boolean getConsciousPhantasyActivation(clsWordPresentationMesh poContainer) {
 		boolean oRetVal = false;
 		
-		ArrayList<clsSecondaryDataStructure> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poContainer, ePredicate.ACTIVATESPHANTASY.toString());
+		ArrayList<clsWordPresentation> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poContainer, ePredicate.ACTIVATESPHANTASY.toString());
 		
 		if (oWPList.isEmpty()==false) {
 			oRetVal = true;
@@ -390,7 +389,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@Override
 	public void send_I5_19(
-			ArrayList<clsPrimaryDataStructureContainer> poReturnedMemory) {
+			ArrayList<clsThingPresentationMesh> poReturnedMemory) {
 		((I5_19_receive)moModuleList.get(46)).receive_I5_19(poReturnedMemory);
 		putInterfaceData(I5_19_send.class, poReturnedMemory);
 	}
@@ -404,10 +403,10 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_9(ArrayList<clsSecondaryDataStructureContainer> poActionCommands, ArrayList<clsDataStructureContainerPair> poAssociatedMemories, clsDataStructureContainerPair poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
 		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
-		moActionCommands_IN = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poActionCommands);
-		moAssociatedMemories_IN = (ArrayList<clsDataStructureContainerPair>)deepCopy(poAssociatedMemories);
+		moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemories);
 
 		
 	}

@@ -378,7 +378,7 @@ public class clsDataStructureTools {
 	 */
 	public static void setAttributeWordPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate, String poContentType, String poContent) {
 		//Check if such an association already exists
-		ArrayList<clsSecondaryDataStructure> oWPList = getAttributeOfSecondaryPresentation(poContainer, poPredicate);
+		ArrayList<clsSecondaryDataStructure> oWPList = null;	//FIXME AW: Hack due to mesh structure//getAttributeOfSecondaryPresentation(poContainer, poPredicate);
 		//if (oWP)
 		
 		if (oWPList.isEmpty()==true) {
@@ -404,19 +404,37 @@ public class clsDataStructureTools {
 	 * @param poContainer
 	 * @return
 	 */
-	public static ArrayList<clsSecondaryDataStructure> getAttributeOfSecondaryPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
-		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+	public static ArrayList<clsWordPresentation> getAttributeOfSecondaryPresentation(clsWordPresentationMesh poContainer, String poPredicate) {
+		ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 		
 		//A container can only have ONE classification
 		//TODO AW: Check if more than one classification may be necessary
 		
-		for (clsAssociation oAss : poContainer.getMoAssociatedDataStructures()) {
+		for (clsAssociation oAss : poContainer.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
 				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
-					oRetVal.add((clsSecondaryDataStructure)oAss.getLeafElement());
+					oRetVal.add((clsWordPresentation)oAss.getLeafElement());
 				}
 			}
 		}
+		
+		return oRetVal;
+	}
+	
+	
+	/**
+	 * TEMP-FUNCTION due to the meshes. Remove this as soon as the SP is completed
+	 *
+	 * (wendt)
+	 *
+	 * @since 08.02.2012 09:20:19
+	 *
+	 * @param poContainer
+	 * @param poPredicate
+	 * @return
+	 */
+	public static ArrayList<clsSecondaryDataStructure> getAttributeOfSecondaryPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
 		
 		return oRetVal;
 	}
@@ -1112,7 +1130,7 @@ public class clsDataStructureTools {
 
 		//Go through all external
 		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
-			oRetVal.addAll(FilterWPList(poWPM.getExternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			oRetVal.addAll(FilterWPList(poWPM.getAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
 				oRetVal.addAll(FilterWPList(poWPM.getExternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -1331,6 +1349,8 @@ public class clsDataStructureTools {
 	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
+		//Add this element, in order not to search it through 2 times
+		poAddedElements.add(poMesh);
 		//Add the structure itself to the list of passed elements
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.WPM)==true) {
@@ -1342,7 +1362,6 @@ public class clsDataStructureTools {
 				//As soon as positive, break loop
 				if (bMatchFound==true) {
 					poRetVal.add(poMesh);
-					poAddedElements.add(poMesh);
 					break;
 				}
 			}
@@ -2266,6 +2285,47 @@ public class clsDataStructureTools {
 		}
 		
 		return  oRetVal;
+	}
+	
+	public static clsThingPresentationMesh getPrimaryComponentOfWPM(clsWordPresentationMesh poInput) {
+		clsThingPresentationMesh oRetVal = null;
+		
+		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
+			if (oAss instanceof clsAssociationWordPresentation && oAss.getRootElement() instanceof clsThingPresentationMesh) {
+				//Add the TPM to the output
+				oRetVal = (clsThingPresentationMesh) oAss.getRootElement();
+				break;
+			}
+		}
+		
+		return oRetVal;
+		
+	}
+	
+	/**
+	 * Return the image, of which the objects belongs to
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.02.2012 13:30:42
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	public static clsWordPresentationMesh getHigherLevelImage(clsWordPresentationMesh poInput) {
+		clsWordPresentationMesh oRetVal = null;
+		
+		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
+			if (oAss instanceof clsAssociationSecondary) {
+				//If the the predicate is PARTOF, then this object is a part of some image. Give the image back
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.PARTOF.toString())) {
+					//The super object, i.e. image is always the root element
+					oRetVal = (clsWordPresentationMesh) oAss.getRootElement();
+				}
+			}
+		}
+		
+		return oRetVal;
 	}
 	
 	
