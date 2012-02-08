@@ -9,21 +9,12 @@ package pa._v38.memorymgmt.datahandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.ListIterator;
-
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
-import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
 import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
@@ -157,213 +148,213 @@ public class clsDataStructureConverter {
 	}
 	
 	
-	/**
-	 * Convert an ArrayList with TPM-Containers to a TI-Container
-	 *
-	 * @since 06.07.2011 09:55:25
-	 *
-	 * @param oInput
-	 * @return
-	 * 
-	 * 
-	 */
-	//FIXME AW: Remove this function as it is not used
-	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
-		//Convert ArrayLists-Containers with TP and TPM to one container TI
-		
-		//New data structures for a Template Image
-		ArrayList<clsPhysicalRepresentation> oDataStructures = new ArrayList<clsPhysicalRepresentation>();	//The Datastructures have to be converted to from clsDataStructurePA to clsPhysicalRepresentation to fit the template image
-		//Total List of associations for the container
-		ArrayList<clsAssociation> oNewContainerAssociations = new ArrayList<clsAssociation>();
-		
-		//For each container in the arraylist of containers
-		for (clsPrimaryDataStructureContainer oContainer : oInput) {
-			//Add the Data structure to the list for the template image
-			oDataStructures.add((clsPhysicalRepresentation)oContainer.getMoDataStructure());
-			for (clsAssociation oContainerAss : oContainer.getMoAssociatedDataStructures()) {
-				try {
-					if ((oContainerAss.getRootElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID()) && (oContainerAss.getLeafElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID())) {
-						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
-					}
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-				oNewContainerAssociations.add(oContainerAss);
-			}
-			
-		}
-		clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
-		clsTemplateImage oConstructedImage = null; //(clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
-		//Set instanceID
-		//oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
-		
-		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);
-		
-		return oRetVal;
-	}
-	
-	
-	//AW 2011-05-19 New function
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 06.07.2011 09:54:41
-	 *
-	 * @param oInput
-	 * @return
-	 * 
-	 * Convert an container with a TI to an ArrayList with TPM-containers
-	 */
-	public static ArrayList<clsPrimaryDataStructureContainer> convertTIContToTPMCont(clsPrimaryDataStructureContainer oInput) {
-		//Convert one container with TI to ArrayLists-Containers with TP and TPM
-		
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		ArrayList<clsAssociation> oAllAss = new ArrayList<clsAssociation>();
-		oAllAss.addAll(oInput.getMoAssociatedDataStructures());
-		
-		try {
-			if (oInput.getMoDataStructure() instanceof clsTemplateImage) {
-				
-				clsTemplateImage oInputDataStructure = (clsTemplateImage)oInput.getMoDataStructure();
-				
-				for (clsAssociation oAss : oInputDataStructure.getMoAssociatedContent()) {
-					clsPhysicalRepresentation oDS = (clsPhysicalRepresentation)oAss.getLeafElement();
-					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
-
-					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();	//IMPORTANT: The listiterator has to be initialized here, for each time this list is used
-					
-					while (oAllAssLI.hasNext()) {
-						clsAssociation oSingleAss = oAllAssLI.next();
-						//In this conversation information is lost, i.e. all clsAssociationPrimary, because they are only linked between template images. 
-						//Therefore these structures have to be removed here
-						if (oSingleAss instanceof clsAssociationPrimary) {
-							oAllAssLI.remove();
-						}
-						else if (oSingleAss.getRootElement().getMoDSInstance_ID()==oDS.getMoDSInstance_ID()) {	//Compare ID of the structure in the TI and the root element in the association
-
-							oContainerAss.add(oSingleAss);
-							oAllAssLI.remove();
-						}
-
-					}
-					
-					oRetVal.add(new clsPrimaryDataStructureContainer(oDS, oContainerAss));
-				}
-				
-				if (oAllAss.isEmpty()==false) {
-					throw new Exception("Error in convertTIContToTPMCont: Not all associations could be assigned a data structure container");
-				}
-				
-			} else {
-				throw new Exception("Error in convertTIContToTPMCont: The Input data structure is no clsTemplateImage");
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return oRetVal;
-	}
-	
-	public static ArrayList<clsPrimaryDataStructureContainer> convertTPMImageToTPMContainer(clsThingPresentationMesh poTPM) {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		for (clsAssociation oEnhTPMAss : poTPM.getMoAssociatedContent()) {
-			clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oEnhTPMAss.getLeafElement();
-			
-			ArrayList<clsAssociation> oExtAss = new ArrayList<clsAssociation>();
-			oExtAss.addAll(oTPM.getExternalMoAssociatedContent());
-			oRetVal.add(new clsPrimaryDataStructureContainer(oTPM, oExtAss));
-		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Convert a mesh into the old container structure
-	 * 
-	 * (wendt)
-	 *
-	 * @since 02.01.2012 22:28:39
-	 *
-	 * @param poMesh
-	 * @return
-	 */
-	public static clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> TEMPconvertMeshToContainers(clsThingPresentationMesh poMesh) {
-		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oRetVal = null;
-		clsPrimaryDataStructureContainer oContainerA = null;
-		ArrayList<clsPrimaryDataStructureContainer> oContainerListB = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		//1. Extract all images in the mesh
-		ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getAllTPMImages(poMesh, 1);
-		//2. For each Image
-		for (clsThingPresentationMesh oTPM : oTPMList) {
-			//2.1 Remove all AssPri in the external associations if the TPM is no RI or PI
-			if (((oTPM.getMoContentType().equals(eContentType.PI.toString())==true || oTPM.getMoContentType().equals(eContentType.RI.toString())==true))) {
-				//Go through external associations
-				ArrayList<clsAssociation> oRemoveObjectList  = new ArrayList<clsAssociation>();
-				for (clsAssociation oAss : oTPM.getExternalMoAssociatedContent()) {
-					if (oAss instanceof clsAssociationPrimary) {
-						oRemoveObjectList.add(oAss);
-					}
-				}
-				
-				//Remove objects from the list
-				for (clsAssociation oAss : oRemoveObjectList) {
-					oTPM.getExternalMoAssociatedContent().remove(oAss);
-				}
-			}
-			
-			//2.3 Convert the TPM-Image to a TI-Image
-			//Get all objects from the image
-//			ArrayList<clsPhysicalRepresentation> oInternalTPM = new ArrayList<clsPhysicalRepresentation>();
-//			for (clsAssociation oAss : oTPM.getMoAssociatedContent()) {
-//				oInternalTPM.add((clsThingPresentationMesh) oAss.getLeafElement());
+//	/**
+//	 * Convert an ArrayList with TPM-Containers to a TI-Container
+//	 *
+//	 * @since 06.07.2011 09:55:25
+//	 *
+//	 * @param oInput
+//	 * @return
+//	 * 
+//	 * 
+//	 */
+//	//FIXME AW: Remove this function as it is not used
+//	public static clsPrimaryDataStructureContainer convertTPMContToTICont(ArrayList<clsPrimaryDataStructureContainer> oInput) {
+//		//Convert ArrayLists-Containers with TP and TPM to one container TI
+//		
+//		//New data structures for a Template Image
+//		ArrayList<clsPhysicalRepresentation> oDataStructures = new ArrayList<clsPhysicalRepresentation>();	//The Datastructures have to be converted to from clsDataStructurePA to clsPhysicalRepresentation to fit the template image
+//		//Total List of associations for the container
+//		ArrayList<clsAssociation> oNewContainerAssociations = new ArrayList<clsAssociation>();
+//		
+//		//For each container in the arraylist of containers
+//		for (clsPrimaryDataStructureContainer oContainer : oInput) {
+//			//Add the Data structure to the list for the template image
+//			oDataStructures.add((clsPhysicalRepresentation)oContainer.getMoDataStructure());
+//			for (clsAssociation oContainerAss : oContainer.getMoAssociatedDataStructures()) {
+//				try {
+//					if ((oContainerAss.getRootElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID()) && (oContainerAss.getLeafElement().getMoDSInstance_ID() != oContainer.getMoDataStructure().getMoDSInstance_ID())) {
+//						throw new Exception("Error in convertTPMContToTICont: The associated element is not associated with the data structure in the container");
+//					}
+//				} catch (Exception e) {
+//					e.printStackTrace();
+//				}
+//				oNewContainerAssociations.add(oContainerAss);
 //			}
-			
-			//Create a new TI
-			clsTemplateImage oTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(oTPM.getMoDS_ID(), eDataType.TI, oTPM.getMoContentType()), new ArrayList<clsAssociation>(), oTPM.getMoContent());
-			//clsTemplateImage oTI = clsDataStructureGenerator.generateTI(new clsTriple<String, new ArrayList<clsPhysical>, Object>(oTPM.getMoContentType(), oInternalTPM, oTPM.getMoContent()));
-			
-			//Move all associations to the TI
-			ArrayList<clsAssociation> oContainerAssociationList = clsDataStructureTools.TEMPmoveAllAssociations(oTI, oTPM);
-			
-			//Remove all temporal associations in the external association list
-			ArrayList<clsAssociation> oRemoveList = new ArrayList<clsAssociation>();
-			for (clsAssociation oAss : oContainerAssociationList) {
-				if (oAss instanceof clsAssociationTime) {
-					oRemoveList.add(oAss);
-				}
-			}
-			
-			for (clsAssociation oAss : oRemoveList) {
-				oContainerAssociationList.remove(oAss);
-			}
-			
-			
-			//2.2 Create a list of external associations and transfer the current list to this list
-			//ArrayList<clsAssociation> oContainerAssociationList = new ArrayList<clsAssociation>();
-			//oContainerAssociationList.addAll(oTPM.getExternalMoAssociatedContent());
-			//for (clsAssociation oAss : oContainerAssociationList) {
-			///7	
-			//}
-			
-			//2.4 Create a container with the TI + ext. associations
-			clsPrimaryDataStructureContainer oContainer = new clsPrimaryDataStructureContainer(oTI, oContainerAssociationList);
-			
-			//2.5 If the image is a PI, set it as perception
-			if (oTI.getMoContentType().equals(eContentType.PI.toString())) {
-				oContainerA = oContainer;
-			//2.6 If the image is a RI, set it as associated memory
-			} else if (oTI.getMoContentType().equals(eContentType.RI.toString())) {
-				oContainerListB.add(oContainer);
-			}
-		}
-		
-		oRetVal = new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(oContainerA, oContainerListB);
-		
-
-		
-		return oRetVal;
-	}
+//			
+//		}
+//		clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object> oContent = new clsTriple<String, ArrayList<clsPhysicalRepresentation>, Object>("PERCEIVEDIMAGE", oDataStructures, "PERCEPTION");
+//		clsTemplateImage oConstructedImage = null; //(clsTemplateImage)clsDataStructureGenerator.generateTI(oContent);
+//		//Set instanceID
+//		//oConstructedImage.setMoDSInstance_ID(oConstructedImage.hashCode());
+//		
+//		clsPrimaryDataStructureContainer oRetVal = new clsPrimaryDataStructureContainer(oConstructedImage, oNewContainerAssociations);
+//		
+//		return oRetVal;
+//	}
+//	
+//	
+//	//AW 2011-05-19 New function
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 06.07.2011 09:54:41
+//	 *
+//	 * @param oInput
+//	 * @return
+//	 * 
+//	 * Convert an container with a TI to an ArrayList with TPM-containers
+//	 */
+//	public static ArrayList<clsPrimaryDataStructureContainer> convertTIContToTPMCont(clsPrimaryDataStructureContainer oInput) {
+//		//Convert one container with TI to ArrayLists-Containers with TP and TPM
+//		
+//		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+//		
+//		ArrayList<clsAssociation> oAllAss = new ArrayList<clsAssociation>();
+//		oAllAss.addAll(oInput.getMoAssociatedDataStructures());
+//		
+//		try {
+//			if (oInput.getMoDataStructure() instanceof clsTemplateImage) {
+//				
+//				clsTemplateImage oInputDataStructure = (clsTemplateImage)oInput.getMoDataStructure();
+//				
+//				for (clsAssociation oAss : oInputDataStructure.getMoAssociatedContent()) {
+//					clsPhysicalRepresentation oDS = (clsPhysicalRepresentation)oAss.getLeafElement();
+//					ArrayList<clsAssociation> oContainerAss = new ArrayList<clsAssociation>();
+//
+//					ListIterator<clsAssociation> oAllAssLI = oAllAss.listIterator();	//IMPORTANT: The listiterator has to be initialized here, for each time this list is used
+//					
+//					while (oAllAssLI.hasNext()) {
+//						clsAssociation oSingleAss = oAllAssLI.next();
+//						//In this conversation information is lost, i.e. all clsAssociationPrimary, because they are only linked between template images. 
+//						//Therefore these structures have to be removed here
+//						if (oSingleAss instanceof clsAssociationPrimary) {
+//							oAllAssLI.remove();
+//						}
+//						else if (oSingleAss.getRootElement().getMoDSInstance_ID()==oDS.getMoDSInstance_ID()) {	//Compare ID of the structure in the TI and the root element in the association
+//
+//							oContainerAss.add(oSingleAss);
+//							oAllAssLI.remove();
+//						}
+//
+//					}
+//					
+//					oRetVal.add(new clsPrimaryDataStructureContainer(oDS, oContainerAss));
+//				}
+//				
+//				if (oAllAss.isEmpty()==false) {
+//					throw new Exception("Error in convertTIContToTPMCont: Not all associations could be assigned a data structure container");
+//				}
+//				
+//			} else {
+//				throw new Exception("Error in convertTIContToTPMCont: The Input data structure is no clsTemplateImage");
+//			}
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		return oRetVal;
+//	}
+//	
+//	public static ArrayList<clsPrimaryDataStructureContainer> convertTPMImageToTPMContainer(clsThingPresentationMesh poTPM) {
+//		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+//		
+//		for (clsAssociation oEnhTPMAss : poTPM.getMoAssociatedContent()) {
+//			clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oEnhTPMAss.getLeafElement();
+//			
+//			ArrayList<clsAssociation> oExtAss = new ArrayList<clsAssociation>();
+//			oExtAss.addAll(oTPM.getExternalMoAssociatedContent());
+//			oRetVal.add(new clsPrimaryDataStructureContainer(oTPM, oExtAss));
+//		}
+//		
+//		return oRetVal;
+//	}
+//	
+//	/**
+//	 * Convert a mesh into the old container structure
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 02.01.2012 22:28:39
+//	 *
+//	 * @param poMesh
+//	 * @return
+//	 */
+//	public static clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> TEMPconvertMeshToContainers(clsThingPresentationMesh poMesh) {
+//		clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>> oRetVal = null;
+//		clsPrimaryDataStructureContainer oContainerA = null;
+//		ArrayList<clsPrimaryDataStructureContainer> oContainerListB = new ArrayList<clsPrimaryDataStructureContainer>();
+//		
+//		//1. Extract all images in the mesh
+//		ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getAllTPMImages(poMesh, 1);
+//		//2. For each Image
+//		for (clsThingPresentationMesh oTPM : oTPMList) {
+//			//2.1 Remove all AssPri in the external associations if the TPM is no RI or PI
+//			if (((oTPM.getMoContentType().equals(eContentType.PI.toString())==true || oTPM.getMoContentType().equals(eContentType.RI.toString())==true))) {
+//				//Go through external associations
+//				ArrayList<clsAssociation> oRemoveObjectList  = new ArrayList<clsAssociation>();
+//				for (clsAssociation oAss : oTPM.getExternalMoAssociatedContent()) {
+//					if (oAss instanceof clsAssociationPrimary) {
+//						oRemoveObjectList.add(oAss);
+//					}
+//				}
+//				
+//				//Remove objects from the list
+//				for (clsAssociation oAss : oRemoveObjectList) {
+//					oTPM.getExternalMoAssociatedContent().remove(oAss);
+//				}
+//			}
+//			
+//			//2.3 Convert the TPM-Image to a TI-Image
+//			//Get all objects from the image
+////			ArrayList<clsPhysicalRepresentation> oInternalTPM = new ArrayList<clsPhysicalRepresentation>();
+////			for (clsAssociation oAss : oTPM.getMoAssociatedContent()) {
+////				oInternalTPM.add((clsThingPresentationMesh) oAss.getLeafElement());
+////			}
+//			
+//			//Create a new TI
+//			clsTemplateImage oTI = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(oTPM.getMoDS_ID(), eDataType.TI, oTPM.getMoContentType()), new ArrayList<clsAssociation>(), oTPM.getMoContent());
+//			//clsTemplateImage oTI = clsDataStructureGenerator.generateTI(new clsTriple<String, new ArrayList<clsPhysical>, Object>(oTPM.getMoContentType(), oInternalTPM, oTPM.getMoContent()));
+//			
+//			//Move all associations to the TI
+//			ArrayList<clsAssociation> oContainerAssociationList = clsDataStructureTools.TEMPmoveAllAssociations(oTI, oTPM);
+//			
+//			//Remove all temporal associations in the external association list
+//			ArrayList<clsAssociation> oRemoveList = new ArrayList<clsAssociation>();
+//			for (clsAssociation oAss : oContainerAssociationList) {
+//				if (oAss instanceof clsAssociationTime) {
+//					oRemoveList.add(oAss);
+//				}
+//			}
+//			
+//			for (clsAssociation oAss : oRemoveList) {
+//				oContainerAssociationList.remove(oAss);
+//			}
+//			
+//			
+//			//2.2 Create a list of external associations and transfer the current list to this list
+//			//ArrayList<clsAssociation> oContainerAssociationList = new ArrayList<clsAssociation>();
+//			//oContainerAssociationList.addAll(oTPM.getExternalMoAssociatedContent());
+//			//for (clsAssociation oAss : oContainerAssociationList) {
+//			///7	
+//			//}
+//			
+//			//2.4 Create a container with the TI + ext. associations
+//			clsPrimaryDataStructureContainer oContainer = new clsPrimaryDataStructureContainer(oTI, oContainerAssociationList);
+//			
+//			//2.5 If the image is a PI, set it as perception
+//			if (oTI.getMoContentType().equals(eContentType.PI.toString())) {
+//				oContainerA = oContainer;
+//			//2.6 If the image is a RI, set it as associated memory
+//			} else if (oTI.getMoContentType().equals(eContentType.RI.toString())) {
+//				oContainerListB.add(oContainer);
+//			}
+//		}
+//		
+//		oRetVal = new clsPair<clsPrimaryDataStructureContainer, ArrayList<clsPrimaryDataStructureContainer>>(oContainerA, oContainerListB);
+//		
+//
+//		
+//		return oRetVal;
+//	}
 
 }

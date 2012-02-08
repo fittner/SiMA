@@ -22,7 +22,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalStructureComposition;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -2020,8 +2019,8 @@ public class clsDataStructureTools {
 						e.printStackTrace();
 					}
 				}
-				//If the images are equal, then transfer the associations
-				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID()) {
+				//If the images are equal but not the same instance, then transfer the associations
+				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID() && oSourceWPM.equals(oNewWPM)==false) {
 					oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oSourceWPM, oNewWPM));
 					break;
 				}
@@ -2169,81 +2168,81 @@ public class clsDataStructureTools {
 	}
 
 	
-	/**
-	 * Move an association from the origin TPM to the target TPM
-	 * 
-	 * (wendt)
-	 *
-	 * @since 03.01.2012 20:43:49
-	 *
-	 * @param poTargetTPM
-	 * @param poOriginTPM
-	 * @param poAssociation
-	 */
-	private static ArrayList<clsAssociation> TEMPmoveAssociation(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM, clsAssociation poAssociation) {
-		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
-		
-		//1. Check if Element A or B has the origin structure
-		if ((poAssociation.getRootElement().equals(poOriginTPM)==true) || (poAssociation.getLeafElement().equals(poOriginTPM)==true)) {
-			if (poAssociation.getRootElement().equals(poOriginTPM)==true) {
-				poAssociation.setRootElement(poTargetTI);
-			} else {
-				poAssociation.setLeafElement(poTargetTI);
-			}
-			
-			if (poOriginTPM.getExternalMoAssociatedContent().contains(poAssociation)) {
-				//2. Add the changed association to the targetTPM
-				oRetVal.add(poAssociation);
-				//poTargetTI.getExternalMoAssociatedContent().add(poAssociation);
-				//3. Remove the association from the originTPM
-				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
-			} else if (poOriginTPM.getMoAssociatedContent().contains(poAssociation)) {
-				//2. Add the changed association to the targetTPM
-				poTargetTI.getMoAssociatedContent().add(poAssociation);
-				//3. Remove the association from the originTPM
-				poOriginTPM.getMoAssociatedContent().remove(poAssociation);
-			}
-
-		}
-		return oRetVal;
-	}
-	
-	/**
-	 * Transfer all associations from a TPM to a TI
-	 * 
-	 * (wendt)
-	 *
-	 * @since 03.02.2012 16:36:51
-	 *
-	 * @param poTargetTI
-	 * @param poOriginTPM
-	 * @return
-	 */
-	public static ArrayList<clsAssociation> TEMPmoveAllAssociations(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM) {
-		ArrayList<clsAssociation> oNewInternalList = new ArrayList<clsAssociation>();
-		ArrayList<clsAssociation> oNewExtAssociationList = new ArrayList<clsAssociation>();
-		
-		ArrayList<clsAssociation> oNewReturnAssociationList = new ArrayList<clsAssociation>();
-		
-		oNewExtAssociationList.addAll(poOriginTPM.getExternalMoAssociatedContent());
-		for (clsAssociation oAss1 : oNewExtAssociationList) {
-			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss1));
-		}
-		
-		oNewInternalList.addAll(poOriginTPM.getMoAssociatedContent());
-		for (clsAssociation oAss2 : oNewInternalList) {
-			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss2));
-		}
-		
-		//Move all internal associations to the container
-		for (clsAssociation oAss : poTargetTI.getMoAssociatedContent()) {
-			clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh) oAss.getLeafElement();
-			
-			oNewReturnAssociationList.addAll(oSubTPM.getExternalMoAssociatedContent());
-		}
-		
-		return oNewReturnAssociationList;
-	}
+//	/**
+//	 * Move an association from the origin TPM to the target TPM
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 03.01.2012 20:43:49
+//	 *
+//	 * @param poTargetTPM
+//	 * @param poOriginTPM
+//	 * @param poAssociation
+//	 */
+//	private static ArrayList<clsAssociation> TEMPmoveAssociation(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM, clsAssociation poAssociation) {
+//		ArrayList<clsAssociation> oRetVal = new ArrayList<clsAssociation>();
+//		
+//		//1. Check if Element A or B has the origin structure
+//		if ((poAssociation.getRootElement().equals(poOriginTPM)==true) || (poAssociation.getLeafElement().equals(poOriginTPM)==true)) {
+//			if (poAssociation.getRootElement().equals(poOriginTPM)==true) {
+//				poAssociation.setRootElement(poTargetTI);
+//			} else {
+//				poAssociation.setLeafElement(poTargetTI);
+//			}
+//			
+//			if (poOriginTPM.getExternalMoAssociatedContent().contains(poAssociation)) {
+//				//2. Add the changed association to the targetTPM
+//				oRetVal.add(poAssociation);
+//				//poTargetTI.getExternalMoAssociatedContent().add(poAssociation);
+//				//3. Remove the association from the originTPM
+//				poOriginTPM.getExternalMoAssociatedContent().remove(poAssociation);
+//			} else if (poOriginTPM.getMoAssociatedContent().contains(poAssociation)) {
+//				//2. Add the changed association to the targetTPM
+//				poTargetTI.getMoAssociatedContent().add(poAssociation);
+//				//3. Remove the association from the originTPM
+//				poOriginTPM.getMoAssociatedContent().remove(poAssociation);
+//			}
+//
+//		}
+//		return oRetVal;
+//	}
+//	
+//	/**
+//	 * Transfer all associations from a TPM to a TI
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 03.02.2012 16:36:51
+//	 *
+//	 * @param poTargetTI
+//	 * @param poOriginTPM
+//	 * @return
+//	 */
+//	public static ArrayList<clsAssociation> TEMPmoveAllAssociations(clsPhysicalStructureComposition poTargetTI, clsThingPresentationMesh poOriginTPM) {
+//		ArrayList<clsAssociation> oNewInternalList = new ArrayList<clsAssociation>();
+//		ArrayList<clsAssociation> oNewExtAssociationList = new ArrayList<clsAssociation>();
+//		
+//		ArrayList<clsAssociation> oNewReturnAssociationList = new ArrayList<clsAssociation>();
+//		
+//		oNewExtAssociationList.addAll(poOriginTPM.getExternalMoAssociatedContent());
+//		for (clsAssociation oAss1 : oNewExtAssociationList) {
+//			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss1));
+//		}
+//		
+//		oNewInternalList.addAll(poOriginTPM.getMoAssociatedContent());
+//		for (clsAssociation oAss2 : oNewInternalList) {
+//			oNewReturnAssociationList.addAll(TEMPmoveAssociation(poTargetTI, poOriginTPM, oAss2));
+//		}
+//		
+//		//Move all internal associations to the container
+//		for (clsAssociation oAss : poTargetTI.getMoAssociatedContent()) {
+//			clsThingPresentationMesh oSubTPM = (clsThingPresentationMesh) oAss.getLeafElement();
+//			
+//			oNewReturnAssociationList.addAll(oSubTPM.getExternalMoAssociatedContent());
+//		}
+//		
+//		return oNewReturnAssociationList;
+//	}
 	
 	/**
 	 * Find a PA datastructure in any arraylist and return the object from the arraylist

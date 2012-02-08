@@ -215,6 +215,7 @@ public class PlanningWizard {
 					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
 						if (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATEABLE") || (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE"))) {
 							oDistance = "NEAR";
+							oPosition = "CENTER";
 						} else {
 							oDistance = ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 						}
@@ -223,6 +224,7 @@ public class PlanningWizard {
 					}
 				}
 				
+				//System.out.println("oDistance: " + oDistance + ", oDirection " + oPosition);
 				oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
 				
 				//@ANDI: No more parsing...

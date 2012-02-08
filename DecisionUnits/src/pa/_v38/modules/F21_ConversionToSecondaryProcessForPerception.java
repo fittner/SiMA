@@ -826,7 +826,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			//FIXME AW: As the intention is loaded, all other connected containers are loaded here. This is too specialized
 			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
 			if (oEnhancedWPM.getMoContent()=="A2TOP") {
-				System.out.println("A2TOP: Number of associations: " + oEnhancedWPM.getAssociatedContent().size());
+				System.out.println("A2TOP: Hashcode: " + oEnhancedWPM.hashCode() + ". Number of associations: " + oEnhancedWPM.getAssociatedContent().size());
 			}
 			//Add the enhanced WPM to a new list, as the enhanced WPM are complete and the former RI are not.
 			oEnhancedRIWPMList.add(oEnhancedWPM);
@@ -949,7 +949,17 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Get the WPM for the thing presentation itself
 		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM);
+		//Copy object
 		if (oWPforObject!=null) {
+//			clsAssociationWordPresentation oX=null;
+//			try {
+//				oX = (clsAssociationWordPresentation) oWPforObject.clone();
+//			} catch (CloneNotSupportedException e1) {
+//				// TODO (wendt) - Auto-generated catch block
+//				e1.printStackTrace();
+//			}
+
+			
 			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 				oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
 				//oRetVal.getExternalAssociatedContent().add(oWPforObject); 	It is not necessary to add the WP-Association, as it is already a part of the object

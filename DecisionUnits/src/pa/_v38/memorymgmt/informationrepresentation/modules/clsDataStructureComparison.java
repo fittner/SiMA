@@ -605,6 +605,7 @@ public abstract class clsDataStructureComparison {
 	 */
 	public static clsWordPresentationMesh getCompleteMesh(clsWordPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
 		
+		clsWordPresentationMesh oFoundWPM = null;
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Readoutsearchspace searches everything with a certain moDSID
@@ -616,34 +617,54 @@ public abstract class clsDataStructureComparison {
 		//Check if that data structure can be found in the database, else return null
 		//pnLevel MUST be at least 1, else no substructures are searched
 		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
-			if (poInput instanceof clsWordPresentationMesh) {
-				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
-				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsWordPresentationMesh)poInput));
+			//Clone the structure
+			
+			ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+			oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsWordPresentationMesh)poInput));
+				
+			//Define the WPM from one of the found associations
+			if (oAssList.isEmpty()==false) {
+				for (clsAssociation oAss :oAssList) {
+					if (oAss.getRootElement().getMoDS_ID()==poInput.getMoDS_ID()) {
+						oFoundWPM = (clsWordPresentationMesh) oAss.getRootElement();
+					} else if (oAss.getLeafElement().getMoDS_ID()==poInput.getMoDS_ID()) {
+						oFoundWPM = (clsWordPresentationMesh) oAss.getLeafElement();
+					} else {
+						try {
+							throw new Exception("Error in DataStructureComparison: Only associations are allowed, where the input element is one of the elements.");
+						} catch (Exception e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 					
-				//Clone the structure
-				try {
-					oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) poInput).clone();
-				} catch (CloneNotSupportedException e) {
-					// TODO (wendt) - Auto-generated catch block
-					e.printStackTrace();
+					break;
 				}
+			} else {
+				oFoundWPM = poInput;
+			}
+			
+			oFoundWPM.setExternalAssociatedContent(oAssList);
 				
-				//clsWordPresentationMesh oWPMRetVal = (clsWordPresentationMesh) oRetVal;
-				
-				oRetVal.setExternalAssociatedContent(oAssList);
-				//Add associations from intrinsic structures
-				for (clsAssociation oAss: oRetVal.getAssociatedContent()) {
-					//Recursive function
-					if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
-						clsWordPresentationMesh oSubMesh = (clsWordPresentationMesh) getCompleteMesh((clsWordPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
-						if (oSubMesh!=null) {
-							//Get the extended structures from the searched one and add them to the TPM
-							if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-								((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
-								//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
-								//time associations of the subobject. This association is added to the external associations of the subobject
-								((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
-							}
+			//Copy the result after correctly adressing of the associations
+			try {
+				oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) oFoundWPM).clone();
+			} catch (CloneNotSupportedException e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+			//Add associations from intrinsic structures
+			for (clsAssociation oAss: oRetVal.getAssociatedContent()) {
+				//Recursive function
+				if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oSubMesh = (clsWordPresentationMesh) getCompleteMesh((clsWordPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
+					if (oSubMesh!=null) {
+						//Get the extended structures from the searched one and add them to the WPM
+						if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
+							((clsWordPresentationMesh)oAss.getLeafElement()).setExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
+							//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
+							//time associations of the subject. This association is added to the external associations of the subject
+							((clsWordPresentationMesh)oAss.getLeafElement()).getExternalAssociatedContent().add(oAss);
 						}
 					}
 				}

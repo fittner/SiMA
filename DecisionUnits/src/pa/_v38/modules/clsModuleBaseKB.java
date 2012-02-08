@@ -134,47 +134,47 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			}
 	}
 	
-	/**
-	 * Search function for whole containers. It will always return a container list and a match factor. The specialized use is if
-	 * the data structure is a template image.
-	 *
-	 * @since 29.06.2011 13:54:58
-	 *
-	 * @param <E>
-	 * @param poDataType
-	 * @param poPattern
-	 * @param poSearchResult
-	 * 
-	 */
-	public void searchContainer(
-			clsDataStructureContainer poPattern,
-			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType, double prThreshold) {
-
-		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
-		if (poPattern!=null)  {
-			
-			//FIXME AW: Make a better solution than renaming the content types at the search
-			String oInputContentType = poPattern.getMoDataStructure().getMoContentType();
-			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
-			//in the search
-			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
-			
-			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
-			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern, prThreshold); 
-			
-			//Set the old content type again...this is hack dirty bastard shit
-			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
-			
-			//Set IDs
-			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
-			//	clsDataStructureTools.createInstanceFromType(oPair.b);
-			//}
-			
-		} else {
-			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
-		}
-			
-	}
+//	/**
+//	 * Search function for whole containers. It will always return a container list and a match factor. The specialized use is if
+//	 * the data structure is a template image.
+//	 *
+//	 * @since 29.06.2011 13:54:58
+//	 *
+//	 * @param <E>
+//	 * @param poDataType
+//	 * @param poPattern
+//	 * @param poSearchResult
+//	 * 
+//	 */
+//	public void searchContainer(
+//			clsDataStructureContainer poPattern,
+//			ArrayList<clsPair<Double, clsDataStructureContainer>> poSearchResult, String poSearchContentType, double prThreshold) {
+//
+//		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
+//		if (poPattern!=null)  {
+//			
+//			//FIXME AW: Make a better solution than renaming the content types at the search
+//			String oInputContentType = poPattern.getMoDataStructure().getMoContentType();
+//			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
+//			//in the search
+//			poPattern.getMoDataStructure().setMoContentType(poSearchContentType);
+//			
+//			clsPair<Integer, clsDataStructureContainer> oSearchPattern = new clsPair<Integer, clsDataStructureContainer>(eDataType.UNDEFINED.nBinaryValue, poPattern); 
+//			accessKnowledgeBaseContainer(poSearchResult, oSearchPattern, prThreshold); 
+//			
+//			//Set the old content type again...this is hack dirty bastard shit
+//			poPattern.getMoDataStructure().setMoContentType(oInputContentType);
+//			
+//			//Set IDs
+//			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
+//			//	clsDataStructureTools.createInstanceFromType(oPair.b);
+//			//}
+//			
+//		} else {
+//			poSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
+//		}
+//			
+//	}
 	
 	/**
 	 * Search function for datastructures, which matches the input structure. It will always return a list of data structures and a match factor. The specialized use is if
@@ -230,19 +230,19 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearch(poSearchPattern));
 	}
 	
-	/**
-	 * Access knowledgebase with a container and not a clsDataStructurePA
-	 * 
-	 * @since 13.07.2011 13:47:08
-	 *
-	 * @param poSearchResult
-	 * @param poSearchPattern
-	 */
-	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
-			clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold) {
-		//AW 20110629: New function for searching one total container
-		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern, prThreshold));
-	}
+//	/**
+//	 * Access knowledgebase with a container and not a clsDataStructurePA
+//	 * 
+//	 * @since 13.07.2011 13:47:08
+//	 *
+//	 * @param poSearchResult
+//	 * @param poSearchPattern
+//	 */
+//	public void accessKnowledgeBaseContainer(ArrayList<clsPair<Double,clsDataStructureContainer>> poSearchResult,
+//			clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold) {
+//		//AW 20110629: New function for searching one total container
+//		poSearchResult.addAll(moKnowledgeBaseHandler.initMemorySearchContainer(poSearchPattern, prThreshold));
+//	}
 	
 	/**
 	 * Access knowledgebase with a container and not a clsDataStructurePA
@@ -295,9 +295,17 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		oRetVal = moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
 		
 		//Transfer all meshes of the same ID to the same instance, i. e. all associations do contain this particular structure
+//		if (poInput instanceof clsWordPresentationMesh) {
+//			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);
+//		}
+		
+		//Move all associations from the input to the output
 		if (poInput instanceof clsWordPresentationMesh) {
-			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);
+			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)oRetVal, (clsWordPresentationMesh)poInput);
+		} else if (poInput instanceof clsThingPresentationMesh) {
+			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)oRetVal, (clsThingPresentationMesh)poInput);
 		}
+		
 		
 		return oRetVal;
 	}
