@@ -825,9 +825,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			//Get the complete WPM-Object including all WPM associations until level 2. Input is a WPM, therefore, only WPM is returned
 			//FIXME AW: As the intention is loaded, all other connected containers are loaded here. This is too specialized
 			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
-			if (oEnhancedWPM.getMoContent()=="A2TOP") {
-				System.out.println("A2TOP: Hashcode: " + oEnhancedWPM.hashCode() + ". Number of associations: " + oEnhancedWPM.getAssociatedContent().size());
-			}
+//			if (oEnhancedWPM.getMoContent()=="A2TOP") {
+//				System.out.println("A2TOP: Hashcode: " + oEnhancedWPM.hashCode() + ". Number of associations: " + oEnhancedWPM.getAssociatedContent().size());
+//			}
 			//Add the enhanced WPM to a new list, as the enhanced WPM are complete and the former RI are not.
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			

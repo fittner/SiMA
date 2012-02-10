@@ -18,8 +18,10 @@ public enum eEntity {
 	PLANT,
 	CARROT,
 	ARSIN,
+	ANOUK,
 	STONE,
 	REMOTEBOT,
+	EMPTYSPACE,
 	NONE
 
 }

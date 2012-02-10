@@ -7,13 +7,8 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
-import java.util.Map.Entry;
-
-import bfg.tools.clsMutableDouble;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
@@ -49,7 +44,6 @@ import pa._v38.memorymgmt.enums.eYPosition;
 
 import config.clsProperties;
 import du.enums.eDistance;
-import du.enums.pa.eContext;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 
@@ -236,33 +230,33 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 
 	}
 	
-	/**
-	 * HACK by AW: This function converts all locations to either DISTANCE or POSITION
-	 * 
-	 * (wendt)
-	 *
-	 * @since 01.12.2011 13:36:22
-	 *
-	 * @param poEnvironmentalPerception
-	 */
-	private void TEMPconvertLOCATIONtoPOSITIONandDISTANCE(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception) {
-		ArrayList<String> oDistance = new ArrayList<String>();
-		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
-		ArrayList<String> oPosition = new ArrayList<String>();
-		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
-		
-		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception) {
-			for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
-				if (oAss.getLeafElement() instanceof clsThingPresentation) {
-					if ((oAss.getLeafElement().getMoContentType().equals("LOCATION")==true) && (oDistance.contains(((clsThingPresentation)oAss.getLeafElement()).getMoContent())==true)) {
-						oAss.getLeafElement().setMoContentType(eContentType.DISTANCE.toString());
-					} else if ((oAss.getLeafElement().getMoContentType().equals("LOCATION")==true) && (oPosition.contains(((clsThingPresentation)oAss.getLeafElement()).getMoContent())==true)) {
-						oAss.getLeafElement().setMoContentType(eContentType.POSITION.toString());
-					}
-				}
-			}
-		}
-	}
+//	/**
+//	 * HACK by AW: This function converts all locations to either DISTANCE or POSITION
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 01.12.2011 13:36:22
+//	 *
+//	 * @param poEnvironmentalPerception
+//	 */
+//	private void TEMPconvertLOCATIONtoPOSITIONandDISTANCE(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception) {
+//		ArrayList<String> oDistance = new ArrayList<String>();
+//		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+//		ArrayList<String> oPosition = new ArrayList<String>();
+//		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+//		
+//		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception) {
+//			for (clsAssociation oAss : oContainer.getMoAssociatedDataStructures()) {
+//				if (oAss.getLeafElement() instanceof clsThingPresentation) {
+//					if ((oAss.getLeafElement().getMoContentType().equals("LOCATION")==true) && (oDistance.contains(((clsThingPresentation)oAss.getLeafElement()).getMoContent())==true)) {
+//						oAss.getLeafElement().setMoContentType(eContentType.DISTANCE.toString());
+//					} else if ((oAss.getLeafElement().getMoContentType().equals("LOCATION")==true) && (oPosition.contains(((clsThingPresentation)oAss.getLeafElement()).getMoContent())==true)) {
+//						oAss.getLeafElement().setMoContentType(eContentType.POSITION.toString());
+//					}
+//				}
+//			}
+//		}
+//	}
 	
 	
 	
@@ -278,7 +272,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private void solveBUGFIXEATABLEAREA(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception_IN) {
 		//Exchange all objects in the EATABLE AREA with the objects in the MANIPULATEABLE AREA
 		ArrayList<clsPrimaryDataStructureContainer> oEatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
 		
 		//Search in the input for an object with location EATABLE and add them to a new list
 		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
@@ -332,9 +326,9 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 	}
 	
-	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
-		return (clsThingPresentationMesh) poInput.getMoAssociatedContent().get(0).getMoAssociationElementB();
-	}
+//	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
+//		return (clsThingPresentationMesh) poInput.getMoAssociatedContent().get(0).getMoAssociationElementB();
+//	}
 	
 	
 	/**
@@ -570,93 +564,93 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}*/
 	}
 	
-	/**
-	 * Adapts the categories of DriveMeshes in the perception according to a
-	 * context.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 17.06.2011, 19:00:31
-	 *
-	 * @param poPerception_IN	- the perception that needs its DriveMesh categories
-	 * adjusted
-	 */
-	private void adaptCategories(clsPrimaryDataStructureContainer poPerception_IN) {
-		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult;
-
-		oContextResult = getContext();
-		for(Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet()) {
-				calculateNewCategories(oContextPrim, poPerception_IN); 
-		}
-	}
+//	/**
+//	 * Adapts the categories of DriveMeshes in the perception according to a
+//	 * context.
+//	 *
+//	 * @author Marcus Zottl (e0226304)
+//	 * 17.06.2011, 19:00:31
+//	 *
+//	 * @param poPerception_IN	- the perception that needs its DriveMesh categories
+//	 * adjusted
+//	 */
+//	private void adaptCategories(clsPrimaryDataStructureContainer poPerception_IN) {
+//		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult;
+//
+//		oContextResult = getContext();
+//		for(Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet()) {
+//				calculateNewCategories(oContextPrim, poPerception_IN); 
+//		}
+//	}
 	
-	/**
-	 * The context of a certain drive or object is loaded.<br>
-	 * <br>
-	 * In the case of CAKE it is NOURISH. If the drive NOURISH is found in the
-	 * objects, the categories (anal, oral...) are multiplied with a category
-	 * factor <= 1.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 17.06.2011, 19:03:27
-	 *
-	 * @param poContextPrim
-	 */
-	private void calculateNewCategories(
-			Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim,
-			clsPrimaryDataStructureContainer poPerception) {
-
-		//Get the context of the object. In the case of the CAKE, NOURISH
-		eContext oContext =
-			eContext.valueOf(
-					poContextPrim.getKey().getMoDataStructure().getMoContentType());
-
-		for(clsAssociation oAssociation : poPerception.getMoAssociatedDataStructures()) {
-			clsDataStructurePA oData = oAssociation.getLeafElement();
-			//only process DMs
-			if(oData instanceof clsDriveMesh){
-				//If the drive is equal to the drive in the context then...
-				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
-					/*setCathegories has the following Parameters:
-					 * The DM with their categories anal, oral, phallic and genital and the context value
-					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
-					 * eaten. The categories are multiplied with the context value.
-					 * This function reduces not 100%-Matching context with the context factor. If the 
-					 * context matches to 100%, then the context factor is = 1.0
-					 */
-					setCategories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
-				}
-			}
-		}
-	}
+//	/**
+//	 * The context of a certain drive or object is loaded.<br>
+//	 * <br>
+//	 * In the case of CAKE it is NOURISH. If the drive NOURISH is found in the
+//	 * objects, the categories (anal, oral...) are multiplied with a category
+//	 * factor <= 1.
+//	 *
+//	 * @author Marcus Zottl (e0226304)
+//	 * 17.06.2011, 19:03:27
+//	 *
+//	 * @param poContextPrim
+//	 */
+//	private void calculateNewCategories(
+//			Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim,
+//			clsPrimaryDataStructureContainer poPerception) {
+//
+//		//Get the context of the object. In the case of the CAKE, NOURISH
+//		eContext oContext =
+//			eContext.valueOf(
+//					poContextPrim.getKey().getMoDataStructure().getMoContentType());
+//
+//		for(clsAssociation oAssociation : poPerception.getMoAssociatedDataStructures()) {
+//			clsDataStructurePA oData = oAssociation.getLeafElement();
+//			//only process DMs
+//			if(oData instanceof clsDriveMesh){
+//				//If the drive is equal to the drive in the context then...
+//				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
+//					/*setCathegories has the following Parameters:
+//					 * The DM with their categories anal, oral, phallic and genital and the context value
+//					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
+//					 * eaten. The categories are multiplied with the context value.
+//					 * This function reduces not 100%-Matching context with the context factor. If the 
+//					 * context matches to 100%, then the context factor is = 1.0
+//					 */
+//					setCategories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
+//				}
+//			}
+//		}
+//	}
 	
-	/**
-	 * Set categories, where the categories of the input DM are multiplicated with a factor context value
-	 *
-	 * @author zeilinger
-	 * 16.08.2010, 18:13:00
-	 *
-	 * @param oDM
-	 * @param doubleValue
-	 */
-	private void setCategories(clsDriveMesh poDM, double prContextValue) {
-		poDM.setAnal(poDM.getAnal() * prContextValue); 
-		poDM.setGenital(poDM.getGenital() * prContextValue);
-		poDM.setOral(poDM.getOral() * prContextValue); 
-		poDM.setPhallic(poDM.getPhallic() * prContextValue);
-	}
+//	/**
+//	 * Set categories, where the categories of the input DM are multiplicated with a factor context value
+//	 *
+//	 * @author zeilinger
+//	 * 16.08.2010, 18:13:00
+//	 *
+//	 * @param oDM
+//	 * @param doubleValue
+//	 */
+//	private void setCategories(clsDriveMesh poDM, double prContextValue) {
+//		poDM.setAnal(poDM.getAnal() * prContextValue); 
+//		poDM.setGenital(poDM.getGenital() * prContextValue);
+//		poDM.setOral(poDM.getOral() * prContextValue); 
+//		poDM.setPhallic(poDM.getPhallic() * prContextValue);
+//	}
 
-	/**
-	 * TODO HZ or IH: This function does nothing
-	 *
-	 * @author zeilinger
-	 * 26.08.2010, 12:02:45
-	 *
-	 * @return
-	 */
-	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
-		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
-		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
-	}
+//	/**
+//	 * TODO HZ or IH: This function does nothing
+//	 *
+//	 * @author zeilinger
+//	 * 26.08.2010, 12:02:45
+//	 *
+//	 * @return
+//	 */
+//	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
+//		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
+//		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
+//	}
 	
 	
 	
@@ -883,13 +877,18 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		}
 		//Create "Nothing"-objects for each position
 		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
+		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
+		oEmptySpaceContainerList.add(oEmptySpaceContainer);
+		assignDriveMeshes(oEmptySpaceContainerList);
+		
 		//for each position, fill it with a container
 		clsThingPresentationMesh oEmptySpaceTPM;
 		for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPosPair : oNewPositions) {
 			//Create a new TP-Container
 			try {
+				((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
 				oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
-			
+				
 			
 				clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), oPosPair.b.toString()));
 				clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), oPosPair.c.toString()));
