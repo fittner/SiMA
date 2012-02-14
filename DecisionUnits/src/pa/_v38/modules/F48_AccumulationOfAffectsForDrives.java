@@ -50,6 +50,8 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	public static final String P_NUM_SPLIFACTOR = "num";
 	private HashMap<String, Double> moSplitterFactor;	
 	
+	private boolean rJACKBAUERWASHERE = false;
+	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
 	 * on a splitter mechanism and outputs the result to a list of drive candidates.
@@ -207,8 +209,14 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 			
 			//add the two pairs to the final list, this mixes the libido to the homeostatic ones
 			moDriveCandidates_OUT.add(oEntry.a.a); 
-			moDriveCandidates_OUT.add(oEntry.b.a); 			
+			moDriveCandidates_OUT.add(oEntry.b.a);
+			
+			
+			
 		}
+		
+		//FIXME CM: This is a hack function by AW. Please remove it as soon as there is some meaningful SLEEP
+		//tempJACKBAUERWASHERE(moDriveCandidates_OUT);
 	}
 	
 	/**
@@ -308,6 +316,35 @@ public class F48_AccumulationOfAffectsForDrives extends clsModuleBase
 	@Override
 	public void setDescription() {
 		moDescription = "F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based on a splitter mechanism and outputs the result to a list of drive candidates.";
+	}
+	
+	/**
+	 * This is a temporary function to correct the problem with the short sleeps.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 13.02.2012 20:18:12
+	 *
+	 * @param poDriveCandidatesOut
+	 */
+	private void tempJACKBAUERWASHERE(ArrayList<clsDriveMesh> poDriveCandidatesOut) {
+		double rUpperThreshold = 0.9;
+		double rLowerThreshold = 0.1;
+		
+		for (clsDriveMesh oDM : poDriveCandidatesOut) {
+			if (oDM.getMoContent().equals("SLEEP")) {
+				if (oDM.getPleasure()>=rUpperThreshold) {
+					rJACKBAUERWASHERE = true;
+				} else if (oDM.getPleasure()< rLowerThreshold) {
+						rJACKBAUERWASHERE=false;
+				} else if (rJACKBAUERWASHERE==true) {
+					oDM.setPleasure(1.0);
+				} 
+				
+				break;
+			}
+			
+		}
 	}
 
 	/* (non-Javadoc)
