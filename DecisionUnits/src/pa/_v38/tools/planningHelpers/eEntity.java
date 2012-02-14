@@ -19,6 +19,7 @@ public enum eEntity {
 	CARROT,
 	ARSIN,
 	ANOUK,
+	BODO,
 	STONE,
 	REMOTEBOT,
 	EMPTYSPACE,

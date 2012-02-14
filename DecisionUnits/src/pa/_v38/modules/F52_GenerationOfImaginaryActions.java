@@ -819,6 +819,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
 				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
 		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
 		
 /*		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),
 				new clsImage(eEntity.NONE), 
@@ -835,21 +838,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		*/
 		
 //		// AP: Who added this action? -> Entity none is not defined for searches!
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
-				new clsImage(), 
-				new clsImage()));
+//		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
+//				new clsImage(), 
+//				new clsImage()));
 		
 		//eEntity oEntityOld=oEntity;
 		
 		//oEntity=oEntityOld;
 		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
-				new clsImage(), 
-				new clsImage()));
-		
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
-				new clsImage(), 
-				new clsImage()));
+//		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("FLEE"),
+//				new clsImage(), 
+//				new clsImage()));
 		
 		
 		
