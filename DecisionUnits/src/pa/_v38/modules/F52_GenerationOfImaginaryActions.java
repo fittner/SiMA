@@ -692,18 +692,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
 				new clsImage(eDirection.LEFT, oEntity), 
-				new clsImage(eDirection.MIDDLELEFT, oEntity)));
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
 				new clsImage(eDirection.RIGHT, oEntity), 
-				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 		
 		//EAT REMOTEBOT
@@ -730,18 +730,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
 				new clsImage(eDirection.LEFT, oEntity), 
-				new clsImage(eDirection.MIDDLELEFT, oEntity)));
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
 				new clsImage(eDirection.RIGHT, oEntity), 
-				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 		
 		
@@ -769,18 +769,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
 				new clsImage(eDirection.LEFT, oEntity), 
-				new clsImage(eDirection.MIDDLELEFT, oEntity)));
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.MIDDLELEFT, oEntity), 
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
 				new clsImage(eDirection.RIGHT, oEntity), 
-				new clsImage(eDirection.MIDDLERIGHT, oEntity)));
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.MIDDLERIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity), 
 				new clsImage(eDirection.CENTER, oEntity)));
 		
 		
@@ -795,33 +795,108 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("DEPOSIT"),
-				new clsImage(eDistance.NEAR, eDirection.MIDDLELEFT, eEntity.STONE), 
-				new clsImage(eDistance.NEAR, eDirection.MIDDLELEFT, eEntity.STONE)));
+				new clsImage(eDistance.NEAR, eDirection.MIDDLE_LEFT, eEntity.STONE), 
+				new clsImage(eDistance.NEAR, eDirection.MIDDLE_LEFT, eEntity.STONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
 				new clsImage(eDirection.LEFT, eEntity.STONE), 
-				new clsImage(eDirection.MIDDLELEFT, eEntity.STONE)));
+				new clsImage(eDirection.MIDDLE_LEFT, eEntity.STONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"),
-				new clsImage(eDirection.MIDDLELEFT, eEntity.STONE), 
+				new clsImage(eDirection.MIDDLE_LEFT, eEntity.STONE), 
 				new clsImage(eDirection.CENTER, eEntity.STONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
 				new clsImage(eDirection.RIGHT, eEntity.STONE), 
-				new clsImage(eDirection.MIDDLERIGHT, eEntity.STONE)));
+				new clsImage(eDirection.MIDDLE_RIGHT, eEntity.STONE)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
-				new clsImage(eDirection.MIDDLERIGHT, eEntity.STONE), 
+				new clsImage(eDirection.MIDDLE_RIGHT, eEntity.STONE), 
 				new clsImage(eDirection.CENTER, eEntity.STONE)));
 		
+		//SLEEP
+		oEntity = eEntity.EMPTYSPACE;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+	
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDirection.LEFT, oEntity), 
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDirection.RIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+		
+		//RELAX
+		oEntity = eEntity.EMPTYSPACE;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
+	
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
 		
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
-				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
+				new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), 
+				new clsImage(eDistance.FAR, eDirection.CENTER, oEntity)));
+		
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDirection.LEFT, oEntity), 
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDirection.MIDDLE_LEFT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+				new clsImage(eDirection.RIGHT, oEntity), 
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"),
+				new clsImage(eDirection.MIDDLE_RIGHT, oEntity), 
+				new clsImage(eDirection.CENTER, oEntity)));
+		
+//		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
+//				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
+//				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
+		
+//		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("RELAX"),
+//				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE), 
+//				new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));
 		
 /*		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SEARCH1"),
 				new clsImage(eEntity.NONE), 

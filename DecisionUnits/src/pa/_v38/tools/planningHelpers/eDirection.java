@@ -18,6 +18,6 @@ public enum eDirection {
 	LEFT,
 	RIGHT,
 	CENTER,
-	MIDDLELEFT,
-	MIDDLERIGHT
+	MIDDLE_LEFT,
+	MIDDLE_RIGHT
 }

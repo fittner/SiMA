@@ -7,7 +7,6 @@
 package pa._v38.tools;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.ListIterator;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -434,70 +433,6 @@ public class clsDataStructureTools {
 	 */
 	public static ArrayList<clsSecondaryDataStructure> getAttributeOfSecondaryPresentation(clsSecondaryDataStructureContainer poContainer, String poPredicate) {
 		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Get the position of an object as a pair of Strings, where the position-TP are in some container
-	 * (wendt)
-	 *
-	 * @since 02.09.2011 14:27:26
-	 *
-	 * @param <E>
-	 * @param poObject
-	 * @param poPositionContainer
-	 * @return
-	 */
-	public static clsTriple<clsThingPresentationMesh, String, String> getObjectPosition(clsThingPresentationMesh poObject) {
-		clsTriple<clsThingPresentationMesh, String, String> oRetVal = null;
-		//Get object position only if both x and y are given
-		
-		ArrayList<String> oDistance = new ArrayList<String>();
-		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
-		ArrayList<String> oPosition = new ArrayList<String>();
-		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
-		
-		ArrayList<clsAssociation> oAllAss = poObject.getExternalMoAssociatedContent();
-		
-		boolean bDistanceFound = false;
-		boolean bPositionFound = false;
-		
-		clsTriple<clsThingPresentationMesh, String, String> oPositionPair = new clsTriple<clsThingPresentationMesh, String, String>(poObject, "", "");
-		
-		for (clsAssociation oSingleAss : oAllAss) {
-			if (oSingleAss instanceof clsAssociationAttribute) {
-				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
-					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
-					if (bDistanceFound==false) {
-						for (String oDist : oDistance) {
-							if (oDist.equals(oContent)) {
-								oPositionPair.c = oDist;
-								bDistanceFound = true;
-								break;
-							}
-						}
-					}
-				}
-							
-				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
-					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
-					if (bPositionFound==false) {
-						for (String oPos : oPosition) {
-							if (oPos.equals(oContent)) {
-								oPositionPair.b = oPos;
-								bPositionFound = true;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
-		
-		if ((bPositionFound==true) && (bDistanceFound==true)) {
-			oRetVal = oPositionPair;
-		}
 		
 		return oRetVal;
 	}
@@ -1671,6 +1606,26 @@ public class clsDataStructureTools {
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get a list with all sub objects of an image, i. e. the objects of the image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.02.2012 17:14:48
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllSubWPMInWPMImage(clsWordPresentationMesh poImage) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsAssociation oAss : poImage.getAssociatedContent()) {
+			oRetVal.add((clsWordPresentationMesh) oAss.getLeafElement());
 		}
 		
 		return oRetVal;

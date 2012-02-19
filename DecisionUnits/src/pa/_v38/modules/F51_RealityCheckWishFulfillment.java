@@ -33,6 +33,7 @@ import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
@@ -203,6 +204,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//Test AW: Relational Meshes
+		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
+		
+		if (moAssociatedMemories_IN.isEmpty()==false) {
+			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
+		}
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;

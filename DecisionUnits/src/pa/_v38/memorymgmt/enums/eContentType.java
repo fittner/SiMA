@@ -17,6 +17,8 @@ public enum eContentType {
 	PI, 		//Content type of perception
 	DISTANCE,
 	POSITION,
+	DISTANCERELATION,
+	POSITIONRELATION,
 	MATCHASSOCIATION,
 	PIASSOCIATION,
 	RI,

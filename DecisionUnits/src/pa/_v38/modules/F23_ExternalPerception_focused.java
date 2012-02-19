@@ -62,7 +62,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
-	private double mrAvailableFocusEnergy = 20;
+	private double mrAvailableFocusEnergy = 5;
 	
 	/** Threshold for letting through drive goals */
 	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through
@@ -247,7 +247,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveGoals) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		//TODO AW: The drive list is not used!!!!
+		//Use the sorted drivelist. The selection uses the drivelist as the first criterium
 		
 		//Get all possibly reachable drivegoals
 		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oPossibleDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception, true);
@@ -259,19 +259,23 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//2. Only the first x objects, which are defined by the desexual energy
 		//Precondition: The list must be sorted
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
-		int nCurrentObjectNumber = 0;
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
-		for (int i=0; i<oSortedPotentialDriveGoals.size();i++) {
-			int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oSortedPotentialDriveGoals.get(i).b);
-			
-			if (nCurrentObjectNumber<=nNumberOfAllowedObjects && (nDriveIntensity >= mnAffectThresold)) {
-				oFilteredGoals.add(oSortedPotentialDriveGoals.get(i));
-			} else {
-				//If one of the creiteria is not fulfilled, then break
-				break;
-			}
-			nCurrentObjectNumber++;
-		}
+
+		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = clsAffectTools.filterGoals(oPossibleDriveGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
+		
+		//		int nCurrentObjectNumber = 0;
+//		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+		
+//		for (int i=0; i<oSortedPotentialDriveGoals.size();i++) {
+//			int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oSortedPotentialDriveGoals.get(i).b);
+//			
+//			if (nCurrentObjectNumber<=nNumberOfAllowedObjects && (nDriveIntensity >= mnAffectThresold)) {
+//				oFilteredGoals.add(oSortedPotentialDriveGoals.get(i));
+//			} else {
+//				//If one of the creiteria is not fulfilled, then break
+//				break;
+//			}
+//			nCurrentObjectNumber++;
+//		}
 			
 		//Filter the PI according to the drive list
 		oRetVal = filterImageElements(poPerception, oFilteredGoals);

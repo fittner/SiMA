@@ -13,7 +13,6 @@ import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPredictionTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_1_receive;
@@ -27,9 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -293,7 +290,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//1. Process goals with Superego???
 
 		//2. Sort the goals to get the most important goal first
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveListSorted = clsAffectTools.sortDriveDemands(poDriveList);
+		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveListSorted = poDriveList; //clsAffectTools.sortDriveDemands(poDriveList);
 		//3. Go through the drive list
 		//The first drive is the one with the highest priority
 		for (int i=0; i<oDriveListSorted.size();i++) {
@@ -903,53 +900,53 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		return oRetVal;
 	}
 	
-	/**
-	 * If there is a reduceaffect attached to the intention, it is added to its corresponding goal. The goal itself is modified.
-	 * (wendt)
-	 *
-	 * @since 15.09.2011 11:18:41
-	 *
-	 * @param poGoalContainerList
-	 * @param poIntention
-	 */
-	private void modifyGoalAffectWithCorrectiveFactor(ArrayList<clsSecondaryDataStructureContainer> poGoalContainerList,  clsSecondaryDataStructureContainer poIntention) {
-		//ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		//Get additional corrective factors
-		ArrayList<clsSecondaryDataStructure> oReduceAffectList = clsPredictionTools.getReduceAffect(poIntention);
-		//Go through all extracted affects
-		for (clsSecondaryDataStructure oReduceWP : oReduceAffectList) {
-			//Get drive characteristics
-			clsTriple<String, eAffectLevel, String> oReduceAffectParts = clsAffectTools.getAffectCharacteristics(oReduceWP.getMoContent());
-			
-			//Go through all drive goals from the intention
-			for (clsSecondaryDataStructureContainer oGoalContainer : poGoalContainerList) {
-				clsWordPresentation oGoalWP = (clsWordPresentation) oGoalContainer.getMoDataStructure();
-				//Get the affact characteristics of the goal
-				clsTriple<String, eAffectLevel, String> oGoalAffectParts = clsAffectTools.getAffectCharacteristics(oGoalWP.getMoContent());
-				//Compare if they are the same goal
-				if ((oGoalAffectParts.a.equals(oReduceAffectParts.a) == true) && (oGoalAffectParts.c.equals(oReduceAffectParts.c) == true)) {
-					//calculate the new affect intensity
-					int nNewAffectIntensity = oReduceAffectParts.b.mnAffectLevel + oGoalAffectParts.b.mnAffectLevel;
-					if (nNewAffectIntensity>3 || nNewAffectIntensity<-3) {
-						try {
-							throw new Exception("Error in F26: ReduceAffect:" + oReduceAffectParts.b.mnAffectLevel + ", GoalAffect: " + oGoalAffectParts.b.mnAffectLevel);
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					//Replace the old goal intensity
-					//System.out.print("\n" + oGoalWP.getMoContent());
-					//System.out.print(nNewAffectIntensity);
-					String oNewGoalContent = clsAffectTools.replaceAffectIntensity(oGoalWP.getMoContent(), eAffectLevel.elementAt(nNewAffectIntensity));
-					//Replace the old goal content
-					oGoalWP.setMoContent(oNewGoalContent);
-					
-					break;
-				}
-			}
-		}
-	}
+//	/**
+//	 * If there is a reduceaffect attached to the intention, it is added to its corresponding goal. The goal itself is modified.
+//	 * (wendt)
+//	 *
+//	 * @since 15.09.2011 11:18:41
+//	 *
+//	 * @param poGoalContainerList
+//	 * @param poIntention
+//	 */
+//	private void modifyGoalAffectWithCorrectiveFactor(ArrayList<clsSecondaryDataStructureContainer> poGoalContainerList,  clsSecondaryDataStructureContainer poIntention) {
+//		//ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
+//		//Get additional corrective factors
+//		ArrayList<clsSecondaryDataStructure> oReduceAffectList = clsPredictionTools.getReduceAffect(poIntention);
+//		//Go through all extracted affects
+//		for (clsSecondaryDataStructure oReduceWP : oReduceAffectList) {
+//			//Get drive characteristics
+//			clsTriple<String, eAffectLevel, String> oReduceAffectParts = clsAffectTools.getAffectCharacteristics(oReduceWP.getMoContent());
+//			
+//			//Go through all drive goals from the intention
+//			for (clsSecondaryDataStructureContainer oGoalContainer : poGoalContainerList) {
+//				clsWordPresentation oGoalWP = (clsWordPresentation) oGoalContainer.getMoDataStructure();
+//				//Get the affact characteristics of the goal
+//				clsTriple<String, eAffectLevel, String> oGoalAffectParts = clsAffectTools.getAffectCharacteristics(oGoalWP.getMoContent());
+//				//Compare if they are the same goal
+//				if ((oGoalAffectParts.a.equals(oReduceAffectParts.a) == true) && (oGoalAffectParts.c.equals(oReduceAffectParts.c) == true)) {
+//					//calculate the new affect intensity
+//					int nNewAffectIntensity = oReduceAffectParts.b.mnAffectLevel + oGoalAffectParts.b.mnAffectLevel;
+//					if (nNewAffectIntensity>3 || nNewAffectIntensity<-3) {
+//						try {
+//							throw new Exception("Error in F26: ReduceAffect:" + oReduceAffectParts.b.mnAffectLevel + ", GoalAffect: " + oGoalAffectParts.b.mnAffectLevel);
+//						} catch (Exception e) {
+//							// TODO (wendt) - Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//					//Replace the old goal intensity
+//					//System.out.print("\n" + oGoalWP.getMoContent());
+//					//System.out.print(nNewAffectIntensity);
+//					String oNewGoalContent = clsAffectTools.replaceAffectIntensity(oGoalWP.getMoContent(), eAffectLevel.elementAt(nNewAffectIntensity));
+//					//Replace the old goal content
+//					oGoalWP.setMoContent(oNewGoalContent);
+//					
+//					break;
+//				}
+//			}
+//		}
+//	}
 	
 	/**
 	 * Search the perception or memories for goals with very strong negative affect. These object are converted to drive demands

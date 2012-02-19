@@ -7,12 +7,10 @@
 package pa._v38.tools;
 
 import java.util.ArrayList;
-
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -131,42 +129,42 @@ public class clsPrimarySpatialTools {
 	
 	
 	
-	/**
-	 * Get the position coordinates in X, Y intergers from thing presentations of a data structure in a container
-	 * (wendt)
-	 *
-	 * @since 01.10.2011 09:50:49
-	 *
-	 * @param poDS
-	 * @param poImageContainer
-	 * @return
-	 */
-	public static clsTriple<clsDataStructurePA, eXPosition, eYPosition> getPosition(clsDataStructurePA poDS, clsPrimaryDataStructureContainer poImageContainer) {
-		clsTriple<clsDataStructurePA, eXPosition, eYPosition> oRetVal = null;
-		
-		//Search for xy compontents
-		eXPosition X = null;	//default error value
-		eYPosition Y = null;
-		ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
-		for (clsAssociation oAss : oDSAssList) {
-			if (oAss instanceof clsAssociationAttribute && oAss.getLeafElement().getMoContentType().equals("LOCATION")) {
-				//Get content of the association
-				String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
-				//Get the X-Part
-				if (X==null) {
-					X = eXPosition.elementAt(oContent);
-				}
-				
-				if (Y==null) {
-					Y = eYPosition.elementAt(oContent);
-				}
-			}
-		}
-		
-		oRetVal = new clsTriple<clsDataStructurePA, eXPosition, eYPosition>(poDS, X, Y);
-				
-		return oRetVal;
-	}
+//	/**
+//	 * Get the position coordinates in X, Y intergers from thing presentations of a data structure in a container
+//	 * (wendt)
+//	 *
+//	 * @since 01.10.2011 09:50:49
+//	 *
+//	 * @param poDS
+//	 * @param poImageContainer
+//	 * @return
+//	 */
+//	public static clsTriple<clsDataStructurePA, eXPosition, eYPosition> getPosition(clsDataStructurePA poDS, clsPrimaryDataStructureContainer poImageContainer) {
+//		clsTriple<clsDataStructurePA, eXPosition, eYPosition> oRetVal = null;
+//		
+//		//Search for xy compontents
+//		eXPosition X = null;	//default error value
+//		eYPosition Y = null;
+//		ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
+//		for (clsAssociation oAss : oDSAssList) {
+//			if (oAss instanceof clsAssociationAttribute && oAss.getLeafElement().getMoContentType().equals("LOCATION")) {
+//				//Get content of the association
+//				String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
+//				//Get the X-Part
+//				if (X==null) {
+//					X = eXPosition.elementAt(oContent);
+//				}
+//				
+//				if (Y==null) {
+//					Y = eYPosition.elementAt(oContent);
+//				}
+//			}
+//		}
+//		
+//		oRetVal = new clsTriple<clsDataStructurePA, eXPosition, eYPosition>(poDS, X, Y);
+//				
+//		return oRetVal;
+//	}
 	
 	/**
 	 * Get the position coordinates in X, Y integers from thing presentations of a data structure
@@ -563,7 +561,44 @@ public class clsPrimarySpatialTools {
 	 * @return
 	 */
 	public static double getDistance(double prX1, double prY1, double prX2, double prY2) {
-		return Math.sqrt(Math.pow(prX1-prX2, 2) + Math.pow(prY1-prY2, 2));
+		clsPair<Double, Double> oRelationVector = getRelationVector(prX1, prY1, prX2, prY2);
+		
+		return getDistance(oRelationVector);
+	}
+	
+	/**
+	 * Return the length of a relation vector (x, y)
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.02.2012 16:07:31
+	 *
+	 * @param poRelationVector
+	 * @return
+	 */
+	public static double getDistance(clsPair<Double, Double> poRelationVector) {
+		return Math.sqrt(Math.pow(poRelationVector.a, 2) + Math.pow(poRelationVector.b, 2));
+	}
+	
+	
+	/**
+	 * Get the relation vector between 2 objects
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.02.2012 16:02:10
+	 *
+	 * @param prX1
+	 * @param prY1
+	 * @param prX2
+	 * @param prY2
+	 * @return
+	 */
+	public static clsPair<Double, Double> getRelationVector(double prX1, double prY1, double prX2, double prY2) {
+		double rX = prX1-prX2;
+		double rY = prY1-prY2;
+		
+		return new clsPair<Double, Double>(rX, rY);
 	}
 	
 	/**
@@ -658,6 +693,70 @@ public class clsPrimarySpatialTools {
 //				poInputContainer.addMoAssociatedDataStructure(oNewDistanceAss);
 //			}
 //		}
+//	}
+	
+//	/**
+//	 * Get the position of an object as a pair of Strings, where the position-TP are in some container
+//	 * (wendt)
+//	 *
+//	 * @since 02.09.2011 14:27:26
+//	 *
+//	 * @param <E>
+//	 * @param poObject
+//	 * @param poPositionContainer
+//	 * @return
+//	 */
+//	public static clsTriple<clsThingPresentationMesh, String, String> getObjectPosition(clsThingPresentationMesh poObject) {
+//		clsTriple<clsThingPresentationMesh, String, String> oRetVal = null;
+//		//Get object position only if both x and y are given
+//		
+//		ArrayList<String> oDistance = new ArrayList<String>();
+//		oDistance.addAll(Arrays.asList("FAR","MEDIUM","NEAR","MANIPULATEABLE","EATABLE"));
+//		ArrayList<String> oPosition = new ArrayList<String>();
+//		oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
+//		
+//		ArrayList<clsAssociation> oAllAss = poObject.getExternalMoAssociatedContent();
+//		
+//		boolean bDistanceFound = false;
+//		boolean bPositionFound = false;
+//		
+//		clsTriple<clsThingPresentationMesh, String, String> oPositionPair = new clsTriple<clsThingPresentationMesh, String, String>(poObject, "", "");
+//		
+//		for (clsAssociation oSingleAss : oAllAss) {
+//			if (oSingleAss instanceof clsAssociationAttribute) {
+//				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
+//					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
+//					if (bDistanceFound==false) {
+//						for (String oDist : oDistance) {
+//							if (oDist.equals(oContent)) {
+//								oPositionPair.c = oDist;
+//								bDistanceFound = true;
+//								break;
+//							}
+//						}
+//					}
+//				}
+//							
+//				if (oSingleAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+//					String oContent = (String) ((clsThingPresentation)oSingleAss.getLeafElement()).getMoContent();
+//					if (bPositionFound==false) {
+//						for (String oPos : oPosition) {
+//							if (oPos.equals(oContent)) {
+//								oPositionPair.b = oPos;
+//								bPositionFound = true;
+//								break;
+//							}
+//						}
+//					}
+//				}
+//			}
+//		}
+//		
+//		if ((bPositionFound==true) && (bDistanceFound==true)) {
+//			oRetVal = oPositionPair;
+//		}
+//		
+//		return oRetVal;
 //	}
 
 }

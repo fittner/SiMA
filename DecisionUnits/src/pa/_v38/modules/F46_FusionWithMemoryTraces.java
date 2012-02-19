@@ -279,7 +279,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
 				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
 						oEatableList.add(oContainer);
 					}
 				}

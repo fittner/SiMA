@@ -297,7 +297,7 @@ public class clsPredictionTools {
 			try {
 				clsWordPresentation oReduceGoal = (clsWordPresentation) ((clsWordPresentation)poGoalContainer.getMoDataStructure()).clone();
 				//10. Replace the old intensity with the new one
-				String oNewContent = clsAffectTools.replaceAffectIntensity(oReduceGoal.getMoContent(), oReduceIntensity);
+				String oNewContent = ""; //clsAffectTools.replaceAffectIntensity(oReduceGoal.getMoContent(), oReduceIntensity);
 				//String oNewContent = oReduceGoal.getMoContent().replace(oDriveType + ":" + oDriveIntensityAsAffect.toString(), oDriveType + ":" + oReduceIntensity.toString());
 				oReduceGoal.setMoContent(oNewContent);
 				//11. Get the root object
