@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.enums.eYPosition;
  * 01.10.2011, 09:16:51
  * 
  */
-public class clsSpatialTools {
+public class clsPrimarySpatialTools {
 	
 	/**
 	 * This function calculates the match between 2 images and returns the matching value. In this process also the RI (Remembered Image) is modified as 

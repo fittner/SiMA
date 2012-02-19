@@ -11,7 +11,7 @@ import java.util.Arrays;
 
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSpatialTools;
+import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorInternalState;
@@ -444,7 +444,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				//Use structures from data structure comparison
 				//clsPair<Double, ArrayList<clsAssociationDriveMesh>> oMatchResult = clsDataStructureComparison.compareTIContainerInclDM(oBlockedCont, poPerception, true);
 
-				double oMatchResult = clsSpatialTools.getImageMatch(poImage, (clsThingPresentationMesh) oBlockedCont);
+				double oMatchResult = clsPrimarySpatialTools.getImageMatch(poImage, (clsThingPresentationMesh) oBlockedCont);
 				// ignore matches below threshold
 				if (oMatchResult < poThreshold)
 					continue;

@@ -13,7 +13,7 @@ import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSpatialTools;
+import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_6_receive;
@@ -828,7 +828,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Get all positions in the image
-		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oExistingPositions = clsSpatialTools.getImageObjectPositions(poImage);
+		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oExistingPositions = clsPrimarySpatialTools.getImageObjectPositions(poImage);
 		
 		//Generate a matrix of all possible positions
 		//ArrayList<String> oDistance = new ArrayList<String>();

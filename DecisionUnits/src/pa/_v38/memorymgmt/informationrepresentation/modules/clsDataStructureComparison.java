@@ -12,7 +12,7 @@ import java.util.Map;
 
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSpatialTools;
+import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -189,7 +189,7 @@ public abstract class clsDataStructureComparison {
 				if (oCompareElement instanceof clsThingPresentationMesh) {
 					clsThingPresentationMesh oCompareStructure = (clsThingPresentationMesh) getCompleteMesh((clsThingPresentationMesh) oCompareElement, poSearchSpaceHandler, pnLevel);
 					
-					double oMatch = clsSpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oCompareStructure);
+					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oCompareStructure);
 							
 					if (oMatch < prThreshold)
 						continue;
