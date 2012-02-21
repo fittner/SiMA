@@ -15,6 +15,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
@@ -69,6 +70,7 @@ import bw.factories.clsSingletonMasonGetter;
 		@Override
 		public void step(SimState state){
 			setOrientationAndPosition();
+			
 			clearList();
 		}
 		
@@ -79,7 +81,7 @@ import bw.factories.clsSingletonMasonGetter;
 		
 		public void setDrawOptions(double pnRadius){
 			 double pnAngle = 0.001;
-			 Color oColor = Color.RED;
+			 Color oColor = Color.BLUE;
 			 
 			 if(clsSingletonProperties.drawSensors()){
 				 pnAngle = 2*Math.PI; 
@@ -101,6 +103,16 @@ import bw.factories.clsSingletonMasonGetter;
 		private void setOrientationAndPosition(){
 			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
 			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation()); 
+			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
+										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
+		}
+		
+		// same as setOrientationAndPosition() but wit a deviation angle for focused vision
+		// deviationAngle is in radians
+		public void setFocusedOrientation(double deviationAngle){
+			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
+			Angle updatedOrientation = oMobileObj.getOrientation().add(deviationAngle);
+			this.setPose(oMobileObj.getPosition(), updatedOrientation); 
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
 										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
 		}

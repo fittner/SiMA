@@ -38,14 +38,19 @@ public class clsCircleBorder extends Circle
         final int y = (int)(info.draw.y - height / 2.0);
         final int w = (int)(width);
         final int h = (int)(height);
-        final int start_angle = getStartAngle(); 
-       
-        // draw centered on the origin
-        graphics.drawArc(x,y,w, h, start_angle,angle);
         
-        //added by SK: draw line of sights
         clsEntity oTempEntity = ((clsEntitySensorEngine)object).getEntity();
         double currentAngle = oTempEntity.getPose().getAngle().radians;
+ 
+        // recalculate the Bubble-Angle World to the Java Angle world by: JavaAngle = 360-BubbleAngle
+        int start_arc = (int) Math.toDegrees(currentAngle);
+        start_arc = 360-start_arc-90; // Bubble2Java minus 90deg (to left from center of line of sight)
+        
+        // draw centered on the origin
+        graphics.drawArc(x,y,w, h, start_arc, 180); //the last number is the angle of the arc, aka groesze des Tortenstuecks
+        
+        
+        //added by SK: draw line of sights
         //draw line separating front and back (end point up)
         graphics.drawLine((int) (info.draw.x + radius * info.draw.width * Math.sin(currentAngle)),
         	(int) (info.draw.y - radius * info.draw.height  * Math.cos(currentAngle)),
@@ -78,4 +83,6 @@ public class clsCircleBorder extends Circle
 	public int getStartAngle(){
 		return 360-angle/2; 
 	}
+	
+	
 }
