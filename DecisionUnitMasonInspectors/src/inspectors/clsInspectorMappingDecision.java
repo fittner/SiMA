@@ -82,6 +82,7 @@ public class clsInspectorMappingDecision {
             	oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ARSinOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "ARSin Overview");
+        		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PlanningOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "Planning Overview");
         	}
         	else {
         		//FIXME (muchitsch) - activate inspectors
