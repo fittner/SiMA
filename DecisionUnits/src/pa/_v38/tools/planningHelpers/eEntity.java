@@ -23,6 +23,7 @@ public enum eEntity {
 	STONE,
 	REMOTEBOT,
 	EMPTYSPACE,
+	CAN,
 	NONE
 
 }
