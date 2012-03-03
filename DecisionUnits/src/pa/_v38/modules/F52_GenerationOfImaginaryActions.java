@@ -58,12 +58,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moGoalList_IN;
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
-	
+
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
 	private ArrayList<clsPrediction> moExtractedPrediction_IN;
 	
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
-	
 	private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	
 	/** Associated memories in */
@@ -74,9 +73,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private ArrayList<clsWordPresentationMesh> moActions_Output;
 
-	private ArrayList<clsPlanFragment> moAvailablePlanFragments; //TD 2011/07/21 - changed name to fit coding guidelines
+	private ArrayList<clsPlanFragment> moAvailablePlanFragments; 
 	
-	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans; //TD 2011/07/21 - changed name to fit coding guidelines
+	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans; 
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -97,7 +96,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		applyProperties(poPrefix, poProp);
 
 		// just used to test if the planning module does not have any compile errors
-		generateTestData(); // TD 2011/07/26: moved to constructor. list grew by nine identical elements each iteration.
+		generateTestData(); 
 	}
 	
 	/***********************************************************************************************
@@ -1194,7 +1193,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	
 /*******************************************************************
- * all functions below are commented -> zelinger test functionality
+ * all functions below are commented -> Zeilinger test functionality
  ******************************************************************/
 	
 	
