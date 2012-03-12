@@ -4,7 +4,7 @@
  * @author zeilinger
  * 30.07.2009, 10:59:42
  */
-package bw.body.io.sensors.ext;
+package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 

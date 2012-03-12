@@ -4,7 +4,7 @@
  * @author langr
  * 09.09.2009, 13:14:37
  */
-package bw.body.io.sensors.ext;
+package bw.body.io.sensors.external;
 
 import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;

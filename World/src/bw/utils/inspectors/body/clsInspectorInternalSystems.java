@@ -202,9 +202,9 @@ public class clsInspectorInternalSystems extends Inspector{
 		} catch (java.lang.ArithmeticException e) {
 			//nothing to do
 		}
-		moDataset.addValue(rTension, "Stomach Tension", "Stomach Tension");
+		moDataset.addValue(rTension*10, "Stomach Tension", "Stomach Tension");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stomach Tension");
-		moDatasetUpperLimits.addValue(1, "Upper Bound", "Stomach Tension");		
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Stomach Tension");		
 		
 		double rPressure = 0;
 		try {
@@ -213,20 +213,20 @@ public class clsInspectorInternalSystems extends Inspector{
 		} catch (java.lang.ArithmeticException e) {
 			//nothing to do
 		}		
-		moDataset.addValue(rPressure, "Intestine Pressure", "Intestine Pressure");
+		moDataset.addValue(rPressure*10, "Intestine Pressure", "Intestine Pressure");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Intestine Pressure");
-		moDatasetUpperLimits.addValue(1, "Upper Bound", "Intestine Pressure");	
+		moDatasetUpperLimits.addValue(10, "Upper Bound", "Intestine Pressure");	
 		
 		//health value divided by 10 to match with other upper bounds
 		moDataset.addValue(moInternalSystem.getHealthSystem().getHealth().getContent()/10, "Health", "Health");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Health");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Health");
 		
-		moDataset.addValue(moInternalSystem.getStaminaSystem().getStamina().getContent(), "Stamina", "Stamina");
+		moDataset.addValue(moInternalSystem.getStaminaSystem().getStamina().getContent()*10, "Stamina", "Stamina");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Stamina");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Stamina");
 		
-		moDataset.addValue(moInternalSystem.getTemperatureSystem().getTemperature().getContent(), "Temperature", "Temperature");
+		moDataset.addValue(moInternalSystem.getTemperatureSystem().getTemperature().getContent()*10, "Temperature", "Temperature");
 		moDatasetLowerLimits.addValue(0, "Lower Bound", "Temperature");
 		moDatasetUpperLimits.addValue(10, "Upper Bound", "Temperature");
 		

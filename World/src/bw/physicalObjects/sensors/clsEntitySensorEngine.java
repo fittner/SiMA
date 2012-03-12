@@ -15,7 +15,7 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.util.Angle;
+//import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
@@ -54,6 +54,7 @@ import bw.factories.clsSingletonMasonGetter;
 		private ArrayList <clsCollidingObject>  meDetectedObjList;
 		private clsCircleBorder moShape;
 		private clsEntity moHostEntity;
+		private double mnDeviationAngle;
 
 		/**
 		 * @param poEntity
@@ -101,8 +102,10 @@ import bw.factories.clsSingletonMasonGetter;
 		}
 		
 		private void setOrientationAndPosition(){
+			//System.out.println("setOrientationAndPosition: " + mnDeviationAngle);
+			
 			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
-			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation()); 
+			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation().add(mnDeviationAngle)); 
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
 										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
 		}
@@ -110,11 +113,13 @@ import bw.factories.clsSingletonMasonGetter;
 		// same as setOrientationAndPosition() but wit a deviation angle for focused vision
 		// deviationAngle is in radians
 		public void setFocusedOrientation(double deviationAngle){
-			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
-			Angle updatedOrientation = oMobileObj.getOrientation().add(deviationAngle);
-			this.setPose(oMobileObj.getPosition(), updatedOrientation); 
-			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
-										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
+			mnDeviationAngle = deviationAngle;
+			//System.out.println("@@@ setFocusedOrientation: " + deviationAngle);
+//			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
+//			Angle updatedOrientation = oMobileObj.getOrientation().add(deviationAngle);
+//			this.setPose(oMobileObj.getPosition(), updatedOrientation); 
+//			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
+//										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
 		}
 			
 		private void clearList(){

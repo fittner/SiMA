@@ -21,9 +21,9 @@ import bw.body.io.clsSensorActuatorBaseExt;
 import bw.entities.clsEntity;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionCommand;
-import bw.body.io.sensors.ext.clsSensorEatableArea;
-import bw.body.io.sensors.ext.clsSensorManipulateArea;
-import bw.body.io.sensors.ext.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorVision;
 
 /**
  * This abstract class must be inherited by all actions commands so they 

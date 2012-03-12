@@ -10,13 +10,14 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsProperties;
 import java.util.ArrayList;
-
-import sim.physics2D.util.Angle;
+import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
+import bw.body.io.sensors.external.clsSensorExt;
 import bw.entities.clsEntity;
-import bw.entities.clsMobile;
-import bw.factories.eImages;
-import du.enums.eActionTurnDirection;
+import bw.physicalObjects.sensors.clsEntitySensorEngine;
+//import bw.physicalObjects.sensors.clsEntitySensorEngine;
+//import bw.physicalObjects.sensors.clsEntitySensorEngine;
+import du.enums.eSensorExtType;
 import du.itf.actions.*;
 /**
  * Action Executor for turning
@@ -29,8 +30,8 @@ import du.itf.actions.*;
  */
 public class clsExecutorTurnVision extends clsActionExecutor{
 
-	static double srStaminaBase = 1.1f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
-	static double srStaminaScalingFactor = 0.001f;   
+	static double srStaminaBase = 0.2f;			//Stamina demand =srStaminaScalingFactor*pow(srStaminaBase,Angle) ; 			
+	static double srStaminaScalingFactor = 0.00001f;   
 
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private clsEntity moEntity;
@@ -77,7 +78,7 @@ public class clsExecutorTurnVision extends clsActionExecutor{
 	}
 	@Override
 	public double getStaminaDemand(clsActionCommand poCommand) {
-		clsActionTurn oCommand =(clsActionTurn) poCommand;
+		clsActionTurnVision oCommand =(clsActionTurnVision) poCommand;
 		return srStaminaScalingFactor* Math.pow(srStaminaBase,Math.abs( oCommand.getAngle())) ;
 	}
 
@@ -85,15 +86,38 @@ public class clsExecutorTurnVision extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionTurnVision oCommand = (clsActionTurnVision) poCommand;
 		double mnAngle = oCommand.getAngle();
+		//((clsMobile)moEntity).getMobileObject2D().
 		
-    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
-    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnLeft);
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
-    	}
-    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
-    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
-    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
-    	}
+		clsComplexBody oCBody = (clsComplexBody) moEntity.getBody();
+		
+		
+		clsSensorExt oSensExt = oCBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(eSensorExtType.VISION_NEAR);
+		
+				
+		//bug somwhere, its null
+		//Object testobj = oCBody.getExternalIO().moSensorEngine.getMeSensorAreas().get(0.0);
+		
+		clsEntitySensorEngine oEntityofSensor = oCBody.getExternalIO().moSensorEngine.getMeSensorAreas().get(20.0);
+		oEntityofSensor.setFocusedOrientation(mnAngle);
+		
+		oEntityofSensor = oCBody.getExternalIO().moSensorEngine.getMeSensorAreas().get(40.0);
+		oEntityofSensor.setFocusedOrientation(mnAngle);
+		
+		oEntityofSensor = oCBody.getExternalIO().moSensorEngine.getMeSensorAreas().get(60.0);
+		oEntityofSensor.setFocusedOrientation(mnAngle);
+		
+		//clsSensorRingSegment oRS = (clsSensorRingSegment)oSensExt;
+		
+		
+		
+//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
+//    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnLeft);
+//    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
+//    	}
+//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
+//    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
+//    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
+//    	}
     	return true;
 	}	
 }

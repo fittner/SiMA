@@ -15,7 +15,7 @@ import du.itf.itfDecisionUnit;
 import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
-import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.external.clsSensorEngine;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.enums.eBodyType;
 

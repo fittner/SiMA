@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.sensors.ext;
+package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 

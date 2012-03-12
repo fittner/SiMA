@@ -6,7 +6,7 @@
  * $Author::                   $: Author of last commit
  * $Date::                     $: Date of last commit
  */
-package bw.body.io.sensors.ext;
+package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -20,7 +20,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.utils.enums.eBodyParts;
-import bw.body.io.sensors.ext.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorExt;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

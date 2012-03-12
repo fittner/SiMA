@@ -23,7 +23,7 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.util.gui.PropertyField;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import bw.body.io.sensors.ext.clsSensorVision;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.clsEntity;
 

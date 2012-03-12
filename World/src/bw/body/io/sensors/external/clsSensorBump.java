@@ -4,7 +4,7 @@
  * @author zeilinger
  * 30.07.2009, 11:29:42
  */
-package bw.body.io.sensors.ext;
+package bw.body.io.sensors.external;
 
 import config.clsProperties;
 import bw.body.io.clsBaseIO;

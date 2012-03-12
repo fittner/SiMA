@@ -18,17 +18,17 @@ import bw.body.io.actuators.actionExecutors.*;
 import bw.body.io.actuators.actionProxies.itfAPSleep;
 import du.enums.eSensorExtType;
 import du.itf.actions.*;
-import bw.body.io.sensors.ext.clsSensorExt;
 
 //ZEILINGER  -- integration Sensor Engine
-import bw.body.io.sensors.ext.clsSensorBump;
-import bw.body.io.sensors.ext.clsSensorEngine;
-import bw.body.io.sensors.ext.clsSensorManipulateArea;
-import bw.body.io.sensors.ext.clsSensorVision;
-import bw.body.io.sensors.ext.clsSensorEatableArea;
-import bw.body.io.sensors.ext.clsSensorPositionChange;
-import bw.body.io.sensors.ext.clsSensorRadiation;
-import bw.body.io.sensors.ext.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorEngine;
+import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorPositionChange;
+import bw.body.io.sensors.external.clsSensorRadiation;
+import bw.body.io.sensors.external.clsSensorVision;
 
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -212,6 +212,9 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,1);
 		oProp.putAll( clsExecutorTurn.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN) );
 		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION,1);
+		oProp.putAll( clsExecutorTurnVision.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION) );
+		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE,1);
 		oProp.putAll( clsExecutorCultivate.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE) );
 		
@@ -312,6 +315,7 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACKLIGHTNING)==1) moProcessor.addCommand(clsActionAttackLightning.class, new clsExecutorAttackLightning(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACKLIGHTNING,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA)==1) moProcessor.addCommand(clsActionMoveToEatableArea.class, new clsExecutorMoveToArea(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT)==1) moProcessor.addCommand(clsActionExcrement.class, new clsExecutorExcrement(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION)==1) moProcessor.addCommand(clsActionTurnVision.class, new clsExecutorTurnVision(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION,poProp,moEntity));
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR)==1) moProcessor.addCommand(clsActionBodyColor.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED)==1) moProcessor.addCommand(clsActionBodyColorRed.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));

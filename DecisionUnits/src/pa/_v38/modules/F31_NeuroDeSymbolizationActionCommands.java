@@ -18,6 +18,7 @@ import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionSequenceFactory;
+import du.itf.actions.clsActionTurnVision;
 //import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionTurn;
@@ -148,6 +149,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moActionCommandList_Output.clear();
+		
+		
 			
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentation oWP : moActionCommands_Input) {
@@ -185,7 +188,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						//moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
 					}
 				}
-				else if(oAction.equals("MOVE_FORWARD")){
+				else if(oAction.equals("TURN_VISION")){
+					//just for Test
+					java.util.Random random = new java.util.Random();
+					int rnd = random.nextInt(61) - 30;
+					if( rnd <= 0)
+						moActionCommandList_Output.add( new clsActionTurnVision(eActionTurnDirection.TURN_LEFT, rnd*-1) );
+					else
+						moActionCommandList_Output.add( new clsActionTurnVision(eActionTurnDirection.TURN_RIGHT, rnd) );
+						
+				}else if(oAction.equals("MOVE_FORWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
 				} else if(oAction.equals("MOVE_FORWARD_SLOW")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,0.2) );

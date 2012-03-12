@@ -10,7 +10,7 @@ package bw.body.itfget;
 
 import java.util.TreeMap;
 
-import bw.body.io.sensors.ext.clsSensorEngine;
+import bw.body.io.sensors.external.clsSensorEngine;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 /**
