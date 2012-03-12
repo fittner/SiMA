@@ -14,15 +14,16 @@ package pa._v38.tools.planningHelpers;
  * 
  */
 public enum eEntity {
-	CAKE,
-	PLANT,
-	CARROT,
 	ARSIN,
 	ANOUK,
 	BODO,
-	STONE,
-	REMOTEBOT,
+	CAKE,
+	CAN,
+	CARROT,
 	EMPTYSPACE,
+	PLANT,
+	REMOTEBOT,
+	STONE,
 	NONE
 
 }
