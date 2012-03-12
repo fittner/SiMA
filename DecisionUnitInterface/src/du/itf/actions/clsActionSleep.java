@@ -1,7 +1,7 @@
 /**
  * clsActionSleep.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:35:24
  */
 package du.itf.actions;
@@ -13,7 +13,7 @@ import du.enums.eActionSleepIntensity;
  * Parameters
  * 	peIntensity = Intensity of the sleep (light=switch off first phalanx of consumers, deep=switch off all non-life-supporting consumers)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

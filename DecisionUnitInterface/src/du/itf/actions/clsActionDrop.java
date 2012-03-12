@@ -4,7 +4,7 @@ package du.itf.actions;
  * Drop command
  * No parameters, so whatever is beeing carried will be dropped 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 03.07.2009, 22:39:05
  * 
  */

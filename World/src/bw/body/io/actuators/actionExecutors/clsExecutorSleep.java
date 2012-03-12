@@ -1,7 +1,7 @@
 /**
  * clsExecutorSleep.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.09.2009, 08:30:35
  */
 package bw.body.io.actuators.actionExecutors;

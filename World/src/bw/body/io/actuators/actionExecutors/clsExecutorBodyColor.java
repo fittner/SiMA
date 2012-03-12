@@ -1,7 +1,7 @@
 /**
  * clsExecutorBodyColor.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 15:24:18
  */
 package bw.body.io.actuators.actionExecutors;

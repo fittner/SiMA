@@ -365,7 +365,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 //				// check if it is for example an ARSin
 //				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
 //					if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-//						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
+//						// ToDo FG: Man koennte jetzt auch noch die Assoziationen des TPM auf bestimmte Werte durchsuchen.
 //						return true;
 //					}	
 //				}					
@@ -401,7 +401,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 //				// check if it is for example an ARSin
 //				if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
 //					if(((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-//						// ToDo FG: Man könnte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
+//						// ToDo FG: Man koennte jetzt auch noch die Assoziationen des TI auf bestimmte Werte durchsuchen.
 //						return true;
 //					}	
 //				}					

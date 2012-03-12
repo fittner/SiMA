@@ -1,7 +1,7 @@
 /**
  * clsActionKiss.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:35:06
  */
 package du.itf.actions;
@@ -13,7 +13,7 @@ import du.enums.eActionKissIntensity;
  * Parameters
  * 	peIntensity = Intensity of the kiss (low, middle, strong)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

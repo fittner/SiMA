@@ -1,7 +1,7 @@
 /**
  * itfAttackableBite.java: BW - bw.body.io.actuators.actionProxies
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.09.2009, 08:00:44
  */
 package bw.body.io.actuators.actionProxies;
@@ -11,7 +11,7 @@ package bw.body.io.actuators.actionProxies;
  * Method tryBite: will be called before biting 
  * Method bite: perform the bite
  *  
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:38:56
  * 
  */

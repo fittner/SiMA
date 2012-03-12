@@ -162,7 +162,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@SuppressWarnings("unchecked")
-	/* Comment TD 20110622: also deepCopy ist ganz ganz ganz ganz ganz … ganz böses voodoo. 
+	/* Comment TD 20110622: also deepCopy ist ganz ganz ganz ganz ganz … ganz boeses voodoo. 
 	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
 	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
 	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).

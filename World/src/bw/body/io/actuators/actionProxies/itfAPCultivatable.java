@@ -1,7 +1,7 @@
 /**
  * itfAPCultivatable.java: BW - bw.body.io.actuators.actionProxies
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 14:57:01
  */
 package bw.body.io.actuators.actionProxies;
@@ -10,7 +10,7 @@ package bw.body.io.actuators.actionProxies;
  * Proxy-Interface for action Cultivate
  * Method cultivate: Perform the action 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:38:56
  * 
  */

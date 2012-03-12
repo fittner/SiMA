@@ -400,7 +400,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		
 		
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
-		// WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
+		// WP werden neu erzeugt und koennen daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine aenderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList<clsAssociation>(); // poMemoryObject.moAssociatedDataStructures;
 		
 //NEW VERSION		

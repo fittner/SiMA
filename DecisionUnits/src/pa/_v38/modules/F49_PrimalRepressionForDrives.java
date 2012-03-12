@@ -260,7 +260,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@Override
 	public void setDescription() {
 		//FIXME CM english descriptiopn
-		moDescription = "Anhängen von urverdrängten Inhalte an die erinnerten Triebinhalte, wenn einen Assoziation möglich ist => 'Erinnerte Triebinhalte mit assoziierten Urverdrängungen'";
+		moDescription = "Anhaengen von urverdraengten Inhalte an die erinnerten Triebinhalte, wenn einen Assoziation moeglich ist => 'Erinnerte Triebinhalte mit assoziierten Urverdraengungen'";
 		
 	}
 

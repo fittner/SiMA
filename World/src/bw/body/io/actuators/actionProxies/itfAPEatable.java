@@ -7,7 +7,7 @@ import bw.utils.tools.clsFood;
  * Method tryEat: will be called before eating 
  * Method Eat: eat the entity 
  *  
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:38:41
  * 
  */

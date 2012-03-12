@@ -1,7 +1,7 @@
 /**
  * clsExecutorFacialExpressions.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 15:45:17
  */
 package bw.body.io.actuators.actionExecutors;
@@ -21,7 +21,7 @@ import du.itf.actions.*;
  * Parameters:
  *    commands for eye size, left/right antenna position, lens shape, lens size  
  *
- * @author Benny Dönz
+ * @author Benny Doenz
  * 13.05.2009, 21:45:05
  * 
  */

@@ -1,7 +1,7 @@
 /**
  * eActionSleepIntensity.java: DecisionUnitInterface - enums
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:49:23
  */
 package du.enums;
@@ -10,7 +10,7 @@ package du.enums;
 /**
  * SleepIntensity. @See decisionUnitInterfaceitf.actions.clsActionSleep
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:59:58
  * 
  */

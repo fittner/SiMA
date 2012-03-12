@@ -1,7 +1,7 @@
 /**
  * clsExecutorExcrement.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 29.08.2009, 09:58:22
  */
 package bw.body.io.actuators.actionExecutors;

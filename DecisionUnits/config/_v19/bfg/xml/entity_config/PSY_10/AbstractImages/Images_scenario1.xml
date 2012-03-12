@@ -25,7 +25,7 @@
 			<leafEatable compare=">=" count="ONE">
 	        	<sensortype>EATABLE_AREA</sensortype>
                 <entitytype>ARSIN</entitytype>
-			</leafEatable>ä
+			</leafEatable>ae
 		</TreeRoot>
 		
     </AbstractImage>

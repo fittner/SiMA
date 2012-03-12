@@ -1,7 +1,7 @@
 /**
  * clsActionAttack.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 14:24:26
  */
 package du.itf.actions;
@@ -12,7 +12,7 @@ package du.itf.actions;
  * 	prForce = Strength of the attack   (Default ~4)
  *  poOpponent = ID of the Opponent as provided by the vision sensor
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

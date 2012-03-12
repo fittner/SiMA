@@ -1,7 +1,7 @@
 /**
  * clsActionCultivate.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:34:34
  */
 package du.itf.actions;
@@ -12,7 +12,7 @@ package du.itf.actions;
  * 	prAmount = amount of cultivation (Default ~1) 
  *             0 = no cultivation (unnecessary)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

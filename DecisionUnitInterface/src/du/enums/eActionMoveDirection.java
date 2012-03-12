@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:42:25
  * 
  * $Rev::                      $: Revision of last commit
@@ -11,7 +11,7 @@ package du.enums;
 /**
  * Direction to move. @See decisionUnitInterfaceitf.actions.clsActionMove 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:42:25
  * 
  */

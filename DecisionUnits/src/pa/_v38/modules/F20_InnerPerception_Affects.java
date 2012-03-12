@@ -40,7 +40,7 @@ import pa._v38.tools.toText;
  * Input: clsPrimaryDataStructureContainer which contains 2 integer values: quota of affect for drives and quota of affect for perceptions
  * <br />           
  * Output: clsSecondaryDataStructureContainer which contains word presentations with the following content:
- * anxiety (Angst), worriedness (Ängstlichkeit = leichte Angst), or prickle (Kribbeln = ganz, ganz leichte Angst)
+ * anxiety (Angst), worriedness (aengstlichkeit = leichte Angst), or prickle (Kribbeln = ganz, ganz leichte Angst)
  * <br />               
  * According to 2 thresholds the output will be on of the 3 possible affects: anxiety, worriedness, or prickle
  * 

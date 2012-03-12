@@ -1,7 +1,7 @@
 /**
  * clsExecutorKiss.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 18:02:30
  */
 package bw.body.io.actuators.actionExecutors;

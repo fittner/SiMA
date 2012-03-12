@@ -1,7 +1,7 @@
 /**
  * clsActionSequenceFactory.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 29.08.2009, 13:17:23
  */
 package du.itf.actions;
@@ -12,7 +12,7 @@ import du.enums.eActionTurnDirection;
 /**
  * Factory for creating default action sequences 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 29.08.2009, 13:17:23
  * 
  */

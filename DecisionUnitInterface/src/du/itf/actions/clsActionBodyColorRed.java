@@ -1,7 +1,7 @@
 /**
  * clsBodyColorRed.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 14:24:00
  */
 package du.itf.actions;
@@ -11,7 +11,7 @@ package du.itf.actions;
  * Parameters
  * 	prRed = Red component of the ARSIN's color (0=default, +/- for variation)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:31:31
  * 
  * $Rev::                      $: Revision of last commit
@@ -16,7 +16,7 @@ import bw.utils.enums.*;
  * Method getCarryableEntity: return a reference to the entity 
  * Method setCarriedBindingState: Is called when Binding state changes (to/from Inventory or picked up/dropped) 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:38:56
  * 
  */

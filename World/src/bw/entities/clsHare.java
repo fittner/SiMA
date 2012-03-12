@@ -224,7 +224,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @author Benny Dönz
+	 * @author Benny Doenz
 	 * 30.08.2009, 14:00:14
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKillable#kill(double)

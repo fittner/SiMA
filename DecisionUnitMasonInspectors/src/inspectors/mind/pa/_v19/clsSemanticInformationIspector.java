@@ -636,7 +636,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	@Override
 	public void updateInspector() {
 
-		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
+		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausfuehren
 		if(moAutoUpdate && moStepCounter > 119)
 		{
 			moStepCounter = 0;
@@ -1013,7 +1013,7 @@ public class clsSemanticInformationIspector extends Inspector implements ActionL
 	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsSecondaryDataStructureContainer poMemoryObject)
 	{
 		clsDataStructurePA oContainerRootDataStructure = poMemoryObject.getMoDataStructure();
-		// WP werden neu erzeugt und können daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine änderung! CM+HZ
+		// WP werden neu erzeugt und koennen daher nicht zu den associations gefunden werden weil ID = -1, vielleicht kommt da mal eine aenderung! CM+HZ
 		ArrayList<clsAssociation> oAssociatedDataStructures = new ArrayList(); // poMemoryObject.moAssociatedDataStructures;
 		
 		//create container root struct

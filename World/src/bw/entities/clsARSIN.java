@@ -222,7 +222,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	/*
 	 * (non-Javadoc)
 	 *
-	 * @author Benny Dönz
+	 * @author Benny Doenz
 	 * 28.08.2009, 18:16:17
 	 * 
 	 * @see bw.body.io.actuators.actionProxies.itfAPKissable#tryKiss(enums.eActionKissIntensity)

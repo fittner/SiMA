@@ -1,7 +1,7 @@
 /**
  * eActionKissIntensity.java: DecisionUnitInterface - enums
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:44:59
  */
 package du.enums;
@@ -9,7 +9,7 @@ package du.enums;
 /**
  * Intensity of the kiss. @See decisionUnitInterfaceitf.actions.clsActionKiss
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:59:58
  * 
  */

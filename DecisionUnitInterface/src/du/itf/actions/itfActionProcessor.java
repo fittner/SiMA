@@ -5,7 +5,7 @@ import du.enums.eCallPriority;
 /**
  * ActionProcessor is the public interface of the ActionProcessor
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:40:19
  * 
  */

@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:45:26
  * 
  * $Rev::                      $: Revision of last commit
@@ -11,7 +11,7 @@ package bw.utils.enums;
 /**
  * Execution result @see bw.body.io.actuators.clsActionProcessor
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:45:26
  * 
  */

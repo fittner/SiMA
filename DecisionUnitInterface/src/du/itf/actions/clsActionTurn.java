@@ -7,7 +7,7 @@ import du.enums.eActionTurnDirection;
  * Parameter Angle = angle in degrees to turn (default=2)
  * Parameter Direction = direction in which to turn 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:31:13
  * 
  */

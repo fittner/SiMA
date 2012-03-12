@@ -1,7 +1,7 @@
 /**
  * clsMoveToEatableArea.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 14:27:38
  */
 package du.itf.actions;
@@ -11,7 +11,7 @@ package du.itf.actions;
  * Parameters
  * 	prForce = The force used to move the object (default ~4)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

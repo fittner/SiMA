@@ -4,7 +4,7 @@ package du.itf.actions;
  * Eat command
  * No parameters, so anything eatable will be eaten... 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:31:13
  * 
  */

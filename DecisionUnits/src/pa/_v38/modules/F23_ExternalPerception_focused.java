@@ -199,31 +199,31 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		
 		/*
-		1. E23 Äußere Wahrnehmung (fokussiert)
+		1. E23 aeußere Wahrnehmung (fokussiert)
 		1.1 Modulbeschreibung
-		Die Wahrnehmung verfügt über freie Energie, mit der sie im aufmerksamen Zustand unterschiedliche Elemente überbesetzt[1], d.h. fokussiert.
-		1.2 Ausgänge
+		Die Wahrnehmung verfuegt ueber freie Energie, mit der sie im aufmerksamen Zustand unterschiedliche Elemente ueberbesetzt[1], d.h. fokussiert.
+		1.2 Ausgaenge
 		I2.12
-		Wort- und Sachvorstellungen, vorbewusste und bewusste Inhalte der äußeren aufmerksamen Wahrnehmung, werden einerseits zu E24, andererseits zu E25 transportiert.
+		Wort- und Sachvorstellungen, vorbewusste und bewusste Inhalte der aeußeren aufmerksamen Wahrnehmung, werden einerseits zu E24, andererseits zu E25 transportiert.
 		mein kommentar dazu: 
-		grundsätzlich ist f23 eine funktion der wahrnehmung, d.h. es geht um wahrnehmungsinhalte (mehr oder weniger besetzt), die mit einer wortvorstellung verbunden sind. diese werden nun mit zusätzlicher besetzungsenergie (= quantifizierbare affektbeträge – ev. auch extrahiert aus einer bereits vorhandenen emotion oder gefühl) „aufgetankt“ – ja nach fokussierung.
-		diese zusätzliche besetzungsenergie kommt aus:
+		grundsaetzlich ist f23 eine funktion der wahrnehmung, d.h. es geht um wahrnehmungsinhalte (mehr oder weniger besetzt), die mit einer wortvorstellung verbunden sind. diese werden nun mit zusaetzlicher besetzungsenergie (= quantifizierbare affektbetraege – ev. auch extrahiert aus einer bereits vorhandenen emotion oder gefuehl) „aufgetankt“ – ja nach fokussierung.
+		diese zusaetzliche besetzungsenergie kommt aus:
 		•	desexualisierter triebenergie (f56)
 		•	f8 – triebe
-		und (das ist bislang noch wenig bedacht – um muss zum jetzigen stand der modellbildungnicht unbedingt berücksichtig werden)
-		•	aus der besetzung der wortvorstellungen, mit denen der inhalt verbunden ist. (d.h. wenn mir das wort, das ich verwende, viel bedeutet, dann wird auch der inhalt mit viel bedeuten. beispiel: unser theo lernt gerade mit begeisterung sprache. die letzten tage hat er das wort „runterfallen“ entdeckt und war so stolz darauf, dass er es so 1000x am tag wiederholt hat. er wendet es auch für alle möglichen inhalte an (etwa: hüpfen auf der couch, stiegenhaus,…). d.h. für theo ist die wortvorstellung „runterfallen“ hochbesetzt, und somit werden auch inhalte, die mit „runterfallen“ verbunden sind besetzt, indem die besetzungsenergie übergeht. etwa wenn ich ihm sage: der bleistift kann vom tisch runterfallen – so kriegt dieser akt für ihn im moment eine hohe aufmerksamkeit.)
+		und (das ist bislang noch wenig bedacht – um muss zum jetzigen stand der modellbildungnicht unbedingt beruecksichtig werden)
+		•	aus der besetzung der wortvorstellungen, mit denen der inhalt verbunden ist. (d.h. wenn mir das wort, das ich verwende, viel bedeutet, dann wird auch der inhalt mit viel bedeuten. beispiel: unser theo lernt gerade mit begeisterung sprache. die letzten tage hat er das wort „runterfallen“ entdeckt und war so stolz darauf, dass er es so 1000x am tag wiederholt hat. er wendet es auch fuer alle moeglichen inhalte an (etwa: huepfen auf der couch, stiegenhaus,…). d.h. fuer theo ist die wortvorstellung „runterfallen“ hochbesetzt, und somit werden auch inhalte, die mit „runterfallen“ verbunden sind besetzt, indem die besetzungsenergie uebergeht. etwa wenn ich ihm sage: der bleistift kann vom tisch runterfallen – so kriegt dieser akt fuer ihn im moment eine hohe aufmerksamkeit.)
 		•	
-		zu f8-trieb e ist zu bemerkten, dann nicht die triebe per se die fokussierung beeinflussen, sondern deren stärke. somit stimmt es schon, dass nur ein affektbetrag hier dazukommt, der aus der triebweitergabe I6.3 zu extrahieren ist. der wird wohl jene wahrnehmungsinhalte über-besetzen, die mit dem trieb(objekt), das im primärvorgang über die abwehr usw. gebildet wurde, am engsten verwandt (assoziiiert) sind.
+		zu f8-trieb e ist zu bemerkten, dann nicht die triebe per se die fokussierung beeinflussen, sondern deren staerke. somit stimmt es schon, dass nur ein affektbetrag hier dazukommt, der aus der triebweitergabe I6.3 zu extrahieren ist. der wird wohl jene wahrnehmungsinhalte ueber-besetzen, die mit dem trieb(objekt), das im primaervorgang ueber die abwehr usw. gebildet wurde, am engsten verwandt (assoziiiert) sind.
 		zu deiner ursprungsfrage:
 		@Klaus: Was entscheidet welche und wie viele Inhalte durch F23 Focused Perception kommt? 
-		da können schon viele reinkommen (=vorbewusst werden)
-		Mein Vorschlag wäre eine Liste zu erstellen mit den angehängten Trieben („triebe“ ist hier falsch verwendet – „affekte“ stimmt schon im weitesten sinne)
+		da koennen schon viele reinkommen (=vorbewusst werden)
+		Mein Vorschlag waere eine Liste zu erstellen mit den angehaengten Trieben („triebe“ ist hier falsch verwendet – „affekte“ stimmt schon im weitesten sinne)
 		(Affekte werden sie im Simulator genannt habe ich gesehen) sortiert von sehr hoch bis sehr niedrig (diesen Wert kommt vom Affektbetrag in F21 habe ich gesehen).
 		ok – wenngleich jetzt auch noch ein wert von f56 dazukommt…
 
-		Dann x obersten (Höchsten Affekt) Objekten weiterleiten. Kann man so machen oder wie würdest du vorschlagen, dass man macht?
-		auch hier könnte man f56 wirken lassen: je höher die freie desex. triebenergie ist, desto mehr weiterleiten. 
-		aber mir persölich würde folgende varriante am besten gefallen: einen besetzungsschwellwert einführen. wird dieser überschritten, so geht der inhalt weiter und muss bearbeitet werden. so lässt man auch überforderungen zu, wie sie nun mal in extremsituationen beim menschen auftreten. (siehe film: „modern times“ von charly chaplin)
+		Dann x obersten (Hoechsten Affekt) Objekten weiterleiten. Kann man so machen oder wie wuerdest du vorschlagen, dass man macht?
+		auch hier koennte man f56 wirken lassen: je hoeher die freie desex. triebenergie ist, desto mehr weiterleiten. 
+		aber mir persoelich wuerde folgende varriante am besten gefallen: einen besetzungsschwellwert einfuehren. wird dieser ueberschritten, so geht der inhalt weiter und muss bearbeitet werden. so laesst man auch ueberforderungen zu, wie sie nun mal in extremsituationen beim menschen auftreten. (siehe film: „modern times“ von charly chaplin)
 		*/
 		
 		//=========================================================//

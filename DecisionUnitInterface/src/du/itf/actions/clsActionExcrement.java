@@ -5,7 +5,7 @@ package du.itf.actions;
  * Parameters
  * 	prIntensity = Intensity passed to clsCreateExcrement (inter body world system) (Default ~1)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

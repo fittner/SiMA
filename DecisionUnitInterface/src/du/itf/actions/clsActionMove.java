@@ -7,7 +7,7 @@ import du.enums.eActionMoveDirection;
  * Parameter Speed = speed of movement (default is 4)
  * Parameter Direction = direction in which to move
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 16:31:13
  * 
  */

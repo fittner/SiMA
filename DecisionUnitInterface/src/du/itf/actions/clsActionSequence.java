@@ -1,5 +1,5 @@
 /**
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:13:36
  * 
  * $Rev::                      $: Revision of last commit
@@ -14,7 +14,7 @@ import java.util.Iterator;
  * This class is used to generate a sequence of actions which 
  * can then be passed to the processor. 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:13:36
  * 
  */

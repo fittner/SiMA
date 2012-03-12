@@ -572,7 +572,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 //	 * @param poDM
 //	 */
 //	public void add(clsDriveMesh poDM){
-//		//Input könnte dann ein Container sein
+//		//Input koennte dann ein Container sein
 //		clsPair<clsDataStructurePA, ArrayList<clsAssociation>> oAddDM = new clsPair<clsDataStructurePA, ArrayList<clsAssociation>>(poDM, new ArrayList<clsAssociation>());
 //		moBlockedContent.add(oAddDM);
 //    }

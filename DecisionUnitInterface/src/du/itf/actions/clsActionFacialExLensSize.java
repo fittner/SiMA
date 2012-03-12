@@ -1,7 +1,7 @@
 /**
  * clsActionFacialExLensSize.java: DecisionUnitInterface - decisionunit.itf.actions
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 13:57:29
  */
 package du.itf.actions;
@@ -13,7 +13,7 @@ import du.enums.eLensSize;
  * Parameters
  * 	peSize = new lens size to set
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

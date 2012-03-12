@@ -1,7 +1,7 @@
 /**
  * clsExecutorCultivate.java: BW - bw.body.io.actuators.actionExecutors
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 16:19:40
  */
 package bw.body.io.actuators.actionExecutors;

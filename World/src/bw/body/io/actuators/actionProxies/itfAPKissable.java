@@ -1,7 +1,7 @@
 /**
  * itfAPKissable.java: BW - bw.body.io.actuators.actionProxies
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 28.08.2009, 14:56:41
  */
 package bw.body.io.actuators.actionProxies;
@@ -13,7 +13,7 @@ import du.enums.eActionKissIntensity;
  * Method tryKiss: will be called before kissing 
  * Method kiss: kiss 
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:38:56
  * 
  */

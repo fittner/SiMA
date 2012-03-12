@@ -5,7 +5,7 @@ package du.itf.actions;
  * Parameters
  * 	prForce = The force used to attack the entity   (Default ~4)
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 20.06.2009, 15:31:13
  * 
  */

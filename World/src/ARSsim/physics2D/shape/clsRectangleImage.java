@@ -144,7 +144,7 @@ public class clsRectangleImage extends sim.physics2D.shape.Rectangle
 	
 	private void drawImageStreched(Graphics2D graphics, DrawInfo2D info)
 	{
-		int oScale = 6; //FIXME Clemens, richtige image größe berechnen lassen
+		int oScale = 6; //FIXME Clemens, richtige image groeße berechnen lassen
 		final int iw = (int)mrWidth*2; 
         final int ih = (int)mrHeight*2; 
         double width;

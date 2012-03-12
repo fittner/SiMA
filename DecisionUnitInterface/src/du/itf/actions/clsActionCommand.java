@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * iActionCommand
  * 
- * @author Benny Dönz
+ * @author Benny Doenz
  * 15.04.2009, 18:40:19
  * 
  */

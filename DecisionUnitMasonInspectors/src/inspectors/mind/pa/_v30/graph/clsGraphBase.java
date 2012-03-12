@@ -588,7 +588,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	@Override
 	public void updateInspector() {
 
-		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausführen
+		//per hakerl ein/aus ob das tab automatisch upgedatet werden soll, wenn ja dann updateControl() ausfuehren
 		// (MUCHITSCH) crashes after some iterations, investigate why!
 		if(moAutoUpdate && moStepCounter > mnAutomaticUpdateInterval)
 		{
