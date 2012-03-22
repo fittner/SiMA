@@ -23,6 +23,7 @@ public class clsSingletonProperties {
 	private boolean mnDrawImages;
 	private boolean mnDrawSensors;
 	private boolean mnUse3DPerception;
+	private boolean mnUseLogger;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -30,6 +31,7 @@ public class clsSingletonProperties {
 		mnDrawImages = false;
 		mnDrawSensors = false;
 		mnUse3DPerception = false;
+		mnUseLogger = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -53,11 +55,12 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).moSystemProperties;
 	}
 	
-	static public void setSystemProperties(clsProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS, String P_USE3DPERCEPTION) {
+	static public void setSystemProperties(clsProperties poProperties, String P_DRAWIMAGES, String P_DRAWSENSORS, String P_USE3DPERCEPTION, String P_USELOGGER) {
 		(clsSingletonProperties.instance()).moSystemProperties = poProperties;
 		(clsSingletonProperties.instance()).mnDrawImages = poProperties.getPropertyBoolean(P_DRAWIMAGES);
 		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(P_DRAWSENSORS);
 		(clsSingletonProperties.instance()).mnUse3DPerception = poProperties.getPropertyBoolean(P_USE3DPERCEPTION);
+		(clsSingletonProperties.instance()).mnUseLogger = poProperties.getPropertyBoolean(P_USELOGGER);
 	}	
 	
 	static public boolean drawImages() {
@@ -72,5 +75,9 @@ public class clsSingletonProperties {
 	 */
 	static public boolean use3DPerception() {
 		return (clsSingletonProperties.instance()).mnUse3DPerception;
+	}
+	
+	static public boolean useLogger() {
+		return (clsSingletonProperties.instance()).mnUseLogger;
 	}
 }
