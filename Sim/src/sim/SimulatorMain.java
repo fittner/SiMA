@@ -131,7 +131,7 @@ public class SimulatorMain extends GUIState {
 		
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
-		windowSize.height+=400;
+		windowSize.height+=300;
 		clsSingletonMasonGetter.getConsole().setSize(windowSize);
 		clsSingletonMasonGetter.getConsole().setVisible(true);
 		
