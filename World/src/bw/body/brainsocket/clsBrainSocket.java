@@ -72,6 +72,7 @@ import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 import bw.entities.clsRemoteBot;
+import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
 
@@ -124,7 +125,10 @@ public class clsBrainSocket implements itfStepProcessing {
 		if (moDecisionUnit != null) {
 			moDecisionUnit.update(convertSensorData());
 			moDecisionUnit.process();
-			moDecisionUnit.updateActionLogger();
+			if (clsSingletonProperties.useLogger()) {
+				moDecisionUnit.updateActionLogger();
+			}
+			
 		} 
 	}
 	

@@ -96,7 +96,9 @@ public abstract class clsEntity implements itfGetBody {
 		
 		mnUniqueId = uid;
 		
-		clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
+		if (clsSingletonProperties.useLogger()){
+			clsEventLogger.add(new Event(this, moId, eEvent.CREATE, "uid="+this.uid));
+		}
 		moPositionLogger = new clsPositionLogger(this.uid);
 	}
 	
@@ -391,7 +393,9 @@ public abstract class clsEntity implements itfGetBody {
 	}
 	
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
-		updatePositionLogger();
+		if (clsSingletonProperties.useLogger()){
+			updatePositionLogger();
+		}
 		updateOverlayImage();
 	}
 	

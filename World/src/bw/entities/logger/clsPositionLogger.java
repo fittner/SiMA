@@ -10,6 +10,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.util.ArrayList;
 
+
 import ARSsim.physics2D.util.clsPose;
 import statictools.clsGetARSPath;
 
@@ -45,9 +46,6 @@ public class clsPositionLogger {
 		minX = 0;
 		minY = 0;
 
-		if (writeToFile) {
-			writeLineToFile(getColumnTitles());
-		}
 	}
 	
 	public Position getLastEntry() {
