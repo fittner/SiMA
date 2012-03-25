@@ -174,15 +174,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements I
     protected void process_basic() {
 
         // AW HACK test, in order to be able to use both WP and plan fragements at the same time
-        boolean bPlanFragement = false;
-        // for (clsWordPresentationMesh oC : moActionCommands_Input) {
-        // if (oC instanceof clsPlanFragment) {
-        // bPlanFragement = true;
-        // break;
-        // }
-        // }
-
-        bPlanFragement = true;
+        boolean bPlanFragement = true;
 
         // normal use of actions -> without AW hack
         if (bPlanFragement == true) {
@@ -197,10 +189,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements I
                                              // I.6_2
             for (clsWordPresentationMesh oC : moActionCommands_Input) {
 
-                // if (oC instanceof clsPlanFragment) {
-                // clsPlanFragment plFr = (clsPlanFragment) oC;
-                // String strAction = plFr.m_act.m_strAction;
-
                 String strAction = oC.getMoContent();
 
                 if (strAction.equalsIgnoreCase("EAT"))
@@ -209,7 +197,6 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements I
                     iIndexOfMoveForward = iCursorPos;
                 if (strAction.equalsIgnoreCase("FLEE"))
                     iIndexOfFlee = iCursorPos;
-                // }
 
                 iCursorPos++;
             }
