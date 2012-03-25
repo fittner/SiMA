@@ -1046,20 +1046,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * END class specific methods (e.g. planning methods)
      **********************************************************************************************/
 
-    // /****************************************************
-    // * Zeilinger functions (probably not used any more)
-    // ****************************************************/
-    //
-    // /**
-    // * @author zeilinger 02.09.2010, 19:48:48
-    // *
-    // * @return the moActions_Output
-    // */
-    // public ArrayList<clsSecondaryDataStructureContainer>
-    // getMoActions_Output() {
-    // return moActions_Output;
-    // }
-
     
     /***********************************************************************************************
      * BEGINN inspector specific functions
