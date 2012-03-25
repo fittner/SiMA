@@ -107,6 +107,38 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * BEGINN generic class methods below are generic class methods which are shared through all implementations of ARS-modules
      **********************************************************************************************/
 
+    /*
+     * (non-Javadoc)
+     * 
+     * @author deutsch 11.08.2009, 16:16:38
+     * 
+     * @see pa.modules.clsModuleBase#process()
+     */
+    @SuppressWarnings("unchecked")
+    @Override
+    protected void process_basic() {
+
+        if (m_bIsSurferAndiWorking) {
+            process_draft();
+        } else {
+
+            // Generate actions for the top goal
+            moActions_Output = generatePlans(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+
+            // Pass forward the associated memories and perception
+            try {
+                moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
+            } catch (CloneNotSupportedException e) {
+                e.printStackTrace();
+            }
+            moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
+
+            // printData(moActions_Output, moGoalInput,
+            // moExtractedPrediction_IN);
+        }
+
+    }
+
     /**
      * contains all data in order to create plans
      * 
@@ -141,38 +173,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
     protected void process_final() {
         // TODO (perner) - Auto-generated method stub
         throw new java.lang.NoSuchMethodError();
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @author deutsch 11.08.2009, 16:16:38
-     * 
-     * @see pa.modules.clsModuleBase#process()
-     */
-    @SuppressWarnings("unchecked")
-    @Override
-    protected void process_basic() {
-
-        if (m_bIsSurferAndiWorking) {
-            process_draft();
-        } else {
-
-            // Generate actions for the top goal
-            moActions_Output = generatePlans(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
-
-            // Pass forward the associated memories and perception
-            try {
-                moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
-            } catch (CloneNotSupportedException e) {
-                e.printStackTrace();
-            }
-            moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
-
-            // printData(moActions_Output, moGoalInput,
-            // moExtractedPrediction_IN);
-        }
-
     }
 
     /*
