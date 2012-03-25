@@ -377,7 +377,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
                 ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = new ArrayList<clsWordPresentationMesh>();
                 oActionContainer.addAll(oActionFromMemoryContainerList);
 
-                // If no plans could be generated for this goal do a search 
+                // If no plans could be generated for this goal do a search
                 if (oActionContainer.isEmpty() == false) {
                     bActionPlanOK = true;
                 }
@@ -386,7 +386,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
             /** handling if the image comes from perception */
             if (oTopImage.getMoContentType().contains(eContentType.PI.toString()) == true && (bActionPlanOK == false)) {
-                ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromPerception(oPIImageStructure, oGoal);
+                ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromPerception_AP(oPIImageStructure, oGoal);
                 oActionContainer.addAll(oActionFromMemoryContainerList);
 
                 // If no plans could be generated for this goal do a search
@@ -396,8 +396,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
             }
 
-            /** If the image is just a general goal without object  then do a search */ 
-            //TODO add some kind of sophisticated search method here
+            /** If the image is just a general goal without object then do a search */
+            // TODO add some kind of sophisticated search method here
             if (bActionPlanOK == false) {
 
                 ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
@@ -583,7 +583,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @return
      */
     private ArrayList<clsWordPresentationMesh> planFromNoObject(clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal) {
-        
+
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
         oRetVal.addAll(planSearch());
 
@@ -725,26 +725,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
             // check, which actions can be executed next
             ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
                     moAvailablePlanFragments, ofilteredImages);
-            // ArrayList<clsPlanFragment> sortedApplicablePlanningNodes = new
-            // ArrayList<clsPlanFragment>();
 
             // TODO create code for high depth plans here
 
-            // Those plan fragments must fit to the goals, else, they are not
-            // applicated
-            // Remove those planning nodes, which are not conform with the goals
-            // for (clsDataStructureContainer oGoalContainer : poGoalList) {
-            // for (clsPlanFragment oPlanFragment :
-            // currentApplicalbePlanningNodes) {
-            // //Extract Info from Planning Node
-            // //oPlanFragment.m_act
-            //
-            // }
-            //
-            // }
-
-            // run through applicable plans and see which results can be
-            // achieved by executing plFragment
+            // run through applicable plans and see which results can be achieved by executing plFragment
             for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
                 plGraph.setStartPlanningNode(plFragment);
                 plGraph.breathFirstSearch();
@@ -754,6 +738,65 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
             oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
 
             // FIXME AP: Dead code
+            ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>();
+
+            for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
+                plansTemp.add(myPlans);
+
+            // output actions
+            // PlanningWizard.printPlansToSysout(plansTemp , 0);
+            // plGraph.m_planningResults.get(1)
+
+        } catch (Exception e) {
+            System.out.println("FATAL: Planning Wizard coldn't be initialized");
+        }
+
+        // copy perception for movement control
+        // moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
+
+        // plGraph.setStartPlanningNode(n)
+        return oRetVal;
+    }
+
+    /**
+     * Planning based on perception
+     * 
+     * @since 26.09.2011 14:20:17
+     * 
+     * @param poEnvironmentalPerception
+     * @param poGoalList
+     * @return
+     */
+    private ArrayList<clsWordPresentationMesh> planFromPerception_AP(ArrayList<clsImage> poPIImageStructure,
+            clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal) {
+
+        ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+
+        // Filter all object, which are not drive objects of this goal
+        ArrayList<clsImage> ofilteredImages = filterForDecisionMakingGoal(poGoal, poPIImageStructure);
+
+        // Start planning according to the remaining drive objects
+        // System.out.println(currentImage.m_eDist);
+        PlanningGraph plGraph = new PlanningGraph();
+        // add plans and connections between plans
+        try {
+            PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
+            PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
+
+            // check, which actions can be executed next
+            ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
+                    moAvailablePlanFragments, ofilteredImages);
+
+            // TODO create code for high depth plans here
+
+            // run through applicable plans and see which results can be achieved by executing plFragment
+            for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
+                plGraph.setStartPlanningNode(plFragment);
+                plGraph.breathFirstSearch();
+            }
+
+            // copy output -> workaround till planning works correctly
+            oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
             ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>();
 
             for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
