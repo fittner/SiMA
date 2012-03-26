@@ -89,10 +89,10 @@ public class clsAffectTools {
 		
 		try {
 			//Get all DriveGoals
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveGoals = getWPMDriveGoals(poImage, false);
-			for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal : oDriveGoals) {
+			ArrayList<clsWordPresentationMesh> oDriveGoals = getWPMDriveGoals(poImage, false);
+			for (clsWordPresentationMesh oGoal : oDriveGoals) {
 				//Get the drive intensity
-				rThisAffect = eAffectLevel.valueOf(oGoal.b.toString()).mnAffectLevel;
+				rThisAffect = clsGoalTools.getAffectLevel(oGoal).mnAffectLevel;
 								
 				//Get the max value
 				if (rThisAffect>rMaxAffect) {
@@ -164,8 +164,8 @@ public class clsAffectTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> getWPMDriveGoals(clsWordPresentationMesh poImage, boolean pbKeepDuplicates) {
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, boolean pbKeepDuplicates) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
 		
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
@@ -187,12 +187,14 @@ public class clsAffectTools {
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
 			//Create the goal
-			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal = new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oGoalObject);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, oAffectLevel, oGoalObject);
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
-				for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oTriple : oRetVal) {
-					if (oGoal.a == oTriple.a && oGoal.b == oTriple.b && oGoal.c.getMoContent().equals(oTriple.c.getMoContent())) {
+				for (clsWordPresentationMesh oGoalTriple : oRetVal) {
+					if (clsGoalTools.getGoalContent(oGoal) == clsGoalTools.getGoalContent(oGoalTriple) && 
+							clsGoalTools.getAffectLevel(oGoal) == clsGoalTools.getAffectLevel(oGoalTriple) && 
+							clsGoalTools.getGoalObject(oGoal).getMoContent().equals(clsGoalTools.getGoalObject(oGoalTriple).getMoContent())) {
 						bFound = true;
 						break;
 					}
@@ -382,8 +384,8 @@ public class clsAffectTools {
 	 *
 	 * @param poDriveDemandsList
 	 */
-	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> sortDriveDemands(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveDemandsList) {
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+	public static ArrayList<clsWordPresentationMesh> sortDriveDemands(ArrayList<clsWordPresentationMesh> poDriveDemandsList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//If the list is empty return
 		if (poDriveDemandsList.size()<=1) {
@@ -396,12 +398,12 @@ public class clsAffectTools {
 		
 		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
 		
-		ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>>();
+		ArrayList<clsTriple<Integer, Integer, clsWordPresentationMesh>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsWordPresentationMesh>>();
 		
 		//Go through the original list
 		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
 			//The the content of each drive
-			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal = poDriveDemandsList.get(i);
+			clsWordPresentationMesh oGoal = poDriveDemandsList.get(i);
 			//Get the content of the datatype in the container
 			//String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
 			
@@ -409,12 +411,12 @@ public class clsAffectTools {
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffectValue = eAffectLevel.valueOf(oGoal.b.toString()).mnAffectLevel; //getDriveIntensityAsInt(oContent);
+			int nAffectValue = clsGoalTools.getAffectLevel(oGoal).mnAffectLevel; //getDriveIntensityAsInt(oContent);
 			//Sort the affects for priority according to the order in the list in this class
 			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
-			String oDriveType = oGoal.a; //getDriveType(oContent);
+			String oDriveType = clsGoalTools.getGoalContent(oGoal); //getDriveType(oContent);
 			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
 			
 			int nIndex = 0;
@@ -425,7 +427,7 @@ public class clsAffectTools {
 				nIndex++;
 			}
 			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>(nAffectSortOrder, nDriveIndex, oGoal));
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsWordPresentationMesh>(nAffectSortOrder, nDriveIndex, oGoal));
 		}
 		
 		//Add results to the new list
@@ -435,6 +437,60 @@ public class clsAffectTools {
 		
 		return oRetVal;
 	}
+	
+//	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> sortDriveDemands(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveDemandsList) {
+//		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+//		
+//		//If the list is empty return
+//		if (poDriveDemandsList.size()<=1) {
+//			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
+//		}
+//		
+//		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
+//		//FIXME CM: What drives do exist????
+//		//ArrayList<String> oKeyWords = new ArrayList<String>(Arrays.asList("NOURISH", "BITE", "REPRESS", "SLEEP", "RELAX", "DEPOSIT"));
+//		
+//		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
+//		
+//		ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>>();
+//		
+//		//Go through the original list
+//		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
+//			//The the content of each drive
+//			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal = poDriveDemandsList.get(i);
+//			//Get the content of the datatype in the container
+//			//String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
+//			
+//			//Recognize if the string is a drive demand or a drive goal. If it is a drive demand, then do nothing, return the drive demand. If it is a drive goal, 
+//			//convert to drive demand
+//			
+//			//Sort first for affect
+//			int nAffectValue = eAffectLevel.valueOf(oGoal.b.toString()).mnAffectLevel; //getDriveIntensityAsInt(oContent);
+//			//Sort the affects for priority according to the order in the list in this class
+//			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
+//			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
+//			//Sort then for drive according to the order in the list 
+//			String oDriveType = oGoal.a; //getDriveType(oContent);
+//			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
+//			
+//			int nIndex = 0;
+//			//Increase index if the list is not empty
+//			while((oNewList.isEmpty()==false) && 
+//					(nIndex<oNewList.size()) &&
+//					(oNewList.get(nIndex).a + oNewList.get(nIndex).b > nAffectSortOrder + nDriveIndex)) {
+//				nIndex++;
+//			}
+//			
+//			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>(nAffectSortOrder, nDriveIndex, oGoal));
+//		}
+//		
+//		//Add results to the new list
+//		for (int i=0; i<oNewList.size();i++) {
+//			oRetVal.add(i, oNewList.get(i).c);
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 	/**
 	 * 
@@ -447,31 +503,32 @@ public class clsAffectTools {
 	 * @param pnNumberOfGoalsToPass
 	 * @return
 	 */
-	public static ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> filterGoals(
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poSortedPossibleGoalList,
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poSortedFilterList, 
+	public static ArrayList<clsWordPresentationMesh> filterGoals(
+			ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList,
+			ArrayList<clsWordPresentationMesh> poSortedFilterList, 
 			int pnNumberOfGoalsToPass,
 			int pnAffectLevelThreshold) {
 		
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		int nAddedGoals = 0;
 		
 		//1. Go through the list of drives, which are used as filter
 		for (int i=0; i<poSortedFilterList.size();i++) {
-			clsTriple<String, eAffectLevel, clsWordPresentationMesh> oDriveGoal = poSortedFilterList.get(i);
+			clsWordPresentationMesh oDriveGoal = poSortedFilterList.get(i);
 			
-			ArrayList<clsPair<Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>> oResultGoalList = new ArrayList<clsPair<Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>>();
+			ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResultGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 			
 			//2. Find those potential goals, which could fullfill the goal from the drive
-			for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oPossibleGoal : poSortedPossibleGoalList) {
+			for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
 				
 				//3. If the content is equal
-				if ((oDriveGoal.a.equals(oPossibleGoal.a)) && (oDriveGoal.c.getMoContent().equals(oPossibleGoal.c.getMoContent()))) {
+				if ((clsGoalTools.getGoalContent(oDriveGoal).equals(clsGoalTools.getGoalContent(oPossibleGoal))) && 
+						(clsGoalTools.getGoalObject(oDriveGoal).getMoContent().equals(clsGoalTools.getGoalObject(oPossibleGoal).getMoContent()))) {
 					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
 					
 					//Get the level of affect
-					int nCurrentAffectLevel = oPossibleGoal.b.mnAffectLevel;
+					int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal).mnAffectLevel;
 					
 					//Create an artificial sort order number
 					//The absolute level is taken, as unpleasure counts as much as pleasure
@@ -479,7 +536,7 @@ public class clsAffectTools {
 						//Set sortorder for this image. A PI is taken earlier than a RI
 						int nCurrentPISortOrder = 0;
 						//get the top image
-						clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(oPossibleGoal.c);
+						clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oPossibleGoal));
 						if (oTopImage==null) {
 							try {
 								throw new Exception("Error in clsAffectTools: All objects must be associated with images.");
@@ -502,13 +559,13 @@ public class clsAffectTools {
 							nIndex++;
 						}
 						
-						oResultGoalList.add(nIndex, new clsPair<Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>>(nTotalCurrentAffectLevel, oPossibleGoal));
+						oResultGoalList.add(nIndex, new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
 					}
 				}
 			}
 			
 			//Add all goals to this list
-			for (clsPair<Integer, clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oReachableGoal : oResultGoalList) {
+			for (clsPair<Integer, clsWordPresentationMesh> oReachableGoal : oResultGoalList) {
 				if (nAddedGoals<pnNumberOfGoalsToPass) {
 					oRetVal.add(oReachableGoal.b);
 					nAddedGoals++;

@@ -148,6 +148,28 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	
 	public abstract void setRootElement(clsDataStructurePA poDS);
 		
+	/**
+	 * Put "this" into this function to get the other element of the association
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.03.2012 21:12:23
+	 *
+	 * @param poSubjectElement
+	 * @return
+	 */
+	public clsDataStructurePA getTheOtherElement(clsDataStructurePA poSubjectElement) {
+		clsDataStructurePA oRetVal = null;
+		
+		if (this.moAssociationElementA.equals(poSubjectElement)) {
+			oRetVal=this.moAssociationElementB;
+		} else if (this.moAssociationElementB.equals(poSubjectElement)) {
+			oRetVal=this.moAssociationElementA;
+		}
+		
+		return oRetVal;
+	}
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		try {

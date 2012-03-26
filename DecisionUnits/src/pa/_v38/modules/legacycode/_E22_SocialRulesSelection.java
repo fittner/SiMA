@@ -31,7 +31,6 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eActState;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsModuleBaseKB;
@@ -149,7 +148,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_r
 	 */
 	//@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_3(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>poDriveList) {
+	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
 		//moDriveList = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
 	}
 

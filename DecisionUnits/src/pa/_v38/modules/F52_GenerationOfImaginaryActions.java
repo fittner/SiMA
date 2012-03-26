@@ -27,13 +27,12 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPredictionTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
@@ -58,7 +57,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
     private static final boolean m_bIsSurferAndiWorking = false;
 
     // HZ Not used up to now 16.03.2011
-    private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moGoalList_IN;
+    private ArrayList<clsWordPresentationMesh> moGoalList_IN;
     private ArrayList<ArrayList<clsAct>> moPlanInput;
 
     /** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
@@ -267,10 +266,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void receive_I6_8(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poGoalInput,
+    public void receive_I6_8(ArrayList<clsWordPresentationMesh> poGoalInput,
             clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction,
             ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
-        moGoalList_IN = (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>) deepCopy(poGoalInput);
+        moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poGoalInput);
         moExtractedPrediction_IN = (ArrayList<clsPrediction>) deepCopy(poExtractedPrediction);
         moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poAssociatedMemories);
         try {
@@ -335,7 +334,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @return
      */
     private ArrayList<clsWordPresentationMesh> generatePlans_AP(clsWordPresentationMesh poEnvironmentalPerception,
-            ArrayList<clsPrediction> poPredictionList, ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poGoalList) {
+            ArrayList<clsPrediction> poPredictionList, ArrayList<clsWordPresentationMesh> poGoalList) {
 
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -343,19 +342,19 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
         ArrayList<clsImage> oPIImageStructure = preparePerception(poEnvironmentalPerception);
 
         // TODO: If plans shall be generated for more than one goals, this part shall be changed
-        ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poReducedGoalList = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+        ArrayList<clsWordPresentationMesh> poReducedGoalList = new ArrayList<clsWordPresentationMesh>();
         if (poGoalList.isEmpty() == false) {
             poReducedGoalList.add(poGoalList.get(0));
         }
 
         /** iterate over goals */
-        for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal : poReducedGoalList) {
+        for (clsWordPresentationMesh oGoal : poReducedGoalList) {
             ArrayList<clsWordPresentationMesh> oActionContainer = new ArrayList<clsWordPresentationMesh>();
 
             // If no plans could be generated for this goal, it is set false, else true
             boolean bActionPlanOK = false;
 
-            clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(oGoal.c);
+            clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
             if (oTopImage == null) {
 
                 /** go to next goal */
@@ -416,7 +415,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @return
      */
     private ArrayList<clsWordPresentationMesh> generatePlans(clsWordPresentationMesh poEnvironmentalPerception,
-            ArrayList<clsPrediction> poPredictionList, ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poGoalList) {
+            ArrayList<clsPrediction> poPredictionList, ArrayList<clsWordPresentationMesh> poGoalList) {
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
         // String oPI = "PERCEIVEDIMAGE"; //This is the perceived image
@@ -429,20 +428,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
         // Take only the first goal
         // TODO: If plans shall be generated for more than one goals, this part
         // shall be changed
-        ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poReducedGoalList = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+        ArrayList<clsWordPresentationMesh> poReducedGoalList = new ArrayList<clsWordPresentationMesh>();
         if (poGoalList.isEmpty() == false) {
             poReducedGoalList.add(poGoalList.get(0));
         }
 
         // Go through each goal
-        for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal : poReducedGoalList) {
+        for (clsWordPresentationMesh oGoal : poReducedGoalList) {
             ArrayList<clsWordPresentationMesh> oActionContainer = new ArrayList<clsWordPresentationMesh>();
 
             // If no plans could be generated for this goal, it is set false,
             // else true
             boolean bActionPlanOK = false;
 
-            clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(oGoal.c);
+            clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
             if (oTopImage == null) {
                 // try {
                 // throw new
@@ -554,7 +553,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @return
      */
     private ArrayList<clsWordPresentationMesh> planFromPerception(ArrayList<clsImage> poPIImageStructure,
-            clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal) {
+            clsWordPresentationMesh poGoal) {
 
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -648,7 +647,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @return
      */
     private ArrayList<clsWordPresentationMesh> planFromPerception_AP(ArrayList<clsImage> poPIImageStructure,
-            clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal) {
+            clsWordPresentationMesh poGoal) {
 
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -726,7 +725,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @param poGoal
      * @return
      */
-    private ArrayList<clsWordPresentationMesh> planFromNoObject(clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal) {
+    private ArrayList<clsWordPresentationMesh> planFromNoObject(clsWordPresentationMesh poGoal) {
 
         ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
         oRetVal.addAll(planSearch());
@@ -764,12 +763,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
      * @param poCurrentImageAllObjects
      * @return
      */
-    private ArrayList<clsImage> filterForDecisionMakingGoal(clsTriple<String, eAffectLevel, clsWordPresentationMesh> poGoal,
+    private ArrayList<clsImage> filterForDecisionMakingGoal(clsWordPresentationMesh poGoal,
             ArrayList<clsImage> poCurrentImageAllObjects) {
         ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
 
         for (clsImage oImage : poCurrentImageAllObjects) {
-            if (poGoal.c.getMoContent().equals(oImage.m_eObj.toString())) {
+            if (clsGoalTools.getGoalObject(poGoal).getMoContent().equals(oImage.m_eObj.toString())) {
                 currentImageSorted.add(oImage);
             }
         }

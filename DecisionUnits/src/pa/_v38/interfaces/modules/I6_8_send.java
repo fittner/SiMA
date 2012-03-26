@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.tools.clsTriple;
 
 /**
  * Three action goals are passed on to F52. Word and thing presentations representing the result of module F26 are distributed to F52.
@@ -21,5 +19,5 @@ import pa._v38.tools.clsTriple;
  * 
  */
 public interface I6_8_send {
-	public void send_I6_8(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poTemplateResult, clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories);
+	public void send_I6_8(ArrayList<clsWordPresentationMesh> poTemplateResult, clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories);
 }

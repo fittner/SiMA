@@ -9,8 +9,6 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.tools.clsTriple;
 
 /**
  * The list - the package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importance - is forwarded by the interface I6.6 to F51.
@@ -21,6 +19,6 @@ import pa._v38.tools.clsTriple;
  */
 public interface I6_6_send {
 	public void send_I6_6(clsWordPresentationMesh poPerception,
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList,
+			ArrayList<clsWordPresentationMesh> poDriveList,
 						   ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
 }

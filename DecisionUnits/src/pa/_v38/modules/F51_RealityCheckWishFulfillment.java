@@ -26,7 +26,6 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
@@ -56,7 +55,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moGoalList_IN;
+	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
 	
 	
 	
@@ -183,7 +182,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_6(clsWordPresentationMesh poPerception, 
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList, 
+			ArrayList<clsWordPresentationMesh> poDriveList, 
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		try {
 			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
@@ -191,7 +190,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		moGoalList_IN = (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>) deepCopy(poDriveList);
+		moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDriveList);
 		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
 	}
 

@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -42,7 +42,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	public static final String P_MODULENUMBER = "08";
 	
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input; 
-	private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
+	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
+	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -226,8 +227,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @return
 	 */
-	private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList_Input) {
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oRetVal = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList_Input) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair : poDriveList_Input) {			
 			//Convert drive to affect
@@ -250,7 +251,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
-				oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
+				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject));
 			}
 		}
 		
@@ -360,7 +362,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_3(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList) {
+	public void send_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
 		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
 		
@@ -375,7 +377,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_5(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList) {
+	public void send_I6_5(ArrayList<clsWordPresentationMesh> poDriveList) {
 		((I6_5_receive)moModuleList.get(20)).receive_I6_5(poDriveList);	
 		
 		putInterfaceData(I6_5_send.class, poDriveList);		

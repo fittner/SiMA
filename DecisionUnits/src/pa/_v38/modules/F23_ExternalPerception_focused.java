@@ -18,13 +18,12 @@ import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -55,7 +54,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
-	ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList; 
+	ArrayList<clsWordPresentationMesh> moDriveList; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
@@ -175,8 +174,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_3(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList) {
-		moDriveList = (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>)this.deepCopy(poDriveList);
+	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+		moDriveList = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -244,15 +243,15 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poPerceptionSeondary
 	 * @return
 	 */
-	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveGoals) {
+	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poDriveGoals) {
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Use the sorted drivelist. The selection uses the drivelist as the first criterium
 		
 		//Get all possibly reachable drivegoals
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oPossibleDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception, true);
+		ArrayList<clsWordPresentationMesh> oPossibleDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception, true);
 		//Sort the drive demands
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oSortedPotentialDriveGoals  = clsAffectTools.sortDriveDemands(oPossibleDriveGoals);
+		ArrayList<clsWordPresentationMesh> oSortedPotentialDriveGoals  = clsAffectTools.sortDriveDemands(oPossibleDriveGoals);
 			
 		//Select perception, which passes the filter
 		//1. Only drives with AFFECT >= MEDIUM (2) will pass and
@@ -260,7 +259,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//Precondition: The list must be sorted
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
 
-		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = clsAffectTools.filterGoals(oPossibleDriveGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
+		ArrayList<clsWordPresentationMesh> oFilteredGoals = clsAffectTools.filterGoals(oPossibleDriveGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
 		
 		//		int nCurrentObjectNumber = 0;
 //		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
@@ -294,25 +293,25 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poGoalList
 	 * @return
 	 */
-	private clsWordPresentationMesh filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poGoalList) {
+	private clsWordPresentationMesh filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poGoalList) {
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Create a copy without clone
 		oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
 		
 		//Add all objects from the perception, which exist in the goallist
-		for (clsTriple<String, eAffectLevel, clsWordPresentationMesh> oGoal : poGoalList) {
+		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//Add all objects to the list if they don't exist yet, add them
 			boolean bFound = false;
 			for (clsAssociation oAss : oRetVal.getAssociatedContent()) {
-				if (oAss.getLeafElement().equals(oGoal.c)) {
+				if (oAss.getLeafElement().equals(clsGoalTools.getGoalObject(oGoal))) {
 					bFound = true;
 					break;
 				}
 			}
 			
 			if (bFound==false) {
-				clsDataStructureTools.createAssociationSecondary(oRetVal, 1, oGoal.c, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+				clsDataStructureTools.createAssociationSecondary(oRetVal, 1, clsGoalTools.getGoalObject(oGoal), 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
 			}
 		}
 		
@@ -436,7 +435,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@Override
 	public void send_I6_6(clsWordPresentationMesh poFocusedPerception,
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList,
+			ArrayList<clsWordPresentationMesh> poDriveList,
 			   				ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poDriveList, poAssociatedMemoriesSecondary_OUT);
 		

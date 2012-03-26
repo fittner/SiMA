@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
@@ -90,6 +91,49 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public boolean contain(clsDataStructurePA poDataStructure) {
 		// TODO (wendt) - Auto-generated method stub
 		return false;
+	}
+	
+	/**
+	 * Find all data structures, which are connected with a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.03.2012 21:06:20
+	 *
+	 * @param poPredicate
+	 * @return
+	 */
+	public ArrayList<clsSecondaryDataStructure> findDataStructure(ePredicate poPredicate, boolean pbStopAtFirstMatch) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+		
+		
+		for (clsAssociation oAss : this.moInternalAssociatedContent) {
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())==true) {
+					oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+ 		}
+		
+		if (oRetVal.size()==0 || pbStopAtFirstMatch==false) {
+			for (clsAssociation oAss : this.moExternalAssociatedContent) {
+				if (oAss instanceof clsAssociationSecondary) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())==true) {
+						oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
+						
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				}
+	 		}
+		}
+		
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)

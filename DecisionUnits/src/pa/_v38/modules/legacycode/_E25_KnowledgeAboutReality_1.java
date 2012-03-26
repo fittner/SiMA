@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -20,7 +19,6 @@ import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.modules.eImplementationStage;
@@ -126,7 +124,7 @@ public class _E25_KnowledgeAboutReality_1 extends clsModuleBaseKB implements I6_
 	 */
 	@Override
 	public void receive_I6_6(clsWordPresentationMesh poPerception,
-			ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList,
+			ArrayList<clsWordPresentationMesh> poDriveList,
 			   					ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		//never used ! moFocusedPerception_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poFocusedPerception_old);
 		//never used ! moFocusedPerception = (ArrayList<clsSecondaryDataStructureContainer>) this.deepCopy(poFocusedPerception); 

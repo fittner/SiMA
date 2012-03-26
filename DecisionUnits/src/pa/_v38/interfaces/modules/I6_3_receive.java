@@ -10,8 +10,6 @@ import java.util.ArrayList;
 
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.tools.clsTriple;
 
 /**
  * This interface distributes the drive wishes produced by module F8 to the modules F23 and F26.
@@ -21,5 +19,5 @@ import pa._v38.tools.clsTriple;
  * 
  */
 public interface I6_3_receive {
-	public void receive_I6_3(ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> poDriveList);
+	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList);
 }
