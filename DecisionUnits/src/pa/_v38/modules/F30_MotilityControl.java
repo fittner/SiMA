@@ -17,8 +17,10 @@ import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
 import config.clsProperties;
+
 
 /**
  * Pass ActionCommands to F31_NeuroDeSymbolizationActionCommands. When no action command are present, do some seeking. Motoric movement can be controlled by psychic functions up to some extend. Drive inhibitiona mechanism necessary for the defense mechanismsleads to the possibility to perform behavior in rehearsal. Module {E30} uses this concept to evaluate how the submitted action plan can be realized best. The resulting action commands are forwarded to {E31}.
@@ -66,21 +68,30 @@ public class F30_MotilityControl extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text ="";
-		
-		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
-		/* 		// do not display Perception in stateToTEXT by now
+		String[] ignoreList = new String[] {"eDataType:UNDEFINED",
+				                            "eDataType:AFFECT",
+				                            "eDataType:ASSOCIATIONTEMP"};
+		// simple toString output
+		//text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		// complex clsDumper output
+		text += "moActionCommands_Input:" + clsDumper.dump(moActionCommands_Input,3,0,ignoreList) + "\n";		
+
 		if(moEnvironmentalPerception_IN == null)
-			text += toText.valueToTEXT("moEnvironmentalPerception", "null");
+			text += toText.valueToTEXT("moEnvironmentalPerception_IN", "null");
 		else {
-			text += toText.valueToTEXT("moEnvironmentalPerception_IN-PrimaryComponent", moEnvironmentalPerception_IN.getPrimaryComponent());		
-			text += toText.valueToTEXT("moEnvironmentalPerception_IN-SecondaryComponent", moEnvironmentalPerception_IN.getSecondaryComponent());
-			//text += toText.valueToTEXT("moEnvironmentalPerception", moEnvironmentalPerception_IN.toString());
+			// simple toString output
+			//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN.toString());
+			// complex clsDumper output
+			text += "moEnvironmentalPerception_IN:" + clsDumper.dump(moEnvironmentalPerception_IN,3,0,ignoreList) + "\n";
 		}
-		*/
-		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
-		
+		// simple toString output
+		//text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
+		// complex clsDumper output
+		text += "moActionCommands_Output:" + clsDumper.dump(moActionCommands_Output,3,0,ignoreList) + "\n";
 		return text;
 	}	
+	
+
 
 	/**
 	 * @author brandstaetter
