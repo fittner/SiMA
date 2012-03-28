@@ -7,12 +7,17 @@
 
 package sim;
 
+
+
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.util.ArrayList;
 import javax.swing.ImageIcon;
+
+
+import PropertiesInspector.clsPropertiesInspector;
 import config.clsProperties;
 import statictools.clsGetARSPath;
 
@@ -62,6 +67,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
         btnStartScenario = new javax.swing.JButton();
         chkAutostart = new javax.swing.JCheckBox();
         chkAdaptor = new javax.swing.JCheckBox();
+        btnEdit = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -191,6 +197,16 @@ public class ScenarioSelector extends javax.swing.JFrame {
             }
         });
         
+        btnEdit.setText("Edit");
+        btnEdit.setActionCommand("");
+        btnEdit.setName(""); // NOI18N
+        btnEdit.addActionListener(new java.awt.event.ActionListener() {
+            @Override
+			public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditActionPerformed(evt);
+            }
+        });
+        
         chkAutostart.setSelected(true);
         chkAutostart.setText("autostart");
 
@@ -209,7 +225,9 @@ public class ScenarioSelector extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btnStartScenario, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 75, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(pnlScenarios, javax.swing.GroupLayout.Alignment.LEADING, 0, 567, Short.MAX_VALUE)
                         .addComponent(pnlDescription, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
@@ -226,6 +244,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnStartScenario, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
                     .addComponent(btnCancel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnEdit, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(chkAutostart)
                     .addComponent(chkAdaptor))
                 .addGap(22, 22, 22))
@@ -238,6 +257,23 @@ public class ScenarioSelector extends javax.swing.JFrame {
 
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {
         System.exit(0);
+    }
+    
+    private void btnEditActionPerformed(java.awt.event.ActionEvent evt) {
+    	int selectedIndex= lstScenarioList.getSelectedIndex();
+
+        if(selectedIndex != -1)
+        {
+	    	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(selectedIndex);
+	    	String oPropertyPathname = clsGetARSPath.getConfigPath();
+	    	String oPropertyFilenameLocal = oSelectedScenarioEntry.getFileName();
+	    	
+	    	//load the Property Editor in a modal window and hold there till the user is finished
+	    	clsPropertiesInspector oPI = new clsPropertiesInspector(this, oSelectedScenarioEntry.getName(), true, oPropertyPathname, oPropertyFilenameLocal);
+
+	    	//refresh the Infro from all Scenarios
+	    	FillScenarioList();
+        }
     }
     
     /**
@@ -383,6 +419,7 @@ private void FillScenarioList(){
     
     // Variables declaration - do not modify
     private javax.swing.JButton btnCancel;
+    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnStartScenario;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
