@@ -2,6 +2,7 @@ package PropertiesInspector;
 
 
 import config.clsProperties;
+
 import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -18,6 +19,7 @@ import javax.swing.GroupLayout;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -129,6 +131,12 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final String QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 = "Current node '";
 	private static final String QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2 = "' has a value.\nThe new node can only be added below it, if the  value gets deleted.\nShould the new node be added and the value be deleted?";
 
+	public clsPropertiesInspector(JFrame owner, String title, boolean modal, String propertyPathname, String propertyFilenameLocal)
+	{
+		super(owner, title, modal);
+		propertyFilename = propertyPathname + SEPARATOR_FOR_PATH + propertyFilenameLocal;
+		initApplication(); // Initiates the application and constructs the layout of the programs pane (window).
+	}
 	
 	/**
 	 * @throws HeadlessException
@@ -310,8 +318,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	
     	int widthOfButtons, widthOfNodeNewLabels;
 
-    	setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Makes the program terminating after closing the window.
-    	this.setVisible(true); // Sets the frame of the program visible.
+    	if(!this.isModal())
+    		setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Makes the program terminating after closing the window.
 
     	// Initializes private variables
     	menuBar = new JMenuBar(); // Creates the menu bar of the frame.
@@ -348,6 +356,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuEdit.add(menuItemEditNodeNew); // Composes the edit menu.
     	menuBar.add(menuEdit); // Composes the menu bar.
     	setJMenuBar(menuBar); // Sets the menu bar for the frame.
+    	
+    	
     	
 		final clsPropertiesInspector thisForEverySubobject = this; // variable to hand over the frame to the definitions of the menu actions
     	
@@ -668,6 +678,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	pack(); // Reshapes the frames pane.
 
     	setBWProperties(); // Sets the BWProperties object and performs everything that has to be done, when a properties object is set a new.
+    	this.setVisible(true); // Sets the frame of the program visible.
     }
 
 	

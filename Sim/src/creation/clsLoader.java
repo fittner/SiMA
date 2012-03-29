@@ -72,6 +72,21 @@ public abstract class clsLoader {
 		checkVersionCompatibility(moPrefix, moProperties);
 		verifyLoaderType(moPrefix, moProperties);
     }
+      
+    /**
+     * JUST FOR EXTERNAL (OUTSIDE MASON) USE. e.g. Call from a Unreal Bot
+     * Constructor for external use of clsExternalARSINILoader (where no mason-sim is needed)
+     *
+     * @since 27.03.12
+     * @author schaat
+     * 
+     * @param poProperties
+     */
+    public clsLoader (clsProperties poProperties) {
+    	moProperties = poProperties;  	
+    				
+    }
+    
 
 	private void applyProperties(String poPrefix, clsProperties poProp){		
 		String pre = clsProperties.addDot(poPrefix);
