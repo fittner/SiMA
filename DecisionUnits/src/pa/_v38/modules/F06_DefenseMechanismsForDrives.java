@@ -54,6 +54,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructure> moQuotasOfAffect_Output = new ArrayList<clsPrimaryDataStructure>();
+	boolean defense_active = false; // defense mechanisms must be activated by a psychoanalytic conflict
 	
 	private DT2_BlockedContentStorage moBlockedContentStorage; // storage for repressed drives and denied perceptions
 
@@ -177,6 +178,47 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	protected void process_basic() { 
 		 moDriveList_Output = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy (moDriveList_Input);
 		 
+		 
+		 detect_conflict_and_activate_defense_machanisms();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 28.03.2012, 17:30:00
+	 * 
+	 * This function detects a psychoanalytic conflict
+	 * and activates the defense mechanisms
+	 * and chooses a defense mechanism to resolve the conflict.
+	 *
+	 */
+	private void detect_conflict_and_activate_defense_machanisms() {
+		
+		 // empty the list from last step otherwise list only grows
+		 moQuotasOfAffect_Output.clear();
+		
+		 // check for a psychoanalytic conflict
+		 // defense mechanisms are delayed by one cycle to produce a situation where conflict exists and no action plans are executed
+		 if (!moForbiddenDrives_Input.isEmpty() && !defense_active)
+		 {
+			 // conflicting events exist -> activate conflict -> activate defense mechanisms but do not defend yet. (defense will work in the next cycle)
+			 defense_active = true;
+			 
+			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
+			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", 999.9)); 
+			 moQuotasOfAffect_Output.add(oAffect);
+			 
+			 return;
+		 }
+		 else if (moForbiddenDrives_Input.isEmpty())
+		 {
+			 // no conflicting events -> deactivate defense mechanisms
+			 defense_active = false;
+			 return;
+		 }
+		 // Defense mechanisms start to work.
+		 
+		 
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
 		 // Ego decides now which defense mechanisms to apply (depending on the quota of affect of the forbidden drive)
 		 
@@ -191,9 +233,71 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 	 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 		 // else if (oQoA > 0.9)
 		 // if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
-		 
+	}
+
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 28.03.2012, 17:30:00
+	 * 
+	 * This is a function that represents the defense mechanism "displacement"
+	 *
+	 */
+	protected void defenseMechanism_Displacement(ArrayList<String> oForbiddenDrives_Input) {
+		
+		// If nothing to repress return immediately (otherwise NullPointerException)
+	   	if (oForbiddenDrives_Input == null ) return;
+
+	   	// empty the list from last step otherwise list only grows
+		moQuotasOfAffect_Output.clear();
+		
+		// Iterate over all forbidden drives
+		for (String oContent : oForbiddenDrives_Input) {
+		
+			int i = 0;
+			// search in list of incoming drives
+			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Input){
+				// check DriveMesh
+				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
+					
+					// remove DriveMesh i from output list
+					moDriveList_Output.remove(i);
+					// drive found
+					moDriveList_Output.add(displacement(oDrives.a, oDrives.b));
+									
+				}
+				
+				i++;
+			}
+		
+		}
+		return;
+	   	
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 28.03.2012, 17:30:00
+	 * 
+	 * This method represents the defense mechanism "displacement"
+	 * The defense mechanism displacement replaces the original drive object by a new drive object.
+	 *
+	 */
+	protected clsPair<clsPhysicalRepresentation, clsDriveMesh> displacement(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM) {
+	    // Liste mit möglichen Trieben und dazugehöriges displaced drive object (und reserve drive object, falls displace drive object das original drive object ist.)
+		// (eventuell könnte man auch noch das drive object des nächsten Triebes nehmen, falls gar kein drive object passt)
+		
+		// Liste der Triebe ist NOURISH, BITE, DEPOSIT, usw. -> heraussuchen aus Inspektoren
+		
+		// Wo finde ich die möglichen Triebobjekte (TPM)?
+		
+		//clsPhysicalRepresentation oDisplacedDriveObject = TPM(search(poOriginalDM -> displacedDriveObject));
+		return new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, poOriginalDM);
+	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author schaat

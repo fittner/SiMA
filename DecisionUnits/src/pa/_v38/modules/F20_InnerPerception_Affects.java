@@ -50,6 +50,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive,  I6_9_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
+	private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
 	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
@@ -252,14 +253,17 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	private clsWordPresentation calculateAffect(double oAverageQuotaOfAffect) {
 		clsWordPresentation oAffect = null;
 			
-		if (oAverageQuotaOfAffect > 0.7) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "ANXIETY")); 
+		if (oAverageQuotaOfAffect == 999.9) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.CONFLICT.toString())); 
+		}
+		else if (oAverageQuotaOfAffect > 0.7) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.ANXIETY.toString())); 
 		}
 		else if (oAverageQuotaOfAffect > 0.3) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "WORRIEDNESS")); 
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.WORRIEDNESS.toString())); 
 		}
 		else if (oAverageQuotaOfAffect > 0){
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "PRICKLE")); 
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.PRICKLE.toString())); 
 		}
 		
 		return oAffect;
