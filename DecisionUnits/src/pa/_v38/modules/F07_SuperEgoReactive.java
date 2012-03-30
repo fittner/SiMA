@@ -278,7 +278,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
 		}
 */
-		
+/*		
 		// sample rule to recognize cake
 		if (searchInAssociations ("ENTITY", "CAKE")) {
 			// The following perception was found by Super-Ego as inappropriate or forbidden.
@@ -286,7 +286,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
 				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
-		
+*/		
 		/*
 		// sample rule to test denial
 		if (searchInTI("IMAGE", "A3TOP")) {
