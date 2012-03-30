@@ -54,7 +54,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
         itfInspectorGenericActivityTimeChart {
 
     public static final String P_MODULENUMBER = "52";
-    private static final boolean m_bIsSurferAndiWorking = false;
+    private static final boolean m_bIsSurferAndiWorking = true;
 
     // HZ Not used up to now 16.03.2011
     private ArrayList<clsWordPresentationMesh> moGoalList_IN;
