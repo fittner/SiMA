@@ -21,7 +21,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -42,7 +41,7 @@ import pa._v38.tools.toText;
  * <br />               
  * According to 2 thresholds the output will be on of the 3 possible affects: anxiety, worriedness, or prickle
  * 
- * @author deutsch, gelbard
+ * @author gelbard
  * 11.08.2009, 14:40:29
  * 
  */
@@ -59,7 +58,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	private ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 
 	/**
-	 * DOCUMENT (deutsch) - insert description 
+	 * DOCUMENT (gelbard) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:45:56
@@ -141,7 +140,6 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
 		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructure>)this.deepCopy(poAffectOnlyList);		
 	}
 
@@ -153,8 +151,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_16(ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
-		//moDeniedAffects_Input_old  = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects_old);
+	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
 		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);		
 	}
 
@@ -210,10 +207,6 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 		moSecondaryDataStructureContainer_Output.clear();
 		if (poAffect != null)
 			moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
-		
-			
-		
-	    // TODO FG: Hand over moSecondaryDataStructureContainer_Output to F26 and F29
 	}
 	
 	/* (non-Javadoc)
