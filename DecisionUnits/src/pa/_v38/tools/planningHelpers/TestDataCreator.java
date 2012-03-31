@@ -28,7 +28,7 @@ public class TestDataCreator {
 	 * @since 19.07.2011 10:24:29
 	 *
 	 */
-	static public ArrayList<clsPlanFragment> generateTestData_AW() {
+	static public ArrayList<clsPlanFragment> generateTestPlans_AW() {
 		
 		ArrayList<clsPlanFragment> moAvailablePlanFragments = new ArrayList<clsPlanFragment>(); 
 		
@@ -309,7 +309,7 @@ public class TestDataCreator {
 	 * @since 19.07.2011 10:24:29
 	 *
 	 */
-	static public ArrayList<clsPlanFragment> generateTestData_AP() {
+	static public ArrayList<clsPlanFragment> generateTestPlans_AP() {
 		
 		ArrayList<clsPlanFragment> moAvailablePlanFragments = new ArrayList<clsPlanFragment>(); 
 		

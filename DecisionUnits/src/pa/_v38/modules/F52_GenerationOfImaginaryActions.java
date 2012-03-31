@@ -103,9 +103,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// just used to test if the planning module does not have any compile
 		// errors
 		if (m_bIsSurferAndiWorking) {
-			moAvailablePlanFragments = TestDataCreator.generateTestData_AP();
+			moAvailablePlanFragments = TestDataCreator.generateTestPlans_AP();
 		} else {
-			moAvailablePlanFragments = TestDataCreator.generateTestData_AW();
+			moAvailablePlanFragments = TestDataCreator.generateTestPlans_AW();
 		}
 	}
 
