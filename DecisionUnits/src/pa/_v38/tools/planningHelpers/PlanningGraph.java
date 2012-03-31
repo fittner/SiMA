@@ -49,8 +49,7 @@ public class PlanningGraph {
 
 	/**
 	 * 
-	 * DOCUMENT (perner) - tells the search engine which plans can be executed
-	 * after each other
+	 * DOCUMENT (perner) - tells the search engine which plans can be executed after each other
 	 * 
 	 * @since 17.07.2011 13:00:47
 	 * 
@@ -84,8 +83,7 @@ public class PlanningGraph {
 		int index = m_nodes.indexOf(n);
 		int j = 0;
 		while (j < m_iSize) {
-			if (m_adjMatrix[index][j] == 1
-					&& ((PlanningNode) m_nodes.get(j)).visited == false)
+			if (m_adjMatrix[index][j] == 1 && ((PlanningNode) m_nodes.get(j)).visited == false)
 				return (PlanningNode) m_nodes.get(j);
 			j++;
 		}
@@ -94,8 +92,7 @@ public class PlanningGraph {
 
 	/**
 	 * 
-	 * DOCUMENT (perner) - breath first search on the before initialized
-	 * graph-engine
+	 * DOCUMENT (perner) - breath first search on the before initialized graph-engine
 	 * 
 	 * @since 17.07.2011 13:02:15
 	 * 
@@ -117,19 +114,15 @@ public class PlanningGraph {
 			while ((childNode = getUnvisitedChildNode(parentNode)) != null) {
 				childNode.visited = true;
 
-//				childNode.parent.add(parentNode);
-//				parentNode.child.add(childNode);
+				// childNode.parent.add(parentNode);
+				// parentNode.child.add(childNode);
 
 				savePlanningNode(childNode, parentNode, iLevel);
-				// System.out.println("planning searchlevel: " + iLevel);
-				// //FIXME AP: AW 20110725. No printouts without class and
-				// methodname shall be used.
+				System.out.println(getClass() + "::planning searchlevel: " + iLevel);
 				printPlanningNodeToSysOut(childNode);
 				q.add(childNode);
 			}
 		}
-		// Clear visited property of nodes
-		clearPlanningNodes();
 	}
 
 	/**
@@ -188,12 +181,10 @@ public class PlanningGraph {
 	 * @param n
 	 */
 	private void printPlanningNodeToSysOut(PlanningNode n) {
-		// System.out.println(n.label+" "); //FIXME AP: AW 20110725. No
-		// printouts without class and methodname shall be used.
+		// System.out.println(getClass() + "::" + n.label + " ");
 	}
 
-	private void savePlanningNode(PlanningNode child, PlanningNode parent,
-			int iLevel) {
+	private void savePlanningNode(PlanningNode child, PlanningNode parent, int iLevel) {
 
 		/** prepare my parent */
 		parent.hasChild = true;
@@ -201,10 +192,15 @@ public class PlanningGraph {
 
 		// check if for this level already something exists
 		if (m_planningResults.containsKey(iLevel)) {
-			m_planningResults.get(iLevel).add(child);
+			try {
+				PlanningNode plNode = (PlanningNode) child.clone();
+				m_planningResults.get(iLevel).add(plNode);
+
+			} catch (Exception e) {
+				System.out.println("ERROR, couldn't clone planning node");
+			}
 		} else {
-			// all plans at level iLevel and new array-list if nothing was yet
-			// set at this level
+			// all plans at level iLevel and new array-list if nothing was yet set at this level
 			ArrayList<PlanningNode> plansAtCertainLevel = new ArrayList<PlanningNode>();
 			plansAtCertainLevel.add(child);
 			m_planningResults.put(iLevel, plansAtCertainLevel);
@@ -233,19 +229,18 @@ public class PlanningGraph {
 			for (PlanningNode myPlanningNode : myPlanningNodes) {
 
 				/**
-				 * check if this node has a child, if not, go backward to first
-				 * planning-node and save all planning nodes on the path
+				 * check if this node has a child, if not, go backward to first planning-node and save all planning nodes on the path
 				 */
-				
-				if (!myPlanningNode.hasChild ) {
+
+				if (!myPlanningNode.hasChild) {
 					clsPlan myPlan = new clsPlan();
-					
+
 					myPlan.pushPlanFragment(myPlanningNode);
 					while (myPlanningNode.myParent != null) {
 						myPlanningNode = myPlanningNode.myParent;
 						myPlan.pushPlanFragment(myPlanningNode);
 					}
-					
+
 				}
 			}
 

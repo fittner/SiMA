@@ -35,4 +35,15 @@ abstract public class PlanningNode extends clsSecondaryDataStructureContainer {
 		return super.toString() + " hasChild:" + hasChild + ", myParent: "
 				+ myParent;
 	}
-}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {		
+		PlanningNode myPlanningNode = (PlanningNode) super.clone();
+		myPlanningNode.myParent = this.myParent;
+		myPlanningNode.visited = this.visited;
+		myPlanningNode.label = this.label;
+		myPlanningNode.hasChild = this.hasChild;
+		
+		return myPlanningNode;
+	}
+} 
