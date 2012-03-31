@@ -60,9 +60,17 @@ public class PlanningWizard {
 		// run through plans and see which plans can be connected
 		for (clsPlanFragment singlePlan : plans) {
 
-			// if (myPreImg == searchImage)
-			if (compareImagesLoose(singlePlan.m_preconditionImage, searchImage))
+			/** do a strict compare in case of eat actions */
+			if (singlePlan.planLabel.contains("EAT")) {
+				if (compareImagesStrict(singlePlan.m_preconditionImage, searchImage)) {
+					possibleCandiates.add(singlePlan);
+				}
+			}
+
+			/** do loose compare by default */
+			else if (compareImagesLoose(singlePlan.m_preconditionImage, searchImage)) {
 				possibleCandiates.add(singlePlan);
+			}
 		}
 
 		return possibleCandiates;
@@ -116,8 +124,14 @@ public class PlanningWizard {
 
 		for (clsPlanFragment plFragment : plans) {
 
-			// get subsequent plans
 			ArrayList<clsPlanFragment> subsequentPlans = PlanningWizard.findPlanFragmentsBasedOnDestImg(plFragment.m_effectImage, plans);
+
+			/** print plans */
+			System.out.println("PlanningWizard::initPlGraphWithPlConnections: after plan-fragment >" + plFragment
+			    + "< the following plan fragments can be executed");
+			for (clsPlanFragment possiblePlans : subsequentPlans) {
+				System.out.println("  PlanningWizard::initPlGraphWithPlConnections: " + possiblePlans);
+			}
 
 			// add connection for every plan with parent plan
 			if (subsequentPlans != null) {
@@ -287,6 +301,10 @@ public class PlanningWizard {
 				return;
 			}
 		}
+	}
+
+	public static void printPlans(PlanningGraph plGraph) {
+		plGraph.printPlans();
 	}
 
 	// public static void printPlansToSysout(ArrayList<PlanningNode> currentApplicalbePlanningNodes, int iIndend) {

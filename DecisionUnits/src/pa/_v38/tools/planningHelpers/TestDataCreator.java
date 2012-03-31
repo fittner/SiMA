@@ -261,6 +261,9 @@ public class TestDataCreator {
 
 		// EAT CAKE
 		eEntity oEntity = eEntity.CAKE;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
+		    new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity), "EAT"));
+
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_FORWARD"), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), "MOVE_FW_FAR_TO_MEDIUM"));
 
@@ -268,24 +271,21 @@ public class TestDataCreator {
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
 		    "MOVE_FW_MEDIUM_TO_NEAR"));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("EAT"), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
-		    new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity)));
-
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"), new clsImage(eDistance.NEAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), "MOVE_BW_NEAR_TO_MEDIUM"));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
-		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
-		    "MOVE_BW_MEDIUM_TO_FAR"));
+		// moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("MOVE_BACKWARD"),
+		// new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
+		// "MOVE_BW_MEDIUM_TO_FAR"));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"), new clsImage(eDirection.LEFT, oEntity), new clsImage(
-		    eDirection.MIDDLE_LEFT, oEntity), "TURN_L_LEFT_TO_MDL_LEFT"));
-
+		// moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"), new clsImage(eDirection.LEFT, oEntity), new clsImage(
+		// eDirection.MIDDLE_LEFT, oEntity), "TURN_L_LEFT_TO_MDL_LEFT"));
+		//
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_LEFT"), new clsImage(eDirection.MIDDLE_LEFT, oEntity), new clsImage(
 		    eDirection.CENTER, oEntity), "TURN_L_MDL_LEFT_TO_CENTER"));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"), new clsImage(eDirection.RIGHT, oEntity), new clsImage(
-		    eDirection.MIDDLE_RIGHT, oEntity), "TURN_R_RIGHT_TO_MDL_RIGHT"));
+		// moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"), new clsImage(eDirection.RIGHT, oEntity), new clsImage(
+		// eDirection.MIDDLE_RIGHT, oEntity), "TURN_R_RIGHT_TO_MDL_RIGHT"));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"), new clsImage(eDirection.MIDDLE_RIGHT, oEntity),
 		    new clsImage(eDirection.CENTER, oEntity), "TURN_R_MDL_R_TO_CENTER"));

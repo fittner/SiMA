@@ -55,7 +55,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
     itfInspectorGenericActivityTimeChart {
 
 	public static final String P_MODULENUMBER = "52";
-	private static final boolean m_bIsSurferAndiWorking = true;
+	private static final boolean m_bUseDraftPlanning = false;
 
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
@@ -75,6 +75,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> moActions_Output;
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
+	
+	private PlanningGraph plGraph;
+	
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -96,11 +99,26 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// just used to test if the planning module does not have any compile
 		// errors
-		if (m_bIsSurferAndiWorking) {
+		if (m_bUseDraftPlanning) {
 			moAvailablePlanFragments = TestDataCreator.generateTestPlans_AP();
 		} else {
 			moAvailablePlanFragments = TestDataCreator.generateTestPlans_AW();
 		}
+		
+		/** init planning engine */
+		plGraph = new PlanningGraph();		
+		try {
+			/** add plans to planning engine*/
+			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
+			/** create connections between plans*/
+			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
+			/** print plans to sysout */
+			PlanningWizard.printPlans(plGraph);
+			
+		} catch(Exception e) {
+			System.out.println(getClass()+"FATAL initializing planning Wizard >"+e+"<");
+		}
+		
 	}
 
 	/***********************************************************************************************
@@ -118,7 +136,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 
-		if (m_bIsSurferAndiWorking) {
+		if (m_bUseDraftPlanning) {
 			process_draft();
 		} else {
 
@@ -599,11 +617,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// Start planning according to the remaining drive objects
 		// System.out.println(currentImage.m_eDist);
-		PlanningGraph plGraph = new PlanningGraph();
 		// add plans and connections between plans
 		try {
-			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
-			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
 
 			// check, which actions can be executed next
 			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
@@ -632,7 +647,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// plGraph.m_planningResults.get(1)
 
 		} catch (Exception e) {
-			System.out.println("FATAL: Planning Wizard coldn't be initialized");
+			System.out.println(getClass()+"FATAL: Planning Wizard coldn't be initialized");
 		}
 
 		// copy perception for movement control
@@ -658,14 +673,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// Filter all object, which are not drive objects of this goal
 		ArrayList<clsImage> ofilteredImages = filterForDecisionMakingGoal(poGoal, poPIImageStructure);
 
-		// Start planning according to the remaining drive objects
-		// System.out.println(currentImage.m_eDist);
-		PlanningGraph plGraph = new PlanningGraph();
-		// add plans and connections between plans
 		try {
-			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
-			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
-
 			// check, which actions can be executed next
 			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
 			    moAvailablePlanFragments, ofilteredImages);
@@ -708,7 +716,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// plGraph.m_planningResults.get(1)
 
 		} catch (Exception e) {
-			System.out.println("FATAL: Planning Wizard coldn't be initialized");
+			System.out.println(getClass()+"FATAL: Planning Wizard coldn't be initialized");
 		}
 
 		// copy perception for movement control

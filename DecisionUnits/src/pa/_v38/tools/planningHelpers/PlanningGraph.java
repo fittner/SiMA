@@ -47,6 +47,38 @@ public class PlanningGraph {
 		m_nodes.add(n);
 	}
 
+	public void printPlans() {
+
+		System.out.println(getClass() + " printing available plans >" + m_nodes.size() + "<");
+
+		int i = 0;
+		for (PlanningNode plan : m_nodes) {
+			System.out.println("plan at position >" + i + "< is >" + plan + "<");
+			i++;
+		}
+
+		System.out.println(getClass() + " printing connection matrix ...");
+
+		System.out.print("  ");
+		for (int l = 0; l < m_adjMatrix.length; l++) {
+			System.out.print(l + " ");
+		}
+		System.out.print("\n");
+		System.out.print("  ");
+		for (int l = 0; l < m_adjMatrix.length; l++) {
+			System.out.print("--");
+		}
+
+		for (int l = 0; l < m_adjMatrix.length; l++) {
+			System.out.print("\n");
+			System.out.print(l + "|");
+			for (int f = 0; f < m_adjMatrix[l].length; f++) {
+				System.out.print(m_adjMatrix[l][f] + " ");
+			}
+		}
+		System.out.print("\n");
+	}
+
 	/**
 	 * 
 	 * DOCUMENT (perner) - tells the search engine which plans can be executed after each other
@@ -99,7 +131,7 @@ public class PlanningGraph {
 	 */
 	public void breathFirstSearch() {
 
-		System.out.println(getClass()+"========================= generating plans ... ===================");
+		System.out.println(getClass() + "========================= generating plans ... ===================");
 		m_planningResults = new HashMap<Integer, ArrayList<PlanningNode>>();
 		Queue<PlanningNode> q = new LinkedList<PlanningNode>();
 		int iLevel = 0;
@@ -110,17 +142,14 @@ public class PlanningGraph {
 		m_rootNode.visited = true;
 		while (!q.isEmpty()) {
 			PlanningNode currentNode = (PlanningNode) q.remove();
-			PlanningNode childNode = null;
+			PlanningNode futureNode = null;
 			iLevel++;
-			while ((childNode = getUnvisitedChildNode(currentNode)) != null) {
-				childNode.visited = true;
+			while ((futureNode = getUnvisitedChildNode(currentNode)) != null) {
+				futureNode.visited = true;
 
-				// childNode.parent.add(parentNode);
-				// parentNode.child.add(childNode);
-
-				savePlanningNode(childNode, currentNode, iLevel);
-				printPlanningNodeToSysOut(childNode, currentNode, iLevel);
-				q.add(childNode);
+				savePlanningNode(futureNode, currentNode, iLevel);
+				printPlanningNodeToSysOut(futureNode, currentNode, iLevel);
+				q.add(futureNode);
 			}
 		}
 	}
@@ -183,8 +212,9 @@ public class PlanningGraph {
 	 * 
 	 * @param n
 	 */
-	private void printPlanningNodeToSysOut(PlanningNode predecessorNode, PlanningNode currentNode, int iLevel) {
-		System.out.println(getClass() + ":: l: " + iLevel + ", predecesser plan-fragment: " + predecessorNode + ", current-plan fragment: " + currentNode);
+	private void printPlanningNodeToSysOut(PlanningNode futureNode, PlanningNode currentNode, int iLevel) {
+		System.out.println(getClass() + ":: planning-level> " + iLevel + "<, current plan-fragment >" + currentNode + "<, next plan-fragment >"
+		    + futureNode + "<");
 	}
 
 	private void savePlanningNode(PlanningNode child, PlanningNode parent, int iLevel) {

@@ -10,60 +10,55 @@ import pa._v38.tools.planningHelpers.eDirection;
 import pa._v38.tools.planningHelpers.eDistance;
 import pa._v38.tools.planningHelpers.eEntity;
 
-
-
 /**
- * DOCUMENT (perner) - image of a situation
- * used right now as a wrapper class to test the planning environment
+ * DOCUMENT (perner) - image of a situation used right now as a wrapper class to test the planning environment
  * 
- * @author perner
- * 03.07.2011, 15:39:58
+ * @author perner 03.07.2011, 15:39:58
  * 
  */
 public class clsImage {
 
 	/**
-	 * possible entries
-	 * not all entries must be set - at least one entry holds a value
+	 * possible entries not all entries must be set - at least one entry holds a value
 	 */
-	public eDistance 				m_eDist = null;
-	public eDirection 				m_eDir  = null;
-	public eEntity 				m_eObj = null;
-	
+	public eDistance m_eDist = null;
+	public eDirection m_eDir = null;
+	public eEntity m_eObj = null;
+
 	/**
 	 * 
-	 * DOCUMENT (perner) - constructor to set all values 
-	 *
+	 * DOCUMENT (perner) - constructor to set all values
+	 * 
 	 * @since 20.07.2011 18:50:03
-	 *
+	 * 
 	 * @param dist
 	 * @param dir
 	 * @param obj
 	 */
-	public clsImage (eDistance dist, eDirection dir, eEntity obj) {
+	public clsImage(eDistance dist, eDirection dir, eEntity obj) {
 		m_eDist = dist;
 		m_eDir = dir;
 		m_eObj = obj;
 	}
-	
+
 	/**
 	 * 
-	 * DOCUMENT (perner) - set only the direction 
-	 *
+	 * DOCUMENT (perner) - set only the direction
+	 * 
 	 * @since 09.09.2011 15:38:25
-	 *
+	 * 
 	 * @param dir
 	 */
-	public clsImage (eDirection dir) {
+	public clsImage(eDirection dir) {
 		m_eDir = dir;
 	}
 
 	/**
 	 * 
-	 * DOCUMENT (perner) - constructor to only set object and direction 
-	 *
+	 * DOCUMENT (perner) - constructor to only set object and direction
+	 * 
 	 * @since 20.07.2011 18:50:18
-	 *
+	 * 
 	 * @param dir
 	 * @param obj
 	 */
@@ -75,9 +70,9 @@ public class clsImage {
 	/**
 	 * 
 	 * DOCUMENT (perner) - only set the object
-	 *
+	 * 
 	 * @since 20.07.2011 18:52:11
-	 *
+	 * 
 	 * @param obj
 	 */
 	public clsImage(eEntity obj) {
@@ -87,9 +82,9 @@ public class clsImage {
 	/**
 	 * 
 	 * DOCUMENT (perner) - workaround constructor for current mix of distance and direction
-	 *
+	 * 
 	 * @since 09.09.2011 08:45:11
-	 *
+	 * 
 	 * @param obj
 	 * @param dist
 	 */
@@ -97,65 +92,72 @@ public class clsImage {
 		m_eObj = obj;
 		m_eDist = dist;
 	}
-	
+
 	/**
 	 * 
-	 * DOCUMENT (perner) - empty constructor to create flee-action 
-	 *
+	 * DOCUMENT (perner) - empty constructor to create flee-action
+	 * 
 	 * @since 17.09.2011 15:38:28
-	 *
+	 * 
 	 */
-	public clsImage () {
-		
+	public clsImage() {
+
 	}
-	
+
 	/**
 	 * 
-	 * DOCUMENT (perner) - compares this instance of an image to a given image
-	 * if alle values are equal in both images true is returned
-	 * if a null-is found and this value is set at the other image, false is returned
-	 *
+	 * DOCUMENT (perner) - compares this instance of an image to a given image if alle values are equal in both images true is returned if a
+	 * null-is found and this value is set at the other image, false is returned
+	 * 
 	 * @since 20.07.2011 19:19:33
-	 *
+	 * 
 	 * @param srcCompare
 	 * @return
 	 */
 	public boolean isEqualStrictTo(clsImage srcCompare) {
-		
-		if (m_eDist != null) {
+
+		if (m_eDist != null && srcCompare.m_eDist != null) {
 			if (m_eDist.compareTo(srcCompare.m_eDist) != 0)
 				return false;
-		} else if (srcCompare.m_eDist != null)
+		} else if (srcCompare.m_eDist != null && m_eDist == null) {
 			return false;
+		} else if (srcCompare.m_eDist == null && m_eDist != null) {
+			return false;
+		}
 
-		if (m_eDir != null) {
+		if (m_eDir != null && srcCompare.m_eDir != null) {
 			if (m_eDir.compareTo(srcCompare.m_eDir) != 0)
 				return false;
-		} else if (srcCompare.m_eDir != null)
+		} else if (srcCompare.m_eDir != null && m_eDir == null) {
 			return false;
+		} else if (srcCompare.m_eDir == null && m_eDir != null) {
+			return false;
+		}
 
-		if (m_eObj != null) {
+		if (m_eObj != null && srcCompare.m_eObj != null) {
 			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
 				return false;
-		} else if (srcCompare.m_eObj != null)
+		} else if (srcCompare.m_eObj != null && m_eObj == null) {
 			return false;
+		} else if (srcCompare.m_eObj == null && m_eObj != null) {
+			return false;
+		}
 
 		return true;
 	}
 
 	/**
 	 * 
-	 * DOCUMENT (perner) - compares this instance of an image to a given image
-	 * if only the set values are equal in both images true is returned
-	 * null-values are ignored
-	 *
+	 * DOCUMENT (perner) - compares this instance of an image to a given image if only the set values are equal in both images true is
+	 * returned null-values are ignored
+	 * 
 	 * @since 20.07.2011 19:18:28
-	 *
+	 * 
 	 * @param srcCompare
 	 * @return true if the images are loose equal
 	 */
 	public boolean isEqualLooseTo(clsImage srcCompare) {
-		
+
 		if (m_eDist != null && srcCompare.m_eDist != null) {
 			if (m_eDist.compareTo(srcCompare.m_eDist) != 0)
 				return false;
@@ -174,8 +176,9 @@ public class clsImage {
 		return true;
 	}
 
-	/* (non-Javadoc)
-	 *
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @since 20.09.2011 14:22:46
 	 * 
 	 * @see java.lang.Object#toString()
@@ -185,10 +188,8 @@ public class clsImage {
 		String retval = "";
 
 		retval = "obj: " + m_eObj + " dist: " + m_eDist + " dir: " + m_eDir;
-	
+
 		return retval;
 	}
-	
-	
 
 }
