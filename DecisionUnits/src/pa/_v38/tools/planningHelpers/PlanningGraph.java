@@ -99,12 +99,13 @@ public class PlanningGraph {
 	 */
 	public void breathFirstSearch() {
 
+		System.out.println(getClass()+"========================= starting breathFirstSearch ===================");
 		m_planningResults = new HashMap<Integer, ArrayList<PlanningNode>>();
 		Queue<PlanningNode> q = new LinkedList<PlanningNode>();
 		int iLevel = 0;
 
 		q.add(m_rootNode);
-		printPlanningNodeToSysOut(m_rootNode);
+		printPlanningNodeToSysOut(null, m_rootNode, 0);
 
 		m_rootNode.visited = true;
 		while (!q.isEmpty()) {
@@ -118,8 +119,7 @@ public class PlanningGraph {
 				// parentNode.child.add(childNode);
 
 				savePlanningNode(childNode, parentNode, iLevel);
-				System.out.println(getClass() + "::planning searchlevel: " + iLevel);
-				printPlanningNodeToSysOut(childNode);
+				printPlanningNodeToSysOut(childNode, parentNode, iLevel);
 				q.add(childNode);
 			}
 		}
@@ -138,15 +138,18 @@ public class PlanningGraph {
 		s.push(m_rootNode);
 		m_rootNode.visited = true;
 
+		int iLevel = 0;
 		// savePlanningNode(rootNode);
-		printPlanningNodeToSysOut(m_rootNode);
+		printPlanningNodeToSysOut(null, m_rootNode, iLevel);
 		while (!s.isEmpty()) {
+
 			PlanningNode n = (PlanningNode) s.peek();
 			PlanningNode child = getUnvisitedChildNode(n);
+			iLevel++;
 			if (child != null) {
 				child.visited = true;
 				// savePlanningNode(child);
-				printPlanningNodeToSysOut(child);
+				printPlanningNodeToSysOut(child, n, iLevel);
 				s.push(child);
 			} else {
 				s.pop();
@@ -180,8 +183,8 @@ public class PlanningGraph {
 	 * 
 	 * @param n
 	 */
-	private void printPlanningNodeToSysOut(PlanningNode n) {
-		// System.out.println(getClass() + "::" + n.label + " ");
+	private void printPlanningNodeToSysOut(PlanningNode child, PlanningNode parent, int iLevel) {
+		System.out.println(getClass() + ":: l: " + iLevel + ", child: " + child + ", parent: " + parent);
 	}
 
 	private void savePlanningNode(PlanningNode child, PlanningNode parent, int iLevel) {

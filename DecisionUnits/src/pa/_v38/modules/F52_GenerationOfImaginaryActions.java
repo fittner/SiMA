@@ -675,11 +675,16 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				int i = 0;
 			}
 
+			System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
+			System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size()
+			    + "< content >" + currentApplicalbePlanningNodes + "<");
 			ArrayList<clsPlan> myPlansFromPlanning = new ArrayList<clsPlan>();
 
 			// run through applicable plans and see which results can be
 			// achieved by executing plFragment
 			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
+				System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+
 				plGraph.setStartPlanningNode(plFragment);
 				plGraph.breathFirstSearch();
 				ArrayList<clsPlan> plans = plGraph.getPlans();

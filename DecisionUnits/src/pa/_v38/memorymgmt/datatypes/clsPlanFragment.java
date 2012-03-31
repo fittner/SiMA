@@ -24,6 +24,8 @@ public class clsPlanFragment extends PlanningNode {
 
 	/** image that stores the information about how the world looks like after the actions was carried out */
 	public clsImage m_effectImage;
+	
+	public String planLabel;
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -52,9 +54,16 @@ public class clsPlanFragment extends PlanningNode {
 		m_preconditionImage = precdImage;
 		m_effectImage = effectImage;
 	}
+	
+	public clsPlanFragment(clsAct act, clsImage precdImage, clsImage effectImage, String planLabel) {
+		this(act, precdImage, effectImage);
+		this.planLabel = planLabel; 
+	}
 
 	@Override
 	public String toString() {
+		if (this.planLabel != null && !this.planLabel.isEmpty())
+			return this.planLabel;
 		return super.label + ", hasChild: " + super.hasChild + ", myParent: " + super.myParent;
 
 	}
