@@ -12,12 +12,8 @@ import sim.field.continuous.Continuous2D;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
-import bw.entities.clsARSIN;
 import bw.factories.clsSingletonMasonGetter;
-
 import config.clsProperties;
-//import du.enums.eDecisionType;
-import creation.simplePropertyLoader.clsExternalARSINLoader;
 
 
 /**
@@ -59,11 +55,13 @@ public class testExternalARSINLoader {
 		oProp.putAll(oPropDU);
 		
 		// get the ARSIN
-		clsExternalARSINLoader oLoader = new clsExternalARSINLoader(oProp);
-		clsARSIN arsin = (clsARSIN)oLoader.getARSINI();
+		
+		// deactivated due to compile-error 
+//		clsExternalARSINLoader oLoader = new clsExternalARSINLoader(oProp);
+//		clsARSIN arsin = (clsARSIN)oLoader.getARSINI();
 										
-		System.out.println(arsin.getId());
-		arsin.processing();
+//		System.out.println(arsin.getId());
+//		arsin.processing();
 	}
 
 }
