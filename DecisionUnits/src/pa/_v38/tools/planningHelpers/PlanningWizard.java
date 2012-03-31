@@ -288,25 +288,25 @@ public class PlanningWizard {
 		}
 	}
 	
-	public static void printPlansToSysout(ArrayList<PlanningNode> currentApplicalbePlanningNodes, int iIndend) {
-		
-		for (PlanningNode myPlanningNode : currentApplicalbePlanningNodes) {
-			
-			clsPlanFragment myPlan = (clsPlanFragment) myPlanningNode;
-			
-			// paint indent
-			for (int i=0;i<iIndend; i++) 
-				System.out.print(" ");
-			
-			String strParentAction = "";
-			if (myPlan.parent != null && myPlan.parent.size() > 0) 
-				strParentAction = ((clsPlanFragment) myPlan.parent.get(0)).m_act.m_strAction;
-		
-			System.out.println("planfragment: "+myPlan.m_act.m_strAction+", parent: "+strParentAction);
-			
-			if (myPlan.child != null && myPlan.child.size() > 0)
-				printPlansToSysout(myPlan.child, iIndend+5);
-		}
-		
-	}
+//	public static void printPlansToSysout(ArrayList<PlanningNode> currentApplicalbePlanningNodes, int iIndend) {
+//		
+//		for (PlanningNode myPlanningNode : currentApplicalbePlanningNodes) {
+//			
+//			clsPlanFragment myPlan = (clsPlanFragment) myPlanningNode;
+//			
+//			// paint indent
+//			for (int i=0;i<iIndend; i++) 
+//				System.out.print(" ");
+//			
+//			String strParentAction = "";
+//			if (myPlan.parent != null && myPlan.parent.size() > 0) 
+//				strParentAction = ((clsPlanFragment) myPlan.parent.get(0)).m_act.m_strAction;
+//		
+//			System.out.println("planfragment: "+myPlan.m_act.m_strAction+", parent: "+strParentAction);
+//			
+//			if (myPlan.child != null && myPlan.child.size() > 0)
+//				printPlansToSysout(myPlan.child, iIndend+5);
+//		}
+//		
+//	}
 }
