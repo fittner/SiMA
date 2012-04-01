@@ -39,10 +39,10 @@ import bw.body.io.actuators.actionProxies.*;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsSchnitzl extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
-	public clsCake(String poPrefix, clsProperties poProp, int uid)
+	public clsSchnitzl(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
