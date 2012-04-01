@@ -54,8 +54,10 @@ import config.clsProperties;
 public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements I6_8_receive, I6_9_send,
     itfInspectorGenericActivityTimeChart {
 
+	public static final String newline = System.getProperty("line.separator");
+
 	public static final String P_MODULENUMBER = "52";
-	private static final boolean m_bUseDraftPlanning = false;
+	private static final boolean m_bUseDraftPlanning = true;
 
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
@@ -72,10 +74,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	/** Associated memories out */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-	private ArrayList<clsWordPresentationMesh> moPlans_Output;
+	private ArrayList<clsWordPresentationMesh> moPlans_Output = new ArrayList<clsWordPresentationMesh>();
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
-	
+
 	/** generated plans */
 	private ArrayList<clsPlan> plansFromPerception = new ArrayList<clsPlan>();
 
@@ -229,6 +231,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public String stateToTEXT() {
+
 		String text = "";
 
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
@@ -237,6 +240,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		text += toText.listToTEXT("moGoalList_IN", moGoalList_IN);
 		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
+		text += newline;
+		text += "current generated plans:";
+		text += newline;
+
+		for (clsPlan singlePlan : plansFromPerception) {
+			text += PlanningWizard.dumpPlanToString(singlePlan) + newline;
+		}
 		return text;
 	}
 
@@ -675,52 +685,48 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// Filter all object, which are not drive objects of this goal
 		ArrayList<clsImage> ofilteredImages = filterForDecisionMakingGoal(poGoal, poPIImageStructure);
 
-		try {
-			// check, which actions can be executed next
-			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
-			    moAvailablePlanFragments, ofilteredImages);
+		// check, which actions can be executed next
+		ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments,
+		    ofilteredImages);
 
-			// TODO create code for high depth plans here
-			if (currentApplicalbePlanningNodes.size() > 0) {
-				int i = 0;
-			}
-
-			System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
-			System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size()
-			    + "< content >" + currentApplicalbePlanningNodes + "<");
-			ArrayList<clsPlan> myPlansFromPlanning = new ArrayList<clsPlan>();
-
-			/** run through applicable plans and see which results can be achieved by executing plFragment */
-			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
-				System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
-
-				plGraph.setStartPlanningNode(plFragment);
-				plGraph.breathFirstSearch();
-				ArrayList<clsPlan> plans = plGraph.getPlans();
-
-				PlanningWizard.printPlans(plans);
-				
-				/** add all plans */
-				for (clsPlan singlePlan : plans) {
-					myPlansFromPlanning.add(singlePlan);
-				}
-
-			}
-
-			// copy output -> workaround till planning works correctly
-			oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
-			ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>();
-
-			for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
-				plansTemp.add(myPlans);
-
-			// output actions
-			// PlanningWizard.printPlansToSysout(plansTemp , 0);
-			// plGraph.m_planningResults.get(1)
-
-		} catch (Exception e) {
-			System.out.println(getClass() + "FATAL: Planning Wizard coldn't be initialized");
+		// TODO create code for high depth plans here
+		if (currentApplicalbePlanningNodes.size() > 0) {
+			int i = 0;
 		}
+
+		System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
+		System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size() + "< content >"
+		    + currentApplicalbePlanningNodes + "<");
+		/** reset list and store new plans */
+		plansFromPerception.clear();
+
+		/** run through applicable plans and see which results can be achieved by executing plFragment */
+		for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
+			System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+
+			plGraph.setStartPlanningNode(plFragment);
+			plGraph.breathFirstSearch();
+			ArrayList<clsPlan> plans = plGraph.getPlans();
+
+			PlanningWizard.printPlans(plans);
+
+			/** add all plans */
+			for (clsPlan singlePlan : plans) {
+				plansFromPerception.add(singlePlan);
+			}
+
+		}
+
+		// copy output -> workaround till planning works correctly
+		oRetVal.addAll(copyPlanFragments(currentApplicalbePlanningNodes));
+		ArrayList<PlanningNode> plansTemp = new ArrayList<PlanningNode>();
+
+		for (clsPlanFragment myPlans : currentApplicalbePlanningNodes)
+			plansTemp.add(myPlans);
+
+		// output actions
+		// PlanningWizard.printPlansToSysout(plansTemp , 0);
+		// plGraph.m_planningResults.get(1)
 
 		// copy perception for movement control
 		// moEnvironmentalPerception_OUT = moEnvironmentalPerception_IN;
@@ -1087,8 +1093,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// add perception
 		return oRetVal;
 	}
-	
-	
+
 	/***********************************************************************************************
 	 * END class specific methods (e.g. planning methods)
 	 **********************************************************************************************/

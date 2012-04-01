@@ -312,7 +312,25 @@ public class PlanningWizard {
 		for (clsPlan singlePlan : plans) {
 			System.out.println("PlanningWizard" + " plan: " + singlePlan);
 		}
+	}
 
+	public static String dumpPlanToString(clsPlan plan) {
+		
+		ArrayList<clsPlanFragment> plansReverse = new ArrayList<clsPlanFragment>();
+		
+		int iSize = plan.returnContent().size();
+		for (int i = iSize; i>0; i--) {
+			clsPlanFragment myNode = (clsPlanFragment) plan.getPlanAtPos(i-1);
+			plansReverse.add(myNode);
+		}
+		
+		
+		String value = new String();
+		for (clsPlanFragment planFragment : plansReverse) {
+			value = value + "|"+planFragment +"| -> ";
+		}
+		String newValue = value.substring(0, value.length() -3);
+		return newValue;
 	}
 
 	// public static void printPlansToSysout(ArrayList<PlanningNode> currentApplicalbePlanningNodes, int iIndend) {

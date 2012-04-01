@@ -54,5 +54,9 @@ public class clsPlan {
 		}
 		return content;
 	}
+	
+	public ArrayList<PlanningNode> returnContent() {
+		return myPlans;
+	}
 
 }
