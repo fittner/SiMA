@@ -55,7 +55,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
     itfInspectorGenericActivityTimeChart {
 
 	public static final String P_MODULENUMBER = "52";
-	private static final boolean m_bUseDraftPlanning = false;
+	private static final boolean m_bUseDraftPlanning = true;
 
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
@@ -75,9 +75,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> moActions_Output;
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
-	
+
 	private PlanningGraph plGraph;
-	
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -104,21 +103,21 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		} else {
 			moAvailablePlanFragments = TestDataCreator.generateTestPlans_AW();
 		}
-		
+
 		/** init planning engine */
-		plGraph = new PlanningGraph();		
+		plGraph = new PlanningGraph();
 		try {
-			/** add plans to planning engine*/
+			/** add plans to planning engine */
 			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
-			/** create connections between plans*/
+			/** create connections between plans */
 			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
 			/** print plans to sysout */
 			PlanningWizard.printPlans(plGraph);
-			
-		} catch(Exception e) {
-			System.out.println(getClass()+"FATAL initializing planning Wizard >"+e+"<");
+
+		} catch (Exception e) {
+			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "<");
 		}
-		
+
 	}
 
 	/***********************************************************************************************
@@ -141,7 +140,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		} else {
 
 			// Generate actions for the top goal
-			moActions_Output = generatePlans(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+			moActions_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
 
 			// Pass forward the associated memories and perception
 			try {
@@ -437,7 +436,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> generatePlans(clsWordPresentationMesh poEnvironmentalPerception,
+	private ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception,
 	    ArrayList<clsPrediction> poPredictionList, ArrayList<clsWordPresentationMesh> poGoalList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -647,7 +646,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// plGraph.m_planningResults.get(1)
 
 		} catch (Exception e) {
-			System.out.println(getClass()+"FATAL: Planning Wizard coldn't be initialized");
+			System.out.println(getClass() + "FATAL: Planning Wizard coldn't be initialized");
 		}
 
 		// copy perception for movement control
@@ -716,7 +715,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// plGraph.m_planningResults.get(1)
 
 		} catch (Exception e) {
-			System.out.println(getClass()+"FATAL: Planning Wizard coldn't be initialized");
+			System.out.println(getClass() + "FATAL: Planning Wizard coldn't be initialized");
 		}
 
 		// copy perception for movement control
