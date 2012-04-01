@@ -267,21 +267,24 @@ public class PlanningGraph {
 
 				if (!myPlanningNode.hasChild) {
 					clsPlan myPlan = new clsPlan();
-
 					myPlan.pushPlanFragment(myPlanningNode);
-					while (myPlanningNode.myParent != null) {
-						myPlanningNode = myPlanningNode.myParent;
-						myPlan.pushPlanFragment(myPlanningNode);
-					}
+					pushPlanToStack(myPlan, myPlanningNode);
 
+					availablePlans.add(myPlan);
 				}
 			}
-
 		}
 
-		// clear nodes
+		/** clear before set planning data (hasChild, myParent, isVisited) */
 		clearPlanningNodes();
-
 		return availablePlans;
+	}
+
+	private void pushPlanToStack(clsPlan myPlan, PlanningNode currentPlan) {
+
+		if (currentPlan.myParent != null) {
+			myPlan.pushPlanFragment(currentPlan.myParent);
+			pushPlanToStack(myPlan, currentPlan.myParent);
+		}
 	}
 }

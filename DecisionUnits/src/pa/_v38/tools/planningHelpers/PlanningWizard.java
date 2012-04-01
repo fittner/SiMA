@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsImage;
+import pa._v38.memorymgmt.datatypes.clsPlan;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -303,8 +304,15 @@ public class PlanningWizard {
 		}
 	}
 
-	public static void printPlans(PlanningGraph plGraph) {
+	public static void printPlanningStack(PlanningGraph plGraph) {
 		plGraph.printPlans();
+	}
+
+	public static void printPlans(ArrayList<clsPlan> plans) {
+		for (clsPlan singlePlan : plans) {
+			System.out.println("PlanningWizard" + " plan: " + singlePlan);
+		}
+
 	}
 
 	// public static void printPlansToSysout(ArrayList<PlanningNode> currentApplicalbePlanningNodes, int iIndend) {
