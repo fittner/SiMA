@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 
@@ -55,6 +56,7 @@ import pa._v38.tools.clsPair;
 public abstract class clsModuleBaseKB extends clsModuleBase {
 	/** The knowledgebasehandler (aka the memory); @since 13.07.2011 13:46:56 */
 	protected clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	protected clsPsychicSpreadActivation moSpreadActivationHandler;
 	
 	/**
 	 * This constructor creates all functional modules with the provided properties. Additionally the provided reference
@@ -76,6 +78,8 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		moKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		
+		moSpreadActivationHandler = new clsPsychicSpreadActivation(this);
 	}
 
 	/**
@@ -299,15 +303,22 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 //			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);
 //		}
 		
-		//Move all associations from the input to the output
+//		//Move all associations from the input to the output
+//		if (poInput instanceof clsWordPresentationMesh) {
+//			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)oRetVal, (clsWordPresentationMesh)poInput);
+//		} else if (poInput instanceof clsThingPresentationMesh) {
+//			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)oRetVal, (clsThingPresentationMesh)poInput);
+//		}
+		
+		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)oRetVal, (clsWordPresentationMesh)poInput);
+			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 		} else if (poInput instanceof clsThingPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)oRetVal, (clsThingPresentationMesh)poInput);
+			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
 		}
 		
 		
-		return oRetVal;
+		return poInput;
 	}
 	
 //	/**
@@ -547,6 +558,26 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		oRetVal = oResWP;
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Execute spread activation on an input image. set the available psychic energy
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.04.2012 13:23:57
+	 *
+	 * @param poInput
+	 * @param prPsychicEnergyIn
+	 * @return
+	 */
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn) {
+		
+		//Add the activated image to the already processed list
+		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
+		oAlreadyActivatedImages.add(poInput);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages);
+	
 	}
 }
 
