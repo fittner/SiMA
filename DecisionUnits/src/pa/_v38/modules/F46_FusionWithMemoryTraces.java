@@ -199,7 +199,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//FIXME: Add input from phantasy
 		//TPMs are added to the perceived image
 		executePsychicSpreadActivation(moEnhancedPerception, 0.3);
-		enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
+		//enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = moEnhancedPerception;
 		
