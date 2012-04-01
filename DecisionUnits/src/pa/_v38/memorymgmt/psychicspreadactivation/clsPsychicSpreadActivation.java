@@ -28,26 +28,29 @@ import pa._v38.tools.clsPair;
 public class clsPsychicSpreadActivation {
 
 
-	public static clsThingPresentationMesh startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
-		clsThingPresentationMesh oRetVal = poImage;
+	public static void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		
 		//1. Get level 1 of the image associations
 		if (poImage.getMoContentType().equals(eContentType.RI.toString())==true) {
-			oRetVal = getAssociatedImagesMemory(poImage);
+			getAssociatedImagesMemory(poImage);
 			//TODO
 		} else if (poImage.getMoContentType().equals(eContentType.PI.toString())==true) {
-			oRetVal = getAssociatedImagesPercption(poImage);
+			getAssociatedImagesPercption(poImage);
 			//TODO
 		}
 		
+		//2. Consolidate mesh
+		
+		//3. Calculate activation
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, prPsychicEnergyIn, poAlreadyActivatedImages);
 		
-		deleteInactivatedAssociations(poImage, oPossibleActivationList);
+		//4. Delete non activated images		
+		ArrayList<clsPair<clsThingPresentationMesh,Double>> oActivatedImageList = deleteInactivatedAssociations(poImage, oPossibleActivationList);
 		
-		
-		
-		
-		return oRetVal;
+		//5. Go through each of the previously activated images
+		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
+			startSpreadActivation(oPair.a, oPair.b, poAlreadyActivatedImages);
+		}
 	}
 	
 //	private static ArrayList<clsPair<clsThingPresentationMesh, Double>> processImage(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
@@ -64,19 +67,14 @@ public class clsPsychicSpreadActivation {
 	 * @param poOriginImage
 	 * @return
 	 */
-	public static clsThingPresentationMesh getAssociatedImagesPercption(clsThingPresentationMesh poOriginImage) {
+	public static void getAssociatedImagesPercption(clsThingPresentationMesh poOriginImage) {
 		
 		//TODO: load images
-		
-		clsThingPresentationMesh oRetVal = poOriginImage;
-		
-		return oRetVal;
+
 	}
 	
-	public static clsThingPresentationMesh getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
-		clsThingPresentationMesh oRetVal = poOriginImage;
-		
-		return oRetVal;
+	public static void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
+
 	}
 	/**
 	 * After an image and its immediate neighbors have been loaded, check which images shall be activated
@@ -185,16 +183,21 @@ public class clsPsychicSpreadActivation {
 	 *
 	 * @param poOriginImage
 	 * @param poActivationsList
+	 * @return 
 	 */
-	private static void deleteInactivatedAssociations(clsThingPresentationMesh poOriginImage, ArrayList<clsPair<clsThingPresentationMesh, Double>> poActivationsList) {
-		ArrayList<clsThingPresentationMesh> oRemoveStructues = new ArrayList<clsThingPresentationMesh>();
+	private static ArrayList<clsPair<clsThingPresentationMesh,Double>> deleteInactivatedAssociations(clsThingPresentationMesh poOriginImage, ArrayList<clsPair<clsThingPresentationMesh, Double>> poActivationsList) {
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		
 		for (clsPair<clsThingPresentationMesh, Double> oPair : poActivationsList) {
 			//Delete all associations where no psychic energy is assigned
 			if (oPair.b==0.0) {
 				clsDataStructureTools.deleteAssociationInObject(poOriginImage, oPair.a);
+			} else {
+				oRetVal.add(oPair);
 			}
 		}
+		
+		return oRetVal;
 	}
 	
 	
