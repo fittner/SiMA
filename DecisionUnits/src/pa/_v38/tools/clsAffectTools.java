@@ -57,13 +57,13 @@ public class clsAffectTools {
 		
 		rAbsoluteAffect = 0;
 		
-		ArrayList<clsPair<String, String>> oDMConentType = new ArrayList<clsPair<String, String>>();
+		ArrayList<clsPair<String, String>> oDMContentType = new ArrayList<clsPair<String, String>>();
 		//Get all contenttypes from the DM
 		for (clsDriveMesh oDM : poDMList) {
-			oDMConentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
+			oDMContentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
 		}
 		
-		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMConentType);
+		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMContentType);
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
 			rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());

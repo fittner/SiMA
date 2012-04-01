@@ -297,7 +297,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Create a copy without clone
-		oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
+		oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), "ReducedPI"), new ArrayList<clsAssociation>());
 		
 		//Add all objects from the perception, which exist in the goallist
 		for (clsWordPresentationMesh oGoal : poGoalList) {
