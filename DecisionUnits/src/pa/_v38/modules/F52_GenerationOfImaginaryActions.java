@@ -72,9 +72,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	/** Associated memories out */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-	private ArrayList<clsWordPresentationMesh> moActions_Output;
+	private ArrayList<clsWordPresentationMesh> moPlans_Output;
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
+	
+	/** generated plans */
+	private ArrayList<clsPlan> plansFromPerception = new ArrayList<clsPlan>();
 
 	private PlanningGraph plGraph;
 
@@ -112,7 +115,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			/** create connections between plans */
 			PlanningWizard.initPlGraphWithPlConnections(moAvailablePlanFragments, plGraph);
 			/** print plans to sysout */
-			PlanningWizard.printPlans(plGraph);
+			PlanningWizard.printPlanningStack(plGraph);
 
 		} catch (Exception e) {
 			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "<");
@@ -140,7 +143,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		} else {
 
 			// Generate actions for the top goal
-			moActions_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
 
 			// Pass forward the associated memories and perception
 			try {
@@ -167,7 +170,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 		// Generate actions for the top goal
-		moActions_Output = generatePlans_AP(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+		moPlans_Output = generatePlans_AP(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
 
 		// Pass forward the associated memories and perception
 		try {
@@ -230,7 +233,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
 		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
-		text += toText.listToTEXT("moActions_Output", moActions_Output);
+		text += toText.listToTEXT("moActions_Output", moPlans_Output);
 		text += toText.listToTEXT("moGoalList_IN", moGoalList_IN);
 		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
@@ -306,7 +309,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_9(moActions_Output, moAssociatedMemories_OUT, moPerceptionalMesh_OUT);
+		send_I6_9(moPlans_Output, moAssociatedMemories_OUT, moPerceptionalMesh_OUT);
 
 	}
 
@@ -687,8 +690,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			    + "< content >" + currentApplicalbePlanningNodes + "<");
 			ArrayList<clsPlan> myPlansFromPlanning = new ArrayList<clsPlan>();
 
-			// run through applicable plans and see which results can be
-			// achieved by executing plFragment
+			/** run through applicable plans and see which results can be achieved by executing plFragment */
 			for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
 				System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
 
@@ -696,6 +698,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				plGraph.breathFirstSearch();
 				ArrayList<clsPlan> plans = plGraph.getPlans();
 
+				PlanningWizard.printPlans(plans);
+				
 				/** add all plans */
 				for (clsPlan singlePlan : plans) {
 					myPlansFromPlanning.add(singlePlan);
@@ -1065,6 +1069,26 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 
+	public ArrayList<clsWordPresentationMesh> copyPlanFragments_AP(ArrayList<clsPlanFragment> myPlans) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsPlanFragment> moPlans = new ArrayList<clsPlanFragment>();
+
+		for (clsPlanFragment plFr : myPlans) {
+			moPlans.add(plFr);
+		}
+
+		// Convert the containers into WPM
+		for (clsPlanFragment oPF : moPlans) {
+			clsWordPresentationMesh oAction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ACTION.toString(),
+			    oPF.m_act.m_strAction), new ArrayList<clsAssociation>());
+			oRetVal.add(oAction);
+		}
+
+		// add perception
+		return oRetVal;
+	}
+	
+	
 	/***********************************************************************************************
 	 * END class specific methods (e.g. planning methods)
 	 **********************************************************************************************/
@@ -1083,7 +1107,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oRetVal = new ArrayList<Double>();
-		double rNUM_IMAGINARY_ACTIONS = moActions_Output.size();
+		double rNUM_IMAGINARY_ACTIONS = moPlans_Output.size();
 		oRetVal.add(rNUM_IMAGINARY_ACTIONS);
 		return oRetVal;
 	}
