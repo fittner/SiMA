@@ -177,7 +177,7 @@ public abstract class clsDataStructureGenerator {
 	public static clsWordPresentationMesh generateWPM(clsPair <String, Object> poContent, ArrayList<clsAssociation> poAssociations){
 		String oContentType = poContent.a; 
 		String oContent = (String)poContent.b;
-		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.WP, oContentType), poAssociations, oContent); 
+		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.WPM, oContentType), poAssociations, oContent); 
 		return oRetVal;
 	}
 	
