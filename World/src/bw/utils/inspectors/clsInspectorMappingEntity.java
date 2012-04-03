@@ -17,7 +17,7 @@ import bw.body.clsSimpleBody;
 import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
 import bw.entities.clsBase;
-import bw.entities.clsSchnitzl;
+import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
@@ -91,7 +91,7 @@ public class clsInspectorMappingEntity {
 	    	else if( poEntity instanceof clsFungusEater) {
 	    		oRetVal.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
 	    	}
-	    	else if( poEntity instanceof clsSchnitzl) {
+	    	else if( poEntity instanceof clsCake) {
 	    		oRetVal.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Cake");
 	    	}
 	    	else if( poEntity instanceof clsCan) {

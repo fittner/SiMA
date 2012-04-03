@@ -1091,19 +1091,14 @@ public class clsDataStructureTools {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 
 		//Go through all external
-		if (poContentTypeAndContent.isEmpty()==true) {
-			oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), "", "", pbStopAtFirstMatch));
-		} else {
-			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+			oRetVal.addAll(FilterDMList(poTPM.getMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
+				//Go through the external list
 				oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
-				if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
-					//Go through the external list
-					//oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
-					break;
-				}
+				break;
 			}
 		}
-		
 		
 		return oRetVal;
 	}
@@ -1672,13 +1667,7 @@ public class clsDataStructureTools {
 	public static ArrayList<clsAssociationDriveMesh> getSelectedDMInImage(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsPair<String, String>> poFilterContentTypeAndContent) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		
-		ArrayList<clsDataStructurePA> oFoundList = new ArrayList<clsDataStructurePA>();
-		
-		for (clsAssociation oAss : poPerceptionalMesh.getMoAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime) {
-				oFoundList.addAll(clsDataStructureTools.getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.DM, poFilterContentTypeAndContent, false, 1));
-			}
-		}
+		ArrayList<clsDataStructurePA> oFoundList = clsDataStructureTools.getDataStructureInTPM(poPerceptionalMesh, eDataType.DM, poFilterContentTypeAndContent, false, 2);
 						
 		for (clsDataStructurePA oAss : oFoundList) {
 			oRetVal.add((clsAssociationDriveMesh) oAss);
@@ -1906,7 +1895,7 @@ public class clsDataStructureTools {
 	}
 	
 	/**
-	 * Merge 2 meshes. Only TPM are allowed. Move all associations from the new mesh to the source mesh
+	 * Merge 2 meshes. Only TPM are allowed
 	 * 
 	 * (wendt)
 	 *
@@ -1947,7 +1936,7 @@ public class clsDataStructureTools {
 	}
 	
 	/**
-	 * Merge 2 meshes. Only WPM are allowed. Move all associations from the new mesh to the source mesh
+	 * Merge 2 meshes. Only WPM are allowed
 	 * 
 	 * (wendt)
 	 *
@@ -2042,7 +2031,7 @@ public class clsDataStructureTools {
 			}
 			
 			//If the association does not exist, then move the association
-			if (bFound==false && oOriAss.getMoDS_ID()!=-1) {
+			if (bFound==false) {
 				//Move the association
 				moveAssociation(poTargetTPM, poOriginTPM, oOriAss);
 			}

@@ -42,7 +42,7 @@ import bw.entities.clsAnimate;
 import bw.entities.clsBase;
 import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
-import bw.entities.clsSchnitzl;
+import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
@@ -233,7 +233,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( clsLynx.getDefaultProperties			(pre+eEntityType.LYNX.name()) );
 		oProp.putAll( clsBase.getDefaultProperties			(pre+eEntityType.BASE.name()) );
 		oProp.putAll( clsCan.getDefaultProperties			(pre+eEntityType.CAN.name()) );
-		oProp.putAll( clsSchnitzl.getDefaultProperties			(pre+eEntityType.CAKE.name()) );
+		oProp.putAll( clsCake.getDefaultProperties			(pre+eEntityType.CAKE.name()) );
 		oProp.putAll( clsStone.getDefaultProperties			(pre+eEntityType.STONE.name()) );
 		oProp.putAll( clsFungus.getDefaultProperties		(pre+eEntityType.FUNGUS.name()) );
 		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
@@ -536,8 +536,8 @@ public class clsSimplePropertyLoader extends clsLoader {
     			clsRegisterEntity.registerEntity((clsCan)oEntity);		
     			break;
     		case CAKE:
-    			oEntity = new clsSchnitzl(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsSchnitzl)oEntity);		
+    			oEntity = new clsCake(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsCake)oEntity);		
     			break;
     		case STONE:
     			oEntity = new clsStone(pre, poPropEntity, uid);

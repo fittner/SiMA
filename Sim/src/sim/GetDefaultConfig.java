@@ -13,7 +13,7 @@ import bw.entities.clsAnimate;
 import bw.entities.clsBase;
 import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
-import bw.entities.clsSchnitzl;
+import bw.entities.clsCake;
 import bw.entities.clsCan;
 import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
@@ -63,7 +63,7 @@ public class GetDefaultConfig {
 		clsProperties.writeProperties(clsBase.getDefaultProperties(""), oEntityDir, "base"+oSubExt, "");
 		clsProperties.writeProperties(clsARSIN.getDefaultProperties(""), oEntityDir, "arsin"+oSubExt, "");
 		clsProperties.writeProperties(clsFungusEater.getDefaultProperties(""), oEntityDir, "funguseater"+oSubExt, "");
-		clsProperties.writeProperties(clsSchnitzl.getDefaultProperties(""), oEntityDir, "cake"+oSubExt, "");
+		clsProperties.writeProperties(clsCake.getDefaultProperties(""), oEntityDir, "cake"+oSubExt, "");
 		clsProperties.writeProperties(clsCan.getDefaultProperties(""), oEntityDir, "can"+oSubExt, "");
 		clsProperties.writeProperties(clsCarrot.getDefaultProperties(""), oEntityDir, "carrot"+oSubExt, "");
 		clsProperties.writeProperties(clsEntity.getDefaultProperties(""), oEntityDir, "entity"+oSubExt, "");

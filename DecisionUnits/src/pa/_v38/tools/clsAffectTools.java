@@ -41,8 +41,9 @@ public class clsAffectTools {
 	
 
 	/**
-	 * The average affect of the mesh is calculated for one level (i. e. one image only).
+	 * The total affect of the mesh is calculated for one level.
 	 * 
+	 * !!!!!!!!!!!! THIS IS A SPECIALIZED FUNCTION, WHICH IS USED TO CALCULATE THE TOTAL AFFECT OF ONE LEVEL OF THE PI OR RI !!!!!!!!!!!!!!!!!
 	 * 
 	 * (wendt)
 	 *
@@ -51,22 +52,24 @@ public class clsAffectTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
-		double rTotalAffect = 0;
+	public static double calculateAbsoluteAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
+		double rAbsoluteAffect;
 		
-		ArrayList<clsPair<String, String>> oDMContentType = new ArrayList<clsPair<String, String>>();
+		rAbsoluteAffect = 0;
+		
+		ArrayList<clsPair<String, String>> oDMConentType = new ArrayList<clsPair<String, String>>();
 		//Get all contenttypes from the DM
 		for (clsDriveMesh oDM : poDMList) {
-			oDMContentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
+			oDMConentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
 		}
 		
-		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMContentType);
+		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMConentType);
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
-			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());
+			rAbsoluteAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());
 		}
 		
-		return rTotalAffect/oDMList.size();
+		return rAbsoluteAffect;
 	}
 	
 	/**

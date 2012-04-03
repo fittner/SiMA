@@ -21,6 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -41,7 +42,7 @@ import pa._v38.tools.toText;
  * <br />               
  * According to 2 thresholds the output will be on of the 3 possible affects: anxiety, worriedness, or prickle
  * 
- * @author gelbard
+ * @author deutsch, gelbard
  * 11.08.2009, 14:40:29
  * 
  */
@@ -49,7 +50,6 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive,  I6_9_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
-	private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
 	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
@@ -58,7 +58,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	private ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 
 	/**
-	 * DOCUMENT (gelbard) - insert description 
+	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
 	 * 03.03.2011, 16:45:56
@@ -140,6 +140,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_17(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
+		//moAffectOnlyList_old = (ArrayList<clsAffectTension>)this.deepCopy(poAffectOnlyList_old);
 		moAffectOnlyList_Input = (ArrayList<clsPrimaryDataStructure>)this.deepCopy(poAffectOnlyList);		
 	}
 
@@ -151,7 +152,8 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
+	public void receive_I5_16(ArrayList<clsAssociationDriveMesh> poDeniedAffects) {
+		//moDeniedAffects_Input_old  = (ArrayList<clsAffectTension>)this.deepCopy(poDeniedAffects_old);
 		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);		
 	}
 
@@ -207,6 +209,10 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 		moSecondaryDataStructureContainer_Output.clear();
 		if (poAffect != null)
 			moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
+		
+			
+		
+	    // TODO FG: Hand over moSecondaryDataStructureContainer_Output to F26 and F29
 	}
 	
 	/* (non-Javadoc)
@@ -246,17 +252,14 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	private clsWordPresentation calculateAffect(double oAverageQuotaOfAffect) {
 		clsWordPresentation oAffect = null;
 			
-		if (oAverageQuotaOfAffect == 999.9) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.CONFLICT.toString())); 
-		}
-		else if (oAverageQuotaOfAffect > 0.7) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.ANXIETY.toString())); 
+		if (oAverageQuotaOfAffect > 0.7) {
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "ANXIETY")); 
 		}
 		else if (oAverageQuotaOfAffect > 0.3) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.WORRIEDNESS.toString())); 
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "WORRIEDNESS")); 
 		}
 		else if (oAverageQuotaOfAffect > 0){
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.PRICKLE.toString())); 
+			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", "PRICKLE")); 
 		}
 		
 		return oAffect;

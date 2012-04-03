@@ -176,9 +176,8 @@ public abstract class clsDataStructureComparison {
 		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getMoContentType());
 		
 		//Check, which search depth is used. 
-		//pnLevel 0: Nothing is done with the image
-		//pnLevel 1: Load only indirect associations
-		//pnLevel 2: Load the first order of indirect associations to other images
+		//FIXME AW: ONLY Level 1 is allowed in this search.
+		//TODO AW: Allow Level 0
 		
 		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
@@ -186,20 +185,11 @@ public abstract class clsDataStructureComparison {
 			for(Map.Entry<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>> oEntry : oMapWithType.entrySet()){
 				clsDataStructurePA oCompareElement = oEntry.getValue().a;
 				
+				//FIXME: Allow other values than TPMs
 				if (oCompareElement instanceof clsThingPresentationMesh) {
-					//Clone the structure as here often the structure comes directly from the memory
+					clsThingPresentationMesh oCompareStructure = (clsThingPresentationMesh) getCompleteMesh((clsThingPresentationMesh) oCompareElement, poSearchSpaceHandler, pnLevel);
 					
-					clsThingPresentationMesh oClonedCompareElement = null;
-					try {
-						//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
-						oClonedCompareElement = (clsThingPresentationMesh) ((clsThingPresentationMesh) oCompareElement).clone();
-					} catch (CloneNotSupportedException e) {
-						// TODO (wendt) - Auto-generated catch block
-						e.printStackTrace();
-					}
-					getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
-					
-					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
+					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oCompareStructure);
 							
 					if (oMatch < prThreshold)
 						continue;
@@ -213,7 +203,7 @@ public abstract class clsDataStructureComparison {
 					//FIXME AW: NOTE: No instanceIDs are allowed to be set here. InstanceIDs must be set "ausserhalb" from the memory
 					//clsDataStructureTools.createInstanceFromType(oCompareContainer);
 					//Add results
-					oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructurePA>(oMatch, oClonedCompareElement));
+					oPreliminaryRetVal.add(i, new clsPair<Double, clsDataStructurePA>(oMatch, oCompareStructure));
 				}
 			}
 			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
@@ -540,11 +530,6 @@ public abstract class clsDataStructureComparison {
 	 * Get a whole mesh from a data structure including all associated structures in its associated structures
 	 * Only TPM are allowed
 	 * 
-	 * If the pnLevel=-1, then nothing is done
-	 * If the pnLevel=0, then only the drive meshes of the external associated structures and the direct structures of the internal associations are loaded
-	 * If the pnLevel=1, then the drive meshes and associations to other images (but no structures of those images) are loaded of the external structures and 
-	 * the direct internal associations are loaded with drive meshes and internal structures
-	 * 
 	 * AW
 	 * 
 	 * 
@@ -552,11 +537,12 @@ public abstract class clsDataStructureComparison {
 	 *
 	 * @param poInput
 	 * @param poSearchSpaceHandler
+	 * @return
 	 * @throws CloneNotSupportedException 
 	 */
-	public static void getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
+	public static clsThingPresentationMesh getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
 		
-		clsThingPresentationMesh oRetVal = poInput;
+		clsThingPresentationMesh oRetVal = null;
 		
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
@@ -565,64 +551,42 @@ public abstract class clsDataStructureComparison {
 		//Create Container for the DataStructure		
 	
 		//Check if that data structure can be found in the database, else return null
-		if (oRetVal instanceof clsThingPresentationMesh) {
-			
-//			//Clone the structure as here often the structure comes directly from the memory
-//			try {
-//				//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
-//				oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).clone();
-//			} catch (CloneNotSupportedException e) {
-//				// TODO (wendt) - Auto-generated catch block
-//				e.printStackTrace();
-//			}
-			
-			if (poInput.getMoDS_ID()>0 && pnLevel >=0) {
-				//Get the internal associations
+		//pnLevel MUST be at least 1, else no substructures are searched
+		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
+			if (poInput instanceof clsThingPresentationMesh) {
+				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
+				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
+					
+				//Clone the structure
+				try {
+					//oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).cloneGraph();
+					oRetVal = (clsThingPresentationMesh) ((clsThingPresentationMesh) poInput).clone();
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+				//clsThingPresentationMesh oTPMRetVal = oRetVal;
+				
+				oRetVal.setMoExternalAssociatedContent(oAssList);
 				//Add associations from intrinsic structures
 				for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
 					//Recursive function
 					if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						clsThingPresentationMesh oSubMesh = (clsThingPresentationMesh)oAss.getLeafElement();
-						//Get the complete mesh for this structure
-						//FIXME AW: Shall the structure be copied?
-						getCompleteMesh(oSubMesh, poSearchSpaceHandler, pnLevel-1);
-
-						//Get the extended structures from the searched one and add them to the TPM
-						((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
-						//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
-						//time associations of the subobject. This association is added to the external associations of the subobject
-						((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
-					}
-				}
-				
-				//Get the external associations
-				ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
-				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
-				
-				for (clsAssociation oAss : oAssList) {
-					if (oAss instanceof clsAssociationPrimary) {
-						//If pnLevel is at least 1 and this association does not exist in the list
-						if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oAss)==false) {
-							oRetVal.getExternalMoAssociatedContent().add(oAss);
-							//Replace the erroneous associations
-							if (oRetVal.getMoDS_ID()==oAss.getRootElement().getMoDS_ID()) {
-								oAss.setRootElement(oRetVal);
-							} else if (oRetVal.getMoDS_ID()==oAss.getLeafElement().getMoDS_ID()) {
-								oAss.setLeafElement(oRetVal);
-							}
-							
+						clsThingPresentationMesh oSubMesh = (clsThingPresentationMesh) getCompleteMesh((clsThingPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
+						if (oSubMesh!=null) {
+							//Get the extended structures from the searched one and add them to the TPM
+							((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
+							//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
+							//time associations of the subobject. This association is added to the external associations of the subobject
+							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
 						}
-					} else {
-						oRetVal.getExternalMoAssociatedContent().add(oAss);
 					}
 				}
-				
-				//oRetVal.setMoExternalAssociatedContent(oAssList);
-				
 			}
 		}
 		
-	//	return oRetVal;
+		return oRetVal;
 	}
 	
 	/**

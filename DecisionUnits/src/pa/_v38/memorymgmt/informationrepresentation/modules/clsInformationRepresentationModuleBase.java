@@ -103,8 +103,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
-		clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
-		return poInput;
+		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 	}
 	
 	public clsWordPresentationMesh getMesh(clsWordPresentationMesh poInput, int pnLevel) {
@@ -123,19 +122,16 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchDataMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel){
 		//Use Listsearch for containers
 		
-		if (moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ 
-			return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);
-		}
+		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);}
 		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-//	public clsDataStructureContainer getMesh(clsDataStructurePA poInput) {
-//		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
-//	}
+	public clsDataStructureContainer getMesh(clsDataStructurePA poInput) {
+		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+	}
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
-	
 	public abstract ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel);
 }
