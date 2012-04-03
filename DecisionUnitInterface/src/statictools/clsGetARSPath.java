@@ -18,6 +18,13 @@ public class clsGetARSPath {
 	{
 		return getArsPath()+System.getProperty("file.separator")+"Sim"+System.getProperty("file.separator")+"config";
 	}
+	public static String getEntityConfigPath(){
+		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"entity";
+	}
+	
+	public static String getDuConfigPath(){
+		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"du";
+	}	
 	
 	public static String getConfigImagePath()
 	{
