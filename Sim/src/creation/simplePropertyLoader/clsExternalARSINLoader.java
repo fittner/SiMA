@@ -22,11 +22,8 @@ import bw.entities.clsEntity;
 import statictools.clsUniqueIdGenerator;
 
 /**
- * Creates the world and all of its entities according to a simple property file. This file contains basic world settings
- * like width and hight. Further a list of different entity groups is provided. Each group creates entities according to 
- * the default values specified for them and at either a predefined position or at a random position. For an example of 
- * this property file, take a look at @see clsSimplePropertyLoader#getDefaultProperties(java.lang.String,%20boolean,%20boolean). 
- * This method creates a small world populated with various entities. 
+ * Loads the properties and and creates an ARSINI for external use. No dependencies to MASON or other simulation code.
+ * This file is derived from  clsSimplePropertyLoader
  * 
  * DOCUMENT (schaat) - insert description 
  * 
@@ -220,7 +217,7 @@ public class clsExternalARSINLoader extends clsLoader {
     }
     
     /**
-     * Creates all entities within a single entity group. The property file is read and parsed. For the entity type and the decision
+     * Creates a entity. The property file is read and parsed. For the entity type and the decision
      * unit type the default configuration is loaded. If overwrite or remove entries are present in the config, the 
      * merging or removing of entries is processed.
      *
@@ -256,7 +253,7 @@ public class clsExternalARSINLoader extends clsLoader {
     }
     
 	/**
-	 * Executes the load and entity creation. First all entites are created; afterwards the world boundary walls.
+	 * Executes the load and entity creation. 
 	 *
 	 * @author deutsch
 	 * Jul 25, 2009, 11:56:16 AM
