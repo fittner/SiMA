@@ -11,5 +11,6 @@
 	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/mason.jar"/>
 	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/vecmath.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Sim"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
