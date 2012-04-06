@@ -8,6 +8,7 @@
 package bw.entities;
 
 import java.awt.Color;
+import java.util.ArrayList;
 
 import javax.media.j3d.TransformGroup;
 
@@ -21,6 +22,7 @@ import config.clsProperties;
 import du.enums.eActionKissIntensity;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
+import du.itf.actions.clsActionCommand;
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
 import bw.body.attributes.clsAttributeAntenna;
@@ -267,4 +269,30 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 			((clsComplexBody)moBody).getIntraBodySystem().getColorSystem().setNormColor();
 		}
 	}	
+	
+	/**
+	 * Function to extract the current actions from the arsin
+	 *
+	 *(wendt)
+	 *
+	 * @since 06.04.2012 16:16:25
+	 *
+	 * @return
+	 */
+	public ArrayList<clsActionCommand> getActions(){
+		
+		return ((clsComplexBody)moBody).getExternalIO().getActionProcessor().getCommandStack();
+	}
+	
+	
+	/**
+	 * (wendt)
+	 *
+	 * @since 06.04.2012 16:16:52
+	 *
+	 */
+	public void clearStack(){
+		((clsComplexBody)moBody).getExternalIO().getActionProcessor().clear();
+	}
+
 }
