@@ -26,6 +26,8 @@ public class PlanningGraph {
 	// member to say where to start from
 	public PlanningNode m_rootNode;
 
+	public Boolean m_bPrintDebugOutput = false;
+
 	public HashMap<Integer, ArrayList<PlanningNode>> m_planningResults;
 
 	// available plans
@@ -131,13 +133,17 @@ public class PlanningGraph {
 	 */
 	public void breathFirstSearch() {
 
-		System.out.println(getClass() + "========================= generating plans ... ===================");
+		if (m_bPrintDebugOutput) {
+			System.out.println(getClass() + "========================= generating plans ... ===================");
+		}
 		m_planningResults = new HashMap<Integer, ArrayList<PlanningNode>>();
 		Queue<PlanningNode> q = new LinkedList<PlanningNode>();
 		int iLevel = 0;
 
 		q.add(m_rootNode);
-		printPlanningNodeToSysOut(null, m_rootNode, 0);
+		if (m_bPrintDebugOutput) {
+			printPlanningNodeToSysOut(null, m_rootNode, 0);
+		}
 
 		m_rootNode.visited = true;
 		while (!q.isEmpty()) {
@@ -148,7 +154,9 @@ public class PlanningGraph {
 				futureNode.visited = true;
 
 				savePlanningNode(futureNode, currentNode, iLevel);
-				printPlanningNodeToSysOut(futureNode, currentNode, iLevel);
+				if (m_bPrintDebugOutput) {
+					printPlanningNodeToSysOut(futureNode, currentNode, iLevel);
+				}
 				q.add(futureNode);
 			}
 		}
@@ -169,7 +177,9 @@ public class PlanningGraph {
 
 		int iLevel = 0;
 		// savePlanningNode(rootNode);
-		printPlanningNodeToSysOut(null, m_rootNode, iLevel);
+		if (m_bPrintDebugOutput) {
+			printPlanningNodeToSysOut(null, m_rootNode, iLevel);
+		}
 		while (!s.isEmpty()) {
 
 			PlanningNode n = (PlanningNode) s.peek();
@@ -178,7 +188,9 @@ public class PlanningGraph {
 			if (child != null) {
 				child.visited = true;
 				// savePlanningNode(child);
-				printPlanningNodeToSysOut(child, n, iLevel);
+				if (m_bPrintDebugOutput) {
+					printPlanningNodeToSysOut(child, n, iLevel);
+				}
 				s.push(child);
 			} else {
 				s.pop();
