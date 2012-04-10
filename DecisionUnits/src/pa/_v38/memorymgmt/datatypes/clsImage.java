@@ -122,19 +122,19 @@ public class clsImage {
 	 */
 	public boolean isEqualStrictTo(clsImage srcCompare) {
 		
-		if (m_eDist != null) {
+		if (m_eDist != null && srcCompare.m_eDist != null) {
 			if (m_eDist.compareTo(srcCompare.m_eDist) != 0)
 				return false;
 		} else if (srcCompare.m_eDist != null)
 			return false;
 
-		if (m_eDir != null) {
+		if (m_eDir != null && srcCompare.m_eDir != null) {
 			if (m_eDir.compareTo(srcCompare.m_eDir) != 0)
 				return false;
 		} else if (srcCompare.m_eDir != null)
 			return false;
 
-		if (m_eObj != null) {
+		if (m_eObj != null && srcCompare.m_eObj != null) {
 			if (m_eObj.compareTo(srcCompare.m_eObj) != 0)
 				return false;
 		} else if (srcCompare.m_eObj != null)

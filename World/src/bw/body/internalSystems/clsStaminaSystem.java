@@ -44,7 +44,7 @@ public class clsStaminaSystem implements itfStepUpdateInternalState {
 		
 		oProp.setProperty(pre+clsContentColumn.P_CONTENT, 1);
 		oProp.setProperty(pre+clsContentColumn.P_MAXCONTENT, 1);
-		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.005");
+		oProp.setProperty(pre+clsFillLevel.P_CHANGE, "0.013");
 		oProp.setProperty(pre+clsFillLevel.P_LOWERBOUND, "0.33");
 		oProp.setProperty(pre+clsFillLevel.P_UPPERBOUND, "0.66");	
 		

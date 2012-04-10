@@ -57,7 +57,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public static final String newline = System.getProperty("line.separator");
 
 	public static final String P_MODULENUMBER = "52";
-	private static final boolean m_bUseDraftPlanning = true;
+	private static final boolean m_bUseDraftPlanning = false;
+	private static final boolean m_bPrintDebugOutput = false;
 
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
@@ -111,6 +112,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		/** init planning engine */
 		plGraph = new PlanningGraph();
+		plGraph.m_bPrintDebugOutput = m_bPrintDebugOutput;
 		try {
 			/** add plans to planning engine */
 			PlanningWizard.initPlGraphWithActions(moAvailablePlanFragments, plGraph);
@@ -120,7 +122,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			PlanningWizard.printPlanningStack(plGraph);
 
 		} catch (Exception e) {
-			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "<");
+			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "< , stack-trace >");
 		}
 
 	}
@@ -697,18 +699,28 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //		System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
 //		System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size() + "< content >"
 //		    + currentApplicalbePlanningNodes + "<");
+		if (m_bPrintDebugOutput) {
+			System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
+			System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size()
+			    + "< content >" + currentApplicalbePlanningNodes + "<");
+		}
 		/** reset list and store new plans */
 		plansFromPerception.clear();
 
 		/** run through applicable plans and see which results can be achieved by executing plFragment */
 		for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
 //			System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+			if (m_bPrintDebugOutput) {
+				System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+			}
 
 			plGraph.setStartPlanningNode(plFragment);
 			plGraph.breathFirstSearch();
 			ArrayList<clsPlan> plans = plGraph.getPlans();
 
-			PlanningWizard.printPlans(plans);
+			if (m_bPrintDebugOutput) {
+				PlanningWizard.printPlans(plans);
+			}
 
 			/** add all plans */
 			for (clsPlan singlePlan : plans) {
