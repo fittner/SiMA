@@ -29,7 +29,8 @@ public enum eImages {
 	Overlay_Action_MoveBackward("Action_MoveBackward.png"),
 	Overlay_Action_Sleep("Action_Sleep.png"),
 	Overlay_Action_TurnLeft("Action_TurnLeft.png"),
-	Overlay_Action_TurnRight("Action_TurnRight.png");
+	Overlay_Action_TurnRight("Action_TurnRight.png"),
+	Overlay_Action_Rest("Action_Rest.png");
 	
 		
 	
