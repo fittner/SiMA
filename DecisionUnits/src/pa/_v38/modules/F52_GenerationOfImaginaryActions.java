@@ -694,15 +694,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			int i = 0;
 		}
 
-		System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
-		System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size() + "< content >"
-		    + currentApplicalbePlanningNodes + "<");
+//		System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
+//		System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size() + "< content >"
+//		    + currentApplicalbePlanningNodes + "<");
 		/** reset list and store new plans */
 		plansFromPerception.clear();
 
 		/** run through applicable plans and see which results can be achieved by executing plFragment */
 		for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
-			System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+//			System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
 
 			plGraph.setStartPlanningNode(plFragment);
 			plGraph.breathFirstSearch();
@@ -1015,11 +1015,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		String oPrintoutPrediction = PredictionToText(poPrediction);
 
-		System.out.println("BEGIN" + this.hashCode());
-		System.out.println(oPrintoutPrediction);
-		System.out.println(oPrintoutGoal);
-		System.out.println(oPrintoutPlan);
-		System.out.println("END");
+//		System.out.println("BEGIN" + this.hashCode());
+//		System.out.println(oPrintoutPrediction);
+//		System.out.println(oPrintoutGoal);
+//		System.out.println(oPrintoutPlan);
+//		System.out.println("END");
 
 	}
 

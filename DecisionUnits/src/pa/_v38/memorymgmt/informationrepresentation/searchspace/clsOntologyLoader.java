@@ -87,7 +87,7 @@ public class clsOntologyLoader {
 								eDataType.ASSOCIATIONATTRIBUTE,
 								eDataType.ASSOCIATIONPRI,
 								eDataType.ASSOCIATIONSEC,
-								eDataType.ACT,
+								//eDataType.ACT,
 								eDataType.AFFECT, 
 								eDataType.DM,
 								//eDataType.TI,
