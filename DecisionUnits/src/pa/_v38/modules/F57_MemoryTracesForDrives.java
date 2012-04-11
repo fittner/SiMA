@@ -18,7 +18,9 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -168,16 +170,17 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		//initializing of the list, because it cannnot be null
 		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
-		//Get all DMs
+		//Get all DMs from Perception
 		ArrayList<clsAssociationDriveMesh> oAssDMList = clsDataStructureTools.getAllDMInMesh(poPerceptionalMesh);
 		
-		//im Speicher suchen nachen nach TPMs die mit den verschiedenen Triebkandidaten assoziiert sind = Triebobjekte	
 		//1. Compare drive meshes with drive meshes in the perception	
 		for (clsDriveMesh oDM : poDriveCandidates) {
 			clsDataStructurePA oDS=null;
 			double rCurrentMatchFactor = 0.0;
 			double rMaxMatchfactor = 0.0;
 			double rMaxPleasurefactor = 0.0;
+
+			//1. Compare candidate drive meshes with drive meshes from the perception
 			//For each DM in the memory
 			for (clsAssociationDriveMesh oAss : oAssDMList) {
 				if (oAss.getLeafElement()instanceof clsDriveMesh) {
@@ -210,9 +213,49 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
 			} else {
 				// generate empty memory traces, if nothing is perceived
-				clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
-				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oTP, oDM));
-			}
+				// SSch Test decommented: clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+				// SSch Test decommented: oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oTP, oDM));
+				
+				/* SSch 2012-04-10 If the ARSIN does not get any drive objects from perceptions or the drive objects do not conform with the threshold
+				 * , the ARSIN halluzinates possible drive objects (whicht he remembers from memory)
+				 *  
+				 */
+				
+				rMaxPleasurefactor = 0.0;
+				rMaxMatchfactor = 0.0;
+				
+				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+				
+				ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
+				poSearchPattern.add(oDM);
+				
+				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
+				search(eDataType.TPM, poSearchPattern, oSearchResult);
+				
+				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+					// for each found DM
+					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+						rCurrentMatchFactor = oSearchPair.a;
+						if( rCurrentMatchFactor > mrThreshold && (rCurrentMatchFactor >= rMaxMatchfactor)) {
+							double rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrPleasure();
+							if (rCurrentPleasureValue > rMaxPleasurefactor) {
+								rMaxPleasurefactor = rCurrentPleasureValue;
+								rMaxMatchfactor = rCurrentMatchFactor;
+								ArrayList<clsAssociation> oAssDM = oSearchPair.b.getMoAssociatedDataStructures();
+								// take first object that is connected with the found DM
+								oDS = oAssDM.get(0).getRootElement();
+							}
+						}
+					}
+				}
+				
+				if (oDS == null) {
+					oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+				}
+				
+				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+				}
 		}
 		
 	return oRetVal;	
