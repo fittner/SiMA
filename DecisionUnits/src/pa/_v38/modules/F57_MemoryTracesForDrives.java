@@ -213,12 +213,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
 			} else {
 				// generate empty memory traces, if nothing is perceived
-				// SSch Test decommented: clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
-				// SSch Test decommented: oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oTP, oDM));
 				
 				/* SSch 2012-04-10 If the ARSIN does not get any drive objects from perceptions or the drive objects do not conform with the threshold
 				 * , the ARSIN halluzinates possible drive objects (whicht he remembers from memory)
-				 *  
+				 * Todo: Derzeit wird nur ein clsPair<DM, TPM> weitergereicht. Es fehlt die Moeglichkeit zu einem DM mehrere TPMs anzuhängen (eventuell ueber container? -->
+				 *  konsitente linie ob datencontainer für assoziationen oder membervariablen nötig!). Darauf aufbauend berücksichtigen und gewichten von halluz. und wahrg. Objekte 
 				 */
 				
 				rMaxPleasurefactor = 0.0;
