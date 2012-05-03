@@ -150,7 +150,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	protected void process_basic() {
 		moOutput =  deepCopy(moInput); 
 		
-		// TODO CM objekte einbeziehen
+		// TODO objekte einbeziehen, dafuer auf den clsPhysicalRepresentation die property isCandidateForRepression auf true setzen
 		//go to every drive mesh in the list and calculate the partial things
 		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair:moOutput) {
 			categorizeDriveMesh(oPair.b);
