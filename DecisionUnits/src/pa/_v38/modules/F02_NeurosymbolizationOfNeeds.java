@@ -383,7 +383,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 *
 	 * @author deutsch
 	 * 23.04.2011, 12:52:56
-	 * 
+	 * test
 	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartRowsChanged()
 	 */
 	@Override
