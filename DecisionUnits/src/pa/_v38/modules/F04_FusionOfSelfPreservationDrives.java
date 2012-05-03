@@ -7,13 +7,10 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsQuadruppel;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
@@ -38,7 +35,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	/** partial crive categories for the homeostatic drives */
-	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
+	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
 	/**
 	 * basic constructor, fills oposite pairs 
 	 * 
@@ -55,7 +52,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		fillOppositePairs();
-		fillPartialDriveCategories();
 	}
 	
 	private void fillOppositePairs() {
@@ -107,25 +103,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		//nothing to do
 	}
 	
-	//needs to be extended as other drives are added
-	private void fillPartialDriveCategories() {
-		moPartialDriveCategories = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
-		
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.6, 0.2, 0.3, 0.4)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "RELAX", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "REPRESS", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "BITE", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "SLEEP", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "DEPOSIT", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -182,17 +159,10 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			if (oA != null && oB != null) {
 				clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry = 
 					new clsPair<clsPair<clsDriveMesh,clsDriveDemand>, clsPair<clsDriveMesh,clsDriveDemand>>(oA, oB);
-					
-					//go to every drive mesh in the list and calculate the partial things
-					categorizeDriveMesh(oEntry.a.a);	
-					categorizeDriveMesh(oEntry.b.a);
 				
-				moDriveCandidates.add(oEntry); 
+					moDriveCandidates.add(oEntry); 
 			}
 		}
-		
-		
-
 	}
 	
 	private clsPair<clsDriveMesh, clsDriveDemand> getEntry(clsPair<String, String> poId) {
@@ -211,19 +181,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		return oResult;
 	}
 	
-	private void categorizeDriveMesh(clsDriveMesh poMD) {
-		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPartialDriveCategories) {
-			String oContentType = oPRM.a; 
-			String oContext = oPRM.b;
-			
-			if ( poMD.getMoContent().equals(oContext) && poMD.getMoContentType().equals(oContentType)) {
-				ArrayList<Double> oC = oPRM.c;
-				
-				poMD.setCategories(oC.get(0), oC.get(1), oC.get(2), oC.get(3));
-				break;
-			}
-		}
-	}
 
 	/* (non-Javadoc)
 	 *
