@@ -43,7 +43,7 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
 //import tstBw.*;
 
 /**
- * Host of the arsin body and brain
+ * Host of the arsin body and brain, now worling in v38g
  * 
  * @author langr
  * 
