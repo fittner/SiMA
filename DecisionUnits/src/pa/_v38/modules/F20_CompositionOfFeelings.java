@@ -16,7 +16,6 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_2_send;
-import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
@@ -42,11 +41,11 @@ import pa._v38.tools.toText;
  * According to 2 thresholds the output will be on of the 3 possible affects: anxiety, worriedness, or prickle
  * 
  * @author gelbard
- * 11.08.2009, 14:40:29
+ * 07.05.2012, 14:40:29
  * 
  */
-public class F20_InnerPerception_Affects extends clsModuleBase implements 
-					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive,  I6_9_receive, I6_2_send {
+public class F20_CompositionOfFeelings extends clsModuleBase implements 
+					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
 	private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
@@ -68,7 +67,7 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F20_InnerPerception_Affects(String poPrefix, clsProperties poProp,
+	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
@@ -340,16 +339,4 @@ public class F20_InnerPerception_Affects extends clsModuleBase implements
 		moDescription = "Until now, only quota of affects attached to thing presentations were available. Although the value of these quota of affects has immediate and strong influence on decision making they cannot become conscious. The qualitative counterpart of the quota of affects in the primary processes is the affect in the secondary processes. The affect is represented by a word presentation and thus can become conscious. Two different groups of affects are generated. Based on the output of the defense mechanisms, a set of affects is built. For these no explanation on their origin is available; they cannot be grasped. The other set uses the output of {E8} and {E21}. With the addition of word presentations ``explaining'' the contents attached to the quota of affects, the origin of the affect can be understood up to some extent. This results in more differentiated moods like unlust, fear, joy, sadness.";
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 03.05.2011, 17:38:53
-	 * 
-	 * @see pa._v38.interfaces.modules.I6_9_receive#receive_I6_9(java.util.ArrayList)
-	 */
-	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}	
 }

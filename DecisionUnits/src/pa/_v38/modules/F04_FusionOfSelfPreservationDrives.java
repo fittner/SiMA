@@ -253,6 +253,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
+		moDescription = "F04: The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
 	}	
 }

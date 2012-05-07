@@ -40,7 +40,7 @@ import pa._v38.tools.toText;
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
  * 
  * @author wendt
- * 11.08.2009, 14:49:09
+ * 07.05.2012, 14:49:09
  * 
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
@@ -56,6 +56,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
+	/** List of drive goals OUT; @since 07.05.2012 19:10:20 */
+	private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
 	
 	
 	
@@ -214,6 +216,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		moExtractedPrediction_OUT = new ArrayList<clsPrediction>();
+		moGoalList_OUT = moGoalList_IN;
 		
 		
 		/*
@@ -1175,7 +1178,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT);
+		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT, moGoalList_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1187,10 +1190,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	public void send_I6_7(clsWordPresentationMesh poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
-		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories);
+			ArrayList<clsPrediction> poExtractedPrediction, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemories,
+			ArrayList<clsWordPresentationMesh> poDriveList)
+			{
+		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories, poDriveList);
 		
-		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories);
+		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories, poDriveList);
 	}
 
 	/* (non-Javadoc)

@@ -45,7 +45,7 @@ import pa._v38.tools.toText;
  * <i>moSymbolData</i> holds the sensortype and the sensor symbol (converted from the extSensor value) (OUT I2.3)
  * 
  * @author muchitsch
- * 11.08.2009, 14:19:23
+ * 07.05.2012, 14:19:23
  * 
  */
 public class F11_NeuroSymbolizationEnvironment extends clsModuleBase 

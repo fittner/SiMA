@@ -41,7 +41,7 @@ import config.clsProperties;
  * If F06 decided to defend the forbidden drives F06 chooses the defense mechanism (repression, sublimation, deferral, ...).  
  * 
  * @author gelbard
- * 15.09.2009, 14:01:06
+ * 07.05.2012, 14:01:06
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 

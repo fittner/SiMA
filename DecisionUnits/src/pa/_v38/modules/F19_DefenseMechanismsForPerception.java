@@ -39,7 +39,7 @@ import pa._v38.tools.toText;
  * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
  * @author gelbard
- * 11.08.2009, 14:35:08
+ * 07.05.2012, 14:35:08
  * 
  */
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 

@@ -39,7 +39,7 @@ import config.clsProperties;
  * for the composition of the quota of affect. 
  * 
  * @author deutsch
- * 03.03.2011, 16:29:55
+ * 07.05.2012, 16:29:55
  * 
  */
 public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I5_8_receive, I5_9_send {

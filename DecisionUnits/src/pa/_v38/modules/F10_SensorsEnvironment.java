@@ -34,7 +34,7 @@ import pa._v38.tools.toText;
  * <i>moEnvironmentalData</i> holds the sensor symbols of the external perception (OUT I1.3)
  * 
  * @author muchitsch
- * 11.08.2009, 14:13:27
+ * 07.05.2012, 14:13:27
  * 
  */
 public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receive, I1_3_send {

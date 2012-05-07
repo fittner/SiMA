@@ -290,7 +290,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "Conversion of raw data into neuro-symbols.";
+		moDescription = "F02: Conversion of raw data into neuro-symbols.";
 	}
 
 	/* (non-Javadoc)

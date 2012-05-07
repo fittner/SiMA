@@ -219,6 +219,7 @@ public class clsProcessor implements itfProcessor  {
 		
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfAffectsForDrives.step(); 
+		moPsyApp.moF57_MemoryTracesForDrives.step(); 
 				
 		//perception to memory and repression
 		moPsyApp.moF14_ExternalPerception.step();
@@ -226,15 +227,19 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF37_PrimalRepressionForPerception.step();
 		
 		//Repression for drives
-		moPsyApp.moF57_MemoryTracesForDrives.step(); 
+		
 		moPsyApp.moF49_PrimalRepressionForDrives.step();
 		moPsyApp.moF54_EmersionOfBlockedDriveContent.step(); 
-		moPsyApp.moF56_Desexualization_Neutralization.step();
+		
 				
 		//Emersion of blocked content
 		moPsyApp.moF35_EmersionOfBlockedContent.step();
 		moPsyApp.moF45_LibidoDischarge.step();
 		moPsyApp.moF18_CompositionOfAffectsForPerception.step();
+		
+		//desexualization and emotions
+		moPsyApp.moF63_CompositionOfEmotions.step();
+		moPsyApp.moF56_Desexualization_Neutralization.step();
 
 		//super-ego
 		moPsyApp.moF55_SuperEgoProactive.step(); 
@@ -250,6 +255,9 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF20_InnerPerception_Affects.step();
 
 		//SECONDARY PROCESSES ----------------------------
+		
+		//localization
+		moPsyApp.moF61_Localization.step();
 		
 		//external perception
 		moPsyApp.moF23_ExternalPerception_focused.step();

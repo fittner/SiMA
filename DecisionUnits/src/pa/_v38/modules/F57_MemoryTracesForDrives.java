@@ -14,7 +14,6 @@ import java.util.SortedMap;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
-import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -40,7 +39,7 @@ import config.clsProperties;
  * 
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive, I5_7_receive, I5_1_send{
+		implements I4_1_receive, I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
 	private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
@@ -107,30 +106,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		return text;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 04.05.2011, 09:07:36
-	 * 
-	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
-	 */
-	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz Ö ganz boeses voodoo. 
-	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen muﬂt. 
-	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
-	 * (ist bei deepcopy nicht schlimm ñ kommt innerhalb der funktion dauernd vor).
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
-			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
-	}
+//	/* (non-Javadoc)
+//	 *
+//	 * @author zeilinger
+//	 * 04.05.2011, 09:07:36
+//	 * 
+//	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
+//	 */
+//	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz Ö ganz boeses voodoo. 
+//	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen muﬂt. 
+//	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
+//	 * (ist bei deepcopy nicht schlimm ñ kommt innerhalb der funktion dauernd vor).
+//	 */
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+//		try {
+//			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+//			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+//	}
 
 	/* (non-Javadoc)
 	 *
@@ -363,9 +362,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void send_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		
-	
 		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
+		((I5_1_receive)moModuleList.get(46)).receive_I5_1(poData); 
 		
 		putInterfaceData(I5_1_send.class, poData);
 	}
+
+
 }

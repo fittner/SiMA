@@ -13,8 +13,8 @@ import config.clsProperties;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
-import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -35,7 +35,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBase implements I6_1_receive, I6_3_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBase implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
 	/** Perception IN */
@@ -145,16 +145,16 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
+	
 	/* (non-Javadoc)
 	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 14:47:49
+	 * @since 07.05.2012 14:11:16
 	 * 
-	 * @see pa.interfaces.I2_11#receive_I2_11(int)
+	 * @see pa._v38.interfaces.modules.I6_12_receive#receive_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+	public void receive_I6_12(clsWordPresentationMesh poPerception,
+			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		try {
 			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -163,7 +163,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		}
 		//AW 20110602 Added Associtated memories
 		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
-	}
+		
+	}	
 
 	/* (non-Javadoc)
 	 *
@@ -490,6 +491,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	@Override
 	public void setDescription() {
 		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
-	}	
+	}
+
+
 	
 }

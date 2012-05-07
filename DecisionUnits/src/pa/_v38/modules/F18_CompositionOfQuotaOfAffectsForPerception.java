@@ -30,7 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  * 11.08.2009, 14:33:54
  * 
  */
-public class F18_CompositionOfAffectsForPerception extends clsModuleBase implements I5_9_receive, I5_10_send {
+public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase implements I5_9_receive, I5_10_send {
 	public static final String P_MODULENUMBER = "18";
 	
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -50,7 +50,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F18_CompositionOfAffectsForPerception(String poPrefix,
+	public F18_CompositionOfQuotaOfAffectsForPerception(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -323,6 +323,7 @@ public class F18_CompositionOfAffectsForPerception extends clsModuleBase impleme
 	@Override
 	public void send_I5_10(clsThingPresentationMesh poPerceptionalMesh) {
 		((I5_10_receive)moModuleList.get(7)).receive_I5_10(poPerceptionalMesh);
+		((I5_10_receive)moModuleList.get(63)).receive_I5_10(poPerceptionalMesh);
 		
 		putInterfaceData(I5_10_send.class, poPerceptionalMesh);
 	}

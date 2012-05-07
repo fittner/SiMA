@@ -39,7 +39,7 @@ import config.clsProperties;
  * F06 or F19 (Ego) can decide now to defend the forbidden drives or not.
  * 
  * @author zeilinger, gelbard
- * 02.05.2011, 15:47:53
+ * 07.05.2012, 15:47:53
  * 
  */
 public class F07_SuperEgoReactive extends clsModuleBase

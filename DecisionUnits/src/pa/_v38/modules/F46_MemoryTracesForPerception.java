@@ -16,6 +16,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
@@ -51,11 +53,11 @@ import du.enums.eDistance;
  * the TPMs to the thing presentations 
  * 
  * @author deutsch
- * 03.03.2011, 16:16:45
+ * 07.05.2012, 16:16:45
  * 
  */
-public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
-					I2_6_receive, I5_19_receive, I5_6_send {
+public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
+					I2_6_receive, I5_19_receive, I5_1_receive, I5_6_send {
 	public static final String P_MODULENUMBER = "46";
 	
 	/* Inputs */
@@ -63,6 +65,8 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_IN; 
 	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
+	/** Input from Drive System */
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 	
 	/* Output */
 	/** A Perceived image incl. DMs */
@@ -93,7 +97,7 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F46_FusionWithMemoryTraces(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
+	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -1005,6 +1009,18 @@ public class F46_FusionWithMemoryTraces extends clsModuleBaseKB implements
 		//Give output to input of F37
 		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poPerceptionalMesh);
 		putInterfaceData(I5_6_send.class, poPerceptionalMesh);
+	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 10:58:36
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_22_receive#receive_I5_22(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I5_1(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
 	}
 
 	/* (non-Javadoc)

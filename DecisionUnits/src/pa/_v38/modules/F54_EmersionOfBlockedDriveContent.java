@@ -29,7 +29,7 @@ import config.clsProperties;
  * According to a getBestMatch function F54 finds the repressed drive from the list of repressed drives (clsBlockedContentStoreage) which matches best the incoming drive.
  * 
  * @author gelbard
- * 02.09.2011, 00:20:36
+ * 07.05.2012, 00:20:36
  * 
  */
 public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
@@ -236,6 +236,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
 		
 		((I5_3_receive)moModuleList.get(56)).receive_I5_3(poDrives);
+		((I5_3_receive)moModuleList.get(63)).receive_I5_3(poDrives);
 		
 		putInterfaceData(I5_3_send.class, poDrives);
 	}

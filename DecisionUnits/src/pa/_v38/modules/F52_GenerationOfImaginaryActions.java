@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
+import pa._v38.interfaces.modules.I2_5_receive;
+import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -27,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -51,7 +54,7 @@ import config.clsProperties;
  * @author perner 09.10.2011
  * 
  */
-public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements I6_8_receive, I6_9_send,
+public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements I6_8_receive, I6_9_send, I6_11_receive, I2_5_receive,
     itfInspectorGenericActivityTimeChart {
 
 	public static final String newline = System.getProperty("line.separator");
@@ -310,6 +313,31 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 14:28:53
+	 * 
+	 * @see pa._v38.interfaces.modules.I2_5_receive#receive_I2_5(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
+		// TODO (muchitsch) - Auto-generated method stub
+		xxx
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 14:28:54
+	 * 
+	 * @see pa._v38.interfaces.modules.I6_11_receive#receive_I6_11(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh)
+	 */
+	@Override
+	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands,
+			clsWordPresentationMesh poEnvironmentalPerception) {
+		// TODO (muchitsch) - Auto-generated method stub
+		xxx
 	}
 
 	/*
@@ -1166,6 +1194,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		oCaptions.add("rNUM_IMAGINARY_ACTIONS");
 		return oCaptions;
 	}
+
+
 
 	/***********************************************************************************************
 	 * END inspector specific functions

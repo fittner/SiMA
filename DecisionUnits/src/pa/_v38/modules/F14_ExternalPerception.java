@@ -39,7 +39,7 @@ import pa._v38.tools.toText;
  * <i>moEnvironmentalTP</i> OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT 2.6)<br>
  * 
  * @author muchitsch
- * 11.08.2009, 14:26:13
+ * 07.05.2012, 14:26:13
  * 
  */
 public class F14_ExternalPerception extends clsModuleBase implements 

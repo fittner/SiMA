@@ -32,7 +32,7 @@ import config.clsProperties;
  * predefined but individual templates. The result are eight sexual drives.
  * 
  * @author muchitsch
- * 03.03.2011, 15:19:56
+ * 07.05.2012, 15:19:56
  * 
  */
 public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase implements I3_1_receive, I3_3_send {
