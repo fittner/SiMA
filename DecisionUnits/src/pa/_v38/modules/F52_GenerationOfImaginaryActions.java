@@ -75,6 +75,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	/** Associated memories in */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	
+	private ArrayList<clsWordPresentation> moMotilityActions_IN;
+	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
 
 	/** Associated memories out */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
@@ -323,8 +326,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
-		// TODO (muchitsch) - Auto-generated method stub
-		xxx
+		moMotilityActions_IN = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
 	}
 
 	/* (non-Javadoc)
@@ -336,8 +338,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands,
 			clsWordPresentationMesh poEnvironmentalPerception) {
-		// TODO (muchitsch) - Auto-generated method stub
-		xxx
+		moImaginaryActions_IN = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
 	}
 
 	/*
@@ -363,9 +364,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	public void send_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories,
 	    clsWordPresentationMesh poEnvironmentalPerception) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);

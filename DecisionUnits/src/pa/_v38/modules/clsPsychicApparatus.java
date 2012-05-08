@@ -206,6 +206,8 @@ public class clsPsychicApparatus {
 		oProp.putAll( F45_LibidoDischarge.getDefaultProperties( pre + F45_LibidoDischarge.P_MODULENUMBER ));
 		oProp.putAll( F46_MemoryTracesForPerception.getDefaultProperties( pre + F46_MemoryTracesForPerception.P_MODULENUMBER ));
 		oProp.putAll( F47_ConversionToPrimaryProcess.getDefaultProperties( pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER ));
+		oProp.putAll( F61_Localization.getDefaultProperties( pre + F61_Localization.P_MODULENUMBER ));
+		oProp.putAll( F63_CompositionOfEmotions.getDefaultProperties( pre + F63_CompositionOfEmotions.P_MODULENUMBER ));
 
 		return oProp;
 	}	

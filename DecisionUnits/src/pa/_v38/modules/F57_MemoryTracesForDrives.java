@@ -154,7 +154,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
+		//FIXME hier muss es wieder funktionieren, perceptual Mesh gibt es beiv38g ja nciht mehr
+		//moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
+		
 		
 	}
 

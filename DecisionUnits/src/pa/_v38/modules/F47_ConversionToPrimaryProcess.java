@@ -35,7 +35,7 @@ import config.clsProperties;
  *   
  * 
  * @author wendt
- * 03.03.2011, 15:22:59
+ * 03.03.2012, 15:22:59
  * 
  */
 public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_9_receive, I5_19_send {

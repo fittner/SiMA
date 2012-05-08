@@ -26,7 +26,7 @@ import config.clsProperties;
  * Pass ActionCommands to F31_NeuroDeSymbolizationActionCommands. When no action command are present, do some seeking. Motoric movement can be controlled by psychic functions up to some extend. Drive inhibitiona mechanism necessary for the defense mechanismsleads to the possibility to perform behavior in rehearsal. Module {E30} uses this concept to evaluate how the submitted action plan can be realized best. The resulting action commands are forwarded to {E31}.
  * 
  * @author brandstaetter
- * 11.08.2009, 14:58:20
+ * 11.08.2012, 14:58:20
  * 
  */
 public class F30_MotilityControl extends clsModuleBase 
@@ -246,6 +246,7 @@ public class F30_MotilityControl extends clsModuleBase
 	@Override
 	public void send_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
 		((I2_5_receive)moModuleList.get(31)).receive_I2_5(poActionCommands);
+		((I2_5_receive)moModuleList.get(52)).receive_I2_5(poActionCommands);
 		
 		putInterfaceData(I2_5_send.class, poActionCommands);
 		

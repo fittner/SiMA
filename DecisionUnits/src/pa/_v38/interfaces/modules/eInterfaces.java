@@ -73,6 +73,7 @@ public enum eInterfaces {
 	I5_17("Transports quota of affects which have originally been attached to thing presentations representing drive contents from F6 to F20. The splitting apart is a result of the defense mechanisms."),
 	I5_18("Transports (unchanged or adapted) drive contents which passed the defense mechanisms from F6 to the conversion module F8."),
 	I5_19("Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46."),
+	I5_21("F63 to F55."),
 	I6_1("The perception contents consisting of word presentations, thing presentations, and affects are sent from F21 to F26 and F23 for further processing."),
 	I6_2("Differentiated experienced moods (Feelings, Thing Presentations, Symbol Presentations) are transported from F20 to F26, F52, and F29."),
 	I6_3("This interface distributes the drive wishes produced by module F8 to the modules F23 and F26."),
@@ -83,7 +84,8 @@ public enum eInterfaces {
 	I6_8("Three action goals are passed on to F52. Word and thing presentations representing the result of module F26 are distributed to F52."),
 	I6_9("The various imaginated action plans are distributed from F52 to F47, F29, and F53."),
 	I6_10("Reality checked action plans are passed on from F53 to F29."),
-	I6_11("The final action plan is transported from F29 to F30.");
+	I6_11("The final action plan is transported from F29 to F30."),
+	I6_12("F61 to F23.");
 	
 	/** Description of the purpose of the interface; @since 12.07.2011 13:16:00 */
 	private String moDescription;
