@@ -8,30 +8,64 @@
 package bw.body.io;
 
 import java.util.ArrayList;
-//import java.util.HashMap;
-
-import config.clsProperties;
 
 import bw.body.clsBaseBody;
 import bw.body.io.actuators.clsActionProcessor;
-import bw.body.io.actuators.actionExecutors.*;
+import bw.body.io.actuators.actionExecutors.clsExecutorAttackBite;
+import bw.body.io.actuators.actionExecutors.clsExecutorAttackLightning;
+import bw.body.io.actuators.actionExecutors.clsExecutorBodyColor;
+import bw.body.io.actuators.actionExecutors.clsExecutorCultivate;
+import bw.body.io.actuators.actionExecutors.clsExecutorDrop;
+import bw.body.io.actuators.actionExecutors.clsExecutorEat;
+import bw.body.io.actuators.actionExecutors.clsExecutorExcrement;
+import bw.body.io.actuators.actionExecutors.clsExecutorFacialExpressions;
+import bw.body.io.actuators.actionExecutors.clsExecutorFromInventory;
+import bw.body.io.actuators.actionExecutors.clsExecutorInnerSpeech;
+import bw.body.io.actuators.actionExecutors.clsExecutorKiss;
+import bw.body.io.actuators.actionExecutors.clsExecutorMove;
+import bw.body.io.actuators.actionExecutors.clsExecutorMoveToArea;
+import bw.body.io.actuators.actionExecutors.clsExecutorPickUp;
+import bw.body.io.actuators.actionExecutors.clsExecutorSleep;
+import bw.body.io.actuators.actionExecutors.clsExecutorToInventory;
+import bw.body.io.actuators.actionExecutors.clsExecutorTurn;
 import bw.body.io.actuators.actionProxies.itfAPSleep;
-import du.enums.eSensorExtType;
-import du.itf.actions.*;
-import bw.body.io.sensors.ext.clsSensorExt;
-
-//ZEILINGER  -- integration Sensor Engine
-import bw.body.io.sensors.ext.clsSensorBump;
-import bw.body.io.sensors.ext.clsSensorEngine;
-import bw.body.io.sensors.ext.clsSensorManipulateArea;
-import bw.body.io.sensors.ext.clsSensorVision;
-import bw.body.io.sensors.ext.clsSensorEatableArea;
-import bw.body.io.sensors.ext.clsSensorPositionChange;
-import bw.body.io.sensors.ext.clsSensorRadiation;
-import bw.body.io.sensors.ext.clsSensorAcceleration;
-
+import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorEngine;
+import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorPositionChange;
+import bw.body.io.sensors.external.clsSensorRadiation;
+import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
+import config.clsProperties;
+import du.enums.eSensorExtType;
+import du.itf.actions.clsActionAttackBite;
+import du.itf.actions.clsActionAttackLightning;
+import du.itf.actions.clsActionBodyColor;
+import du.itf.actions.clsActionBodyColorBlue;
+import du.itf.actions.clsActionBodyColorGreen;
+import du.itf.actions.clsActionBodyColorRed;
+import du.itf.actions.clsActionCultivate;
+import du.itf.actions.clsActionDrop;
+import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionExcrement;
+import du.itf.actions.clsActionFacialExEyeSize;
+import du.itf.actions.clsActionFacialExLeftAntennaPosition;
+import du.itf.actions.clsActionFacialExLensShape;
+import du.itf.actions.clsActionFacialExLensSize;
+import du.itf.actions.clsActionFacialExRightAntennaPosition;
+import du.itf.actions.clsActionFromInventory;
+import du.itf.actions.clsActionInnerSpeech;
+import du.itf.actions.clsActionKiss;
+import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionMoveToEatableArea;
+import du.itf.actions.clsActionPickUp;
+import du.itf.actions.clsActionSleep;
+import du.itf.actions.clsActionToInventory;
+import du.itf.actions.clsActionTurn;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
