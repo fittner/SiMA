@@ -113,7 +113,7 @@ public class clsExecutorSleep extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionSleep oCommand =(clsActionSleep) poCommand; 
 
-		moEntity.setOverlayImage(eImages.Overlay_Action_Rest);
+		moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeech);
 		
 		ArrayList<itfAPSleep> oNotify = null;
 		
