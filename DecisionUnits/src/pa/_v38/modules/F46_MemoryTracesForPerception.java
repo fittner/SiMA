@@ -201,8 +201,11 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		}
 		
 		//FIXME: Add input from phantasy
+		//Get the drive mesh filter
+		//ArrayList<clsDriveMesh> oDriveFilter = extractDriveMeshes(moDrives_IN,3);
+		
 		//TPMs are added to the perceived image
-		executePsychicSpreadActivation(moEnhancedPerception, 0.3);
+		executePsychicSpreadActivation(moEnhancedPerception, 0.3, new ArrayList<clsDriveMesh>());
 		enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = moEnhancedPerception;
@@ -919,6 +922,39 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		}
 		//Set new instance IDs
 		//clsDataStructureTools.createInstanceFromTypeList(oRetVal, true);
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Extract the n first drives from a list of drive meshes and drive objects
+	 * (wendt)
+	 *
+	 * @since 10.05.2012 11:07:00
+	 *
+	 * @param poDriveList
+	 * @param pnNumberOfDriveMeshes
+	 * @return
+	 */
+	private ArrayList<clsDriveMesh> extractDriveMeshes(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList, int pnNumberOfDriveMeshes) {
+		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+		
+		int nCounter = 0;
+		if (poDriveList.isEmpty()==false) {
+			for (int i=0; i<poDriveList.size();i++) {
+				clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair = poDriveList.get(i);
+				oRetVal.add(oPair.b);
+				
+				if (nCounter>=pnNumberOfDriveMeshes-1) {
+					break;
+				}
+				
+				nCounter++;
+					
+			}
+		}
+		
+		
 		
 		return oRetVal;
 	}

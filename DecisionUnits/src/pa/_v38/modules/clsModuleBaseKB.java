@@ -571,12 +571,12 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param prPsychicEnergyIn
 	 * @return
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMesh> poDriveMeshFilter) {
 		
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages, poDriveMeshFilter);
 	
 	}
 }
