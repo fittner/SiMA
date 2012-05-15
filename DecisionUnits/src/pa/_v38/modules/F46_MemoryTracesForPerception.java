@@ -171,6 +171,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
 		
+		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
+		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
+				
+				
 		//Create EMPTYSPACE objects
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
@@ -204,12 +208,61 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//TPMs are added to the perceived image
 		executePsychicSpreadActivation(moEnhancedPerception, 0.3, new ArrayList<clsDriveMesh>());
-		enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
+		//deprecated enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = moEnhancedPerception;
 		
 	}
-	 
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @since May 3, 2012 11:28:30 AM
+	 *
+	 * @param oPerceivedImage
+	 * @return
+	 * 
+	 * Compare Image with  Images from Memory. Result = PI associated with similar TIs
+	 * Just compare if similar Entities of PI exist in RIs 
+	 * 
+	 * TODO: check imperativeFactor of Associations (see TPM.compareTo). MathcingFactor is decreased by imperativeFactor - check dynamic change of impFact  
+	 * 
+	 */
+	private clsThingPresentationMesh compareRIsWithPI(
+			clsThingPresentationMesh oPerceivedImage) {
+		// TODO (schaat) - Auto-generated method stub
+		
+		double rThreshold = 0.0;
+		clsDataStructurePA oRI = null;
+		ArrayList<clsAssociation> oAssociatedRIs = new ArrayList<clsAssociation>();
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
+		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+		poSearchPattern.add(oPerceivedImage);
+		
+		// search for similar Images in memory (similar to PI) 
+		search(eDataType.UNDEFINED, poSearchPattern, oSearchResult);
+		
+		// for every found similar RI
+		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+			for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+								
+				if( oSearchPair.a > rThreshold) {
+					oRI = oSearchPair.b.getMoDataStructure();
+					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI("RI", oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
+				}
+				
+			}
+		
+		}
+		
+		// associate similar RI with PI. weight = matchFactor
+		oPerceivedImage.setMoExternalAssociatedContent(oAssociatedRIs);
+		
+		return oPerceivedImage;
+	}
 
 	/* (non-Javadoc)
 	 *

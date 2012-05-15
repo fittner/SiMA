@@ -6,12 +6,12 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitMasonInspectors"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/j3dcore.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/j3dutils.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/jcommon-1.0.14.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/jfreechart-1.0.11.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/mason.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/mason_physics2D.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_v01/libraries/vecmath.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/j3dcore.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/j3dutils.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/jcommon-1.0.14.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/jfreechart-1.0.11.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mason.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
