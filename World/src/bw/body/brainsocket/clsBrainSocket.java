@@ -222,6 +222,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				oData.setAlive(true);
 				oData.setShapeType( du.enums.eShapeType.CIRCLE );
 				oData.setColor( new Color(0,200,0) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 			
@@ -231,12 +232,14 @@ public class clsBrainSocket implements itfStepProcessing {
 				oData.setEntityType( du.enums.eEntityType.CAKE );
 				oData.setShapeType( du.enums.eShapeType.CIRCLE );
 				oData.setColor( Color.PINK );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 				
 			case  CAN:
 			{
 				oData.setEntityType(du.enums.eEntityType.CAN);
+				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 				
@@ -246,6 +249,7 @@ public class clsBrainSocket implements itfStepProcessing {
 				oData.setEntityType( du.enums.eEntityType.STONE );
 				oData.setShapeType( du.enums.eShapeType.CIRCLE );
 				oData.setColor( Color.DARK_GRAY );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 				
