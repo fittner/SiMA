@@ -11,6 +11,8 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Vector;
+
 import config.clsProperties;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
@@ -41,6 +43,7 @@ import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 import du.itf.sensors.clsTemperatureSystem;
+import du.itf.sensors.clsUnrealSensorValueVision;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
@@ -48,6 +51,7 @@ import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import bfg.utils.enums.eCount;
+import bfg.utils.enums.eSide;
 import bw.body.itfStepProcessing;
 import bw.body.attributes.clsAttributeAlive;
 import bw.body.internalSystems.clsFastMessengerEntry;
@@ -85,12 +89,19 @@ import bw.utils.sensors.clsSensorDataCalculation;
  * 
  */
 public class clsBrainSocket implements itfStepProcessing {
+	
+	public  final double _UNREAL_NEAR_DISTANCE = 1;
+	public  final double _UNREAL_MEDIUM_DISTANCE = 5;
+	public  final double _UNREAL_FAR_DISTANCE = 20;
+	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 //	private clsSensorDataCalculation moSensorCalculation;
+	
+	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
 	
 	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
 		moActionProcessor=poActionProcessor;
@@ -158,7 +169,131 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorInt(eSensorIntType.FASTMESSENGER, convertFastMessengerSystem() );
 		oData.addSensorInt(eSensorIntType.SLOWMESSENGER, convertSlowMessengerSystem() );
 		
+		//if there is external unreal date: fake it into the system
+		if(moUnrealVisionValues!=null && !moUnrealVisionValues.isEmpty())
+			processUnrealVision(moUnrealVisionValues, oData);
+		
 		return oData;
+	}
+	
+	private void processUnrealVision(Vector<clsUnrealSensorValueVision> poUnrealVisionValues, clsSensorData poData) {
+		
+		for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
+			
+			clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
+			
+			double oVisionDistance = oVisionEntry.getRadius();
+			
+			if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
+				poData.addSensorExt(eSensorExtType.VISION_NEAR, convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+			if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
+				poData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+			if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
+				poData.addSensorExt(eSensorExtType.VISION_FAR, convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+		}		
+	}
+	
+	//creates one vision entry transformed to ARS vision types
+	private clsVision convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
+		clsVision oData = new clsVision();
+		oData.setSensorType(poVisionType);
+
+		//the real conversion
+		clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
+		oData.add(oEntry);
+		
+		return oData;
+	}
+	
+	//the real deep transformation to ARS vision data
+	private clsVisionEntry convertUNREALVisionEntry(clsUnrealSensorValueVision poUNREALSensorVisionData) {
+		clsVisionEntry oData = new clsVisionEntry();
+		
+		//set data, for all objects these are the same
+		oData.setObjectPosition( getObjectPositionFromUNREAL(poUNREALSensorVisionData) );
+		oData.setEntityId(poUNREALSensorVisionData.getID());
+		
+	
+		switch(poUNREALSensorVisionData.getType())
+		{
+			case ARSIN:
+			{
+				oData.setEntityType(du.enums.eEntityType.ARSIN);
+				oData.setAlive(true);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(0,200,0) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case CAKE:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.CAKE );
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( Color.PINK );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+				
+			case  CAN:
+			{
+				oData.setEntityType(du.enums.eEntityType.CAN);
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+				
+			case  STONE:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.STONE );
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( Color.DARK_GRAY );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+				
+			case  UNDEFINED:
+			{
+				oData.setEntityType(du.enums.eEntityType.UNDEFINED);
+				break;
+			}
+				
+			default:throw new java.lang.NullPointerException("UNREAL vision type not implemented");	
+		}
+
+		return oData;
+	}
+	
+	//convert the objects from the unreal vision to symbols where the object is
+	private eSide getObjectPositionFromUNREAL(clsUnrealSensorValueVision poUNREALSensorVisionData){
+		eSide oSide = eSide.UNDEFINED;
+		
+		//where is the object
+		if (Math.abs(poUNREALSensorVisionData.getAngle()) <= _UNREAL_AREA_OF_VIEW_RADIANS/18)
+		{
+			oSide = eSide.CENTER;
+		}
+		else if(Math.abs(poUNREALSensorVisionData.getAngle()) <= _UNREAL_AREA_OF_VIEW_RADIANS/4)
+		{
+			if (poUNREALSensorVisionData.getAngle()<0)
+			{
+				oSide = eSide.MIDDLE_LEFT;
+			}
+			else 
+			{
+				oSide = eSide.MIDDLE_RIGHT;
+			}
+		}
+		else {
+				if(poUNREALSensorVisionData.getAngle()<0){
+					oSide = eSide.LEFT; 
+				}
+				else{
+					oSide = eSide.RIGHT; 
+				}
+		}
+		return oSide;
 	}
 	
 	private clsDataBase convertSlowMessengerSystem() {
@@ -591,6 +726,27 @@ public class clsBrainSocket implements itfStepProcessing {
 	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
 		moDecisionUnit.setActionProcessor(moActionProcessor);
+	}
+	
+	
+
+	/**
+	 * @since 16.05.2012 15:49:46
+	 * 
+	 * @return the moUnrealVisionValues
+	 */
+	public Vector<clsUnrealSensorValueVision> getUnrealVisionValues() {
+		return moUnrealVisionValues;
+	}
+
+	/**
+	 * @since 16.05.2012 15:49:46
+	 * 
+	 * @param moUnrealVisionValues the moUnrealVisionValues to set
+	 */
+	public void setUnrealVisionValues(
+			Vector<clsUnrealSensorValueVision> moUnrealVisionValues) {
+		this.moUnrealVisionValues = moUnrealVisionValues;
 	}
 
 	/**

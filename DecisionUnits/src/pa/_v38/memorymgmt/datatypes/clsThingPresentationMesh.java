@@ -159,7 +159,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
-		
+		else if(this.moContentType.intern() == "RI" & poDataStructure.moContentType.intern() == "PI") {
+			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+		}
 		//Special case, if the TPM is empty	
 		
 			

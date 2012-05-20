@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 ; Sun May 20 13:55:58 GMT 2012
+=======
+; Tue May 15 15:27:18 CEST 2012
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,6 +49,7 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10040] of  String
 
 	(name ":INSTANCE-ANNOTATION")
@@ -56,22 +61,37 @@
 	(string_value "%3ANAME"))
 
 ([BASIC_ProjectKB_Class10042] of  String
+=======
+([BASIC_ProjectKB_Class100] of  String
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10043] of  String
+=======
+([BASIC_ProjectKB_Class101] of  String
+
+	(name ":INSTANCE-ANNOTATION")
+	(string_value "%3AANNOTATION-TEXT"))
+
+([BASIC_ProjectKB_Class102] of  String
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10044] of  Map_Entry
+=======
+([BASIC_ProjectKB_Class103] of  String
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
-	(key "suppress_instance_counting")
-	(key_class "java.lang.String")
-	(value "false")
-	(value_class "java.lang.String"))
+	(name ":META-CLASS")
+	(string_value "%3ANAME"))
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10045] of  Map_Entry
 
 	(key "change_tracking_active")
@@ -80,29 +100,65 @@
 	(value_class "java.lang.String"))
 
 ([BASIC_ProjectKB_Class10046] of  Map_Entry
+=======
+([BASIC_ProjectKB_Class104] of  Map_Entry
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10047] of  Map
+=======
+([BASIC_ProjectKB_Class105] of  Map_Entry
+
+	(key "change_tracking_active")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
+
+([BASIC_ProjectKB_Class106] of  Map
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 )
 
+<<<<<<< HEAD
 ([BASIC_ProjectKB_Class10048] of  Map_Entry
+=======
+([BASIC_ProjectKB_Class107] of  Map_Entry
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
+<<<<<<< HEAD
 	(value "BASIC_ProjectKB_Class10047")
+=======
+	(value "BASIC_ProjectKB_Class106")
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 	(value_class "java.util.Map"))
+
+([BASIC_ProjectKB_Class108] of  Map_Entry
+
+	(key "suppress_instance_counting")
+	(key_class "java.lang.String")
+	(value "false")
+	(value_class "java.lang.String"))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
+<<<<<<< HEAD
 		[BASIC_ProjectKB_Class10040]
 		[BASIC_ProjectKB_Class10041]
 		[BASIC_ProjectKB_Class10042]
 		[BASIC_ProjectKB_Class10043]))
+=======
+		[BASIC_ProjectKB_Class100]
+		[BASIC_ProjectKB_Class101]
+		[BASIC_ProjectKB_Class102]
+		[BASIC_ProjectKB_Class103]))
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 ([CLSES_TAB] of  Widget
 
@@ -147,6 +203,12 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+<<<<<<< HEAD
+=======
+([KB_237288_Class5] of  Map
+)
+
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -155,11 +217,19 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
+<<<<<<< HEAD
 		[BASIC_ProjectKB_Class10044]
 		[BASIC_ProjectKB_Class10045]
 		[BASIC_ProjectKB_Class10046]
 		[BASIC_ProjectKB_Class10048])
 	(referenced_maps [BASIC_ProjectKB_Class10047]))
+=======
+		[BASIC_ProjectKB_Class104]
+		[BASIC_ProjectKB_Class105]
+		[BASIC_ProjectKB_Class107]
+		[BASIC_ProjectKB_Class108])
+	(referenced_maps [BASIC_ProjectKB_Class106]))
+>>>>>>> branch 'refs/heads/master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -705,10 +775,10 @@
 	(browser_slot_names [BROWSER_SLOT_NAMES])
 	(customized_instance_widgets
 		[INSTANCE_ANNOTATION_FORM_WIDGET]
-		[STANDARD_FACET_FORM_WIDGET]
 		[STANDARD_SLOT_FORM_WIDGET]
-		[STANDARD_CLASS_FORM_WIDGET]
-		[PAL_FORM_WIDGET])
+		[STANDARD_FACET_FORM_WIDGET]
+		[PAL_FORM_WIDGET]
+		[STANDARD_CLASS_FORM_WIDGET])
 	(default_cls_metaclass ":STANDARD-CLASS")
 	(default_facet_metaclass ":STANDARD-FACET")
 	(default_instance_widget_class_name "edu.stanford.smi.protege.widget.FormWidget")

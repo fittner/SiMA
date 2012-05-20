@@ -16,7 +16,6 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -57,7 +56,7 @@ import du.enums.eDistance;
  * 
  */
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
-					I2_6_receive, I5_19_receive, I5_1_receive, I5_6_send {
+					I2_6_receive, I5_19_receive, I5_6_send {
 	public static final String P_MODULENUMBER = "46";
 	
 	/* Inputs */
@@ -65,8 +64,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_IN; 
 	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
-	/** Input from Drive System */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
+
 	
 	/* Output */
 	/** A Perceived image incl. DMs */
@@ -173,6 +171,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
 		
+		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
+		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
+				
+				
 		//Create EMPTYSPACE objects
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
@@ -206,12 +208,61 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//TPMs are added to the perceived image
 		executePsychicSpreadActivation(moEnhancedPerception, 0.3, new ArrayList<clsDriveMesh>());
-		enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
+		//deprecated enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = moEnhancedPerception;
 		
 	}
-	 
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @since May 3, 2012 11:28:30 AM
+	 *
+	 * @param oPerceivedImage
+	 * @return
+	 * 
+	 * Compare Image with  Images from Memory. Result = PI associated with similar TIs
+	 * Just compare if similar Entities of PI exist in RIs 
+	 * 
+	 * TODO: check imperativeFactor of Associations (see TPM.compareTo). MathcingFactor is decreased by imperativeFactor - check dynamic change of impFact  
+	 * 
+	 */
+	private clsThingPresentationMesh compareRIsWithPI(
+			clsThingPresentationMesh oPerceivedImage) {
+		// TODO (schaat) - Auto-generated method stub
+		
+		double rThreshold = 0.0;
+		clsDataStructurePA oRI = null;
+		ArrayList<clsAssociation> oAssociatedRIs = new ArrayList<clsAssociation>();
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
+		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+		poSearchPattern.add(oPerceivedImage);
+		
+		// search for similar Images in memory (similar to PI) 
+		search(eDataType.UNDEFINED, poSearchPattern, oSearchResult);
+		
+		// for every found similar RI
+		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+			for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+								
+				if( oSearchPair.a > rThreshold) {
+					oRI = oSearchPair.b.getMoDataStructure();
+					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI("RI", oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
+				}
+				
+			}
+		
+		}
+		
+		// associate similar RI with PI. weight = matchFactor
+		oPerceivedImage.setMoExternalAssociatedContent(oAssociatedRIs);
+		
+		return oPerceivedImage;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -1048,16 +1099,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	}
 	
 	
-	/* (non-Javadoc)
-	 *
-	 * @since 07.05.2012 10:58:36
-	 * 
-	 * @see pa._v38.interfaces.modules.I5_22_receive#receive_I5_22(java.util.ArrayList)
-	 */
-	@Override
-	public void receive_I5_1(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
-		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
-	}
+	
 
 	/* (non-Javadoc)
 	 *

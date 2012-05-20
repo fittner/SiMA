@@ -14,9 +14,12 @@ import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
+import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -45,7 +48,8 @@ import pa._v38.tools.toText;
 public class F14_ExternalPerception extends clsModuleBase implements 
 					I2_3_receive, 
 					I2_4_receive,
-					I2_6_send
+					I2_6_send,
+					I5_1_receive
 					{
 	public static final String P_MODULENUMBER = "14";
 	
@@ -55,6 +59,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
 	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
+	/** Input from Drive System */
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 
 	/**
 	 * Constructor of F14, nothing unusual
@@ -265,5 +271,18 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	@Override
 	public void setDescription() {
 		moDescription = "Neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others according to their temporal and spacial vicinity and likeness.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 15.05.2012 10:58:38
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_1_receive#receive_I5_1(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I5_1(
+			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
+		
 	}	
 }
