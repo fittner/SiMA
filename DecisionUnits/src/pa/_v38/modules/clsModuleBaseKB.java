@@ -298,6 +298,14 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		oRetVal = moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
 		
+		if (oRetVal==null) {
+			try {
+				throw new Exception("Error in searchMesh: the returned function for " + poInput + " is null. This always occurs if images of TPM does not have any WPM");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		//Transfer all meshes of the same ID to the same instance, i. e. all associations do contain this particular structure
 //		if (poInput instanceof clsWordPresentationMesh) {
 //			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);

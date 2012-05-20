@@ -2001,7 +2001,7 @@ public class clsDataStructureTools {
 	
 	
 	/**
-	 * Move all associations, which do not already exist from the origin structure to the taregt structure. In that way it is
+	 * Move all associations, which do not already exist from the origin structure to the target structure. In that way it is
 	 * possible to merge 2 meshes over the same structure.
 	 * 
 	 * This is the TPM function
@@ -2064,6 +2064,15 @@ public class clsDataStructureTools {
 	 */
 	public static void moveAllAssociations(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM) {
 		//Move all internal associations from origin to target
+		
+		if (poTargetWPM==null || poOriginWPM==null) {
+			try {
+				throw new Exception("Error in F21, moveAllAssociations: poTargetWPM = " + poTargetWPM + "or poOriginWPM = " + poOriginWPM +" is null");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+		}
 
 		//Create a list of associations, which shall be moved
 		ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
