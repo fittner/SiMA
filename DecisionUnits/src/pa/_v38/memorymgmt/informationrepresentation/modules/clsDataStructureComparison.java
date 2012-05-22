@@ -197,6 +197,7 @@ public abstract class clsDataStructureComparison {
 						// TODO (wendt) - Auto-generated catch block
 						e.printStackTrace();
 					}
+					//INFO: In the image function, the inverse associations are also created.
 					getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
@@ -591,7 +592,11 @@ public abstract class clsDataStructureComparison {
 						((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
 						//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
 						//time associations of the subobject. This association is added to the external associations of the subobject
-						((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+						//FIXME AW: This is a non clean solution. The association time is always added but the original object is NOT copied. Therefore, it shall be
+						//          checked, that this association is only copied once.
+						if (((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().contains(oAss)==false) {
+							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+						}
 					}
 				}
 				

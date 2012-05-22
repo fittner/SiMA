@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -296,7 +296,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				//If they are equal
 				//FIXME: What if there are more expectations to one moment???? This should be considered
 				for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-					boolean bCheckProcessedExpectation = clsPredictionTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
+					boolean bCheckProcessedExpectation = clsActTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
 					if (bCheckProcessedExpectation==false) {
 						if (oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID()) {
 							//Get the primary container
@@ -314,7 +314,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 										bIntentionProgressUpdated = true;
 									}
 									//Add WP that the expectation has been already used. An expectation must only be confirmed once
-									clsPredictionTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
+									clsActTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
 								}
 							}
 							break;
@@ -640,23 +640,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	private void updateTotalProgress(clsSecondaryDataStructureContainer poIntention) {
 		//Get temporal progress
-		double rTemporalProgressFactor = clsPredictionTools.getTemporalProgressFactor(poIntention);
-		double rTemporalCurrentProgress = clsPredictionTools.getTemporalProgress(poIntention);
+		double rTemporalProgressFactor = clsActTools.getTemporalProgressFactor(poIntention);
+		double rTemporalCurrentProgress = clsActTools.getTemporalProgress(poIntention);
 		double rTemporalNewProgress = rTemporalProgressFactor + rTemporalCurrentProgress;
 		
 		//Set the new temporal progress
-		clsPredictionTools.setTemporalProgress(poIntention, rTemporalNewProgress);
+		clsActTools.setTemporalProgress(poIntention, rTemporalNewProgress);
 		
 		//Get confirmation progress
-		double rConfirmProgressFactor = clsPredictionTools.getConfirmFactor(poIntention);
-		double rConfirmCurrentProgress = clsPredictionTools.getConfirmProgress(poIntention);
+		double rConfirmProgressFactor = clsActTools.getConfirmFactor(poIntention);
+		double rConfirmCurrentProgress = clsActTools.getConfirmProgress(poIntention);
 		
 		double rConfirmNewProgress = rConfirmProgressFactor + rConfirmCurrentProgress;
 		//Correct values if the reinforcement is already complete
 		if ((rConfirmNewProgress<=1) && (rConfirmNewProgress>0)) {
 			//Set the new confirmation progress
 			//NOTE: The confirmation progress factor cannot be > 1 as at 1.0 the agent believes that it is confirmed
-			clsPredictionTools.setConfirmProgress(poIntention, rConfirmNewProgress);
+			clsActTools.setConfirmProgress(poIntention, rConfirmNewProgress);
 		} 		
 		
 	}
@@ -697,12 +697,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//perception act is evaluated as confirmed
 		
 		//Count the number of structure until the end of the perception-act
-		int nNumberOfStructuresToEnd = clsPredictionTools.countSubStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
+		int nNumberOfStructuresToEnd = clsActTools.countSubStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
 		//Calculate the temporal increment factor
 		double rTemporalIncreasementFactor = 1 / (double)nNumberOfStructuresToEnd;
 		
 		//Set the default progress factor, which is only set once
-		clsPredictionTools.setTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent(), rTemporalIncreasementFactor);
+		clsActTools.setTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent(), rTemporalIncreasementFactor);
 		
 		//Calculate the confirmation increment factor
 		//Get the number of images, which shall be confirmed, to get a complete confirmation
@@ -715,7 +715,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 		
 		//Set the default progress factor, which is only set once
-		clsPredictionTools.setConfirmFactor(poPrediction.getIntention().getSecondaryComponent(), rConfirmIncreasementFactor);
+		clsActTools.setConfirmFactor(poPrediction.getIntention().getSecondaryComponent(), rConfirmIncreasementFactor);
 		
 	}
 	
@@ -731,8 +731,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poIntention
 	 */
 	private void setFirstTemporalProgress(clsPrediction poPrediction) {
-		double rProgressFactor = clsPredictionTools.getTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent());
-		clsPredictionTools.setTemporalProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+		double rProgressFactor = clsActTools.getTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent());
+		clsActTools.setTemporalProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
 	}
 	
 	// ============== PROGRESS FUNCTIONS END ==============================//
@@ -747,8 +747,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPrediction
 	 */
 	private void setFirstConfirmProgress(clsPrediction poPrediction) {
-		double rProgressFactor = clsPredictionTools.getConfirmFactor(poPrediction.getIntention().getSecondaryComponent());
-		clsPredictionTools.setConfirmProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+		double rProgressFactor = clsActTools.getConfirmFactor(poPrediction.getIntention().getSecondaryComponent());
+		clsActTools.setConfirmProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
 	}
 	
 
@@ -1146,20 +1146,20 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		for (clsTriple<Integer, Integer, clsPrediction> oP : poPredictionList) {
 			//0. Check if the structure shall be processed with reduce value 
-			boolean bReduceAffect = clsPredictionTools.getActivateReduceFactor(oP.c.getIntention().getSecondaryComponent());
+			boolean bReduceAffect = clsActTools.getActivateReduceFactor(oP.c.getIntention().getSecondaryComponent());
 			
 			if (bReduceAffect==true) {
 				//1. Remove old associations in order to replace them
 				clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALITYAFFECT);
 				//2. Get progress and confirmation factors
-				double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
-				double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
+				double rTemporalProgress = clsActTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
+				double rConfirmationProgress = clsActTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
 				//3. Get all affects from the intention
 				ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = new ArrayList<clsSecondaryDataStructureContainer>(); //FIXME AW: This part was excluded because of the mesh structure//clsAffectTools.getDriveGoalsFromPrediction(oP.c);
 				//4. For each affect from the intention, calculate a reduction affect
 				for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
 					//5. Get the drive intensity of the drive connected to the goal
-					clsPredictionTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
+					clsActTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
 				}
 				//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
 			}

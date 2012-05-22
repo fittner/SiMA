@@ -170,7 +170,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
 		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
-		
+				
 		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
 		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
 				
@@ -470,6 +470,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Assign drive meshes to each found image
 		
 		assignDriveMeshes(oRetVal);
+		assignExternalTPAssociations(oRetVal);
 		
 		return oRetVal;
 	}	
@@ -505,6 +506,28 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//oSearchResult = search(eDataType.DM, poPerception);
 		
 		search(eDataType.DM, poPerception, oSearchResult);
+		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+		addAssociations(oSearchResult, poPerception);
+		//}
+		//addAssociations(oSearchResult, poPerception);
+	}
+	
+	/**
+	 * Add default TP-associations 
+	 * wendt
+	 *
+	 * @since 18.08.2011 11:22:36
+	 *
+	 * @param poPerception
+	 */
+	private void assignExternalTPAssociations(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		//oSearchResult = search(eDataType.DM, poPerception);
+		
+		search(eDataType.TP, poPerception, oSearchResult);
 		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
 		addAssociations(oSearchResult, poPerception);
 		//}

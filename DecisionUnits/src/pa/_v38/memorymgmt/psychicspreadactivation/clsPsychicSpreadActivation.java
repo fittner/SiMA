@@ -82,11 +82,12 @@ public class clsPsychicSpreadActivation {
 		
 		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI.toString(), 0.1, 1);
 
-		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
-			clsDataStructureTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
-			//Now all matched images are linked with the PI
+		if (poOriginImage.getMoContentType().equals(eContentType.PI.toString())) {
+			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
+				clsDataStructureTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
+				//Now all matched images are linked with the PI
+			}
 		}
-
 	}
 	
 	/**
