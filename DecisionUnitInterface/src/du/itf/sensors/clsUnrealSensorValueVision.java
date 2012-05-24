@@ -35,6 +35,11 @@ public class clsUnrealSensorValueVision {
 		ID = iD;
 		this.type = type;
 	}
+	
+	public clsUnrealSensorValueVision(){
+		super();
+		//empty CTOR
+	}
 
 
 	private double angle = 0;
