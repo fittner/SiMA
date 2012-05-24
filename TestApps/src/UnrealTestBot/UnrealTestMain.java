@@ -92,8 +92,16 @@ public class UnrealTestMain {
     	ARSPosition = new double[2];
     	ARSObject.setID("CAKE01");
     	ARSObject.setType(eEntityType.CAKE);
-     	ARSObject.setRadius(50);
-    	ARSObject.setAngle(100);
+     	ARSObject.setRadius(1.5);
+    	ARSObject.setAngle(0.3);
+		ARSObjectsList.add(ARSObject);
+		
+		ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAN01");
+    	ARSObject.setType(eEntityType.CAN);
+     	ARSObject.setRadius(3.5);
+    	ARSObject.setAngle(0.1);
 		ARSObjectsList.add(ARSObject);
       
 		
