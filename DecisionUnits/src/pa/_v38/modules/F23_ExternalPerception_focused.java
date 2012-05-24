@@ -21,7 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsAffectTools;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -312,12 +312,12 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			}
 			
 			if (bFound==false) {
-				clsDataStructureTools.createAssociationSecondary(oRetVal, 1, clsGoalTools.getGoalObject(oGoal), 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+				clsMeshTools.createAssociationSecondary(oRetVal, 1, clsGoalTools.getGoalObject(oGoal), 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
 			}
 		}
 		
 		//Add a new association to the original PI, which contains all perception
-		clsDataStructureTools.createAssociationSecondary(oRetVal, 2, poImage, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+		clsMeshTools.createAssociationSecondary(oRetVal, 2, poImage, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
 		
 //		//Remove all objects, which are not found in the drive list
 //		if (oRetVal.getMoDataStructure() instanceof clsWordPresentationMesh) {

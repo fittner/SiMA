@@ -14,7 +14,8 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eContentType {
-	PI, 		//Content type of perception
+	PI,
+	PIMATCH, 		//Content type of perception
 	DISTANCE,
 	POSITION,
 	DISTANCERELATION,

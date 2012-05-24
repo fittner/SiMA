@@ -38,10 +38,10 @@ public class clsGoalTools {
 		clsWordPresentation oAffectLevelWP = new clsWordPresentation(oDataStructureIdentifier2, poAffectLevel.toString());
 		
 		//Add WP to the mesh
-		clsDataStructureTools.createAssociationSecondary(oRetVal, 1, oAffectLevelWP, 0, 1.0, eContentType.AFFECTLEVEL.toString(), ePredicate.HASAFFECTLEVEL.toString(), false);
+		clsMeshTools.createAssociationSecondary(oRetVal, 1, oAffectLevelWP, 0, 1.0, eContentType.AFFECTLEVEL.toString(), ePredicate.HASAFFECTLEVEL.toString(), false);
 		
 		//Add Goalobject to the mesh
-		clsDataStructureTools.createAssociationSecondary(oRetVal, 1, poDriveObject, 2, 1.0, eContentType.DRIVEOBJECT.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);
+		clsMeshTools.createAssociationSecondary(oRetVal, 1, poDriveObject, 2, 1.0, eContentType.DRIVEOBJECT.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);
 		
 		return oRetVal;
 	}

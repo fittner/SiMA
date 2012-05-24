@@ -116,51 +116,6 @@ public class clsDataStructureTools {
 		//Add association to the substructure
 		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
 	}
-	
-
-	/**
-	 * Create a new association secondary between 2 existing objects and add the association to the objects association lists (depending on add state)
-	 * 
-	 * (wendt)
-	 *
-	 * @since 25.01.2012 16:09:04
-	 *
-	 * @param <E> WPM or WP
-	 * @param poElementOrigin Always a WPM
-	 * @param nOriginAddAssociationState 0: Do not add, 1: Add to internal associations, 2: Add to external associations
-	 * @param poElementTarget WPM or WP
-	 * @param nTargetAddAssociationState 0: Do not add, 1: Add to internal associations, 2: Add to external associations
-	 * @param prWeight
-	 * @param poContenType
-	 * @param poPredicate
-	 * @param pbSwapDirectionAB
-	 */
-	public static <E extends clsSecondaryDataStructure> void createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, String poContentType, String poPredicate, boolean pbSwapDirectionAB) {
-		//Create association
-		clsAssociationSecondary oNewAss;
-		if (pbSwapDirectionAB==false) {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementOrigin, poElementTarget, poPredicate, prWeight);
-		} else {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementTarget, poElementOrigin, poPredicate, prWeight);
-		}
-		
-		//Process the original Element 
-		if (nOriginAddAssociationState==1) {
-			poElementOrigin.getAssociatedContent().add(oNewAss);
-		} else if (nOriginAddAssociationState==2) {
-			poElementOrigin.getExternalAssociatedContent().add(oNewAss);
-		}
-		//If Associationstate=0, then do nothing
-		
-		//Add association to the target structure if it is a WPM
-		if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
-			if (nTargetAddAssociationState==1) {
-				((clsWordPresentationMesh)poElementTarget).getAssociatedContent().add(oNewAss);
-			} else if (nTargetAddAssociationState==2) {
-				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
-			}
-		}
-	}
 
 	
 	/**
@@ -1058,6 +1013,18 @@ public class clsDataStructureTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get all associations where a certain Content and content type is used
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 22:03:56
+	 *
+	 * @param poWPM
+	 * @param poContentTypeAndContent
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
 	private static ArrayList<clsAssociationSecondary> getWPAssociations(clsWordPresentationMesh poWPM, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationSecondary> oRetVal = new ArrayList<clsAssociationSecondary>();
 
@@ -1942,7 +1909,7 @@ public class clsDataStructureTools {
 					break;
 				}
 			}
-		} 
+		}
 	}
 	
 	/**
@@ -1970,7 +1937,7 @@ public class clsDataStructureTools {
 		//Go through each mesh in the newMesh
 		for (int i=0; i<oNewWPMList.size();i++) {
 		//for (clsWordPresentationMesh oNewWPM : oNewWPMList) {
-		clsWordPresentationMesh oNewWPM = oNewWPMList.get(i);
+		clsWordPresentationMesh oNewWPM = oNewWPMList.get(i);		
 			//Go through each mesh in the source list
 			for (int j=0; j<oSourceWPMList.size();j++) {
 			//for (clsWordPresentationMesh oSourceWPM : oSourceWPMList) {
@@ -1984,6 +1951,7 @@ public class clsDataStructureTools {
 						e.printStackTrace();
 					}
 				}
+				
 				//If the images are equal but not the same instance, then transfer the associations
 				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID() && oSourceWPM.equals(oNewWPM)==false) {
 					oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oSourceWPM, oNewWPM));
@@ -2258,21 +2226,6 @@ public class clsDataStructureTools {
 		}
 		
 		return  oRetVal;
-	}
-	
-	public static clsThingPresentationMesh getPrimaryComponentOfWPM(clsWordPresentationMesh poInput) {
-		clsThingPresentationMesh oRetVal = null;
-		
-		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationWordPresentation && oAss.getRootElement() instanceof clsThingPresentationMesh) {
-				//Add the TPM to the output
-				oRetVal = (clsThingPresentationMesh) oAss.getRootElement();
-				break;
-			}
-		}
-		
-		return oRetVal;
-		
 	}
 	
 	/**

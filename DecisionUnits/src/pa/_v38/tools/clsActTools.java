@@ -10,10 +10,12 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
@@ -31,6 +33,45 @@ public class clsActTools {
 	
 	// ============== ACT CATEGORIZATION START ==============================//
 	
+	public static ArrayList<clsWordPresentationMesh> processMemories(ArrayList<clsWordPresentationMesh> poSingleList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsWordPresentationMesh oImage : poSingleList) {
+			//Tasks in the memory processing
+			
+			//1. Add all PI-Matches as WP to each image
+			setPIMatchToWPM(oImage);
+			
+			//2. Delete all primary process external connections
+			clsMeshTools.removeAllExternalAssociations(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
+			
+		}
+		
+		//3. Organize all loose images in acts
+		oRetVal = organizeImagesInActs(poSingleList);
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get the PI match from the PP image and add it to the SP image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.05.2012 16:46:54
+	 *
+	 * @param poImage
+	 */
+	private static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
+		//Get the PI-match
+		double rPIMatchValue = getSecondaryMatchValueToPI(poImage);
+		
+		if (rPIMatchValue>0.0) {
+			//Add new WP to image
+			clsMeshTools.setWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue));
+		}
+	}	
+	
 	/**
 	 * Create a list of categorized memories. Each act is given a single entry of the type prediction. The prediction is
 	 * a WPM, which contains Moment, Intention and Expectation
@@ -42,25 +83,31 @@ public class clsActTools {
 	 * @param poSingleList
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> categorizeMeshInActStructures(ArrayList<clsWordPresentationMesh> poSingleList) {
+	private static ArrayList<clsWordPresentationMesh> organizeImagesInActs(ArrayList<clsWordPresentationMesh> poSingleList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oRI : poSingleList) {
 			//1. Extract the super structure of the RI
+			//Either the intention of the oRI will be returned or the structure itself if it is an intention
 			clsWordPresentationMesh oSuperStructure = clsActTools.getSuperStructure(oRI);
 			
-			//2. Check if the super structure exists in a prediction
+			//2. Check if the super structure exists in any prediction
+			clsWordPresentationMesh oExistentPrediction = clsActDataStructureTools.checkIfIntentionExistsInActList(oRetVal, oSuperStructure);
+	
+			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
+			if (oExistentPrediction != null) {
+				// Do nothing as the act is already connected
+				
+				
+				
+			} else {
+				//Create prediction
+				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);
+				
+				oRetVal.add(oPrediction);
+			}
 			
-			//3.a If yes, then check if the match of the current moment, if exists, is lower than this image
-			//3.a.1 if yes, then replace the moment with this image
-			//3.a.2 if no, do nothing
-			
-			//3.b If no, create a new prediction and add the intention as an intention and this RI as the current moment
-			
-			//Check if the oRI is an intention
-			//if (getCheckIntentionIntentions(oRI)==true) {
-			
-			//}
+						
 		}
 		
 		return oRetVal;
@@ -135,24 +182,7 @@ public class clsActTools {
 		return bRetVal;
 	}
 	
-	/**
-	 * Create a prediction from an intention
-	 * 
-	 * (wendt)
-	 * @since 22.05.2012 12:32:00
-	 *
-	 * @param poIntention
-	 * @return
-	 */
-	private static clsWordPresentationMesh createPrediction(clsWordPresentationMesh poIntention) {
-		//If yes, then create a prediction
-		//Create an act structure for that act
-		clsWordPresentationMesh oPrediction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.PREDICTION.toString(), poIntention.getMoContent()), new ArrayList<clsAssociation>());
-		//Create the association to the intention from the prediction but not the other way around. In that way the mesh is independent of the meta structure
-		clsDataStructureTools.createAssociationSecondary(oPrediction, 1, poIntention, 0, 1.0, eContentType.INTENTION.toString(), ePredicate.HASINTENTION.toString(), false);
-	
-		return oPrediction;
-	}
+
 	
 	/**
 	 * Get the super structure of a data structure. If the input is its own super structure, then
@@ -168,7 +198,7 @@ public class clsActTools {
 	private static clsWordPresentationMesh getSuperStructure(clsWordPresentationMesh poInput) {
 		clsWordPresentationMesh oRetVal = poInput;
 		
-		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) clsExtractionTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER);
+		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER, false);
 		
 		if (oSuperStructure!=null) {
 			oRetVal = oSuperStructure;
@@ -177,16 +207,52 @@ public class clsActTools {
 		return oRetVal;
 	}
 	
-	private static boolean checkIfExistsInPrediction(ArrayList<clsWordPresentationMesh> poInput) {
-		boolean bRetVal = false;
+	/**
+	 * Get the PI-Match of a certain WPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 22:14:21
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static double getSecondaryMatchValueToPI(clsWordPresentationMesh poImage) {
+		double rRetVal = 0.0;
 		
-		//for (clsAssociation clsWordPrese)
+		//Get the primary datastructure
+		clsThingPresentationMesh oTPMPart = clsMeshTools.getPrimaryDataStructureOfWPM(poImage);
+		if (oTPMPart!=null) {
+			rRetVal = getPrimaryMatchValueToPI(oTPMPart);
+		}
 		
-		return bRetVal;
+		return rRetVal;
 	}
 	
-	
-	
+	/**
+	 * Get association of a primary data structure container with PI
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 04.08.2011 13:59:56
+	 *
+	 * @param poImageContainer
+	 * @return
+	 */
+	public static double getPrimaryMatchValueToPI(clsThingPresentationMesh poImage) {
+		double rRetVal = 0.0;
+		
+		for (clsAssociation oAss : poImage.getExternalMoAssociatedContent()) {
+			if (oAss instanceof clsAssociationPrimary) {
+				if (oAss.getMoContentType().equals(eContentType.PIASSOCIATION.toString()) && oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI.toString())) {
+					rRetVal = oAss.getMrWeight();
+					break;
+				}	
+			}
+		}
+		
+		return rRetVal;
+	}
+		
 	// ============== ACT CATEGORIZATION START ==============================//
 	
 	// ============== PROGRESS FUNCTIONS START ==============================//

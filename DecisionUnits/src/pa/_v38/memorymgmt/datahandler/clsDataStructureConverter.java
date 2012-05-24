@@ -13,6 +13,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -145,6 +146,16 @@ public class clsDataStructureConverter {
 		}
 				
 		return poName;
+	}
+	
+	public static ArrayList<clsSecondaryDataStructure> convertALtoALSecondaryDS(ArrayList<clsDataStructurePA> poInput) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+		for (clsDataStructurePA oElement : poInput) {
+			oRetVal.add((clsSecondaryDataStructure) oElement);
+		}
+		
+		return oRetVal;
 	}
 	
 	
