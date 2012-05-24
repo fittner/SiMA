@@ -54,8 +54,7 @@ public class clsDataStructureTools {
 	 * @param poSearchInImage
 	 * @return
 	 */
-	private static String moPredicateClassification = "ISCLASSIFEDAS";
-	
+		
 	public static clsDataStructurePA getDataStructureFromImage(clsDataStructurePA poSearchStructure, clsPrimaryDataStructureContainer poSearchInImage) {
 		clsDataStructurePA oRetVal = null;
 

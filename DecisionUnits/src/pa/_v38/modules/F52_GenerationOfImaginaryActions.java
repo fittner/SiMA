@@ -36,7 +36,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
@@ -1086,9 +1086,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}
 
 			if (oP.getIntention().getSecondaryComponent() != null) {
-				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Progress: " + clsActTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Confirm: " + clsActTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Exp:" + clsActTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
 			}
 
 			oStepInfo += oMomentInfo + "; ";

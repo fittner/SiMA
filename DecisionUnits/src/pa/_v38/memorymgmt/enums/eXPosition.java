@@ -20,7 +20,7 @@ public enum eXPosition {
 	MIDDLE_LEFT (-1),
 	CENTER (0),
 	MIDDLE_RIGHT (1),	
-	RIGHT (2);		
+	RIGHT (2);
 	
 	public int mnPos;
 	

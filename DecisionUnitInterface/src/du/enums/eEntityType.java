@@ -17,6 +17,7 @@ public enum eEntityType {
 	BASE,
 	CAN,
 	CAKE,
+	SCHNITZL,
 	STONE,
 	WALL,
 	FOOD,
@@ -27,6 +28,9 @@ public enum eEntityType {
 	EXCREMENT,
 	TOILET,
 	RECTANGLE_STATIONARY,
-	RECTANGLE_MOBILE
+	RECTANGLE_MOBILE,
+	
+	//SPECIAL
+	SELF
 }
 

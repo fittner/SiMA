@@ -788,7 +788,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	/**
 	 * For the TPM as input, assign all of them with WPM images
-	 * Return a pair of 1) Peception, 2) A list of memories
+	 * Return a pair of 1) Peception, 2) A list of memories. This function extracts all acts and other 
+	 * memories from the primary process data structures. The list of memories is categorized in acts from the images
 	 * 
 	 * (wendt)
 	 *
@@ -810,6 +811,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
 		for (clsThingPresentationMesh oRITPM : oRITPMList) {
+			//Convert the complete image to WPM
 			clsWordPresentationMesh oRIWPM = convertCompleteTPMtoWPMRoot(oRITPM);
 			//3. Search for WPM for all internal objects in the WPM if they are available
 			oRIWPMList.add(oRIWPM);
@@ -843,8 +845,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					oCompleteLoadedWPMObjectList.add(oWPM);
 				}
 			}
-
 		}
+		
+		//Create a List of all loaded acts and other memories
+		//ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = 
 		
 		//Output: ArrayList<WPM> for each TPM-Image. The WPM are already assigned their acts here
 		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oEnhancedRIWPMList);

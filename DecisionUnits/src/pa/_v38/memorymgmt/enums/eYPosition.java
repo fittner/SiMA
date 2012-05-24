@@ -14,9 +14,10 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eYPosition {
-	NEAR (0),		
-	MEDIUM (1),	
-	FAR(2);		
+	NODISTANCE (0), 
+	NEAR (1),		
+	MEDIUM (2),	
+	FAR(3);		
 	
 	public int mnPos;
 	

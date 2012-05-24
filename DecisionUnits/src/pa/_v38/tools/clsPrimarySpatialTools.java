@@ -615,6 +615,21 @@ public class clsPrimarySpatialTools {
 	}
 	
 	/**
+	 * Get the relation of a 1D vector, i. e. only one coordinate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 09:12:56
+	 *
+	 * @param prX1orY1
+	 * @param prX2orY2
+	 * @return
+	 */
+	public static double get1DRelationVector(double prX1orY1, double prX2orY2) {
+		return prX1orY1 - prX2orY2;
+	}
+	
+	/**
 	 * Calculate a normalized association weight from the distance. The higher the distance, the lower the weight
 	 *
 	 * WENDT

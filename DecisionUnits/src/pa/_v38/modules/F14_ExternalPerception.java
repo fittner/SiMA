@@ -22,10 +22,12 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -184,9 +186,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 			}
 		}
 		//add the perception of the floor, as we dont have a sensor detecting the floor
-		clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
-
-		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
+		
+		//AW 20120522: Outcommented this part as it is never used later
+		//clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
+		//moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
 		
 		//prepared, but nothing is coming through so not much to do
 		for(itfSymbol oSymbol : moBodyData.values()){
@@ -198,6 +201,12 @@ public class F14_ExternalPerception extends clsModuleBase implements
 				}	
 			}
 		}
+		
+		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
+		//TODO @CM: Please adapt the SELF for your needs. 
+		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
+		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oSelfDataStructure,null));
+		
 	}
 
 	/* (non-Javadoc)

@@ -16,8 +16,11 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eDistanceRelation {
+	GENERAL (0),
 	NEAROF (1),
-	FAROF (2);
+	MEDIUMOF (2),
+	FAROF (3),
+	OUT_OF_SIGHT_OF (4);
 	
 	public int mnDistance;
 	
@@ -47,10 +50,12 @@ public enum eDistanceRelation {
 			}
 		}
 		
-		if (prDistance > 1) {
-			oRetVal = eDistanceRelation.FAROF;
-		} else {
+		if (prDistance >= 0 && prDistance < 1) {
 			oRetVal = eDistanceRelation.NEAROF;
+		} else if (prDistance >= 1 && prDistance < 2) {
+			oRetVal = eDistanceRelation.MEDIUMOF;
+		} else if (prDistance >= 2) {
+			oRetVal = eDistanceRelation.FAROF;
 		}
 		
 		return oRetVal;

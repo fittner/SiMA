@@ -18,14 +18,15 @@ import pa._v38.tools.clsPair;
  * 
  */
 public enum ePositionRelation {
-	LEFTOF (0),
-	LEFTINFRONTOF (1),
-	INFRONTOF (2),
-	RIGHTINFRONTOF (3),
-	RIGHTOF (4),
-	RIGHTBEHINDOF (5),
-	BEHINDOF (6),	
-	LEFTBEHINDOF (7),
+	GENERAL (-100), 
+	LEFTBEHINDOF (-3),
+	LEFTOF (-2),
+	LEFTINFRONTOF (-1),
+	INFRONTOF (0),
+	RIGHTINFRONTOF (1),
+	RIGHTOF (2),
+	RIGHTBEHINDOF (3),
+	BEHINDOF (4),	
 	ONPOSITION (8);
 
 	public int mnDirection;
