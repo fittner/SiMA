@@ -819,7 +819,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		}
 		
 		//4. For each WPM, search for more SP-WPM-Parts and connect them 
-		ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new ArrayList<clsWordPresentationMesh>();
+		//ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new ArrayList<clsWordPresentationMesh>();
 		//Add all already loaded objects to the list of activated WPM
 		//oCompleteLoadedWPMObjectList.addAll(oRIWPMList);
 		//This is a list of single independent WPM

@@ -18,6 +18,8 @@ import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsGoalMemory;
@@ -56,7 +58,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
-	ArrayList<clsWordPresentationMesh> moDriveList; 
+	ArrayList<clsWordPresentationMesh> moDriveGoalList_IN; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
@@ -100,7 +102,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
-		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moDriveList", moDriveGoalList_IN);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.valueToTEXT("mrAvailableFocusEnergy", mrAvailableFocusEnergy);
@@ -178,7 +180,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
-		moDriveList = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
+		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -197,6 +199,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		ArrayList<clsWordPresentationMesh> oGoalList = new ArrayList<clsWordPresentationMesh>();
 		
+		//=== Extract all goals from perception, drives, memories and plans ===//
+		
 		//Extract all possible goals in the perception
 		oGoalList.addAll(extractPossibleGoalsForPerception(moPerceptionalMesh_IN));
 		
@@ -206,8 +210,16 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//Extract possible goals from plans
 		
 		
+		//=== Process drive list ===//
+		//Enhance the Drive list with goals from emotions
+		//moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
 		
-		moPerceptionalMesh_OUT = focusPerception(moPerceptionalMesh_IN, moDriveList, oGoalList);
+		//Sort the goals
+		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsAffectTools.sortGoals(oGoalList, moDriveGoalList_IN, mnAffectThresold);
+		
+		//=== Filter the perception === //
+		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
+		moPerceptionalMesh_OUT = focusPerception(moPerceptionalMesh_IN, oSortedGoalList, nNumberOfAllowedObjects);
 				
 		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
@@ -250,6 +262,28 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	}
 	
 	/**
+	 * Check all extracted goals for goals, which can emerge from emotions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.05.2012 20:47:31
+	 *
+	 * @param poGoalList
+	 * @return
+	 */
+	private ArrayList<clsWordPresentationMesh> extractEmergentGoalsFromEmotions(ArrayList<clsWordPresentationMesh> poGoalList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			if (clsGoalTools.getGoalContent(oGoal).equals(eContent.UNKNOWN_GOAL.toString())) {
+				oRetVal.add(oGoal);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
 	 * Extract all possible goals for perception (Emotions and drives)
 	 * 
 	 * (wendt)
@@ -283,6 +317,14 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
 			if (oIntention!=null) {
 				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention));
+			} 
+			
+			if (oRetVal.isEmpty()==true) {
+				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
+				//in the perception, it shall search its activated memory first
+				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
+				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eAffectLevel.INSIGNIFICANT, oIntention, oAct));
+				
 			}
 			
 		}
@@ -310,25 +352,13 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poPerceptionSeondary
 	 * @return
 	 */
-	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poDriveGoals, ArrayList<clsWordPresentationMesh> poPossibleGoals) {
+	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poPossibleGoals, int  pnNumberOfAllowedObjects) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		//Use the sorted drivelist. The selection uses the drivelist as the first criterium
-		
-			
-		//Select perception, which passes the filter
-		//1. Only drives with AFFECT >= MEDIUM (2) will pass and
-		//2. Only the first x objects, which are defined by the desexual energy
-		//Precondition: The list must be sorted
-		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
-		
-		//Get sorted input lists of possible goals
-		ArrayList<clsWordPresentationMesh> oFilteredGoals = clsAffectTools.filterDriveGoals(poPossibleGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
-		
-		//
+		ArrayList<clsWordPresentationMesh> oFilteredGoalList = clsAffectTools.filterGoals(poPossibleGoals, pnNumberOfAllowedObjects);
 		
 		//Filter the PI according to the drive list
-		oRetVal = filterImageElements(poPerception, oFilteredGoals);
+		oRetVal = filterImageElements(poPerception, oFilteredGoalList);
 		//oRetVal = new clsDataStructureContainerPair(oFilteredImages, poPerception.getPrimaryComponent());
 			
 		return oRetVal;
@@ -482,7 +512,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I6_6(moPerceptionalMesh_OUT, moDriveList, moAssociatedMemories_OUT);
+		send_I6_6(moPerceptionalMesh_OUT, moDriveGoalList_IN, moAssociatedMemories_OUT);
 	}
 
 	/* (non-Javadoc)

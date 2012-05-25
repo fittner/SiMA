@@ -15,5 +15,6 @@ package pa._v38.memorymgmt.enums;
  */
 public enum eContent {
 	PI,		//Perceived image
-	RI; 	//Remebered image
+	RI, 	//Remebered image
+	UNKNOWN_GOAL;
 }

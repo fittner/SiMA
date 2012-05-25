@@ -41,7 +41,9 @@ public class clsGoalTools {
 		clsMeshTools.createAssociationSecondary(oRetVal, 1, oAffectLevelWP, 0, 1.0, eContentType.AFFECTLEVEL.toString(), ePredicate.HASAFFECTLEVEL.toString(), false);
 		
 		//Add Goalobject to the mesh
-		clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 2, 1.0, eContentType.DRIVEOBJECTASSOCIATION.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);
+		if (poGoalObject != null) {
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 2, 1.0, eContentType.DRIVEOBJECTASSOCIATION.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);	
+		}
 		
 		//Add Supportive Data Structure to goal
 		if (poSupportiveDataStructure != null) {

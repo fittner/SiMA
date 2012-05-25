@@ -84,9 +84,9 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		if (oRetVal.isEmpty()==false) {
-			oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
-		}
+		//if (oRetVal.isEmpty()==false) {
+		oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		//}
 			
 		return oRetVal;
 	}
@@ -326,11 +326,7 @@ public class clsMeshTools {
 		clsWordPresentationMesh oRetVal = poInput;
 		
 		//If it is an image, this will work
-		clsAssociationSecondary oSuperStructureAssociation = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER, 2, true);
-		clsWordPresentationMesh oSuperStructure=null;
-		if (oSuperStructureAssociation!=null) {
-			
-		}
+		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER, 2, false);
 				
 		//If it is an entity, this will work
 		if (oSuperStructure==null) {

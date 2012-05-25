@@ -187,7 +187,7 @@ public class clsAffectTools {
 			clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
 			
 			//Create the goal
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, oAffectLevel, oGoalObject, oGoalObject);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, oAffectLevel, oGoalObject, oSupportiveDataStructure);
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
@@ -527,15 +527,15 @@ public class clsAffectTools {
 	 * @param pnNumberOfGoalsToPass
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> filterDriveGoals(
+	public static ArrayList<clsWordPresentationMesh> sortGoals(
 			ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList,
 			ArrayList<clsWordPresentationMesh> poSortedFilterList, 
-			int pnNumberOfGoalsToPass,
+			//int pnNumberOfGoalsToPass,
 			int pnAffectLevelThreshold) {
 		
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPreliminarySortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		int nAddedGoals = 0;
 		
 		//1. Go through the list of drives, which are used as filter
 		for (int i=0; i<poSortedFilterList.size();i++) {
@@ -556,51 +556,52 @@ public class clsAffectTools {
 				oPreliminaryGoalList.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oDriveGoal));
 			}
 			
-			oRetVal.addAll(sortAndFinalizeGoals(oPreliminaryGoalList, pnNumberOfGoalsToPass-nAddedGoals));
-			nAddedGoals = oRetVal.size();
+			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
+				int nIndex = 0;
+				//Increase index if the list is not empty
+				while((oPreliminarySortList.isEmpty()==false) && 
+						(nIndex<oRetVal.size()) &&
+						(oPreliminarySortList.get(nIndex).a > oPair.a)) {
+					nIndex++;
+				}
+				
+				oPreliminarySortList.add(nIndex, oPair);
+			}
+			
+			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
+				oRetVal.add(oPair.b);
+			}
 		}	
 		
 		return oRetVal;
 	}
 	
 	/**
-	 * Sort the inputlist of goals and add it to a usable output format
+	 * Filter goals according to the number of elements given by the input
 	 * 
 	 * (wendt)
 	 *
-	 * @since 25.05.2012 18:34:53
+	 * @since 25.05.2012 20:14:21
 	 *
 	 * @param poInput
 	 * @param pnNumberOfGoalsToPass
 	 * @return
 	 */
-	private static ArrayList<clsWordPresentationMesh> sortAndFinalizeGoals(ArrayList<clsPair<Integer, clsWordPresentationMesh>> poInput, int pnNumberOfGoalsToPass) {
+	public static ArrayList<clsWordPresentationMesh> filterGoals(ArrayList<clsWordPresentationMesh> poInput, int pnNumberOfGoalsToPass) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPreliminarySortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-		
-		for (clsPair<Integer, clsWordPresentationMesh> oPair : poInput) {
-			int nIndex = 0;
-			//Increase index if the list is not empty
-			while((oPreliminarySortList.isEmpty()==false) && 
-					(nIndex<oPreliminarySortList.size()) &&
-					(oPreliminarySortList.get(nIndex).a > oPair.a)) {
-				nIndex++;
-			}
-			
-			oPreliminarySortList.add(nIndex, oPair);
-		}
 		
 		//Add all goals to this list
-		for (clsPair<Integer, clsWordPresentationMesh> oReachableGoal : oPreliminarySortList) {
+		for (clsWordPresentationMesh oReachableGoal : poInput) {
 			if (oRetVal.size()<pnNumberOfGoalsToPass) {
-				oRetVal.add(oReachableGoal.b);
+				oRetVal.add(oReachableGoal);
 			} else {
 				break;
 			}
 		}
-		
+
 		return oRetVal;
 	}
+	
 	
 	/**
 	 * Get drive intensity or affect of a drive as an integer

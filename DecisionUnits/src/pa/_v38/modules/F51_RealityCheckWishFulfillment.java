@@ -212,15 +212,25 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void process_basic() {
 		
-		//
-		
-		
+		//=== Create the mental image ===
 		//Test AW: Relational Meshes
 		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
 		if (moAssociatedMemories_IN.isEmpty()==false) {
 			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
 		}
+		
+		//=== Process acts ===//
+		//2 ways of processing acts light process, detailed process
+		//The act is accessed through the goal.
+		//Take the first act in the list and process it
+		//FIXME AW: In the first step, perform only simple processing
+		
+		
+		
+		
+		
+		
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
