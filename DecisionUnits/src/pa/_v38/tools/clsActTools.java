@@ -89,7 +89,7 @@ public class clsActTools {
 		for (clsWordPresentationMesh oRI : poSingleList) {
 			//1. Extract the super structure of the RI
 			//Either the intention of the oRI will be returned or the structure itself if it is an intention
-			clsWordPresentationMesh oSuperStructure = clsActTools.getSuperStructure(oRI);
+			clsWordPresentationMesh oSuperStructure = clsMeshTools.getSuperStructure(oRI);
 			
 			//2. Check if the super structure exists in any prediction
 			clsWordPresentationMesh oExistentPrediction = clsActDataStructureTools.checkIfIntentionExistsInActList(oRetVal, oSuperStructure);
@@ -182,31 +182,6 @@ public class clsActTools {
 		return bRetVal;
 	}
 	
-
-	
-	/**
-	 * Get the super structure of a data structure. If the input is its own super structure, then
-	 * return itself.
-	 * 
-	 * (wendt)
-	 *
-	 * @since 22.05.2012 13:27:40
-	 *
-	 * @param poInput
-	 * @return
-	 */
-	private static clsWordPresentationMesh getSuperStructure(clsWordPresentationMesh poInput) {
-		clsWordPresentationMesh oRetVal = poInput;
-		
-		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER, false);
-		
-		if (oSuperStructure!=null) {
-			oRetVal = oSuperStructure;
-		}
-		
-		return oRetVal;
-	}
-	
 	/**
 	 * Get the PI-Match of a certain WPM
 	 * 
@@ -252,6 +227,112 @@ public class clsActTools {
 		
 		return rRetVal;
 	}
+	
+	/**
+	 * Get the next image in the act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.05.2012 16:15:26
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static clsWordPresentationMesh getNextImage(clsWordPresentationMesh poImage) {
+		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 2, false);
+				
+//		for (clsDataStructurePA oAss : oAssociationList) {
+//			if (((clsAssociationSecondary)oAss).getLeafElement()!=poImage) {
+//				oRetVal = (clsWordPresentationMesh) ((clsAssociationSecondary)oAss).getLeafElement();
+//				break;
+//			}
+//		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get the previous image in the sequence
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.05.2012 16:16:05
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static clsWordPresentationMesh getPreviousImage(clsWordPresentationMesh poImage) {
+		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 1, false);	
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Check if there is a previous image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.05.2012 16:16:28
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static boolean hasPreviousImage(clsWordPresentationMesh poImage) {
+		boolean oRetVal = false;
+		
+		clsWordPresentationMesh oPreviousImage = getPreviousImage(poImage);
+		//clsWordPresentationMesh oNextImage = getNextImage(poImage);
+		
+		if (oPreviousImage!=null) {
+			oRetVal = true;
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Check if there is a next image
+	 * 
+	 * (wendt)
+	 * 
+	 * @since 24.05.2012 16:16:52
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static boolean hasNextImage(clsWordPresentationMesh poImage) {
+		boolean oRetVal = false;
+		
+		clsWordPresentationMesh oNextImage = getNextImage(poImage);
+		//clsWordPresentationMesh oNextImage = getNextImage(poImage);
+		
+		if (oNextImage!=null) {
+			oRetVal = true;
+		}
+		
+		return oRetVal;
+	}
+	
+	public static clsWordPresentationMesh getFirstImage(clsWordPresentationMesh poImage) {
+		clsWordPresentationMesh oRetVal = poImage;
+				
+		while (hasPreviousImage(oRetVal)==true) {
+			oRetVal = getPreviousImage(oRetVal);
+		}
+		
+		return oRetVal;
+	}
+	
+	public static clsWordPresentationMesh getLastImage(clsWordPresentationMesh poImage) {
+		clsWordPresentationMesh oRetVal = poImage;
+		
+		while (hasNextImage(oRetVal)==true) {
+			oRetVal = getNextImage(oRetVal);
+		}
+		
+		return oRetVal;
+	}
+	
 		
 	// ============== ACT CATEGORIZATION START ==============================//
 	

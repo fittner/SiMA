@@ -35,6 +35,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.toText;
@@ -418,7 +419,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
+			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 			if (oTopImage == null) {
 
 				/** go to next goal */
@@ -507,7 +508,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
+			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 			if (oTopImage == null) {
 				// try {
 				// throw new

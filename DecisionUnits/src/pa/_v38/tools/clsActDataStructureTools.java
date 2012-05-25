@@ -59,7 +59,7 @@ public class clsActDataStructureTools {
 		
 		//Check if there is an intention
 		for (clsWordPresentationMesh oPrediction : poPredictionList) {
-			clsWordPresentationMesh oIntention = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(oPrediction, ePredicate.HASINTENTION, false); 
+			clsWordPresentationMesh oIntention = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(oPrediction, ePredicate.HASINTENTION, 2, false); 
 			if ((oIntention!=null) && (oIntention.getMoDS_ID()==poImage.getMoDS_ID())) {
 				oRetVal = oPrediction;
 			}
@@ -82,7 +82,7 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getIntention(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASINTENTION, false);
+		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASINTENTION, 2, false);
 		
 		return oRetVal;
 	}
@@ -100,7 +100,7 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getIntentionAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASINTENTION, false);
+		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASINTENTION, 2, false);
 		
 		return oRetVal;
 	}
@@ -141,7 +141,7 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getMoment(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, false);
+		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, 2, false);
 		
 		return oRetVal;
 	}
@@ -159,7 +159,7 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getMomentAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, true);
+		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, 2, true);
 		
 		return oRetVal;
 	}
@@ -200,7 +200,7 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getExpectation(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASEXPECTATION, false);
+		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASEXPECTATION, 2, false);
 		
 		return oRetVal;
 	}
@@ -218,7 +218,7 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getExpectationAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, true);
+		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poPrediction, ePredicate.HASMOMENT, 2, true);
 		
 		return oRetVal;
 	}

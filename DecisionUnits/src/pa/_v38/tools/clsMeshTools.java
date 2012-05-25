@@ -42,12 +42,19 @@ public class clsMeshTools {
 	 *
 	 * @param poInput
 	 * @param poPredicate
+	 * @param pnMode
+	 * 0 = the other element, 1 = the root element, 2 = the leaf element
 	 * @return
 	 */
-	public static clsDataStructurePA searchFirstDataStructureOverAssociation(clsWordPresentationMesh poInput, ePredicate poPredicate, boolean pbGetWholeAssociation) { 
+	public static clsDataStructurePA searchFirstDataStructureOverAssociation(clsWordPresentationMesh poInput, ePredicate poPredicate, int pnMode, boolean pbGetWholeAssociation) { 
+		//pnMode:
+		//0 = the other element
+		//1 = the root element
+		//2 = the leaf element
+		
 		clsDataStructurePA oRetVal = null;
 		
-		ArrayList<clsDataStructurePA> oList = searchDataStructureOverAssociation(poInput, poPredicate, pbGetWholeAssociation, true);
+		ArrayList<clsDataStructurePA> oList = searchDataStructureOverAssociation(poInput, poPredicate, pnMode, pbGetWholeAssociation, true);
 		if (oList.isEmpty()==false) {
 			oRetVal = oList.get(0);
 		}
@@ -66,18 +73,19 @@ public class clsMeshTools {
 	 *
 	 * @param poInput
 	 * @param poPredicate
+	 * @param pnMode 
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	public static ArrayList<clsDataStructurePA> searchDataStructureOverAssociation(clsWordPresentationMesh poInput, ePredicate poPredicate, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
+	public static ArrayList<clsDataStructurePA> searchDataStructureOverAssociation(clsWordPresentationMesh poInput, ePredicate poPredicate, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		//Go through outer associations
-		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
 		if (oRetVal.isEmpty()==false) {
-			oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pbGetWholeAssociation, pbStopAtFirstMatch));
+			oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		}
 			
 		return oRetVal;
@@ -93,10 +101,11 @@ public class clsMeshTools {
 	 *
 	 * @param poInputList
 	 * @param poPredicate
+	 * @param pnMode 
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static ArrayList<clsDataStructurePA> searchAssociationList(ArrayList<clsAssociation> poInputList, clsDataStructurePA poThisDataStructure, ePredicate poPredicate, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsDataStructurePA> searchAssociationList(ArrayList<clsAssociation> poInputList, clsDataStructurePA poThisDataStructure, ePredicate poPredicate, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		for (clsAssociation oAss : poInputList) {
@@ -104,13 +113,28 @@ public class clsMeshTools {
 				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())) {
 					if (pbGetWholeAssociation==true) {
 						oRetVal.add(oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
 					} else {
-						oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+						if (pnMode==0) {
+							oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						} else if (pnMode==1) {
+							oRetVal.add(oAss.getRootElement());
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						} else if (pnMode==2) {
+							oRetVal.add(oAss.getLeafElement());
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						}
 					}
 					
-					if (pbStopAtFirstMatch==true) {
-						break;
-					}
 				}		
 			}
 		}
@@ -201,7 +225,7 @@ public class clsMeshTools {
 	 */
 	public static void setWP(clsWordPresentationMesh poWPM, eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
 		//Get association if exists
-		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociation(poWPM, poAssPredicate, true);
+		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociation(poWPM, poAssPredicate, 0, true);
 		
 		if (oAss==null) {
 			//Create new WP
@@ -259,9 +283,65 @@ public class clsMeshTools {
 				}
 			}
 		}
-		
-		
-		
-		
 	}
+	
+//	/**
+//	 * Return the image, of which the objects belongs to
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 08.02.2012 13:30:42
+//	 *
+//	 * @param poInput
+//	 * @return
+//	 */
+//	public static clsWordPresentationMesh getImageFromEntity(clsWordPresentationMesh poInput) {
+//		clsWordPresentationMesh oRetVal = null;
+//		
+//		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
+//			if (oAss instanceof clsAssociationSecondary) {
+//				//If the the predicate is PARTOF, then this object is a part of some image. Give the image back
+//				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.PARTOF.toString())) {
+//					//The super object, i.e. image is always the root element
+//					oRetVal = (clsWordPresentationMesh) oAss.getRootElement();
+//				}
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
+	
+	/**
+	 * Get the super structure of a data structure. If the input is its own super structure, then
+	 * return itself.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 13:27:40
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	public static clsWordPresentationMesh getSuperStructure(clsWordPresentationMesh poInput) {
+		clsWordPresentationMesh oRetVal = poInput;
+		
+		//If it is an image, this will work
+		clsAssociationSecondary oSuperStructureAssociation = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.HASSUPER, 2, true);
+		clsWordPresentationMesh oSuperStructure=null;
+		if (oSuperStructureAssociation!=null) {
+			
+		}
+				
+		//If it is an entity, this will work
+		if (oSuperStructure==null) {
+			oSuperStructure = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poInput, ePredicate.PARTOF, 1, false);		
+		}
+		
+		if (oSuperStructure!=null) {
+			oRetVal = oSuperStructure;
+		}
+		
+		return oRetVal;
+	}
+	
 }

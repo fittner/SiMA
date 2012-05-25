@@ -2228,32 +2228,6 @@ public class clsDataStructureTools {
 		return  oRetVal;
 	}
 	
-	/**
-	 * Return the image, of which the objects belongs to
-	 * 
-	 * (wendt)
-	 *
-	 * @since 08.02.2012 13:30:42
-	 *
-	 * @param poInput
-	 * @return
-	 */
-	public static clsWordPresentationMesh getHigherLevelImage(clsWordPresentationMesh poInput) {
-		clsWordPresentationMesh oRetVal = null;
-		
-		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationSecondary) {
-				//If the the predicate is PARTOF, then this object is a part of some image. Give the image back
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.PARTOF.toString())) {
-					//The super object, i.e. image is always the root element
-					oRetVal = (clsWordPresentationMesh) oAss.getRootElement();
-				}
-			}
-		}
-		
-		return oRetVal;
-	}
-	
 	
 	
 }

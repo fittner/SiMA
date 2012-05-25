@@ -240,7 +240,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
 				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject, null));
 			}
 		}
 		

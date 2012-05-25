@@ -20,6 +20,8 @@ import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.storage.clsGoalMemory;
+import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsGoalTools;
@@ -189,12 +191,25 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	@Override
 	protected void process_basic() {
 		
-		//moEnvironmentalPerception_OUT = new ArrayList<clsDataStructureContainer>();
+		//ArrayList<clsWordPresentationMesh> oGoalList = new ArrayList<clsWordPresentationMesh>();
 		
-		//if (moEnvironmentalPerception_IN.getSecondaryComponent() != null) {
-		moPerceptionalMesh_OUT = focusPerception(moPerceptionalMesh_IN, moDriveList);
-		//}
+		clsGoalMemory moGoalMemory = new clsGoalMemory(60, 4);
 		
+		ArrayList<clsWordPresentationMesh> oGoalList = new ArrayList<clsWordPresentationMesh>();
+		
+		//Extract all possible goals in the perception
+		oGoalList.addAll(extractPossibleGoalsForPerception(moPerceptionalMesh_IN));
+		
+		//Extract all possible goals from the images (memories)
+		oGoalList.addAll(extractPossibleGoalsFromActs(moAssociatedMemories_IN));
+		
+		//Extract possible goals from plans
+		
+		
+		
+		moPerceptionalMesh_OUT = focusPerception(moPerceptionalMesh_IN, moDriveList, oGoalList);
+				
+		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
 		
@@ -235,6 +250,57 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	}
 	
 	/**
+	 * Extract all possible goals for perception (Emotions and drives)
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.05.2012 18:43:47
+	 *
+	 * @param moPerceptionalMesh_IN
+	 * @return
+	 */
+	private ArrayList<clsWordPresentationMesh> extractPossibleGoalsForPerception(clsWordPresentationMesh moPerceptionalMesh_IN) {
+		//TODO AW: Add emotions here
+		
+		return clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN);
+	}
+	
+	/**
+	 * Extract all possible goal from acts from their descriptions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.05.2012 18:52:53
+	 *
+	 * @param moActList
+	 * @return
+	 */
+	private ArrayList<clsWordPresentationMesh> extractPossibleGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	
+		for (clsWordPresentationMesh oAct : moActList) {
+			//Get the intention
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
+			if (oIntention!=null) {
+				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention));
+			}
+			
+		}
+		
+		return oRetVal;
+	}
+	
+	private ArrayList<clsWordPresentationMesh> extractPossibleGoalsFromPlans(ArrayList<clsWordPresentationMesh> moActList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	
+		//Get their supportive structures and ALL objects in this supportive structure shall be kept if found in the perception
+		//Add importance of 5 for these goals
+		
+		return oRetVal;
+	}
+	
+	
+	/**
 	 * All drives within the perceived images are extracted and sorted. The drive goal list
 	 * and the psychic energy decides how many elements of the PI are passed.
 	 * (wendt)
@@ -244,43 +310,35 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poPerceptionSeondary
 	 * @return
 	 */
-	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poDriveGoals) {
+	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poDriveGoals, ArrayList<clsWordPresentationMesh> poPossibleGoals) {
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Use the sorted drivelist. The selection uses the drivelist as the first criterium
 		
-		//Get all possibly reachable drivegoals
-		ArrayList<clsWordPresentationMesh> oPossibleDriveGoals = clsAffectTools.getWPMDriveGoals(poPerception, true);
-		//Sort the drive demands
-		ArrayList<clsWordPresentationMesh> oSortedPotentialDriveGoals  = clsAffectTools.sortDriveDemands(oPossibleDriveGoals);
 			
 		//Select perception, which passes the filter
 		//1. Only drives with AFFECT >= MEDIUM (2) will pass and
 		//2. Only the first x objects, which are defined by the desexual energy
 		//Precondition: The list must be sorted
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
-
-		ArrayList<clsWordPresentationMesh> oFilteredGoals = clsAffectTools.filterGoals(oPossibleDriveGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
 		
-		//		int nCurrentObjectNumber = 0;
-//		ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oFilteredGoals = new ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>>();
+		//Get sorted input lists of possible goals
+		ArrayList<clsWordPresentationMesh> oFilteredGoals = clsAffectTools.filterDriveGoals(poPossibleGoals, poDriveGoals, nNumberOfAllowedObjects, 0);
 		
-//		for (int i=0; i<oSortedPotentialDriveGoals.size();i++) {
-//			int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(oSortedPotentialDriveGoals.get(i).b);
-//			
-//			if (nCurrentObjectNumber<=nNumberOfAllowedObjects && (nDriveIntensity >= mnAffectThresold)) {
-//				oFilteredGoals.add(oSortedPotentialDriveGoals.get(i));
-//			} else {
-//				//If one of the creiteria is not fulfilled, then break
-//				break;
-//			}
-//			nCurrentObjectNumber++;
-//		}
-			
+		//
+		
 		//Filter the PI according to the drive list
 		oRetVal = filterImageElements(poPerception, oFilteredGoals);
 		//oRetVal = new clsDataStructureContainerPair(oFilteredImages, poPerception.getPrimaryComponent());
 			
+		return oRetVal;
+	}
+	
+	private ArrayList<clsWordPresentationMesh> focusMemories(ArrayList<clsWordPresentationMesh> poActMesh) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		
+		
 		return oRetVal;
 	}
 	
