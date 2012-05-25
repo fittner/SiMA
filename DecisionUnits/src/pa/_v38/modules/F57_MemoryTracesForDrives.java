@@ -154,8 +154,21 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		//FIXME hier muss es wieder funktionieren, perceptual Mesh gibt es beiv38g ja nciht mehr
+		//FIXME hier muss es wieder funktionieren, perceptual Mesh gibt es bei v38g ja nicht mehr
 		//moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
+		
+		
+		
+		// FIXME
+		//Die folgenden 7 Zeilen muss man wieder löschen (nachdem man das FIXME eine Zeile weiter oben repariert hat).
+		//Ich (FG) habe das am 25.05.2012 eingefügt, damit die Triebe druchgeschliffen werden. (allerdings eben ohne Triebobjekte)
+		clsDataStructurePA oDS=null;
+		moDrivesAndTraces_OUT.clear();
+		for (clsDriveMesh oDM : moDriveCandidates) {
+			oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+			moDrivesAndTraces_OUT.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+		}
+		
 		
 		
 	}
