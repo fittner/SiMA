@@ -230,7 +230,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
-			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.a);
+			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.a, 1.0);
 			if (oWPforObject!=null) {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();

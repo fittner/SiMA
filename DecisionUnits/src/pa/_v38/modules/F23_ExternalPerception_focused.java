@@ -212,7 +212,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		
 		//=== Process drive list ===//
 		//Enhance the Drive list with goals from emotions
-		//moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
+		moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
 		
 		//Sort the goals
 		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsAffectTools.sortGoals(oGoalList, moDriveGoalList_IN, mnAffectThresold);

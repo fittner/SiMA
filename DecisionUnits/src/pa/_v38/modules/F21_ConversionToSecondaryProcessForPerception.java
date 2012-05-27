@@ -954,7 +954,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		poProcessedList.add(poTPM);
 		
 		//Get the WPM for the thing presentation itself
-		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM);
+		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM, 1.0);
 		//Copy object
 		if (oWPforObject!=null) {
 //			clsAssociationWordPresentation oX=null;
@@ -986,7 +986,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
 					//Get the location templates
-					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement());
+					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
 					if (oWPforTPAttribute!=null) {
 						clsWordPresentation oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {

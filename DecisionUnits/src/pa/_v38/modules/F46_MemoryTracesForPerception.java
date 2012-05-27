@@ -920,7 +920,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
 		
 		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oAllPositions = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
-		for (int i=0; i< eYPosition.values().length;i++) {
+		for (int i=1; i< eYPosition.values().length;i++) {
 			for (int j=0; j< eXPosition.values().length;j++) {
 				oAllPositions.add(new clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>(null, eXPosition.values()[j], eYPosition.values()[i]));
 			}

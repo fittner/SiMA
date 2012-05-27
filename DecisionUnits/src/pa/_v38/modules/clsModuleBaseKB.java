@@ -513,7 +513,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poDataStructure
 	 * @return
 	 */
-	protected clsAssociationWordPresentation getWPMesh(clsPrimaryDataStructure poDataStructure){
+	protected clsAssociationWordPresentation getWPMesh(clsPrimaryDataStructure poDataStructure, double prThreshold){
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		clsAssociationWordPresentation oRetVal = null; 
 		
@@ -527,8 +527,10 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//If something was found
 		if(oSearchResult.isEmpty() == false && oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
-			//Get the best match
-			oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+			//Get the best match if higher than the threshold
+			if (oSearchResult.get(0).get(0).a >= prThreshold) {
+				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+			}	
 		}
 		
 		return oRetVal;  
@@ -549,7 +551,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		//Generate the instance of the class affect
 		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
 		//Search for the WP of the affect
-		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect);
+		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
 		
 		//Get drive Content String
 		String oDriveContent = poDM.getMoContent();
