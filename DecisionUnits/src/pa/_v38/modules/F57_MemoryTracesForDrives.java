@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -165,7 +166,14 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		clsDataStructurePA oDS=null;
 		moDrivesAndTraces_OUT.clear();
 		for (clsDriveMesh oDM : moDriveCandidates) {
-			oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+			//oDS = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsPair<String, Object>("NULL", "NULL"));
+			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
+			ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
+			poSearchPattern.add(oDM);
+			search(eDataType.TPM, poSearchPattern, oSearchResult);
+			oDS = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("ENTITY", new ArrayList<clsThingPresentation>(), "CAKE"));   //.generateDataStructure(eDataType.TPM, new clsPair<String, Object>("NULL", "NULL"));
 			moDrivesAndTraces_OUT.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
 		}
 		

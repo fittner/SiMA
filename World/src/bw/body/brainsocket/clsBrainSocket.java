@@ -90,9 +90,9 @@ import bw.utils.sensors.clsSensorDataCalculation;
  */
 public class clsBrainSocket implements itfStepProcessing {
 	
-	public  final double _UNREAL_NEAR_DISTANCE = 1;
-	public  final double _UNREAL_MEDIUM_DISTANCE = 5;
-	public  final double _UNREAL_FAR_DISTANCE = 20;
+	public  final double _UNREAL_NEAR_DISTANCE = 160;
+	public  final double _UNREAL_MEDIUM_DISTANCE = 2500;
+	public  final double _UNREAL_FAR_DISTANCE = 5200;
 	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
@@ -216,16 +216,182 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 		switch(poUNREALSensorVisionData.getType())
 		{
-			case ARSIN:
+			case HEALTH:
 			{
-				oData.setEntityType(du.enums.eEntityType.ARSIN);
-				oData.setAlive(true);
-				oData.setShapeType( du.enums.eShapeType.CIRCLE );
-				oData.setColor( new Color(0,200,0) );
+				oData.setEntityType(du.enums.eEntityType.HEALTH);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(34,139,34) );
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
 			
+			case MINI_HEALTH:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.MINI_HEALTH );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(0,128,0) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+				
+			}case SMALL_ARMOR:
+			{
+				oData.setEntityType(du.enums.eEntityType.SMALL_ARMOR);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(255,0,0) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case SUPER_ARMOR:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.SUPER_ARMOR );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor(  new Color(255,69,0)  );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+				
+			}case UDAMAGE:
+			{
+				oData.setEntityType(du.enums.eEntityType.UDAMAGE);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(255,20,147) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case FLAKCANNON_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.FLAKCANNON_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(133,216,230));
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}case FLAKCANNON_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.FLAKCANNON_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(133,216,230));
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case BIORIFLE_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.BIORIFLE_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(175,238,238) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}case BIORIFLE_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.BIORIFLE_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(175,238,238) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case LINKGUN_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.LINKGUN_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(95,158,160) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+				
+			}case LINKGUN_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.LINKGUN_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(95,158,160) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case MINIGUN_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.MINIGUN_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(176,196,222) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}case MINIGUN_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.MINIGUN_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(176,196,222) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case ROCKET_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.ROCKET_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(135,206,250));
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}case ROCKET_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.ROCKET_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(135,206,250) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case SNIPER_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.SNIPER_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor(new Color(65,105,225));
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+				
+			}case SNIPER_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.SNIPER_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor(new Color(65,105,225));
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			
+			case SHOCKRIFLE_WEAPON:
+			{
+				oData.setAlive(false);
+				oData.setEntityType( du.enums.eEntityType.SHOCKRIFLE_WEAPON );
+				oData.setShapeType( du.enums.eShapeType.SQUARE );
+				oData.setColor( new Color(72,209,204) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}case SHOCKRIFLE_AMMO:
+			{
+				oData.setEntityType(du.enums.eEntityType.SHOCKRIFLE_AMMO);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(72,209,204) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+		
 			case CAKE:
 			{
 				oData.setAlive(false);
