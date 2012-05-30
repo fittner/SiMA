@@ -503,7 +503,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			if (i < moDriveList_Output.size()) {
 				
 				//FIXME FG: Added by AW. Exchange ALL physical representation with TPM. All objects are TPM
-				repress_single_drive((clsThingPresentationMesh) moDriveList_Output.get(i).a, moDriveList_Output.get(i).b);				
+				repress_single_drive(((clsThingPresentationMesh) moDriveList_Output.get(i).a), moDriveList_Output.get(i).b);				
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
