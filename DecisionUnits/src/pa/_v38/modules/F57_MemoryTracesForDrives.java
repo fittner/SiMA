@@ -14,6 +14,7 @@ import java.util.SortedMap;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
+import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -28,7 +29,6 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -40,7 +40,7 @@ import config.clsProperties;
  * 
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive, I5_1_send{
+		implements I4_1_receive, I5_6_receive, I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
 	private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
@@ -144,6 +144,19 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		moDriveCandidates = poDriveCandidates; 
 	
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 30.05.2012, 13:46:36
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_6_receive#receive_I5_6(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
+		moPerceptionalMesh_IN = poPerceptionalMesh; 
+	
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -159,25 +172,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		//moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
 		
 		
-		
-		// FIXME
-		//Die folgenden 7 Zeilen muss man wieder löschen (nachdem man das FIXME eine Zeile weiter oben repariert hat).
-		//Ich (FG) habe das am 25.05.2012 eingefügt, damit die Triebe druchgeschliffen werden. (allerdings eben ohne Triebobjekte)
-		clsDataStructurePA oDS=null;
-		moDrivesAndTraces_OUT.clear();
-		for (clsDriveMesh oDM : moDriveCandidates) {
-			//oDS = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsPair<String, Object>("NULL", "NULL"));
-			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		
-			ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
-			poSearchPattern.add(oDM);
-			search(eDataType.TPM, poSearchPattern, oSearchResult);
-			oDS = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("ENTITY", new ArrayList<clsThingPresentation>(), "CAKE"));   //.generateDataStructure(eDataType.TPM, new clsPair<String, Object>("NULL", "NULL"));
-			moDrivesAndTraces_OUT.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+		if (moPerceptionalMesh_IN != null) {
+			moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
 		}
-		
-		
 		
 	}
 
@@ -219,7 +216,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						rCurrentMatchFactor = 0.0;
 					}
 					
-					//It shall be more than the htreshold and more than the max factor
+					//It shall be more than the threshold and more than the max factor
 					if ((rCurrentMatchFactor > mrThreshold) && (rCurrentMatchFactor > rMaxMatchfactor)) {
 						double rCurrentPleasureValue = ((clsDriveMesh)oAss.getLeafElement()).getMrPleasure();
 						//Get the one with the highest lust
