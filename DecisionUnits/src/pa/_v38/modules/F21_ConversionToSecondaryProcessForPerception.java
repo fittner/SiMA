@@ -988,7 +988,16 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					//Get the location templates
 					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
 					if (oWPforTPAttribute!=null) {
-						clsWordPresentation oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
+						clsWordPresentation oAttributeWP = null;
+						try {
+							oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
+						} catch (Exception e) {
+							System.out.println(oWPforTPAttribute.getLeafElement().toString());
+							System.out.println(oWPforTPAttribute.getRootElement().toString());
+							e.printStackTrace();
+						}
+						
+						
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {
 							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASDISTANCE.toString(), false);
 						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION.toString()) {
