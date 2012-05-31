@@ -156,7 +156,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// Generate actions for the top goal
 			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
 			//FIXME HACK AW: Generate the search pattern
-			moPlans_Output.addAll(planSearch());
+			//moPlans_Output.addAll(planSearch());
 
 			// Pass forward the associated memories and perception
 			try {
