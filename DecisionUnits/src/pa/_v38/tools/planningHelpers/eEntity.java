@@ -14,7 +14,7 @@ package pa._v38.tools.planningHelpers;
  * 
  */
 public enum eEntity {
-	ARSIN,
+	ADAM,
 	ANOUK,
 	BODO,
 	CAKE,

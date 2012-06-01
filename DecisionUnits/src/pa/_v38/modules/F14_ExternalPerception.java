@@ -18,12 +18,18 @@ import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eXPosition;
+import pa._v38.memorymgmt.enums.eYPosition;
 import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
@@ -205,8 +211,18 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
 		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
-		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oSelfDataStructure,null));
+		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+		//Add Position to SELF
+		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), eXPosition.CENTER.toString()));
+		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION.toString()), oSelfDataStructure, oPos);
+		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
 		
+		//Add Distance to SELF
+		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), eYPosition.NODISTANCE.toString()));
+		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION.toString()), oSelfDataStructure, oDist);
+		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+		
+		moEnvironmentalTP.add(oSelfContainer);
 	}
 
 	/* (non-Javadoc)

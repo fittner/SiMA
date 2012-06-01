@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
-import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
@@ -70,9 +69,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	/** A Perceived image incl. DMs */
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
+	
+	/* Internal */
 	private clsThingPresentationMesh moEnhancedPerception;
-	/** Activated memories together with their DMs */
-	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 	
 	/** Threshold for matching for associated images */
 	private double mrMatchThreshold = 0.1;
@@ -190,21 +189,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			}
 		}
 		
-		//TestIF
-		//ArrayList<clsPrimaryDataStructureContainer> x = clsDataStructureConverter.convertTIContToTPMCont(oEnvPerceptionNoDM);
-		//Get activated content
-		//moAssociatedMemories_OUT = retrieveActivatedMemories(moEnvironmentalPerception_OUT, oBestPhantasyInput);
-		//Clone the Output Perception and add knowledge about other objects
 		try {
 			moEnhancedPerception = enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);
 		} catch (CloneNotSupportedException e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		//FIXME: Add input from phantasy
-		//Get the drive mesh filter
-		//ArrayList<clsDriveMesh> oDriveFilter = extractDriveMeshes(moDrives_IN,3);
 		
 		//TPMs are added to the perceived image
 		executePsychicSpreadActivation(moEnhancedPerception, 0.3, new ArrayList<clsDriveMesh>());
@@ -470,7 +460,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Assign drive meshes to each found image
 		
 		assignDriveMeshes(oRetVal);
-		assignExternalTPAssociations(oRetVal);
+		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
+		//These values are now added in F14
+		//assignExternalTPAssociations(oRetVal);
 		
 		return oRetVal;
 	}	
@@ -512,66 +504,28 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//addAssociations(oSearchResult, poPerception);
 	}
 	
-	/**
-	 * Add default TP-associations 
-	 * wendt
-	 *
-	 * @since 18.08.2011 11:22:36
-	 *
-	 * @param poPerception
-	 */
-	private void assignExternalTPAssociations(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//	/**
+//	 * Add default TP-associations 
+//	 * wendt
+//	 *
+//	 * @since 18.08.2011 11:22:36
+//	 *
+//	 * @param poPerception
+//	 */
+//	private void assignExternalTPAssociations(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+//		
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//	
+//		//oSearchResult = search(eDataType.DM, poPerception);
+//		
+//		search(eDataType.TP, poPerception, oSearchResult);
+//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+//		addAssociations(oSearchResult, poPerception);
+//		//}
+//		//addAssociations(oSearchResult, poPerception);
+//	}
 	
-		//oSearchResult = search(eDataType.DM, poPerception);
-		
-		search(eDataType.TP, poPerception, oSearchResult);
-		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-		addAssociations(oSearchResult, poPerception);
-		//}
-		//addAssociations(oSearchResult, poPerception);
-	}
-	
-	/**
-	 * Searches the KnowledgeBase for associated elements of DataType
-	 * for the perception.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 15.06.2011, 18:49:27
-	 *
-	 * @param poDataType		- the DataType you are looking for
-	 * @param poPerception	- the perception for which you want to find something 
-	 * @return							- the result of a MemorySearch in the KnowledgeBase
-	 */
-	/*public ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> search(
-			eDataType poDataType, 
-			clsPrimaryDataStructureContainer poPerception) {
-		
-		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult =
-			new ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>>();
-		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern =
-			new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
-
-		oSearchPattern = createSearchPattern(poDataType, poPerception);
-		poSearchResult.addAll(
-				moKnowledgeBaseHandler.initMemorySearch(oSearchPattern));
-		
-		//Set Instance values
-		/*for (ArrayList<clsPair<Double, clsDataStructureContainer>> oStructure : poSearchResult) {
-			for (clsPair<Double, clsDataStructureContainer> oMatchingData : oStructure) {
-				int iInstID = oMatchingData.b.getMoDataStructure().getMoDSInstance_ID();
-				if (iInstID != 0) {
-					for (clsAssociation oAss : oMatchingData.b.getMoAssociatedDataStructures()) {
-						oAss.getRootElement().setMoDSInstance_ID(iInstID);
-					}
-				}
-			}
-		}*/
-		
-		/*return poSearchResult;
-	}*/
 	
 	/**
 	 * Creates a search pattern for a perception and a DataType that is used to
@@ -644,158 +598,68 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
 			}
 		}*/
-	}
+	}	
 	
 //	/**
-//	 * Adapts the categories of DriveMeshes in the perception according to a
-//	 * context.
+//	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
+//	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
+//	 * can activate phantasies, if the perception is not so important (subjective). The function returns a list of activated images, which are
+//	 * not perception.
 //	 *
-//	 * @author Marcus Zottl (e0226304)
-//	 * 17.06.2011, 19:00:31
+//	 * @since 14.07.2011 15:15:31
 //	 *
-//	 * @param poPerception_IN	- the perception that needs its DriveMesh categories
-//	 * adjusted
-//	 */
-//	private void adaptCategories(clsPrimaryDataStructureContainer poPerception_IN) {
-//		HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> oContextResult;
-//
-//		oContextResult = getContext();
-//		for(Map.Entry<clsPrimaryDataStructureContainer, clsMutableDouble> oContextPrim : oContextResult.entrySet()) {
-//				calculateNewCategories(oContextPrim, poPerception_IN); 
-//		}
-//	}
-	
-//	/**
-//	 * The context of a certain drive or object is loaded.<br>
-//	 * <br>
-//	 * In the case of CAKE it is NOURISH. If the drive NOURISH is found in the
-//	 * objects, the categories (anal, oral...) are multiplied with a category
-//	 * factor <= 1.
-//	 *
-//	 * @author Marcus Zottl (e0226304)
-//	 * 17.06.2011, 19:03:27
-//	 *
-//	 * @param poContextPrim
-//	 */
-//	private void calculateNewCategories(
-//			Entry<clsPrimaryDataStructureContainer, clsMutableDouble> poContextPrim,
-//			clsPrimaryDataStructureContainer poPerception) {
-//
-//		//Get the context of the object. In the case of the CAKE, NOURISH
-//		eContext oContext =
-//			eContext.valueOf(
-//					poContextPrim.getKey().getMoDataStructure().getMoContentType());
-//
-//		for(clsAssociation oAssociation : poPerception.getMoAssociatedDataStructures()) {
-//			clsDataStructurePA oData = oAssociation.getLeafElement();
-//			//only process DMs
-//			if(oData instanceof clsDriveMesh){
-//				//If the drive is equal to the drive in the context then...
-//				if(eContext.valueOf(oData.getMoContentType()).equals(oContext)){
-//					/*setCathegories has the following Parameters:
-//					 * The DM with their categories anal, oral, phallic and genital and the context value
-//					 * For the CAKE with the drive NOURISH, the context value is = 1.0 as the thing can be 
-//					 * eaten. The categories are multiplied with the context value.
-//					 * This function reduces not 100%-Matching context with the context factor. If the 
-//					 * context matches to 100%, then the context factor is = 1.0
-//					 */
-//					setCategories((clsDriveMesh)oData, poContextPrim.getValue().doubleValue()); 
-//				}
-//			}
-//		}
-//	}
-	
-//	/**
-//	 * Set categories, where the categories of the input DM are multiplicated with a factor context value
-//	 *
-//	 * @author zeilinger
-//	 * 16.08.2010, 18:13:00
-//	 *
-//	 * @param oDM
-//	 * @param doubleValue
-//	 */
-//	private void setCategories(clsDriveMesh poDM, double prContextValue) {
-//		poDM.setAnal(poDM.getAnal() * prContextValue); 
-//		poDM.setGenital(poDM.getGenital() * prContextValue);
-//		poDM.setOral(poDM.getOral() * prContextValue); 
-//		poDM.setPhallic(poDM.getPhallic() * prContextValue);
-//	}
-
-//	/**
-//	 * TODO HZ or IH: This function does nothing
-//	 *
-//	 * @author zeilinger
-//	 * 26.08.2010, 12:02:45
-//	 *
+//	 * @param oPerceptionInput
+//	 * @param oReturnedMemory
 //	 * @return
 //	 */
-//	private HashMap<clsPrimaryDataStructureContainer, clsMutableDouble> getContext() {
-//		//return moMemory.moCurrentContextStorage.getContextRatiosPrimCONVERTED(mrContextSensitivity);
-//		return new HashMap<clsPrimaryDataStructureContainer, clsMutableDouble>();
+//	private void enhanceWithActivatedMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
+//		
+//		//ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+//		boolean blUsePerception = true;
+//		
+//		//Associated memories
+//		//Decide which image will be the input for spread activation
+//		//FIXME AW: calculateAbsoluteAffect shall contain a list of DMs, which is a filter for that function
+//		if (oReturnedMemory!=null) {
+//			
+//			//FIXME AW: This is an empty list for the spread activation. This list should be replaced with the input from 
+//			//F48
+//			ArrayList<clsDriveMesh> oDMList = new ArrayList<clsDriveMesh>();
+//			
+//			if (clsAffectTools.calculateAverageImageAffect(oPerceptionInput, oDMList) < clsAffectTools.calculateAverageImageAffect(oReturnedMemory, oDMList)) {
+//				blUsePerception = false;
+//			}
+//		}
+//		
+//		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+//		if (blUsePerception==true) {
+//			//Use perceived image as input of spread activation
+//			//TODO AW: Only the first
+//			//Search for matches
+//			//Positions: 1: PI, 2: Resultstructure, 3: ContentType=RI, 4: Matchthreshold, 5: Associationactivationdepth
+//			searchMesh(oPerceptionInput, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
+//		
+//			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
+//		} else {
+//			//Use action-plan image as input of spread activation
+//			//TODO: This is only the first basic implementation of activation of phantsies
+//			
+//			searchMesh(oReturnedMemory, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
+//		}
+//		
+//		//Create associations between the PI and those matches
+//		
+//		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
+//			clsDataStructureTools.createAssociationPrimary(oPerceptionInput, (clsThingPresentationMesh) oPair.b, oPair.a);
+//			//Now all matched images are linked with the PI
+//		}
+//		
+//		//for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {
+//		//	oRetVal.add((clsPrimaryDataStructureContainer)oAss.b);
+//		//}
+//		
+//		//return oRetVal;
 //	}
-	
-	
-	
-	/**
-	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
-	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
-	 * can activate phantasies, if the perception is not so important (subjective). The function returns a list of activated images, which are
-	 * not perception.
-	 *
-	 * @since 14.07.2011 15:15:31
-	 *
-	 * @param oPerceptionInput
-	 * @param oReturnedMemory
-	 * @return
-	 */
-	private void enhanceWithActivatedMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
-		
-		//ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		boolean blUsePerception = true;
-		
-		//Associated memories
-		//Decide which image will be the input for spread activation
-		//FIXME AW: calculateAbsoluteAffect shall contain a list of DMs, which is a filter for that function
-		if (oReturnedMemory!=null) {
-			
-			//FIXME AW: This is an empty list for the spread activation. This list should be replaced with the input from 
-			//F48
-			ArrayList<clsDriveMesh> oDMList = new ArrayList<clsDriveMesh>();
-			
-			if (clsAffectTools.calculateAverageImageAffect(oPerceptionInput, oDMList) < clsAffectTools.calculateAverageImageAffect(oReturnedMemory, oDMList)) {
-				blUsePerception = false;
-			}
-		}
-		
-		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
-		if (blUsePerception==true) {
-			//Use perceived image as input of spread activation
-			//TODO AW: Only the first
-			//Search for matches
-			//Positions: 1: PI, 2: Resultstructure, 3: ContentType=RI, 4: Matchthreshold, 5: Associationactivationdepth
-			searchMesh(oPerceptionInput, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
-		
-			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
-		} else {
-			//Use action-plan image as input of spread activation
-			//TODO: This is only the first basic implementation of activation of phantsies
-			
-			searchMesh(oReturnedMemory, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
-		}
-		
-		//Create associations between the PI and those matches
-		
-		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
-			clsDataStructureTools.createAssociationPrimary(oPerceptionInput, (clsThingPresentationMesh) oPair.b, oPair.a);
-			//Now all matched images are linked with the PI
-		}
-		
-		//for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {
-		//	oRetVal.add((clsPrimaryDataStructureContainer)oAss.b);
-		//}
-		
-		//return oRetVal;
-	}
 
 	
 	/**
