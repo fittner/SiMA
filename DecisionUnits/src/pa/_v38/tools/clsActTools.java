@@ -43,7 +43,7 @@ public class clsActTools {
 			setPIMatchToWPM(oImage);
 			
 			//2. Delete all primary process external connections
-			clsMeshTools.removeAllExternalAssociations(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
+			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
 			
 		}
 		
@@ -239,7 +239,7 @@ public class clsActTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getNextImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 2, false);
+		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 2, false);
 				
 //		for (clsDataStructurePA oAss : oAssociationList) {
 //			if (((clsAssociationSecondary)oAss).getLeafElement()!=poImage) {
@@ -262,7 +262,7 @@ public class clsActTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getPreviousImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 1, false);	
+		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 1, false);	
 		
 		return oRetVal;
 	}

@@ -60,7 +60,7 @@ public class clsAffectTools {
 			oDMContentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
 		}
 		
-		ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getSelectedDMInImage(poImage, oDMContentType);
+		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
 			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());
@@ -168,7 +168,7 @@ public class clsAffectTools {
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
 		ArrayList<clsPair<String, String>> oContentTypeAndContent = new ArrayList<clsPair<String, String>>();
 		oContentTypeAndContent.add(new clsPair<String, String>(eContentType.AFFECT.toString(), ""));
-		oPrelResult = clsDataStructureTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
+		oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
 		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {

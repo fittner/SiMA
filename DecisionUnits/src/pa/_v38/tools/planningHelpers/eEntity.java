@@ -24,6 +24,7 @@ public enum eEntity {
 	PLANT,
 	REMOTEBOT,
 	STONE,
-	NONE
+	NONE,
+	SELF
 
 }

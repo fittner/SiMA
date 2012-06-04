@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -190,7 +190,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
 		//Get all DMs from Perception
-		ArrayList<clsAssociationDriveMesh> oAssDMList = clsDataStructureTools.getAllDMInMesh(poPerceptionalMesh);
+		ArrayList<clsAssociationDriveMesh> oAssDMList = clsMeshTools.getAllDMInMesh(poPerceptionalMesh);
 		
 		//1. Compare drive meshes with drive meshes in the perception	
 		for (clsDriveMesh oDM : poDriveCandidates) {

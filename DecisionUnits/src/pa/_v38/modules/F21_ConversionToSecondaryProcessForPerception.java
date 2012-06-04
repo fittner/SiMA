@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -165,7 +164,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
@@ -807,7 +805,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Input: TPM
 		//1. Get all Images of the Mesh
-		ArrayList<clsThingPresentationMesh> oRITPMList = clsDataStructureTools.getAllTPMMemories(poPerceivedImage, 2);		
+		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 2);		
 		//2. Search for WPM for the image and add the found image to a list. The WPM is connected with the TPM by an associationWP
 		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
@@ -834,7 +832,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			ArrayList<clsWordPresentationMesh> oEnhancedList = clsDataStructureTools.getAllWPMImages(oEnhancedWPM, 2);
+			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 2);
 			//Go through all new found entities
 			for (clsWordPresentationMesh oWPM : oEnhancedList) {
 				//1. Check if this WPM is already loaded in the "all loaded WPM ". If it is already in the list, transfer all associations from the "all loaded WPM " list to the oRIWPM.
@@ -847,7 +845,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 //					oCompleteLoadedWPMObjectList.add(oWPM);
 //				}
 				if (oEnhancedWPM!=oWPM) {
-					clsDataStructureTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
+					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
 				}
 			}
 		}

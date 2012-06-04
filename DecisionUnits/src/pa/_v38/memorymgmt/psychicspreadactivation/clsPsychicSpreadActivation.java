@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivationNode;
 import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.tools.clsAffectTools;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
 /**
@@ -84,7 +84,7 @@ public class clsPsychicSpreadActivation {
 
 		if (poOriginImage.getMoContentType().equals(eContentType.PI.toString())) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
-				clsDataStructureTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
+				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI
 			}
 		}
@@ -217,7 +217,7 @@ public class clsPsychicSpreadActivation {
 		for (clsPair<clsThingPresentationMesh, Double> oPair : poActivationsList) {
 			//Delete all associations where no psychic energy is assigned
 			if (oPair.b==0.0) {
-				clsDataStructureTools.deleteAssociationInObject(poOriginImage, oPair.a);
+				clsMeshTools.deleteAssociationInObject(poOriginImage, oPair.a);
 			} else {
 				oRetVal.add(oPair);
 			}

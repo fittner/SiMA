@@ -383,10 +383,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @return
 	 */
 	private clsWordPresentationMesh filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poGoalList) {
-		clsWordPresentationMesh oRetVal = null;
-		
-		//Create a copy without clone
-		oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
+		clsWordPresentationMesh oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
 		
 		//Add all objects from the perception, which exist in the goallist
 		for (clsWordPresentationMesh oGoal : poGoalList) {
@@ -404,58 +401,34 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 			}
 		}
 		
+		//Add the SELF to the image. SELF shall always be there
+		addSELFtoImage(oRetVal, poImage);
+		
 		//Add a new association to the original PI, which contains all perception
 		clsMeshTools.createAssociationSecondary(oRetVal, 2, poImage, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
 		
-//		//Remove all objects, which are not found in the drive list
-//		if (oRetVal.getMoDataStructure() instanceof clsWordPresentationMesh) {
-//			ArrayList<clsAssociation> oOldInternalAssList = ((clsWordPresentationMesh)oRetVal.getMoDataStructure()).getAssociatedContent();
-//			ArrayList<clsAssociation> oNewInternalAssList = new ArrayList<clsAssociation>();
-//			ArrayList<clsAssociation> oNewContainerAssList = new ArrayList<clsAssociation>();
-//			//For each association in the old list
-//			for (clsAssociation oAss : oOldInternalAssList) {
-//				//For each associated data structure in the new list, The root element shall be picked here and not the leaf as the object is a "part of" the PI
-//				clsSecondaryDataStructure oInternalDataStructure = (clsSecondaryDataStructure) oAss.getRootElement();
-//				for (clsSecondaryDataStructureContainer oContainer : poGoalList) {
-//					//Go through the associated content for a drive
-//					boolean bObjectFound = false;
-//					for (clsAssociation oDriveAss : oContainer.getMoAssociatedDataStructures()) {
-//						//Get the object types
-//						
-//						//Get the right type
-//						if (oDriveAss instanceof clsAssociationSecondary) {
-//							//In this case the leaf element shall be the search data structure, but for safe both are tested
-//							if (oDriveAss.getLeafElement().getMoDSInstance_ID() == oInternalDataStructure.getMoDSInstance_ID() ||
-//									oDriveAss.getRootElement().getMoDSInstance_ID() == oInternalDataStructure.getMoDSInstance_ID()) {
-//								//If the element is found in the drive goals, add it to the new list
-//								oNewInternalAssList.add(oAss);
-//								//Add the associated data structures of the element
-//								oNewContainerAssList.addAll(oRetVal.getAnyAssociatedDataStructures(oAss.getRootElement()));
-//								//This element shall only be added once, therefore break afterwards
-//								bObjectFound = true;
-//								break;
-//							}
-//						}
-//					}
-//					
-//					if (bObjectFound==true) {
-//						break;
-//					}
-//
-//				}
-//				
-//
-//			}
-//			//Add all secondary associations from the image structure
-//			oNewContainerAssList.addAll(poImage.getAnyAssociatedDataStructures(poImage.getMoDataStructure()));
-//			
-//			//Replace the old associated intrinsic content 
-//			((clsWordPresentationMesh)oRetVal.getMoDataStructure()).setMoAssociatedContent(oNewInternalAssList);
-//			//Replace the old associated content of the container
-//			oRetVal.setMoAssociatedDataStructures(oNewContainerAssList);
-//		}
-		
 		return oRetVal;
+	}
+	
+	/**
+	 * Add the SELF from the source image to the target image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.06.2012 12:30:32
+	 *
+	 * @param poTargetImage
+	 * @param poSourceImage
+	 */
+	private void addSELFtoImage(clsWordPresentationMesh poTargetImage, clsWordPresentationMesh poSourceImage) {
+		clsWordPresentationMesh oSELFTargetImage = clsMeshTools.getSELF(poTargetImage);
+		
+		if (oSELFTargetImage == null) {	//SELF not found in the image
+			clsWordPresentationMesh oSELFSourceImage = clsMeshTools.getSELF(poSourceImage);
+			if (oSELFSourceImage!=null) {
+				clsMeshTools.createAssociationSecondary(poTargetImage, 1, oSELFSourceImage, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+			}
+		}
 	}
 	
 //	private ArrayList<clsSecondaryDataStructureContainer> cleanDriveGoals(ArrayList<clsSecondaryDataStructureContainer> poInputList) {

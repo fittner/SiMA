@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
@@ -168,7 +169,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Convert all objects to enhanced TPMs 
 		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
-		clsThingPresentationMesh oPerceivedImage = clsDataStructureTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
+		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
 				
 		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
 		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
@@ -177,7 +178,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Create EMPTYSPACE objects
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
-		clsDataStructureTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
+		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
@@ -433,7 +434,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		}
 		
 		//Add the containerlist to the PI
-		clsDataStructureTools.addTPMToTPMImage(oRetVal, oPTPMList);	
+		clsMeshTools.addTPMToTPMImage(oRetVal, oPTPMList);	
 		
 		return oRetVal;
 	}

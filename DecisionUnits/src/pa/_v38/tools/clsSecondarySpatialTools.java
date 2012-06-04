@@ -42,7 +42,7 @@ public class clsSecondarySpatialTools {
 	public static void createRelationalObjectMesh(clsWordPresentationMesh poImage) {
 		
 		//1. Go through all the internal structures of the image, only level 1 is considered here
-		ArrayList<clsWordPresentationMesh> oSubObjects = clsDataStructureTools.getAllSubWPMInWPMImage(poImage);
+		ArrayList<clsWordPresentationMesh> oSubObjects = clsMeshTools.getAllSubWPMInWPMImage(poImage);
 		
 		//2. Go through all pair of objects within the image
 		if (oSubObjects.size()>1) {

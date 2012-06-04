@@ -32,7 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
 
@@ -320,9 +320,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 		} else if (poInput instanceof clsThingPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
+			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
 		}
 		
 		

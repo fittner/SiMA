@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
@@ -1293,7 +1292,7 @@ public abstract class clsDataStructureComparison {
 			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
 			if (poDataType == eDataType.DM) {
 				//Get all compare drive meshes
-				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsDataStructureTools.getAllDMInMesh(poFromImage);
+				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsMeshTools.getAllDMInMesh(poFromImage);
 			
 				//For each DM or TP in the associated structures in the SourceContainer
 				for (clsAssociationDriveMesh oFromImageDM : oFromImageDriveMeshes) {	//The association in the source file. The root element shall be found in that target file
