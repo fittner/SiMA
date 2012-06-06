@@ -984,7 +984,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Give output to input of F37
 		((I5_6_receive)moModuleList.get(37)).receive_I5_6(poPerceptionalMesh);
 		//Give output to input of F57
-		((I5_6_receive)moModuleList.get(57)).receive_I5_6(poPerceptionalMesh);
+		//v38g has no interface between F46 and F57 ((I5_6_receive)moModuleList.get(57)).receive_I5_6(poPerceptionalMesh);
 		putInterfaceData(I5_6_send.class, poPerceptionalMesh);
 	}
 	
