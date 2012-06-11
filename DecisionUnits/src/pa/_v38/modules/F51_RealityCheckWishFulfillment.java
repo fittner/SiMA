@@ -221,7 +221,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 		
 		//=== Process acts ===//
-		//2 ways of processing acts light process, detailed process
 		//The act is accessed through the goal.
 		//Take the first act in the list and process it
 		//FIXME AW: In the first step, perform only simple processing

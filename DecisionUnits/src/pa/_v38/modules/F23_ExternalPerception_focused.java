@@ -51,6 +51,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
+	private ArrayList<clsWordPresentationMesh> moReachableGoalList_OUT;
+	
 	
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
@@ -156,6 +158,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * 
 	 * @see pa._v38.interfaces.modules.I6_12_receive#receive_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_12(clsWordPresentationMesh poPerception,
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
@@ -196,6 +199,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//ArrayList<clsWordPresentationMesh> oGoalList = new ArrayList<clsWordPresentationMesh>();
 		
 		clsGoalMemory moGoalMemory = new clsGoalMemory(60, 4);
+		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMesh>(); 
 		
 		ArrayList<clsWordPresentationMesh> oGoalList = new ArrayList<clsWordPresentationMesh>();
 		
@@ -213,6 +217,8 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//=== Process drive list ===//
 		//Enhance the Drive list with goals from emotions
 		moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
+		
+		moReachableGoalList_OUT = oGoalList;
 		
 		//Sort the goals
 		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsAffectTools.sortGoals(oGoalList, moDriveGoalList_IN, mnAffectThresold);
@@ -485,7 +491,7 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	@Override
 	protected void send() {
-		send_I6_6(moPerceptionalMesh_OUT, moDriveGoalList_IN, moAssociatedMemories_OUT);
+		send_I6_6(moPerceptionalMesh_OUT, moReachableGoalList_OUT, moAssociatedMemories_OUT);
 	}
 
 	/* (non-Javadoc)
