@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
@@ -227,4 +228,13 @@ public abstract class clsDataStructureGenerator {
 		
 		return oRetVal;
 	}
-}
+	
+	public static clsAssociation generateASSOCIATIONDM(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight) {
+		clsAssociation oRetVal=null;
+		
+		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), poDM, poTPM);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	}
