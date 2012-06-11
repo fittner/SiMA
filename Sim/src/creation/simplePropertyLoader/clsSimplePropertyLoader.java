@@ -279,7 +279,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 	
     /**
      * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
-     */	    
+     */	   
     public static clsProperties getDefaultProperties(String poPrefix, boolean pnAddDefaultEntities, boolean pnAddDefaultDecisionUnits) {
 		String pre = clsProperties.addDot(poPrefix);
 

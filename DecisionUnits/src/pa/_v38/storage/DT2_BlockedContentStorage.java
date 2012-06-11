@@ -9,7 +9,7 @@ package pa._v38.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
@@ -318,7 +318,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 					//1. from the list with DM, find the correct root element in the image by comparing the ID
 					for (clsAssociationDriveMesh oDMAssociation : matchedItem.c) {
 						//Get a list of all found items
-						ArrayList<clsThingPresentationMesh> oFoundObjects = clsDataStructureTools.findDataStructureTypesInMesh(poPerception, (clsThingPresentationMesh) oDMAssociation.getRootElement() ,1);
+						ArrayList<clsThingPresentationMesh> oFoundObjects = clsMeshTools.searchDataStructureTypesInMesh(poPerception, (clsThingPresentationMesh) oDMAssociation.getRootElement() ,1);
 						//2. If found, create a new association with this dm and the found root element. This association shall be added to all these objects
 						for (clsThingPresentationMesh oObject : oFoundObjects) {
 							//3. create a new association
@@ -432,7 +432,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 		clsDataStructurePA oBlockedCont;
 
 		//For comparison with DMs, get all DM in the mesh
-		ArrayList<clsAssociationDriveMesh> oDMFromMesh = clsDataStructureTools.getAllDMInMesh(poImage);
+		ArrayList<clsAssociationDriveMesh> oDMFromMesh = clsMeshTools.getAllDMInMesh(poImage);
 		
 		// compare each element from moBlockedContent with the input
 		for (clsDataStructurePA oEntry : moBlockedContent) {
@@ -455,7 +455,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				}
 				
 				//Get all drive meshes in the image
-				ArrayList<clsAssociationDriveMesh> oDMList = clsDataStructureTools.getAllDMInMesh((clsThingPresentationMesh) oBlockedCont);
+				ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getAllDMInMesh((clsThingPresentationMesh) oBlockedCont);
 				
 				// add the blocked content to results
 				oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsThingPresentationMesh) oBlockedCont, oMatchResult, oDMList));

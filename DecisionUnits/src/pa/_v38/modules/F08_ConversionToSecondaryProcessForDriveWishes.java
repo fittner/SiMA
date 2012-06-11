@@ -230,7 +230,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
-			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.a);
+			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.a, 1.0);
 			if (oWPforObject!=null) {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();
@@ -240,7 +240,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
 				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject, null));
 			}
 		}
 		

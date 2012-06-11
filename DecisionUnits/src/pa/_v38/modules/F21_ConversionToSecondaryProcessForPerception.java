@@ -10,7 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -26,7 +27,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -164,7 +164,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
 		try {
@@ -806,7 +805,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Input: TPM
 		//1. Get all Images of the Mesh
-		ArrayList<clsThingPresentationMesh> oRITPMList = clsDataStructureTools.getAllTPMMemories(poPerceivedImage, 2);		
+		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 2);		
 		//2. Search for WPM for the image and add the found image to a list. The WPM is connected with the TPM by an associationWP
 		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
@@ -818,7 +817,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		}
 		
 		//4. For each WPM, search for more SP-WPM-Parts and connect them 
-		ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new ArrayList<clsWordPresentationMesh>();
+		//ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new ArrayList<clsWordPresentationMesh>();
 		//Add all already loaded objects to the list of activated WPM
 		//oCompleteLoadedWPMObjectList.addAll(oRIWPMList);
 		//This is a list of single independent WPM
@@ -833,29 +832,31 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			ArrayList<clsWordPresentationMesh> oEnhancedList = clsDataStructureTools.getAllWPMImages(oEnhancedWPM, 2);
+			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 2);
 			//Go through all new found entities
 			for (clsWordPresentationMesh oWPM : oEnhancedList) {
 				//1. Check if this WPM is already loaded in the "all loaded WPM ". If it is already in the list, transfer all associations from the "all loaded WPM " list to the oRIWPM.
-				clsDataStructurePA oFoundDS = clsDataStructureTools.findPADataStructureInArrayList(oCompleteLoadedWPMObjectList, oWPM);
-				if (oFoundDS!=null) {
-					//Merge
-					clsDataStructureTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oFoundDS);
-				} else {
-					oCompleteLoadedWPMObjectList.add(oWPM);
+//				clsDataStructurePA oFoundDS = clsDataStructureTools.findPADataStructureInArrayList(oCompleteLoadedWPMObjectList, oWPM);
+//				//If the structure was not found, merge it with the other mesh
+//				//if (oFoundDS!=null) {
+//					//Merge
+//					clsDataStructureTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oFoundDS);
+//				} else {
+//					oCompleteLoadedWPMObjectList.add(oWPM);
+//				}
+				if (oEnhancedWPM!=oWPM) {
+					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
 				}
 			}
 		}
 		
 		//Create a List of all loaded acts and other memories
-		//ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = 
+		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
 		
 		//Output: ArrayList<WPM> for each TPM-Image. The WPM are already assigned their acts here
-		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oEnhancedRIWPMList);
-		
+		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oCategorizedRIWPMList);
 		
 		return oRetVal;
-		
 	}
 	
 //	private clsWordPresentationMesh convertToSecondaryPerceivedImage(clsThingPresentationMesh poPI) {
@@ -951,7 +952,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		poProcessedList.add(poTPM);
 		
 		//Get the WPM for the thing presentation itself
-		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM);
+		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM, 1.0);
 		//Copy object
 		if (oWPforObject!=null) {
 //			clsAssociationWordPresentation oX=null;
@@ -983,13 +984,22 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
 					//Get the location templates
-					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement());
+					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
 					if (oWPforTPAttribute!=null) {
-						clsWordPresentation oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
+						clsWordPresentation oAttributeWP = null;
+						try {
+							oAttributeWP = (clsWordPresentation)oWPforTPAttribute.getLeafElement();
+						} catch (Exception e) {
+							System.out.println(oWPforTPAttribute.getLeafElement().toString());
+							System.out.println(oWPforTPAttribute.getRootElement().toString());
+							e.printStackTrace();
+						}
+						
+						
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {
-							clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASDISTANCE.toString(), false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASDISTANCE.toString(), false);
 						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION.toString()) {
-							clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASPOSITION.toString(), false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASPOSITION.toString(), false);
 						} else {
 							try {
 								throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
@@ -1007,7 +1017,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
 					
 					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)
-					clsDataStructureTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASAFFECT.toString(), false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASAFFECT.toString(), false);
 					
 				}	
 			}
@@ -1027,7 +1037,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(oSubTPM, poProcessedList, pnLevel-1);
 					
 					//Add the subWPM to the WPM structure
-					clsDataStructureTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
 				}
 			}
 		}

@@ -11,8 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -312,7 +312,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 					//Set sortorder for this image. A PI is taken earlier than a RI
 					int nCurrentPISortOrder = 0;
 					//get the top image
-					clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(oPossibleGoalObject);
+					clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(oPossibleGoalObject);
 					if (oTopImage==null) {
 						try {
 							throw new Exception("Error in F26: All objects must be associated with images.");

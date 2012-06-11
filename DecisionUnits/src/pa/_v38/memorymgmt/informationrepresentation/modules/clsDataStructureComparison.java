@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
@@ -652,9 +652,7 @@ public abstract class clsDataStructureComparison {
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
 		//A special case of the searchspace was used
-		
-		//Create Container for the DataStructure		
-	
+			
 		//Check if that data structure can be found in the database, else return null
 		//pnLevel MUST be at least 1, else no substructures are searched
 		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
@@ -711,6 +709,9 @@ public abstract class clsDataStructureComparison {
 				}
 			}
 		}
+		
+		//Complement all associations in the other structures
+		clsMeshTools.setInverseAssociations(oRetVal);
 		
 		return oRetVal;
 	}
@@ -1291,7 +1292,7 @@ public abstract class clsDataStructureComparison {
 			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
 			if (poDataType == eDataType.DM) {
 				//Get all compare drive meshes
-				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsDataStructureTools.getAllDMInMesh(poFromImage);
+				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsMeshTools.getAllDMInMesh(poFromImage);
 			
 				//For each DM or TP in the associated structures in the SourceContainer
 				for (clsAssociationDriveMesh oFromImageDM : oFromImageDriveMeshes) {	//The association in the source file. The root element shall be found in that target file

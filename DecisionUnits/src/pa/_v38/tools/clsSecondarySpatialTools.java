@@ -42,7 +42,7 @@ public class clsSecondarySpatialTools {
 	public static void createRelationalObjectMesh(clsWordPresentationMesh poImage) {
 		
 		//1. Go through all the internal structures of the image, only level 1 is considered here
-		ArrayList<clsWordPresentationMesh> oSubObjects = clsDataStructureTools.getAllSubWPMInWPMImage(poImage);
+		ArrayList<clsWordPresentationMesh> oSubObjects = clsMeshTools.getAllSubWPMInWPMImage(poImage);
 		
 		//2. Go through all pair of objects within the image
 		if (oSubObjects.size()>1) {
@@ -52,8 +52,8 @@ public class clsSecondarySpatialTools {
 					clsPair<eDistanceRelation, ePositionRelation> oRelationPair = createSpatialRelation(oSubObjects.get(i), oSubObjects.get(j));
 					
 					//Add new associations to both images
-					clsDataStructureTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION.toString(), oRelationPair.a.toString(), false);
-					clsDataStructureTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION.toString(), oRelationPair.b.toString(), false);					
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION.toString(), oRelationPair.a.toString(), false);
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION.toString(), oRelationPair.b.toString(), false);					
 				}
 			}
 		}

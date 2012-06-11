@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 
 /**
@@ -99,6 +100,9 @@ public class clsPsychicApparatus {
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTimeMemory moShortTimeMemory;
 	
+	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
+	public clsGoalMemory moGoalMemory;
+	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsShortTimeMemory moTempLocalizationStorage;
 	
@@ -143,6 +147,8 @@ public class clsPsychicApparatus {
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTimeMemory(60, 7);
+		//Initialize goal memory
+		moGoalMemory = new clsGoalMemory(60, 4);
 		moTempLocalizationStorage = new clsShortTimeMemory(20, 7);
 					
 		applyProperties(poPrefix, poProp);
@@ -245,7 +251,7 @@ public class clsPsychicApparatus {
 			moF20_InnerPerception_Affects = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moTempLocalizationStorage);
+			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moTempLocalizationStorage, moGoalMemory);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData);

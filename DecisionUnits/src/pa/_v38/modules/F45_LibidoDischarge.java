@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.storage.DT1_LibidoBuffer;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -223,7 +223,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		
 		//Perception and phantasy are treated equal, therefore, get all images in the mesh
-		ArrayList<clsThingPresentationMesh> oImageList = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
+		ArrayList<clsThingPresentationMesh> oImageList = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
 		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {

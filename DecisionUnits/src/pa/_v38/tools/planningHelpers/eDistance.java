@@ -17,7 +17,8 @@ public enum eDistance {
 
 	FAR,
 	MEDIUM,
-	NEAR
+	NEAR,
+	NODISTANCE
 	
 /*	
 	FAR,

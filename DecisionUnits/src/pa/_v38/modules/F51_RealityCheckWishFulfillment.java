@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
+import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
@@ -89,6 +90,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Short time memory */
 	private clsShortTimeMemory moShortTimeMemory;
 	
+	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+	private clsGoalMemory moGoalMemory;
+	
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
 	private clsShortTimeMemory moTempLocalizationStorage;
 	
@@ -101,10 +105,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poGoalMemory 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory, clsShortTimeMemory poTempLocalizationStorage, clsGoalMemory poGoalMemory) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -113,6 +118,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Get short time memory
 		moShortTimeMemory = poShortTimeMemory;
+		moGoalMemory = poGoalMemory;
 		moTempLocalizationStorage = poTempLocalizationStorage;
 	}
 
@@ -206,12 +212,24 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void process_basic() {
 		
+		//=== Create the mental image ===
 		//Test AW: Relational Meshes
 		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
 		if (moAssociatedMemories_IN.isEmpty()==false) {
 			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
 		}
+		
+		//=== Process acts ===//
+		//The act is accessed through the goal.
+		//Take the first act in the list and process it
+		//FIXME AW: In the first step, perform only simple processing
+		
+		
+		
+		
+		
+		
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
@@ -267,6 +285,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		for (clsDataStructureContainerPair oCPair : oObjectList) {
 			//3. Save the objects with forced save (sets the counter to delete on 0 
 			poMemory.saveToShortTimeMemory(oCPair, true);
+		}
+	}
+	
+	private void processMemories(ArrayList<clsWordPresentationMesh> poMemoryList) {
+		//Intention already exists
+		
+		for (clsWordPresentationMesh oAct : poMemoryList) {
+			//Get the moment
+			
+			
+			
+			//Get the expectation			
+			
 		}
 	}
 	

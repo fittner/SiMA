@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_9_receive;
@@ -152,7 +152,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 		}
 		
 		//RetVal is changed and returned. The images of oImages are for oRetVal
-		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(oRetVal, 2);
+		ArrayList<clsThingPresentationMesh> oImages = clsMeshTools.getAllTPMImages(oRetVal, 2);
 		
 		for (clsThingPresentationMesh oImage : oImages) {
 			mergeDriveMeshesImage(oImage);
@@ -273,7 +273,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 * @param poImage
 	 */
 	private void mergeDriveMeshesImage(clsThingPresentationMesh poImage) {
-		ArrayList<clsThingPresentationMesh> oAllObjects = clsDataStructureTools.getAllTPMObjects(poImage, 1); 
+		ArrayList<clsThingPresentationMesh> oAllObjects = clsMeshTools.getAllTPMObjects(poImage, 1); 
 		
 		for (clsThingPresentationMesh oObject : oAllObjects) {
 			mergeDriveMeshesForObject(oObject);
