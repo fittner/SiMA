@@ -45,6 +45,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private DT1_LibidoBuffer moLibidoBuffer;
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
+	private static final double mrLibitoStartingOffset = 0.2;
 	
 	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
 	
@@ -66,7 +67,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		
 		moLibidoBuffer = poLibidoBuffer;
 		mrIncomingLibido = 0;
-		mrTotalLibido = 0;
+		mrTotalLibido = mrLibitoStartingOffset;
 		
 		applyProperties(poPrefix, poProp);	
 	}
