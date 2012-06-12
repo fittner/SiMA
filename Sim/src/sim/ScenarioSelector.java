@@ -450,12 +450,12 @@ private void FillScenarioList(){
  * 16.06.2011, 11:20:41
  */
 class ScenarioEntry {
-	  private final String moName;
-	  private final String moFilename;
-	  private final String moShortDescription;
-	  private final String moLongDescription;
-	  private final String moFieldWidth;
-	  private final String moFieldHeight;
+	  private String moName;
+	  private String moFilename;
+	  private String moShortDescription;
+	  private String moLongDescription;
+	  private String moFieldWidth;
+	  private String moFieldHeight;
 	  private ImageIcon moScreenshotImage;
 
 	  public ScenarioEntry(String poFilename) {
@@ -464,23 +464,29 @@ class ScenarioEntry {
 	    String oPath = clsGetARSPath.getConfigPath();
         clsProperties oProp = clsProperties.readProperties(oPath, moFilename);
  	   
-        moName = oProp.getPropertyString("title");
-        moShortDescription = oProp.getPropertyString("short_description");
-        moLongDescription = oProp.getPropertyString("description");
-        moFieldWidth =  oProp.getPropertyString("field_width");
-        moFieldHeight = oProp.getPropertyString("field_height");
-              
-        String oImagepath = clsGetARSPath.getConfigImagePath()+oProp.getPropertyString("image");
-        
-		File oFile = new File( oImagepath ); 
-		if(!oFile.exists()){
-			System.out.println("Image for scenario not found. Path: "+oImagepath);
+        try {
+	        moName = oProp.getPropertyString("title");
+	        moShortDescription = oProp.getPropertyString("short_description");
+	        moLongDescription = oProp.getPropertyString("description");
+	        moFieldWidth =  oProp.getPropertyString("field_width");
+	        moFieldHeight = oProp.getPropertyString("field_height");
+	              
+	        String oImagepath = clsGetARSPath.getConfigImagePath()+oProp.getPropertyString("image");
+	        
+			File oFile = new File( oImagepath ); 
+			if(!oFile.exists()){
+				System.out.println("Image for scenario not found. Path: "+oImagepath);
+			}
+			
+	        moScreenshotImage = new ImageIcon( oImagepath , "scenario screenshot");
+	        Image oTMPimg = moScreenshotImage.getImage();  
+	        oTMPimg = oTMPimg.getScaledInstance(125, 125,  java.awt.Image.SCALE_SMOOTH);  
+	        moScreenshotImage = new ImageIcon(oTMPimg); 
+        } catch (NullPointerException e) {
+			//not a vaiable property file
+        	moName = "ERROR File "+ moFilename;
+        	System.err.println("Key not found ERROR, no property file for scenario: " + moFilename);
 		}
-		
-        moScreenshotImage = new ImageIcon( oImagepath , "scenario screenshot");
-        Image oTMPimg = moScreenshotImage.getImage();  
-        oTMPimg = oTMPimg.getScaledInstance(125, 125,  java.awt.Image.SCALE_SMOOTH);  
-        moScreenshotImage = new ImageIcon(oTMPimg); 
 	  }
 
 	  public String getName() {
