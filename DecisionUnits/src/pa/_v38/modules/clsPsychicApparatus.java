@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 
@@ -97,6 +98,8 @@ public class clsPsychicApparatus {
 	/** Free psychic energy storage. Necessary for DT3.; @since 12.10.2011 18:38:57 */
 	public DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	public DT4_PleasureStorage moPleasureStorage;
+	
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTimeMemory moShortTimeMemory;
 	
@@ -145,6 +148,7 @@ public class clsPsychicApparatus {
 		moLibidoBuffer = new DT1_LibidoBuffer();
 		moBlockedContentStorage = new DT2_BlockedContentStorage();
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
+		moPleasureStorage = new DT4_PleasureStorage();
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTimeMemory(60, 7);
 		//Initialize goal memory
@@ -264,7 +268,7 @@ public class clsPsychicApparatus {
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF41_Libidostasis = new F41_Libidostasis(pre + F41_Libidostasis.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
 			moF43_SeparationIntoPartialSexualDrives = new F43_SeparationIntoPartialSexualDrives(pre + F43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF48_AccumulationOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF48_AccumulationOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage);
 			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData);
