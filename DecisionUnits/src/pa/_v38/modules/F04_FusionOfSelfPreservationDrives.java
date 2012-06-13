@@ -30,6 +30,8 @@ import config.clsProperties;
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send {
 	public static final String P_MODULENUMBER = "04";
 	
+	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+	
 	private ArrayList< clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > > moDriveCandidates; 
 	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
@@ -99,6 +101,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
+		
+		//test //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+		//Personality_Content_Factor = -0.1;
 	
 		//nothing to do
 	}
@@ -156,13 +161,59 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			clsPair<clsDriveMesh, clsDriveDemand> oA = getEntry(oDOOP.a);
 			clsPair<clsDriveMesh, clsDriveDemand> oB = getEntry(oDOOP.b);
 			
+			
+			
 			if (oA != null && oB != null) {
 				clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry = 
 					new clsPair<clsPair<clsDriveMesh,clsDriveDemand>, clsPair<clsDriveMesh,clsDriveDemand>>(oA, oB);
+					
+					//chenge the agressive/lib content due to personaliyt
+					if(Personality_Content_Factor != 0)
+						oEntry = changeContentByFactor(oEntry);
 				
 					moDriveCandidates.add(oEntry); 
 			}
 		}
+	}
+	
+	private clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry){
+		
+		if(Personality_Content_Factor <0) // more agressive
+		{
+			if(oEntry.a.a.getMoContentType() == "DEATH")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+			}
+			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+			}
+			else
+			{
+			 //new content type?
+			}
+		}
+		else //more libido
+		{
+			if(oEntry.a.a.getMoContentType() == "DEATH")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
+			}
+			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );
+			}
+			else
+			{
+			 //new content type?
+			}
+		}
+		
+		return oEntry;
 	}
 	
 	private clsPair<clsDriveMesh, clsDriveDemand> getEntry(clsPair<String, String> poId) {
