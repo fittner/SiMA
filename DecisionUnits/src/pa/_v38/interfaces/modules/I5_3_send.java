@@ -9,8 +9,6 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.tools.clsPair;
 
 /**
  * Drives (emotions + quota of affects) are forwarded from F54 to F56
@@ -20,5 +18,5 @@ import pa._v38.tools.clsPair;
  * 
  */
 public interface I5_3_send {
-	public void send_I5_3(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives);
+	public void send_I5_3(ArrayList<clsDriveMesh> poDrives);
 }

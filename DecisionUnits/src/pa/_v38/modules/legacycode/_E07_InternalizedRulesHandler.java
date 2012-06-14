@@ -24,7 +24,6 @@ import pa._v38.interfaces.modules.I5_11_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.modules.clsModuleBase;
@@ -293,7 +292,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		// 
 		
 	}
@@ -320,7 +319,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I5_13(ArrayList<String> poForbiddenDrive,
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		// 
 		
 	}	

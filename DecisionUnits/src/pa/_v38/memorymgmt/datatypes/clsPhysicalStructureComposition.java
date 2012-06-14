@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:49:15
  * 
  */
-public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation {
+public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation implements itfAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** External associations to location, DMs or other TPMs (Images) are placed here; @since 29.11.2011 11:13:42 */
 	protected ArrayList<clsAssociation> moExternalAssociatedContent;
 	/** Internal defining associations are put here, i.e. shape, color or other defining objects; @since 29.11.2011 11:13:05 */
@@ -30,6 +30,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * 
 	 * @return the moAssociatedContent
 	 */
+	@Override
 	public ArrayList<clsAssociation> getMoAssociatedContent() {
 		return moAssociatedContent;
 	}
@@ -40,6 +41,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 * 
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
+	@Override
 	public void setMoAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
 		this.moAssociatedContent = poAssociatedContent;
 	}
@@ -52,6 +54,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @return
 	 */
+	@Override
 	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
 		return moExternalAssociatedContent;
 	}
@@ -65,6 +68,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @param poExternalAssociatedContent
 	 */
+	@Override
 	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
@@ -104,6 +108,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @param poDataStructurePA
 	 */
+	@Override
 	public abstract void assignDataStructure(clsAssociation poDataStructurePA); 
 	
 	/**
@@ -116,7 +121,8 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @param poAssociatedWordPresentations
 	 */	
-	protected void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	@Override
+	public void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	
@@ -129,7 +135,8 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @param poAssociatedDataStructures
 	 */
-	protected void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	@Override
+	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moExternalAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 }

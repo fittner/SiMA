@@ -12,7 +12,7 @@ import java.util.SortedMap;
 //import java.util.List;
 import config.clsProperties;
 import du.itf.actions.clsActionCommand;
-import pa._v38.tools.clsPair;
+
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
@@ -21,7 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.interfaces.modules.I6_3_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.modules.clsModuleBase;
@@ -261,7 +261,7 @@ public class _E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB impl
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		// 
 		
 	}
