@@ -55,9 +55,16 @@ public abstract class clsAnimate extends clsMobile {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 03.05.2012 15:47:28
+	 * 
+	 * @see bw.entities.clsEntity#sensing()
+	 * calls the body stepSensing method, this method is called by eg. clsARSin.sensing()
+	 */
 	@Override
 	public void sensing() {
-		moBody.stepSensing();
+		moBody.stepSensing(); //for example clsComplexBody.stepSensing()
 	}
 	
 	@Override

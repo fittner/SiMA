@@ -19,6 +19,8 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.storage.DT4_PleasureStorage;
+import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 
 /**
@@ -54,9 +56,9 @@ public class clsPsychicApparatus {
 	public F12_SensorsBody moF12_SensorsBody;
 	public F13_NeuroSymbolizationBody moF13_NeuroSymbolizationBody;
 	public F14_ExternalPerception moF14_ExternalPerception;
-	public F18_CompositionOfAffectsForPerception moF18_CompositionOfAffectsForPerception;
+	public F18_CompositionOfQuotaOfAffectsForPerception moF18_CompositionOfAffectsForPerception;
 	public F19_DefenseMechanismsForPerception moF19_DefenseMechanismsForPerception;
-	public F20_InnerPerception_Affects moF20_InnerPerception_Affects;
+	public F20_CompositionOfFeelings moF20_InnerPerception_Affects;
 	public F21_ConversionToSecondaryProcessForPerception moF21_ConversionToSecondaryProcessForPerception;
 	public F23_ExternalPerception_focused moF23_ExternalPerception_focused;
 	public F51_RealityCheckWishFulfillment moF51_RealityCheckWishFulfillment;
@@ -73,7 +75,7 @@ public class clsPsychicApparatus {
 	public F40_NeurosymbolizationOfLibido moF40_NeurosymbolizationOfLibido;
 	public F41_Libidostasis moF41_Libidostasis;
 	public F43_SeparationIntoPartialSexualDrives moF43_SeparationIntoPartialSexualDrives;
-	public F48_AccumulationOfAffectsForDrives moF48_AccumulationOfAffectsForDrives;
+	public F48_AccumulationOfQuotaOfAffectsForDrives moF48_AccumulationOfAffectsForDrives;
 	public F57_MemoryTracesForDrives moF57_MemoryTracesForDrives;
 	public F49_PrimalRepressionForDrives moF49_PrimalRepressionForDrives;
 	public F54_EmersionOfBlockedDriveContent moF54_EmersionOfBlockedDriveContent;
@@ -82,8 +84,10 @@ public class clsPsychicApparatus {
 	public F07_SuperEgoReactive moF07_SuperEgoReactive; 
 	public F52_GenerationOfImaginaryActions moF52_GenerationOfImaginaryActions; 
 	public F45_LibidoDischarge moF45_LibidoDischarge;
-	public F46_FusionWithMemoryTraces moF46_FusionWithMemoryTraces;
+	public F46_MemoryTracesForPerception moF46_FusionWithMemoryTraces;
 	public F47_ConversionToPrimaryProcess moF47_ConversionToPrimaryProcess;
+	public F63_CompositionOfEmotions moF63_CompositionOfEmotions;
+	public F61_Localization moF61_Localization;
 	
 	/** The knowlegdebase / aka memory; @since 13.07.2011 17:48:27 */
 	public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
@@ -94,8 +98,13 @@ public class clsPsychicApparatus {
 	/** Free psychic energy storage. Necessary for DT3.; @since 12.10.2011 18:38:57 */
 	public DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	public DT4_PleasureStorage moPleasureStorage;
+	
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTimeMemory moShortTimeMemory;
+	
+	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
+	public clsGoalMemory moGoalMemory;
 	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsShortTimeMemory moTempLocalizationStorage;
@@ -139,8 +148,11 @@ public class clsPsychicApparatus {
 		moLibidoBuffer = new DT1_LibidoBuffer();
 		moBlockedContentStorage = new DT2_BlockedContentStorage();
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
+		moPleasureStorage = new DT4_PleasureStorage();
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTimeMemory(60, 7);
+		//Initialize goal memory
+		moGoalMemory = new clsGoalMemory(60, 4);
 		moTempLocalizationStorage = new clsShortTimeMemory(20, 7);
 					
 		applyProperties(poPrefix, poProp);
@@ -174,9 +186,9 @@ public class clsPsychicApparatus {
 		oProp.putAll( F12_SensorsBody.getDefaultProperties( pre + F12_SensorsBody.P_MODULENUMBER ));
 		oProp.putAll( F13_NeuroSymbolizationBody.getDefaultProperties( pre + F13_NeuroSymbolizationBody.P_MODULENUMBER ));
 		oProp.putAll( F14_ExternalPerception.getDefaultProperties( pre + F14_ExternalPerception.P_MODULENUMBER ));
-		oProp.putAll( F18_CompositionOfAffectsForPerception.getDefaultProperties( pre + F18_CompositionOfAffectsForPerception.P_MODULENUMBER ));
+		oProp.putAll( F18_CompositionOfQuotaOfAffectsForPerception.getDefaultProperties( pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER ));
 		oProp.putAll( F19_DefenseMechanismsForPerception.getDefaultProperties( pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER ));
-		oProp.putAll( F20_InnerPerception_Affects.getDefaultProperties( pre + F20_InnerPerception_Affects.P_MODULENUMBER ));
+		oProp.putAll( F20_CompositionOfFeelings.getDefaultProperties( pre + F20_CompositionOfFeelings.P_MODULENUMBER ));
 		oProp.putAll( F21_ConversionToSecondaryProcessForPerception.getDefaultProperties( pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER ));
 		oProp.putAll( F23_ExternalPerception_focused.getDefaultProperties( pre + F23_ExternalPerception_focused.P_MODULENUMBER ));
 		oProp.putAll( F51_RealityCheckWishFulfillment.getDefaultProperties( pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER ));
@@ -193,7 +205,7 @@ public class clsPsychicApparatus {
 		oProp.putAll( F40_NeurosymbolizationOfLibido.getDefaultProperties( pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER ));
 		oProp.putAll( F41_Libidostasis.getDefaultProperties( pre + F41_Libidostasis.P_MODULENUMBER ));
 		oProp.putAll( F43_SeparationIntoPartialSexualDrives.getDefaultProperties( pre + F43_SeparationIntoPartialSexualDrives.P_MODULENUMBER ));
-		oProp.putAll( F48_AccumulationOfAffectsForDrives.getDefaultProperties( pre + F48_AccumulationOfAffectsForDrives.P_MODULENUMBER ));
+		oProp.putAll( F48_AccumulationOfQuotaOfAffectsForDrives.getDefaultProperties( pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F57_MemoryTracesForDrives.getDefaultProperties( pre + F57_MemoryTracesForDrives.P_MODULENUMBER ));
 		oProp.putAll( F49_PrimalRepressionForDrives.getDefaultProperties( pre + F49_PrimalRepressionForDrives.P_MODULENUMBER ));
 		oProp.putAll( F54_EmersionOfBlockedDriveContent.getDefaultProperties( pre +  F54_EmersionOfBlockedDriveContent.P_MODULENUMBER ));
@@ -202,8 +214,10 @@ public class clsPsychicApparatus {
 		oProp.putAll( F07_SuperEgoReactive.getDefaultProperties( pre + F07_SuperEgoReactive.P_MODULENUMBER ));
 		oProp.putAll( F52_GenerationOfImaginaryActions.getDefaultProperties( pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER ));
 		oProp.putAll( F45_LibidoDischarge.getDefaultProperties( pre + F45_LibidoDischarge.P_MODULENUMBER ));
-		oProp.putAll( F46_FusionWithMemoryTraces.getDefaultProperties( pre + F46_FusionWithMemoryTraces.P_MODULENUMBER ));
+		oProp.putAll( F46_MemoryTracesForPerception.getDefaultProperties( pre + F46_MemoryTracesForPerception.P_MODULENUMBER ));
 		oProp.putAll( F47_ConversionToPrimaryProcess.getDefaultProperties( pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER ));
+		oProp.putAll( F61_Localization.getDefaultProperties( pre + F61_Localization.P_MODULENUMBER ));
+		oProp.putAll( F63_CompositionOfEmotions.getDefaultProperties( pre + F63_CompositionOfEmotions.P_MODULENUMBER ));
 
 		return oProp;
 	}	
@@ -236,12 +250,12 @@ public class clsPsychicApparatus {
 			moF12_SensorsBody = new F12_SensorsBody(pre + F12_SensorsBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF13_NeuroSymbolizationBody = new F13_NeuroSymbolizationBody(pre + F13_NeuroSymbolizationBody.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF14_ExternalPerception = new F14_ExternalPerception(pre + F14_ExternalPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfAffectsForPerception(pre + F18_CompositionOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfQuotaOfAffectsForPerception(pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moKnowledgeBaseHandler);
-			moF20_InnerPerception_Affects = new F20_InnerPerception_Affects(pre + F20_InnerPerception_Affects.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF20_InnerPerception_Affects = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moTempLocalizationStorage);
+			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moTempLocalizationStorage, moGoalMemory);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData);
@@ -254,7 +268,7 @@ public class clsPsychicApparatus {
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF41_Libidostasis = new F41_Libidostasis(pre + F41_Libidostasis.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
 			moF43_SeparationIntoPartialSexualDrives = new F43_SeparationIntoPartialSexualDrives(pre + F43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF48_AccumulationOfAffectsForDrives = new F48_AccumulationOfAffectsForDrives(pre + F48_AccumulationOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF48_AccumulationOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage);
 			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData);
@@ -263,8 +277,10 @@ public class clsPsychicApparatus {
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler);
 			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
-			moF46_FusionWithMemoryTraces = new F46_FusionWithMemoryTraces(pre + F46_FusionWithMemoryTraces.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moTempLocalizationStorage);
+			moF46_FusionWithMemoryTraces = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moTempLocalizationStorage);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
+			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			
 		} catch (Exception e) {
 			

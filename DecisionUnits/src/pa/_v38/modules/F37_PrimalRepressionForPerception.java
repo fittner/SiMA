@@ -34,7 +34,7 @@ import config.clsProperties;
  * 
  * 
  * @author hinterleitner
- * 05.08.2011, 10:22:10
+ * 07.05.2012, 10:22:10
  * 
  */
 public class F37_PrimalRepressionForPerception extends clsModuleBase 
@@ -352,8 +352,7 @@ implements I5_6_receive, I5_7_send  {
 	public void send_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
 
 		((I5_7_receive)moModuleList.get(35)).receive_I5_7(poPerceptionalMesh);	//Associated memories only for perception
-		((I5_7_receive)moModuleList.get(57)).receive_I5_7(poPerceptionalMesh);
-
+		
 		putInterfaceData(I5_7_send.class, poPerceptionalMesh);
 	}
 	

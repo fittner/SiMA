@@ -100,7 +100,7 @@ public class clsSchnitzl extends clsInanimate implements itfGetFlesh, itfAPEatab
 	 */
 	@Override
 	protected void setEntityType() {
-		meEntityType = eEntityType.CAKE;
+		meEntityType = eEntityType.SCHNITZL;
 		
 	}
 

@@ -25,7 +25,7 @@ import config.clsProperties;
  * produced by various inner somatic sources as well as by erogenous zones. 
  * 
  * @author muchitsch
- * 03.03.2011, 15:16:06
+ * 07.05.2012, 15:16:06
  * 
  */
 public class F39_SeekingSystem_LibidoSource extends clsModuleBase 

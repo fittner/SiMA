@@ -14,15 +14,26 @@ import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
+import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eXPosition;
+import pa._v38.memorymgmt.enums.eYPosition;
 import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -39,13 +50,14 @@ import pa._v38.tools.toText;
  * <i>moEnvironmentalTP</i> OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT 2.6)<br>
  * 
  * @author muchitsch
- * 11.08.2009, 14:26:13
+ * 07.05.2012, 14:26:13
  * 
  */
 public class F14_ExternalPerception extends clsModuleBase implements 
 					I2_3_receive, 
 					I2_4_receive,
-					I2_6_send
+					I2_6_send,
+					I5_1_receive
 					{
 	public static final String P_MODULENUMBER = "14";
 	
@@ -55,6 +67,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
 	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
+	/** Input from Drive System */
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
 
 	/**
 	 * Constructor of F14, nothing unusual
@@ -178,9 +192,10 @@ public class F14_ExternalPerception extends clsModuleBase implements
 			}
 		}
 		//add the perception of the floor, as we dont have a sensor detecting the floor
-		clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
-
-		moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
+		
+		//AW 20120522: Outcommented this part as it is never used later
+		//clsPrimaryDataStructure oFloorDataStructure = (clsPrimaryDataStructure) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("FLOOR", "EMPTYSPACE"));
+		//moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
 		
 		//prepared, but nothing is coming through so not much to do
 		for(itfSymbol oSymbol : moBodyData.values()){
@@ -192,6 +207,22 @@ public class F14_ExternalPerception extends clsModuleBase implements
 				}	
 			}
 		}
+		
+		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
+		//TODO @CM: Please adapt the SELF for your needs. 
+		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
+		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+		//Add Position to SELF
+		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), eXPosition.CENTER.toString()));
+		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION.toString()), oSelfDataStructure, oPos);
+		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+		
+		//Add Distance to SELF
+		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), eYPosition.NODISTANCE.toString()));
+		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION.toString()), oSelfDataStructure, oDist);
+		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+		
+		moEnvironmentalTP.add(oSelfContainer);
 	}
 
 	/* (non-Javadoc)
@@ -265,5 +296,18 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	@Override
 	public void setDescription() {
 		moDescription = "Neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and environment sensors can be processed by the mental functions. The generated thing presentations are associated among each others according to their temporal and spacial vicinity and likeness.";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 15.05.2012 10:58:38
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_1_receive#receive_I5_1(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I5_1(
+			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
+		
 	}	
 }

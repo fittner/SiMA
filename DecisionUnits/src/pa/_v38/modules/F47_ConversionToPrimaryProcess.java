@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -35,7 +36,7 @@ import config.clsProperties;
  *   
  * 
  * @author wendt
- * 03.03.2011, 15:22:59
+ * 03.03.2012, 15:22:59
  * 
  */
 public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_9_receive, I5_19_send {
@@ -188,7 +189,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 								//}
 								//oAffectEvaluatedContainers.add(i, oContainerAdd);
 						//Get the primary component
-						oRetVal.add(clsDataStructureTools.getPrimaryComponentOfWPM(oContainer));
+						oRetVal.add(clsMeshTools.getPrimaryDataStructureOfWPM(oContainer));
 						
 					}
 				}

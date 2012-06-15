@@ -415,6 +415,12 @@ public class clsPrimarySpatialTools {
 	}
 	
 	private static ArrayList<clsPair<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>, clsPair<clsThingPresentationMesh, Double>>> findMatchingObjects(ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> poPIPositionList, ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> poRIPositionList) {
+		
+		// similar entities to PI-entities
+		ArrayList<clsThingPresentationMesh> oSimilarEntities= new ArrayList<clsThingPresentationMesh>() ;
+		//threshold for similarity
+		double rthreshold = 0.1;
+		
 		//Search the closest distance to objects in the perception
 		
 		//clsPair(PI-Part, RI-Part). PI-Part = PI, X, Y. RI-Part = RI, Distance
@@ -436,10 +442,17 @@ public class clsPrimarySpatialTools {
 			double rBestDistance = -1;
 			//Boolean if there is any match
 			//boolean bMatchFound = false;
+			
+			
 			for (int i=0;i<oPIListCopy.size();i++) {
 				clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPIPositionCopy = oPIListCopy.get(i);
-				//The ID has to be the same, in order to compare positions
-				if (nRIObjectID==oPIPositionCopy.a.getMoDS_ID()) {
+				
+				//Ssch 15.05.2012 Consider Entitycomparison when calculation Imagematch
+				
+				double rmatchingFactor = oRIPosition.a.compareTo(oPIPositionCopy.a);
+				if (rmatchingFactor >= rthreshold) {
+							
+				
 					//No match is set, get the first match. Define the oMatched Position. The first value will be taken
 					if (nObjectPositionInPIArray==-1) {
 						//The first value is the best position
@@ -599,6 +612,21 @@ public class clsPrimarySpatialTools {
 		double rY = prY1-prY2;
 		
 		return new clsPair<Double, Double>(rX, rY);
+	}
+	
+	/**
+	 * Get the relation of a 1D vector, i. e. only one coordinate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 09:12:56
+	 *
+	 * @param prX1orY1
+	 * @param prX2orY2
+	 * @return
+	 */
+	public static double get1DRelationVector(double prX1orY1, double prX2orY2) {
+		return prX1orY1 - prX2orY2;
 	}
 	
 	/**

@@ -42,7 +42,7 @@ public class clsSecondarySpatialTools {
 	public static void createRelationalObjectMesh(clsWordPresentationMesh poImage) {
 		
 		//1. Go through all the internal structures of the image, only level 1 is considered here
-		ArrayList<clsWordPresentationMesh> oSubObjects = clsDataStructureTools.getAllSubWPMInWPMImage(poImage);
+		ArrayList<clsWordPresentationMesh> oSubObjects = clsMeshTools.getAllSubWPMInWPMImage(poImage);
 		
 		//2. Go through all pair of objects within the image
 		if (oSubObjects.size()>1) {
@@ -52,8 +52,8 @@ public class clsSecondarySpatialTools {
 					clsPair<eDistanceRelation, ePositionRelation> oRelationPair = createSpatialRelation(oSubObjects.get(i), oSubObjects.get(j));
 					
 					//Add new associations to both images
-					clsDataStructureTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION.toString(), oRelationPair.a.toString(), false);
-					clsDataStructureTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION.toString(), oRelationPair.b.toString(), false);					
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION.toString(), oRelationPair.a.toString(), false);
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION.toString(), oRelationPair.b.toString(), false);					
 				}
 			}
 		}
@@ -61,7 +61,10 @@ public class clsSecondarySpatialTools {
 	
 	/**
 	 * Create spatial relations between 2 objects. For each object pair 2 relations are added: 
-	 * 1) a distance relation and 2) a position relation
+	 * 1) a distance relation and 2) a position relation.
+	 * 
+	 * If one position is null, i. e. is generalized, then it receives a general relation, which means that all positions
+	 * can be taken
 	 * 
 	 * (wendt)
 	 *
@@ -77,29 +80,55 @@ public class clsSecondarySpatialTools {
 		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oObjectPosition1 = getPosition(poObject1);
 		//2. Get position for object2
 		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oObjectPosition2 = getPosition(poObject2);
-		if (oObjectPosition1.b==null || oObjectPosition1.c==null || oObjectPosition2.b==null || oObjectPosition2.c==null) {
-			try {
-				throw new Exception("Some values in the Positions are null. ElementA: " + oObjectPosition1.toString() + ", ElementB: " + oObjectPosition2.toString());
-			} catch (Exception e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
+		
+		//If some values are null, then the positions are generalized and this shall be considered
+		if (oObjectPosition1.b!=null && oObjectPosition1.c!=null && oObjectPosition2.b!=null && oObjectPosition2.c!=null) {
+			//3. Get the vector between the objects
+			clsPair<Double, Double> oRelationVector = clsPrimarySpatialTools.getRelationVector((double)oObjectPosition1.b.mnPos, (double)oObjectPosition2.b.mnPos, (double)oObjectPosition1.c.mnPos, (double)oObjectPosition2.c.mnPos);
+			
+			//4. Get the distance between the objects
+			double rDistance = clsPrimarySpatialTools.getDistance(oRelationVector);
+			
+			//5. Convert distance to a relation
+			eDistanceRelation oDistanceRelation = eDistanceRelation.getDistanceRelation(rDistance);
+			
+			//6. Convert vector to position relation
+			ePositionRelation oPositionRelation = ePositionRelation.getPositionRelation(oRelationVector);
+			
+			//7. return
+			oRetVal = new clsPair<eDistanceRelation, ePositionRelation>(oDistanceRelation, oPositionRelation);
+		} else if ((oObjectPosition1.b==null || oObjectPosition2.b==null) && (oObjectPosition1.c!=null && oObjectPosition2.c!=null)) {
+			//3. Get the vector between the objects
+			double rDistanceScalar = clsPrimarySpatialTools.get1DRelationVector((double)oObjectPosition1.c.mnPos, (double)oObjectPosition2.c.mnPos);
+			//5. Convert distance to a relation
+			eDistanceRelation oDistanceRelation = eDistanceRelation.getDistanceRelation(rDistanceScalar);
+			
+			ePositionRelation oPositionRelation = ePositionRelation.GENERAL;
+			
+			oRetVal = new clsPair<eDistanceRelation, ePositionRelation>(oDistanceRelation, oPositionRelation);
+		} else if ((oObjectPosition1.b!=null && oObjectPosition2.b!=null) && (oObjectPosition1.c==null || oObjectPosition2.c==null)) {
+			//3. Get the vector between the objects
+			double rPositionScalar = clsPrimarySpatialTools.get1DRelationVector((double)oObjectPosition1.b.mnPos, (double)oObjectPosition2.b.mnPos);
+			//5. Convert distance to a relation
+			ePositionRelation oPositionRelation = ePositionRelation.getPositionRelation(new clsPair<Double, Double>(rPositionScalar, (double)0.0));
+			
+			eDistanceRelation oDistanceRelation = eDistanceRelation.GENERAL;
+			
+			oRetVal = new clsPair<eDistanceRelation, ePositionRelation>(oDistanceRelation, oPositionRelation);
+		} else {
+			oRetVal = new clsPair<eDistanceRelation, ePositionRelation>(eDistanceRelation.GENERAL, ePositionRelation.GENERAL);
 		}
 		
-		//3. Get the vector between the objects
-		clsPair<Double, Double> oRelationVector = clsPrimarySpatialTools.getRelationVector((double)oObjectPosition1.b.mnPos, (double)oObjectPosition2.b.mnPos, (double)oObjectPosition1.c.mnPos, (double)oObjectPosition2.c.mnPos);
+//		if (oObjectPosition1.b==null || oObjectPosition1.c==null || oObjectPosition2.b==null || oObjectPosition2.c==null) {
+//			try {
+//				throw new Exception("Some values in the Positions are null. ElementA: " + oObjectPosition1.toString() + ", ElementB: " + oObjectPosition2.toString());
+//			} catch (Exception e) {
+//				// TODO (wendt) - Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
 		
-		//4. Get the distance between the objects
-		double rDistance = clsPrimarySpatialTools.getDistance(oRelationVector);
 		
-		//5. Convert distance to a relation
-		eDistanceRelation oDistanceRelation = eDistanceRelation.getDistanceRelation(rDistance);
-		
-		//6. Convert vector to position relation
-		ePositionRelation oPositionRelation = ePositionRelation.getPositionRelation(oRelationVector);
-		
-		//7. return
-		oRetVal = new clsPair<eDistanceRelation, ePositionRelation>(oDistanceRelation, oPositionRelation);
 		
 		return oRetVal;
 	}

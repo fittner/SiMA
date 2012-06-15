@@ -31,7 +31,7 @@ import config.clsProperties;
 /**
  * DOCUMENT (perner) - insert description
  * 
- * @author deutsch 11.08.2009, 14:57:10
+ * @author deutsch 11.08.2012, 14:57:10
  * 
  */
 public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send,
@@ -302,6 +302,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBase implements I
     @Override
     public void send_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsWordPresentationMesh poEnvironmentalPerception) {
         ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands, poEnvironmentalPerception);
+        ((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands, poEnvironmentalPerception);
 
         putInterfaceData(I6_11_send.class, poActionCommands);
     }

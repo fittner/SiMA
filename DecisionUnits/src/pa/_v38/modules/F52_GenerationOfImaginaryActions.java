@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
+import pa._v38.interfaces.modules.I2_5_receive;
+import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
@@ -27,13 +29,15 @@ import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
@@ -51,7 +55,7 @@ import config.clsProperties;
  * @author perner 09.10.2011
  * 
  */
-public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements I6_8_receive, I6_9_send,
+public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements I6_8_receive, I6_9_send, I6_11_receive, I2_5_receive,
     itfInspectorGenericActivityTimeChart {
 
 	public static final String newline = System.getProperty("line.separator");
@@ -72,6 +76,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	/** Associated memories in */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	
+	private ArrayList<clsWordPresentation> moMotilityActions_IN;
+	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
 
 	/** Associated memories out */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
@@ -148,6 +155,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 			// Generate actions for the top goal
 			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+			//FIXME HACK AW: Generate the search pattern
+			//moPlans_Output.addAll(planSearch());
 
 			// Pass forward the associated memories and perception
 			try {
@@ -311,6 +320,29 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			e.printStackTrace();
 		}
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 14:28:53
+	 * 
+	 * @see pa._v38.interfaces.modules.I2_5_receive#receive_I2_5(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
+		moMotilityActions_IN = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 14:28:54
+	 * 
+	 * @see pa._v38.interfaces.modules.I6_11_receive#receive_I6_11(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh)
+	 */
+	@Override
+	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands,
+			clsWordPresentationMesh poEnvironmentalPerception) {
+		moImaginaryActions_IN = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
+	}
 
 	/*
 	 * (non-Javadoc)
@@ -335,9 +367,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	public void send_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories,
 	    clsWordPresentationMesh poEnvironmentalPerception) {
-		((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		//((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
@@ -389,7 +421,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
+			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 			if (oTopImage == null) {
 
 				/** go to next goal */
@@ -478,7 +510,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(clsGoalTools.getGoalObject(oGoal));
+			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 			if (oTopImage == null) {
 				// try {
 				// throw new
@@ -1057,9 +1089,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}
 
 			if (oP.getIntention().getSecondaryComponent() != null) {
-				oMomentInfo += "|Progress: " + clsPredictionTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Confirm: " + clsPredictionTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
-				oMomentInfo += "|Exp:" + clsPredictionTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Progress: " + clsActTools.getTemporalProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Confirm: " + clsActTools.getConfirmProgress(oP.getIntention().getSecondaryComponent());
+				oMomentInfo += "|Exp:" + clsActTools.getExpectationAlreadyConfirmed(oP.getIntention().getSecondaryComponent());
 			}
 
 			oStepInfo += oMomentInfo + "; ";
@@ -1166,6 +1198,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		oCaptions.add("rNUM_IMAGINARY_ACTIONS");
 		return oCaptions;
 	}
+
+
 
 	/***********************************************************************************************
 	 * END inspector specific functions

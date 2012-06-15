@@ -16,7 +16,13 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 31.05.2010, 16:32:42
  * 
  */
+
+
+
 public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
+	
+	/** this value is used in F49 to mark (Mascherl) drive candidates for primal repression, true = repress; @since 03.05.2012 12:03:35 */
+	private boolean mnCandidateForRepression = false;
 		
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -27,5 +33,23 @@ public abstract class clsPrimaryDataStructure extends clsDataStructurePA{
 	 */
 	public clsPrimaryDataStructure(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);  
+	}
+
+	/**
+	 * @since 03.05.2012 12:03:26
+	 * This value is used in F49 to mark (Mascherl) drive candidates for primal repression, true = repress
+	 * @param mnCandidateForRepression the mnCandidateForRepression to set
+	 */
+	public void setCandidateForRepression(boolean mnCandidateForRepression) {
+		this.mnCandidateForRepression = mnCandidateForRepression;
+	}
+
+	/**
+	 * @since 03.05.2012 12:03:26
+	 * This value is used in F49 to mark (Mascherl) drive candidates for primal repression, true = repress
+	 * @return the mnCandidateForRepression
+	 */
+	public boolean isCandidateForRepression() {
+		return mnCandidateForRepression;
 	}
 }

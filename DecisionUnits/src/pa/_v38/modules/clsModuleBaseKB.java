@@ -32,7 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
 
@@ -298,6 +298,14 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		oRetVal = moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
 		
+		if (oRetVal==null) {
+			try {
+				throw new Exception("Error in searchMesh: the returned function for " + poInput + " is null. This always occurs if images of TPM does not have any WPM");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
 		//Transfer all meshes of the same ID to the same instance, i. e. all associations do contain this particular structure
 //		if (poInput instanceof clsWordPresentationMesh) {
 //			clsDataStructureTools.correctFalseInstancesInAssWPM((clsWordPresentationMesh)oRetVal);
@@ -312,9 +320,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 		} else if (poInput instanceof clsThingPresentationMesh) {
-			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
+			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
 		}
 		
 		
@@ -505,7 +513,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poDataStructure
 	 * @return
 	 */
-	protected clsAssociationWordPresentation getWPMesh(clsPrimaryDataStructure poDataStructure){
+	protected clsAssociationWordPresentation getWPMesh(clsPrimaryDataStructure poDataStructure, double prThreshold){
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		clsAssociationWordPresentation oRetVal = null; 
 		
@@ -519,8 +527,10 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//If something was found
 		if(oSearchResult.isEmpty() == false && oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
-			//Get the best match
-			oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+			//Get the best match if higher than the threshold
+			if (oSearchResult.get(0).get(0).a >= prThreshold) {
+				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+			}	
 		}
 		
 		return oRetVal;  
@@ -541,7 +551,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		//Generate the instance of the class affect
 		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
 		//Search for the WP of the affect
-		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect);
+		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
 		
 		//Get drive Content String
 		String oDriveContent = poDM.getMoContent();
@@ -571,12 +581,12 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param prPsychicEnergyIn
 	 * @return
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMesh> poDriveMeshFilter) {
 		
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages, poDriveMeshFilter);
 	
 	}
 }

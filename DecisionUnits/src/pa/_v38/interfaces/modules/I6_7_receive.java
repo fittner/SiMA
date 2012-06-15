@@ -20,6 +20,9 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_7_receive {
-	public void receive_I6_7(clsWordPresentationMesh poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories);
+	public void receive_I6_7(
+			clsWordPresentationMesh poRealityPerception,
+			ArrayList<clsPrediction> poExtractedPrediction, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemories,
+			ArrayList<clsWordPresentationMesh> poDriveList);
 }

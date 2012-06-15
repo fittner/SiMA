@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
@@ -197,6 +197,7 @@ public abstract class clsDataStructureComparison {
 						// TODO (wendt) - Auto-generated catch block
 						e.printStackTrace();
 					}
+					//INFO: In the image function, the inverse associations are also created.
 					getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
@@ -591,7 +592,11 @@ public abstract class clsDataStructureComparison {
 						((clsThingPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalMoAssociatedContent());
 						//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
 						//time associations of the subobject. This association is added to the external associations of the subobject
-						((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+						//FIXME AW: This is a non clean solution. The association time is always added but the original object is NOT copied. Therefore, it shall be
+						//          checked, that this association is only copied once.
+						if (((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().contains(oAss)==false) {
+							((clsThingPresentationMesh)oAss.getLeafElement()).getExternalMoAssociatedContent().add(oAss);
+						}
 					}
 				}
 				
@@ -647,9 +652,7 @@ public abstract class clsDataStructureComparison {
 		//Readoutsearchspace searches everything with a certain moDSID
 		//Everything shall be returned
 		//A special case of the searchspace was used
-		
-		//Create Container for the DataStructure		
-	
+			
 		//Check if that data structure can be found in the database, else return null
 		//pnLevel MUST be at least 1, else no substructures are searched
 		if (poInput.getMoDS_ID()>0 && pnLevel >0) {
@@ -706,6 +709,9 @@ public abstract class clsDataStructureComparison {
 				}
 			}
 		}
+		
+		//Complement all associations in the other structures
+		clsMeshTools.setInverseAssociations(oRetVal);
 		
 		return oRetVal;
 	}
@@ -1286,7 +1292,7 @@ public abstract class clsDataStructureComparison {
 			//TODO AW: Only Template Images, which contain TPMs are concerned, expand to other data types and nested template images
 			if (poDataType == eDataType.DM) {
 				//Get all compare drive meshes
-				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsDataStructureTools.getAllDMInMesh(poFromImage);
+				ArrayList<clsAssociationDriveMesh> oFromImageDriveMeshes = clsMeshTools.getAllDMInMesh(poFromImage);
 			
 				//For each DM or TP in the associated structures in the SourceContainer
 				for (clsAssociationDriveMesh oFromImageDM : oFromImageDriveMeshes) {	//The association in the source file. The root element shall be found in that target file

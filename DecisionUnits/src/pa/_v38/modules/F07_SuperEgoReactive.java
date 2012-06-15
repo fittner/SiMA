@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -39,7 +39,7 @@ import config.clsProperties;
  * F06 or F19 (Ego) can decide now to defend the forbidden drives or not.
  * 
  * @author zeilinger, gelbard
- * 02.05.2011, 15:47:53
+ * 07.05.2012, 15:47:53
  * 
  */
 public class F07_SuperEgoReactive extends clsModuleBase
@@ -314,7 +314,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//Association attribute are delivered here
 		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-		ArrayList<clsDataStructurePA> oAttributeAss = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+		ArrayList<clsDataStructurePA> oAttributeAss = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 		if (oAttributeAss.isEmpty()==false) {
 			return true;
 		}
@@ -351,7 +351,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
 		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-		ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 		
 		if (oTPMList.isEmpty()==false) {
 			return true;
@@ -386,8 +386,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private boolean searchInTI (String oContentType, String oContent) {
 		// search in perceptions
 		
-		ArrayList<clsThingPresentationMesh> oImages = clsDataStructureTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
-		ArrayList<clsThingPresentationMesh> oFilteredImages = clsDataStructureTools.FilterTPMList(oImages, null, oContent, true);
+		ArrayList<clsThingPresentationMesh> oImages = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
+		ArrayList<clsThingPresentationMesh> oFilteredImages = clsMeshTools.FilterTPMList(oImages, null, oContent, true);
 		
 		if (oFilteredImages.isEmpty()==false) {
 			return true;

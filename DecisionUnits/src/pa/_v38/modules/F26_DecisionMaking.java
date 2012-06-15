@@ -11,13 +11,12 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.tools.clsAffectTools;
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.interfaces.modules.I6_1_receive;
-import pa._v38.interfaces.modules.I6_3_receive;
+
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
@@ -47,7 +46,7 @@ import pa._v38.memorymgmt.enums.eContentType;
  * 
  */
 public class F26_DecisionMaking extends clsModuleBase implements 
-			I6_1_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
+			 I6_2_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	/** Perception IN */
@@ -218,22 +217,6 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>)deepCopy(moAssociatedMemories_IN);
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 14:52:37
-	 * 
-	 * @see pa.interfaces.I1_7#receive_I1_7(int)
-	 * 
-	 * by this interface a list of drives, which represent the current wishes
-	 * fills moDriveList
-	 *   
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
-		moGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList); 
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -248,8 +231,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(clsWordPresentationMesh poPerception, 
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
+	public void receive_I6_7(
+			clsWordPresentationMesh poPerception, 
+			ArrayList<clsPrediction> poExtractedPrediction, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemories,
+			ArrayList<clsWordPresentationMesh> poDriveList) {
 		try {
 			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
 		} catch (CloneNotSupportedException e) {
@@ -258,6 +244,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		} 
 		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
 		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemories);
+		moGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList); 
 	}
 	
 	/* (non-Javadoc)
@@ -325,7 +312,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 					//Set sortorder for this image. A PI is taken earlier than a RI
 					int nCurrentPISortOrder = 0;
 					//get the top image
-					clsWordPresentationMesh oTopImage = clsDataStructureTools.getHigherLevelImage(oPossibleGoalObject);
+					clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(oPossibleGoalObject);
 					if (oTopImage==null) {
 						try {
 							throw new Exception("Error in F26: All objects must be associated with images.");
@@ -1092,19 +1079,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 03.05.2011, 17:46:45
-	 * 
-	 * @see pa._v38.interfaces.modules.I6_1_receive#receive_I6_1(java.util.ArrayList)
-	 */
-	@Override
-	public void receive_I6_1(
-			clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		// TODO somebody != AW, remove this interface
-		
-	}
+
 	
 }
 

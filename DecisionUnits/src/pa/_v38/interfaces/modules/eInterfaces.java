@@ -29,6 +29,7 @@ public enum eInterfaces {
 	D3_3("n/a"),
 	D3_4("n/a"),
 	D3_5("n/a"),
+	D4_1("write actual pleasure to DT4"),
 	I0_1("The inner somatic stimulation source which produces a constant flow of libido is represented by this interface. The circular loop in the figure defines that this source has a not identifiable bodily source and that the amount of libido produced cannot be influenced and stays constant. I0.1 connects the physical and chemical body with F39. "),	
 	I0_2("The second incoming connection to F39 originates in the erogenous zones. "),	
 	I0_3("This input connected to Module F1 represents the outputs of the sensors which measure the homeostasis."),	
@@ -73,6 +74,7 @@ public enum eInterfaces {
 	I5_17("Transports quota of affects which have originally been attached to thing presentations representing drive contents from F6 to F20. The splitting apart is a result of the defense mechanisms."),
 	I5_18("Transports (unchanged or adapted) drive contents which passed the defense mechanisms from F6 to the conversion module F8."),
 	I5_19("Word presentations originating in F27 are reduced to thing presentations in F47. These are forwarded together with their attached quota of affects to F46."),
+	I5_21("F63 to F55."),
 	I6_1("The perception contents consisting of word presentations, thing presentations, and affects are sent from F21 to F26 and F23 for further processing."),
 	I6_2("Differentiated experienced moods (Feelings, Thing Presentations, Symbol Presentations) are transported from F20 to F26, F52, and F29."),
 	I6_3("This interface distributes the drive wishes produced by module F8 to the modules F23 and F26."),
@@ -83,7 +85,8 @@ public enum eInterfaces {
 	I6_8("Three action goals are passed on to F52. Word and thing presentations representing the result of module F26 are distributed to F52."),
 	I6_9("The various imaginated action plans are distributed from F52 to F47, F29, and F53."),
 	I6_10("Reality checked action plans are passed on from F53 to F29."),
-	I6_11("The final action plan is transported from F29 to F30.");
+	I6_11("The final action plan is transported from F29 to F30."),
+	I6_12("F61 to F23.");
 	
 	/** Description of the purpose of the interface; @since 12.07.2011 13:16:00 */
 	private String moDescription;

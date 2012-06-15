@@ -30,7 +30,7 @@ import pa._v38.tools.toText;
  * <i>moBodyData_OUT</i> no further processing, in=out (OUT I1.4)
  * 
  * @author muchitsch
- * 11.08.2009, 14:20:47
+ * 07.05.2012, 14:20:47
  * 
  */
 public class F12_SensorsBody extends clsModuleBase implements I0_5_receive, I1_4_send {

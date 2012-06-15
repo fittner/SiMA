@@ -23,10 +23,11 @@ import pa._v38.tools.toText;
 import config.clsProperties;
 
 /**
- * DOCUMENT (zeilinger) - This function reduces the affect values of drives by spliting them according to the attached modules. It controls the amount of the neutralized drive energy and generates lust 
+ * This function reduces the affect values of drives by spliting them according to the attached modules. 
+ * It controls the amount of the neutralized drive energy and generates lust 
  * 
  * @author zeilinger
- * 02.05.2011, 15:47:42
+ * 07.05.2012, 15:47:42
  * 
  */
 public class F56_Desexualization_Neutralization extends clsModuleBase

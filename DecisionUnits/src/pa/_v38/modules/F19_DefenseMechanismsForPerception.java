@@ -29,7 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -39,7 +39,7 @@ import pa._v38.tools.toText;
  * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
  * @author gelbard
- * 11.08.2009, 14:35:08
+ * 07.05.2012, 14:35:08
  * 
  */
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
@@ -306,7 +306,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
 			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
 			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -332,7 +332,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsDataStructureTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
@@ -375,7 +375,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			//Delete object from the perception
 			
 			if (oFoundObject instanceof clsThingPresentationMesh)
-			clsDataStructureTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
+			clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
 		}
 		
 		

@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * DOCUMENT (KOHLHAUSER) - insert description 
  * 
  * @author deutsch
- * 27.04.2010, 10:18:11
+ * 27.04.2012, 10:18:11
  * 
  */
 public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send {

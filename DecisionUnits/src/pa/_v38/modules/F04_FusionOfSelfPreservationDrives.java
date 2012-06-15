@@ -7,13 +7,10 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsQuadruppel;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
@@ -33,12 +30,14 @@ import config.clsProperties;
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send {
 	public static final String P_MODULENUMBER = "04";
 	
+	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+	
 	private ArrayList< clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > > moDriveCandidates; 
 	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	/** partial crive categories for the homeostatic drives */
-	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
+	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
 	/**
 	 * basic constructor, fills oposite pairs 
 	 * 
@@ -55,7 +54,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		fillOppositePairs();
-		fillPartialDriveCategories();
 	}
 	
 	private void fillOppositePairs() {
@@ -103,29 +101,13 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
+		
+		//test //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+		//Personality_Content_Factor = -0.1;
 	
 		//nothing to do
 	}
 	
-	//needs to be extended as other drives are added
-	private void fillPartialDriveCategories() {
-		moPartialDriveCategories = new ArrayList<clsTriple<String,String,ArrayList<Double>>>();
-		
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "NOURISH", new ArrayList<Double>(Arrays.asList(0.6, 0.2, 0.3, 0.4)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "RELAX", new ArrayList<Double>(Arrays.asList(0.4, 0.3, 0.2, 0.1)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"LIFE", "REPRESS", new ArrayList<Double>(Arrays.asList(0.1, 0.1, 0.1, 0.1)) ) );
-		
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "BITE", new ArrayList<Double>(Arrays.asList(0.8, 0.01, 0.2, 0.1)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "SLEEP", new ArrayList<Double>(Arrays.asList(0.1, 0.4, 0.1, 0.2)) ) );
-		moPartialDriveCategories.add( new clsTriple<String,String,ArrayList<Double>>(
-				"DEATH", "DEPOSIT", new ArrayList<Double>(Arrays.asList(0.01, 0.01, 0.01, 0.6)) ) );
-		
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -179,20 +161,59 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			clsPair<clsDriveMesh, clsDriveDemand> oA = getEntry(oDOOP.a);
 			clsPair<clsDriveMesh, clsDriveDemand> oB = getEntry(oDOOP.b);
 			
+			
+			
 			if (oA != null && oB != null) {
 				clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry = 
 					new clsPair<clsPair<clsDriveMesh,clsDriveDemand>, clsPair<clsDriveMesh,clsDriveDemand>>(oA, oB);
 					
-					//go to every drive mesh in the list and calculate the partial things
-					categorizeDriveMesh(oEntry.a.a);	
-					categorizeDriveMesh(oEntry.b.a);
+					//chenge the agressive/lib content due to personaliyt
+					if(Personality_Content_Factor != 0)
+						oEntry = changeContentByFactor(oEntry);
 				
-				moDriveCandidates.add(oEntry); 
+					moDriveCandidates.add(oEntry); 
+			}
+		}
+	}
+	
+	private clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry){
+		
+		if(Personality_Content_Factor <0) // more agressive
+		{
+			if(oEntry.a.a.getMoContentType() == "DEATH")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+			}
+			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+			}
+			else
+			{
+			 //new content type?
+			}
+		}
+		else //more libido
+		{
+			if(oEntry.a.a.getMoContentType() == "DEATH")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
+			}
+			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			{
+				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
+				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );
+			}
+			else
+			{
+			 //new content type?
 			}
 		}
 		
-		
-
+		return oEntry;
 	}
 	
 	private clsPair<clsDriveMesh, clsDriveDemand> getEntry(clsPair<String, String> poId) {
@@ -211,19 +232,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		return oResult;
 	}
 	
-	private void categorizeDriveMesh(clsDriveMesh poMD) {
-		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPartialDriveCategories) {
-			String oContentType = oPRM.a; 
-			String oContext = oPRM.b;
-			
-			if ( poMD.getMoContent().equals(oContext) && poMD.getMoContentType().equals(oContentType)) {
-				ArrayList<Double> oC = oPRM.c;
-				
-				poMD.setCategories(oC.get(0), oC.get(1), oC.get(2), oC.get(3));
-				break;
-			}
-		}
-	}
 
 	/* (non-Javadoc)
 	 *
@@ -296,6 +304,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
+		moDescription = "F04: The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
 	}	
 }

@@ -28,10 +28,11 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eSupportDataType;
+import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPredictionTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -40,7 +41,7 @@ import pa._v38.tools.toText;
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
  * 
  * @author wendt
- * 11.08.2009, 14:49:09
+ * 07.05.2012, 14:49:09
  * 
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
@@ -56,6 +57,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
 	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
+	/** List of drive goals OUT; @since 07.05.2012 19:10:20 */
+	private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
 	
 	
 	
@@ -87,6 +90,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Short time memory */
 	private clsShortTimeMemory moShortTimeMemory;
 	
+	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+	private clsGoalMemory moGoalMemory;
+	
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
 	private clsShortTimeMemory moTempLocalizationStorage;
 	
@@ -99,10 +105,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPrefix
 	 * @param poProp
 	 * @param poModuleList
+	 * @param poGoalMemory 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poShortTimeMemory, clsShortTimeMemory poTempLocalizationStorage, clsGoalMemory poGoalMemory) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -111,6 +118,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Get short time memory
 		moShortTimeMemory = poShortTimeMemory;
+		moGoalMemory = poGoalMemory;
 		moTempLocalizationStorage = poTempLocalizationStorage;
 	}
 
@@ -204,6 +212,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void process_basic() {
 		
+		//=== Create the mental image ===
 		//Test AW: Relational Meshes
 		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
@@ -211,9 +220,21 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
 		}
 		
+		//=== Process acts ===//
+		//The act is accessed through the goal.
+		//Take the first act in the list and process it
+		//FIXME AW: In the first step, perform only simple processing
+		
+		
+		
+		
+		
+		
+		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		moExtractedPrediction_OUT = new ArrayList<clsPrediction>();
+		moGoalList_OUT = moGoalList_IN;
 		
 		
 		/*
@@ -267,6 +288,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 	}
 	
+	private void processMemories(ArrayList<clsWordPresentationMesh> poMemoryList) {
+		//Intention already exists
+		
+		for (clsWordPresentationMesh oAct : poMemoryList) {
+			//Get the moment
+			
+			
+			
+			//Get the expectation			
+			
+		}
+	}
+	
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -293,7 +327,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				//If they are equal
 				//FIXME: What if there are more expectations to one moment???? This should be considered
 				for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-					boolean bCheckProcessedExpectation = clsPredictionTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
+					boolean bCheckProcessedExpectation = clsActTools.getExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent());
 					if (bCheckProcessedExpectation==false) {
 						if (oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID() == oSContainer.getMoDataStructure().getMoDS_ID()) {
 							//Get the primary container
@@ -311,7 +345,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 										bIntentionProgressUpdated = true;
 									}
 									//Add WP that the expectation has been already used. An expectation must only be confirmed once
-									clsPredictionTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
+									clsActTools.setExpectationAlreadyConfirmed(oExpectation.getSecondaryComponent(), true);
 								}
 							}
 							break;
@@ -637,23 +671,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	private void updateTotalProgress(clsSecondaryDataStructureContainer poIntention) {
 		//Get temporal progress
-		double rTemporalProgressFactor = clsPredictionTools.getTemporalProgressFactor(poIntention);
-		double rTemporalCurrentProgress = clsPredictionTools.getTemporalProgress(poIntention);
+		double rTemporalProgressFactor = clsActTools.getTemporalProgressFactor(poIntention);
+		double rTemporalCurrentProgress = clsActTools.getTemporalProgress(poIntention);
 		double rTemporalNewProgress = rTemporalProgressFactor + rTemporalCurrentProgress;
 		
 		//Set the new temporal progress
-		clsPredictionTools.setTemporalProgress(poIntention, rTemporalNewProgress);
+		clsActTools.setTemporalProgress(poIntention, rTemporalNewProgress);
 		
 		//Get confirmation progress
-		double rConfirmProgressFactor = clsPredictionTools.getConfirmFactor(poIntention);
-		double rConfirmCurrentProgress = clsPredictionTools.getConfirmProgress(poIntention);
+		double rConfirmProgressFactor = clsActTools.getConfirmFactor(poIntention);
+		double rConfirmCurrentProgress = clsActTools.getConfirmProgress(poIntention);
 		
 		double rConfirmNewProgress = rConfirmProgressFactor + rConfirmCurrentProgress;
 		//Correct values if the reinforcement is already complete
 		if ((rConfirmNewProgress<=1) && (rConfirmNewProgress>0)) {
 			//Set the new confirmation progress
 			//NOTE: The confirmation progress factor cannot be > 1 as at 1.0 the agent believes that it is confirmed
-			clsPredictionTools.setConfirmProgress(poIntention, rConfirmNewProgress);
+			clsActTools.setConfirmProgress(poIntention, rConfirmNewProgress);
 		} 		
 		
 	}
@@ -694,12 +728,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//perception act is evaluated as confirmed
 		
 		//Count the number of structure until the end of the perception-act
-		int nNumberOfStructuresToEnd = clsPredictionTools.countSubStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
+		int nNumberOfStructuresToEnd = clsActTools.countSubStructuresToActEnd(poPrediction.getMoment().getSecondaryComponent(), poAssociatedInputs)+1;
 		//Calculate the temporal increment factor
 		double rTemporalIncreasementFactor = 1 / (double)nNumberOfStructuresToEnd;
 		
 		//Set the default progress factor, which is only set once
-		clsPredictionTools.setTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent(), rTemporalIncreasementFactor);
+		clsActTools.setTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent(), rTemporalIncreasementFactor);
 		
 		//Calculate the confirmation increment factor
 		//Get the number of images, which shall be confirmed, to get a complete confirmation
@@ -712,7 +746,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 		
 		//Set the default progress factor, which is only set once
-		clsPredictionTools.setConfirmFactor(poPrediction.getIntention().getSecondaryComponent(), rConfirmIncreasementFactor);
+		clsActTools.setConfirmFactor(poPrediction.getIntention().getSecondaryComponent(), rConfirmIncreasementFactor);
 		
 	}
 	
@@ -728,8 +762,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poIntention
 	 */
 	private void setFirstTemporalProgress(clsPrediction poPrediction) {
-		double rProgressFactor = clsPredictionTools.getTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent());
-		clsPredictionTools.setTemporalProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+		double rProgressFactor = clsActTools.getTemporalProgressFactor(poPrediction.getIntention().getSecondaryComponent());
+		clsActTools.setTemporalProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
 	}
 	
 	// ============== PROGRESS FUNCTIONS END ==============================//
@@ -744,8 +778,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPrediction
 	 */
 	private void setFirstConfirmProgress(clsPrediction poPrediction) {
-		double rProgressFactor = clsPredictionTools.getConfirmFactor(poPrediction.getIntention().getSecondaryComponent());
-		clsPredictionTools.setConfirmProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
+		double rProgressFactor = clsActTools.getConfirmFactor(poPrediction.getIntention().getSecondaryComponent());
+		clsActTools.setConfirmProgress(poPrediction.getIntention().getSecondaryComponent(), rProgressFactor);
 	}
 	
 
@@ -1143,20 +1177,20 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		for (clsTriple<Integer, Integer, clsPrediction> oP : poPredictionList) {
 			//0. Check if the structure shall be processed with reduce value 
-			boolean bReduceAffect = clsPredictionTools.getActivateReduceFactor(oP.c.getIntention().getSecondaryComponent());
+			boolean bReduceAffect = clsActTools.getActivateReduceFactor(oP.c.getIntention().getSecondaryComponent());
 			
 			if (bReduceAffect==true) {
 				//1. Remove old associations in order to replace them
 				clsDataStructureTools.removeAssociation(oP.c.getIntention().getSecondaryComponent(), ePredicate.HASREALITYAFFECT);
 				//2. Get progress and confirmation factors
-				double rTemporalProgress = clsPredictionTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
-				double rConfirmationProgress = clsPredictionTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
+				double rTemporalProgress = clsActTools.getTemporalProgress(oP.c.getIntention().getSecondaryComponent()); 
+				double rConfirmationProgress = clsActTools.getConfirmProgress(oP.c.getIntention().getSecondaryComponent());
 				//3. Get all affects from the intention
 				ArrayList<clsSecondaryDataStructureContainer> oDriveGoalList = new ArrayList<clsSecondaryDataStructureContainer>(); //FIXME AW: This part was excluded because of the mesh structure//clsAffectTools.getDriveGoalsFromPrediction(oP.c);
 				//4. For each affect from the intention, calculate a reduction affect
 				for (clsSecondaryDataStructureContainer oGoalContainer : oDriveGoalList) {
 					//5. Get the drive intensity of the drive connected to the goal
-					clsPredictionTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
+					clsActTools.setReduceAffect(oP.c.getIntention().getSecondaryComponent(), oGoalContainer, prReduceFactorForDrives, rTemporalProgress, rConfirmationProgress);
 				}
 				//TODO: As WPs are replaced by WPMs, the affects can be attached like in the PP
 			}
@@ -1175,7 +1209,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT);
+		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT, moGoalList_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1187,10 +1221,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	public void send_I6_7(clsWordPresentationMesh poRealityPerception,
-			ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
-		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories);
+			ArrayList<clsPrediction> poExtractedPrediction, 
+			ArrayList<clsWordPresentationMesh> poAssociatedMemories,
+			ArrayList<clsWordPresentationMesh> poDriveList)
+			{
+		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poRealityPerception, poExtractedPrediction, poAssociatedMemories, poDriveList);
 		
-		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories);
+		putInterfaceData(I6_7_send.class, poRealityPerception, poExtractedPrediction, poAssociatedMemories, poDriveList);
 	}
 
 	/* (non-Javadoc)

@@ -14,20 +14,16 @@ import java.util.SortedMap;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
-import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -40,10 +36,10 @@ import config.clsProperties;
  * 
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive, I5_7_receive, I5_1_send{
+		implements I4_1_receive,  I5_1_send{
 
 	public static final String P_MODULENUMBER = "57";
-	private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
+	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
@@ -101,36 +97,36 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
-		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		
 		
 		return text;
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author zeilinger
-	 * 04.05.2011, 09:07:36
-	 * 
-	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
-	 */
-	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz … ganz boeses voodoo. 
-	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
-	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
-	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
-	 */
-	@SuppressWarnings("unchecked")
-	@Override
-	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
-			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
-	}
+//	/* (non-Javadoc)
+//	 *
+//	 * @author zeilinger
+//	 * 04.05.2011, 09:07:36
+//	 * 
+//	 * @see pa._v38.interfaces.modules.I5_7_receive#receive_I5_7(java.util.ArrayList)
+//	 */
+//	/* Comment TD from Mail: also deepCopy ist ganz ganz ganz ganz ganz … ganz boeses voodoo. 
+//	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen mußt. 
+//	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
+//	 * (ist bei deepcopy nicht schlimm – kommt innerhalb der funktion dauernd vor).
+//	 */
+//	@SuppressWarnings("unchecked")
+//	@Override
+//	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
+//		try {
+//			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+//			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+//	}
 
 	/* (non-Javadoc)
 	 *
@@ -144,7 +140,21 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		moDriveCandidates = poDriveCandidates; 
 	
 	}
-
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 30.05.2012, 13:46:36
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_6_receive#receive_I5_6(java.util.ArrayList)
+	 */
+	/*@Override
+	//v38g has no interface between F46 and F57
+	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
+		moPerceptionalMesh_IN = poPerceptionalMesh; 
+	
+	}
+*/
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
@@ -155,23 +165,23 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates, moPerceptionalMesh_IN);
-		
+		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates);
+	
 	}
 
 	/**
-	 * DOCUMENT (hinterleitner) - Search for TPMs that are associated with the different drive candidates. 
+	 * DOCUMENT (schaat) - Search for TPMs that are associated with the different drive candidates. 
 	 * @param <clsPhysicalDataStructure>
 	 *
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates, clsThingPresentationMesh poPerceptionalMesh) { 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		//initializing of the list, because it cannnot be null
 		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		
 		//Get all DMs from Perception
-		ArrayList<clsAssociationDriveMesh> oAssDMList = clsDataStructureTools.getAllDMInMesh(poPerceptionalMesh);
+		/*ArrayList<clsAssociationDriveMesh> oAssDMList = clsMeshTools.getAllDMInMesh(poPerceptionalMesh);
 		
 		//1. Compare drive meshes with drive meshes in the perception	
 		for (clsDriveMesh oDM : poDriveCandidates) {
@@ -197,7 +207,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						rCurrentMatchFactor = 0.0;
 					}
 					
-					//It shall be more than the htreshold and more than the max factor
+					//It shall be more than the threshold and more than the max factor
 					if ((rCurrentMatchFactor > mrThreshold) && (rCurrentMatchFactor > rMaxMatchfactor)) {
 						double rCurrentPleasureValue = ((clsDriveMesh)oAss.getLeafElement()).getMrPleasure();
 						//Get the one with the highest lust
@@ -208,10 +218,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						}
 					}
 				}
-			}
-			if (oDS!=null) {
-				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
-			} else {
+			}*/
+		
+		clsDataStructurePA oDS=null;
+		double rCurrentMatchFactor = 0.0;
+		double rMaxMatchfactor = 0.0;
+		double rMaxPleasurefactor = 0.0;
+		
+		for (clsDriveMesh oDM : poDriveCandidates) {
+			
+
 				// generate empty memory traces, if nothing is perceived
 				
 				/* SSch 2012-04-10 If the ARSIN does not get any drive objects from perceptions or the drive objects do not conform with the threshold
@@ -219,10 +235,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				 * Todo: Derzeit wird nur ein clsPair<DM, TPM> weitergereicht. Es fehlt die Moeglichkeit zu einem DM mehrere TPMs anzuhängen (eventuell ueber container? -->
 				 *  konsitente linie ob datencontainer für assoziationen oder membervariablen nötig!). Darauf aufbauend berücksichtigen und gewichten von halluz. und wahrg. Objekte 
 				 */
-				
-				rMaxPleasurefactor = 0.0;
-				rMaxMatchfactor = 0.0;
-				
+								
 				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
@@ -232,6 +245,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				search(eDataType.TPM, poSearchPattern, oSearchResult);
 				
+				rMaxMatchfactor = 0.0;
+				rMaxPleasurefactor = 0.0;
+					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for each found DM
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
@@ -249,12 +265,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					}
 				}
 				
+				// if no drive object is appropriate
 				if (oDS == null) {
 					oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
 				}
 				
 				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
-				}
+				
 		}
 		
 	return oRetVal;	
@@ -363,9 +380,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void send_I5_1(
 			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
 		
-	
 		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
+		((I5_1_receive)moModuleList.get(14)).receive_I5_1(poData); 
 		
 		putInterfaceData(I5_1_send.class, poData);
 	}
+
+
 }

@@ -364,7 +364,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param poAssociatedWordPresentations
 	 */
 		
-	protected void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	public void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	

@@ -35,7 +35,7 @@ import pa._v38.tools.toText;
  * HashMap:<br>
  * 
  * @author muchitsch
- * 11.08.2009, 14:24:29
+ * 07.05.2012, 14:24:29
  * 
  */
 public class F13_NeuroSymbolizationBody extends clsModuleBase implements I1_4_receive, I2_4_send  {

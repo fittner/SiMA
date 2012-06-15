@@ -22,7 +22,7 @@ import config.clsProperties;
  * Conversion of raw data into neuro-symbols
  * 
  * @author muchitsch
- * 03.03.2011, 15:18:01
+ * 07.05.2012, 15:18:01
  * 
  */
 public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_1_receive, I2_1_send {
