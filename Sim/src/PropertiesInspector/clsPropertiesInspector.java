@@ -2,7 +2,7 @@ package PropertiesInspector;
 
 
 import config.clsProperties;
-
+import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
@@ -60,26 +60,44 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private JLabel lblLabel1;
 	private JTextField jtfTextField2;
 	private JLabel lblLabel2;
+	private JLabel lblLabelRename;
+	private JTextField jtfTextFieldRename;
     private JPanel pnlEditArea;
     private JPanel pnlNodeNew;
     private JPanel pnlNodeNewButtons;
     private JPanel pnlNodeNewEdit;
     private JPanel pnlNodeNewName;
     private JPanel pnlNodeNewValue;
+    private JPanel pnlNodeRename;
+    private JPanel pnlNodeRenameButtons;
+    private JPanel pnlNodeRenameEdit;
     private JButton btnNodeNewAdd;
     private JButton btnNodeNewCancel;
+    private JButton btnNodeRename;
+    private JButton btnNodeRenameCancel;
 	private JMenuBar menuBar;
 	private JMenu menuEdit;
 	private JMenu menuFile;
+	private JMenuItem menuItemCutSubtree;
+	private JMenuItem menuItemDeleteSubtree;
 	private JMenuItem menuItemEditNodeNew;
+	private JMenuItem menuItemEditPaste;
+	private JMenuItem menuItemEditPasteRenamed;
+	private JMenuItem menuItemEditTreeCopy;
 	private JMenuItem menuItemFileOpen;
 	private JMenuItem menuItemFileSave;
 	private JMenuItem menuItemFileSaveAs;
 	private JScrollPane jspScrollPane1, jspScrollPane2;
 	private JFileChooser jfcFileChooser;
+	private AbstractAction actionCutSubtree;
+	private AbstractAction actionDeleteSubtree;
 	private AbstractAction actionNodeNew;
+	private AbstractAction actionPaste;
+	private AbstractAction actionPasteRenamed;
+	private AbstractAction actionTreeCopy;
 	private AbstractAction actionNodeNewAdd;
-	private AbstractAction actionNodeNewCancel;
+	private AbstractAction actionEditCancel;
+	private AbstractAction actionSubtreeAddRenamed;
 	private AbstractAction actionOpen;
 	private AbstractAction actionSave;
 	private AbstractAction actionSaveAs;
@@ -88,6 +106,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private String propertyFilename = ""; // Fully qualified name of the loaded property file.
 	private DefaultMutableTreeNode lastSelectedNode; // Stores the last selected node to enable writing it after it lost the focus.
 	private boolean propertiesModified = false; // Stores, whether the properties have been modified.
+	private String [] bufferPropertylabels; // Stores the property labels to be copied.
+	private String [] bufferPropertyvalues; // Stores the property values to be copied.
 
 	
 	// Configuration Constants
@@ -103,33 +123,42 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final Object[] OPTIONS_YES_NO = {"Yes", "No"};
 	private static final Object[] OPTIONS_YES_NO_CANCEL = {"Yes", "No", "Cancel"};
 	private static final String APPLICATION_FRAME_TITLE = "Properties Inspector";
+	private static final String LABEL_FOR_BUTTON_EDIT_CANCEL = "Cancel";
 	private static final String LABEL_FOR_BUTTON_NODE_NEW_ADD = "Add";
-	private static final String LABEL_FOR_BUTTON_NODE_NEW_CANCEL = "Cancel";
+	private static final String LABEL_FOR_BUTTON_NODE_RENAME = "Proceed";
+	private static final String LABEL_FOR_BUTTON_NODE_RENAME_CANCEL = "Cancel";
 	private static final String LABEL_FOR_CONFIRMATION_DIALOG = "Confirmation Dialog";
 	private static final String LABEL_FOR_DIALOG_NOT_SAVED = "Not saved";
 	private static final String LABEL_FOR_DIALOG_REPLACE_VALUE_BY_NODE = "Dialog Replace Value";
-	private static final String LABEL_FOR_INFORMATION_KEY_EMPTY = "Information Key Empty";
-	private static final String LABEL_FOR_INFORMATION_KEY_EXISTS = "Information Key Exists";
-	private static final String LABEL_FOR_INFORMATION_NO_NODE_SELECTED = "Information No Node Selected";
+	private static final String LABEL_FOR_INFORMATION = "Information window";
 	private static final String LABEL_FOR_INPUT_FIELD_NAME = "Name: ";
 	private static final String LABEL_FOR_INPUT_FIELD_VALUE = "Value: ";
+	private static final String LABEL_FOR_INPUT_FIELD_RENAME = "New label of the root of the to be inserted subtree:";
 	private static final String LABEL_FOR_MENU_EDIT = "Edit";
 	private static final String LABEL_FOR_MENU_FILE = "File";
-	private static final String LABEL_FOR_MENUITEM_EDIT_NODE_NEW = "New Node …";
+	private static final String LABEL_FOR_MENUITEM_EDIT_TREE_CUT = "Cut subtree";
+	private static final String LABEL_FOR_MENUITEM_EDIT_TREE_DELETE = "Delete subtree";
+	private static final String LABEL_FOR_MENUITEM_EDIT_NODE_NEW = "New node …";
+	private static final String LABEL_FOR_MENUITEM_EDIT_PASTE = "Paste";
+	private static final String LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED = "Paste renamed …";
+	private static final String LABEL_FOR_MENUITEM_EDIT_TREE_COPY = "Copy subtree";
 	private static final String LABEL_FOR_MENUITEM_FILE_OPEN = "Open …";
 	private static final String LABEL_FOR_MENUITEM_FILE_SAVE = "Save";
 	private static final String LABEL_FOR_MENUITEM_FILE_SAVE_AS = "Save as …";
 	private static final String LABEL_FOR_ROOTNODE_DEFAULT = "Properties";
+	private static final String LABEL_INFORMATION_COPY_BUFFER_EMPTY = "The copy buffer is empty.\nPlease perform function copy first.";
 	private static final String LABEL_INFORMATION_NEW_KEY_EMPTY = "The new key is empty.\nPlease specify a name.";
 	private static final String LABEL_INFORMATION_NEW_KEY_EXISTS = "A node with the specified name already exists.\nPlease specify a different name.";
-	private static final String LABEL_INFORMATION_NO_NODE_SELECTED = "You didn't select a node in the tree where to put the new node.\nPlease select a parent node.";
+	private static final String LABEL_INFORMATION_NO_NODE_SELECTED = "You didn't select a node in the tree.\nPlease select a node.";
+	private static final String LABEL_INFORMATION_ROOT_NODE_EXISTS = "A node with the same name as the root of the to be copied subtree already exists.\nThe subtree cannot be pasted here.\n(Hint: you may use 'Paste renamed …'.)";
+	private static final String LABEL_INFORMATION_ROOT_NODE_SELECTED = "The selected node is the root, which is not allowed for this operation.\nPlease select a different node.";
 	private static final String PATH_FOR_PROPERTY_FILES_DEFAULT = "S:\\ARSIN_V01";
 	private static final String QUESTION_CONFIRMATION_DIALOG_FILE_SAVE = " already exits!\nDo you want to overwrite?";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_1 = "The properties ";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_2 = "in file ";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_3 = "have been modified.\nSave changes?";
 	private static final String QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 = "Current node '";
-	private static final String QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2 = "' has a value.\nThe new node can only be added below it, if the  value gets deleted.\nShould the new node be added and the value be deleted?";
+	private static final String QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2 = "' has a value.\nThe new node or subtree can only be added below of it, if the value gets deleted.\nShould the new node / subtree be added and the value be deleted?";
 
 	public clsPropertiesInspector(JFrame owner, String title, boolean modal, String propertyPathname, String propertyFilenameLocal)
 	{
@@ -200,7 +229,161 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	}
 
 	
-    /**
+	/**
+     * This method adds a new subtree below current node and current path. isACopy indicates, whether the new subtree is a copy.
+     */
+	private void addNewSubtree(Component thisForTheSubobject, DefaultMutableTreeNode currentNode, String currentPath,  boolean isACopy, boolean isRenamed) {
+		
+		int iOfDot, l1;
+		String labelRootOfSubtree, labelRootOfSubtreeOld = "";
+		
+		if (isACopy &&  bufferPropertylabels != null) { // If the buffer is empty copy operations cannot be performed.
+			if (isRenamed) {
+				for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node, to get the to be replaced node name.
+					if (!bufferPropertylabels[l1].isEmpty()) {
+		    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
+		    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
+		    				labelRootOfSubtreeOld = bufferPropertylabels[l1];
+		    			} else { // There is a dot in the label, so its first part is the name of the root node.
+		    				labelRootOfSubtreeOld = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
+		    			}
+						break;
+					}
+				}
+				labelRootOfSubtree = jtfTextFieldRename.getText();
+			} else { // If the to be added subtree is a copy and not renamed, the names of all potential sibblings must not be the same as the name of the subtree's root.
+				labelRootOfSubtree = "";
+				for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node.
+					if (!bufferPropertylabels[l1].isEmpty()) {
+		    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
+		    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
+		    				labelRootOfSubtree = bufferPropertylabels[l1];
+		    			} else { // There is a dot in the label, so its first part is the name of the root node.
+		    				labelRootOfSubtree = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
+		    			}
+						break;
+					}
+				}
+			}
+		} else { // If the new node is not a copy its name is taken from the text field.
+			labelRootOfSubtree = jtfTextField1.getText();
+		}
+		
+		if ((bufferPropertylabels != null || !isACopy) && labelRootOfSubtree.isEmpty()) { // The new node label is empty string, which is not allowed, but is only relevant if the action is not copy or the copy buffer is not empty.
+			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that the name field for the key is empty.
+				LABEL_INFORMATION_NEW_KEY_EMPTY, // Information that the label of the new key is empty.
+				LABEL_FOR_INFORMATION, // Label of the dialog window
+				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+				null, // No specific icon is set.
+				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+			jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
+		} else if (getLabeledChildOfParentNode (labelRootOfSubtree, currentNode) != null) { // A node with the same label as the new one already exists.
+			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that a node with the name for the new key already exists.
+				(isACopy && !isRenamed)? LABEL_INFORMATION_ROOT_NODE_EXISTS: LABEL_INFORMATION_NEW_KEY_EXISTS, // Information that a node with the specified name already exists.
+				LABEL_FOR_INFORMATION, // Label of the dialog window
+				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+				null, // No specific icon is set.
+				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+			jtfTextField1.setText(""); // Clean the name field for the new node.
+			jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
+		} else {
+			if (isACopy) {
+				if (bufferPropertylabels == null) { // Buffer is empty.
+					JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that a node with the name for the new key already exists.
+						LABEL_INFORMATION_COPY_BUFFER_EMPTY, // Information that the copy buffer is empty.
+						LABEL_FOR_INFORMATION, // Label of the dialog window
+						JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+						JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+						null, // No specific icon is set.
+						OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+						OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+				} else {
+					if (isRenamed) {  // Function paste renamed.
+						for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
+							if (!bufferPropertylabels[l1].isEmpty()) {
+								BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + labelRootOfSubtree + bufferPropertylabels[l1].substring(labelRootOfSubtreeOld.length(), bufferPropertylabels[l1].length()), bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
+							}
+						}
+					} else { // Function paste.
+						for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
+							if (!bufferPropertylabels[l1].isEmpty()) {
+								BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + bufferPropertylabels[l1], bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
+							}
+						}
+					}
+				}
+			} else { // Function new node.
+				BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + jtfTextField1.getText(), jtfTextField2.getText()); // The new node is added below the current path. If current path is empty, there must not be a level separator.
+			}
+			jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+			jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
+			propertiesModified = true;
+			actionSave.setEnabled(true);
+			if (!isACopy || isRenamed) { // Function new node or pasteRenamed only.
+				pnlNodeNew.setVisible(false);
+				pnlNodeRename.setVisible(false);
+				jspScrollPane2.setVisible(true);
+				jtaTextArea1.setText("");
+		    	jtaTextArea1.setEditable(false); // Inhibits to edit the now empty text area, as the selected node is not a leaf now.
+			}
+		}
+	}
+
+	
+	/**
+     * This method performs the necessary activities when a new subtree or single node has to be added after a node new or a copy action.
+     * If the to be inserted node is result of a copy isACopy has to be true.
+     */
+	private void addSubtree (Component thisForTheSubobject, boolean isACopy, boolean isRenamed) {
+		
+		DefaultMutableTreeNode currentNode;
+		int returnVal1;
+		String currentPath = "";
+		
+		currentNode = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // Finds the node, below which the new subtree has to be added.
+		if (currentNode == null) { // No parent node is selected.
+			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that there is no node selected.
+				LABEL_INFORMATION_NO_NODE_SELECTED, // Information that no current node is selected.
+				LABEL_FOR_INFORMATION, // Label of the dialog window
+				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+				null, // No specific icon is set.
+				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+		} else { // New node has a parent.
+			currentPath = getPath (currentNode);
+			if (currentNode.isLeaf()) {
+				if (BWProperties.getProperty(currentPath).isEmpty()) { // As the leaf has no value, the new subtree simply can be added below of it.
+					BWProperties.remove(currentPath); // The leave has to be deleted, otherwise the new node would be created below a new copy of it.
+					addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+				} else { // The leaf node has a value. The new node can only be added if the value gets deleted.
+					returnVal1 = JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog asks, whether the existing value of the leaf should be replaced by the new subtree or whether the value should remain untouched and the new node should be withdrawn.
+						QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 + currentNode.toString() + QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2, // The question, whether the value should be overwritten is composed from 2 text blocks and the label of the current node.
+						LABEL_FOR_DIALOG_REPLACE_VALUE_BY_NODE, // Label of the dialog window
+						JOptionPane.YES_NO_OPTION, // Dialog type "Option" is indicated.
+						JOptionPane.QUESTION_MESSAGE, // Message type "Question" is indicated.
+						null, // No specific icon is set.
+						OPTIONS_YES_NO, // Two options are available for choose.
+						OPTIONS_YES_NO[1]); // Option "No" is preselected.
+					if (returnVal1 == 0) { // If the action to add the new subtree has been acknowledged by the user it gets performed.
+						BWProperties.remove(currentPath); // The leaf has to be deleted, otherwise the new subtree would be created below a new copy of it.
+						addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+					} else { // The action to add a new node has to be cancelled.
+						actionEditCancel.actionPerformed(null);
+					}
+				}
+			} else { // New subtree has to be added below current node as another sibling of its children.
+				addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+			}									
+		}
+	}
+
+	
+	/**
      * This method performs the necessary activities in the case when the properties have not been saved before they will get deselected.
      * The method returns true, if the calling method should continue,
      * it returns false if the calling method should get cancelled.
@@ -235,7 +418,78 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	}
 
 	
-    /**
+	/**
+     * This method performs the actions copy, cut or delete as they only differ minimally.
+     */
+	private void copyCutDelete (Component thisForTheSubobject, boolean toCopy, boolean toDelete) { // toCopy has to be true for copy and cut, toDelete has to be true for cut and delete.
+		/* Puts the to be copied subtree into the buffer bufferPropertylabels.
+		 * If the current node is the root, all properties have to be copied.
+		 * In this case the root label is inserted as prefix of the path of every property.
+		 * If the current node is different from root node, the entries in bufferPropertylabels of all nodes not to be copied are set to empty string.
+		 * From the nodes to be copied the prefix of the path of the current node except the local name of the node is cut.
+		 * The resulting array finally contains as many entries as there have been properties in the original properties object.
+		 * All entries can be paste (inserted) by just adding all non-empty string lines with the name of the new parent node as prefix.
+		 */
+		
+		DefaultMutableTreeNode currentNode;
+		int l1, nPropertyelements, lengthOfPrefix;
+		String pathOfCurrentNode;
+		String [] propertylabels;
+
+		currentNode = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // Finds the node which has to be root of the to be treated subtree.
+		if (currentNode == null) { // No node is selected.
+			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that there is no node selected.
+				LABEL_INFORMATION_NO_NODE_SELECTED, // Information that no current node is selected.
+				LABEL_FOR_INFORMATION, // Label of the dialog window
+				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+				null, // No specific icon is set.
+				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+		} else { // Node to be copied is selected.
+			pathOfCurrentNode = getPath (currentNode); // Stores the path of the current node in local variable.
+			lengthOfPrefix = pathOfCurrentNode.length() - jtrConfigTree.getLastSelectedPathComponent().toString().length(); // Computes the length of the prefix, that has to be removed in the labels of the to be copied properties.
+			if (pathOfCurrentNode.isEmpty()) { // The selected node is the root.
+				JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that the selected node is the root node, which is not permitted.
+					LABEL_INFORMATION_ROOT_NODE_SELECTED, // Information that the root node is selected.
+					LABEL_FOR_INFORMATION, // Label of the dialog window
+					JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+					JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+					null, // No specific icon is set.
+					OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+					OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+			} else { // The selected node is different from root.
+				nPropertyelements = BWProperties.size(); // The number of properties is detected as the number of objects in the properties class.
+				propertylabels = BWProperties.stringPropertyNames().toArray(new String[0]); // The keys of the properties are put into the String array propertyLabels.
+				if (toCopy) { // Actions for copy and cut.
+					bufferPropertylabels = BWProperties.stringPropertyNames().toArray(new String[0]); // The buffers have to be prepared, the keys of the properties are put into the String array bufferPropertyLabels.
+					bufferPropertyvalues = new String [bufferPropertylabels.length];				
+					for (l1 = 0; l1 < nPropertyelements; l1++) {
+						if (propertylabels[l1].startsWith(pathOfCurrentNode)) { // Property has to be copied.
+							bufferPropertyvalues[l1] = BWProperties.getProperty(bufferPropertylabels[l1]); // Put value of property into buffer.
+							bufferPropertylabels[l1] = bufferPropertylabels[l1].substring(lengthOfPrefix); // Put label of property into buffer.
+						} else { // Property remains uncopied.
+							bufferPropertyvalues[l1] = ""; // Value buffer remains empty.
+							bufferPropertylabels[l1] = ""; // Label buffer remains empty.
+						}
+					}
+				}
+				if (toDelete) { // Actions for cut and delete.
+					for (l1 = 0; l1 < nPropertyelements; l1++) {
+						if (propertylabels[l1].startsWith(pathOfCurrentNode)) { // Property has to be deleted.
+							BWProperties.remove(propertylabels[l1]);
+						}
+					}
+					propertiesModified = true;
+					actionSave.setEnabled(true);
+				}
+				jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the modified clsBWProperties object and sets private field foreseen for the tree.
+				jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
+			}
+		}
+	}
+
+	/**
      * This method fetches the property value with the specified key from the clsProperties object displays it in text area 1 and sets this area to editable.
      * If the key is an empty string, the method clears an eventually previously displayed value from text area 1 and blocks the editability of this text area.
      */
@@ -294,7 +548,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 
 	
     /**
-     * This reconstructs the path of a node as a string. The node labels get separated by SEPERATOR_FOR_TREE_LEVELS.
+     * This reconstructs the path of a node as a string without root node. The node labels get separated by SEPERATOR_FOR_TREE_LEVELS.
      */
 	private String getPath (DefaultMutableTreeNode anyNode) {
 		int l1;
@@ -316,7 +570,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
      */
     private  void initApplication() {
     	
-    	int widthOfButtons, widthOfNodeNewLabels;
+    	int widthOfNodeNewButtons, widthOfNodeNewLabels, widthOfNodeRenameButtons;
 
     	if(!this.isModal())
     		setDefaultCloseOperation(DISPOSE_ON_CLOSE); // Makes the program terminating after closing the window.
@@ -325,7 +579,12 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuBar = new JMenuBar(); // Creates the menu bar of the frame.
     	menuEdit = new JMenu(LABEL_FOR_MENU_EDIT); // Creates the edit menu.
     	menuFile = new JMenu(LABEL_FOR_MENU_FILE); // Creates the file menu.
+    	menuItemCutSubtree = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_CUT); // Creates the menu item to cut a subtree.
+    	menuItemDeleteSubtree = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_DELETE); // Creates the menu item to delete a subtree.
     	menuItemEditNodeNew = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_NODE_NEW); // Creates the menu item to create new nodes.
+    	menuItemEditPaste = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE); // Creates the menu item to paste a node or subtree.
+    	menuItemEditPasteRenamed = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED); // Creates the menu item to paste a node or subtree with renamed root.
+    	menuItemEditTreeCopy = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_COPY); // Creates the menu item to copy a subtree.
     	menuItemFileOpen = new JMenuItem(LABEL_FOR_MENUITEM_FILE_OPEN); // Creates the menu item to open files.
     	menuItemFileSave = new JMenuItem(LABEL_FOR_MENUITEM_FILE_SAVE); // Creates the menu item to save files.
     	menuItemFileSaveAs = new JMenuItem(LABEL_FOR_MENUITEM_FILE_SAVE_AS); // Creates the menu item to save files with a to be selected name.
@@ -337,13 +596,20 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	jtfTextField2 = new JTextField(); // Creates the text field that will contain the value of a new node.
     	lblLabel1 = new JLabel(LABEL_FOR_INPUT_FIELD_NAME); // Creates the label to request the name of a new node.
     	lblLabel2 = new JLabel(LABEL_FOR_INPUT_FIELD_VALUE); // Creates the label to request the value of a new node.
+    	jtfTextFieldRename = new JTextField(); // Creates the text field that will contain the label of the root of the to be displayed subtree.
+    	lblLabelRename = new JLabel(LABEL_FOR_INPUT_FIELD_RENAME); // Creates the label to request the label of the root of the to be inserted subtree.
     	pnlNodeNew = new JPanel(); // Creates the panel that will contain the elements to create a new node.
     	pnlNodeNewEdit = new JPanel(); // Creates the panel that will contain the elements to edit name and value of a new node.
     	pnlNodeNewName = new JPanel(); // Creates the panel that will contain the elements to edit the name of a new node.
     	pnlNodeNewValue = new JPanel(); // Creates the panel that will contain the elements to edit the value of a new node.
     	pnlNodeNewButtons = new JPanel(); // Creates the panel that will contain the buttons to create a new node.
     	btnNodeNewAdd = new JButton(LABEL_FOR_BUTTON_NODE_NEW_ADD); // Creates the button to add a new node.
-    	btnNodeNewCancel = new JButton(LABEL_FOR_BUTTON_NODE_NEW_CANCEL); // Creates the button to cancel the adding of a new node.
+    	btnNodeNewCancel = new JButton(LABEL_FOR_BUTTON_EDIT_CANCEL); // Creates the button to cancel the adding of a new node.
+    	pnlNodeRename = new JPanel(); // Creates the panel that will contain the elements to rename node.
+    	pnlNodeRenameEdit = new JPanel(); // Creates the panel that will contain the elements to edit the new label of a node.
+    	pnlNodeRenameButtons = new JPanel(); // Creates the panel that will contain the buttons to rename a node.
+    	btnNodeRename = new JButton(LABEL_FOR_BUTTON_NODE_RENAME); // Creates the button to rename a node.
+    	btnNodeRenameCancel = new JButton(LABEL_FOR_BUTTON_NODE_RENAME_CANCEL); // Creates the button to cancel the renaming of a node.
     	jspScrollPane1 = new JScrollPane(); // Creates the pane that will contain the tree.
         jspScrollPane2 = new JScrollPane(); // Creates the pane that will contain the selected configuration value.
          
@@ -353,7 +619,12 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuFile.add(menuItemFileSave); // Composes the file menu.
     	menuFile.add(menuItemFileSaveAs); // Composes the file menu.
     	menuBar.add(menuFile); // Composes the menu bar.
+    	menuEdit.add(menuItemEditTreeCopy); // Composes the edit menu.
+    	menuEdit.add(menuItemCutSubtree); // Composes the edit menu.
+    	menuEdit.add(menuItemDeleteSubtree); // Composes the edit menu.
     	menuEdit.add(menuItemEditNodeNew); // Composes the edit menu.
+    	menuEdit.add(menuItemEditPaste); // Composes the edit menu.
+    	menuEdit.add(menuItemEditPasteRenamed); // Composes the edit menu.
     	menuBar.add(menuEdit); // Composes the menu bar.
     	setJMenuBar(menuBar); // Sets the menu bar for the frame.
     	
@@ -424,6 +695,28 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		actionSave.setEnabled(false);
     	}
     	
+    	actionCutSubtree = new AbstractAction () { // Implements the action to cut a subtree.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				copyCutDelete (thisForEverySubobject, true, true);
+			}
+    	};
+    	actionCutSubtree.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_CUT); // Equips the cut subtree action with the foreseen name.
+    	menuItemCutSubtree.setAction(actionCutSubtree); // Assigns action cut subtree to the foreseen menu item.
+    	   	
+    	actionDeleteSubtree = new AbstractAction () { // Implements the action to delete a subtree.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				copyCutDelete (thisForEverySubobject, false, true);
+			}
+    	};
+    	actionDeleteSubtree.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_DELETE); // Equips the delete subtree action with the foreseen name.
+    	menuItemDeleteSubtree.setAction(actionDeleteSubtree); // Assigns action delete subtree to the foreseen menu item.
+    	   	
     	actionNodeNew = new AbstractAction () { // Implements the action to create new nodes.
 			private static final long serialVersionUID = 1L;
 
@@ -431,6 +724,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
 				
 				jspScrollPane2.setVisible(false); // The field to input/output node values is replaced by the fields to create a new node.
+				pnlNodeRename.setVisible(false);
 				pnlNodeNew.setVisible(true);
 				jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
 			}
@@ -438,102 +732,78 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	actionNodeNew.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_NODE_NEW); // Equips the node new action with the foreseen name.
     	menuItemEditNodeNew.setAction(actionNodeNew); // Assigns action node new to the foreseen menu item.
     	   	
-    	actionNodeNewAdd = new AbstractAction () { // Implements the action to add a new nodes.
+    	actionPaste = new AbstractAction () { // Implements the action to paste nodes.
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
 				
-				DefaultMutableTreeNode currentNode;
-				int returnVal1;
-				String currentPath = "";
-				
-				currentNode = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // Finds the node, below which the new node has to be added.
-				if (currentNode == null) { // No parent node is selected.
-					JOptionPane.showOptionDialog(thisForEverySubobject, // A dialog informs that the name field for the key is empty.
-							LABEL_INFORMATION_NO_NODE_SELECTED, // Information that the no current node is selected.
-							LABEL_FOR_INFORMATION_NO_NODE_SELECTED, // Label of the dialog window
-							JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
-							JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
-							null, // No specific icon is set.
-							OPTIONS_OKAY, // Only the option "Okay" is available for choose.
-							OPTIONS_OKAY[0]); // Option "Okay" is preselected.
-				} else { // New node has a parent.
-					currentPath = getPath (currentNode); 
-					if (currentNode.isLeaf()) { 
-						if (BWProperties.getProperty(currentPath).isEmpty()) { // As the leaf has no value, the new node simply can be added below of it.
-							BWProperties.remove(currentPath); // The leave has to be deleted, otherwise the new node would be created below a new copy of it.
-							addNewNode(currentNode, currentPath);
-						} else { // The leaf node has a value. The new node can only be added if the value gets deleted.
-							returnVal1 = JOptionPane.showOptionDialog(thisForEverySubobject, // A dialog asks, whether the existing value of the leaf should be replaced by the new sub node or whether the value should remain untouched and the new node should be withdrawn.
-								QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 + currentNode.toString() + QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2, // The question, whether the value should be overwritten is composed from 2 text blocks and the label of the current node.
-								LABEL_FOR_DIALOG_REPLACE_VALUE_BY_NODE, // Label of the dialog window
-								JOptionPane.YES_NO_OPTION, // Dialog type "Option" is indicated.
-								JOptionPane.QUESTION_MESSAGE, // Message type "Question" is indicated.
-								null, // No specific icon is set.
-								OPTIONS_YES_NO, // Two options are available for choose.
-								OPTIONS_YES_NO[1]); // Option "No" is preselected.
-							if (returnVal1 == 0) { // If the action to add the new node has been acknowledged by the user it gets performed.
-								BWProperties.remove(currentPath); // The leaf has to be deleted, otherwise the new node would be created below a new copy of it.
-								addNewNode(currentNode, currentPath);
-							} else { // The action to add a new node has to be cancelled.
-								actionNodeNewCancel.actionPerformed(null);
-							}
-						}
-					} else { // New node has to be added below current node as another sibling of its children.
-						addNewNode(currentNode, currentPath);
-					}									
-				}
-
-			}
-
-			private void addNewNode(DefaultMutableTreeNode currentNode, String currentPath) {
-
-				if (jtfTextField1.getText().isEmpty()) { // The new node label is empty string, which is not allowed
-					JOptionPane.showOptionDialog(thisForEverySubobject, // A dialog informs that the name field for the key is empty.
-						LABEL_INFORMATION_NEW_KEY_EMPTY, // Information that the label of the new key is empty.
-						LABEL_FOR_INFORMATION_KEY_EMPTY, // Label of the dialog window
-						JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
-						JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
-						null, // No specific icon is set.
-						OPTIONS_OKAY, // Only the option "Okay" is available for choose.
-						OPTIONS_OKAY[0]); // Option "Okay" is preselected.
-					jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
-				} else if (getLabeledChildOfParentNode (jtfTextField1.getText(), currentNode) != null) { // A node with the same label as the new one already exists.
-					JOptionPane.showOptionDialog(thisForEverySubobject, // A dialog informs that a node with the name for the new key already exists.
-						LABEL_INFORMATION_NEW_KEY_EXISTS, // Information that a node with the specified name already exists.
-						LABEL_FOR_INFORMATION_KEY_EXISTS, // Label of the dialog window
-						JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
-						JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
-						null, // No specific icon is set.
-						OPTIONS_OKAY, // Only the option "Okay" is available for choose.
-						OPTIONS_OKAY[0]); // Option "Okay" is preselected.
-					jtfTextField1.setText(""); // Empty the name field for the new node.
-					jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
-				} else {
-					BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + jtfTextField1.getText(), jtfTextField2.getText()); // The new node is added below the current path. If current path is empty, there must not be a level separator.
-	    			jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
-	    			jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
-	    			propertiesModified = false;
-	    			actionSave.setEnabled(false);
-	    			pnlNodeNew.setVisible(false);
-	    			jspScrollPane2.setVisible(true);						
-				}
+				addSubtree (thisForEverySubobject, true, false);
 			}
     	};
-    	actionNodeNewAdd.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_NODE_NEW_ADD); // Equips the node new cancel action with the foreseen name.
+    	actionPaste.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_PASTE); // Equips the paste action with the foreseen name.
+    	menuItemEditPaste.setAction(actionPaste); // Assigns action node new to the foreseen menu item.
+    	   	
+    	actionPasteRenamed = new AbstractAction () { // Implements the action to paste nodes with renamed root.
+			private static final long serialVersionUID = 1L;
 
-    	actionNodeNewCancel = new AbstractAction () { // Implements the action to cancel the creation of a new node.
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				
+				jspScrollPane2.setVisible(false); // The field to input/output node values is replaced by the fields to create a new node.
+				pnlNodeNew.setVisible(false);
+				pnlNodeRename.setVisible(true);
+				jtfTextFieldRename.grabFocus(); // The focus will be set into the field for the key label.
+			}
+    	};
+    	actionPasteRenamed.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED); // Equips the paste action with the foreseen name.
+    	menuItemEditPasteRenamed.setAction(actionPasteRenamed); // Assigns action node new to the foreseen menu item.
+    	   	
+    	actionTreeCopy = new AbstractAction () { // Implements the action to copy a subtree.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				copyCutDelete (thisForEverySubobject, true, false);
+			}
+    	};
+    	actionTreeCopy.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_COPY); // Equips the tree copy action with the foreseen name.
+    	menuItemEditTreeCopy.setAction(actionTreeCopy); // Assigns action tree copy to the foreseen menu item.
+
+    	actionNodeNewAdd = new AbstractAction () { // Implements the action to add a new node.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				addSubtree (thisForEverySubobject, false, false);
+			}
+
+    	};
+    	actionNodeNewAdd.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_NODE_NEW_ADD); // Equips the node new action with the foreseen name.
+
+    	actionEditCancel = new AbstractAction () { // Implements the action to cancel any edit action.
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
 				
 				pnlNodeNew.setVisible(false);
+				pnlNodeRename.setVisible(false);
 				jspScrollPane2.setVisible(true);
 			}
     	};
-    	actionNodeNewCancel.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_NODE_NEW_CANCEL); // Equips the node new cancel action with the foreseen name.
+    	actionEditCancel.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_EDIT_CANCEL); // Equips the edit cancel action with the foreseen name.
+
+    	actionSubtreeAddRenamed = new AbstractAction () { // Implements the action to add a renamed subtree.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+				addSubtree (thisForEverySubobject, true, true);
+			}
+
+    	};
+    	actionSubtreeAddRenamed.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_NODE_RENAME); // Equips the node new action with the foreseen name.
 
     	jtaTextArea1.setEditable(false); // Inhibits to edit the initially empty text area.
     	
@@ -580,19 +850,21 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		}
     	});
     	
-    	jspScrollPane1.setViewportView(jtrConfigTree); // The text area to display the selected property value is put into scroll pane 1.
+    	jspScrollPane1.setViewportView(jtrConfigTree); // The properties tree is put into scroll pane 1.
     	jspScrollPane2.setViewportView(jtaTextArea1); // The text area to display the selected property value is put into scroll pane 2.
 		pnlNodeNew.setVisible(false);
+		pnlNodeRename.setVisible(false);
 		
-		widthOfNodeNewLabels = lblLabel1.getMinimumSize().width > lblLabel2.getMinimumSize().width ? lblLabel1.getMinimumSize().width : lblLabel2.getMinimumSize().width; // Computes the with of the label fields in the node new edit panel from the widest one.
-		widthOfButtons = btnNodeNewCancel.getMinimumSize().width > btnNodeNewAdd.getMinimumSize().width ? btnNodeNewCancel.getMinimumSize().width : btnNodeNewAdd.getMinimumSize().width; // Computes the with of the buttons from the widest one.
+		widthOfNodeNewLabels = lblLabel1.getMinimumSize().width > lblLabel2.getMinimumSize().width ? lblLabel1.getMinimumSize().width : lblLabel2.getMinimumSize().width; // Computes the width of the label fields in the node new edit panel from the widest one.
+		widthOfNodeNewButtons = btnNodeNewCancel.getMinimumSize().width > btnNodeNewAdd.getMinimumSize().width ? btnNodeNewCancel.getMinimumSize().width : btnNodeNewAdd.getMinimumSize().width; // Computes the width of the buttons from the widest one.
+		widthOfNodeRenameButtons = btnNodeRenameCancel.getMinimumSize().width > btnNodeRename.getMinimumSize().width ? btnNodeRenameCancel.getMinimumSize().width : btnNodeRename.getMinimumSize().width; // Computes the width of the buttons from the widest one.
 
 		pnlNodeNewName.setLayout(new GroupLayout(pnlNodeNewName)); // Specifies that pnlNodeNewName consists of the text fields for the name (label and input field) of the new node.
 		((GroupLayout) pnlNodeNewName.getLayout()).setHorizontalGroup(
 				((GroupLayout) pnlNodeNewName.getLayout()).createSequentialGroup()
 					.addGap(INDENT_DEFAULT)
 					.addComponent(lblLabel1, widthOfNodeNewLabels, widthOfNodeNewLabels, widthOfNodeNewLabels)
-					.addComponent(jtfTextField1, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeNewLabels - widthOfButtons, Short.MAX_VALUE)
+					.addComponent(jtfTextField1, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeNewLabels - widthOfNodeNewButtons, Short.MAX_VALUE)
 		);
 		((GroupLayout) pnlNodeNewName.getLayout()).setVerticalGroup(
 				((GroupLayout) pnlNodeNewName.getLayout()).createParallelGroup()
@@ -605,7 +877,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 				((GroupLayout) pnlNodeNewValue.getLayout()).createSequentialGroup()
 					.addGap(INDENT_DEFAULT)
 					.addComponent(lblLabel2, widthOfNodeNewLabels, widthOfNodeNewLabels, widthOfNodeNewLabels)
-					.addComponent(jtfTextField2, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeNewLabels - widthOfButtons, Short.MAX_VALUE)
+					.addComponent(jtfTextField2, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeNewLabels - widthOfNodeNewButtons, Short.MAX_VALUE)
 		);
 		((GroupLayout) pnlNodeNewValue.getLayout()).setVerticalGroup(
 				((GroupLayout) pnlNodeNewValue.getLayout()).createParallelGroup()
@@ -628,8 +900,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 		pnlNodeNewButtons.setLayout(new GroupLayout(pnlNodeNewButtons)); // Specifies that pnlNodeNewButtons consists of the buttons add and cancel.
 		((GroupLayout) pnlNodeNewButtons.getLayout()).setHorizontalGroup(
 				((GroupLayout) pnlNodeNewButtons.getLayout()).createParallelGroup()
-					.addComponent(btnNodeNewAdd, widthOfButtons, widthOfButtons, widthOfButtons)
-					.addComponent(btnNodeNewCancel, widthOfButtons, widthOfButtons, widthOfButtons)
+					.addComponent(btnNodeNewAdd, widthOfNodeNewButtons, widthOfNodeNewButtons, widthOfNodeNewButtons)
+					.addComponent(btnNodeNewCancel, widthOfNodeNewButtons, widthOfNodeNewButtons, widthOfNodeNewButtons)
 		);
 		((GroupLayout) pnlNodeNewButtons.getLayout()).setVerticalGroup(
 				((GroupLayout) pnlNodeNewButtons.getLayout()).createSequentialGroup()
@@ -637,7 +909,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 					.addComponent(btnNodeNewCancel)
 		);
 		btnNodeNewAdd.setAction(actionNodeNewAdd); // Assigns action node new add to the add button.
-		btnNodeNewCancel.setAction(actionNodeNewCancel); // Assigns action node new cancel to the cancel button.
+		btnNodeNewCancel.setAction(actionEditCancel); // Assigns action edit cancel to the cancel button.
 		
 		pnlNodeNew.setLayout(new GroupLayout(pnlNodeNew)); // Specifies that pnlNodeNew consists of the edit panel and the buttons panel side by side.
 		((GroupLayout) pnlNodeNew.getLayout()).setHorizontalGroup(
@@ -651,16 +923,56 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 					.addComponent(pnlNodeNewButtons)
 		);
 		
+		pnlNodeRenameButtons.setLayout(new GroupLayout(pnlNodeRenameButtons)); // Specifies that pnlNodeNewButtons consists of the buttons add and cancel.
+		((GroupLayout) pnlNodeRenameButtons.getLayout()).setHorizontalGroup(
+				((GroupLayout) pnlNodeRenameButtons.getLayout()).createParallelGroup()
+					.addComponent(btnNodeRename, widthOfNodeRenameButtons, widthOfNodeRenameButtons, widthOfNodeRenameButtons)
+					.addComponent(btnNodeRenameCancel, widthOfNodeRenameButtons, widthOfNodeRenameButtons, widthOfNodeRenameButtons)
+		);
+		((GroupLayout) pnlNodeRenameButtons.getLayout()).setVerticalGroup(
+				((GroupLayout) pnlNodeRenameButtons.getLayout()).createSequentialGroup()
+					.addComponent(btnNodeRename)
+					.addComponent(btnNodeRenameCancel)
+		);
+		btnNodeRename.setAction(actionSubtreeAddRenamed); // Assigns action node new add to the add button.
+		btnNodeRenameCancel.setAction(actionEditCancel); // Assigns action edit cancel to the add button.
+
+		pnlNodeRenameEdit.setLayout(new GroupLayout(pnlNodeRenameEdit)); // Specifies that pnlNodeRenameEdit consists of the label and the text field for the new label.
+		((GroupLayout) pnlNodeRenameEdit.getLayout()).setHorizontalGroup(
+				((GroupLayout) pnlNodeRenameEdit.getLayout()).createParallelGroup()
+					.addComponent(lblLabelRename, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeRenameButtons, Short.MAX_VALUE)
+					.addComponent(jtfTextFieldRename, GroupLayout.DEFAULT_SIZE, WIDTH_PREFERRED_FOR_DISPLAYED_OBJECTS - INDENT_DEFAULT - widthOfNodeRenameButtons, Short.MAX_VALUE)
+		);
+		((GroupLayout) pnlNodeRenameEdit.getLayout()).setVerticalGroup(
+				((GroupLayout) pnlNodeRenameEdit.getLayout()).createSequentialGroup()
+					.addComponent(lblLabelRename, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2)
+					.addComponent(jtfTextFieldRename, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2, HEIGHT_FIXED_FOR_TEXT_AREA1 / 2)
+		);
+		
+		pnlNodeRename.setLayout(new GroupLayout(pnlNodeRename)); // Specifies that pnlNodeRename consists of the edit panel and the buttons panel side by side.
+		((GroupLayout) pnlNodeRename.getLayout()).setHorizontalGroup(
+				((GroupLayout) pnlNodeRename.getLayout()).createSequentialGroup()
+					.addComponent(pnlNodeRenameEdit)
+					.addComponent(pnlNodeRenameButtons)
+		);
+		((GroupLayout) pnlNodeRename.getLayout()).setVerticalGroup(
+				((GroupLayout) pnlNodeRename.getLayout()).createParallelGroup()
+					.addComponent(pnlNodeRenameEdit)
+					.addComponent(pnlNodeRenameButtons)
+		);
+		
 		pnlEditArea.setLayout(new GroupLayout(pnlEditArea)); // Specifies that pnlEditArea consists of two alternatives - text area 1 in scroll pane 2 or pnlNodeNew - at the same place. Visibility is toggled according to edit actions.
 		((GroupLayout) pnlEditArea.getLayout()).setHorizontalGroup(
 			((GroupLayout) pnlEditArea.getLayout()).createParallelGroup()
 				.addComponent(jspScrollPane2)
 				.addComponent(pnlNodeNew)
+				.addComponent(pnlNodeRename)
 		);
 		((GroupLayout) pnlEditArea.getLayout()).setVerticalGroup(
 			((GroupLayout) pnlEditArea.getLayout()).createParallelGroup()
 				.addComponent(jspScrollPane2)
 				.addComponent(pnlNodeNew)
+				.addComponent(pnlNodeRename)
 		);
 		
         getContentPane().setLayout(new GroupLayout(getContentPane())); // Specifies, that the layout used to build the application window is a GroupLayout.
@@ -758,7 +1070,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		restOfLabel = propertyLabels[l1]; // The label (the key) of the current property is read into restOfLabel.
     		currentNode = top; // The current position is set to top level of the tree.
     		while (true){ // As long as there are dots in the current property label, it consists of more then one tree nodes.
-    			iOfDot = restOfLabel.indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is 0.
+    			iOfDot = restOfLabel.indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
     			if (iOfDot < 0) { // There is no dot in the label of the property. The label has to generate a leaf in the tree.
     	        	branch = new DefaultMutableTreeNode(restOfLabel); // The new leaf is created.
     				currentNode.insert(branch, getIndexAfterChildWithHighestLowerLabel (restOfLabel, currentNode)); // The new leaf is inserted on its place in alphabetical order.
