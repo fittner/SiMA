@@ -62,6 +62,10 @@ public class UnrealTestMain {
 		
 		ARSAgent.processing();
 		
+		int actioncount = ARSAgent.getActions().size();
+		System.console().printf("actions: "+ actioncount);
+		System.console().printf("exiting...");
+		
         System.exit(0);
     }
 	
@@ -102,6 +106,30 @@ public class UnrealTestMain {
     	ARSObject.setType(eEntityType.CAN);
      	ARSObject.setRadius(3.5);
     	ARSObject.setAngle(0.1);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE02");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.6);
+    	ARSObject.setAngle(0.4);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE03");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.7);
+    	ARSObject.setAngle(0.2);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE04");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.4);
+    	ARSObject.setAngle(0.2);
 		ARSObjectsList.add(ARSObject);
       
 		
