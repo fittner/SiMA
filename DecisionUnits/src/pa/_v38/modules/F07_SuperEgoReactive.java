@@ -231,42 +231,46 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// ToDo FG: These are just samples for internalized rules.
 		//          All the internalized rules must be stored in an (XML-)file and processed one after another
 		
+		// If no Super-Ego rules fires, the list with forbidden drives must be empty
+		moForbiddenDrives.clear();
+		
+		// If no Super-Ego rules fires, the list with forbidden perceptions must be empty
+		moForbiddenPerceptions.clear();
+		
 		// sample rule for repression of drives
-		if (searchInDM ("NOURISH") &&
-			searchInTPM ("ENTITY", "ARSIN") &&
-			searchInTPM ("ENTITY", "CAKE")) {
-			// If all the conditions above are true then Super-Ego can fire.
-			// An internalized rule was detected to be true.
-			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
-			
-			
-			// The following drive was found by Super-Ego as inappropriate or forbidden.
-			// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-			if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
-				moForbiddenDrives.add("NOURISH");
-		}
-		else
-			moForbiddenDrives.remove("NOURISH");
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInDM ("NOURISH") &&
+				searchInTPM ("ENTITY", "ARSIN") &&
+				searchInTPM ("ENTITY", "CAKE"))
+				// If all the conditions above are true then Super-Ego can fire.
+				// An internalized rule was detected to be true.
+				// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
+				
+				
+				// The following drive was found by Super-Ego as inappropriate or forbidden.
+				// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
+				if (!moForbiddenDrives.contains("NOURISH")) // no duplicate entries
+					moForbiddenDrives.add("NOURISH");
 		
 		// sample rule for denial of perceptions
-		if (searchInDM ("NOURISH") &&
-			searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-			searchInTPM ("ENTITY", "ARSIN") &&
-			searchInTPM ("ENTITY", "CAKE")) {
-			// If all the conditions above are true then Super-Ego can fire.
-			// An internalized rule was detected to be true.
-			// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
-		
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInDM ("NOURISH") &&
+				searchInTP ("color", "Farbe eine feindlichen ARSin") &&
+				searchInTPM ("ENTITY", "ARSIN") &&
+				searchInTPM ("ENTITY", "CAKE"))
+				// If all the conditions above are true then Super-Ego can fire.
+				// An internalized rule was detected to be true.
+				// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
 			
-			// The following perception was found by Super-Ego as inappropriate or forbidden.
-			// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
-			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
-				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
-		}
+				
+				// The following perception was found by Super-Ego as inappropriate or forbidden.
+				// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
+				if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
+					moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 
 		// sample rule for conversion of aggressive drive energy into anxiety
-		if (moSuperEgoStrength >= 0.9)
-			if (searchInDM ("BITE", 0.25))
+		if (moSuperEgoStrength >= 0.8)
+			if (searchInDM ("BITE", 0.20))
 				if (!moForbiddenDrives.contains("BITE"))
 					moForbiddenDrives.add("BITE");
 		
