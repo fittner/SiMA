@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
+import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.interfaces.modules.I3_3_receive;
@@ -52,6 +53,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	
 	private boolean rJACKBAUERWASHERE = false;
 	
+	private DT4_PleasureStorage moPleasureStorage;
+	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
 	 * on a splitter mechanism and outputs the result to a list of drive candidates.
@@ -68,10 +71,12 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	public F48_AccumulationOfQuotaOfAffectsForDrives(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
+		moPleasureStorage = poPleasureStorage;
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -210,13 +215,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			//add the two pairs to the final list, this mixes the libido to the homeostatic ones
 			moDriveCandidates_OUT.add(oEntry.a.a); 
 			moDriveCandidates_OUT.add(oEntry.b.a);
-			
-			
-			
+
 		}
 		
 		//FIXME CM: This is a hack function by AW. Please remove it as soon as there is some meaningful SLEEP
 		//tempJACKBAUERWASHERE(moDriveCandidates_OUT);
+		
+		//TODO here the actual pleasure gained has to be stored in Dt4
+		//moPleasureStorage.receive_D4_1(xxx);
 	}
 	
 	/**
