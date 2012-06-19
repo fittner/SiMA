@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -21,13 +19,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsGoalMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsAffectTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
@@ -218,15 +214,19 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//Enhance the Drive list with goals from emotions
 		moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
 		
-		moReachableGoalList_OUT = oGoalList;
-		
 		//Sort the goals
 		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsAffectTools.sortGoals(oGoalList, moDriveGoalList_IN, mnAffectThresold);
 		
+		
+		moReachableGoalList_OUT = oSortedGoalList;
+		
 		//=== Filter the perception === //
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
-		moPerceptionalMesh_OUT = focusPerception(moPerceptionalMesh_IN, oSortedGoalList, nNumberOfAllowedObjects);
-				
+		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+		
+		focusPerception(moPerceptionalMesh_OUT, oSortedGoalList, nNumberOfAllowedObjects);
+		
+		
 		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
@@ -358,16 +358,12 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poPerceptionSeondary
 	 * @return
 	 */
-	private clsWordPresentationMesh focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poPossibleGoals, int  pnNumberOfAllowedObjects) {
-		clsWordPresentationMesh oRetVal = null;
+	private void focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poPossibleGoals, int  pnNumberOfAllowedObjects) {
 		
 		ArrayList<clsWordPresentationMesh> oFilteredGoalList = clsAffectTools.filterGoals(poPossibleGoals, pnNumberOfAllowedObjects);
 		
 		//Filter the PI according to the drive list
-		oRetVal = filterImageElements(poPerception, oFilteredGoalList);
-		//oRetVal = new clsDataStructureContainerPair(oFilteredImages, poPerception.getPrimaryComponent());
-			
-		return oRetVal;
+		filterImageElements(poPerception, oFilteredGoalList);
 	}
 	
 	private ArrayList<clsWordPresentationMesh> focusMemories(ArrayList<clsWordPresentationMesh> poActMesh) {
@@ -379,7 +375,9 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	}
 	
 	/**
-	 * Filter a PI for elements, which are associted with the drive goals in a list
+	 * Filter a PI for elements, which are associted with the drive goals in a list. 
+	 * Remove all entities, which are not selected 
+	 * 
 	 * (wendt)
 	 *
 	 * @since 15.08.2011 22:30:44
@@ -388,54 +386,88 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poGoalList
 	 * @return
 	 */
-	private clsWordPresentationMesh filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poGoalList) {
-		clsWordPresentationMesh oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
+	private void filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poGoalList) {
+		//clsWordPresentationMesh oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
 		
-		//Add all objects from the perception, which exist in the goallist
+		ArrayList<clsWordPresentationMesh> oEntitiesToKeepInPI = new ArrayList<clsWordPresentationMesh>();
+		
+		//2 cases: entities from PI, entities from complete images
 		for (clsWordPresentationMesh oGoal : poGoalList) {
-			//Add all objects to the list if they don't exist yet, add them
-			boolean bFound = false;
-			for (clsAssociation oAss : oRetVal.getAssociatedContent()) {
-				if (oAss.getLeafElement().equals(clsGoalTools.getGoalObject(oGoal))) {
-					bFound = true;
-					break;
+			if (clsGoalTools.getSupportDataStructureType(oGoal)!=null) {
+				if (clsGoalTools.getSupportDataStructureType(oGoal) == eContentType.PI) {		//If PI
+					//If it is a PI, then the goal data structure is within the current PI
+					
+					clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(oGoal);
+					
+					//Check if the entity already exists and add it if not
+					if (oEntitiesToKeepInPI.contains(oGoalObject)==false) {		
+						oEntitiesToKeepInPI.add(oGoalObject);
+					}
+				} else if (clsGoalTools.getSupportDataStructureType(oGoal)!=null && clsGoalTools.getSupportDataStructureType(oGoal) == eContentType.RI) {	//If RI
+					//Find the current goal in the PI
+					
+					//TODO AW
 				}
 			}
-			
-			if (bFound==false) {
-				clsMeshTools.createAssociationSecondary(oRetVal, 1, clsGoalTools.getGoalObject(oGoal), 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
-			}
 		}
+		
+		//Add the self to the image
+		oEntitiesToKeepInPI.add(clsMeshTools.getSELF(poImage));
+		
+		//Remove all other entities
+		removeNonFocusedEntities(poImage, oEntitiesToKeepInPI);
+		
+		
+		
+//		//Add all objects from the perception, which exist in the goallist
+//		for (clsWordPresentationMesh oGoal : poGoalList) {
+//			//Add all objects to the list if they don't exist yet, add them
+//			boolean bFound = false;
+//			for (clsAssociation oAss : oRetVal.getAssociatedContent()) {
+//				
+//				if (oAss.getLeafElement().equals(clsGoalTools.getGoalObject(oGoal))) {
+//					bFound = true;
+//					break;
+//				}
+//			}
+//			
+//			if (bFound==false) {
+//				clsMeshTools.createAssociationSecondary(oRetVal, 1, clsGoalTools.getGoalObject(oGoal), 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+//			}
+//		}
 		
 		//Add the SELF to the image. SELF shall always be there
-		addSELFtoImage(oRetVal, poImage);
-		
-		//Add a new association to the original PI, which contains all perception
-		clsMeshTools.createAssociationSecondary(oRetVal, 2, poImage, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
-		
-		return oRetVal;
+		//addSELFtoImage(oRetVal, poImage);
 	}
 	
-	/**
-	 * Add the SELF from the source image to the target image
-	 * 
-	 * (wendt)
-	 *
-	 * @since 01.06.2012 12:30:32
-	 *
-	 * @param poTargetImage
-	 * @param poSourceImage
-	 */
-	private void addSELFtoImage(clsWordPresentationMesh poTargetImage, clsWordPresentationMesh poSourceImage) {
-		clsWordPresentationMesh oSELFTargetImage = clsMeshTools.getSELF(poTargetImage);
-		
-		if (oSELFTargetImage == null) {	//SELF not found in the image
-			clsWordPresentationMesh oSELFSourceImage = clsMeshTools.getSELF(poSourceImage);
-			if (oSELFSourceImage!=null) {
-				clsMeshTools.createAssociationSecondary(poTargetImage, 1, oSELFSourceImage, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
-			}
+	private void removeNonFocusedEntities(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poEntitiesToKeepInPI) {
+		//Remove all entities from the PI, which are not part of the input list
+		ArrayList<clsWordPresentationMesh> oRemoveEntities  = clsMeshTools.getOtherInternalImageAssociations(poImage, poEntitiesToKeepInPI);
+		for (clsWordPresentationMesh oE : oRemoveEntities) {
+			clsMeshTools.deleteObjectInMesh(oE);
 		}
 	}
+	
+//	/**
+//	 * Add the SELF from the source image to the target image
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 01.06.2012 12:30:32
+//	 *
+//	 * @param poTargetImage
+//	 * @param poSourceImage
+//	 */
+//	private void addSELFtoImage(clsWordPresentationMesh poTargetImage, clsWordPresentationMesh poSourceImage) {
+//		clsWordPresentationMesh oSELFTargetImage = clsMeshTools.getSELF(poTargetImage);
+//		
+//		if (oSELFTargetImage == null) {	//SELF not found in the image
+//			clsWordPresentationMesh oSELFSourceImage = clsMeshTools.getSELF(poSourceImage);
+//			if (oSELFSourceImage!=null) {
+//				clsMeshTools.createAssociationSecondary(poTargetImage, 1, oSELFSourceImage, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+//			}
+//		}
+//	}
 	
 //	private ArrayList<clsSecondaryDataStructureContainer> cleanDriveGoals(ArrayList<clsSecondaryDataStructureContainer> poInputList) {
 //		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();

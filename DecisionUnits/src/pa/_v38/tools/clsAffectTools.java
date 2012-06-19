@@ -501,17 +501,20 @@ public class clsAffectTools {
 					if (oSupportiveStructure.getMoContentType().contains(eContentType.PI.toString())==true) {
 						nCurrentPISortOrder = 2;
 					}
-				//Some goals are important although they are not in the perception. Therefore, they will be passed
-				} else if (clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.HIGHPOSITIVE)) {
-					//This sort order shall have the last priority
-					nCurrentPISortOrder = 0;
+					
+					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
+					oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
 				}
-				
-				int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
-				
-				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
 			} 				
 		}
+		
+//		//Some goals are important although they are not in the perception. Therefore, they will be passed
+//		if (oRetVal.isEmpty()==true && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.HIGHPOSITIVE)) {
+//			//This sort order shall have the last priority
+//			int nCurrentPISortOrderForSpecialDrive = 0;
+//			int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrderForSpecialDrive);
+//			oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, poDriveGoal));
+//		}
 		
 		return oRetVal;
 	}
@@ -547,7 +550,7 @@ public class clsAffectTools {
 			oPreliminaryGoalList.addAll(filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//If there is no results, but the affect level is high, add the goal trotzdem, in order to start search
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).equals(eAffectLevel.HIGHPOSITIVE)) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 		
