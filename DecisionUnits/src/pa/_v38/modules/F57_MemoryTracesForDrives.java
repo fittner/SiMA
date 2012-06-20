@@ -180,7 +180,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		//initializing of the list, because it cannnot be null
 		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
-		ArrayList<clsAssociation> oAssDriveObjects = new ArrayList<clsAssociation>();
+		ArrayList<clsAssociation> oAssDriveObjects = null;
 		//Get all DMs from Perception
 		/*ArrayList<clsAssociationDriveMesh> oAssDMList = clsMeshTools.getAllDMInMesh(poPerceptionalMesh);
 		
@@ -226,6 +226,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rCurrentMatchFactor = 0.0;
 		double rMaxMatchfactor = 0.0;
 		double rMaxPleasurefactor = 0.0;
+		double rCurrentPleasureValue  = 0.0;
 		
 		for (clsDriveMesh oDM : poDriveCandidates) {
 			
@@ -237,7 +238,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				 * Todo: Derzeit wird nur ein clsPair<DM, TPM> weitergereicht. Es fehlt die Moeglichkeit zu einem DM mehrere TPMs anzuhängen (eventuell ueber container? -->
 				 *  konsitente linie ob datencontainer für assoziationen oder membervariablen nötig!). Darauf aufbauend berücksichtigen und gewichten von halluz. und wahrg. Objekte 
 				 */
-								
+						
+				oAssDriveObjects = new ArrayList<clsAssociation>();
+			
 				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
@@ -249,13 +252,14 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				rMaxMatchfactor = 0.0;
 				rMaxPleasurefactor = 0.0;
+				rCurrentMatchFactor = 0.0;
 					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for each found DM
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						rCurrentMatchFactor = oSearchPair.a;
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
-							double rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrPleasure();
+							rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrPleasure();
 							if (rCurrentPleasureValue > mrThresholdPleasure) {
 								ArrayList<clsAssociation> oAssDM = oSearchPair.b.getMoAssociatedDataStructures();
 								// take first object that is connected with the found DM

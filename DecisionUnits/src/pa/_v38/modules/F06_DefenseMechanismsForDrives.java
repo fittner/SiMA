@@ -169,7 +169,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		moDriveList_Input = new ArrayList <clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
 		// SSch: Temporary Solution until F06 and following modules consider new DM structure
 		for (clsDriveMesh oEntry : poData) {
-			moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
+			if (oEntry != null){
+				moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
+			}
 		}
 		
 		//moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);

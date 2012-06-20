@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -484,12 +485,25 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	public clsThingPresentationMesh getBestTPM() {
 		
 		clsThingPresentationMesh oBestTPM= null;
+		double rCurrentWeight = 0;
+		double rMaxWeight = 0;
 		
-		// derweil erstbestes TPM
+		// temporary solution
 		for (clsAssociation oEntry : moAssociatedContent) {
 			if (oEntry instanceof clsAssociationDriveMesh) {
-				oBestTPM = (clsThingPresentationMesh)oEntry.getMoAssociationElementB();
-				break;
+				rCurrentWeight = oEntry.getMrWeight();
+				if(rCurrentWeight > rMaxWeight) {
+					rMaxWeight = rCurrentWeight;	
+					if (oBestTPM != null) {
+						oBestTPM = (clsThingPresentationMesh)oEntry.getMoAssociationElementB();
+					}
+					else {
+						oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
+					}
+				}
+			}
+			else {
+				oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
 			}
 					
 		}

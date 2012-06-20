@@ -157,7 +157,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	 * @see pa._v38.interfaces.modules.D3_2_receive#receive_D3_2(double, int)
 	 */
 	@Override
-	public void receive_D3_2(double prConsumedPsychicEnergy, double prDemandPsychicEnergy int pnModuleNr) {
+	public void receive_D3_2(double prConsumedPsychicEnergy, int pnModuleNr) {
 		double newEnergyLevel, oldEnergyLevel = 0.0;
 		// reduce buffer of module according to consumedpsychicenergy
 		if (moPsychicEnergyBuffer.containsKey(pnModuleNr)) {

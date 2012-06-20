@@ -45,7 +45,7 @@ implements I5_3_receive, I5_4_send {
 	private DT1_LibidoBuffer moLibidoBuffer;
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
 	private double mrEnergyReductionRateSexual = 0.7;
-	private double mrEnergyReductionRateSelfPreserv = 0.5;
+	private double mrEnergyReductionRateSelfPreserv = 0.3;
 
 	/**
 	 * property key where the selected implementation stage is stored.
