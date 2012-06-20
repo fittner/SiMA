@@ -42,12 +42,12 @@ public class clsGoalTools {
 		
 		//Add Goalobject to the mesh
 		if (poGoalObject != null) {
-			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 2, 1.0, eContentType.DRIVEOBJECTASSOCIATION.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);	
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);	
 		}
 		
 		//Add Supportive Data Structure to goal
 		if (poSupportiveDataStructure != null) {
-			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 2, 1.0, eContentType.SUPPORTDSASSOCIATION.toString(), ePredicate.HASSUPPORTIVEDATASTRUCTURE.toString(), false);
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION.toString(), ePredicate.HASSUPPORTIVEDATASTRUCTURE.toString(), false);
 		}
 		
 		return oRetVal;
@@ -134,6 +134,27 @@ public class clsGoalTools {
 			//The drive object is always a WPM
 			oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
 		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get the content type of the support data structure type of the goal
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.06.2012 22:07:50
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static eContentType getSupportDataStructureType(clsWordPresentationMesh poGoal) {
+		eContentType oRetVal = null;
+	
+		if (clsGoalTools.getSupportiveDataStructure(poGoal)!=null) {
+			oRetVal = eContentType.valueOf(clsGoalTools.getSupportiveDataStructure(poGoal).getMoContentType());
+		}
+		
 		
 		return oRetVal;
 	}

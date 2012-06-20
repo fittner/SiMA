@@ -240,8 +240,14 @@ public class PlanningWizard {
 					}
 				}
 
-				//System.out.println("oName " + oName + ", oDistance: " + oDistance + ", oDirection " + oPosition);
-				oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
+				
+				try {
+					oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
+				} catch (Exception e) {
+					System.out.println("oName " + oName + ", oDistance: " + oDistance + ", oDirection " + oPosition);
+					e.printStackTrace();
+				}
+				
 
 				// @ANDI: No more parsing...
 				// String str = el.toString();

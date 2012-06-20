@@ -1,4 +1,4 @@
-; Tue Jun 19 21:10:15 GMT 2012
+; Mon Jun 04 13:49:36 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -530,13 +530,6 @@
 	(element
 		[DM%3ASLEEP]
 		[TPM%3AENTITY%3AEMPTYSPACE01])
-	(weight 1.0 1.0))
-
-([AD%3AHEALTH%3ANOURISH] of  ASSOCIATIONDM
-
-	(element
-		[DM%3ANOURISH%3AHEALTH]
-		[TPM%3AENTITY%3AUNREAL%3AHEALTH])
 	(weight 1.0 1.0))
 
 ([AD%3AREMOTEBOT%3ABITE] of  ASSOCIATIONDM
@@ -1254,13 +1247,6 @@
 		[WPM%3AENTITY%3AENTITY])
 	(weight 1.0 1.0))
 
-([AW%3AENTITY_HEALTH%3AHEALTH] of  ASSOCIATIONWP
-
-	(element
-		[TPM%3AENTITY%3AUNREAL%3AHEALTH]
-		[WPM%3AENTITY%3AHEALTH])
-	(weight 1.0 1.0))
-
 ([AW%3AENTITY_REMOTEBOT%3AB01] of  ASSOCIATIONWP
 
 	(element
@@ -1567,15 +1553,6 @@
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
 	(pleasure 0.3)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3AHEALTH] of  NOURISH
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
-	(pleasure 0.7)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
@@ -2592,11 +2569,6 @@
 ([WPM%3AENTITY%3AENTITY] of  WPM%3AENTITY
 
 	(value "ENTITY")
-	(value_type "ENTITY"))
-
-([WPM%3AENTITY%3AHEALTH] of  WPM%3AENTITY
-
-	(value "HEALTH")
 	(value_type "ENTITY"))
 
 ([WPM%3AENTITY%3AREMOTEBOT] of  WPM%3AENTITY
