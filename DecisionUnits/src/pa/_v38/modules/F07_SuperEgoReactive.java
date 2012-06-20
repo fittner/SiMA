@@ -413,12 +413,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInDM (String oContent, double oQuotaOfAffect) {		
 		// search in drives
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives){
+		for(clsDriveMesh oDrives : moDrives){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
-			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent) &&
-				oDrives.b.getPleasure() >= oQuotaOfAffect){
+			if (oDrives.getMoContent().equalsIgnoreCase(oContent) &&
+				oDrives.getPleasure() >= oQuotaOfAffect){
 				return true;
 			}
 		}
