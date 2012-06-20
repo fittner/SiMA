@@ -164,8 +164,18 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+
+		moDriveList_Input = new ArrayList <clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		// SSch: Temporary Solution until F06 and following modules consider new DM structure
+		for (clsDriveMesh oEntry : poData) {
+			if (oEntry != null){
+				moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
+			}
+		}
+		
+		//moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+		
 		moForbiddenDrives_Input = (ArrayList<String>) deepCopy (poForbiddenDrives);
 	}
 

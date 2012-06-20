@@ -205,7 +205,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	public void receive_I5_3(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
 		
 	}

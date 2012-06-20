@@ -1074,6 +1074,50 @@ public class clsMeshTools {
 	
 	//=== REMOVE DATA STRUCTURES IN WPM GENERAL --- START ===//
 	
+	/**
+	 * Delete a certain association within an object. 
+	 * 
+	 * The purpose is to remove an association in the target object for each object, which is deleted.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 03.02.2012 16:22:47
+	 *
+	 * @param poSourceTPM: The object which has the association
+	 * @param poDeleteObject: The associatited object, which association shall be deleted.
+	 */
+	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceTPM, clsWordPresentationMesh poDeleteObject) {
+		boolean bFound = false;
+		clsAssociation oDeleteAss = null;
+		
+		//Check external associations
+		for (clsAssociation oExternalAss : poSourceTPM.getExternalAssociatedContent()) {
+			if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+				bFound = true;
+				oDeleteAss = oExternalAss;
+				break;
+			}
+		}
+		
+		//If found, then delete
+		if (bFound==true) {
+			poSourceTPM.getExternalAssociatedContent().remove(oDeleteAss);
+		} else {
+			//Check internal associations
+			for (clsAssociation oExternalAss : poSourceTPM.getAssociatedContent()) {
+				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+					bFound = true;
+					oDeleteAss = oExternalAss;
+					break;
+				}
+			}
+			
+			if (bFound==true) {
+				poSourceTPM.getAssociatedContent().remove(oDeleteAss);
+			}
+		}
+	}
+	
 	//=== REMOVE DATA STRUCTURES IN WPM GENERAL --- END ===//
 	
 	
@@ -1534,8 +1578,86 @@ public class clsMeshTools {
 		
 		return bRetVal;
 	}
-
-
+	
+	/**
+	 * Get all internal image associations, which are not present in the input list from an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.06.2012 22:32:30
+	 *
+	 * @param poImage
+	 * @param poEntityList
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getOtherInternalImageAssociations(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poEntityList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsAssociation oAss : poImage.getAssociatedContent()) {
+			clsWordPresentationMesh oImageEntity = (clsWordPresentationMesh) oAss.getLeafElement();
+			if (poEntityList.contains(oImageEntity)==false) {
+				oRetVal.add(oImageEntity);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Delete an object in a mesh. Ony the deleteobject is the input, as the object is deleted as soon as the delete object is 
+	 * not connected to any mesh. All meshes, where this object was present are modified.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 30.01.2012 21:02:46
+	 *
+	 * @param poPerceptionalMesh
+	 * @param poDeleteObject
+	 */
+	public static void deleteObjectInMesh(clsWordPresentationMesh poDeleteObject) {
+		//In this function the whole tree shall be deleted, of which a structure is connected. Start with the focused element and
+		//delete the "delete-Element" as well as the whole tree connected with it.
+		
+		//Go through all internal associations
+		for (clsAssociation oInternalAss : poDeleteObject.getAssociatedContent()) {
+			//If the root element is this mesh, then...
+			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
+				//go to the other element, if it is a TPM
+				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}				
+			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
+				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}
+			}
+		}
+		
+		//Go through all external associations
+		for (clsAssociation oInternalAss : poDeleteObject.getExternalAssociatedContent()) {
+			//If the root element is this mesh, then...
+			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
+				//go to the other element, if it is a TPM
+				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}				
+			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
+				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}
+			}
+		}
+		
+		//Now the object is not connected with anything more and can be seen as deleted from the meshes, which it was connected. It does not matter in which mesh it belongs, everything is deleted
+	}
 	
 	
 	//=== PERCEIVED IMAGE AND REMEMBERED IMAGE TOOLS WPM --- END ===//

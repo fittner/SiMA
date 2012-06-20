@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.itfInspectorDrives;
@@ -20,7 +19,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
@@ -251,7 +249,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		// 
 		
 	}

@@ -357,20 +357,23 @@ public abstract class clsAssociation extends clsDataStructurePA{
 			//oResult += moAssociationElement.moDataStructureType.toString() + ":";
 			oResult += moAssociationElement.moDS_ID + ":";
 			oResult += moAssociationElement.moContentType;
-			if (moAssociationElement instanceof clsThingPresentation) {
+			if (moAssociationElement instanceof clsThingPresentationMesh) {
+				oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getMoContent().toString();
+			} else if (moAssociationElement instanceof clsThingPresentation) {
 				oResult += ":" + ((clsThingPresentation)moAssociationElement).getMoContent().toString();
+			} else if (moAssociationElement instanceof clsSecondaryDataStructure) {
+				oResult += ":" + ((clsSecondaryDataStructure)moAssociationElement).getMoContent().toString();
 			}
 
-
-			// find moContent
-			if(moAssociationElement instanceof clsThingPresentationMesh){
-				// check if it is for example an ARSin
-				if (((clsThingPresentationMesh)moAssociationElement).getMoContent() != null)
-					oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getMoContent();
-				else
-					oResult += ":-null-";
-					
-			}
+//			// find moContent
+//			if(moAssociationElement instanceof clsThingPresentationMesh){
+//				// check if it is for example an ARSin
+//				if (((clsThingPresentationMesh)moAssociationElement).getMoContent() != null)
+//					oResult += ":" + ((clsThingPresentationMesh)moAssociationElement).getMoContent();
+//				else
+//					oResult += ":-null-";
+//					
+//			}
 		}
 		else
 			oResult = ":-null-";
