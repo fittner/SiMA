@@ -330,6 +330,52 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	}
 	
 	/**
+	 * USE THIS FOR TESTS INSIDE THE MODEL ONLY
+	 * This destroys all the energy in the stomach system, thus creates big hunger.
+	 * This can be used to force the agents into a abnormal state!
+	 *
+	 * @since 21.06.2012 10:58:38
+	 *
+	 * @param prAmount
+	 */
+	public void DestroyAllEnergyForModelTesting() {
+		clsChangeEnergyResult oResult = new clsChangeEnergyResult();
+		
+			
+			Iterator<eNutritions> i = moNutritions.keySet().iterator();
+			
+			while (i.hasNext()) {
+				eNutritions oKey = i.next();
+				
+				clsNutritionLevel oNL = moNutritions.get(oKey);
+
+				double rContent = oNL.getContent();
+
+				try {
+					oNL.decrease(rContent);	
+				} catch (exContentColumnMaxContentExceeded e) {
+					try {
+					} catch (java.lang.ArithmeticException ee) {				
+					}					
+				
+				} catch (exContentColumnMinContentUnderrun e) {
+					try {
+					} catch (java.lang.ArithmeticException ee) {				
+					}					
+				}
+			}		
+			
+			this.updateEnergy();	
+	
+			
+			try {
+				oResult.setTotalPercentage( 0 );
+			} catch (java.lang.ArithmeticException e) {
+			}
+		
+	}
+	
+	/**
 	 * DOCUMENT (deutsch) - insert description
 	 *
 	 */

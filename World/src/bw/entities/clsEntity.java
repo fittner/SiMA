@@ -13,6 +13,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
+import bw.body.clsUnrealBody;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.factories.clsSingletonProperties;
@@ -148,7 +149,10 @@ public abstract class clsEntity implements itfGetBody {
 		case COMPLEX:
 			oRetVal = new clsComplexBody(pre+P_BODY, poProp, this);
 			break;
-		case SIMPLE:
+		case UNREAL:
+			oRetVal = new clsUnrealBody(pre+P_BODY, poProp, this);
+			break;
+		case SIMPLE: //simple is the default, needed dont change!
 		default:
 			oRetVal = new clsSimpleBody(pre+P_BODY, poProp, this);
 			break;
