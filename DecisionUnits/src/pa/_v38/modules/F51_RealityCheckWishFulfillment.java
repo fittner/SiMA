@@ -274,6 +274,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
+	private void sortGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
+		
+	}
+	
 	private void updateLocalization(clsDataStructureContainerPair poPerception, clsShortTimeMemory poMemory) {
 		//1. Update Memory with the time updates
 		poMemory.updateTimeSteps();

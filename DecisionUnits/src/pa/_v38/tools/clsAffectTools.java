@@ -457,6 +457,16 @@ public class clsAffectTools {
 	 * 
 	 * No other goals are extracted. Emotions, which form goals are separately extracted
 	 * 
+	 * Parameter SortOrder
+	 * 0: Lowest order 4: Highest
+	 * 
+	 * 0: No Drivegoal present in the image
+	 * +1: Drive is the same but the drive goal is different
+	 * +1: Drivegoal is the same
+	 * +1: The goal can be found in the perception
+	 * 
+	 * 
+	 * 
 	 * (wendt)
 	 *
 	 * @since 25.05.2012 18:10:06
@@ -469,52 +479,48 @@ public class clsAffectTools {
 	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> filterDriveGoalsFromImageGoals(clsWordPresentationMesh poDriveGoal, ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList, int pnAffectLevelThreshold) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		//2. Find those potential goals, which could fullfill the goal from the drive
+		boolean bGoalObjectFound = false;
+		
+		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
 			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal).mnAffectLevel;
 			
 			if (nCurrentAffectLevel>=pnAffectLevelThreshold) {
-				int nCurrentPISortOrder = 0;
+				//This is the sort order for the goal and it has to be fulfilled at any time
 				
-				//3. If the content is equal
-				if ((clsGoalTools.getGoalContent(poDriveGoal).equals(clsGoalTools.getGoalContent(oPossibleGoal))) && 
-						(clsGoalTools.getGoalObject(poDriveGoal).getMoContent().equals(clsGoalTools.getGoalObject(oPossibleGoal).getMoContent()))) {
-					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
+				//If the content is equal
+				if (clsGoalTools.getGoalContent(poDriveGoal).equals(clsGoalTools.getGoalContent(oPossibleGoal))) {
+					int nCurrentPISortOrder = 1;		//Initialize as the drive content is the same => +1
 					
-					//Create an artificial sort order number
-					//The absolute level is taken, as unpleasure counts as much as pleasure
-					
-					//Set sortorder for this image. A PI is taken earlier than a RI
-					nCurrentPISortOrder = 1;
-					//get the top image
-					clsWordPresentationMesh oSupportiveStructure = clsGoalTools.getSupportiveDataStructure(oPossibleGoal);
-					if (oSupportiveStructure==null) {
-						try {
-							throw new Exception("Error in clsAffectTools: All objects must be associated with images.");
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if (oSupportiveStructure.getMoContentType().contains(eContentType.PI.toString())==true) {
-						nCurrentPISortOrder = 2;
+					//Compare drive objects
+					if (clsGoalTools.getGoalObject(poDriveGoal).getMoContent().equals(clsGoalTools.getGoalObject(oPossibleGoal).getMoContent())) {
+						nCurrentPISortOrder++;	//same drive object => +1
+						bGoalObjectFound=true;
 					}
 					
+					//Check if it exists in perception
+					if (clsGoalTools.getSupportDataStructureType(oPossibleGoal) == eContentType.PI) {
+						nCurrentPISortOrder++;	//Object exists in the perception => +1 because it is nearer
+					}
+
+					//Sort goals
 					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
 					oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
 				}
 			} 				
 		}
 		
-//		//Some goals are important although they are not in the perception. Therefore, they will be passed
-//		if (oRetVal.isEmpty()==true && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.HIGHPOSITIVE)) {
-//			//This sort order shall have the last priority
-//			int nCurrentPISortOrderForSpecialDrive = 0;
-//			int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrderForSpecialDrive);
-//			oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, poDriveGoal));
-//		}
+		//Some goals are important although they are not in the perception. Therefore, they will be passed
+		if (bGoalObjectFound==false && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
+			//There is no current affect level
+			//This sort order shall have the last priority
+			
+			int nCurrentPISortOrder = 0;
+			int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrder);
+			oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, poDriveGoal));
+		}
 		
 		return oRetVal;
 	}
@@ -548,16 +554,6 @@ public class clsAffectTools {
 			
 			//Extract all remembered goals from the image, which match the drive goal
 			oPreliminaryGoalList.addAll(filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
-			
-			//If there is no results, but the affect level is high, add the goal trotzdem, in order to start search
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
-				//There is no current affect level
-				//This sort order shall have the last priority
-		
-				int nCurrentPISortOrder = 0;
-				int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrder);
-				oPreliminaryGoalList.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oDriveGoal));
-			}
 			
 			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
 				int nIndex = 0;
