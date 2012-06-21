@@ -1,4 +1,4 @@
-; Tue Jun 19 21:10:15 GMT 2012
+; Thu Jun 21 14:50:14 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -613,7 +613,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_903261_Class5] of  Map
+([KB_854707_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List

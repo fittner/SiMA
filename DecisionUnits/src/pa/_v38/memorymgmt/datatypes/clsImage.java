@@ -67,6 +67,12 @@ public class clsImage {
 	 * @param dir
 	 * @param obj
 	 */
+	public clsImage(eDirection dir, eDistance dist, eEntity obj) {
+		m_eDir = dir;
+		m_eDist = dist;
+		m_eObj = obj;
+	}
+	
 	public clsImage(eDirection dir, eEntity obj) {
 		m_eDir = dir;
 		m_eObj = obj;

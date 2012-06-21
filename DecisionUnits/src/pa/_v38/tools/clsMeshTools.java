@@ -1955,5 +1955,15 @@ public class clsMeshTools {
 		
 	//=== REMEMBERED IMAGE TOOLS WPM --- END ===//
 	
+	//=== ENTITY TOOLS TPM --- START ===//
+	
+	//=== ENTITY TOOLS TPM --- END ===//
+	
+	//=== ENTITY TOOLS WPM --- START ===//
+	
+	//=== ENTITY TOOLS WPM --- END ===//
+	
+	
+	
 	
 }

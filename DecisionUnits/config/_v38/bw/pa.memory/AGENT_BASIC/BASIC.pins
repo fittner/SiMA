@@ -1,4 +1,4 @@
-; Tue Jun 19 21:10:15 GMT 2012
+; Thu Jun 21 14:50:14 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1575,7 +1575,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.7)
+	(pleasure 1.0)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
