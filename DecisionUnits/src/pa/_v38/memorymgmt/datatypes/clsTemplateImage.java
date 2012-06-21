@@ -85,7 +85,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	 *
 	 * @param poAssociatedTemporalStructures
 	 */
-	private void setAssociations(
+	
+	public void setAssociations(
 			ArrayList<clsAssociation> poAssociatedTemporalStructures) {
 		moAssociatedContent = poAssociatedTemporalStructures;
 	}
@@ -174,9 +175,32 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	 *
 	 * @return
 	 */
-	private double getNumbAssociations() {
+	@Override
+	public double getNumbAssociations() {
 		double oResult = 0.0;
 		for(clsDataStructurePA oElement1 : moAssociatedContent){
+			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TI){
+				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+			}
+			else {
+				oResult += 1.0; 
+			}
+		}
+	return oResult;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.07.2010, 16:36:58
+	 *
+	 * @return
+	 */
+	@Override
+	public double getNumbExternalAssociations() {
+		double oResult = 0.0;
+		for(clsDataStructurePA oElement1 : moExternalAssociatedContent){
 			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TI){
 				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
 			}

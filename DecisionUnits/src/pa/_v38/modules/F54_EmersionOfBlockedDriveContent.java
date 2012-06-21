@@ -36,8 +36,8 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 			implements I5_2_receive, I5_3_send{
 
 	public static final String P_MODULENUMBER = "54";
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
+	private ArrayList<clsDriveMesh> moDrives;
+	private ArrayList<clsDriveMesh> moInput;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -101,9 +101,9 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_2(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		
-		moInput = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poData); 
+		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
@@ -131,7 +131,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 				
 		clsDriveMesh oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
 		if (oRep != null) {
-			moDrives.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>(oPhR, oRep));
+			moDrives.add(oRep);
 		}
 	}
 
@@ -233,7 +233,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_3(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 		
 		((I5_3_receive)moModuleList.get(56)).receive_I5_3(poDrives);
 		((I5_3_receive)moModuleList.get(63)).receive_I5_3(poDrives);

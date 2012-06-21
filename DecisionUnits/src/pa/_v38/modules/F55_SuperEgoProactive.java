@@ -35,8 +35,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send, I5_21_receive{
 
 	public static final String P_MODULENUMBER = "55";
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_Input;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_Output;
+	private ArrayList<clsDriveMesh> moDrives_Input;
+	private ArrayList<clsDriveMesh> moDrives_Output;
 	private ArrayList<String> moEmotions_Input;
 	public int ReducedPsychicEnergy;
 	public int PsychicEnergy_IN;
@@ -103,9 +103,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_4(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 
-		moDrives_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poDrives); 
+		moDrives_Input = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
 	}
 
 	/* (non-Javadoc)
@@ -208,12 +208,12 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	private double getQuotaOfAffectFromDM (String oContent) {		
 		// search in drives
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+		for(clsDriveMesh oDrives : moDrives_Input){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
-			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
-				return oDrives.b.getMrPleasure();
+			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
+				return oDrives.getMrPleasure();
 			}
 		}
 		return -1;
@@ -231,12 +231,12 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	private void increaseQuotaOfAffectFromDM (String oContent, double oVal) {		
 		// search in drives
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+		for(clsDriveMesh oDrives : moDrives_Input){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
-			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
-				oDrives.b.setMrPleasure(oDrives.b.getMrPleasure() + oVal);
+			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
+				oDrives.setMrPleasure(oDrives.getMrPleasure() + oVal);
 				return; // only increase the drive which is found first 
 			}
 		}
@@ -254,12 +254,12 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	private void decreaseQuotaOfAffectFromDM (String oContent, double oVal) {		
 		// search in drives
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDrives_Input){
+		for(clsDriveMesh oDrives : moDrives_Input){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
-			if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
-				oDrives.b.setMrPleasure(oDrives.b.getMrPleasure() - oVal);
+			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
+				oDrives.setMrPleasure(oDrives.getMrPleasure() - oVal);
 				return; // only decrease the drive which is found first 
 			}
 		}
@@ -340,7 +340,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_12(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 		
 		((I5_12_receive)moModuleList.get(7)).receive_I5_12(poDrives);
 		

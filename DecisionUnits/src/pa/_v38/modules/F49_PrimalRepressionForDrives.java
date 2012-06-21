@@ -17,8 +17,6 @@ import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -36,8 +34,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "49";
 
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moInput;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moOutput;
+	private ArrayList<clsDriveMesh> moInput;
+	private ArrayList<clsDriveMesh> moOutput;
 	
 	/** DOCUMENT (muchitsch) - insert description; @since 19.07.2011 14:06:33 */
 	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
@@ -133,9 +131,9 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		
-		moInput = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy(poData); 
+		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
@@ -152,8 +150,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		
 		// TODO objekte einbeziehen, dafuer auf den clsPhysicalRepresentation die property isCandidateForRepression auf true setzen
 		//go to every drive mesh in the list and calculate the partial things
-		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair:moOutput) {
-			categorizeDriveMesh(oPair.b);
+		for (clsDriveMesh oDM:moOutput) {
+			categorizeDriveMesh(oDM);
 		}
 	
 
@@ -272,8 +270,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_2_send#send_I5_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_2(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+	public void send_I5_2(ArrayList<clsDriveMesh> poData) {
 		
 		((I5_2_receive)moModuleList.get(54)).receive_I5_2(poData);
 		

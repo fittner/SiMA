@@ -9,8 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.tools.clsPair;
+
 
 /**
  * Superego bans and rules are transported from F7 to F6.
@@ -20,5 +19,5 @@ import pa._v38.tools.clsPair;
  * 
  */
 public interface I5_13_send {
-	public void send_I5_13(ArrayList<String> poForbiddenDrive, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
+	public void send_I5_13(ArrayList<String> poForbiddenDrive, ArrayList<clsDriveMesh> poData);
 }

@@ -306,7 +306,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
 		
 	}	

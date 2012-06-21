@@ -36,7 +36,13 @@ public class DT3_PsychicEnergyStorage
 implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_1_send, D3_2_receive {
 
 	private Hashtable<Integer, Double> moPsychicEnergyBuffer;
+	
+	private Hashtable<Integer, Double> moStepDifferenceBuffer;
 
+	private double mrInitialEnergy = 0.5;
+	private double mrFreePsychicEnergy = 0;
+	
+	
 	public DT3_PsychicEnergyStorage() {
 		initializeBuffers();
 	}
@@ -50,12 +56,13 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	private void initializeBuffers() {
 		moPsychicEnergyBuffer = new Hashtable<Integer, Double>();
 		// initially no module has available free psychic energy
-		moPsychicEnergyBuffer.put(7, 0.0);
-		moPsychicEnergyBuffer.put(8, 0.0);
-		moPsychicEnergyBuffer.put(20, 0.0);
-		moPsychicEnergyBuffer.put(21, 0.0);
-		moPsychicEnergyBuffer.put(23, 0.0);
-		moPsychicEnergyBuffer.put(55, 0.0);
+		double initial = mrInitialEnergy/moPsychicEnergyBuffer.size();
+		moPsychicEnergyBuffer.put(7, initial);
+		moPsychicEnergyBuffer.put(8, initial);
+		moPsychicEnergyBuffer.put(20, initial);
+		moPsychicEnergyBuffer.put(21, initial);
+		moPsychicEnergyBuffer.put(23, initial);
+		moPsychicEnergyBuffer.put(55, initial);
 	}
 
 
@@ -123,6 +130,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	@Override
 	public double send_D3_1(int pnModuleNr) {
 		double freeEnergy = 0.0;
+		// send energy to module. energy in module-buffer is not reduced here, but in receive_D3_2()
 		if (moPsychicEnergyBuffer.containsKey(pnModuleNr)) {
 			freeEnergy = moPsychicEnergyBuffer.get(pnModuleNr);
 		}
@@ -138,9 +146,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	 */
 	@Override
 	public void receive_D3_1(double prFreePsychicEnergy) {
-		for (Map.Entry<Integer, Double> entry: moPsychicEnergyBuffer.entrySet()) {
-			entry.setValue(entry.getValue() + (prFreePsychicEnergy / moPsychicEnergyBuffer.size()));
-		}
+		mrFreePsychicEnergy = prFreePsychicEnergy;
 	}
 
 
@@ -153,16 +159,29 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	@Override
 	public void receive_D3_2(double prConsumedPsychicEnergy, int pnModuleNr) {
 		double newEnergyLevel, oldEnergyLevel = 0.0;
-		
+		// reduce buffer of module according to consumedpsychicenergy
 		if (moPsychicEnergyBuffer.containsKey(pnModuleNr)) {
 			oldEnergyLevel = moPsychicEnergyBuffer.get(pnModuleNr);
 			newEnergyLevel = oldEnergyLevel - prConsumedPsychicEnergy;
 			if (newEnergyLevel < 0) {
 				newEnergyLevel = 0.0;
 			}
+			
+			// Update of the StepDifferenceBuffer (ration of consumed energy = relative energy consumption)
+			moStepDifferenceBuffer.put(pnModuleNr, prConsumedPsychicEnergy/oldEnergyLevel);
+			
 			moPsychicEnergyBuffer.put(pnModuleNr, newEnergyLevel);			
 		}
 		
+	}
+	
+	public void divideFreePsychicEnergy () {
+	
+		// divides received energy uniformly
+		for (Map.Entry<Integer, Double> entry: moPsychicEnergyBuffer.entrySet()) {
+			entry.setValue(entry.getValue() + (mrFreePsychicEnergy / moPsychicEnergyBuffer.size()));
+		}
+	
 	}
 
 }
