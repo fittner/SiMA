@@ -113,7 +113,7 @@ public class clsUnrealBody extends clsComplexBody  {
 	}
 	
 	public double getInternalHealthValue() {
-		return super.getInternalSystem().getHealthSystem().getHealth().getChange();
+		return super.getInternalSystem().getHealthSystem().getHealth().getContent();
 	}
 	
 	public void HurtBody(double rDamage) {
