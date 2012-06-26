@@ -850,7 +850,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// image
 		// this is necessary since the data is all added to one data-string
 		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(poEnvironmentalPerception
-		    .getAssociatedContent());
+		    .getMoAssociatedContent());
 		oRetVal.addAll(currentImageAllObjects);
 
 		return oRetVal;
