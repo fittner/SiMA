@@ -32,7 +32,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	public boolean mbSexualDM = false;
 	private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
-	private double mrPleasure = 0.0; 
+	private double mrQuotaOfAffect = 0.0; 
 	private double mrCathegoryAnal = 0.0; 
 	private double mrCathegoryGenital = 0.0;
 	private double mrCathegoryOral = 0.0;
@@ -55,7 +55,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 		super(poDataStructureIdentifier);
 		moAssociatedContent =poAssociatedDriveSources; 
 		setContent(poContent); 
-		mrPleasure = prPleasure; 
+		mrQuotaOfAffect = prPleasure; 
 		mrCathegoryAnal = poDriveCathegories[0]; 
 		mrCathegoryOral = poDriveCathegories[1]; 
 		mrCathegoryGenital = poDriveCathegories[2];
@@ -110,8 +110,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * 
 	 * @return the mrPleasure
 	 */
-	public double getMrPleasure() {
-		return mrPleasure;
+	public double getMrQuotaOfAffect() {
+		return mrQuotaOfAffect;
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * 
 	 * @param mrPleasure the mrPleasure to set
 	 */
-	public void setMrPleasure(double mrPleasure) {
-		this.mrPleasure = mrPleasure;
+	public void setMrQuotaOfAffect(double mrPleasure) {
+		this.mrQuotaOfAffect = mrPleasure;
 	}
 
 	/**
@@ -235,7 +235,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	}*/
 
 	public double getPleasure(){
-		return mrPleasure; 
+		return mrQuotaOfAffect; 
 	}
 	
 
@@ -247,7 +247,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * @param prPleasure
 	 */
 	public void setPleasure(double prPleasure){
-		mrPleasure = prPleasure; 
+		mrQuotaOfAffect = prPleasure; 
 	}
 	
 	public double getOral() {
@@ -439,7 +439,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 		oResult += " g: " + mrCathegoryGenital;
 		oResult += " p: " + mrCathegoryPhalic;
 		
-		oResult += " pleasure: " + mrPleasure;
+		oResult += " QuotaOfAffect: " + mrQuotaOfAffect;
 		
 		
 		return oResult; 

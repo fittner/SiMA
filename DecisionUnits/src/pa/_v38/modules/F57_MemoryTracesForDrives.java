@@ -259,7 +259,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						rCurrentMatchFactor = oSearchPair.a;
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
-							rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrPleasure();
+							rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrQuotaOfAffect();
 							if (rCurrentPleasureValue > mrThresholdPleasure) {
 								ArrayList<clsAssociation> oAssDM = oSearchPair.b.getMoAssociatedDataStructures();
 								// take first object that is connected with the found DM

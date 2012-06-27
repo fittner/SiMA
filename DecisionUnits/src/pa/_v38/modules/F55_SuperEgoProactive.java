@@ -213,7 +213,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
 			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
-				return oDrives.getMrPleasure();
+				return oDrives.getMrQuotaOfAffect();
 			}
 		}
 		return -1;
@@ -236,7 +236,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
 			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
-				oDrives.setMrPleasure(oDrives.getMrPleasure() + oVal);
+				oDrives.setMrQuotaOfAffect(oDrives.getMrQuotaOfAffect() + oVal);
 				return; // only increase the drive which is found first 
 			}
 		}
@@ -259,7 +259,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
 			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
-				oDrives.setMrPleasure(oDrives.getMrPleasure() - oVal);
+				oDrives.setMrQuotaOfAffect(oDrives.getMrQuotaOfAffect() - oVal);
 				return; // only decrease the drive which is found first 
 			}
 		}

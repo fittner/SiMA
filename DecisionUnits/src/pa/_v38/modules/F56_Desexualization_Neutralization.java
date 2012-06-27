@@ -137,15 +137,15 @@ implements I5_3_receive, I5_4_send {
 			reducedEnergy = 0.0; // initialize for each one, just to be sure.
 			
 			if (oEntry.mbSexualDM == true) {
-				reducedEnergy = oEntry.getMrPleasure() * mrEnergyReductionRateSexual;
+				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSexual;
 				// update the drive energy 
-				oEntry.setMrPleasure(oEntry.getMrPleasure() * (1 - mrEnergyReductionRateSexual));
+				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
 			}
 			else {
-				reducedEnergy = oEntry.getMrPleasure() * mrEnergyReductionRateSelfPreserv;
+				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
 				
 				// update the drive energy 
-				oEntry.setMrPleasure(oEntry.getMrPleasure() * (1 - mrEnergyReductionRateSelfPreserv));
+				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
 			}
 
 			// send free drive energy to DT3 for distribution to other modules
