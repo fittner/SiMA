@@ -15,7 +15,7 @@ import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_12_send;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.tools.toText;
+import pa._v38.tools.clsDumper;
 
 /**
  *  Generates localization information for decision making from perceptual information and knowledge 
@@ -68,7 +68,15 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	public String stateToTEXT() {		
 		String text = "";
 
-		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		String[] ignoreList = new String[] {
+				                            "ArrayList:moInternalAssociatedContent",
+//				                            "ArrayList:moExternalAssociatedContent",
+				                            "eDataType:moDataStructureType"
+				                            };
+		// simple toString output
+		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+        // complex clsDumper output
+        text += "moPerceptionalMesh_IN:" + clsDumper.dump(moPerceptionalMesh_IN,0,0,ignoreList) + "\n";	
 		
 		return text;
 	}	
