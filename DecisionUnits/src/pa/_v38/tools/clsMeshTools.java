@@ -540,7 +540,7 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationList(poInput.getMoAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
 	}
@@ -714,7 +714,7 @@ public class clsMeshTools {
 
 		//Go through all external
 		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
-			oRetVal.addAll(FilterWPList(poWPM.getAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			oRetVal.addAll(FilterWPList(poWPM.getMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
 				oRetVal.addAll(FilterWPList(poWPM.getExternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -822,7 +822,7 @@ public class clsMeshTools {
 			
 			//Add the substructures of the internal associations
 			if ((pnLevel>0) || (pnLevel==-1)) {
-				for (clsAssociation oAss : poMesh.getAssociatedContent()) {
+				for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsWordPresentationMesh && oAss.getLeafElement().equals(poMesh)==false) {
 						searchDataStructureInWPM((clsWordPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsWordPresentationMesh && oAss.getRootElement().equals(poMesh)==false) {
@@ -931,7 +931,7 @@ public class clsMeshTools {
 		
 		//Process the original Element 
 		if (nOriginAddAssociationState==1) {
-			poElementOrigin.getAssociatedContent().add(oNewAss);
+			poElementOrigin.getMoAssociatedContent().add(oNewAss);
 		} else if (nOriginAddAssociationState==2) {
 			poElementOrigin.getExternalAssociatedContent().add(oNewAss);
 		}
@@ -940,7 +940,7 @@ public class clsMeshTools {
 		//Add association to the target structure if it is a WPM
 		if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
 			if (nTargetAddAssociationState==1) {
-				((clsWordPresentationMesh)poElementTarget).getAssociatedContent().add(oNewAss);
+				((clsWordPresentationMesh)poElementTarget).getMoAssociatedContent().add(oNewAss);
 			} else if (nTargetAddAssociationState==2) {
 				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
 			}
@@ -1104,7 +1104,7 @@ public class clsMeshTools {
 			poSourceTPM.getExternalAssociatedContent().remove(oDeleteAss);
 		} else {
 			//Check internal associations
-			for (clsAssociation oExternalAss : poSourceTPM.getAssociatedContent()) {
+			for (clsAssociation oExternalAss : poSourceTPM.getMoAssociatedContent()) {
 				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
 					bFound = true;
 					oDeleteAss = oExternalAss;
@@ -1113,7 +1113,7 @@ public class clsMeshTools {
 			}
 			
 			if (bFound==true) {
-				poSourceTPM.getAssociatedContent().remove(oDeleteAss);
+				poSourceTPM.getMoAssociatedContent().remove(oDeleteAss);
 			}
 		}
 	}
@@ -1422,11 +1422,11 @@ public class clsMeshTools {
 				poTargetWPM.getExternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
 				poOriginWPM.getExternalAssociatedContent().remove(poAssociation);
-			} else if (poOriginWPM.getAssociatedContent().contains(poAssociation)) {
+			} else if (poOriginWPM.getMoAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
-				poTargetWPM.getAssociatedContent().add(poAssociation);
+				poTargetWPM.getMoAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginWPM.getAssociatedContent().remove(poAssociation);
+				poOriginWPM.getMoAssociatedContent().remove(poAssociation);
 			}
 
 		}
@@ -1514,9 +1514,9 @@ public class clsMeshTools {
 		//Create a list of associations, which shall be moved
 		ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
 		
-		for (clsAssociation oOriAss : poOriginWPM.getAssociatedContent()) {
+		for (clsAssociation oOriAss : poOriginWPM.getMoAssociatedContent()) {
 			boolean bFound = false;
-			for (clsAssociation oTarAss : poTargetWPM.getAssociatedContent()) {
+			for (clsAssociation oTarAss : poTargetWPM.getMoAssociatedContent()) {
 				bFound = checkAssociationExists(oOriAss, oTarAss);
 				if (bFound==true) {
 					break;
@@ -1593,7 +1593,7 @@ public class clsMeshTools {
 	public static ArrayList<clsWordPresentationMesh> getOtherInternalImageAssociations(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poEntityList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
 			clsWordPresentationMesh oImageEntity = (clsWordPresentationMesh) oAss.getLeafElement();
 			if (poEntityList.contains(oImageEntity)==false) {
 				oRetVal.add(oImageEntity);
@@ -1619,7 +1619,7 @@ public class clsMeshTools {
 		//delete the "delete-Element" as well as the whole tree connected with it.
 		
 		//Go through all internal associations
-		for (clsAssociation oInternalAss : poDeleteObject.getAssociatedContent()) {
+		for (clsAssociation oInternalAss : poDeleteObject.getMoAssociatedContent()) {
 			//If the root element is this mesh, then...
 			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
 				//go to the other element, if it is a TPM
@@ -1922,7 +1922,7 @@ public class clsMeshTools {
 	public static ArrayList<clsWordPresentationMesh> getAllSubWPMInWPMImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
 			oRetVal.add((clsWordPresentationMesh) oAss.getLeafElement());
 		}
 		

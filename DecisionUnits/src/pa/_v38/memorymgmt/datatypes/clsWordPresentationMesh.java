@@ -260,5 +260,31 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			
 			return oResult; 
 	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 18.06.2012, 16:38:20
+	 *
+	 * @return
+	 */
+	@Override
+	public double getNumbAssociations() {
+		return moAssociatedContent.size();
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 18.06.2012, 16:38:20
+	 *
+	 * @return
+	 */
+	@Override
+	public double getNumbExternalAssociations() {
+		return moExternalAssociatedContent.size();
+	}
 
 }

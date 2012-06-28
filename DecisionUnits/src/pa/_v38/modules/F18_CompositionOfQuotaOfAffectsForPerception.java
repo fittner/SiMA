@@ -204,7 +204,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 				 * of all equal drive mesh types in the object. If another object has a higher
 				 * mrPleasure, its content is taken.
 				 */
-				double rMaxTotalQuotaOfAffect = oFirstDM.getMrPleasure();	//FIXME Add Unpleasure too
+				double rMaxTotalQuotaOfAffect = oFirstDM.getMrQuotaOfAffect();	//FIXME Add Unpleasure too
 				String sMaxContent = oFirstDM.getMoContent();
 						
 				//Go through all following associations of that object
@@ -229,8 +229,8 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 						//If the content type of the DM are equal then
 						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
 							//1. Add mrPleasure from the second to the first DM
-							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrPleasure(), oSecondDM.getMrPleasure());
-							oFirstDM.setMrPleasure(mrNewPleasure);
+							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrQuotaOfAffect(), oSecondDM.getMrQuotaOfAffect());
+							oFirstDM.setMrQuotaOfAffect(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM
@@ -238,10 +238,10 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 							//oFirstDM.setMrPleasure(mrNewUnpleasure);
 							//3. Check if the quota of affect is higher for the second DM and exchange content
 						
-							if (java.lang.Math.abs(oSecondDM.getMrPleasure()) > java.lang.Math.abs(rMaxTotalQuotaOfAffect)) {
+							if (java.lang.Math.abs(oSecondDM.getMrQuotaOfAffect()) > java.lang.Math.abs(rMaxTotalQuotaOfAffect)) {
 								//FIXME: Corrent the function to consider mrUnpleasure too
 								sMaxContent = oSecondDM.getMoContent();
-								rMaxTotalQuotaOfAffect = oSecondDM.getMrPleasure();
+								rMaxTotalQuotaOfAffect = oSecondDM.getMrQuotaOfAffect();
 							}
 						}
 					}
