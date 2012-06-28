@@ -12,6 +12,7 @@ import java.util.ListIterator;
 import java.util.SortedMap;
 
 import config.clsProperties;
+import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
@@ -31,6 +32,7 @@ import pa._v38.memorymgmt.enums.eSupportDataType;
 import pa._v38.storage.clsGoalMemory;
 import pa._v38.storage.clsShortTimeMemory;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsSecondarySpatialTools;
@@ -44,7 +46,7 @@ import pa._v38.tools.toText;
  * 07.05.2012, 14:49:09
  * 
  */
-public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send {
+public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send, I6_3_receive {
 	public static final String P_MODULENUMBER = "51";
 	
 	/** Perception IN */
@@ -55,10 +57,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
+	
+	private ArrayList<clsWordPresentationMesh> moReachableGoalList_IN;
+	
+	private ArrayList<clsWordPresentationMesh> moReachableGoalList_OUT;
 	/** List of drive goals OUT; @since 07.05.2012 19:10:20 */
 	private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
+	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
+	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN;
 	
 	
 	
@@ -71,7 +77,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:49 */
 	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:57:50 */
-	private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
+	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList;  //removed by HZ - not required now
 	/** A construction of an Intention, an arraylist with expectations and the current situation */
 	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
@@ -85,6 +91,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
 	private double mrReduceFactorForDrives = 1.0;
+	
+	/** Threshold for letting through drive goals */
+	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through
 	
 	
 	/** Short time memory */
@@ -137,7 +146,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_OUT);
 		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
-		text += toText.listToTEXT("moDriveList", moDriveList);
+		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
 		
 		return text;
 	}
@@ -190,7 +199,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_6(clsWordPresentationMesh poPerception, 
-			ArrayList<clsWordPresentationMesh> poDriveList, 
+			ArrayList<clsWordPresentationMesh> poReachableGoalList, 
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		try {
 			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
@@ -198,8 +207,21 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDriveList);
+		moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
 		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author kohlhauser
+	 * 11.08.2009, 14:47:49
+	 * 
+	 * @see pa.interfaces.I1_7#receive_I1_7(int)
+	 */
+	@SuppressWarnings("unchecked")
+	@Override
+	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -220,6 +242,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
 		}
 		
+		
+		//=== Sort and evaluate them === //
+		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsGoalTools.sortGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
+		
+		
+		moReachableGoalList_OUT = oSortedGoalList;
+		
 		//=== Process acts ===//
 		//The act is accessed through the goal.
 		//Take the first act in the list and process it
@@ -234,7 +263,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		moExtractedPrediction_OUT = new ArrayList<clsPrediction>();
-		moGoalList_OUT = moGoalList_IN;
+		//moGoalList_OUT = moGoalList_IN;
 		
 		
 		/*
@@ -1213,7 +1242,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void send() {
 		//HZ: null is a placeholder for the bjects of the type pa._v38.memorymgmt.datatypes
-		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT, moGoalList_OUT);
+		send_I6_7(moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT, moReachableGoalList_OUT);
 	}
 
 	/* (non-Javadoc)

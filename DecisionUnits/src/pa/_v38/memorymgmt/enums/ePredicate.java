@@ -38,7 +38,8 @@ public enum ePredicate {
 	HASSUPER,
 	HASMOMENT,
 	HASEXPECTATION,
-	HASPIMATCH;
+	HASPIMATCH,
+	HASGOALTYPE;
 	
 	/*public int mnPredicate;
 	

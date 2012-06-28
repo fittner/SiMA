@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
@@ -240,7 +241,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
 				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, oAffectLevel, oDriveObject, null));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVE, oAffectLevel, oDriveObject, null));
 			}
 		}
 		
@@ -352,6 +353,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	public void send_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
 		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
+		((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
 		//((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
 		
 		putInterfaceData(I6_3_send.class, poDriveList);
