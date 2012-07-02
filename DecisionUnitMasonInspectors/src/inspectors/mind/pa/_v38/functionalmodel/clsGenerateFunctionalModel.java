@@ -95,7 +95,7 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(12))).setCoords(0, 5);
 		((clsNode)(oNodes.get(13))).setCoords(1, 5);
 		
-		((clsNode)(oNodes.get(47))).setCoords(3, 6);
+		((clsNode)(oNodes.get(47))).setCoords(4, 6);
 		((clsNode)(oNodes.get(21))).setCoords(8, 6);
 		((clsNode)(oNodes.get(20))).setCoords(9, 6);
 		((clsNode)(oNodes.get(8))).setCoords(10, 6);
@@ -111,25 +111,10 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(51))).setCoords(6, 8);
 		((clsNode)(oNodes.get(23))).setCoords(7, 8);
 		
-
-			
-
-
-		
-		
-		
-
+		((clsNode)(oNodes.get(61))).setCoords(8, 7);
+		((clsNode)(oNodes.get(63))).setCoords(8, 2);
 		
 		//TODO CM dummy position for now, reposition me
-		
-		
-
-
-
-		
-		
-		
-		
 		
 		
 	}

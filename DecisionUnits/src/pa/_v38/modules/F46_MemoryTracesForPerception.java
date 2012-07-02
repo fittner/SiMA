@@ -791,20 +791,29 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			}
 		}
 		
-		//Find all Objects in the oAllPositions and add them to oRemovePositions
 		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oNewPositions = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
+		
+		//Find all Objects in the oAllPositions and add them to oRemovePositions
 		for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oAllPosPair: oAllPositions) {
 			boolean bFound = false;
 			for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oExistPosPair : oExistingPositions) {
-				if ((oExistPosPair.b.equals(oAllPosPair.b)) && (oExistPosPair.c.equals(oAllPosPair.c))) {
-					bFound = true;
-					break;
+				try { 
+					if ((oExistPosPair.b.equals(oAllPosPair.b)) && (oExistPosPair.c.equals(oAllPosPair.c))) {
+						bFound = true;
+						break;
+					}
+				} catch (Exception e) {
+					System.out.println("Error beacuse some values are NULL");
+					System.out.println("Entity oExistPosPair: " + oExistPosPair.a.toString() + ", position: " + oExistPosPair.b.toString() + ", distance: " + oExistPosPair.c.toString());
+					System.out.println("Entity: oAllPosPair" + oAllPosPair.a.toString() + ", position: " + oAllPosPair.b.toString() + ", distance: " + oAllPosPair.c.toString());
 				}
 			}
 			if (bFound==false) {
 				oNewPositions.add(oAllPosPair);
 			}
-		}
+		}	
+
+		
 		
 		//Search for one "Nothingobject"
 		//Create the TP

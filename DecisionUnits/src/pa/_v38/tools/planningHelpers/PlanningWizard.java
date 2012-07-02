@@ -191,7 +191,23 @@ public class PlanningWizard {
 		for (clsPlanFragment myFrag : availableFragments) {
 			for (clsImage oImage : currentEnvironmentalSituation)
 				if (myFrag.m_preconditionImage.isEqualLooseTo(oImage)) {
-					applicablePlanFragments.add(myFrag);
+					//Add the distance if not available
+					clsPlanFragment clonedFragment;
+					try {
+						clonedFragment = (clsPlanFragment) myFrag.clone();
+						
+						if (myFrag.m_preconditionImage.m_eDist==null || myFrag.m_preconditionImage.m_eDist!=oImage.m_eDist) {
+							
+							clonedFragment.m_preconditionImage.m_eDist = oImage.m_eDist;
+							clonedFragment.m_effectImage.m_eDist = clonedFragment.m_preconditionImage.m_eDist;
+						}
+											
+						applicablePlanFragments.add(clonedFragment);
+						
+					} catch (CloneNotSupportedException e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 		}
 

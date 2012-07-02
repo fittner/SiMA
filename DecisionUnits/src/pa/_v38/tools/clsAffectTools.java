@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -187,7 +188,7 @@ public class clsAffectTools {
 			clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
 			
 			//Create the goal
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVE, oAffectLevel, oGoalObject, oSupportiveDataStructure);
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
@@ -452,158 +453,7 @@ public class clsAffectTools {
 //		return oRetVal;
 //	}
 	
-	/**
-	 * Filter drive goals from image goals image
-	 * 
-	 * No other goals are extracted. Emotions, which form goals are separately extracted
-	 * 
-	 * (wendt)
-	 *
-	 * @since 25.05.2012 18:10:06
-	 *
-	 * @param poDriveGoal
-	 * @param poSortedPossibleGoalList
-	 * @param pnAffectLevelThreshold
-	 * @return
-	 */
-	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> filterDriveGoalsFromImageGoals(clsWordPresentationMesh poDriveGoal, ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList, int pnAffectLevelThreshold) {
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-		
-		//2. Find those potential goals, which could fullfill the goal from the drive
-		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
-			
-			//Get the level of affect for the object in the image of the potential goals
-			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal).mnAffectLevel;
-			
-			if (nCurrentAffectLevel>=pnAffectLevelThreshold) {
-				int nCurrentPISortOrder = 0;
-				
-				//3. If the content is equal
-				if ((clsGoalTools.getGoalContent(poDriveGoal).equals(clsGoalTools.getGoalContent(oPossibleGoal))) && 
-						(clsGoalTools.getGoalObject(poDriveGoal).getMoContent().equals(clsGoalTools.getGoalObject(oPossibleGoal).getMoContent()))) {
-					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
-					
-					//Create an artificial sort order number
-					//The absolute level is taken, as unpleasure counts as much as pleasure
-					
-					//Set sortorder for this image. A PI is taken earlier than a RI
-					nCurrentPISortOrder = 1;
-					//get the top image
-					clsWordPresentationMesh oSupportiveStructure = clsGoalTools.getSupportiveDataStructure(oPossibleGoal);
-					if (oSupportiveStructure==null) {
-						try {
-							throw new Exception("Error in clsAffectTools: All objects must be associated with images.");
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if (oSupportiveStructure.getMoContentType().contains(eContentType.PI.toString())==true) {
-						nCurrentPISortOrder = 2;
-					}
-					
-					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
-					oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
-				}
-			} 				
-		}
-		
-//		//Some goals are important although they are not in the perception. Therefore, they will be passed
-//		if (oRetVal.isEmpty()==true && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.HIGHPOSITIVE)) {
-//			//This sort order shall have the last priority
-//			int nCurrentPISortOrderForSpecialDrive = 0;
-//			int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrderForSpecialDrive);
-//			oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, poDriveGoal));
-//		}
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * 
-	 * (wendt)
-	 *
-	 * @since 19.02.2012 18:04:40
-	 *
-	 * @param poSortedPossibleGoalList
-	 * @param poSortedFilterList
-	 * @param pnNumberOfGoalsToPass
-	 * @return
-	 */
-	public static ArrayList<clsWordPresentationMesh> sortGoals(
-			ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList,
-			ArrayList<clsWordPresentationMesh> poSortedFilterList, 
-			//int pnNumberOfGoalsToPass,
-			int pnAffectLevelThreshold) {
-		
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPreliminarySortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-		
-		
-		//1. Go through the list of drives, which are used as filter
-		for (int i=0; i<poSortedFilterList.size();i++) {
-			clsWordPresentationMesh oDriveGoal = poSortedFilterList.get(i);
-			
-			ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPreliminaryGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-			
-			//Extract all remembered goals from the image, which match the drive goal
-			oPreliminaryGoalList.addAll(filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
-			
-			//If there is no results, but the affect level is high, add the goal trotzdem, in order to start search
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
-				//There is no current affect level
-				//This sort order shall have the last priority
-		
-				int nCurrentPISortOrder = 0;
-				int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrder);
-				oPreliminaryGoalList.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oDriveGoal));
-			}
-			
-			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
-				int nIndex = 0;
-				//Increase index if the list is not empty
-				while((oPreliminarySortList.isEmpty()==false) && 
-						(nIndex<oRetVal.size()) &&
-						(oPreliminarySortList.get(nIndex).a > oPair.a)) {
-					nIndex++;
-				}
-				
-				oPreliminarySortList.add(nIndex, oPair);
-			}
-			
-			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
-				oRetVal.add(oPair.b);
-			}
-		}	
-		
-		return oRetVal;
-	}
-	
-	/**
-	 * Filter goals according to the number of elements given by the input
-	 * 
-	 * (wendt)
-	 *
-	 * @since 25.05.2012 20:14:21
-	 *
-	 * @param poInput
-	 * @param pnNumberOfGoalsToPass
-	 * @return
-	 */
-	public static ArrayList<clsWordPresentationMesh> filterGoals(ArrayList<clsWordPresentationMesh> poInput, int pnNumberOfGoalsToPass) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-		//Add all goals to this list
-		for (clsWordPresentationMesh oReachableGoal : poInput) {
-			if (oRetVal.size()<pnNumberOfGoalsToPass) {
-				oRetVal.add(oReachableGoal);
-			} else {
-				break;
-			}
-		}
 
-		return oRetVal;
-	}
 	
 	
 	/**

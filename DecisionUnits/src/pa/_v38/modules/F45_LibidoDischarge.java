@@ -297,7 +297,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		for (clsPair<clsThingPresentationMesh, clsAssociation> oAssignmentElement : poAssignment.b) {
 			clsDriveMesh oDM = (clsDriveMesh) oAssignmentElement.b.getLeafElement();
 			//With this amount the libido puffer shall be reduced
-			double rDMReduce = oDM.getMrPleasure() * prLibidoReduceRate;
+			double rDMReduce = oDM.getMrQuotaOfAffect() * prLibidoReduceRate;
 			//if the total reduction of libido is smaller than the buffer, then the DM can be assigned
 			//For perception, the reduce rate shall be 1.0 and for associated content, only 0.5
 			if (rTotalReduce + rDMReduce <= prAvailableLibido) {
@@ -305,7 +305,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Clone the original DM
 					clsDriveMesh oNewDriveMesh = (clsDriveMesh) oDM.clone();
 					//Set new Pleasurevalue, which depends on the reducevalue
-					oNewDriveMesh.setMrPleasure(rDMReduce);
+					oNewDriveMesh.setMrQuotaOfAffect(rDMReduce);
 					//Create new identifier
 					clsTriple<Integer, eDataType, String> oIdentifyer = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
 					//Create new association drivemesh but with the new root element

@@ -33,17 +33,22 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eXPosition;
+import pa._v38.memorymgmt.enums.eYPosition;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsSecondarySpatialTools;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
 import pa._v38.tools.planningHelpers.PlanningWizard;
 import pa._v38.tools.planningHelpers.TestDataCreator;
 import pa._v38.tools.planningHelpers.eDirection;
+import pa._v38.tools.planningHelpers.eDistance;
 import pa._v38.tools.planningHelpers.eEntity;
 import config.clsProperties;
 
@@ -156,6 +161,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// Generate actions for the top goal
 			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
 			//FIXME HACK AW: Generate the search pattern
+			
+			//UNREAL IMAGE CORRECTION HACK
+			for (clsWordPresentationMesh oPlan : moPlans_Output) {
+				if (oPlan.getMoContent().equals("UNREAL_MOVE_TO")) {
+					//Extract Entity
+					clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oEntityInfo = clsSecondarySpatialTools.getPosition((clsWordPresentationMesh) oPlan.getExternalAssociatedContent().get(0).getLeafElement());
+					String oNewContent = oPlan.getMoContent() + "|" + oEntityInfo.a.getMoContent() + ":" + oEntityInfo.b.toString() + ":" + oEntityInfo.c.toString();
+					oPlan.setMoContent(oNewContent);
+					//UNREAL_MOVE_TO|HEALTH:LEFT:FAR
+				}
+					
+			}
 			//moPlans_Output.addAll(planSearch());
 
 			// Pass forward the associated memories and perception
@@ -664,11 +681,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// Start planning according to the remaining drive objects
 		// System.out.println(currentImage.m_eDist);
 		// add plans and connections between plans
+		ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = null;
 		try {
 
 			// check, which actions can be executed next
-			ArrayList<clsPlanFragment> currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(
-			    moAvailablePlanFragments, ofilteredImages);
+			currentApplicalbePlanningNodes = PlanningWizard.getCurrentApplicablePlanningNodes(moAvailablePlanFragments, ofilteredImages);
 
 			// TODO create code for high depth plans here
 
@@ -693,6 +710,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// plGraph.m_planningResults.get(1)
 
 		} catch (Exception e) {
+			System.out.println(currentApplicalbePlanningNodes.toString());
+			e.printStackTrace();
 			System.out.println(getClass() + "FATAL: Planning Wizard coldn't be initialized");
 		}
 
@@ -831,7 +850,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// image
 		// this is necessary since the data is all added to one data-string
 		ArrayList<clsImage> currentImageAllObjects = PlanningWizard.getCurrentEnvironmentalImage(poEnvironmentalPerception
-		    .getAssociatedContent());
+		    .getMoAssociatedContent());
 		oRetVal.addAll(currentImageAllObjects);
 
 		return oRetVal;
@@ -868,7 +887,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
 		ArrayList<clsPlanFragment> tempPlanningNodes = new ArrayList<clsPlanFragment>();
-		tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"), new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER,
+		tempPlanningNodes.add(new clsPlanFragment(new clsAct("SEARCH1"), new clsImage(eEntity.NONE), new clsImage(eDirection.CENTER, eDistance.NEAR,
 		    eEntity.CAKE)));
 		oRetVal.addAll(copyPlanFragments(tempPlanningNodes));
 
@@ -1104,6 +1123,24 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsPlanFragment> moPlans = new ArrayList<clsPlanFragment>();
 
+		try {
+			for (clsPlanFragment oP : myPlans) {
+				if (oP.m_preconditionImage!=null && oP.m_preconditionImage.m_eObj!=eEntity.NONE) {
+					if (oP.m_preconditionImage.m_eDist==null) {
+						throw new Exception("Error: " + oP.m_preconditionImage.toString() + "is has a NULL component");
+					}
+				} 
+				
+				if (oP.m_effectImage!=null) {
+					if (oP.m_effectImage.m_eDist==null && oP.m_preconditionImage.m_eObj!=eEntity.NONE) {
+						throw new Exception("Error: " + oP.m_effectImage.toString() + "is has a NULL component");
+					}
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 		for (clsPlanFragment plFr : myPlans) {
 			moPlans.add(plFr);
 		}
@@ -1112,6 +1149,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsPlanFragment oPF : moPlans) {
 			clsWordPresentationMesh oAction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ACTION.toString(),
 			    oPF.m_act.m_strAction), new ArrayList<clsAssociation>());
+			
+			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ENTITY.toString(),oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
+			try {
+				clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString());
+			} catch (Exception e) {
+				System.out.println(oPF.m_effectImage.toString());
+				e.printStackTrace();
+			}
+			
+			clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString());
+			
+			clsMeshTools.createAssociationSecondary(oAction, 2, oGoalObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASASSOCIATION.toString(), false);
 			oRetVal.add(oAction);
 		}
 

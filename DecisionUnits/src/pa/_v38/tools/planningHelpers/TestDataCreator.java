@@ -205,6 +205,11 @@ public class TestDataCreator {
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("TURN_RIGHT"), new clsImage(eDirection.MIDDLE_RIGHT, oEntity),
 		    new clsImage(eDirection.CENTER, oEntity)));
 
+		// UNREAL GET HEALTHPACK
+		oEntity = eEntity.HEALTH;
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("UNREAL_MOVE_TO"), new clsImage(eDirection.CENTER, oEntity),
+		    new clsImage(eDirection.CENTER, oEntity)));
+		
 		// moAvailablePlanFragments.add(new clsPlanFragment(new clsAct("SLEEP"),
 		// new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE),
 		// new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE)));

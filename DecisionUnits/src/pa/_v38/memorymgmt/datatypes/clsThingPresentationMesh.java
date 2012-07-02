@@ -78,6 +78,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			moContent = poContent;
 		}
 	}
+	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description

@@ -683,7 +683,7 @@ public abstract class clsDataStructureComparison {
 				oFoundWPM = poInput;
 			}
 			
-			oFoundWPM.setExternalAssociatedContent(oAssList);
+			oFoundWPM.setMoExternalAssociatedContent(oAssList);
 				
 			//Copy the result after correctly adressing of the associations
 			try {
@@ -693,14 +693,14 @@ public abstract class clsDataStructureComparison {
 				e.printStackTrace();
 			}
 			//Add associations from intrinsic structures
-			for (clsAssociation oAss: oRetVal.getAssociatedContent()) {
+			for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
 				//Recursive function
 				if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oSubMesh = (clsWordPresentationMesh) getCompleteMesh((clsWordPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
 					if (oSubMesh!=null) {
 						//Get the extended structures from the searched one and add them to the WPM
 						if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
-							((clsWordPresentationMesh)oAss.getLeafElement()).setExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
+							((clsWordPresentationMesh)oAss.getLeafElement()).setMoExternalAssociatedContent(oSubMesh.getExternalAssociatedContent());
 							//Add the source association too, i. e. if it is an image. The internal TIME-associations are already there, but not the external 
 							//time associations of the subject. This association is added to the external associations of the subject
 							((clsWordPresentationMesh)oAss.getLeafElement()).getExternalAssociatedContent().add(oAss);
