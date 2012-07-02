@@ -80,7 +80,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY);
 		//add correct body
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
-		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.UNREAL.toString());
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
 		//add correct default sensor values (three range vision)
 		oProp.removeKeysStartingWith(pre+clsEntity.P_BODY+"."+clsComplexBody.P_EXTERNALIO+"."+clsExternalIO.P_SENSORS);

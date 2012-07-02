@@ -143,6 +143,12 @@ public class clsUnrealBody extends clsComplexBody  {
 			e.printStackTrace();
 		}
 
+		try {
+			oFood.finalize();
+		} catch (exFoodAlreadyNormalized e) {
+			e.printStackTrace();
+		}
+		
         super.getInterBodyWorldSystem().getConsumeFood().digest(oFood);   
 	}
 	
