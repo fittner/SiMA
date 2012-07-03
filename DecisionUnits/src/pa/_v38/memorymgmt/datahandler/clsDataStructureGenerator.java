@@ -23,11 +23,13 @@ import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.clsEmotionType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -111,6 +113,17 @@ public abstract class clsDataStructureGenerator {
 //
 //		return oRetVal;
 //	}
+	
+	public static clsEmotion generateEMOTION(clsTriple <String, clsEmotionType, Object> poContent){
+		clsEmotion oRetVal; 
+		String oContentType = poContent.a;
+		clsEmotionType oContent = poContent.b;
+		
+		double rIntensity = (Double)poContent.c;
+		
+		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, String>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent); 
+		return oRetVal;
+	}
 	
 	public static clsAffect generateAFFECT(clsPair <String, Object> poContent){
 		clsAffect oRetVal; 

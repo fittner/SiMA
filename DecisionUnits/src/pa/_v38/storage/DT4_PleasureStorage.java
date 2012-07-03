@@ -13,6 +13,7 @@ import java.util.Arrays;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D4_1_receive;
+import pa._v38.interfaces.modules.D4_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 
@@ -23,7 +24,7 @@ import pa._v38.tools.toText;
  * @since 12.10.2011
  */
 public class DT4_PleasureStorage 
-implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive{
+implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_1_send{
 
 	private double mnSystemPleasureValue;
 
@@ -98,7 +99,17 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive{
 		return null;
 	}
 
-
+	/* (non-Javadoc)
+	 *
+	 * @since 07.05.2012 12:33:59
+	 * 
+	 * @see pa._v38.interfaces.modules.I5_21_send#send_I5_21(java.util.ArrayList)
+	 */
+	@Override
+	public double send_D4_1() {
+		return mnSystemPleasureValue;
+		
+	}
 	
 
 }
