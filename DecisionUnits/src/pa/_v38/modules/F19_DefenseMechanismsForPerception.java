@@ -338,17 +338,17 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 */
 	private void defenseMechanism_Idealization (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
-		ArrayList<clsThingPresentationMesh> listWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
+		ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oNegativeObject;
 		
 		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "RED")); 
-		listWithNegativeObjects.add(oNegativeObject);
+		oListWithNegativeObjects.add(oNegativeObject);
 		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "ROUND")); 
-		listWithNegativeObjects.add(oNegativeObject);
+		oListWithNegativeObjects.add(oNegativeObject);
 		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "BOESE_SCHWIEGERMUTTER")); 
-		listWithNegativeObjects.add(oNegativeObject);
+		oListWithNegativeObjects.add(oNegativeObject);
 
-		deleteAssociationsFromPerception (oForbiddenPerceptions, listWithNegativeObjects);
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithNegativeObjects);
 	}
 	
 	/* (non-Javadoc)
@@ -360,16 +360,16 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 */
 	private void defenseMechanism_Depreciation (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
-		ArrayList<clsThingPresentationMesh> listWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
+		ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oPositiveObject;
 		
 		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "GREEN")); 
-		listWithPositiveObjects.add(oPositiveObject);
+		oListWithPositiveObjects.add(oPositiveObject);
 		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "FLAT")); 
-		listWithPositiveObjects.add(oPositiveObject);
+		oListWithPositiveObjects.add(oPositiveObject);
 		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SONNE")); 
-		listWithPositiveObjects.add(oPositiveObject);
-		deleteAssociationsFromPerception (oForbiddenPerceptions, listWithPositiveObjects);
+		oListWithPositiveObjects.add(oPositiveObject);
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithPositiveObjects);
 	}
 	
 	/* (non-Javadoc)
