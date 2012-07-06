@@ -61,7 +61,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 									String poContent) {
 		
 		super(poDataStructureIdentifier);
-		setAssociations(poAssociatedPhysicalRepresentations); 
+		moAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
 	}
 	
@@ -78,6 +78,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			moContent = poContent;
 		}
 	}
+	
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -87,9 +88,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poAssociatedPhysicalRepresentations
 	 */
-	private void setAssociations(ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
+	
+	/*public void setAssociations(ArrayList<clsAssociation> poAssociatedPhysicalRepresentations) {
 		moAssociatedContent = poAssociatedPhysicalRepresentations; 
-	}
+	}*/
 
 	/**
 	
@@ -187,6 +189,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @return
 	 */
+	@Override
 	public double getNumbAssociations() {
 		double oResult = 0.0;
 			for(clsDataStructurePA oElement1 : moAssociatedContent){
@@ -200,6 +203,27 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		return oResult;
 	}
 	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 18.07.2010, 16:12:00
+	 *
+	 * @return
+	 */
+	@Override
+	public double getNumbExternalAssociations() {
+		double oResult = 0.0;
+			for(clsDataStructurePA oElement1 : moExternalAssociatedContent){
+				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
+					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+				}
+				else {
+					oResult += 1.0; 
+				}
+			}
+		return oResult;
+	}
 	
 	@Override
 	public boolean contain(clsDataStructurePA poDataStructure){

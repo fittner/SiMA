@@ -143,7 +143,7 @@ public class clsSecondarySpatialTools {
 	 * @param poImageContainer
 	 * @return
 	 */
-	private static clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> getPosition(clsWordPresentationMesh poDS) {
+	public static clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> getPosition(clsWordPresentationMesh poDS) {
 		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oRetVal = null;
 		
 		//Search for xy compontents

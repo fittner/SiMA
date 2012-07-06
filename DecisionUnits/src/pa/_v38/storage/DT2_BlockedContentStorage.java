@@ -29,7 +29,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -367,14 +366,14 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poInput
 	 * @return
 	 */
-	public clsDriveMesh matchBlockedContentDrives(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poInput) {
+	public clsDriveMesh matchBlockedContentDrives(ArrayList<clsDriveMesh> poInput) {
 		// get only free drives
 		
 		clsDriveMesh oRetVal = null;
 		double rHighestMatch = 0.0;
 
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrivePair : poInput){ 
-			clsDriveMesh oInputDrive = oDrivePair.b;
+		for(clsDriveMesh oDrivePair : poInput){ 
+			clsDriveMesh oInputDrive = oDrivePair;
 			clsPair<Double, clsDriveMesh> oMatch = null;
 			if ((getMatchesForDrives(oInputDrive, 0).isEmpty()==false)) {
 				oMatch =  getMatchesForDrives(oInputDrive, 0).get(0); //You could use mrActivationThreshold			

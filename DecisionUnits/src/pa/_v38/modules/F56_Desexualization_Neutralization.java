@@ -15,10 +15,8 @@ import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -38,15 +36,16 @@ implements I5_3_receive, I5_4_send {
 	/*
 	 * Input/Output of module
 	 */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_IN;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrives_OUT;
+	private ArrayList<clsDriveMesh> moDrives_IN;
+	private ArrayList<clsDriveMesh> moDrives_OUT;
 	
 	/** Reference to the storage for freed psychic energy, to distribute it to other modules.; @since 12.10.2011 19:28:27 */
 	private DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	/** Reference to the libido buffer; @since 12.10.2011 19:35:10 */
 	private DT1_LibidoBuffer moLibidoBuffer;
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
-	private double mrEnergyReductionRate = 0.4;
+	private double mrEnergyReductionRateSexual = 0.7;
+	private double mrEnergyReductionRateSelfPreserv = 0.3;
 
 	/**
 	 * property key where the selected implementation stage is stored.
@@ -111,9 +110,9 @@ implements I5_3_receive, I5_4_send {
 
 	@Override
 	public void receive_I5_3(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 
-		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDrives);
+		moDrives_IN = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 	}
 
 	/* (non-Javadoc)
@@ -125,28 +124,45 @@ implements I5_3_receive, I5_4_send {
 	 */
 	@Override
 	protected void process_basic() {
+		
+		// 1.Reduce drive energy and send it to DT3
+		
 		double reducedEnergy = 0.0;
 		// copy input to allow comparison before/after
-		moDrives_OUT = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(moDrives_IN);
+		moDrives_OUT = (ArrayList<clsDriveMesh>)deepCopy(moDrives_IN);
 		
 		// take energy from drives attached to the perception
-		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oEntry : moDrives_OUT) {
+		for (clsDriveMesh oEntry : moDrives_OUT) {
 			// take specified amount of drive energy
 			reducedEnergy = 0.0; // initialize for each one, just to be sure.
-			reducedEnergy = oEntry.b.getMrPleasure() * mrEnergyReductionRate;
-			// update the drive energy 
-			oEntry.b.setMrPleasure(oEntry.b.getMrPleasure() * (1 - mrEnergyReductionRate));
+			
+			if (oEntry.mbSexualDM == true) {
+				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSexual;
+				// update the drive energy 
+				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
+			}
+			else {
+				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
+				
+				// update the drive energy 
+				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
+			}
+
 			// send free drive energy to DT3 for distribution to other modules
 			moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
 		}
 		
+		// 2. Distribute free energy
+		
+		moPsychicEnergyStorage.divideFreePsychicEnergy();
+		
 		// also include libido from DT1 (MZ: really? I'm still not sure about this, but IH tells me to do this.)
-		reducedEnergy = 0.0;
+		/*reducedEnergy = 0.0;
 		reducedEnergy = moLibidoBuffer.send_D1_2() * mrEnergyReductionRate;
 		// update libidobuffer
-		moLibidoBuffer.receive_D1_3(reducedEnergy);
+		moLibidoBuffer.receive_D1_3(reducedEnergy);*/
 	// send free drive energy to DT3 for distribution to other modules
-		moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
+		//moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -294,7 +310,7 @@ implements I5_3_receive, I5_4_send {
 
 	@Override
 	public void send_I5_4(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 
 		((I5_4_receive)moModuleList.get(55)).receive_I5_4(poDrives);
 

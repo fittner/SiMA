@@ -169,8 +169,18 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
-		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+
+		moDriveList_Input = new ArrayList <clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		// SSch: Temporary Solution until F06 and following modules consider new DM structure
+		for (clsDriveMesh oEntry : poData) {
+			if (oEntry != null){
+				moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
+			}
+		}
+		
+		//moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
+		
 		moForbiddenDrives_Input = (ArrayList<String>) deepCopy (poForbiddenDrives);
 	}
 
@@ -402,7 +412,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		// If a drive similar to opposite drive exists in drivelist -> merge quota of affect
 		if(oOppositeDrive != null) {			
-			rPleasure = moDriveList_Output.get(j).b.getMrPleasure() + poOriginalDM.getMrPleasure();
+			rPleasure = moDriveList_Output.get(j).b.getMrQuotaOfAffect() + poOriginalDM.getMrQuotaOfAffect();
 			
 			// remove from drivelist, new merged drive will be added to drivelist anyway
 			moDriveList_Output.remove(j);
@@ -431,7 +441,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			
 			oOppositeDrive = new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, oNewDM);	
 			
-			oOppositeDrive.b.setMrPleasure(poOriginalDM.getMrPleasure());
+			oOppositeDrive.b.setMrQuotaOfAffect(poOriginalDM.getMrQuotaOfAffect());
 				
 					
 			
@@ -440,7 +450,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// overflow quota of affect will be sent to F20  
 		
 		// add single quotas of affect to affect only list
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrPleasure())); 
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrQuotaOfAffect())); 
 		moQuotasOfAffect_Output.add(oAffect);
 		
 	    // repress old forbidden drive
@@ -511,7 +521,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				repress_single_drive(((clsThingPresentationMesh) moDriveList_Output.get(i).a), moDriveList_Output.get(i).b);				
 				
 				// add single quotas of affect to affect only list
-				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrPleasure())); 
+				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).b.getMrQuotaOfAffect())); 
 				moQuotasOfAffect_Output.add(oAffect);
 				
 				// remove DriveMesh i from output list
@@ -544,7 +554,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 					// drive found
 					// return quota of affect
-				    return oDrives.b.getMrPleasure();
+				    return oDrives.b.getMrQuotaOfAffect();
 				}
 			}
 		}

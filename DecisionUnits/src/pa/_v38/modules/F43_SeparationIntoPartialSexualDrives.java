@@ -174,12 +174,12 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	}
 	
 	private clsTriple<clsDriveMesh,clsDriveDemand,Double> createDriveMeshTripple(String poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
-		clsDriveMesh oDM = createDriveMesh(poContentType, poContext);
+		clsDriveMesh oDM = createSexualDriveMesh(poContentType, poContext);
 		clsTriple<clsDriveMesh,clsDriveDemand,Double> oT = new clsTriple<clsDriveMesh, clsDriveDemand, Double>(oDM, poDemand, prValue);
 		return oT;
 	}
 	
-	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
+	private clsDriveMesh createSexualDriveMesh(String poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
@@ -187,6 +187,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
 				);
 		
+		oRetVal.mbSexualDM = true; // temporary solution to dinstinguish sexual drives from self-preservation drives
 		return oRetVal;
 	}	
 

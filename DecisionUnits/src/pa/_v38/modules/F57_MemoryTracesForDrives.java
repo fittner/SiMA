@@ -21,8 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -42,9 +42,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates;
-	private  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDrivesAndTraces_OUT;
+	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
-	private double mrThreshold = 0.5;
+	private double mrThresholdMatchFactor = 0.5;
+	private double mrThresholdPleasure = 0.2;
 	
 	/**
 	 * DOCUMENT (zeilinger) 
@@ -66,7 +67,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
-		moDrivesAndTraces_OUT = new  ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();	//If no drive candidate is there, then it is initialized
+		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -176,10 +177,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @since 01.07.2011 10:24:34
 	 *
 	 */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
+	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		//initializing of the list, because it cannnot be null
-		ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> oRetVal = new ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
-		
+		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+		ArrayList<clsAssociation> oAssDriveObjects = null;
 		//Get all DMs from Perception
 		/*ArrayList<clsAssociationDriveMesh> oAssDMList = clsMeshTools.getAllDMInMesh(poPerceptionalMesh);
 		
@@ -221,9 +222,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			}*/
 		
 		clsDataStructurePA oDS=null;
+		
 		double rCurrentMatchFactor = 0.0;
 		double rMaxMatchfactor = 0.0;
 		double rMaxPleasurefactor = 0.0;
+		double rCurrentPleasureValue  = 0.0;
 		
 		for (clsDriveMesh oDM : poDriveCandidates) {
 			
@@ -235,7 +238,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				 * Todo: Derzeit wird nur ein clsPair<DM, TPM> weitergereicht. Es fehlt die Moeglichkeit zu einem DM mehrere TPMs anzuhängen (eventuell ueber container? -->
 				 *  konsitente linie ob datencontainer für assoziationen oder membervariablen nötig!). Darauf aufbauend berücksichtigen und gewichten von halluz. und wahrg. Objekte 
 				 */
-								
+						
+				oAssDriveObjects = new ArrayList<clsAssociation>();
+			
 				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
@@ -247,19 +252,19 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				rMaxMatchfactor = 0.0;
 				rMaxPleasurefactor = 0.0;
+				rCurrentMatchFactor = 0.0;
 					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for each found DM
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						rCurrentMatchFactor = oSearchPair.a;
-						if( rCurrentMatchFactor > mrThreshold && (rCurrentMatchFactor >= rMaxMatchfactor)) {
-							double rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrPleasure();
-							if (rCurrentPleasureValue > rMaxPleasurefactor) {
-								rMaxPleasurefactor = rCurrentPleasureValue;
-								rMaxMatchfactor = rCurrentMatchFactor;
+						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
+							rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrQuotaOfAffect();
+							if (rCurrentPleasureValue > mrThresholdPleasure) {
 								ArrayList<clsAssociation> oAssDM = oSearchPair.b.getMoAssociatedDataStructures();
 								// take first object that is connected with the found DM
 								oDS = oAssDM.get(0).getRootElement();
+								oAssDriveObjects.add(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, (clsThingPresentationMesh)oDS, rCurrentPleasureValue));
 							}
 						}
 					}
@@ -270,7 +275,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
 				}
 				
-				oRetVal.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation)oDS, oDM));
+				oDM.addAssociations(oAssDriveObjects);
+				oRetVal.add(oDM);
 				
 		}
 		
@@ -377,8 +383,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @see pa._v38.interfaces.modules.I5_1_send#send_I5_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_1(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+	public void send_I5_1(ArrayList<clsDriveMesh> poData) {
 		
 		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
 		((I5_1_receive)moModuleList.get(14)).receive_I5_1(poData); 

@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:49:15
  * 
  */
-public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure {
+public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure implements itfAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** Add internal associations to WP or other WPM, which are defining this structure; @since 29.11.2011 11:26:20 */
 	protected ArrayList<clsAssociation> moInternalAssociatedContent;
 	
@@ -44,7 +44,8 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @param moExternalAssociatedContent the moExternalAssociatedContent to set
 	 */
-	public void setExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
+	@Override
+	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> poExternalAssociatedContent) {
 		this.moExternalAssociatedContent = poExternalAssociatedContent;
 	}
 
@@ -54,8 +55,20 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @return the moAssociatedContent
 	 */
-	public ArrayList<clsAssociation> getAssociatedContent() {
+	@Override
+	public ArrayList<clsAssociation> getMoAssociatedContent() {
 		return moInternalAssociatedContent;
+	}
+	
+	/**
+	 * @author schaat
+	 * 19.06.2012, 08:57:27
+	 * 
+	 * @return the moExternalAssociatedContent
+	 */
+	@Override
+	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+		return moExternalAssociatedContent;
 	}
 
 	/**
@@ -64,6 +77,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * 
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
+	@Override
 	public void setMoAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
 		this.moInternalAssociatedContent = poAssociatedContent;
 	}
@@ -102,6 +116,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 *
 	 * @param poDataStructurePA
 	 */
+	@Override
 	public abstract void assignDataStructure(clsAssociation poDataStructurePA); 
 	
 	/**
@@ -112,8 +127,21 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 *
 	 * @param poAssociatedWordPresentations
 	 */
-		
-	protected void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	@Override
+	public void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moInternalAssociatedContent.addAll(poAssociatedDataStructures);  
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 24.06.2012, 14:40:45
+	 *
+	 * @param poAssociatedWordPresentations
+	 */
+	@Override
+	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+		moExternalAssociatedContent.addAll(poAssociatedDataStructures);
 	}
 }

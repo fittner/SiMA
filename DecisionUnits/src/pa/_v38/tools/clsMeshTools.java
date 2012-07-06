@@ -540,7 +540,7 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		oRetVal.addAll(searchAssociationList(poInput.getAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationList(poInput.getMoAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
 	}
@@ -714,7 +714,7 @@ public class clsMeshTools {
 
 		//Go through all external
 		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
-			oRetVal.addAll(FilterWPList(poWPM.getAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			oRetVal.addAll(FilterWPList(poWPM.getMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
 				oRetVal.addAll(FilterWPList(poWPM.getExternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -822,7 +822,7 @@ public class clsMeshTools {
 			
 			//Add the substructures of the internal associations
 			if ((pnLevel>0) || (pnLevel==-1)) {
-				for (clsAssociation oAss : poMesh.getAssociatedContent()) {
+				for (clsAssociation oAss : poMesh.getMoAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsWordPresentationMesh && oAss.getLeafElement().equals(poMesh)==false) {
 						searchDataStructureInWPM((clsWordPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsWordPresentationMesh && oAss.getRootElement().equals(poMesh)==false) {
@@ -931,7 +931,7 @@ public class clsMeshTools {
 		
 		//Process the original Element 
 		if (nOriginAddAssociationState==1) {
-			poElementOrigin.getAssociatedContent().add(oNewAss);
+			poElementOrigin.getMoAssociatedContent().add(oNewAss);
 		} else if (nOriginAddAssociationState==2) {
 			poElementOrigin.getExternalAssociatedContent().add(oNewAss);
 		}
@@ -940,7 +940,7 @@ public class clsMeshTools {
 		//Add association to the target structure if it is a WPM
 		if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
 			if (nTargetAddAssociationState==1) {
-				((clsWordPresentationMesh)poElementTarget).getAssociatedContent().add(oNewAss);
+				((clsWordPresentationMesh)poElementTarget).getMoAssociatedContent().add(oNewAss);
 			} else if (nTargetAddAssociationState==2) {
 				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
 			}
@@ -1073,6 +1073,50 @@ public class clsMeshTools {
 	}
 	
 	//=== REMOVE DATA STRUCTURES IN WPM GENERAL --- START ===//
+	
+	/**
+	 * Delete a certain association within an object. 
+	 * 
+	 * The purpose is to remove an association in the target object for each object, which is deleted.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 03.02.2012 16:22:47
+	 *
+	 * @param poSourceTPM: The object which has the association
+	 * @param poDeleteObject: The associatited object, which association shall be deleted.
+	 */
+	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceTPM, clsWordPresentationMesh poDeleteObject) {
+		boolean bFound = false;
+		clsAssociation oDeleteAss = null;
+		
+		//Check external associations
+		for (clsAssociation oExternalAss : poSourceTPM.getExternalAssociatedContent()) {
+			if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+				bFound = true;
+				oDeleteAss = oExternalAss;
+				break;
+			}
+		}
+		
+		//If found, then delete
+		if (bFound==true) {
+			poSourceTPM.getExternalAssociatedContent().remove(oDeleteAss);
+		} else {
+			//Check internal associations
+			for (clsAssociation oExternalAss : poSourceTPM.getMoAssociatedContent()) {
+				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+					bFound = true;
+					oDeleteAss = oExternalAss;
+					break;
+				}
+			}
+			
+			if (bFound==true) {
+				poSourceTPM.getMoAssociatedContent().remove(oDeleteAss);
+			}
+		}
+	}
 	
 	//=== REMOVE DATA STRUCTURES IN WPM GENERAL --- END ===//
 	
@@ -1378,11 +1422,11 @@ public class clsMeshTools {
 				poTargetWPM.getExternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
 				poOriginWPM.getExternalAssociatedContent().remove(poAssociation);
-			} else if (poOriginWPM.getAssociatedContent().contains(poAssociation)) {
+			} else if (poOriginWPM.getMoAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
-				poTargetWPM.getAssociatedContent().add(poAssociation);
+				poTargetWPM.getMoAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginWPM.getAssociatedContent().remove(poAssociation);
+				poOriginWPM.getMoAssociatedContent().remove(poAssociation);
 			}
 
 		}
@@ -1470,9 +1514,9 @@ public class clsMeshTools {
 		//Create a list of associations, which shall be moved
 		ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
 		
-		for (clsAssociation oOriAss : poOriginWPM.getAssociatedContent()) {
+		for (clsAssociation oOriAss : poOriginWPM.getMoAssociatedContent()) {
 			boolean bFound = false;
-			for (clsAssociation oTarAss : poTargetWPM.getAssociatedContent()) {
+			for (clsAssociation oTarAss : poTargetWPM.getMoAssociatedContent()) {
 				bFound = checkAssociationExists(oOriAss, oTarAss);
 				if (bFound==true) {
 					break;
@@ -1534,8 +1578,86 @@ public class clsMeshTools {
 		
 		return bRetVal;
 	}
-
-
+	
+	/**
+	 * Get all internal image associations, which are not present in the input list from an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.06.2012 22:32:30
+	 *
+	 * @param poImage
+	 * @param poEntityList
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getOtherInternalImageAssociations(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poEntityList) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
+			clsWordPresentationMesh oImageEntity = (clsWordPresentationMesh) oAss.getLeafElement();
+			if (poEntityList.contains(oImageEntity)==false) {
+				oRetVal.add(oImageEntity);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Delete an object in a mesh. Ony the deleteobject is the input, as the object is deleted as soon as the delete object is 
+	 * not connected to any mesh. All meshes, where this object was present are modified.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 30.01.2012 21:02:46
+	 *
+	 * @param poPerceptionalMesh
+	 * @param poDeleteObject
+	 */
+	public static void deleteObjectInMesh(clsWordPresentationMesh poDeleteObject) {
+		//In this function the whole tree shall be deleted, of which a structure is connected. Start with the focused element and
+		//delete the "delete-Element" as well as the whole tree connected with it.
+		
+		//Go through all internal associations
+		for (clsAssociation oInternalAss : poDeleteObject.getMoAssociatedContent()) {
+			//If the root element is this mesh, then...
+			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
+				//go to the other element, if it is a TPM
+				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}				
+			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
+				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}
+			}
+		}
+		
+		//Go through all external associations
+		for (clsAssociation oInternalAss : poDeleteObject.getExternalAssociatedContent()) {
+			//If the root element is this mesh, then...
+			if (oInternalAss.getRootElement().equals(poDeleteObject)) {
+				//go to the other element, if it is a TPM
+				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}				
+			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
+				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
+					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
+					//Find this element in the other element and delete it
+					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+				}
+			}
+		}
+		
+		//Now the object is not connected with anything more and can be seen as deleted from the meshes, which it was connected. It does not matter in which mesh it belongs, everything is deleted
+	}
 	
 	
 	//=== PERCEIVED IMAGE AND REMEMBERED IMAGE TOOLS WPM --- END ===//
@@ -1800,7 +1922,7 @@ public class clsMeshTools {
 	public static ArrayList<clsWordPresentationMesh> getAllSubWPMInWPMImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsAssociation oAss : poImage.getAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
 			oRetVal.add((clsWordPresentationMesh) oAss.getLeafElement());
 		}
 		
@@ -1832,6 +1954,16 @@ public class clsMeshTools {
 	}
 		
 	//=== REMEMBERED IMAGE TOOLS WPM --- END ===//
+	
+	//=== ENTITY TOOLS TPM --- START ===//
+	
+	//=== ENTITY TOOLS TPM --- END ===//
+	
+	//=== ENTITY TOOLS WPM --- START ===//
+	
+	//=== ENTITY TOOLS WPM --- END ===//
+	
+	
 	
 	
 }

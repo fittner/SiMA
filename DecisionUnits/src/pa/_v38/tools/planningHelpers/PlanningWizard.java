@@ -191,7 +191,23 @@ public class PlanningWizard {
 		for (clsPlanFragment myFrag : availableFragments) {
 			for (clsImage oImage : currentEnvironmentalSituation)
 				if (myFrag.m_preconditionImage.isEqualLooseTo(oImage)) {
-					applicablePlanFragments.add(myFrag);
+					//Add the distance if not available
+					clsPlanFragment clonedFragment;
+					try {
+						clonedFragment = (clsPlanFragment) myFrag.clone();
+						
+						if (myFrag.m_preconditionImage.m_eDist==null || myFrag.m_preconditionImage.m_eDist!=oImage.m_eDist) {
+							
+							clonedFragment.m_preconditionImage.m_eDist = oImage.m_eDist;
+							clonedFragment.m_effectImage.m_eDist = clonedFragment.m_preconditionImage.m_eDist;
+						}
+											
+						applicablePlanFragments.add(clonedFragment);
+						
+					} catch (CloneNotSupportedException e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
 				}
 		}
 
@@ -240,8 +256,14 @@ public class PlanningWizard {
 					}
 				}
 
-				//System.out.println("oName " + oName + ", oDistance: " + oDistance + ", oDirection " + oPosition);
-				oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
+				
+				try {
+					oRetVal.add(new clsImage(eDistance.valueOf(oDistance), eDirection.valueOf(oPosition), eEntity.valueOf(oName)));
+				} catch (Exception e) {
+					System.out.println("oName " + oName + ", oDistance: " + oDistance + ", oDirection " + oPosition);
+					e.printStackTrace();
+				}
+				
 
 				// @ANDI: No more parsing...
 				// String str = el.toString();

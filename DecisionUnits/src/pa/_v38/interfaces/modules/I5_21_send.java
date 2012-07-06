@@ -8,6 +8,8 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsEmotion;
+
 
 /**
  * Thing presentations and their quota of affects are transported from F37 to F35 and F57.
@@ -17,5 +19,5 @@ import java.util.ArrayList;
  * 
  */
 public interface I5_21_send {
-	public void send_I5_21(ArrayList<String> poEmotions);
+	public void send_I5_21(ArrayList<clsEmotion> poEmotions);
 }

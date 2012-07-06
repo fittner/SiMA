@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -26,11 +27,12 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.06.2010, 20:36:25
  * 
  */
-public class clsDriveMesh extends clsHomeostaticRepresentation{
+public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAssociatedDataStructure{
 	
+	public boolean mbSexualDM = false;
 	private String moContent = "UNDEFINED";
 	private ArrayList<clsAssociation> moAssociatedContent = null; 
-	private double mrPleasure = 0.0; 
+	private double mrQuotaOfAffect = 0.0; 
 	private double mrCathegoryAnal = 0.0; 
 	private double mrCathegoryGenital = 0.0;
 	private double mrCathegoryOral = 0.0;
@@ -51,9 +53,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 												ArrayList<clsAssociation> poAssociatedDriveSources,
 												String poContent) {
 		super(poDataStructureIdentifier);
-		setAssociations(poAssociatedDriveSources); 
+		moAssociatedContent =poAssociatedDriveSources; 
 		setContent(poContent); 
-		mrPleasure = prPleasure; 
+		mrQuotaOfAffect = prPleasure; 
 		mrCathegoryAnal = poDriveCathegories[0]; 
 		mrCathegoryOral = poDriveCathegories[1]; 
 		mrCathegoryGenital = poDriveCathegories[2];
@@ -86,6 +88,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * 
 	 * @return the moAssociatedContent
 	 */
+	@Override
 	public ArrayList<clsAssociation> getMoAssociatedContent() {
 		return moAssociatedContent;
 	}
@@ -96,6 +99,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * 
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
+	@Override
 	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
 		this.moAssociatedContent = moAssociatedContent;
 	}
@@ -106,8 +110,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * 
 	 * @return the mrPleasure
 	 */
-	public double getMrPleasure() {
-		return mrPleasure;
+	public double getMrQuotaOfAffect() {
+		return mrQuotaOfAffect;
 	}
 
 	/**
@@ -116,8 +120,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * 
 	 * @param mrPleasure the mrPleasure to set
 	 */
-	public void setMrPleasure(double mrPleasure) {
-		this.mrPleasure = mrPleasure;
+	public void setMrQuotaOfAffect(double mrPleasure) {
+		this.mrQuotaOfAffect = mrPleasure;
 	}
 
 	/**
@@ -224,13 +228,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poAssociatedDriveSources
 	 */
-	private void setAssociations(
+	
+	/*public void setAssociations(
 			ArrayList<clsAssociation> poAssociatedDriveSources) {
 		moAssociatedContent = poAssociatedDriveSources;
-	}
+	}*/
 
 	public double getPleasure(){
-		return mrPleasure; 
+		return mrQuotaOfAffect; 
 	}
 	
 
@@ -242,7 +247,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 * @param prPleasure
 	 */
 	public void setPleasure(double prPleasure){
-		mrPleasure = prPleasure; 
+		mrQuotaOfAffect = prPleasure; 
 	}
 	
 	public double getOral() {
@@ -351,7 +356,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @return
 	 */
-	private double getNumbAssociations() {
+	@Override
+	public double getNumbAssociations() {
 		return moAssociatedContent.size();
 	}
 	
@@ -363,8 +369,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poAssociatedWordPresentations
 	 */
-		
-	public void applyAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	@Override
+	public void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	
@@ -433,7 +439,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		oResult += " g: " + mrCathegoryGenital;
 		oResult += " p: " + mrCathegoryPhalic;
 		
-		oResult += " pleasure: " + mrPleasure;
+		oResult += " QuotaOfAffect: " + mrQuotaOfAffect;
 		
 		
 		return oResult; 
@@ -475,4 +481,35 @@ public class clsDriveMesh extends clsHomeostaticRepresentation{
 		
 		return rResult;
 	}
+	
+	public clsThingPresentationMesh getBestTPM() {
+		
+		clsThingPresentationMesh oBestTPM= null;
+		double rCurrentWeight = 0;
+		double rMaxWeight = 0;
+		
+		// temporary solution
+		for (clsAssociation oEntry : moAssociatedContent) {
+			if (oEntry instanceof clsAssociationDriveMesh) {
+				rCurrentWeight = oEntry.getMrWeight();
+				if(rCurrentWeight > rMaxWeight) {
+					rMaxWeight = rCurrentWeight;	
+					if (oBestTPM != null) {
+						oBestTPM = (clsThingPresentationMesh)oEntry.getMoAssociationElementB();
+					}
+					else {
+						oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
+					}
+				}
+			}
+			else {
+				oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
+			}
+					
+		}
+		
+		return oBestTPM;
+	}
+	
+	
 }

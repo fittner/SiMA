@@ -462,7 +462,7 @@ public class clsDataStructureTools {
 		//Compare IDs of the structures
 
 		//Go through the internal structures
-		for (clsAssociation oIntAss : poMesh.getAssociatedContent()) {
+		for (clsAssociation oIntAss : poMesh.getMoAssociatedContent()) {
 			//Check if this part is meant
 			if (oIntAss.getRootElement() instanceof clsWordPresentationMesh &&
 					oIntAss.getRootElement().equals(poMesh)==false && 
@@ -533,7 +533,7 @@ public class clsDataStructureTools {
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		if (poTargetImage.getMoDataStructure() instanceof clsWordPresentationMesh) {
-			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getAssociatedContent()) {
+			for (clsAssociation oImageDS : ((clsWordPresentationMesh)poTargetImage.getMoDataStructure()).getMoAssociatedContent()) {
 				if (oImageDS.getRootElement().getMoDS_ID() == poFindDataStructure.getMoDS_ID()) {
 					oRetVal = (clsWordPresentationMesh) oImageDS.getRootElement();
 					break;
@@ -557,7 +557,7 @@ public class clsDataStructureTools {
 		//1. Check if it really is an image
 		if (((poImage.getPrimaryComponent()!=null) && (poImage.getPrimaryComponent().getMoDataStructure() instanceof clsTemplateImage) && (poImage.getSecondaryComponent().getMoDataStructure() instanceof clsWordPresentationMesh))) {
 			//3. go through all elements in the secondary container WPM and get all associations
-			for (clsAssociation oSecondaryIntrinsicAssociation : ((clsWordPresentationMesh)poImage.getSecondaryComponent().getMoDataStructure()).getAssociatedContent()) {
+			for (clsAssociation oSecondaryIntrinsicAssociation : ((clsWordPresentationMesh)poImage.getSecondaryComponent().getMoDataStructure()).getMoAssociatedContent()) {
 				//4. Get all associations for that WPM
 				clsSecondaryDataStructure poSingleWPObject = (clsSecondaryDataStructure) oSecondaryIntrinsicAssociation.getRootElement();
 				//5. Get all associated data structure from the WP container
