@@ -8,6 +8,7 @@ package UnrealTestBot;
 
 import java.util.Vector;
 
+
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import statictools.clsGetARSPath;
@@ -16,11 +17,14 @@ import statictools.clsUniqueIdGenerator;
 import config.clsProperties;
 import creation.simplePropertyLoader.clsExternalARSINLoader;
 import du.enums.eEntityType;
+import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsUnrealSensorValueVision;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.entities.clsARSIN;
 import bw.factories.clsSingletonMasonGetter;
 import bw.body.clsComplexBody;
+import bw.body.clsUnrealBody;
+
 
 
 
@@ -33,7 +37,7 @@ import bw.body.clsComplexBody;
  */
 public class UnrealTestMain {
 	
-	private clsARSIN ARSAgent;
+	private clsARSIN moARSAgent;
 	//private clsOutputActionProcessor outputActionProcessor = new clsOutputActionProcessor();
 	private Vector<clsUnrealSensorValueVision> ARSObjectsList = new Vector<clsUnrealSensorValueVision>();
 	
@@ -50,20 +54,146 @@ public class UnrealTestMain {
 	
 	public void testARS()
     {
+		System.out.printf("\n <<< Create ARSin... >>> \n");
+		
 		createARSAgent();
 		
 		//outputActionProcessor.inicializeARSAgent(ARSAgent);	
 		
-		GenerateTestVisionData();
+		//GenerateTestVisionData();
 		
-		clsBrainSocket ARSBrain = ((clsComplexBody)ARSAgent.getBody()).getBrain();
-		ARSBrain.setUnrealVisionValues(ARSObjectsList);
+		clsBrainSocket ARSBrain = ((clsComplexBody)moARSAgent.getBody()).getBrain();
+		//ARSBrain.setUnrealVisionValues(ARSObjectsList);
+		
+		double health = ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent();
+		//((clsUnrealBody)moARSAgent.getBody()).DestroyAllNutritionAndEnergyForModelTesting();
+		//((clsUnrealBody)ARSAgent.getBody()).EatHealthPack();
+		
+		//(((clsPsychoAnalysis) ((clsUnrealBody)ARSAgent.getBody()).getBrain().getDecisionUnit()).getProcessor()).
+		
+		System.out.printf("\n stamina= "+ ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getStaminaSystem().getStamina().getContent());
+		System.out.printf("\n health= [ "+ ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent() +" ]");
+		
+		//((clsUnrealBody)ARSAgent.getBody()).getInternalSystem().getStaminaSystem().regainStamina(0.5);
+		//((clsUnrealBody)ARSAgent.getBody()).getInternalSystem().getStaminaSystem().consumeStamina(0.5);
+
+		//((clsUnrealBody)ARSAgent.getBody()).getInternalSystem().getStomachSystem().
+		
+		int counter = 0;
+		
+		while (counter <10)
+		{ 
+			
+			
+			processArsin();
+			
+			System.out.printf("\n health= [ "+ ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent() +" ]");
+			
+			
+			//actions...
+			int actioncount = moARSAgent.getActions().size();
+			
+			if(actioncount > 0)
+			{
+				for (clsActionCommand oAC: moARSAgent.getActions())
+				{
+					System.out.printf("\n cnt: "+counter+ " - ["+actioncount+"]" +oAC.toString() );
+				}
+			}
+			else
+			{
+				System.out.printf("\n cnt:"+counter+ " - [ NO ACTION]" );
+			}
+			
+			counter++;
+			
+			((clsUnrealBody)moARSAgent.getBody()).getExternalIO().getActionProcessor().clear();
+		}
 		
 		
-		ARSAgent.processing();
+		//test after emptying
+		System.out.printf("\n\n <<< DESTROY ALL NUTRITIONS >>> \n");
+		((clsUnrealBody)moARSAgent.getBody()).DestroyAllNutritionAndEnergyForModelTesting();
+		
+		counter = 0;
+		while (counter <10)
+		{ 
+	
+			processArsin();
+			
+			System.out.printf("\n health= [ "+ ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent() +" ]");
+			
+			
+			//actions...
+			int actioncount = moARSAgent.getActions().size();
+			if(actioncount > 0)
+			{
+				for (clsActionCommand oAC: moARSAgent.getActions())
+				{
+					System.out.printf("\n cnt: "+counter+ " - ["+actioncount+"]" +oAC.toString() );
+				}
+			}
+			else
+			{
+				System.out.printf("\n cnt:"+counter+ " - [ NO ACTION]" );
+			}
+			
+			counter++;
+			
+			((clsUnrealBody)moARSAgent.getBody()).getExternalIO().getActionProcessor().clear();
+		}
+		
+		System.out.printf("\n\n <<< EAT HEALTCH PACK >>>\n");
+		((clsUnrealBody)moARSAgent.getBody()).EatHealthPack();
+		
+		counter = 0;
+		while (counter <300)
+		{ 
+	
+			processArsin();
+			
+			System.out.printf("\n health= [ "+ ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent() +" ]");
+			
+			
+			//actions...
+			int actioncount = moARSAgent.getActions().size();
+			if(actioncount > 0)
+			{
+				for (clsActionCommand oAC: moARSAgent.getActions())
+				{
+					System.out.printf("\n cnt: "+counter+ " - ["+actioncount+"]" +oAC.toString() );
+				}
+			}
+			else
+			{
+				System.out.printf("\n cnt:"+counter+ " - [ NO ACTION]" );
+			}
+			
+			counter++;
+			
+			((clsUnrealBody)moARSAgent.getBody()).getExternalIO().getActionProcessor().clear();
+		}
+		
+		System.out.printf("\n <<< EXIT test app... >>>");
 		
         System.exit(0);
     }
+	
+	public void processArsin(){
+//		s.scheduleRepeating(poMobileObject2D.getSteppableBeforeStepping(), 1, defaultScheduleStepWidth);
+//		s.scheduleRepeating(poMobileObject2D.getSteppableSensing(), 2, defaultScheduleStepWidth);
+//		s.scheduleRepeating(poMobileObject2D.getSteppableUpdateInternalState(), 3, defaultScheduleStepWidth);
+//		s.scheduleRepeating(poMobileObject2D.getSteppableProcessing(), 4, defaultScheduleStepWidth);
+//		s.scheduleRepeating(poMobileObject2D.getSteppableExecution(), 5, defaultScheduleStepWidth);
+//		s.scheduleRepeating(poMobileObject2D.getSteppableAfterStepping(), 6, defaultScheduleStepWidth);
+		
+		moARSAgent.sensing();
+		moARSAgent.updateEntityInternals();
+		moARSAgent.updateInternalState();
+		moARSAgent.processing();
+		//moARSAgent.execution();
+		
+	}
 	
 	
 	public void logic() {
@@ -102,6 +232,30 @@ public class UnrealTestMain {
     	ARSObject.setType(eEntityType.CAN);
      	ARSObject.setRadius(3.5);
     	ARSObject.setAngle(0.1);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE02");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.6);
+    	ARSObject.setAngle(0.4);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE03");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.7);
+    	ARSObject.setAngle(0.2);
+		ARSObjectsList.add(ARSObject);
+		
+    	ARSObject = new clsUnrealSensorValueVision();
+    	ARSPosition = new double[2];
+    	ARSObject.setID("CAKE04");
+    	ARSObject.setType(eEntityType.CAKE);
+     	ARSObject.setRadius(1.4);
+    	ARSObject.setAngle(0.2);
 		ARSObjectsList.add(ARSObject);
       
 		
@@ -143,7 +297,7 @@ public class UnrealTestMain {
 		
 		// get the ARSIN
 		clsExternalARSINLoader oLoader = new clsExternalARSINLoader(oProp);
-		ARSAgent = (clsARSIN)oLoader.getARSINI();
+		moARSAgent = (clsARSIN)oLoader.getARSINI();
 	}
 
 }

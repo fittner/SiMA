@@ -1,4 +1,4 @@
-; Tue Jun 26 12:55:47 CEST 2012
+; Tue Jul 03 15:09:49 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1526,7 +1526,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
-	(pleasure 0.5)
+	(pleasure 0.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3AREMOTEBOT] of  BITE
@@ -1596,7 +1596,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 1.0)
+	(pleasure 0.0)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1651,7 +1651,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 1.0)
+	(pleasure 0.0)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH

@@ -19,6 +19,7 @@ import pa._v38.interfaces.modules.I5_5_receive;
 import pa._v38.interfaces.modules.I5_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -37,7 +38,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public static final String P_MODULENUMBER = "55";
 	private ArrayList<clsDriveMesh> moDrives_Input;
 	private ArrayList<clsDriveMesh> moDrives_Output;
-	private ArrayList<String> moEmotions_Input;
+	private ArrayList<clsEmotion> moEmotions_Input;
 	public int ReducedPsychicEnergy;
 	public int PsychicEnergy_IN;
 	private int step_count = 0;
@@ -384,8 +385,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_21_receive#receive_I5_21(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I5_21(ArrayList<String> poEmotions) {
-		moEmotions_Input = (ArrayList<String>) deepCopy(poEmotions); 
+	public void receive_I5_21(ArrayList<clsEmotion> poEmotions) {
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions); 
 		
 	}	
 }

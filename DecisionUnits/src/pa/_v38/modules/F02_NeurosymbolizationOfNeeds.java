@@ -142,6 +142,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> pnData) {
 		
 		moHomeostasis = (HashMap<eSensorIntType, clsDataBase>) deepCopy(pnData);
+		
+		//System.out.printf("\n F03 in ="+ moHomeostasis);
 	}
 
 	/* (non-Javadoc)
@@ -213,7 +215,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I2_2(moHomeostaticSymbol);		
+		send_I2_2(moHomeostaticSymbol);	
+		//System.out.printf("\n F03 out ="+ moHomeostaticSymbol);
 	}
 
 	/**

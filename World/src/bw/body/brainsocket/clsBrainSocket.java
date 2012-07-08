@@ -177,49 +177,49 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 	
 	private void processUnrealVision(Vector<clsUnrealSensorValueVision> poUnrealVisionValues, clsSensorData poData) {
-        
-        //create object lists for all vision ranges
-        clsVision oVisionDataNear = new clsVision();
-        clsVision oVisionDataMedium = new clsVision();
-        clsVision oVisionDataFar = new clsVision();
-       
-        //go through the vision ranges and convert from unreal to ars
-        for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
-                       
-                        clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
-                       
-                        double oVisionDistance = oVisionEntry.getRadius();
-                       
-                        if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
-                                        oVisionDataNear.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
-                        if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
-                                        oVisionDataMedium.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
-                        if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
-                                        oVisionDataFar.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
-        }             
-       
-        //now add the three vision ranges to the sensor data object
-        //near
-        oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
-        poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
-        //medium
-        oVisionDataNear.setSensorType(eSensorExtType.VISION_MEDIUM);
-        poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataNear);
-        //far
-        oVisionDataNear.setSensorType(eSensorExtType.VISION_FAR);
-        poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataNear);
+		
+		//create object lists for all vision ranges
+		clsVision oVisionDataNear = new clsVision();
+		clsVision oVisionDataMedium = new clsVision();
+		clsVision oVisionDataFar = new clsVision();
+		
+		//go through the vision ranges and convert from unreal to ars
+		for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
+			
+			clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
+			
+			double oVisionDistance = oVisionEntry.getRadius();
+			
+			if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
+				oVisionDataNear.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+			if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
+				oVisionDataMedium.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+			if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
+				oVisionDataFar.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+		}	
+		
+		//now add the three vision ranges to the sensor data object
+		//near
+		oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
+		poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
+		//medium
+		oVisionDataNear.setSensorType(eSensorExtType.VISION_MEDIUM);
+		poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataNear);
+		//far
+		oVisionDataNear.setSensorType(eSensorExtType.VISION_FAR);
+		poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataNear);
 
-}
+	}
+	
+	//creates one vision entry transformed to ARS vision types
+	private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
+		
+		//the real conversion
+		clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
+		oEntry.setSensorType(poVisionType);
 
-//creates one vision entry transformed to ARS vision types
-private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
-       
-        //the real conversion
-        clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
-        oEntry.setSensorType(poVisionType);
-
-        return oEntry;
-}
+		return oEntry;
+	}
 	
 	//the real deep transformation to ARS vision data
 	private clsVisionEntry convertUNREALVisionEntry(clsUnrealSensorValueVision poUNREALSensorVisionData) {
@@ -600,7 +600,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 	 *
 	 * @return
 	 */
-	public clsDataBase convertHealthSystem() {
+	private clsDataBase convertHealthSystem() {
 		
 		clsHealthSystem oRetVal = new clsHealthSystem();
 		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));

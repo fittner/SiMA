@@ -243,6 +243,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	protected void send() {
 		send_I3_4(moDriveCandidates);	
+		//System.out.printf("\n F04 out ="+ moDriveCandidates);
 	}
 
 	/* (non-Javadoc)
