@@ -9,7 +9,6 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
-import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 /**
@@ -20,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_8_receive {
-	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poTemplateResult, clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories);
+	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList);
 }

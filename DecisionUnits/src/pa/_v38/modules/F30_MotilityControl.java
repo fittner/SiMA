@@ -15,9 +15,13 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDumper;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -29,14 +33,18 @@ import config.clsProperties;
  * 11.08.2012, 14:58:20
  * 
  */
-public class F30_MotilityControl extends clsModuleBase 
+public class F30_MotilityControl extends clsModuleBaseKB 
     implements I6_11_receive, I2_5_send, itfInspectorGenericActivityTimeChart {
 	public static final String P_MODULENUMBER = "30";
 	
-	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
 	private clsWordPresentationMesh moEnvironmentalPerception_IN; // AP added environmental perception
 	private ArrayList<clsWordPresentation> moActionCommands_Output;
 	//private int mnCounter, lastTurnDirection, mnTurns;
+	
+	private clsShortTermMemory moShortTermMemory;
+	
+	private clsShortTermMemory moEnvironmentalImageStorage;
 	
 	/**
 	 * Constructor of the NeuroDeSymbolization
@@ -50,11 +58,14 @@ public class F30_MotilityControl extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
+		
+        this.moShortTermMemory = poShortTermMemory;
+        this.moEnvironmentalImageStorage = poTempLocalizationStorage;
 
 	}
 	
@@ -109,7 +120,7 @@ public class F30_MotilityControl extends clsModuleBase
 	 * 
 	 * @return the moActionCommands_Input
 	 */
-	public ArrayList<clsWordPresentation> getActionCommands_Input() {
+	public ArrayList<clsWordPresentationMesh> getActionCommands_Input() {
 		return moActionCommands_Input;
 	}
 
@@ -161,9 +172,8 @@ public class F30_MotilityControl extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands, clsWordPresentationMesh poEnvironmentalPerception) {
-		moActionCommands_Input = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
-		moEnvironmentalPerception_IN = poEnvironmentalPerception;
+	public void receive_I6_11(ArrayList<clsWordPresentationMesh> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands); 
 	}
 
 	/* (non-Javadoc)
@@ -176,8 +186,10 @@ public class F30_MotilityControl extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		
+		this.moEnvironmentalPerception_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
+		
 		if(moActionCommands_Input.size() >= 1) {
-			moActionCommands_Output = moActionCommands_Input;
+			moActionCommands_Output = getWordPresentations(moActionCommands_Input);
 		}
 		//else{
 			//when there are no actions, we generate a random seeking sequence 
@@ -190,6 +202,28 @@ public class F30_MotilityControl extends clsModuleBase
 			//when there are no actions, we do nothing
 		//}
 	}
+	
+    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
+    /**
+     * convert the act to a word presentation, temp function!!! DOCUMENT (wendt) - insert description
+     * 
+     * @since 02.08.2011 09:50:37
+     * 
+     * @param poInput
+     * @return
+     */
+    private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsWordPresentationMesh> poInput) {
+        ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
+
+        for (clsWordPresentationMesh oCont : poInput) {
+            clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(oCont.getMoContentType(), oCont
+                    .getMoContent()));
+
+            oRetVal.add(oWP);
+        }
+
+        return oRetVal;
+    }
 	
 	/**
 	 * This Method generates a simple random seeking sequence

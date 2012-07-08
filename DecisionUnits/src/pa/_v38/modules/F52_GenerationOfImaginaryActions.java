@@ -33,14 +33,15 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.enums.eXPosition;
-import pa._v38.memorymgmt.enums.eYPosition;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
@@ -74,10 +75,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
 
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
-	private ArrayList<clsPrediction> moExtractedPrediction_IN;
+	//private ArrayList<clsPrediction> moExtractedPrediction_IN;
 
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
-	private clsWordPresentationMesh moPerceptionalMesh_OUT;
+	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
 
 	/** Associated memories in */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
@@ -86,7 +87,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
 
 	/** Associated memories out */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
+	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	private ArrayList<clsWordPresentationMesh> moPlans_Output = new ArrayList<clsWordPresentationMesh>();
 	private ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	private ArrayList<clsPlanFragment> moCurrentApplicalbePlans;
@@ -94,6 +95,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/** generated plans */
 	private ArrayList<clsPlan> plansFromPerception = new ArrayList<clsPlan>();
 
+	private clsShortTermMemory moShortTermMemory;
+	
+	private clsShortTermMemory moEnvironmentalImageStorage;
+	
+	
 	private PlanningGraph plGraph;
 
 	/**
@@ -107,9 +113,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
+		//Get STM
+		this.moShortTermMemory = poShortTermMemory;
+		
+		//Get Perceived image
+		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
+		
 		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 
 		applyProperties(poPrefix, poProp);
@@ -154,19 +166,22 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 
+		//Load perception
+		moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
+		
 		if (m_bUseDraftPlanning) {
 			process_draft();
 		} else {
 
 			// Generate actions for the top goal
-			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
 			//FIXME HACK AW: Generate the search pattern
 			
 			//UNREAL IMAGE CORRECTION HACK
 			for (clsWordPresentationMesh oPlan : moPlans_Output) {
 				if (oPlan.getMoContent().equals("UNREAL_MOVE_TO")) {
 					//Extract Entity
-					clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oEntityInfo = clsSecondarySpatialTools.getPosition((clsWordPresentationMesh) oPlan.getExternalAssociatedContent().get(0).getLeafElement());
+					clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oEntityInfo = clsEntityTools.getPosition((clsWordPresentationMesh) oPlan.getExternalAssociatedContent().get(0).getLeafElement());
 					String oNewContent = oPlan.getMoContent() + "|" + oEntityInfo.a.getMoContent() + ":" + oEntityInfo.b.toString() + ":" + oEntityInfo.c.toString();
 					oPlan.setMoContent(oNewContent);
 					//UNREAL_MOVE_TO|HEALTH:LEFT:FAR
@@ -176,12 +191,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//moPlans_Output.addAll(planSearch());
 
 			// Pass forward the associated memories and perception
-			try {
-				moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
-			} catch (CloneNotSupportedException e) {
-				e.printStackTrace();
-			}
-			moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
+//			try {
+//				moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
+//			} catch (CloneNotSupportedException e) {
+//				e.printStackTrace();
+//			}
+//			moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
 
 			// printData(moActions_Output, moGoalInput,
 			// moExtractedPrediction_IN);
@@ -200,15 +215,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 		// Generate actions for the top goal
-		moPlans_Output = generatePlans_AP(moPerceptionalMesh_IN, moExtractedPrediction_IN, moGoalList_IN);
+		moPlans_Output = generatePlans_AP(moPerceptionalMesh_IN, moGoalList_IN);
 
-		// Pass forward the associated memories and perception
-		try {
-			moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			e.printStackTrace();
-		}
-		moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
+//		// Pass forward the associated memories and perception
+//		try {
+//			moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			e.printStackTrace();
+//		}
+//		moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
 
 	}
 
@@ -263,10 +278,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		String text = "";
 
 		text += toText.listToTEXT("moPlanInput", moPlanInput);
-		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
+		//text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moActions_Output", moPlans_Output);
 		text += toText.listToTEXT("moGoalList_IN", moGoalList_IN);
-		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
+		//text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
 		text += newline;
 		text += "current generated plans:";
@@ -325,17 +340,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poGoalInput, clsWordPresentationMesh poEnvironmentalPerception,
-	    ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
-		moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poGoalInput);
-		moExtractedPrediction_IN = (ArrayList<clsPrediction>) deepCopy(poExtractedPrediction);
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poAssociatedMemories);
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh) poEnvironmentalPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList) {
+		moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
 	}
 	
 	/* (non-Javadoc)
@@ -356,8 +362,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa._v38.interfaces.modules.I6_11_receive#receive_I6_11(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsWordPresentationMesh)
 	 */
 	@Override
-	public void receive_I6_11(ArrayList<clsWordPresentation> poActionCommands,
-			clsWordPresentationMesh poEnvironmentalPerception) {
+	public void receive_I6_11(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		moImaginaryActions_IN = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
 	}
 
@@ -370,7 +375,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_9(moPlans_Output, moAssociatedMemories_OUT, moPerceptionalMesh_OUT);
+		send_I6_9(moPlans_Output);
 
 	}
 
@@ -382,16 +387,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I7_3_send#send_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories,
-	    clsWordPresentationMesh poEnvironmentalPerception) {
+	public void send_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		//((I6_9_receive) moModuleList.get(8)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		//((I6_9_receive) moModuleList.get(20)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
 		//((I6_9_receive) moModuleList.get(21)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
-		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands, poAssociatedMemories, poEnvironmentalPerception);
+		((I6_9_receive) moModuleList.get(29)).receive_I6_9(poActionCommands);
+		((I6_9_receive) moModuleList.get(47)).receive_I6_9(poActionCommands);
+		((I6_9_receive) moModuleList.get(53)).receive_I6_9(poActionCommands);
 
-		putInterfaceData(I6_9_send.class, poActionCommands, poAssociatedMemories);
+		putInterfaceData(I6_9_send.class, poActionCommands);
 
 	}
 
@@ -414,8 +418,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> generatePlans_AP(clsWordPresentationMesh poEnvironmentalPerception,
-	    ArrayList<clsPrediction> poPredictionList, ArrayList<clsWordPresentationMesh> poGoalList) {
+	private ArrayList<clsWordPresentationMesh> generatePlans_AP(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) {
 
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -500,8 +503,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception,
-	    ArrayList<clsPrediction> poPredictionList, ArrayList<clsWordPresentationMesh> poGoalList) {
+	private ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
 		// String oPI = "PERCEIVEDIMAGE"; //This is the perceived image
@@ -1160,7 +1162,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString());
 			
-			clsMeshTools.createAssociationSecondary(oAction, 2, oGoalObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASASSOCIATION.toString(), false);
+			clsMeshTools.createAssociationSecondary(oAction, 2, oGoalObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASASSOCIATION, false);
 			oRetVal.add(oAction);
 		}
 

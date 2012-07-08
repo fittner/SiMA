@@ -14,7 +14,7 @@ package pa._v38.memorymgmt.enums;
  * 01.10.2011, 09:31:08
  * 
  */
-public enum eXPosition {
+public enum ePhiPosition {
 
 	LEFT (-2),
 	MIDDLE_LEFT (-1),
@@ -24,18 +24,18 @@ public enum eXPosition {
 	
 	public int mnPos;
 	
-	eXPosition(int pnPos)
+	ePhiPosition(int pnPos)
 	{
 		this.mnPos = pnPos;
 	}
 	
-	public static eXPosition elementAt(int i)
+	public static ePhiPosition elementAt(int i)
 	{
 		int nMinRange = -2;
 		int nMaxRange = 2;
 		
-		eXPosition oRetVal = null;
-		eXPosition lvls[] = eXPosition.values();
+		ePhiPosition oRetVal = null;
+		ePhiPosition lvls[] = ePhiPosition.values();
 		if ((i>=nMinRange) && (i<=nMaxRange)) {
 			oRetVal = lvls[i-nMinRange];
 		}
@@ -46,7 +46,7 @@ public enum eXPosition {
 	public static int getValue(String poInput) {
 		int oRetVal = -10;
 		
-		for (eXPosition oE : eXPosition.values()) {
+		for (ePhiPosition oE : ePhiPosition.values()) {
 			if (poInput.equals(oE.toString())) {
 				oRetVal = oE.mnPos;
 			}
@@ -55,14 +55,14 @@ public enum eXPosition {
 		return oRetVal;
 	}
 	
-	public static eXPosition elementAt(String poCompareString) {
-		eXPosition oRetVal = null;
+	public static ePhiPosition elementAt(String poCompareString) {
+		ePhiPosition oRetVal = null;
 				
 		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATABLE")==true) {
 			//Eatable is everything around the agent
 			oRetVal = null;
 		} else {
-			eXPosition lvls[] = eXPosition.values();
+			ePhiPosition lvls[] = ePhiPosition.values();
 			for (int i=0;i<lvls.length;i++) {
 				if (poCompareString.equals(lvls[i].toString())) {
 					oRetVal = lvls[i];

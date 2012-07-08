@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -56,6 +57,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
+	private clsShortTermMemory moShortTermMemory;
+	
+	private clsShortTermMemory moEnvironmentalImageStorage;
+	
 	/** TEMP A perceived image */
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	/** TEMP Associated memories */
@@ -89,11 +94,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F21_ConversionToSecondaryProcessForPerception(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);
+		
+        this.moShortTermMemory = poShortTermMemory;
+        this.moEnvironmentalImageStorage = poTempLocalizationStorage;
+
 	}
 
 	/* (non-Javadoc)
@@ -185,6 +194,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		//--- Update short term memory ---//
+		this.moShortTermMemory.updateTimeSteps();
+		
+		
 		//Search for all images from the primary process in the memory
 		//Input: TPM
 		//1. Get all Images of the Mesh
@@ -997,9 +1010,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 						
 						
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASDISTANCE.toString(), false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDISTANCE, false);
 						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION.toString()) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASPOSITION.toString(), false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPOSITION, false);
 						} else {
 							try {
 								throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
@@ -1017,7 +1030,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
 					
 					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)
-					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASAFFECT.toString(), false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
 					
 				}	
 			}
@@ -1037,7 +1050,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(oSubTPM, poProcessedList, pnLevel-1);
 					
 					//Add the subWPM to the WPM structure
-					clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.PARTOF.toString(), false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
 				}
 			}
 		}

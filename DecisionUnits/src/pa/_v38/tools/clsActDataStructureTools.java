@@ -38,7 +38,7 @@ public class clsActDataStructureTools {
 		//Create an act structure for that act
 		clsWordPresentationMesh oPrediction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.PREDICTION.toString(), poIntention.getMoContent()), new ArrayList<clsAssociation>());
 		//Create the association to the intention from the prediction but not the other way around. In that way the mesh is independent of the meta structure
-		clsMeshTools.createAssociationSecondary(oPrediction, 1, poIntention, 0, 1.0, eContentType.INTENTION.toString(), ePredicate.HASINTENTION.toString(), false);
+		clsMeshTools.createAssociationSecondary(oPrediction, 1, poIntention, 0, 1.0, eContentType.INTENTION, ePredicate.HASINTENTION, false);
 	
 		return oPrediction;
 	}
@@ -123,7 +123,7 @@ public class clsActDataStructureTools {
 			oAss.setLeafElement(poNewIntention);
 		} else {
 			//Add new Association
-			clsMeshTools.createAssociationSecondary(poAct, 1, poNewIntention, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASINTENTION.toString(), false);
+			clsMeshTools.createAssociationSecondary(poAct, 1, poNewIntention, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASINTENTION, false);
 		}
 	}
 	
@@ -182,7 +182,7 @@ public class clsActDataStructureTools {
 			oAss.setLeafElement(poNewMoment);
 		} else {
 			//Add new Association
-			clsMeshTools.createAssociationSecondary(poAct, 1, poNewMoment, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASMOMENT.toString(), false);
+			clsMeshTools.createAssociationSecondary(poAct, 1, poNewMoment, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASMOMENT, false);
 		}
 	}
 	
@@ -241,7 +241,7 @@ public class clsActDataStructureTools {
 			oAss.setLeafElement(poNewExpectation);
 		} else {
 			//Add new Association
-			clsMeshTools.createAssociationSecondary(poAct, 1, poNewExpectation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY.toString(), ePredicate.HASEXPECTATION.toString(), false);
+			clsMeshTools.createAssociationSecondary(poAct, 1, poNewExpectation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASEXPECTATION, false);
 		}
 	}
 	

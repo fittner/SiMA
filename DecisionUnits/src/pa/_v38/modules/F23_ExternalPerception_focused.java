@@ -8,21 +8,32 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActionTools;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsPair;
+import pa._v38.tools.clsSecondarySpatialTools;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -34,7 +45,7 @@ import pa._v38.tools.toText;
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBase implements I6_12_receive, I6_3_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
 	
 	/** Perception IN */
@@ -55,11 +66,13 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
-	ArrayList<clsWordPresentationMesh> moDriveGoalList_IN; 
+	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
+	
+	private clsShortTermMemory moShortTimeMemory;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrAvailableFocusEnergy = 5;
@@ -76,11 +89,14 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F23_ExternalPerception_focused(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
-			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);		
+	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+		
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		applyProperties(poPrefix, poProp);	
+		
+		//Get short time memory
+		moShortTimeMemory = poShortTimeMemory;		
 	}
 
 	/* (non-Javadoc)
@@ -196,35 +212,31 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(extractPossibleGoalsFromActs(moAssociatedMemories_IN));
 		
-		//Extract emotions from perception and images
-		
-		//=== Process drive list ===//
-		//Enhance the Drive list with goals from emotions
-		
-		//moDriveGoalList_IN.addAll(extractEmergentGoalsFromEmotions(oGoalList));
-		
-		//Sort the goals
-		//ArrayList<clsWordPresentationMesh> oSortedGoalList = clsGoalTools.sortGoals(oGoalList, moDriveGoalList_IN, mnAffectThresold);
-		//moReachableGoalList_OUT = oSortedGoalList;
-		
 		//--- Select Goals for Perception ---//
-		ArrayList<clsWordPresentationMesh> oFocusOnGoalList = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsPair<Integer,clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Integer,clsWordPresentationMesh>>();
 		
 		//Extract the goals with the strongest emotions from the perceptions
-		oFocusOnGoalList.addAll(extractStrongestPerceptiveGoals(moReachableGoalList_OUT));
+		//oFocusOnGoalList.addAll(extractStrongestPerceptiveGoals(moReachableGoalList_OUT));
+		
+		
 		
 		//Extract the goal from the planning
-		oFocusOnGoalList.addAll(extractPlannedGoals());
+		//oFocusOnGoalList.addAll(extractFilterEntitiesFromAction(moPerceptionalMesh_IN, extractPlannedActionFromSTM()));
 		
 		
 		//=== Filter the perception === //
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		
-		focusPerception(moPerceptionalMesh_OUT, oFocusOnGoalList, nNumberOfAllowedObjects);
+		//Remove all non focused objects
+		focusPerception(moPerceptionalMesh_OUT, new ArrayList<clsWordPresentationMesh>(), nNumberOfAllowedObjects);
 		
 		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
+		
+		
+		//Everything in the short term memory is conscious. Here, the current mental situation is added to the STM
+		moShortTimeMemory.saveToShortTimeMemory(clsMentalSituationTools.createMentalSituation());
 		
 		
 		/*
@@ -299,12 +311,103 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 *
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> extractPlannedGoals() {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	private clsWordPresentationMesh extractPlannedActionFromSTM() {
+		clsWordPresentationMesh oRetVal = null;
 		
+		clsWordPresentationMesh oLastMentalImage = this.moShortTimeMemory.findPreviousSingleMemory();
 		
+		if (oLastMentalImage!=null) {
+			oRetVal = clsMentalSituationTools.getAction(oLastMentalImage);
+		}
 		
 		return oRetVal;
+	}
+	
+	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		
+		//Extract action
+		eAction oAction = eAction.valueOf(poActionWPM.getMoContent());
+		
+		if (oAction.equals(eAction.MOVE_FORWARD)) {
+			//Set focus area in front of the agent, i. e. 
+			//1. all entities in CENTER NEAR have the highest priority, add 1000 points. Only a new high negative can overrule this
+			//2. all entities in MIDDLE_LEFT NEAR and MIDDLE_RIGHT NEAR have the second highest priority 100 
+			//3. all entities in CENTER MEDIUM and CENTER FAR have high priority 
+			
+			//No supportive data structure is needed
+			
+			//Create an image
+			//oResult = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.AREASUBSET, eAction.MOVE_FORWARD.toString());
+			
+			//Extract entities from the single fields and assign them
+			oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.NEAR, ePhiPosition.CENTER, 80));
+			oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.NEAR, ePhiPosition.MIDDLE_LEFT, 60));
+			oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.NEAR, ePhiPosition.MIDDLE_RIGHT, 60));
+			oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.MEDIUM, ePhiPosition.CENTER, 40));
+			oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.FAR, ePhiPosition.CENTER, 20));
+			
+			
+		} else if (oAction.equals(eAction.TURN_LEFT)) {
+			//Set focus area left of the agent
+			//1. MIDDLE_LEFT NEAR
+			//2. LEFT NEAR
+			//3. MIDDLE_LEFT MEDIUM
+			//4. LEFT MEDIUM
+			
+			//No supportive data structure is needed
+			
+		
+		} else if (oAction.equals(eAction.FOCUS_ON)) {
+			//All entities in an image get the highest priority
+			
+			//Use the supportive data structure
+			clsWordPresentationMesh oFocusImage = clsActionTools.getSupportiveDataStructure(poActionWPM);
+			
+			//If there is a supportive data structure
+			try {
+				if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT)==true) {
+					throw new Exception ("F23: Focused action was chosen but no supportive data structure exists");
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
+			//Get all found entities in the perceived image, which matches the entities in the supportive image
+			oResult.addAll(getPerceivedImageEntitiesFromImage(poPerceivedImage ,oFocusImage,70));		//Why 70? because 80 is very high importance. 	
+		}
+		
+		return oResult;
+	}
+	
+	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> getPerceivedImageEntitiesFromImage(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poSupportiveImage, int pnImportance) {
+		//The instances from the perception are added
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		
+		//Get all positions from the supportive image
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oSupportiveImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poSupportiveImage);
+		
+		//Get all positions from the perceived image
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oPerceivedImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poSupportiveImage);		
+		
+		ListIterator<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oPerceivedImageIterator = oPerceivedImageEntityList.listIterator();
+		//Find these entities in the perception
+		for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oSupportiveImageEntity : oSupportiveImageEntityList) {
+			
+			while (oPerceivedImageIterator.hasNext()) {
+				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPerceivedEntity = oPerceivedImageIterator.next();
+				
+				if (oSupportiveImageEntity.a.getMoDS_ID() == oPerceivedEntity.a.getMoDS_ID()) {
+					//Add to result list
+					oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oPerceivedEntity.a));
+					
+					//Delete from this list
+					oPerceivedImageIterator.remove();
+				}
+			}	
+		}
+		
+		return oResult;
 	}
 	
 	/**
@@ -394,30 +497,33 @@ public class F23_ExternalPerception_focused extends clsModuleBase implements I6_
 	 */
 	private void focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poPossibleGoals, int  pnNumberOfAllowedObjects) {
 		
+		//Filter all entities in the perception for these goals.
 		ArrayList<clsWordPresentationMesh> oFilteredGoalList = clsGoalTools.filterGoals(poPossibleGoals, pnNumberOfAllowedObjects);
 		
-		//Filter the PI according to the drive list
+		//Filter the PI according to the goal object list
 		filterImageElements(poPerception, oFilteredGoalList);
 	}
 	
-	private ArrayList<clsWordPresentationMesh> focusMemories(ArrayList<clsWordPresentationMesh> poActMesh) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-		
-		
-		return oRetVal;
-	}
+//	private ArrayList<clsWordPresentationMesh> focusMemories(ArrayList<clsWordPresentationMesh> poActMesh) {
+//		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+//		
+//		
+//		
+//		return oRetVal;
+//	}
 	
 	/**
-	 * Filter a PI for elements, which are associted with the drive goals in a list. 
+	 * Filter a PI for elements, which are associted with the goals in a list. 
 	 * Remove all entities, which are not selected 
+	 * 
+	 * 
 	 * 
 	 * (wendt)
 	 *
 	 * @since 15.08.2011 22:30:44
 	 *
-	 * @param poImage
-	 * @param poGoalList
+	 * @param poImage - The image, which shall be filtered
+	 * @param poGoalList  - All objects, which shall be kept in the perceived image, are put here. 
 	 * @return
 	 */
 	private void filterImageElements(clsWordPresentationMesh poImage, ArrayList<clsWordPresentationMesh> poGoalList) {

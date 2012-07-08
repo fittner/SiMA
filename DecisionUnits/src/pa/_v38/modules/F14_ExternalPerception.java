@@ -28,8 +28,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eXPosition;
-import pa._v38.memorymgmt.enums.eYPosition;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.symbolization.eSymbolExtType;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
@@ -213,12 +213,12 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
 		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
 		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), eXPosition.CENTER.toString()));
+		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), ePhiPosition.CENTER.toString()));
 		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION.toString()), oSelfDataStructure, oPos);
 		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
 		
 		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), eYPosition.NODISTANCE.toString()));
+		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), eRadius.NODISTANCE.toString()));
 		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION.toString()), oSelfDataStructure, oDist);
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
 		

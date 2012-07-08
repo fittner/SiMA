@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -28,7 +29,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
  * 25.06.2011, 09:29:24
  * 
  */
-public class clsAffectTools {
+public class clsImportanceTools {
 	
 	//Added by AW, in order to be able to add drive goals from perception and memories
 	/** The list of possible drives, sorted regarding importance */
@@ -176,10 +177,10 @@ public class clsAffectTools {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
 			
 			//Get the drive
-			String oDriveContent = clsAffectTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the intensity
-			eAffectLevel oAffectLevel = clsAffectTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
@@ -655,6 +656,52 @@ public class clsAffectTools {
 //		
 //		return oRetVal;
 //	}
+	
+	public static void setImportance(clsWordPresentation poImportanceWP, int pnImportance) {
+		poImportanceWP.setMoContent(String.valueOf(pnImportance));
+	}
+	
+	public static void addAbsoulteImportance(clsWordPresentation poImportanceWP, int pnAbsoluteImportance) {
+		int nOriginalImportance = getImportance(poImportanceWP);
+		
+		if (nOriginalImportance<0) {
+			nOriginalImportance =- pnAbsoluteImportance;
+		} else {
+			nOriginalImportance =+ pnAbsoluteImportance;
+		}
+		
+		setImportance(poImportanceWP, nOriginalImportance);
+	}
+	
+	public static int getImportance(clsWordPresentation poImportanceWP) {
+		return Integer.valueOf(poImportanceWP.getMoContent());
+	}
+	
+	public static int getAbsoluteImportanceFromAffectLevel(clsWordPresentation poImportanceWP) {
+		return Math.abs(convertAffectLevelToImportance(getAffectLevel(poImportanceWP)));
+	}
+	
+	private static eAffectLevel getAffectLevel(clsWordPresentation poWP) {
+		return eAffectLevel.valueOf(poWP.getMoContent());
+	}
+	
+	private static int convertAffectLevelToImportance(eAffectLevel poAffectLevel) {
+		int nResult = 0;
+		
+		if (Math.abs(poAffectLevel.mnAffectLevel)==3) {
+			nResult =  80;
+		} else if (Math.abs(poAffectLevel.mnAffectLevel)==2) {
+			nResult =  40;
+		} else if (Math.abs(poAffectLevel.mnAffectLevel)==1) {
+			nResult =  10;
+		}
+		
+		if (poAffectLevel.mnAffectLevel<0) {
+			nResult = nResult * (-1);
+		}
+		
+		return nResult;
+	}
 
 	
 }

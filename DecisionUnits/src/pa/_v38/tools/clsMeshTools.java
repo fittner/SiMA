@@ -45,7 +45,45 @@ public class clsMeshTools {
 	/** This is the max depth, which can be search for (wendt); @since 04.06.2012 15:23:49 */
 	private static int mnMaxLevel = 10;
 	
+	private static clsThingPresentationMesh moNullObjectTPM;
+	private static clsWordPresentationMesh moNullObjectWPM;
+	
 	//=== STATIC VARIBALES --- END ===//
+	
+	public clsMeshTools() {
+		//Create Null-object
+		moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT.toString(), new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
+		setNullObjectWPM(clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>()));
+	}
+	
+	/**
+	 * @since 05.07.2012 21:59:44
+	 * 
+	 * @return the moNullObjectTPM
+	 */
+	public static clsThingPresentationMesh getNullObjectTPM() {
+		return moNullObjectTPM;
+	}
+	
+	/**
+	 * @since 05.07.2012 22:04:13
+	 * 
+	 * @return the moNullObjectWPM
+	 */
+	public static clsWordPresentationMesh getNullObjectWPM() {
+		return moNullObjectWPM;
+	}
+
+	/**
+	 * @since 05.07.2012 22:04:13
+	 * 
+	 * @param moNullObjectWPM the moNullObjectWPM to set
+	 */
+	private static void setNullObjectWPM(clsWordPresentationMesh moNullObjectWPM) {
+		clsMeshTools.moNullObjectWPM = moNullObjectWPM;
+	}
+	
+	
 	
 	//=== SEARCH DATA STRUCTURES IN TPM AND WPM GENERAL --- START ===//
 	
@@ -920,13 +958,13 @@ public class clsMeshTools {
 	 * @param poPredicate
 	 * @param pbSwapDirectionAB
 	 */
-	public static <E extends clsSecondaryDataStructure> void createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, String poContentType, String poPredicate, boolean pbSwapDirectionAB) {
+	public static <E extends clsSecondaryDataStructure> void createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
 		//Create association
 		clsAssociationSecondary oNewAss;
 		if (pbSwapDirectionAB==false) {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementOrigin, poElementTarget, poPredicate, prWeight);
+			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType.toString(), poElementOrigin, poElementTarget, poPredicate.toString(), prWeight);
 		} else {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementTarget, poElementOrigin, poPredicate, prWeight);
+			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType.toString(), poElementTarget, poElementOrigin, poPredicate.toString(), prWeight);
 		}
 		
 		//Process the original Element 
@@ -969,7 +1007,7 @@ public class clsMeshTools {
 			clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(poWPContentType.toString(), poWPContent));
 			
 			//Create and add association
-			clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, poAssContentType.toString(), poAssPredicate.toString(), false);
+			clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
 			
 		} else {
 			((clsSecondaryDataStructure)oAss.getTheOtherElement(poWPM)).setMoContent(poWPContent);
@@ -1840,7 +1878,7 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	public static ArrayList<clsThingPresentationMesh> FilterTPMList(ArrayList<clsThingPresentationMesh> poMeshList, String poContentType, String poContent, boolean bStopAtFirstMatch) {
+	public static ArrayList<clsThingPresentationMesh> filterTPMList(ArrayList<clsThingPresentationMesh> poMeshList, String poContentType, String poContent, boolean bStopAtFirstMatch) {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		for (clsThingPresentationMesh oTPM : poMeshList)
@@ -1880,6 +1918,40 @@ public class clsMeshTools {
 	
 	
 	//=== REMEMBERED IMAGE TOOLS WPM --- START ===//
+	
+	public static clsWordPresentationMesh createWPMImage(ArrayList<clsSecondaryDataStructure> poInput, eContentType poContentType, String poContent) {
+		clsWordPresentationMesh oRetVal = null;
+		
+		clsTriple<Integer, eDataType, String> oWPMIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, poContentType.toString());
+		clsWordPresentationMesh oConstructedImage = new clsWordPresentationMesh(oWPMIdentifier, new ArrayList<clsAssociation>(), poContent);
+		
+		clsMeshTools.addSecondaryDataStructuresToWPMImage(oConstructedImage, poInput);
+		//addTPMToTPMImage(oConstructedImage, poInput);
+		
+		oRetVal = oConstructedImage;
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Add a list of WPM or WP to another WPM as parts of it to its intrinsic structures
+	 * 
+	 * (wendt)
+	 *
+	 * @since 05.12.2011 15:33:14
+	 *
+	 * @param poInput: List of structures, which shall be added
+	 * @param poMesh: The image, which shall receive the structures
+	 */
+	public static void addSecondaryDataStructuresToWPMImage(clsWordPresentationMesh oImage, ArrayList<clsSecondaryDataStructure> oAddList) {
+		//Modify the image by adding additional compontents
+		
+		for (clsSecondaryDataStructure oC : oAddList) {
+			clsMeshTools.createAssociationSecondary(oImage, 1, oC, 0, 1.0, eContentType.PARTOFASSOCIATION, ePredicate.HASPART, true);
+		}
+		
+	}
+	
 	/**
 	 * Get the super structure of a data structure. If the input is its own super structure, then
 	 * return itself.
@@ -1952,6 +2024,9 @@ public class clsMeshTools {
 		
 		return oRetVal;
 	}
+
+
+
 		
 	//=== REMEMBERED IMAGE TOOLS WPM --- END ===//
 	
