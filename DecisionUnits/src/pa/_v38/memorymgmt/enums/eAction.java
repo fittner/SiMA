@@ -29,6 +29,9 @@ public enum eAction {
 	
 	//Internal actions
 	FOCUS_ON,	//Send to F23
-	THINK_ON;	//Send to phantasy
+	THINK_ON,	//Send to phantasy
+	
+	//Composed actions
+	SEARCH1;
 	
 }

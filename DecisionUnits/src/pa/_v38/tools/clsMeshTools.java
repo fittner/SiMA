@@ -45,16 +45,10 @@ public class clsMeshTools {
 	/** This is the max depth, which can be search for (wendt); @since 04.06.2012 15:23:49 */
 	private static int mnMaxLevel = 10;
 	
-	private static clsThingPresentationMesh moNullObjectTPM;
-	private static clsWordPresentationMesh moNullObjectWPM;
+	private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT.toString(), new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
+	private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
 	//=== STATIC VARIBALES --- END ===//
-	
-	public clsMeshTools() {
-		//Create Null-object
-		moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT.toString(), new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
-		setNullObjectWPM(clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>()));
-	}
 	
 	/**
 	 * @since 05.07.2012 21:59:44
@@ -72,15 +66,6 @@ public class clsMeshTools {
 	 */
 	public static clsWordPresentationMesh getNullObjectWPM() {
 		return moNullObjectWPM;
-	}
-
-	/**
-	 * @since 05.07.2012 22:04:13
-	 * 
-	 * @param moNullObjectWPM the moNullObjectWPM to set
-	 */
-	private static void setNullObjectWPM(clsWordPresentationMesh moNullObjectWPM) {
-		clsMeshTools.moNullObjectWPM = moNullObjectWPM;
 	}
 	
 	

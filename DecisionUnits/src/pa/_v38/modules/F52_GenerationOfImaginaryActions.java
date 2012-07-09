@@ -31,14 +31,17 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsActTools;
@@ -172,9 +175,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		if (m_bUseDraftPlanning) {
 			process_draft();
 		} else {
-
+			//Testfocus. If focusing was the last step, then do normal action, else do focus
+			
+			
+			
 			// Generate actions for the top goal
-			moPlans_Output = generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
+			moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN); //generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
 			//FIXME HACK AW: Generate the search pattern
 			
 			//UNREAL IMAGE CORRECTION HACK
@@ -579,7 +585,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// If the image is just a general goal without object, then search
 			if (bActionPlanOK == false) {
 
-				// FIXME: Create search here
 				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
 				oActionContainer.addAll(oActionFromMemoryContainerList);
 
@@ -600,6 +605,35 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		// associated memory
 
 		return oRetVal;
+	}
+	
+	private ArrayList<clsWordPresentationMesh> processGoals_AW(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		//Check FOCUS_ON was the previous action
+		clsWordPresentationMesh oMentalSituation = this.moShortTermMemory.findPreviousSingleMemory();
+		clsWordPresentationMesh oAction = clsMentalSituationTools.getAction(oMentalSituation);
+		if (oAction.getMoContent().equals(eAction.FOCUS_ON)==true) {
+			//If yes, then perform normal external planning
+			oResult.addAll(generatePlans_AW(poEnvironmentalPerception, poGoalList));
+		} else {
+			//If no, create an internal plan FOCUS_ON
+			clsWordPresentationMesh oNewAction = clsActionTools.createAction(eAction.FOCUS_ON.toString());
+			
+			//Associate it with the goal of the supported datastructures
+			
+			//Get the first goal
+			if (poGoalList.isEmpty()==false) {
+				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoalList.get(0));
+				
+				//Associate this structure with the action
+				clsActionTools.setSupportiveDataStructureHashCode(oNewAction, oSupportiveDataStructure);
+			}
+			
+			oResult.add(oNewAction);
+		}		
+		
+		return oResult;
 	}
 
 	/**
@@ -1149,8 +1183,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// Convert the containers into WPM
 		for (clsPlanFragment oPF : moPlans) {
-			clsWordPresentationMesh oAction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ACTION.toString(),
-			    oPF.m_act.m_strAction), new ArrayList<clsAssociation>());
+			clsWordPresentationMesh oAction = clsActionTools.createAction(oPF.m_act.m_strAction);
 			
 			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ENTITY.toString(),oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
 			try {

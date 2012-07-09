@@ -9,6 +9,7 @@ package pa._v38.storage;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
 /**
@@ -26,7 +27,8 @@ public class clsShortTermMemory {
 	private int mnMaxTimeValue; // = 60;
 	/** Number of objects, which can be saved in the short time memory */
 	private int mnMaxMemorySize; // = 7;
-	
+
+	private clsPair<Integer, clsWordPresentationMesh> moNullMemoryObjectWPM;
 	
 	/**
 	 * Constructor, Init short time Memory with an empty arraylist
@@ -42,6 +44,9 @@ public class clsShortTermMemory {
 		moShortTimeMemory = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		mnMaxTimeValue = pnMaxTimeValue;
 		mnMaxMemorySize = pnMaxMemorySize;
+		
+		moNullMemoryObjectWPM = new clsPair<Integer, clsWordPresentationMesh>(-1, clsMeshTools.getNullObjectWPM());
+		
 	}
 	
 	/**
@@ -174,7 +179,7 @@ public class clsShortTermMemory {
 	 * @return
 	 */
 	public clsPair<Integer, clsWordPresentationMesh> findMemory(clsWordPresentationMesh oToBeFound) {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = null;
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;
 		
 		//if (oToBeFound instanceof clsSecondaryDataStructure) {
 		clsWordPresentationMesh oCompareStructure = oToBeFound;
@@ -213,7 +218,7 @@ public class clsShortTermMemory {
 	}
 	
 	private clsWordPresentationMesh findSingleMemoryFromStep(int pnStep) {
-		clsWordPresentationMesh oResult = null;
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
 		
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oMemories = findMemory(pnStep);
 		if (oMemories.isEmpty()==false) {
@@ -360,7 +365,7 @@ public class clsShortTermMemory {
 	 * @return
 	 */
 	private clsPair<Integer, clsWordPresentationMesh> getMostObsoleteMemory() {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = null;	//This value is only null, if the memory is empty
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
 		
 		//Variables, which are used to get the oldest memory. If there are several memories, which are the oldest ones,
 		//then, the memory with the lowest total affect value is selected
@@ -389,7 +394,7 @@ public class clsShortTermMemory {
 	 * @return
 	 */
 	public clsPair<Integer, clsWordPresentationMesh> getNewestMemory() {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = null;	//This value is only null, if the memory is empty
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
 		
 		if (moShortTimeMemory.isEmpty()==false) {
 			oRetVal = moShortTimeMemory.get(0);

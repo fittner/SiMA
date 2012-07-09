@@ -146,7 +146,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveList_Output = clsImportanceTools.sortDriveDemands(getWPAssociations(moDriveList_Input)); 
+		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
 //	/**

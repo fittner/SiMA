@@ -19,12 +19,17 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMentalSituationTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -273,6 +278,19 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 		//get the ref of the current mental situation
 		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
 		
+		//Get the real connection from the reference for the action
+		clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructureFromHashCode(poAction, this.moShortTermMemory);
+		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
+			//get WPMRef
+			ArrayList<clsDataStructurePA> oFoundStructures = clsMeshTools.searchDataStructureOverAssociation(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true, true);
+			
+			if (oFoundStructures.isEmpty()==false) {
+				clsAssociation oAss = (clsAssociation) oFoundStructures.get(0);	
+				clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss);
+			}
+		}
+		
+		//Add the action to the memory
 		clsMentalSituationTools.setAction(oCurrentMentalSituation, poAction);
 	}
 

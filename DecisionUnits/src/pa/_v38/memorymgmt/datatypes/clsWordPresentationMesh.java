@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsPair;
@@ -257,6 +258,19 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public String toString(){
 			String oResult = "::"+this.moDataStructureType+"::";  
 			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+			
+			//Add by AW
+			if (this.moContentType.equals(eContentType.RI.toString()) || this.moContentType.equals(eContentType.PI.toString())) {
+				oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
+				for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+					oResult += oEntry.getLeafElement().toString() + ","; 
+				}
+				
+				oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
+				for (clsAssociation oEntry : moExternalAssociatedContent) {
+					oResult += oEntry.toString() + ","; 
+				}
+			}
 			
 			return oResult; 
 	}

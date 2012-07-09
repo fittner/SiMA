@@ -207,8 +207,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//ArrayList<clsWordPresentationMesh> moExtendedDriveList = moGoalList_IN;
 		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
 		
+		//Sort incoming drives
+		ArrayList<clsWordPresentationMesh> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
+		
 		//From the list of drives, match them with the list of potential goals
-		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, moDriveGoalList_IN, moRuleList);
+		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList);
 		
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {

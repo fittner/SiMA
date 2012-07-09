@@ -251,10 +251,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		processGoals(moReachableGoalList_IN);
 		
 		//=== Sort and evaluate them === //
-		ArrayList<clsWordPresentationMesh> oSortedGoalList = clsGoalTools.sortGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
 		
 		
-		moReachableGoalList_OUT = oSortedGoalList;
+		moReachableGoalList_OUT = moReachableGoalList_IN;
 		
 		//=== Process acts ===//
 		//The act is accessed through the goal.
@@ -315,7 +314,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//1. For each goal, check, which type it is
 			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
-			
+						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
 				try {
@@ -333,7 +332,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				}
 				
 				
-			}
+			} 
 			
 			
 		}
