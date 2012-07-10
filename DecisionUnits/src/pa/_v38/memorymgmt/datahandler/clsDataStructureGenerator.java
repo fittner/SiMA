@@ -114,14 +114,14 @@ public abstract class clsDataStructureGenerator {
 //		return oRetVal;
 //	}
 	
-	public static clsEmotion generateEMOTION(clsTriple <String, clsEmotionType, Object> poContent){
+	public static clsEmotion generateEMOTION(clsTriple <String, clsEmotionType, Object> poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr){
 		clsEmotion oRetVal; 
 		String oContentType = poContent.a;
 		clsEmotionType oContent = poContent.b;
 		
 		double rIntensity = (Double)poContent.c;
 		
-		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, String>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent); 
+		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, String>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent,  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr); 
 		return oRetVal;
 	}
 	

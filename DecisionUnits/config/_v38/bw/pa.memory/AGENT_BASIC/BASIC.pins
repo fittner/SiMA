@@ -1,4 +1,4 @@
-; Tue Jul 03 15:09:49 CEST 2012
+; Thu Jul 05 16:27:09 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -588,6 +588,20 @@
 		[DM%3AREPRESS%3ASTONE])
 	(weight 1.0 1.0))
 
+([AE%3AADAMSBROTHER%3AANGER] of  ASSOCIATIONEMOTION
+
+	(element
+		[EMOTION%3AANGER%3AADAMSBROTHER]
+		[TPM%3AENTITY%3AARSIN%3AADAMSBROTHER])
+	(weight 1.0 1.0))
+
+([AE%3ACAKE%3ALOVE] of  ASSOCIATIONEMOTION
+
+	(element
+		[EMOTION%3ALOVE%3ACAKE]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
+	(weight 1.0 1.0))
+
 ([AFFECT%3AHIGHNEGATIVE] of  AFFECT
 
 	(value 0.0)
@@ -1044,6 +1058,13 @@
 		[WP%3APOSITIVE])
 	(weight 1.0 1.0))
 
+([AW%3ABROTHERSCHNITZEL_BROTHER] of  ASSOCIATIONWP
+
+	(element
+		[TPM%3AIMAGE%3ABROTHERSCHNITZEL]
+		[WPM%3AIMAGE%3ABROTHERSCHNITZEL])
+	(weight 1.0 1.0))
+
 ([AW%3ADISTANCE%3AEATABLE_EATABLE] of  ASSOCIATIONWP
 
 	(element
@@ -1450,20 +1471,13 @@
 		[TPM%3AIMAGE%3AA_BROTHERCOLLISION_L01_I04])
 	(weight 1.0 1.0))
 
-([BASIC_Class5] of  ASSOCIATIONWP
-
-	(element
-		[TPM%3AIMAGE%3ABROTHERSCHNITZEL]
-		[WPM%3AIMAGE%3ABROTHERSCHNITZEL])
-	(weight 1.0 1.0))
-
 ([DM%3AAGGRESSION%3ABODO] of  AGGRESSION
 
 	(cathegory%3Aanal 0.0)
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.1)
+	(quotaOfAffect 0.1)
 	(value "AGGRESSION"))
 
 ([DM%3ABITE%3ABODO_PLEASURE] of  BITE
@@ -1472,7 +1486,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.3)
+	(quotaOfAffect 0.3)
 	(value "BITE"))
 
 ([DM%3ABITE%3ABODO_UNPLEASURE1] of  BITE
@@ -1481,7 +1495,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure -1.0)
+	(quotaOfAffect -1.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3ABODO_UNPLEASURE2] of  BITE
@@ -1490,7 +1504,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure -0.3)
+	(quotaOfAffect -0.3)
 	(value "BITE"))
 
 ([DM%3ABITE%3ACAKEBASIC] of  BITE
@@ -1499,7 +1513,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
-	(pleasure 0.2)
+	(quotaOfAffect 0.2)
 	(value "BITE"))
 
 ([DM%3ABITE%3ACANBASIC] of  BITE
@@ -1508,7 +1522,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3ACARROTBASIC] of  BITE
@@ -1517,7 +1531,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.3)
+	(quotaOfAffect 0.3)
 	(value "BITE"))
 
 ([DM%3ABITE%3AMOTHERS_BREAST] of  BITE
@@ -1526,7 +1540,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.2)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3AREMOTEBOT] of  BITE
@@ -1535,7 +1549,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "BITE"))
 
 ([DM%3ABITE%3ASTONE] of  BITE
@@ -1544,7 +1558,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.3)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "BITE"))
 
 ([DM%3ADEPOSIT%3ASTONE] of  DEPOSIT
@@ -1553,7 +1567,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.5)
-	(pleasure 0.4)
+	(quotaOfAffect 0.4)
 	(value "DEPOSIT"))
 
 ([DM%3ALIBIDO%3AARSIN_BASIC] of  LIBIDO
@@ -1563,7 +1577,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 0.0010)
+	(quotaOfAffect 0.0010)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1574,7 +1588,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 1.0)
+	(quotaOfAffect 1.0)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1585,7 +1599,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 0.5)
+	(quotaOfAffect 0.5)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1596,7 +1610,7 @@
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
 	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "LIBIDO")
 	(value_type "LIBIDO"))
 
@@ -1606,7 +1620,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.6)
+	(quotaOfAffect 0.6)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ABODO] of  NOURISH
@@ -1615,7 +1629,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.4)
+	(quotaOfAffect 0.4)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACAKEBASIC] of  NOURISH
@@ -1624,7 +1638,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.8)
+	(quotaOfAffect 0.8)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACANBASIC] of  NOURISH
@@ -1633,7 +1647,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.1)
+	(quotaOfAffect 0.1)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ACARROTBASIC] of  NOURISH
@@ -1642,7 +1656,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.3)
+	(quotaOfAffect 0.3)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AMOTHERS_BREAST] of  NOURISH
@@ -1651,7 +1665,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
@@ -1660,7 +1674,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.7)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.6)
+	(quotaOfAffect 0.6)
 	(value "NOURISH"))
 
 ([DM%3ANOURISH%3ASTONE] of  NOURISH
@@ -1669,7 +1683,7 @@
 	(cathegory%3Agenital 0.0)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "NOURISH"))
 
 ([DM%3ARELAX] of  RELAX
@@ -1678,7 +1692,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.1)
-	(pleasure 0.9)
+	(quotaOfAffect 0.9)
 	(value "RELAX"))
 
 ([DM%3AREPRESS%3ASTONE] of  REPRESS
@@ -1687,7 +1701,7 @@
 	(cathegory%3Agenital 0.1)
 	(cathegory%3Aoral 0.0)
 	(cathegory%3Aphalic 0.0)
-	(pleasure 0.6)
+	(quotaOfAffect 0.6)
 	(value "REPRESS"))
 
 ([DM%3ASLEEP] of  SLEEP
@@ -1696,8 +1710,28 @@
 	(cathegory%3Agenital 0.4)
 	(cathegory%3Aoral 0.1)
 	(cathegory%3Aphalic 0.1)
-	(pleasure 0.0)
+	(quotaOfAffect 0.0)
 	(value "SLEEP"))
+
+([EMOTION%3AANGER%3AADAMSBROTHER] of  EMOTION
+
+	(emotionIntensity 0.6)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.0)
+	(sourceUnpleasure 0.8)
+	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ALOVE%3ACAKE] of  EMOTION
+
+	(emotionIntensity 0.7)
+	(sourceAggr 0.0)
+	(sourceLibid 0.8)
+	(sourcePleasure 0.8)
+	(sourceUnpleasure 0.0)
+	(value "LOVE")
+	(value_type "BASICEMOTION"))
 
 ([HANDS] of  %3ASTANDARD-CLASS
 

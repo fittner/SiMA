@@ -17,6 +17,8 @@ import pa._v38.interfaces.modules.I5_21_receive;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -53,13 +55,25 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 // four basic categories ("Grundkategorien", see document "Compositions of Emotions")
 	private double mrSystemPleasure = 0.0; 
 	private double mrSystemUnpleasure = 0.0;
-	private double mrSystemLibidUnpleasure = 0.0;
-	private double mrSystemAggrUnpleasure = 0.0;
+	private double mrSystemLibid = 0.0;
+	private double mrSystemAggr = 0.0;
+	
+	// values from drive-track
+	private double mrDrivePleasure = 0.0; 
+	private double mrDriveUnpleasure = 0.0;
+	private double mrDriveLibid = 0.0;
+	private double mrDriveAggr = 0.0;
+	
+	// values from perception-track (triggered emotions)
+	private double mrPerceptionPleasure = 0.0; 
+	private double mrPerceptionUnpleasure = 0.0;
+	private double mrPerceptionLibid = 0.0;
+	private double mrPerceptionAggr = 0.0;
 	
 	private double mrRelativeSystemPleasure = 0.0; 
 	private double mrRelativeSystemUnpleasure = 0.0;
-	private double mrRelativeSystemLibidUnpleasure = 0.0;
-	private double mrRelativeSystemAggrUnpleasure = 0.0;
+	private double mrRelativeSystemLibid = 0.0;
+	private double mrRelativeSystemAggr = 0.0;
 	
 	private double mrMaxValue = 0.0;
 	private double mrRelativeThreshold = 0.75;
@@ -124,27 +138,43 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//1. Get Unpleasure from all drives, and its aggr. and libid parts
 		for (clsDriveMesh oDM: moDrives_IN) {
-			mrSystemUnpleasure += oDM.getMrQuotaOfAffect();
+			mrDriveUnpleasure += oDM.getMrQuotaOfAffect();
 			if(oDM.getMoContentType().equals("LIFE")) {
-				mrSystemLibidUnpleasure += oDM.getMrQuotaOfAffect();
+				mrDriveLibid += oDM.getMrQuotaOfAffect();
 			} else if (oDM.getMoContentType().equals("DEATH")){
-				mrSystemAggrUnpleasure += oDM.getMrQuotaOfAffect();
+				mrDriveAggr += oDM.getMrQuotaOfAffect();
 			}			
 		}
 		
-		mrSystemPleasure = 0.7; // TODO: Wenn F48 Lust in DT4 speichert: moPleasureStorage.send_D4_1();
+		mrDrivePleasure = 0.7; // TODO: Wenn F48 Lust in DT4 speichert: moPleasureStorage.send_D4_1();
+		
+		
+		/* emotions triggered by perception (from memory) influence emotion-generation
+		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emtion is based on) to influence the emotion generation in F63
+		 * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
+		 * 
+		 */
+		
+		getEmotionValuesFromPerception();
+				
 		
 		//double[] rAllValues={mrSystemUnpleasure,mrSystemUnpleasure,mrSystemAggrUnpleasure, mrSystemLibidUnpleasure};
 		
 		//mrMaxValue = getMaxValue(rAllValues);
 
+		// aggregate values from drive- and perception track
+		mrSystemUnpleasure = mrDriveUnpleasure + mrPerceptionUnpleasure;
+		mrSystemPleasure = mrDrivePleasure + mrPerceptionPleasure;
+		mrSystemLibid = mrDriveLibid +mrPerceptionLibid;
+		mrSystemAggr = mrDriveAggr + mrPerceptionAggr;
+		
 		// Normalize to be able to decide which basic category prevails/dominates
 		double orSumValuesPlUnPl = mrSystemUnpleasure + mrSystemPleasure;
-		double orSumValuesLibidAggr =  mrSystemAggrUnpleasure +mrSystemLibidUnpleasure;		
+		double orSumValuesLibidAggr =  mrSystemAggr +mrSystemLibid;		
 		mrRelativeSystemPleasure = mrSystemPleasure/orSumValuesPlUnPl; 
 		mrRelativeSystemUnpleasure = mrSystemUnpleasure/orSumValuesPlUnPl;
-		mrRelativeSystemLibidUnpleasure = mrSystemAggrUnpleasure/orSumValuesLibidAggr;
-		mrRelativeSystemAggrUnpleasure = mrSystemLibidUnpleasure/orSumValuesLibidAggr;
+		mrRelativeSystemLibid = mrSystemAggr/orSumValuesLibidAggr;
+		mrRelativeSystemAggr = mrSystemLibid/orSumValuesLibidAggr;
 
 		/*
 		 * if unpleasure prevails --> only generate unpleasure emotions (always-> FEAR. if agg prevails -> ANGER. if libid prevails -> GRIEF. if no one prevails -> both)
@@ -159,42 +189,44 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// just generate Unpleasure-Emotions
 		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){			
-			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure);
-			if(mrRelativeSystemAggrUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggrUnpleasure/orSumValuesPlUnPl);
+			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
+			if(mrRelativeSystemAggr > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
 			}
-			else if (mrRelativeSystemLibidUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.GRIEF, mrSystemLibidUnpleasure/orSumValuesPlUnPl);
+			else if (mrRelativeSystemLibid > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 			else {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggrUnpleasure/orSumValuesPlUnPl);
-				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibidUnpleasure/orSumValuesPlUnPl);
+				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 		}
 		// just generate Pleasure-Emotions
 		else if (mrRelativeSystemUnpleasure > mrRelativeThreshold) {
-			if (mrRelativeSystemLibidUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure);
+			if (mrRelativeSystemLibid > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
 			// else NO EMOTIONS??? 
 		}
 		// generate both
 		else {
-			if (mrRelativeSystemLibidUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure);
+			if (mrRelativeSystemLibid > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
-			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure);
-			if(mrRelativeSystemAggrUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggrUnpleasure/orSumValuesPlUnPl);
+			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
+			if(mrRelativeSystemAggr > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
 			}
-			else if (mrRelativeSystemLibidUnpleasure > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.GRIEF, mrSystemLibidUnpleasure/orSumValuesPlUnPl);
+			else if (mrRelativeSystemLibid > mrRelativeThreshold) {
+				generateEmotion(clsEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 			else {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggrUnpleasure/orSumValuesPlUnPl);
-				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibidUnpleasure/orSumValuesPlUnPl);
+				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 		}
+		
+		
 		
 		
 	}
@@ -207,11 +239,46 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	/* (non-Javadoc)
 	 *
 	 * @author schaat
+	 * 05.07.2012, 15:48:45
+	 *  emotions triggered by perception (from memory) influence emotion-generation
+	 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emtion is based on) to influence the emotion generation in F63
+	 * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
+	 * 
+	 */
+	private void getEmotionValuesFromPerception() {
+		ArrayList<clsAssociation> oPIAssociatedContent = new ArrayList<clsAssociation>();
+		ArrayList<clsAssociation> oEntityAssociatedContent = new ArrayList<clsAssociation>();
+		oPIAssociatedContent = moPerceptions_IN.getMoAssociatedContent();
+		clsEmotion oEmotionFromPerception = null;
+		for(clsAssociation oPIAss: oPIAssociatedContent) {
+			try {
+				oEntityAssociatedContent = ((clsThingPresentationMesh)oPIAss.getMoAssociationElementB()).getExternalMoAssociatedContent();
+			}
+			catch (Exception e) {
+				System.out.println("No TPM)" + oPIAss.getMoAssociationElementB().toString());
+				e.printStackTrace();
+			}
+			
+			for (clsAssociation oEntityAss: oEntityAssociatedContent) {
+				if (oEntityAss instanceof clsAssociationEmotion) {
+					oEmotionFromPerception = (clsEmotion) oEntityAss.getMoAssociationElementA();
+					mrPerceptionPleasure += oEmotionFromPerception.getMrSourcePleasure(); 
+					mrPerceptionUnpleasure += oEmotionFromPerception.getMrSourceUnpleasure();
+					mrPerceptionLibid += oEmotionFromPerception.getMrSourceLibid();
+					mrPerceptionAggr += oEmotionFromPerception.getMrSourceAggr();
+				}
+			}
+		}
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
 	 * 03.07.2012, 15:48:45
 	 * 
 	 */
-	private void generateEmotion(clsEmotionType poEmotionType, double prEmotionIntensity) {
-		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <String, clsEmotionType, Object>("BASIC_EMOTIONS", poEmotionType, prEmotionIntensity)));
+	private void generateEmotion(clsEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <String, clsEmotionType, Object>("BASIC_EMOTIONS", poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
 	}
 	
 	/* (non-Javadoc)

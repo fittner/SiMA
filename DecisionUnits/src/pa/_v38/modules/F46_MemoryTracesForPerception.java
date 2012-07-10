@@ -465,6 +465,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//These values are now added in F14
 		//assignExternalTPAssociations(oRetVal);
 		
+		assignEmotions(oRetVal);
+		
 		return oRetVal;
 	}	
 	
@@ -499,6 +501,27 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//oSearchResult = search(eDataType.DM, poPerception);
 		
 		search(eDataType.DM, poPerception, oSearchResult);
+		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+		addAssociations(oSearchResult, poPerception);
+		//}
+		//addAssociations(oSearchResult, poPerception);
+	}
+	
+	/**
+	 * Add associations 
+	 * schaat
+	 *
+	 * @since 6.07.2012 11:22:36
+	 *
+	 * @param poPerception
+	 */
+	private void assignEmotions(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		
+		search(eDataType.EMOTION, poPerception, oSearchResult);
 		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
 		addAssociations(oSearchResult, poPerception);
 		//}

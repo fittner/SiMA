@@ -26,16 +26,21 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
 	
-	/* Maybe later
-	 * private double mrSystemPleasure = 0.0; 
-	private double mrSystemUnpleasure = 0.0;
-	private double mrSystemLibidUnpleasure = 0.0;
-	private double mrSystemAggrUnpleasure = 0.0;
-	*/
-	public clsEmotion(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, double prEmotionIntensity, clsEmotionType poContent) {
+	// save the values of those components that the emotion is based on (dependent on the emotion)
+	private double mrSourcePleasure = 0.0; 
+	private double mrSourceUnpleasure = 0.0;
+	private double mrSourceLibid = 0.0;
+	private double mrSourceAggr = 0.0;
+	
+	public clsEmotion(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, double prEmotionIntensity, clsEmotionType poContent, 
+			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
 		super(poDataStructureIdentifier); 
 		mrEmotionIntensity = prEmotionIntensity;
 		moContent = poContent;
+		mrSourcePleasure = prSourcePleasure; 
+		mrSourceUnpleasure = prSourceUnpleasure;
+		mrSourceLibid = prSourceLibid;
+		mrSourceAggr = prSourceAggr ;
 	} 
 
 	/* (non-Javadoc)
@@ -89,6 +94,30 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	public void setMrEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
 	}
+	
+	/**
+	 * @author schaat
+	 * 5.07.2012, 00:50:38
+	 * 
+	 * @return the mrPleasure
+	 */
+	public double getMrSourcePleasure() {
+		return mrSourcePleasure;
+	}
+	
+	public double getMrSourceUnpleasure() {
+		return mrSourceUnpleasure;
+	}
+	
+	public double getMrSourceLibid() {
+		return mrSourceLibid;
+	}
+	
+	public double getMrSourceAggr() {
+		return mrSourceAggr;
+	}
+	
+	
 
 	
 	@Override
@@ -101,11 +130,11 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		for (clsAssociation oEntry : moExternalAssociatedContent) {
 			oResult += oEntry.toString() + ":"; 
 		}
-		/*oResult += " unpl: " + mrSystemUnpleasure; 
-		oResult += " pl: " + mrSystemPleasure;
-		oResult += " libid: " + mrSystemLibidUnpleasure;
-		oResult += " aggr: " + mrSystemAggrUnpleasure;
-		*/
+		oResult += " unpl: " + mrSourceUnpleasure; 
+		oResult += " pl: " + mrSourcePleasure;
+		oResult += " libid: " + mrSourceLibid;
+		oResult += " aggr: " + mrSourceAggr;
+		
 		oResult += " intensity: " + mrEmotionIntensity;
 		
 		
@@ -197,5 +226,19 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	@Override
 	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moExternalAssociatedContent.addAll(poAssociatedDataStructures);  
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
+	 * 05.07.2012, 17:46:07
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.clsDataStructurePA#assignDataStructure(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	public void assignDataStructure(clsAssociation poDataStructurePA) {
+		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
+		oDataStructureList.add(poDataStructurePA); 
+		
+		addExternalAssociations(oDataStructureList);
 	}
 }
