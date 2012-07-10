@@ -203,10 +203,10 @@ public class clsBrainSocket implements itfStepProcessing {
 		oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
 		poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
 		//medium
-		oVisionDataNear.setSensorType(eSensorExtType.VISION_MEDIUM);
+		oVisionDataMedium.setSensorType(eSensorExtType.VISION_MEDIUM);
 		poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataNear);
 		//far
-		oVisionDataNear.setSensorType(eSensorExtType.VISION_FAR);
+		oVisionDataFar.setSensorType(eSensorExtType.VISION_FAR);
 		poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataNear);
 
 	}
