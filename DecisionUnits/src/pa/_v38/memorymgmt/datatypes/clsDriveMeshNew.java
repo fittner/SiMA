@@ -8,17 +8,27 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (schaat) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
  * @author schaat
  * Jul 10, 2012, 1:19:27 PM
  * 
  */
-public class clsDriveMeshNew extends clsPrimaryDataStructure implements itfAssociatedDataStructure{
+public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itfAssociatedDataStructure{
+	
+	private double mrQuotaOfAffect = 0.0;				//0-1
+	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
+	private ePartialDrive moPartialDrive;				//Partialtriebe (A/O/P/G)
+	private clsThingPresentationMesh moDriveObject;		//Triebobjekt
+	private clsThingPresentationMesh moDriveTarget;		//Triebziel
+	private clsThingPresentation moDriveSource;			//Triebquelle
+	private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
 
 	/**
 	 * DOCUMENT (schaat) - insert description 
@@ -27,8 +37,7 @@ public class clsDriveMeshNew extends clsPrimaryDataStructure implements itfAssoc
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMeshNew(
-			clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsDriveMeshNew(	clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
 	}

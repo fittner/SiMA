@@ -13,6 +13,7 @@ package du.enums.pa;
  * 17.10.2009, 17:52:37
  * 
  */
+@Deprecated
 public enum eRepressedContentType {
 	GREEDY,
 	DIRTY,

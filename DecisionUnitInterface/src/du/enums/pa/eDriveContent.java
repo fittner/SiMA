@@ -13,6 +13,7 @@ package du.enums.pa;
  * 28.09.2009, 14:40:22
  * 
  */
+@Deprecated
 public enum eDriveContent {
 	NOURISH,
 	BITE,
