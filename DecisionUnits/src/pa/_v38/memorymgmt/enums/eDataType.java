@@ -26,6 +26,7 @@ public enum eDataType {
 	ASSOCIATIONDM			(0x000000),
 	ASSOCIATIONPRI			(0x000000),
 	ASSOCIATIONSEC			(0x000000),
+	ASSOCIATIONEMOTION		(0x110000),
 	DRIVEDEMAND				(0x000000),
 	DM						(0x000010),
 	TI						(0x000100),
@@ -34,7 +35,7 @@ public enum eDataType {
 	WP						(0x100000),
 	WPM						(0x100000),		//What should be done here
 	PRIINSTANCE				(0x000000), 	//This datatype is necessary in order to store actual experiences
-	EMOTION					(0x000000);
+	EMOTION					(0x001000);
 	
 	
 	public int nBinaryValue; 

@@ -18,6 +18,23 @@ public enum clsEmotionType {
 	GRIEF,
 	LOVE,
 	FEAR;
+	
+	public static clsEmotionType getEmotionType(String poEmotionType) {
+		if (poEmotionType.equals("ANGER")){
+			return clsEmotionType.ANGER;
+		}
+		else if(poEmotionType.equals("GRIEF")){
+			return clsEmotionType.GRIEF;
+		}	
+		else if(poEmotionType.equals("LOVE")){
+			return clsEmotionType.LOVE;
+		}
+		else if(poEmotionType.equals("FEAR")){
+			return clsEmotionType.FEAR;
+		}
+		return null;
+		
+	}
 }
 
 
