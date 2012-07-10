@@ -60,10 +60,10 @@ public class UnrealTestMain {
 		
 		//outputActionProcessor.inicializeARSAgent(ARSAgent);	
 		
-		//GenerateTestVisionData();
+		GenerateTestVisionData();
 		
 		clsBrainSocket ARSBrain = ((clsComplexBody)moARSAgent.getBody()).getBrain();
-		//ARSBrain.setUnrealVisionValues(ARSObjectsList);
+		ARSBrain.setUnrealVisionValues(ARSObjectsList);
 		
 		double health = ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent();
 		//((clsUnrealBody)moARSAgent.getBody()).DestroyAllNutritionAndEnergyForModelTesting();
@@ -145,6 +145,7 @@ public class UnrealTestMain {
 		
 		System.out.printf("\n\n <<< EAT HEALTCH PACK >>>\n");
 		((clsUnrealBody)moARSAgent.getBody()).EatHealthPack();
+	
 		
 		counter = 0;
 		while (counter <300)
@@ -220,43 +221,43 @@ public class UnrealTestMain {
 	   //test cake
     	ARSObject = new clsUnrealSensorValueVision();
     	ARSPosition = new double[2];
-    	ARSObject.setID("CAKE01");
+    	ARSObject.setID("HEALTH01");
     	ARSObject.setType(eEntityType.CAKE);
      	ARSObject.setRadius(1.5);
-    	ARSObject.setAngle(0.3);
+    	ARSObject.setAngle(0.01);
 		ARSObjectsList.add(ARSObject);
 		
-		ARSObject = new clsUnrealSensorValueVision();
-    	ARSPosition = new double[2];
-    	ARSObject.setID("CAN01");
-    	ARSObject.setType(eEntityType.CAN);
-     	ARSObject.setRadius(3.5);
-    	ARSObject.setAngle(0.1);
-		ARSObjectsList.add(ARSObject);
-		
-    	ARSObject = new clsUnrealSensorValueVision();
-    	ARSPosition = new double[2];
-    	ARSObject.setID("CAKE02");
-    	ARSObject.setType(eEntityType.CAKE);
-     	ARSObject.setRadius(1.6);
-    	ARSObject.setAngle(0.4);
-		ARSObjectsList.add(ARSObject);
-		
-    	ARSObject = new clsUnrealSensorValueVision();
-    	ARSPosition = new double[2];
-    	ARSObject.setID("CAKE03");
-    	ARSObject.setType(eEntityType.CAKE);
-     	ARSObject.setRadius(1.7);
-    	ARSObject.setAngle(0.2);
-		ARSObjectsList.add(ARSObject);
-		
-    	ARSObject = new clsUnrealSensorValueVision();
-    	ARSPosition = new double[2];
-    	ARSObject.setID("CAKE04");
-    	ARSObject.setType(eEntityType.CAKE);
-     	ARSObject.setRadius(1.4);
-    	ARSObject.setAngle(0.2);
-		ARSObjectsList.add(ARSObject);
+//		ARSObject = new clsUnrealSensorValueVision();
+//    	ARSPosition = new double[2];
+//    	ARSObject.setID("CAN01");
+//    	ARSObject.setType(eEntityType.CAN);
+//     	ARSObject.setRadius(3.5);
+//    	ARSObject.setAngle(0.1);
+//		ARSObjectsList.add(ARSObject);
+//		
+//    	ARSObject = new clsUnrealSensorValueVision();
+//    	ARSPosition = new double[2];
+//    	ARSObject.setID("CAKE02");
+//    	ARSObject.setType(eEntityType.CAKE);
+//     	ARSObject.setRadius(1.6);
+//    	ARSObject.setAngle(0.4);
+//		ARSObjectsList.add(ARSObject);
+//		
+//    	ARSObject = new clsUnrealSensorValueVision();
+//    	ARSPosition = new double[2];
+//    	ARSObject.setID("CAKE03");
+//    	ARSObject.setType(eEntityType.CAKE);
+//     	ARSObject.setRadius(1.7);
+//    	ARSObject.setAngle(0.2);
+//		ARSObjectsList.add(ARSObject);
+//		
+//    	ARSObject = new clsUnrealSensorValueVision();
+//    	ARSPosition = new double[2];
+//    	ARSObject.setID("CAKE04");
+//    	ARSObject.setType(eEntityType.CAKE);
+//     	ARSObject.setRadius(1.4);
+//    	ARSObject.setAngle(0.2);
+//		ARSObjectsList.add(ARSObject);
       
 		
 		
