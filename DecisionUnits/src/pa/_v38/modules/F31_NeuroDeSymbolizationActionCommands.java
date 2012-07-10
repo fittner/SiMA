@@ -159,7 +159,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				if (oWP == null) 
 					return;
 				
-				String oAction = oWP.getMoContent(); 
+				String oAction = oWP.getMoContent();
+				
+				//--- AW: Correction for the usage of internal actions, which are controlling F23 ---//
+				if (oAction.equals(eAction.FOCUS_ON.toString())==true && lastAction!="") {
+					oAction=lastAction;
+				}
+				
+				//-----------------------------------------------------------------------------------//
 				
 				// mnCounter contains information for how much turns the current action is active
 				if(oAction.equals(lastAction)) { 
@@ -236,7 +243,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add( new clsActionExcrement(1) );
 				} else if (oAction.equals("REPRESS")) {
 					//moActionCommandList_Output.add( new clsActionExcrement(1) );
-					throw new UnknownError("Action " + oAction + " sould not occure in F31!");
+					throw new UnknownError("Action " + oAction + " should not occure in F31!");
 				}
 //TD 2011/04/23: commented the actions PICKUP, DROP, and DANCE. currently, they can never happen - no rules are defined
 /*				else if(oAction.equals("PICKUP")) {
@@ -261,7 +268,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
-				lastAction=oWP.getMoContent();
+				
+				
+				lastAction=oAction;//oWP.getMoContent();
 			}
 		} else {
 			/*

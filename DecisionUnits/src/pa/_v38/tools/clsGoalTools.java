@@ -162,9 +162,28 @@ public class clsGoalTools {
 		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
 			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		} else {
-			oExistingDataStructure = poDataStructure;
+			//Get the association
+			clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true);
+			oAss.setLeafElement(poDataStructure);
 		}
 		
+	}
+	
+	/**
+	 * If there is no supportive datastructure, a data structure can be created from a single entity
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.07.2012 11:02:49
+	 *
+	 * @param poGoal: Goal
+	 * @param poEntity: Entity, which shall be added to an image
+	 */
+	public static void createSupportiveDataStructureFromEntity(clsWordPresentationMesh poGoal, clsWordPresentationMesh poEntity) {
+		//Create Image from entity
+		clsWordPresentationMesh oImageFromEntity = clsMeshTools.createImageFromEntity(poEntity);
+		
+		clsGoalTools.setSupportiveDataStructure(poGoal, oImageFromEntity);
 	}
 	
 	/**
@@ -240,7 +259,7 @@ public class clsGoalTools {
 	 * @param pnNumberOfGoalsToPass
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> sortGoals(
+	public static ArrayList<clsWordPresentationMesh> sortAndEnhanceGoals(
 			ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList,
 			ArrayList<clsWordPresentationMesh> poSortedFilterList, 
 			//int pnNumberOfGoalsToPass,
@@ -257,7 +276,7 @@ public class clsGoalTools {
 			ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPreliminaryGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 			
 			//Extract all remembered goals from the image, which match the drive goal
-			oPreliminaryGoalList.addAll(filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
+			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
 				int nIndex = 0;

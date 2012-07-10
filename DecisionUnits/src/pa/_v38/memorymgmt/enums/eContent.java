@@ -17,5 +17,6 @@ public enum eContent {
 	PI,		//Perceived image
 	RI, 	//Remebered image
 	SELF,
-	UNKNOWN_GOAL;
+	UNKNOWN_GOAL,
+	ENTITY2IMAGE;
 }

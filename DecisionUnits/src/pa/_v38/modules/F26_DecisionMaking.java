@@ -303,7 +303,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 
 		//2. Sort the goals to get the most important goal first
 		//=== Sort and evaluate them === //
-		ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
+		ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
 				
 		
 		

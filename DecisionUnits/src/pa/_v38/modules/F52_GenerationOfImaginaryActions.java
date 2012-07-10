@@ -177,7 +177,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		} else {
 			//Testfocus. If focusing was the last step, then do normal action, else do focus
 			
+			//=======================================================================//
+			//FIXME: Remove this, when deepcopy is removed. Process the goal list
+			//FIXME AW: This is a hack as deepcopy destroys the hashcode. Therefore, everything is saved in the storage and loaded on demand. In this case, getGoal is taken
 			
+			clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
+			clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
+			this.moGoalList_IN = new ArrayList<clsWordPresentationMesh>();
+			this.moGoalList_IN.add(oGoal);
+			//=======================================================================//
 			
 			// Generate actions for the top goal
 			moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN); //generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
@@ -611,9 +619,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		//Check FOCUS_ON was the previous action
-		clsWordPresentationMesh oMentalSituation = this.moShortTermMemory.findPreviousSingleMemory();
-		clsWordPresentationMesh oAction = clsMentalSituationTools.getAction(oMentalSituation);
-		if (oAction.getMoContent().equals(eAction.FOCUS_ON)==true) {
+		clsWordPresentationMesh oPreviousMentalSituation = this.moShortTermMemory.findPreviousSingleMemory();
+		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		
+		if (oPreviousAction.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
 			//If yes, then perform normal external planning
 			oResult.addAll(generatePlans_AW(poEnvironmentalPerception, poGoalList));
 		} else {
@@ -624,6 +633,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			//Get the first goal
 			if (poGoalList.isEmpty()==false) {
+				//If the goal is taken, set the supportive data structure
+				checkAndEnhanceSupportiveDataStructure(poGoalList.get(0));
+				
+				//Get the supportive data structure
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoalList.get(0));
 				
 				//Associate this structure with the action
@@ -634,6 +647,23 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}		
 		
 		return oResult;
+	}
+	
+	private void checkAndEnhanceSupportiveDataStructure(clsWordPresentationMesh poGoal) {
+		//If there is no supportive data structure, create one with the 
+		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoal);
+		clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
+		
+		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())) {
+			//Create supportive structure
+			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, oGoalObject);
+		} else if (oSupportiveDataStructure.getMoContentType().equals(eContentType.PI.toString())) {
+			//Replace the perceived image with the drive object
+			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, clsGoalTools.getGoalObject(poGoal));
+		}
+		
+		
+		
 	}
 
 	/**

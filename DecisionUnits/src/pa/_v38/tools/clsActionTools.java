@@ -10,9 +10,11 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
 
@@ -43,16 +45,20 @@ public class clsActionTools {
 	
 	public static clsWordPresentationMesh getSupportiveDataStructureFromHashCode(clsWordPresentationMesh poAction, clsShortTermMemory poSTM) {
 		clsWordPresentationMesh oRetVal = getNullObjectWPM();
-		
+			
 		//Get the Hashcode
-		if (getSupportiveDataStructure(poAction).getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
+		clsWordPresentationMesh oHashCodeMesh = getSupportiveDataStructure(poAction);
+		if (oHashCodeMesh.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
 			int nHashCode = Integer.valueOf(getSupportiveDataStructure(poAction).getMoContent());
 			
-			ArrayList<clsWordPresentationMesh> oCompleteMentalSituation = clsMeshTools.getAllWPMImages(poSTM.findCurrentSingleMemory(), 5);
+			clsWordPresentationMesh oThisSituation = poSTM.findCurrentSingleMemory();
+			ArrayList<clsPair<String, String>> oFilter = new ArrayList<clsPair<String, String>>();
+			oFilter.add(new clsPair<String, String>("",""));
+			ArrayList<clsDataStructurePA> oCompleteMentalSituation = clsMeshTools.getDataStructureInWPM(oThisSituation, eDataType.WPM, oFilter, false, 5);
 			
-			for (clsWordPresentationMesh oWPM : oCompleteMentalSituation) {
+			for (clsDataStructurePA oWPM : oCompleteMentalSituation) {
 				if (oWPM.hashCode()==nHashCode) {
-					oRetVal = oWPM;
+					oRetVal = (clsWordPresentationMesh) oWPM;
 					break;
 				}
 			}
@@ -62,7 +68,7 @@ public class clsActionTools {
 	}
 	
 	public static void setSupportiveDataStructureHashCode(clsWordPresentationMesh poAction, clsWordPresentationMesh poDataStructure) {
-		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poDataStructure);
+		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poAction);
 		
 		clsWordPresentationMesh oWPMRef = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.SUPPORTIVEDATASTRUCTURE.toString(), String.valueOf(poDataStructure.hashCode())), new ArrayList<clsAssociation>());
 		

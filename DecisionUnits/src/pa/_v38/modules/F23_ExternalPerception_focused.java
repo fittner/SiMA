@@ -301,7 +301,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		if (poActionWPM.getMoContent().equals(eContentType.NULLOBJECT)!=false) {
+		if (poActionWPM.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
 			//Extract action
 			eAction oAction = eAction.valueOf(poActionWPM.getMoContent());
 			
@@ -339,7 +339,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				
 				//If there is a supportive data structure
 				try {
-					if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT)==true) {
+					if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT.toString())==true) {
 						throw new Exception ("F23: Focused action was chosen but no supportive data structure exists");
 					}
 				} catch (Exception e) {
@@ -363,7 +363,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oSupportiveImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poSupportiveImage);
 		
 		//Get all positions from the perceived image
-		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oPerceivedImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poSupportiveImage);		
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oPerceivedImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poPerceivedImage);		
 		
 		ListIterator<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oPerceivedImageIterator = oPerceivedImageEntityList.listIterator();
 		//Find these entities in the perception
