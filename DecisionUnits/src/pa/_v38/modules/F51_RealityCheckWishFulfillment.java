@@ -314,6 +314,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//1. For each goal, check, which type it is
 			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
+			
 						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
@@ -330,8 +331,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 					System.out.println("Error in F51, processGoals: The goal does not have a valid goal object");
 					e.printStackTrace();
 				}
-				
-				
 			} 
 			
 			

@@ -82,7 +82,7 @@ public class clsMeshTools {
 	 *
 	 * @param poInputList
 	 * @param poPredicate
-	 * @param pnMode 
+	 * @param pnMode: 0 = get the other element, 1 = get the root element, 2 = get the leaf element
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
@@ -213,7 +213,7 @@ public class clsMeshTools {
 			//Check if this mesh matches the content and content type filter. If yes, then add the result
 			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
 				//Check if this mesh has this filter
-				boolean bMatchFound = FilterTPM(poMesh, oCTC.a, oCTC.b);
+				boolean bMatchFound = filterTPM(poMesh, oCTC.a, oCTC.b);
 				
 				//As soon as positive, break loop
 				if (bMatchFound==true) {
@@ -278,7 +278,7 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static boolean FilterTPM(clsThingPresentationMesh poMesh, String poContentType, String poContent) {
+	private static boolean filterTPM(clsThingPresentationMesh poMesh, String poContentType, String poContent) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		boolean oRetVal = false;
 		
@@ -1932,7 +1932,7 @@ public class clsMeshTools {
 		//Modify the image by adding additional compontents
 		
 		for (clsSecondaryDataStructure oC : oAddList) {
-			clsMeshTools.createAssociationSecondary(oImage, 1, oC, 0, 1.0, eContentType.PARTOFASSOCIATION, ePredicate.HASPART, true);
+			clsMeshTools.createAssociationSecondary(oImage, 1, oC, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
 		}
 		
 	}
@@ -1956,7 +1956,7 @@ public class clsMeshTools {
 				
 		//If it is an entity, this will work
 		if (oSuperStructure==null) {
-			oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.PARTOF, 1, false);		
+			oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);		
 		}
 		
 		if (oSuperStructure!=null) {
@@ -2010,6 +2010,16 @@ public class clsMeshTools {
 		return oRetVal;
 	}
 
+	public static clsWordPresentationMesh createImageFromEntity(clsWordPresentationMesh poEntity) {
+		clsWordPresentationMesh oResult = null;
+		
+		ArrayList<clsSecondaryDataStructure> oImageContent = new ArrayList<clsSecondaryDataStructure>();
+		oImageContent.add(poEntity);
+		
+		oResult = clsMeshTools.createWPMImage(oImageContent, eContentType.SUPPORTIVEDATASTRUCTURE, eContent.ENTITY2IMAGE.toString());
+		
+		return oResult;
+	}
 
 
 		

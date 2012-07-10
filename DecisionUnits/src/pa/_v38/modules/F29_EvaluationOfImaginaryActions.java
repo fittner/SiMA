@@ -24,13 +24,11 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -250,7 +248,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
                 // if (oC instanceof clsPlanFragment) {
                 // clsPlanFragment plFr = (clsPlanFragment) oC;
                 String strAction = oC.getMoContent(); // plFr.m_act.m_strAction;
-                clsWordPresentationMesh myWP = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(1, eDataType.WPM, strAction), new ArrayList<clsAssociation>(), strAction);
+                clsWordPresentationMesh myWP = oC;//new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(1, eDataType.WPM, strAction), oC.getMoAssociatedContent(), strAction);
 
                 moActionCommandsTemp.add(myWP);
                 // }

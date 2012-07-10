@@ -36,7 +36,7 @@ public class clsEntityTools {
 	 * @return
 	 */
 	public static clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> getPosition(clsWordPresentationMesh poDS) {
-		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oRetVal = null;
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oRetVal = new clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>(poDS, null, null);
 		
 		//Search for xy compontents
 		ePhiPosition X = null;	//default error value
@@ -44,7 +44,7 @@ public class clsEntityTools {
 
 		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE)) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE.toString())) {
 					//Get content of the association
 					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 					if (Y==null) {
@@ -58,7 +58,7 @@ public class clsEntityTools {
 						}
 					}
 				
-				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION)) {
+				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION.toString())) {
 					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 					//Get the X-Part
 					if (X==null) {
@@ -69,7 +69,8 @@ public class clsEntityTools {
 		
 		}
 		
-		oRetVal = new clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>(poDS, X, Y);
+		oRetVal.b = X;
+		oRetVal.c = Y;
 				
 		return oRetVal;
 	}
