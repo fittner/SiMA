@@ -26,7 +26,6 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -165,7 +164,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poTemplateResult, clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
+	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poTemplateResult) {
 		//moGoal_Input = (ArrayList<clsSecondaryDataStructureContainer>)deepCopy(poGoal_Input);
 	}
 
@@ -770,5 +769,6 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
 		// 
 		
-	}	
+	}
+
 }

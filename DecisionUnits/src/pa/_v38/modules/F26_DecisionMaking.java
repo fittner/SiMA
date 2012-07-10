@@ -10,26 +10,26 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.tools.clsAffectTools;
+import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsPair;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
+import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eContentType;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -45,38 +45,41 @@ import pa._v38.memorymgmt.enums.eContentType;
  * 31.07.2011, 14:13:58
  * 
  */
-public class F26_DecisionMaking extends clsModuleBase implements 
-			 I6_2_receive, I6_7_receive, I6_8_send {
+public class F26_DecisionMaking extends clsModuleBaseKB implements 
+			 I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	/** Perception IN */
-	private clsWordPresentationMesh moPerceptionalMesh_IN;
+	//private clsWordPresentationMesh moPerceptionalMesh_IN;
 	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	/** Perception OUT */
-	private clsWordPresentationMesh moPerceptionalMesh_OUT;
+	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
+	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
+	private ArrayList<clsWordPresentationMesh> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
-	private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
+	private ArrayList<clsWordPresentationMesh> moDecidedGoalList_OUT;
 	
+	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN;
 	
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
-	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
-	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
 	
-	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
-	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
-	
-	//AW 20110602 Added expectations, intentions and the current situation
-	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
-	private ArrayList<clsPrediction> moExtractedPrediction_IN;
-
-	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
-	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
+	private clsShortTermMemory moShortTermMemory;
+//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
+//	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
+//	
+//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
+//	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
+//	
+//	//AW 20110602 Added expectations, intentions and the current situation
+//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
+//	private ArrayList<clsPrediction> moExtractedPrediction_IN;
+//
+//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
+//	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 //	/** Associated memories IN */
 //	//private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_IN;
@@ -92,7 +95,11 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	private static String _Delimiter03 = "|";
 	
 	/** Number of goals to pass */
-	private int mnNumberOfGoalsToPass = 3;
+	private int mnNumberOfGoalsToPass = 1;
+	
+	/** Threshold for letting through drive goals */
+	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through
+	
 	
 	private int mnAvoidIntensity = -1;
 	
@@ -107,12 +114,14 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @param poModuleList
 	 * @throws Exception
 	 */
-	public F26_DecisionMaking(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+		
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		//moGoal_Output = new ArrayList<clsSecondaryDataStructureContainer>(); 
+		//Get short time memory
+		moShortTermMemory = poShortTimeMemory;
 	}
 	
 	/* (non-Javadoc)
@@ -126,12 +135,12 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moGoalList_IN", moGoalList_IN);
-		text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
+		text += toText.listToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
+		//text += toText.listToTEXT("moExtractedPrediction_IN", moExtractedPrediction_IN);
 		text += toText.listToTEXT("moRuleList", moRuleList);
-		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.listToTEXT("moGoalList_OUT", moGoalList_OUT);
-		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
+		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
+		//text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
 		text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
 		
@@ -187,34 +196,43 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 *  
 	 * 
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
 		//Get all potential goals
-		ArrayList<clsWordPresentationMesh> oPotentialGoals = extractReachableDriveGoals(moPerceptionalMesh_IN, moExtractedPrediction_IN);
+		//ArrayList<clsWordPresentationMesh> oPotentialGoals = extractReachableDriveGoals(moPerceptionalMesh_IN, moExtractedPrediction_IN);
 		//Add drivedemands from potential goals, which shall be avoided
-		ArrayList<clsWordPresentationMesh> moExtendedDriveList = moGoalList_IN;
-		moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));
+		//ArrayList<clsWordPresentationMesh> moExtendedDriveList = moGoalList_IN;
+		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
+		
+		//Sort incoming drives
+		ArrayList<clsWordPresentationMesh> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		
 		//From the list of drives, match them with the list of potential goals
-		moGoalList_OUT = processGoals(oPotentialGoals, moExtendedDriveList, moRuleList);
+		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList);
 		
-		//Pass PI to Planning
-		try {
-			moPerceptionalMesh_OUT = (clsWordPresentationMesh)moPerceptionalMesh_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
+		//Add the goal to the mental situation
+		if (moDecidedGoalList_OUT.isEmpty()==false) {
+			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 		}
 		
+		
+		
+		//Pass PI to Planning
+//		try {
+//			moPerceptionalMesh_OUT = (clsWordPresentationMesh)moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		
 		//Pass the prediction to the planning
-		moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
+		//moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
 		
 		//Pass the associated memories forward
-		moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>)deepCopy(moAssociatedMemories_IN);
+		//moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>)deepCopy(moAssociatedMemories_IN);
 	}
 
 
@@ -231,20 +249,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(
-			clsWordPresentationMesh poPerception, 
-			ArrayList<clsPrediction> poExtractedPrediction, 
-			ArrayList<clsWordPresentationMesh> poAssociatedMemories,
-			ArrayList<clsWordPresentationMesh> poDriveList) {
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		} 
-		moExtractedPrediction_IN = (ArrayList<clsPrediction>)deepCopy(poExtractedPrediction); 
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemories);
-		moGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList); 
+	public void receive_I6_7(ArrayList<clsWordPresentationMesh> poReachableGoalList) {
+		moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
 	}
 	
 	/* (non-Javadoc)
@@ -264,6 +270,24 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//TODO
 		
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 04.07.2012 10:02:08
+	 * 
+	 * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
+	}
+	
+	private void addGoalToMentalSituation(clsWordPresentationMesh poGoal) {
+		//get the ref of the current mental situation
+		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
+		
+		clsMentalSituationTools.setGoal(oCurrentMentalSituation, poGoal);
+	}
 
 	
 	
@@ -278,127 +302,134 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//1. Process goals with Superego???
 
 		//2. Sort the goals to get the most important goal first
-		ArrayList<clsWordPresentationMesh> oDriveListSorted = poDriveList; //clsAffectTools.sortDriveDemands(poDriveList);
-		//3. Go through the drive list
-		//The first drive is the one with the highest priority
-		for (int i=0; i<oDriveListSorted.size();i++) {
-			clsWordPresentationMesh oDriveGoal = oDriveListSorted.get(i);
-			
-			String oDriveGoalContent = clsGoalTools.getGoalContent(oDriveGoal);
-			eAffectLevel oDriveGoalAffectLevel = clsGoalTools.getAffectLevel(oDriveGoal);
-			clsWordPresentationMesh oDriveGoalObject = clsGoalTools.getGoalObject(oDriveGoal);
-			//String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
-			
-			//Get drive characteristics
-			//ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveCharacteristics = clsAffectTools.getAffectCharacteristics(oDriveGoalContent);
-			
-			//
-			ArrayList<clsPair<Integer, clsWordPresentationMesh>> oReachableGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-			
-			for (clsWordPresentationMesh oPossibleGoal : poPossibleGoalInputs) {
-
-				String oPossibleGoalContent = clsGoalTools.getGoalContent(oPossibleGoal);
-				eAffectLevel oPossibleGoalAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal);
-				clsWordPresentationMesh oPossibleGoalObject = clsGoalTools.getGoalObject(oPossibleGoal);
-				//Get goal content
-				//String oPossibleDriveGoalContent = ((clsWordPresentation)oObjectContianer.getMoDataStructure()).getMoContent();
-				//Get drive characteristics of the possible goals
-				//clsTriple<String, eAffectLevel, String> oReachableGoalCharacteristics = clsAffectTools.getAffectCharacteristics(oPossibleDriveGoalContent);
+		//=== Sort and evaluate them === //
+		ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
 				
-				//If the drive and the object is found, add this content to the list from the possible drive goals from memory and perception
-				if ((oDriveGoalContent.equals(oPossibleGoalContent)) && (oDriveGoalObject.getMoContent().equals(oPossibleGoalObject.getMoContent()))) {
-					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
-					
-					//Set sortorder for this image. A PI is taken earlier than a RI
-					int nCurrentPISortOrder = 0;
-					//get the top image
-					clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(oPossibleGoalObject);
-					if (oTopImage==null) {
-						try {
-							throw new Exception("Error in F26: All objects must be associated with images.");
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
-					if (oTopImage.getMoContentType().contains(eContentType.PI.toString())==true) {
-						nCurrentPISortOrder = 1;
-					}
-					//Get the level of affect
-					int nCurrentAffectLevel = oPossibleGoalAffectLevel.mnAffectLevel;
-					
-					//Create an artificial sort order number
-					//The absolute level is taken, as unpleasure counts as much as pleasure
-					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
-					
-					int nIndex = 0;
-					//Increase index if the list is not empty
-					while((oReachableGoalList.isEmpty()==false) && 
-							(nIndex<oReachableGoalList.size()) &&
-							(oReachableGoalList.get(nIndex).a > nTotalCurrentAffectLevel)) {
-						nIndex++;
-					}
-					
-					oReachableGoalList.add(nIndex, new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
-
-//					//Sortposition
-//					int nSortPosition = oReachableGoalList.size();
-//					for (int nSortIndex=0; nSortIndex<oReachableGoalList.size(); nSortIndex++) {
-//						//Get target Affectlevel
-//						int nAddedAffectLevel = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent());
-//						//Get if target is a PI or RI
-//						int nAddedPISortOrder = 0;
-//						if (((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent().contains("PERCEIVEDIMAGE")==true) {
-//							nAddedPISortOrder = 1;
-//						}
-//						
-//						//Set the sort position
-//						if ((nCurrentAffectLevel>=nAddedAffectLevel) && ((nCurrentPISortOrder >= nAddedPISortOrder))) {
-//							nSortPosition = nSortIndex;
-//							break;
-//						}
-//					}					
+		
+		
+		
+		
+//		ArrayList<clsWordPresentationMesh> oDriveListSorted = poDriveList; //clsAffectTools.sortDriveDemands(poDriveList);
+//		//3. Go through the drive list
+//		//The first drive is the one with the highest priority
+//		for (int i=0; i<oDriveListSorted.size();i++) {
+//			clsWordPresentationMesh oDriveGoal = oDriveListSorted.get(i);
+//			
+//			String oDriveGoalContent = clsGoalTools.getGoalContent(oDriveGoal);
+//			eAffectLevel oDriveGoalAffectLevel = clsGoalTools.getAffectLevel(oDriveGoal);
+//			clsWordPresentationMesh oDriveGoalObject = clsGoalTools.getGoalObject(oDriveGoal);
+//			//String oDriveGoalContent = ((clsWordPresentation)oDriveGoal.getMoDataStructure()).getMoContent();
+//			
+//			//Get drive characteristics
+//			//ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oDriveCharacteristics = clsAffectTools.getAffectCharacteristics(oDriveGoalContent);
+//			
+//			//
+//			ArrayList<clsPair<Integer, clsWordPresentationMesh>> oReachableGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+//			
+//			for (clsWordPresentationMesh oPossibleGoal : poPossibleGoalInputs) {
+//
+//				String oPossibleGoalContent = clsGoalTools.getGoalContent(oPossibleGoal);
+//				eAffectLevel oPossibleGoalAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal);
+//				clsWordPresentationMesh oPossibleGoalObject = clsGoalTools.getGoalObject(oPossibleGoal);
+//				//Get goal content
+//				//String oPossibleDriveGoalContent = ((clsWordPresentation)oObjectContianer.getMoDataStructure()).getMoContent();
+//				//Get drive characteristics of the possible goals
+//				//clsTriple<String, eAffectLevel, String> oReachableGoalCharacteristics = clsAffectTools.getAffectCharacteristics(oPossibleDriveGoalContent);
+//				
+//				//If the drive and the object is found, add this content to the list from the possible drive goals from memory and perception
+//				if ((oDriveGoalContent.equals(oPossibleGoalContent)) && (oDriveGoalObject.getMoContent().equals(oPossibleGoalObject.getMoContent()))) {
+//					//Sort goals: 1: For drive intensity 2: for PI or RI (Remembered Image)
 //					
-//					//Add the container according to the sort position
-//					oReachableGoalList.add(nSortPosition, oObjectContianer);
-				}
-			}
+//					//Set sortorder for this image. A PI is taken earlier than a RI
+//					int nCurrentPISortOrder = 0;
+//					//get the top image
+//					clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(oPossibleGoalObject);
+//					if (oTopImage==null) {
+//						try {
+//							throw new Exception("Error in F26: All objects must be associated with images.");
+//						} catch (Exception e) {
+//							// TODO (wendt) - Auto-generated catch block
+//							e.printStackTrace();
+//						}
+//					}
+//					if (oTopImage.getMoContentType().contains(eContentType.PI.toString())==true) {
+//						nCurrentPISortOrder = 1;
+//					}
+//					//Get the level of affect
+//					int nCurrentAffectLevel = oPossibleGoalAffectLevel.mnAffectLevel;
+//					
+//					//Create an artificial sort order number
+//					//The absolute level is taken, as unpleasure counts as much as pleasure
+//					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
+//					
+//					int nIndex = 0;
+//					//Increase index if the list is not empty
+//					while((oReachableGoalList.isEmpty()==false) && 
+//							(nIndex<oReachableGoalList.size()) &&
+//							(oReachableGoalList.get(nIndex).a > nTotalCurrentAffectLevel)) {
+//						nIndex++;
+//					}
+//					
+//					oReachableGoalList.add(nIndex, new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
+//
+////					//Sortposition
+////					int nSortPosition = oReachableGoalList.size();
+////					for (int nSortIndex=0; nSortIndex<oReachableGoalList.size(); nSortIndex++) {
+////						//Get target Affectlevel
+////						int nAddedAffectLevel = clsAffectTools.getDriveIntensityAsInt(((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent());
+////						//Get if target is a PI or RI
+////						int nAddedPISortOrder = 0;
+////						if (((clsSecondaryDataStructure)oReachableGoalList.get(nSortIndex).getMoDataStructure()).getMoContent().contains("PERCEIVEDIMAGE")==true) {
+////							nAddedPISortOrder = 1;
+////						}
+////						
+////						//Set the sort position
+////						if ((nCurrentAffectLevel>=nAddedAffectLevel) && ((nCurrentPISortOrder >= nAddedPISortOrder))) {
+////							nSortPosition = nSortIndex;
+////							break;
+////						}
+////					}					
+////					
+////					//Add the container according to the sort position
+////					oReachableGoalList.add(nSortPosition, oObjectContianer);
+//				}
+//			}
 			
 			//Add all goals to this list
-			for (clsPair<Integer, clsWordPresentationMesh> oReachableGoal : oReachableGoalList) {
+			for (clsWordPresentationMesh oReachableGoal : oSortedReachableGoalList) {
 				if (nAddedGoals<mnNumberOfGoalsToPass) {
-					oRetVal.add(oReachableGoal.b);
+					oRetVal.add(oReachableGoal);
 					nAddedGoals++;
 				} else {
 					break;
 				}
 
 			}
-			
-			//If there are no goals, take special actions
-			if (oRetVal.size()>=mnNumberOfGoalsToPass) {
-				//Remove all goals > 3
-				
-				break;	
-				//-3 = HIGHNEGATIVE or +3 HIGHPOSITIVE then, special treatment
-			} else {
-				//If the absolute intensity is equal to HIGHXXX, then ...
-				if ((Math.abs(oDriveGoalAffectLevel.mnAffectLevel)>=1) && (oReachableGoalList.isEmpty()==true)) {
-					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
-					if (i+1<oDriveListSorted.size()) {
-						//if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
-							//If the Drive intensity is very high and the following drives do not have an Affect=HIGHPOS or HIGHNEG, 
-							//then a drive goal must be constructed without an object
-							clsWordPresentationMesh oNecessaryDrive = oDriveGoal;
-							//This container is always != null
-							oRetVal.add(oNecessaryDrive);
-							//break;
-							nAddedGoals++;
-						//}
-					} 
-				}
-			}
-		}
+//			
+//			//If there are no goals, take special actions
+//			if (oRetVal.size()>=mnNumberOfGoalsToPass) {
+//				//Remove all goals > 3
+//				
+//				break;	
+//				//-3 = HIGHNEGATIVE or +3 HIGHPOSITIVE then, special treatment
+//			} else {
+//				//If the absolute intensity is equal to HIGHXXX, then ...
+//				if ((Math.abs(oDriveGoalAffectLevel.mnAffectLevel)>=1) && (oReachableGoalList.isEmpty()==true)) {
+//					//If the drive does have Affect = HIGHPOS or HIGHNEG, if the next drive does exist and also have an affect = VERY HIGH
+//					if (i+1<oDriveListSorted.size()) {
+//						//if (clsAffectTools.getDriveIntensityAsInt(((clsWordPresentation)oDriveListSorted.get(i+1).getMoDataStructure()).getMoContent())<3) {
+//							//If the Drive intensity is very high and the following drives do not have an Affect=HIGHPOS or HIGHNEG, 
+//							//then a drive goal must be constructed without an object
+//							clsWordPresentationMesh oNecessaryDrive = oDriveGoal;
+//							//This container is always != null
+//							oRetVal.add(oNecessaryDrive);
+//							//break;
+//							nAddedGoals++;
+//						//}
+//					} 
+//				}
+//			}
+//		}
 		return oRetVal;
 	}
 	
@@ -557,7 +588,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		//get the secondary structure
 		ArrayList<clsWordPresentationMesh> oDriveGoals = new ArrayList<clsWordPresentationMesh>();
 		
-		oDriveGoals = clsAffectTools.getWPMDriveGoals(poExternalPerception, false);
+		oDriveGoals = clsImportanceTools.getWPMDriveGoals(poExternalPerception, false);
 		
 		oRetVal.addAll(oDriveGoals);
 	
@@ -959,7 +990,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 		
 		for (clsWordPresentationMesh oGoal : poPotentialGoalList) {
 			String oGoalContent = clsGoalTools.getGoalContent(oGoal); //((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent();
-			int nDriveIntensity = clsAffectTools.getDriveIntensityAsInt(clsGoalTools.getAffectLevel(oGoal));
+			int nDriveIntensity = clsImportanceTools.getDriveIntensityAsInt(clsGoalTools.getAffectLevel(oGoal));
 			
 			if (nDriveIntensity<=mnAvoidIntensity) {
 				//String oDriveDemand = clsAffectTools.convertDriveGoalToDriveDemand(oGoalContent);
@@ -1011,7 +1042,7 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 */
 	@Override
 	protected void send() {
-		send_I6_8(moGoalList_OUT, moPerceptionalMesh_OUT, moExtractedPrediction_OUT, moAssociatedMemories_OUT);
+		send_I6_8(moDecidedGoalList_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1022,10 +1053,10 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsWordPresentationMesh> poGoal_Output, clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsPrediction> poExtractedPrediction, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
-		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poGoal_Output, poEnvironmentalPerception, poExtractedPrediction, poAssociatedMemories);
+	public void send_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList_OUT) {
+		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT);
 		
-		putInterfaceData(I6_8_send.class, poGoal_Output, poExtractedPrediction, poAssociatedMemories);
+		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -1078,6 +1109,8 @@ public class F26_DecisionMaking extends clsModuleBase implements
 	public void setDescription() {
 		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
+
+
 
 
 	

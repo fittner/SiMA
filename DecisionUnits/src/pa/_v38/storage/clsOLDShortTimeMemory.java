@@ -23,7 +23,7 @@ import pa._v38.tools.clsPair;
  * 31.08.2011, 07:12:10
  * 
  */
-public class clsShortTimeMemory {
+public class clsOLDShortTimeMemory {
 	/** The variable for the short time memory */
 	private ArrayList<clsPair<Integer, Object>> moShortTimeMemory;
 	
@@ -43,7 +43,7 @@ public class clsShortTimeMemory {
 	 * @since 31.08.2011 07:15:02
 	 *
 	 */
-	public clsShortTimeMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
+	public clsOLDShortTimeMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
 		moShortTimeMemory = new ArrayList<clsPair<Integer, Object>>();
 		mnMaxTimeValue = pnMaxTimeValue;
 		mnMaxMemorySize = pnMaxMemorySize;

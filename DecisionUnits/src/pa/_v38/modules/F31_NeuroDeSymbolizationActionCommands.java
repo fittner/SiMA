@@ -28,6 +28,7 @@ import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.tools.toText;
 
 /**
@@ -254,6 +255,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 						mnCounter = 0;
 					} 
+				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
+					//Do nothing
 				}
 				else {
 					throw new UnknownError("Action " + oAction + " not known");

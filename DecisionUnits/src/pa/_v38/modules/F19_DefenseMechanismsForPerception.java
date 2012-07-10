@@ -38,6 +38,10 @@ import pa._v38.tools.toText;
  * Defends forbidden perceptions. Super-Ego (F7, F55) sends a list with forbidden perceptions to F19. F19 decides whether to defend the forbidden perceptions or not.
  * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
+ * Implemented defense mechanisms for perception:
+ * - denial (Verdr‰ngung)
+ * - idealization, depreciation (Idealisierung, Entwertung): only positive (negative) associations are perceived with an object
+ * 
  * @author gelbard
  * 07.05.2012, 14:35:08
  * 
@@ -166,16 +170,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
+	 * @author gelbard
 	 * 11.08.2009, 16:28:09
 	 * 
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
-	 */
-	@SuppressWarnings("unchecked")
-	/* Comment TD 20110622: also deepCopy ist ganz ganz ganz ganz ganz Ö ganz boeses voodoo. 
-	 * In diesem fall ist das problem, dass du 2 cast in einem machst/machen muﬂt. 
-	 * Und der ist so nicht checkbar (afaik). In diesem fall einfach suppresswarning machen 
-	 * (ist bei deepcopy nicht schlimm ñ kommt innerhalb der funktion dauernd vor).
 	 */
 	@Override
 	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
@@ -186,8 +184,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		//FIXME AW 20110522: Why is this warning present???
-		//moAssociatedMemories_Input   = (ArrayList<clsPrimaryDataStructureContainer>) deepCopy(poAssociatedMemories);
 		
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 	}
@@ -273,7 +269,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
-			 deny_perception (moForbiddenPerceptions_Input);
+		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
@@ -288,7 +284,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
-	private void deny_perception (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Denial (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
@@ -298,7 +294,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			String oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
-			int i = 0;
 			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
@@ -310,106 +305,130 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
-			
-//			for(clsThingPresentationMesh oContainer : oImages){
-//				
-//				// check a TPM
-//				if(oContainer instanceof clsThingPresentationMesh){
-//					
-//					// check if it is for example an ARSin
-//					if(oContainer.getMoContentType().equalsIgnoreCase(oContentType)){
-//						if(((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoContent().equalsIgnoreCase(oContent)){
-//							
-//							// perception found
-//						    break;
-//						}	
-//					}					
-//				}
 				
-				// or oContainer can contain a thing-presentation
-				// in this case
-				// check a TP
-			
+			// or oContainer can contain a thing-presentation
+			// in this case
+			// check a TP
+		
 			//The attribute list is clsAssociationAttribute
 
 			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
+			}	
+		
+			// if Perception found -->	
+			if (oFoundObject!=null) {
+				//Delete object from the perception
+				
+				if (oFoundObject instanceof clsThingPresentationMesh)
+				clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
 			}
-				
-//			else if(oContainer.getMoDataStructure() instanceof clsThingPresentation){
-//					
-//					// check if it is for example an ARSin
-//					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-//						if(((String) ((clsThingPresentation)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
-//							
-//							// perception found
-//						    break;
-//						}	
-//					}					
-//				}
-				
-				
-				// or oContainer can contain a template image
-				// in this case
-				// check a TI
-//				else if(oContainer.getMoDataStructure() instanceof clsTemplateImage){
-//					
-//					// check if it is for example an ARSin
-//					if(oContainer.getMoDataStructure().getMoContentType().equalsIgnoreCase(oContentType)){
-//						if(((String) ((clsTemplateImage)oContainer.getMoDataStructure()).getMoContent()).equalsIgnoreCase(oContent)){
-//							
-//							// perception found
-//						    break;
-//						}	
-//					}					
-//				}
-				
-//				i++;
-				
-		//	}	
-		
-		// if Perception found -->	
-		if (oFoundObject!=null) {
-			//Delete object from the perception
-			
-			if (oFoundObject instanceof clsThingPresentationMesh)
-			clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
-		}
-		
-		
-//			if (i < moAssociatedMemories_Output.size()) {				
-//				// --> remove Perception i from output list
-//				moAssociatedMemories_Output.remove(i);
-//			}
 		}
 	}
 
+	
 	/* (non-Javadoc)
 	 *
 	 * @author gelbard
-	 * 20.09.2011, 16:16:03
+	 * 06.07.2012, 12:23:49
 	 * 
-	 * initializes the blocked content storage DT2_BlockedContentStorage with images
+	 * Defense mechanism idealization (perceives only the good properties of an object and denies the negative properties)
+	 * 
 	 */
-//	private void fillBlockedContentStorageWithTestData (){
-//		//Search for matches for the input image
-//		double mrMatchThreshold = 1.0;
-//		
-//		// contains images for initialization of DT2_BlockedContentStorage
-//		ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
-//		
-//		// String for searching for content type from the storage of images to libido
-//		final String oBlockedContentImageString = "IMAGE:BLOCKEDCONTENT";
-//		
-//		//Find matching images for the input image
-//		searchContainer(null, oSearchResultContainer, oBlockedContentImageString, mrMatchThreshold);
-//
-//		for (clsPair<Double,clsDataStructureContainer> oInitImage : oSearchResultContainer) {
-//			moBlockedContentStorage.add((clsPrimaryDataStructureContainer) oInitImage.b);
-//		}
-//	}
+	private void defenseMechanism_Idealization (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+		ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
+		clsThingPresentationMesh oNegativeObject;
+		
+		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "RED")); 
+		oListWithNegativeObjects.add(oNegativeObject);
+		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "ROUND")); 
+		oListWithNegativeObjects.add(oNegativeObject);
+		oNegativeObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "BOESE_SCHWIEGERMUTTER")); 
+		oListWithNegativeObjects.add(oNegativeObject);
+
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithNegativeObjects);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 06.07.2012, 13:23:49
+	 * 
+	 * Defense mechanism depreciation (perceives only the bad properties of an object and denies the positive properties)
+	 * 
+	 */
+	private void defenseMechanism_Depreciation (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+		ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
+		clsThingPresentationMesh oPositiveObject;
+		
+		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "GREEN")); 
+		oListWithPositiveObjects.add(oPositiveObject);
+		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "FLAT")); 
+		oListWithPositiveObjects.add(oPositiveObject);
+		oPositiveObject = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SONNE")); 
+		oListWithPositiveObjects.add(oPositiveObject);
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithPositiveObjects);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 06.07.2012, 12:23:49
+	 * 
+	 * deletes all positive (or all negative) associations in a TPM
+	 * is needed for defense mechanism idealization/depreciation
+	 * 
+	 */
+	private void deleteAssociationsFromPerception (ArrayList<clsPair<String, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
+		
+	   	// If no perception in list to defend return immediately (otherwise NullPointerException)
+	   	if (oForbiddenPerceptions == null) return;
+		
+		// check list of forbidden perceptions
+		for(clsPair<String, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			String oContentType = oOneForbiddenPerception.a;
+			String oContent     = oOneForbiddenPerception.b;
+			
+			clsDataStructurePA oFoundObject = null;
+			
+			// search in perceptions
+			//Get all images and objects in the mesh
+			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
+			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
+			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			if (oTPMList.isEmpty()==false) {
+				oFoundObject = oTPMList.get(0);
+			}
+				
+			// or oContainer can contain a thing-presentation
+			// in this case
+			// check a TP
+		
+			//The attribute list is clsAssociationAttribute
+
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
+			if (oAttributeList.isEmpty()==false) {
+				oFoundObject = oAttributeList.get(0);
+			}	
+		
+			// if Perception found -->	
+			if (oFoundObject!=null) {
+				// Search all associations of an object and delete all negative (or positive) associations.
+				// The negative (or positive) associations are listed in oListWithPositiveOrNegativeObjects
+				
+				if (oFoundObject instanceof clsThingPresentationMesh)
+				//clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
+					for(clsThingPresentationMesh oPositiveOrNegativeObject : oListWithPositiveOrNegativeObjects) {
+						clsMeshTools.deleteAssociationInObject((clsThingPresentationMesh) oFoundObject, oPositiveOrNegativeObject);
+					}
+			}
+		}
+	}
+
 	
 	/**
 	 * This function load all images with the content type "IMAGE:REPRESSED" from the knowledgebase. Those images are defined in

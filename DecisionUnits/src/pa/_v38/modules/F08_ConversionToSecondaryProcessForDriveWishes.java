@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import pa._v38.tools.clsAffectTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -146,7 +146,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveList_Output = clsAffectTools.sortDriveDemands(getWPAssociations(moDriveList_Input)); 
+		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
 //	/**
@@ -224,10 +224,10 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			clsWordPresentation oAffect = convertDriveMeshToWP(oPair.b);
 			
 			//Get the drive content
-			String oDriveContent = clsAffectTools.getDriveType(oAffect.getMoContent());
+			String oDriveContent = clsImportanceTools.getDriveType(oAffect.getMoContent());
 			
 			//Get the affect level
-			eAffectLevel oAffectLevel = clsAffectTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
+			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
 			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
@@ -354,7 +354,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	public void send_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
 		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
-		//((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
+		((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
 		
 		putInterfaceData(I6_3_send.class, poDriveList);
 	}

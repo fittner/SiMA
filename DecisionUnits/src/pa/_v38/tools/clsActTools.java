@@ -586,7 +586,7 @@ public class clsActTools {
 	 */
 	public static void setReduceAffect(clsSecondaryDataStructureContainer poIntention, clsSecondaryDataStructureContainer poGoalContainer, double prReduceFactorForDrives, double rTemporalProgress, double rConfirmationProgress) {
 		//String oDriveType = clsAffectTools.getDriveType(((clsSecondaryDataStructure)poGoalContainer.getMoDataStructure()).getMoContent());
-		eAffectLevel oDriveIntensityAsAffect = clsAffectTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)poGoalContainer.getMoDataStructure()).getMoContent());
+		eAffectLevel oDriveIntensityAsAffect = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)poGoalContainer.getMoDataStructure()).getMoContent());
 		double rDriveIntensity = (double)oDriveIntensityAsAffect.mnAffectLevel;
 		//6. Calculate the reduce intensity
 		if (rConfirmationProgress>1 || rTemporalProgress > 1) {

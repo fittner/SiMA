@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import pa._v38.storage.clsShortTimeMemory;
+import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -39,9 +39,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eSupportDataType;
-import pa._v38.memorymgmt.enums.eXPosition;
-import pa._v38.memorymgmt.enums.eYPosition;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
 
 import config.clsProperties;
 import du.enums.eDistance;
@@ -71,14 +70,14 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
 	
-	/* Internal */
-	private clsThingPresentationMesh moEnhancedPerception;
+	///* Internal */
+	//private clsThingPresentationMesh moEnhancedPerception;
 	
 	/** Threshold for matching for associated images */
 	private double mrMatchThreshold = 0.1;
 	
 	/** (wendt) Localitzation of things for the primary process. With the localization, memories can be triggered; @since 15.11.2011 16:23:43 */
-	private clsShortTimeMemory moTempLocalizationStorage;
+	private clsShortTermMemory moTempLocalizationStorage;
 
 	/* Module-Parameters */
 	
@@ -96,7 +95,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTimeMemory poTempLocalizationStorage) throws Exception {
+								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);
@@ -117,7 +116,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
-		text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
+		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
 		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
@@ -190,18 +189,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			}
 		}
 		
-		try {
-			moEnhancedPerception = enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);
 		
 		//TPMs are added to the perceived image
-		executePsychicSpreadActivation(moEnhancedPerception, 0.3, new ArrayList<clsDriveMesh>());
+		executePsychicSpreadActivation(oPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());
 		//deprecated enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
-		moPerceptionalMesh_OUT = moEnhancedPerception;
+		moPerceptionalMesh_OUT = oPerceivedImage;
 		
 	}
 	
@@ -393,13 +387,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @return
 	 * @throws CloneNotSupportedException 
 	 */
-	private clsThingPresentationMesh enhancePerceptionWithLocalization(clsThingPresentationMesh poPI, clsShortTimeMemory poTempLocalizationStorage) throws CloneNotSupportedException {
+	private void enhancePerceptionWithLocalization(clsThingPresentationMesh poPI, clsShortTermMemory poTempLocalizationStorage) {
 		//Clone the PI
 		//clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.cloneGraph();
-		clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.clone();
 		
 		//Get all objects from the localization
-		ArrayList<clsPair<Integer, Object>> oInvisibleObjects = poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
+		ArrayList<clsPair<Integer, Object>> oInvisibleObjects = new ArrayList<clsPair<Integer, Object>>();//poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
 		ArrayList<clsThingPresentationMesh> oPTPMList = new ArrayList<clsThingPresentationMesh>();
 		
 		for (clsPair<Integer, Object> oPair : oInvisibleObjects) {
@@ -407,7 +400,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			clsPrimaryDataStructureContainer oPContainer = ((clsDataStructureContainerPair)oPair.b).getPrimaryComponent();
 			clsPrimaryDataStructure oSavedDS = (clsPrimaryDataStructure) oPContainer.getMoDataStructure();
 			//Check if this object can be found in the perception
-			clsPrimaryDataStructure oFoundObject = (clsPrimaryDataStructure) clsDataStructureTools.containsInstanceType(oSavedDS, oRetVal);
+			clsPrimaryDataStructure oFoundObject = (clsPrimaryDataStructure) clsDataStructureTools.containsInstanceType(oSavedDS, poPI);
 			//If no such object was found, then add the object to the template image
 			if (oFoundObject==null) {
 				//Get the associations
@@ -434,9 +427,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		}
 		
 		//Add the containerlist to the PI
-		clsMeshTools.addTPMToTPMImage(oRetVal, oPTPMList);	
+		clsMeshTools.addTPMToTPMImage(poPI, oPTPMList);	
 		
-		return oRetVal;
+		//return oRetVal;
 	}
 	
 	/**
@@ -775,7 +768,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Get all positions in the image
-		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oExistingPositions = clsPrimarySpatialTools.getImageObjectPositions(poImage);
+		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oExistingPositions = clsPrimarySpatialTools.getImageEntityPositions(poImage);
 		
 		//Generate a matrix of all possible positions
 		//ArrayList<String> oDistance = new ArrayList<String>();
@@ -784,19 +777,19 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//ArrayList<String> oPosition = new ArrayList<String>();
 		//oPosition.addAll(Arrays.asList("RIGHT","MIDDLE_RIGHT","CENTER","MIDDLE_LEFT","LEFT"));
 		
-		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oAllPositions = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
-		for (int i=1; i< eYPosition.values().length;i++) {
-			for (int j=0; j< eXPosition.values().length;j++) {
-				oAllPositions.add(new clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>(null, eXPosition.values()[j], eYPosition.values()[i]));
+		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oAllPositions = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
+		for (int i=1; i< eRadius.values().length;i++) {
+			for (int j=0; j< ePhiPosition.values().length;j++) {
+				oAllPositions.add(new clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>(null, ePhiPosition.values()[j], eRadius.values()[i]));
 			}
 		}
 		
-		ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>> oNewPositions = new ArrayList<clsTriple<clsThingPresentationMesh, eXPosition, eYPosition>>();
+		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oNewPositions = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
 		
 		//Find all Objects in the oAllPositions and add them to oRemovePositions
-		for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oAllPosPair: oAllPositions) {
+		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oAllPosPair: oAllPositions) {
 			boolean bFound = false;
-			for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oExistPosPair : oExistingPositions) {
+			for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oExistPosPair : oExistingPositions) {
 				try { 
 					if ((oExistPosPair.b.equals(oAllPosPair.b)) && (oExistPosPair.c.equals(oAllPosPair.c))) {
 						bFound = true;
@@ -839,7 +832,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//for each position, fill it with a container
 		clsThingPresentationMesh oEmptySpaceTPM;
-		for (clsTriple<clsThingPresentationMesh, eXPosition, eYPosition> oPosPair : oNewPositions) {
+		for (clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosPair : oNewPositions) {
 			//Create a new TP-Container
 			try {
 				((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());

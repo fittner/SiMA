@@ -16,7 +16,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivationNode;
 import pa._v38.modules.clsModuleBaseKB;
-import pa._v38.tools.clsAffectTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
@@ -131,7 +131,7 @@ public class clsPsychicSpreadActivation {
 			//Get the Image itself
 			clsThingPresentationMesh oImage = oPair.a;
 			//Get the average affect of the image
-			double oAffect = clsAffectTools.calculateAverageImageAffect(oImage, poDriveMeshFilter);
+			double oAffect = clsImportanceTools.calculateAverageImageAffect(oImage, poDriveMeshFilter);
 			//Calculate the psychic potential 
 			double rPsychicPotential = calculatePsychicPotential(oAssWeight, oAffect);
 			//Get consume value

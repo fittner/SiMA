@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_9_receive {
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception);
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands);
 }

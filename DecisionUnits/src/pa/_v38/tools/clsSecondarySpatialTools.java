@@ -9,14 +9,13 @@ package pa._v38.tools;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDistanceRelation;
 import pa._v38.memorymgmt.enums.ePositionRelation;
-import pa._v38.memorymgmt.enums.eXPosition;
-import pa._v38.memorymgmt.enums.eYPosition;
+import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
 
 /**
  * This function creates relational relationships between all object pairs (m with n) in the image. Only
@@ -52,11 +51,36 @@ public class clsSecondarySpatialTools {
 					clsPair<eDistanceRelation, ePositionRelation> oRelationPair = createSpatialRelation(oSubObjects.get(i), oSubObjects.get(j));
 					
 					//Add new associations to both images
-					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION.toString(), oRelationPair.a.toString(), false);
-					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION.toString(), oRelationPair.b.toString(), false);					
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.DISTANCERELATION, ePredicate.valueOf(oRelationPair.a.toString()), false);
+					clsMeshTools.createAssociationSecondary(oSubObjects.get(i), 2, oSubObjects.get(j), 2, 1.0, eContentType.POSITIONRELATION, ePredicate.valueOf(oRelationPair.b.toString()), false);					
 				}
 			}
 		}
+	}
+	
+	/**
+	 * Get the position for all entities in an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 07.07.2012 10:44:29
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> getEntityPositionsInImage(clsWordPresentationMesh poImage) {
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oResult = new ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>>();
+		
+		for (clsAssociation poHasPartAssociation : poImage.getMoAssociatedContent()) {
+			
+			clsWordPresentationMesh oEntity = (clsWordPresentationMesh) poHasPartAssociation.getLeafElement();
+			
+			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(oEntity);
+			
+			oResult.add(oPosition);
+		}
+		
+		return oResult;
 	}
 	
 	/**
@@ -77,9 +101,9 @@ public class clsSecondarySpatialTools {
 		clsPair<eDistanceRelation, ePositionRelation> oRetVal = null;
 		
 		//1. Get position for object1
-		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oObjectPosition1 = getPosition(poObject1);
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oObjectPosition1 = clsEntityTools.getPosition(poObject1);
 		//2. Get position for object2
-		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oObjectPosition2 = getPosition(poObject2);
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oObjectPosition2 = clsEntityTools.getPosition(poObject2);
 		
 		//If some values are null, then the positions are generalized and this shall be considered
 		if (oObjectPosition1.b!=null && oObjectPosition1.c!=null && oObjectPosition2.b!=null && oObjectPosition2.c!=null) {
@@ -133,55 +157,6 @@ public class clsSecondarySpatialTools {
 		return oRetVal;
 	}
 	
-	/**
-	 * Get the position coordinates in X, Y integers from word presentations of a data structure
-	 * (wendt)
-	 *
-	 * @since 01.10.2011 09:50:49
-	 *
-	 * @param poDS
-	 * @param poImageContainer
-	 * @return
-	 */
-	public static clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> getPosition(clsWordPresentationMesh poDS) {
-		clsTriple<clsWordPresentationMesh, eXPosition, eYPosition> oRetVal = null;
-		
-		//Search for xy compontents
-		eXPosition X = null;	//default error value
-		eYPosition Y = null;
-		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
-		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationSecondary) {
-				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
-					//Get content of the association
-					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
-					if (Y==null) {
-						Y = eYPosition.elementAt(oContent);
-					}
-					//Special case if EATABLE is used
-					//FIXME AW: EATABLE is center
-					if (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE")==true) {
-						if (X==null) {
-							X = eXPosition.CENTER;
-						}
-					}
-					
-				} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
-					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
-					//Get the X-Part
-					if (X==null) {
-						X = eXPosition.elementAt(oContent);
-					}
-				}
-			}
-		
-		}
-		
-		oRetVal = new clsTriple<clsWordPresentationMesh, eXPosition, eYPosition>(poDS, X, Y);
-				
-		return oRetVal;
-	}
-	
 //	/**
 //	 * Get the distance between 2 objects. 
 //	 * All positions have to be defined for each object
@@ -209,6 +184,41 @@ public class clsSecondarySpatialTools {
 //		return clsPrimarySpatialTools.getDistance((double)poElementB.b.mnPos, (double)poElementB.c.mnPos, (double)poElementA.b.mnPos, (double)poElementA.c.mnPos);
 //	}
 	
-	
+	/**
+	 * Extract all entities from a certain sector in an image and set an importance value for that entity
+	 * 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 07.07.2012 10:53:17
+	 *
+	 * @param poPerceivedImage
+	 * @param poDistance
+	 * @param poPosition
+	 * @param pnImportance
+	 * @return
+	 */
+	public static ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractEntitiesInArea(clsWordPresentationMesh poPerceivedImage, eRadius poDistance, ePhiPosition poPosition, int pnImportance) {
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		
+		//Get all positions of all entities in the image
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oEntityPositions = clsSecondarySpatialTools.getEntityPositionsInImage(poPerceivedImage);
+		
+		for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oEntity : oEntityPositions) {
+			try {
+				if (oEntity.b==null || oEntity.c==null) {
+					throw new NullPointerException("The positions of this entity are not completely defined. Distance or position is missing.");
+				}
+			} catch (NullPointerException e) {
+				e.printStackTrace();
+			}
+			
+			if (oEntity.b.equals(poPosition) && oEntity.c.equals(poDistance)) {
+				oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oEntity.a));	//Adds the entity from the perceived image together with importance
+			}
+		}
+		
+		return oResult;
+	}
 	
 }

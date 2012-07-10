@@ -13,7 +13,7 @@ package pa._v38.memorymgmt.enums;
  * 01.10.2011, 09:31:30
  * 
  */
-public enum eYPosition {
+public enum eRadius {
 	NODISTANCE (0), 
 	NEAR (1),		
 	MEDIUM (2),	
@@ -21,19 +21,19 @@ public enum eYPosition {
 	
 	public int mnPos;
 	
-	eYPosition(int pnPos)
+	eRadius(int pnPos)
 	{
 		this.mnPos = pnPos;
 	}
 	
-	public static eYPosition elementAt(int i)
+	public static eRadius elementAt(int i)
 	{
 		int nMinRange = 0;
 		int nMaxRange = 3;
 		
-		eYPosition oRetVal = null;
+		eRadius oRetVal = null;
 		
-		eYPosition lvls[] = eYPosition.values();
+		eRadius lvls[] = eRadius.values();
 		if ((i>=nMinRange) && (i<=nMaxRange)) {
 			oRetVal = lvls[i+nMinRange];
 		}
@@ -44,7 +44,7 @@ public enum eYPosition {
 	public static int getValue(String poInput) {
 		int oRetVal = -10;
 		
-		for (eYPosition oE : eYPosition.values()) {
+		for (eRadius oE : eRadius.values()) {
 			if (poInput.equals(oE.toString())) {
 				oRetVal = oE.mnPos;
 			}
@@ -53,13 +53,13 @@ public enum eYPosition {
 		return oRetVal;
 	}
 	
-	public static eYPosition elementAt(String poCompareString) {
-		eYPosition oRetVal = null;
+	public static eRadius elementAt(String poCompareString) {
+		eRadius oRetVal = null;
 		
 		if (poCompareString.equals("EATABLE")==true || poCompareString.equals("MANIPULATEABLE")==true) {
 			oRetVal = NEAR;
 		} else {
-			eYPosition lvls[] = eYPosition.values();
+			eRadius lvls[] = eRadius.values();
 			for (int i=0;i<lvls.length;i++) {
 				if (poCompareString.equals(lvls[i].toString())) {
 					oRetVal = lvls[i];

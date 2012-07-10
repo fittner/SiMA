@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -314,7 +315,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			//Go through all associations
 			if (moAssociatedContent != null) {
 				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : moAssociatedContent){
+        		for(clsAssociation oAssociation : this.moAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
@@ -327,7 +328,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			//Go through all associations
 			if (moExternalAssociatedContent != null) {
 				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+        		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
@@ -347,12 +348,20 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  
-		//oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 		oResult += this.moContentType + ":" + this.moContent;
 		
-//		for (clsAssociation oEntry : moAssociatedContent) {
-//			oResult += oEntry.toString() + ":"; 
-//		}
+		//Add by AW
+		if (this.moContentType.equals(eContentType.RI.toString()) || this.moContentType.equals(eContentType.PI.toString())) {
+			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
+			for (clsAssociation oEntry : moAssociatedContent) {
+				oResult += oEntry.getLeafElement().toString() + ","; 
+			}
+			
+			oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
+			for (clsAssociation oEntry : moExternalAssociatedContent) {
+				oResult += oEntry.toString() + ","; 
+			}
+		}
 		
 		return oResult; 
 	}
