@@ -9,6 +9,7 @@ package pa._v38.storage;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 
 /**
@@ -18,7 +19,7 @@ import pa._v38.tools.clsPair;
  * 31.08.2011, 07:12:10
  * 
  */
-public class clsGoalMemory {
+public class clsShortTermMemory {
 	/** The variable for the short time memory */
 	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> moShortTimeMemory;
 	
@@ -26,7 +27,8 @@ public class clsGoalMemory {
 	private int mnMaxTimeValue; // = 60;
 	/** Number of objects, which can be saved in the short time memory */
 	private int mnMaxMemorySize; // = 7;
-	
+
+	private clsPair<Integer, clsWordPresentationMesh> moNullMemoryObjectWPM;
 	
 	/**
 	 * Constructor, Init short time Memory with an empty arraylist
@@ -38,10 +40,13 @@ public class clsGoalMemory {
 	 * @since 31.08.2011 07:15:02
 	 *
 	 */
-	public clsGoalMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
+	public clsShortTermMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
 		moShortTimeMemory = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		mnMaxTimeValue = pnMaxTimeValue;
 		mnMaxMemorySize = pnMaxMemorySize;
+		
+		moNullMemoryObjectWPM = new clsPair<Integer, clsWordPresentationMesh>(-1, clsMeshTools.getNullObjectWPM());
+		
 	}
 	
 	/**
@@ -174,7 +179,7 @@ public class clsGoalMemory {
 	 * @return
 	 */
 	public clsPair<Integer, clsWordPresentationMesh> findMemory(clsWordPresentationMesh oToBeFound) {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = null;
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;
 		
 		//if (oToBeFound instanceof clsSecondaryDataStructure) {
 		clsWordPresentationMesh oCompareStructure = oToBeFound;
@@ -184,89 +189,51 @@ public class clsGoalMemory {
 				oRetVal = oMemory;
 				break;
 			}
-
-				
-				
-				
-//				if (oMemory.b instanceof clsDataStructureContainerPair) {
-//					if ((oCompareStructure!=null) && (((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent()!=null)) {
-//						if (oCompareStructure.getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//							oRetVal = oMemory;
-//							break;
-//						}
-//					}
-//				} else if (oMemory.b instanceof clsPrediction) {
-//					//Go through the prediction to find a pair
-//					clsPrediction oPrediction = (clsPrediction) oMemory.b;
-//					if (oCompareStructure.getMoDS_ID() == oPrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getIntention());
-//						break;
-//					} else if (oCompareStructure.getMoDS_ID() == oPrediction.getMoment().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getMoment());
-//						break;
-//					} else {
-//						for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-//							if (oCompareStructure.getMoDS_ID() == oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//								oRetVal = new clsPair<Integer, Object>(oMemory.a, oExpectation);
-//								break;
-//							}
-//						}
-//					}
-//				}
-			//}
-//		} else if (oToBeFound instanceof clsDataStructureContainerPair) {
-//			//Check CPair
-//			clsSecondaryDataStructureContainer oSCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getSecondaryComponent();
-//			clsPrimaryDataStructureContainer oPCompareContainer = ((clsDataStructureContainerPair)oToBeFound).getPrimaryComponent();
-//			
-//			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
-//				if (oMemory.b instanceof clsDataStructureContainerPair) {
-//					if ((oSCompareContainer!=null) && (((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent()!=null)) {
-//						//If the secondary structure does not have an ID, which means that the ID is -1, it shall be looked for the primary structure
-//						if ((oSCompareContainer.getMoDataStructure().getMoDS_ID() == -1) && (oPCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getPrimaryComponent().getMoDataStructure().getMoDS_ID())) {
-//							oRetVal = oMemory;
-//							break;
-//						} else if ((oSCompareContainer.getMoDataStructure().getMoDS_ID() != -1) && oSCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsDataStructureContainerPair)oMemory.b).getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//							oRetVal = oMemory;
-//							break;
-//						}
-//					}
-//				} else if (oMemory.b instanceof clsPrediction) {
-//					//Go through the prediction to find a pair
-//					clsPrediction oPrediction = (clsPrediction) oMemory.b;
-//					if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getIntention());
-//						break;
-//					} else if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oPrediction.getMoment().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//						oRetVal = new clsPair<Integer, Object>(oMemory.a, oPrediction.getMoment());
-//						break;
-//					} else {
-//						for (clsDataStructureContainerPair oExpectation : oPrediction.getExpectations()) {
-//							if (oSCompareContainer.getMoDataStructure().getMoDS_ID() == oExpectation.getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//								oRetVal = new clsPair<Integer, Object>(oMemory.a, oExpectation);
-//								break;
-//							}
-//						}
-//					}
-//				}
-//			}
-//			
-//		} else if (oToBeFound instanceof clsPrediction) {
-//			//Check CPair
-//			clsSecondaryDataStructureContainer oCompareContainer = null;
-//			oCompareContainer = ((clsPrediction)oToBeFound).getIntention().getSecondaryComponent();
-//			
-//			for (clsPair<Integer, Object> oMemory : moShortTimeMemory) {
-//				if (oMemory.b instanceof clsPrediction) {
-//					if ((oCompareContainer!=null) && (((clsPrediction)oMemory.b).getIntention().getSecondaryComponent()!=null)) {
-//						if (oCompareContainer.getMoDataStructure().getMoDS_ID() == ((clsPrediction)oMemory.b).getIntention().getSecondaryComponent().getMoDataStructure().getMoDS_ID()) {
-//							oRetVal = oMemory;
-//						}
-//					}
-//				}
-//			}
-		}		
+		}
+		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get the memory from a certain step;
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.07.2012 11:18:36
+	 *
+	 * @param pnStep
+	 * @return
+	 */
+	public ArrayList<clsPair<Integer, clsWordPresentationMesh>> findMemory(int pnStep) {
+		
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		
+		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+			if (oMemory.a == pnStep) {
+				oResult.add(oMemory);
+				break;
+			}
+		}
+		return oResult;
+	}
+	
+	private clsWordPresentationMesh findSingleMemoryFromStep(int pnStep) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oMemories = findMemory(pnStep);
+		if (oMemories.isEmpty()==false) {
+			oResult = oMemories.get(0).b;
+		}
+		
+		return oResult;	
+	}
+	
+	public clsWordPresentationMesh findPreviousSingleMemory() {
+		return findSingleMemoryFromStep(1);
+	}
+	
+	public clsWordPresentationMesh findCurrentSingleMemory() {
+		return findSingleMemoryFromStep(0);
 	}
 	
 	
@@ -398,40 +365,52 @@ public class clsGoalMemory {
 	 * @return
 	 */
 	private clsPair<Integer, clsWordPresentationMesh> getMostObsoleteMemory() {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = null;	//This value is only null, if the memory is empty
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
 		
 		//Variables, which are used to get the oldest memory. If there are several memories, which are the oldest ones,
 		//then, the memory with the lowest total affect value is selected
 		
-		int nCurrentStep = 0;
-		int nMaxStep = 0;
-		
-		//int nMaxAffect = 0;
-		//int nCurrentAffect = 0;
+		if (moShortTimeMemory.isEmpty()==false) {
+			oRetVal = moShortTimeMemory.get(0);
+		}
 		
 		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
-			nCurrentStep = oMemory.a;
-			
-			if (nCurrentStep>nMaxStep) {
+						
+			if (oMemory.a>oRetVal.a) {
 				oRetVal = oMemory;
 			} 
-			
-			//TODO AW: Implement the case, where the steps are equal. There the min affect is selected
-			//else if (nCurrentStep==nMaxStep) {
-			//	if (oMemory.b.getSecondaryComponent()!=null) {
-					
-					
-					//The secondary compoent shall always be available
-			//		nCurrentAffect = clsAffectTools.calculateMaxAffectSecondary(oMemory.b.getSecondaryComponent());
-			//		if (nCurrentStep>nMaxStep) {
-			//			oRetVal = oMemory;
-			//		}
-			//	}
-				
 		}
 		
 		return oRetVal;
 	}
+
+	/**
+	 * Get the most recent saved memory from the STM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.07.2012 09:52:51
+	 *
+	 * @return
+	 */
+	public clsPair<Integer, clsWordPresentationMesh> getNewestMemory() {
+		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
+		
+		if (moShortTimeMemory.isEmpty()==false) {
+			oRetVal = moShortTimeMemory.get(0);
+		}
+		
+		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+						
+			if (oMemory.a<oRetVal.a) {
+				oRetVal = oMemory;
+			} 
+		}
+		
+		return oRetVal;
+	}
+	
+	
 	
 	@Override
 	public String toString(){

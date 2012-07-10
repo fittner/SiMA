@@ -369,7 +369,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// search in perceptions
 		
 		ArrayList<clsThingPresentationMesh> oImages = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
-		ArrayList<clsThingPresentationMesh> oFilteredImages = clsMeshTools.FilterTPMList(oImages, null, oContent, true);
+		ArrayList<clsThingPresentationMesh> oFilteredImages = clsMeshTools.filterTPMList(oImages, null, oContent, true);
 		
 		if (oFilteredImages.isEmpty()==false) {
 			return true;

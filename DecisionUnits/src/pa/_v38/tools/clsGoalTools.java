@@ -8,6 +8,7 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -27,6 +28,19 @@ import pa._v38.memorymgmt.enums.ePredicate;
  */
 public class clsGoalTools {
 
+	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	
+	
+	/**
+	 * @since 05.07.2012 22:04:13
+	 * 
+	 * @return the moNullObjectWPM
+	 */
+	public static clsWordPresentationMesh getNullObjectWPM() {
+		return moNullObjectWPM;
+	}
+	
+	
 	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		//Create identifiyer. All goals must have the content type "GOAL"
 		clsTriple<Integer, eDataType, String> oDataStructureIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, eContentType.GOAL.toString());
@@ -39,16 +53,16 @@ public class clsGoalTools {
 		clsWordPresentation oAffectLevelWP = new clsWordPresentation(oDataStructureIdentifier2, poAffectLevel.toString());
 		
 		//Add WP to the mesh
-		clsMeshTools.createAssociationSecondary(oRetVal, 1, oAffectLevelWP, 0, 1.0, eContentType.AFFECTLEVEL.toString(), ePredicate.HASAFFECTLEVEL.toString(), false);
+		clsMeshTools.createAssociationSecondary(oRetVal, 1, oAffectLevelWP, 0, 1.0, eContentType.AFFECTLEVEL, ePredicate.HASAFFECTLEVEL, false);
 		
 		//Add Goalobject to the mesh
 		if (poGoalObject != null) {
-			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION.toString(), ePredicate.HASDRIVEOBJECT.toString(), false);	
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION, ePredicate.HASDRIVEOBJECT, false);	
 		}
 		
 		//Add Supportive Data Structure to goal
 		if (poSupportiveDataStructure != null) {
-			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION.toString(), ePredicate.HASSUPPORTIVEDATASTRUCTURE.toString(), false);
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		}
 		
 		//Add goal type to mesh
@@ -68,7 +82,7 @@ public class clsGoalTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getGoalObject(clsWordPresentationMesh poGoal) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
 		
 		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASDRIVEOBJECT, true);
 		
@@ -130,7 +144,7 @@ public class clsGoalTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getSupportiveDataStructure(clsWordPresentationMesh poGoal) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
 		
 		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTURE, true);
 		
@@ -140,6 +154,17 @@ public class clsGoalTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	public static void setSupportiveDataStructure(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
+		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poGoal);
+		
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+		} else {
+			oExistingDataStructure = poDataStructure;
+		}
+		
 	}
 	
 	/**
@@ -199,7 +224,7 @@ public class clsGoalTools {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Get all possibly reachable drivegoals
-		oRetVal = clsAffectTools.getWPMDriveGoals(poImage, true);
+		oRetVal = clsImportanceTools.getWPMDriveGoals(poImage, true);
 				
 		return oRetVal;
 	}
@@ -314,7 +339,7 @@ public class clsGoalTools {
 			} 				
 		}
 		
-		//Some goals are important although they are not in the perception. Therefore, they will be passed
+		//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
 		if (bGoalObjectFound==false && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
 			//There is no current affect level
 			//This sort order shall have the last priority

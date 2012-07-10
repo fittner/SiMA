@@ -50,7 +50,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	/** The list of generated actions */
 	private ArrayList<clsWordPresentationMesh> moActionCommands_IN;
 	/** The list of associated memories of the generated actions */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
 	/**
 	 * Constructor of F47. Apply properties
@@ -82,7 +82,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		String text ="";
 		
 		text += toText.listToTEXT("moReturnedTPMemory_OUT", moReturnedTPMemory_OUT);
-		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.listToTEXT("moActionCommands_IN", moActionCommands_IN);
 		
 		return text;
@@ -110,7 +110,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	protected void process_basic() {
 			
-		moReturnedTPMemory_OUT = getMemoryFromWP(moActionCommands_IN, moAssociatedMemories_IN);
+		moReturnedTPMemory_OUT = getMemoryFromWP(moActionCommands_IN);
 	}
 
 	/* (non-Javadoc)
@@ -149,7 +149,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> getMemoryFromWP(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories) {
+	private ArrayList<clsThingPresentationMesh> getMemoryFromWP(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//TODO AP: Remove strange data type
@@ -404,10 +404,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands, ArrayList<clsWordPresentationMesh> poAssociatedMemories, clsWordPresentationMesh poEnvironmentalPerception) {
+	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
 		moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemories);
 
 		
 	}
