@@ -25,10 +25,14 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive;				//Partialtriebe (A/O/P/G)
-	private clsThingPresentationMesh moDriveObject;		//Triebobjekt
-	private clsThingPresentationMesh moDriveTarget;		//Triebziel
-	private clsThingPresentation moDriveSource;			//Triebquelle
-	private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
+	
+	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
+	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
+	//private clsThingPresentation moDriveSource;			//Triebquelle
+	//private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
+	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
+	private ArrayList<clsAssociation> moInternalAssociatedContent = null;  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
+	
 
 	/**
 	 * DOCUMENT (schaat) - insert description 
@@ -40,6 +44,22 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	public clsDriveMeshNew(	clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
+	}
+	
+	public clsThingPresentationMesh getActualDriveObject(){
+		return null;
+	}
+	
+	public clsThingPresentationMesh getActualDriveAim(){
+		return null;
+	}
+	
+	public clsThingPresentationMesh getActualBodyOrifice(){
+		return null;
+	}
+	
+	public clsThingPresentationMesh getActualDriveSource(){
+		return null;
 	}
 
 	/* (non-Javadoc)
