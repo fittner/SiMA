@@ -180,7 +180,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		double oResult = 0.0;
 			for(clsDataStructurePA oElement1 : moExternalAssociatedContent){
 				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
-					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbInternalAssociations(); 
 				}
 				else {
 					oResult += 1.0; 

@@ -62,7 +62,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 									String poContent) {
 		
 		super(poDataStructureIdentifier);
-		moAssociatedContent = poAssociatedPhysicalRepresentations; 
+		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
 	}
 	
@@ -108,7 +108,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		addAssociations(oDataStructureList);
+		addInternalAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -125,8 +125,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 		
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
 				
     	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID specifies that the data structure has been already compared with a stored
@@ -138,7 +138,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				 * as TPMs can be associated to different types of data structures that can consist of associated
 				 * data structures too (TPMs can consist out of TPMs).  
 				 */
-				oRetVal = oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbInternalAssociations();
 		}
 		/*Each saved CAKE or other individual shall have an own ID. Here, the ID is treated as a type ID, which makes it
 		 *impossible to compare individuals */
@@ -191,11 +191,11 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @return
 	 */
 	@Override
-	public double getNumbAssociations() {
+	public double getNumbInternalAssociations() {
 		double oResult = 0.0;
-			for(clsDataStructurePA oElement1 : moAssociatedContent){
+			for(clsDataStructurePA oElement1 : moInternalAssociatedContent){
 				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
-					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbInternalAssociations(); 
 				}
 				else {
 					oResult += 1.0; 
@@ -217,7 +217,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		double oResult = 0.0;
 			for(clsDataStructurePA oElement1 : moExternalAssociatedContent){
 				if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TPM){
-					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+					oResult +=((clsThingPresentationMesh)((clsAssociation)oElement1).moAssociationElementB).getNumbInternalAssociations(); 
 				}
 				else {
 					oResult += 1.0; 
@@ -229,7 +229,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	@Override
 	public boolean contain(clsDataStructurePA poDataStructure){
 		
-		for(clsAssociation oAssociation : this.moAssociatedContent){
+		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
 			if((String)oAssociation.moAssociationElementB.moContentType.intern() == poDataStructure.moContentType.intern()){
 				return true;
 			}
@@ -307,18 +307,18 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
 			oClone = (clsThingPresentationMesh)super.clone();
-			oClone.moAssociatedContent = new ArrayList<clsAssociation>();
+			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
 			//Add this structure and the new clone to the list of cloned structures
 			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
 			
 			//Go through all associations
-			if (moAssociatedContent != null) {
+			if (moInternalAssociatedContent != null) {
 				//Add internal associations to oClone 
-        		for(clsAssociation oAssociation : this.moAssociatedContent){
+        		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -353,7 +353,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		//Add by AW
 		if (this.moContentType.equals(eContentType.RI.toString()) || this.moContentType.equals(eContentType.PI.toString())) {
 			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
-			for (clsAssociation oEntry : moAssociatedContent) {
+			for (clsAssociation oEntry : moInternalAssociatedContent) {
 				oResult += oEntry.getLeafElement().toString() + ","; 
 			}
 			

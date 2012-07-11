@@ -229,7 +229,7 @@ implements I5_6_receive, I5_7_send  {
 		
 		// compare each element from moPrimalRepressionMemory with the input
 		for (clsDriveMesh oEntry : moPrimalRepressionMemory) {
-			for(clsAssociation oInputAssociation : poPerception_IN.getMoAssociatedContent()) {
+			for(clsAssociation oInputAssociation : poPerception_IN.getMoInternalAssociatedContent()) {
 				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
 				if (oObject instanceof clsThingPresentationMesh) {
 					

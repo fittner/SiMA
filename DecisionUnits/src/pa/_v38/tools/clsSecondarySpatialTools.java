@@ -71,7 +71,7 @@ public class clsSecondarySpatialTools {
 	public static ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> getEntityPositionsInImage(clsWordPresentationMesh poImage) {
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oResult = new ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>>();
 		
-		for (clsAssociation poHasPartAssociation : poImage.getMoAssociatedContent()) {
+		for (clsAssociation poHasPartAssociation : poImage.getMoInternalAssociatedContent()) {
 			
 			clsWordPresentationMesh oEntity = (clsWordPresentationMesh) poHasPartAssociation.getLeafElement();
 			

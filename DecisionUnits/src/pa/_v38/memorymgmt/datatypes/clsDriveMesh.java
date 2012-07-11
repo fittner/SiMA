@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.06.2010, 20:36:25
  * 
  */
-public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAssociatedDataStructure{
+public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
 	
 	public boolean mbSexualDM = false;
 	private String moContent = "UNDEFINED";
@@ -72,6 +72,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 		return moContent;
 	}
 
+	public clsThingPresentationMesh getActualDriveObject(){
+		return null;
+	}
+	
+	public clsThingPresentationMesh getActualDriveAim(){
+		return null;
+	}
+	
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:50:38
@@ -89,7 +97,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * @return the moAssociatedContent
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoAssociatedContent() {
+	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
 		return moAssociatedContent;
 	}
 
@@ -100,7 +108,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
 	@Override
-	public void setMoAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
+	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> moAssociatedContent) {
 		this.moAssociatedContent = moAssociatedContent;
 	}
 
@@ -357,7 +365,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * @return
 	 */
 	@Override
-	public double getNumbAssociations() {
+	public double getNumbInternalAssociations() {
 		return moAssociatedContent.size();
 	}
 	
@@ -370,7 +378,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfAss
 	 * @param poAssociatedWordPresentations
 	 */
 	@Override
-	public void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	public void addInternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	

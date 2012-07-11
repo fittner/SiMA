@@ -248,9 +248,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private void getEmotionValuesFromPerception() {
 		ArrayList<clsAssociation> oPIAssociatedContent = new ArrayList<clsAssociation>();
 		ArrayList<clsAssociation> oEntityAssociatedContent = new ArrayList<clsAssociation>();
-		oPIAssociatedContent = moPerceptions_IN.getMoAssociatedContent();
+		oPIAssociatedContent = moPerceptions_IN.getMoInternalAssociatedContent();
 		clsEmotion oEmotionFromPerception = null;
 		for(clsAssociation oPIAss: oPIAssociatedContent) {
+			// in an image there just should exist TPMs (Entities)
 			try {
 				oEntityAssociatedContent = ((clsThingPresentationMesh)oPIAss.getMoAssociationElementB()).getExternalMoAssociatedContent();
 			}

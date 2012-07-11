@@ -88,7 +88,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	
 	public void setAssociations(
 			ArrayList<clsAssociation> poAssociatedTemporalStructures) {
-		moAssociatedContent = poAssociatedTemporalStructures;
+		moInternalAssociatedContent = poAssociatedTemporalStructures;
 	}
 
 	/* (non-Javadoc)
@@ -103,7 +103,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 		ArrayList <clsAssociation> oDataStructureList = new ArrayList<clsAssociation>();
 		oDataStructureList.add(poDataStructurePA); 
 		
-		addAssociations(oDataStructureList);
+		addInternalAssociations(oDataStructureList);
 	}
 
 	/* (non-Javadoc)
@@ -128,8 +128,8 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 
 		//2. 
 		clsTemplateImage oDataStructure = (clsTemplateImage)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
 				
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
@@ -141,7 +141,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 				 * as TIs can be associated to data structures that can consist of associated
 				 * data structures too (TIs can consist out of TIs).  
 				 */
-				oRetVal = oDataStructure.getNumbAssociations();
+				oRetVal = oDataStructure.getNumbInternalAssociations();
 		}
 		//3.
 		else if (oDataStructure.moDS_ID > -1) {
@@ -176,11 +176,11 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	 * @return
 	 */
 	@Override
-	public double getNumbAssociations() {
+	public double getNumbInternalAssociations() {
 		double oResult = 0.0;
-		for(clsDataStructurePA oElement1 : moAssociatedContent){
+		for(clsDataStructurePA oElement1 : moInternalAssociatedContent){
 			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TI){
-				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbInternalAssociations(); 
 			}
 			else {
 				oResult += 1.0; 
@@ -202,7 +202,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 		double oResult = 0.0;
 		for(clsDataStructurePA oElement1 : moExternalAssociatedContent){
 			if(((clsAssociation)oElement1).moAssociationElementB.moDataStructureType == eDataType.TI){
-				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbAssociations(); 
+				oResult +=((clsTemplateImage)((clsAssociation)oElement1).moAssociationElementB).getNumbInternalAssociations(); 
 			}
 			else {
 				oResult += 1.0; 
@@ -215,12 +215,12 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsTemplateImage oClone = (clsTemplateImage)super.clone();
-        	if (moAssociatedContent != null) {
-        		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
-        		for(clsAssociation oAssociation : moAssociatedContent){
+        	if (moInternalAssociatedContent != null) {
+        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
-    					oClone.moAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
     				}
@@ -254,7 +254,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	@Override
 	public boolean contain(clsDataStructurePA poDataStructure) {
 		
-		for(clsAssociation oAssociation : this.moAssociatedContent){
+		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
 			if(oAssociation.moAssociationElementB.compareTo(poDataStructure)> 0.0){
 				return true;
 			}

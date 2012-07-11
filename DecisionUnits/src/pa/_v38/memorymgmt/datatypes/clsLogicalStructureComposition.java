@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:49:15
  * 
  */
-public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure implements itfAssociatedDataStructure, itfExternalAssociatedDataStructure{
+public abstract class clsLogicalStructureComposition extends clsSecondaryDataStructure implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** Add internal associations to WP or other WPM, which are defining this structure; @since 29.11.2011 11:26:20 */
 	protected ArrayList<clsAssociation> moInternalAssociatedContent;
 	
@@ -56,7 +56,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @return the moAssociatedContent
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoAssociatedContent() {
+	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
 		return moInternalAssociatedContent;
 	}
 	
@@ -78,7 +78,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @param moAssociatedContent the moAssociatedContent to set
 	 */
 	@Override
-	public void setMoAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
+	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> poAssociatedContent) {
 		this.moInternalAssociatedContent = poAssociatedContent;
 	}
 
@@ -128,7 +128,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @param poAssociatedWordPresentations
 	 */
 	@Override
-	public void addAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
+	public void addInternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
 		moInternalAssociatedContent.addAll(poAssociatedDataStructures);  
 	}
 	

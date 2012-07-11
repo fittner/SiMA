@@ -490,7 +490,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oDMrootCell = createDefaultGraphVertex(oDescription, moColorDMRoot);
 		this.moCellList.add(oDMrootCell);
 		
-		for(clsAssociation oDMAssociations : poMemoryObject.getMoAssociatedContent())
+		for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
 		{
 			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
 			{
@@ -542,7 +542,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oTPMrootCell = createDefaultGraphVertex(oDescription, moColorTPMRoot);
 		this.moCellList.add(oTPMrootCell);
 		
-		for(clsAssociation oDMAssociations : poMemoryObject.getMoAssociatedContent())
+		for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
 		{
 			if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
 			{

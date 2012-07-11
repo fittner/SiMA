@@ -20,7 +20,7 @@ import pa._v38.tools.clsTriple;
  * Jul 10, 2012, 1:19:27 PM
  * 
  */
-public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itfAssociatedDataStructure{
+public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
@@ -81,7 +81,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#getMoAssociatedContent()
 	 */
 	@Override
-	public ArrayList<clsAssociation> getMoAssociatedContent() {
+	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
 		// TODO (schaat) - Auto-generated method stub
 		return null;
 	}
@@ -93,7 +93,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#setMoAssociatedContent(java.util.ArrayList)
 	 */
 	@Override
-	public void setMoAssociatedContent(
+	public void setMoInternalAssociatedContent(
 			ArrayList<clsAssociation> moAssociatedContent) {
 		// TODO (schaat) - Auto-generated method stub
 		
@@ -106,7 +106,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#getNumbAssociations()
 	 */
 	@Override
-	public double getNumbAssociations() {
+	public double getNumbInternalAssociations() {
 		// TODO (schaat) - Auto-generated method stub
 		return 0;
 	}
@@ -118,7 +118,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 * @see pa._v38.memorymgmt.datatypes.itfAssociatedDataStructure#addAssociations(java.util.ArrayList)
 	 */
 	@Override
-	public void addAssociations(
+	public void addInternalAssociations(
 			ArrayList<clsAssociation> poAssociatedDataStructures) {
 		// TODO (schaat) - Auto-generated method stub
 		

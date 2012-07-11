@@ -511,7 +511,7 @@ public abstract class clsDataStructureComparison {
 				//Add associations from intrinsic structures
 				//TI, TPM
 				if (poInput instanceof clsTemplateImage) {
-					for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoAssociatedContent()) {
+					for (clsAssociation oAss: ((clsTemplateImage)poInput).getMoInternalAssociatedContent()) {
 						//Recursive function
 						clsDataStructureContainer oSubContainer = getCompleteContainer(oAss.getLeafElement(), poSearchSpaceHandler);
 						if (oSubContainer!=null) {
@@ -580,7 +580,7 @@ public abstract class clsDataStructureComparison {
 			if (poInput.getMoDS_ID()>0 && pnLevel >=0) {
 				//Get the internal associations
 				//Add associations from intrinsic structures
-				for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
+				for (clsAssociation oAss: oRetVal.getMoInternalAssociatedContent()) {
 					//Recursive function
 					if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
 						clsThingPresentationMesh oSubMesh = (clsThingPresentationMesh)oAss.getLeafElement();
@@ -693,7 +693,7 @@ public abstract class clsDataStructureComparison {
 				e.printStackTrace();
 			}
 			//Add associations from intrinsic structures
-			for (clsAssociation oAss: oRetVal.getMoAssociatedContent()) {
+			for (clsAssociation oAss: oRetVal.getMoInternalAssociatedContent()) {
 				//Recursive function
 				if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oSubMesh = (clsWordPresentationMesh) getCompleteMesh((clsWordPresentationMesh)oAss.getLeafElement(), poSearchSpaceHandler, pnLevel-1);
@@ -751,7 +751,7 @@ public abstract class clsDataStructureComparison {
 						bStructureFound = true;
 					} else if (oDS instanceof clsTemplateImage) {
 						//For each intrinsic data structures, the one element
-						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoInternalAssociatedContent()) {
 							if (oIntrinsicAss.getLeafElement().getMoDSInstance_ID() == oAssList.get(i).getRootElement().getMoDSInstance_ID()) {
 								bStructureFound = true;
 								break;
@@ -764,7 +764,7 @@ public abstract class clsDataStructureComparison {
 						bStructureFound = true;
 					} else if (oDS instanceof clsTemplateImage) {
 						//For each intrinsic data structures, the one element
-						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoAssociatedContent()) {
+						for (clsAssociation oIntrinsicAss : ((clsTemplateImage)oDS).getMoInternalAssociatedContent()) {
 							if (((clsAssociationPrimary)oAssList.get(i)).containsInstanceID(oIntrinsicAss.getLeafElement()) != null) {
 								bStructureFound = true;
 								break;
@@ -1357,7 +1357,7 @@ public abstract class clsDataStructureComparison {
 			oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>(poTargetDataStructure, poSourceAssociation);
 		} else {
 			//2. Check if the root element can be found in the associated data structures
-			for (clsAssociation oAssToImage : poTargetDataStructure.getMoAssociatedContent()) {
+			for (clsAssociation oAssToImage : poTargetDataStructure.getMoInternalAssociatedContent()) {
 				if ((oCompareRootElement.getMoDS_ID() == oAssToImage.getLeafElement().getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
 					oRetVal = new clsPair<clsThingPresentationMesh, clsAssociation>((clsThingPresentationMesh) oAssToImage.getLeafElement(), poSourceAssociation);
 					break;
@@ -1391,7 +1391,7 @@ public abstract class clsDataStructureComparison {
 			oRetVal = new clsPair<clsDataStructurePA, clsAssociation>(poTargetDataStructure, poSourceAssociation);
 		} else {
 			//2. Check if the root element can be found in the associated data structures
-			for (clsAssociation oAssToImage : poTargetDataStructure.getMoAssociatedContent()) {
+			for (clsAssociation oAssToImage : poTargetDataStructure.getMoInternalAssociatedContent()) {
 				if ((oCompareRootElement.getMoDS_ID() == oAssToImage.getLeafElement().getMoDS_ID() && (oCompareRootElement.getMoDS_ID() > 0))) {
 					oRetVal = new clsPair<clsDataStructurePA, clsAssociation>(oAssToImage.getLeafElement(), poSourceAssociation);
 					break;

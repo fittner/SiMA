@@ -365,7 +365,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		if (((pnLevel>0) || (pnLevel==-1)) && oRetVal != null) {
 		
 			//Check the inner associations, if they are associationtime, as it means that is an image
-			for (clsAssociation oTPMInternalAss : poTPM.getMoAssociatedContent()) {
+			for (clsAssociation oTPMInternalAss : poTPM.getMoInternalAssociatedContent()) {
 				//Internal TP-Associations are NOT checked, as they must not be converted to WP
 				//Only one internal level is converted, i. e. no images in images are checked
 				if (oTPMInternalAss instanceof clsAssociationTime && 

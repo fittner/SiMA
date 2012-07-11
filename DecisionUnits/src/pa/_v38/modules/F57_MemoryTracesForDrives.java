@@ -19,9 +19,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
@@ -176,107 +174,80 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 *
 	 * @since 01.07.2011 10:24:34
 	 *
+	 * the ARSIN halluzinates possible drive objects and drive aims (which he remembers from memory).
+	 * Therefore all similar DMs from memory are associated to the simulator-dm. from these appropriate dms the one with the
+	 * highest QoA is chosen and its drive object+dirve aim is taken. in the end, the simulator-dm gets the best 
+	 * drive-aim+drive-object. Since this choice can be revised (by defense mechansims and SP) all similar memory-dms keep associated as external
+	 * associations 
 	 */
-	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
-		//initializing of the list, because it cannnot be null
-		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
-		ArrayList<clsAssociation> oAssDriveObjects = null;
-		//Get all DMs from Perception
-		/*ArrayList<clsAssociationDriveMesh> oAssDMList = clsMeshTools.getAllDMInMesh(poPerceptionalMesh);
-		
-		//1. Compare drive meshes with drive meshes in the perception	
-		for (clsDriveMesh oDM : poDriveCandidates) {
-			clsDataStructurePA oDS=null;
-			double rCurrentMatchFactor = 0.0;
-			double rMaxMatchfactor = 0.0;
-			double rMaxPleasurefactor = 0.0;
 
-			//1. Compare candidate drive meshes with drive meshes from the perception
-			//For each DM in the memory
-			for (clsAssociationDriveMesh oAss : oAssDMList) {
-				if (oAss.getLeafElement()instanceof clsDriveMesh) {
-					//Get match categoriesfactor
-					
-					
-					
-					//FIXME CM: AW: This method does not work very well as the categories are not properly set. This has to be fixed. Until then, the comparison is made with the content instead
-					//rCurrentMatchFactor = ((clsDriveMesh)oAss.getLeafElement()).matchCathegories(oDM);
-					
-					if (((clsDriveMesh)oAss.getLeafElement()).getMoContent().equals(oDM.getMoContent())) {
-						rCurrentMatchFactor = 1.0;
-					} else {
-						rCurrentMatchFactor = 0.0;
-					}
-					
-					//It shall be more than the threshold and more than the max factor
-					if ((rCurrentMatchFactor > mrThreshold) && (rCurrentMatchFactor > rMaxMatchfactor)) {
-						double rCurrentPleasureValue = ((clsDriveMesh)oAss.getLeafElement()).getMrPleasure();
-						//Get the one with the highest lust
-						if (rCurrentPleasureValue > rMaxPleasurefactor) {
-							rMaxPleasurefactor = rCurrentPleasureValue;
-							rMaxMatchfactor = rCurrentMatchFactor;
-							oDS = oAss.getRootElement();
-						}
-					}
-				}
-			}*/
+	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
-		clsDataStructurePA oDS=null;
+		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+		ArrayList<clsAssociation> oAssSimilarDMs = null;
+		ArrayList<clsAssociation> oMemoryDMAssociations =new ArrayList<clsAssociation>();
+				
+		clsThingPresentationMesh oDriveObject = null;
+		clsThingPresentationMesh  oDriveAim = null;
 		
 		double rCurrentMatchFactor = 0.0;
 		double rMaxMatchfactor = 0.0;
-		double rMaxPleasurefactor = 0.0;
-		double rCurrentPleasureValue  = 0.0;
-		
-		for (clsDriveMesh oDM : poDriveCandidates) {
-			
 
-				// generate empty memory traces, if nothing is perceived
-				
-				/* SSch 2012-04-10 If the ARSIN does not get any drive objects from perceptions or the drive objects do not conform with the threshold
-				 * , the ARSIN halluzinates possible drive objects (whicht he remembers from memory)
-				 * Todo: Derzeit wird nur ein clsPair<DM, TPM> weitergereicht. Es fehlt die Moeglichkeit zu einem DM mehrere TPMs anzuhängen (eventuell ueber container? -->
-				 *  konsitente linie ob datencontainer für assoziationen oder membervariablen nötig!). Darauf aufbauend berücksichtigen und gewichten von halluz. und wahrg. Objekte 
-				 */
+		
+		// for each simulator-DM (should be 16)
+		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 						
-				oAssDriveObjects = new ArrayList<clsAssociation>();
+				oAssSimilarDMs = new ArrayList<clsAssociation>();
+				
 			
 				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
 				ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
-				poSearchPattern.add(oDM);
+				poSearchPattern.add(oSimulatorDM);
 				
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				search(eDataType.TPM, poSearchPattern, oSearchResult);
 				
 				rMaxMatchfactor = 0.0;
-				rMaxPleasurefactor = 0.0;
 				rCurrentMatchFactor = 0.0;
 					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
-					// for each found DM
+					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-						rCurrentMatchFactor = oSearchPair.a;
+						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
+						rCurrentMatchFactor = oSearchPair.a; 
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
-							rCurrentPleasureValue = ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getMrQuotaOfAffect();
-							if (rCurrentPleasureValue > mrThresholdPleasure) {
-								ArrayList<clsAssociation> oAssDM = oSearchPair.b.getMoAssociatedDataStructures();
-								// take first object that is connected with the found DM
-								oDS = oAssDM.get(0).getRootElement();
-								oAssDriveObjects.add(clsDataStructureGenerator.generateASSOCIATIONDM(oDM, (clsThingPresentationMesh)oDS, rCurrentPleasureValue));
+							
+							// get similar memory-dm
+							clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
+
+							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
+							oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+							
+							// add associations to memory-dm
+							oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
+							
+														// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
+							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eDataType.ASSOCIATIONPRIDM.toString(), oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
+							
+							// take  drive object+drive aim of best match 
+							if( rCurrentMatchFactor > rMaxMatchfactor) {
+								rMaxMatchfactor = rCurrentMatchFactor;
+								oDriveObject = oMemoryDM.getActualDriveObject();
+								oDriveAim = oMemoryDM.getActualDriveAim();
 							}
 						}
 					}
 				}
 				
-				// if no drive object is appropriate
-				if (oDS == null) {
-					oDS = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL"));
+				// if no memory-dm is similar
+				if (oAssSimilarDMs == null) {
+					// no error if simulator-dm does not have similar memroy-dms
 				}
 				
-				oDM.addAssociations(oAssDriveObjects);
-				oRetVal.add(oDM);
+				oSimulatorDM.addInternalAssociations(oAssSimilarDMs);
+				oRetVal.add(oSimulatorDM);
 				
 		}
 		

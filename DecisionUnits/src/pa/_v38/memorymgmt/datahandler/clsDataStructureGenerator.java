@@ -18,6 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -215,6 +216,17 @@ public abstract class clsDataStructureGenerator {
 		String oContentType = poContentType; 
 		
 		oRetVal = new clsAssociationPrimary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	
+	public static clsAssociationPrimaryDM generateASSOCIATIONPRIDM(String poContentType, 
+			clsDriveMesh poRoot, clsDriveMesh poLeaf, double prWeight) {
+		clsAssociationPrimaryDM oRetVal=null;
+		String oContentType = poContentType; 
+		
+		oRetVal = new clsAssociationPrimaryDM(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRIDM, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;

@@ -322,7 +322,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
 					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
 						oEatableList.add(oContainer);
 					}
@@ -351,9 +351,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				//When found, add all TP, which are not location to the EATABLE area
 				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoContent())) {
-						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoAssociatedContent()) {
+						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
 							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
-								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoAssociatedContent().add(oAss);
+								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oAss);
 								bFound=true;
 								break;
 							}
@@ -565,7 +565,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		// if the moDataStructure of the Container is not a TI there is something really wrong!
 		clsTemplateImage oDS = (clsTemplateImage) poPerception.getMoDataStructure();
 		// add each element of the TI to the searchPattern
-			for (clsAssociation oEntry : oDS.getMoAssociatedContent()) {
+			for (clsAssociation oEntry : oDS.getMoInternalAssociatedContent()) {
 				oSearchPattern.add(
 						new clsPair<Integer, clsDataStructurePA>(
 						poDataType.nBinaryValue, oEntry.getLeafElement()));								
@@ -745,7 +745,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			clsPrimaryDataStructureContainer poPerceptionEntry, 
 			clsPrimaryDataStructureContainer poNewImage) {
 		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoAssociatedContent()){
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoInternalAssociatedContent()){
 	 		
 	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
 	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 

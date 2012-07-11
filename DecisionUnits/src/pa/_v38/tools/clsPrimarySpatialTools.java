@@ -177,7 +177,7 @@ public class clsPrimarySpatialTools {
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRetVal = new ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>();
 		
 		//Get positions for all objects in the image		
-		for (clsAssociation oAss : poImage.getMoAssociatedContent()) {
+		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
 			//Get the leaf elements
 			clsDataStructurePA oImageObject = oAss.getLeafElement();
 			//Get the position

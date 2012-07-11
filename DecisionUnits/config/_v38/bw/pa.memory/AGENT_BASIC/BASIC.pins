@@ -1,4 +1,4 @@
-; Thu Jul 05 16:27:09 CEST 2012
+; Wed Jul 11 11:36:30 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -467,6 +467,13 @@
 	(element
 		[TPM%3AENTITY%3AARSIN%3ABODO]
 		[DM%3ANOURISH%3ABODO])
+	(weight 1.0 1.0))
+
+([AD%3ACAKE%3AEAT] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AACTION%3AL1_EAT]
+		[DM%3ANOURISH%3ACAKEBASIC])
 	(weight 1.0 1.0))
 
 ([AD%3ACAKE%3ALIBIDO] of  ASSOCIATIONDM
