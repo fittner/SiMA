@@ -10,6 +10,8 @@ import java.util.ArrayList;
 
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
@@ -60,6 +62,15 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	
 	public clsThingPresentationMesh getActualDriveSource(){
 		return null;
+	}
+	
+	public void associateActualDriveSource(clsThingPresentationMesh poDriveObject, double prWeight){
+		
+		moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEOBJECTASSOCIATION, 
+																		(clsPrimaryDataStructure)this, 
+																		(clsPrimaryDataStructure)poDriveObject, 
+																		prWeight));
 	}
 
 	/* (non-Javadoc)
