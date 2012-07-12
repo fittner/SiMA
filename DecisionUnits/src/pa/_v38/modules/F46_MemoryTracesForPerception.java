@@ -160,7 +160,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
 		
 		//Set new instance IDs
-		clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
+		//clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
 		//Convert LOCATION to DISTANCE and POSITION
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
@@ -168,7 +168,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Convert all objects to enhanced TPMs 
 		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
-		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI.toString(), eContent.PI.toString());
+		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI, eContent.PI.toString());
 				
 		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
 		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
@@ -236,7 +236,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 								
 				if( oSearchPair.a > rThreshold) {
 					oRI = oSearchPair.b.getMoDataStructure();
-					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI("RI", oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
+					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.RI, oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
 				}
 				
 			}
@@ -768,8 +768,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
 			if(oEntry.size() > 0){
 				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(
-							-1, eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.name()), 
+				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
+							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
 							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
 							(clsThingPresentation)oBestMatch.getMoDataStructure());
 				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
@@ -833,8 +833,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//Search for one "Nothingobject"
 		//Create the TP
-		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>
-			("ENTITY", new ArrayList<clsThingPresentation>(),"EMPTYSPACE"));
+		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>
+			(eContentType.ENTITY, new ArrayList<clsThingPresentation>(),"EMPTYSPACE"));
 		
 		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
 		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));
@@ -862,13 +862,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
 				
 			
-				clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.POSITION.toString(), oPosPair.b.toString()));
-				clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(eContentType.DISTANCE.toString(), oPosPair.c.toString()));
+				clsThingPresentation oPositionTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, oPosPair.b.toString()));
+				clsThingPresentation oDistanceTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, oPosPair.c.toString()));
 			
 				//clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
 				//clsPrimaryDataStructure poAssociationElementA, 
 		    	//clsPrimaryDataStructure poAssociationElementB)
-				clsTriple<Integer, eDataType, String> poIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONATTRIBUTE, "ASSOCIATIONATTRIBUTE");
+				clsTriple<Integer, eDataType, eContentType> poIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE);
 				clsAssociationAttribute oPositionAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oPositionTP);
 				clsAssociationAttribute oDistanceAss = new clsAssociationAttribute(poIdentifier, oEmptySpaceTPM, oDistanceTP);
 			

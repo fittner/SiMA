@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
@@ -279,7 +280,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * 
 	 */
 	private void generateEmotion(eEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
-		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <String, eEmotionType, Object>("BASIC_EMOTIONS", poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
+		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
 	}
 	
 	/* (non-Javadoc)

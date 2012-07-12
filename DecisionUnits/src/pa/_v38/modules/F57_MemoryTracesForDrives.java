@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -229,7 +230,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
 							
 														// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
-							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eDataType.ASSOCIATIONPRIDM.toString(), oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
+							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
 							
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {

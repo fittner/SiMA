@@ -24,6 +24,7 @@ public enum eContentType {
 	PIMATCH, 		//Content type of perception
 	GOALTYPE,
 	RI,
+	LIBIDO,
 	AREASUBSET,
 	AFFECTLEVEL,
 	ACTION,

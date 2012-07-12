@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
 
@@ -272,7 +273,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Only TPMs are searched for if meshes are searched
 		clsThingPresentationMesh oBestCompareImage = (clsThingPresentationMesh) getBestMatch(oSearchResultContainer);
 		//Get a list of corresponding objects for the libido DMs in the input image
-		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureComparison.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, "LIBIDO");
+		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureComparison.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, eContentType.LIBIDO);
 		
 		rReducedValue = addDriveMeshes(new clsPair<clsThingPresentationMesh, ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>>>(poInput, oLibidoDM), prLibidoReduceRate, prAvailableLibido);
 		
@@ -307,7 +308,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Set new Pleasurevalue, which depends on the reducevalue
 					oNewDriveMesh.setMrQuotaOfAffect(rDMReduce);
 					//Create new identifier
-					clsTriple<Integer, eDataType, String> oIdentifyer = new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString());
+					clsTriple<Integer, eDataType, eContentType> oIdentifyer = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
 					//Create new association drivemesh but with the new root element
 					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
 					//Add the assocation to the input container
