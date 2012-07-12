@@ -34,6 +34,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;

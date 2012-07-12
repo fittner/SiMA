@@ -309,8 +309,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			}
 		} else {
 			//It may be the PI, then create a new image with for the PI or from the repressed content
-			oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
-			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONWP, eDataType.ASSOCIATIONWP.toString()), oRetVal, poTPM);
+			oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
+			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
 			oRetVal.getExternalAssociatedContent().add(oWPAss);
 		}
 		
@@ -335,9 +335,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 						}
 						
 						
-						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE.toString()) {
+						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE) {
 							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDISTANCE, false);
-						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION.toString()) {
+						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION) {
 							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPOSITION, false);
 						} else {
 							try {

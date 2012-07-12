@@ -25,6 +25,7 @@ public enum eContentType {
 	GOALTYPE,
 	RI,
 	LIBIDO,
+	RIREPRESSED,
 	AREASUBSET,
 	AFFECTLEVEL,
 	ACTION,

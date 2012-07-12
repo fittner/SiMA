@@ -24,6 +24,7 @@ import pa._v38.tools.clsDumper;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import pa._v38.memorymgmt.enums.eContentType;
 
 
 /**
@@ -216,7 +217,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
         ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
 
         for (clsWordPresentationMesh oCont : poInput) {
-            clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>(oCont.getMoContentType(), oCont
+            clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(oCont.getMoContentType(), oCont
                     .getMoContent()));
 
             oRetVal.add(oWP);

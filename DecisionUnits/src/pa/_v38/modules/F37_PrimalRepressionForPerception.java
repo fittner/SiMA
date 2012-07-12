@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -111,8 +112,8 @@ implements I5_6_receive, I5_7_send  {
   	oList.add( new ArrayList<Object>( Arrays.asList("NOURISH", "NOURISH", 0.1, 0.89, 0.0, 0.0, 0.1) ) );
 
   	for (ArrayList<Object> oData:oList) {
-		clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>((String)oData.get(0), oData.get(0))); 
-		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>((String)oData.get(1), 
+		clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>((eContentType)oData.get(0), oData.get(0))); 
+		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>((eContentType)oData.get(1), 
 																   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
 																   oData.get(0)));
 		oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
@@ -246,7 +247,7 @@ implements I5_6_receive, I5_7_send  {
 								// add the association with the matching element to the output 
 								clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oSubAss).getRootElement();
 								clsAssociationDriveMesh oNewAssociation =	new clsAssociationDriveMesh(
-												new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
+												new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM),
 												oEntry,
 												newRoot);
 
