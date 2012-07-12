@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -22,6 +23,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * poAssociatedWordPresentations (clsAssociation):	Ordered list of combined word presentation. The ArrayList can only be filled with objects from the type clsSecondaryDataStructure
  * 
  * @author zeilinger
+ * 
  * 23.05.2010, 21:43:47
  * 
  */
@@ -41,7 +43,7 @@ public class clsAct extends clsSecondaryDataStructure {
 	 * @param poDataStructureName
 	 * @param poDataStructureType
 	 */
-	public clsAct(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
+	public clsAct(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 														ArrayList<clsSecondaryDataStructure> poAssociatedWordPresentations,
 														String poContent) {
 		super(poDataStructureIdentifier);
@@ -49,15 +51,15 @@ public class clsAct extends clsSecondaryDataStructure {
 		setContent(poContent); 
 	}
 
-	public clsAct (ArrayList<clsWordPresentation> wp) {
-		super(new clsTriple<Integer, eDataType, String>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+	/*public clsAct (ArrayList<clsWordPresentation> wp) {
+		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_alWordpresentations = wp;
 	}
 	
 	public clsAct (String str) {
-		super(new clsTriple<Integer, eDataType, String>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
 		m_strAction = str;
-	}
+	}*/
 	
 	
 	/**

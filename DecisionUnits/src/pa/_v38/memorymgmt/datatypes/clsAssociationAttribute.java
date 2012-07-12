@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -24,7 +25,7 @@ public class clsAssociationAttribute extends clsAssociation{
 	 * 24.05.2010, 15:53:46
 	 *
 	 */
-	public clsAssociationAttribute(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationAttribute(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 			clsPrimaryDataStructure poAssociationElementA, 
 			clsPrimaryDataStructure poAssociationElementB) {
 		super(poDataStructureIdentifier,poAssociationElementA, poAssociationElementB);

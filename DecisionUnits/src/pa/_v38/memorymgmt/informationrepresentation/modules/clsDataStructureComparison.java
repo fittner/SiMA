@@ -1117,7 +1117,7 @@ public abstract class clsDataStructureComparison {
 				clsAssociationDriveMesh oldAssDM = (clsAssociationDriveMesh)entry;
 				clsAssociationDriveMesh newAssDM = 
 					new clsAssociationDriveMesh(
-							new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, "ASSOCIATIONDM"),
+							new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM),
 							oldAssDM.getDM(),
 							poNewRoot);
 				oReturnlist.add(newAssDM);
@@ -1272,7 +1272,7 @@ public abstract class clsDataStructureComparison {
 	 * @param poContentType
 	 * @return
 	 */
-	public static ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> getSpecificAssociatedContent(clsThingPresentationMesh poFromImage, clsThingPresentationMesh poToImage, eDataType poDataType, String poContentType) {
+	public static ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> getSpecificAssociatedContent(clsThingPresentationMesh poFromImage, clsThingPresentationMesh poToImage, eDataType poDataType, eContentType poContentType) {
 		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>>();
 		clsPair<clsThingPresentationMesh, clsAssociation> oMatch = null;
 		//Get the data structure, which could also have DMs

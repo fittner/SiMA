@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -31,7 +32,7 @@ public class clsAssociationPrimaryDM extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationPrimaryDM(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationPrimaryDM(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 			clsDriveMesh poAssociationElementA,
 			clsDriveMesh poAssociationElementB) {
 		

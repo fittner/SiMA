@@ -15,7 +15,6 @@ import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -41,8 +40,7 @@ implements I5_3_receive, I5_4_send {
 	
 	/** Reference to the storage for freed psychic energy, to distribute it to other modules.; @since 12.10.2011 19:28:27 */
 	private DT3_PsychicEnergyStorage moPsychicEnergyStorage;
-	/** Reference to the libido buffer; @since 12.10.2011 19:35:10 */
-	private DT1_LibidoBuffer moLibidoBuffer;
+	
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
 	private double mrEnergyReductionRateSexual = 0.7;
 	private double mrEnergyReductionRateSelfPreserv = 0.3;
@@ -72,13 +70,11 @@ implements I5_3_receive, I5_4_send {
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage,
-			DT1_LibidoBuffer poLibidoBuffer)
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moPsychicEnergyStorage = poPsychicEnergyStorage;
-		moLibidoBuffer = poLibidoBuffer;
 		applyProperties(poPrefix, poProp); 
 	}
 

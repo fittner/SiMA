@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -48,7 +49,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */	
-	public clsDriveMesh(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
+	public clsDriveMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 												double prPleasure, double[] poDriveCathegories, 
 												ArrayList<clsAssociation> poAssociatedDriveSources,
 												String poContent) {
@@ -506,12 +507,12 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 						oBestTPM = (clsThingPresentationMesh)oEntry.getMoAssociationElementB();
 					}
 					else {
-						oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
+						oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ENTITY,  new ArrayList<clsThingPresentation>(), "NULL"));
 					}
 				}
 			}
 			else {
-				oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<String, ArrayList<clsThingPresentation>, Object>("Entity",  new ArrayList<clsThingPresentation>(), "NULL"));
+				oBestTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ENTITY,  new ArrayList<clsThingPresentation>(), "NULL"));
 			}
 					
 		}

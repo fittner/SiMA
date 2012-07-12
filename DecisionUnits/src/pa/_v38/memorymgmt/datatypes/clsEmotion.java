@@ -8,7 +8,8 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.enums.clsEmotionType;
+import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -22,7 +23,7 @@ import pa._v38.tools.clsTriple;
  */
 public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAssociatedDataStructure{
 	
-	private clsEmotionType moContent = null;
+	private eEmotionType moContent = null;
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private double mrEmotionIntensity = 0.0; 
 	
@@ -32,7 +33,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	private double mrSourceLibid = 0.0;
 	private double mrSourceAggr = 0.0;
 	
-	public clsEmotion(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, double prEmotionIntensity, clsEmotionType poContent, 
+	public clsEmotion(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prEmotionIntensity, eEmotionType poContent, 
 			double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
 		super(poDataStructureIdentifier); 
 		mrEmotionIntensity = prEmotionIntensity;
@@ -61,7 +62,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @return the moContent
 	 */
-	public clsEmotionType getMoContent() {
+	public eEmotionType getMoContent() {
 		return moContent;
 	}
 
@@ -71,7 +72,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * 
 	 * @param moContent the moContent to set
 	 */
-	public void setMoContent(clsEmotionType moContent) {
+	public void setMoContent(eEmotionType moContent) {
 		this.moContent = moContent;
 	}
 	

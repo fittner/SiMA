@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.clsEmotionType;
+import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -78,21 +78,21 @@ public abstract class clsDataStructureGenerator {
 		return dummyID;
 	}
 	
-	public static clsThingPresentation generateTP(clsPair <String, Object> poContent){
-		clsThingPresentation oRetVal = new clsThingPresentation(new clsTriple<Integer, eDataType, String> (setID() , eDataType.TP, poContent.a), poContent.b); ;  
+	public static clsThingPresentation generateTP(clsPair <eContentType, Object> poContent){
+		clsThingPresentation oRetVal = new clsThingPresentation(new clsTriple<Integer, eDataType, eContentType> (setID() , eDataType.TP, poContent.a), poContent.b); ;  
 		return oRetVal;
 	}
 	
-	public static clsThingPresentationMesh generateTPM(clsTriple <String, ArrayList<clsThingPresentation>, Object> poContent){
+	public static clsThingPresentationMesh generateTPM(clsTriple <eContentType, ArrayList<clsThingPresentation>, Object> poContent){
 		clsThingPresentationMesh oRetVal; 
-		String oContentType = poContent.a;
+		eContentType oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
-		oRetVal = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.TPM, oContentType),oAssociatedContent, oContent); 
+		oRetVal = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.TPM, oContentType),oAssociatedContent, oContent); 
 		
 		for(clsThingPresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
+			oAssociatedContent.add(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
 													 oRetVal, 
 													 oElement)); 
 		}
@@ -117,32 +117,32 @@ public abstract class clsDataStructureGenerator {
 //		return oRetVal;
 //	}
 	
-	public static clsEmotion generateEMOTION(clsTriple <String, clsEmotionType, Object> poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr){
+	public static clsEmotion generateEMOTION(clsTriple <eContentType, eEmotionType, Object> poContent, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr){
 		clsEmotion oRetVal; 
-		String oContentType = poContent.a;
-		clsEmotionType oContent = poContent.b;
+		eContentType oContentType = poContent.a;
+		eEmotionType oContent = poContent.b;
 		
 		double rIntensity = (Double)poContent.c;
 		
-		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, String>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent,  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr); 
+		oRetVal = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.EMOTION, oContentType), rIntensity, oContent,  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr); 
 		return oRetVal;
 	}
 	
-	public static clsAffect generateAFFECT(clsPair <String, Object> poContent){
+	public static clsAffect generateAFFECT(clsPair <eContentType, Object> poContent){
 		clsAffect oRetVal; 
-		String oContentType = poContent.a;
+		eContentType oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
-		oRetVal = new clsAffect(new clsTriple<Integer, eDataType, String>(setID(), eDataType.AFFECT, oContentType), oContent); 
+		oRetVal = new clsAffect(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.AFFECT, oContentType), oContent); 
 		return oRetVal;
 	}
 	
-	public static clsDriveDemand generateDRIVEDEMAND(clsPair <String, Object> poContent){
+	public static clsDriveDemand generateDRIVEDEMAND(clsPair <eContentType, Object> poContent){
 		clsDriveDemand oRetVal; 
-		String oContentType = poContent.a;
+		eContentType oContentType = poContent.a;
 		double oContent = (Double)poContent.b;
 		
-		oRetVal = new clsDriveDemand(new clsTriple<Integer, eDataType, String>(setID(), eDataType.DRIVEDEMAND, oContentType), oContent); 
+		oRetVal = new clsDriveDemand(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DRIVEDEMAND, oContentType), oContent); 
 		return oRetVal;
 	}
 		
@@ -165,18 +165,18 @@ public abstract class clsDataStructureGenerator {
 //		return oRetVal;
 //	}
 	
-	public static clsDriveMesh generateDM(clsTriple <String, ArrayList<clsThingPresentation>, Object> poContent){
+	public static clsDriveMesh generateDM(clsTriple <eContentType, ArrayList<clsThingPresentation>, Object> poContent){
 		clsDriveMesh oRetVal; 
-		String oContentType = poContent.a;
+		eContentType oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		double oPleasure = 0.0;
 		double [] oCathegories = {0.0,0.0,0.0,0.0};
 		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
 		
-		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent);
+		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent);
 		
 		for(clsThingPresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationAttribute(new clsTriple<Integer, eDataType, String> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eDataType.ASSOCIATIONATTRIBUTE.toString()), 
+			oAssociatedContent.add(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
 													 oRetVal, 
 													 oElement)); 
 		}
@@ -184,23 +184,23 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
-	public static clsWordPresentation generateWP(clsPair <String, Object> poContent){
-		String oContentType = poContent.a; 
+	public static clsWordPresentation generateWP(clsPair <eContentType, Object> poContent){
+		eContentType oContentType = poContent.a; 
 		String oContent = (String)poContent.b;
-		clsWordPresentation oRetVal = new clsWordPresentation(new clsTriple<Integer, eDataType, String>(setID(), eDataType.WP, oContentType), oContent); 
+		clsWordPresentation oRetVal = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.WP, oContentType), oContent); 
 		return oRetVal;
 	}
 	
-	public static clsWordPresentationMesh generateWPM(clsPair <String, Object> poContent, ArrayList<clsAssociation> poAssociations){
-		String oContentType = poContent.a; 
+	public static clsWordPresentationMesh generateWPM(clsPair <eContentType, Object> poContent, ArrayList<clsAssociation> poAssociations){
+		eContentType oContentType = poContent.a; 
 		String oContent = (String)poContent.b;
-		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(setID(), eDataType.WP, oContentType), poAssociations, oContent); 
+		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.WP, oContentType), poAssociations, oContent); 
 		return oRetVal;
 	}
 	
-	public static clsAct generateACT(clsTriple <String, ArrayList<clsSecondaryDataStructure>, Object> poContent){
+	public static clsAct generateACT(clsTriple <eContentType, ArrayList<clsSecondaryDataStructure>, Object> poContent){
 		clsAct oRetVal; 
-		String oContentType = poContent.a;
+		eContentType oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
 		ArrayList<clsSecondaryDataStructure> oAssociatedContent = poContent.b; 
 		//HZ: The content type has to be defined - a decision has to be made between
@@ -208,49 +208,49 @@ public abstract class clsDataStructureGenerator {
 //		for(clsWordPresentation oElement : poContent.b){
 //			//tbd
 //		}
-		oRetVal = new clsAct(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ACT, oContentType), oAssociatedContent, oContent);
+		oRetVal = new clsAct(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ACT, oContentType), oAssociatedContent, oContent);
 		return oRetVal;
 	}
 	
-	public static clsAssociationPrimary generateASSOCIATIONPRI(String poContentType, 
+	public static clsAssociationPrimary generateASSOCIATIONPRI(eContentType poContentType, 
 			clsThingPresentationMesh poRoot, clsThingPresentationMesh poLeaf, double prWeight) {
 		clsAssociationPrimary oRetVal=null;
-		String oContentType = poContentType; 
+		eContentType oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationPrimary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
+		oRetVal = new clsAssociationPrimary(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
 	}
 	
-	public static clsAssociationPrimaryDM generateASSOCIATIONPRIDM(String poContentType, 
+	public static clsAssociationPrimaryDM generateASSOCIATIONPRIDM(eContentType poContentType, 
 			clsDriveMesh poRoot, clsDriveMesh poLeaf, double prWeight) {
 		clsAssociationPrimaryDM oRetVal=null;
-		String oContentType = poContentType; 
+		eContentType oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationPrimaryDM(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRIDM, oContentType), poRoot, poLeaf);
+		oRetVal = new clsAssociationPrimaryDM(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONPRIDM, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
 	}
 	
-	public static clsAssociationTime generateASSOCIATIONTIME(String poContentType, 
+	public static clsAssociationTime generateASSOCIATIONTIME(eContentType poContentType, 
 			clsThingPresentationMesh poRoot, clsThingPresentationMesh poLeaf, double prWeight) {
 		clsAssociationTime oRetVal=null;
-		String oContentType = poContentType; 
+		eContentType oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
+		oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONPRI, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
 	}
 	
-	public static clsAssociation generateASSOCIATIONSEC(String poContentType, 
+	public static clsAssociation generateASSOCIATIONSEC(eContentType poContentType, 
 			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, String poPredicate, double prWeight) {
 		clsAssociation oRetVal=null;
-		String oContentType = poContentType; 
+		eContentType oContentType = poContentType; 
 		
-		oRetVal = new clsAssociationSecondary(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONSEC, oContentType), (clsSecondaryDataStructure)poRoot, (clsSecondaryDataStructure)poLeaf, poPredicate);
+		oRetVal = new clsAssociationSecondary(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONSEC, oContentType), (clsSecondaryDataStructure)poRoot, (clsSecondaryDataStructure)poLeaf, poPredicate);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
@@ -259,7 +259,7 @@ public abstract class clsDataStructureGenerator {
 	public static clsAssociation generateASSOCIATIONDM(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight) {
 		clsAssociation oRetVal=null;
 		
-		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), poDM, poTPM);
+		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), poDM, poTPM);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;
@@ -268,9 +268,9 @@ public abstract class clsDataStructureGenerator {
 	public static clsAssociation generateASSOCIATIONATTRIBUTE(eContentType poContentType, 
 			clsPrimaryDataStructure poRoot, clsPrimaryDataStructure poLeaf, double prWeight) {
 		clsAssociation oRetVal=null;
-		String oContentType = poContentType.toString();  //TODO alles auf enums umstellen
+		eContentType oContentType = poContentType;  
 		
-		oRetVal = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONATTRIBUTE, oContentType), poRoot, poLeaf);
+		oRetVal = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONATTRIBUTE, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;

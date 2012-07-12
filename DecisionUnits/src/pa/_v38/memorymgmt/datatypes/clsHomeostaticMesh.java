@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -31,7 +32,7 @@ public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	 *
 	 * @param poHomeostaticSource
 	 */
-	public clsHomeostaticMesh(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
+	public clsHomeostaticMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 			ArrayList<clsAssociation> poAssociatedDriveSource, double pnDriveDemandIntensity) {
 		super(poDataStructureIdentifier);
 		

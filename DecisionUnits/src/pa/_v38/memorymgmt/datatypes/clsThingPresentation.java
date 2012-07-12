@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 
@@ -57,7 +58,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 	 *
 	 * @param poWordPresentationAssociation
 	 */
-	public clsThingPresentation(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, Object poContent) {
+	public clsThingPresentation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, Object poContent) {
 		
 		super(poDataStructureIdentifier);
 		moContent = poContent;
@@ -96,7 +97,7 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 		//HZ 16.08.2010 Be careful - as their are upper-case and lower-case issues within the simulator 
 		//				and in between the simulator and the ontology regarding the current naming 
 		//				of SymbolTypes, the content types are compared without case sensitivity. 
-		if(moContentType.intern() == oDataStructure.moContentType.intern()){
+		if(moContentType == oDataStructure.moContentType){
 							
 				if(this.moContent instanceof Boolean && oDataStructure.moContent instanceof Boolean) {
 					oRetVal = compare((Boolean)this.moContent, (Boolean)oDataStructure.moContent );

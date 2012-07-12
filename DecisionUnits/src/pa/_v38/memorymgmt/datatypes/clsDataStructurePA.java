@@ -11,6 +11,7 @@ import java.util.List;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -46,7 +47,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
-	protected String moContentType;
+	protected eContentType moContentType;
 	//AW 20110706: New Identifier for instances
 	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
 	 * in order to be able to assign the root elements in the associated data structures in the containers with
@@ -64,7 +65,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 22.06.2010, 15:50:02
 	 *
 	 */
-	public clsDataStructurePA(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsDataStructurePA(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		moDS_ID = poDataStructureIdentifier.a; 
 		moDataStructureType = poDataStructureIdentifier.b;
 		moContentType = poDataStructureIdentifier.c; 
@@ -160,7 +161,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 
 	 * @return the moContentType
 	 */
-	public String getMoContentType() {
+	public eContentType getMoContentType() {
 		return moContentType;
 	}
 
@@ -170,7 +171,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * 
 	 * @param moContentType the moContentType to set
 	 */
-	public void setMoContentType(String moContentType) {
+	public void setMoContentType(eContentType moContentType) {
 		this.moContentType = moContentType;
 	}
 	

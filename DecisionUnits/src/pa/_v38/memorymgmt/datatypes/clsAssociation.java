@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 
@@ -128,7 +129,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 24.05.2010, 15:50:41
 	 *
 	 */
-	public clsAssociation(clsTriple<Integer, eDataType, String> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
+	public clsAssociation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
 		super(poDataStructureIdentifier);
 		mrImperativeFactor = 1.0; 
 		mrWeight = 1.0;	//TODO HZ: The weight shall be possible to set in the constructor 

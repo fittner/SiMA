@@ -33,7 +33,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 * @param poDataStructureIdentifier
 	 */
 	public clsWordPresentationMesh(
-			clsTriple<Integer, eDataType, String> poDataStructureIdentifier, 
+			clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 			ArrayList<clsAssociation> poAssociatedStructures, Object poContent) {
 		super(poDataStructureIdentifier);
 		

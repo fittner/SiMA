@@ -42,7 +42,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMeshNew(	clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsDriveMeshNew(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
 	}
@@ -68,7 +68,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType.toString()) //TODO no more strings
+			if(oAA.getMoContentType() == oContentType) //TODO no more strings
 				oRetVal = (clsAssociationAttribute)oAA;
 		}
 		return oRetVal;
@@ -79,7 +79,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType.toString()) //TODO no more strings
+			if(oAA.getMoContentType() == oContentType) //TODO no more strings
 				oRetVal = (clsAssociationAttribute)oAA.moAssociationElementB;
 		}
 		

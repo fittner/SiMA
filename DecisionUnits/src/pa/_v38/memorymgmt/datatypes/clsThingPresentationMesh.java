@@ -57,7 +57,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * @param poWordPresentationAssociation
 	 * @param poDriveMeshAssociation
 	 */
-	public clsThingPresentationMesh(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsThingPresentationMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 									ArrayList<clsAssociation> poAssociatedPhysicalRepresentations,
 									String poContent) {
 		
@@ -159,10 +159,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			}
 			
 		}
-		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
+		else if (this.moContentType  == poDataStructure.moContentType ){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
-		else if(this.moContentType.intern() == "RI" & poDataStructure.moContentType.intern() == "PI") {
+		else if(this.moContentType  == eContentType.RI & poDataStructure.moContentType == eContentType.PI) {
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
 		//Special case, if the TPM is empty	
@@ -230,7 +230,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public boolean contain(clsDataStructurePA poDataStructure){
 		
 		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
-			if((String)oAssociation.moAssociationElementB.moContentType.intern() == poDataStructure.moContentType.intern()){
+			if(oAssociation.moAssociationElementB.moContentType == poDataStructure.moContentType ){
 				return true;
 			}
 		}

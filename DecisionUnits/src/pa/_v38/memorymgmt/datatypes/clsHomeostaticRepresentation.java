@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -24,7 +25,7 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 24.05.2010, 12:57:01
 	 *
 	 */
-	public clsHomeostaticRepresentation(clsTriple<Integer, eDataType, String> poDataStructureIdentifier) {
+	public clsHomeostaticRepresentation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier); 
 	}
 	

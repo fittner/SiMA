@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -35,7 +36,7 @@ public class clsAssociationSecondary extends clsAssociation{
 	 * @param poWordPresentation
 	 */
 	public clsAssociationSecondary(
-		clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+		clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 		clsSecondaryDataStructure poAssociationElementA,
 		clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
 			

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 
@@ -54,7 +55,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	 * 24.05.2010, 12:41:23
 	 *
 	 */
-	public clsTemplateImage(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsTemplateImage(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 			ArrayList<clsAssociation> poAssociatedTemporalStructures,
 			String poContent) {
 		super(poDataStructureIdentifier); 
@@ -160,7 +161,7 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
 		//5.
-		else if (this.moContentType.intern() == poDataStructure.moContentType.intern()){
+		else if (this.moContentType == poDataStructure.moContentType){
 				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
 		

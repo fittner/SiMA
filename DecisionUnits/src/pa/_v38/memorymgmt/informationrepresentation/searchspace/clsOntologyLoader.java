@@ -37,7 +37,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.clsEmotionType;
+import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 
@@ -326,7 +327,7 @@ public class clsOntologyLoader {
 		float rSourceLibid = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("sourceLibid")));
 		float rSourceAggr = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("sourceAggr")));
 				
-		clsEmotionType oEmotionType = clsEmotionType.getEmotionType(oElementValue);
+		eEmotionType oEmotionType = eEmotionType.getEmotionType(oElementValue);
 		
 		clsEmotion oDataStructure = new clsEmotion(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
 																								rEmotionIntensity,
@@ -494,13 +495,13 @@ public class clsOntologyLoader {
 
 		eDataType oElType = eDataType.ACT;
 		int oID = DS_ID++;  
-		String oElValType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElValType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElVal = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		Collection <?> oPreCon = getSlotValues("precondition", poElement);
 		Collection <?> oAction = getSlotValues("action", poElement);
 		Collection <?> oConseq = getSlotValues("consequence", poElement);
 		clsWordPresentation oDS = null;
-		clsAct oAct = new clsAct(new clsTriple<Integer, eDataType, String>(oID,oElType,oElValType),
+		clsAct oAct = new clsAct(new clsTriple<Integer, eDataType, eContentType>(oID,oElType,oElValType),
 																					  new ArrayList<clsSecondaryDataStructure>(), 
 																					  oElVal);
 		
@@ -548,10 +549,10 @@ public class clsOntologyLoader {
 		
 		eDataType oElementType = eDataType.TI;
 		int oID = DS_ID++;   
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
-		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
+		clsTemplateImage oDataStructure = new clsTemplateImage(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 															   new ArrayList<clsAssociation>(), 
 															   oElementValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -704,17 +705,17 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
+	private static clsAssociation getNewAssociation(eContentType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
 		
 		//Use oPredicate if an AssociationSecondary is used, else the predicate is not used in the function.
 		
 		int oID = DS_ID++;  
-		String oElementValueType = peElementType.toString();
+		eContentType oElementValueType = peElementType;
 		clsPair<clsDataStructurePA, clsDataStructurePA> oAssociationElements = null; 
 		
 		switch(peElementType){
 			case ASSOCIATIONATTRIBUTE:
-				return new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,oElementValueType),
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
 			case ASSOCIATIONTEMP:
 				return new clsAssociationTime(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),

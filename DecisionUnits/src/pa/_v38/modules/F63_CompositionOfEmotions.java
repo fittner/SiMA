@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.clsEmotionType;
+import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -189,40 +189,40 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// just generate Unpleasure-Emotions
 		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){			
-			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
 			if(mrRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(eEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
 			}
 			else if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 			else {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
-				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(eEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 		}
 		// just generate Pleasure-Emotions
 		else if (mrRelativeSystemUnpleasure > mrRelativeThreshold) {
 			if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
 			// else NO EMOTIONS??? 
 		}
 		// generate both
 		else {
 			if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
-			generateEmotion(clsEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
 			if(mrRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(eEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
 			}
 			else if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(clsEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.GRIEF, mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 			else {
-				generateEmotion(clsEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
-				generateEmotion(clsEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
+				generateEmotion(eEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 		}
 		
@@ -278,8 +278,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * 03.07.2012, 15:48:45
 	 * 
 	 */
-	private void generateEmotion(clsEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
-		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <String, clsEmotionType, Object>("BASIC_EMOTIONS", poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
+	private void generateEmotion(eEmotionType poEmotionType, double prEmotionIntensity, double prSourcePleasure, double prSourceUnpleasure, double prSourceLibid, double prSourceAggr) {
+		moEmotions_OUT.add(clsDataStructureGenerator.generateEMOTION(new clsTriple <String, eEmotionType, Object>("BASIC_EMOTIONS", poEmotionType, prEmotionIntensity),  prSourcePleasure,  prSourceUnpleasure,  prSourceLibid,  prSourceAggr));
 	}
 	
 	/* (non-Javadoc)

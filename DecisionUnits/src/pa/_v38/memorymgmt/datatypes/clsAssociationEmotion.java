@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
@@ -28,7 +29,7 @@ public class clsAssociationEmotion  extends clsAssociation{
 	 * @param poAssociationElementB
 	 */
 	public clsAssociationEmotion(
-			clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+			clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 			clsEmotion poAssociationElementA,
 			clsThingPresentationMesh poAssociationElementB) {
 		

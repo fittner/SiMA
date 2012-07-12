@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -29,7 +30,7 @@ public class clsAssociationTime extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationTime(clsTriple<Integer, eDataType, String> poDataStructureIdentifier,
+	public clsAssociationTime(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 			clsThingPresentationMesh poAssociationElementA,
 			clsThingPresentationMesh poAssociationElementB) {
 		
