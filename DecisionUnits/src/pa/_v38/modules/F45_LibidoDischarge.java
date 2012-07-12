@@ -77,6 +77,12 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;	
+	
+	/** String for searching for content type from the storage of images to libido */
+	private String oLibidoImageString = "RI:LIBIDO";
+	
+	/** String for searching for content type from the storage of images to libido */
+	private eContentType oLibidoImageString = eContentType.RILIBIDO;
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned
 	 * 

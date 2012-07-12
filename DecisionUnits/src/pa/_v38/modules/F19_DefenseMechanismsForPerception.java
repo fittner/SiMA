@@ -60,7 +60,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
-	private ArrayList<clsPair<String, String>> moForbiddenPerceptions_Input;
+	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
 	//private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
@@ -177,7 +177,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -285,14 +285,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
-	private void defenseMechanism_Denial (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Denial (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
 		
 		// check list of forbidden perceptions
-		for(clsPair<String, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			String oContentType = oOneForbiddenPerception.a;
+		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
 			clsDataStructurePA oFoundObject = null;
@@ -300,8 +300,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
-			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
+			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
 			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
@@ -338,7 +338,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * Defense mechanism idealization (perceives only the good properties of an object and denies the negative properties)
 	 * 
 	 */
-	private void defenseMechanism_Idealization (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Idealization (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
 		ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oNegativeObject;
 		
@@ -360,7 +360,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * Defense mechanism depreciation (perceives only the bad properties of an object and denies the positive properties)
 	 * 
 	 */
-	private void defenseMechanism_Depreciation (ArrayList<clsPair<String, String>> oForbiddenPerceptions) {
+	private void defenseMechanism_Depreciation (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
 		ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oPositiveObject;
 		
@@ -382,14 +382,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * is needed for defense mechanism idealization/depreciation
 	 * 
 	 */
-	private void deleteAssociationsFromPerception (ArrayList<clsPair<String, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
+	private void deleteAssociationsFromPerception (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
 		
 	   	// If no perception in list to defend return immediately (otherwise NullPointerException)
 	   	if (oForbiddenPerceptions == null) return;
 		
 		// check list of forbidden perceptions
-		for(clsPair<String, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
-			String oContentType = oOneForbiddenPerception.a;
+		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
 			clsDataStructurePA oFoundObject = null;
@@ -397,8 +397,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
-			oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
+			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
 			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);

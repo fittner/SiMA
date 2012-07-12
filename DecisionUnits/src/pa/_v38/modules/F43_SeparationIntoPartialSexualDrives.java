@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 import config.clsProperties;
@@ -152,7 +153,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @return
 	 */
 	private clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
-		String oContentType;
+		eContentType oContentType;
 		String oContext;
 		clsPair<clsDriveMesh, clsDriveDemand> oHDD;
 		
@@ -173,18 +174,18 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		return new clsPair<clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double>>(oT_A, oT_B);
 	}
 	
-	private clsTriple<clsDriveMesh,clsDriveDemand,Double> createDriveMeshTripple(String poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
+	private clsTriple<clsDriveMesh,clsDriveDemand,Double> createDriveMeshTripple(eContentType poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
 		clsDriveMesh oDM = createSexualDriveMesh(poContentType, poContext);
 		clsTriple<clsDriveMesh,clsDriveDemand,Double> oT = new clsTriple<clsDriveMesh, clsDriveDemand, Double>(oDM, poDemand, prValue);
 		return oT;
 	}
 	
-	private clsDriveMesh createSexualDriveMesh(String poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+	private clsDriveMesh createSexualDriveMesh(eContentType poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		oRetVal.mbSexualDM = true; // temporary solution to dinstinguish sexual drives from self-preservation drives

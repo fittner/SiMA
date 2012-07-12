@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
@@ -369,7 +370,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		// Helper
 		String oOppositeTPContent = "";
-		String oOppositeTPContentType= "";   
+		eContentType oOppositeTPContentType;   
 		int j = 0;
 		double rPleasure = 0;
 		
@@ -388,7 +389,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// What is the opposite TP?	
 		String oOriginalTPContent = poOriginalDM.getMoContent();
 		oOppositeTPContent = (String) oOppositeTP.get(oOriginalTPContent).get(0);
-		oOppositeTPContentType = (String) oOppositeTP.get(oOriginalTPContent).get(1);
+		oOppositeTPContentType = (eContentType) oOppositeTP.get(oOriginalTPContent).get(1);
 		
 		
 		// Opposite drive goal found?
@@ -434,8 +435,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 
 			// new DM needed
-			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<String, Object>(oOppositeTPContent,oOppositeTPContent)); 
-			oNewDM = clsDataStructureGenerator.generateDM(new clsTriple <String, ArrayList<clsThingPresentation>, Object>(oOppositeTPContentType, new ArrayList<clsThingPresentation>(Arrays.asList(oTP)) , oOppositeTPContent));
+			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(oOppositeTPContentType,oOppositeTPContent)); 
+			oNewDM = clsDataStructureGenerator.generateDM(new clsTriple <eContentType, ArrayList<clsThingPresentation>, Object>(oOppositeTPContentType, new ArrayList<clsThingPresentation>(Arrays.asList(oTP)) , oOppositeTPContent));
 			oNewDM.setCategories((Double)oOppositeTP.get(oOriginalTPContent).get(4), (Double)oOppositeTP.get(oOriginalTPContent).get(2), (Double)oOppositeTP.get(oOriginalTPContent).get(3), (Double)oOppositeTP.get(oOriginalTPContent).get(5));
 						
 			
