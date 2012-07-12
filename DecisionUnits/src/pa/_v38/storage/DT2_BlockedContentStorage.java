@@ -321,7 +321,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						//2. If found, create a new association with this dm and the found root element. This association shall be added to all these objects
 						for (clsThingPresentationMesh oObject : oFoundObjects) {
 							//3. create a new association
-							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
+							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
 							//4. Add the association to the external associations of the root element
 							oObject.getExternalMoAssociatedContent().add(oNewMesh);
 						}
@@ -330,7 +330,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				// case 1b: partial match (matchValue < 1)
 				else {
 					// add complete result to associated memories by creating
-					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eDataType.ASSOCIATIONPRI.toString(), poPerception, (clsThingPresentationMesh) matchedItem.a, matchedItem.b);
+					clsAssociationPrimary oNewPriAss = (clsAssociationPrimary) clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.ASSOCIATIONPRI, poPerception, (clsThingPresentationMesh) matchedItem.a, matchedItem.b);
 					poPerception.getExternalMoAssociatedContent().add(oNewPriAss);
 					((clsThingPresentationMesh)matchedItem.a).getExternalMoAssociatedContent().add(oNewPriAss);
 					
@@ -477,7 +477,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						// add the association with the matching element from the input to the return values
 						ArrayList<clsAssociationDriveMesh> newDMAssociations = new ArrayList<clsAssociationDriveMesh>();
 						clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
-						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), (clsDriveMesh)oEntry, newRoot));
+						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh)oEntry, newRoot));
 						//oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
 						// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 						int i = 0;
@@ -639,7 +639,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 			//Assign physical representation
 			//newTI.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, "ASSOCIATIONTEMP"), newTI, poDS));
 			//Add DM as association
-			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.DM, eDataType.ASSOCIATIONDM.toString()), poDM, poDS);
+			clsAssociationDriveMesh oAddDM = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.DM, eContentType.ASSOCIATIONDM), poDM, poDS);
 			//Create ass list
 			//ArrayList<clsAssociation> oContainerAssList = new ArrayList<clsAssociation>();
 			//oContainerAssList.add(oAddDM);
@@ -647,8 +647,8 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 			
 			poDS.getExternalMoAssociatedContent().add(oAddDM);
 			
-			clsThingPresentationMesh oNewImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(-1, eDataType.TPM, eContentType.RI.toString()), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
-			oNewImage.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, eDataType.ASSOCIATIONTEMP.toString()), oNewImage, poDS));
+			clsThingPresentationMesh oNewImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.TPM, eContentType.RI), new ArrayList<clsAssociation>(), "REPRESSEDIMAGE");
+			oNewImage.assignDataStructure(new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONTEMP, eContentType.ASSOCIATIONTEMP), oNewImage, poDS));
 
 			oRetVal = oNewImage;
 			

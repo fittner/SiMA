@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eActState;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -29,7 +30,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  */
 public class clsAct extends clsSecondaryDataStructure {
 	
-	private ArrayList<clsWordPresentation> m_alWordpresentations;
+	//private ArrayList<clsWordPresentation> m_alWordpresentations;
 	public String m_strAction;
 	
 	//private String moContent = "UNDEFINED"; 
@@ -51,15 +52,15 @@ public class clsAct extends clsSecondaryDataStructure {
 		setContent(poContent); 
 	}
 
-	/*public clsAct (ArrayList<clsWordPresentation> wp) {
-		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
-		m_alWordpresentations = wp;
-	}
+//	public clsAct (ArrayList<clsWordPresentation> wp) {
+//		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, wp.toString())); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+//		m_alWordpresentations = wp;
+//	}
 	
-	public clsAct (String str) {
-		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, str)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
-		m_strAction = str;
-	}*/
+	public clsAct (eAction str) {
+		super(new clsTriple<Integer, eDataType, eContentType>(0, eDataType.ACT, eContentType.ACTION)); //TD 2011/07/19 - changed super(null); to something that does not produce a null-pointer-exception
+		m_strAction = str.toString();
+	}
 	
 	
 	/**

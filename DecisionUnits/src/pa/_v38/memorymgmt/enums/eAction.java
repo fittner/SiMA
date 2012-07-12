@@ -33,5 +33,4 @@ public enum eAction {
 	
 	//Composed actions
 	SEARCH1;
-	
 }
