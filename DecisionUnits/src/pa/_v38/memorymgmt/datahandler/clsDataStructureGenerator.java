@@ -25,12 +25,14 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.clsEmotionType;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 /**
@@ -258,6 +260,17 @@ public abstract class clsDataStructureGenerator {
 		clsAssociation oRetVal=null;
 		
 		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONDM, eDataType.ASSOCIATIONDM.toString()), poDM, poTPM);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	
+	public static clsAssociation generateASSOCIATIONATTRIBUTE(eContentType poContentType, 
+			clsPrimaryDataStructure poRoot, clsPrimaryDataStructure poLeaf, double prWeight) {
+		clsAssociation oRetVal=null;
+		String oContentType = poContentType.toString();  //TODO alles auf enums umstellen
+		
+		oRetVal = new clsAssociationAttribute(new clsTriple<Integer, eDataType, String>(setID(), eDataType.ASSOCIATIONATTRIBUTE, oContentType), poRoot, poLeaf);
 		oRetVal.setMrWeight(prWeight);
 		
 		return oRetVal;

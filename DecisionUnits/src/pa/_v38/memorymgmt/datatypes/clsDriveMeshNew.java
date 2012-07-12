@@ -7,9 +7,10 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
-
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
@@ -47,19 +48,141 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	}
 	
 	public clsThingPresentationMesh getActualDriveObject(){
-		return null;
+		return getAssociatedObject(eContentType.DRIVEOBJECTASSOCIATION);
 	}
 	
 	public clsThingPresentationMesh getActualDriveAim(){
-		return null;
+		return getAssociatedObject(eContentType.DRIVEAIMASSOCIATION);
 	}
 	
 	public clsThingPresentationMesh getActualBodyOrifice(){
-		return null;
+		return getAssociatedObject(eContentType.BODYPART);
 	}
 	
 	public clsThingPresentationMesh getActualDriveSource(){
-		return null;
+		return getAssociatedObject(eContentType.BODYPART);
+	}
+	
+	private clsAssociationAttribute getAssociation(eContentType oContentType){
+		clsAssociationAttribute oRetVal = null;
+		
+		for(clsAssociation oAA : moInternalAssociatedContent)
+		{
+			if(oAA.getMoContentType() == oContentType.toString()) //TODO no more strings
+				oRetVal = (clsAssociationAttribute)oAA;
+		}
+		return oRetVal;
+	}
+	
+	private clsThingPresentationMesh getAssociatedObject(eContentType oContentType){
+		clsDataStructurePA oRetVal = null;
+		
+		for(clsAssociation oAA : moInternalAssociatedContent)
+		{
+			if(oAA.getMoContentType() == oContentType.toString()) //TODO no more strings
+				oRetVal = (clsAssociationAttribute)oAA.moAssociationElementB;
+		}
+		
+		if( oRetVal != null )
+		{
+			return (clsThingPresentationMesh)oRetVal;
+		}
+		else
+		{
+			System.out.printf("No Object of type " + oContentType.toString() +" associated to DriveMesh");
+			return null;
+		}
+	}
+	
+	public void associateActualDriveSource(clsThingPresentationMesh poDriveObject, double prWeight){
+
+		moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.BODYPART, 
+																		(clsPrimaryDataStructure)this, 
+																		(clsPrimaryDataStructure)poDriveObject, 
+																		prWeight));
+	}
+	
+	public void associateActualDriveAim(clsThingPresentationMesh poDriveObject, double prWeight){
+		
+		moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEAIMASSOCIATION, 
+																		(clsPrimaryDataStructure)this, 
+																		(clsPrimaryDataStructure)poDriveObject, 
+																		prWeight));
+	}
+	
+	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight){
+		
+		moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEOBJECTASSOCIATION, 
+																		(clsPrimaryDataStructure)this, 
+																		(clsPrimaryDataStructure)poDriveObject, 
+																		prWeight));
+	}
+	
+	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveObject, double prWeight){
+		
+		moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.BODYPART, 
+																		(clsPrimaryDataStructure)this, 
+																		(clsPrimaryDataStructure)poDriveObject, 
+																		prWeight));
+	}
+	
+	
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @return the mrQuotaOfAffect
+	 */
+	public double getQuotaOfAffect() {
+		return mrQuotaOfAffect;
+	}
+
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+	 */
+	public void setQuotaOfAffect(double mrQuotaOfAffect) {
+		this.mrQuotaOfAffect = mrQuotaOfAffect;
+	}
+
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @return the moDriveComponent
+	 */
+	public eDriveComponent getDriveComponent() {
+		return moDriveComponent;
+	}
+
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @param moDriveComponent the moDriveComponent to set
+	 */
+	public void setDriveComponent(eDriveComponent moDriveComponent) {
+		this.moDriveComponent = moDriveComponent;
+	}
+
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @return the moPartialDrive
+	 */
+	public ePartialDrive getPartialDrive() {
+		return moPartialDrive;
+	}
+
+	/**
+	 * @since 11.07.2012 14:10:00
+	 * 
+	 * @param moPartialDrive the moPartialDrive to set
+	 */
+	public void setPartialDrive(ePartialDrive moPartialDrive) {
+		this.moPartialDrive = moPartialDrive;
 	}
 
 	/* (non-Javadoc)
