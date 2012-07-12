@@ -60,7 +60,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
-	private ArrayList<clsThingPresentationMesh> moReturnedTPMemory_IN; 
+	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
 	/** Input from perception */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
 
@@ -114,7 +114,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		String text ="";
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		text += toText.valueToTEXT("moReturnedTPMemory_IN", moReturnedTPMemory_IN);
+		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
@@ -182,10 +182,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		/* Perception - Activation of associated memories */
 		//FIXME AW This is a hack
 		clsThingPresentationMesh oBestPhantasyInput = null;
-		if (moReturnedTPMemory_IN != null) {
-			if (moReturnedTPMemory_IN.isEmpty()==false) {
+		if (moReturnedPhantasy_IN != null) {
+			if (moReturnedPhantasy_IN.isEmpty()==false) {
 				//FIXME: Containers shall be exchanged to TPMs
-				oBestPhantasyInput = moReturnedTPMemory_IN.get(0);	//This input shall be sorted in F47
+				oBestPhantasyInput = moReturnedPhantasy_IN.get(0);	//This input shall be sorted in F47
 			}
 		}
 		
@@ -617,21 +617,21 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		}*/
 	}	
 	
-//	/**
-//	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
-//	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
-//	 * can activate phantasies, if the perception is not so important (subjective). The function returns a list of activated images, which are
-//	 * not perception.
-//	 *
-//	 * @since 14.07.2011 15:15:31
-//	 *
-//	 * @param oPerceptionInput
-//	 * @param oReturnedMemory
-//	 * @return
-//	 */
-//	private void enhanceWithActivatedMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
-//		
-//		//ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+	/**
+	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
+	 * in the storage. The total amount of mrPleasure decides which image is put on the input. In that way content from the secondary process
+	 * can activate phantasies, if the perception is not so important (subjective). The function returns a list of activated images, which are
+	 * not perception.
+	 *
+	 * @since 14.07.2011 15:15:31
+	 *
+	 * @param oPerceptionInput
+	 * @param oReturnedMemory
+	 * @return
+	 */
+	private void activateMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
+		
+//		//default is to use perception
 //		boolean blUsePerception = true;
 //		
 //		//Associated memories
@@ -676,7 +676,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 //		//}
 //		
 //		//return oRetVal;
-//	}
+	}
 
 	
 	/**
@@ -1025,7 +1025,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I5_19(ArrayList<clsThingPresentationMesh> poReturnedMemory) {
-		moReturnedTPMemory_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
+		moReturnedPhantasy_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poReturnedMemory);
 	}
 
 	/* (non-Javadoc)
