@@ -26,6 +26,7 @@ public enum eContentType {
 	RI,
 	LIBIDO,
 	RIREPRESSED,
+	RILIBIDO,
 	AREASUBSET,
 	AFFECTLEVEL,
 	ACTION,
