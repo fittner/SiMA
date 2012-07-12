@@ -56,10 +56,10 @@ public class clsImportanceTools {
 	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
 		double rTotalAffect = 0;
 		
-		ArrayList<clsPair<String, String>> oDMContentType = new ArrayList<clsPair<String, String>>();
+		ArrayList<clsPair<eContentType, String>> oDMContentType = new ArrayList<clsPair<eContentType, String>>();
 		//Get all contenttypes from the DM
 		for (clsDriveMesh oDM : poDMList) {
-			oDMContentType.add(new clsPair<String, String>(oDM.getMoContentType(), null));
+			oDMContentType.add(new clsPair<eContentType, String>(oDM.getMoContentType(), null));
 		}
 		
 		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);

@@ -36,7 +36,7 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh createActDataStructure(clsWordPresentationMesh poIntention) {
 		//If yes, then create a prediction
 		//Create an act structure for that act
-		clsWordPresentationMesh oPrediction = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.PREDICTION.toString(), poIntention.getMoContent()), new ArrayList<clsAssociation>());
+		clsWordPresentationMesh oPrediction = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.PREDICTION, poIntention.getMoContent()), new ArrayList<clsAssociation>());
 		//Create the association to the intention from the prediction but not the other way around. In that way the mesh is independent of the meta structure
 		clsMeshTools.createAssociationSecondary(oPrediction, 1, poIntention, 0, 1.0, eContentType.INTENTION, ePredicate.HASINTENTION, false);
 	

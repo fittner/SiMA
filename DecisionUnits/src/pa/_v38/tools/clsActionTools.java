@@ -27,7 +27,7 @@ import pa._v38.storage.clsShortTermMemory;
  */
 public class clsActionTools {
 	
-	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
 	
 	/**
@@ -40,7 +40,7 @@ public class clsActionTools {
 	}
 	
 	public static clsWordPresentationMesh createAction(String poAction) {
-		return clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ACTION.toString(), poAction), new ArrayList<clsAssociation>());
+		return clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ACTION, poAction), new ArrayList<clsAssociation>());
 	}
 	
 	public static clsWordPresentationMesh getSupportiveDataStructureFromHashCode(clsWordPresentationMesh poAction, clsShortTermMemory poSTM) {
@@ -70,7 +70,7 @@ public class clsActionTools {
 	public static void setSupportiveDataStructureHashCode(clsWordPresentationMesh poAction, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poAction);
 		
-		clsWordPresentationMesh oWPMRef = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.SUPPORTIVEDATASTRUCTURE.toString(), String.valueOf(poDataStructure.hashCode())), new ArrayList<clsAssociation>());
+		clsWordPresentationMesh oWPMRef = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.SUPPORTIVEDATASTRUCTURE, String.valueOf(poDataStructure.hashCode())), new ArrayList<clsAssociation>());
 		
 		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
 			clsMeshTools.createAssociationSecondary(poAction, 1, oWPMRef, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);

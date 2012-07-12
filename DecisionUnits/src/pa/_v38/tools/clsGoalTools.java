@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  */
 public class clsGoalTools {
 
-	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
 	
 	/**
@@ -43,13 +43,13 @@ public class clsGoalTools {
 	
 	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		//Create identifiyer. All goals must have the content type "GOAL"
-		clsTriple<Integer, eDataType, String> oDataStructureIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, eContentType.GOAL.toString());
+		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
 		
 		//Create the basic goal structure
 		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), poGoalContent);
 		
 		//Create a WP for the affectlevel
-		clsTriple<Integer, eDataType, String> oDataStructureIdentifier2 = new clsTriple<Integer, eDataType, String>(-1, eDataType.WP, eContentType.AFFECTLEVEL.toString());
+		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier2 = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WP, eContentType.AFFECTLEVEL);
 		clsWordPresentation oAffectLevelWP = new clsWordPresentation(oDataStructureIdentifier2, poAffectLevel.toString());
 		
 		//Add WP to the mesh
@@ -222,7 +222,7 @@ public class clsGoalTools {
 		eContentType oRetVal = null;
 	
 		if (clsGoalTools.getSupportiveDataStructure(poGoal)!=null) {
-			oRetVal = eContentType.valueOf(clsGoalTools.getSupportiveDataStructure(poGoal).getMoContentType());
+			oRetVal = clsGoalTools.getSupportiveDataStructure(poGoal).getMoContentType();
 		}
 		
 		
