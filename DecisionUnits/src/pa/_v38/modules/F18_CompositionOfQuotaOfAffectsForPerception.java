@@ -227,7 +227,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
 						//firstAssociation is compared with the secondAssociation
 						//If the content type of the DM are equal then
-						if (oFirstDM.getMoContentType().intern() == oSecondDM.getMoContentType().intern()) {
+						if (oFirstDM.getMoContentType() == oSecondDM.getMoContentType()) {
 							//1. Add mrPleasure from the second to the first DM
 							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrQuotaOfAffect(), oSecondDM.getMrQuotaOfAffect());
 							oFirstDM.setMrQuotaOfAffect(mrNewPleasure);

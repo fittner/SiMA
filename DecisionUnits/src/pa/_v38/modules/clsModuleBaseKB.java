@@ -192,13 +192,13 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poSearchResult
 	 * 
 	 */
-	public void searchMesh(clsDataStructurePA poPattern, ArrayList<clsPair<Double, clsDataStructurePA>> poSearchResult, String poSearchContentType, double prThreshold, int pnLevel) {
+	public void searchMesh(clsDataStructurePA poPattern, ArrayList<clsPair<Double, clsDataStructurePA>> poSearchResult, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 
 		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
 			
 			//FIXME AW: Make a better solution than renaming the content types at the search
-			String oInputContentType = poPattern.getMoContentType();
+			eContentType oInputContentType = poPattern.getMoContentType();
 			//Set the new content type, in order to get matches from it, e. g. IMAGE or LIBIDOIMAGE. This content type is the first filter
 			//in the search
 			poPattern.setMoContentType(poSearchContentType);

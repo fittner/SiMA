@@ -36,6 +36,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsDataStructureTools;
@@ -1215,7 +1216,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsPlanFragment oPF : moPlans) {
 			clsWordPresentationMesh oAction = clsActionTools.createAction(oPF.m_act.m_strAction);
 			
-			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.ENTITY.toString(),oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
+			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY,oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
 			try {
 				clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString());
 			} catch (Exception e) {
