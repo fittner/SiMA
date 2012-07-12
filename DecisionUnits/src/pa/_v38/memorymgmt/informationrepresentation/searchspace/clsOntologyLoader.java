@@ -203,10 +203,10 @@ public class clsOntologyLoader {
 		
 		eDataType oElementType = eDataType.WP; 
 		int oID = DS_ID++;  
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 								
-		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTriple<Integer, eDataType, String>(oID ,oElementType,oElementValueType),oElementValue);
+		clsWordPresentation oDataStructure = new clsWordPresentation(new clsTriple<Integer, eDataType, eContentType>(oID ,oElementType,oElementValueType),oElementValue);
 		//HZ Word Presentation does not obey of any associations
 		//TODO HZ: Define other attributes!! 
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -226,10 +226,10 @@ public class clsOntologyLoader {
 			
 			eDataType oElementType = eDataType.WPM; 
 			int oID = DS_ID++;  
-			String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+			eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 			String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 									
-			clsWordPresentationMesh oDataStructure = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(oID ,oElementType,oElementValueType), new ArrayList<clsAssociation>(), oElementValue);
+			clsWordPresentationMesh oDataStructure = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(oID ,oElementType,oElementValueType), new ArrayList<clsAssociation>(), oElementValue);
 			//The presentation does obey associations
 			//TODO AW: define how to add associations. At the moment it is not necessary to add intrinsic values 
 			poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -252,12 +252,12 @@ public class clsOntologyLoader {
 		
 		eDataType oElementType = eDataType.AFFECT; 
 		int oID = DS_ID++;   
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		float oElementValue = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float oElementMinVal = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_min"));
 		float oElementMaxVal = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_max"));
 	
-		clsAffect oDataStructure = new clsAffect(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),oElementValue);
+		clsAffect oDataStructure = new clsAffect(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),oElementValue);
 		//HZ AFFECT does not obey of any associations
 				 		
 		oDataStructure.setMinVal(oElementMinVal);
@@ -279,7 +279,7 @@ public class clsOntologyLoader {
 
 		eDataType oElementType = eDataType.DM;
 		int oID = DS_ID++;   
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rPleasure = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
 		float rDriveCathegoryAnal = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:anal")));
@@ -288,7 +288,7 @@ public class clsOntologyLoader {
 		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
 		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
 				
-		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
+		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 																								rPleasure,
 																								oDriveCathegory, 
 																								new ArrayList<clsAssociation>(), 
@@ -319,7 +319,7 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.EMOTION;
 		int oID = DS_ID++;   
 		// TODO ...
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rEmotionIntensity = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("emotionIntensity"))); 
 		float rSourcePleasure = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("sourcePleasure")));
@@ -329,7 +329,7 @@ public class clsOntologyLoader {
 				
 		eEmotionType oEmotionType = eEmotionType.getEmotionType(oElementValue);
 		
-		clsEmotion oDataStructure = new clsEmotion(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
+		clsEmotion oDataStructure = new clsEmotion(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 																								rEmotionIntensity,
 																								oEmotionType, rSourcePleasure,  rSourceUnpleasure,  rSourceLibid,  rSourceAggr);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -359,10 +359,10 @@ public class clsOntologyLoader {
 		
 		eDataType oElementType = eDataType.TP;
 		int oID = DS_ID++;   
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		Object oElementValue = poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 	
-		clsThingPresentation oDataStructure = new clsThingPresentation(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),oElementValue);
+		clsThingPresentation oDataStructure = new clsThingPresentation(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),oElementValue);
 		loadInstanceAssociations(poElement, poDataContainer);
 		//HZ TP does not obey of any associations 		
 		//TODO HZ: Define other attributes!! 
@@ -384,10 +384,10 @@ public class clsOntologyLoader {
 		
 		eDataType oElementType = eDataType.TPM;
 		int oID = DS_ID++; 
-		String oElementValueType = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type"));
+		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
-		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, String>(oID,oElementType,oElementValueType),
+		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 																														 new ArrayList<clsAssociation>(),
 																														 oElementValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
@@ -585,6 +585,8 @@ public class clsOntologyLoader {
 		clsAssociation oDataStructure = null;
 		String oAssName = poAssociation.getName(); 
 	    eDataType eAssociationType = getElementDataType(poAssociation); 
+
+		eContentType eAssContentType = getElementContentType(poAssociation); 
 	    
 	    if(poRootElement == null){
 	    	 Instance oIns_a = (Instance)getSlotValues("element", poAssociation).toArray()[0]; 
@@ -594,7 +596,7 @@ public class clsOntologyLoader {
 	    	 initDataStructure(null, oIns_b, poDataContainer);
 	    	 clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(), poDataContainer.b);
 	    	 clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(), poDataContainer.b);
-	    	 oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b);  
+	    	 oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b);  
 	    }
 	    else{
 	    	 for(Object oElement : getSlotValues("element", poAssociation)){
@@ -605,7 +607,7 @@ public class clsOntologyLoader {
 	    			 initDataStructure(poRootElement, (Instance)oElement, poDataContainer);
 	    			 clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
 	    			 clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
-	    			 oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b);
+	    			 oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b);
 	    		 }
 	    	 }
 	    }
@@ -635,6 +637,7 @@ public class clsOntologyLoader {
 		clsAssociation oDataStructure = null;
 		String oAssName = poAssociation.getName(); 
 		eDataType eAssociationType = getElementDataType(poAssociation); 
+		eContentType eAssContentType = getElementContentType(poAssociation); 
 
 		if(poRootElement == null){
 			Instance oIns_a = (Instance)getSlotValues("element", poAssociation).toArray()[0]; 
@@ -647,7 +650,7 @@ public class clsOntologyLoader {
 			initDataStructure(null, oIns_b, poDataContainer);
 			clsDataStructurePA oDS_a = retrieveDataStructure(oIns_a.getName(), poDataContainer.b);
 			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(), poDataContainer.b);
-			oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
+			oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
 		}
 		else {
 			//Extract predicate
@@ -660,7 +663,7 @@ public class clsOntologyLoader {
 					initDataStructure(poRootElement, (Instance)oElement, poDataContainer);
 					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
 					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
-					oDataStructure = getNewAssociation(eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
+					oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
 				}
 			}
 		}
@@ -690,9 +693,9 @@ public class clsOntologyLoader {
 	 * @param poElementB
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
+	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
 		//Specialize the create association function, by not applying an attribute
-		return getNewAssociation(peElementType, poAssociation, poElementA, poElementB, "");
+		return getNewAssociation(peContentType, peElementType, poAssociation, poElementA, poElementB, "");
 	}
 	
 	/**
@@ -705,45 +708,44 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eContentType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
+	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
 		
 		//Use oPredicate if an AssociationSecondary is used, else the predicate is not used in the function.
 		
 		int oID = DS_ID++;  
-		eContentType oElementValueType = peElementType;
 		clsPair<clsDataStructurePA, clsDataStructurePA> oAssociationElements = null; 
 		
 		switch(peElementType){
 			case ASSOCIATIONATTRIBUTE:
-				return new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,oElementValueType),
+				return new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 						(clsPrimaryDataStructure)poElementA,(clsPrimaryDataStructure)poElementB); 
 			case ASSOCIATIONTEMP:
-				return new clsAssociationTime(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType >(oID,peElementType,peContentType),
 						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB); 
 			
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
-				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 												   (clsDriveMesh)oAssociationElements.a, 
 												   (clsThingPresentationMesh)oAssociationElements.b); 
 			case ASSOCIATIONEMOTION:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.EMOTION);
-				return new clsAssociationEmotion(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationEmotion(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 												   (clsEmotion)oAssociationElements.a, 
 												   (clsThingPresentationMesh)oAssociationElements.b); 
 			case ASSOCIATIONPRI:
-				return new clsAssociationPrimary(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationPrimary(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB);
 			
 			case ASSOCIATIONWP:
 				if ((poElementA instanceof clsWordPresentationMesh) || (poElementB instanceof clsWordPresentationMesh)) {
 					oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WPM);
-					return new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+					return new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 							   (clsWordPresentationMesh)oAssociationElements.a, 
 							   (clsDataStructurePA)oAssociationElements.b);
 				} else {
 					oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WP);
-					return new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+					return new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 							   (clsWordPresentation)oAssociationElements.a, 
 							   (clsDataStructurePA)oAssociationElements.b);
 				}
@@ -751,7 +753,7 @@ public class clsOntologyLoader {
 			//Special case, where the String "Predicate" is added
 			case ASSOCIATIONSEC:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.WPM);	//In association secondary, the same conditions as in WP are used. This association has a direction
-				return new clsAssociationSecondary(new clsTriple<Integer, eDataType, String>(oID,peElementType,oElementValueType),
+				return new clsAssociationSecondary(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 						   (clsWordPresentationMesh)oAssociationElements.a, 
 						   (clsSecondaryDataStructure)oAssociationElements.b, oPredicate);
 				
@@ -941,6 +943,17 @@ public class clsOntologyLoader {
 	
 		try{
 			oReturnValue = eDataType.valueOf(oElementType);
+		}catch (IllegalArgumentException e){System.out.println(" Element of type " + oElementType + " not handled");}
+		
+		return oReturnValue; 
+ 	}
+	
+	private static eContentType getElementContentType(Instance poElement) {
+		String oElementType = (String)getSlotValue("type", poElement); 
+		eContentType oReturnValue = null; 
+	
+		try{
+			oReturnValue = eContentType.valueOf(oElementType);
 		}catch (IllegalArgumentException e){System.out.println(" Element of type " + oElementType + " not handled");}
 		
 		return oReturnValue; 
