@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsMeshTools;
@@ -65,7 +66,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsDriveMesh> moDrives;
 	private ArrayList<String> moForbiddenDrives;
-	private ArrayList<clsPair<String, String>> moForbiddenPerceptions;
+	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	
 	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage = new DT3_PsychicEnergyStorage();
 	
@@ -88,7 +89,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moForbiddenDrives = new ArrayList<String>(); //TD 2011/07/20 - added initialization of member field
-		moForbiddenPerceptions = new ArrayList<clsPair<String,String>>(); //TD 2011/07/20 - added initialization of member field
+		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>(); //TD 2011/07/20 - added initialization of member field
 		
 		applyProperties(poPrefix, poProp); 
 	}
@@ -239,8 +240,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for repression of drives
 		if (moSuperEgoStrength >= 0.5)
 			if (searchInDM ("NOURISH") &&
-				searchInTPM ("ENTITY", "ARSIN") &&
-				searchInTPM ("ENTITY", "CAKE"))
+				searchInTPM (eContentType.ENTITY, "ARSIN") &&
+				searchInTPM (eContentType.ENTITY, "CAKE"))
 				// If all the conditions above are true then Super-Ego can fire.
 				// An internalized rule was detected to be true.
 				// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -254,9 +255,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for denial of perceptions
 		if (moSuperEgoStrength >= 0.5)
 			if (searchInDM ("NOURISH") &&
-				searchInTP ("color", "Farbe eine feindlichen ARSin") &&
-				searchInTPM ("ENTITY", "ARSIN") &&
-				searchInTPM ("ENTITY", "CAKE"))
+				searchInTP (eContentType.COLOR, "Farbe eine feindlichen ARSin") &&
+				searchInTPM (eContentType.ENTITY, "ARSIN") &&
+				searchInTPM (eContentType.ENTITY, "CAKE"))
 				// If all the conditions above are true then Super-Ego can fire.
 				// An internalized rule was detected to be true.
 				// So the Super-Ego conflicts now with Ego and Super-Ego requests from Ego to activate defense.
@@ -265,7 +266,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				// The following perception was found by Super-Ego as inappropriate or forbidden.
 				// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
 				if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("ENTITY", "CAKE")))
-					moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
+					moForbiddenPerceptions.add(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"));
 
 		// sample rule for conversion of aggressive drive energy into anxiety
 		if (moSuperEgoStrength >= 0.8)
@@ -313,7 +314,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-perception for example for a color red
 	 * 
 	 */
-	private boolean searchInTP (String oContentType, String oContent) {
+	private boolean searchInTP (eContentType oContentType, String oContent) {
 		// search in perceptions
 		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
 		
@@ -321,8 +322,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
 		
 		//Association attribute are delivered here
-		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
-		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
 		ArrayList<clsDataStructurePA> oAttributeAss = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
 		if (oAttributeAss.isEmpty()==false) {
 			return true;
@@ -340,12 +341,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * searches in the input-perception for example for an ENTITY like a ARSIN
 	 * 
 	 */
-	private boolean searchInTPM (String oContentType, String oContent) {
+	private boolean searchInTPM (eContentType oContentType, String oContent) {
 		// search in perceptions
 		
 		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
-		ArrayList<clsPair<String, String>> oContentTypeAndContentList = new ArrayList<clsPair<String, String>>();
-		oContentTypeAndContentList.add(new clsPair<String, String>(oContentType, oContent));
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
 		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
 		
 		if (oTPMList.isEmpty()==false) {
@@ -511,7 +512,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<String, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
 		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh);

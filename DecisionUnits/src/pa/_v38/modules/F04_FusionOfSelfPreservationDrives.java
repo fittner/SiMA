@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import config.clsProperties;
 
 /**
@@ -180,12 +181,12 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		
 		if(Personality_Content_Factor <0) // more agressive
 		{
-			if(oEntry.a.a.getMoContentType() == "DEATH")
+			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
 			{
 				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
 				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
 			}
-			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
 			{
 				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
 				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
@@ -197,12 +198,12 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		}
 		else //more libido
 		{
-			if(oEntry.a.a.getMoContentType() == "DEATH")
+			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
 			{
 				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
 				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
 			}
-			else if (oEntry.a.a.getMoContentType() == "LIFE")
+			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
 			{
 				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
 				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );

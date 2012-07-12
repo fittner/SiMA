@@ -25,6 +25,7 @@ public enum eContentType {
 	GOALTYPE,
 	RI,
 	RIREPRESSED,
+	RILIBIDO,
 	AREASUBSET,
 	AFFECTLEVEL,
 	ACTION,
@@ -83,5 +84,12 @@ public enum eContentType {
 	WP,
 	WPM,		//What should be done here
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
-	EMOTION;
+	EMOTION, 
+	LIBIDO,
+	
+	//TPs
+	COLOR, 
+	
+	// TODO DELETE AFTER IMPLEMENTATION OF NEW DM STRUCTURE
+	DEATH, LIFE;
 }
