@@ -80,7 +80,7 @@ public class clsPsychicSpreadActivation {
 	public void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
-		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI.toString(), 0.1, 1);
+		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, 0.1, 1);
 
 		if (poOriginImage.getMoContentType().equals(eContentType.PI.toString())) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
