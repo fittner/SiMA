@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  */
 public class clsMentalSituationTools {
 	
-	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(eContentType.NULLOBJECT.toString(), eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
 //	public clsMentalSituationTools() {
 //		//Create Null-object
@@ -52,7 +52,7 @@ public class clsMentalSituationTools {
 	
 	public static clsWordPresentationMesh createMentalSituation() {
 		//Create identifiyer. All goals must have the content type "MENTALSITUATION"
-		clsTriple<Integer, eDataType, String> oDataStructureIdentifier = new clsTriple<Integer, eDataType, String>(-1, eDataType.WPM, eContentType.MENTALSITUATION.toString());
+		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.MENTALSITUATION);
 		
 		//Create the basic goal structure
 		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), "MENTALSITUATION");	//Here the current step could be used

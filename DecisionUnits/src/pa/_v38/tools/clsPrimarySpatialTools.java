@@ -619,7 +619,7 @@ public class clsPrimarySpatialTools {
 	 */
 	private static clsAssociationTime createDistanceAssociation(clsThingPresentationMesh poElementA, clsThingPresentationMesh poElementB, double prDistance) {
 		double prAssWeight = calculateAssociationWeightFromDistance(prDistance);
-		clsAssociationTime oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, String>(-1, eDataType.ASSOCIATIONTEMP, eContentType.MATCHASSOCIATION.toString()), poElementA, poElementB);
+		clsAssociationTime oRetVal = new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONTEMP, eContentType.MATCHASSOCIATION), poElementA, poElementB);
 		oRetVal.setMrWeight(prAssWeight);
 		return oRetVal;
 	}

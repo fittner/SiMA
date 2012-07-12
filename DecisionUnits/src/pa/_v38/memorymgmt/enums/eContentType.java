@@ -14,6 +14,10 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eContentType {
+	//--- System ---//
+	NULLOBJECT,
+	
+	
 	// --- Entities --- //
 	ENTITY,
 	PI,
@@ -31,7 +35,6 @@ public enum eContentType {
 	MOMENT,
 	EXPECTATION,
 	MENTALSITUATION,
-	NULLOBJECT,
 	SUPPORTIVEDATASTRUCTURE,
 	
 	// --- Bodypart --- //
