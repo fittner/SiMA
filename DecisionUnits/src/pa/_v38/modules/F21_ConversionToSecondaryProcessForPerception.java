@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
@@ -210,8 +211,29 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
+		createConcept(moPerceptionalMesh_IN, moAssociatedMemories_OUT);
 	}
 		
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 13.07.2012 18:10:56
+	 *
+	 */
+	private clsThingPresentationMesh createConcept(clsThingPresentationMesh moPerceptionalMesh_IN2, ArrayList<clsWordPresentationMesh> poProcessedList){
+
+		clsAssociation oRetVal = null;
+		
+		//add the current TPM to the list
+		poProcessedList.addAll((Collection<? extends clsWordPresentationMesh>) moPerceptionalMesh_IN2);
+				
+		clsThingPresentationMesh oConceptforObject = moPerceptionalMesh_IN2;
+		
+		
+		return oConceptforObject;
+	}
+	
+
 	/**
 	 * For the TPM as input, assign all of them with WPM images
 	 * Return a pair of 1) Peception, 2) A list of memories. This function extracts all acts and other 
