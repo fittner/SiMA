@@ -43,8 +43,10 @@ import config.clsProperties;
  * 
  * The following defense mechanisms for drives are implemented:
  * - repression (Verdrängung)
- * - reaction formation (Reaktionsbildung: Drive aim = opposite of drive aim)
+ * - reaction formation (Reaktionsbildung: new drive aim = opposite of old drive aim)
  * - displacement (Verschiebung: Drive object is changed) - TODO: muss noch fertig programmiert werden.
+ * - sublimation (new drive aim is a social and cultural higher drive aim) - TODO: drive aims müssen noch definiert werden
+ * - intellectualization (new drive aim is an intellectual drive aim) - TODO: drive aims müssen noch definiert werden
  * 
  * @author gelbard
  * 07.05.2012, 14:01:06
@@ -213,6 +215,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	private void detect_conflict_and_activate_defense_machanisms() {
 		
+		 // If nothing to defend return immediately (otherwise NullPointerException)
+	   	 if (moForbiddenDrives_Input == null ) return;
+		
 		 // empty the list from last step otherwise list only grows
 		 moQuotasOfAffect_Output.clear();
 		
@@ -261,16 +266,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @author gelbard
 	 * 28.03.2012, 17:30:00
 	 * 
-	 * This is a function that represents the defense mechanism "displacement"
+	 * This is a function that represents the defense mechanism "displacement".
+	 * Displacement means that the drive object is changed.
 	 *
 	 */
 	protected void defenseMechanism_Displacement(ArrayList<String> oForbiddenDrives_Input) {
-		
-		// If nothing to repress return immediately (otherwise NullPointerException)
-	   	if (oForbiddenDrives_Input == null ) return;
-
-	   	// empty the list from last step otherwise list only grows
-		moQuotasOfAffect_Output.clear();
 		
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
@@ -319,19 +319,85 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	/* (non-Javadoc)
 	 *
-	 * @author schaat
-	 * 10.10.2011, 14:43:00
+	 * @author gelbard
+	 * 13.07.2012, 15:05:00
 	 * 
 	 * This is a function that represents the defense mechanism "reaction formation"
+	 * reaction formation changes the drive aim
 	 *
 	 */
-	protected void defenseMechanism_ReactionFormation(ArrayList<String> oForbiddenDrives_Input) {
-	 
-	 // If nothing to repress return immediately (otherwise NullPointerException)
-   	if (oForbiddenDrives_Input == null ) return;
+	private void defenseMechanism_ReactionFormation(ArrayList<String> oForbiddenDrives_Input) {
 		
-		// empty the list from last step otherwise list only grows
-		moQuotasOfAffect_Output.clear();
+		// Testdata: Defining the opposite drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
+		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
+		HashMap<String, ArrayList<Object>> oOppositeTP = new HashMap<String, ArrayList<Object>> ();
+		oOppositeTP.put("NOURISH", new ArrayList<Object>( Arrays.asList("BITE", "DEATH", 0.3, 0.0, 0.7, 0.2) ));
+		oOppositeTP.put("BITE", new ArrayList<Object>( Arrays.asList("NOURISH", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
+		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
+		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
+		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
+
+		
+		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 13.07.2012, 15:05:00
+	 * 
+	 * This is the function which represents the defense mechanism "sublimation"
+	 * sublimation changes the drive aim
+	 *
+	 */
+	private void defenseMechanism_Sublimation(ArrayList<String> oForbiddenDrives_Input) {
+		
+		// Testdata: Defining the sublimated drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
+		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
+		HashMap<String, ArrayList<Object>> oOppositeTP = new HashMap<String, ArrayList<Object>> ();
+		oOppositeTP.put("NOURISH", new ArrayList<Object>( Arrays.asList("TASTE_FOOD_FOR_OTHERS", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
+		oOppositeTP.put("BITE", new ArrayList<Object>( Arrays.asList("DESTROY_DANGEROUS_ANIMALS", "DEATH", 0.3, 0.0, 0.7, 0.2) ));
+		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("GUARD_DOR", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
+		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("THROW_OUT_GARBAGE", "DEATH", 1.0, 0.1, 0.0, 0.0) ));
+
+		
+		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 13.07.2012, 16:05:00
+	 * 
+	 * This is the function which represents the defense mechanism "intellectualization"
+	 * intellectualisation changes the drive aim
+	 *
+	 */
+	private void defenseMechanism_Intellectualization(ArrayList<String> oForbiddenDrives_Input) {
+		
+		// Testdata: Defining the intellectualisation drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
+		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
+		HashMap<String, ArrayList<Object>> oOppositeTP = new HashMap<String, ArrayList<Object>> ();
+		oOppositeTP.put("NOURISH", new ArrayList<Object>( Arrays.asList("TAKE_PART_IN_SOCIAL_ACTIVITY", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
+		oOppositeTP.put("BITE", new ArrayList<Object>( Arrays.asList("MOVE_JAW_MUSCLES", "DEATH", 0.3, 0.0, 0.7, 0.2) ));
+		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("TRAIN_PATIENCE", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
+		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("GET_RID_OF_WASTE", "DEATH", 1.0, 0.1, 0.0, 0.0) ));
+
+		
+		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 13.07.2012, 15:31:00
+	 * 
+	 * This method changes the drive aim.
+	 * The parameter poOppositeTP is a list which assigns the altered drive aim to the original drive aim (it is only passed to the next method)
+	 *
+	 *
+	 */
+	private void changeDrive(ArrayList<String> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
@@ -345,7 +411,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 					// remove DriveMesh i from output list
 					moDriveList_Output.remove(i);
 					// drive found
-					moDriveList_Output.add(reaction_formation(oDrives.a, oDrives.b));
+					moDriveList_Output.add(changeDriveAim(oDrives.a, oDrives.b, poOppositeTP));
 									
 				}
 				
@@ -354,8 +420,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		}
 		return;
-	 
-	 
 	}
 	
 	/* (non-Javadoc)
@@ -363,10 +427,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @author schaat
 	 * 10.10.2011, 14:43:00
 	 * 
-	 * This method represents the defense mechanism "reaction formation"
+	 * This method changes the drive aim.
+	 * The third parameter poOppositeTP is a list which assigns the altered drive aim to the original drive aim 
 	 *
 	 */
-	protected clsPair<clsPhysicalRepresentation, clsDriveMesh> reaction_formation(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM) {
+	private clsPair<clsPhysicalRepresentation, clsDriveMesh> changeDriveAim(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
 		// Helper
 		String oOppositeTPContent = "";
@@ -377,19 +442,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// opposite Drive
 		clsPair<clsPhysicalRepresentation, clsDriveMesh> oOppositeDrive= null;
 		
-		// Testdata: Defining the opposite drive goal (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
-		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
-		HashMap<String, ArrayList> oOppositeTP = new HashMap<String, ArrayList> ();
-		oOppositeTP.put("NOURISH", new ArrayList<Object>( Arrays.asList("BITE", "DEATH", 0.3, 0.0, 0.7, 0.2) ));
-		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
-		oOppositeTP.put("BITE", new ArrayList<Object>( Arrays.asList("NOURISH", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
-		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
-		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
 		
 		// What is the opposite TP?	
 		String oOriginalTPContent = poOriginalDM.getMoContent();
-		oOppositeTPContent = (String) oOppositeTP.get(oOriginalTPContent).get(0);
-		oOppositeTPContentType = (eContentType) oOppositeTP.get(oOriginalTPContent).get(1);
+
+		oOppositeTPContent = (String) poOppositeTP.get(oOriginalTPContent).get(0);
+		oOppositeTPContentType = (eContentType) poOppositeTP.get(oOriginalTPContent).get(1);
 		
 		
 		// Opposite drive goal found?
@@ -421,10 +479,17 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			if(rPleasure <= 1.0){
 				oOppositeDrive.b.setPleasure(rPleasure);				
 			}
-			// overflow quota of affect will be sent to F20 (later) //orignialDM will be repressed with 0 quota of affect
 			else {
 				poOriginalDM.setPleasure(rPleasure - 1.0);
 				oOppositeDrive.b.setPleasure(1.0);
+				
+				// overflow quota of affect will be sent to F20  
+				// add single quota of affect to affect only list
+				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrQuotaOfAffect())); 
+				moQuotasOfAffect_Output.add(oAffect);
+				
+				
+				//orignialDM will be repressed later with 0 quota of affect
 			}
 		}
 		else {
@@ -437,22 +502,14 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// new DM needed
 			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(oOppositeTPContentType,oOppositeTPContent)); 
 			oNewDM = clsDataStructureGenerator.generateDM(new clsTriple <eContentType, ArrayList<clsThingPresentation>, Object>(oOppositeTPContentType, new ArrayList<clsThingPresentation>(Arrays.asList(oTP)) , oOppositeTPContent));
-			oNewDM.setCategories((Double)oOppositeTP.get(oOriginalTPContent).get(4), (Double)oOppositeTP.get(oOriginalTPContent).get(2), (Double)oOppositeTP.get(oOriginalTPContent).get(3), (Double)oOppositeTP.get(oOriginalTPContent).get(5));
+			oNewDM.setCategories((Double)poOppositeTP.get(oOriginalTPContent).get(4), (Double)poOppositeTP.get(oOriginalTPContent).get(2), (Double)poOppositeTP.get(oOriginalTPContent).get(3), (Double)poOppositeTP.get(oOriginalTPContent).get(5));
 						
 			
 			oOppositeDrive = new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, oNewDM);	
 			
-			oOppositeDrive.b.setMrQuotaOfAffect(poOriginalDM.getMrQuotaOfAffect());
-				
-					
-			
+			oOppositeDrive.b.setMrQuotaOfAffect(poOriginalDM.getMrQuotaOfAffect());	
 		}
 		
-		// overflow quota of affect will be sent to F20  
-		
-		// add single quotas of affect to affect only list
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getMrQuotaOfAffect())); 
-		moQuotasOfAffect_Output.add(oAffect);
 		
 	    // repress old forbidden drive
 		repress_single_drive((clsThingPresentationMesh) poOriginalTPM, poOriginalDM);
@@ -491,12 +548,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
 	 */
     protected void defenseMechanism_Repression(ArrayList<String> oForbiddenDrives_Input) {
-    	
-    	// If nothing to repress return immediately (otherwise NullPointerException)
-    	if (oForbiddenDrives_Input == null ) return;
-		
-		// empty the list from last step otherwise list only grows
-		moQuotasOfAffect_Output.clear();
 		
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
