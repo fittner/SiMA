@@ -86,6 +86,8 @@ public enum eContentType {
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
 	EMOTION, 
 	LIBIDO,
+	CONTEXT,
+	AGGRESSION,
 	
 	//TPs
 	COLOR, 
