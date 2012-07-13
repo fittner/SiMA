@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -48,6 +49,9 @@ import pa._v38.memorymgmt.enums.ePredicate;
 public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBaseKB implements 
 			I5_15_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
+
+	@SuppressWarnings("unused")
+	private static final clsConcept moConcept = null;
 	
 	/** Perception IN */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -60,6 +64,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	private clsShortTermMemory moShortTermMemory;
 	
+	@SuppressWarnings("unused")
 	private clsShortTermMemory moEnvironmentalImageStorage;
 	
 	/** TEMP A perceived image */
@@ -81,7 +86,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
 	//private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	
+ 
+	
 	/** Load up to 98 indirectly associated structures; @since 30.01.2012 19:57:31 */
+	@SuppressWarnings("unused")
 	private int mnMaxLevel = 100;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -211,7 +219,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
-		createConcept(moPerceptionalMesh_IN, moAssociatedMemories_OUT);
+		createConcept(null, moAssociatedMemories_OUT);
 	}
 		
 	/**
@@ -220,14 +228,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @since 13.07.2012 18:10:56
 	 *
 	 */
-	private clsThingPresentationMesh createConcept(clsThingPresentationMesh moPerceptionalMesh_IN2, ArrayList<clsWordPresentationMesh> poProcessedList){
+	
+	@SuppressWarnings("unchecked")
+	private clsConcept createConcept(clsConcept moConcept, ArrayList<clsWordPresentationMesh> poProcessedList){
 
-		clsAssociation oRetVal = null;
 		
 		//add the current TPM to the list
-		poProcessedList.addAll((Collection<? extends clsWordPresentationMesh>) moPerceptionalMesh_IN2);
+		poProcessedList.addAll((Collection<? extends clsWordPresentationMesh>) (moConcept));
 				
-		clsThingPresentationMesh oConceptforObject = moPerceptionalMesh_IN2;
+		clsConcept oConceptforObject = moConcept;
 		
 		
 		return oConceptforObject;
