@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.tools.clsPair;
 
@@ -22,5 +22,5 @@ import pa._v38.tools.clsPair;
  * 
  */
 public interface I5_14_receive {
-	public void receive_I5_14(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData);
+	public void receive_I5_14(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poData);
 }

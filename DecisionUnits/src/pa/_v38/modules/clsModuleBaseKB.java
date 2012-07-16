@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -545,7 +545,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poDM
 	 * @return
 	 */
-	public clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
+	public clsWordPresentation convertDriveMeshToWP(clsDriveMeshOLD poDM) {
 		clsWordPresentation oRetVal = null;
 		
 		//Generate the instance of the class affect
@@ -581,7 +581,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param prPsychicEnergyIn
 	 * @return
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMesh> poDriveMeshFilter) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMeshOLD> poDriveMeshFilter) {
 		
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();

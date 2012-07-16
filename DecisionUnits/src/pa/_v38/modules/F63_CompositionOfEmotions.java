@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -50,7 +50,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 	//Private members for send and recieve
 	private ArrayList<clsEmotion> moEmotions_OUT; 
-	private ArrayList<clsDriveMesh> moDrives_IN;
+	private ArrayList<clsDriveMeshOLD> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
 	 // four basic categories ("Grundkategorien", see document "Compositions of Emotions")
@@ -138,7 +138,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	protected void process_basic() {
 		
 		//1. Get Unpleasure from all drives, and its aggr. and libid parts
-		for (clsDriveMesh oDM: moDrives_IN) {
+		for (clsDriveMeshOLD oDM: moDrives_IN) {
 			mrDriveUnpleasure += oDM.getMrQuotaOfAffect();
 			if(oDM.getMoContentType().equals("LIFE")) {
 				mrDriveLibid += oDM.getMrQuotaOfAffect();
@@ -393,8 +393,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	public void receive_I5_3(
-			ArrayList<clsDriveMesh> poDrives) {
-		moDrives_IN = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
+			ArrayList<clsDriveMeshOLD> poDrives) {
+		moDrives_IN = (ArrayList<clsDriveMeshOLD>) deepCopy(poDrives); 
 		
 	}
 

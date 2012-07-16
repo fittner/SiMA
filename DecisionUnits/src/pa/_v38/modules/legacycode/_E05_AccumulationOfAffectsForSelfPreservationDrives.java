@@ -21,7 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I2_15_receive;
 //import pa._v38.interfaces.modules.I2_15_send;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
@@ -44,8 +44,8 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 	public static final String P_SPLITFACTORVALUE = "value";
 	public static final String P_NUM_SPLIFACTOR = "num";
 	
-	private ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> moDriveCandidate;
-	private ArrayList<clsDriveMesh> moDriveList; 
+	private ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>> moDriveCandidate;
+	private ArrayList<clsDriveMeshOLD> moDriveList; 
 	private HashMap<String, Double> moSplitterFactor;	
 	/**
 	 * (deutsch) - insert description 
@@ -161,9 +161,9 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+	public void receive_I3_4(ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>> poDriveCandidate) {
 		
-		moDriveCandidate = (ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>>) deepCopy(poDriveCandidate); 
+		moDriveCandidate = (ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>>) deepCopy(poDriveCandidate); 
 	}
 
 	/* (non-Javadoc)
@@ -175,9 +175,9 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveList = new ArrayList<clsDriveMesh>(); 
+		moDriveList = new ArrayList<clsDriveMeshOLD>(); 
 		
-		for(clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>> oEntry : moDriveCandidate){
+		for(clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>> oEntry : moDriveCandidate){
 			double rFactor = 0.5;
 			try {
 				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
@@ -270,7 +270,7 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 //		putInterfaceData(I2_15_send.class, poDriveList);
 //	}
 	
-	public ArrayList<clsDriveMesh> getDriveList() {
+	public ArrayList<clsDriveMeshOLD> getDriveList() {
 		return moDriveList;
 	}
 	/* (non-Javadoc)
@@ -297,7 +297,7 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		
-		for( clsDriveMesh oDM : moDriveList) {
+		for( clsDriveMeshOLD oDM : moDriveList) {
 			oCaptions.add(oDM.getMoContent());
 		}
 		
@@ -316,7 +316,7 @@ public class _E05_AccumulationOfAffectsForSelfPreservationDrives extends clsModu
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oTimingValues = new ArrayList<Double>();
 		
-		for( clsDriveMesh oDM : moDriveList) {
+		for( clsDriveMeshOLD oDM : moDriveList) {
 			oTimingValues.add(oDM.getPleasure());
 		}
 		return oTimingValues;

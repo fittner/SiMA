@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.06.2010, 20:36:25
  * 
  */
-public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
+public class clsDriveMeshOLD extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
 	
 	public boolean mbSexualDM = false;
 	private String moContent = "UNDEFINED";
@@ -49,7 +49,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @param poAssociationID
 	 * @param peAssociationType
 	 */	
-	public clsDriveMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
+	public clsDriveMeshOLD(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
 												double prPleasure, double[] poDriveCathegories, 
 												ArrayList<clsAssociation> poAssociatedDriveSources,
 												String poContent) {
@@ -327,7 +327,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		double oRetVal = 0.0; 
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
-		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
+		clsDriveMeshOLD oDataStructure = (clsDriveMeshOLD)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
 				
@@ -386,7 +386,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	@Override
 	public Object clone() throws CloneNotSupportedException {
         try {
-        	clsDriveMesh oClone = (clsDriveMesh)super.clone();
+        	clsDriveMeshOLD oClone = (clsDriveMeshOLD)super.clone();
         	if (moAssociatedContent != null) {
         		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
         		
@@ -407,10 +407,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
-		clsDriveMesh oClone = null;
+		clsDriveMeshOLD oClone = null;
 		
 		try {
-        	oClone = (clsDriveMesh)super.clone();
+        	oClone = (clsDriveMeshOLD)super.clone();
         	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
         	if (moAssociatedContent != null) {
         		oClone.moAssociatedContent = new ArrayList<clsAssociation>(); 
@@ -463,7 +463,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @param oDMInput
 	 * @return
 	 */
-	public double matchCathegories(clsDriveMesh poDMInput) {
+	public double matchCathegories(clsDriveMeshOLD poDMInput) {
 		double rRetVal = 1.0-(distance(poDMInput) / 4.0);
 		
 		return rRetVal;
@@ -478,7 +478,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * @param poDMInput
 	 * @return
 	 */
-	private double distance(clsDriveMesh poDMInput) {
+	private double distance(clsDriveMeshOLD poDMInput) {
 		double rResult = 0.0;
 		
 		double rDiOral = Math.abs(mrCathegoryOral - poDMInput.mrCathegoryOral);

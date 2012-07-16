@@ -22,7 +22,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I4_1_send;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
@@ -47,8 +47,8 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	public static final String P_SPLITFACTORVALUE = "value";
 	public static final String P_NUM_SPLIFACTOR = "num";
 	
-	private ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
-	private ArrayList<clsDriveMesh> moDriveList; 
+	private ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > moDriveCandidates;
+	private ArrayList<clsDriveMeshOLD> moDriveList; 
 	private HashMap<String, Double> moSplitterFactor;
 	
 	/**
@@ -143,9 +143,9 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveList = new ArrayList<clsDriveMesh>(); 
+		moDriveList = new ArrayList<clsDriveMeshOLD>(); 
 		
-		for (clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
+		for (clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oEntry:moDriveCandidates) {
 			double rFactor = 0.5;
 			try {
 				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
@@ -263,7 +263,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		
-		for( clsDriveMesh oDM : moDriveList) {
+		for( clsDriveMeshOLD oDM : moDriveList) {
 			oCaptions.add(oDM.getMoContent());
 		}
 		
@@ -282,7 +282,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oTimingValues = new ArrayList<Double>();
 		
-		for( clsDriveMesh oDM : moDriveList) {
+		for( clsDriveMeshOLD oDM : moDriveList) {
 			oTimingValues.add(oDM.getPleasure());
 		}
 		return oTimingValues;
@@ -344,7 +344,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 * @see pa._v38.interfaces.modules.I4_1_send#send_I4_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
+	public void send_I4_1(ArrayList<clsDriveMeshOLD> poDriveCandidates) {
 		// 
 		
 	}
@@ -358,7 +358,7 @@ public class _E42_AccumulationOfAffectsForSexualDrives extends clsModuleBase imp
 	 */
 	@Override
 	public void receive_I3_3(
-			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+			ArrayList<clsPair<clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>, clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>>> poDriveCandidates) {
 		// 
 		
 	}		

@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I3_3_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -44,8 +44,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public static final String P_PARTIAL_PHALLIC = "phallic";
 	public static final String P_PARTIAL_GENITAL = "genital";
 	
-	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moLibidoDriveDemands;
-	private ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > moDriveCandidates;
+	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moLibidoDriveDemands;
+	private ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > moDriveCandidates;
 	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
 	
 	/**
@@ -125,10 +125,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_basic()  {
-		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMesh,clsDriveDemand,Double>,clsTriple<clsDriveMesh,clsDriveDemand,Double>>>();
+		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>,clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>>();
 		for (clsPair<String, Double> oPSD:moPartialSexualDrives) {
 			if (moLibidoDriveDemands.size() == 2) {
-				clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
+				clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
 				
 				//set DM libido categories
 				oTMPDriveCandidate.a.a.setCategories(moPartialSexualDrives.get(0).b, moPartialSexualDrives.get(1).b, moPartialSexualDrives.get(3).b, moPartialSexualDrives.get(2).b);
@@ -152,16 +152,16 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @param oPSD
 	 * @return
 	 */
-	private clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
+	private clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
 		eContentType oContentType;
 		String oContext;
-		clsPair<clsDriveMesh, clsDriveDemand> oHDD;
+		clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD;
 		
 		//(0) = libido
 		oHDD = moLibidoDriveDemands.get(0);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
-		clsTriple<clsDriveMesh,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
+		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
 		//oPSD.b  for the c part of the Tripple is the factor read from the propety files. no calculation is done! just added 
 		//to pass the factor down to module F54
 
@@ -169,22 +169,22 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		oHDD = moLibidoDriveDemands.get(1);
 		oContentType = oHDD.a.getMoContentType();
 		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
-		clsTriple<clsDriveMesh,clsDriveDemand,Double> oT_B =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
+		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT_B =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
 
-		return new clsPair<clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double>>(oT_A, oT_B);
+		return new clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>(oT_A, oT_B);
 	}
 	
-	private clsTriple<clsDriveMesh,clsDriveDemand,Double> createDriveMeshTripple(eContentType poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
-		clsDriveMesh oDM = createSexualDriveMesh(poContentType, poContext);
-		clsTriple<clsDriveMesh,clsDriveDemand,Double> oT = new clsTriple<clsDriveMesh, clsDriveDemand, Double>(oDM, poDemand, prValue);
+	private clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> createDriveMeshTripple(eContentType poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
+		clsDriveMeshOLD oDM = createSexualDriveMesh(poContentType, poContext);
+		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT = new clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>(oDM, poDemand, prValue);
 		return oT;
 	}
 	
-	private clsDriveMesh createSexualDriveMesh(eContentType poContentType, String poContext) {
+	private clsDriveMeshOLD createSexualDriveMesh(eContentType poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
-		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
 				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
@@ -242,7 +242,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @see pa.interfaces.send._v38.I2_17_send#send_I2_17(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_3(ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > poDriveCandidates) {
+	public void send_I3_3(ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > poDriveCandidates) {
 		
 		((I3_3_receive)moModuleList.get(48)).receive_I3_3(poDriveCandidates);
 		putInterfaceData(I3_3_send.class, poDriveCandidates);
@@ -257,8 +257,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
-		moLibidoDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
+	public void receive_I3_1(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
+		moLibidoDriveDemands = (ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
 	}
 
 

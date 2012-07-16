@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -50,8 +50,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private HashMap<String, Double> moHomeostasisSymbols; 
 	
-	private ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > moDriveTemplates;
-	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
+	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > moDriveTemplates;
+	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
 	
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
@@ -129,8 +129,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return text;
 	}
 		
-	private ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > createDriveMeshes() {
-		ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> >();
+	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > createDriveMeshes() {
+		ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> >();
 		
 		oDrives.add( createDrives(eContentType.LIFE, "NOURISH", "BLOODSUGAR") );
 		oDrives.add( createDrives(eContentType.DEATH, "BITE", "BLOODSUGAR") );
@@ -144,11 +144,11 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return oDrives;
 	}
 	
-	private clsTriple<clsDriveMesh, String, ArrayList<String>> createDrives(eContentType poContentType, String poContext, String poSource) {
-		clsDriveMesh oDriveMesh = createDriveMesh(poContentType, poContext);
+	private clsTriple<clsDriveMeshOLD, String, ArrayList<String>> createDrives(eContentType poContentType, String poContext, String poSource) {
+		clsDriveMeshOLD oDriveMesh = createDriveMesh(poContentType, poContext);
 		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
 		
-		return new clsTriple<clsDriveMesh, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
+		return new clsTriple<clsDriveMeshOLD, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
 	}
 /*	
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
@@ -171,19 +171,19 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return oRes;
 	}
 */	
-	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
+	private ArrayList<String> getDriveSources(String poContext, clsDriveMeshOLD poDriveMesh) {
         
         double nIntensity = 0.0; 
         ArrayList<String> oRes = new ArrayList<String>();
         ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
         
-        search(eDataType.TPM, new ArrayList<clsDriveMesh>(Arrays.asList(poDriveMesh)), oSearchResult ); 
+        search(eDataType.TPM, new ArrayList<clsDriveMeshOLD>(Arrays.asList(poDriveMesh)), oSearchResult ); 
         
         for(ArrayList<clsPair<Double,clsDataStructureContainer>> oPatternResults : oSearchResult ){
                  for(clsPair<Double, clsDataStructureContainer> oMatch : oPatternResults ){
                            for(clsAssociation oAssociation : oMatch.b.getMoAssociatedDataStructures()){
                                     
-                                    nIntensity = ((clsDriveMesh)oAssociation.getMoAssociationElementA()).getPleasure(); 
+                                    nIntensity = ((clsDriveMeshOLD)oAssociation.getMoAssociationElementA()).getPleasure(); 
                                     
                                     if(nIntensity > 0){
                                              oRes.add(((clsThingPresentationMesh) oAssociation.getMoAssociationElementB()).getMoContent()); 
@@ -195,11 +195,11 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
         return oRes;
 	}
 	
-	private clsDriveMesh createDriveMesh(eContentType poContentType, String poContext) {
+	private clsDriveMeshOLD createDriveMesh(eContentType poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
-		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
 				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
@@ -253,11 +253,11 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	@Override
 	protected void process_basic() {
 		moDriveTemplates = createDriveMeshes();
-		moDrives = new ArrayList< clsPair<clsDriveMesh,clsDriveDemand> >();
+		moDrives = new ArrayList< clsPair<clsDriveMeshOLD,clsDriveDemand> >();
 		
-		for (clsTriple<clsDriveMesh, String, ArrayList<String>> oDT: moDriveTemplates) {
+		for (clsTriple<clsDriveMeshOLD, String, ArrayList<String>> oDT: moDriveTemplates) {
 			clsDriveDemand oDD = getDriveDemand(oDT);
-			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDT.a, oDD) );
+			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDT.a, oDD) );
 		}
 	}
 	
@@ -292,7 +292,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return rResult;
 	}
 	
-	private clsDriveDemand getDriveDemand(clsTriple<clsDriveMesh, String, ArrayList<String>> poDT) {
+	private clsDriveDemand getDriveDemand(clsTriple<clsDriveMeshOLD, String, ArrayList<String>> poDT) {
 		double rDemand = 0.0;
 		
 		String oSource = poDT.b;
@@ -328,7 +328,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_2(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
+	public void send_I3_2(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
 		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveDemands);
 		putInterfaceData(I3_2_send.class, poHomeostaticDriveDemands);
 	}

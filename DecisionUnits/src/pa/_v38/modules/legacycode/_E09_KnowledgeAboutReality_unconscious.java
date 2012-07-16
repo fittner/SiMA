@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_3_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -44,7 +44,7 @@ public class _E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB impl
 	
 	public static final String P_MODULENUMBER = "09";
 	
-	private ArrayList<clsDriveMesh> moSexualDrives;
+	private ArrayList<clsDriveMeshOLD> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
 	/**
 	 * (GELBARD) - insert description 
@@ -261,7 +261,7 @@ public class _E09_KnowledgeAboutReality_unconscious extends clsModuleBaseKB impl
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsDriveMesh> poData) {
+			ArrayList<clsDriveMeshOLD> poData) {
 		// 
 		
 	}

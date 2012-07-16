@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 
@@ -36,7 +36,7 @@ public class clsPsychicSpreadActivation {
 	}
 
 
-	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, ArrayList<clsDriveMesh> poDriveMeshFilter) {
+	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, ArrayList<clsDriveMeshOLD> poDriveMeshFilter) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
 		
@@ -116,7 +116,7 @@ public class clsPsychicSpreadActivation {
 	 * @param poAlreadyActivatedImages
 	 * @return
 	 */
-	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, ArrayList<clsDriveMesh> poDriveMeshFilter) {
+	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages, ArrayList<clsDriveMeshOLD> poDriveMeshFilter) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		
 		//1. Get all unprocessed images. Only they will be used in the calculation

@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I5_10_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
@@ -198,7 +198,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 			
 			if ((oFirstAss instanceof clsAssociationDriveMesh) && (oFirstAssPair.b == false)) {
 				//Get a DM from the associated content
-				clsDriveMesh oFirstDM = (clsDriveMesh)oFirstAss.getLeafElement();
+				clsDriveMeshOLD oFirstDM = (clsDriveMeshOLD)oFirstAss.getLeafElement();
 				
 				/* Here the new content is set depending on the highest level of total quota of affect
 				 * of all equal drive mesh types in the object. If another object has a higher
@@ -224,7 +224,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 					//If the DM belongs to the same TPM oder TP AND it is a DM and it has not been used yet
 					if ((oFirstAss.getRootElement().getMoDSInstance_ID() == oSecondAss.getRootElement().getMoDSInstance_ID()) && (oSecondAss instanceof clsAssociationDriveMesh)  
 							&& (oSecondAssPair.b == false)) {	
-						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
+						clsDriveMeshOLD oSecondDM = (clsDriveMeshOLD)oSecondAss.getLeafElement();
 						//firstAssociation is compared with the secondAssociation
 						//If the content type of the DM are equal then
 						if (oFirstDM.getMoContentType() == oSecondDM.getMoContentType()) {
