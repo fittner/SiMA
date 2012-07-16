@@ -14,6 +14,9 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eAction {
+	//System
+	NULLOBJECT,
+	
 	//External actions
 	MOVE_FORWARD,
 	MOVE_BACKWARD,

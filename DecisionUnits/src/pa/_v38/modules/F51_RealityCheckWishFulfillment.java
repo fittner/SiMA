@@ -20,9 +20,12 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -301,17 +304,37 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//1. For each goal, check, which type it is
 			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
 			
+			eDecisionTask oSetDecisionTask = eDecisionTask.NOTHING;
 						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
 				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.DRIVEGOALSUPPORT);
+				//Give the following commands
+				
+				//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
+				eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
+				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false) {
+					//----------------------------------------------------------------//
+					//1.1 Search phantasy for suitable memories
+					oSetDecisionTask = eDecisionTask.NEED_INTERNAL_INFO;
+				
+					//----------------------------------------------------------------//
+					
+				} else {
+					//1.2 Start blind search			
+					oSetDecisionTask = eDecisionTask.NEED_MORE_PERCEPTIONAL_INFO;	//Trigger search
+					
+					//----------------------------------------------------------------//
+				}
+				
+				
 			} else if (oType==eContentType.PI) {
 				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.PERCEPTIONSUPPORT);
-			
 			} else if (oType==eContentType.RI) {
 				//DO SOMETHING
 			}
 			
+			clsGoalTools.setDecisionTask(oGoal, oSetDecisionTask);
 			
 		}
 		

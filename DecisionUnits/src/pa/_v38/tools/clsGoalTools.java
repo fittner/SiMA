@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -116,6 +117,58 @@ public class clsGoalTools {
 		
 		return oRetVal;
 	}
+	
+	public static void setDecisionTask(clsWordPresentationMesh poGoal, eDecisionTask poTask) {
+		//Get the current one
+		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+		
+		//Replace or create new
+		//if (oFoundStructure==null) {
+		clsMeshTools.setWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDECISIONTASK, eContentType.DECISIONTASK, poTask.toString());
+		//} else {
+		//	oFoundStructure.setMoContent(poTask.toString());
+		//}
+		
+	}
+	
+	
+	/**
+	 * Get the current decision task
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 16:42:03
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static eDecisionTask getDecisionTask(clsWordPresentationMesh poGoal) {
+		eDecisionTask oResult = eDecisionTask.NULLOBJECT;
+		
+		clsWordPresentation oFoundStructures = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+				
+		if (oFoundStructures!=null) {
+			//The drive object is always a WPM
+			oResult = eDecisionTask.valueOf(((clsWordPresentation) oFoundStructures).getMoContent());
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get the Word Presentation of the current decision task
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 16:54:50
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	private static clsWordPresentation getDecisionTaskDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getFirstWP(poGoal, ePredicate.HASDECISIONTASK);
+	}
+	
 	
 	/**
 	 * Get the goal content

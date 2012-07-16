@@ -42,6 +42,10 @@ public enum eContentType {
 	PERCEPTIONSUPPORT,
 	SUPPORTIVEDATASTRUCTURE,
 	
+	
+	//--- Goals ---//
+	DECISIONTASK,
+	
 	// --- Bodypart --- //
 	BODYPART,
 	ORIFICE,

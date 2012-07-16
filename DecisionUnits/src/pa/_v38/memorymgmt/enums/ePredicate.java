@@ -42,6 +42,7 @@ public enum ePredicate {
 	HASGOALTYPE,
 	HASGOAL,
 	HASACTION,
+	HASDECISIONTASK,
 	
 	//PI and RI
 	HASNEXT,

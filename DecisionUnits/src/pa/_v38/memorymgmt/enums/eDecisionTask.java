@@ -14,7 +14,11 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eDecisionTask {
-	NEED_FOCUS,
-	GOAL_REACHABLE_PERCEPTION,
-	NEED_INTERNAL_INFO;
+	NULLOBJECT,
+	NOTHING,
+	
+	NEED_FOCUS,						//Set focus
+	GOAL_REACHABLE_PERCEPTION,		//Go to entity
+	NEED_MORE_PERCEPTIONAL_INFO, 	//Trigger search
+	NEED_INTERNAL_INFO;				//Trigger phantasy
 }
