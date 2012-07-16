@@ -304,8 +304,18 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Copy object
 		if (oWPforObject!=null) {			
 			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-				oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-				//oRetVal.getExternalAssociatedContent().add(oWPforObject); 	It is not necessary to add the WP-Association, as it is already a part of the object
+				try {
+					if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
+						oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+						oRetVal.getExternalAssociatedContent().add(oWPforObject);
+					} else {
+						throw new Exception("No clsWordPresentation is allowed to be associated here. The following type was recieved: " + oWPforObject.getLeafElement().toString());
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 		} else {
 			//It may be the PI, then create a new image with for the PI or from the repressed content
@@ -313,6 +323,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
 			oRetVal.getExternalAssociatedContent().add(oWPAss);
 		}
+		
+		
 		
 		//Go deeper, only if the pnLevel allows
 		//If nothing was found, then the structure is null
@@ -336,9 +348,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 						
 						
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDISTANCE, false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.POSITIONASSOCIATION, ePredicate.HASDISTANCE, false);
 						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPOSITION, false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, false);
 						} else {
 							try {
 								throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");

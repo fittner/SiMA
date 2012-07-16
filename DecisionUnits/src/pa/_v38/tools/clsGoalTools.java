@@ -179,11 +179,33 @@ public class clsGoalTools {
 	 * @param poGoal: Goal
 	 * @param poEntity: Entity, which shall be added to an image
 	 */
-	public static void createSupportiveDataStructureFromEntity(clsWordPresentationMesh poGoal, clsWordPresentationMesh poEntity) {
+	public static void createSupportiveDataStructureFromEntity(clsWordPresentationMesh poGoal, clsWordPresentationMesh poEntity, eContentType poContentType) {
 		//Create Image from entity
-		clsWordPresentationMesh oImageFromEntity = clsMeshTools.createImageFromEntity(poEntity);
+		clsWordPresentationMesh oImageFromEntity = clsMeshTools.createImageFromEntity(poEntity, poContentType);
 		
 		clsGoalTools.setSupportiveDataStructure(poGoal, oImageFromEntity);
+	}
+	
+	/**
+	 * Create the supportive datastructure from the drive object
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 13:27:09
+	 *
+	 * @param poGoal
+	 * @param poContentType
+	 */
+	public static void createSupportiveDataStructureFromGoalObject(clsWordPresentationMesh poGoal, eContentType poContentType) {
+		try {
+			clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
+			
+			createSupportiveDataStructureFromEntity(poGoal, oGoalObject, poContentType);
+			
+		} catch (NullPointerException e) {
+			System.out.println("Error: The goal does not have a valid goal object");
+			e.printStackTrace();
+		}
 	}
 	
 	/**
@@ -398,4 +420,5 @@ public class clsGoalTools {
 
 		return oRetVal;
 	}
+	
 }

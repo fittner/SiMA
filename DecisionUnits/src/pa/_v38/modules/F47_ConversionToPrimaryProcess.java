@@ -13,14 +13,13 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.toText;
 
 import config.clsProperties;
@@ -109,7 +108,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	protected void process_basic() {
 			
-		moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
+		try {
+			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -143,13 +146,14 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	 * 
 	 * 
 	 * (wendt)
+	 * @throws Exception 
 	 * 
 	 * @since 20110625
 	 *
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(ArrayList<clsWordPresentationMesh> poActionCommands) {
+	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(ArrayList<clsWordPresentationMesh> poActionCommands) throws Exception {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		
@@ -166,7 +170,12 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 					//Get the TPM part of that structure
 					clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oSupportiveDataStructure);
 					if (oTPM!=null) {
-						oRetVal.add(oTPM);
+						//At this stage, there should be no associationWP in the external associations of the TPM
+						if (checkIfAssociationWPExists(oTPM)==true) {
+							throw new Exception("No AssociationWP are allowed here");
+						} else {
+							oRetVal.add(oTPM);
+						}
 					}
 				}
 			}
@@ -175,17 +184,30 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		return oRetVal;
 	}
 	
-	private boolean getConsciousPhantasyActivation(clsWordPresentationMesh poContainer) {
-		boolean oRetVal = false;
+	/**
+	 * Check if there exists any WP-associations in the TPM 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:55:38
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private boolean checkIfAssociationWPExists(clsThingPresentationMesh poInput) {
+		boolean bResult = false;
 		
-		ArrayList<clsWordPresentation> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poContainer, ePredicate.ACTIVATESPHANTASY.toString());
-		
-		if (oWPList.isEmpty()==false) {
-			oRetVal = true;
+		for (clsAssociation oAss : poInput.getExternalMoAssociatedContent()) {
+			if (oAss instanceof clsAssociationWordPresentation) {
+				bResult = true;
+				break;
+			}
 		}
-			
-		return oRetVal;
+		
+		return bResult;
 	}
+	
+
 	
 	/**
 	 * Extracts the corresponding primary data structure from a secondary datastructure. It will always find a structure, if such an association  

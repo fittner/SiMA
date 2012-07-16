@@ -650,13 +650,15 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoal);
 		clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
 		
-		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())) {
-			//Create supportive structure
-			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, oGoalObject);
-		} else if (oSupportiveDataStructure.getMoContentType().equals(eContentType.PI.toString())) {
-			//Replace the perceived image with the drive object
-			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, clsGoalTools.getGoalObject(poGoal));
-		}
+//		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())) {
+//			//Create supportive structure
+//			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, oGoalObject);
+//		} else if (oSupportiveDataStructure.getMoContentType().equals(eContentType.PI.toString())) {
+//			//Replace the perceived image with the drive object
+//			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, clsGoalTools.getGoalObject(poGoal));
+//		}
+		
+		//SET PHANTASY FLAGS TRUE AND FALSE
 		
 		
 		

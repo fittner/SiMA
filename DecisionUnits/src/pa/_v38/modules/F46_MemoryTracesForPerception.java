@@ -13,6 +13,7 @@ import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -100,6 +101,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		applyProperties(poPrefix, poProp);
 		moTempLocalizationStorage = poTempLocalizationStorage;
+		
+		moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();		//Set Input!=null
 	}
 	
 	/* (non-Javadoc)
@@ -179,20 +182,19 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Add those to the PI
 		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		
-		/* Perception - Activation of associated memories */
-		//FIXME AW This is a hack
-		clsThingPresentationMesh oBestPhantasyInput = null;
-		if (moReturnedPhantasy_IN != null) {
-			if (moReturnedPhantasy_IN.isEmpty()==false) {
-				//FIXME: Containers shall be exchanged to TPMs
-				oBestPhantasyInput = moReturnedPhantasy_IN.get(0);	//This input shall be sorted in F47
-			}
-		}
-		
+		//--- Enhance perception with environmental image ---//
 		enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);
 		
+		//--- Activation of associated memories ---//
+		
+		//Get the phantasy input
+		clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
+		
+		//Activate memories (Spread activation)
+		activateMemories(oPerceivedImage, oBestPhantasyInput);
+		
 		//TPMs are added to the perceived image
-		executePsychicSpreadActivation(oPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());
+		//executePsychicSpreadActivation(oPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());
 		//deprecated enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = oPerceivedImage;
@@ -629,15 +631,34 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @param oReturnedMemory
 	 * @return
 	 */
-	private void activateMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
+	private void activateMemories(clsThingPresentationMesh poPerceivedImage, clsThingPresentationMesh poReturnedPhantasyImage) {
 		
 		
-//		//default is to use perception
-//		boolean blUsePerception = true;
-//		
-//		//Only if the returned memory contains a special flag, it shall activate phantasy
-//		
-//		
+		//default is to use perception
+		boolean bUsePerception = true;
+		boolean bMergePhantasyAndPerception = false;
+		
+		if (poReturnedPhantasyImage.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+			bMergePhantasyAndPerception=true;
+			//Only if the returned memory contains a special flag, it shall activate phantasy
+			if (clsPhantasyTools.checkPhantasyActivate(poReturnedPhantasyImage)==true) {
+				bUsePerception=false;
+			}
+		}
+		
+		
+		if (bUsePerception==true) {	//Activate with perception
+			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());		
+		} else {						//Activate with returned memory
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMesh>());
+		}
+		
+		
+		//Merge perception and phantasy
+		if (bMergePhantasyAndPerception==true) {
+			clsMeshTools.createAssociationPrimary(poPerceivedImage, poReturnedPhantasyImage, 1.0);
+		}
+				
 //		//Associated memories
 //		//Decide which image will be the input for spread activation
 //		//FIXME AW: calculateAbsoluteAffect shall contain a list of DMs, which is a filter for that function
@@ -680,6 +701,29 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 //		//}
 //		
 //		//return oRetVal;
+	}
+	
+	
+	/**
+	 * Get the phantasy from the input
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 15:34:16
+	 *
+	 * @param poPhantasyInputList
+	 * @return
+	 */
+	private clsThingPresentationMesh processPhantasyInput(ArrayList<clsThingPresentationMesh> poPhantasyInputList) {
+		clsThingPresentationMesh oResult = clsMeshTools.getNullObjectTPM();
+		
+		if (moReturnedPhantasy_IN.isEmpty()==false) {
+			
+			//Get the first phantasy image
+			oResult = moReturnedPhantasy_IN.get(0);
+		}
+		
+		return oResult;
 	}
 
 	

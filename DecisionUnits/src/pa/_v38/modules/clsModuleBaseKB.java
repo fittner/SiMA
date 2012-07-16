@@ -530,6 +530,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			//Get the best match if higher than the threshold
 			if (oSearchResult.get(0).get(0).a >= prThreshold) {
 				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+				if (poDataStructure.getMoDS_ID()==oRetVal.getRootElement().getMoDS_ID()) {
+					oRetVal.setRootElement(poDataStructure);
+				}
 			}	
 		}
 		
