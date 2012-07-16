@@ -9,6 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map.Entry;
 import java.util.SortedMap;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -22,12 +23,14 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
+import du.enums.eOrifice;
 
 /**
  * The neurosymbolic representation of bodily needs are converted to memory 
@@ -48,11 +51,17 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	public static String moDriveObjectType = "DriveObject";
 	
-	private HashMap<String, Double> moHomeostasisSymbols; 
+	/** <source, tension> list of all symbols from the body */
+	private HashMap<String, Double> moHomeostasisSymbols_IN; 
+	
+	private HashMap<String, eOrifice> moOrificeMap;
+	
+	private ArrayList <clsDriveMeshNew> moDriveCandidates;
 	
 	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
 	
+	//einfluess auf die normalisierung von body -> psyche
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
 	/**
@@ -71,9 +80,19 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
-		applyProperties(poPrefix, poProp);			
+		applyProperties(poPrefix, poProp);
+		fillOrificeMapping();
 	}
 	
+	
+	private void fillOrificeMapping() {
+		moOrificeMap.put("INTESTINEPRESSURE", eOrifice.RECTAL_MUCOSA);
+		moOrificeMap.put("STAMINA", eOrifice.UNDEFINED);
+		moOrificeMap.put("TEMPERATURE", eOrifice.UNDEFINED);
+		moOrificeMap.put("STOMACHTENSION", eOrifice.ORAL_MUCOSA);
+		
+	}
+
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -121,7 +140,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.mapToTEXT("moHomeostasisSymbols",moHomeostasisSymbols);		
+		text += toText.mapToTEXT("moHomeostasisSymbols",moHomeostasisSymbols_IN);		
 		text += toText.listToTEXT("moDriveTemplates", moDriveTemplates);		
 		text += toText.listToTEXT("moDrives", moDrives);		
 		text += toText.mapToTEXT("moHomeostaisImpactFactors",moHomeostaisImpactFactors);		
@@ -150,27 +169,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		return new clsTriple<clsDriveMeshOLD, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
 	}
-/*	
-	private ArrayList<String> getDriveSources(String poContext, clsDriveMesh poDriveMesh) {
-		ArrayList<String> oRes = new ArrayList<String>();
-		
-		//TODO (ZEILINGER): make the damn search work!!!
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-		search(eDataType.UNDEFINED, new ArrayList<clsDriveMesh>(Arrays.asList(poDriveMesh)), oSearchResult ); 
-		
-		//TD 2011/04/20: workaround for now:
-		if (poDriveMesh.getMoContent().equals("NOURISH")) {
-			oRes.add("CAKE");
-			oRes.add("CARROT");
-		} else if (poDriveMesh.getMoContent().equals("BITE")) {
-			oRes.add("CAKE");
-			oRes.add("CARROT");			
-		}
-		
-		return oRes;
-	}
-*/	
+
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMeshOLD poDriveMesh) {
         
         double nIntensity = 0.0; 
@@ -240,7 +239,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_2(HashMap<String, Double> poHomeostasisSymbols) {
-		moHomeostasisSymbols = (HashMap<String, Double>)deepCopy(poHomeostasisSymbols);
+		moHomeostasisSymbols_IN = (HashMap<String, Double>)deepCopy(poHomeostasisSymbols);
 	}
 
 	/* (non-Javadoc)
@@ -252,6 +251,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
+		
 		moDriveTemplates = createDriveMeshes();
 		moDrives = new ArrayList< clsPair<clsDriveMeshOLD,clsDriveDemand> >();
 		
@@ -297,8 +299,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		String oSource = poDT.b;
 
-		if (moHomeostasisSymbols.containsKey(oSource)) {
-			double rValue = moHomeostasisSymbols.get(oSource);
+		if (moHomeostasisSymbols_IN.containsKey(oSource)) {
+			double rValue = moHomeostasisSymbols_IN.get(oSource);
 			rDemand = calculateNormalizedValue(rValue, oSource);
 		}
 		
@@ -342,8 +344,102 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (deutsch) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+
+		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
+		
+		// 1- Normalization of bodily demands according to table
+		oNormalizedHomeostatsisSymbols = NormalizeHomeostaticSymbols(moHomeostasisSymbols_IN);
+		
+		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
+		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
+		{
+			moDriveCandidates.add( CreateDriveCandidate(oEntry) );
+		}
+
+	
+	}
+
+	/**
+	 * Creates a DM out of the entry, and adds necessary information, source, etc
+	 *
+	 * @since 16.07.2012 15:20:26
+	 *
+	 */
+	private clsDriveMeshNew CreateDriveCandidate(Entry<String, Double> pEntry) {
+		clsDriveMeshNew oDriveCandidate  = null;
+		double rTension = pEntry.getValue();
+		String oSource = pEntry.getKey();
+		
+		//create a TP for the organ
+		clsThingPresentation oOrganTP = 
+			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, oSource) );
+		
+		//create a TP for the orifice
+		clsThingPresentation oOrificeTP = 
+			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, moOrificeMap.get(oSource)) );
+		
+		//create the DM
+		oDriveCandidate = (clsDriveMeshNew)clsDataStructureGenerator.generateDataStructure( 
+				eDataType.DM, eContentType.DM );
+		
+		//supplement the information
+		//oDriveCandidate.associateActualDriveSource(oOrganTP, 1.0);
+		
+		//oDriveCandidate.associateActualBodyOrifice(oOrificeTP, 1.0);
+		
+		oDriveCandidate.setQuotaOfAffect(rTension);
+		
+
+	return oDriveCandidate;
+		
+	}
+
+	/**
+	 * Take the normalization map and produces values ready for translation to psy
+	 *
+	 * @since 16.07.2012 14:44:30
+	 *
+	 * @param moHomeostasisSymbols_IN2
+	 * @return
+	 */
+	private HashMap<String, Double> NormalizeHomeostaticSymbols( HashMap<String, Double> poHomeostasisSymbols) {
+		
+		// look at every source of a demand, and normalize it according to the normalization map
+		for( Entry<String, Double> oEntry : poHomeostasisSymbols.entrySet())
+		{
+			double rEntryTension = oEntry.getValue();
+			
+			//if we have a normalization factor, use it
+			if(moHomeostaisImpactFactors.containsKey( oEntry.getKey() ) )
+			{
+				try 
+				{
+					double rImpactFactor = moHomeostaisImpactFactors.get(oEntry.getKey());
+					rEntryTension = rEntryTension * rImpactFactor;
+				} catch (java.lang.Exception e) {
+					System.out.print(e);
+				}
+			}
+			
+			//any special normaization needed for special types? do it here:
+			if(oEntry.getKey() == "")
+			{
+				
+			}
+			
+			// they can never be above 1 or below zero
+			if (rEntryTension > 1.0) {
+				rEntryTension = 1.0;
+			} else if (rEntryTension < 0.0) {
+				rEntryTension = 0.0;
+			}
+			
+			oEntry.setValue(rEntryTension);
+		}
+	
+		return poHomeostasisSymbols;
 	}
 
 	/* (non-Javadoc)

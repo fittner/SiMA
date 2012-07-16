@@ -9,7 +9,7 @@
 package du.enums;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * enum of all the sensor that detect internal values of the body 
  * 
  * @author deutsch
  * 23.04.2009, 11:27:40
