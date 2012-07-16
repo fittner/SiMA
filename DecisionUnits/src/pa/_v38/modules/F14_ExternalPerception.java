@@ -210,7 +210,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<String, Object, Object>("ENTITY", new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
+		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), "SELF")); 
 		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
 		//Add Position to SELF
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));

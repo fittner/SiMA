@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
 import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
@@ -55,7 +56,7 @@ public class clsDataStructureConverter {
 		Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
 		
 		eDataType eDataStructureType = eDataType.TP;
-		String oContentType = ((itfGetSymbolName)poSymbolObject).getSymbolType();
+		eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
 		Object oContent = "DEFAULT";
 						
 		if (oMethods.length != 2) {
@@ -78,14 +79,14 @@ public class clsDataStructureConverter {
 			e.printStackTrace();
 		}
 		
-		return clsDataStructureGenerator.generateDataStructure(eDataStructureType, new clsPair <String, Object>(oContentType, oContent)); 
+		return clsDataStructureGenerator.generateDataStructure(eDataStructureType, new clsPair <eContentType, Object>(oContentType, oContent)); 
 	}
 	
 	private static clsDataStructurePA convertSymbolsToTPM(itfSymbol poSymbolObject){
 		Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
 		
 		clsThingPresentationMesh oTPM =  null; 
-		String oContentType = ((itfGetSymbolName)poSymbolObject).getSymbolType();
+		eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
 		String oContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
 		ArrayList<clsPhysicalRepresentation> oAssociatedContent = new ArrayList<clsPhysicalRepresentation>();
 		
@@ -95,13 +96,13 @@ public class clsDataStructureConverter {
 			}
 			
 			clsThingPresentation oTP = null;
-			String oContentTypeTP = "DEFAULT"; 
+			eContentType oContentTypeTP = eContentType.DEFAULT; 
 			Object oContentTP = "DEFAULT";
 			//TODO HZ 16.08.2010: The method removePrefix is used in order to read out´the content type of a sub-symbol. 
 			//As this operation is not supported by the provided interfaces (It is presumed that objects are 
 			//received in the form of TPMs), removePrefix is taken from the ARSi09 implementation - however it is a dirty hack
 			//and has to be removed when the symbolization is restructured.
-			oContentTypeTP = removePrefix(oM.getName()); 
+			oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
 					
 			//FIXME HZ! For this part a new solution has to be found 
 			//Certain types of content types are mapped together
@@ -110,12 +111,12 @@ public class clsDataStructureConverter {
 //				oContentTypeTP = "LOCATION"; 
 //			}
 			
-			if(oContentTypeTP.equals("ObjectPosition")) {
-				oContentTypeTP = "POSITION"; 
+			if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
+				oContentTypeTP = eContentType.POSITION; 
 			}
 			
-			if (oContentTypeTP.equals("Distance")) {
-				oContentTypeTP = "DISTANCE";
+			if (oContentTypeTP.equals(eContentType.Distance)) {
+				oContentTypeTP = eContentType.DISTANCE;
 			}
 			
 			
@@ -132,11 +133,10 @@ public class clsDataStructureConverter {
 				e.printStackTrace();
 			}
 			
-			oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <String, Object>(oContentTypeTP, oContentTP)); 
+			oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
 			oAssociatedContent.add(oTP); 
 		}
-		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, 
-										new clsTriple<String, Object, Object>(oContentType, oAssociatedContent, oContent)); 
+		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 
 		return oTPM; 	
 	}
 	

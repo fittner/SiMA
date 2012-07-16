@@ -76,18 +76,18 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private ArrayList< clsDriveMesh > createDriveMeshes() {
 		ArrayList< clsDriveMesh > oDrives = new ArrayList< clsDriveMesh >();
 		
-		oDrives.add( createDriveMesh("LIFE",  "LIBIDINOUS") );
-		oDrives.add( createDriveMesh("DEATH", "AGGRESSIVE") );
+		oDrives.add( createDriveMesh(eContentType.LIFE,  "LIBIDINOUS") );
+		oDrives.add( createDriveMesh(eContentType.DEATH, "AGGRESSIVE") );
 		
 		return oDrives;
 	}
 	
-	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+	private clsDriveMesh createDriveMesh(eContentType poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		return oRetVal;
