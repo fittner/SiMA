@@ -82,8 +82,8 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		return oDrives;
 	}
 	
-	private clsDriveMeshOLD createDriveMesh(String poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+	private clsDriveMeshOLD createDriveMesh(eContentType poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
