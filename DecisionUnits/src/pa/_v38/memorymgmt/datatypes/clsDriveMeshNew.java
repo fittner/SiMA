@@ -13,6 +13,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**
  * DOCUMENT (muchitsch) - insert description 
@@ -56,11 +57,11 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	}
 	
 	public clsThingPresentationMesh getActualBodyOrifice(){
-		return getAssociatedObject(eContentType.BODYPART);
+		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
 	public clsThingPresentationMesh getActualDriveSource(){
-		return getAssociatedObject(eContentType.BODYPART);
+		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
 	private clsAssociationAttribute getAssociation(eContentType oContentType){
@@ -94,21 +95,21 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		}
 	}
 	
-	public void associateActualDriveSource(clsThingPresentationMesh poDriveObject, double prWeight){
+	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight){
 
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.BODYPART, 
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORGAN, 
 																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveObject, 
+																		(clsPrimaryDataStructure)poDriveSource, 
 																		prWeight));
 	}
 	
-	public void associateActualDriveAim(clsThingPresentationMesh poDriveObject, double prWeight){
+	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight){
 		
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEAIMASSOCIATION, 
 																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveObject, 
+																		(clsPrimaryDataStructure)poDriveAim, 
 																		prWeight));
 	}
 	
@@ -121,13 +122,25 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 																		prWeight));
 	}
 	
-	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveObject, double prWeight){
+	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveOrifice, double prWeight){
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.BODYPART, 
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE, 
 																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveObject, 
+																		(clsPrimaryDataStructure)poDriveOrifice, 
 																		prWeight));
+	}
+	
+	@Override 
+	public String getDebugInfo() 	{
+		String oRetval = "|DM:";
+		oRetval += ":QoA="+this.mrQuotaOfAffect;
+		oRetval += ":DComponent="+this.moDriveComponent;
+		oRetval += ":PartialD="+this.moPartialDrive;
+		oRetval += ":Internal="+this.moInternalAssociatedContent.toString();
+		oRetval += ":External="+this.moExternalAssociatedContent.toString();
+		oRetval += "|";
+		return oRetval;
 	}
 	
 	
@@ -194,7 +207,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		// TODO (schaat) - Auto-generated method stub
-		return 0;
+		throw new NotImplementedException();
 	}
 
 	/* (non-Javadoc)
@@ -205,8 +218,8 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 */
 	@Override
 	public ArrayList<clsAssociation> getMoInternalAssociatedContent() {
-		// TODO (schaat) - Auto-generated method stub
-		return null;
+		
+		return moInternalAssociatedContent;
 	}
 
 	/* (non-Javadoc)
@@ -219,6 +232,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	public void setMoInternalAssociatedContent(
 			ArrayList<clsAssociation> moAssociatedContent) {
 		// TODO (schaat) - Auto-generated method stub
+		throw new NotImplementedException();
 		
 	}
 
@@ -230,8 +244,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 */
 	@Override
 	public double getNumbInternalAssociations() {
-		// TODO (schaat) - Auto-generated method stub
-		return 0;
+		return moAssociatedContent.size();
 	}
 
 	/* (non-Javadoc)
@@ -244,6 +257,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	public void addInternalAssociations(
 			ArrayList<clsAssociation> poAssociatedDataStructures) {
 		// TODO (schaat) - Auto-generated method stub
+		throw new NotImplementedException();
 		
 	}
 
@@ -256,6 +270,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	@Override
 	public void assignDataStructure(clsAssociation poDataStructurePA) {
 		// TODO (schaat) - Auto-generated method stub
+		throw new NotImplementedException();
 		
 	}
 
