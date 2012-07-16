@@ -1001,6 +1001,28 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Get the first WP for a certain predicate in a certian mesh
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:26:47
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static clsWordPresentation getFirstWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		clsWordPresentation oResult = null;
+		
+		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
+		if (oAss!=null) {
+			oResult = (clsWordPresentation)oAss.getTheOtherElement(poWPM);
+		}
+		
+		return oResult;
+	}
+	
+	/**
 	 * Add associations to both elements, if they only exist in one of the elements.
 	 * This is especially useful at the image associations
 	 * 

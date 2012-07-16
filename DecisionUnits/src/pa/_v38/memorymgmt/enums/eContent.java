@@ -18,5 +18,7 @@ public enum eContent {
 	RI, 	//Remebered image
 	SELF,
 	UNKNOWN_GOAL,
-	ENTITY2IMAGE;
+	ENTITY2IMAGE,
+	TRUE,
+	FALSE;
 }

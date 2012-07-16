@@ -631,8 +631,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 */
 	private void activateMemories(clsThingPresentationMesh oPerceptionInput, clsThingPresentationMesh oReturnedMemory) {
 		
+		
 //		//default is to use perception
 //		boolean blUsePerception = true;
+//		
+//		//Only if the returned memory contains a special flag, it shall activate phantasy
+//		
 //		
 //		//Associated memories
 //		//Decide which image will be the input for spread activation

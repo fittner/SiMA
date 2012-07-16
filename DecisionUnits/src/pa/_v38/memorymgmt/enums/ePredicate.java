@@ -68,12 +68,14 @@ public enum ePredicate {
 	RIGHTBEHINDOF,
 	BEHINDOF,	
 	ONPOSITION,
-	
 	NEAROF,
 	MEDIUMOF,
 	FAROF,
-	OUT_OF_SIGHT_OF;
+	OUT_OF_SIGHT_OF,
 	
+	
+	//Control
+	HASPHANTASYFLAG;
 	
 	/*public int mnPredicate;
 	

@@ -12,7 +12,9 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -122,6 +124,43 @@ public class clsActionTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Set phantasyflag
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:30:09
+	 *
+	 * @param poAction
+	 */
+	public static void setPhantasyFlag(clsWordPresentationMesh poAction) {
+		clsMeshTools.setWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+	}
+	
+	/**
+	 * Get the phantasyflag if any is set
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:29:51
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static boolean getPhantasyFlag(clsWordPresentationMesh poAction) {
+		boolean oResult = false;
+		
+		clsWordPresentation oWP = clsMeshTools.getFirstWP(poAction, ePredicate.HASPHANTASYFLAG);
+		
+		if (oWP!=null) {
+			if (oWP.getMoContent().equals(eContent.TRUE.toString())) {
+				oResult = true;
+			}
+		}
+		
+		return oResult;
 	}
 	
 }

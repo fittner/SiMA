@@ -63,6 +63,7 @@ public enum eContentType {
 	DRIVESOURCEASSOCIATION,
 	DRIVEAIMASSOCIATION,
 	SUPPORTDSASSOCIATION,
+	PHANTASYFLAG,
 	
 	//Datatypes
 	UNDEFINED,
@@ -82,7 +83,7 @@ public enum eContentType {
 	TP,
 	TPM,
 	WP,
-	WPM,		//What should be done here
+	WPM,			//What should be done here
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
 	EMOTION, 
 	LIBIDO,
