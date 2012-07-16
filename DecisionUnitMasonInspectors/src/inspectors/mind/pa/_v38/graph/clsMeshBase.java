@@ -30,7 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -203,9 +203,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oRootCell = null;
 		
 		//check for the  main data types possible for clsDataStructurePA
-		if(poMemoryObject instanceof clsDriveMesh)
+		if(poMemoryObject instanceof clsDriveMeshOLD)
 		{
-			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
+			clsDriveMeshOLD tmpRootMemoryObject = (clsDriveMeshOLD)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else if(poMemoryObject instanceof clsThingPresentation)
@@ -477,7 +477,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 	/** [DM]
 	 * Generating cells from clsDriveMesh
 	 */
-	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMeshOLD poMemoryObject)
 	{
 		String oDescription = "DM";
 

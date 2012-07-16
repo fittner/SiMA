@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
@@ -40,7 +40,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	public static final String P_MODULENUMBER = "44";
 	
 	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
-	private ArrayList<clsDriveMesh> moDrives;
+	private ArrayList<clsDriveMeshOLD> moDrives;
 	
 	/**
 	 * (deutsch) - insert description 
@@ -131,12 +131,12 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		for (clsDriveMesh oDM:moDrives) {
+		for (clsDriveMeshOLD oDM:moDrives) {
 			categorizeDriveMesh(oDM);
 		}
 	}
 
-	private void categorizeDriveMesh(clsDriveMesh poMD) {
+	private void categorizeDriveMesh(clsDriveMeshOLD poMD) {
 		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
 			String oContentType = oPRM.a; 
 			String oContext = oPRM.b;
@@ -236,7 +236,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 * @see pa._v38.interfaces.itfInspectorDrives#getDriveList()
 	 */
 	@Override
-	public ArrayList<clsDriveMesh> getDriveList() {
+	public ArrayList<clsDriveMeshOLD> getDriveList() {
 		return moDrives;
 	}
 
@@ -249,7 +249,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_1(
-			ArrayList<clsDriveMesh> poData) {
+			ArrayList<clsDriveMeshOLD> poData) {
 		// 
 		
 	}
@@ -262,7 +262,7 @@ public class _E44_PrimalRepressionForSexualDrives extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I4_1_receive#receive_I4_1(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
+	public void receive_I4_1(ArrayList<clsDriveMeshOLD> poDriveCandidates) {
 		// 
 		
 	}	

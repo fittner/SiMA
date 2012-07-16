@@ -20,7 +20,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -53,7 +53,7 @@ implements I5_6_receive, I5_7_send  {
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/** The storage for primal repressed drives*/
-	private ArrayList<clsDriveMesh> moPrimalRepressionMemory;
+	private ArrayList<clsDriveMeshOLD> moPrimalRepressionMemory;
 	
 	/**
 	 * Personality parameter:
@@ -92,7 +92,7 @@ implements I5_6_receive, I5_7_send  {
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
-		moPrimalRepressionMemory = new ArrayList<clsDriveMesh>();
+		moPrimalRepressionMemory = new ArrayList<clsDriveMeshOLD>();
 		fillPrimalRepressionMemory();
 	}
 
@@ -113,7 +113,7 @@ implements I5_6_receive, I5_7_send  {
 
   	for (ArrayList<Object> oData:oList) {
 		clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.valueOf(oData.get(0).toString()), oData.get(0))); 
-		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.valueOf(oData.get(1).toString()), 
+		clsDriveMeshOLD oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.valueOf(oData.get(1).toString()), 
 																   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
 																   oData.get(0)));
 		oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
@@ -229,14 +229,14 @@ implements I5_6_receive, I5_7_send  {
 		ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>> oMatchValues = new ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>>();
 		
 		// compare each element from moPrimalRepressionMemory with the input
-		for (clsDriveMesh oEntry : moPrimalRepressionMemory) {
+		for (clsDriveMeshOLD oEntry : moPrimalRepressionMemory) {
 			for(clsAssociation oInputAssociation : poPerception_IN.getMoInternalAssociatedContent()) {
 				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
 				if (oObject instanceof clsThingPresentationMesh) {
 					
 					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalMoAssociatedContent()) {
 						if(oSubAss instanceof clsAssociationDriveMesh){
-							clsDriveMesh oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
+							clsDriveMeshOLD oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
 							if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
 								// calculate match between drives
 								double rMatchValue = oEntry.matchCathegories(oData);

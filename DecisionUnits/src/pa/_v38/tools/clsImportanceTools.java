@@ -12,7 +12,7 @@ import java.util.Arrays;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -53,19 +53,19 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
+	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMeshOLD> poDMList) {
 		double rTotalAffect = 0;
 		
 		ArrayList<clsPair<eContentType, String>> oDMContentType = new ArrayList<clsPair<eContentType, String>>();
 		//Get all contenttypes from the DM
-		for (clsDriveMesh oDM : poDMList) {
+		for (clsDriveMeshOLD oDM : poDMList) {
 			oDMContentType.add(new clsPair<eContentType, String>(oDM.getMoContentType(), null));
 		}
 		
 		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
-			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getPleasure());
+			rTotalAffect += java.lang.Math.abs(((clsDriveMeshOLD)oAssDMList.getLeafElement()).getPleasure());
 		}
 		
 		return rTotalAffect/oDMList.size();

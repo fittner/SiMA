@@ -23,7 +23,7 @@ import pa._v38.interfaces.modules.I5_5_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -56,11 +56,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 					I5_5_receive, I5_13_receive, I5_18_send, I5_17_send, D2_3_send {
 	public static final String P_MODULENUMBER = "06";
 	
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input;
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Output;
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Input;
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Output;
 	private ArrayList<String> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
-	private ArrayList<clsDriveMesh> moSexualDrives;
+	private ArrayList<clsDriveMeshOLD> moSexualDrives;
 	private ArrayList<clsPrimaryDataStructure> moQuotasOfAffect_Output = new ArrayList<clsPrimaryDataStructure>();  // anxiety which is generated while repressing content
 	
 	// defense mechanisms must be activated by a psychoanalytic conflict
@@ -159,7 +159,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I5_5(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+	public void receive_I5_5(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poData) {
 
 	}
 
@@ -172,13 +172,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMeshOLD> poData) {
 
-		moDriveList_Input = new ArrayList <clsPair<clsPhysicalRepresentation, clsDriveMesh>>();
+		moDriveList_Input = new ArrayList <clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>>();
 		// SSch: Temporary Solution until F06 and following modules consider new DM structure
-		for (clsDriveMesh oEntry : poData) {
+		for (clsDriveMeshOLD oEntry : poData) {
 			if (oEntry != null){
-				moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMesh>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
+				moDriveList_Input.add(new clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>((clsPhysicalRepresentation) oEntry.getBestTPM(), oEntry ));
 			}
 		}
 		
@@ -197,7 +197,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() { 
-		 moDriveList_Output = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>) deepCopy (moDriveList_Input);
+		 moDriveList_Output = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>>) deepCopy (moDriveList_Input);
 		 
 		 
 		 detect_conflict_and_activate_defense_machanisms();
@@ -277,7 +277,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 			int i = 0;
 			// search in list of incoming drives
-			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Input){
+			for(clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oDrives : moDriveList_Input){
 				// check DriveMesh
 				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 					
@@ -305,7 +305,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * The defense mechanism displacement replaces the original drive object by a new drive object.
 	 *
 	 */
-	protected clsPair<clsPhysicalRepresentation, clsDriveMesh> displacement(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM) {
+	protected clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> displacement(clsPhysicalRepresentation poOriginalTPM, clsDriveMeshOLD poOriginalDM) {
 	    // Liste mit möglichen Trieben und dazugehöriges displaced drive object (und reserve drive object, falls displace drive object das original drive object ist.)
 		// (eventuell könnte man auch noch das drive object des nächsten Triebes nehmen, falls gar kein drive object passt)
 		
@@ -314,7 +314,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// Wo finde ich die möglichen Triebobjekte (TPM)?
 		
 		//clsPhysicalRepresentation oDisplacedDriveObject = TPM(search(poOriginalDM -> displacedDriveObject));
-		return new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, poOriginalDM);
+		return new clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>(poOriginalTPM, poOriginalDM);
 	}
 
 	/* (non-Javadoc)
@@ -404,7 +404,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 			int i = 0;
 			// search in list of incoming drives
-			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Input){
+			for(clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oDrives : moDriveList_Input){
 				// check DriveMesh
 				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 					
@@ -431,7 +431,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * The third parameter poOppositeTP is a list which assigns the altered drive aim to the original drive aim 
 	 *
 	 */
-	private clsPair<clsPhysicalRepresentation, clsDriveMesh> changeDriveAim(clsPhysicalRepresentation poOriginalTPM, clsDriveMesh poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
+	private clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> changeDriveAim(clsPhysicalRepresentation poOriginalTPM, clsDriveMeshOLD poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
 		// Helper
 		String oOppositeTPContent = "";
@@ -440,7 +440,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		double rPleasure = 0;
 		
 		// opposite Drive
-		clsPair<clsPhysicalRepresentation, clsDriveMesh> oOppositeDrive= null;
+		clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oOppositeDrive= null;
 		
 		
 		// What is the opposite TP?	
@@ -457,7 +457,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		}
 		
 		// search in list of incoming drives if drive similar to opposite drive already exists
-		for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+		for(clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oDrives : moDriveList_Output){
 			// check DriveMesh (TODO: only one kind of TPM in drivelist, so no compare of TPM necessary?)
 			if (oDrives.b.getMoContent().equalsIgnoreCase(oOppositeTPContent)){
 				// drive found
@@ -495,7 +495,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		else {
 			// form opposite drive
 			
-			clsDriveMesh oNewDM = null;
+			clsDriveMeshOLD oNewDM = null;
 			//clsDriveMesh oAssDM = null;
 
 
@@ -505,7 +505,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			oNewDM.setCategories((Double)poOppositeTP.get(oOriginalTPContent).get(4), (Double)poOppositeTP.get(oOriginalTPContent).get(2), (Double)poOppositeTP.get(oOriginalTPContent).get(3), (Double)poOppositeTP.get(oOriginalTPContent).get(5));
 						
 			
-			oOppositeDrive = new clsPair<clsPhysicalRepresentation, clsDriveMesh>(poOriginalTPM, oNewDM);	
+			oOppositeDrive = new clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>(poOriginalTPM, oNewDM);	
 			
 			oOppositeDrive.b.setMrQuotaOfAffect(poOriginalDM.getMrQuotaOfAffect());	
 		}
@@ -527,7 +527,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * This method represses a single drive. Copied from FG
 	 *
 	 */
-	protected void repress_single_drive(clsThingPresentationMesh poTPM, clsDriveMesh poDM) {
+	protected void repress_single_drive(clsThingPresentationMesh poTPM, clsDriveMeshOLD poDM) {
 		
 	// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
 			if (!moBlockedContentStorage.existsMatch(poTPM, poDM)) {		
@@ -554,7 +554,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				
 			int i = 0;
 			// search in list of incoming drives
-			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+			for(clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oDrives : moDriveList_Output){
 				// check DriveMesh
 				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 
@@ -600,7 +600,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		for (String oContent : oForbiddenDrives_Input) {
 				
 			// search in list of incoming drives
-			for(clsPair<clsPhysicalRepresentation, clsDriveMesh> oDrives : moDriveList_Output){
+			for(clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oDrives : moDriveList_Output){
 				// check DriveMesh
 				if (oDrives.b.getMoContent().equalsIgnoreCase(oContent)){
 
@@ -636,7 +636,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.send.I1_6_send#send_I1_6(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList) {
+	public void send_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList) {
 		((I5_18_receive)moModuleList.get(8)).receive_I5_18(poDriveList);
 		putInterfaceData(I5_18_send.class, poDriveList);
 	}
@@ -662,7 +662,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * Sends blocked drive aims (clsDriveMesh) and drive objects (clsPhysicalRepresentation) to DT2_BlockedContentStorage
 	 */
 	@Override
-	public void send_D2_3 (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	public void send_D2_3 (clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
 		moBlockedContentStorage.receive_D2_3(poDS, poDM);	
 		putInterfaceData(D2_3_send.class, poDS, poDM);		
 	}

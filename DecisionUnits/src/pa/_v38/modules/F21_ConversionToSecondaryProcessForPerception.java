@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -364,7 +364,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				} else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
 					//Get the affect templates
 					//Get the DriveMesh
-					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement(); 
+					clsDriveMeshOLD oDM = (clsDriveMeshOLD) oTPMExternalAss.getLeafElement(); 
 					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
 					
 					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)

@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -48,7 +48,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private double mrTotalLibido;
 	private static final double mrLibitoStartingOffset = 0.2;
 	
-	private ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > moDrives;
+	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
 	
 	/**
 	 * basic constructor, sets Libido to 0
@@ -73,8 +73,8 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	private ArrayList< clsDriveMesh > createDriveMeshes() {
-		ArrayList< clsDriveMesh > oDrives = new ArrayList< clsDriveMesh >();
+	private ArrayList< clsDriveMeshOLD > createDriveMeshes() {
+		ArrayList< clsDriveMeshOLD > oDrives = new ArrayList< clsDriveMeshOLD >();
 		
 		oDrives.add( createDriveMesh(eContentType.LIFE,  "LIBIDINOUS") );
 		oDrives.add( createDriveMesh(eContentType.DEATH, "AGGRESSIVE") );
@@ -82,11 +82,11 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		return oDrives;
 	}
 	
-	private clsDriveMesh createDriveMesh(eContentType poContentType, String poContext) {
+	private clsDriveMeshOLD createDriveMesh(eContentType poContentType, String poContext) {
 		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
-		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
 				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
@@ -147,13 +147,13 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 */
 	@Override
 	protected void process_basic() {
-		moDrives = new ArrayList<clsPair<clsDriveMesh,clsDriveDemand>>();
+		moDrives = new ArrayList<clsPair<clsDriveMeshOLD,clsDriveDemand>>();
 		updateTempLibido();
-		ArrayList<clsDriveMesh> oDriveMeshes = createDriveMeshes();
+		ArrayList<clsDriveMeshOLD> oDriveMeshes = createDriveMeshes();
 		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
 					new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, mrTotalLibido));
-		for (clsDriveMesh oDM:oDriveMeshes) {
-			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDM, oDemand));
+		for (clsDriveMeshOLD oDM:oDriveMeshes) {
+			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDM, oDemand));
 		}
 	}
 
@@ -201,7 +201,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 * @see pa.interfaces.send._v38.I1_10_send#receive_I1_10(java.util.HashMap)
 	 */
 	@Override
-	public void send_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
+	public void send_I3_1(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
 		((I3_1_receive)moModuleList.get(43)).receive_I3_1(poHomeostaticDriveDemands);
 		putInterfaceData(I3_1_send.class, poHomeostaticDriveDemands);
 	}

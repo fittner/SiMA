@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -388,7 +388,7 @@ public class clsMeshTools {
 				if (oAss instanceof clsAssociationDriveMesh) {
 					if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
 						if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
-								(poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true)) {
+								(poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true)) {
 							oRetVal.add((clsAssociationDriveMesh) oAss);
 							if (pbStopAtFirstMatch==true) {
 								bBreakAssLoop=true;
@@ -403,7 +403,7 @@ public class clsMeshTools {
 							}
 						}
 					} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-						if (poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true) {
+						if (poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true) {
 							oRetVal.add((clsAssociationDriveMesh) oAss);
 							if (pbStopAtFirstMatch==true) {
 								bBreakAssLoop=true;

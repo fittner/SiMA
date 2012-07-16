@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -321,7 +321,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						//2. If found, create a new association with this dm and the found root element. This association shall be added to all these objects
 						for (clsThingPresentationMesh oObject : oFoundObjects) {
 							//3. create a new association
-							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh) oDMAssociation.getLeafElement(), oObject);
+							clsAssociationDriveMesh oNewMesh = new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMeshOLD) oDMAssociation.getLeafElement(), oObject);
 							//4. Add the association to the external associations of the root element
 							oObject.getExternalMoAssociatedContent().add(oNewMesh);
 						}
@@ -339,7 +339,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				this.removeBlockedContent(matchedItem.a);
 			}
 			// case 2: the item is a DriveMesh
-			else if (matchedItem.a instanceof clsDriveMesh) {
+			else if (matchedItem.a instanceof clsDriveMeshOLD) {
 				// attach all DMs in result to the input TI
 				//Here, only one association exists
 				for (clsAssociationDriveMesh oAssDM : matchedItem.c) {
@@ -366,15 +366,15 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poInput
 	 * @return
 	 */
-	public clsDriveMesh matchBlockedContentDrives(ArrayList<clsDriveMesh> poInput) {
+	public clsDriveMeshOLD matchBlockedContentDrives(ArrayList<clsDriveMeshOLD> poInput) {
 		// get only free drives
 		
-		clsDriveMesh oRetVal = null;
+		clsDriveMeshOLD oRetVal = null;
 		double rHighestMatch = 0.0;
 
-		for(clsDriveMesh oDrivePair : poInput){ 
-			clsDriveMesh oInputDrive = oDrivePair;
-			clsPair<Double, clsDriveMesh> oMatch = null;
+		for(clsDriveMeshOLD oDrivePair : poInput){ 
+			clsDriveMeshOLD oInputDrive = oDrivePair;
+			clsPair<Double, clsDriveMeshOLD> oMatch = null;
 			if ((getMatchesForDrives(oInputDrive, 0).isEmpty()==false)) {
 				oMatch =  getMatchesForDrives(oInputDrive, 0).get(0); //You could use mrActivationThreshold			
 				double rMatchValue = oMatch.a; 
@@ -460,16 +460,16 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsThingPresentationMesh) oBlockedCont, oMatchResult, oDMList));
 				
 			}
-			else if (oEntry instanceof clsDriveMesh) {
+			else if (oEntry instanceof clsDriveMeshOLD) {
 				oBlockedCont = oEntry;
 				
 				// if item is a DM, then compare with all associated DMs of the input
 				for(clsAssociationDriveMesh oInputAssociation : oDMFromMesh) {
 					//if(oInputAssociation instanceof clsAssociationDriveMesh){
-					clsDriveMesh oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
+					clsDriveMeshOLD oData = ((clsAssociationDriveMesh)oInputAssociation).getDM(); 
 					if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
 						// calculate match between drive matches
-						double rMatchValue = ((clsDriveMesh)oEntry).matchCathegories(oData);
+						double rMatchValue = ((clsDriveMeshOLD)oEntry).matchCathegories(oData);
 						// ignore matches below threshold
 						if (rMatchValue < poThreshold)
 							continue;
@@ -477,7 +477,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 						// add the association with the matching element from the input to the return values
 						ArrayList<clsAssociationDriveMesh> newDMAssociations = new ArrayList<clsAssociationDriveMesh>();
 						clsThingPresentationMesh newRoot = (clsThingPresentationMesh) ((clsAssociationDriveMesh)oInputAssociation).getRootElement();
-						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMesh)oEntry, newRoot));
+						newDMAssociations.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), (clsDriveMeshOLD)oEntry, newRoot));
 						//oBlockedCont = new clsPrimaryDataStructureContainer(oEntry.a, oEntry.b);
 						// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 						int i = 0;
@@ -485,7 +485,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 							i++;
 						}
 						// add to results
-						oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsDriveMesh) oEntry, rMatchValue, newDMAssociations));
+						oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsDriveMeshOLD) oEntry, rMatchValue, newDMAssociations));
 					}
 					//}
 				}
@@ -504,14 +504,14 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poThreshold
 	 * @return
 	 */
-	private ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
-		ArrayList<clsPair<Double, clsDriveMesh>> oRetVal = new ArrayList<clsPair<Double, clsDriveMesh>>();	
+	private ArrayList<clsPair<Double, clsDriveMeshOLD>> getMatchesForDrives(clsDriveMeshOLD poDM, double poThreshold) {
+		ArrayList<clsPair<Double, clsDriveMeshOLD>> oRetVal = new ArrayList<clsPair<Double, clsDriveMeshOLD>>();	
 		
 		for (clsDataStructurePA oEntry : moBlockedContent) {
-			if (oEntry instanceof clsDriveMesh) { 
+			if (oEntry instanceof clsDriveMeshOLD) { 
 				if(oEntry.getMoContentType().equals(poDM.getMoContentType())) {
 					// calculate match between drive matches
-					double rMatchValue = ((clsDriveMesh)oEntry).matchCathegories(poDM);
+					double rMatchValue = ((clsDriveMeshOLD)oEntry).matchCathegories(poDM);
 					// ignore matches below threshold
 					if (rMatchValue < poThreshold)
 						continue;
@@ -522,7 +522,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 					}
 					// add to results
 					oRetVal.add(i, 
-							new clsPair<Double, clsDriveMesh>(rMatchValue, (clsDriveMesh)oEntry));
+							new clsPair<Double, clsDriveMeshOLD>(rMatchValue, (clsDriveMeshOLD)oEntry));
 				}
 			}
 		}
@@ -608,7 +608,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param return - existsMatch() returns true if there is a similar entry in blocked content storage (otherwise false)
 	 *
 	 */
-	public boolean existsMatch (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	public boolean existsMatch (clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
 		
 		clsThingPresentationMesh poDSC = buildExtendedTPM (poDS, poDM);
 		
@@ -628,7 +628,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * 16.09.2011, 22:47:33
 	 *
 	 */
-	private clsThingPresentationMesh buildExtendedTPM (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	private clsThingPresentationMesh buildExtendedTPM (clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
 		clsThingPresentationMesh oRetVal = null;
 		
 		//Create container from physical representation
@@ -666,7 +666,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * 16.09.2011, 22:47:33
 	 *
 	 */
-	public void add(clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	public void add(clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
 		add (buildExtendedTPM (poDS, poDM));
 		
 	}
@@ -757,7 +757,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * gets drive object and drive aim from F6
 	 */
 	@Override
-	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
 		// store drive object (clsPhysicalRepresentation) and drive aim (clsDriveMesh) in blocked content storage
 		add(poDS, poDM);
 	}

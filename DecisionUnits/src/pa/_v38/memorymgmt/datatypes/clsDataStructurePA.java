@@ -48,6 +48,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
 	protected eContentType moContentType;
+	protected String moDebugInfo;
 	//AW 20110706: New Identifier for instances
 	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
 	 * in order to be able to assign the root elements in the associated data structures in the containers with
@@ -115,6 +116,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 //		return oMatchScore;
 //	}
 	
+	
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:55:43
@@ -123,6 +125,24 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 */
 	public int getMoDS_ID() {
 		return moDS_ID;
+	}
+
+	/**
+	 * @since 16.07.2012 11:12:55
+	 * 
+	 * @return the moDebugInfo
+	 */
+	public String getDebugInfo() {
+		return moDebugInfo;
+	}
+
+	/**
+	 * @since 16.07.2012 11:12:55
+	 * 
+	 * @param moDebugInfo the moDebugInfo to set
+	 */
+	public void setDebugInfo(String poDebugInfo) {
+		this.moDebugInfo = poDebugInfo;
 	}
 
 	/**

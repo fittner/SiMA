@@ -30,7 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -192,10 +192,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
-		
-		//TPMs are added to the perceived image
-		//executePsychicSpreadActivation(oPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());
-		//deprecated enhanceWithActivatedMemories(moEnhancedPerception, oBestPhantasyInput);
 		
 		moPerceptionalMesh_OUT = oPerceivedImage;
 		
@@ -648,9 +644,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		
 		if (bUsePerception==true) {	//Activate with perception
-			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());		
+			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMeshOLD>());		
 		} else {						//Activate with returned memory
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMesh>());
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMeshOLD>());
 		}
 		
 		
@@ -948,13 +944,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @param pnNumberOfDriveMeshes
 	 * @return
 	 */
-	private ArrayList<clsDriveMesh> extractDriveMeshes(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList, int pnNumberOfDriveMeshes) {
-		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+	private ArrayList<clsDriveMeshOLD> extractDriveMeshes(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList, int pnNumberOfDriveMeshes) {
+		ArrayList<clsDriveMeshOLD> oRetVal = new ArrayList<clsDriveMeshOLD>();
 		
 		int nCounter = 0;
 		if (poDriveList.isEmpty()==false) {
 			for (int i=0; i<poDriveList.size();i++) {
-				clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair = poDriveList.get(i);
+				clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oPair = poDriveList.get(i);
 				oRetVal.add(oPair.b);
 				
 				if (nCounter>=pnNumberOfDriveMeshes-1) {

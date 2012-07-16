@@ -43,6 +43,8 @@ public enum eContentType {
 	
 	// --- Bodypart --- //
 	BODYPART,
+	ORIFICE,
+	ORGAN,
 	
 	//--- Emotions
 	BASICEMOTION,

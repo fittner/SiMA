@@ -12,7 +12,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 /**
  * The eight drives - the four partial sexual drives divided into libidinous and aggressive components - as well as the total amount of libido tension are transmitted from F43 to F42.
@@ -22,5 +22,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I3_3_receive {
-	public void receive_I3_3(ArrayList< clsPair< clsTriple<clsDriveMesh,clsDriveDemand,Double>, clsTriple<clsDriveMesh,clsDriveDemand,Double> > > poDriveCandidates);
+	public void receive_I3_3(ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > poDriveCandidates);
 }

@@ -22,7 +22,7 @@ import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -41,7 +41,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	public static final String P_MODULENUMBER = "08";
 	
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> moDriveList_Input; 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Input; 
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
 	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
@@ -129,9 +129,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList) {
+	public void receive_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy(poDriveList);
+		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>>)deepCopy(poDriveList);
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 	
@@ -216,10 +216,10 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList_Input) {
+	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList_Input) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsPair<clsPhysicalRepresentation, clsDriveMesh> oPair : poDriveList_Input) {			
+		for (clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oPair : poDriveList_Input) {			
 			//Convert drive to affect
 			clsWordPresentation oAffect = convertDriveMeshToWP(oPair.b);
 			
