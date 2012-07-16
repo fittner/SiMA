@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
@@ -150,7 +151,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		updateTempLibido();
 		ArrayList<clsDriveMesh> oDriveMeshes = createDriveMeshes();
 		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-					new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(), mrTotalLibido));
+					new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, mrTotalLibido));
 		for (clsDriveMesh oDM:oDriveMeshes) {
 			moDrives.add( new clsPair<clsDriveMesh, clsDriveDemand>(oDM, oDemand));
 		}

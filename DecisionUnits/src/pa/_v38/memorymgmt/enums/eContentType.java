@@ -99,7 +99,9 @@ public enum eContentType {
 	TASTE,
 	CONSUMEABLE,
 	CONTENT,
-	
+	PositionChange,
+	BUMP,
+	ANTENNA_RIGHT,
 	
 	//DM
 	BITE,
@@ -111,5 +113,12 @@ public enum eContentType {
 	
 	
 	// TODO DELETE AFTER IMPLEMENTATION OF NEW DM STRUCTURE
-	DEATH, LIFE, AGGRESSION;
+	DEATH, LIFE, AGGRESSION,
+	
+	//Delete after implementation of secondary process
+	ACTIVATEREDUCEAFFECT,
+	
+	//???? OBSOLETE Delete ????
+	RELATION,
+	LOCATION;
 }

@@ -83,8 +83,8 @@ public abstract class clsDataStructureComparison {
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA,ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poDS_Unknown.getMoDataStructureType());
 		
-		if(oMap.containsKey(poDS_Unknown.getMoContentType())){	//If the input content type already exists in the memory
-			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getMoContentType()), poDS_Unknown); 
+		if(oMap.containsKey(poDS_Unknown.getMoContentType().toString())){	//If the input content type already exists in the memory
+			oRetVal = getDataStructureByContentType(oMap.get(poDS_Unknown.getMoContentType().toString()), poDS_Unknown); 
 		}
 		else{
 			oRetVal = getDataStructureByDataStructureType(oMap, poDS_Unknown); 
@@ -113,7 +113,7 @@ public abstract class clsDataStructureComparison {
 		HashMap<String, HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>>> oMap 
 											= poSearchSpace.returnSearchSpaceTable().get(poContainerUnknown.getMoDataStructure().getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
 		//Get Searchspace for a certain datatype
-		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poContainerUnknown.getMoDataStructure().getMoContentType());
+		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poContainerUnknown.getMoDataStructure().getMoContentType().toString());
 		
 		//For each template image in the storage compare with the input image
 		//1. First search to get all matches
@@ -173,7 +173,7 @@ public abstract class clsDataStructureComparison {
 											= poSearchSpace.returnSearchSpaceTable().get(poDSUnknown.getMoDataStructureType());	//Nehme nur nach Typ Image oder TI
 		
 		//Get Searchspace for a certain datatype
-		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getMoContentType());
+		HashMap<Integer, clsPair<clsDataStructurePA, ArrayList<clsAssociation>>> oMapWithType = oMap.get(poDSUnknown.getMoContentType().toString());
 		
 		//Check, which search depth is used. 
 		//pnLevel 0: Nothing is done with the image
@@ -366,7 +366,7 @@ public abstract class clsDataStructureComparison {
 		int nRetVal = 0;
 		
 		for (clsAssociation oAss : poRIContainer.getMoAssociatedDataStructures()) {
-			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION.toString())==true)) {
+			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION)==true)) {
 				nRetVal++;
 			}
 		}
@@ -386,7 +386,7 @@ public abstract class clsDataStructureComparison {
 		int nRetVal = 0;
 		
 		for (clsAssociation oAss : poRI.getExternalMoAssociatedContent()) {
-			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION.toString())==true)) {
+			if ((oAss instanceof clsAssociationTime) && (oAss.getMoContentType().equals(eContentType.MATCHASSOCIATION)==true)) {
 				nRetVal++;
 			}
 		}

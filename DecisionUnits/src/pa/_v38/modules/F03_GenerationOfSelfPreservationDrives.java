@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
 
@@ -131,19 +132,19 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > createDriveMeshes() {
 		ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMesh, String, ArrayList<String>> >();
 		
-		oDrives.add( createDrives("LIFE", "NOURISH", "BLOODSUGAR") );
-		oDrives.add( createDrives("DEATH", "BITE", "BLOODSUGAR") );
+		oDrives.add( createDrives(eContentType.LIFE, "NOURISH", "BLOODSUGAR") );
+		oDrives.add( createDrives(eContentType.DEATH, "BITE", "BLOODSUGAR") );
 		
-		oDrives.add( createDrives("LIFE", "RELAX", "STAMINA") );
-		oDrives.add( createDrives("DEATH", "SLEEP", "STAMINA") );
+		oDrives.add( createDrives(eContentType.LIFE, "RELAX", "STAMINA") );
+		oDrives.add( createDrives(eContentType.DEATH, "SLEEP", "STAMINA") );
 		
-		oDrives.add( createDrives("LIFE", "REPRESS", "INTESTINEPRESSURE") );
-		oDrives.add( createDrives("DEATH", "DEPOSIT", "INTESTINEPRESSURE") );
+		oDrives.add( createDrives(eContentType.LIFE, "REPRESS", "INTESTINEPRESSURE") );
+		oDrives.add( createDrives(eContentType.DEATH, "DEPOSIT", "INTESTINEPRESSURE") );
 		
 		return oDrives;
 	}
 	
-	private clsTriple<clsDriveMesh, String, ArrayList<String>> createDrives(String poContentType, String poContext, String poSource) {
+	private clsTriple<clsDriveMesh, String, ArrayList<String>> createDrives(eContentType poContentType, String poContext, String poSource) {
 		clsDriveMesh oDriveMesh = createDriveMesh(poContentType, poContext);
 		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
 		
@@ -194,12 +195,12 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
         return oRes;
 	}
 	
-	private clsDriveMesh createDriveMesh(String poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<String, Object>(poContentType, poContext) );
+	private clsDriveMesh createDriveMesh(eContentType poContentType, String poContext) {
+		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
 		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
 		
 		clsDriveMesh oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTriple<String, Object, Object>(poContentType, oContent, poContext)
+				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
 				);
 		
 		return oRetVal;
@@ -302,7 +303,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		}
 		
 		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-				new clsPair<String,Object>(eDataType.DRIVEDEMAND.toString(), rDemand));
+				new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, rDemand));
 		
 		return oDemand;
 	}
