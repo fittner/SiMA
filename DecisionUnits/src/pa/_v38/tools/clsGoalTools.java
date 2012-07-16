@@ -159,7 +159,7 @@ public class clsGoalTools {
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poGoal);
 		
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		} else {
 			//Get the association

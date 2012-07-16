@@ -549,7 +549,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		clsWordPresentation oRetVal = null;
 		
 		//Generate the instance of the class affect
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getPleasure()));
 		//Search for the WP of the affect
 		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
 		
@@ -563,7 +563,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		String oWPContent = oDriveContent + ":" + oAffectContent;
 		
 		//Create the new WP for that drive
-		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eContentType.AFFECT.toString(), oWPContent));
+		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<eContentType, Object>(eContentType.AFFECT, oWPContent));
 		
 		oRetVal = oResWP;
 		
