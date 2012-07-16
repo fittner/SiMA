@@ -134,7 +134,7 @@ public class clsPrimarySpatialTools {
 		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
 		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationAttribute) {
-				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
+				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)) {
 					//Get content of the association
 					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
 					if (Y==null) {
@@ -148,7 +148,7 @@ public class clsPrimarySpatialTools {
 						}
 					}
 					
-				} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+				} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION)) {
 					String oContent = (String) ((clsThingPresentation)oAss.getLeafElement()).getMoContent();
 					//Get the X-Part
 					if (X==null) {

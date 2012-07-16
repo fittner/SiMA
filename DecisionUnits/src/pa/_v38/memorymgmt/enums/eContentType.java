@@ -104,6 +104,10 @@ public enum eContentType {
 	PositionChange,
 	BUMP,
 	ANTENNA_RIGHT,
+	RADIATION,
+	ObjectPosition,
+	Distance,
+	POSITIONCHANGE,
 	
 	//DM
 	BITE,
@@ -122,5 +126,11 @@ public enum eContentType {
 	
 	//???? OBSOLETE Delete ????
 	RELATION,
-	LOCATION;
+	LOCATION,
+	
+	//??? REPLACE THIS SOME DAY...???
+	DEFAULT,
+	X,
+	Y, 
+	A;
 }

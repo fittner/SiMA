@@ -18,6 +18,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
@@ -123,7 +124,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		// I (FG) think that the module F54 must be placed before the module "F57 memory traces for drives"
 		// otherwise no clsPhysicalRepresentation can be generated for blocked content which emerges in F54.
 		// I (FG) will talk to KD for that.
-		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<String, Object>("NULL", "NULL")); 
+		clsThingPresentation oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT)); 
 		clsPhysicalRepresentation oPhR = (clsPhysicalRepresentation) oTP;
 		
 		
