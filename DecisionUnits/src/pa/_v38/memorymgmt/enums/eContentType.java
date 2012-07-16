@@ -46,6 +46,10 @@ public enum eContentType {
 	//--- Goals ---//
 	DECISIONTASK,
 	
+	//--- Actions ---//
+	PRECONDITION,
+	POSTCONDITION,
+	
 	// --- Bodypart --- //
 	BODYPART,
 	ORIFICE,

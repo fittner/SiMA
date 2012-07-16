@@ -17,6 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
 
@@ -161,6 +162,51 @@ public class clsActionTools {
 		}
 		
 		return oResult;
+	}
+	
+	/**
+	 * Get Preconditions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:59:12
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static ArrayList<eDecisionTask> getPreconditions(clsWordPresentationMesh poAction) {
+		ArrayList<eDecisionTask> oResult = new ArrayList<eDecisionTask>();
+		
+		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getWPList(poAction, ePredicate.HASPRECONDITION);
+		
+		for (clsWordPresentation oWP : oWPList) {
+			oResult.add(eDecisionTask.valueOf(oWP.getMoContent()));
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Check if a certain action has a certain precondition
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 21:02:37
+	 *
+	 * @param poAction
+	 * @param poDecisionTask
+	 * @return
+	 */
+	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, eDecisionTask poDecisionTask) {
+		boolean bResult = false;
+		
+		ArrayList<eDecisionTask> oPreconditionList = clsActionTools.getPreconditions(poAction);
+		
+		if (oPreconditionList.contains(poDecisionTask)==true) {
+			bResult = true;
+		}
+		
+		return bResult;
 	}
 	
 }

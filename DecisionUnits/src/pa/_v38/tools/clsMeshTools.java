@@ -1232,13 +1232,36 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsWordPresentation getFirstWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
-		clsWordPresentation oResult = null;
+		//clsWordPresentation oResult = null;
 		
-		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
-		if (oAss!=null) {
-			oResult = (clsWordPresentation)oAss.getTheOtherElement(poWPM);
+		//clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
+		clsWordPresentation oResult = (clsWordPresentation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, false);
+//		if (oAss!=null) {
+//			oResult = (clsWordPresentation)oAss.getTheOtherElement(poWPM);
+//		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentation> getWPList(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
+			
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+		for (clsDataStructurePA oDS : oDSList) {
+			oResult.add((clsWordPresentation) oDS);
 		}
-		
+			
 		return oResult;
 	}
 	

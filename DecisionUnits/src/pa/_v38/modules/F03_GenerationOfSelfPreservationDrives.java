@@ -86,6 +86,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	
 	private void fillOrificeMapping() {
+		moOrificeMap = new HashMap<String, eOrifice>();
 		moOrificeMap.put("INTESTINEPRESSURE", eOrifice.RECTAL_MUCOSA);
 		moOrificeMap.put("STAMINA", eOrifice.UNDEFINED);
 		moOrificeMap.put("TEMPERATURE", eOrifice.UNDEFINED);

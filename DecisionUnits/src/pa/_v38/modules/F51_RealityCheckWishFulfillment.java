@@ -223,6 +223,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	protected void process_basic() {
+		//Get previous memory
+		clsWordPresentationMesh oPreviousMentalSituation = moShortTimeMemory.findPreviousSingleMemory();
+		
 		
 		//=== Create the mental image ===
 		//Test AW: Relational Meshes
@@ -237,7 +240,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process all goals individually without sorting them. Sorting is done in the decision making
 		
-		processGoals(moReachableGoalList_IN);
+		processGoals(moReachableGoalList_IN, clsMentalSituationTools.getGoal(oPreviousMentalSituation));
 		
 		//=== Sort and evaluate them === //
 		
@@ -298,13 +301,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
-	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
+	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
 		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//1. For each goal, check, which type it is
 			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
 			
 			eDecisionTask oSetDecisionTask = eDecisionTask.NOTHING;
+			
+			eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
 						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
@@ -312,11 +317,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				//Give the following commands
 				
 				//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
-				eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
+				
 				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false) {
 					//----------------------------------------------------------------//
 					//1.1 Search phantasy for suitable memories
 					oSetDecisionTask = eDecisionTask.NEED_INTERNAL_INFO;
+					
+					//Set supported DS for actions
+					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
 				
 					//----------------------------------------------------------------//
 					
@@ -324,19 +332,44 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 					//1.2 Start blind search			
 					oSetDecisionTask = eDecisionTask.NEED_MORE_PERCEPTIONAL_INFO;	//Trigger search
 					
+					//No supported DS for actions needed
+					
 					//----------------------------------------------------------------//
 				}
 				
 				
 			} else if (oType==eContentType.PI) {
 				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.PERCEPTIONSUPPORT);
+				
+				if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
+					oSetDecisionTask = eDecisionTask.GOAL_REACHABLE_PERCEPTION;
+				} else {
+					oSetDecisionTask = eDecisionTask.NEED_FOCUS;
+					//Set supported DS for actions
+					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
+				}
+				
+				
 			} else if (oType==eContentType.RI) {
+				
+				
 				//DO SOMETHING
 			}
 			
 			clsGoalTools.setDecisionTask(oGoal, oSetDecisionTask);
 			
 		}
+		
+	}
+	
+	private void mergeGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
+		//If the incoming goal == previous goal
+		
+		
+		
+		//else add the goal to the list
+		
+		
 		
 	}
 	

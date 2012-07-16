@@ -209,6 +209,16 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Set the supportive data structure
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:17:34
+	 *
+	 * @param poGoal
+	 * @param poDataStructure
+	 */
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poGoal);
 		
@@ -259,6 +269,53 @@ public class clsGoalTools {
 			System.out.println("Error: The goal does not have a valid goal object");
 			e.printStackTrace();
 		}
+	}
+	
+	
+	/**
+	 * Set supportive data structure for actions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:24:32
+	 *
+	 * @param poGoal
+	 * @param poDataStructure
+	 */
+	public static void setSupportiveDataStructureForAction(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
+		clsWordPresentationMesh oExistingDataStructure = clsGoalTools.getSupportiveDataStructureForAction(poGoal);
+		
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
+		} else {
+			//Get the association
+			clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, 0, true);
+			oAss.setLeafElement(poDataStructure);
+		}
+		
+	}
+	
+	/**
+	 * Get the supportive data structure for actions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:21:26
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getSupportiveDataStructureForAction(clsWordPresentationMesh poGoal) {
+		clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
+		
+		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, true);
+		
+		if (oFoundStructures.isEmpty()==false) {
+			//The drive object is always a WPM
+			oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
+		}
+		
+		return oRetVal;
 	}
 	
 	/**
