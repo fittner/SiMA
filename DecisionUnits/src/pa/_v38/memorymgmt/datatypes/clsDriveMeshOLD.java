@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.06.2010, 20:36:25
  * 
  */
+@Deprecated
 public class clsDriveMeshOLD extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
 	
 	public boolean mbSexualDM = false;

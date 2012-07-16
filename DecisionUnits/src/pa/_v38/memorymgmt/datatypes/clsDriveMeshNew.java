@@ -48,6 +48,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		// TODO (schaat) - Auto-generated constructor stub
 	}
 	
+	
 	public clsThingPresentationMesh getActualDriveObject(){
 		return getAssociatedObject(eContentType.DRIVEOBJECTASSOCIATION);
 	}
@@ -80,7 +81,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType) //TODO no more strings
+			if(oAA.getMoContentType() == oContentType)
 				oRetVal = (clsAssociationAttribute)oAA.moAssociationElementB;
 		}
 		
@@ -95,8 +96,23 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		}
 	}
 	
-	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight){
+	public boolean ContainsAssociatedContentType(eContentType oContentType){
+		boolean oRetVal = false;
+		
+		for(clsAssociation oAA : moInternalAssociatedContent)
+		{
+			if(oAA.getMoContentType() == oContentType)
+				oRetVal = true;
+		}
+		
+		return oRetVal;
+	}
+	
+	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 
+		if(ContainsAssociatedContentType(eContentType.ORGAN))
+			throw new Exception("Cannot associate type " +eContentType.ORGAN+ " to DM, already associated.");
+		
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORGAN, 
 																		(clsPrimaryDataStructure)this, 
@@ -104,7 +120,10 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 																		prWeight));
 	}
 	
-	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight){
+	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
+		
+		if(ContainsAssociatedContentType(eContentType.DRIVEAIMASSOCIATION))
+			throw new Exception("Cannot associate type " +eContentType.DRIVEAIMASSOCIATION+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEAIMASSOCIATION, 
@@ -113,7 +132,10 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 																		prWeight));
 	}
 	
-	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight){
+	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
+		
+		if(ContainsAssociatedContentType(eContentType.DRIVEOBJECTASSOCIATION))
+			throw new Exception("Cannot associate type " +eContentType.DRIVEOBJECTASSOCIATION+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEOBJECTASSOCIATION, 
@@ -122,7 +144,10 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 																		prWeight));
 	}
 	
-	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveOrifice, double prWeight){
+	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveOrifice, double prWeight) throws Exception{
+		
+		if(ContainsAssociatedContentType(eContentType.ORIFICE))
+			throw new Exception("Cannot associate type " +eContentType.ORIFICE+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE, 
@@ -141,6 +166,11 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 		oRetval += ":External="+this.moExternalAssociatedContent.toString();
 		oRetval += "|";
 		return oRetval;
+	}
+	
+	@Override
+	public String toString(){
+		return getDebugInfo();
 	}
 	
 	
