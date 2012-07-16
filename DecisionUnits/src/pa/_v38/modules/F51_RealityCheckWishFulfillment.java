@@ -19,12 +19,10 @@ import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -306,20 +304,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
-				try {
-					clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(oGoal);
-					ArrayList<clsSecondaryDataStructure> oInputList = new ArrayList<clsSecondaryDataStructure>();
-					oInputList.add(oGoalObject);
-					
-					clsWordPresentationMesh oNewSupportiveDataStructure = clsMeshTools.createWPMImage(oInputList, eContentType.SUPPORTIVEDATASTRUCTURE, "GoalObject");
-					
-					clsGoalTools.setSupportiveDataStructure(oGoal, oNewSupportiveDataStructure);
-					
-				} catch (NullPointerException e) {
-					System.out.println("Error in F51, processGoals: The goal does not have a valid goal object");
-					e.printStackTrace();
-				}
-			} 
+				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.DRIVEGOALSUPPORT);
+			} else if (oType==eContentType.PI) {
+				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.PERCEPTIONSUPPORT);
+			
+			} else if (oType==eContentType.RI) {
+				//DO SOMETHING
+			}
 			
 			
 		}
