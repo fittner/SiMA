@@ -783,7 +783,7 @@ public class clsMeshTools {
 	 * If pnLevel = 2, all direct matches to the top image are processed
 	 * @return
 	 */
-	public static ArrayList<clsDataStructurePA> getDataStructureInWPM(clsWordPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	public static ArrayList<clsDataStructurePA> getDataStructureInWPM(clsWordPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		ArrayList<clsWordPresentationMesh> oAddedElements = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
@@ -801,24 +801,24 @@ public class clsMeshTools {
 	 * @since 31.01.2012 20:26:13
 	 *
 	 * @param poMesh
-	 * @param poContentType
+	 * @param poContentType: eContentType.NOTHING is equal to "" in strings
 	 * @param poContent
 	 * @return
 	 */
-	private static boolean FilterWPM(clsWordPresentationMesh poMesh, String poContentType, String poContent) {
+	private static boolean FilterWPM(clsWordPresentationMesh poMesh, eContentType poContentType, String poContent) {
 
 		boolean oRetVal = false;
 		
-			if (poContentType.equals("")==false && poContent.equals("")==false) {
+			if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
 				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
 						(poContent.equals(poMesh.getMoContent())==true)) {
 					oRetVal = true;
 				}
-			} else if (poContentType.equals("")==false && poContent.equals("")==true) {
+			} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
 				if (poContentType.equals(poMesh.getMoContentType())==true) {
 					oRetVal = true;
 				}
-			} else if (poContentType.equals("")==true && poContent.equals("")==false) {
+			} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
 				if (poContent.equals(poMesh.getMoContent())==true) {
 					oRetVal = true;
 				}
@@ -876,11 +876,11 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static ArrayList<clsAssociationSecondary> getWPAssociations(clsWordPresentationMesh poWPM, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationSecondary> getWPAssociations(clsWordPresentationMesh poWPM, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationSecondary> oRetVal = new ArrayList<clsAssociationSecondary>();
 
 		//Go through all external
-		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+		for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
 			oRetVal.addAll(FilterWPList(poWPM.getMoInternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
@@ -904,13 +904,13 @@ public class clsMeshTools {
 	 * @param poContent
 	 * @return
 	 */
-	private static ArrayList<clsAssociationSecondary> FilterWPList(ArrayList<clsAssociation> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationSecondary> FilterWPList(ArrayList<clsAssociation> poAssList, eContentType poContentType, String poContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationSecondary> oRetVal = new ArrayList<clsAssociationSecondary>();
 		
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationSecondary && oAss.getLeafElement() instanceof clsWordPresentation) {
-				if (poContentType.equals("")==false && poContent.equals("")==false) {
+				if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
 					if ((poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) &&
 							(poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
 						oRetVal.add((clsAssociationSecondary) oAss);
@@ -918,14 +918,14 @@ public class clsMeshTools {
 							break;
 						}
 					}
-				} else if (poContentType.equals("")==false && poContent.equals("")==true) {
+				} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
 					if (poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
 						}
 					}
-				} else if (poContentType.equals("")==true && poContent.equals("")==false) {
+				} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
 					if (poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
@@ -954,7 +954,7 @@ public class clsMeshTools {
 	 * @param poMesh
 	 * @return
 	 */
-	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
 		//Add this element, in order not to search it through 2 times
@@ -963,7 +963,7 @@ public class clsMeshTools {
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.WPM)==true) {
 			//Check if this mesh matches the content and content type filter. If yes, then add the result
-			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+			for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
 				//Check if this mesh has this filter
 				boolean bMatchFound = FilterWPM(poMesh, oCTC.a, oCTC.b);
 				
@@ -1651,8 +1651,8 @@ public class clsMeshTools {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Add all RI. 
-		ArrayList<clsPair<String, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<String, String>>();
-		oContentTypeAndContentPairRI.add(new clsPair<String, String>(eContentType.RI.toString(), ""));
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
 		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
 		
 		for (clsDataStructurePA oWPM : oFoundImages) {
@@ -2241,8 +2241,8 @@ public class clsMeshTools {
 	public static clsWordPresentationMesh getSELF(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		ArrayList<clsPair<String, String>> oFilterContent = new ArrayList<clsPair<String, String>>();
-		oFilterContent.add(new clsPair<String, String>(eContentType.ENTITY.toString(), eContent.SELF.toString()));
+		ArrayList<clsPair<eContentType, String>> oFilterContent = new ArrayList<clsPair<eContentType, String>>();
+		oFilterContent.add(new clsPair<eContentType, String>(eContentType.ENTITY, eContent.SELF.toString()));
 		ArrayList<clsDataStructurePA> oFoundItems = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oFilterContent, true, 1);
 		
 		if (oFoundItems.isEmpty()==false) {

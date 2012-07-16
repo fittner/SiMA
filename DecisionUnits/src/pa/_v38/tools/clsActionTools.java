@@ -54,8 +54,8 @@ public class clsActionTools {
 			int nHashCode = Integer.valueOf(getSupportiveDataStructure(poAction).getMoContent());
 			
 			clsWordPresentationMesh oThisSituation = poSTM.findCurrentSingleMemory();
-			ArrayList<clsPair<String, String>> oFilter = new ArrayList<clsPair<String, String>>();
-			oFilter.add(new clsPair<String, String>("",""));
+			ArrayList<clsPair<eContentType, String>> oFilter = new ArrayList<clsPair<eContentType, String>>();
+			oFilter.add(new clsPair<eContentType, String>(eContentType.NOTHING,""));
 			ArrayList<clsDataStructurePA> oCompleteMentalSituation = clsMeshTools.getDataStructureInWPM(oThisSituation, eDataType.WPM, oFilter, false, 5);
 			
 			for (clsDataStructurePA oWPM : oCompleteMentalSituation) {

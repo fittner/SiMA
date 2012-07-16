@@ -629,7 +629,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 */
 	private void activateMemories(clsThingPresentationMesh poPerceivedImage, clsThingPresentationMesh poReturnedPhantasyImage) {
 		
-		
 		//default is to use perception
 		boolean bUsePerception = true;
 		boolean bMergePhantasyAndPerception = false;

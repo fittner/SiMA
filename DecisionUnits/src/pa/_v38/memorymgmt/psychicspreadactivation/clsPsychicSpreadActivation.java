@@ -42,9 +42,9 @@ public class clsPsychicSpreadActivation {
 		
 		
 		//1. Get level 1 of the image associations
-		if (poImage.getMoContentType().equals(eContentType.RI.toString())==true) {
+		if (poImage.getMoContentType().equals(eContentType.RI)==true) {
 			getAssociatedImagesMemory(poImage);
-		} else if (poImage.getMoContentType().equals(eContentType.PI.toString())==true) {
+		} else if (poImage.getMoContentType().equals(eContentType.PI)==true) {
 			getAssociatedImagesPerception(poImage);
 		}
 		
@@ -82,7 +82,7 @@ public class clsPsychicSpreadActivation {
 		
 		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, 0.1, 1);
 
-		if (poOriginImage.getMoContentType().equals(eContentType.PI.toString())) {
+		if (poOriginImage.getMoContentType().equals(eContentType.PI)) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
 				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI

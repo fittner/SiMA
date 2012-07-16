@@ -16,6 +16,7 @@ package pa._v38.memorymgmt.enums;
 public enum eContentType {
 	//--- System ---//
 	NULLOBJECT,
+	NOTHING,
 	
 	
 	// --- Entities --- //
