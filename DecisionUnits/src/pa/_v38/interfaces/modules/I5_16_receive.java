@@ -7,6 +7,8 @@
 package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 
 /**
@@ -17,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
  * 
  */
 public interface I5_16_receive {
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList);
+	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions);
 }

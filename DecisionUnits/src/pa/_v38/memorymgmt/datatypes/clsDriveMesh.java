@@ -22,7 +22,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Jul 10, 2012, 1:19:27 PM
  * 
  */
-public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
+public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
@@ -43,7 +43,7 @@ public class clsDriveMeshNew extends clsHomeostaticRepresentation implements itf
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMeshNew(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
+	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
 	}

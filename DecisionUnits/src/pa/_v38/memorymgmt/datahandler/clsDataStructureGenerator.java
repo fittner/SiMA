@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -147,9 +147,9 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 		
-	public static clsDriveMeshNew generateDM(eContentType pContentType){
-		clsDriveMeshNew oRetVal; 
-		oRetVal = new clsDriveMeshNew(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, pContentType)); 
+	public static clsDriveMesh generateDM(eContentType pContentType){
+		clsDriveMesh oRetVal; 
+		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, pContentType)); 
 		return oRetVal;
 	}
 	

@@ -9,6 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
  
 /**
  * Drive content/Drives F55 to F7
@@ -18,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
  * 
  */
 public interface I5_12_send {
-	public void send_I5_12(ArrayList<clsDriveMeshOLD> poDrives);
+	public void send_I5_12(ArrayList<clsDriveMeshOLD> poDrives, ArrayList<clsEmotion> poEmotions);
 }

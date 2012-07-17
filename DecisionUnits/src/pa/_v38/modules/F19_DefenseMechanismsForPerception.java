@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -79,6 +80,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private DT2_BlockedContentStorage moBlockedContentStorage; // only needed here in F19 to initialize the blocked content storage
 
 	private eContentType moBlockedContentType = eContentType.RIREPRESSED;
+	
+	private ArrayList<clsEmotion> moEmotions_Input; 
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -177,7 +180,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -187,6 +190,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 		
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
 	}
 	
 	/* (non-Javadoc)
@@ -468,8 +472,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	@Override
 	protected void send() {
-		send_I5_15(moPerceptionalMesh_OUT);
-		send_I5_16(moQuotasOfAffect_Output);
+		send_I5_15(moPerceptionalMesh_OUT, moEmotions_Input);
+		send_I5_16(moQuotasOfAffect_Output, moEmotions_Input);
 	}
 	
 	/* (non-Javadoc)
@@ -480,8 +484,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.send.I2_10_send#send_I2_10(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
-		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poPerceptionalMesh);
+	public void send_I5_15(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
+		((I5_15_receive)moModuleList.get(21)).receive_I5_15(poPerceptionalMesh, poEmotions);
 		putInterfaceData(I5_15_send.class, poPerceptionalMesh);
 		
 	}
@@ -494,8 +498,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * @see pa.interfaces.send.I5_16_send#send_I5_16(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		((I5_16_receive)moModuleList.get(20)).receive_I5_16(poAffectOnlyList);
+	public void send_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions) {
+		((I5_16_receive)moModuleList.get(20)).receive_I5_16(poAffectOnlyList, poEmotions);
 		putInterfaceData(I5_16_send.class, poAffectOnlyList);
 	}
 

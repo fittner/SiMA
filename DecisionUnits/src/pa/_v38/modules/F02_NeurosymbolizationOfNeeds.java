@@ -205,7 +205,6 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				Double rValue = oFastMessenger.getIntensity();
 				if (oName.equals("STOMACH")) {
 					oName += "_PAIN";
-					rValue /= 7;
 				}
 				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}
@@ -221,7 +220,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 
 		//HEALTH
 		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue() / 100 );
+			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue()  );
 		
 		//STAMINA
 		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
