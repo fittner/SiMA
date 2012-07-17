@@ -393,12 +393,12 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		double rTension = pEntry.getValue();
 		String oSource = pEntry.getKey();
 		
-		//create a TP for the organ
+		//create a TPM for the organ
 		clsThingPresentation oOrganTP = 
 			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
 					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, oSource) );
 		
-		//create a TP for the orifice
+		//create a TPM for the orifice
 		clsThingPresentation oOrificeTP = 
 			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
 					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, moOrificeMap.get(oSource)) );
