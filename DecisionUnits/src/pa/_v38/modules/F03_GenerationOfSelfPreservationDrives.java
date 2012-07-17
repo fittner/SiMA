@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
 import du.enums.eOrifice;
+import du.enums.eSensorIntType;
 
 /**
  * The neurosymbolic representation of bodily needs are converted to memory 
@@ -56,7 +57,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private HashMap<String, eOrifice> moOrificeMap;
 	
-	private ArrayList <clsDriveMeshNew> moDriveCandidates;
+	private ArrayList <clsDriveMeshNew> moDriveCandidates_OUT;
 	
 	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
@@ -149,6 +150,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return text;
 	}
 		
+	@Deprecated
 	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > createDriveMeshes() {
 		ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> >();
 		
@@ -164,6 +166,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return oDrives;
 	}
 	
+	@Deprecated
 	private clsTriple<clsDriveMeshOLD, String, ArrayList<String>> createDrives(eContentType poContentType, String poContext, String poSource) {
 		clsDriveMeshOLD oDriveMesh = createDriveMesh(poContentType, poContext);
 		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
@@ -171,6 +174,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return new clsTriple<clsDriveMeshOLD, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
 	}
 
+	@Deprecated
 	private ArrayList<String> getDriveSources(String poContext, clsDriveMeshOLD poDriveMesh) {
         
         double nIntensity = 0.0; 
@@ -254,16 +258,20 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	protected void process_basic() {
 		
 		//OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
+		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
 		
-		moDriveTemplates = createDriveMeshes();
-		moDrives = new ArrayList< clsPair<clsDriveMeshOLD,clsDriveDemand> >();
+		// 1- Normalization of bodily demands according to table
+		oNormalizedHomeostatsisSymbols = NormalizeHomeostaticSymbols(moHomeostasisSymbols_IN);
 		
-		for (clsTriple<clsDriveMeshOLD, String, ArrayList<String>> oDT: moDriveTemplates) {
-			clsDriveDemand oDD = getDriveDemand(oDT);
-			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDT.a, oDD) );
+		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
+		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
+		{
+			moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
 		}
+
 	}
 	
+	@Deprecated
 	private double calculateNormalizedValue(double rValue, String poSource) {
 		double rResult = rValue;
 		double rMaxValue = 1;
@@ -295,6 +303,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return rResult;
 	}
 	
+	@Deprecated
 	private clsDriveDemand getDriveDemand(clsTriple<clsDriveMeshOLD, String, ArrayList<String>> poDT) {
 		double rDemand = 0.0;
 		
@@ -320,21 +329,37 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 */
 	@Override
 	protected void send() {
-		send_I3_2(moDrives);
+		send_I3_2(moDriveCandidates_OUT);
 	}
-
+	
 	/* (non-Javadoc)
 	 *
-	 * @author deutsch
-	 * 18.05.2010, 16:44:46
+	 * @since 17.07.2012 14:20:20
 	 * 
-	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
+	 * @see pa._v38.interfaces.modules.I3_2_send#send_I3_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_2(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
-		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveDemands);
-		putInterfaceData(I3_2_send.class, poHomeostaticDriveDemands);
+	public void send_I3_2(ArrayList< clsDriveMeshNew> poHomeostaticDriveCandidates) {
+		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveCandidates);
+		putInterfaceData(I3_2_send.class, poHomeostaticDriveCandidates);
+		
 	}
+
+//	/* (non-Javadoc)
+//	 *
+//	 * @author deutsch
+//	 * 18.05.2010, 16:44:46
+//	 * 
+//	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
+//	 */
+//	@Override
+//	public void send_I3_2(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
+//		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveDemands);
+//		putInterfaceData(I3_2_send.class, poHomeostaticDriveDemands);
+//	}
+	
+
+
 
 	/* (non-Javadoc)
 	 *
@@ -346,17 +371,14 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	@Override
 	protected void process_draft() {
 
-		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
+		//TODO: THE OLD CODE, delete me
+		moDriveTemplates = createDriveMeshes();
+		moDrives = new ArrayList< clsPair<clsDriveMeshOLD,clsDriveDemand> >();
 		
-		// 1- Normalization of bodily demands according to table
-		oNormalizedHomeostatsisSymbols = NormalizeHomeostaticSymbols(moHomeostasisSymbols_IN);
-		
-		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
-		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
-		{
-			moDriveCandidates.add( CreateDriveCandidate(oEntry) );
+		for (clsTriple<clsDriveMeshOLD, String, ArrayList<String>> oDT: moDriveTemplates) {
+			clsDriveDemand oDD = getDriveDemand(oDT);
+			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDT.a, oDD) );
 		}
-
 	
 	}
 
@@ -383,7 +405,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		//create the DM
 		oDriveCandidate = (clsDriveMeshNew)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, eContentType.DM );
+				eDataType.DM, eContentType.DRIVECANDIDATE );
 		
 		//supplement the information
 		//oDriveCandidate.associateActualDriveSource(oOrganTP, 1.0);
@@ -412,6 +434,21 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		{
 			double rEntryTension = oEntry.getValue();
 			
+			//any special normalization needed for special types? do it here:
+			//Special STOMACH_PAIN
+			if(oEntry.getKey() == "STOMACH_PAIN")
+			{
+				rEntryTension /= 7;
+			}
+			//Special HEALTH
+			if(oEntry.getKey() == eSensorIntType.HEALTH.name())
+			{
+				rEntryTension /= 100;
+			}
+			
+			
+			
+			
 			//if we have a normalization factor, use it
 			if(moHomeostaisImpactFactors.containsKey( oEntry.getKey() ) )
 			{
@@ -424,11 +461,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				}
 			}
 			
-			//any special normaization needed for special types? do it here:
-			if(oEntry.getKey() == "")
-			{
-				
-			}
+			
 			
 			// they can never be above 1 or below zero
 			if (rEntryTension > 1.0) {
@@ -479,4 +512,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public void setDescription() {
 		moDescription = "F03: The neurosymbolic representation of bodily needs are converted to memory traces representing the corresponding drives. At this stage, such a memory trace contains drive source, aim of drive, and drive object (cp Section ?). The quota of affect will be added later. For each bodily need, two drives are generated: a libidinous and an aggressive one. ";
 	}
+
+
+
 }
