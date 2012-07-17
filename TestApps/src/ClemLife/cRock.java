@@ -22,6 +22,8 @@ public class cRock extends StationaryObject2D
         this.setPose(pos, new Angle(0));
         Shape poShape = new clsRectangleImage(width, height, Color.GREEN,  "S:/ARS/PA/BWv1/BW/src/resources/images/wall1.jpg");
         this.setShape(poShape);
+        
+        //TEST
 
 
         }

@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -60,6 +61,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsShortTermMemory moShortTermMemory;
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
+	
+	private ArrayList<clsEmotion> moEmotions_Input; 
 	
 	/** TEMP A perceived image */
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
@@ -174,7 +177,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
 	@Override
-	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
+	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
@@ -183,6 +186,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			e.printStackTrace();
 		}
 		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+
 	}
 
 	/* (non-Javadoc)

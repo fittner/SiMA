@@ -1,4 +1,4 @@
-; Mon Jul 16 06:31:21 GMT 2012
+; Tue Jul 17 13:33:37 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2153,16 +2153,19 @@
 
 ([TPM%3ABODYPARTS%3AANTENNA_LEFT%3ABASIC] of  ANTENNA_LEFT
 
-	(value "ANTENNA_LEFT"))
+	(value "ANTENNA_LEFT")
+	(value_type "BODYPART"))
 
 ([TPM%3ABODYPARTS%3AANTENNA_RIGHT%3ABASIC] of  ANTENNA_RIGHT
 
-	(value "ANTENNA_RIGHT"))
+	(value "ANTENNA_RIGHT")
+	(value_type "BODYPART"))
 
 ([TPM%3ABODYPARTS%3AHANDS_BASIC] of  HANDS
 
 	(instance_association [AA%3AAGENT_HANDS_BASIC%3ABLUE])
-	(value "HANDS"))
+	(value "HANDS")
+	(value_type "BODYPART"))
 
 ([TPM%3AENTITY01] of  TPM%3AENTITY
 

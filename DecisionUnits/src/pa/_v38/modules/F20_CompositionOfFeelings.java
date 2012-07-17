@@ -20,6 +20,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -56,6 +57,8 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	
 	private ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output = new ArrayList<clsSecondaryDataStructureContainer>();
 
+	private ArrayList<clsEmotion> moEmotions_Input; 
+	
 	/**
 	 * DOCUMENT (gelbard) - insert description 
 	 * 
@@ -150,8 +153,10 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	 * @see pa.interfaces.I5_2#receive_I5_2(int)
 	 */
 	@Override
-	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList) {
-		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);		
+	public void receive_I5_16(ArrayList<clsPrimaryDataStructure> poAffectOnlyList, ArrayList<clsEmotion> poEmotions) {
+		//moDeniedAffects_Input  = (ArrayList<clsAssociationDriveMesh>)this.deepCopy(poDeniedAffects);	
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+
 	}
 
 	/* (non-Javadoc)

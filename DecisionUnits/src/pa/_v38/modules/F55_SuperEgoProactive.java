@@ -277,7 +277,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_5(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMeshOLD>>());
-		send_I5_12(moDrives_Output);
+		send_I5_12(moDrives_Output, moEmotions_Input);
 		send_I5_14(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMeshOLD>>());
 	}
 
@@ -341,11 +341,11 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_12(
-			ArrayList<clsDriveMeshOLD> poDrives) {
+			ArrayList<clsDriveMeshOLD> poDrives, ArrayList<clsEmotion> poEmotions) {
 		
-		((I5_12_receive)moModuleList.get(7)).receive_I5_12(poDrives);
+		((I5_12_receive)moModuleList.get(7)).receive_I5_12(poDrives, poEmotions);
 		
-		putInterfaceData(I5_12_send.class, poDrives);
+		putInterfaceData(I5_12_send.class, poDrives, poEmotions);
 	}
 
 	/* (non-Javadoc)

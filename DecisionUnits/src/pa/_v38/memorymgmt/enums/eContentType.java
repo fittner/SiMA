@@ -101,13 +101,12 @@ public enum eContentType {
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
 	EMOTION, 
 	LIBIDO,
+	CONTEXT,
 	
-	//TPs
+	//TPs: should be adapted
 	COLOR,
 	Color,
 	ShapeType,
-	ANTENNA_LEFT,
-	HANDS,
 	INTENSITY,
 	Alive,
 	TASTE,
@@ -115,11 +114,15 @@ public enum eContentType {
 	CONTENT,
 	PositionChange,
 	BUMP,
-	ANTENNA_RIGHT,
 	RADIATION,
 	ObjectPosition,
 	Distance,
 	POSITIONCHANGE,
+	NumEntitiesPresent,
+	AntennaPositionLeft,
+	AntennaPositionRight,
+	IsAlive,
+	IsConsumeable,
 	
 	//DM
 	BITE,
@@ -131,6 +134,7 @@ public enum eContentType {
 	DRIVECANDIDATE,
 	DRIVECOMPONENT,
 	DRIVEREPRESENTATION,
+	
 	
 	
 	// TODO DELETE AFTER IMPLEMENTATION OF NEW DM STRUCTURE
