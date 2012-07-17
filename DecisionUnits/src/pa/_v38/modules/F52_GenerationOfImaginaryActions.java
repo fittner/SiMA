@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
@@ -41,6 +42,7 @@ import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.tools.planningHelpers.PlanningGraph;
@@ -100,6 +102,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	
 	private PlanningGraph plGraph;
+	
+	private ArrayList<clsWordPresentationMesh> moPossibleInternalActionPlans;
 
 	/**
 	 * DOCUMENT (perner) - insert description
@@ -147,6 +151,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		} catch (Exception e) {
 			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "< , stack-trace >");
 		}
+		
+		//TEST-Internal-Plans AW
+		moPossibleInternalActionPlans = addNewDecisionTaskImages();
 
 	}
 
@@ -184,7 +191,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//=======================================================================//
 			
 			// Generate actions for the top goal
-			moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN); //generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
+			try {
+				moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN);
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			} //generatePlans_AW(moPerceptionalMesh_IN, moGoalList_IN);
 			//FIXME HACK AW: Generate the search pattern
 			
 			//UNREAL IMAGE CORRECTION HACK
@@ -611,55 +623,175 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	private ArrayList<clsWordPresentationMesh> processGoals_AW(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) {
+	private ArrayList<clsWordPresentationMesh> processGoals_AW(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) throws Exception {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		//Check FOCUS_ON was the previous action
-		clsWordPresentationMesh oPreviousMentalSituation = this.moShortTermMemory.findPreviousSingleMemory();
-		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		//clsWordPresentationMesh oPreviousMentalSituation = this.moShortTermMemory.findPreviousSingleMemory();
+		//clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
 		
-		if (oPreviousAction.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
-			//If yes, then perform normal external planning
-			oResult.addAll(generatePlans_AW(poEnvironmentalPerception, poGoalList));
-		} else {
-			//If no, create an internal plan FOCUS_ON
-			clsWordPresentationMesh oNewAction = clsActionTools.createAction(eAction.FOCUS_ON.toString());
+		clsWordPresentationMesh oInternalActionWPM = clsMeshTools.getNullObjectWPM();
+		clsWordPresentationMesh oExternalActionWPM = clsMeshTools.getNullObjectWPM();
+		
+		if (poGoalList.isEmpty()==false) {
+			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
-			//Associate it with the goal of the supported datastructures
+			//--- Check which DecisionTasks have been set on the goal ---//
+			eDecisionTask oTask = clsGoalTools.getDecisionTask(oCurrentGoal);
 			
-			//Get the first goal
-			if (poGoalList.isEmpty()==false) {
-				//If the goal is taken, set the supportive data structure
-				checkAndEnhanceSupportiveDataStructure(poGoalList.get(0));
-				
-				//Get the supportive data structure
-				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoalList.get(0));
-				
-				//Associate this structure with the action
-				clsActionTools.setSupportiveDataStructureHashCode(oNewAction, oSupportiveDataStructure);
+			
+			//--- Find the suitable action for a certain combination of preconditions ---//
+			ArrayList<clsWordPresentationMesh> oActionList = getActionsFromPrecondition(oTask);
+			if (oActionList.isEmpty()==false) {
+				oInternalActionWPM  = oActionList.get(0);
 			}
 			
-			oResult.add(oNewAction);
-		}		
 		
-		return oResult;
-	}
-	
-	private void checkAndEnhanceSupportiveDataStructure(clsWordPresentationMesh poGoal) {
-		//If there is no supportive data structure, create one with the 
-		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoal);
-		clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
+			
+			
+			
+			//Do something for each action
+			if (oInternalActionWPM.getMoContent().equals(eAction.SEND_TO_PHANTASY.toString())==true) {
+				//Set supportive datastructure from the goal
+				
+				//Get the supportive data structure
+				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
+				
+				//Associate this structure with the action
+				clsActionTools.setSupportiveDataStructureHashCode(oInternalActionWPM, oSupportiveDataStructure);
+				
+				//Set phantasyflag
+				clsPhantasyTools.setPhantasyFlagTrue(oInternalActionWPM);
+				
+				oExternalActionWPM = oInternalActionWPM;
+				
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_ON)==true) {
+				
+				//Get the supportive data structure
+				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
+				
+				//Associate this structure with the action
+				clsActionTools.setSupportiveDataStructureHashCode(oInternalActionWPM, oSupportiveDataStructure);
+				
+				oExternalActionWPM = oInternalActionWPM;
+				
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.EXECUTE_EXTERNAL_ACTION)==true) {
+				ArrayList<clsWordPresentationMesh> oExternalPlans = generatePlans_AW(poEnvironmentalPerception, poGoalList);
+				
+				if (oExternalPlans.isEmpty()==false) {
+					oExternalActionWPM = oExternalPlans.get(0);
+				}
+			}
+			
 		
-		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())) {
-			//Create supportive structure
-			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, oGoalObject);
-		} else if (oSupportiveDataStructure.getMoContentType().equals(eContentType.PI.toString())) {
-			//Replace the perceived image with the drive object
-			clsGoalTools.createSupportiveDataStructureFromEntity(poGoal, clsGoalTools.getGoalObject(poGoal));
+		
+		}
+		
+		//If any action was set, i. e. no nullobject 
+		if (oExternalActionWPM.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+			oResult.add(oExternalActionWPM);
 		}
 		
 		
 		
+		
+
+		
+//		if (oPreviousAction.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
+//			//If yes, then perform normal external planning
+//			oResult.addAll(generatePlans_AW(poEnvironmentalPerception, poGoalList));
+//		} else {
+//			//If no, create an internal plan FOCUS_ON
+//			clsWordPresentationMesh oNewAction = clsActionTools.createAction(eAction.FOCUS_ON.toString());
+//			
+//			//Associate it with the goal of the supported datastructures
+//			
+//			//Get the first goal
+//			if (poGoalList.isEmpty()==false) {
+//				//If the goal is taken, set the supportive data structure
+//				//checkAndEnhanceSupportiveDataStructure(poGoalList.get(0));
+//				
+//				//Get the supportive data structure
+//				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(poGoalList.get(0));
+//				
+//				//Associate this structure with the action
+//				clsActionTools.setSupportiveDataStructureHashCode(oNewAction, oSupportiveDataStructure);
+//			}
+//			
+//			oResult.add(oNewAction);
+//		}		
+		
+		return oResult;
+	}
+	
+	/**
+	 * TEST AW: Add internal plans as Word Presentation Meshes
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 21:16:33
+	 *
+	 * @return
+	 */
+	private ArrayList<clsWordPresentationMesh> addNewDecisionTaskImages() {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		clsWordPresentationMesh oSendToPhantasy = clsActionTools.createAction(eAction.SEND_TO_PHANTASY.toString());
+		clsMeshTools.setWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eDecisionTask.NEED_INTERNAL_INFO.toString());
+		oResult.add(oSendToPhantasy);
+		
+		clsWordPresentationMesh oFocusOn = clsActionTools.createAction(eAction.FOCUS_ON.toString());
+		clsMeshTools.setWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eDecisionTask.NEED_FOCUS.toString());
+		oResult.add(oFocusOn);
+		
+		return oResult;
+	
+	}
+	
+	/**
+	 * Get an action
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 21:16:17
+	 *
+	 * @param poAction
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	private clsWordPresentationMesh getAction(eAction poAction) throws CloneNotSupportedException {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		for (clsWordPresentationMesh oWPM : this.moPossibleInternalActionPlans) {
+			if (oWPM.getMoContent().equals(poAction.toString())) {
+				oResult = (clsWordPresentationMesh) oWPM.clone();
+				break;
+			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all actions, which have a certain precondition
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 21:15:54
+	 *
+	 * @param poDecisionTask
+	 * @return
+	 * @throws CloneNotSupportedException
+	 */
+	private ArrayList<clsWordPresentationMesh> getActionsFromPrecondition(eDecisionTask poDecisionTask) throws CloneNotSupportedException {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsWordPresentationMesh oWPM : this.moPossibleInternalActionPlans) {
+			if (clsActionTools.checkIfPreconditionExists(oWPM, poDecisionTask)==true) {
+				oResult.add((clsWordPresentationMesh) oWPM.clone());
+			}
+		}
+		
+		return oResult;
 	}
 
 //	/**

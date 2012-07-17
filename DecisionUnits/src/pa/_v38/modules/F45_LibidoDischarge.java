@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -294,7 +294,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//For each Pair, assign the drive meshes
 		double rTotalReduce = 0.0;
 		for (clsPair<clsThingPresentationMesh, clsAssociation> oAssignmentElement : poAssignment.b) {
-			clsDriveMesh oDM = (clsDriveMesh) oAssignmentElement.b.getLeafElement();
+			clsDriveMeshOLD oDM = (clsDriveMeshOLD) oAssignmentElement.b.getLeafElement();
 			//With this amount the libido puffer shall be reduced
 			double rDMReduce = oDM.getMrQuotaOfAffect() * prLibidoReduceRate;
 			//if the total reduction of libido is smaller than the buffer, then the DM can be assigned
@@ -302,7 +302,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			if (rTotalReduce + rDMReduce <= prAvailableLibido) {
 				try {
 					//Clone the original DM
-					clsDriveMesh oNewDriveMesh = (clsDriveMesh) oDM.clone();
+					clsDriveMeshOLD oNewDriveMesh = (clsDriveMeshOLD) oDM.clone();
 					//Set new Pleasurevalue, which depends on the reducevalue
 					oNewDriveMesh.setMrQuotaOfAffect(rDMReduce);
 					//Create new identifier

@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 /**
  * Drive Candidates - vector of quota of affects are forwarded from F48 to F57
@@ -18,6 +18,6 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I4_1_receive  {
-	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates);
+	public void receive_I4_1(ArrayList<clsDriveMeshOLD> poDriveCandidates);
 }
 

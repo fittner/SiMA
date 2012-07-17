@@ -12,9 +12,12 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
 
@@ -52,8 +55,8 @@ public class clsActionTools {
 			int nHashCode = Integer.valueOf(getSupportiveDataStructure(poAction).getMoContent());
 			
 			clsWordPresentationMesh oThisSituation = poSTM.findCurrentSingleMemory();
-			ArrayList<clsPair<String, String>> oFilter = new ArrayList<clsPair<String, String>>();
-			oFilter.add(new clsPair<String, String>("",""));
+			ArrayList<clsPair<eContentType, String>> oFilter = new ArrayList<clsPair<eContentType, String>>();
+			oFilter.add(new clsPair<eContentType, String>(eContentType.NOTHING,""));
 			ArrayList<clsDataStructurePA> oCompleteMentalSituation = clsMeshTools.getDataStructureInWPM(oThisSituation, eDataType.WPM, oFilter, false, 5);
 			
 			for (clsDataStructurePA oWPM : oCompleteMentalSituation) {
@@ -122,6 +125,88 @@ public class clsActionTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Set phantasyflag
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:30:09
+	 *
+	 * @param poAction
+	 */
+	public static void setPhantasyFlag(clsWordPresentationMesh poAction) {
+		clsMeshTools.setWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+	}
+	
+	/**
+	 * Get the phantasyflag if any is set
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:29:51
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static boolean getPhantasyFlag(clsWordPresentationMesh poAction) {
+		boolean oResult = false;
+		
+		clsWordPresentation oWP = clsMeshTools.getFirstWP(poAction, ePredicate.HASPHANTASYFLAG);
+		
+		if (oWP!=null) {
+			if (oWP.getMoContent().equals(eContent.TRUE.toString())) {
+				oResult = true;
+			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get Preconditions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:59:12
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static ArrayList<eDecisionTask> getPreconditions(clsWordPresentationMesh poAction) {
+		ArrayList<eDecisionTask> oResult = new ArrayList<eDecisionTask>();
+		
+		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getWPList(poAction, ePredicate.HASPRECONDITION);
+		
+		for (clsWordPresentation oWP : oWPList) {
+			oResult.add(eDecisionTask.valueOf(oWP.getMoContent()));
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Check if a certain action has a certain precondition
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 21:02:37
+	 *
+	 * @param poAction
+	 * @param poDecisionTask
+	 * @return
+	 */
+	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, eDecisionTask poDecisionTask) {
+		boolean bResult = false;
+		
+		ArrayList<eDecisionTask> oPreconditionList = clsActionTools.getPreconditions(poAction);
+		
+		if (oPreconditionList.contains(poDecisionTask)==true) {
+			bResult = true;
+		}
+		
+		return bResult;
 	}
 	
 }

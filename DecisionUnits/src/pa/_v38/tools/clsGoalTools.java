@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -117,6 +118,58 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+	public static void setDecisionTask(clsWordPresentationMesh poGoal, eDecisionTask poTask) {
+		//Get the current one
+		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+		
+		//Replace or create new
+		//if (oFoundStructure==null) {
+		clsMeshTools.setWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDECISIONTASK, eContentType.DECISIONTASK, poTask.toString());
+		//} else {
+		//	oFoundStructure.setMoContent(poTask.toString());
+		//}
+		
+	}
+	
+	
+	/**
+	 * Get the current decision task
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 16:42:03
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static eDecisionTask getDecisionTask(clsWordPresentationMesh poGoal) {
+		eDecisionTask oResult = eDecisionTask.NULLOBJECT;
+		
+		clsWordPresentation oFoundStructures = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+				
+		if (oFoundStructures!=null) {
+			//The drive object is always a WPM
+			oResult = eDecisionTask.valueOf(((clsWordPresentation) oFoundStructures).getMoContent());
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get the Word Presentation of the current decision task
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 16:54:50
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	private static clsWordPresentation getDecisionTaskDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getFirstWP(poGoal, ePredicate.HASDECISIONTASK);
+	}
+	
+	
 	/**
 	 * Get the goal content
 	 * 
@@ -156,10 +209,20 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Set the supportive data structure
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:17:34
+	 *
+	 * @param poGoal
+	 * @param poDataStructure
+	 */
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poGoal);
 		
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		} else {
 			//Get the association
@@ -179,11 +242,80 @@ public class clsGoalTools {
 	 * @param poGoal: Goal
 	 * @param poEntity: Entity, which shall be added to an image
 	 */
-	public static void createSupportiveDataStructureFromEntity(clsWordPresentationMesh poGoal, clsWordPresentationMesh poEntity) {
+	public static void createSupportiveDataStructureFromEntity(clsWordPresentationMesh poGoal, clsWordPresentationMesh poEntity, eContentType poContentType) {
 		//Create Image from entity
-		clsWordPresentationMesh oImageFromEntity = clsMeshTools.createImageFromEntity(poEntity);
+		clsWordPresentationMesh oImageFromEntity = clsMeshTools.createImageFromEntity(poEntity, poContentType);
 		
 		clsGoalTools.setSupportiveDataStructure(poGoal, oImageFromEntity);
+	}
+	
+	/**
+	 * Create the supportive datastructure from the drive object
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 13:27:09
+	 *
+	 * @param poGoal
+	 * @param poContentType
+	 */
+	public static void createSupportiveDataStructureFromGoalObject(clsWordPresentationMesh poGoal, eContentType poContentType) {
+		try {
+			clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
+			
+			createSupportiveDataStructureFromEntity(poGoal, oGoalObject, poContentType);
+			
+		} catch (NullPointerException e) {
+			System.out.println("Error: The goal does not have a valid goal object");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * Set supportive data structure for actions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:24:32
+	 *
+	 * @param poGoal
+	 * @param poDataStructure
+	 */
+	public static void setSupportiveDataStructureForAction(clsWordPresentationMesh poGoal, clsWordPresentationMesh poDataStructure) {
+		clsWordPresentationMesh oExistingDataStructure = clsGoalTools.getSupportiveDataStructureForAction(poGoal);
+		
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
+		} else {
+			//Get the association
+			clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, 0, true);
+			oAss.setLeafElement(poDataStructure);
+		}
+		
+	}
+	
+	/**
+	 * Get the supportive data structure for actions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 22:21:26
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getSupportiveDataStructureForAction(clsWordPresentationMesh poGoal) {
+		clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
+		
+		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, true);
+		
+		if (oFoundStructures.isEmpty()==false) {
+			//The drive object is always a WPM
+			oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
+		}
+		
+		return oRetVal;
 	}
 	
 	/**
@@ -398,4 +530,5 @@ public class clsGoalTools {
 
 		return oRetVal;
 	}
+	
 }

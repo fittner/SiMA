@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -530,6 +530,9 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			//Get the best match if higher than the threshold
 			if (oSearchResult.get(0).get(0).a >= prThreshold) {
 				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+				if (poDataStructure.getMoDS_ID()==oRetVal.getRootElement().getMoDS_ID()) {
+					oRetVal.setRootElement(poDataStructure);
+				}
 			}	
 		}
 		
@@ -545,11 +548,11 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poDM
 	 * @return
 	 */
-	public clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
+	public clsWordPresentation convertDriveMeshToWP(clsDriveMeshOLD poDM) {
 		clsWordPresentation oRetVal = null;
 		
 		//Generate the instance of the class affect
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>(eDataType.AFFECT.name(), poDM.getPleasure()));
+		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getPleasure()));
 		//Search for the WP of the affect
 		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
 		
@@ -563,7 +566,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		String oWPContent = oDriveContent + ":" + oAffectContent;
 		
 		//Create the new WP for that drive
-		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>(eContentType.AFFECT.toString(), oWPContent));
+		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<eContentType, Object>(eContentType.AFFECT, oWPContent));
 		
 		oRetVal = oResWP;
 		
@@ -581,7 +584,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param prPsychicEnergyIn
 	 * @return
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMesh> poDriveMeshFilter) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMeshOLD> poDriveMeshFilter) {
 		
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();

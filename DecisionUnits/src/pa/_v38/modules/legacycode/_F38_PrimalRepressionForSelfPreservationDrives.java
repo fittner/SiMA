@@ -19,7 +19,7 @@ import pa._v38.interfaces.itfInspectorDrives;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 //import pa._v38.interfaces.modules.I2_15_receive;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.modules.eProcessType;
@@ -41,7 +41,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 			implements itfInspectorDrives, /*I2_15_receive,*/ I1_5_send {
 	public static final String P_MODULENUMBER = "38";
 	
-	private ArrayList<clsDriveMesh> moDriveList_IN;
+	private ArrayList<clsDriveMeshOLD> moDriveList_IN;
 	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
 	/**
 	 * (deutsch) - insert description 
@@ -120,12 +120,12 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
-		for (clsDriveMesh oDM:moDriveList_IN) {
+		for (clsDriveMeshOLD oDM:moDriveList_IN) {
 			categorizeDriveMesh(oDM);
 		}
 	}
 
-	private void categorizeDriveMesh(clsDriveMesh poMD) {
+	private void categorizeDriveMesh(clsDriveMeshOLD poMD) {
 		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
 			String oContentType = oPRM.a; 
 			String oContext = oPRM.b;
@@ -224,7 +224,7 @@ public class _F38_PrimalRepressionForSelfPreservationDrives extends	clsModuleBas
 	 * @return the moDriveCandidate
 	 */
 	@Override
-	public ArrayList<clsDriveMesh> getDriveList() {
+	public ArrayList<clsDriveMeshOLD> getDriveList() {
 		return moDriveList_IN;
 	}
 

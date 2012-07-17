@@ -14,6 +14,9 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eAction {
+	//System
+	NULLOBJECT,
+	
 	//External actions
 	MOVE_FORWARD,
 	MOVE_BACKWARD,
@@ -23,13 +26,21 @@ public enum eAction {
 	SLEEP,
 	RELAX,
 	EAT,
+	NONE,
 	
 	//Unreal actions
 	UNREAL_MOVE_TO,
 	
+	//Higher level actions
+	EXECUTE_EXTERNAL_ACTION,
+	
 	//Internal actions
 	FOCUS_ON,	//Send to F23
-	THINK_ON,	//Send to phantasy
+	SEND_TO_PHANTASY,	//Send to phantasy
+	MOVE_FORWARD_FOCUS,
+	TURN_RIGHT_FOCUS,
+	TURN_LEFT_FOCUS,
+	
 	
 	//Composed actions
 	SEARCH1;

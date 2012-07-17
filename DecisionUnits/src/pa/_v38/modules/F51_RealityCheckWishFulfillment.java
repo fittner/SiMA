@@ -19,12 +19,13 @@ import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsPrediction;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDecisionTask;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -222,6 +223,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	protected void process_basic() {
+		//Get previous memory
+		clsWordPresentationMesh oPreviousMentalSituation = moShortTimeMemory.findPreviousSingleMemory();
+		
 		
 		//=== Create the mental image ===
 		//Test AW: Relational Meshes
@@ -236,7 +240,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process all goals individually without sorting them. Sorting is done in the decision making
 		
-		processGoals(moReachableGoalList_IN);
+		processGoals(moReachableGoalList_IN, clsMentalSituationTools.getGoal(oPreviousMentalSituation));
 		
 		//=== Sort and evaluate them === //
 		
@@ -297,32 +301,75 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
-	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
+	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
 		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//1. For each goal, check, which type it is
 			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
 			
+			eDecisionTask oSetDecisionTask = eDecisionTask.NOTHING;
+			
+			eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
 						
 			//If no supportive datastructure, create one from the goal object
 			if (oType==null) {
-				try {
-					clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(oGoal);
-					ArrayList<clsSecondaryDataStructure> oInputList = new ArrayList<clsSecondaryDataStructure>();
-					oInputList.add(oGoalObject);
+				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.DRIVEGOALSUPPORT);
+				//Give the following commands
+				
+				//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
+				
+				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false) {
+					//----------------------------------------------------------------//
+					//1.1 Search phantasy for suitable memories
+					oSetDecisionTask = eDecisionTask.NEED_INTERNAL_INFO;
 					
-					clsWordPresentationMesh oNewSupportiveDataStructure = clsMeshTools.createWPMImage(oInputList, eContentType.SUPPORTIVEDATASTRUCTURE, "GoalObject");
+					//Set supported DS for actions
+					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
+				
+					//----------------------------------------------------------------//
 					
-					clsGoalTools.setSupportiveDataStructure(oGoal, oNewSupportiveDataStructure);
+				} else {
+					//1.2 Start blind search			
+					oSetDecisionTask = eDecisionTask.NEED_MORE_PERCEPTIONAL_INFO;	//Trigger search
 					
-				} catch (NullPointerException e) {
-					System.out.println("Error in F51, processGoals: The goal does not have a valid goal object");
-					e.printStackTrace();
+					//No supported DS for actions needed
+					
+					//----------------------------------------------------------------//
 				}
-			} 
+				
+				
+			} else if (oType==eContentType.PI) {
+				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.PERCEPTIONSUPPORT);
+				
+				if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
+					oSetDecisionTask = eDecisionTask.GOAL_REACHABLE_PERCEPTION;
+				} else {
+					oSetDecisionTask = eDecisionTask.NEED_FOCUS;
+					//Set supported DS for actions
+					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
+				}
+				
+				
+			} else if (oType==eContentType.RI) {
+				
+				
+				//DO SOMETHING
+			}
 			
+			clsGoalTools.setDecisionTask(oGoal, oSetDecisionTask);
 			
 		}
+		
+	}
+	
+	private void mergeGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
+		//If the incoming goal == previous goal
+		
+		
+		
+		//else add the goal to the list
+		
+		
 		
 	}
 	

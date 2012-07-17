@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import pa._v38.tools.clsPair;
 
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 /**
  * Pair of opposites in form of thing presentations and the tensions at the various drive source are transmitted from F4 to F48.
@@ -21,5 +21,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I3_4_receive {
-	public void receive_I3_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidates);
+	public void receive_I3_4(ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>> poDriveCandidates);
 }

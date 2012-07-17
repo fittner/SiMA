@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -48,6 +48,7 @@ public class clsMeshTools {
 	private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
 	private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
+	
 	//=== STATIC VARIBALES --- END ===//
 	
 	/**
@@ -71,57 +72,6 @@ public class clsMeshTools {
 	
 	
 	//=== SEARCH DATA STRUCTURES IN TPM AND WPM GENERAL --- START ===//
-	
-	/**
-	 * Search any association list for a certain secondary association and return the other 
-	 * element of the association. Stop at first match is optional.
-	 * 
-	 * (wendt)
-	 *
-	 * @since 22.05.2012 13:21:33
-	 *
-	 * @param poInputList
-	 * @param poPredicate
-	 * @param pnMode: 0 = get the other element, 1 = get the root element, 2 = get the leaf element
-	 * @param pbStopAtFirstMatch
-	 * @return
-	 */
-	private static ArrayList<clsDataStructurePA> searchAssociationList(ArrayList<clsAssociation> poInputList, clsDataStructurePA poThisDataStructure, ePredicate poPredicate, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
-		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
-		
-		for (clsAssociation oAss : poInputList) {
-			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())) {
-					if (pbGetWholeAssociation==true) {
-						oRetVal.add(oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					} else {
-						if (pnMode==0) {
-							oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
-							if (pbStopAtFirstMatch==true) {
-								break;
-							}
-						} else if (pnMode==1) {
-							oRetVal.add(oAss.getRootElement());
-							if (pbStopAtFirstMatch==true) {
-								break;
-							}
-						} else if (pnMode==2) {
-							oRetVal.add(oAss.getLeafElement());
-							if (pbStopAtFirstMatch==true) {
-								break;
-							}
-						}
-					}
-					
-				}		
-			}
-		}
-		
-		return oRetVal;
-	}
 	
 	/**
 	 * Find a PA datastructure in any arraylist and return the object from the arraylist
@@ -192,6 +142,32 @@ public class clsMeshTools {
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Get the first found data structure in a TPM of a certain type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 13:54:39
+	 *
+	 * @param poMesh
+	 * @param poDataType
+	 * @param poContentTypeAndContent
+	 * @param pnLevel
+	 * @return
+	 */
+	public static clsDataStructurePA getFirstDataStructureInTPM(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, int pnLevel) {
+		clsDataStructurePA oResult = null;
+		
+		ArrayList<clsDataStructurePA> oListOfTP = clsMeshTools.getDataStructureInTPM(poMesh, poDataType, poContentTypeAndContent, true, 0);
+		
+		if (oListOfTP.isEmpty()==false) {
+			oResult = oListOfTP.get(0);
+		}
+		
+		return oResult;
+	}
+		
 	
 	/**
 	 * Recursively go through all elements in the mesh to get all TPMs, but here, this function is only used if there already exists a list
@@ -412,7 +388,7 @@ public class clsMeshTools {
 				if (oAss instanceof clsAssociationDriveMesh) {
 					if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
 						if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
-								(poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true)) {
+								(poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true)) {
 							oRetVal.add((clsAssociationDriveMesh) oAss);
 							if (pbStopAtFirstMatch==true) {
 								bBreakAssLoop=true;
@@ -427,7 +403,7 @@ public class clsMeshTools {
 							}
 						}
 					} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-						if (poContent.equals(((clsDriveMesh)oAss.getLeafElement()).getMoContent().toString())==true) {
+						if (poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true) {
 							oRetVal.add((clsAssociationDriveMesh) oAss);
 							if (pbStopAtFirstMatch==true) {
 								bBreakAssLoop=true;
@@ -507,11 +483,177 @@ public class clsMeshTools {
 		return oRetVal;
 	}
 	
+
+	/**
+	 * Search any association list for a certain content type of a Data structure in the primary process
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:07:50
+	 *
+	 * @param poInputList
+	 * @param poThisDataStructure
+	 * @param poContentType: Content type of the searched structure
+	 * @param pnMode: 0 = get the contenttype of the OTHER association as this element; 1 = get the contenttype of the ROOT element; 2 = get the contenttype of the LEAF element
+	 * @param pbGetWholeAssociation: Get the whole association and not one of the end points
+	 * @param pbStopAtFirstMatch: Stop at first match
+	 * @return
+	 */
+	private static ArrayList<clsDataStructurePA> searchAssociationListPrimary(ArrayList<clsAssociation> poInputList, clsDataStructurePA poThisDataStructure, eContentType poDSContentType, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
+		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
+		
+		for (clsAssociation oAss : poInputList) {
+			if (pnMode==0 && oAss.getTheOtherElement(poThisDataStructure).getMoContentType().equals(poDSContentType)) {
+				if (pbGetWholeAssociation==true) {
+					oRetVal.add(oAss);
+				} else {
+					oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+				}
+				
+				if (pbStopAtFirstMatch==true) {
+					break;
+				}
+			} else if (pnMode==1 && oAss.getRootElement().getMoContentType().equals(poDSContentType)) {
+				if (pbGetWholeAssociation==true) {
+					oRetVal.add(oAss);
+				} else {
+					oRetVal.add(oAss.getRootElement());
+				}
+				
+				if (pbStopAtFirstMatch==true) {
+					break;
+				}
+			} else if (pnMode==2 && oAss.getLeafElement().getMoContentType().equals(poDSContentType)) {
+				if (pbGetWholeAssociation==true) {
+					oRetVal.add(oAss);
+				} else {
+					oRetVal.add(oAss.getLeafElement());
+				}
+				
+				if (pbStopAtFirstMatch==true) {
+					break;
+				}
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Search all associtions of a certain contenttype in any TPM
+	 * 
+	 * This function is only used within a TPM, i. e. level 0
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:12:12
+	 *
+	 * @param poInput
+	 * @param poAssociationContentType
+	 * @param pnMode
+	 * @param pbGetWholeAssociation
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	public static ArrayList<clsDataStructurePA> searchDataStructureOverAssociation(clsThingPresentationMesh poInput, eContentType poDataStructureContentType, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
+		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
+		
+		//Go through outer associations
+		oRetVal.addAll(searchAssociationListPrimary(poInput.getExternalMoAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		
+		//Go through inner associations
+		oRetVal.addAll(searchAssociationListPrimary(poInput.getMoInternalAssociatedContent(), poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+					
+		return oRetVal;
+	}
+	
+	/**
+	 * Search the first data structure of a certain associational content type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:17:09
+	 *
+	 * @param poInput
+	 * @param poAssociationContentType
+	 * @param pnMode
+	 * @param pbGetWholeAssociation
+	 * @return
+	 */
+	public static clsDataStructurePA searchFirstDataStructureOverAssociationTPM(clsThingPresentationMesh poInput, eContentType poDataStructureContentType, int pnMode, boolean pbGetWholeAssociation) { 
+		//pnMode:
+		//0 = the other element
+		//1 = the root element
+		//2 = the leaf element
+		
+		clsDataStructurePA oRetVal = null;
+		
+		ArrayList<clsDataStructurePA> oList = searchDataStructureOverAssociation(poInput, poDataStructureContentType, pnMode, pbGetWholeAssociation, true);
+		if (oList.isEmpty()==false) {
+			oRetVal = oList.get(0);
+		}
+		
+		return oRetVal;
+	}
+	
+
+	
 	
 	//=== SEARCH DATA STRUCTURES IN TPM GENERAL --- END ===//
 	
 	
 	//=== SEARCH DATA STRUCTURES IN WPM GENERAL --- START ===//
+	
+	/**
+	 * Search any association list for a certain secondary association and return the other 
+	 * element of the association. Stop at first match is optional.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.05.2012 13:21:33
+	 *
+	 * @param poInputList
+	 * @param poPredicate
+	 * @param pnMode: 0 = get the other element, 1 = get the root element, 2 = get the leaf element
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	private static ArrayList<clsDataStructurePA> searchAssociationListSecondary(ArrayList<clsAssociation> poInputList, clsDataStructurePA poThisDataStructure, ePredicate poPredicate, int pnMode, boolean pbGetWholeAssociation, boolean pbStopAtFirstMatch) {
+		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
+		
+		for (clsAssociation oAss : poInputList) {
+			if (oAss instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())) {
+					if (pbGetWholeAssociation==true) {
+						oRetVal.add(oAss);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					} else {
+						if (pnMode==0) {
+							oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						} else if (pnMode==1) {
+							oRetVal.add(oAss.getRootElement());
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						} else if (pnMode==2) {
+							oRetVal.add(oAss.getLeafElement());
+							if (pbStopAtFirstMatch==true) {
+								break;
+							}
+						}
+					}
+					
+				}		
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	/**
 	 * Get the first data structure for a certain association within a data structure
@@ -542,6 +684,8 @@ public class clsMeshTools {
 		return oRetVal;
 	}
 	
+	
+	
 	/**
 	 * Search a through a WPM for a certain type of associations based on the predicate. Optinal, only the first
 	 * match is searched
@@ -560,10 +704,10 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		//Go through outer associations
-		oRetVal.addAll(searchAssociationList(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationListSecondary(poInput.getExternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 		
 		//Go through inner associations
-		oRetVal.addAll(searchAssociationList(poInput.getMoInternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
+		oRetVal.addAll(searchAssociationListSecondary(poInput.getMoInternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
 	}
@@ -587,7 +731,7 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oFoundDSList =  searchDataStructureOverAssociation(poInput, poPredicate, 0, false, false);
 		
 		for (clsDataStructurePA oDS : oFoundDSList) {
-			if (((clsSecondaryDataStructure)oDS).getMoContent().equals(poDataStructureContent)) {
+			if (poDataStructureContent != "" && ((clsSecondaryDataStructure)oDS).getMoContent().equals(poDataStructureContent)) {
 				oRetVal.add((clsSecondaryDataStructure) oDS);
 				
 				if (pbStopAtFirstMatch == true) {
@@ -639,7 +783,7 @@ public class clsMeshTools {
 	 * If pnLevel = 2, all direct matches to the top image are processed
 	 * @return
 	 */
-	public static ArrayList<clsDataStructurePA> getDataStructureInWPM(clsWordPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	public static ArrayList<clsDataStructurePA> getDataStructureInWPM(clsWordPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		ArrayList<clsWordPresentationMesh> oAddedElements = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
@@ -657,24 +801,24 @@ public class clsMeshTools {
 	 * @since 31.01.2012 20:26:13
 	 *
 	 * @param poMesh
-	 * @param poContentType
+	 * @param poContentType: eContentType.NOTHING is equal to "" in strings
 	 * @param poContent
 	 * @return
 	 */
-	private static boolean FilterWPM(clsWordPresentationMesh poMesh, String poContentType, String poContent) {
+	private static boolean FilterWPM(clsWordPresentationMesh poMesh, eContentType poContentType, String poContent) {
 
 		boolean oRetVal = false;
 		
-			if (poContentType.equals("")==false && poContent.equals("")==false) {
+			if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
 				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
 						(poContent.equals(poMesh.getMoContent())==true)) {
 					oRetVal = true;
 				}
-			} else if (poContentType.equals("")==false && poContent.equals("")==true) {
+			} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
 				if (poContentType.equals(poMesh.getMoContentType())==true) {
 					oRetVal = true;
 				}
-			} else if (poContentType.equals("")==true && poContent.equals("")==false) {
+			} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
 				if (poContent.equals(poMesh.getMoContent())==true) {
 					oRetVal = true;
 				}
@@ -732,11 +876,11 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static ArrayList<clsAssociationSecondary> getWPAssociations(clsWordPresentationMesh poWPM, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationSecondary> getWPAssociations(clsWordPresentationMesh poWPM, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationSecondary> oRetVal = new ArrayList<clsAssociationSecondary>();
 
 		//Go through all external
-		for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+		for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
 			oRetVal.addAll(FilterWPList(poWPM.getMoInternalAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
 			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 				//Go through the external list
@@ -760,13 +904,13 @@ public class clsMeshTools {
 	 * @param poContent
 	 * @return
 	 */
-	private static ArrayList<clsAssociationSecondary> FilterWPList(ArrayList<clsAssociation> poAssList, String poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationSecondary> FilterWPList(ArrayList<clsAssociation> poAssList, eContentType poContentType, String poContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationSecondary> oRetVal = new ArrayList<clsAssociationSecondary>();
 		
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationSecondary && oAss.getLeafElement() instanceof clsWordPresentation) {
-				if (poContentType.equals("")==false && poContent.equals("")==false) {
+				if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==false) {
 					if ((poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) &&
 							(poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
 						oRetVal.add((clsAssociationSecondary) oAss);
@@ -774,14 +918,14 @@ public class clsMeshTools {
 							break;
 						}
 					}
-				} else if (poContentType.equals("")==false && poContent.equals("")==true) {
+				} else if (poContentType.equals(eContentType.NOTHING)==false && poContent.equals("")==true) {
 					if (poContentType.equals(((clsAssociationSecondary)oAss).getLeafElement().getMoContentType())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
 							break;
 						}
 					}
-				} else if (poContentType.equals("")==true && poContent.equals("")==false) {
+				} else if (poContentType.equals(eContentType.NOTHING)==true && poContent.equals("")==false) {
 					if (poContent.equals(((clsWordPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
 						oRetVal.add((clsAssociationSecondary) oAss);
 						if (pbStopAtFirstMatch==true) {
@@ -810,7 +954,7 @@ public class clsMeshTools {
 	 * @param poMesh
 	 * @return
 	 */
-	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<String, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
 		//Add this element, in order not to search it through 2 times
@@ -819,7 +963,7 @@ public class clsMeshTools {
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.WPM)==true) {
 			//Check if this mesh matches the content and content type filter. If yes, then add the result
-			for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+			for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
 				//Check if this mesh has this filter
 				boolean bMatchFound = FilterWPM(poMesh, oCTC.a, oCTC.b);
 				
@@ -898,6 +1042,32 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Create an association between a TPM and a TP
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:46:25
+	 *
+	 * @param poStructureA
+	 * @param poStructureB
+	 * @param prWeight
+	 * @param pnAddMode: 0 = internal associations, 2
+	 * @throws Exception 
+	 */
+	public static void createAssociationAttribute(clsThingPresentationMesh poStructureA, clsThingPresentation poStructureB, double prWeight, int pnAddMode) throws Exception {
+		eContentType oContentType = eContentType.ASSOCIATIONATTRIBUTE;
+		clsAssociationAttribute oAssAttr = (clsAssociationAttribute)clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(oContentType, poStructureA, poStructureB, prWeight);
+		if (pnAddMode==0) {
+			poStructureA.getMoInternalAssociatedContent().add(oAssAttr);
+		} else if (pnAddMode==1) {
+			poStructureA.getExternalMoAssociatedContent().add(oAssAttr);
+		} else {
+			throw new Exception("Only 0=add to internal associations or 1=add to external associations are selectable");
+		}
+		
+	}
+	
+	/**
 	 * Creates a new AssociationTemp between 2 structures and adds this association to the associated data structures.
 	 * 
 	 * ONLY TPM ARE ALLOWED TO HAVE AN ASSOCIATION TEMP IN ITS EXTERNAL ASSOCIATIONS
@@ -919,7 +1089,57 @@ public class clsMeshTools {
 		//Add association to the substructure
 		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
 	}
-
+	
+	/**
+	 * Set a unique TP to a TPM. These TP are usually used for commands
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:48:25
+	 *
+	 * @param poTPM
+	 * @param poTPContentType
+	 * @param poTPContent
+	 * @throws Exception 
+	 */
+	public static void setUniqueTP(clsThingPresentationMesh poTPM, eContentType poTPContentType, String poTPContent) throws Exception {
+		//Get association if exists
+		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, poTPContentType);
+		if (oAss!=null & oAss instanceof clsAssociationAttribute) {
+			//Replace
+			((clsThingPresentation)oAss.getLeafElement()).setMoContent(poTPContent);
+		} else {
+			//Create TP
+			clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(poTPContentType, poTPContent));
+			//Create Association attribute
+			clsMeshTools.createAssociationAttribute(poTPM, oTP, 1.0, 1);
+		}
+		
+	}
+	
+	/**
+	 * Get a unique Thing Presentation in a TPM. This option is used to get settings, which are saved as TPs
+	 * 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 13:57:08
+	 *
+	 * @param poTPM
+	 * @param poTPContentType
+	 * @return
+	 */
+	public static clsAssociation getUniqueTPAssociation(clsThingPresentationMesh poTPM, eContentType poTPAssociationContentType) {
+		clsAssociation oResult = null;
+		
+		clsPair<eContentType, String> oFilter = new clsPair<eContentType, String>(poTPAssociationContentType, "");
+		ArrayList<clsPair<eContentType, String>> oFilterList = new ArrayList<clsPair<eContentType, String>>();
+		oFilterList.add(oFilter);
+		
+		oResult = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationTPM(poTPM, poTPAssociationContentType, 0, true);
+		
+		return oResult;
+	}
 	
 	//=== ADD DATA STRUCTURES TO TPM GENERAL --- END ===//
 
@@ -998,6 +1218,51 @@ public class clsMeshTools {
 			((clsSecondaryDataStructure)oAss.getTheOtherElement(poWPM)).setMoContent(poWPContent);
 		}
 		
+	}
+		
+	/**
+	 * Get the first WP for a certain predicate in a certian mesh
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:26:47
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static clsWordPresentation getFirstWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		//clsWordPresentation oResult = null;
+		
+		//clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
+		clsWordPresentation oResult = (clsWordPresentation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, false);
+//		if (oAss!=null) {
+//			oResult = (clsWordPresentation)oAss.getTheOtherElement(poWPM);
+//		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentation> getWPList(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
+			
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+		for (clsDataStructurePA oDS : oDSList) {
+			oResult.add((clsWordPresentation) oDS);
+		}
+			
+		return oResult;
 	}
 	
 	/**
@@ -1109,7 +1374,7 @@ public class clsMeshTools {
 	 * @param poSourceTPM: The object which has the association
 	 * @param poDeleteObject: The associatited object, which association shall be deleted.
 	 */
-	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceTPM, clsWordPresentationMesh poDeleteObject) {
+	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceTPM, clsSecondaryDataStructure poDeleteObject) {
 		boolean bFound = false;
 		clsAssociation oDeleteAss = null;
 		
@@ -1409,8 +1674,8 @@ public class clsMeshTools {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Add all RI. 
-		ArrayList<clsPair<String, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<String, String>>();
-		oContentTypeAndContentPairRI.add(new clsPair<String, String>(eContentType.RI.toString(), ""));
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
 		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
 		
 		for (clsDataStructurePA oWPM : oFoundImages) {
@@ -1999,8 +2264,8 @@ public class clsMeshTools {
 	public static clsWordPresentationMesh getSELF(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = null;
 		
-		ArrayList<clsPair<String, String>> oFilterContent = new ArrayList<clsPair<String, String>>();
-		oFilterContent.add(new clsPair<String, String>(eContentType.ENTITY.toString(), eContent.SELF.toString()));
+		ArrayList<clsPair<eContentType, String>> oFilterContent = new ArrayList<clsPair<eContentType, String>>();
+		oFilterContent.add(new clsPair<eContentType, String>(eContentType.ENTITY, eContent.SELF.toString()));
 		ArrayList<clsDataStructurePA> oFoundItems = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oFilterContent, true, 1);
 		
 		if (oFoundItems.isEmpty()==false) {
@@ -2010,13 +2275,13 @@ public class clsMeshTools {
 		return oRetVal;
 	}
 
-	public static clsWordPresentationMesh createImageFromEntity(clsWordPresentationMesh poEntity) {
+	public static clsWordPresentationMesh createImageFromEntity(clsWordPresentationMesh poEntity, eContentType poImageContentType) {
 		clsWordPresentationMesh oResult = null;
 		
 		ArrayList<clsSecondaryDataStructure> oImageContent = new ArrayList<clsSecondaryDataStructure>();
 		oImageContent.add(poEntity);
 		
-		oResult = clsMeshTools.createWPMImage(oImageContent, eContentType.SUPPORTIVEDATASTRUCTURE, eContent.ENTITY2IMAGE.toString());
+		oResult = clsMeshTools.createWPMImage(oImageContent, poImageContentType, eContent.ENTITY2IMAGE.toString());
 		
 		return oResult;
 	}

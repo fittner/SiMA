@@ -14,14 +14,13 @@ import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsDataStructureTools;
-import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.toText;
 
 import config.clsProperties;
@@ -110,7 +109,11 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	protected void process_basic() {
 			
-		moReturnedTPMemory_OUT = getMemoryFromWP(moActionCommands_IN);
+		try {
+			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -140,123 +143,82 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	}
 	
 	/**
-	 * This function extracts all primary data structure containers from the input list, calcultates their
-	 * total quota of affect and returns a sorted list of primary data structure containers, which are sorted
-	 * according to total quota of affect (the highest first)
+	 * Get the first action, Check if the action has a certain phantasy flag, Check if the associated structure, Get the associated structure, Get the TPM part of that structure
+	 * 
+	 * 
 	 * (wendt)
+	 * @throws Exception 
+	 * 
 	 * @since 20110625
 	 *
 	 * ${tags}
 	 * 
 	 */
-	private ArrayList<clsThingPresentationMesh> getMemoryFromWP(ArrayList<clsWordPresentationMesh> poActionCommands) {
+	private ArrayList<clsThingPresentationMesh> getMemoryFromSecondaryProcess(ArrayList<clsWordPresentationMesh> poActionCommands) throws Exception {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
-		//TODO AP: Remove strange data type
-//		boolean bPlanFragement = false;
-//		for (clsWordPresentationMesh oC : poActionCommands) {
-//			if (oC instanceof clsPlanFragment) {
-//				bPlanFragement = true;
-//				break;
-//			}
-//		}
 		
-//		if (bPlanFragement==false) {
-			//Until the planning is finished, this solution will be fine
-		ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>> oAffectEvaluatedContainers = new ArrayList<clsPair<Double, clsPrimaryDataStructureContainer>>();
+		if (poActionCommands.isEmpty()==false) {
+			//Get the first action
+			clsWordPresentationMesh oAction = poActionCommands.get(0);
 			
-		for (clsWordPresentationMesh oContainer : poActionCommands) {
-				
-			boolean bActivate = getConsciousPhantasyActivation(oContainer);
-				
-			if (bActivate==true) {
-				for (clsAssociation oAss : oContainer.getExternalAssociatedContent()) {
-					//The leaf element contains the wpm of the associated memory
-					if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
-						//Get the primary container of this structure
-							//clsDataStructureContainerPair oIntentionContainer = clsDataStructureTools.getContainerFromList(poAssociatedMemories, oAss.getLeafElement());
-						
-						
-						//if (oIntentionContainer.getSecondaryComponent()!=null) {
-						//clsPrimaryDataStructureContainer oPIntentionContainer = oIntentionContainer.getPrimaryComponent(); //clsDataStructureTools.extractPrimaryContainer(oSIntentionContainer, poAssociatedMemories);
-						//if (oPIntentionContainer!=null) {
-								//Calculate Total Affect value
-								//clsPair<Double, clsPrimaryDataStructureContainer> oContainerAdd =  new clsPair<Double, clsPrimaryDataStructureContainer>(clsAffectTools.calculateAbsoluteAffect((clsPrimaryDataStructureContainer)oPIntentionContainer),(clsPrimaryDataStructureContainer) oPIntentionContainer);
-								//Add with sort
-								//int i = 0;
-								//while ((i + 1 < oAffectEvaluatedContainers.size()) && oContainerAdd.a < oAffectEvaluatedContainers.get(i).a) {
-								//	i++;
-								//}
-								//oAffectEvaluatedContainers.add(i, oContainerAdd);
-						//Get the primary component
-						oRetVal.add(clsMeshTools.getPrimaryDataStructureOfWPM(oContainer));
-						
+			//Check if the action has a certain phantasy flag
+			if (clsActionTools.getPhantasyFlag(oAction)==true) {
+				//Check if the associated structure
+				clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
+				//Get the associated structure
+				if (oSupportiveDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+					//Check if phantasyflag exists
+					try {
+						if (clsPhantasyTools.checkIfPhantasyFlagExists(oSupportiveDataStructure)==false) {
+							throw new Exception("No phantasy flag was set for content assigned as phantasy in the primary process.");
+						}
+					} catch (Exception e) {
+						throw new Exception(e.getMessage());
+					}
+					
+					
+					//Get the TPM part of that structure
+					clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oSupportiveDataStructure);
+					if (oTPM!=null) {
+						//At this stage, there should be no associationWP in the external associations of the TPM
+						if (checkIfAssociationWPExists(oTPM)==true) {
+							throw new Exception("No AssociationWP are allowed here");
+						} else {
+							oRetVal.add(oTPM);
+						}
 					}
 				}
-				
 			}
-			//Remove the match values
-			//for (clsPair<Double, clsPrimaryDataStructureContainer> oPair : oAffectEvaluatedContainers) {
-			//	oRetVal.add(oPair.b);
-			//}
 		}
-		
 			
 		return oRetVal;
-		
-		//clsSecondaryDataStructureContainer oBestPlan = null;
-		
-		//Get the most important plan in the list, probably the first item in the list, which is a secondarydatastructurecontainer
-		/*for (int i=0;i<poActionCommands.size();i++) {
-			if (poActionCommands.get(i) instanceof clsSecondaryDataStructureContainer) {
-				oBestPlan = (clsSecondaryDataStructureContainer)poActionCommands.get(i);	//Most important plan found
-				break;
-			}
-		}*/
-		
-		//clsPrimaryDataStructureContainer oHighestQoAImage = null;
-		
-		//If a best plan was found, search through all associated structures
-		/*if (oBestPlan != null) {
-			double rMaxQuotaOfAffect = 0.0;
-			double rThisQuotaOfAffect = 0.0;
-			//Search for associated structures, over secondary associations
-			for (clsAssociation oAss : oBestPlan.getMoAssociatedDataStructures()) {
-				if (oAss instanceof clsAssociationSecondary) {
-					//Get the whole container from this structure
-					clsSecondaryDataStructureContainer oAssWPMemoryContainer = (clsSecondaryDataStructureContainer) getActivatedContainerFromDS(oAss.getLeafElement(),poActionCommands);
-					//Get the primary data structure from the secondary container
-					clsPrimaryDataStructure oImage = getAssociatedPrimaryStructure(oAssWPMemoryContainer);
-					//Get the whole primary container from the received data structure
-					clsPrimaryDataStructureContainer oAssTPMemoryContainer = (clsPrimaryDataStructureContainer) getActivatedContainerFromDS(oImage, poActionCommands);
-					//Calculate the total quota of affect for that container
-					rThisQuotaOfAffect = clsGlobalFunctions.calculateAbsoluteAffect(oAssTPMemoryContainer);
-					//If the total quota of affect is higher than the max value, this quota of affect will be the max value
-					if (rThisQuotaOfAffect > rMaxQuotaOfAffect) {
-						rMaxQuotaOfAffect = rThisQuotaOfAffect;
-						oHighestQoAImage = oAssTPMemoryContainer;
-					}
-				}
-			}
-		}
-		//The highest match is returned
-		oRetVal = oHighestQoAImage;
-		//oRetVal = new clsPrimaryDataStructureContainer(clsDataStructureGenerator.generateTI(new clsTripple<String, ArrayList<clsPhysicalRepresentation>, Object>("DummyMemory", new ArrayList<clsPhysicalRepresentation>(), "DummyMemory")), new ArrayList<clsAssociation>());
-		*/
-		//return oRetVal;
 	}
 	
-	private boolean getConsciousPhantasyActivation(clsWordPresentationMesh poContainer) {
-		boolean oRetVal = false;
+	/**
+	 * Check if there exists any WP-associations in the TPM 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 14:55:38
+	 *
+	 * @param poInput
+	 * @return
+	 */
+	private boolean checkIfAssociationWPExists(clsThingPresentationMesh poInput) {
+		boolean bResult = false;
 		
-		ArrayList<clsWordPresentation> oWPList = clsDataStructureTools.getAttributeOfSecondaryPresentation(poContainer, ePredicate.ACTIVATESPHANTASY.toString());
-		
-		if (oWPList.isEmpty()==false) {
-			oRetVal = true;
+		for (clsAssociation oAss : poInput.getExternalMoAssociatedContent()) {
+			if (oAss instanceof clsAssociationWordPresentation) {
+				bResult = true;
+				break;
+			}
 		}
-			
-		return oRetVal;
+		
+		return bResult;
 	}
+	
+
 	
 	/**
 	 * Extracts the corresponding primary data structure from a secondary datastructure. It will always find a structure, if such an association  

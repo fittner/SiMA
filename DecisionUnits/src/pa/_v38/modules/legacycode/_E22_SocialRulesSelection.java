@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -490,7 +490,7 @@ public class _E22_SocialRulesSelection extends clsModuleBaseKB implements I6_3_r
 	 */
 	@Override
 	public void send_I3_3(
-			ArrayList<clsPair<clsTriple<clsDriveMesh, clsDriveDemand, Double>, clsTriple<clsDriveMesh, clsDriveDemand, Double>>> poDriveCandidates) {
+			ArrayList<clsPair<clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>, clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>>> poDriveCandidates) {
 		// 
 		
 	}	

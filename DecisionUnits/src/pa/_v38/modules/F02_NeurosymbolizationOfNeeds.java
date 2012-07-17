@@ -52,11 +52,12 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private ArrayList<String> moChartColumnsCaptions;
 	
 	/** holds a map of all homoestatic values sorted by eSensorIntType as key (IN I1.2) @since 27.07.2011 13:15:08 */
-	private HashMap<eSensorIntType, clsDataBase> moHomeostasis;
+	private HashMap<eSensorIntType, clsDataBase> moBodilyDemands_IN;
+	
 	/** holds the symbolized list of homoestatic values (OUT I2.2)
 	 * String is the name eSensorIntType
 	 * Double is the tension of the specific symbol   @since 27.07.2011 13:15:08 */
-	private HashMap<String, Double> moHomeostaticSymbol;
+	private HashMap<String, Double> moHomeostaticSymbol_OUT;
 	/**
 	 * basic constructor
 	 * 
@@ -101,8 +102,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.mapToTEXT("moHomeostasis", moHomeostasis);
-		text += toText.mapToTEXT("moHomeostaticSymbol", moHomeostaticSymbol);
+		text += toText.mapToTEXT("moHomeostasis", moBodilyDemands_IN);
+		text += toText.mapToTEXT("moHomeostaticSymbol", moHomeostaticSymbol_OUT);
 		
 		return text;
 	}
@@ -141,7 +142,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	@Override
 	public void receive_I1_2(HashMap<eSensorIntType, clsDataBase> pnData) {
 		
-		moHomeostasis = (HashMap<eSensorIntType, clsDataBase>) deepCopy(pnData);
+		moBodilyDemands_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(pnData);
 		
 		//System.out.printf("\n F03 in ="+ moHomeostasis);
 	}
@@ -156,20 +157,47 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		
-		//DOCUMENT CM process basic dokumentieren for F02
+		//OVERVIEW: go through the IN list and create a symbol-tension pair for all of them, add the other body-sources for drives
 		
-		moHomeostaticSymbol = new HashMap<String, Double>();
+		// create a empty map for all the tension the body can create.
+		// here we collect all the information from the body relevant for homeostatic drives in one list <symbol, tendion>
 		
-		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moHomeostasis.get(eSensorIntType.SLOWMESSENGER);
+		
+		moHomeostaticSymbol_OUT = new HashMap<String, Double>();
+		
+		CollectBodilyDemandsInOneList();
+		
+		//create some chart of them
+		for (String oKey:moHomeostaticSymbol_OUT.keySet()) {
+			if (!moChartColumnsCaptions.contains(oKey)) {
+				mnChartColumnsChanged = true;
+				moChartColumnsCaptions.add(oKey);
+				
+				Collections.sort(moChartColumnsCaptions);
+			}
+		}
+	}
+
+	/**
+	 * here we collect all the information from the body relevant for homeostatic drives in one list <symbol, tendion>
+	 * Normalize them if necessary
+	 *
+	 * @since 16.07.2012 13:37:23
+	 *
+	 */
+	private void CollectBodilyDemandsInOneList() {
+		
+		//SLOWMESSENGER
+		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moBodilyDemands_IN.get(eSensorIntType.SLOWMESSENGER);
 		if(oSlowMessengerSystem!=null)
 		{
 			for(  Map.Entry< eSlowMessenger, Double > oSlowMessenger : oSlowMessengerSystem.getSlowMessengerValues().entrySet() ) {
-				moHomeostaticSymbol.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
+				moHomeostaticSymbol_OUT.put(oSlowMessenger.getKey().name(), oSlowMessenger.getValue());
 			}
 		}
 		
-		
-		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moHomeostasis.get(eSensorIntType.FASTMESSENGER);
+		//FASTMESSENGER
+		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moBodilyDemands_IN.get(eSensorIntType.FASTMESSENGER);
 		if(oFastMessengerSystem!=null)
 		{
 			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
@@ -179,32 +207,28 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 					oName += "_PAIN";
 					rValue /= 7;
 				}
-				moHomeostaticSymbol.put(oName, rValue);
+				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}
 		}
 	
-		if(moHomeostasis.get(eSensorIntType.STOMACHTENSION)!=null)
-			moHomeostaticSymbol.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moHomeostasis.get(eSensorIntType.STOMACHTENSION)).getTension() );
+		//STOMACHTENSION
+		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
 
-		if(moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)!=null)
-			moHomeostaticSymbol.put(eSensorIntType.INTESTINEPRESSURE.name(), ((clsIntestinePressure)moHomeostasis.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
+		//INTESTINEPRESSURE
+		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.INTESTINEPRESSURE.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
 
+		//HEALTH
+		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue() / 100 );
 		
-		if(moHomeostasis.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moHomeostasis.get(eSensorIntType.HEALTH)).getHealthValue() / 100 );
-		
-		if(moHomeostasis.get(eSensorIntType.STAMINA)!=null)
-			moHomeostaticSymbol.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moHomeostasis.get(eSensorIntType.STAMINA)).getStaminaValue() );
-		
-		for (String oKey:moHomeostaticSymbol.keySet()) {
-			if (!moChartColumnsCaptions.contains(oKey)) {
-				mnChartColumnsChanged = true;
-				moChartColumnsCaptions.add(oKey);
-				
-				Collections.sort(moChartColumnsCaptions);
-			}
-		}
+		//STAMINA
+		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moBodilyDemands_IN.get(eSensorIntType.STAMINA)).getStaminaValue() );
 	}
+	
+	
 
 	/* (non-Javadoc)
 	 *
@@ -215,21 +239,11 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I2_2(moHomeostaticSymbol);	
+		send_I2_2(moHomeostaticSymbol_OUT);	
 		//System.out.printf("\n F03 out ="+ moHomeostaticSymbol);
 	}
 
-	/**
-	 * //FIXME CM delete this method is not used (2011.07.12)
-	 * @author langr
-	 * 13.08.2009, 02:14:56
-	 * 
-	 * @return the moHomeostasis
-	 */
-	@Deprecated
-	private HashMap<eSensorIntType, clsDataBase> getHomeostasisData() {
-		return moHomeostasis;
-	}
+
 
 	/* (non-Javadoc)
 	 *
@@ -335,7 +349,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 			double rValue = 0;
 			
 			try {
-				rValue = moHomeostaticSymbol.get(oKey);
+				rValue = moHomeostaticSymbol_OUT.get(oKey);
 			} catch (java.lang.Exception e)  {
 				//do nothing
 			}

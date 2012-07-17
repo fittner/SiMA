@@ -23,7 +23,8 @@ import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.I5_11_send;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -50,7 +51,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	private ArrayList<clsPair<Integer, clsDataStructurePA>> moSearchPattern;
 	
 	private ArrayList<clsPrimaryDataStructureContainer> moPrimaryInformation; 
-	private ArrayList<clsDriveMesh> moSexualDrives;
+	private ArrayList<clsDriveMeshOLD> moSexualDrives;
 	
 	private boolean mnMinimalModel;
 
@@ -293,7 +294,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsDriveMesh> poData) {
+			ArrayList<clsDriveMeshOLD> poData) {
 		// 
 		
 	}
@@ -305,7 +306,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList, pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer, java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
+	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
 		// 
 		
 	}
@@ -318,7 +319,7 @@ public class _E07_InternalizedRulesHandler extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void send_I5_13(ArrayList<String> poForbiddenDrive,
-			ArrayList<clsDriveMesh> poData) {
+			ArrayList<clsDriveMeshOLD> poData) {
 		// 
 		
 	}	

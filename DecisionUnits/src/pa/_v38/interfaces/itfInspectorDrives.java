@@ -8,7 +8,7 @@ package pa._v38.interfaces;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 /**
  * Displays the provided drives in an inspector tab.
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  */
 @Deprecated
 public interface itfInspectorDrives {
-	public ArrayList<clsDriveMesh> getDriveList();
+	public ArrayList<clsDriveMeshOLD> getDriveList();
 }

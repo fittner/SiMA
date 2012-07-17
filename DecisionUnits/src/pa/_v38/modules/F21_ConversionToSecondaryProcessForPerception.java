@@ -7,7 +7,6 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
@@ -29,8 +28,8 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsConcept;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -49,9 +48,6 @@ import pa._v38.memorymgmt.enums.ePredicate;
 public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBaseKB implements 
 			I5_15_receive, I6_1_send, I6_4_send {
 	public static final String P_MODULENUMBER = "21";
-
-	@SuppressWarnings("unused")
-	private static final clsConcept moConcept = null;
 	
 	/** Perception IN */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -64,8 +60,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	private clsShortTermMemory moShortTermMemory;
 	
-	@SuppressWarnings("unused")
 	private clsShortTermMemory moEnvironmentalImageStorage;
+	
+	private ArrayList<clsEmotion> moEmotions_Input; 
 	
 	/** TEMP A perceived image */
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
@@ -86,10 +83,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:52:26 */
 	//private HashMap<Integer, clsDriveMesh> moTemporaryDM; 
 	
- 
-	
 	/** Load up to 98 indirectly associated structures; @since 30.01.2012 19:57:31 */
-	@SuppressWarnings("unused")
 	private int mnMaxLevel = 100;
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -183,7 +177,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
 	@Override
-	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh) {
+	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
@@ -192,6 +186,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			e.printStackTrace();
 		}
 		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+
 	}
 
 	/* (non-Javadoc)
@@ -219,30 +215,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
-		createConcept(null, moAssociatedMemories_OUT);
 	}
 		
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 13.07.2012 18:10:56
-	 *
-	 */
-	
-	@SuppressWarnings("unchecked")
-	private clsConcept createConcept(clsConcept moConcept, ArrayList<clsWordPresentationMesh> poProcessedList){
-
-		
-		//add the current TPM to the list
-		poProcessedList.addAll((Collection<? extends clsWordPresentationMesh>) (moConcept));
-				
-		clsConcept oConceptforObject = moConcept;
-		
-		
-		return oConceptforObject;
-	}
-	
-
 	/**
 	 * For the TPM as input, assign all of them with WPM images
 	 * Return a pair of 1) Peception, 2) A list of memories. This function extracts all acts and other 
@@ -335,8 +309,18 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Copy object
 		if (oWPforObject!=null) {			
 			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-				oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-				//oRetVal.getExternalAssociatedContent().add(oWPforObject); 	It is not necessary to add the WP-Association, as it is already a part of the object
+				try {
+					if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
+						oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+						oRetVal.getExternalAssociatedContent().add(oWPforObject);
+					} else {
+						throw new Exception("No clsWordPresentation is allowed to be associated here. The following type was recieved: " + oWPforObject.getLeafElement().toString());
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				
 			}
 		} else {
 			//It may be the PI, then create a new image with for the PI or from the repressed content
@@ -344,6 +328,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
 			oRetVal.getExternalAssociatedContent().add(oWPAss);
 		}
+		
+		
 		
 		//Go deeper, only if the pnLevel allows
 		//If nothing was found, then the structure is null
@@ -367,9 +353,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 						
 						
 						if (oAttributeWP.getMoContentType()==eContentType.DISTANCE) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDISTANCE, false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.POSITIONASSOCIATION, ePredicate.HASDISTANCE, false);
 						} else if(oAttributeWP.getMoContentType()==eContentType.POSITION) {
-							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPOSITION, false);
+							clsMeshTools.createAssociationSecondary(oRetVal, 2, oAttributeWP, 0, 1.0, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, false);
 						} else {
 							try {
 								throw new Exception("Error in F21: getWPCompleteObjekt: A TP was found, which is neither Distance or Position");
@@ -383,7 +369,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 				} else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
 					//Get the affect templates
 					//Get the DriveMesh
-					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement(); 
+					clsDriveMeshOLD oDM = (clsDriveMeshOLD) oTPMExternalAss.getLeafElement(); 
 					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
 					
 					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)

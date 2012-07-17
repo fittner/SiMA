@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.enums.eContentType;
 import config.clsProperties;
 
@@ -33,8 +33,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
-	private ArrayList< clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > > moDriveCandidates; 
-	private ArrayList< clsPair< clsDriveMesh, clsDriveDemand> > moHomeostaticDriveDemands;
+	private ArrayList< clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > > moDriveCandidates; 
+	private ArrayList< clsPair< clsDriveMeshOLD, clsDriveDemand> > moHomeostaticDriveDemands;
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	/** partial crive categories for the homeostatic drives */
@@ -143,8 +143,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_2(ArrayList< clsPair<clsDriveMesh, clsDriveDemand> > poHomeostaticDriveDemands) {
-		moHomeostaticDriveDemands = (ArrayList< clsPair<clsDriveMesh, clsDriveDemand> >) deepCopy(poHomeostaticDriveDemands); 
+	public void receive_I3_2(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
+		moHomeostaticDriveDemands = (ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> >) deepCopy(poHomeostaticDriveDemands); 
 	}
 
 	/* (non-Javadoc)
@@ -156,17 +156,17 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMesh,clsDriveDemand>,clsPair<clsDriveMesh,clsDriveDemand>>>();
+		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>,clsPair<clsDriveMeshOLD,clsDriveDemand>>>();
 		
 		for (clsPair< clsPair<String, String>, clsPair<String, String> > oDOOP:moDriveOfOppositePairs) {
-			clsPair<clsDriveMesh, clsDriveDemand> oA = getEntry(oDOOP.a);
-			clsPair<clsDriveMesh, clsDriveDemand> oB = getEntry(oDOOP.b);
+			clsPair<clsDriveMeshOLD, clsDriveDemand> oA = getEntry(oDOOP.a);
+			clsPair<clsDriveMeshOLD, clsDriveDemand> oB = getEntry(oDOOP.b);
 			
 			
 			
 			if (oA != null && oB != null) {
-				clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry = 
-					new clsPair<clsPair<clsDriveMesh,clsDriveDemand>, clsPair<clsDriveMesh,clsDriveDemand>>(oA, oB);
+				clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry = 
+					new clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>, clsPair<clsDriveMeshOLD,clsDriveDemand>>(oA, oB);
 					
 					//chenge the agressive/lib content due to personaliyt
 					if(Personality_Content_Factor != 0)
@@ -177,7 +177,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		}
 	}
 	
-	private clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand> > oEntry){
+	private clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry){
 		
 		if(Personality_Content_Factor <0) // more agressive
 		{
@@ -217,13 +217,13 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		return oEntry;
 	}
 	
-	private clsPair<clsDriveMesh, clsDriveDemand> getEntry(clsPair<String, String> poId) {
-		clsPair<clsDriveMesh, clsDriveDemand> oResult =  null;
+	private clsPair<clsDriveMeshOLD, clsDriveDemand> getEntry(clsPair<String, String> poId) {
+		clsPair<clsDriveMeshOLD, clsDriveDemand> oResult =  null;
 		String oContentType = poId.a; 
 		String oContext = poId.b;
 		
-		for (clsPair<clsDriveMesh, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
-			clsDriveMesh oTemp = oHDD.a;
+		for (clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
+			clsDriveMeshOLD oTemp = oHDD.a;
 			if ( oTemp.getMoContent().equals(oContext) && oTemp.getMoContentType().equals(oContentType)) {
 				oResult = oHDD;
 				break;
@@ -255,7 +255,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_4(ArrayList<clsPair<clsPair<clsDriveMesh, clsDriveDemand>, clsPair<clsDriveMesh, clsDriveDemand>>> poDriveCandidate) {
+	public void send_I3_4(ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>> poDriveCandidate) {
 		((I3_4_receive)moModuleList.get(48)).receive_I3_4(poDriveCandidate);
 		putInterfaceData(I3_4_send.class, poDriveCandidate);
 	}

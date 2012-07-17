@@ -20,7 +20,8 @@ import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -64,11 +65,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
-	private ArrayList<clsDriveMesh> moDrives;
+	private ArrayList<clsDriveMeshOLD> moDrives;
 	private ArrayList<String> moForbiddenDrives;
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	
 	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage = new DT3_PsychicEnergyStorage();
+	
+	private ArrayList<clsEmotion> moEmotions_Input;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -159,9 +162,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives) {
+	public void receive_I5_12(ArrayList<clsDriveMeshOLD> poDrives,  ArrayList<clsEmotion> poEmotions) {
 		
-		moDrives = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
+		moDrives = (ArrayList<clsDriveMeshOLD>) deepCopy(poDrives); 
+		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		
 	}
 
 	/* (non-Javadoc)
@@ -391,7 +396,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInDM (String oContent) {		
 		// search in drives
-		for(clsDriveMesh oDrives : moDrives){
+		for(clsDriveMeshOLD oDrives : moDrives){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
@@ -414,7 +419,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInDM (String oContent, double oQuotaOfAffect) {		
 		// search in drives
-		for(clsDriveMesh oDrives : moDrives){
+		for(clsDriveMeshOLD oDrives : moDrives){
 			// check DriveMesh
 			// oDrives.b.getMoContent() = for example "NOURISH"
 			// oDrives.b.getMoContentType() =  for example "LIFE"
@@ -436,7 +441,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@Override
 	protected void send() {
 		send_I5_13(moForbiddenDrives, moDrives); 
-		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT); 
+		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT, moEmotions_Input); 
 	}
 
 	/* (non-Javadoc)
@@ -498,7 +503,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMeshOLD> poData) {
 		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);
@@ -512,8 +517,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_11_send#send_I5_11(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh) {
-		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh);
+	public void send_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
+		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh, poEmotions);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh);
 	}

@@ -16,6 +16,7 @@ package pa._v38.memorymgmt.enums;
 public enum eContentType {
 	//--- System ---//
 	NULLOBJECT,
+	NOTHING,
 	
 	
 	// --- Entities --- //
@@ -36,10 +37,23 @@ public enum eContentType {
 	MOMENT,
 	EXPECTATION,
 	MENTALSITUATION,
+	
+	DRIVEGOALSUPPORT,
+	PERCEPTIONSUPPORT,
 	SUPPORTIVEDATASTRUCTURE,
+	
+	
+	//--- Goals ---//
+	DECISIONTASK,
+	
+	//--- Actions ---//
+	PRECONDITION,
+	POSTCONDITION,
 	
 	// --- Bodypart --- //
 	BODYPART,
+	ORIFICE,
+	ORGAN,
 	
 	//--- Emotions
 	BASICEMOTION,
@@ -63,6 +77,7 @@ public enum eContentType {
 	DRIVESOURCEASSOCIATION,
 	DRIVEAIMASSOCIATION,
 	SUPPORTDSASSOCIATION,
+	PHANTASYFLAG,
 	
 	//Datatypes
 	UNDEFINED,
@@ -82,16 +97,55 @@ public enum eContentType {
 	TP,
 	TPM,
 	WP,
-	WPM,		//What should be done here
+	WPM,			//What should be done here
 	PRIINSTANCE, 	//This datatype is necessary in order to store actual experiences
 	EMOTION, 
 	LIBIDO,
 	CONTEXT,
 	
 	//TPs
-	COLOR, 
+	COLOR,
+	Color,
+	ShapeType,
+	ANTENNA_LEFT,
+	HANDS,
+	INTENSITY,
+	Alive,
+	TASTE,
+	CONSUMEABLE,
+	CONTENT,
+	PositionChange,
+	BUMP,
+	ANTENNA_RIGHT,
+	RADIATION,
+	ObjectPosition,
+	Distance,
+	POSITIONCHANGE,
+	NumEntitiesPresent, // needed by convertSymbolsToTPM()
+	
+	//DM
+	BITE,
+	NOURISH,
+	RELAX,
+	SLEEP,
+	DEPOSIT,
+	REPRESS,
+	
 	
 	
 	// TODO DELETE AFTER IMPLEMENTATION OF NEW DM STRUCTURE
-	DEATH, LIFE;
+	DEATH, LIFE, AGGRESSION,
+	
+	//Delete after implementation of secondary process
+	ACTIVATEREDUCEAFFECT,
+	
+	//???? OBSOLETE Delete ????
+	RELATION,
+	LOCATION,
+	
+	//??? REPLACE THIS SOME DAY...???
+	DEFAULT,
+	X,
+	Y, 
+	A;
 }

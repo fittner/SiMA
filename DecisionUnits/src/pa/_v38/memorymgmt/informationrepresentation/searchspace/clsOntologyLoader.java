@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -288,7 +288,7 @@ public class clsOntologyLoader {
 		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
 		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
 				
-		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
+		clsDriveMeshOLD oDataStructure = new clsDriveMeshOLD(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 																								rPleasure,
 																								oDriveCathegory, 
 																								new ArrayList<clsAssociation>(), 
@@ -726,7 +726,7 @@ public class clsOntologyLoader {
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
 				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
-												   (clsDriveMesh)oAssociationElements.a, 
+												   (clsDriveMeshOLD)oAssociationElements.a, 
 												   (clsThingPresentationMesh)oAssociationElements.b); 
 			case ASSOCIATIONEMOTION:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.EMOTION);

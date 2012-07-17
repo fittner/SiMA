@@ -15,7 +15,7 @@ import org.jgraph.graph.GraphConstants;
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextValue;
 import pa._v38.interfaces.itfInspectorDrives;
-import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public class clsDriveInspector extends clsGraphBase {
-	private ArrayList<clsDriveMesh> moDriveList; 
+	private ArrayList<clsDriveMeshOLD> moDriveList; 
 	private itfInspectorDrives moObject;
 	
 	public clsDriveInspector(itfInspectorDrives poObject) {
@@ -100,7 +100,7 @@ public class clsDriveInspector extends clsGraphBase {
 	 */
 	private DefaultGraphCell readDrive_new(
 			ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParentLife, clsDriveMesh oDM,
+			DefaultGraphCell poParentLife, clsDriveMeshOLD oDM,
 			String poAssociationName, Color poNodeColor) {
 
 		DefaultGraphCell oCell = null;
@@ -159,7 +159,7 @@ public class clsDriveInspector extends clsGraphBase {
 //	}
 //	
 	private DefaultGraphCell readSingle_new(ArrayList<DefaultGraphCell> poCellList,
-			DefaultGraphCell poParent, clsDriveMesh oDM, String poAssociationName, Color poNodeColor) {
+			DefaultGraphCell poParent, clsDriveMeshOLD oDM, String poAssociationName, Color poNodeColor) {
 
 		String oVertexName = oDM.getMoContentType() + ": \n " + oDM.getMoContent();
 		DefaultGraphCell oCurrentVertex = createVertex(oVertexName, 20, 20, 150, 40, poNodeColor);
