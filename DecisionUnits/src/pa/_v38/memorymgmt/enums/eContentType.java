@@ -102,12 +102,10 @@ public enum eContentType {
 	EMOTION, 
 	LIBIDO,
 	
-	//TPs
+	//TPs: should be adapted
 	COLOR,
 	Color,
 	ShapeType,
-	ANTENNA_LEFT,
-	HANDS,
 	INTENSITY,
 	Alive,
 	TASTE,
@@ -115,12 +113,15 @@ public enum eContentType {
 	CONTENT,
 	PositionChange,
 	BUMP,
-	ANTENNA_RIGHT,
 	RADIATION,
 	ObjectPosition,
 	Distance,
 	POSITIONCHANGE,
-	NumEntitiesPresent, // needed by convertSymbolsToTPM()
+	NumEntitiesPresent,
+	AntennaPositionLeft,
+	AntennaPositionRight,
+	IsAlive,
+	IsConsumeable,
 	
 	//DM
 	BITE,

@@ -385,6 +385,7 @@ public class clsOntologyLoader {
 		eDataType oElementType = eDataType.TPM;
 		int oID = DS_ID++; 
 		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
+		
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		
 		clsThingPresentationMesh oDataStructure = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
