@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -57,7 +57,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private HashMap<String, eOrifice> moOrificeMap;
 	
-	private ArrayList <clsDriveMeshNew> moDriveCandidates_OUT;
+	private ArrayList <clsDriveMesh> moDriveCandidates_OUT;
 	
 	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > moDriveTemplates;
 	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
@@ -339,7 +339,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @see pa._v38.interfaces.modules.I3_2_send#send_I3_2(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_2(ArrayList< clsDriveMeshNew> poHomeostaticDriveCandidates) {
+	public void send_I3_2(ArrayList< clsDriveMesh> poHomeostaticDriveCandidates) {
 		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveCandidates);
 		putInterfaceData(I3_2_send.class, poHomeostaticDriveCandidates);
 		
@@ -388,8 +388,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @since 16.07.2012 15:20:26
 	 *
 	 */
-	private clsDriveMeshNew CreateDriveCandidate(Entry<String, Double> pEntry) {
-		clsDriveMeshNew oDriveCandidate  = null;
+	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) {
+		clsDriveMesh oDriveCandidate  = null;
 		double rTension = pEntry.getValue();
 		String oSource = pEntry.getKey();
 		
@@ -404,7 +404,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, moOrificeMap.get(oSource)) );
 		
 		//create the DM
-		oDriveCandidate = (clsDriveMeshNew)clsDataStructureGenerator.generateDataStructure( 
+		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
 				eDataType.DM, eContentType.DRIVECANDIDATE );
 		
 		//supplement the information

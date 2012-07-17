@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.enums.eContentType;
 import config.clsProperties;
@@ -39,7 +39,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	//
-	ArrayList<clsDriveMeshNew> moHomeostaticDriveCandidates_IN;
+	ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
 	
 	/** partial crive categories for the homeostatic drives */
 	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
@@ -147,8 +147,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_2(ArrayList<clsDriveMeshNew> poHomeostaticDriveCandidates){
-		moHomeostaticDriveCandidates_IN = (ArrayList<clsDriveMeshNew>) deepCopy(poHomeostaticDriveCandidates); 
+	public void receive_I3_2(ArrayList<clsDriveMesh> poHomeostaticDriveCandidates){
+		moHomeostaticDriveCandidates_IN = (ArrayList<clsDriveMesh>) deepCopy(poHomeostaticDriveCandidates); 
 	}
 
 	/* (non-Javadoc)

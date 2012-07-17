@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 
 
 /**
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMeshNew;
  * 
  */
 public interface I3_2_send {
-	public void send_I3_2(ArrayList<  clsDriveMeshNew >poHomeostaticDriveCandidates);
+	public void send_I3_2(ArrayList<  clsDriveMesh >poHomeostaticDriveCandidates);
 }
