@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.toText;
 
 import config.clsProperties;
@@ -167,6 +168,16 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 				clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
 				//Get the associated structure
 				if (oSupportiveDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+					//Check if phantasyflag exists
+					try {
+						if (clsPhantasyTools.checkIfPhantasyFlagExists(oSupportiveDataStructure)==false) {
+							throw new Exception("No phantasy flag was set for content assigned as phantasy in the primary process.");
+						}
+					} catch (Exception e) {
+						throw new Exception(e.getMessage());
+					}
+					
+					
 					//Get the TPM part of that structure
 					clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oSupportiveDataStructure);
 					if (oTPM!=null) {

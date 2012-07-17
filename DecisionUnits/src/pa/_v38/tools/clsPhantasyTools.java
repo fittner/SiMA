@@ -92,9 +92,12 @@ public class clsPhantasyTools {
 		
 		clsWordPresentation oWP = clsMeshTools.getFirstWP(poWPM, ePredicate.HASPHANTASYFLAG);
 		
-		if (oWP.getMoContent().equals(eContent.TRUE.toString())==true) {
-			bResult = true;
+		if (oWP!=null) {
+			if(oWP.getMoContent().equals(eContent.TRUE.toString())==true) {
+				bResult = true;
+			}
 		}
+		
 		
 		return bResult;
 	}
@@ -117,6 +120,29 @@ public class clsPhantasyTools {
 			if (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eContent.TRUE.toString())==true) {
 				bResult = true;
 			}
+		}
+		
+		return bResult;
+	}
+	
+	/**
+	 * Check if a phantasyflag have been set in the secondary process
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 12:25:18
+	 *
+	 * @param poWPM
+	 * @return true if it has been set for both the WPM and TPM, else false
+	 */
+	public static boolean checkIfPhantasyFlagExists(clsWordPresentationMesh poWPM) {
+		boolean bResult = false;
+		
+		clsWordPresentation oWP = clsMeshTools.getFirstWP(poWPM, ePredicate.HASPHANTASYFLAG);
+		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(clsMeshTools.getPrimaryDataStructureOfWPM(poWPM), eContentType.PHANTASYFLAG);
+		
+		if (oWP!=null && oAss !=null) {
+			bResult=true;
 		}
 		
 		return bResult;
