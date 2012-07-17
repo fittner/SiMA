@@ -6,6 +6,9 @@
  */
 package pa._v38.interfaces.modules;
 
+import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
@@ -16,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface I5_15_receive {
-	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh);
+	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions);
 }

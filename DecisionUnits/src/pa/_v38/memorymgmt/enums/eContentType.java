@@ -120,6 +120,7 @@ public enum eContentType {
 	ObjectPosition,
 	Distance,
 	POSITIONCHANGE,
+	NumEntitiesPresent, // needed by convertSymbolsToTPM()
 	
 	//DM
 	BITE,

@@ -32,7 +32,7 @@ import config.clsProperties;
 /**
  * (see document "Compositions of Emotions")
  * F63 generate Emotions based on  Pleasure and  Unpleasure. Four basic emotions exists: ANGER, FEAR, GRIEF and LOVE. They are not mutual exclusive. 
- * Dependent on the dominance of the basic categories Pleasure, Unpleasure and its aggressive and libidinous parts, the corresponding emotions are generated.
+ * Dependent on the dominance of the basic categories Pleasure, Unpleasure and the aggressive and libidinous drive parts, the corresponding emotions are generated.
  * Dominance of Unpleasure +  Dominance of aggr. Drivecomponents --> ANGER
  * Dominance of Unpleasure +  Dominance of libid. Drivecomponents --> GRIEF
  * Dominance of Unpleasure --> FEAR
@@ -137,7 +137,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		
-		//1. Get Unpleasure from all drives, and its aggr. and libid parts
+		//1. Get Unpleasure from all drives, and the aggr. and libid parts
 		for (clsDriveMeshOLD oDM: moDrives_IN) {
 			mrDriveUnpleasure += oDM.getMrQuotaOfAffect();
 			if(oDM.getMoContentType().equals("LIFE")) {
@@ -178,8 +178,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		mrRelativeSystemAggr = mrSystemLibid/orSumValuesLibidAggr;
 
 		/*
-		 * if unpleasure prevails --> only generate unpleasure emotions (always-> FEAR. if agg prevails -> ANGER. if libid prevails -> GRIEF. if no one prevails -> both)
-		 * if pleasure prevails --> only generate pleasure-emotions (if libid prevails -> LOVE)
+		 * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> FEAR. if agg prevails -> ANGER. if libid prevails -> GRIEF. if no one prevails -> both)
+		 * if pleasure prevails --> only generate pleasure-based emotions (if libid prevails -> LOVE)
 		 * 
 		 * the intensity of generated emotions is dependent on the relative amount of the basic category (Pleasuer, aggr, ... = from which the emotion is derived), particularly relative to the amount of pleasure+unpleasure
 		 * E.g. As Grief is based on aggr. unpleasure, its intensity is derived from the amount of aggr. unpleasure relative to the total amount of the ground truth (pleasure+unpleasure) 
@@ -188,7 +188,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		 * procedure to avoid duplicating the ground truth (the values emotions are based on).
 		*/
 		
-		// just generate Unpleasure-Emotions
+		// just generate Unpleasure--based Emotions
 		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){			
 			generateEmotion(eEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
 			if(mrRelativeSystemAggr > mrRelativeThreshold) {
@@ -202,7 +202,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.GRIEF,  mrSystemLibid/orSumValuesPlUnPl, 0, mrSystemUnpleasure, mrSystemLibid, 0);
 			}
 		}
-		// just generate Pleasure-Emotions
+		// just generate Pleasure-based Emotions
 		else if (mrRelativeSystemUnpleasure > mrRelativeThreshold) {
 			if (mrRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
