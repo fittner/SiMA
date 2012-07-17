@@ -1203,7 +1203,7 @@ public class clsMeshTools {
 	 * @param poWPContentType
 	 * @param poWPContent
 	 */
-	public static void setWP(clsWordPresentationMesh poWPM, eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
+	public static void setUniquePredicateWP(clsWordPresentationMesh poWPM, eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
 		//Get association if exists
 		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
 		
@@ -1219,6 +1219,66 @@ public class clsMeshTools {
 		}
 		
 	}
+	
+	/**
+	 * Set any word presentation to a certain WPM
+	 * 
+	 * Non unique = one predicate can have several content
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 22:11:51
+	 *
+	 * @param poWPM
+	 * @param poAssContentType
+	 * @param poAssPredicate
+	 * @param poWPContentType
+	 * @param poWPContent
+	 */
+	public static void setNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
+		//Get association if exists
+		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
+		
+		boolean bWPFound = false;
+		
+		for (clsDataStructurePA oAss : oAssList) {
+			//Get WP
+			clsWordPresentation oWP = (clsWordPresentation) ((clsAssociation)oAss).getLeafElement();
+			if (oWP.getMoContent().equals(poWPContent) && oWP.getMoContentType().equals(poWPContentType)) {
+				bWPFound = true;	//Do nothing as it is already set
+				break;
+			}
+		}
+		
+		if (bWPFound==false) {
+			//Create new WP
+			clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(poWPContentType, poWPContent));
+			
+			//Create and add association
+			clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			
+		}
+	}
+	
+	/**
+	 * Remove all secondary data structures, which are connected with poWPM via a certain ePredicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 22:23:09
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 */
+	public static void removeAllNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
+		
+		for (clsDataStructurePA oAss : oAssList) {
+			clsMeshTools.deleteAssociationInObject(poWPM, (clsSecondaryDataStructure)((clsAssociation)oAss).getLeafElement());
+		}
+		
+	
+	}
 		
 	/**
 	 * Get the first WP for a certain predicate in a certian mesh
@@ -1231,7 +1291,7 @@ public class clsMeshTools {
 	 * @param poAssPredicate
 	 * @return
 	 */
-	public static clsWordPresentation getFirstWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+	public static clsWordPresentation getUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		//clsWordPresentation oResult = null;
 		
 		//clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
@@ -1254,7 +1314,7 @@ public class clsMeshTools {
 	 * @param poAssPredicate
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentation> getWPList(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+	public static ArrayList<clsWordPresentation> getNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
 			
 		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
@@ -1264,6 +1324,7 @@ public class clsMeshTools {
 			
 		return oResult;
 	}
+	
 	
 	/**
 	 * Add associations to both elements, if they only exist in one of the elements.
@@ -1374,12 +1435,12 @@ public class clsMeshTools {
 	 * @param poSourceTPM: The object which has the association
 	 * @param poDeleteObject: The associatited object, which association shall be deleted.
 	 */
-	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceTPM, clsSecondaryDataStructure poDeleteObject) {
+	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceWPM, clsSecondaryDataStructure poDeleteObject) {
 		boolean bFound = false;
 		clsAssociation oDeleteAss = null;
 		
-		//Check external associations
-		for (clsAssociation oExternalAss : poSourceTPM.getExternalAssociatedContent()) {
+		//Check external associations of the source
+		for (clsAssociation oExternalAss : poSourceWPM.getExternalAssociatedContent()) {
 			if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
 				bFound = true;
 				oDeleteAss = oExternalAss;
@@ -1389,10 +1450,10 @@ public class clsMeshTools {
 		
 		//If found, then delete
 		if (bFound==true) {
-			poSourceTPM.getExternalAssociatedContent().remove(oDeleteAss);
+			poSourceWPM.getExternalAssociatedContent().remove(oDeleteAss);
 		} else {
 			//Check internal associations
-			for (clsAssociation oExternalAss : poSourceTPM.getMoInternalAssociatedContent()) {
+			for (clsAssociation oExternalAss : poSourceWPM.getMoInternalAssociatedContent()) {
 				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
 					bFound = true;
 					oDeleteAss = oExternalAss;
@@ -1401,7 +1462,7 @@ public class clsMeshTools {
 			}
 			
 			if (bFound==true) {
-				poSourceTPM.getMoInternalAssociatedContent().remove(oDeleteAss);
+				poSourceWPM.getMoInternalAssociatedContent().remove(oDeleteAss);
 			}
 		}
 	}

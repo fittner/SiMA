@@ -14,6 +14,9 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eGoalType {
-	DRIVE,
-	EMOTION;
+	DRIVESOURCE,			//Drives, which origins from the body
+	PERCEPTIONALEMOTION,	//Emotions, which origins from perception
+	MEMORYEMOTION,			//Emotions, which origins from memories e. g. bad bodo
+	MEMORYDRIVE,
+	PERCEPTIONALDRIVE;		//Normal potential drive satisfier, which are found in the perception 
 }

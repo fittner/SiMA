@@ -20,5 +20,6 @@ public enum eContent {
 	UNKNOWN_GOAL,
 	ENTITY2IMAGE,
 	TRUE,
-	FALSE;
+	FALSE,
+	ENVIRONMENTALIMAGE;
 }

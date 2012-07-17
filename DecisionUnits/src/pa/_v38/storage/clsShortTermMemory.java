@@ -21,14 +21,14 @@ import pa._v38.tools.clsPair;
  */
 public class clsShortTermMemory {
 	/** The variable for the short time memory */
-	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> moShortTimeMemory;
+	protected ArrayList<clsPair<Integer, clsWordPresentationMesh>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
-	private int mnMaxTimeValue; // = 60;
+	protected int mnMaxTimeValue; // = 60;
 	/** Number of objects, which can be saved in the short time memory */
-	private int mnMaxMemorySize; // = 7;
+	protected int mnMaxMemorySize; // = 7;
 
-	private clsPair<Integer, clsWordPresentationMesh> moNullMemoryObjectWPM;
+	protected clsPair<Integer, clsWordPresentationMesh> moNullMemoryObjectWPM;
 	
 	/**
 	 * Constructor, Init short time Memory with an empty arraylist
@@ -88,8 +88,23 @@ public class clsShortTermMemory {
 	 *
 	 * @param poRemoveMemory
 	 */
-	private void removeMemory(clsPair<Integer, clsWordPresentationMesh> poRemoveMemory) {
+	protected void removeMemory(clsPair<Integer, clsWordPresentationMesh> poRemoveMemory) {
 		moShortTimeMemory.remove(poRemoveMemory);
+	}
+	
+	/**
+	 * Remove a memory by knowing the hashcode of the WPM, which shall be removed
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 21:16:59
+	 *
+	 * @param poRemoveMemory
+	 */
+	protected void removeMemory(clsWordPresentationMesh poRemoveMemory) {
+		clsPair<Integer, clsWordPresentationMesh> oRemoveMemoryEntry = this.findMemory(poRemoveMemory);
+		
+		moShortTimeMemory.remove(oRemoveMemoryEntry);
 	}
 	
 	/**
@@ -171,6 +186,9 @@ public class clsShortTermMemory {
 
 	/**
 	 * Find a memory in the short time memory and return the whole data structure incl. step
+	 * 
+	 * Compare method used: java std object comparison
+	 * 
 	 * (wendt)
 	 *
 	 * @since 31.08.2011 08:09:45
@@ -180,12 +198,9 @@ public class clsShortTermMemory {
 	 */
 	public clsPair<Integer, clsWordPresentationMesh> findMemory(clsWordPresentationMesh oToBeFound) {
 		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;
-		
-		//if (oToBeFound instanceof clsSecondaryDataStructure) {
-		clsWordPresentationMesh oCompareStructure = oToBeFound;
 			
 		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
-			if (oCompareStructure.getMoDS_ID() == oMemory.b.getMoDS_ID()) {
+			if (oToBeFound.equals(oMemory.b)) {
 				oRetVal = oMemory;
 				break;
 			}

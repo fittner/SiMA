@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eDecisionTask;
+import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.clsShortTermMemory;
 
@@ -137,7 +137,7 @@ public class clsActionTools {
 	 * @param poAction
 	 */
 	public static void setPhantasyFlag(clsWordPresentationMesh poAction) {
-		clsMeshTools.setWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
 	}
 	
 	/**
@@ -153,7 +153,7 @@ public class clsActionTools {
 	public static boolean getPhantasyFlag(clsWordPresentationMesh poAction) {
 		boolean oResult = false;
 		
-		clsWordPresentation oWP = clsMeshTools.getFirstWP(poAction, ePredicate.HASPHANTASYFLAG);
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poAction, ePredicate.HASPHANTASYFLAG);
 		
 		if (oWP!=null) {
 			if (oWP.getMoContent().equals(eContent.TRUE.toString())) {
@@ -174,13 +174,13 @@ public class clsActionTools {
 	 * @param poAction
 	 * @return
 	 */
-	public static ArrayList<eDecisionTask> getPreconditions(clsWordPresentationMesh poAction) {
-		ArrayList<eDecisionTask> oResult = new ArrayList<eDecisionTask>();
+	public static ArrayList<eTaskStatus> getPreconditions(clsWordPresentationMesh poAction) {
+		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
 		
-		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getWPList(poAction, ePredicate.HASPRECONDITION);
+		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getNonUniquePredicateWP(poAction, ePredicate.HASPRECONDITION);
 		
 		for (clsWordPresentation oWP : oWPList) {
-			oResult.add(eDecisionTask.valueOf(oWP.getMoContent()));
+			oResult.add(eTaskStatus.valueOf(oWP.getMoContent()));
 		}
 		
 		return oResult;
@@ -197,10 +197,10 @@ public class clsActionTools {
 	 * @param poDecisionTask
 	 * @return
 	 */
-	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, eDecisionTask poDecisionTask) {
+	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, eTaskStatus poDecisionTask) {
 		boolean bResult = false;
 		
-		ArrayList<eDecisionTask> oPreconditionList = clsActionTools.getPreconditions(poAction);
+		ArrayList<eTaskStatus> oPreconditionList = clsActionTools.getPreconditions(poAction);
 		
 		if (oPreconditionList.contains(poDecisionTask)==true) {
 			bResult = true;

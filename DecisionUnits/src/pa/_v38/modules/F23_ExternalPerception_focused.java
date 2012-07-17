@@ -268,7 +268,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			
 			//React on goals in the perception, which are emotion and are HIGH NEGATIVE
 			if (clsGoalTools.getSupportDataStructureType(oReachableGoal) == eContentType.PI && 
-					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.EMOTION &&
+					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.PERCEPTIONALEMOTION &&
 					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.HIGHNEGATIVE) {
 				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsImportanceTools.convertAffectLevelToImportance(clsGoalTools.getAffectLevel(oReachableGoal)), oReachableGoal));
 			}
@@ -450,7 +450,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
 				//in the perception, it shall search its activated memory first
 				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
-				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.DRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
+				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.PERCEPTIONALDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
 				
 			}
 			
@@ -570,7 +570,9 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Remove all entities from the PI, which are not part of the input list
 		ArrayList<clsWordPresentationMesh> oRemoveEntities  = clsMeshTools.getOtherInternalImageAssociations(poImage, poEntitiesToKeepInPI);
 		for (clsWordPresentationMesh oE : oRemoveEntities) {
-			clsMeshTools.deleteObjectInMesh(oE);
+			clsMeshTools.deleteAssociationInObject(poImage, oE);		//Use this instead as it ONLY removes the association of the entity with the PI
+			clsMeshTools.deleteAssociationInObject(oE, poImage);
+			//clsMeshTools.deleteObjectInMesh(oE);
 		}
 	}
 	

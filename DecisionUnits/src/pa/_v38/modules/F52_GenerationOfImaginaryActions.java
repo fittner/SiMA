@@ -31,10 +31,11 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDecisionTask;
+import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
@@ -98,7 +99,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	private clsShortTermMemory moShortTermMemory;
 	
-	private clsShortTermMemory moEnvironmentalImageStorage;
+	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
 	
 	private PlanningGraph plGraph;
@@ -116,7 +117,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		//Get STM
@@ -636,7 +637,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
 			//--- Check which DecisionTasks have been set on the goal ---//
-			eDecisionTask oTask = clsGoalTools.getDecisionTask(oCurrentGoal);
+			eTaskStatus oTask = clsGoalTools.getTaskStatus(oCurrentGoal);
 			
 			
 			//--- Find the suitable action for a certain combination of preconditions ---//
@@ -736,11 +737,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		clsWordPresentationMesh oSendToPhantasy = clsActionTools.createAction(eAction.SEND_TO_PHANTASY.toString());
-		clsMeshTools.setWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eDecisionTask.NEED_INTERNAL_INFO.toString());
+		clsMeshTools.setUniquePredicateWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.NEED_INTERNAL_INFO.toString());
 		oResult.add(oSendToPhantasy);
 		
 		clsWordPresentationMesh oFocusOn = clsActionTools.createAction(eAction.FOCUS_ON.toString());
-		clsMeshTools.setWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eDecisionTask.NEED_FOCUS.toString());
+		clsMeshTools.setUniquePredicateWP(oSendToPhantasy, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.NEED_FOCUS.toString());
 		oResult.add(oFocusOn);
 		
 		return oResult;
@@ -782,7 +783,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	private ArrayList<clsWordPresentationMesh> getActionsFromPrecondition(eDecisionTask poDecisionTask) throws CloneNotSupportedException {
+	private ArrayList<clsWordPresentationMesh> getActionsFromPrecondition(eTaskStatus poDecisionTask) throws CloneNotSupportedException {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oWPM : this.moPossibleInternalActionPlans) {
@@ -1344,13 +1345,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY,oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
 			try {
-				clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString());
+				clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString());
 			} catch (Exception e) {
 				System.out.println(oPF.m_effectImage.toString());
 				e.printStackTrace();
 			}
 			
-			clsMeshTools.setWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString());
+			clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString());
 			
 			clsMeshTools.createAssociationSecondary(oAction, 2, oGoalObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASASSOCIATION, false);
 			oRetVal.add(oAction);
