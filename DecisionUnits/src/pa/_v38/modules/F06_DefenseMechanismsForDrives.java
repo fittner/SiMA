@@ -23,6 +23,7 @@ import pa._v38.interfaces.modules.I5_5_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -527,7 +528,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * This method represses a single drive. Copied from FG
 	 *
 	 */
-	protected void repress_single_drive(clsThingPresentationMesh poTPM, clsDriveMeshOLD poDM) {
+	protected void repress_single_drive(clsThingPresentationMesh poTPM, clsDriveMesh  poDM) {
 		
 	// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
 			if (!moBlockedContentStorage.existsMatch(poTPM, poDM)) {		
@@ -636,7 +637,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.send.I1_6_send#send_I1_6(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList) {
+	public void send_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poDriveList) {
 		((I5_18_receive)moModuleList.get(8)).receive_I5_18(poDriveList);
 		putInterfaceData(I5_18_send.class, poDriveList);
 	}
@@ -662,7 +663,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * Sends blocked drive aims (clsDriveMesh) and drive objects (clsPhysicalRepresentation) to DT2_BlockedContentStorage
 	 */
 	@Override
-	public void send_D2_3 (clsThingPresentationMesh poDS, clsDriveMeshOLD poDM) {
+	public void send_D2_3 (clsThingPresentationMesh poDS, clsDriveMesh poDM) {
 		moBlockedContentStorage.receive_D2_3(poDS, poDM);	
 		putInterfaceData(D2_3_send.class, poDS, poDM);		
 	}

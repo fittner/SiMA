@@ -284,8 +284,8 @@ public class clsOntologyLoader {
 		float rQuotaOfAffect = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
 		
 		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
-																								rQuotaOfAffect
-																								);
+																								new ArrayList <clsAssociation>(), rQuotaOfAffect,
+																								oElementValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 

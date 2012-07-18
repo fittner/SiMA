@@ -24,7 +24,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -147,28 +146,24 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 		
-	public static clsDriveMesh generateDM(eContentType pContentType, double prQuotaOfAffect){
-		clsDriveMesh oRetVal; 
-		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, pContentType), prQuotaOfAffect); 
-		return oRetVal;
-	}
-	
-	public static clsDriveMeshOLD generateDM(clsTriple <eContentType, ArrayList<clsThingPresentation>, Object> poContent){
-		clsDriveMeshOLD oRetVal; 
+
+	public static clsDriveMesh generateDM(clsTriple <eContentType, ArrayList<clsThingPresentationMesh>, Object> poContent){
+		clsDriveMesh oRetVal = null; 
 		eContentType oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
-		double oPleasure = 0.0;
-		double [] oCathegories = {0.0,0.0,0.0,0.0};
-		ArrayList<clsAssociation> oAssociatedContent = new ArrayList<clsAssociation>();
+		double oQuotaOfAffect = 0.0;
+		ArrayList<clsAssociation> oInternalAssociatedContent = new ArrayList<clsAssociation>();
 		
-		oRetVal = new clsDriveMeshOLD(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, oContentType), oPleasure, oCathegories, oAssociatedContent, oContent);
-		
-		for(clsThingPresentation oElement : poContent.b){
-			oAssociatedContent.add(new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType> (setID(), eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+		for(clsThingPresentationMesh oElement : poContent.b){
+			oInternalAssociatedContent.add(new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType> (setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), 
 													 oRetVal, 
 													 oElement)); 
 		}
 		
+		
+		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, oContentType), oInternalAssociatedContent, oQuotaOfAffect, oContent);
+		
+
 		return oRetVal;
 	}
 	
@@ -212,7 +207,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAssociationPrimaryDM generateASSOCIATIONPRIDM(eContentType poContentType, 
-			clsDriveMeshOLD poRoot, clsDriveMeshOLD poLeaf, double prWeight) {
+			clsDriveMesh poRoot, clsDriveMesh poLeaf, double prWeight) {
 		clsAssociationPrimaryDM oRetVal=null;
 		eContentType oContentType = poContentType; 
 		
@@ -244,7 +239,7 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 	
-	public static clsAssociation generateASSOCIATIONDM(clsDriveMeshOLD poDM, clsThingPresentationMesh poTPM, double prWeight) {
+	public static clsAssociation generateASSOCIATIONDM(clsDriveMesh poDM, clsThingPresentationMesh poTPM, double prWeight) {
 		clsAssociation oRetVal=null;
 		
 		oRetVal = new clsAssociationDriveMesh (new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM), poDM, poTPM);
