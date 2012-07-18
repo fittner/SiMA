@@ -1,4 +1,4 @@
-; Tue Jul 17 13:33:37 CEST 2012
+; Wed Jul 18 10:44:38 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -413,186 +413,114 @@
 	(value "DEEP")
 	(value_type "SLEEP"))
 
-([AD%3AADAMSBROTHER%3AAGGRESSION] of  ASSOCIATIONDM
-
-	(element
-		[DM%3AAGGRESSION%3ABODO]
-		[TPM%3AENTITY%3AARSIN%3AADAMSBROTHER])
-	(weight 1.0 1.0))
-
-([AD%3AADAMSBROTHER%3ABITE] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3AADAMSBROTHER]
-		[DM%3ABITE%3ABODO_UNPLEASURE1])
-	(weight 1.0 1.0))
-
-([AD%3AADAMSBROTHER%3ANOURISH] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3AADAMSBROTHER]
-		[DM%3ANOURISH%3ABODO])
-	(weight 1.0 1.0))
-
-([AD%3AARSIN%3ANOURISH] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3AADAM]
-		[DM%3ANOURISH%3AARSIN])
-	(weight 1.0 1.0))
-
-([AD%3AARSINBASIC%3ALIBIDO] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3AARSIN%3AADAM]
-		[DM%3ALIBIDO%3AARSIN_BASIC])
-	(weight 1.0 1.0))
-
-([AD%3ABODO%3AAGGRESSION] of  ASSOCIATIONDM
+([AD%3ABODO%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
 
 	(element
 		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[DM%3AAGGRESSION%3ABODO])
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ABODO])
 	(weight 1.0 1.0))
 
-([AD%3ABODO%3ABITE] of  ASSOCIATIONDM
+([AD%3ABODO%3ASTOMACH%3ALIBID] of  ASSOCIATIONDM
 
 	(element
-		[DM%3ABITE%3ABODO_PLEASURE]
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ABODO]
 		[TPM%3AENTITY%3AARSIN%3ABODO])
 	(weight 1.0 1.0))
 
-([AD%3ABODO%3ANOURISH] of  ASSOCIATIONDM
+([AD%3ACAKEBASIC%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3AARSIN%3ABODO]
-		[DM%3ANOURISH%3ABODO])
-	(weight 1.0 1.0))
-
-([AD%3ACAKE%3AEAT] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AACTION%3AL1_EAT]
-		[DM%3ANOURISH%3ACAKEBASIC])
-	(weight 1.0 1.0))
-
-([AD%3ACAKE%3ALIBIDO] of  ASSOCIATIONDM
-
-	(element
-		[DM%3ALIBIDO%3ACAKE_BASIC]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ACAKE]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
-([AD%3ACAKEBASIC%3ABITE] of  ASSOCIATIONDM
+([AD%3ACAKEBASIC%3ASTOMACH%3ALIBID] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3ACAKE%3ABASIC]
-		[DM%3ABITE%3ACAKEBASIC])
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ACAKE]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
-([AD%3ACAKEBASIC%3ANOURISH] of  ASSOCIATIONDM
+([AD%3ACARROTBASIC%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3ACAKE%3ABASIC]
-		[DM%3ANOURISH%3ACAKEBASIC])
-	(weight 1.0 1.0))
-
-([AD%3ACANBASIC%3ABITE] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3ACAN%3ABASIC]
-		[DM%3ABITE%3ACANBASIC])
-	(weight 1.0 1.0))
-
-([AD%3ACARROT%3ALIBIDO] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3ACARROT%3ABASIC]
-		[DM%3ALIBIDO%3ACARROT])
-	(weight 1.0 1.0))
-
-([AD%3ACARROTBASIC%3ABITE] of  ASSOCIATIONDM
-
-	(element
-		[TPM%3AENTITY%3ACARROT%3ABASIC]
-		[DM%3ABITE%3ACARROTBASIC])
-	(weight 1.0 1.0))
-
-([AD%3ACARROTBASIC%3ANOURISH] of  ASSOCIATIONDM
-
-	(element
-		[DM%3ANOURISH%3ACARROTBASIC]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ACARROT]
 		[TPM%3AENTITY%3ACARROT%3ABASIC])
 	(weight 1.0 1.0))
 
-([AD%3AEMPTYSPACE%3ARELAX] of  ASSOCIATIONDM
+([AD%3ACARROTBASIC%3ASTOMACH%3ALIBID] of  ASSOCIATIONDM
 
 	(element
-		[DM%3ARELAX]
-		[TPM%3AENTITY%3AEMPTYSPACE01])
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ACARROT]
+		[TPM%3AENTITY%3ACARROT%3ABASIC])
 	(weight 1.0 1.0))
 
-([AD%3AEMPTYSPACE%3ASLEEP] of  ASSOCIATIONDM
+([AD%3AEMPTYSPACE%3ASTAMINA%3AAGGR] of  ASSOCIATIONDM
 
 	(element
-		[DM%3ASLEEP]
-		[TPM%3AENTITY%3AEMPTYSPACE01])
+		[TPM%3AENTITY%3AEMPTYSPACE01]
+		[DM%3AStamina%3AAggr%3AEmptySpace])
 	(weight 1.0 1.0))
 
-([AD%3AMOTHERS_BREAST%3ABITE] of  ASSOCIATIONDM
+([AD%3AEMPTYSPACE%3AStamina%3ALibid] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST]
-		[DM%3ABITE%3AMOTHERS_BREAST])
+		[DM%3AStamina%3ALibid%3AEmptySpace]
+		[TPM%3AENTITY%3AEMPTYSPACE01])
 	(weight 1.0 1.0))
 
 ([AD%3AMOTHERS_BREAST%3ALIBIDO] of  ASSOCIATIONDM
 
-	(element
-		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST]
-		[DM%3ALIBIDO%3AMOTHERS_BREAST])
+	(element [TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST])
 	(weight 1.0 1.0))
 
-([AD%3AMOTHERS_BREAST%3ANOURISH] of  ASSOCIATIONDM
+([AD%3AMOTHERS_BREAST%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST]
-		[DM%3ANOURISH%3AMOTHERS_BREAST])
+		[DM%3ASTOMACH%3AAGGRESSIVE%3AMOTHERSBREASTS]
+		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST])
 	(weight 1.0 1.0))
 
-([AD%3AREMOTEBOT%3ABITE] of  ASSOCIATIONDM
+([AD%3AMOTHERS_BREAST%3ASTOMACH%3ALIBID] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3AREMOTEBOT%3ARB01]
-		[DM%3ABITE%3AREMOTEBOT])
+		[DM%3ASTOMACH%3ALIBIDINOUS%3AMOTHERSBREASTS]
+		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST])
 	(weight 1.0 1.0))
 
-([AD%3AREMOTEBOT%3ANOURISH] of  ASSOCIATIONDM
+([AD%3AREMOTEBOT%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
 
 	(element
-		[DM%3ANOURISH%3AREMOTEBOT]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3AREMOTEBOT]
 		[TPM%3AENTITY%3AREMOTEBOT%3ARB01])
 	(weight 1.0 1.0))
 
-([AD%3ASTONE%3ABITE] of  ASSOCIATIONDM
+([AD%3AREMOTEBOT%3ASTOMACH%3ALIBID] of  ASSOCIATIONDM
 
 	(element
-		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3ABITE%3ASTONE])
+		[DM%3ASTOMACH%3ALIBIDINOUS%3AREMOTEBOT]
+		[TPM%3AENTITY%3AREMOTEBOT%3ARB01])
 	(weight 1.0 1.0))
 
-([AD%3ASTONE%3ADEPOSIT] of  ASSOCIATIONDM
+([AD%3ASTONE%3ARECTUM%3AAGGR] of  ASSOCIATIONDM
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3ADEPOSIT%3ASTONE])
+		[DM%3ARECTUM%3AAGGRESSIVE%3ASTONE])
 	(weight 1.0 1.0))
 
-([AD%3ASTONE%3AREPRESS] of  ASSOCIATIONDM
+([AD%3ASTONE%3ARECTUM%3ALIBID] of  ASSOCIATIONDM
 
 	(element
 		[TPM%3AENTITY%3ASTONE%3ASTONE01]
-		[DM%3AREPRESS%3ASTONE])
+		[DM%3ARECTUM%3ALIBIDINOUS%3ARECTUM])
+	(weight 1.0 1.0))
+
+([AD%3ASTONE%3ASTOMACH%3AAGGR] of  ASSOCIATIONDM
+
+	(element
+		[TPM%3AENTITY%3ASTONE%3ASTONE01]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ASTONE])
 	(weight 1.0 1.0))
 
 ([AE%3AADAMSBROTHER%3AANGER] of  ASSOCIATIONEMOTION
@@ -1116,163 +1044,117 @@
 
 ([AW%3ADM_BITE%3ABITEBODO_PLEASURE] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3ABODO_PLEASURE])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITEBODO_UNPLEASURE1] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3ABODO_UNPLEASURE1])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITEBODO_UNPLEASURE2] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3ABODO_UNPLEASURE2])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITECAKE] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3ACAKEBASIC])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITECARROTBASIC] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3ACARROTBASIC])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITEREMOTEBOTRB01] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ABITE]
-		[DM%3ABITE%3AREMOTEBOT])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ACANBASIC] of  ASSOCIATIONWP
 
-	(element
-		[DM%3ABITE%3ACANBASIC]
-		[WP%3ABITE])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_DEPOSIT%3ADEPOSITSTONE] of  ASSOCIATIONWP
 
-	(element
-		[DM%3ADEPOSIT%3ASTONE]
-		[WP%3ADEPOSIT])
+	(element [WP%3ADEPOSIT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ACANBASIC] of  ASSOCIATIONWP
 
-	(element
-		[DM%3ANOURISH%3ACANBASIC]
-		[WP%3ANOURISH])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHARSIN01] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[DM%3ANOURISH%3AARSIN])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHBODO] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[DM%3ANOURISH%3ABODO])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCAKE] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[DM%3ANOURISH%3ACAKEBASIC])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCARROTBASIC] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[DM%3ANOURISH%3ACARROTBASIC])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHREMOTEBOTRB01] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[DM%3ANOURISH%3AREMOTEBOT])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_RELAX%3ARELAX] of  ASSOCIATIONWP
 
-	(element
-		[DM%3ARELAX]
-		[WP%3ARELAX])
+	(element [WP%3ARELAX])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_REPRESS%3AREPRESSSTONE] of  ASSOCIATIONWP
 
-	(element
-		[DM%3AREPRESS%3ASTONE]
-		[WP%3AREPRESS])
+	(element [WP%3AREPRESS])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_SLEEP%3ASLEEP] of  ASSOCIATIONWP
 
-	(element
-		[DM%3ASLEEP]
-		[WP%3ASLEEP])
+	(element [WP%3ASLEEP])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_BITE%3ABITE] of  ASSOCIATIONWP
 
-	(element
-		[TP%3ADRIVECONTENTTYPE%3ABITE]
-		[WP%3ABITE])
+	(element [WP%3ABITE])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_DEPOSIT%3ADEPOSIT] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ADEPOSIT]
-		[TP%3ADRIVECONTENTTYPE%3ADEPOSIT])
+	(element [WP%3ADEPOSIT])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_NOURISH%3ANOURISH] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ANOURISH]
-		[TP%3ADRIVECONTENTTYPE%3ANOURISH])
+	(element [WP%3ANOURISH])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_RELAX%3ARELAX] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ARELAX]
-		[TP%3ADRIVECONTENTTYPE%3ARELAX])
+	(element [WP%3ARELAX])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_REPRESS%3AREPRESS] of  ASSOCIATIONWP
 
-	(element
-		[WP%3AREPRESS]
-		[TP%3ADRIVECONTENTTYPE%3AREPRESS])
+	(element [WP%3AREPRESS])
 	(weight 1.0 1.0))
 
 ([AW%3ADRIVECONTENT_SLEEP%3ASLEEP] of  ASSOCIATIONWP
 
-	(element
-		[WP%3ASLEEP]
-		[TP%3ADRIVECONTENTTYPE%3ASLEEP])
+	(element [WP%3ASLEEP])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY_ADAM%3AADAM] of  ASSOCIATIONWP
@@ -1478,247 +1360,167 @@
 		[TPM%3AIMAGE%3AA_BROTHERCOLLISION_L01_I04])
 	(weight 1.0 1.0))
 
-([DM%3AAGGRESSION%3ABODO] of  AGGRESSION
+([DM%3ABLADDER%3AAGGRESSIVE] of  DM_Bladder
 
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.1)
-	(value "AGGRESSION"))
-
-([DM%3ABITE%3ABODO_PLEASURE] of  BITE
-
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect 0.3)
-	(value "BITE"))
-
-([DM%3ABITE%3ABODO_UNPLEASURE1] of  BITE
-
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect -1.0)
-	(value "BITE"))
-
-([DM%3ABITE%3ABODO_UNPLEASURE2] of  BITE
-
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect -0.3)
-	(value "BITE"))
-
-([DM%3ABITE%3ACAKEBASIC] of  BITE
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.2)
-	(quotaOfAffect 0.2)
-	(value "BITE"))
-
-([DM%3ABITE%3ACANBASIC] of  BITE
-
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
+	(class_association [TPM%3AORGANS%3ABLADDER])
+	(drive_component "AGGRESSIVE")
 	(quotaOfAffect 0.0)
-	(value "BITE"))
+	(value "DM:BLADDER:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ABITE%3ACARROTBASIC] of  BITE
+([DM%3ABLADDER%3ALIBIDINOUS] of  DM_Bladder
 
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect 0.3)
-	(value "BITE"))
-
-([DM%3ABITE%3AMOTHERS_BREAST] of  BITE
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.2)
+	(class_association [TPM%3AORGANS%3ABLADDER])
+	(drive_component "LIBIDINOUS")
 	(quotaOfAffect 0.0)
-	(value "BITE"))
+	(value "DM:BLADDER:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ABITE%3AREMOTEBOT] of  BITE
+([DM%3ARECTUM%3AAGGRESSIVE%3ASTONE] of  DM_Rectum
 
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect 0.0)
-	(value "BITE"))
-
-([DM%3ABITE%3ASTONE] of  BITE
-
-	(cathegory%3Aanal 0.6)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.3)
-	(quotaOfAffect 0.0)
-	(value "BITE"))
-
-([DM%3ADEPOSIT%3ASTONE] of  DEPOSIT
-
-	(cathegory%3Aanal 1.0)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.5)
+	(class_association [TPM%3AORGANS%3ARECTUM])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3ASTONE%3ARECTUM%3AAGGR])
 	(quotaOfAffect 0.4)
-	(value "DEPOSIT"))
+	(value "DM:RECTUM:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ALIBIDO%3AARSIN_BASIC] of  LIBIDO
+([DM%3ARECTUM%3ALIBIDINOUS%3ARECTUM] of  DM_Rectum
 
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(quotaOfAffect 0.0010)
-	(value "LIBIDO")
-	(value_type "LIBIDO"))
-
-([DM%3ALIBIDO%3ACAKE_BASIC] of  LIBIDO
-
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(quotaOfAffect 1.0)
-	(value "LIBIDO")
-	(value_type "LIBIDO"))
-
-([DM%3ALIBIDO%3ACARROT] of  LIBIDO
-
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(quotaOfAffect 0.5)
-	(value "LIBIDO")
-	(value_type "LIBIDO"))
-
-([DM%3ALIBIDO%3AMOTHERS_BREAST] of  LIBIDO
-
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(class_association [TP%3ADRIVECONTENTTYPE%3APLEASURE])
-	(quotaOfAffect 0.0)
-	(value "LIBIDO")
-	(value_type "LIBIDO"))
-
-([DM%3ANOURISH%3AARSIN] of  NOURISH
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
+	(class_association [TPM%3AORGANS%3ARECTUM])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3ASTONE%3ARECTUM%3ALIBID])
 	(quotaOfAffect 0.6)
-	(value "NOURISH"))
+	(value "DM:RECTUM:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ANOURISH%3ABODO] of  NOURISH
+([DM%3AStamina%3AAggr%3AEmptySpace] of  DM_Stamina
 
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.4)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3ACAKEBASIC] of  NOURISH
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.8)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3ACANBASIC] of  NOURISH
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.1)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3ACARROTBASIC] of  NOURISH
-
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.3)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3AMOTHERS_BREAST] of  NOURISH
-
-	(cathegory%3Aanal 0.0)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
+	(class_association [TPM%3AORGANS%3ASTAMINA])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3AEMPTYSPACE%3ASTAMINA%3AAGGR])
 	(quotaOfAffect 0.0)
-	(value "NOURISH"))
+	(value "DM:Stamina:Aggr")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ANOURISH%3AREMOTEBOT] of  NOURISH
+([DM%3AStamina%3ALibid%3AEmptySpace] of  DM_Stamina
 
-	(cathegory%3Aanal 0.3)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.7)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.6)
-	(value "NOURISH"))
-
-([DM%3ANOURISH%3ASTONE] of  NOURISH
-
-	(cathegory%3Aanal 0.9)
-	(cathegory%3Agenital 0.0)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.0)
-	(value "NOURISH"))
-
-([DM%3ARELAX] of  RELAX
-
-	(cathegory%3Aanal 0.1)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.1)
+	(class_association [TPM%3AORGANS%3ASTAMINA])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3AEMPTYSPACE%3AStamina%3ALibid])
 	(quotaOfAffect 0.9)
-	(value "RELAX"))
+	(value "DM:Stamina:Libid")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3AREPRESS%3ASTONE] of  REPRESS
+([DM%3ASTOMACH%3AAGGRESSIVE%3ABODO] of  DM_Stomach
 
-	(cathegory%3Aanal 1.0)
-	(cathegory%3Agenital 0.1)
-	(cathegory%3Aoral 0.0)
-	(cathegory%3Aphalic 0.0)
-	(quotaOfAffect 0.6)
-	(value "REPRESS"))
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3ABODO%3ASTOMACH%3AAGGR])
+	(quotaOfAffect 0.1)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
 
-([DM%3ASLEEP] of  SLEEP
+([DM%3ASTOMACH%3AAGGRESSIVE%3ACAKE] of  DM_Stomach
 
-	(cathegory%3Aanal 0.1)
-	(cathegory%3Agenital 0.4)
-	(cathegory%3Aoral 0.1)
-	(cathegory%3Aphalic 0.1)
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3ACAKEBASIC%3ASTOMACH%3AAGGR])
+	(quotaOfAffect 0.2)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3AAGGRESSIVE%3ACARROT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3ACARROTBASIC%3ASTOMACH%3AAGGR])
+	(quotaOfAffect 0.3)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3AAGGRESSIVE%3AMOTHERSBREASTS] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3AMOTHERS_BREAST%3ASTOMACH%3AAGGR])
 	(quotaOfAffect 0.0)
-	(value "SLEEP"))
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3AAGGRESSIVE%3AREMOTEBOT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3AREMOTEBOT%3ASTOMACH%3AAGGR])
+	(quotaOfAffect 0.0)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3AAGGRESSIVE%3ASTONE] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "AGGRESSIVE")
+	(instance_association [AD%3ASTONE%3ASTOMACH%3AAGGR])
+	(quotaOfAffect 0.0)
+	(value "DM:STOMACH:AGGRESSIVE")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3ABODO] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3ABODO%3ASTOMACH%3ALIBID])
+	(quotaOfAffect 0.8)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3ACAKE] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3ACAKEBASIC%3ASTOMACH%3ALIBID])
+	(quotaOfAffect 0.8)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3ACARROT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3ACARROTBASIC%3ASTOMACH%3ALIBID])
+	(quotaOfAffect 0.3)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3AMOTHERSBREASTS] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3AMOTHERS_BREAST%3ASTOMACH%3ALIBID])
+	(quotaOfAffect 0.0)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3AREMOTEBOT] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association [AD%3AREMOTEBOT%3ASTOMACH%3ALIBID])
+	(quotaOfAffect 0.6)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
+
+([DM%3ASTOMACH%3ALIBIDINOUS%3ASTONE] of  DM_Stomach
+
+	(class_association [TPM%3AORGANS%3ASTOMACH])
+	(drive_component "LIBIDINOUS")
+	(instance_association
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ASTONE]
+		[TPM%3AENTITY%3ASTONE%3ASTONE01])
+	(quotaOfAffect 0.6)
+	(value "DM:STOMACH:LIBIDINOUS")
+	(value_type "DRIVEREPRESENTATION"))
 
 ([EMOTION%3AANGER%3AADAMSBROTHER] of  EMOTION
 
@@ -1871,62 +1673,6 @@
 ([TP%3ADISTANCE%3ANODISTANCE] of  DISTANCE
 
 	(value "NODISTANCE"))
-
-([TP%3ADRIVECONTENTTYPE%3AAGGRESSION] of  DRIVECONTENTTYPE
-
-	(value "AGGRESSION")
-	(value_type "DEATH"))
-
-([TP%3ADRIVECONTENTTYPE%3ABITE] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3ANOURISH])
-	(value "BITE")
-	(value_type "DEATH"))
-
-([TP%3ADRIVECONTENTTYPE%3ADEPOSIT] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3AREPRESS])
-	(value "DEPOSIT")
-	(value_type "DEATH"))
-
-([TP%3ADRIVECONTENTTYPE%3ANOURISH] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3ABITE])
-	(value "NOURISH")
-	(value_type "LIFE"))
-
-([TP%3ADRIVECONTENTTYPE%3APLEASURE] of  DRIVECONTENTTYPE
-
-	(value "PLEASURE")
-	(value_type "LIFE"))
-
-([TP%3ADRIVECONTENTTYPE%3ARELAX] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3ASLEEP])
-	(value "RELAX")
-	(value_type "LIFE"))
-
-([TP%3ADRIVECONTENTTYPE%3AREPRESS] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3ADEPOSIT])
-	(value "REPRESS")
-	(value_type "LIFE"))
-
-([TP%3ADRIVECONTENTTYPE%3ASEXUALAROUSAL] of  DRIVECONTENTTYPE
-
-	(value "SEXUALAROUSAL")
-	(value_type "LIFE"))
-
-([TP%3ADRIVECONTENTTYPE%3ASLEEP] of  DRIVECONTENTTYPE
-
-	(class_association [TP%3ADRIVECONTENTTYPE%3ARELAX])
-	(value "SLEEP")
-	(value_type "DEATH"))
-
-([TP%3ADRIVECONTENTTYPE%3AUNPLEASURE] of  DRIVECONTENTTYPE
-
-	(value "UNPLEASURE")
-	(value_type "DEATH"))
 
 ([TP%3AINTENSITY%3ADEEP] of  INTENSITY
 
@@ -2338,6 +2084,26 @@
 
 	(value "REPRESSEDA02I01")
 	(value_type "RIREPRESSED"))
+
+([TPM%3AORGANS%3ABLADDER] of  ORGANS
+
+	(value "BLADDER")
+	(value_type "ORGAN"))
+
+([TPM%3AORGANS%3ARECTUM] of  ORGANS
+
+	(value "RECTUM")
+	(value_type "ORGAN"))
+
+([TPM%3AORGANS%3ASTAMINA] of  ORGANS
+
+	(value "STAMINA")
+	(value_type "ORGAN"))
+
+([TPM%3AORGANS%3ASTOMACH] of  ORGANS
+
+	(value "STOMACH")
+	(value_type "ORGAN"))
 
 ([WP%3AACTION%3AEAT] of  _OBSOLETE_WP%3AACTION
 

@@ -1,4 +1,4 @@
-; Tue Jul 17 13:33:37 CEST 2012
+; Wed Jul 18 10:44:38 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -54,6 +54,11 @@
 		(default 0.0)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
+	(single-slot drive_representation
+		(type STRING)
+;+		(value "DRIVEREPRESENTATION")
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
@@ -101,6 +106,10 @@
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
+	(single-slot partial_drive
+		(type STRING)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
 	(multislot precondition
 		(type INSTANCE)
 ;+		(allowed-classes WP _OBSOLETE_ACT)
@@ -118,6 +127,10 @@
 	(single-slot type
 		(type STRING)
 ;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot drive_component
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot drive_source
 		(type INSTANCE)
@@ -356,6 +369,15 @@
 (defclass ANTENNA_RIGHT
 	(is-a TPM%3ABODYPART)
 	(role concrete))
+
+(defclass ORGANS
+	(is-a TPM%3ABODYPART)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+		(default "ORGAN")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass TPM%3AIMAGE
 	(is-a TPM)
@@ -810,14 +832,6 @@
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
-(defclass DRIVECONTENTTYPE
-	(is-a TP)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass ASSOCIATION
 	(is-a USER)
 	(role abstract)
@@ -966,12 +980,9 @@
 (defclass DM
 	(is-a USER)
 	(role abstract)
-	(single-slot cathegory%3Agenital
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
+	(single-slot partial_drive
+		(type STRING)
+;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot quotaOfAffect
 		(type FLOAT)
@@ -984,37 +995,21 @@
 ;+		(value "DM")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot cathegory%3Aoral
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(single-slot cathegory%3Aphalic
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
+;+		(value "DRIVEREPRESENTATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot instance_association
 		(type INSTANCE)
 ;+		(allowed-classes)
 		(create-accessor read-write))
-	(single-slot value
+	(single-slot drive_component
 		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot cathegory%3Aanal
-;+		(comment "Shortcut: as every DM includes an evaluation of the four drive cathegories anal, oral, genital and phalic, they are introduced as slots and not as TPs that would have to be additionally associated.")
-		(type FLOAT)
-		(range 0.0 1.0)
-		(default 0.0)
+	(single-slot value
+		(type STRING)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
@@ -1026,121 +1021,47 @@
 ;+		(cardinality 0 1)
 		(create-accessor read-write)))
 
-(defclass BITE
+(defclass DM_Stomach
+	(is-a DM)
+	(role concrete)
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(default [TPM%3AORGANS%3ASTOMACH])
+		(create-accessor read-write)))
+
+(defclass DM_Rectum
+	(is-a DM)
+	(role concrete)
+	(multislot class_association
+		(type INSTANCE)
+;+		(allowed-classes)
+		(default [TPM%3AORGANS%3ARECTUM])
+		(create-accessor read-write)))
+
+(defclass DM_Bladder
 	(is-a DM)
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-;+		(value "BITE")
+		(default "DRIVEREPRESENTATION")
+;+		(value "DRIVEREPRESENTATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ABITE])
+		(default [TPM%3AORGANS%3ABLADDER])
 		(create-accessor read-write)))
 
-(defclass NOURISH
+(defclass DM_Stamina
 	(is-a DM)
 	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "NOURISH")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
 	(multislot class_association
 		(type INSTANCE)
 ;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ANOURISH])
+		(default [TPM%3AORGANS%3ASTAMINA])
 		(create-accessor read-write)))
-
-(defclass DEPOSIT
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "DEPOSIT")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ADEPOSIT])
-		(create-accessor read-write)))
-
-(defclass REPRESS
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "REPRESS")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3AREPRESS])
-		(create-accessor read-write)))
-
-(defclass AGGRESSION
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "AGGRESSION")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3AAGGRESSION])
-		(create-accessor read-write)))
-
-(defclass SLEEP
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "SLEEP")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ASLEEP])
-		(create-accessor read-write)))
-
-(defclass SEXUALAROUSAL
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "SEXUALAROUSAL")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ASEXUALAROUSAL])
-		(create-accessor read-write)))
-
-(defclass RELAX
-	(is-a DM)
-	(role concrete)
-	(single-slot value_type
-		(type STRING)
-;+		(value "RELAX")
-;+		(cardinality 1 1)
-		(create-accessor read-write))
-	(multislot class_association
-		(type INSTANCE)
-;+		(allowed-classes)
-;+		(value [TP%3ADRIVECONTENTTYPE%3ARELAX])
-		(create-accessor read-write)))
-
-(defclass LIBIDO
-	(is-a DM)
-	(role concrete))
 
 (defclass AFFECT
 	(is-a USER)

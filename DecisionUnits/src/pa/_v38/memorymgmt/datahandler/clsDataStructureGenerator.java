@@ -147,9 +147,9 @@ public abstract class clsDataStructureGenerator {
 		return oRetVal;
 	}
 		
-	public static clsDriveMesh generateDM(eContentType pContentType){
+	public static clsDriveMesh generateDM(eContentType pContentType, double prQuotaOfAffect){
 		clsDriveMesh oRetVal; 
-		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, pContentType)); 
+		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, pContentType), prQuotaOfAffect); 
 		return oRetVal;
 	}
 	

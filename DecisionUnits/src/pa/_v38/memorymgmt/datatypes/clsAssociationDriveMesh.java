@@ -30,7 +30,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param poDriveMesh
 	 */
 	public clsAssociationDriveMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
-			clsDriveMeshOLD poAssociationElementA, 
+			clsDriveMesh poAssociationElementA, 
 			clsThingPresentationMesh poAssociationElementB){
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);		

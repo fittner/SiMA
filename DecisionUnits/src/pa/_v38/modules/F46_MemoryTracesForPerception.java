@@ -451,12 +451,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//Assign drive meshes to each found image
 		
-		assignDriveMeshes(oRetVal);
+		assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they hava the same nBinaryValue as DM
 		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
 		//These values are now added in F14
 		//assignExternalTPAssociations(oRetVal);
 		
-		assignEmotions(oRetVal);
+		//assignEmotions(oRetVal);
 		
 		return oRetVal;
 	}	
