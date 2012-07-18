@@ -19,10 +19,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
+import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
 
@@ -47,7 +48,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	/** <source, tension> list of all symbols from the body */
 	private HashMap<String, Double> moHomeostasisSymbols_IN; 
 	
-	private HashMap<String, eOrifice> moOrificeMap;
+	private HashMap<eOrgan, eOrifice> moOrificeMap;
 	
 	private ArrayList <clsDriveMesh> moDriveCandidates_OUT;
 	
@@ -79,13 +80,12 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	
 	private void fillOrificeMapping() {
-		//TODO CM use eOrgan instead
 		//this mapping is fixed for the PA body, no changes! (cm 18.07.2012)
-		moOrificeMap = new HashMap<String, eOrifice>();
-		moOrificeMap.put("INTESTINEPRESSURE", eOrifice.RECTAL_MUCOSA);
-		moOrificeMap.put("STAMINA", eOrifice.UNDEFINED);
-		moOrificeMap.put("TEMPERATURE", eOrifice.UNDEFINED);
-		moOrificeMap.put("STOMACHTENSION", eOrifice.ORAL_MUCOSA);
+		moOrificeMap = new HashMap<eOrgan, eOrifice>();
+		moOrificeMap.put(eOrgan.RECTUM, eOrifice.RECTAL_MUCOSA);
+		moOrificeMap.put(eOrgan.STAMINA, eOrifice.UNDEFINED);
+		moOrificeMap.put(eOrgan.BLADDER, eOrifice.UNDEFINED);
+		moOrificeMap.put(eOrgan.STOMACH, eOrifice.ORAL_MUCOSA);
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -257,7 +257,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
-			moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+			try {
+				
+				moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+				
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -374,23 +380,24 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 
 	/**
 	 * Creates a DM out of the entry, and adds necessary information, source, etc
+	 * @throws Exception 
 	 *
 	 * @since 16.07.2012 15:20:26
 	 *
 	 */
-	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) {
+	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
 		double rTension = pEntry.getValue();
-		String oSource = pEntry.getKey();
+		eOrgan oSource = eOrgan.valueOf(pEntry.getKey());
 		
 		//create a TPM for the organ
-		clsThingPresentation oOrganTP = 
-			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+		clsThingPresentationMesh oOrganTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
 					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, oSource) );
 		
 		//create a TPM for the orifice
-		clsThingPresentation oOrificeTP = 
-			(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+		clsThingPresentationMesh oOrificeTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
 					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, moOrificeMap.get(oSource)) );
 		
 		//create the DM
@@ -398,9 +405,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				eDataType.DM, eContentType.DRIVECANDIDATE );
 		
 		//supplement the information
-		//oDriveCandidate.associateActualDriveSource(oOrganTP, 1.0);
+		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
 		
-		//oDriveCandidate.associateActualBodyOrifice(oOrificeTP, 1.0);
+		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
 		
 		oDriveCandidate.setQuotaOfAffect(rTension);
 		

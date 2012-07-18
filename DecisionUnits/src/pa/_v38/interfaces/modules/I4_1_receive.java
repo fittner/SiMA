@@ -18,6 +18,6 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I4_1_receive  {
-	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates);
+	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveComponents);
 }
 

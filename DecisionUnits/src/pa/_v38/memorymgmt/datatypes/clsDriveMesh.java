@@ -7,6 +7,9 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+
+import du.enums.eOrgan;
+import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -66,8 +69,18 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
+	//orifices are fixed for PA body, thus we can do this here
+	public eOrifice getActualBodyOrificeAsENUM(){
+		return eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+	}
+	
 	public clsThingPresentationMesh getActualDriveSource(){
 		return getAssociatedObject(eContentType.ORGAN);
+	}
+	
+	//organs are fixed for PA body, thus we can do this here
+	public eOrgan getActualDriveSourceAsENUM(){
+		return eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
 	}
 	
 	private clsAssociationDriveMesh getAssociation(eContentType oContentType){

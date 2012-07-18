@@ -15,10 +15,12 @@ import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D4_1_receive;
 import pa._v38.interfaces.modules.D4_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.tools.toText;
 
 /**
  * Storage module for pleasure coming from the drive system
+ * set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
  * 
  * @author muchitsch
  * @since 12.10.2011
@@ -26,10 +28,52 @@ import pa._v38.tools.toText;
 public class DT4_PleasureStorage 
 implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_1_send{
 
-	private double mnSystemPleasureValue;
+	private double mnSystemPleasureValue = 0.0;
+	private ArrayList<clsDriveMesh> moAllDrivesLastStep;
 
 	public DT4_PleasureStorage() {
 		
+	}
+
+
+	/**
+	 * @since 18.07.2012 15:32:09
+	 * 
+	 * @param moAllDrivesLastStep the moAllDrivesLastStep to set
+	 */
+	public void setAllDrivesLastStep(ArrayList<clsDriveMesh> moAllDrivesActualStep) {
+		
+		if(moAllDrivesLastStep!=null && !moAllDrivesLastStep.isEmpty())
+		{
+			double nNewPleasureValue = 0.0;
+			//go through the list of drives from last step, and calculate the pleasure out of the reduction
+			
+			for( clsDriveMesh oOldDMEntry : moAllDrivesLastStep){
+				double rOldTension = oOldDMEntry.getQuotaOfAffect();
+				
+				//find the drive from the list from last step
+				for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep){
+					if(	oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM() &&
+						oOldDMEntry.getMoContentType() == oNewDMEntry.getMoContentType() &&
+						oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()	) {
+							//old drive is the same as the new one, found a match... calculate pleasure
+						
+							double tmpCalc = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();
+							
+							//Pleasure cannot be negative
+							if(tmpCalc <0)
+								tmpCalc = 0;
+							
+							nNewPleasureValue = nNewPleasureValue+tmpCalc;
+						}
+				}
+				
+			}
+			this.mnSystemPleasureValue = nNewPleasureValue;
+		}
+		
+		//overwrite old ones with new ones for next step calculation
+		this.moAllDrivesLastStep = moAllDrivesActualStep;
 	}
 
 
@@ -82,8 +126,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 	 * @see pa._v38.interfaces.modules.D3_1_receive#receive_D3_1(double)
 	 */
 	@Override
-	public void receive_D4_1(double pnActualPleasureValue) {
-		mnSystemPleasureValue = pnActualPleasureValue;
+	public void receive_D4_1(ArrayList<clsDriveMesh> poActualDriveCandidates) {
+		this.setAllDrivesLastStep(poActualDriveCandidates);
 	}
 
 

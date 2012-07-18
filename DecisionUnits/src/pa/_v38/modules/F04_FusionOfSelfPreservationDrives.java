@@ -159,7 +159,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		//one becomes the lib. one the agr. part of the drive
 		for( clsDriveMesh oEntry :  moHomeostaticDriveCandidates_IN)
 		{
-			clsPair oTempPair = null;
+			clsPair<clsDriveMesh, clsDriveMesh> oTempPair = null;
 			clsDriveMesh agressiveDM = null;
 			clsDriveMesh libidoneusDM = null;
 			double rAgrTension = 0;

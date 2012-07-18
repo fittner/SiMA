@@ -26,6 +26,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.eOrgan;
 
 /**
  * F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -56,8 +57,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	
 	private DT4_PleasureStorage moPleasureStorage;
 	
+	//holds the homoestatic drive pairs, A is agressive
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
-	private ArrayList<clsDriveMesh> moHomoestasisDriveRepresentations_OUT;
+	//holds the list of all sexual and homeoststic drives
+	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
 	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -142,7 +145,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		text += toText.listToTEXT("HomIN", moHomoestasisCandidates_IN);
 		text += toText.listToTEXT("SexIN", moLibidoCandidates_IN);
-		text += toText.listToTEXT("OUT", moHomoestasisDriveRepresentations_OUT);	
+		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);	
 				
 		return text;
 	}
@@ -272,10 +275,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 *
 	 */
 	private void ProcessPleasureCalculation() {
-		// TODO (muchitsch) - Auto-generated method stub
 		
-		//TODO here the actual pleasure gained has to be stored in Dt4
-		//moPleasureStorage.receive_D4_1(xxx);
+		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
+		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
 	}
 
 	/**
@@ -290,7 +292,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	}
 
 	/**
-	 * DOCUMENT (muchitsch) - insert description
+	 * Calculate the new values of the homeostatic drive pairs according to the Deutsch-curves see p82
 	 *
 	 * @since 18.07.2012 12:26:19
 	 *
@@ -299,18 +301,18 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
 			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
-			try {
-				//search for the slope factor for the organ
-				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
-					//TODO use eOrgan enum with a cast instead
-					String organ = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSource().getMoContent();
-					if (organ.contains(oSF.getKey())) {
-						rSlopeFactor = oSF.getValue();
-						break;
+				try {
+					//search for the slope factor for the organ
+					for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+						
+						eOrgan oOrgan = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSourceAsENUM();
+						if ( oOrgan == eOrgan.valueOf((oSF.getKey())) ) {
+							rSlopeFactor = oSF.getValue();
+							break;
+						}
 					}
-				}
-			} catch (java.lang.Exception e) {
-				System.out.print(e);
+				} catch (java.lang.Exception e) {
+					System.out.print(e);
 			}			
 
 			//Calculate the tension values of the pairs, see Deutsch2011 p82 for details
@@ -318,6 +320,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			double oOldAgressiveQoA  = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getQuotaOfAffect();
 			double oOldLibidoneusQoA = ((clsDriveMesh)oHomeostaticDMPairEntry.b).getQuotaOfAffect();
 			
+			//calculate the tensions according to Deutsch's curves
 			clsPair<Double, Double> oSplitResult = 
 				clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
 											oOldLibidoneusQoA, 
@@ -332,10 +335,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			((clsDriveMesh)oHomeostaticDMPairEntry.b).setQuotaOfAffect(oNewLibidoneusQoA); //set the new lib tension to pair B
 						
 			//and add it to the outgoing list as two separate entries for lib/agr
-			moHomoestasisDriveRepresentations_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
-			moHomoestasisDriveRepresentations_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
+			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
+			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
 		}
-		
 	}
 
 	/* (non-Javadoc)
@@ -359,7 +361,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I4_1(moDriveCandidates_OUT);
+		send_I4_1(moAllDriveComponents_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -447,9 +449,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I4_1_send#send_I4_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I4_1(ArrayList<clsDriveMeshOLD> poDriveCandidates) {
-		((I4_1_receive)moModuleList.get(57)).receive_I4_1(poDriveCandidates);
-		putInterfaceData(I4_1_send.class, poDriveCandidates);
+	public void send_I4_1(ArrayList<clsDriveMesh> poDriveComponents) {
+		((I4_1_receive)moModuleList.get(57)).receive_I4_1(poDriveComponents);
+		putInterfaceData(I4_1_send.class, poDriveComponents);
 	}
 
 	/* (non-Javadoc)
