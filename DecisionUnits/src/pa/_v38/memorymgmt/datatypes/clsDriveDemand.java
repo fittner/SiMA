@@ -20,6 +20,8 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:40:24
  * 
  */
+
+@Deprecated
 public class clsDriveDemand extends clsHomeostaticRepresentation{
 	private double moContent = 0.0; 
 	

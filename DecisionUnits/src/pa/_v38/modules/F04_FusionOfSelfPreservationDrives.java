@@ -9,20 +9,14 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
-
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
-
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
@@ -40,13 +34,13 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
-	private ArrayList< clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > > moDriveCandidates; 
-	private ArrayList< clsPair< clsDriveMeshOLD, clsDriveDemand> > moHomeostaticDriveDemands;
-	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
+//	private ArrayList< clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > > moDriveCandidates; 
+//	private ArrayList< clsPair< clsDriveMeshOLD, clsDriveDemand> > moHomeostaticDriveDemands;
+//	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	//
-	ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
-	private ArrayList <clsDriveMesh> moHomeostaticDriveComponents_OUT;
+	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
+	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moHomeostaticDriveComponents_OUT;
 	
 	/** partial crive categories for the homeostatic drives */
 	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
@@ -65,24 +59,24 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
-		fillOppositePairs();
+//		fillOppositePairs();
 	}
 	
-	private void fillOppositePairs() {
-		moDriveOfOppositePairs = new ArrayList<clsPair<clsPair<String,String>,clsPair<String,String>>>();
-		
-		ArrayList<clsQuadruppel<String, String, String, String>> oStaticList = new ArrayList<clsQuadruppel<String,String,String,String>>();
-		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","NOURISH","DEATH","BITE"));
-		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","RELAX","DEATH","SLEEP"));
-		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","REPRESS","DEATH","DEPOSIT"));
-		
-		for (clsQuadruppel<String, String, String, String> oEntry:oStaticList) {
-			clsPair<String, String> oLeft = new clsPair<String, String>(oEntry.a, oEntry.b);
-			clsPair<String, String> oRight = new clsPair<String, String>(oEntry.c, oEntry.d);
-			clsPair<clsPair<String,String>,clsPair<String,String>> oPair = new clsPair<clsPair<String,String>,clsPair<String,String>>(oLeft, oRight);
-			moDriveOfOppositePairs.add(oPair);
-		}
-	}
+//	private void fillOppositePairs() {
+//		moDriveOfOppositePairs = new ArrayList<clsPair<clsPair<String,String>,clsPair<String,String>>>();
+//		
+//		ArrayList<clsQuadruppel<String, String, String, String>> oStaticList = new ArrayList<clsQuadruppel<String,String,String,String>>();
+//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","NOURISH","DEATH","BITE"));
+//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","RELAX","DEATH","SLEEP"));
+//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","REPRESS","DEATH","DEPOSIT"));
+//		
+//		for (clsQuadruppel<String, String, String, String> oEntry:oStaticList) {
+//			clsPair<String, String> oLeft = new clsPair<String, String>(oEntry.a, oEntry.b);
+//			clsPair<String, String> oRight = new clsPair<String, String>(oEntry.c, oEntry.d);
+//			clsPair<clsPair<String,String>,clsPair<String,String>> oPair = new clsPair<clsPair<String,String>,clsPair<String,String>>(oLeft, oRight);
+//			moDriveOfOppositePairs.add(oPair);
+//		}
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -95,10 +89,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moDriveCandidate", moDriveCandidates);
-		text += toText.listToTEXT("moHomeostaticDriveDemands",moHomeostaticDriveDemands);
-		text += toText.listToTEXT("moDriveOfOppositePairs", moDriveOfOppositePairs);
-		
+		text += toText.listToTEXT("IN", moHomeostaticDriveCandidates_IN);
+		text += toText.listToTEXT("OUT",moHomeostaticDriveComponents_OUT);
+
 		return text;
 	}
 	
@@ -112,12 +105,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		//String pre = clsProperties.addDot(poPrefix);
-		
-		//test //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
-		//Personality_Content_Factor = -0.1;
-	
-		//nothing to do
 	}
 	
 
@@ -167,132 +154,22 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
-		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>,clsPair<clsDriveMeshOLD,clsDriveDemand>>>();
-		
-		for (clsPair< clsPair<String, String>, clsPair<String, String> > oDOOP:moDriveOfOppositePairs) {
-			clsPair<clsDriveMeshOLD, clsDriveDemand> oA = getEntry(oDOOP.a);
-			clsPair<clsDriveMeshOLD, clsDriveDemand> oB = getEntry(oDOOP.b);
-			
-			
-			
-			if (oA != null && oB != null) {
-				clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry = 
-					new clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>, clsPair<clsDriveMeshOLD,clsDriveDemand>>(oA, oB);
-					
-					//chenge the agressive/lib content due to personaliyt
-					if(Personality_Content_Factor != 0)
-						oEntry = changeContentByFactor(oEntry);
-				
-					moDriveCandidates.add(oEntry); 
-			}
-		}
-	}
-	
-	private clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry){
-		
-		if(Personality_Content_Factor <0) // more agressive
-		{
-			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
-			{
-				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
-				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
-			}
-			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
-			{
-				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
-				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
-			}
-			else
-			{
-			 //new content type?
-			}
-		}
-		else //more libido
-		{
-			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
-			{
-				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
-				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
-			}
-			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
-			{
-				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
-				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );
-			}
-			else
-			{
-			 //new content type?
-			}
-		}
-		
-		return oEntry;
-	}
-	
-	private clsPair<clsDriveMeshOLD, clsDriveDemand> getEntry(clsPair<String, String> poId) {
-		clsPair<clsDriveMeshOLD, clsDriveDemand> oResult =  null;
-		String oContentType = poId.a; 
-		String oContext = poId.b;
-		
-		for (clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
-			clsDriveMeshOLD oTemp = oHDD.a;
-			if ( oTemp.getMoContent().equals(oContext) && oTemp.getMoContentType().equals(oContentType)) {
-				oResult = oHDD;
-				break;
-			}
-		}
-		
-		return oResult;
-	}
-	
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 11.08.2009, 16:14:52
-	 * 
-	 * @see pa.modules.clsModuleBase#send()
-	 */
-	@Override
-	protected void send() {
-		send_I3_4(moDriveCandidates);	
-		//System.out.printf("\n F04 out ="+ moDriveCandidates);
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 18.05.2010, 16:45:32
-	 * 
-	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
-	 */
-	@Override
-	public void send_I3_4(ArrayList<clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>>> poDriveCandidate) {
-		((I3_4_receive)moModuleList.get(48)).receive_I3_4(poDriveCandidate);
-		putInterfaceData(I3_4_send.class, poDriveCandidate);
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 12.07.2010, 10:42:10
-	 * 
-	 * @see pa.modules.clsModuleBase#process_draft()
-	 */
-	@Override
-	protected void process_draft() {
 		
 		//Loop through the drives and duplicate the drive mesh
 		//one becomes the lib. one the agr. part of the drive
 		for( clsDriveMesh oEntry :  moHomeostaticDriveCandidates_IN)
 		{
+			clsPair oTempPair = null;
 			clsDriveMesh agressiveDM = null;
 			clsDriveMesh libidoneusDM = null;
 			double rAgrTension = 0;
 			double rLibTension = 0;
 			
-			//calculate the tension for both parts from personality
-			//TODO
-			//chenge the agressive/lib content due to personaliyt
+			//calculate the tension for both parts from personality split 50/50
+			rAgrTension = oEntry.getQuotaOfAffect() /2;
+			rLibTension = oEntry.getQuotaOfAffect() /2;
+			
+			//change the agressive/lib content due to personality
 			if(Personality_Content_Factor != 0)
 				//oEntry = changeContentByFactor(oEntry);
 			
@@ -306,10 +183,129 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			agressiveDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
 			libidoneusDM.setQuotaOfAffect(rLibTension);
 			
-			//add the components to the new list
-			moHomeostaticDriveComponents_OUT.add(agressiveDM);
-			moHomeostaticDriveComponents_OUT.add(libidoneusDM);
+			//add the components to the new list as PAIR(Agr,Lib)
+			oTempPair = new clsPair<clsDriveMesh, clsDriveMesh>(agressiveDM, libidoneusDM); 
+			moHomeostaticDriveComponents_OUT.add(oTempPair);
+
 		}
+
+	}
+	
+	//TODO CM this need a new implementation
+//	private clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry){
+//		
+//		if(Personality_Content_Factor <0) // more agressive
+//		{
+//			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
+//			{
+//				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+//				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+//			}
+//			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
+//			{
+//				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
+//				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
+//			}
+//			else
+//			{
+//			 //new content type?
+//			}
+//		}
+//		else //more libido
+//		{
+//			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
+//			{
+//				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
+//				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
+//			}
+//			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
+//			{
+//				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
+//				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );
+//			}
+//			else
+//			{
+//			 //new content type?
+//			}
+//		}
+//		
+//		return oEntry;
+//	}
+	
+//	private clsPair<clsDriveMeshOLD, clsDriveDemand> getEntry(clsPair<String, String> poId) {
+//		clsPair<clsDriveMeshOLD, clsDriveDemand> oResult =  null;
+//		String oContentType = poId.a; 
+//		String oContext = poId.b;
+//		
+//		for (clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
+//			clsDriveMeshOLD oTemp = oHDD.a;
+//			if ( oTemp.getMoContent().equals(oContext) && oTemp.getMoContentType().equals(oContentType)) {
+//				oResult = oHDD;
+//				break;
+//			}
+//		}
+//		
+//		return oResult;
+//	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 11.08.2009, 16:14:52
+	 * 
+	 * @see pa.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		send_I3_4(moHomeostaticDriveComponents_OUT);	
+		//System.out.printf("\n F04 out ="+ moDriveCandidates);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 18.05.2010, 16:45:32
+	 * 
+	 * @see pa.interfaces.send.I1_4_send#send_I1_4(java.util.ArrayList)
+	 */
+	@Override
+	public void send_I3_4(ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> poDriveComponents) {
+		((I3_4_receive)moModuleList.get(48)).receive_I3_4(poDriveComponents);
+		putInterfaceData(I3_4_send.class, poDriveComponents);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 12.07.2010, 10:42:10
+	 * 
+	 * @see pa.modules.clsModuleBase#process_draft()
+	 */
+	@Override
+	protected void process_draft() {
+		
+		//the old code:
+
+//		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>,clsPair<clsDriveMeshOLD,clsDriveDemand>>>();
+//		
+//		for (clsPair< clsPair<String, String>, clsPair<String, String> > oDOOP:moDriveOfOppositePairs) {
+//			clsPair<clsDriveMeshOLD, clsDriveDemand> oA = getEntry(oDOOP.a);
+//			clsPair<clsDriveMeshOLD, clsDriveDemand> oB = getEntry(oDOOP.b);
+//			
+//			
+//			
+//			if (oA != null && oB != null) {
+//				clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry = 
+//					new clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>, clsPair<clsDriveMeshOLD,clsDriveDemand>>(oA, oB);
+//					
+//					//chenge the agressive/lib content due to personaliyt
+//					if(Personality_Content_Factor != 0)
+//						oEntry = changeContentByFactor(oEntry);
+//				
+//					moDriveCandidates.add(oEntry); 
+//			}
+//		}
 		
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
