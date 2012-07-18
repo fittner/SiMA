@@ -22,10 +22,13 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDecisionTask;
+import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -93,7 +96,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private clsShortTermMemory moShortTimeMemory;
 	
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
-	private clsShortTermMemory moTempLocalizationStorage;
+	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -108,7 +111,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -118,7 +121,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Get short time memory
 		moShortTimeMemory = poShortTimeMemory;
 		//moGoalMemory = poGoalMemory;
-		moTempLocalizationStorage = poTempLocalizationStorage;
+		moEnvironmentalImageStorage = poTempLocalizationStorage;
 	}
 
 	/* (non-Javadoc)
@@ -231,8 +234,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Test AW: Relational Meshes
 		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
-		//Add perception to localization
-		moTempLocalizationStorage.saveToShortTimeMemory(moPerceptionalMesh_IN);
+		//Add perception to the environmental image
+		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
+		
+		//From now, only the environmental image is used
 		
 		if (moAssociatedMemories_IN.isEmpty()==false) {
 			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
@@ -303,64 +308,125 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	
 	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
 		
+		//If the previous goal is a drive goal without any supportdatatype, then add it to the goallist
+		if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
+			poGoalList.add(poPreviousGoal);
+		}
+		
+		
+		//This is the current goal, which was saved as the focus goal in the last step
+		clsWordPresentationMesh oCurrentContinuedGoal = clsMeshTools.getNullObjectWPM();
+		
+		//Get all goals with the same name
+		//Get all goals with the same goal object
+		//Get all goals with the same type
+		//FOR TYPE PERCEPTION: Get all of them, which are seen in the perception
+		//FOR TYPE ACT: 
+		boolean bPreviousGoalFound = false;
+		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
-			//1. For each goal, check, which type it is
-			eContentType oType = clsGoalTools.getSupportDataStructureType(oGoal);
+			//Check if the goal object can be found in the perception
 			
-			eDecisionTask oSetDecisionTask = eDecisionTask.NOTHING;
-			
-			eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
+			if (bPreviousGoalFound==false) {
+				boolean bSimilar = clsGoalTools.compareGoalsForEquivalence(oGoal, poPreviousGoal); 
+				if (bSimilar==true) {
+					if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.PERCEPTIONALDRIVE)) {
+						//Find in perception
 						
-			//If no supportive datastructure, create one from the goal object
-			if (oType==null) {
-				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.DRIVEGOALSUPPORT);
+						//Get goal object
+						clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(oGoal);
+						//Get super structure of the goal object
+						eContentType oImageContentType = clsMeshTools.getSuperStructure(oGoalObject).getMoContentType();
+						//Check what the content type is
+						if (oImageContentType.equals(eContentType.PI)) {
+							oCurrentContinuedGoal = oGoal;
+							continue;	//Continue without setting need focus
+						}
+						
+					} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYDRIVE)) {
+						
+						
+						
+						
+						
+					}
+				}
+			}
+			
+			
+			
+			//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
+//			if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.PERCEPTIONALDRIVE)) {
+//				//Set the NEED_FOCUS
+//				clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_FOCUS);
+//			} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.DRIVESOURCE)) {
+//				//Set the NEED_INTERNAL_INFO
+//				clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_INTERNAL_INFO);
+//			} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYDRIVE)) {
+//				//???
+//			}
+			
+			clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_ATTENTION);
+			
+			
+			
+			//2. If this goal was not processed in the last step, delete all stati and set "NEED_FOCUS"
+			
+		}
+		
+		
+		//Process selected goal in special manner
+		if (oCurrentContinuedGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+			
+			//Add importance as the goal was found
+			
+			//SupportDataStructureType
+			eGoalType oType = clsGoalTools.getGoalType(oCurrentContinuedGoal);
+			
+			if (oType.equals(eGoalType.DRIVESOURCE)) {
+				//Set new supportive data structure
+				clsGoalTools.createSupportiveDataStructureFromGoalObject(oCurrentContinuedGoal, eContentType.DRIVEGOALSUPPORT);
+				
 				//Give the following commands
 				
+				
+				//Get previous action
+				eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
+				
 				//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
-				
-				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false) {
-					//----------------------------------------------------------------//
-					//1.1 Search phantasy for suitable memories
-					oSetDecisionTask = eDecisionTask.NEED_INTERNAL_INFO;
-					
-					//Set supported DS for actions
-					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
-				
-					//----------------------------------------------------------------//
-					
+				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
+					//Set the task to trigger search
+					clsGoalTools.setTaskStatus(oCurrentContinuedGoal, eTaskStatus.NEED_PERCEPTIONAL_INFO);
 				} else {
-					//1.2 Start blind search			
-					oSetDecisionTask = eDecisionTask.NEED_MORE_PERCEPTIONAL_INFO;	//Trigger search
-					
-					//No supported DS for actions needed
-					
-					//----------------------------------------------------------------//
+					//Set supported DS for actions
+					clsGoalTools.setSupportiveDataStructureForAction(oCurrentContinuedGoal, clsGoalTools.getSupportiveDataStructure(oCurrentContinuedGoal));
+					clsGoalTools.setTaskStatus(oCurrentContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
 				}
 				
 				
-			} else if (oType==eContentType.PI) {
-				clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoal, eContentType.PERCEPTIONSUPPORT);
+			} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
+				//clsGoalTools.createSupportiveDataStructureFromGoalObject(oCurrentContinuedGoal, eContentType.PERCEPTIONSUPPORT);
 				
-				if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
-					oSetDecisionTask = eDecisionTask.GOAL_REACHABLE_PERCEPTION;
-				} else {
-					oSetDecisionTask = eDecisionTask.NEED_FOCUS;
-					//Set supported DS for actions
-					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
-				}
+//				if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
+//					//oSetDecisionTask = eTaskStatus.GOAL_REACHABLE_PERCEPTION;
+//				} else {
+//					oSetDecisionTask = eTaskStatus.NEED_FOCUS;
+//					//Set supported DS for actions
+//					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
+//				}
 				
 				
-			} else if (oType==eContentType.RI) {
+			} else if (oType==eGoalType.MEMORYDRIVE) {
 				
 				
 				//DO SOMETHING
 			}
 			
-			clsGoalTools.setDecisionTask(oGoal, oSetDecisionTask);
 			
 		}
 		
 	}
+	
 	
 	private void mergeGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
 		//If the incoming goal == previous goal

@@ -9,6 +9,8 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDataStructureTools;
 import pa._v38.tools.clsMeshTools;
@@ -78,7 +80,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	private double mrMatchThreshold = 0.1;
 	
 	/** (wendt) Localitzation of things for the primary process. With the localization, memories can be triggered; @since 15.11.2011 16:23:43 */
-	private clsShortTermMemory moTempLocalizationStorage;
+	private clsEnvironmentalImageMemory moTempLocalizationStorage;
 
 	/* Module-Parameters */
 	
@@ -96,7 +98,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);

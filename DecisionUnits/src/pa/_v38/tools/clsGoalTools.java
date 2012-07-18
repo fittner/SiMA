@@ -16,7 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eDecisionTask;
+import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -42,6 +42,20 @@ public class clsGoalTools {
 	}
 	
 	
+	/**
+	 * Create a new goal
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 12:55:00
+	 *
+	 * @param poGoalContent
+	 * @param poGoalType
+	 * @param poAffectLevel
+	 * @param poGoalObject
+	 * @param poSupportiveDataStructure
+	 * @return
+	 */
 	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		//Create identifiyer. All goals must have the content type "GOAL"
 		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.GOAL);
@@ -67,7 +81,7 @@ public class clsGoalTools {
 		}
 		
 		//Add goal type to mesh
-		clsMeshTools.setWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString());
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString());
 		
 		return oRetVal;
 	}
@@ -118,13 +132,25 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
-	public static void setDecisionTask(clsWordPresentationMesh poGoal, eDecisionTask poTask) {
+	
+	
+	/**
+	 * Set task status or replace if it already exists
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 22:00:32
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 */
+	public static void setTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
 		//Get the current one
 		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
 		
 		//Replace or create new
 		//if (oFoundStructure==null) {
-		clsMeshTools.setWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASDECISIONTASK, eContentType.DECISIONTASK, poTask.toString());
+		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS, eContentType.TASKSTATUS, poTask.toString());
 		//} else {
 		//	oFoundStructure.setMoContent(poTask.toString());
 		//}
@@ -142,14 +168,14 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static eDecisionTask getDecisionTask(clsWordPresentationMesh poGoal) {
-		eDecisionTask oResult = eDecisionTask.NULLOBJECT;
+	public static eTaskStatus getTaskStatus(clsWordPresentationMesh poGoal) {
+		eTaskStatus oResult = eTaskStatus.NULLOBJECT;
 		
-		clsWordPresentation oFoundStructures = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+		clsWordPresentation oFoundStructures = clsGoalTools.getTaskStatusDataStructure(poGoal);
 				
 		if (oFoundStructures!=null) {
 			//The drive object is always a WPM
-			oResult = eDecisionTask.valueOf(((clsWordPresentation) oFoundStructures).getMoContent());
+			oResult = eTaskStatus.valueOf(((clsWordPresentation) oFoundStructures).getMoContent());
 		}
 		
 		return oResult;
@@ -165,8 +191,8 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	private static clsWordPresentation getDecisionTaskDataStructure(clsWordPresentationMesh poGoal) {
-		return clsMeshTools.getFirstWP(poGoal, ePredicate.HASDECISIONTASK);
+	private static clsWordPresentation getTaskStatusDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS);
 	}
 	
 	
@@ -503,7 +529,7 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
-
+	
 	
 	/**
 	 * Filter goals according to the number of elements given by the input
@@ -531,4 +557,31 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * This function compares if 2 goals are representing the same thing
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 21:24:59
+	 *
+	 * @param poGoalA
+	 * @param poGoalB
+	 * @return
+	 */
+	public static boolean compareGoalsForEquivalence(clsWordPresentationMesh poGoalA, clsWordPresentationMesh poGoalB) {
+		boolean bResult = false;
+		
+		//1. Check goal content
+		//2. Check goal object
+		//3. Check goal type
+		if (clsGoalTools.getGoalContent(poGoalA).equals(clsGoalTools.getGoalContent(poGoalB)) &&
+				clsGoalTools.getGoalType(poGoalA)==clsGoalTools.getGoalType(poGoalB) &&
+				clsGoalTools.getGoalObject(poGoalA).getMoDS_ID()==clsGoalTools.getGoalObject(poGoalB).getMoDS_ID()) {
+			
+			bResult=true;
+		}
+		
+		return bResult;
+	}
 }
+	

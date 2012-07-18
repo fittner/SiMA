@@ -145,7 +145,7 @@ public class clsImportanceTools {
 			clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
 			
 			//Create the goal
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVE, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, eGoalType.PERCEPTIONALDRIVE, oAffectLevel, oGoalObject, oSupportiveDataStructure);
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;

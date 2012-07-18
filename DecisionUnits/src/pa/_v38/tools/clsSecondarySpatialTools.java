@@ -221,4 +221,64 @@ public class clsSecondarySpatialTools {
 		return oResult;
 	}
 	
+	/**
+	 * 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 20:15:08
+	 *
+	 * @param poSourceImage
+	 * @param poEntitiesToFindImage
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAlreadyExistingEntitiesInImage(clsWordPresentationMesh poSourceImage, clsWordPresentationMesh poEntitiesToFindImage, boolean poReturnSourceEntities) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oSourceImageEntityList = getEntityPositionsInImage(poSourceImage);
+		
+		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oEntitiesToFindImageList = getEntityPositionsInImage(poEntitiesToFindImage);
+		
+		for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oFindEntity : oEntitiesToFindImageList) {
+			for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oSourceEntity : oSourceImageEntityList) {
+				if (compareEntitiesInImagesIdent(oFindEntity, oSourceEntity)) {
+					if (poReturnSourceEntities==true) {
+						oResult.add(oSourceEntity.a);
+					} else {
+						oResult.add(oFindEntity.a);
+					}
+					
+					break;
+				}
+			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Compare 2 entities, which are originating from images with each other. The ID and position is compared. If they are equal, then 
+	 * it is the same entity
+	 * 
+	 * (wendt)
+	 * 
+	 * @since 17.07.2012 20:12:35
+	 *
+	 * @param poEntityA
+	 * @param poEntityB
+	 * @return
+	 */
+	private static boolean compareEntitiesInImagesIdent(clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> poEntityA, clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> poEntityB) {
+		boolean bResult = false;
+		
+		if (poEntityA.a.getMoDS_ID()==poEntityB.a.getMoDS_ID() &&
+				poEntityA.b == poEntityB.b &&
+				poEntityA.c == poEntityB.c) {
+			bResult = true;
+		}
+		
+		
+		return bResult;
+	}
+	
 }

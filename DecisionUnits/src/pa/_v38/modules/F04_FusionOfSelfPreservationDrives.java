@@ -9,6 +9,8 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.toText;
@@ -16,11 +18,15 @@ import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
+import du.enums.pa.eDriveComponent;
 
 /**
  * The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists. 
@@ -40,6 +46,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	//
 	ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
+	private ArrayList <clsDriveMesh> moHomeostaticDriveComponents_OUT;
 	
 	/** partial crive categories for the homeostatic drives */
 	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
@@ -273,8 +280,58 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
+		
+		//Loop through the drives and duplicate the drive mesh
+		//one becomes the lib. one the agr. part of the drive
+		for( clsDriveMesh oEntry :  moHomeostaticDriveCandidates_IN)
+		{
+			clsDriveMesh agressiveDM = null;
+			clsDriveMesh libidoneusDM = null;
+			double rAgrTension = 0;
+			double rLibTension = 0;
+			
+			//calculate the tension for both parts from personality
+			//TODO
+			//chenge the agressive/lib content due to personaliyt
+			if(Personality_Content_Factor != 0)
+				//oEntry = changeContentByFactor(oEntry);
+			
+			//1 - create agressive component DM
+			agressiveDM = CreateDriveComponentFromCandidate(oEntry);
+			agressiveDM.setDriveComponent(eDriveComponent.AGRESSIVE);
+			agressiveDM.setQuotaOfAffect(rAgrTension);
+			
+			//2- create libidoneus component DM
+			libidoneusDM = CreateDriveComponentFromCandidate(oEntry);
+			agressiveDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
+			libidoneusDM.setQuotaOfAffect(rLibTension);
+			
+			//add the components to the new list
+			moHomeostaticDriveComponents_OUT.add(agressiveDM);
+			moHomeostaticDriveComponents_OUT.add(libidoneusDM);
+		}
+		
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
+	}
+	
+	private clsDriveMesh CreateDriveComponentFromCandidate(clsDriveMesh poDriveCandidate) {
+		clsDriveMesh oDriveComponent  = null;
+		try {		
+			//create the DM
+			oDriveComponent = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.DM, eContentType.DRIVECOMPONENT );
+			
+			//copy the information from the drive candidate
+			oDriveComponent.associateActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);
+
+			oDriveComponent.associateActualBodyOrifice(poDriveCandidate.getActualBodyOrifice(), 1.0);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return oDriveComponent;
 	}
 
 	/* (non-Javadoc)

@@ -39,7 +39,7 @@ public class clsPhantasyTools {
 	 */
 	public static void setPhantasyFlagTrue(clsWordPresentationMesh poWPM) throws Exception {
 		//Set WP
-		clsMeshTools.setWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
 		
 		//Get TPM
 		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);
@@ -64,7 +64,7 @@ public class clsPhantasyTools {
 	 */
 	public static void setPhantasyFlagFalse(clsWordPresentationMesh poWPM) throws Exception {
 		//Set WP
-		clsMeshTools.setWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.FALSE.toString());
+		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.FALSE.toString());
 		
 		//Get TPM
 		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);
@@ -90,7 +90,7 @@ public class clsPhantasyTools {
 	public static boolean checkPhantasyActivate(clsWordPresentationMesh poWPM) {
 		boolean bResult = false;
 		
-		clsWordPresentation oWP = clsMeshTools.getFirstWP(poWPM, ePredicate.HASPHANTASYFLAG);
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poWPM, ePredicate.HASPHANTASYFLAG);
 		
 		if (oWP!=null) {
 			if(oWP.getMoContent().equals(eContent.TRUE.toString())==true) {
@@ -138,7 +138,7 @@ public class clsPhantasyTools {
 	public static boolean checkIfPhantasyFlagExists(clsWordPresentationMesh poWPM) {
 		boolean bResult = false;
 		
-		clsWordPresentation oWP = clsMeshTools.getFirstWP(poWPM, ePredicate.HASPHANTASYFLAG);
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poWPM, ePredicate.HASPHANTASYFLAG);
 		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(clsMeshTools.getPrimaryDataStructureOfWPM(poWPM), eContentType.PHANTASYFLAG);
 		
 		if (oWP!=null && oAss !=null) {

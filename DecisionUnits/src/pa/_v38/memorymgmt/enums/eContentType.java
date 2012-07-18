@@ -37,6 +37,7 @@ public enum eContentType {
 	MOMENT,
 	EXPECTATION,
 	MENTALSITUATION,
+	ENVIRONMENTALIMAGE,
 	
 	DRIVEGOALSUPPORT,
 	PERCEPTIONSUPPORT,
@@ -44,7 +45,7 @@ public enum eContentType {
 	
 	
 	//--- Goals ---//
-	DECISIONTASK,
+	TASKSTATUS,
 	
 	//--- Actions ---//
 	PRECONDITION,
