@@ -247,7 +247,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					// no error if simulator-dm does not have similar memroy-dms
 				}
 				
-				oSimulatorDM.addInternalAssociations(oAssSimilarDMs);
+				oSimulatorDM.addExternalAssociations(oAssSimilarDMs);
 				oRetVal.add(oSimulatorDM);
 				
 		}

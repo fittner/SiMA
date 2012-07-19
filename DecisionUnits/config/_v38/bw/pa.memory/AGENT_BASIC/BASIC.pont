@@ -1,4 +1,4 @@
-; Wed Jul 18 14:36:48 CEST 2012
+; Thu Jul 19 11:26:17 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -997,7 +997,6 @@
 		(create-accessor read-write))
 	(single-slot value_type
 		(type STRING)
-;+		(value "DRIVEREPRESENTATION")
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
 	(multislot instance_association

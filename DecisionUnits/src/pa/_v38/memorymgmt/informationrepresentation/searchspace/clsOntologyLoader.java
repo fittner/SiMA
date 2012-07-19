@@ -851,7 +851,7 @@ public class clsOntologyLoader {
 					oAssociationElement = poDataContainer.a.createInstance(oAssociationName, poDataContainer.a.getCls(eDataType.ASSOCIATIONTEMP.name()));
 				}
 				else if(oDataElementTypeA.equals("DM")){
-					oAssociationElement = poDataContainer.a.createInstance(oAssociationName, poDataContainer.a.getCls(eDataType.ASSOCIATIONATTRIBUTE.name()));
+					oAssociationElement = poDataContainer.a.createInstance(oAssociationName, poDataContainer.a.getCls(eDataType.ASSOCIATIONDM.name()));
 				}
 				else {throw new NoSuchFieldError("class-association type not verifiable");}
 //				else if(oDataElementTypeB.equals("WP")){
