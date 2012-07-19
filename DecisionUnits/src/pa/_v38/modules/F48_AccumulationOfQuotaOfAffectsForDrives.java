@@ -173,6 +173,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		//calculate the pleasure gain from reduced tensions for DT4
 		ProcessPleasureCalculation();
+		
+		System.out.printf("F48: Dm count= "+this.moAllDriveComponents_OUT.size());
 	}
 	
 	/**

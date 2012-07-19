@@ -86,8 +86,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		//this mapping is fixed for the PA body, no changes! (cm 18.07.2012)
 		moOrificeMap = new HashMap<eOrgan, eOrifice>();
 		moOrificeMap.put(eOrgan.RECTUM, eOrifice.RECTAL_MUCOSA);
-		moOrificeMap.put(eOrgan.STAMINA, eOrifice.UNDEFINED);
-		moOrificeMap.put(eOrgan.BLADDER, eOrifice.UNDEFINED);
+		moOrificeMap.put(eOrgan.STAMINA, eOrifice.TRACHEA);
+		moOrificeMap.put(eOrgan.BLADDER, eOrifice.URETHRAL_MUCOSA);
 		moOrificeMap.put(eOrgan.STOMACH, eOrifice.ORAL_MUCOSA);
 	}
 
@@ -406,17 +406,18 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
 		double rTension = pEntry.getValue();
-		String oSource = eOrgan.valueOf(pEntry.getKey()).toString();
+		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
+		eOrifice oOrifice = moOrificeMap.get(oOrgan);
 		
 		//create a TPM for the organ
 		clsThingPresentationMesh oOrganTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oSource) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
 		
 		//create a TPM for the orifice
 		clsThingPresentationMesh oOrificeTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), moOrificeMap.get(oSource)) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice.toString()) );
 		
 		//create the DM
 		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 

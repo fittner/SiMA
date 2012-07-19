@@ -184,7 +184,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			
 			//2- create libidoneus component DM
 			libidoneusDM = CreateDriveComponentFromCandidate(oEntry);
-			agressiveDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
+			libidoneusDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
 			libidoneusDM.setQuotaOfAffect(rLibTension);
 			
 			//add the components to the new list as PAIR(Agr,Lib)

@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import du.enums.eOrgan;
@@ -181,13 +182,29 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	@Override
 	public String toString(){
 		String oRetval = "|DM:";
-		oRetval += ":QoA="+this.mrQuotaOfAffect;
-		oRetval += ":DComponent="+this.moDriveComponent;
-		oRetval += ":PartialD="+this.moPartialDrive;
-		oRetval += ":Internal="+this.moInternalAssociatedContent.toString();
-		oRetval += ":External="+this.moExternalAssociatedContent.toString();
-		oRetval += "|";
+		oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
+		oRetval += ":DComponent="+this.moDriveComponent.toString();
+		oRetval += ":PartialD="+this.moPartialDrive.toString();
+		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
+		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
+		if(this.moInternalAssociatedContent!=null){
+			oRetval += ": :Internal="+this.moInternalAssociatedContent.toString();
+		}
+		else
+			oRetval += ": :Internal=NULL";
+		if(this.moExternalAssociatedContent!=null){
+			oRetval += ": :External="+this.moExternalAssociatedContent.toString();
+		}
+		else
+			oRetval += ": :External=NULL";
+		oRetval += "|\n";
 		return oRetval;
+	}
+	
+	private String GetQuotaOfAffectAsMyString(double rQoA){
+		DecimalFormat threeDec = new DecimalFormat("0.00000");
+		String shortString = (threeDec.format(rQoA));
+		return shortString;
 	}
 	
 	

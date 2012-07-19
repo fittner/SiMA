@@ -181,11 +181,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private void CreateAgressiveDriveRepresentations(clsDriveMesh a) {
 		double rAgressiveTension = a.getQuotaOfAffect();
 		
-		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGGRESSIVE);
-		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGGRESSIVE);
+		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGGRESSIVE, ePartialDrive.ANAL);
+		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGGRESSIVE, ePartialDrive.ORAL);
 		//TODO, create according to sex femal/male
-		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGGRESSIVE);
-		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGGRESSIVE);
+		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGGRESSIVE, ePartialDrive.PHALLIC);
+		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGGRESSIVE, ePartialDrive.GENITAL);
 		
 		//calculate tension according to personality
 		oAADM.setQuotaOfAffect( CalculateNewPartialTension(oAADM));
@@ -216,7 +216,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		return rNewTension;
 	}
 	
-	private clsDriveMesh CreateDriveRepresentations(eOrgan poOrgan, eOrifice poOrifice, eDriveComponent oComponent) {
+	private clsDriveMesh CreateDriveRepresentations(eOrgan poOrgan, eOrifice poOrifice, eDriveComponent oComponent, ePartialDrive oPartialDrive) {
 		clsDriveMesh oDriveCandidate  = null;
 		
 		String oOrgan = poOrgan.toString();
@@ -245,6 +245,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		//supplement the information
 		
 		oDriveCandidate.setDriveComponent(oComponent);
+		oDriveCandidate.setPartialDrive(oPartialDrive);
+		
 		
 		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
 		
@@ -269,11 +271,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private void CreateLibidoneusDriveRepresentations(clsDriveMesh a) {
 		double rAgressiveTension = a.getQuotaOfAffect();
 		
-		clsDriveMesh oLADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.LIBIDINOUS);
-		clsDriveMesh oLODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.LIBIDINOUS);
+		clsDriveMesh oLADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ANAL);
+		clsDriveMesh oLODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
 		//TODO, create according to sex femal/male
-		clsDriveMesh oLPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.LIBIDINOUS);
-		clsDriveMesh oLGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.LIBIDINOUS);
+		clsDriveMesh oLPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.LIBIDINOUS, ePartialDrive.PHALLIC);
+		clsDriveMesh oLGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.LIBIDINOUS, ePartialDrive.GENITAL);
 		
 		//calculate tension according to personality
 		oLADM.setQuotaOfAffect( CalculateNewPartialTension(oLADM));
