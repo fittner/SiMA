@@ -17,5 +17,6 @@ public enum eOrgan {
 	STOMACH,
 	RECTUM,
 	BLADDER,
-	STAMINA
+	STAMINA,
+	LIBIDO
 }
