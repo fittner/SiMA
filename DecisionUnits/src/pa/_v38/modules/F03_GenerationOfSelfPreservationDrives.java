@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.SortedMap;
-import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I3_2_receive;
@@ -19,6 +19,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -26,6 +27,8 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * The neurosymbolic representation of bodily needs are converted to memory 
@@ -96,10 +99,10 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				
 		int i=0;
 		
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "BLOODSUGAR");
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STOMACH");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "INTESTINEPRESSURE");
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
@@ -248,6 +251,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	@Override
 	protected void process_basic() {
 		
+		moDriveCandidates_OUT = new ArrayList<clsDriveMesh>();
+		
 		//OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
 		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
 		
@@ -388,21 +393,21 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
 		double rTension = pEntry.getValue();
-		eOrgan oSource = eOrgan.valueOf(pEntry.getKey());
+		String oSource = eOrgan.valueOf(pEntry.getKey()).toString();
 		
 		//create a TPM for the organ
 		clsThingPresentationMesh oOrganTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, oSource) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oSource) );
 		
 		//create a TPM for the orifice
 		clsThingPresentationMesh oOrificeTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, moOrificeMap.get(oSource)) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), moOrificeMap.get(oSource)) );
 		
 		//create the DM
-		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, eContentType.DRIVECANDIDATE );
+		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
+				,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 		
 		//supplement the information
 		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
