@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -35,7 +36,7 @@ public class clsActTools {
 			//Tasks in the memory processing
 			
 			//1. Add all PI-Matches as WP to each image
-			setPIMatchToWPM(oImage);
+			clsActTools.setPIMatchToWPM(oImage);
 			
 			//2. Delete all primary process external connections
 			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
@@ -47,25 +48,6 @@ public class clsActTools {
 		
 		return oRetVal;
 	}
-	
-	/**
-	 * Get the PI match from the PP image and add it to the SP image
-	 * 
-	 * (wendt)
-	 *
-	 * @since 23.05.2012 16:46:54
-	 *
-	 * @param poImage
-	 */
-	private static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
-		//Get the PI-match
-		double rPIMatchValue = getSecondaryMatchValueToPI(poImage);
-		
-		if (rPIMatchValue>0.0) {
-			//Add new WP to image
-			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue));
-		}
-	}	
 	
 	/**
 	 * Create a list of categorized memories. Each act is given a single entry of the type prediction. The prediction is
@@ -106,6 +88,28 @@ public class clsActTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get the first image (Situation) from an intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 12:51:29
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	private static clsWordPresentationMesh getFirstSituationFromIntention(clsWordPresentationMesh poIntention) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		clsWordPresentationMesh oAnySituation = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poIntention, ePredicate.HASSUPER, 1, false);	//Get the root element
+		
+		clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oAnySituation);
+		
+		oResult = oFirstImage;
+		
+		return oResult;
 	}
 	
 	/**
@@ -224,6 +228,25 @@ public class clsActTools {
 	}
 	
 	/**
+	 * Get the PI match from the PP image and add it to the SP image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.05.2012 16:46:54
+	 *
+	 * @param poImage
+	 */
+	private static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
+		//Get the PI-match
+		double rPIMatchValue = getSecondaryMatchValueToPI(poImage);
+		
+		if (rPIMatchValue>0.0) {
+			//Add new WP to image
+			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue));
+		}
+	}	
+	
+	/**
 	 * Get the next image in the sequence
 	 * 
 	 * (wendt)
@@ -234,8 +257,13 @@ public class clsActTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getNextImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 2, false);
-				
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
+		
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 2, false);
+		
+		if (oDS!=null) {
+			oRetVal = (clsWordPresentationMesh)oDS;
+		}
 //		for (clsDataStructurePA oAss : oAssociationList) {
 //			if (((clsAssociationSecondary)oAss).getLeafElement()!=poImage) {
 //				oRetVal = (clsWordPresentationMesh) ((clsAssociationSecondary)oAss).getLeafElement();
@@ -257,7 +285,13 @@ public class clsActTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getPreviousImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 1, false);	
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
+		
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 1, false);
+		
+		if (oDS!=null) {
+			oRetVal = (clsWordPresentationMesh)oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -346,6 +380,28 @@ public class clsActTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get all subimages from an intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 13:32:16
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllSubImages(clsWordPresentationMesh poIntention) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsDataStructurePA> oFoundList = clsMeshTools.searchDataStructureOverAssociation(poIntention, ePredicate.HASSUPER, 1, false, false);
+		
+		for (clsDataStructurePA oDS : oFoundList) {
+			oResult.add((clsWordPresentationMesh)oDS);
+		}
+		
+		return oResult;
 	}
 	
 		

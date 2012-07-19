@@ -19,9 +19,10 @@ public enum eAction {
 	
 	//External actions
 	MOVE_FORWARD,
-	MOVE_BACKWARD,
+	MOVE_BACKWARD,	//Is this still used???
 	TURN_LEFT,
 	TURN_RIGHT,
+	
 	DEPOSIT,
 	SLEEP,
 	RELAX,
@@ -32,15 +33,15 @@ public enum eAction {
 	UNREAL_MOVE_TO,
 	
 	//Higher level actions
-	EXECUTE_EXTERNAL_ACTION,
 	
 	//Internal actions
 	FOCUS_ON,	//Send to F23
 	SEND_TO_PHANTASY,	//Send to phantasy
-	MOVE_FORWARD_FOCUS,
-	TURN_RIGHT_FOCUS,
-	TURN_LEFT_FOCUS,
+	//DO_BASIC_ACT_ANALYSIS,		//Analyse the act
 	
+	FOCUS_MOVE_FORWARD,
+	FOCUS_TURN_RIGHT,
+	FOCUS_TURN_LEFT,
 	
 	//Composed actions
 	SEARCH1;

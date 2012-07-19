@@ -60,7 +60,7 @@ public class clsActDataStructureTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh checkIfIntentionExistsInActList(ArrayList<clsWordPresentationMesh> poPredictionList, clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
 		//Check if there is an intention
 		for (clsWordPresentationMesh oPrediction : poPredictionList) {
@@ -85,7 +85,7 @@ public class clsActDataStructureTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getIntention(clsWordPresentationMesh poPrediction) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
 		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
 		
@@ -144,7 +144,7 @@ public class clsActDataStructureTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getMoment(clsWordPresentationMesh poPrediction) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
 		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, false);
 		
@@ -203,7 +203,7 @@ public class clsActDataStructureTools {
 	 * @return
 	 */
 	public static clsWordPresentationMesh getExpectation(clsWordPresentationMesh poPrediction) {
-		clsWordPresentationMesh oRetVal = null;
+		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
 		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASEXPECTATION, 2, false);
 		
@@ -248,6 +248,41 @@ public class clsActDataStructureTools {
 			//Add new Association
 			clsMeshTools.createAssociationSecondary(poAct, 1, poNewExpectation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASEXPECTATION, false);
 		}
+	}
+	
+	/**
+	 * Get the image with the highest PI match from the sub images of an act within an act data structure
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 13:04:02
+	 *
+	 * @param poAct
+	 * @param prMomentActivationThreshold 
+	 * @return
+	 */
+	public static clsWordPresentationMesh getMomentWithHighestPIMatch(clsWordPresentationMesh poAct, double prMomentActivationThreshold) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
+				
+		//clsWordPresentationMesh oFirstImage = clsActTools.getFirstSituationFromIntention(oIntention);
+		
+		double rMaxPIMatch = 0.0;
+		
+		ArrayList<clsWordPresentationMesh> oSubImageList = clsActTools.getAllSubImages(oIntention);
+		
+		for (clsWordPresentationMesh oSubImage : oSubImageList) {
+			double rCurrentPIMatch = clsActTools.getSecondaryMatchValueToPI(oSubImage);
+						
+			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
+				rMaxPIMatch = rCurrentPIMatch;
+				oResult = oSubImage;
+			}
+		}
+		
+		return oResult;
+		
 	}
 	
 	
