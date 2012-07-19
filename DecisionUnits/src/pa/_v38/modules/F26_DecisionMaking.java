@@ -210,6 +210,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//Sort incoming drives
 		ArrayList<clsWordPresentationMesh> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		
+		
 		//From the list of drives, match them with the list of potential goals
 		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList);
 		

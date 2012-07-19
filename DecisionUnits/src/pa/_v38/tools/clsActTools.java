@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 
  */
 public class clsActTools {
+
 	
 	// ============== ACT CATEGORIZATION START ==============================//
 	
@@ -223,7 +224,7 @@ public class clsActTools {
 	}
 	
 	/**
-	 * Get the next image in the act
+	 * Get the next image in the sequence
 	 * 
 	 * (wendt)
 	 *
@@ -262,7 +263,7 @@ public class clsActTools {
 	}
 	
 	/**
-	 * Check if there is a previous image
+	 * Check if there is a previous image in the sequence
 	 * 
 	 * (wendt)
 	 *
@@ -285,7 +286,7 @@ public class clsActTools {
 	}
 	
 	/**
-	 * Check if there is a next image
+	 * Check if there is a next image in the sequence
 	 * 
 	 * (wendt)
 	 * 
@@ -307,6 +308,16 @@ public class clsActTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get the first image in the sequence
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 21:11:14
+	 *
+	 * @param poImage
+	 * @return
+	 */
 	public static clsWordPresentationMesh getFirstImage(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = poImage;
 				
@@ -317,6 +328,16 @@ public class clsActTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get the last image in the sequence
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 21:11:34
+	 *
+	 * @param poImage
+	 * @return
+	 */
 	public static clsWordPresentationMesh getLastImage(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = poImage;
 		

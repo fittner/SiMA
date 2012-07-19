@@ -29,14 +29,11 @@ public enum eContentType {
 	RILIBIDO,
 	AREASUBSET,
 	AFFECTLEVEL,
-	ACTION,
-	GOAL,
 	PREDICTION,
 	PLAN,
 	INTENTION,
 	MOMENT,
 	EXPECTATION,
-	MENTALSITUATION,
 	ENVIRONMENTALIMAGE,
 	
 	DRIVEGOALSUPPORT,
@@ -82,7 +79,6 @@ public enum eContentType {
 	
 	//Datatypes
 	UNDEFINED,
-	ACT,
 	AFFECT,
 	ASSOCIATIONTEMP,
 	ASSOCIATIONATTRIBUTE,
@@ -103,6 +99,13 @@ public enum eContentType {
 	EMOTION, 
 	LIBIDO,
 	CONTEXT,
+	
+	//Subdatatype
+	ACT,
+	GOAL,
+	MENTALSITUATION,
+	ACTION,
+	
 	
 	//TPs: should be adapted
 	COLOR,
