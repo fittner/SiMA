@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -20,12 +19,18 @@ import pa._v38.interfaces.modules.I3_3_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
 import config.clsProperties;
+import du.enums.eOrgan;
+import du.enums.eOrifice;
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * Each sexual drive is split apart into four drives representing the four partial drives. Module {F43} 
@@ -46,7 +51,13 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	
 	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moLibidoDriveDemands;
 	private ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > moDriveCandidates;
-	private ArrayList< clsPair<String,Double> > moPartialSexualDrives;
+	private ArrayList< clsPair<ePartialDrive,Double> > moPartialSexualDrivesFactors;
+
+	private ArrayList<clsPair<clsDriveMesh, clsDriveMesh>> moSexualDriveComponents_IN;
+	
+	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_OUT;
+	
+	private HashMap<ePartialDrive, Double> moSexualDrivesImpactFactors;
 	
 	/**
 	 * basic constructor
@@ -79,7 +90,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		
 		text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
 		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
-		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrives);
+		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrivesFactors);
 		
 		return text;
 	}	
@@ -100,13 +111,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-	
-		moPartialSexualDrives = new ArrayList<clsPair<String,Double>>();
-		
-		moPartialSexualDrives.add( new clsPair<String, Double>("ORAL", poProp.getPropertyDouble(pre+P_PARTIAL_ORAL) ));
-		moPartialSexualDrives.add( new clsPair<String, Double>("ANAL", poProp.getPropertyDouble(pre+P_PARTIAL_ANAL) ));
-		moPartialSexualDrives.add( new clsPair<String, Double>("PHALLIC", poProp.getPropertyDouble(pre+P_PARTIAL_PHALLIC) ));
-		moPartialSexualDrives.add( new clsPair<String, Double>("GENITAL", poProp.getPropertyDouble(pre+P_PARTIAL_GENITAL) ));	
+
+		moSexualDrivesImpactFactors.put(ePartialDrive.ORAL, poProp.getPropertyDouble(pre+P_PARTIAL_ORAL));
+		moSexualDrivesImpactFactors.put(ePartialDrive.ANAL, poProp.getPropertyDouble(pre+P_PARTIAL_ANAL));
+		moSexualDrivesImpactFactors.put(ePartialDrive.PHALLIC, poProp.getPropertyDouble(pre+P_PARTIAL_PHALLIC));
+		moSexualDrivesImpactFactors.put(ePartialDrive.GENITAL, poProp.getPropertyDouble(pre+P_PARTIAL_GENITAL));
 	}	
 	
 	@Override
@@ -125,25 +134,151 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@Override
 	protected void process_basic()  {
-		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>,clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>>();
-		for (clsPair<String, Double> oPSD:moPartialSexualDrives) {
-			if (moLibidoDriveDemands.size() == 2) {
-				clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
-				
-				//set DM libido categories
-				oTMPDriveCandidate.a.a.setCategories(moPartialSexualDrives.get(0).b, moPartialSexualDrives.get(1).b, moPartialSexualDrives.get(3).b, moPartialSexualDrives.get(2).b);
-
-				//set DM agressive categories
-				oTMPDriveCandidate.b.a.setCategories(moPartialSexualDrives.get(0).b, moPartialSexualDrives.get(1).b, moPartialSexualDrives.get(3).b, moPartialSexualDrives.get(2).b);
-				
-				moDriveCandidates.add( oTMPDriveCandidate );
-			} else {
-				throw new java.lang.NoSuchMethodError();
-				//E43_SeparationIntoPartialSexualDrives.process_basic(): don't know how to handle different number of entries for moHomeostaticDriveDemands.
-			}
+		
+		if(moSexualDriveComponents_IN.size() > 1)
+			System.out.printf("ERROR: There can only be 2 sexual drives components commin to F43, thus Arrayhas only one entry, always");
+		
+		//even if it only can have one entry, safety first...
+		for( clsPair<clsDriveMesh, clsDriveMesh> oEntry :  moSexualDriveComponents_IN)
+		{
+			//create A,O,P,G for the agressive component
+			CreateAgressiveDriveRepresentations((clsDriveMesh)oEntry.a);
+			
+			//create A,O,P,G for the libidoneus component
+			CreateLibidoneusDriveRepresentations((clsDriveMesh)oEntry.a);
 		}
+		
+
+		
+//		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>,clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>>();
+//		for (clsPair<String, Double> oPSD:moPartialSexualDrivesFactors) {
+//			if (moLibidoDriveDemands.size() == 2) {
+//				clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
+//				
+//				//set DM libido categories
+//				oTMPDriveCandidate.a.a.setCategories(moPartialSexualDrivesFactors.get(0).b, moPartialSexualDrivesFactors.get(1).b, moPartialSexualDrivesFactors.get(3).b, moPartialSexualDrivesFactors.get(2).b);
+//
+//				//set DM agressive categories
+//				oTMPDriveCandidate.b.a.setCategories(moPartialSexualDrivesFactors.get(0).b, moPartialSexualDrivesFactors.get(1).b, moPartialSexualDrivesFactors.get(3).b, moPartialSexualDrivesFactors.get(2).b);
+//				
+//				moDriveCandidates.add( oTMPDriveCandidate );
+//			} else {
+//				throw new java.lang.NoSuchMethodError();
+//				//E43_SeparationIntoPartialSexualDrives.process_basic(): don't know how to handle different number of entries for moHomeostaticDriveDemands.
+//			}
+//		}
 	}
 	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 19.07.2012 11:25:00
+	 *
+	 * @param a
+	 */
+	private void CreateAgressiveDriveRepresentations(clsDriveMesh a) {
+		double rAgressiveTension = a.getQuotaOfAffect();
+		
+		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGRESSIVE);
+		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGRESSIVE);
+		//TODO, create according to sex femal/male
+		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGRESSIVE);
+		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGRESSIVE);
+		
+		//calculate tension according to personality
+		oAADM.setQuotaOfAffect( CalculateNewPartialTension(oAADM));
+		oAODM.setQuotaOfAffect( CalculateNewPartialTension(oAODM));
+		oAPDM.setQuotaOfAffect( CalculateNewPartialTension(oAPDM));
+		oAGDM.setQuotaOfAffect( CalculateNewPartialTension(oAGDM));
+		
+		//add the 4 to the out list
+		moSexualDriveRepresentations_OUT.add(oAADM);
+		moSexualDriveRepresentations_OUT.add(oAODM);
+		moSexualDriveRepresentations_OUT.add(oAPDM);
+		moSexualDriveRepresentations_OUT.add(oAGDM);
+	}
+	
+	private double CalculateNewPartialTension(clsDriveMesh poSexualDrive)
+	{
+		double rNewTension = 0.0;
+		if(moSexualDrivesImpactFactors.containsKey( poSexualDrive.getDriveComponent() ) )
+		{
+			try 
+			{
+				double rImpactFactor = moSexualDrivesImpactFactors.get(poSexualDrive.getDriveComponent());
+				rNewTension = poSexualDrive.getQuotaOfAffect() * rImpactFactor;
+			} catch (java.lang.Exception e) {
+				System.out.print(e);
+			}
+		}
+		return rNewTension;
+	}
+	
+	private clsDriveMesh CreateDriveRepresentations(eOrgan poOrgan, eOrifice poOrifice, eDriveComponent oComponent) {
+		clsDriveMesh oDriveCandidate  = null;
+		
+		try {
+		oDriveCandidate.setDriveComponent(oComponent);
+		
+		//create a TPM for the organ
+		clsThingPresentationMesh oOrganTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, poOrgan) );
+		
+		//create a TPM for the orifice
+		clsThingPresentationMesh oOrificeTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, poOrifice) );
+		
+		//create the DM
+		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
+				eDataType.DM, eContentType.DRIVEREPRESENTATION );
+		
+		//supplement the information
+		
+			oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		
+		
+		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
+		
+		} catch (Exception e) {
+			// TODO (muchitsch) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	return oDriveCandidate;
+	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 19.07.2012 11:25:00
+	 *
+	 * @param a
+	 */
+	private void CreateLibidoneusDriveRepresentations(clsDriveMesh a) {
+		double rAgressiveTension = a.getQuotaOfAffect();
+		
+		clsDriveMesh oLADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.LIBIDINOUS);
+		clsDriveMesh oLODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.LIBIDINOUS);
+		//TODO, create according to sex femal/male
+		clsDriveMesh oLPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.LIBIDINOUS);
+		clsDriveMesh oLGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.LIBIDINOUS);
+		
+		//calculate tension according to personality
+		oLADM.setQuotaOfAffect( CalculateNewPartialTension(oLADM));
+		oLODM.setQuotaOfAffect( CalculateNewPartialTension(oLODM));
+		oLPDM.setQuotaOfAffect( CalculateNewPartialTension(oLPDM));
+		oLGDM.setQuotaOfAffect( CalculateNewPartialTension(oLGDM));
+		
+		//add the 4 to the out list
+		moSexualDriveRepresentations_OUT.add(oLADM);
+		moSexualDriveRepresentations_OUT.add(oLODM);
+		moSexualDriveRepresentations_OUT.add(oLPDM);
+		moSexualDriveRepresentations_OUT.add(oLGDM);
+		
+	}
+
 	/**
 	 * generate pairs of opposites. should be only one life and one death instinct available -> straight forward
 	 *
@@ -257,8 +392,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I3_1(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
-		moLibidoDriveDemands = (ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> >)deepCopy(poHomeostaticDriveDemands);
+	public void receive_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveMesh> > poSexualDriveComponents) {
+		moSexualDriveComponents_IN = (ArrayList< clsPair<clsDriveMesh, clsDriveMesh> >)deepCopy(poSexualDriveComponents);
 	}
 
 

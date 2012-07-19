@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I3_1_receive;
 import pa._v38.interfaces.modules.I3_1_send;
@@ -18,6 +17,7 @@ import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -28,6 +28,7 @@ import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 import config.clsProperties;
+import du.enums.pa.eDriveComponent;
 
 /**
  * The constant flow of libido/psychic energy provided by the neurosymbols originating from {F40} 
@@ -49,6 +50,10 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private static final double mrLibitoStartingOffset = 0.2;
 	
 	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
+	
+	//holds the sexual drives A-> agr / B-> lib parts
+	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moSexualDriveCandidates_OUT;
+	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
 	/**
 	 * basic constructor, sets Libido to 0
@@ -147,15 +152,57 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 */
 	@Override
 	protected void process_basic() {
-		moDrives = new ArrayList<clsPair<clsDriveMeshOLD,clsDriveDemand>>();
+		
+		moSexualDriveCandidates_OUT = new ArrayList<clsPair<clsDriveMesh,clsDriveMesh>>();
+		//TODO nach neuen Erkenntnissen Libido-Feedback ausbessern, siehe WS-Protokolle
 		updateTempLibido();
-		ArrayList<clsDriveMeshOLD> oDriveMeshes = createDriveMeshes();
-		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-					new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, mrTotalLibido));
-		for (clsDriveMeshOLD oDM:oDriveMeshes) {
-			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDM, oDemand));
-		}
+		
+		clsPair<clsDriveMesh, clsDriveMesh> oTempPair = null;
+		clsDriveMesh agressiveDM = null;
+		clsDriveMesh libidoneusDM = null;
+		double rAgrTension = 0;
+		double rLibTension = 0;
+		
+		//calculate the tension for both parts from personality split 50/50
+		rAgrTension = this.mrTotalLibido /2;
+		rLibTension = this.mrTotalLibido /2;
+		
+		//change the agressive/lib content due to personality
+		if(Personality_Content_Factor != 0)
+			//oEntry = changeContentByFactor(oEntry);
+		
+		//1 - create agressive component DM
+		agressiveDM = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( eDataType.DM, eContentType.DRIVECANDIDATE );
+		agressiveDM.setDriveComponent(eDriveComponent.AGRESSIVE);
+		agressiveDM.setQuotaOfAffect(rAgrTension);
+		
+		//2- create libidoneus component DM
+		libidoneusDM = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( eDataType.DM, eContentType.DRIVECANDIDATE );
+		agressiveDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
+		libidoneusDM.setQuotaOfAffect(rLibTension);
+		
+		//add the components to the new list as PAIR(Agr,Lib)
+		oTempPair = new clsPair<clsDriveMesh, clsDriveMesh>(agressiveDM, libidoneusDM); 
+		moSexualDriveCandidates_OUT.add(oTempPair);
+		
+		
+		
+		
+		
+		
+//		moDrives = new ArrayList<clsPair<clsDriveMeshOLD,clsDriveDemand>>();
+//		updateTempLibido();
+//		ArrayList<clsDriveMeshOLD> oDriveMeshes = createDriveMeshes();
+//		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
+//					new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, mrTotalLibido));
+//		for (clsDriveMeshOLD oDM:oDriveMeshes) {
+//			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDM, oDemand));
+//		}
 	}
+	
+	
+	
+	
 
 	/* (non-Javadoc)
 	 *
@@ -190,7 +237,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 */
 	@Override
 	protected void send() {
-		send_I3_1(moDrives);
+		send_I3_1(moSexualDriveCandidates_OUT);
 	}
 
 	/* (non-Javadoc)
@@ -201,9 +248,9 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 * @see pa.interfaces.send._v38.I1_10_send#receive_I1_10(java.util.HashMap)
 	 */
 	@Override
-	public void send_I3_1(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
-		((I3_1_receive)moModuleList.get(43)).receive_I3_1(poHomeostaticDriveDemands);
-		putInterfaceData(I3_1_send.class, poHomeostaticDriveDemands);
+	public void send_I3_1(ArrayList< clsPair<clsDriveMesh, clsDriveMesh> > poSexualDriveComponents) {
+		((I3_1_receive)moModuleList.get(43)).receive_I3_1(poSexualDriveComponents);
+		putInterfaceData(I3_1_send.class, poSexualDriveComponents);
 	}
 
 	/* (non-Javadoc)
