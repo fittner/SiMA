@@ -175,7 +175,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			
 			//1 - create agressive component DM
 			agressiveDM = CreateDriveComponentFromCandidate(oEntry);
-			agressiveDM.setDriveComponent(eDriveComponent.AGRESSIVE);
+			agressiveDM.setDriveComponent(eDriveComponent.AGGRESSIVE);
 			agressiveDM.setQuotaOfAffect(rAgrTension);
 			
 			//2- create libidoneus component DM

@@ -20,16 +20,16 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.DT2_BlockedContentStorage;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * 
@@ -53,7 +53,7 @@ implements I5_6_receive, I5_7_send  {
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
 
 	/** The storage for primal repressed drives*/
-	private ArrayList<clsDriveMeshOLD> moPrimalRepressionMemory;
+	private ArrayList<clsDriveMesh> moPrimalRepressionMemory;
 	
 	/**
 	 * Personality parameter:
@@ -92,7 +92,7 @@ implements I5_6_receive, I5_7_send  {
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
-		moPrimalRepressionMemory = new ArrayList<clsDriveMeshOLD>();
+		moPrimalRepressionMemory = new ArrayList<clsDriveMesh>();
 		fillPrimalRepressionMemory();
 	}
 
@@ -105,19 +105,18 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	@SuppressWarnings("unchecked")
 	private void fillPrimalRepressionMemory() {
-		ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
-  	oList.add( new ArrayList<Object>( Arrays.asList("BITE", "BITE", 0.0, 0.0, 0.8, 0.2, 0.5) ) );
-  	oList.add( new ArrayList<Object>( Arrays.asList("NOURISH", "NOURISH", 0.8, 0.2, 0.0, 0.0, 0.3) ) );
-  	oList.add( new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEPOSIT", 0.0, 0.7, 0.3, 0.0, 0.7) ) );
-  	oList.add( new ArrayList<Object>( Arrays.asList("NOURISH", "NOURISH", 0.1, 0.89, 0.0, 0.0, 0.1) ) );
+		
+	//TODO: check due to new DM-structure	
+	ArrayList<ArrayList<Object>> oList = new ArrayList<ArrayList<Object>>();
+  	oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED, "BITE", 0.5) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED, "NOURISH",  0.3) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED, "DEPOSIT",  0.7) ) );
+  	oList.add( new ArrayList<Object>( Arrays.asList(eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED, "NOURISH", 0.1) ) );
 
   	for (ArrayList<Object> oData:oList) {
-		clsThingPresentation oTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.valueOf(oData.get(0).toString()), oData.get(0))); 
-		clsDriveMeshOLD oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.valueOf(oData.get(1).toString()), 
-																   new ArrayList<clsThingPresentation>(Arrays.asList(oTP)),
-																   oData.get(0)));
-		oDM.setCategories( (Double)oData.get(2), (Double)oData.get(3), (Double)oData.get(4), (Double)oData.get(5) );
-		oDM.setPleasure( (Double)oData.get(6) ); 
+		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECOMPONENT, 
+																   new ArrayList<clsThingPresentationMesh>(),	  oData.get(2)), (eDriveComponent)oData.get(0), (ePartialDrive)oData.get(1));
+		oDM.setQuotaOfAffect( (Double)oData.get(3) ); 
 		moPrimalRepressionMemory.add(oDM);    	
   	}
 	}
@@ -229,17 +228,17 @@ implements I5_6_receive, I5_7_send  {
 		ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>> oMatchValues = new ArrayList<clsTriple<clsThingPresentationMesh, clsAssociationDriveMesh, Double>>();
 		
 		// compare each element from moPrimalRepressionMemory with the input
-		for (clsDriveMeshOLD oEntry : moPrimalRepressionMemory) {
+		for (clsDriveMesh oEntry : moPrimalRepressionMemory) {
 			for(clsAssociation oInputAssociation : poPerception_IN.getMoInternalAssociatedContent()) {
 				clsDataStructurePA oObject = oInputAssociation.getLeafElement();
 				if (oObject instanceof clsThingPresentationMesh) {
 					
 					for (clsAssociation oSubAss : ((clsThingPresentationMesh)oObject).getExternalMoAssociatedContent()) {
 						if(oSubAss instanceof clsAssociationDriveMesh){
-							clsDriveMeshOLD oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
+							clsDriveMesh oData = ((clsAssociationDriveMesh)oSubAss).getDM(); 
 							if(oEntry.getMoContentType().equals(oData.getMoContentType())) {
 								// calculate match between drives
-								double rMatchValue = oEntry.matchCathegories(oData);
+								double rMatchValue = oEntry.compareTo(oData);
 								// ignore matches below threshold
 								if (rMatchValue < mrActivationThreshold)
 									continue;

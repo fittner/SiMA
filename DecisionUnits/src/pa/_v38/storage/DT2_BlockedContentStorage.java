@@ -367,15 +367,15 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poInput
 	 * @return
 	 */
-	public clsDriveMeshOLD matchBlockedContentDrives(ArrayList<clsDriveMeshOLD> poInput) {
+	public clsDriveMesh matchBlockedContentDrives(ArrayList<clsDriveMesh> poInput) {
 		// get only free drives
 		
-		clsDriveMeshOLD oRetVal = null;
+		clsDriveMesh oRetVal = null;
 		double rHighestMatch = 0.0;
 
-		for(clsDriveMeshOLD oDrivePair : poInput){ 
-			clsDriveMeshOLD oInputDrive = oDrivePair;
-			clsPair<Double, clsDriveMeshOLD> oMatch = null;
+		for(clsDriveMesh oDrivePair : poInput){ 
+			clsDriveMesh oInputDrive = oDrivePair;
+			clsPair<Double, clsDriveMesh> oMatch = null;
 			if ((getMatchesForDrives(oInputDrive, 0).isEmpty()==false)) {
 				oMatch =  getMatchesForDrives(oInputDrive, 0).get(0); //You could use mrActivationThreshold			
 				double rMatchValue = oMatch.a; 
@@ -505,14 +505,14 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poThreshold
 	 * @return
 	 */
-	private ArrayList<clsPair<Double, clsDriveMeshOLD>> getMatchesForDrives(clsDriveMeshOLD poDM, double poThreshold) {
-		ArrayList<clsPair<Double, clsDriveMeshOLD>> oRetVal = new ArrayList<clsPair<Double, clsDriveMeshOLD>>();	
+	private ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
+		ArrayList<clsPair<Double, clsDriveMesh>> oRetVal = new ArrayList<clsPair<Double, clsDriveMesh>>();	
 		
 		for (clsDataStructurePA oEntry : moBlockedContent) {
-			if (oEntry instanceof clsDriveMeshOLD) { 
+			if (oEntry instanceof clsDriveMesh) { 
 				if(oEntry.getMoContentType().equals(poDM.getMoContentType())) {
 					// calculate match between drive matches
-					double rMatchValue = ((clsDriveMeshOLD)oEntry).matchCathegories(poDM);
+					double rMatchValue = ((clsDriveMesh)oEntry).compareTo(poDM);
 					// ignore matches below threshold
 					if (rMatchValue < poThreshold)
 						continue;
@@ -523,7 +523,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 					}
 					// add to results
 					oRetVal.add(i, 
-							new clsPair<Double, clsDriveMeshOLD>(rMatchValue, (clsDriveMeshOLD)oEntry));
+							new clsPair<Double, clsDriveMesh>(rMatchValue, (clsDriveMesh)oEntry));
 				}
 			}
 		}

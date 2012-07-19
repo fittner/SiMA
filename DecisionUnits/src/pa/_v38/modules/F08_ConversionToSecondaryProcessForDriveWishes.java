@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -41,7 +42,10 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	public static final String P_MODULENUMBER = "08";
 	
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Input; 
+	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Input;
+	
+	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
+	
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
 	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
@@ -129,9 +133,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.I1_6#receive_I1_6(int)
 	 */
 	@Override
-	public void receive_I5_18(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList) {
+	public void receive_I5_18(ArrayList<clsDriveMesh> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>>)deepCopy(poDriveList);
+		moDriveList_InputTEMPORARY = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 	

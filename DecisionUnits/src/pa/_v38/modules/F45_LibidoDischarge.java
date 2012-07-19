@@ -23,7 +23,7 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -308,9 +308,9 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Create new identifier
 					clsTriple<Integer, eDataType, eContentType> oIdentifyer = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
 					//Create new association drivemesh but with the new root element
-					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
+					//TODO CM adapt to new DM -> clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
 					//Add the assocation to the input container
-					oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
+					//TODO CM adapt to new DM ->oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
 					//poAssignment.a.assignDataStructure(oDriveAss);
 					rTotalReduce += rDMReduce;
 				} catch (CloneNotSupportedException e) {

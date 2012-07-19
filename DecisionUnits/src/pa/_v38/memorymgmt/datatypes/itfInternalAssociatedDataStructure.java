@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * 
  */
 public interface itfInternalAssociatedDataStructure {
-	public ArrayList<clsAssociation> moAssociatedContent = null;
+	public ArrayList<clsAssociation> moInternalAssociatedContent = null;
 	
 	public ArrayList<clsAssociation> getMoInternalAssociatedContent() ;
 	public void setMoInternalAssociatedContent(ArrayList<clsAssociation> moInternalAssociatedContent);
