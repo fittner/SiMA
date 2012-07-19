@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 
 
@@ -20,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsEmotion;
  * 
  */
 public interface I5_12_receive {
-	public void receive_I5_12(ArrayList<clsDriveMeshOLD> poDrives, ArrayList<clsEmotion> poEmotions);
+	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives, ArrayList<clsEmotion> poEmotions);
 }

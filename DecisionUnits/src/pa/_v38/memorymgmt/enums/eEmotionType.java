@@ -17,7 +17,10 @@ public enum eEmotionType {
 	ANGER,
 	GRIEF,
 	LOVE,
-	FEAR;
+	FEAR,
+	PLEASURE,
+	SATURATION,
+	ELATION;
 	
 	public static eEmotionType getEmotionType(String poEmotionType) {
 	

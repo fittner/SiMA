@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -28,6 +28,7 @@ import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.pa.eDriveComponent;
 
 /**
  * (see document "Compositions of Emotions")
@@ -50,7 +51,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 	//Private members for send and recieve
 	private ArrayList<clsEmotion> moEmotions_OUT; 
-	private ArrayList<clsDriveMeshOLD> moDrives_IN;
+	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
 	 // four basic categories ("Grundkategorien", see document "Compositions of Emotions")
@@ -138,16 +139,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	protected void process_basic() {
 		
 		//1. Get Unpleasure from all drives, and the aggr. and libid parts
-		for (clsDriveMeshOLD oDM: moDrives_IN) {
-			mrDriveUnpleasure += oDM.getMrQuotaOfAffect();
-			if(oDM.getMoContentType().equals("LIFE")) {
-				mrDriveLibid += oDM.getMrQuotaOfAffect();
-			} else if (oDM.getMoContentType().equals("DEATH")){
-				mrDriveAggr += oDM.getMrQuotaOfAffect();
+		for (clsDriveMesh oDM: moDrives_IN) {
+			mrDriveUnpleasure += oDM.getQuotaOfAffect();
+			if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
+				mrDriveLibid += oDM.getQuotaOfAffect();
+			} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
+				mrDriveAggr += oDM.getQuotaOfAffect();
 			}			
 		}
 		
-		mrDrivePleasure = 0.7; // TODO: Wenn F48 Lust in DT4 speichert: moPleasureStorage.send_D4_1();
+		mrDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
@@ -204,16 +205,35 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		// just generate Pleasure-based Emotions
 		else if (mrRelativeSystemUnpleasure > mrRelativeThreshold) {
+			generateEmotion(eEmotionType.PLEASURE, mrRelativeSystemPleasure, mrSystemPleasure, 0, 0, 0);
 			if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  mrSystemLibid/orSumValuesPlUnPl, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
-			// else NO EMOTIONS??? 
+			else if (mrRelativeSystemAggr > mrRelativeThreshold) {
+				generateEmotion(eEmotionType.ELATION, mrSystemAggr/orSumValuesPlUnPl, mrSystemPleasure, 0, 0, mrSystemAggr);
+			}
+			else {
+				generateEmotion(eEmotionType.SATURATION,  mrSystemLibid/orSumValuesPlUnPl, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, mrSystemAggr/orSumValuesPlUnPl, mrSystemPleasure, 0, 0, mrSystemAggr);
+			} 
 		}
 		// generate both
 		else {
+			
+			// pleasure-based emotions
+			generateEmotion(eEmotionType.PLEASURE, mrRelativeSystemPleasure, mrSystemPleasure, 0, 0, 0);
 			if (mrRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.LOVE,  mrRelativeSystemPleasure, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  mrSystemLibid/orSumValuesPlUnPl, mrSystemPleasure, 0, mrSystemLibid, 0);
 			}
+			else if (mrRelativeSystemAggr > mrRelativeThreshold) {
+				generateEmotion(eEmotionType.ELATION, mrSystemAggr/orSumValuesPlUnPl, mrSystemPleasure, 0, 0, mrSystemAggr);
+			}
+			else {
+				generateEmotion(eEmotionType.SATURATION,  mrSystemLibid/orSumValuesPlUnPl, mrSystemPleasure, 0, mrSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, mrSystemAggr/orSumValuesPlUnPl, mrSystemPleasure, 0, 0, mrSystemAggr);
+			}
+			
+			//unpleasure-based emotions
 			generateEmotion(eEmotionType.FEAR, mrRelativeSystemUnpleasure, 0, mrSystemUnpleasure, 0, 0);
 			if(mrRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, mrSystemAggr/orSumValuesPlUnPl, 0, mrSystemUnpleasure, 0, mrSystemAggr);
@@ -393,8 +413,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	public void receive_I5_3(
-			ArrayList<clsDriveMeshOLD> poDrives) {
-		moDrives_IN = (ArrayList<clsDriveMeshOLD>) deepCopy(poDrives); 
+			ArrayList<clsDriveMesh> poDrives) {
+		moDrives_IN = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
 		
 	}
 

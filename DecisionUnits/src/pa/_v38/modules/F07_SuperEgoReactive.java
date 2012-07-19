@@ -20,6 +20,7 @@ import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -66,6 +67,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsDriveMeshOLD> moDrives;
+	private ArrayList<clsDriveMesh> moDrivesTEMPORARY;
 	private ArrayList<String> moForbiddenDrives;
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	
@@ -162,9 +164,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_12(ArrayList<clsDriveMeshOLD> poDrives,  ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_12(ArrayList<clsDriveMesh> poDrives,  ArrayList<clsEmotion> poEmotions) {
 		
-		moDrives = (ArrayList<clsDriveMeshOLD>) deepCopy(poDrives); 
+		moDrivesTEMPORARY = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
 		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
 		
 	}
@@ -440,7 +442,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_13(moForbiddenDrives, moDrives); 
+		send_I5_13(moForbiddenDrives, moDrivesTEMPORARY); 
 		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT, moEmotions_Input); 
 	}
 
@@ -503,7 +505,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMeshOLD> poData) {
+	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
 		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);

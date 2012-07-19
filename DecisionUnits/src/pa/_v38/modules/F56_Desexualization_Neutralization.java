@@ -14,10 +14,11 @@ import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.pa.ePartialDrive;
 
 /**
  * This function reduces the affect values of drives by spliting them according to the attached modules. 
@@ -35,8 +36,8 @@ implements I5_3_receive, I5_4_send {
 	/*
 	 * Input/Output of module
 	 */
-	private ArrayList<clsDriveMeshOLD> moDrives_IN;
-	private ArrayList<clsDriveMeshOLD> moDrives_OUT;
+	private ArrayList<clsDriveMesh> moDrives_IN;
+	private ArrayList<clsDriveMesh> moDrives_OUT;
 	
 	/** Reference to the storage for freed psychic energy, to distribute it to other modules.; @since 12.10.2011 19:28:27 */
 	private DT3_PsychicEnergyStorage moPsychicEnergyStorage;
@@ -106,9 +107,9 @@ implements I5_3_receive, I5_4_send {
 
 	@Override
 	public void receive_I5_3(
-			ArrayList<clsDriveMeshOLD> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 
-		moDrives_IN = (ArrayList<clsDriveMeshOLD>)deepCopy(poDrives);
+		moDrives_IN = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 	}
 
 	/* (non-Javadoc)
@@ -125,23 +126,23 @@ implements I5_3_receive, I5_4_send {
 		
 		double reducedEnergy = 0.0;
 		// copy input to allow comparison before/after
-		moDrives_OUT = (ArrayList<clsDriveMeshOLD>)deepCopy(moDrives_IN);
+		moDrives_OUT = (ArrayList<clsDriveMesh>)deepCopy(moDrives_IN);
 		
 		// take energy from drives attached to the perception
-		for (clsDriveMeshOLD oEntry : moDrives_OUT) {
+		for (clsDriveMesh oEntry : moDrives_OUT) {
 			// take specified amount of drive energy
 			reducedEnergy = 0.0; // initialize for each one, just to be sure.
 			
-			if (oEntry.mbSexualDM == true) {
-				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSexual;
+			if (oEntry.getPartialDrive() != ePartialDrive.UNDEFINED) {
+				reducedEnergy = oEntry.getQuotaOfAffect() * mrEnergyReductionRateSexual;
 				// update the drive energy 
-				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
+				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
 			}
 			else {
-				reducedEnergy = oEntry.getMrQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
+				reducedEnergy = oEntry.getQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
 				
 				// update the drive energy 
-				oEntry.setMrQuotaOfAffect(oEntry.getMrQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
+				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
 			}
 
 			// send free drive energy to DT3 for distribution to other modules
@@ -306,7 +307,7 @@ implements I5_3_receive, I5_4_send {
 
 	@Override
 	public void send_I5_4(
-			ArrayList<clsDriveMeshOLD> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 
 		((I5_4_receive)moModuleList.get(55)).receive_I5_4(poDrives);
 

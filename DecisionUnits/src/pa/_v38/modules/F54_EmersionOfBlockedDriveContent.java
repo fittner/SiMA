@@ -15,7 +15,7 @@ import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_3_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -37,8 +37,8 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 			implements I5_2_receive, I5_3_send{
 
 	public static final String P_MODULENUMBER = "54";
-	private ArrayList<clsDriveMeshOLD> moDrives;
-	private ArrayList<clsDriveMeshOLD> moInput;
+	private ArrayList<clsDriveMesh> moDrives;
+	private ArrayList<clsDriveMesh> moInput;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -102,9 +102,9 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_2(
-			ArrayList<clsDriveMeshOLD> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		
-		moInput = (ArrayList<clsDriveMeshOLD>) deepCopy(poData); 
+		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
@@ -130,7 +130,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 		
 		moDrives = moInput;		
 				
-		clsDriveMeshOLD oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
+		clsDriveMesh oRep = moBlockedContentStorage.matchBlockedContentDrives(moInput);
 		if (oRep != null) {
 			moDrives.add(oRep);
 		}
@@ -234,7 +234,7 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_3(
-			ArrayList<clsDriveMeshOLD> poDrives) {
+			ArrayList<clsDriveMesh> poDrives) {
 		
 		((I5_3_receive)moModuleList.get(56)).receive_I5_3(poDrives);
 		((I5_3_receive)moModuleList.get(63)).receive_I5_3(poDrives);
