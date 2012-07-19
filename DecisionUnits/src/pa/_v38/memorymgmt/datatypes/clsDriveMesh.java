@@ -29,8 +29,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
-	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
-	private ePartialDrive moPartialDrive;				//Partialtriebe (A/O/P/G)
+	private eDriveComponent moDriveComponent = eDriveComponent.UNDEFINED;			//Triebkomponente (agressiv/libidonoes)
+	private ePartialDrive moPartialDrive = ePartialDrive.UNDEFINED ;				//Partialtriebe (A/O/P/G)
 	
 	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -273,7 +273,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 				//oRetVal = oDataStructure.getNumbAssociations();
 				oRetVal = 1.0;
 			}
-			else if (oDataStructure.moDS_ID > -1) {
+			else if (oDataStructure.moDS_ID >= -1) {
 			//In case the data structure does not have an ID, it has to be compared to a stored 
 			//data structure and replaced by it (the processes base on information that is already
 			//defined
