@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -71,6 +72,9 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	/** Input from Drive System */
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDrives_IN;
 
+	
+	private ArrayList<clsDriveMesh> moDrives_IN_TEMPORARY;
+	
 	/**
 	 * Constructor of F14, nothing unusual
 	 * 
@@ -307,8 +311,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I5_1(
-			ArrayList<clsDriveMeshOLD> poDrives) {
-		moDrives_IN = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>>)deepCopy(poDrives);
+			ArrayList<clsDriveMesh> poDrives) {
+		moDrives_IN_TEMPORARY = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 		
 	}	
 }
