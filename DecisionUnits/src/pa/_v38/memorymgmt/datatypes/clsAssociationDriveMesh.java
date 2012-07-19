@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -30,7 +31,7 @@ public class clsAssociationDriveMesh extends clsAssociation{
 	 * @param poDriveMesh
 	 */
 	public clsAssociationDriveMesh(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, 
-			clsDriveMeshOLD poAssociationElementA, 
+			clsDriveMesh poAssociationElementA, 
 			clsThingPresentationMesh poAssociationElementB){
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);		
@@ -39,16 +40,38 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//should be represented in case the affect is the same as the clsAssociation's weight 
 		//moContent = 1.0; 
 	}
+	
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
-	 * 13.07.2010, 20:58:09
+	 * @author schaat
+	 * 18.07.2012, 20:58:09
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
 	@Override
-	public double compareTo(clsDataStructurePA o) {
-		// TODO (zeilinger) - Auto-generated method stub
+	public double compareTo(clsDataStructurePA poDataStructure) {
+		
+		/* compare drive source, -object and -aim
+		double oRetVal = 0.0; 
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
+		
+		clsAssociationDriveMesh oDataStructure = (clsAssociationDriveMesh)poDataStructure;
+		
+		clsDataStructurePA oAssociationElementIntern = this.moAssociationElementB;
+		clsDataStructurePA oAssociationElementExtern = oDataStructure.moAssociationElementB;
+		
+				
+		if(this.moDS_ID == oDataStructure.moDS_ID){
+			
+			oRetVal = 1.0;
+		}
+		
+		if(oAssociationElementIntern.moContentType == oAssociationElementExtern.moContentType){
+			
+		}
+			
+		return oRetVal; 
+		*/
 		return 0;
 	}
 	/* (non-Javadoc)
@@ -95,8 +118,8 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		
 	}
 	
-	public clsDriveMeshOLD getDM(){
+	public clsDriveMesh getDM(){
 		//Element A is always the Drive Mesh 
-		return (clsDriveMeshOLD)moAssociationElementA; 
+		return (clsDriveMesh)moAssociationElementA; 
 	}
 }

@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -40,8 +40,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
-	private ArrayList<clsDriveMeshOLD> moDriveCandidates;
-	private  ArrayList<clsDriveMeshOLD> moDrivesAndTraces_OUT;
+	private ArrayList<clsDriveMesh> moDriveCandidates;
+	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
 	private double mrThresholdMatchFactor = 0.5;
 	private double mrThresholdPleasure = 0.2;
@@ -66,7 +66,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
-		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMeshOLD>();	//If no drive candidate is there, then it is initialized
+		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -136,7 +136,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @see pa._v38.interfaces.modules.I4_1_receive#receive_I4_1(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I4_1(ArrayList<clsDriveMeshOLD> poDriveCandidates) {
+	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
 		moDriveCandidates = poDriveCandidates; 
 	
 	}
@@ -175,16 +175,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 *
 	 * @since 01.07.2011 10:24:34
 	 *
-	 * the ARSIN halluzinates possible drive objects and drive aims (which he remembers from memory).
+	 * the ARSIN hallucinates possible drive objects and drive aims (which he remembers from memory).
 	 * Therefore all similar DMs from memory are associated to the simulator-dm. from these appropriate dms the one with the
-	 * highest QoA is chosen and its drive object+dirve aim is taken. in the end, the simulator-dm gets the best 
+	 * highest QoA is chosen and its drive object+drive aim is taken. in the end, the simulator-dm gets the best (according to the pleasure-principle)
 	 * drive-aim+drive-object. Since this choice can be revised (by defense mechansims and SP) all similar memory-dms keep associated as external
 	 * associations 
 	 */
 
-	private ArrayList<clsDriveMeshOLD> attachDriveCandidates(ArrayList<clsDriveMeshOLD> poDriveCandidates) { 
+	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
-		ArrayList<clsDriveMeshOLD> oRetVal = new ArrayList<clsDriveMeshOLD>();
+		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		ArrayList<clsAssociation> oAssSimilarDMs = null;
 		ArrayList<clsAssociation> oMemoryDMAssociations =new ArrayList<clsAssociation>();
 				
@@ -195,8 +195,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rMaxMatchfactor = 0.0;
 
 		
-		// for each simulator-DM (should be 16)
-		for (clsDriveMeshOLD oSimulatorDM : poDriveCandidates) {
+		// for each simulator-DM (should be 16 for now)
+		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 						
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
@@ -204,7 +204,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
-				ArrayList<clsDriveMeshOLD> poSearchPattern = new ArrayList<clsDriveMeshOLD>();
+				ArrayList<clsDriveMesh> poSearchPattern = new ArrayList<clsDriveMesh>();
 				poSearchPattern.add(oSimulatorDM);
 				
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
@@ -221,7 +221,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
 							
 							// get similar memory-dm
-							clsDriveMeshOLD oMemoryDM = (clsDriveMeshOLD)oSearchPair.b.getMoDataStructure();
+							clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 
 							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
 							oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
@@ -229,7 +229,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							// add associations to memory-dm
 							oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
 							
-														// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
+							// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
 							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
 							
 							// take  drive object+drive aim of best match 
@@ -355,7 +355,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * @see pa._v38.interfaces.modules.I5_1_send#send_I5_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_1(ArrayList<clsDriveMeshOLD> poData) {
+	public void send_I5_1(ArrayList<clsDriveMesh> poData) {
 		
 		((I5_1_receive)moModuleList.get(49)).receive_I5_1(poData); 
 		((I5_1_receive)moModuleList.get(14)).receive_I5_1(poData); 

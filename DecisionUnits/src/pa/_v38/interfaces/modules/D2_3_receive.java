@@ -6,7 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
  * 
  */
 public interface D2_3_receive {
-	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMeshOLD poDM);
+	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMesh poDM);
 }

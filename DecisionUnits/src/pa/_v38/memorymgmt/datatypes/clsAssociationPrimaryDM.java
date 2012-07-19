@@ -33,8 +33,8 @@ public class clsAssociationPrimaryDM extends clsAssociation{
 	 * @param poAssociationType
 	 */
 	public clsAssociationPrimaryDM(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
-			clsDriveMeshOLD poAssociationElementA,
-			clsDriveMeshOLD poAssociationElementB) {
+			clsDriveMesh poAssociationElementA,
+			clsDriveMesh poAssociationElementB) {
 		
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 		// TODO (zeilinger) - Auto-generated constructor stub

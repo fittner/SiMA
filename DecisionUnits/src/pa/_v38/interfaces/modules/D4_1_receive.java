@@ -7,6 +7,9 @@
  */
 package pa._v38.interfaces.modules;
 
+import java.util.ArrayList;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+
 /**
  * stores pleasure of the system in DT4
  * 
@@ -18,5 +21,5 @@ public interface D4_1_receive {
 	
 	
 	
-	public void receive_D4_1 (double pnActualPleasureValue);
+	public void receive_D4_1 (ArrayList<clsDriveMesh> poActualDriveCandidates);
 }

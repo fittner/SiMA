@@ -28,7 +28,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
@@ -265,10 +265,10 @@ public class clsOntologyLoader {
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 	}
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * DOCUMENT (schaat) - insert description
 	 *
-	 * @author zeilinger
-	 * 23.06.2010, 21:24:42
+	 * @author schaat
+	 * 13.07.2012, 21:24:42
 	 *
 	 * @param poDataElements
 	 * @param poFrameKB
@@ -281,26 +281,21 @@ public class clsOntologyLoader {
 		int oID = DS_ID++;   
 		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
-		float rPleasure = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
-		float rDriveCathegoryAnal = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:anal")));
-		float rDriveCathegoryOral = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:oral"));
-		float rDriveCathegoryGenital = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:genital"));
-		float rDriveCathegoryPhalic = (Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("cathegory:phalic"));
-		double [] oDriveCathegory = {rDriveCathegoryAnal, rDriveCathegoryOral, rDriveCathegoryGenital, rDriveCathegoryPhalic}; 
-				
-		clsDriveMeshOLD oDataStructure = new clsDriveMeshOLD(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
-																								rPleasure,
-																								oDriveCathegory, 
-																								new ArrayList<clsAssociation>(), 
+		float rQuotaOfAffect = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
+		
+		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
+																								new ArrayList <clsAssociation>(), rQuotaOfAffect,
 																								oElementValue);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 
 				
-		for(clsAssociation element : oAssociationList){
-			if(element instanceof clsAssociationAttribute){oDataStructure.assignDataStructure(element);}
-		}
-		//TODO HZ: Define other attributes!! 
+		oAssociationList.addAll(loadInstanceAssociations(poElement, poDataContainer));
+		
+		oDataStructure.addInternalAssociations(oAssociationList);
+		
+
+		 
 	}
 	
 	/**
@@ -727,7 +722,7 @@ public class clsOntologyLoader {
 			case ASSOCIATIONDM:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
 				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
-												   (clsDriveMeshOLD)oAssociationElements.a, 
+												   (clsDriveMesh)oAssociationElements.a, 
 												   (clsThingPresentationMesh)oAssociationElements.b); 
 			case ASSOCIATIONEMOTION:
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.EMOTION);

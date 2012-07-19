@@ -7,6 +7,9 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+
+import du.enums.eOrgan;
+import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -35,6 +38,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
 	private ArrayList<clsAssociation> moInternalAssociatedContent = null;  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
 	
+	
 
 	/**
 	 * DOCUMENT (schaat) - insert description 
@@ -43,35 +47,49 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
+	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
+		
+		mrQuotaOfAffect = prQuotaOfAffect;
+		moInternalAssociatedContent = poInternalAssociatedContent;
+		moDebugInfo = poContent;
 	}
 	
 	
 	public clsThingPresentationMesh getActualDriveObject(){
-		return getAssociatedObject(eContentType.DRIVEOBJECTASSOCIATION);
+		return getAssociatedObject(eContentType.ENTITY);
 	}
 	
 	public clsThingPresentationMesh getActualDriveAim(){
-		return getAssociatedObject(eContentType.DRIVEAIMASSOCIATION);
+		return getAssociatedObject(eContentType.ACTION);
 	}
 	
 	public clsThingPresentationMesh getActualBodyOrifice(){
 		return getAssociatedObject(eContentType.ORIFICE);
 	}
 	
+	//orifices are fixed for PA body, thus we can do this here
+	public eOrifice getActualBodyOrificeAsENUM(){
+		return eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+	}
+	
 	public clsThingPresentationMesh getActualDriveSource(){
 		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
-	private clsAssociationAttribute getAssociation(eContentType oContentType){
-		clsAssociationAttribute oRetVal = null;
+	//organs are fixed for PA body, thus we can do this here
+	public eOrgan getActualDriveSourceAsENUM(){
+		return eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+	}
+	
+	private clsAssociationDriveMesh getAssociation(eContentType oContentType){
+		clsAssociationDriveMesh oRetVal = null;
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType) //TODO no more strings
-				oRetVal = (clsAssociationAttribute)oAA;
+			if(oAA.getMoContentType() == oContentType) 
+				oRetVal = (clsAssociationDriveMesh)oAA;
 		}
 		return oRetVal;
 	}
@@ -81,8 +99,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType)
-				oRetVal = (clsAssociationAttribute)oAA.moAssociationElementB;
+			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+			if(oTPM.getMoContentType() == oContentType)
+				oRetVal = oTPM;
 		}
 		
 		if( oRetVal != null )
@@ -101,7 +120,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		for(clsAssociation oAA : moInternalAssociatedContent)
 		{
-			if(oAA.getMoContentType() == oContentType)
+			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+			if(oTPM.getMoContentType() == oContentType)
 				oRetVal = true;
 		}
 		
@@ -122,11 +142,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
 		
-		if(ContainsAssociatedContentType(eContentType.DRIVEAIMASSOCIATION))
-			throw new Exception("Cannot associate type " +eContentType.DRIVEAIMASSOCIATION+ " to DM, already associated.");
+		if(ContainsAssociatedContentType(eContentType.ACTION))
+			throw new Exception("Cannot associate type " +eContentType.ACTION+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEAIMASSOCIATION, 
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ACTION, 
 																		(clsPrimaryDataStructure)this, 
 																		(clsPrimaryDataStructure)poDriveAim, 
 																		prWeight));
@@ -134,11 +154,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
 		
-		if(ContainsAssociatedContentType(eContentType.DRIVEOBJECTASSOCIATION))
-			throw new Exception("Cannot associate type " +eContentType.DRIVEOBJECTASSOCIATION+ " to DM, already associated.");
+		if(ContainsAssociatedContentType(eContentType.ENTITY))
+			throw new Exception("Cannot associate type " +eContentType.ENTITY+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.DRIVEOBJECTASSOCIATION, 
+				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ENTITY, 
 																		(clsPrimaryDataStructure)this, 
 																		(clsPrimaryDataStructure)poDriveObject, 
 																		prWeight));
@@ -155,9 +175,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 																		(clsPrimaryDataStructure)poDriveOrifice, 
 																		prWeight));
 	}
+
 	
-	@Override 
-	public String getDebugInfo() 	{
+	@Override
+	public String toString(){
 		String oRetval = "|DM:";
 		oRetval += ":QoA="+this.mrQuotaOfAffect;
 		oRetval += ":DComponent="+this.moDriveComponent;
@@ -166,11 +187,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		oRetval += ":External="+this.moExternalAssociatedContent.toString();
 		oRetval += "|";
 		return oRetval;
-	}
-	
-	@Override
-	public String toString(){
-		return getDebugInfo();
 	}
 	
 	
@@ -237,7 +253,41 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	@Override
 	public double compareTo(clsDataStructurePA poDataStructure) {
 		// TODO (schaat) - Auto-generated method stub
-		throw new NotImplementedException();
+		double oRetVal = 0.0; 
+		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
+
+		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
+		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+				
+		//This if statement proofs if the compared datastructure does already have an ID =>
+		//the ID sepcifies that the data structure has been already compared with a stored
+		//data structure and replaced by it. Hence they can be compared by their IDs.
+		
+			if(this.moDS_ID == oDataStructure.moDS_ID){
+				/*In case the DataStructureIDs are equal, the return value is the number 
+				 * of associated data structures and their number of associations. The idendityMatch number
+				 * is not used here as it would distort the result.   
+				 */
+				//oRetVal = oDataStructure.getNumbAssociations();
+				oRetVal = 1.0;
+			}
+			else if (oDataStructure.moDS_ID > -1) {
+			//In case the data structure does not have an ID, it has to be compared to a stored 
+			//data structure and replaced by it (the processes base on information that is already
+			//defined
+			//Drive Mesh content is represented by a list of attribute associations	
+					
+				if(this.moDriveComponent == oDataStructure.moDriveComponent){
+					if(this.moPartialDrive == oDataStructure.moPartialDrive){
+						if(this.getActualDriveSource().getMoContent() == oDataStructure.getActualDriveSource().getMoContent()){
+							oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+						}
+					}
+					
+				}
+			}
+		return oRetVal; 
 	}
 
 	/* (non-Javadoc)
@@ -287,7 +337,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public void addInternalAssociations(
 			ArrayList<clsAssociation> poAssociatedDataStructures) {
 		// TODO (schaat) - Auto-generated method stub
-		throw new NotImplementedException();
+		moInternalAssociatedContent.addAll(poAssociatedDataStructures); 
 		
 	}
 
