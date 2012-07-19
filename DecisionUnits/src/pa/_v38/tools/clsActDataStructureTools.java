@@ -8,11 +8,11 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
@@ -25,23 +25,28 @@ import pa._v38.memorymgmt.enums.ePredicate;
 public class clsActDataStructureTools {
 	
 	/**
-	 * Create a prediction from an intention
+	 * Create a new supportive data structure for acts
 	 * 
 	 * (wendt)
-	 * @since 22.05.2012 12:32:00
 	 *
+	 * @since 18.07.2012 21:15:06
+	 *
+	 * @param poActContent
 	 * @param poIntention
 	 * @return
 	 */
 	public static clsWordPresentationMesh createActDataStructure(clsWordPresentationMesh poIntention) {
-		//If yes, then create a prediction
-		//Create an act structure for that act
-		clsWordPresentationMesh oPrediction = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.PREDICTION, poIntention.getMoContent()), new ArrayList<clsAssociation>());
-		//Create the association to the intention from the prediction but not the other way around. In that way the mesh is independent of the meta structure
-		clsMeshTools.createAssociationSecondary(oPrediction, 1, poIntention, 0, 1.0, eContentType.INTENTION, ePredicate.HASINTENTION, false);
-	
-		return oPrediction;
+		//Create identifiyer. All goals must have the content type "GOAL"
+		clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.ACT);
+				
+		//Create the basic goal structure
+		clsWordPresentationMesh oResult = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), poIntention.getMoContent());
+		
+		setIntention(oResult, poIntention);
+		
+		return oResult;
 	}
+
 	
 	/**
 	 * Check if the intention exists in the predictions
