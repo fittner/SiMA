@@ -308,7 +308,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 					//Create new identifier
 					clsTriple<Integer, eDataType, eContentType> oIdentifyer = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
 					//Create new association drivemesh but with the new root element
-					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
+					//TODO CM adapt to new DM -> clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
 					//Add the assocation to the input container
 					oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
 					//poAssignment.a.assignDataStructure(oDriveAss);
