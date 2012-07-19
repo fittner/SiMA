@@ -15,6 +15,7 @@ import du.enums.pa.ePartialDrive;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
@@ -25,7 +26,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  * Jul 10, 2012, 1:19:27 PM
  * 
  */
-public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure{
+public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent;			//Triebkomponente (agressiv/libidonoes)
@@ -47,7 +48,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent) {
+	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
 		
@@ -257,8 +258,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		if(this.moDataStructureType != poDataStructure.moDataStructureType){return oRetVal;}
 
 		clsDriveMesh oDataStructure = (clsDriveMesh)poDataStructure;
-		ArrayList <clsAssociation> oContentListTemplate = this.moAssociatedContent; 
-		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moAssociatedContent;
+		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
+		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
 				
 		//This if statement proofs if the compared datastructure does already have an ID =>
 		//the ID sepcifies that the data structure has been already compared with a stored
@@ -310,10 +311,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 */
 	@Override
 	public void setMoInternalAssociatedContent(
-			ArrayList<clsAssociation> moAssociatedContent) {
+			ArrayList<clsAssociation> poInternalAssociatedContent) {
 		// TODO (schaat) - Auto-generated method stub
-		throw new NotImplementedException();
-		
+		this.moInternalAssociatedContent = poInternalAssociatedContent;		
 	}
 
 	/* (non-Javadoc)
@@ -324,7 +324,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 */
 	@Override
 	public double getNumbInternalAssociations() {
-		return moAssociatedContent.size();
+		return moInternalAssociatedContent.size();
 	}
 
 	/* (non-Javadoc)
@@ -352,6 +352,96 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		// TODO (schaat) - Auto-generated method stub
 		throw new NotImplementedException();
 		
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Jul 19, 2012 10:12:43 AM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#getExternalMoAssociatedContent()
+	 */
+	@Override
+	public ArrayList<clsAssociation> getExternalMoAssociatedContent() {
+		// TODO (schaat) - Auto-generated method stub
+		return moExternalAssociatedContent;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Jul 19, 2012 10:12:43 AM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#setMoExternalAssociatedContent(java.util.ArrayList)
+	 */
+	@Override
+	public void setMoExternalAssociatedContent(
+			ArrayList<clsAssociation> poExternalAssociatedContent) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent = poExternalAssociatedContent; 
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Jul 19, 2012 10:12:43 AM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#getNumbExternalAssociations()
+	 */
+	@Override
+	public double getNumbExternalAssociations() {
+		// TODO (schaat) - Auto-generated method stub
+		return moExternalAssociatedContent.size();
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Jul 19, 2012 10:12:43 AM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociations(java.util.ArrayList)
+	 */
+	@Override
+	public void addExternalAssociations(
+			ArrayList<clsAssociation> poAssociatedDataStructures) {
+		// TODO (schaat) - Auto-generated method stub
+		moInternalAssociatedContent.addAll(poAssociatedDataStructures); 
+	}
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+        try {
+        	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
+        	if (moInternalAssociatedContent != null) {
+        		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		
+        		for(clsAssociation oAssociation : moInternalAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+        	if (moExternalAssociatedContent != null) {
+        		oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+        		
+        		for(clsAssociation oAssociation : moExternalAssociatedContent){
+        			try { 
+    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    				} catch (Exception e) {
+    					return e;
+    				}
+        		}
+        	}
+        	
+          	return oClone;
+        } catch (CloneNotSupportedException e) {
+           return e;
+        }
 	}
 
 }

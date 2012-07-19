@@ -1,4 +1,4 @@
-; Wed Jul 18 14:36:48 CEST 2012
+; Thu Jul 19 11:55:19 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1107,119 +1107,81 @@
 		[WP%3ADISTANCE%3ANODISTANCE])
 	(weight 1.0 1.0))
 
-([AW%3ADM_BITE%3ABITEBODO_PLEASURE] of  ASSOCIATIONWP
-
-	(element [WP%3ABITE])
-	(weight 1.0 1.0))
-
-([AW%3ADM_BITE%3ABITEBODO_UNPLEASURE1] of  ASSOCIATIONWP
-
-	(element [WP%3ABITE])
-	(weight 1.0 1.0))
-
-([AW%3ADM_BITE%3ABITEBODO_UNPLEASURE2] of  ASSOCIATIONWP
-
-	(element [WP%3ABITE])
-	(weight 1.0 1.0))
-
 ([AW%3ADM_BITE%3ABITECAKE] of  ASSOCIATIONWP
 
-	(element [WP%3ABITE])
+	(element
+		[WP%3ABITE]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ACAKE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITECARROTBASIC] of  ASSOCIATIONWP
 
-	(element [WP%3ABITE])
+	(element
+		[WP%3ABITE]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3ACARROT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_BITE%3ABITEREMOTEBOTRB01] of  ASSOCIATIONWP
 
-	(element [WP%3ABITE])
-	(weight 1.0 1.0))
-
-([AW%3ADM_BITE%3ACANBASIC] of  ASSOCIATIONWP
-
-	(element [WP%3ABITE])
+	(element
+		[WP%3ABITE]
+		[DM%3ASTOMACH%3AAGGRESSIVE%3AREMOTEBOT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_DEPOSIT%3ADEPOSITSTONE] of  ASSOCIATIONWP
 
-	(element [WP%3ADEPOSIT])
-	(weight 1.0 1.0))
-
-([AW%3ADM_NOURISH%3ACANBASIC] of  ASSOCIATIONWP
-
-	(element [WP%3ANOURISH])
-	(weight 1.0 1.0))
-
-([AW%3ADM_NOURISH%3ANOURISHARSIN01] of  ASSOCIATIONWP
-
-	(element [WP%3ANOURISH])
+	(element
+		[WP%3ADEPOSIT]
+		[DM%3ARECTUM%3AAGGRESSIVE%3ASTONE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHBODO] of  ASSOCIATIONWP
 
-	(element [WP%3ANOURISH])
+	(element
+		[WP%3ANOURISH]
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ABODO])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCAKE] of  ASSOCIATIONWP
 
-	(element [WP%3ANOURISH])
+	(element
+		[WP%3ANOURISH]
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ACAKE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHCARROTBASIC] of  ASSOCIATIONWP
 
-	(element [WP%3ANOURISH])
+	(element
+		[WP%3ANOURISH]
+		[DM%3ASTOMACH%3ALIBIDINOUS%3ACARROT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_NOURISH%3ANOURISHREMOTEBOTRB01] of  ASSOCIATIONWP
 
-	(element [WP%3ANOURISH])
+	(element
+		[WP%3ANOURISH]
+		[DM%3ASTOMACH%3ALIBIDINOUS%3AREMOTEBOT])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_RELAX%3ARELAX] of  ASSOCIATIONWP
 
-	(element [WP%3ARELAX])
+	(element
+		[WP%3ARELAX]
+		[DM%3AStamina%3ALibid%3AEmptySpace])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_REPRESS%3AREPRESSSTONE] of  ASSOCIATIONWP
 
-	(element [WP%3AREPRESS])
+	(element
+		[WP%3AREPRESS]
+		[DM%3ARECTUM%3ALIBIDINOUS%3AEMPTYSPACE])
 	(weight 1.0 1.0))
 
 ([AW%3ADM_SLEEP%3ASLEEP] of  ASSOCIATIONWP
 
-	(element [WP%3ASLEEP])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_BITE%3ABITE] of  ASSOCIATIONWP
-
-	(element [WP%3ABITE])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_DEPOSIT%3ADEPOSIT] of  ASSOCIATIONWP
-
-	(element [WP%3ADEPOSIT])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_NOURISH%3ANOURISH] of  ASSOCIATIONWP
-
-	(element [WP%3ANOURISH])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_RELAX%3ARELAX] of  ASSOCIATIONWP
-
-	(element [WP%3ARELAX])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_REPRESS%3AREPRESS] of  ASSOCIATIONWP
-
-	(element [WP%3AREPRESS])
-	(weight 1.0 1.0))
-
-([AW%3ADRIVECONTENT_SLEEP%3ASLEEP] of  ASSOCIATIONWP
-
-	(element [WP%3ASLEEP])
+	(element
+		[WP%3ASLEEP]
+		[DM%3AStamina%3AAggr%3AEmptySpace])
 	(weight 1.0 1.0))
 
 ([AW%3AENTITY_ADAM%3AADAM] of  ASSOCIATIONWP
@@ -1429,6 +1391,7 @@
 
 	(class_association [TPM%3AORGANS%3ABLADDER])
 	(drive_component "AGGRESSIVE")
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:BLADDER:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1437,6 +1400,7 @@
 
 	(class_association [TPM%3AORGANS%3ABLADDER])
 	(drive_component "LIBIDINOUS")
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:BLADDER:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1448,6 +1412,7 @@
 	(instance_association
 		[AD%3ASTONE%3ARECTUM%3AAGGR]
 		[AD%3AAIM%3ASTONE%3AEXCREMENT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.4)
 	(value "DM:RECTUM:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1459,6 +1424,7 @@
 	(instance_association
 		[AD%3AEMPTYSPACE%3ARECTUM%3ALIBID]
 		[AD%3AAIM%3AEMPTYSPACE%3AREPRESS])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:RECTUM:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1470,6 +1436,7 @@
 	(instance_association
 		[AD%3AEMPTYSPACE%3ASTAMINA%3AAGGR]
 		[AD%3AAIM%3ASTONE%3ASLEEP])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:Stamina:Aggr")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1481,6 +1448,7 @@
 	(instance_association
 		[AD%3AEMPTYSPACE%3AStamina%3ALibid]
 		[AD%3AAIM%3ASTONE%3ARELAX])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.9)
 	(value "DM:Stamina:Libid")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1492,6 +1460,7 @@
 	(instance_association
 		[AD%3ABODO%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3ABODO%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1503,6 +1472,7 @@
 	(instance_association
 		[AD%3ACAKEBASIC%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3ACAKE%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1514,6 +1484,7 @@
 	(instance_association
 		[AD%3ACARROTBASIC%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3ACARROT%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.3)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1525,6 +1496,7 @@
 	(instance_association
 		[AD%3AMOTHERS_BREAST%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3AMOTHERSBREASTS%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1536,6 +1508,7 @@
 	(instance_association
 		[AD%3AREMOTEBOT%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3AMOTHERSBREASTS%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1547,6 +1520,7 @@
 	(instance_association
 		[AD%3ASTONE%3ASTOMACH%3AAGGR]
 		[AD%3AAIM%3ASTONE%3AEAT])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1556,6 +1530,7 @@
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ABODO%3ASTOMACH%3ALIBID])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1565,6 +1540,7 @@
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ACAKEBASIC%3ASTOMACH%3ALIBID])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1574,6 +1550,7 @@
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ACARROTBASIC%3ASTOMACH%3ALIBID])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.3)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1583,6 +1560,7 @@
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3AMOTHERS_BREAST%3ASTOMACH%3ALIBID])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1592,6 +1570,7 @@
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3AREMOTEBOT%3ASTOMACH%3ALIBID])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
@@ -1600,9 +1579,7 @@
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "LIBIDINOUS")
-	(instance_association
-		[DM%3ASTOMACH%3ALIBIDINOUS%3ASTONE]
-		[TPM%3AENTITY%3ASTONE%3ASTONE01])
+	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))

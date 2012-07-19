@@ -17,7 +17,7 @@ public enum eTaskStatus {
 	NULLOBJECT,
 	NOTHING,
 	
-	NEED_ATTENTION,					//The goal must get any attention by selecting it in decision making
+	NEED_BASIC_ACT_ANALYSIS,		//Needs an act analysis. This option has to be triggered by an action
 	NEED_FOCUS,						//Needs a set focus
 	FOCUS_ON_SET,					//Focus set on the supportive data structure in the action
 	FOCUS_MOVE_FORWARD_SET,			//It has been focused on in front of the agent

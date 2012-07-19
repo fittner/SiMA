@@ -306,11 +306,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
-	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
+	private void processGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousMentalSituation) {
+		
+		//Get the goal
+		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poPreviousMentalSituation);
 		
 		//If the previous goal is a drive goal without any supportdatatype, then add it to the goallist
-		if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
-			poGoalList.add(poPreviousGoal);
+		if (clsGoalTools.getGoalType(oPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
+			poGoalList.add(oPreviousGoal);
 		}
 		
 		
@@ -322,122 +325,190 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Get all goals with the same type
 		//FOR TYPE PERCEPTION: Get all of them, which are seen in the perception
 		//FOR TYPE ACT: 
-		boolean bPreviousGoalFound = false;
 		
+		boolean bOneMatchFound = false;
+		
+		//Go through all goals 
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//Check if the goal object can be found in the perception
-			
-			if (bPreviousGoalFound==false) {
-				boolean bSimilar = clsGoalTools.compareGoalsForEquivalence(oGoal, poPreviousGoal); 
-				if (bSimilar==true) {
-					if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.PERCEPTIONALDRIVE)) {
-						//Find in perception
-						
-						//Get goal object
-						clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(oGoal);
-						//Get super structure of the goal object
-						eContentType oImageContentType = clsMeshTools.getSuperStructure(oGoalObject).getMoContentType();
-						//Check what the content type is
-						if (oImageContentType.equals(eContentType.PI)) {
-							oCurrentContinuedGoal = oGoal;
-							continue;	//Continue without setting need focus
-						}
-						
-					} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYDRIVE)) {
-						
-						
-						
-						
-						
-					}
-				}
+			boolean oMatchFound = false;
+			if (bOneMatchFound==false) {
+				oMatchFound = matchPreviousGoalWithACurrentGoal(oGoal, oPreviousGoal);
+				bOneMatchFound=true;
 			}
 			
-			
-			
-			//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
-//			if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.PERCEPTIONALDRIVE)) {
-//				//Set the NEED_FOCUS
-//				clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_FOCUS);
-//			} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.DRIVESOURCE)) {
-//				//Set the NEED_INTERNAL_INFO
-//				clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_INTERNAL_INFO);
-//			} else if (clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(oGoal).equals(eGoalType.MEMORYDRIVE)) {
-//				//???
-//			}
-			
-			clsGoalTools.setTaskStatus(oGoal, eTaskStatus.NEED_ATTENTION);
-			
-			
-			
-			//2. If this goal was not processed in the last step, delete all stati and set "NEED_FOCUS"
-			
+			//If this goal was not processed in the last step, delete all stati and set "NEED_FOCUS"
+			if (oMatchFound==false) {
+				//If the previous goal was not matched with this goal, set the default task status
+				setDefaultGoalTaskStatus(oGoal);
+			} else {
+				//Set the current continued goal is this goal
+				oCurrentContinuedGoal = oGoal;
+			}
 		}
-		
 		
 		//Process selected goal in special manner
 		if (oCurrentContinuedGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
-			
-			//Add importance as the goal was found
-			
-			//SupportDataStructureType
-			eGoalType oType = clsGoalTools.getGoalType(oCurrentContinuedGoal);
-			
-			if (oType.equals(eGoalType.DRIVESOURCE)) {
-				//Set new supportive data structure
-				clsGoalTools.createSupportiveDataStructureFromGoalObject(oCurrentContinuedGoal, eContentType.DRIVEGOALSUPPORT);
-				
-				//Give the following commands
-				
-				
-				//Get previous action
-				eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
-				
-				//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
-				if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
-					//Set the task to trigger search
-					clsGoalTools.setTaskStatus(oCurrentContinuedGoal, eTaskStatus.NEED_PERCEPTIONAL_INFO);
-				} else {
-					//Set supported DS for actions
-					clsGoalTools.setSupportiveDataStructureForAction(oCurrentContinuedGoal, clsGoalTools.getSupportiveDataStructure(oCurrentContinuedGoal));
-					clsGoalTools.setTaskStatus(oCurrentContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
-				}
-				
-				
-			} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
-				//clsGoalTools.createSupportiveDataStructureFromGoalObject(oCurrentContinuedGoal, eContentType.PERCEPTIONSUPPORT);
-				
-//				if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
-//					//oSetDecisionTask = eTaskStatus.GOAL_REACHABLE_PERCEPTION;
-//				} else {
-//					oSetDecisionTask = eTaskStatus.NEED_FOCUS;
-//					//Set supported DS for actions
-//					clsGoalTools.setSupportiveDataStructureForAction(oGoal, clsGoalTools.getSupportiveDataStructure(oGoal));
-//				}
-				
-				
-			} else if (oType==eGoalType.MEMORYDRIVE) {
-				
-				
-				//DO SOMETHING
-			}
-			
-			
+			processContinuedGoal(oCurrentContinuedGoal, poPreviousMentalSituation, oPreviousGoal);
 		}
 		
 	}
 	
+	/**
+	 * Set the default decision task status for a goal depending on the goal type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 21:01:33
+	 *
+	 * @param poGoal
+	 */
+	private void setDefaultGoalTaskStatus(clsWordPresentationMesh poGoal) {
+		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
+		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
+			//Set the NEED_FOCUS for all focus images
+			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_FOCUS);
+		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
+			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
+			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
+		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE)) {
+			//Set the need to perform a basic act recognition analysis
+			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);
+		}
+	}
 	
-	private void mergeGoals(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poPreviousGoal) {
-		//If the incoming goal == previous goal
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 18.07.2012 21:38:55
+	 *
+	 * @param poGoal
+	 * @param poPreviousGoal
+	 * @return
+	 */
+	private boolean matchPreviousGoalWithACurrentGoal(clsWordPresentationMesh poGoal, clsWordPresentationMesh poPreviousGoal) {
+		boolean bResult = false;
+		
+		//--- Extract necessary information from the previous act ---//
+		clsWordPresentationMesh oPreviousGoalSupportedDataStructure = clsGoalTools.getSupportiveDataStructure(poPreviousGoal);
+		
+		boolean bSimilar = clsGoalTools.compareGoalsForEquivalence(poGoal, poPreviousGoal); 
+		if (bSimilar==true) {
+			if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
+				//--- Find in perception--- //
+				//Get goal object
+				clsWordPresentationMesh oGoalObject = clsGoalTools.getGoalObject(poGoal);
+				//Get super structure of the goal object
+				eContentType oImageContentType = clsMeshTools.getSuperStructure(oGoalObject).getMoContentType();
+				//Check what the content type is
+				if (oImageContentType.equals(eContentType.PI)) {
+					//The goal was found in the peception
+					bResult = true;
+				}
+			} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION)) {
+				//Check the act name, which should be the same
+				//Get the supportive data types of each act
+				clsWordPresentationMesh oGoalSupportedDataStructure = clsGoalTools.getSupportiveDataStructure(poPreviousGoal);
+				if (oGoalSupportedDataStructure.getMoContent()==oPreviousGoalSupportedDataStructure.getMoContent()) {
+					bResult = true;					
+				}
+			}
+		}
+		
+		return bResult;
+	}
+	
+	/**
+	 * Process the selected goal, which is continued from the last step
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 21:47:22
+	 *
+	 * @param poContinuedGoal
+	 */
+	private void processContinuedGoal(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal) {
+		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
 		
 		
-		//else add the goal to the list
 		
+		//SupportDataStructureType
+		eGoalType oType = clsGoalTools.getGoalType(poContinuedGoal);
+		
+		if (oType.equals(eGoalType.DRIVESOURCE)) {
+			processContinuedGoalTypeFromDrive(poContinuedGoal);
+			
+		} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
+			processContinuedGoalTypeFromPerception(poContinuedGoal, poPreviousMentalSituation, poPreviousGoal);
+			
+			
+		} else if (oType==eGoalType.MEMORYDRIVE) {
+			processContinuedGoalTypeFromAct(poContinuedGoal, poPreviousGoal);
+			
+		}
 		
 		
 	}
+	
+	/**
+	 * Process the continued goal if it is a drive goal
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 22:07:36
+	 *
+	 * @param poContinuedGoal
+	 */
+	private void processContinuedGoalTypeFromDrive(clsWordPresentationMesh poContinuedGoal) {
+		//Set new supportive data structure
+		clsGoalTools.createSupportiveDataStructureFromGoalObject(poContinuedGoal, eContentType.DRIVEGOALSUPPORT);
+		
+		//Give the following commands
+		
+		
+		//Get previous action
+		eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
+		
+		//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
+		if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
+			//Set the task to trigger search
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_PERCEPTIONAL_INFO);
+		} else {
+			//Set supported DS for actions
+			clsGoalTools.setSupportiveDataStructureForAction(poContinuedGoal, clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
+		}
+	}
+	
+	/**
+	 * Processed continued goals from the perception
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.07.2012 22:08:05
+	 *
+	 * @param poContinuedGoal
+	 * @param poPreviousMentalSituation
+	 * @param poPreviousGoal
+	 */
+	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal) {
+		//Get the previous action
+		eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(poPreviousMentalSituation).getMoContent());
+		
+		if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+		} else {
+
+		}
+	}
+	
+	private void processContinuedGoalTypeFromAct(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal) {
+		
+	}
+	
+	
+	
 	
 //	private void updateLocalization(clsDataStructureContainerPair poPerception, clsOLDShortTimeMemory poMemory) {
 //		//1. Update Memory with the time updates
@@ -453,18 +524,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //		}
 //	}
 	
-	private void processMemories(ArrayList<clsWordPresentationMesh> poMemoryList) {
-		//Intention already exists
-		
-		for (clsWordPresentationMesh oAct : poMemoryList) {
-			//Get the moment
-			
-			
-			
-			//Get the expectation			
-			
-		}
-	}
 	
 	
 //	/**
