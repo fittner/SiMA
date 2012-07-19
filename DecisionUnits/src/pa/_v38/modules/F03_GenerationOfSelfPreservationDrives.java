@@ -262,9 +262,22 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
+			boolean createDrive = true;
+			//test if the information comming from a body is in the eOrgan list, if not... only show a warning
+			try {
+				String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
+			
+			} catch (Exception e) {
+				createDrive = false;
+				System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOgan, something missing?\n");
+				
+			}
+		
 			try {
 				
-				moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+				if(createDrive){
+					moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+				}
 				
 			} catch (Exception e) {
 				e.printStackTrace();

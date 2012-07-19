@@ -135,6 +135,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	@Override
 	protected void process_basic()  {
 		
+		moSexualDriveRepresentations_OUT  = new ArrayList<clsDriveMesh>();
+		
 		if(moSexualDriveComponents_IN.size() > 1)
 			System.out.printf("ERROR: There can only be 2 sexual drives components commin to F43, thus Arrayhas only one entry, always");
 		
@@ -217,26 +219,34 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private clsDriveMesh CreateDriveRepresentations(eOrgan poOrgan, eOrifice poOrifice, eDriveComponent oComponent) {
 		clsDriveMesh oDriveCandidate  = null;
 		
+		String oOrgan = poOrgan.toString();
+		String oOrifice = poOrifice.toString();
+		
 		try {
-		oDriveCandidate.setDriveComponent(oComponent);
+		
 		
 		//create a TPM for the organ
-		clsThingPresentationMesh oOrganTPM = 
-			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORGAN, poOrgan) );
+			clsThingPresentationMesh oOrganTPM = 
+				(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+						eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan) );
+
 		
 		//create a TPM for the orifice
-		clsThingPresentationMesh oOrificeTPM = 
-			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsPair<eContentType, Object>(eContentType.ORIFICE, poOrifice) );
+			clsThingPresentationMesh oOrificeTPM = 
+				(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+						eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice) );
+
 		
 		//create the DM
-		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, eContentType.DRIVEREPRESENTATION );
+		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, 
+				Object>(eContentType.DRIVEREPRESENTATION, new ArrayList<clsThingPresentationMesh>(), "") 
+				,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 		
 		//supplement the information
 		
-			oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		oDriveCandidate.setDriveComponent(oComponent);
+		
+		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
 		
 		
 		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);

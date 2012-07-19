@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.I2_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.eOrgan;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
 import du.itf.sensors.clsDataBase;
@@ -212,11 +213,11 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	
 		//STOMACHTENSION
 		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACHTENSION.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
+			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
 
 		//INTESTINEPRESSURE
 		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.INTESTINEPRESSURE.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
+			moHomeostaticSymbol_OUT.put(eOrgan.RECTUM.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
 
 		//HEALTH
 		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)

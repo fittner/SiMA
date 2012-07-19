@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
@@ -17,10 +18,11 @@ import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists. 
@@ -155,6 +157,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	protected void process_basic() {
 		
+		moHomeostaticDriveComponents_OUT = new ArrayList<clsPair<clsDriveMesh, clsDriveMesh>>();
 		//Loop through the drives and duplicate the drive mesh
 		//one becomes the lib. one the agr. part of the drive
 		for( clsDriveMesh oEntry :  moHomeostaticDriveCandidates_IN)
@@ -316,8 +319,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		clsDriveMesh oDriveComponent  = null;
 		try {		
 			//create the DM
-			oDriveComponent = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.DM, eContentType.DRIVECOMPONENT );
+			oDriveComponent = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECOMPONENT, new ArrayList<clsThingPresentationMesh>(), "") 
+					,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 			
 			//copy the information from the drive candidate
 			oDriveComponent.associateActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);

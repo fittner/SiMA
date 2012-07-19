@@ -162,6 +162,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		
+		moAllDriveComponents_OUT = new ArrayList<clsDriveMesh>();
+		
+	
 		//first calculate the tensions for homoestatic drives
 		ProcessHomeostaticDriveCandidates();
 		

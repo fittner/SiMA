@@ -20,6 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT1_LibidoBuffer;
@@ -29,6 +30,7 @@ import pa._v38.tools.toText;
 
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * The constant flow of libido/psychic energy provided by the neurosymbols originating from {F40} 
@@ -168,17 +170,18 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		rLibTension = this.mrTotalLibido /2;
 		
 		//change the agressive/lib content due to personality
-		if(Personality_Content_Factor != 0)
+		if(Personality_Content_Factor != 0){
 			//oEntry = changeContentByFactor(oEntry);
+		}
 		
 		//1 - create agressive component DM
-		agressiveDM = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( eDataType.DM, eContentType.DRIVECANDIDATE );
-		agressiveDM.setDriveComponent(eDriveComponent.AGGRESSIVE);
+		agressiveDM = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
+				,eDriveComponent.AGGRESSIVE, ePartialDrive.UNDEFINED );
 		agressiveDM.setQuotaOfAffect(rAgrTension);
 		
 		//2- create libidoneus component DM
-		libidoneusDM = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( eDataType.DM, eContentType.DRIVECANDIDATE );
-		agressiveDM.setDriveComponent(eDriveComponent.LIBIDINOUS);
+		libidoneusDM = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
+				,eDriveComponent.LIBIDINOUS, ePartialDrive.UNDEFINED );
 		libidoneusDM.setQuotaOfAffect(rLibTension);
 		
 		//add the components to the new list as PAIR(Agr,Lib)
