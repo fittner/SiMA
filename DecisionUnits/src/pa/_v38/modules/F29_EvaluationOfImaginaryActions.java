@@ -153,11 +153,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * 
      * @see pa.interfaces.I7_3#receive_I7_3(int)
      */
-    @SuppressWarnings("unchecked")
     // deepCopy can only perform an unchecked operation
     @Override
     public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-        moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
+        //moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
+    	//INFORMATION: DEEPCOPY REMOVED 
+        moActionCommands_Input = poActionCommands;
         //moPerceptionalMesh_IN = poEnvironmentalPerception;
     }
 

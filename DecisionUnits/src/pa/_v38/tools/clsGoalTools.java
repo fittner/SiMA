@@ -168,17 +168,58 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static eTaskStatus getTaskStatus(clsWordPresentationMesh poGoal) {
-		eTaskStatus oResult = eTaskStatus.NULLOBJECT;
+	public static ArrayList<eTaskStatus> getTaskStatus(clsWordPresentationMesh poGoal) {
+		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
 		
-		clsWordPresentation oFoundStructures = clsGoalTools.getTaskStatusDataStructure(poGoal);
+		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 				
-		if (oFoundStructures!=null) {
-			//The drive object is always a WPM
-			oResult = eTaskStatus.valueOf(((clsWordPresentation) oFoundStructures).getMoContent());
+		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
+			oResult.add(eTaskStatus.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
 		}
+	
 		
 		return oResult;
+	}
+	
+	/**
+	 * Remove a certain task status if it exists in the data structure
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 11:25:29
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 */
+	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+		
+		for (clsWordPresentation oTaskStatus : oFoundStructureList) {
+			clsMeshTools.deleteAssociationInObject(poGoal, oTaskStatus);
+		}
+	}
+	
+	/**
+	 * Check if a certain task status exists
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 12:06:59
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 * @return
+	 */
+	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+		boolean bResult = false;
+		
+		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+		
+		if (oFoundStructureList.isEmpty()==false) {
+			bResult=true;
+		}
+		
+		return bResult;
 	}
 	
 	/**
@@ -191,8 +232,8 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	private static clsWordPresentation getTaskStatusDataStructure(clsWordPresentationMesh poGoal) {
-		return clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS);
+	private static ArrayList<clsWordPresentation> getTaskStatusDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS);
 	}
 	
 	

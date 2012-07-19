@@ -26,6 +26,8 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
@@ -311,6 +313,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Get the goal
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poPreviousMentalSituation);
 		
+		//Get the previous action
+		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(poPreviousMentalSituation);
+		
 		//If the previous goal is a drive goal without any supportdatatype, then add it to the goallist
 		if (clsGoalTools.getGoalType(oPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
 			poGoalList.add(oPreviousGoal);
@@ -349,7 +354,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process selected goal in special manner
 		if (oCurrentContinuedGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
-			processContinuedGoal(oCurrentContinuedGoal, poPreviousMentalSituation, oPreviousGoal);
+			processContinuedGoal(oCurrentContinuedGoal, poPreviousMentalSituation, oPreviousGoal, oPreviousAction);
 		}
 		
 	}
@@ -427,24 +432,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void processContinuedGoal(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal) {
+	private void processContinuedGoal(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
-		
 		
 		
 		
 		//SupportDataStructureType
 		eGoalType oType = clsGoalTools.getGoalType(poContinuedGoal);
 		
-		if (oType.equals(eGoalType.DRIVESOURCE)) {
-			processContinuedGoalTypeFromDrive(poContinuedGoal);
+		if (oType==eGoalType.DRIVESOURCE) {
+			processContinuedGoalTypeFromDrive(poContinuedGoal, poPreviousAction);
 			
 		} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
-			processContinuedGoalTypeFromPerception(poContinuedGoal, poPreviousMentalSituation, poPreviousGoal);
+			processContinuedGoalTypeFromPerception(poContinuedGoal, poPreviousMentalSituation, poPreviousGoal, poPreviousAction);
 			
 			
 		} else if (oType==eGoalType.MEMORYDRIVE) {
-			processContinuedGoalTypeFromAct(poContinuedGoal, poPreviousGoal);
+			processContinuedGoalTypeFromAct(poContinuedGoal, poPreviousGoal, poPreviousAction);
 			
 		}
 		
@@ -460,19 +464,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void processContinuedGoalTypeFromDrive(clsWordPresentationMesh poContinuedGoal) {
+	private void processContinuedGoalTypeFromDrive(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousAction) {
 		//Set new supportive data structure
 		clsGoalTools.createSupportiveDataStructureFromGoalObject(poContinuedGoal, eContentType.DRIVEGOALSUPPORT);
 		
 		//Give the following commands
 		
-		
-		//Get previous action
-		eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(this.moShortTimeMemory.findPreviousSingleMemory()).getMoContent());
-		
 		//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
-		if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
+		if (poPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
 			//Set the task to trigger search
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_PERCEPTIONAL_INFO);
 		} else {
 			//Set supported DS for actions
@@ -492,37 +493,195 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPreviousMentalSituation
 	 * @param poPreviousGoal
 	 */
-	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal) {
-		//Get the previous action
-		eAction oPreviousAction = eAction.valueOf(clsMentalSituationTools.getAction(poPreviousMentalSituation).getMoContent());
+	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
 		
-		if (oPreviousAction.equals(eAction.FOCUS_ON)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
-		} else {
-
+		if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
+			//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
+			//As the environmental image is not "mitgedreht", only fix positions are used.
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);	
+		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || poPreviousAction.equals(eAction.TURN_LEFT)==true || poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
+			//Remove FOCUS_MOVEMENTACTION_SET if set
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
 		}
 	}
 	
-	private void processContinuedGoalTypeFromAct(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal) {
+	/**
+	 * Process the continued goal if it is an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 12:09:37
+	 *
+	 * @param poContinuedGoal
+	 * @param poPreviousGoal
+	 * @param poPreviousAction
+	 */
+	private void processContinuedGoalTypeFromAct(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
+				
+		//Check the status of the act. If the match has changed, perform basic act analysis again
+		
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS)==true) {
+			//Perform basic act analysis
+			
+			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+			for (eTaskStatus oTaskStatus : oTaskStatusList) {
+				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
+			}
+		}
+		
+		
+		if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+			
+		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || poPreviousAction.equals(eAction.TURN_LEFT)==true || poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
+			//Remove FOCUS_MOVEMENTACTION_SET if set
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			
+			//Add 
+		}
+	}
+	
+	private ArrayList<eTaskStatus> performBasicActAnalysis(clsWordPresentationMesh poAct, clsWordPresentationMesh poPreviousAct) {
+		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+		
+		boolean bMomentExists = analyzeMomentInAct(poAct, poPreviousAct);
+		
+		//Find the expectation in act
+		boolean bExpectationExists = analyzeExpectationInAct(poAct);
+
+//		//Set all Progress settings to the act
+//		//If the act is new, then new progress settings shall be added, else, they shall be updated
+//		addTotalProgress(oIntentionMomentExpectationList, poInput, mnConfirmationParts);
+//		addAffectReduceValues(oIntentionMomentExpectationList, mrReduceFactorForDrives);
+//		
+
+		//Return the recommended action here
+		if (bMomentExists==true && bExpectationExists==true) {
+			oResult.add(eTaskStatus.PERFORM_RECOMMENDED_ACTION);
+		} else {
+			oResult.add(eTaskStatus.GOAL_NOT_REACHABLE);
+		}
+
+		
+		return oResult;
+	}
+	
+	/**
+	 * Extract and set the current moment in an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 14:01:31
+	 *
+	 * @param poCurrentAct
+	 * @param poPreviousAct
+	 */
+	private boolean analyzeMomentInAct(clsWordPresentationMesh poCurrentAct, clsWordPresentationMesh poPreviousAct) {
+		boolean bResult = false;
+		boolean bSetCurrentMomentAsMoment = true;
+		
+		//Get the image from an act with the highest PI-match according to the primary process and consider the moment activation threshold
+		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMomentWithHighestPIMatch(poCurrentAct, this.mrMomentActivationThreshold);
+
+		//Get previous act
+		//clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
+		
+		//Verify the temporal order
+		//A correct moment is either same moment as now or a moment, which is connected somehow with the last moment.
+		if (oCurrentMoment.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+			//Break here as no moment was found
+			bSetCurrentMomentAsMoment=false;
+		}
+		
+		
+		
+		if (poPreviousAct.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+			//Break as there is nothing to compare with
+
+			
+			
+		}
+		
+		
+		
+		//If there are no expectations, then this moment was the last moment and nothing from this act should be found any more
+		//Do nothing
+		
+		//If the best match was the saved moment in the short time memory, then return it with forced save
+		//If the current moment 
+		//TODO AW
+		
+		//else if the best match is an expectation of the previous moment, then it is ok too
+		
+		if (bSetCurrentMomentAsMoment==true) {
+			clsActDataStructureTools.setMoment(poCurrentAct, oCurrentMoment);
+			bResult=true;
+		}
+		
+		return bResult;
 		
 	}
 	
+	/**
+	 * Extract the expectation from an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 14:10:08
+	 *
+	 * @param poCurrentAct
+	 */
+	private boolean analyzeExpectationInAct(clsWordPresentationMesh poCurrentAct) {
+		boolean bResult = false;
+		
+		//Extract the expectation
+		clsWordPresentationMesh oCurrentExpectation = clsActTools.getNextImage(clsActDataStructureTools.getMoment(poCurrentAct));
+		
+		//Set the expectation
+		if (oCurrentExpectation.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+			clsActDataStructureTools.setExpectation(poCurrentAct, oCurrentExpectation);
+			bResult=true;
+		}
+		
+		return bResult;
+		
+	}
 	
+	private void performComparableActAnalysis(ArrayList<clsWordPresentationMesh> poGoalList) {
+
+	}
 	
-	
-//	private void updateLocalization(clsDataStructureContainerPair poPerception, clsOLDShortTimeMemory poMemory) {
-//		//1. Update Memory with the time updates
-//		poMemory.updateTimeSteps();
-//		
-//		//2. Extract all Objects from Perception as a containerPairlist
-//		ArrayList<clsDataStructureContainerPair> oObjectList = clsDataStructureTools.getObjectContainerPairsFromImage(poPerception);
-//		
-//		//2. Go through each object and check if it can be found in the memory. The comparison must be with the primary part as the secondary parts do not have any IDs
-//		for (clsDataStructureContainerPair oCPair : oObjectList) {
-//			//3. Save the objects with forced save (sets the counter to delete on 0 
-//			poMemory.saveToShortTimeMemory(oCPair, true);
-//		}
-//	}
+	/**
+	 * Check if a new act analysis has to be made.
+	 * Criteria: The moment has changed or the PI match has changed
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.07.2012 12:15:41
+	 *
+	 * @param poCurrentAct
+	 * @param poPreviousAct
+	 * @return
+	 */
+	private boolean checkNeedForActAnalysis(clsWordPresentationMesh poCurrentAct, clsWordPresentationMesh poPreviousAct) {
+		boolean bResult = false;
+		
+		//Check if the moment match has changed
+		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poCurrentAct);
+		double oCurrentMatch = clsActTools.getSecondaryMatchValueToPI(oCurrentMoment);
+		
+		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
+		double oPreviousMatch = clsActTools.getSecondaryMatchValueToPI(oPreviousMoment);
+
+		if (oCurrentMoment.getMoDS_ID()!=oPreviousMoment.getMoDS_ID() || oCurrentMatch!=oPreviousMatch) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
 	
 	
 	
