@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
+
 import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
@@ -282,10 +285,12 @@ public class clsOntologyLoader {
 		eContentType oElementValueType = eContentType.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value_type")));
 		String oElementValue = (String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("value"));
 		float rQuotaOfAffect = ((Float)poElement.getOwnSlotValue(poDataContainer.a.getSlot("quotaOfAffect")));
+		eDriveComponent oDriveComponent = eDriveComponent.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("drive_component")));
+		ePartialDrive oPartialDrive = ePartialDrive.valueOf((String)poElement.getOwnSlotValue(poDataContainer.a.getSlot("partial_drive")));
 		
 		clsDriveMesh oDataStructure = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,oElementType,oElementValueType),
 																								new ArrayList <clsAssociation>(), rQuotaOfAffect,
-																								oElementValue);
+																								oElementValue, oDriveComponent, oPartialDrive);
 		poDataContainer.b.put(poElement.getName(), oDataStructure);
 		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 

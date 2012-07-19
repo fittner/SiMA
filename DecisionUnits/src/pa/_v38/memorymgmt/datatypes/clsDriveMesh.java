@@ -48,7 +48,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 *
 	 * @param poDataStructureIdentifier
 	 */
-	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent) {
+	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive) {
 		super(poDataStructureIdentifier);
 		// TODO (schaat) - Auto-generated constructor stub
 		

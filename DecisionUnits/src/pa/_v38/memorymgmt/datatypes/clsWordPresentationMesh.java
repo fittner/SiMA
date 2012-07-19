@@ -285,7 +285,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	 */
 	@Override
 	public double getNumbInternalAssociations() {
-		return moAssociatedContent.size();
+		return moInternalAssociatedContent.size();
 	}
 	
 	/**

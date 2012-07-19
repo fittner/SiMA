@@ -10,6 +10,9 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
+
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAct;
@@ -147,7 +150,7 @@ public abstract class clsDataStructureGenerator {
 	}
 		
 
-	public static clsDriveMesh generateDM(clsTriple <eContentType, ArrayList<clsThingPresentationMesh>, Object> poContent){
+	public static clsDriveMesh generateDM(clsTriple <eContentType, ArrayList<clsThingPresentationMesh>, Object> poContent,  eDriveComponent poDriveComponent, ePartialDrive poPartialDrive){
 		clsDriveMesh oRetVal = null; 
 		eContentType oContentType = poContent.a;
 		String oContent = (String)poContent.c; 
@@ -161,7 +164,7 @@ public abstract class clsDataStructureGenerator {
 		}
 		
 		
-		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, oContentType), oInternalAssociatedContent, oQuotaOfAffect, oContent);
+		oRetVal = new clsDriveMesh(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.DM, oContentType), oInternalAssociatedContent, oQuotaOfAffect, oContent, poDriveComponent, poPartialDrive);
 		
 
 		return oRetVal;
