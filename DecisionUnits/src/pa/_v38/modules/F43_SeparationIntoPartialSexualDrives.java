@@ -57,7 +57,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	
 	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_OUT;
 	
-	private HashMap<ePartialDrive, Double> moSexualDrivesImpactFactors;
+	private HashMap<ePartialDrive, Double> moSexualDrivesImpactFactors = new HashMap<ePartialDrive, Double>();
 	
 	/**
 	 * basic constructor
