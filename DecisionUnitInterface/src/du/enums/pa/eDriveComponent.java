@@ -14,6 +14,7 @@ package du.enums.pa;
  * 
  */
 public enum eDriveComponent {
+	UNDEFINED,
 	AGGRESSIVE,
 	LIBIDINOUS
 }

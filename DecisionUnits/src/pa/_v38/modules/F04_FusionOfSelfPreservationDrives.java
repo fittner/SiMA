@@ -170,8 +170,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			rLibTension = oEntry.getQuotaOfAffect() /2;
 			
 			//change the agressive/lib content due to personality
-			if(Personality_Content_Factor != 0)
+			if(Personality_Content_Factor != 0){
 				//oEntry = changeContentByFactor(oEntry);
+			}
 			
 			//1 - create agressive component DM
 			agressiveDM = CreateDriveComponentFromCandidate(oEntry);
