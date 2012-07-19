@@ -61,6 +61,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
 	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
+
+	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_IN;
 	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -287,7 +289,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 *
 	 */
 	private void ProcessSexualDriveCandidates() {
-		// TODO (muchitsch) - Auto-generated method stub
+		for( clsDriveMesh oSexualDMPairEntry : moSexualDriveRepresentations_IN){
+			moAllDriveComponents_OUT.add(oSexualDMPairEntry);
+		}
 		
 	}
 
@@ -478,8 +482,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_3(
-			ArrayList<clsPair<clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>, clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>>> poDriveCandidates) {
-		moLibidoCandidates_IN = (ArrayList<clsPair<clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>, clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>>>) deepCopy(poDriveCandidates);
+			ArrayList<clsDriveMesh> poSexualDriveRepresentations) {
+		moSexualDriveRepresentations_IN = (ArrayList<clsDriveMesh>)poSexualDriveRepresentations;
 	}
 
 }

@@ -179,11 +179,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private void CreateAgressiveDriveRepresentations(clsDriveMesh a) {
 		double rAgressiveTension = a.getQuotaOfAffect();
 		
-		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGRESSIVE);
-		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGRESSIVE);
+		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGGRESSIVE);
+		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGGRESSIVE);
 		//TODO, create according to sex femal/male
-		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGRESSIVE);
-		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGRESSIVE);
+		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGGRESSIVE);
+		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGGRESSIVE);
 		
 		//calculate tension according to personality
 		oAADM.setQuotaOfAffect( CalculateNewPartialTension(oAADM));
@@ -366,7 +366,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 */
 	@Override
 	protected void send() {
-		send_I3_3(moDriveCandidates);
+		send_I3_3(moSexualDriveRepresentations_OUT);
 
 	}
 	/* (non-Javadoc)
@@ -377,10 +377,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @see pa.interfaces.send._v38.I2_17_send#send_I2_17(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I3_3(ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > poDriveCandidates) {
+	public void send_I3_3(ArrayList<clsDriveMesh> poSexualDriveRepresentations) {
 		
-		((I3_3_receive)moModuleList.get(48)).receive_I3_3(poDriveCandidates);
-		putInterfaceData(I3_3_send.class, poDriveCandidates);
+		((I3_3_receive)moModuleList.get(48)).receive_I3_3(poSexualDriveRepresentations);
+		putInterfaceData(I3_3_send.class, poSexualDriveRepresentations);
 		
 	}
 	/* (non-Javadoc)
