@@ -197,13 +197,17 @@ public class clsActionTools {
 	 * @param poDecisionTask
 	 * @return
 	 */
-	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, eTaskStatus poDecisionTask) {
-		boolean bResult = false;
+	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, ArrayList<eTaskStatus> poTaskStatusList) {
+		boolean bResult = true;
 		
 		ArrayList<eTaskStatus> oPreconditionList = clsActionTools.getPreconditions(poAction);
 		
-		if (oPreconditionList.contains(poDecisionTask)==true) {
-			bResult = true;
+		//Check if ALL preconditions can be matched
+		for (eTaskStatus oTaskStatus : poTaskStatusList) {
+			if (oPreconditionList.contains(oTaskStatus)==false) {
+				bResult = false;
+				break;
+			}
 		}
 		
 		return bResult;

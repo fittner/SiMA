@@ -39,10 +39,15 @@ public enum eAction {
 	SEND_TO_PHANTASY,	//Send to phantasy
 	//DO_BASIC_ACT_ANALYSIS,		//Analyse the act
 	
+	//Temp actions
+	EXECUTE_EXTERNAL_ACTION,
+	FOCUS_MOVEMENT,
+	
 	FOCUS_MOVE_FORWARD,
 	FOCUS_TURN_RIGHT,
 	FOCUS_TURN_LEFT,
 	
 	//Composed actions
-	SEARCH1;
+	SEARCH1,
+	FLEE,
 }
