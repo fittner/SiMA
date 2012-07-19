@@ -173,7 +173,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		
 		//1 - create agressive component DM
 		agressiveDM = (clsDriveMesh)clsDataStructureGenerator.generateDataStructure( eDataType.DM, eContentType.DRIVECANDIDATE );
-		agressiveDM.setDriveComponent(eDriveComponent.AGRESSIVE);
+		agressiveDM.setDriveComponent(eDriveComponent.AGGRESSIVE);
 		agressiveDM.setQuotaOfAffect(rAgrTension);
 		
 		//2- create libidoneus component DM
