@@ -12,7 +12,7 @@ import java.util.Arrays;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -33,7 +33,7 @@ public class clsImportanceTools {
 	
 	//Added by AW, in order to be able to add drive goals from perception and memories
 	/** The list of possible drives, sorted regarding importance */
-	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("SLEEP", "RELAX", "NOURISH", "BITE", "REPRESS", "DEPOSIT"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
+	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("DMNourishAggr", "SLEEP", "RELAX", "NOURISH", "BITE", "REPRESS", "DEPOSIT"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
 	/** A list of possible affects sorted in the order of importance */
 	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(-3,3,-2, 2, -1, 1,0));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
@@ -53,19 +53,19 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMeshOLD> poDMList) {
+	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
 		double rTotalAffect = 0;
 		
 		ArrayList<clsPair<eContentType, String>> oDMContentType = new ArrayList<clsPair<eContentType, String>>();
 		//Get all contenttypes from the DM
-		for (clsDriveMeshOLD oDM : poDMList) {
-			oDMContentType.add(new clsPair<eContentType, String>(oDM.getMoContentType(), null));
+		for (clsDriveMesh oDM : poDMList) {
+			oDMContentType.add(new clsPair<eContentType, String>(oDM.getMoContentType(), ""));
 		}
 		
 		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
-			rTotalAffect += java.lang.Math.abs(((clsDriveMeshOLD)oAssDMList.getLeafElement()).getPleasure());
+			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getQuotaOfAffect());
 		}
 		
 		return rTotalAffect/oDMList.size();
@@ -182,7 +182,7 @@ public class clsImportanceTools {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//If the list is empty return
-		if (poDriveDemandsList.size()<=1) {
+		if (poDriveDemandsList.isEmpty()) {
 			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
 		}
 		

@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I5_10_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
@@ -198,14 +198,15 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 			
 			if ((oFirstAss instanceof clsAssociationDriveMesh) && (oFirstAssPair.b == false)) {
 				//Get a DM from the associated content
-				clsDriveMeshOLD oFirstDM = (clsDriveMeshOLD)oFirstAss.getLeafElement();
+				clsDriveMesh oFirstDM = (clsDriveMesh)oFirstAss.getLeafElement();
 				
 				/* Here the new content is set depending on the highest level of total quota of affect
 				 * of all equal drive mesh types in the object. If another object has a higher
 				 * mrPleasure, its content is taken.
 				 */
-				double rMaxTotalQuotaOfAffect = oFirstDM.getMrQuotaOfAffect();	//FIXME Add Unpleasure too
-				String sMaxContent = oFirstDM.getMoContent();
+				double rMaxTotalQuotaOfAffect = oFirstDM.getQuotaOfAffect();	//FIXME Add Unpleasure too
+				//String sMaxContent = oFirstDM.getActualBodyOrificeAsENUM().toString();
+				
 						
 				//Go through all following associations of that object
 				//Iterator<clsAssociation> oArrAssSecond = ;
@@ -224,13 +225,13 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 					//If the DM belongs to the same TPM oder TP AND it is a DM and it has not been used yet
 					if ((oFirstAss.getRootElement().getMoDSInstance_ID() == oSecondAss.getRootElement().getMoDSInstance_ID()) && (oSecondAss instanceof clsAssociationDriveMesh)  
 							&& (oSecondAssPair.b == false)) {	
-						clsDriveMeshOLD oSecondDM = (clsDriveMeshOLD)oSecondAss.getLeafElement();
+						clsDriveMesh oSecondDM = (clsDriveMesh)oSecondAss.getLeafElement();
 						//firstAssociation is compared with the secondAssociation
 						//If the content type of the DM are equal then
 						if (oFirstDM.getMoContentType() == oSecondDM.getMoContentType()) {
 							//1. Add mrPleasure from the second to the first DM
-							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getMrQuotaOfAffect(), oSecondDM.getMrQuotaOfAffect());
-							oFirstDM.setMrQuotaOfAffect(mrNewPleasure);
+							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
+							oFirstDM.setQuotaOfAffect(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM
@@ -238,18 +239,19 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 							//oFirstDM.setMrPleasure(mrNewUnpleasure);
 							//3. Check if the quota of affect is higher for the second DM and exchange content
 						
-							if (java.lang.Math.abs(oSecondDM.getMrQuotaOfAffect()) > java.lang.Math.abs(rMaxTotalQuotaOfAffect)) {
+							if (java.lang.Math.abs(oSecondDM.getQuotaOfAffect()) > java.lang.Math.abs(rMaxTotalQuotaOfAffect)) {
 								//FIXME: Corrent the function to consider mrUnpleasure too
-								sMaxContent = oSecondDM.getMoContent();
-								rMaxTotalQuotaOfAffect = oSecondDM.getMrQuotaOfAffect();
+								//sMaxContent = oSecondDM.getMoContent();
+								rMaxTotalQuotaOfAffect = oSecondDM.getQuotaOfAffect();
 							}
 						}
 					}
 				}
 				//Set new content if different, in order to set the content to the one with the highest mrPleasure
-				if (oFirstDM.getMoContent().equals(sMaxContent)==false) {
-					oFirstDM.setMoContent(sMaxContent);
-				}
+//				if (oFirstDM.getMoContent().equals(sMaxContent)==false) {
+//					oFirstDM.setMoContent(sMaxContent);
+//				}
+				//No content is set at all
 			}
 			//Add the association to the list if it has not been used yet
 			if (oFirstAssPair.b == false) {

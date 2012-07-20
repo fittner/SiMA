@@ -64,7 +64,7 @@ public class clsMentalSituationTools {
 		clsWordPresentationMesh oExistingDataStructure = getGoal(poMentalSituation);
 		clsWordPresentationMesh oExistingDataSupportiveStructure = null;
 		
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOAL, false);
 			oExistingDataSupportiveStructure = clsGoalTools.getSupportiveDataStructure(poDataStructure);
 		} else {
@@ -72,7 +72,7 @@ public class clsMentalSituationTools {
 			oExistingDataSupportiveStructure = clsGoalTools.getSupportiveDataStructure(oExistingDataStructure);
 		}
 		
-		if (oExistingDataSupportiveStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==false) {
+		if (oExistingDataSupportiveStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
 			setSupportiveDataStructure(poMentalSituation, oExistingDataSupportiveStructure);
 		}
 		

@@ -41,8 +41,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	private ArrayList<clsDriveMeshOLD> moDrives_Output;
 
 	//TODO: Delete after adaption to new DM-structure
-	private ArrayList<clsDriveMesh> moDrives_InputTEMPORARY;
-	private ArrayList<clsDriveMesh> moDrives_OutputTEMPORARY;
+	private ArrayList<clsDriveMesh> moDrives_InputTEMPORARY = new ArrayList<clsDriveMesh>();
+	private ArrayList<clsDriveMesh> moDrives_OutputTEMPORARY = new ArrayList<clsDriveMesh>();
 	
 	private ArrayList<clsEmotion> moEmotions_Input;
 	public int ReducedPsychicEnergy;

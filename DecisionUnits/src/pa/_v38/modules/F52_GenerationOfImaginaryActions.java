@@ -185,7 +185,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
 			clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
 			this.moGoalList_IN = new ArrayList<clsWordPresentationMesh>();
-			this.moGoalList_IN.add(oGoal);
+			if (oGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+				this.moGoalList_IN.add(oGoal);
+			}
+			
 			//=======================================================================//
 			
 			// Generate actions for the top goal

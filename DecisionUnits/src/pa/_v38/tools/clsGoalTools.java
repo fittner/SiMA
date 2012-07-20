@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -396,13 +397,14 @@ public class clsGoalTools {
 	 * @return
 	 */
 	public static eGoalType getGoalType(clsWordPresentationMesh poGoal) {
-		eGoalType oRetVal = null;
-		try {
-			oRetVal = eGoalType.valueOf(((clsWordPresentation)clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASGOALTYPE, 2, false)).getMoContent());
-		} catch (Exception e) {
-			System.err.println("No valid goaltype was found.");
-			e.printStackTrace();
+		eGoalType oRetVal = eGoalType.NULLOBJECT;
+
+		clsDataStructurePA oWP = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASGOALTYPE, 2, false);
+		if (oWP!=null) {
+			String oContent = ((clsWordPresentation)clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASGOALTYPE, 2, false)).getMoContent();
+			oRetVal = eGoalType.valueOf(oContent);
 		}
+		
 		
 		return oRetVal;
 	}
@@ -476,6 +478,16 @@ public class clsGoalTools {
 			
 			//Extract all remembered goals from the image, which match the drive goal
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
+			
+			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).mnAffectLevel>1) {
+				//There is no current affect level
+				//This sort order shall have the last priority
+				
+				int nCurrentPISortOrder = 0;
+				int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrder);
+				oPreliminaryGoalList.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oDriveGoal));
+			}
 			
 			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
 				int nIndex = 0;
@@ -555,16 +567,6 @@ public class clsGoalTools {
 					oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, oPossibleGoal));
 				}
 			} 				
-		}
-		
-		//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-		if (bGoalObjectFound==false && clsGoalTools.getAffectLevel(poDriveGoal).equals(eAffectLevel.LOWPOSITIVE)) {
-			//There is no current affect level
-			//This sort order shall have the last priority
-			
-			int nCurrentPISortOrder = 0;
-			int nTotalCurrentAffectLevel = Math.abs(0 * 10 + nCurrentPISortOrder);
-			oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(nTotalCurrentAffectLevel, poDriveGoal));
 		}
 		
 		return oRetVal;

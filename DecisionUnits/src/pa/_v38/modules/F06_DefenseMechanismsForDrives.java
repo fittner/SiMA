@@ -60,7 +60,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Output;
 	
 	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
-	private ArrayList<clsDriveMesh> moDriveList_OutputTEMPORARY;
+	private ArrayList<clsDriveMesh> moDriveList_OutputTEMPORARY = new ArrayList<clsDriveMesh>();
 	
 	private ArrayList<String> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;

@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -645,9 +646,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		
 		if (bUsePerception==true) {	//Activate with perception
-			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMeshOLD>());		
+			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());		
 		} else {						//Activate with returned memory
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMeshOLD>());
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMesh>());
 		}
 		
 		

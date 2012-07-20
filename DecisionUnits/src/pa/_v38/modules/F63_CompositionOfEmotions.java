@@ -148,7 +148,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}			
 		}
 		
-		mrDrivePleasure =  moPleasureStorage.send_D4_1();
+		//TODO SSCH: Corrent this error
+		//mrDrivePleasure =  moPleasureStorage.send_D4_1();
+		mrDrivePleasure = 0.0;
 		
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation

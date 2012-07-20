@@ -398,14 +398,16 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	private boolean searchInDM (String oContent) {		
 		// search in drives
-		for(clsDriveMeshOLD oDrives : moDrives){
-			// check DriveMesh
-			// oDrives.b.getMoContent() = for example "NOURISH"
-			// oDrives.b.getMoContentType() =  for example "LIFE"
-			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
-				return true;
-			}
-		}
+		//TODO FG: Corrent the function below
+		
+//		for(clsDriveMeshOLD oDrives : moDrives){
+//			// check DriveMesh
+//			// oDrives.b.getMoContent() = for example "NOURISH"
+//			// oDrives.b.getMoContentType() =  for example "LIFE"
+//			if (oDrives.getMoContent().equalsIgnoreCase(oContent)){
+//				return true;
+//			}
+//		}
 		return false;
 	}
 	

@@ -58,6 +58,45 @@ public enum eAffectLevel {
 		
 		return oRetVal;
 	}
+	
+	/**
+	 * Convert the quota of affect as double to an affect level
+	 * 
+	 * (wendt)
+	 *
+	 * @since 20.07.2012 21:19:16
+	 *
+	 * @param poQoA
+	 * @return
+	 */
+	public static eAffectLevel convertQuotaOfAffectToAffectLevel(double poQoA) {
+		eAffectLevel oResult = eAffectLevel.INSIGNIFICANT;
+		
+		if (poQoA <=-0.90) {
+			oResult = eAffectLevel.HIGHNEGATIVE;
+		} else if (poQoA >-0.90 && poQoA <=-0.50) {
+			oResult = eAffectLevel.NEGATIVE;
+		} else if (poQoA >-0.50 && poQoA <=-0.05) {
+			oResult = eAffectLevel.LOWNEGATIVE;
+		} else if (poQoA >-0.05 && poQoA <=0.05) {
+			oResult = eAffectLevel.INSIGNIFICANT;
+		} else if (poQoA >0.05 && poQoA <=0.50) {
+			oResult = eAffectLevel.LOWPOSITIVE;
+		} else if (poQoA >0.50 && poQoA <=0.90) {
+			oResult = eAffectLevel.POSITIVE;
+		} else if (poQoA >0.90) {
+			oResult = eAffectLevel.HIGHPOSITIVE;
+		} else {
+			try {
+				throw new Exception("Error: No acceptable value");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oResult;
+	}
 
 	/*@Override
 	public String toString()

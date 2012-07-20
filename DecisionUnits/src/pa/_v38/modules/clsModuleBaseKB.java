@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -29,11 +29,13 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 
 
 /**
@@ -548,22 +550,25 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param poDM
 	 * @return
 	 */
-	public clsWordPresentation convertDriveMeshToWP(clsDriveMeshOLD poDM) {
+	public clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
 		clsWordPresentation oRetVal = null;
 		
 		//Generate the instance of the class affect
-		clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getPleasure()));
+		//clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getQuotaOfAffect()));
 		//Search for the WP of the affect
-		clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
+		//clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
 		
 		//Get drive Content String
-		String oDriveContent = poDM.getMoContent();
+		//FIXME AW: Corrent this getdebuginfo
+		String oX[] = poDM.getDebugInfo().split("\\:");
+		String oDriveContent = oX[0] + oX[1] + oX[2];
 		//Get the content of the affect strength
 		//the word presentation in an associationWP is ALWAYS the leaf element
-		String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
+		eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
+		//String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
 		
 		//Construct WP
-		String oWPContent = oDriveContent + ":" + oAffectContent;
+		String oWPContent = oDriveContent + ":" + oAffectContent.toString();
 		
 		//Create the new WP for that drive
 		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<eContentType, Object>(eContentType.AFFECT, oWPContent));
@@ -584,13 +589,76 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 * @param prPsychicEnergyIn
 	 * @return
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMeshOLD> poDriveMeshFilter) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn, ArrayList<clsDriveMesh> poDriveMeshFilter) {
 		
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
 		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages, poDriveMeshFilter);
 	
+	}
+	
+	protected clsThingPresentationMesh debugGetThingPresentationMeshEntity(String poContent) {
+		clsThingPresentationMesh oRetVal = null;
+		
+		//Create the TP
+		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>
+			(eContentType.ENTITY, new ArrayList<clsThingPresentation>(), poContent));
+				
+		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
+		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));
+				
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+				
+		search(eDataType.TPM, oSearchStructure, oSearchResult); 
+				//If nothing is found, cancel
+		if (oSearchResult.get(0).isEmpty()==true) {
+			return oRetVal;
+		}
+		//Create "Nothing"-objects for each position
+		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
+		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
+		oEmptySpaceContainerList.add(oEmptySpaceContainer);
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+			
+		search(eDataType.DM, oEmptySpaceContainerList, oSearchResult2);
+
+
+		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
+		if (oSearchResult2.size()!=oEmptySpaceContainerList.size()) {
+			try {
+				throw new Exception("F46: addAssociations, Error, different Sizes");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		for (int i=0;i<oSearchResult2.size();i++) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = oSearchResult2.get(i);
+			clsPrimaryDataStructureContainer oPC = oEmptySpaceContainerList.get(i);
+			if (oSearchPair.size()>0) {
+				oEmptySpaceContainerList.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+			}
+				
+		}
+		
+		
+		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
+		clsThingPresentationMesh oEmptySpaceTPM = null;
+		try {
+			oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		oRetVal = oEmptySpaceTPM;
+		
+		return oRetVal;
 	}
 }
 

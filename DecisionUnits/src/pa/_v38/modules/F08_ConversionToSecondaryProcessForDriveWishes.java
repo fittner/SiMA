@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -21,13 +23,14 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
@@ -42,9 +45,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	public static final String P_MODULENUMBER = "08";
 	
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Input;
+	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
-	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
+	//private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
 	
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
 	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
@@ -135,7 +138,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	public void receive_I5_18(ArrayList<clsDriveMesh> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		moDriveList_InputTEMPORARY = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
+		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 	
@@ -150,6 +153,21 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
+		//FIXME AW: As soon as drive get down here, remove this
+		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:Nourish:Aggr"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
+		oDM.setQuotaOfAffect(1.0);
+		//Load a cake
+		
+		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE");
+		try {
+			oDM.associateActualDriveObject(oT, 1.0);
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+		moDriveList_Input.add(oDM);
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
@@ -220,12 +238,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 *
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList_Input) {
+	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsDriveMesh> poDriveList_Input) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oPair : poDriveList_Input) {			
+		for (clsDriveMesh oPair : poDriveList_Input) {			
 			//Convert drive to affect
-			clsWordPresentation oAffect = convertDriveMeshToWP(oPair.b);
+			clsWordPresentation oAffect = convertDriveMeshToWP(oPair);
 			
 			//Get the drive content
 			String oDriveContent = clsImportanceTools.getDriveType(oAffect.getMoContent());
@@ -235,7 +253,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
-			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.a, 1.0);
+			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.getActualDriveObject(), 1.0);
 			if (oWPforObject!=null) {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();

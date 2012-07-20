@@ -37,8 +37,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
 	//private clsThingPresentation moDriveSource;			//Triebquelle
 	//private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
-	private ArrayList<clsAssociation> moExternalAssociatedContent = null; 
-	private ArrayList<clsAssociation> moInternalAssociatedContent = null;  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
+	private ArrayList<clsAssociation> moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
+	private ArrayList<clsAssociation> moInternalAssociatedContent = new ArrayList<clsAssociation>();  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
 	
 	
 
@@ -187,16 +187,16 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		oRetval += ":PartialD="+this.moPartialDrive.toString();
 		oRetval += ":Organ="+this.getActualDriveSourceAsENUM();
 		oRetval += ":Orifice="+this.getActualBodyOrificeAsENUM();
-		if(this.moInternalAssociatedContent!=null){
+		//if(this.moInternalAssociatedContent!=null){
 			oRetval += ": :Internal="+this.moInternalAssociatedContent.toString();
-		}
-		else
-			oRetval += ": :Internal=NULL";
-		if(this.moExternalAssociatedContent!=null){
+		//}
+		//else
+		//	oRetval += ": :Internal=NULL";
+		//if(this.moExternalAssociatedContent!=null){
 			oRetval += ": :External="+this.moExternalAssociatedContent.toString();
-		}
-		else
-			oRetval += ": :External=NULL";
+		//}
+		//else
+		//	oRetval += ": :External=NULL";
 		oRetval += "|\n";
 		return oRetval;
 	}
