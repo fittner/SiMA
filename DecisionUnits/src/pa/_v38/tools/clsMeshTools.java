@@ -378,7 +378,7 @@ public class clsMeshTools {
 	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, eContentType poContentType, String poContent, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		
-		
+		//FIXME Drive recognition with new DM structure
 		
 		for (clsAssociation oAss: poAssList) {
 			boolean bBreakAssLoop = false;
@@ -755,7 +755,7 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsThingPresentationMesh getPrimaryDataStructureOfWPM(clsWordPresentationMesh poInput) {
-		clsThingPresentationMesh oRetVal = null;
+		clsThingPresentationMesh oRetVal = clsMeshTools.moNullObjectTPM;
 		
 		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationWordPresentation && oAss.getRootElement() instanceof clsThingPresentationMesh) {
@@ -2339,10 +2339,31 @@ public class clsMeshTools {
 	public static clsWordPresentationMesh createImageFromEntity(clsWordPresentationMesh poEntity, eContentType poImageContentType) {
 		clsWordPresentationMesh oResult = null;
 		
+		//Check if the WPM has a primary data structure
+		clsThingPresentationMesh oEntityTPMPart = clsMeshTools.getPrimaryDataStructureOfWPM(poEntity);
+		try {
+			if (oEntityTPMPart.isNullObject()==true) {
+				throw new Exception("No TPM-Part exists for this image. All entities must have PP parts.");
+			} 
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		//Create TPM Image
+		ArrayList<clsThingPresentationMesh> oEntityListTPM = new ArrayList<clsThingPresentationMesh>();
+		oEntityListTPM.add(oEntityTPMPart);
+		clsThingPresentationMesh oTPMImage = clsMeshTools.createTPMImage(oEntityListTPM, poImageContentType, eContent.ENTITY2IMAGE.toString());
+		
+		//Create WPM image
 		ArrayList<clsSecondaryDataStructure> oImageContent = new ArrayList<clsSecondaryDataStructure>();
 		oImageContent.add(poEntity);
 		
 		oResult = clsMeshTools.createWPMImage(oImageContent, poImageContentType, eContent.ENTITY2IMAGE.toString());
+		
+		//Create WP association
+		clsAssociationWordPresentation oAssWP = (clsAssociationWordPresentation) clsDataStructureGenerator.generateASSOCIATIONWP(eContentType.ASSOCIATIONWP, oResult, oTPMImage, 1.0);
+		
+		oResult.getExternalAssociatedContent().add(oAssWP);
 		
 		return oResult;
 	}

@@ -656,10 +656,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
 				
 				//Associate this structure with the action
-				clsActionTools.setSupportiveDataStructureHashCode(oInternalActionWPM, oSupportiveDataStructure);
+				clsActionTools.setSupportiveDataStructure(oInternalActionWPM, oSupportiveDataStructure);
 				
 				//Set phantasyflag
-				clsPhantasyTools.setPhantasyFlagTrue(oInternalActionWPM);
+				clsPhantasyTools.setPhantasyFlagTrue(oSupportiveDataStructure);
 				
 				oExternalActionWPM = oInternalActionWPM;
 				
@@ -669,7 +669,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
 				
 				//Associate this structure with the action
-				clsActionTools.setSupportiveDataStructureHashCode(oInternalActionWPM, oSupportiveDataStructure);
+				clsActionTools.setSupportiveDataStructure(oInternalActionWPM, oSupportiveDataStructure);
 				
 				oExternalActionWPM = oInternalActionWPM;
 				
@@ -708,11 +708,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}
 		
 		//If any action was set, i. e. no nullobject 
-		if (oExternalActionWPM.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
-			oResult.add(oExternalActionWPM);
+		if (oExternalActionWPM.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
+			oExternalActionWPM = clsActionTools.createAction(eAction.NONE.toString());
 		}
 		
-
+		oResult.add(oExternalActionWPM);
 		
 //		if (oPreviousAction.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
 //			//If yes, then perform normal external planning
@@ -753,28 +753,32 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> addNewDecisionTaskImages() {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		clsWordPresentationMesh oSendToPhantasy = clsActionTools.createAction(eAction.SEND_TO_PHANTASY.toString());
-		clsMeshTools.setNonUniquePredicateWP(oSendToPhantasy, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.NEED_INTERNAL_INFO.toString());
-		oResult.add(oSendToPhantasy);
-		
-		clsWordPresentationMesh oFocusOn = clsActionTools.createAction(eAction.FOCUS_ON.toString());
-		clsMeshTools.setNonUniquePredicateWP(oSendToPhantasy, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.NEED_FOCUS.toString());
-		oResult.add(oFocusOn);
-		
-		clsWordPresentationMesh oExecuteExternalAction = clsActionTools.createAction(eAction.EXECUTE_EXTERNAL_ACTION.toString());
-		clsMeshTools.setNonUniquePredicateWP(oSendToPhantasy, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.FOCUS_MOVEMENTACTION_SET.toString());
-		oResult.add(oExecuteExternalAction);
-		
-		clsWordPresentationMesh oFocusForActionPerception1 = clsActionTools.createAction(eAction.FOCUS_MOVEMENT.toString());
-		clsMeshTools.setNonUniquePredicateWP(oSendToPhantasy, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.FOCUS_ON_SET.toString());
-		oResult.add(oFocusForActionPerception1);
-		
-		clsWordPresentationMesh oFocusForActionPerception2 = clsActionTools.createAction(eAction.FOCUS_MOVEMENT.toString());
-		clsMeshTools.setNonUniquePredicateWP(oSendToPhantasy, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, eTaskStatus.PERFORM_RECOMMENDED_ACTION.toString());
-		oResult.add(oFocusForActionPerception2);
+		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_FOCUS));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
 		
 		return oResult;
 	
+	}
+	
+	/**
+	 * Generate internal plan from precondition
+	 * 
+	 * (wendt)
+	 *
+	 * @since 21.07.2012 21:34:19
+	 *
+	 * @param poAction
+	 * @param poTaskStatus
+	 * @return
+	 */
+	private clsWordPresentationMesh generateInternalActionFromPrecondition(eAction poAction, eTaskStatus poTaskStatus) {
+		clsWordPresentationMesh oResult = clsActionTools.createAction(poAction.toString());
+		clsMeshTools.setNonUniquePredicateWP(oResult, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, poTaskStatus.toString());
+		
+		return oResult;
 	}
 	
 	/**

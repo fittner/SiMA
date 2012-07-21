@@ -257,6 +257,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if (oWPforObject!=null) {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+					oDriveObject.getExternalAssociatedContent().add(oWPforObject);
 				}
 			}
 			

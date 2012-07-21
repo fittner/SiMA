@@ -300,5 +300,24 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public double getNumbExternalAssociations() {
 		return moExternalAssociatedContent.size();
 	}
+	
+	/**
+	 * Check if the WPM is a null object
+	 * 
+	 * (wendt)
+	 *
+	 * @since 21.07.2012 20:49:30
+	 *
+	 * @return
+	 */
+	public boolean isNullObject() {
+		boolean bResult = false;
+		
+		if (this.getMoContentType()==eContentType.NULLOBJECT) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
 
 }

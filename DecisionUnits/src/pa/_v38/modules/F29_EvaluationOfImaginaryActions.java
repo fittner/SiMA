@@ -279,7 +279,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
 		
 		//Get the real connection from the reference for the action
-		clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructureFromHashCode(poAction, this.moShortTermMemory);
+		clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(poAction);
 		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
 			//get WPMRef
 			ArrayList<clsDataStructurePA> oFoundStructures = clsMeshTools.searchDataStructureOverAssociation(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true, true);

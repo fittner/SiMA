@@ -247,7 +247,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process all goals individually without sorting them. Sorting is done in the decision making
 		
-		processGoals(moReachableGoalList_IN, clsMentalSituationTools.getGoal(oPreviousMentalSituation));
+		processGoals(moReachableGoalList_IN, oPreviousMentalSituation);
 		
 		//=== Sort and evaluate them === //
 		
@@ -318,7 +318,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//If the previous goal is a drive goal without any supportdatatype, then add it to the goallist
 		if (clsGoalTools.getGoalType(oPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
+			//Create a supportive data structure
+			clsGoalTools.createSupportiveDataStructureFromGoalObject(oPreviousGoal, eContentType.DRIVEGOALSUPPORT);
+			
+			//Add to goallist
 			poGoalList.add(oPreviousGoal);
+
 		}
 		
 		
@@ -339,7 +344,10 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			boolean oMatchFound = false;
 			if (bOneMatchFound==false) {
 				oMatchFound = matchPreviousGoalWithACurrentGoal(oGoal, oPreviousGoal);
-				bOneMatchFound=true;
+				if (oMatchFound==true) {
+					bOneMatchFound=true;
+				}
+				
 			}
 			
 			//If this goal was not processed in the last step, delete all stati and set "NEED_FOCUS"

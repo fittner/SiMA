@@ -238,6 +238,25 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		return false; 
 	}
 	
+	/**
+	 * Check if this object is a null object
+	 * 
+	 * (wendt)
+	 *
+	 * @since 21.07.2012 20:48:57
+	 *
+	 * @return
+	 */
+	public boolean isNullObject() {
+		boolean bResult = false;
+		
+		if (this.getMoContentType()==eContentType.NULLOBJECT) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
+	
 		
 	@Override
 //	public Object clone() throws CloneNotSupportedException {

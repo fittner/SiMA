@@ -17,10 +17,8 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.toText;
 
 import config.clsProperties;
@@ -162,34 +160,26 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			//Get the first action
 			clsWordPresentationMesh oAction = poActionCommands.get(0);
 			
-			//Check if the action has a certain phantasy flag
-			if (clsActionTools.getPhantasyFlag(oAction)==true) {
-				//Check if the associated structure
-				clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
-				//Get the associated structure
-				if (oSupportiveDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
-					//Check if phantasyflag exists
-					try {
-						if (clsPhantasyTools.checkIfPhantasyFlagExists(oSupportiveDataStructure)==false) {
-							throw new Exception("No phantasy flag was set for content assigned as phantasy in the primary process.");
-						}
-					} catch (Exception e) {
-						throw new Exception(e.getMessage());
-					}
-					
-					
-					//Get the TPM part of that structure
+			clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(oAction);
+			
+			if (oSupportiveDataStructure.isNullObject()==false) {
+				//Check if phantasyflag exists
+				if (clsActionTools.getPhantasyFlag(oSupportiveDataStructure)==true) {
 					clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oSupportiveDataStructure);
 					if (oTPM!=null) {
 						//At this stage, there should be no associationWP in the external associations of the TPM
-						if (checkIfAssociationWPExists(oTPM)==true) {
-							throw new Exception("No AssociationWP are allowed here");
-						} else {
-							oRetVal.add(oTPM);
+						try {
+							if (checkIfAssociationWPExists(oTPM)==true) {
+								throw new Exception("No AssociationWP are allowed here");
+							} else {
+								oRetVal.add(oTPM);
+							}
+						} catch (Exception e) {
+							throw new Exception(e.getMessage());
 						}
-					}
+					}			
 				}
-			}
+			}		
 		}
 			
 		return oRetVal;
@@ -368,7 +358,9 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	@Override
 	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		//TODO AW: Replace secondarydatastructurecontainer with only datastructurecontainer
-		moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+		//moActionCommands_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+		//Disable deepcopy here, as the exact instance is asked for
+		moActionCommands_IN = poActionCommands;
 
 		
 	}

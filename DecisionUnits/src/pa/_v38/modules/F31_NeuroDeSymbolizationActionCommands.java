@@ -264,6 +264,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					} 
 				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
 					//Do nothing
+				} else if (oAction.equals(eAction.NONE.toString())) {
+					//Do nothing
+				} else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
+					//Do nothing
 				}
 				else {
 					throw new UnknownError("Action " + oAction + " not known");

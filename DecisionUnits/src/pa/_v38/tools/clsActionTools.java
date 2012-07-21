@@ -10,16 +10,15 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.storage.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -46,42 +45,42 @@ public class clsActionTools {
 		return clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ACTION, poAction), new ArrayList<clsAssociation>());
 	}
 	
-	public static clsWordPresentationMesh getSupportiveDataStructureFromHashCode(clsWordPresentationMesh poAction, clsShortTermMemory poSTM) {
-		clsWordPresentationMesh oRetVal = getNullObjectWPM();
-			
-		//Get the Hashcode
-		clsWordPresentationMesh oHashCodeMesh = getSupportiveDataStructure(poAction);
-		if (oHashCodeMesh.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
-			int nHashCode = Integer.valueOf(getSupportiveDataStructure(poAction).getMoContent());
-			
-			clsWordPresentationMesh oThisSituation = poSTM.findCurrentSingleMemory();
-			ArrayList<clsPair<eContentType, String>> oFilter = new ArrayList<clsPair<eContentType, String>>();
-			oFilter.add(new clsPair<eContentType, String>(eContentType.NOTHING,""));
-			ArrayList<clsDataStructurePA> oCompleteMentalSituation = clsMeshTools.getDataStructureInWPM(oThisSituation, eDataType.WPM, oFilter, false, 5);
-			
-			for (clsDataStructurePA oWPM : oCompleteMentalSituation) {
-				if (oWPM.hashCode()==nHashCode) {
-					oRetVal = (clsWordPresentationMesh) oWPM;
-					break;
-				}
-			}
-		}
-				
-		return oRetVal;
-	}
+//	public static clsWordPresentationMesh getSupportiveDataStructureFromHashCode(clsWordPresentationMesh poAction, clsShortTermMemory poSTM) {
+//		clsWordPresentationMesh oRetVal = getNullObjectWPM();
+//			
+//		//Get the Hashcode
+//		clsWordPresentationMesh oHashCodeMesh = getSupportiveDataStructure(poAction);
+//		if (oHashCodeMesh.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
+//			int nHashCode = Integer.valueOf(getSupportiveDataStructure(poAction).getMoContent());
+//			
+//			clsWordPresentationMesh oThisSituation = poSTM.findCurrentSingleMemory();
+//			ArrayList<clsPair<eContentType, String>> oFilter = new ArrayList<clsPair<eContentType, String>>();
+//			oFilter.add(new clsPair<eContentType, String>(eContentType.NOTHING,""));
+//			ArrayList<clsDataStructurePA> oCompleteMentalSituation = clsMeshTools.getDataStructureInWPM(oThisSituation, eDataType.WPM, oFilter, false, 5);
+//			
+//			for (clsDataStructurePA oWPM : oCompleteMentalSituation) {
+//				if (oWPM.hashCode()==nHashCode) {
+//					oRetVal = (clsWordPresentationMesh) oWPM;
+//					break;
+//				}
+//			}
+//		}
+//				
+//		return oRetVal;
+//	}
 	
-	public static void setSupportiveDataStructureHashCode(clsWordPresentationMesh poAction, clsWordPresentationMesh poDataStructure) {
-		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poAction);
-		
-		clsWordPresentationMesh oWPMRef = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.SUPPORTIVEDATASTRUCTURE, String.valueOf(poDataStructure.hashCode())), new ArrayList<clsAssociation>());
-		
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
-			clsMeshTools.createAssociationSecondary(poAction, 1, oWPMRef, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
-		} else {
-			oExistingDataStructure = oWPMRef;
-		}
-		
-	}
+//	public static void setSupportiveDataStructureHashCode(clsWordPresentationMesh poAction, clsWordPresentationMesh poDataStructure) {
+//		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poAction);
+//		
+//		clsWordPresentationMesh oWPMRef = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.SUPPORTIVEDATASTRUCTURE, String.valueOf(poDataStructure.hashCode())), new ArrayList<clsAssociation>());
+//		
+//		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+//			clsMeshTools.createAssociationSecondary(poAction, 1, oWPMRef, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+//		} else {
+//			oExistingDataStructure = oWPMRef;
+//		}
+//		
+//	}
 	
 	/**
 	 * Set the supportive data structure of an action
@@ -94,12 +93,12 @@ public class clsActionTools {
 	 * @param poDataStructure
 	 */
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poAction, clsWordPresentationMesh poDataStructure) {
-		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poAction);
+		clsAssociationSecondary oExistingDataStructure = getSupportiveDataStructureAssociation(poAction);
 				
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
-			clsMeshTools.createAssociationSecondary(poAction, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+		if (oExistingDataStructure==null) {
+			clsMeshTools.createAssociationSecondary(poAction, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
 		} else {
-			oExistingDataStructure = poDataStructure;
+			oExistingDataStructure.setLeafElement(poDataStructure);
 		}
 		
 	}
@@ -117,11 +116,32 @@ public class clsActionTools {
 	public static clsWordPresentationMesh getSupportiveDataStructure(clsWordPresentationMesh poAction) {
 		clsWordPresentationMesh oRetVal = getNullObjectWPM();
 		
-		ArrayList<clsSecondaryDataStructure> oFoundStructures = poAction.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTURE, true);
+		ArrayList<clsSecondaryDataStructure> oFoundStructures = poAction.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, true);
 		
 		if (oFoundStructures.isEmpty()==false) {
 			//The drive object is always a WPM
 			oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get the supportive data structure of an action
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.07.2012 15:55:48
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static clsAssociationSecondary getSupportiveDataStructureAssociation(clsWordPresentationMesh poAction) {
+		clsAssociationSecondary oRetVal = null;
+		clsDataStructurePA oAss = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, 0, true);
+		
+		if (oAss!=null) {
+			oRetVal = (clsAssociationSecondary) oAss;
 		}
 		
 		return oRetVal;
@@ -200,15 +220,20 @@ public class clsActionTools {
 	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, ArrayList<eTaskStatus> poTaskStatusList) {
 		boolean bResult = true;
 		
-		ArrayList<eTaskStatus> oPreconditionList = clsActionTools.getPreconditions(poAction);
+		if (poTaskStatusList.isEmpty()==true) {
+			bResult=false;
+		} else {
+			ArrayList<eTaskStatus> oPreconditionList = clsActionTools.getPreconditions(poAction);
 		
-		//Check if ALL preconditions can be matched
-		for (eTaskStatus oTaskStatus : poTaskStatusList) {
-			if (oPreconditionList.contains(oTaskStatus)==false) {
-				bResult = false;
-				break;
+			//Check if ALL preconditions can be matched
+			for (eTaskStatus oTaskStatus : poTaskStatusList) {
+				if (oPreconditionList.contains(oTaskStatus)==false) {
+					bResult = false;
+					break;
+				}
 			}
 		}
+		
 		
 		return bResult;
 	}

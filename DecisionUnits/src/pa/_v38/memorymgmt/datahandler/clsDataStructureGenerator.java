@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -261,4 +262,17 @@ public abstract class clsDataStructureGenerator {
 		
 		return oRetVal;
 	}
+	
+	public static clsAssociation generateASSOCIATIONWP(eContentType poContentType, clsSecondaryDataStructure poRoot, clsDataStructurePA poLeaf, double prWeight) {
+		clsAssociation oRetVal=null;
+		eContentType oContentType = poContentType; 
+		
+		oRetVal = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(setID(), eDataType.ASSOCIATIONSEC, oContentType), poRoot, poLeaf);
+		oRetVal.setMrWeight(prWeight);
+		
+		return oRetVal;
+	}
+	
+	
+	
 	}

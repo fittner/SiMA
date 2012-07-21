@@ -96,7 +96,7 @@ public class clsMentalSituationTools {
 	public static void setAction(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getAction(poMentalSituation);
 				
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTION, false);
 		} else {
 			oExistingDataStructure = poDataStructure;
@@ -120,7 +120,7 @@ public class clsMentalSituationTools {
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poMentalSituation);
 				
-		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT.toString())==true) {
+		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		} else {
 			oExistingDataStructure = poDataStructure;
