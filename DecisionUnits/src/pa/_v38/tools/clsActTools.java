@@ -73,10 +73,10 @@ public class clsActTools {
 	
 			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
 			if (oExistentPrediction.isNullObject()==false) {
-				if (oSuperStructure.getMoDS_ID()==clsActDataStructureTools.getIntention(oExistentPrediction).getMoDS_ID()) {
+				//if (oSuperStructure.getMoDS_ID()==clsActDataStructureTools.getIntention(oExistentPrediction).getMoDS_ID()) {
 					//Merge meshes
-					clsMeshTools.mergeMesh(oExistentPrediction, oRI);
-				}
+					clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
+				//}
 
 				
 			} else {
@@ -132,7 +132,7 @@ public class clsActTools {
 			//If this container is a leaf element of an associationsecondary with the predicate "hasSuper" and is the object of that association
 			if (oAss instanceof clsAssociationSecondary) {
 				//An intention is recognized if the image is the Leaf element of a Hierarchical association (hasSuper)
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER.toString()) && (oAss.getLeafElement().equals(poInput))) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER) && (oAss.getLeafElement().equals(poInput))) {
 					//One intention has been found
 					bRetVal=true;
 					//One result was found, then break
@@ -162,7 +162,7 @@ public class clsActTools {
 			//If this container is a leaf element of an associationsecondary with the predicate "hasSuper" and is the object of that association
 			if (oAss instanceof clsAssociationSecondary) {
 				//An intention is recognized if the image is the Leaf element of a Hierarchical association (hasSuper)
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER.toString())) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASSUPER)) {
 					//The structure is a super or has a super
 					bHasSuper=true;
 					if (bHasNext==true) {
@@ -170,7 +170,7 @@ public class clsActTools {
 						bRetVal=true;
 						break;
 					}
-				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASNEXT.toString())) {
+				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASNEXT)) {
 					bHasNext=true;
 					if (bHasSuper==true) {
 						bRetVal=true;
@@ -219,7 +219,7 @@ public class clsActTools {
 		
 		for (clsAssociation oAss : poImage.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
-				if (oAss.getMoContentType().equals(eContentType.PIASSOCIATION.toString()) && oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI.toString())) {
+				if (oAss.getMoContentType().equals(eContentType.PIASSOCIATION) && oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI)) {
 					rRetVal = oAss.getMrWeight();
 					break;
 				}	
@@ -246,7 +246,25 @@ public class clsActTools {
 			//Add new WP to image
 			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue));
 		}
-	}	
+	}
+	
+	/**
+	 * Remove PI match from an image and its sub images
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.07.2012 22:56:24
+	 *
+	 * @param poImage
+	 */
+	public static void removePIMatchFromWPMAndSubImages(clsWordPresentationMesh poImage) {
+		ArrayList<clsWordPresentationMesh> MIA = clsMeshTools.getAllWPMImages(poImage, 2);
+		
+		for (clsWordPresentationMesh oWPM : MIA) {
+			clsMeshTools.removeAllNonUniquePredicateWP(oWPM, ePredicate.HASPIMATCH);
+		}
+		
+	}
 	
 	/**
 	 * Get the next image in the sequence

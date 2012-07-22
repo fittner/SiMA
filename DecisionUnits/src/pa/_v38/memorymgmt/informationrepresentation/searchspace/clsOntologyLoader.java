@@ -43,6 +43,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 
 /**
@@ -645,7 +646,7 @@ public class clsOntologyLoader {
 			Instance oIns_b = (Instance)getSlotValues("element", poAssociation).toArray()[1]; 
 			
 			//Extract predicate
-			String oPredicate = (String)getSlotValue("predicate", poAssociation);
+			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue("predicate", poAssociation));
 			
 			initDataStructure(null, oIns_a, poDataContainer);
 			initDataStructure(null, oIns_b, poDataContainer);
@@ -655,7 +656,7 @@ public class clsOntologyLoader {
 		}
 		else {
 			//Extract predicate
-			String oPredicate = (String)getSlotValue("predicate", poAssociation);
+			ePredicate oPredicate = ePredicate.valueOf((String)getSlotValue("predicate", poAssociation));
 			for(Object oElement : getSlotValues("element", poAssociation)){
 				String oRootName = poRootElement.getName(); 
 				String oElementName = ((Instance) oElement).getName(); 
@@ -696,7 +697,7 @@ public class clsOntologyLoader {
 	 */
 	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
 		//Specialize the create association function, by not applying an attribute
-		return getNewAssociation(peContentType, peElementType, poAssociation, poElementA, poElementB, "");
+		return getNewAssociation(peContentType, peElementType, poAssociation, poElementA, poElementB, ePredicate.NONE);
 	}
 	
 	/**
@@ -709,7 +710,7 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, String oPredicate) {
+	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, ePredicate oPredicate) {
 		
 		//Use oPredicate if an AssociationSecondary is used, else the predicate is not used in the function.
 		

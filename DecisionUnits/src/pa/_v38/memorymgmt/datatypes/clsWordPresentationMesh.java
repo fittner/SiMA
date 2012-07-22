@@ -111,7 +111,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		for (clsAssociation oAss : this.moInternalAssociatedContent) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())==true) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)==true) {
 					oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -123,7 +123,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		if (oRetVal.size()==0 || pbStopAtFirstMatch==false) {
 			for (clsAssociation oAss : this.moExternalAssociatedContent) {
 				if (oAss instanceof clsAssociationSecondary) {
-					if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())==true) {
+					if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)==true) {
 						oRetVal.add((clsSecondaryDataStructure) oAss.getTheOtherElement(this));
 						
 						if (pbStopAtFirstMatch==true) {

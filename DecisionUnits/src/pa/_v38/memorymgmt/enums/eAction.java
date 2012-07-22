@@ -37,6 +37,7 @@ public enum eAction {
 	//Internal actions
 	FOCUS_ON,	//Send to F23
 	SEND_TO_PHANTASY,	//Send to phantasy
+	PERFORM_BASIC_ACT_ANALYSIS,
 	//DO_BASIC_ACT_ANALYSIS,		//Analyse the act
 	
 	//Temp actions

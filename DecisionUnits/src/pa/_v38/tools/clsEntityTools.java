@@ -44,7 +44,7 @@ public class clsEntityTools {
 
 		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE.toString())) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE)) {
 					//Get content of the association
 					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 					if (Y==null) {
@@ -58,7 +58,7 @@ public class clsEntityTools {
 						}
 					}
 				
-				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION.toString())) {
+				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION)) {
 					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
 					//Get the X-Part
 					if (X==null) {

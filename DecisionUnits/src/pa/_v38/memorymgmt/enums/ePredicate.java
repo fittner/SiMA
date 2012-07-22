@@ -17,6 +17,7 @@ package pa._v38.memorymgmt.enums;
  */
 public enum ePredicate {
 	//General
+	NONE,
 	HASASSOCIATION,
 	
 	//Hierarchical

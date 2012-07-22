@@ -261,14 +261,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 5);
+			//ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 5);
 			//Go through all new found entities
-			for (clsWordPresentationMesh oWPM : oEnhancedList) {
-				if (oEnhancedWPM!=oWPM) {
-					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
-				}
-			}
-			System.out.print("");
+//			for (clsWordPresentationMesh oWPM : oEnhancedList) {
+//				if (oEnhancedWPM!=oWPM) {
+//					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
+//				}
+//			}
+//			System.out.print("");
 		}
 		
 		//Create a List of all loaded acts and other memories

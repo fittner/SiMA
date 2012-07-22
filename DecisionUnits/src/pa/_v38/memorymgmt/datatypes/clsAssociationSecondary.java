@@ -9,6 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -24,7 +25,7 @@ public class clsAssociationSecondary extends clsAssociation{
 	//This is the basic association in the secondary process for creating acts
 	
 	//Association attribute
-	private String moPredicate;	//This attribute is the predicate in an ontology
+	private ePredicate moPredicate;	//This attribute is the predicate in an ontology
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -38,7 +39,7 @@ public class clsAssociationSecondary extends clsAssociation{
 	public clsAssociationSecondary(
 		clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
 		clsSecondaryDataStructure poAssociationElementA,
-		clsSecondaryDataStructure poAssociationElementB, String oPredicate) {
+		clsSecondaryDataStructure poAssociationElementB, ePredicate oPredicate) {
 			
 		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
 		moPredicate = oPredicate;
@@ -100,11 +101,11 @@ public class clsAssociationSecondary extends clsAssociation{
 		
 	}
 	
-	public String getMoPredicate() {
+	public ePredicate getMoPredicate() {
 		return moPredicate;
 	}
 	
-	public void setMrPredicate(String oPredicate) {
+	public void setMrPredicate(ePredicate oPredicate) {
 		this.moPredicate = oPredicate;
 	}
 }

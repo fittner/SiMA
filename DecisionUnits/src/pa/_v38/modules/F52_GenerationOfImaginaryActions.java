@@ -194,6 +194,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// Generate actions for the top goal
 			try {
 				moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN);
+				System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Action: " + moPlans_Output.toString());
 			} catch (Exception e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -222,7 +223,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //			moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>) deepCopy(moAssociatedMemories_IN);
 
 			// printData(moActions_Output, moGoalInput,
-			// moExtractedPrediction_IN);
+			// moExtractedPrediction_IN);;
+			
 		}
 
 	}
@@ -702,9 +704,16 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				}
 				
 				//Here, nothing is done
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.PERFORM_BASIC_ACT_ANALYSIS)==true) {
+				
+				//Get the supportive data structure
+				//clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
+				
+				//Associate this structure with the action
+				//clsActionTools.setSupportiveDataStructure(oInternalActionWPM, oSupportiveDataStructure);
+				
+				oExternalActionWPM = oInternalActionWPM;
 			}
-			
-		
 		}
 		
 		//If any action was set, i. e. no nullobject 
@@ -754,6 +763,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
+		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_FOCUS));
 		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET));

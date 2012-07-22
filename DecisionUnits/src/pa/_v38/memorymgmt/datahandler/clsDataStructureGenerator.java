@@ -38,6 +38,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -233,7 +234,7 @@ public abstract class clsDataStructureGenerator {
 	}
 	
 	public static clsAssociation generateASSOCIATIONSEC(eContentType poContentType, 
-			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, String poPredicate, double prWeight) {
+			clsDataStructurePA poRoot, clsDataStructurePA poLeaf, ePredicate poPredicate, double prWeight) {
 		clsAssociation oRetVal=null;
 		eContentType oContentType = poContentType; 
 		

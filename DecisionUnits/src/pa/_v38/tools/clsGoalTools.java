@@ -87,6 +87,13 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+	public static clsWordPresentationMesh copyGoalWithoutTaskStatus(clsWordPresentationMesh poGoal) {
+		//Create new goal
+		clsWordPresentationMesh oResult = clsGoalTools.createGoal(clsGoalTools.getGoalContent(poGoal), clsGoalTools.getGoalType(poGoal), clsGoalTools.getAffectLevel(poGoal), clsGoalTools.getGoalObject(poGoal), clsGoalTools.getSupportiveDataStructure(poGoal));
+		
+		return oResult;
+		
+	}
 	/**
 	 * Get the drive object from a goal mesh
 	 * 
@@ -291,7 +298,7 @@ public class clsGoalTools {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poGoal);
 		
 		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
-			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);	//Set ass only in one direction
 		} else {
 			//Get the association
 			clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true);
@@ -354,7 +361,7 @@ public class clsGoalTools {
 		clsWordPresentationMesh oExistingDataStructure = clsGoalTools.getSupportiveDataStructureForAction(poGoal);
 		
 		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
-			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
+			clsMeshTools.createAssociationSecondary(poGoal, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
 		} else {
 			//Get the association
 			clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poGoal, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, 0, true);
@@ -480,7 +487,7 @@ public class clsGoalTools {
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).mnAffectLevel>1) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).mnAffectLevel>=1) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 				

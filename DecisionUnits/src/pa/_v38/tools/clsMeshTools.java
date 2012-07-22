@@ -623,7 +623,7 @@ public class clsMeshTools {
 		
 		for (clsAssociation oAss : poInputList) {
 			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate.toString())) {
+				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(poPredicate)) {
 					if (pbGetWholeAssociation==true) {
 						oRetVal.add(oAss);
 						if (pbStopAtFirstMatch==true) {
@@ -1167,9 +1167,9 @@ public class clsMeshTools {
 		//Create association
 		clsAssociationSecondary oNewAss;
 		if (pbSwapDirectionAB==false) {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementOrigin, poElementTarget, poPredicate.toString(), prWeight);
+			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementOrigin, poElementTarget, poPredicate, prWeight);
 		} else {
-			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementTarget, poElementOrigin, poPredicate.toString(), prWeight);
+			oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementTarget, poElementOrigin, poPredicate, prWeight);
 		}
 		
 		//Process the original Element 
