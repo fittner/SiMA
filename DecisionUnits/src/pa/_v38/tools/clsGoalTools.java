@@ -440,11 +440,11 @@ public class clsGoalTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> extractPossibleGoals(clsWordPresentationMesh poImage) {
+	public static ArrayList<clsWordPresentationMesh> extractPossibleGoals(clsWordPresentationMesh poImage, eGoalType poGoalType) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Get all possibly reachable drivegoals
-		oRetVal = clsImportanceTools.getWPMDriveGoals(poImage, true);
+		oRetVal = clsImportanceTools.getWPMDriveGoals(poImage, poGoalType, true);
 				
 		return oRetVal;
 	}

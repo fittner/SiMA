@@ -19,14 +19,18 @@ public enum eContentType {
 	NOTHING,
 	
 	
-	// --- Entities --- //
-	ENTITY,
-	PI,
-	PIMATCH, 		//Content type of perception
-	GOALTYPE,
-	RI,
+	//---Images---//
+	PI,			//Perceived Image
+	RI,			//Remembered Image
+	PHI,		//Phantasized image
 	RIREPRESSED,
 	RILIBIDO,
+	
+	PIMATCH, 		//Content type of perception
+	
+	//--- Entities --- //
+	ENTITY,
+	
 	AREASUBSET,
 	AFFECTLEVEL,
 	PREDICTION,
@@ -43,6 +47,7 @@ public enum eContentType {
 	
 	//--- Goals ---//
 	TASKSTATUS,
+	GOALTYPE,
 	
 	//--- Actions ---//
 	PRECONDITION,

@@ -218,7 +218,10 @@ public abstract class clsDataStructureComparison {
 				}
 			}
 			//2. Second search, where the best matches are newly ordered. This newly ordered list is given back as a result
-			oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poDSUnknown, mrBestMatchThreshold, mrAssociationMaxValue));			
+			
+			//FIXME AW. Get different matches, for even better matches
+			//oRetVal.addAll(compareBestResults(oPreliminaryRetVal, poDSUnknown, mrBestMatchThreshold, mrAssociationMaxValue));
+			oRetVal.addAll(oPreliminaryRetVal);
 		}
 		
 		//3. Sort the list
@@ -684,10 +687,16 @@ public abstract class clsDataStructureComparison {
 			}
 			
 			oFoundWPM.setMoExternalAssociatedContent(oAssList);
+			
+			//Test
+			//ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllWPMImages(oFoundWPM, 5);
 				
 			//Copy the result after correctly adressing of the associations
 			try {
 				oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) oFoundWPM).clone();
+				//Test
+				//ArrayList<clsWordPresentationMesh> oWPMList2 = clsMeshTools.getAllWPMImages(oRetVal, 5);
+				//System.out.println("xx");
 			} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();

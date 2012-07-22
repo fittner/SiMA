@@ -154,11 +154,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	protected void process_basic() {
 		//FIXME AW: As soon as drive get down here, remove this
-		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:Nourish:Aggr"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
-		oDM.setQuotaOfAffect(1.0);
+		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:STOMACH:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
+		oDM.setQuotaOfAffect(0.3);
 		//Load a cake
 		
-		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE");
+		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE", "", "");
+		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("CAKE", "CIRCLE", "#FFAFAF");
 		try {
 			oDM.associateActualDriveObject(oT, 1.0);
 		} catch (Exception e) {

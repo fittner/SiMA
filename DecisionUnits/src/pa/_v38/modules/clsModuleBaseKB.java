@@ -9,6 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -24,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -320,15 +322,76 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 //			clsDataStructureTools.moveAllAssociations((clsThingPresentationMesh)oRetVal, (clsThingPresentationMesh)poInput);
 //		}
 		
+
+		
+		
 		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
 		if (poInput instanceof clsWordPresentationMesh) {
+			correntErronerusAssociations((clsWordPresentationMesh) oRetVal);
 			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 		} else if (poInput instanceof clsThingPresentationMesh) {
 			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
 		}
 		
 		
+		
 		return poInput;
+	}
+	
+	private void correntErronerusAssociations(clsWordPresentationMesh poSource) {
+		//Get all associations of the source element
+		ArrayList<clsAssociationSecondary> oSourceAssList = getSecondaryAssociations(poSource);
+		//Get all other elements
+		ArrayList<clsWordPresentationMesh> oOtherWPMList = new ArrayList<clsWordPresentationMesh>();
+		for (clsAssociationSecondary oSourceAss : oSourceAssList) {
+			clsSecondaryDataStructure oOtherDS = (clsSecondaryDataStructure) oSourceAss.getTheOtherElement(poSource);
+			if (oOtherDS instanceof clsWordPresentationMesh) {
+				oOtherWPMList.add((clsWordPresentationMesh) oOtherDS);
+			}
+		}
+		
+		//For each of those elements, get their associations
+		for (clsAssociationSecondary oSourceAss : oSourceAssList) {
+			for (clsWordPresentationMesh oOtherWPM : oOtherWPMList) {
+				ArrayList<clsAssociationSecondary> oOtherWPMAssList = getSecondaryAssociations(oOtherWPM);
+				ListIterator<clsAssociationSecondary> oList = oOtherWPMAssList.listIterator();
+				//ArrayList<clsPair<clsAssociation, clsAssociation>> oReplaceList = new ArrayList<clsPair<clsAssociation, clsAssociation>>();
+				clsAssociation oFoundAss = null;
+				while (oList.hasNext()) {
+					clsAssociationSecondary oOtherSecondaryAss = oList.next();
+					if (oSourceAss!=oOtherSecondaryAss && 
+							oSourceAss.getRootElement()==oOtherSecondaryAss.getRootElement() &&
+							oSourceAss.getLeafElement()==oOtherSecondaryAss.getLeafElement() &&
+							oSourceAss.getMoPredicate()==oOtherSecondaryAss.getMoPredicate()) {
+						
+						oFoundAss = oOtherSecondaryAss;
+						break;
+					}
+				}
+				
+				if (oFoundAss!=null) {
+					oOtherWPM.getExternalAssociatedContent().remove(oFoundAss);
+					oOtherWPM.getExternalAssociatedContent().add(oSourceAss);
+				}
+			}
+		}
+		
+		
+		//If the association elements are the same but the association instance is different exchange the instance in the target
+		
+	}
+	
+	private ArrayList<clsAssociationSecondary> getSecondaryAssociations(clsWordPresentationMesh poMesh) {
+		ArrayList<clsAssociationSecondary> oResult = new ArrayList<clsAssociationSecondary>();
+		
+		//Check associations. If associations are moved, the all have to be the same
+		for (clsAssociation oAss : poMesh.getExternalAssociatedContent()) {
+			if (oAss instanceof clsAssociationSecondary) {
+				oResult.add((clsAssociationSecondary) oAss);
+			}
+		}
+		
+		return oResult;
 	}
 	
 //	/**
@@ -598,12 +661,26 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	
 	}
 	
-	protected clsThingPresentationMesh debugGetThingPresentationMeshEntity(String poContent) {
+	protected clsThingPresentationMesh debugGetThingPresentationMeshEntity(String poContent, String poShape, String poColor) {
 		clsThingPresentationMesh oRetVal = null;
 		
-		//Create the TP
+		ArrayList<clsThingPresentation> oPropertyList = new ArrayList<clsThingPresentation>();
+		//Shape
+		if (poShape!="") {
+			clsThingPresentation oShapeTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ShapeType, poShape));
+			oPropertyList.add(oShapeTP);
+		}
+		
+		//Color
+		if (poColor!="") {
+			clsThingPresentation oColorTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.COLOR, poColor));
+			oPropertyList.add(oColorTP);
+		}
+		
+		
+		//Create the TPM
 		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>
-			(eContentType.ENTITY, new ArrayList<clsThingPresentation>(), poContent));
+			(eContentType.ENTITY, oPropertyList, poContent));
 				
 		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
 		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));

@@ -1899,6 +1899,7 @@ public class clsMeshTools {
 		}
 		
 		for (clsAssociation oAss : oAssList) {
+			//Move from the origin, i. e. the cloned value to the inout value
 			moveAssociation(poTargetWPM, poOriginWPM, oAss);
 		}
 	}

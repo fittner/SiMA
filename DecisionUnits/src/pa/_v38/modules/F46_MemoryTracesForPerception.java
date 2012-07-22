@@ -648,7 +648,15 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		if (bUsePerception==true) {	//Activate with perception
 			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());		
 		} else {						//Activate with returned memory
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 0.3, new ArrayList<clsDriveMesh>());
+			//Add SELF to the image if it does not exist
+			if (clsMeshTools.getSELF(poReturnedPhantasyImage)==null) {
+				clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity("SELF", "", "");
+				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
+				oSELFList.add(oSELF);
+				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
+			}
+			
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0, new ArrayList<clsDriveMesh>());
 		}
 		
 		

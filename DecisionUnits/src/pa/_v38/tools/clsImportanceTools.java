@@ -88,7 +88,7 @@ public class clsImportanceTools {
 		
 		try {
 			//Get all DriveGoals
-			ArrayList<clsWordPresentationMesh> oDriveGoals = getWPMDriveGoals(poImage, false);
+			ArrayList<clsWordPresentationMesh> oDriveGoals = getWPMDriveGoals(poImage, eGoalType.NULLOBJECT, false);
 			for (clsWordPresentationMesh oGoal : oDriveGoals) {
 				//Get the drive intensity
 				rThisAffect = clsGoalTools.getAffectLevel(oGoal).mnAffectLevel;
@@ -119,7 +119,7 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, boolean pbKeepDuplicates) {
+	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
 		
@@ -145,7 +145,7 @@ public class clsImportanceTools {
 			clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
 			
 			//Create the goal
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, eGoalType.PERCEPTIONALDRIVE, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, oSupportiveDataStructure);
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;

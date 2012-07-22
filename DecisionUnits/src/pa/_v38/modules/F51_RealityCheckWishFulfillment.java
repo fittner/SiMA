@@ -317,12 +317,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(poPreviousMentalSituation);
 		
 		//If the previous goal is a drive goal without any supportdatatype, then add it to the goallist
-		if (clsGoalTools.getGoalType(oPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
+		if (clsGoalTools.getGoalType(oPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
+			clsWordPresentationMesh oGoalFromDrive = clsGoalTools.createGoal(oPreviousGoal.getMoContent(), eGoalType.DRIVESOURCE, clsGoalTools.getAffectLevel(oPreviousGoal), clsGoalTools.getGoalObject(oPreviousGoal), null);
+			
 			//Create a supportive data structure
-			clsGoalTools.createSupportiveDataStructureFromGoalObject(oPreviousGoal, eContentType.DRIVEGOALSUPPORT);
+			clsGoalTools.createSupportiveDataStructureFromGoalObject(oGoalFromDrive, eContentType.PHI);
 			
 			//Add to goallist
-			poGoalList.add(oPreviousGoal);
+			poGoalList.add(oGoalFromDrive);
 
 		}
 		

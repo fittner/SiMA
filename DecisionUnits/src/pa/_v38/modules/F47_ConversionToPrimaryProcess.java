@@ -17,6 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
@@ -172,6 +173,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 							if (checkIfAssociationWPExists(oTPM)==true) {
 								throw new Exception("No AssociationWP are allowed here");
 							} else {
+								oTPM.setMoContentType(eContentType.PHI);
 								oRetVal.add(oTPM);
 							}
 						} catch (Exception e) {

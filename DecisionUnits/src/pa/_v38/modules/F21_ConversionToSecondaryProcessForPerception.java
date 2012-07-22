@@ -237,7 +237,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//Input: TPM
 		//1. Get all Images of the Mesh
-		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 2);		
+		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);		
 		//2. Search for WPM for the image and add the found image to a list. The WPM is connected with the TPM by an associationWP
 		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
@@ -261,13 +261,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 2);
+			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 5);
 			//Go through all new found entities
 			for (clsWordPresentationMesh oWPM : oEnhancedList) {
 				if (oEnhancedWPM!=oWPM) {
 					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
 				}
 			}
+			System.out.print("");
 		}
 		
 		//Create a List of all loaded acts and other memories

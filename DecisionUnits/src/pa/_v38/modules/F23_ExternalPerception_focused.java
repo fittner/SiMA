@@ -421,7 +421,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//TODO AW: Add emotions here
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		oRetVal.addAll(clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN));
+		oRetVal.addAll(clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN, eGoalType.PERCEPTIONALDRIVE));
 		
 		return oRetVal;
 	}
@@ -443,14 +443,14 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			//Get the intention
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
 			if (oIntention!=null) {
-				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention));
+				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention, eGoalType.MEMORYDRIVE));
 			} 
 			
 			if (oRetVal.isEmpty()==true) {
 				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
 				//in the perception, it shall search its activated memory first
 				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
-				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.PERCEPTIONALDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
+				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.MEMORYDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
 				
 			}
 			

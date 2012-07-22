@@ -30,6 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -589,7 +590,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//get the secondary structure
 		ArrayList<clsWordPresentationMesh> oDriveGoals = new ArrayList<clsWordPresentationMesh>();
 		
-		oDriveGoals = clsImportanceTools.getWPMDriveGoals(poExternalPerception, false);
+		oDriveGoals = clsImportanceTools.getWPMDriveGoals(poExternalPerception, eGoalType.PERCEPTIONALDRIVE, false);
 		
 		oRetVal.addAll(oDriveGoals);
 	

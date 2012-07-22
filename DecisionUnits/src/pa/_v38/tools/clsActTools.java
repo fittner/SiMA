@@ -72,10 +72,12 @@ public class clsActTools {
 			clsWordPresentationMesh oExistentPrediction = clsActDataStructureTools.checkIfIntentionExistsInActList(oRetVal, oSuperStructure);
 	
 			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
-			if (oExistentPrediction != null) {
-				// Do nothing as the act is already connected
-				
-				
+			if (oExistentPrediction.isNullObject()==false) {
+				if (oSuperStructure.getMoDS_ID()==clsActDataStructureTools.getIntention(oExistentPrediction).getMoDS_ID()) {
+					//Merge meshes
+					clsMeshTools.mergeMesh(oExistentPrediction, oRI);
+				}
+
 				
 			} else {
 				//Create prediction
