@@ -27,6 +27,8 @@ import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eOrgan;
+import du.enums.pa.eDriveComponent;
+import du.enums.pa.ePartialDrive;
 
 /**
  * F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -174,7 +176,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		//calculate the pleasure gain from reduced tensions for DT4
 		ProcessPleasureCalculation();
 		
-		System.out.printf("F48: Dm count= "+this.moAllDriveComponents_OUT.size());
+		//add some meaningfull information to the debug info, comment this out for performance
+		AddDebugInfoForUsProgrammers(this.moAllDriveComponents_OUT);
 	}
 	
 	/**
@@ -311,14 +314,16 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
 			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
 				try {
-					//search for the slope factor for the organ
-					for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
-						
-						eOrgan oOrgan = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSourceAsENUM();
-						if ( oOrgan == eOrgan.valueOf((oSF.getKey())) ) {
-							rSlopeFactor = oSF.getValue();
-							break;
-						}
+					
+					//get the slope factor from the table/aka properties
+					eOrgan oOrgan = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSourceAsENUM();
+					if(moSplitterFactor.containsKey( oOrgan ))
+					{
+						rSlopeFactor = moSplitterFactor.get(oOrgan);
+					}
+					else
+					{
+					 //no slope factor found, use default
 					}
 				} catch (java.lang.Exception e) {
 					System.out.print(e);
@@ -348,6 +353,66 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
 		}
 	}
+	
+	
+	/**
+	 * This add debug info only, no real model-info, deactivate this if performance is king
+	 *
+	 * @since 23.07.2012 14:41:43
+	 *
+	 * @param poDriveList
+	 */
+	private void AddDebugInfoForUsProgrammers(ArrayList<clsDriveMesh> poDriveList)
+	{ 
+		// see Deutsch p81 for the source for the names
+		
+		for( clsDriveMesh oDriveEntry : poDriveList){
+			
+			//the big IF:
+			if(		oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.STOMACH &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+				oDriveEntry.setDebugInfo("bite");
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.STOMACH &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+				oDriveEntry.setDebugInfo("nourish");
+			
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.RECTUM &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+				oDriveEntry.setDebugInfo("expulsion");
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.RECTUM &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+				oDriveEntry.setDebugInfo("repress");
+			
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.BLADDER &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+				oDriveEntry.setDebugInfo("squirt out");
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.BLADDER &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+				oDriveEntry.setDebugInfo("retain warm");
+			
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.STAMINA &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+				oDriveEntry.setDebugInfo("put to sleep");
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.STAMINA &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+				oDriveEntry.setDebugInfo("relax");
+			
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.LIBIDO &&
+					oDriveEntry.getPartialDrive()== ePartialDrive.GENITAL &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.AGGRESSIVE)
+				oDriveEntry.setDebugInfo("male: amputate; female:to suffocate");
+			else if(oDriveEntry.getActualDriveSourceAsENUM()== eOrgan.LIBIDO &&
+					oDriveEntry.getPartialDrive()== ePartialDrive.GENITAL &&
+					oDriveEntry.getDriveComponent() == eDriveComponent.LIBIDINOUS)
+				oDriveEntry.setDebugInfo("male: to errect; female:to absorb/to complete");
+			
+			//TODO names for the other sexual/homeo drives
+
+		}
+		
+	}
+	
+
 
 	/* (non-Javadoc)
 	 *
