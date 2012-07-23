@@ -187,6 +187,12 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGGRESSIVE, ePartialDrive.PHALLIC);
 		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGGRESSIVE, ePartialDrive.GENITAL);
 		
+		//setTension by dividing agressive /4
+		oAADM.setQuotaOfAffect( rAgressiveTension/4);
+		oAODM.setQuotaOfAffect( rAgressiveTension/4);
+		oAPDM.setQuotaOfAffect( rAgressiveTension/4);
+		oAGDM.setQuotaOfAffect( rAgressiveTension/4);
+		
 		//calculate tension according to personality
 		oAADM.setQuotaOfAffect( CalculateNewPartialTension(oAADM));
 		oAODM.setQuotaOfAffect( CalculateNewPartialTension(oAODM));
@@ -203,11 +209,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private double CalculateNewPartialTension(clsDriveMesh poSexualDrive)
 	{
 		double rNewTension = 0.0;
-		if(moSexualDrivesImpactFactors.containsKey( poSexualDrive.getDriveComponent() ) )
+		if(moSexualDrivesImpactFactors.containsKey( poSexualDrive.getPartialDrive() ) )
 		{
 			try 
 			{
-				double rImpactFactor = moSexualDrivesImpactFactors.get(poSexualDrive.getDriveComponent());
+				double rImpactFactor = moSexualDrivesImpactFactors.get(poSexualDrive.getPartialDrive());
 				rNewTension = poSexualDrive.getQuotaOfAffect() * rImpactFactor;
 			} catch (java.lang.Exception e) {
 				System.out.print(e);
@@ -269,13 +275,19 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @param a
 	 */
 	private void CreateLibidoneusDriveRepresentations(clsDriveMesh a) {
-		double rAgressiveTension = a.getQuotaOfAffect();
+		double rLibidonuesTension = a.getQuotaOfAffect();
 		
 		clsDriveMesh oLADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ANAL);
 		clsDriveMesh oLODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
 		//TODO, create according to sex femal/male
 		clsDriveMesh oLPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.LIBIDINOUS, ePartialDrive.PHALLIC);
 		clsDriveMesh oLGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.LIBIDINOUS, ePartialDrive.GENITAL);
+		
+		//setTension by dividing agressive /4
+		oLADM.setQuotaOfAffect( rLibidonuesTension/4);
+		oLODM.setQuotaOfAffect( rLibidonuesTension/4);
+		oLPDM.setQuotaOfAffect( rLibidonuesTension/4);
+		oLGDM.setQuotaOfAffect( rLibidonuesTension/4);
 		
 		//calculate tension according to personality
 		oLADM.setQuotaOfAffect( CalculateNewPartialTension(oLADM));
