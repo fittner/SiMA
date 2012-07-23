@@ -8,7 +8,6 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ListIterator;
 import java.util.SortedMap;
 
 import config.clsProperties;
@@ -18,7 +17,6 @@ import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -33,7 +31,6 @@ import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsSecondarySpatialTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -61,7 +58,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** List of drive goals OUT; @since 07.05.2012 19:10:20 */
 	//private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN;
+	//private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN;
 	
 	
 	
@@ -138,11 +135,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	public String stateToTEXT() {
 		String text ="";
 		
-//		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("moReachableGoalList_IN", moReachableGoalList_IN);
 //		text += toText.listToTEXT("moAssociatedMemoriesSecondary_IN", moAssociatedMemoriesSecondary_IN);
 //		text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_OUT);
 //		text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
-		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
+//		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
 		
 		return text;
 	}
@@ -217,7 +214,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
-		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
+		//moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -442,7 +439,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Check if goal exists in the goal list
 		ArrayList<clsWordPresentationMesh> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
 		
-		if (oEquivalentGoalList.isEmpty()) {
+		if (oEquivalentGoalList.isEmpty()==true) {
 			//--- COPY PREVIOUS GOAL ---//
 			clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
 			
@@ -454,8 +451,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				clsActTools.removePIMatchFromWPMAndSubImages(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious)));
 			
 			} else if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.DRIVESOURCE)==true) {			
-				//Create a supportive data structure
-				clsGoalTools.createSupportiveDataStructureFromGoalObject(oNewGoalFromPrevious, eContentType.PHI);
+				//Do nothing
 			}
 			
 			//Add to goallist
@@ -463,6 +459,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			
 			oResult = oNewGoalFromPrevious;
 
+		} else {
+			//Assign the right goal
+			oResult = oEquivalentGoalList.get(0);
 		}
 		
 		return oResult;
@@ -650,16 +649,44 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 		
+		//Prove if FOCUS_SET can be kept
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_ON_SET)) {
+			//If focus was set the last time, check if focus is still there in the STM
+			//Find the supportive structure in the STM
+			
+			clsWordPresentationMesh oEnvironmentalImage = this.moEnvironmentalImageStorage.getEnvironmentalImage();
+			ArrayList<clsWordPresentationMesh> oEntityList = clsMeshTools.getAllSubWPMInWPMImage(oEnvironmentalImage);
+			for (clsWordPresentationMesh oExistingEntity : oEntityList) {
+				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(poPreviousGoal).getMoDS_ID()) {
+					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
+					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
+					clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+					break;
+				}
+			}
+			
+		}
+		
 		if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
 			//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
 			//As the environmental image is not "mitgedreht", only fix positions are used.
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);	
-		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE);
+		
+		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || 
+				poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || 
+				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
+			
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
-		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || poPreviousAction.equals(eAction.TURN_LEFT)==true || poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
+		
+		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || 
+				poPreviousAction.equals(eAction.TURN_LEFT)==true || 
+				poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE);
+			//clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
 		}
+		System.out.print("");
 	}
 	
 	/**
@@ -1126,25 +1153,25 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //	}
 	
 	
-	/**
-	 * Delete all predictions without a moment, because they cannot be interpreted
-	 * (wendt)
-	 *
-	 * @since 16.08.2011 21:16:29
-	 *
-	 * @param poPredictionList
-	 */
-	private void cleanPredictions(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList) {
-		ListIterator<clsTriple<Integer, Integer, clsPrediction>> liMainList = poPredictionList.listIterator();
-		
-		while (liMainList.hasNext()) {
-			clsTriple<Integer, Integer, clsPrediction> oPred = liMainList.next();
-			//If the secondary component of the prediction is null, then delete
-			if (oPred.c.getMoment().getSecondaryComponent()==null) {
-				liMainList.remove();
-			}
-		}
-	}
+//	/**
+//	 * Delete all predictions without a moment, because they cannot be interpreted
+//	 * (wendt)
+//	 *
+//	 * @since 16.08.2011 21:16:29
+//	 *
+//	 * @param poPredictionList
+//	 */
+//	private void cleanPredictions(ArrayList<clsTriple<Integer, Integer, clsPrediction>> poPredictionList) {
+//		ListIterator<clsTriple<Integer, Integer, clsPrediction>> liMainList = poPredictionList.listIterator();
+//		
+//		while (liMainList.hasNext()) {
+//			clsTriple<Integer, Integer, clsPrediction> oPred = liMainList.next();
+//			//If the secondary component of the prediction is null, then delete
+//			if (oPred.c.getMoment().getSecondaryComponent()==null) {
+//				liMainList.remove();
+//			}
+//		}
+//	}
 	
 	
 //	/**

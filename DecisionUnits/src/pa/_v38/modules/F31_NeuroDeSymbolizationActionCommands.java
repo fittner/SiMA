@@ -297,6 +297,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					//Do nothing
 				} else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
 					//Do nothing
+				} else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
+					
 				}
 				
 				

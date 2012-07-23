@@ -28,6 +28,7 @@ public enum eTaskStatus {
 	NEED_PERCEPTIONAL_INFO, 		//Trigger search
 	PERFORM_RECOMMENDED_ACTION,		//For acts, perform the recommended action, which is saved with the act
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match
+	GOAL_REACHABLE,
 	
 	
 	NEED_INTERNAL_INFO_SET;			//Phantasy was already triggered

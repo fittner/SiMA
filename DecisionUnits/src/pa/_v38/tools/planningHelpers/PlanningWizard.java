@@ -243,7 +243,7 @@ public class PlanningWizard {
 				String oPosition = "";
 
 				for (clsAssociation oAss : el.getExternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)) {
 						if (((clsWordPresentation) oAss.getLeafElement()).getMoContent().equals("MANIPULATEABLE")
 						    || (((clsWordPresentation) oAss.getLeafElement()).getMoContent().equals("EATABLE"))) {
 							oDistance = "NEAR";
@@ -251,7 +251,7 @@ public class PlanningWizard {
 						} else {
 							oDistance = ((clsWordPresentation) oAss.getLeafElement()).getMoContent();
 						}
-					} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION.toString())) {
+					} else if (oAss.getLeafElement().getMoContentType().equals(eContentType.POSITION)) {
 						oPosition = ((clsWordPresentation) oAss.getLeafElement()).getMoContent();
 					}
 				}

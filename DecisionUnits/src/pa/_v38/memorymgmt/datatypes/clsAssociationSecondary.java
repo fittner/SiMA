@@ -108,4 +108,16 @@ public class clsAssociationSecondary extends clsAssociation{
 	public void setMrPredicate(ePredicate oPredicate) {
 		this.moPredicate = oPredicate;
 	}
+	
+	@Override
+	public String toString(){
+		String oResult = "::"+this.moDataStructureType+"::";  
+		oResult += this.moDS_ID + ":" + this.moPredicate + "|";
+		
+		oResult += associationToString("elementA:", moAssociationElementA);
+		oResult += ":"; 
+		oResult += associationToString("elementB:", moAssociationElementB);
+		
+		return oResult; 
+	}
 }

@@ -134,7 +134,7 @@ public class clsGoalTools {
 	public static boolean compareGoals(clsWordPresentationMesh poGoalA, clsWordPresentationMesh poGoalB) {
 		boolean bResult = false;
 		
-		if (poGoalA.getMoContent()==poGoalB.getMoContent() && clsGoalTools.getSupportiveDataStructure(poGoalA).getMoContent()==clsGoalTools.getSupportiveDataStructure(poGoalB).getMoContent()) {
+		if (poGoalA.getMoContent().equals(poGoalB.getMoContent())==true && clsGoalTools.getSupportiveDataStructure(poGoalA).getMoContent()==clsGoalTools.getSupportiveDataStructure(poGoalB).getMoContent()) {	//No ID comparison as in some structures the ID would be -1
 			bResult=true;
 		}
 		

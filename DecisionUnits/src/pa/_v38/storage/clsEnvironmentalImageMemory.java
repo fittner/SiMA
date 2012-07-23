@@ -8,6 +8,7 @@ package pa._v38.storage;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
@@ -67,22 +68,36 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 		//Remove all already existing entities from the image
 		for (clsWordPresentationMesh oEntityToDelete : oAlreadyExistingEntityList) {
 			//Delete the entity from the environmental image
-			clsMeshTools.deleteObjectInMesh(oEntityToDelete);
-			
+			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oEntityToDelete);
 			
 			//Delete the entitiy from the memory
 			this.removeMemory(oEntityToDelete);
 		}
 		
 		ArrayList<clsWordPresentationMesh> oEntityListInPI = clsMeshTools.getAllSubWPMInWPMImage(poPerceivedImage);
-		
+		ArrayList<clsSecondaryDataStructure> oAddList = new ArrayList<clsSecondaryDataStructure>();
 		//Save each entity separately in the STM structure. This is later used to delete entities from the environmental image
 		for (clsWordPresentationMesh oEntity : oEntityListInPI) {
+			//Delete all connections to the PI
+			clsMeshTools.removeAssociationInObject(oEntity, poPerceivedImage);
+			//Remove all connections also in the PP-Part
+			clsMeshTools.removeAllTemporaryAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEntity));
+			
 			this.saveToShortTimeMemory(oEntity);
+			
+			oAddList.add(oEntity);
 		}
 		
+		 
+		
+		//Create association with the environmental image
+		clsMeshTools.addSecondaryDataStructuresToWPMImage(this.moEnvironmentalImage, oAddList);
+		
+		//Remove the associationWordPresentationFrom the PI
+		poPerceivedImage.setMoExternalAssociatedContent(new ArrayList<clsAssociation>());
+		
 		//Move all entities from the PI to the EI
-		clsMeshTools.moveAllAssociations(this.moEnvironmentalImage, poPerceivedImage);
+		//clsMeshTools.moveAllAssociations(this.moEnvironmentalImage, poPerceivedImage);
 		
 		//The perceived image is consumed and is no more used.
 
@@ -108,7 +123,7 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 		//Remove the overdue objects
 		for (clsPair<Integer, clsWordPresentationMesh> oSingleRemoveObject : oRemoveObjects) {
 			//Remove the entity from the environmental image
-			clsMeshTools.deleteObjectInMesh(oSingleRemoveObject.b);
+			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oSingleRemoveObject.b);
 			
 			//Remove the entity from the memory
 			removeMemory(oSingleRemoveObject);

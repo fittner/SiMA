@@ -13,7 +13,7 @@ import java.util.ArrayList;
  * 
  * @author wendt
  * 24.07.2011, 14:26:38
- * 
+ * @deprecated
  */
 public class clsPrediction implements Cloneable {
 	private clsDataStructureContainerPair moIntention;

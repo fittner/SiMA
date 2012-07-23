@@ -141,11 +141,21 @@ public class clsImportanceTools {
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			//Get the supportive data structure
-			clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
+			clsWordPresentationMesh oGoal = null;
 			
-			//Create the goal
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+			if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE) || poGoalType.equals(eGoalType.PERCEPTIONALEMOTION)) {
+				//Create a supportive data structure from the goal object
+				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
+			} else if (poGoalType.equals(eGoalType.MEMORYDRIVE) || poGoalType.equals(eGoalType.MEMORYEMOTION)) {
+				//Get no supportive data structure
+				clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
+				//Create the goal
+				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+			}
+			
+
+			
+
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;

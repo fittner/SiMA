@@ -1386,6 +1386,27 @@ public class clsMeshTools {
 		}
 	}
 	
+	/**
+	 * Remove all association time in an entitiy
+	 * 
+	 * Example: A cake shall be divided from its PI
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.07.2012 23:34:54
+	 *
+	 * @param poMesh
+	 */
+	public static void removeAllTemporaryAssociationsTPM(clsThingPresentationMesh poMesh) {
+		ListIterator<clsAssociation> liList = poMesh.getExternalMoAssociatedContent().listIterator();
+		while (liList.hasNext()) {
+			clsAssociation oAss = liList.next();
+			if (oAss instanceof clsAssociationTime) {
+				liList.remove();
+			}
+		}
+	}
+	
 	//=== REMOVE DATA STRUCTURES IN TPM GENERAL --- END ===//
 	
 	/**

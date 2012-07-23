@@ -350,7 +350,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 * 
 	 * converts the moContentType and moContent of an association to a String
 	 */ 
-	private String associationToString (String element, clsDataStructurePA moAssociationElement)
+	protected String associationToString (String element, clsDataStructurePA moAssociationElement)
 	{
 		String oResult = "";
 		if(moAssociationElement != null){

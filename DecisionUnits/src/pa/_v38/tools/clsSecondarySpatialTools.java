@@ -241,7 +241,7 @@ public class clsSecondarySpatialTools {
 		
 		for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oFindEntity : oEntitiesToFindImageList) {
 			for (clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oSourceEntity : oSourceImageEntityList) {
-				if (compareEntitiesInImagesIdent(oFindEntity, oSourceEntity)) {
+				if (compareEntitiesInImagesIdent(oFindEntity, oSourceEntity)==true) {
 					if (poReturnSourceEntities==true) {
 						oResult.add(oSourceEntity.a);
 					} else {

@@ -12,6 +12,7 @@ import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -301,11 +302,11 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		if (poActionWPM.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
+		if (poActionWPM.isNullObject()==false) {
 			//Extract action
 			eAction oAction = eAction.valueOf(poActionWPM.getMoContent());
 			
-			if (oAction.equals(eAction.MOVE_FORWARD)) {
+			if (oAction.equals(eAction.FOCUS_MOVE_FORWARD)) {
 				//Set focus area in front of the agent, i. e. 
 				//1. all entities in CENTER NEAR have the highest priority, add 1000 points. Only a new high negative can overrule this
 				//2. all entities in MIDDLE_LEFT NEAR and MIDDLE_RIGHT NEAR have the second highest priority 100 
@@ -321,7 +322,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				oResult.addAll(clsSecondarySpatialTools.extractEntitiesInArea(poPerceivedImage, eRadius.FAR, ePhiPosition.CENTER, 20));
 				
 				
-			} else if (oAction.equals(eAction.TURN_LEFT)) {
+			} else if (oAction.equals(eAction.FOCUS_TURN_LEFT)) {
 				//Set focus area left of the agent
 				//1. MIDDLE_LEFT NEAR
 				//2. LEFT NEAR
@@ -446,13 +447,13 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention, eGoalType.MEMORYDRIVE));
 			} 
 			
-			if (oRetVal.isEmpty()==true) {
-				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
-				//in the perception, it shall search its activated memory first
-				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
-				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.MEMORYDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
-				
-			}
+//			if (oRetVal.isEmpty()==true) {
+//				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
+//				//in the perception, it shall search its activated memory first
+//				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
+//				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.MEMORYDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
+//				
+//			}
 			
 		}
 		
@@ -573,6 +574,9 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			clsMeshTools.removeAssociationInObject(poImage, oE);		//Use this instead as it ONLY removes the association of the entity with the PI
 			clsMeshTools.removeAssociationInObject(oE, poImage);
 			//clsMeshTools.deleteObjectInMesh(oE);
+			//Remove for the primary process too, i. e remove all associationtime in the external associations
+			clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(oE);
+			clsMeshTools.removeAllTemporaryAssociationsTPM(oTPM);
 		}
 	}
 	

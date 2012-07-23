@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
@@ -60,7 +61,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	private clsShortTermMemory moShortTermMemory;
 	
-	private clsShortTermMemory moEnvironmentalImageStorage;
+	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	
@@ -97,7 +98,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 * @throws Exception
 	 */
 	public F21_ConversionToSecondaryProcessForPerception(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
@@ -201,6 +202,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	protected void process_basic() {
 		//--- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
+		
+		//--- Update the environmental image ---//
+		this.moEnvironmentalImageStorage.updateTimeSteps();
 		
 		
 		//Search for all images from the primary process in the memory

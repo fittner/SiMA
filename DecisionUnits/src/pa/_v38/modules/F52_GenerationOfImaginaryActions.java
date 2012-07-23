@@ -78,9 +78,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
-
-	/** Associated memories in */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	
 	private ArrayList<clsWordPresentation> moMotilityActions_IN;
 	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
@@ -171,7 +168,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void process_basic() {
 
 		//Load perception
-		moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
+		moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.getEnvironmentalImage();
 		
 		if (m_bUseDraftPlanning) {
 			process_draft();
@@ -653,6 +650,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//Do something for each action
 			if (oInternalActionWPM.getMoContent().equals(eAction.SEND_TO_PHANTASY.toString())==true) {
 				//Set supportive datastructure from the goal
+				if (clsGoalTools.getSupportiveDataStructure(oCurrentGoal).isNullObject()==true) {
+					//Create a supportive data structure
+					clsGoalTools.createSupportiveDataStructureFromGoalObject(oCurrentGoal, eContentType.PHI);
+				}
+				
 				
 				//Get the supportive data structure
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
@@ -666,7 +668,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				oExternalActionWPM = oInternalActionWPM;
 				
 			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
-				
 				//Get the supportive data structure
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
 				
@@ -762,15 +763,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> addNewDecisionTaskImages() {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		//Drives
+		//DRIVESOURCE
 		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.NEED_INTERNAL_INFO_SET));
 		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.NEED_INTERNAL_INFO_SET));
 		
+		//PECEPTIONSOURCE
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_GOAL_FOCUS));	//Focus on the supportive datastructure, which is an image
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.FOCUS_ON_SET));
+		
+		//ACT SOURCE
 		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS));
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_GOAL_FOCUS));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET));
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
 		
 		return oResult;

@@ -148,38 +148,38 @@ public class clsShortTermMemory {
 		//Memory found and forced save true
 		if ((oFoundMemory!=null) && (forceSave==true)) {
 			//Here, the memory is replaced by the new memory, which may have some changed values
-			try {
+			//try {
 				removeMemory(oFoundMemory);
 				oFoundMemory.a = 0;
 				oFoundMemory.b = poInput;
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput.clone();
+				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
 				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
 				
 				
-			} catch (CloneNotSupportedException e) {
+			//} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
+			//	e.printStackTrace();
+			//}
 		//If there is free space in the short time memory, add the new memory
 		} else if (moShortTimeMemory.size()<mnMaxMemorySize) {
-			try {
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput.clone();
+			//try {
+				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
 				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
-			} catch (CloneNotSupportedException e) {
+			//} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
+			//	e.printStackTrace();
+			//}
 		//If there is no space in the short time memory, delete the oldest one
 		} else if (moShortTimeMemory.size()>=mnMaxMemorySize) {
 			clsPair<Integer, clsWordPresentationMesh> oObsoluteMemory = getMostObsoleteMemory();
 			removeMemory(oObsoluteMemory);
-			try {
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput.clone();
+			//try {
+				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
 				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
-			} catch (CloneNotSupportedException e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
+			//} catch (CloneNotSupportedException e) {
+			//	// TODO (wendt) - Auto-generated catch block
+			//	e.printStackTrace();
+			//}
 		}
 		
 	}

@@ -12,7 +12,7 @@ package pa._v38.memorymgmt.datatypes;
  * 
  * @author wendt
  * 24.07.2011, 14:14:43
- * 
+ * @deprecated
  */
 public class clsDataStructureContainerPair implements Cloneable {
 	private clsSecondaryDataStructureContainer moSContainer;
