@@ -150,7 +150,7 @@ public class clsImportanceTools {
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
 				for (clsWordPresentationMesh oGoalTriple : oRetVal) {
-					if (clsGoalTools.getGoalContent(oGoal) == clsGoalTools.getGoalContent(oGoalTriple) && 
+					if (clsGoalTools.getGoalName(oGoal) == clsGoalTools.getGoalName(oGoalTriple) && 
 							clsGoalTools.getAffectLevel(oGoal) == clsGoalTools.getAffectLevel(oGoalTriple) && 
 							clsGoalTools.getGoalObject(oGoal).getMoContent().equals(clsGoalTools.getGoalObject(oGoalTriple).getMoContent())) {
 						bFound = true;
@@ -210,7 +210,7 @@ public class clsImportanceTools {
 			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
-			String oDriveType = clsGoalTools.getGoalContent(oGoal); //getDriveType(oContent);
+			String oDriveType = clsGoalTools.getGoalName(oGoal); //getDriveType(oContent);
 			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
 			
 			int nIndex = 0;

@@ -267,7 +267,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		for (clsWordPresentationMesh oReachableGoal : poReachableGoalList) {
 			
 			//React on goals in the perception, which are emotion and are HIGH NEGATIVE
-			if (clsGoalTools.getSupportDataStructureType(oReachableGoal) == eContentType.PI && 
+			if (clsGoalTools.getSupportiveDataStructureType(oReachableGoal) == eContentType.PI && 
 					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.PERCEPTIONALEMOTION &&
 					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.HIGHNEGATIVE) {
 				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsImportanceTools.convertAffectLevelToImportance(clsGoalTools.getAffectLevel(oReachableGoal)), oReachableGoal));
@@ -399,7 +399,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
-			if (clsGoalTools.getGoalContent(oGoal).equals(eContent.UNKNOWN_GOAL.toString())) {
+			if (clsGoalTools.getGoalName(oGoal).equals(eContent.UNKNOWN_GOAL.toString())) {
 				oRetVal.add(oGoal);
 			}
 		}
@@ -570,8 +570,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Remove all entities from the PI, which are not part of the input list
 		ArrayList<clsWordPresentationMesh> oRemoveEntities  = clsMeshTools.getOtherInternalImageAssociations(poImage, poEntitiesToKeepInPI);
 		for (clsWordPresentationMesh oE : oRemoveEntities) {
-			clsMeshTools.deleteAssociationInObject(poImage, oE);		//Use this instead as it ONLY removes the association of the entity with the PI
-			clsMeshTools.deleteAssociationInObject(oE, poImage);
+			clsMeshTools.removeAssociationInObject(poImage, oE);		//Use this instead as it ONLY removes the association of the entity with the PI
+			clsMeshTools.removeAssociationInObject(oE, poImage);
 			//clsMeshTools.deleteObjectInMesh(oE);
 		}
 	}

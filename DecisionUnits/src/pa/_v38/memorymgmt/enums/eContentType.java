@@ -48,6 +48,7 @@ public enum eContentType {
 	//--- Goals ---//
 	TASKSTATUS,
 	GOALTYPE,
+	GOALNAME,
 	
 	//--- Actions ---//
 	PRECONDITION,

@@ -45,6 +45,7 @@ public enum ePredicate {
 	HASGOAL,
 	HASACTION,
 	HASTASKSTATUS,
+	HASGOALNAME,
 	
 	//Action
 	HASPRECONDITION,

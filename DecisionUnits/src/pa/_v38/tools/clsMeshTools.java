@@ -1274,7 +1274,7 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
 		
 		for (clsDataStructurePA oAss : oAssList) {
-			clsMeshTools.deleteAssociationInObject(poWPM, (clsSecondaryDataStructure)((clsAssociation)oAss).getLeafElement());
+			clsMeshTools.removeAssociationInObject(poWPM, (clsSecondaryDataStructure)((clsAssociation)oAss).getLeafElement());
 		}
 		
 	
@@ -1318,6 +1318,7 @@ public class clsMeshTools {
 		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
 			
 		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
 		for (clsDataStructurePA oDS : oDSList) {
 			oResult.add((clsWordPresentation) oDS);
 		}
@@ -1435,13 +1436,13 @@ public class clsMeshTools {
 	 * @param poSourceTPM: The object which has the association
 	 * @param poDeleteObject: The associatited object, which association shall be deleted.
 	 */
-	public static void deleteAssociationInObject(clsWordPresentationMesh poSourceWPM, clsSecondaryDataStructure poDeleteObject) {
+	public static void removeAssociationInObject(clsWordPresentationMesh poSourceWPM, clsSecondaryDataStructure poRootOrLeafDeleteObject) {
 		boolean bFound = false;
 		clsAssociation oDeleteAss = null;
 		
 		//Check external associations of the source
 		for (clsAssociation oExternalAss : poSourceWPM.getExternalAssociatedContent()) {
-			if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+			if (oExternalAss.getLeafElement().equals(poRootOrLeafDeleteObject) || oExternalAss.getRootElement().equals(poRootOrLeafDeleteObject)) {
 				bFound = true;
 				oDeleteAss = oExternalAss;
 				break;
@@ -1454,7 +1455,7 @@ public class clsMeshTools {
 		} else {
 			//Check internal associations
 			for (clsAssociation oExternalAss : poSourceWPM.getMoInternalAssociatedContent()) {
-				if (oExternalAss.getLeafElement().equals(poDeleteObject) || oExternalAss.getRootElement().equals(poDeleteObject)) {
+				if (oExternalAss.getLeafElement().equals(poRootOrLeafDeleteObject) || oExternalAss.getRootElement().equals(poRootOrLeafDeleteObject)) {
 					bFound = true;
 					oDeleteAss = oExternalAss;
 					break;
@@ -1463,6 +1464,28 @@ public class clsMeshTools {
 			
 			if (bFound==true) {
 				poSourceWPM.getMoInternalAssociatedContent().remove(oDeleteAss);
+			}
+		}
+	}
+	
+	/**
+	 * Remove all associations in a WPM with a certain predicate
+	 * 
+	 * (wendt)
+	 * 
+	 * @since 23.07.2012 17:19:37
+	 *
+	 * @param poSourceWPM
+	 * @param oPredicateToDelete
+	 */
+	public static void removeAssociationInObject(clsWordPresentationMesh poSourceWPM, ePredicate oPredicateToDelete) {
+		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poSourceWPM, oPredicateToDelete, 0, true, false);
+		
+		for (clsDataStructurePA oAss : oAssList) {
+			boolean bFoundAndRemoved = poSourceWPM.getExternalAssociatedContent().remove(oAss);
+			
+			if (bFoundAndRemoved==false) {
+				poSourceWPM.getMoInternalAssociatedContent().remove(oAss);
 			}
 		}
 	}
@@ -1976,13 +1999,13 @@ public class clsMeshTools {
 				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
 					//Find this element in the other element and delete it
-					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+					removeAssociationInObject(oRelatedElement, poDeleteObject);
 				}				
 			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
 				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
 					//Find this element in the other element and delete it
-					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+					removeAssociationInObject(oRelatedElement, poDeleteObject);
 				}
 			}
 		}
@@ -1995,13 +2018,13 @@ public class clsMeshTools {
 				if (oInternalAss.getLeafElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getLeafElement();
 					//Find this element in the other element and delete it
-					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+					removeAssociationInObject(oRelatedElement, poDeleteObject);
 				}				
 			} else if (oInternalAss.getLeafElement().equals(poDeleteObject)) {
 				if (oInternalAss.getRootElement() instanceof clsWordPresentationMesh) {
 					clsWordPresentationMesh oRelatedElement = (clsWordPresentationMesh) oInternalAss.getRootElement();
 					//Find this element in the other element and delete it
-					deleteAssociationInObject(oRelatedElement, poDeleteObject);
+					removeAssociationInObject(oRelatedElement, poDeleteObject);
 				}
 			}
 		}

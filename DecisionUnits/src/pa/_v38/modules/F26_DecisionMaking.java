@@ -991,7 +991,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oGoal : poPotentialGoalList) {
-			String oGoalContent = clsGoalTools.getGoalContent(oGoal); //((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent();
+			String oGoalContent = clsGoalTools.getGoalName(oGoal); //((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent();
 			int nDriveIntensity = clsImportanceTools.getDriveIntensityAsInt(clsGoalTools.getAffectLevel(oGoal));
 			
 			if (nDriveIntensity<=mnAvoidIntensity) {

@@ -117,6 +117,19 @@ public class clsMentalSituationTools {
 		return oRetVal;
 	}
 	
+	/**
+	 * Removes all actions
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.07.2012 17:20:48
+	 *
+	 * @param poMentalSituation
+	 */
+	public static void removeAction(clsWordPresentationMesh poMentalSituation) {
+		clsMeshTools.removeAssociationInObject(poMentalSituation, ePredicate.HASACTION);
+	}
+	
 	public static void setSupportiveDataStructure(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getSupportiveDataStructure(poMentalSituation);
 				
