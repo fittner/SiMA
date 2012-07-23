@@ -1203,7 +1203,7 @@ public class clsMeshTools {
 	 * @param poWPContentType
 	 * @param poWPContent
 	 */
-	public static void setUniquePredicateWP(clsWordPresentationMesh poWPM, eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
+	public static void setUniquePredicateWP(clsWordPresentationMesh poWPM, eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent, boolean pbAddToInternalAssociations) {
 		//Get association if exists
 		clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
 		
@@ -1212,7 +1212,12 @@ public class clsMeshTools {
 			clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(poWPContentType, poWPContent));
 			
 			//Create and add association
-			clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
+			if (pbAddToInternalAssociations==false) {
+				clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
+			} else {
+				clsMeshTools.createAssociationSecondary(poWPM, 1, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
+			}
+			
 			
 		} else {
 			((clsSecondaryDataStructure)oAss.getTheOtherElement(poWPM)).setMoContent(poWPContent);
@@ -1235,7 +1240,7 @@ public class clsMeshTools {
 	 * @param poWPContentType
 	 * @param poWPContent
 	 */
-	public static void setNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent) {
+	public static void setNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent, boolean pbAddToInternalAssociations) {
 		//Get association if exists
 		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
 		
@@ -1255,7 +1260,12 @@ public class clsMeshTools {
 			clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(poWPContentType, poWPContent));
 			
 			//Create and add association
-			clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			if (pbAddToInternalAssociations==false) {
+				clsMeshTools.createAssociationSecondary(poWPM, 2, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			} else {
+				clsMeshTools.createAssociationSecondary(poWPM, 1, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			}
+			
 			
 		}
 	}

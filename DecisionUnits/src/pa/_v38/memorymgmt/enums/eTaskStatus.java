@@ -19,7 +19,7 @@ public enum eTaskStatus {
 	
 	//Initial
 	NEED_BASIC_ACT_ANALYSIS,		//Needs an act analysis. This option has to be triggered by an action
-	NEED_FOCUS,						//Needs a set focus
+	NEED_GOAL_FOCUS,				//Needs a set focus
 	NEED_INTERNAL_INFO,				//Trigger phantasy
 	
 	

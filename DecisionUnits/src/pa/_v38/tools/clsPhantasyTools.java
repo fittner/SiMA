@@ -39,7 +39,7 @@ public class clsPhantasyTools {
 	 */
 	public static void setPhantasyFlagTrue(clsWordPresentationMesh poWPM) throws Exception {
 		//Set WP
-		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString(), false);
 		
 		//Get TPM
 		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);
@@ -64,7 +64,7 @@ public class clsPhantasyTools {
 	 */
 	public static void setPhantasyFlagFalse(clsWordPresentationMesh poWPM) throws Exception {
 		//Set WP
-		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.FALSE.toString());
+		clsMeshTools.setUniquePredicateWP(poWPM, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.FALSE.toString(), false);
 		
 		//Get TPM
 		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poWPM);

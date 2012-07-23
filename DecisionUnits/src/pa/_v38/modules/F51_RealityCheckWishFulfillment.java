@@ -345,8 +345,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 //		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oBestGoalList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 //		
-//		//Go through all goals 
-//		for (clsWordPresentationMesh oGoal : poGoalList) {
+		//Go through all goals 
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			if (oCurrentContinuedGoal!=oGoal) {
+				setDefaultGoalTaskStatus(oGoal);
+			}
+		
+		}
+			
 //			//Check if the goal object can be found in the perception
 //			int nMatchFound = matchPreviousGoalWithACurrentGoal(oGoal, oPreviousGoal);
 //			if (nMatchFound>0) {
@@ -413,12 +419,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //
 //		} 
 		
-		
-		
-		
 		//Process selected goal in special manner
 		if (oCurrentContinuedGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
-			processContinuedGoal(poGoalList, oCurrentContinuedGoal, poPreviousMentalSituation, oPreviousGoal, oPreviousAction);
+			processContinuedGoal(poGoalList, oCurrentContinuedGoal, poPreviousMentalSituation, oPreviousGoal, eAction.valueOf(oPreviousAction.getMoContent().toString()));
 		}
 		
 	}
@@ -479,7 +482,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
 		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
 			//Set the NEED_FOCUS for all focus images
-			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_FOCUS);
+			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_GOAL_FOCUS);
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
 			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
 			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
@@ -547,7 +550,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void processContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
+	private void processContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
 		
@@ -556,7 +559,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		eGoalType oType = clsGoalTools.getGoalType(poContinuedGoal);
 		
 		if (oType==eGoalType.DRIVESOURCE) {
-			processContinuedGoalTypeFromDrive(poContinuedGoal, poPreviousAction);
+			processContinuedGoalTypeFromDrive(poContinuedGoal, poPreviousAction, poPreviousGoal);
 			
 		} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
 			processContinuedGoalTypeFromPerception(poContinuedGoal, poPreviousMentalSituation, poPreviousGoal, poPreviousAction);
@@ -579,22 +582,59 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void processContinuedGoalTypeFromDrive(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousAction) {
+	private void processContinuedGoalTypeFromDrive(clsWordPresentationMesh poContinuedGoal, eAction poPreviousAction, clsWordPresentationMesh poPreviousGoal) {
 		//Set new supportive data structure
-		clsGoalTools.createSupportiveDataStructureFromGoalObject(poContinuedGoal, eContentType.DRIVEGOALSUPPORT);
+		//clsGoalTools.createSupportiveDataStructureFromGoalObject(poContinuedGoal, eContentType.DRIVEGOALSUPPORT);
 		
-		//Give the following commands
+		//--- TRANSFER PERMANENT ---//
+		//Set the task to trigger search
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_INTERNAL_INFO_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
+		}
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+		}
+		
+		//--------------------------//
+		
+		//--- PROCESS COMMANDS ---//
 		
 		//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
 		if (poPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
-			//Set the task to trigger search
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_PERCEPTIONAL_INFO);
-		} else {
-			//Set supported DS for actions
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_NOT_REACHABLE);	//Trigger search
+			
+			//Set the focus structure for phantasy
 			clsActionTools.setSupportiveDataStructure(poContinuedGoal, clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			
+		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || 
+				poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || 
+				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true ||
+				poPreviousAction.equals(eAction.FOCUS_SEARCH1)==true) {
+		
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
 		}
+		
+		 else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || 
+					poPreviousAction.equals(eAction.TURN_LEFT)==true || 
+					poPreviousAction.equals(eAction.TURN_RIGHT)==true ||
+					poPreviousAction.equals(eAction.SEARCH1)==true) {
+			
+			//Trigger search
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_NOT_REACHABLE);	//Trigger search
+			 	
+			//Remove the focus movement as a movement has happened
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			
+		} else {
+			//Default case
+			if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_INTERNAL_INFO_SET)==false) {
+				clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			}
+		}
+		
+		//--------------------------//
+		
 	}
 	
 	/**
@@ -608,7 +648,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPreviousMentalSituation
 	 * @param poPreviousGoal
 	 */
-	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
+	private void processContinuedGoalTypeFromPerception(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 		
 		if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
 			//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
@@ -633,7 +673,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPreviousGoal
 	 * @param poPreviousAction
 	 */
-	private void processContinuedGoalTypeFromAct(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poPreviousAction) {
+	private void processContinuedGoalTypeFromAct(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 				
 		//Check the status of the act. If the match has changed, perform basic act analysis again
 		

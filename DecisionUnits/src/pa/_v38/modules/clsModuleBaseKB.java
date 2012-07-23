@@ -690,11 +690,21 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 				
 		search(eDataType.TPM, oSearchStructure, oSearchResult); 
 				//If nothing is found, cancel
+		clsPrimaryDataStructureContainer oEmptySpaceContainer=null;
+		for (ArrayList<clsPair<Double,clsDataStructureContainer>> oE : oSearchResult) {
+			for (clsPair<Double,clsDataStructureContainer> oE2 : oE) {
+				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getMoContent().equals(poContent)==true) {
+					oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oE2.b;
+				}
+			}
+		}
+		
 		if (oSearchResult.get(0).isEmpty()==true) {
+			
 			return oRetVal;
 		}
 		//Create "Nothing"-objects for each position
-		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
+		//oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
 		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
 		oEmptySpaceContainerList.add(oEmptySpaceContainer);
 		

@@ -665,7 +665,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				
 				oExternalActionWPM = oInternalActionWPM;
 				
-			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_ON)==true) {
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_ON.toString())==true) {
 				
 				//Get the supportive data structure
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
@@ -675,7 +675,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				
 				oExternalActionWPM = oInternalActionWPM;
 				
-			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_MOVEMENT)==true) {
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.FOCUS_MOVEMENT.toString())==true) {
 				ArrayList<clsWordPresentationMesh> oExternalPlans = generatePlans_AW(poEnvironmentalPerception, poGoalList);
 				
 				if (oExternalPlans.isEmpty()==false) {
@@ -683,20 +683,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				}
 				
 				//Now the movement is gotten. Compose a new action for focusing, rename the action
-				if (oExternalActionWPM.getMoContent().equals(eAction.MOVE_FORWARD)) {
+				if (oExternalActionWPM.getMoContent().equals(eAction.MOVE_FORWARD.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				} else if (oExternalActionWPM.getMoContent().equals(eAction.TURN_LEFT)) {
+				} else if (oExternalActionWPM.getMoContent().equals(eAction.TURN_LEFT.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				} else if (oExternalActionWPM.getMoContent().equals(eAction.TURN_RIGHT)) {
+				} else if (oExternalActionWPM.getMoContent().equals(eAction.TURN_RIGHT.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				} else if (oExternalActionWPM.getMoContent().equals(eAction.SEARCH1)) {
+				} else if (oExternalActionWPM.getMoContent().equals(eAction.SEARCH1.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				} else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE)) {
+				} else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
 				}
 				
 				
-			} else if (oInternalActionWPM.getMoContent().equals(eAction.EXECUTE_EXTERNAL_ACTION)==true) {
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.EXECUTE_EXTERNAL_ACTION.toString())==true) {
 				ArrayList<clsWordPresentationMesh> oExternalPlans = generatePlans_AW(poEnvironmentalPerception, poGoalList);
 				
 				if (oExternalPlans.isEmpty()==false) {
@@ -704,7 +704,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				}
 				
 				//Here, nothing is done
-			} else if (oInternalActionWPM.getMoContent().equals(eAction.PERFORM_BASIC_ACT_ANALYSIS)==true) {
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())==true) {
 				
 				//Get the supportive data structure
 				//clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oCurrentGoal);
@@ -762,9 +762,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> addNewDecisionTaskImages() {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
+		//Drives
 		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		
 		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS));
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_FOCUS));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_GOAL_FOCUS));
 		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
@@ -784,9 +788,12 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poTaskStatus
 	 * @return
 	 */
-	private clsWordPresentationMesh generateInternalActionFromPrecondition(eAction poAction, eTaskStatus poTaskStatus) {
+	private clsWordPresentationMesh generateInternalActionFromPrecondition(eAction poAction, eTaskStatus ... poDecisionTask) {
 		clsWordPresentationMesh oResult = clsActionTools.createAction(poAction.toString());
-		clsMeshTools.setNonUniquePredicateWP(oResult, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, poTaskStatus.toString());
+		for (int i=0; i<poDecisionTask.length;i++) {
+			clsMeshTools.setNonUniquePredicateWP(oResult, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, poDecisionTask[i].toString(), false);
+		}
+		
 		
 		return oResult;
 	}
@@ -806,7 +813,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oWPM : this.moPossibleInternalActionPlans) {
-			if (clsActionTools.checkIfPreconditionExists(oWPM, poPreconditionStatusList)==true) {
+			if (clsActionTools.checkIfPreconditionsMatch(oWPM, poPreconditionStatusList)==true) {
+				
+				
 				oResult.add((clsWordPresentationMesh) oWPM.clone());
 			}
 			
@@ -1365,13 +1374,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY,oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
 			try {
-				clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString());
+				clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString(), false);
 			} catch (Exception e) {
 				System.out.println(oPF.m_effectImage.toString());
 				e.printStackTrace();
 			}
 			
-			clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString());
+			clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASPOSITION, eContentType.POSITION, oPF.m_effectImage.m_eDir.toString(), false);
 			
 			clsMeshTools.createAssociationSecondary(oAction, 2, oGoalObject, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASASSOCIATION, false);
 			oRetVal.add(oAction);

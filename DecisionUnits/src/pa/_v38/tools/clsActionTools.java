@@ -157,7 +157,7 @@ public class clsActionTools {
 	 * @param poAction
 	 */
 	public static void setPhantasyFlag(clsWordPresentationMesh poAction) {
-		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString());
+		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPHANTASYFLAG, eContentType.PHANTASYFLAG, eContent.TRUE.toString(), false);
 	}
 	
 	/**
@@ -217,17 +217,17 @@ public class clsActionTools {
 	 * @param poDecisionTask
 	 * @return
 	 */
-	public static boolean checkIfPreconditionExists(clsWordPresentationMesh poAction, ArrayList<eTaskStatus> poTaskStatusList) {
+	public static boolean checkIfPreconditionsMatch(clsWordPresentationMesh poAction, ArrayList<eTaskStatus> poInputTaskStatusList) {
 		boolean bResult = true;
 		
-		if (poTaskStatusList.isEmpty()==true) {
+		if (poInputTaskStatusList.isEmpty()==true) {
 			bResult=false;
 		} else {
-			ArrayList<eTaskStatus> oPreconditionList = clsActionTools.getPreconditions(poAction);
+			ArrayList<eTaskStatus> oActionPreconditionList = clsActionTools.getPreconditions(poAction);
 		
 			//Check if ALL preconditions can be matched
-			for (eTaskStatus oTaskStatus : poTaskStatusList) {
-				if (oPreconditionList.contains(oTaskStatus)==false) {
+			for (eTaskStatus oTaskStatus : oActionPreconditionList) {
+				if (poInputTaskStatusList.contains(oTaskStatus)==false) {
 					bResult = false;
 					break;
 				}

@@ -69,7 +69,7 @@ public class clsGoalTools {
 		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID);
 		
 		//--- Create Affectlevel ---//
-		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString());
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString(), true);
 		
 		//--- Create Goal object ---//
 		//Add Goalobject to the mesh
@@ -81,10 +81,10 @@ public class clsGoalTools {
 		}
 		
 		//--- Add goal type to mesh ---//
-		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString());
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString(), true);
 				
 		//--- Add goal name to mesh ---//
-		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poGoalContent);
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poGoalContent, true);
 		
 		return oRetVal;
 	}
@@ -214,7 +214,7 @@ public class clsGoalTools {
 		
 		//Replace or create new
 		//if (oFoundStructure==null) {
-		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS, eContentType.TASKSTATUS, poTask.toString());
+		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS, eContentType.TASKSTATUS, poTask.toString(), false);
 		//} else {
 		//	oFoundStructure.setMoContent(poTask.toString());
 		//}
@@ -243,6 +243,28 @@ public class clsGoalTools {
 	
 		
 		return oResult;
+	}
+	
+	/**
+	 * Check if a certain taskstatus exists
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.07.2012 20:27:12
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 * @return
+	 */
+	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+		boolean bResult = false;
+		
+		ArrayList<eTaskStatus> oResult = clsGoalTools.getTaskStatus(poGoal);
+		if (oResult.contains(poTask)) {
+			bResult=true;
+		}
+		
+		return bResult;
 	}
 	
 	/**
@@ -277,29 +299,6 @@ public class clsGoalTools {
 	}
 	
 	/**
-	 * Check if a certain task status exists
-	 * 
-	 * (wendt)
-	 *
-	 * @since 19.07.2012 12:06:59
-	 *
-	 * @param poGoal
-	 * @param poTask
-	 * @return
-	 */
-	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
-		boolean bResult = false;
-		
-		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
-		
-		if (oFoundStructureList.isEmpty()==false) {
-			bResult=true;
-		}
-		
-		return bResult;
-	}
-	
-	/**
 	 * Get the goal name
 	 * 
 	 * "" if there is no goal name
@@ -327,7 +326,7 @@ public class clsGoalTools {
 	 * @param poName
 	 */
 	public static void setGoalName(clsWordPresentationMesh poGoal, String poName) {
-		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poName);
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poName, true);
 	}
 	
 	/**
@@ -646,11 +645,13 @@ public class clsGoalTools {
 				//This is the sort order for the goal and it has to be fulfilled at any time
 				
 				//If the content is equal
-				if (clsGoalTools.getGoalName(poDriveGoal).equals(clsGoalTools.getGoalName(oPossibleGoal))) {
+				if (clsGoalTools.getGoalName(poDriveGoal).equals(clsGoalTools.getGoalName(oPossibleGoal)) && 
+						clsGoalTools.getGoalObject(poDriveGoal).getMoDS_ID()==clsGoalTools.getGoalObject(oPossibleGoal).getMoDS_ID()) {
 					int nCurrentPISortOrder = 1;		//Initialize as the drive content is the same => +1
 					
 					//Compare drive objects
-					if (clsGoalTools.getGoalObject(poDriveGoal).getMoContent().equals(clsGoalTools.getGoalObject(oPossibleGoal).getMoContent())) {
+					//FIXME AW: The goal objects are always true!!!! This should be corrected
+					if (clsGoalTools.getGoalObject(poDriveGoal).getMoDS_ID()==clsGoalTools.getGoalObject(oPossibleGoal).getMoDS_ID()) {
 						nCurrentPISortOrder++;	//same drive object => +1
 						bGoalObjectFound=true;
 					}

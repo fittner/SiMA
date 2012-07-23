@@ -244,7 +244,7 @@ public class clsActTools {
 		
 		if (rPIMatchValue>0.0) {
 			//Add new WP to image
-			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue));
+			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue), false);
 		}
 	}
 	

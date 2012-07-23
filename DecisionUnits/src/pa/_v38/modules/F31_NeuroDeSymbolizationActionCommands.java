@@ -164,9 +164,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				String oAction = oWP.getMoContent();
 				
 				//--- AW: Correction for the usage of internal actions, which are controlling F23 ---//
-				if (oAction.equals(eAction.FOCUS_ON.toString())==true && lastAction!="") {
-					oAction=lastAction;
-				}
+//				if (oAction.equals(eAction.FOCUS_ON.toString())==true && lastAction!="") {
+//					oAction=lastAction;
+//				}
 				
 				//-----------------------------------------------------------------------------------//
 				
@@ -289,7 +289,17 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					//Do nothing
 				} else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {
 					//Do nothing
+				} else if (oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString())) {
+					//Do nothing
+				} else if (oAction.equals(eAction.FOCUS_SEARCH1.toString())) {
+					//Do nothing
+				} else if (oAction.equals(eAction.FOCUS_TURN_LEFT.toString())) {
+					//Do nothing
+				} else if (oAction.equals(eAction.FOCUS_TURN_RIGHT.toString())) {
+					//Do nothing
 				}
+				
+				
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}

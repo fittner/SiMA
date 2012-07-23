@@ -160,6 +160,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE", "", "");
 		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("CAKE", "CIRCLE", "#FFAFAF");
+		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("STONE", "CIRCLE", "404040");
+		
 		try {
 			oDM.associateActualDriveObject(oT, 1.0);
 		} catch (Exception e) {

@@ -48,6 +48,8 @@ public enum eAction {
 	FOCUS_TURN_RIGHT,
 	FOCUS_TURN_LEFT,
 	
+	FOCUS_SEARCH1,
+	
 	//Composed actions
 	SEARCH1,
 	FLEE,
