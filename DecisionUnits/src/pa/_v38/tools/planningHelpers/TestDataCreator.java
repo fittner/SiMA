@@ -208,8 +208,16 @@ public class TestDataCreator {
 
 		// UNREAL GET HEALTHPACK
 		oEntity = eEntity.HEALTH;
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.CENTER, oEntity),
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.MIDDLE_RIGHT, oEntity),
 		    new clsImage(eDirection.CENTER, oEntity)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.MIDDLE_LEFT, oEntity),
+			    new clsImage(eDirection.CENTER, oEntity)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.CENTER, oEntity),
+			    new clsImage(eDirection.CENTER, oEntity)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.LEFT, oEntity),
+			    new clsImage(eDirection.CENTER, oEntity)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.UNREAL_MOVE_TO), new clsImage(eDirection.RIGHT, oEntity),
+			    new clsImage(eDirection.CENTER, oEntity)));
 		
 		// moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.SLEEP"),
 		// new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.EMPTYSPACE),
