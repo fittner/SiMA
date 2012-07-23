@@ -17,6 +17,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionSequence;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurnVision;
 //import du.itf.actions.clsActionSequenceFactory;
@@ -46,6 +47,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<clsWordPresentation> moActionCommands_Input;
 	private int mnCounter, moActionBlockingTime;
 	private String lastAction; 
+	private static final boolean bUSEUNREAL = false;
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -258,10 +260,29 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				
 */				
 				else if (oAction.equals("SEARCH1")) {
-					if (mnCounter%75==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
-						mnCounter = 0;
-					} 
+					//FIXME CB: This is a special hack, in order to extract the single actions from the search command, in order to control the avatar in unreal tournament
+					if (bUSEUNREAL==true) {
+						//if (mnCounter%75==0) {
+						if (mnCounter%20==0) {
+							clsActionSequence seq = clsActionSequenceFactory.getSeekingSequence(1.0f, 2);
+							int numRounds = 181; //Maximum number of rounds???
+							while(!seq.isComplete(numRounds)){
+								numRounds--;
+							}
+							for(int i=0; i<numRounds; i++){
+								ArrayList<clsActionCommand> commandList = seq.getCommands(i);
+								while(!commandList.isEmpty()){
+									moActionCommandList_Output.add(commandList.remove(0));
+								}
+							}
+							mnCounter = 0;
+						} 
+					} else {
+						if (mnCounter%75==0) {
+							moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
+							mnCounter = 0;
+						} 
+					}
 				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
 					//Do nothing
 				} else if (oAction.equals(eAction.NONE.toString())) {

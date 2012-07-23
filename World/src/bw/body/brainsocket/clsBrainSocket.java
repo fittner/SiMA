@@ -90,9 +90,9 @@ import bw.utils.sensors.clsSensorDataCalculation;
  */
 public class clsBrainSocket implements itfStepProcessing {
 	
-	public  final double _UNREAL_NEAR_DISTANCE = 160;
-	public  final double _UNREAL_MEDIUM_DISTANCE = 2500;
-	public  final double _UNREAL_FAR_DISTANCE = 5200;
+	private  final double _UNREAL_NEAR_DISTANCE = 250;
+	private  final double _UNREAL_MEDIUM_DISTANCE = 500;
+	private  final double _UNREAL_FAR_DISTANCE =  750;
 	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
@@ -177,49 +177,49 @@ public class clsBrainSocket implements itfStepProcessing {
 	}
 	
 	private void processUnrealVision(Vector<clsUnrealSensorValueVision> poUnrealVisionValues, clsSensorData poData) {
-		
-		//create object lists for all vision ranges
-		clsVision oVisionDataNear = new clsVision();
-		clsVision oVisionDataMedium = new clsVision();
-		clsVision oVisionDataFar = new clsVision();
-		
-		//go through the vision ranges and convert from unreal to ars
-		for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
-			
-			clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
-			
-			double oVisionDistance = oVisionEntry.getRadius();
-			
-			if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
-				oVisionDataNear.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
-			if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
-				oVisionDataMedium.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
-			if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
-				oVisionDataFar.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
-		}	
-		
-		//now add the three vision ranges to the sensor data object
-		//near
-		oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
-		poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
-		//medium
-		oVisionDataMedium.setSensorType(eSensorExtType.VISION_MEDIUM);
-		poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataNear);
-		//far
-		oVisionDataFar.setSensorType(eSensorExtType.VISION_FAR);
-		poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataNear);
+        
+        //create object lists for all vision ranges
+        clsVision oVisionDataNear = new clsVision();
+        clsVision oVisionDataMedium = new clsVision();
+        clsVision oVisionDataFar = new clsVision();
+       
+        //go through the vision ranges and convert from unreal to ars
+        for (clsUnrealSensorValueVision data:poUnrealVisionValues) {
+                       
+                        clsUnrealSensorValueVision oVisionEntry = (clsUnrealSensorValueVision)data;
+                       
+                        double oVisionDistance = oVisionEntry.getRadius();
+                       
+                        if(oVisionDistance  >= 0 && oVisionDistance <_UNREAL_NEAR_DISTANCE  )
+                                        oVisionDataNear.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_NEAR));
+                        if(oVisionDistance  >= _UNREAL_NEAR_DISTANCE && oVisionDistance <_UNREAL_MEDIUM_DISTANCE)
+                                        oVisionDataMedium.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_MEDIUM));
+                        if(oVisionDistance  >= _UNREAL_MEDIUM_DISTANCE)
+                                        oVisionDataFar.add( convertUNREALVision2DUVision(oVisionEntry, eSensorExtType.VISION_FAR));
+        }             
+       
+        //now add the three vision ranges to the sensor data object
+        //near
+        oVisionDataNear.setSensorType(eSensorExtType.VISION_NEAR);
+        poData.addSensorExt(eSensorExtType.VISION_NEAR, oVisionDataNear);
+        //medium
+        oVisionDataMedium.setSensorType(eSensorExtType.VISION_MEDIUM);
+        poData.addSensorExt(eSensorExtType.VISION_MEDIUM, oVisionDataMedium);
+        //far
+        oVisionDataFar.setSensorType(eSensorExtType.VISION_FAR);
+        poData.addSensorExt(eSensorExtType.VISION_FAR, oVisionDataFar);
 
-	}
-	
-	//creates one vision entry transformed to ARS vision types
-	private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
-		
-		//the real conversion
-		clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
-		oEntry.setSensorType(poVisionType);
+}
 
-		return oEntry;
-	}
+//creates one vision entry transformed to ARS vision types
+private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision poUNREALSensorVision, eSensorExtType poVisionType){
+       
+        //the real conversion
+        clsVisionEntry oEntry = convertUNREALVisionEntry(poUNREALSensorVision);
+        oEntry.setSensorType(poVisionType);
+
+        return oEntry;
+}
 	
 	//the real deep transformation to ARS vision data
 	private clsVisionEntry convertUNREALVisionEntry(clsUnrealSensorValueVision poUNREALSensorVisionData) {
@@ -241,7 +241,24 @@ public class clsBrainSocket implements itfStepProcessing {
 				oData.setEntityId(poUNREALSensorVisionData.getID());
 				break;
 			}
-			
+			case ARSIN:
+			{
+				oData.setEntityType(du.enums.eEntityType.ARSIN);
+				oData.setAlive(true);
+				oData.setShapeType( du.enums.eShapeType.CIRCLE );
+				oData.setColor( new Color(204,0,0) );
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}
+			case WALL:
+			{
+				oData.setEntityType(du.enums.eEntityType.WALL);
+				oData.setAlive(false);
+				oData.setShapeType( du.enums.eShapeType.SQUARE);
+				oData.setColor(Color.BLACK);
+				oData.setEntityId(poUNREALSensorVisionData.getID());
+				break;
+			}	
 			case MINI_HEALTH:
 			{
 				oData.setAlive(false);
@@ -600,7 +617,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	 *
 	 * @return
 	 */
-	private clsDataBase convertHealthSystem() {
+	public clsDataBase convertHealthSystem() {
 		
 		clsHealthSystem oRetVal = new clsHealthSystem();
 		clsHealthSensor oHealthSensor = (clsHealthSensor)(moSensorsInt.get(eSensorIntType.HEALTH));
