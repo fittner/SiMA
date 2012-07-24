@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -219,6 +220,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
+		
+		//debug
+		if (moAssociatedMemories_OUT.isEmpty()==false) {
+			ArrayList<clsWordPresentationMesh> poAct = clsMeshTools.getAllWPMImages(clsActDataStructureTools.getIntention(moAssociatedMemories_OUT.get(0)), 6);
+			System.out.print("poAct size" + poAct.size());
+		}
+		
 	}
 		
 	/**
@@ -265,14 +273,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			//ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 5);
+			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 6);
 			//Go through all new found entities
 //			for (clsWordPresentationMesh oWPM : oEnhancedList) {
 //				if (oEnhancedWPM!=oWPM) {
 //					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
 //				}
 //			}
-//			System.out.print("");
+			System.out.println("oEnhancedList Size: " + oEnhancedList.size());
 		}
 		
 		//Create a List of all loaded acts and other memories
@@ -313,20 +321,20 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM, 1.0);
 		//Copy object
 		if (oWPforObject!=null) {			
-			if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-				try {
-					if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-						oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-						oRetVal.getExternalAssociatedContent().add(oWPforObject);
-					} else {
-						throw new Exception("No clsWordPresentation is allowed to be associated here. The following type was recieved: " + oWPforObject.getLeafElement().toString());
-					}
+			try {
+				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
+					oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
 					
-				} catch (Exception e) {
-					e.printStackTrace();
+					//Add the external association as it is correctly assigned.
+					oRetVal.getExternalAssociatedContent().add(oWPforObject);
+				} else {
+					throw new Exception("No clsWordPresentation is allowed to be associated here. The following type was recieved: " + oWPforObject.getLeafElement().toString());
 				}
 				
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
+			
 		} else {
 			//It may be the PI, then create a new image with for the PI or from the repressed content
 			oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
@@ -343,6 +351,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			//Search for the other external substructures of the WPM, i. e. clsAttribute and clsDriveMesh
 			//DOCUMENT Important note: clsAssociationPrimary is not considered for the secondary process
 			for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
+				
+				//Case AssociationAttribute
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
 					//Get the location templates
 					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
@@ -370,7 +380,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 							}
 						}
 					}
-					
+				
+				//Case drivemesh
 				} else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
 					//Get the affect templates
 					//Get the DriveMesh
@@ -379,8 +390,18 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 					
 					//Create an association between the both structures and add the association to the external associationlist of the RetVal-Structure (WPM)
 					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
-					
-				}	
+				}
+//				//Case association primary	
+//				} else if (oTPMExternalAss instanceof clsAssociationPrimary) {
+//					//In case of an association primary, only the strength of the PI-Match is interesting
+//					//Extract the PI match and add it as a WP to the image
+//					if (oTPMExternalAss.getMoContentType().equals(eContentType.PIASSOCIATION)) {
+//						clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(oTPMExternalAss.getMrWeight()), false);		
+//					}
+//				}
+				
+				
+				
 			}
 		}
 		

@@ -738,13 +738,29 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		}
 	}
 	
+	/**
+	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.07.2012 22:56:46
+	 *
+	 * @param poAct
+	 * @param poPreviousAct
+	 * @return
+	 */
 	private ArrayList<eTaskStatus> performBasicActAnalysis(clsWordPresentationMesh poAct, clsWordPresentationMesh poPreviousAct) {
 		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
 		
+		//Find the moment in the act
 		boolean bMomentExists = analyzeMomentInAct(poAct, poPreviousAct);
 		
+		boolean bExpectationExists=false;
+		if (bMomentExists==true) {
+			bExpectationExists = analyzeExpectationInAct(poAct);
+		}
 		//Find the expectation in act
-		boolean bExpectationExists = analyzeExpectationInAct(poAct);
+		
 
 //		//Set all Progress settings to the act
 //		//If the act is new, then new progress settings shall be added, else, they shall be updated

@@ -534,7 +534,7 @@ public class clsGoalTools {
 	}
 	
 	/**
-	 * Extract all possible goals from an image, sorted
+	 * Extract all possible goals from an perception
 	 * 
 	 * (wendt)
 	 *
@@ -543,14 +543,42 @@ public class clsGoalTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> extractPossibleGoals(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure) {
+	public static ArrayList<clsWordPresentationMesh> extractPossibleGoalsFromPerception(clsWordPresentationMesh poImage) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Get all possibly reachable drivegoals
-		oRetVal = clsImportanceTools.getWPMDriveGoals(poImage, poGoalType, poSupportiveDataStructure, true);
+		oRetVal = clsImportanceTools.getDriveGoalsFromWPM(poImage, eGoalType.PERCEPTIONALDRIVE, clsMeshTools.createImageFromEntity(poImage, eContentType.PERCEPTIONSUPPORT), true);	//Only in one image
 				
 		return oRetVal;
 	}
+	
+	/**
+	 * Extract all possible goals from an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.07.2012 22:48:20
+	 *
+	 * @param poAct
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> extractPossibleGoalsFromAct(clsWordPresentationMesh poAct) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
+		
+		//Get all possibly reachable drivegoals from the intention
+		oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
+		
+		//Get from all subimages too
+		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
+			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
+		}
+		
+		return oRetVal;
+	}
+	
+	
 	
 	/**
 	 * 

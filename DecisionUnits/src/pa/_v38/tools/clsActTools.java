@@ -36,7 +36,7 @@ public class clsActTools {
 			//Tasks in the memory processing
 			
 			//1. Add all PI-Matches as WP to each image
-			clsActTools.setPIMatchToWPM(oImage);
+			clsActTools.setPIMatchToWPM(oImage);	//This is already done
 			
 			//2. Delete all primary process external connections
 			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));

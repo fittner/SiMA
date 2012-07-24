@@ -120,4 +120,16 @@ public class clsAssociationPrimary extends clsAssociation{
 		
 	}
 	
+	@Override
+	public String toString(){
+		String oResult = "::"+this.moDataStructureType+"::";  
+		oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.mrWeight + "|";
+		
+		oResult += associationToString("elementA:", moAssociationElementA);
+		oResult += ":"; 
+		oResult += associationToString("elementB:", moAssociationElementB);
+		
+		return oResult; 
+	}
+	
 }

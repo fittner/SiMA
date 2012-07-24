@@ -21,11 +21,15 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
@@ -152,31 +156,45 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_basic() {
-		//FIXME AW: As soon as drive get down here, remove this
-		//clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:STOMACH:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
-//		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:ORAL:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
-//		oDM.setQuotaOfAffect(0.5);
-		//Load a cake
-		
-		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE", "", "");
-//		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("CAKE", "CIRCLE", "#FFAFAF");
-//		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("STONE", "CIRCLE", "404040");
-//		
-//		try {
-//			oDM.associateActualDriveObject(oT, 1.0);
-//		} catch (Exception e) {
-//			// TODO (wendt) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		
 
-		// TODO: change after adaption to new DM
-		//moDriveList_Input.add(oDM);
+		//Fixme: Remove this hack
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
-		//moDriveList_InputTEMPORARY.add(oDM);
-		
-		//moDriveList_Output = getWPAssociations(moDriveList_InputTEMPORARY); 
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+	}
+	
+	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
+		//FIXME AW .::::::: FAKE Prepare Drive input
+				clsDriveMesh oOnlyDriveMesh = null;
+				for (clsDriveMesh oDM : moDriveList_Input) {
+					if (oDM.getActualDriveObject().getMoContent().equals("CARROT")) {
+						//Change to cake
+						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
+						for (clsAssociation oAss : oAssList) {
+							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
+							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
+								//Get the association with the carrot
+								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
+								{
+									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+									if(oTPM.getMoContentType() == eContentType.ENTITY) {
+										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
+									}
+								}
+							}
+						}
+						
+						//Set mrPleasure to max
+						oDM.setQuotaOfAffect(1.0);
+						
+						oOnlyDriveMesh = oDM;
+						
+						break;
+					}
+				}
+				
+				moDriveList_Input.clear();
+				moDriveList_Input.add(oOnlyDriveMesh);
 	}
 	
 	/**

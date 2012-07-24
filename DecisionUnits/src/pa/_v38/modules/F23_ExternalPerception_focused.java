@@ -27,7 +27,6 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
@@ -209,7 +208,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMesh>(); 
 		
 		//Extract all possible goals in the perception
-		moReachableGoalList_OUT.addAll(extractPossibleGoalsForPerception(moPerceptionalMesh_IN));
+		moReachableGoalList_OUT.addAll(clsGoalTools.extractPossibleGoalsFromPerception(moPerceptionalMesh_IN));
 		
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(extractPossibleGoalsFromActs(moAssociatedMemories_IN));
@@ -409,25 +408,6 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	}
 	
 	/**
-	 * Extract all possible goals for perception (Emotions and drives)
-	 * 
-	 * (wendt)
-	 *
-	 * @since 25.05.2012 18:43:47
-	 *
-	 * @param moPerceptionalMesh_IN
-	 * @return
-	 */
-	private ArrayList<clsWordPresentationMesh> extractPossibleGoalsForPerception(clsWordPresentationMesh moPerceptionalMesh_IN) {
-		//TODO AW: Add emotions here
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-		oRetVal.addAll(clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN, eGoalType.PERCEPTIONALDRIVE, clsMeshTools.getNullObjectWPM()));
-		
-		return oRetVal;
-	}
-	
-	/**
 	 * Extract all possible goal from acts from their descriptions
 	 * 
 	 * (wendt)
@@ -441,20 +421,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 	
 		for (clsWordPresentationMesh oAct : moActList) {
-			//Get the intention
-			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
-			if (oIntention!=null) {
-				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention, eGoalType.MEMORYDRIVE, oAct));
-			} 
-			
-//			if (oRetVal.isEmpty()==true) {
-//				//The intention does not exist. If the agent has a drive goal without a found object in the memory or in
-//				//in the perception, it shall search its activated memory first
-//				//Here, a special goal is created. With the empty Intention in as goal object, this shall be processed by the phantasy 
-//				oRetVal.add(clsGoalTools.createGoal(eContent.UNKNOWN_GOAL.toString(), eGoalType.MEMORYDRIVE, eAffectLevel.INSIGNIFICANT, oIntention, oAct));
-//				
-//			}
-			
+			oRetVal.addAll(clsGoalTools.extractPossibleGoalsFromAct(oAct));
 		}
 		
 		return oRetVal;

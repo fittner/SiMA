@@ -106,6 +106,7 @@ public class clsImportanceTools {
 //		return rMaxAffect ;
 //	}
 	
+	
 	/**
 	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
 	 * with different instance ids of the objects are kept.
@@ -119,14 +120,10 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
+	public static ArrayList<clsWordPresentationMesh> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
 		
-		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
-		oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
+		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
 		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {
@@ -141,18 +138,7 @@ public class clsImportanceTools {
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			clsWordPresentationMesh oGoal = null;
-			
-			if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE) || poGoalType.equals(eGoalType.PERCEPTIONALEMOTION)) {
-				//Create a supportive data structure from the goal object
-				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
-			} else if (poGoalType.equals(eGoalType.MEMORYDRIVE) || poGoalType.equals(eGoalType.MEMORYEMOTION)) {
-				//Create the goal with the incoming act as supportive datastructure
-				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, poSupportiveDataStructure);
-			}
-			
-
-			
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, poSupportiveDataStructure);
 
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
@@ -175,6 +161,26 @@ public class clsImportanceTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get all Drivewishes from an image in the SP
+	 * 
+	 * (wendt)
+	 *
+	 * @since 24.07.2012 22:39:55
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	private static ArrayList<clsDataStructurePA> getAllDriveWishAssociationsInImage(clsWordPresentationMesh poImage) {
+		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
+		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
+		oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
+		
+		return oPrelResult;
 	}
 	
 	

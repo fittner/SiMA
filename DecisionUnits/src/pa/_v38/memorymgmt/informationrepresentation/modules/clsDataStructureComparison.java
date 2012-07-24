@@ -18,6 +18,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
@@ -686,7 +687,15 @@ public abstract class clsDataStructureComparison {
 				oFoundWPM = poInput;
 			}
 			
-			oFoundWPM.setMoExternalAssociatedContent(oAssList);
+			//Add everything except associationWP. This association is already set at the conversion from the TPM.
+			ArrayList<clsAssociation> oExtAssList = new ArrayList<clsAssociation>();
+			for (clsAssociation oAss : oAssList) {
+				if ((oAss instanceof clsAssociationWordPresentation)==false) {
+					oExtAssList.add(oAss);
+				}
+				
+			}
+			oFoundWPM.setMoExternalAssociatedContent(oExtAssList);
 			
 			//Test
 			//ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllWPMImages(oFoundWPM, 5);
@@ -694,6 +703,7 @@ public abstract class clsDataStructureComparison {
 			//Copy the result after correctly adressing of the associations
 			try {
 				oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) oFoundWPM).clone();
+				oFoundWPM.getExternalAssociatedContent().clear();
 				//Test
 				//ArrayList<clsWordPresentationMesh> oWPMList2 = clsMeshTools.getAllWPMImages(oRetVal, 5);
 				//System.out.println("xx");
