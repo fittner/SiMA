@@ -26,6 +26,7 @@ public enum eEntity {
 	STONE,
 	NONE,
 	SELF,
-	HEALTH
+	HEALTH,
+	WALL
 
 }
