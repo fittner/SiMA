@@ -230,11 +230,12 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
 							
 							// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
-							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
+							// weighting of asscoiation-weight with QoA
+							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor*oMemoryDM.getQuotaOfAffect()));
 							
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {
-								rMaxMatchfactor = rCurrentMatchFactor;
+								rMaxMatchfactor = rCurrentMatchFactor; 
 								oDriveObject = oMemoryDM.getActualDriveObject();
 								oDriveAim = oMemoryDM.getActualDriveAim();
 							}
