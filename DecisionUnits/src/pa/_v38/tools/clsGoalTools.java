@@ -82,7 +82,7 @@ public class clsGoalTools {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		} else {
+		} else if (poSupportiveDataStructure.isNullObject()==false) {
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		}
 		

@@ -12,6 +12,8 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import du.enums.eOrgan;
+import du.enums.pa.eDriveComponent;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -623,15 +625,27 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		
 		//Get drive Content String
 		//FIXME AW: Corrent this getdebuginfo
-		String oX[] = poDM.getDebugInfo().split("\\:");
-		String oDriveContent = oX[0] + oX[1] + oX[2];
+		//String oX[] = poDM.getDebugInfo().split("\\:");
+		//String oDriveContent = oX[0] + oX[1] + oX[2];
 		//Get the content of the affect strength
 		//the word presentation in an associationWP is ALWAYS the leaf element
+		
+		//Get the Drive component
+		eDriveComponent oDriveComponent = poDM.getDriveComponent();
+		
+		//Get partial drive
+		
+		//Get the bodily part
+		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
+		eOrgan oOrgan = poDM.getActualDriveSourceAsENUM();
+		
+		//Create the drive string from Drive component, orifice and organ
+		String poGoalName = oDriveComponent.toString() + oOrgan.toString();
+		
 		eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
-		//String oAffectContent = ((clsWordPresentation)oWPAss.getLeafElement()).getMoContent();	//Get the content from the WP part
 		
 		//Construct WP
-		String oWPContent = oDriveContent + ":" + oAffectContent.toString();
+		String oWPContent = poGoalName + ":" + oAffectContent.toString();
 		
 		//Create the new WP for that drive
 		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<eContentType, Object>(eContentType.AFFECT, oWPContent));

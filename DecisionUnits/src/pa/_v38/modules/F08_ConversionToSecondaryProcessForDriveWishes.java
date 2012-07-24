@@ -10,12 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
-import du.enums.pa.eDriveComponent;
-import du.enums.pa.ePartialDrive;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -24,14 +21,11 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
@@ -54,7 +48,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	//private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
 	
-	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
+	private ArrayList<clsWordPresentationMesh> moDriveList_Output = new ArrayList<clsWordPresentationMesh>();
 	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
 	/**
@@ -159,28 +153,30 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	protected void process_basic() {
 		//FIXME AW: As soon as drive get down here, remove this
-		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:STOMACH:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
-		oDM.setQuotaOfAffect(0.5);
+		//clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:STOMACH:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
+//		clsDriveMesh oDM = clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DM,new ArrayList<clsThingPresentationMesh>(), "DM:ORAL:LIBIDINOUS"), eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
+//		oDM.setQuotaOfAffect(0.5);
 		//Load a cake
 		
 		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("EMPTYSPACE", "", "");
-		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("CAKE", "CIRCLE", "#FFAFAF");
-		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("STONE", "CIRCLE", "404040");
-		
-		try {
-			oDM.associateActualDriveObject(oT, 1.0);
-		} catch (Exception e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+//		clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("CAKE", "CIRCLE", "#FFAFAF");
+//		//clsThingPresentationMesh oT = debugGetThingPresentationMeshEntity("STONE", "CIRCLE", "404040");
+//		
+//		try {
+//			oDM.associateActualDriveObject(oT, 1.0);
+//		} catch (Exception e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 
 		// TODO: change after adaption to new DM
 		//moDriveList_Input.add(oDM);
 		
-		moDriveList_InputTEMPORARY.add(oDM);
+		//moDriveList_InputTEMPORARY.add(oDM);
 		
-		moDriveList_Output = getWPAssociations(moDriveList_InputTEMPORARY); 
+		//moDriveList_Output = getWPAssociations(moDriveList_InputTEMPORARY); 
+		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
 	/**
