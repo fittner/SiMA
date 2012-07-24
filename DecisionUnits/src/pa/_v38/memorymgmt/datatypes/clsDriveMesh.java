@@ -136,10 +136,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ORGAN+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORGAN, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveSource, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveSource, prWeight));
 	}
 	
 	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
@@ -148,10 +145,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ACTION+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ACTION, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveAim, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveAim, prWeight));
 	}
 	
 	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
@@ -160,10 +154,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ENTITY+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ENTITY, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveObject, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveObject, prWeight));
 	}
 	
 	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveOrifice, double prWeight) throws Exception{
@@ -172,10 +163,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ORIFICE+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveOrifice, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveOrifice, prWeight));
 	}
 
 	
