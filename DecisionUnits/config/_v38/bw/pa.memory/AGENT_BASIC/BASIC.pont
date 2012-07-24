@@ -1,4 +1,4 @@
-; Sat Jul 21 21:13:11 GMT 2012
+; Tue Jul 24 09:36:18 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -76,10 +76,6 @@
 		(default 0.0)
 ;+		(cardinality 1 1)
 		(create-accessor read-write))
-	(single-slot BASIC_Class4
-		(type STRING)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
 	(single-slot partial_drive
 		(type STRING)
 ;+		(cardinality 0 1)
@@ -153,10 +149,6 @@
 	(single-slot sourcePleasure
 		(type FLOAT)
 		(default 0.0)
-;+		(cardinality 0 1)
-		(create-accessor read-write))
-	(single-slot BASIC_Class10005
-		(type STRING)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot value_max
@@ -926,7 +918,7 @@
 	(role concrete)
 	(multislot element
 		(type INSTANCE)
-;+		(allowed-classes TPM%3AIMAGE TPM%3AENTITY)
+;+		(allowed-classes TPM%3AIMAGE TPM%3AENTITY TPM%3AACTION PRIMARYINSTANCE)
 		(cardinality 2 2)
 		(create-accessor read-write))
 	(single-slot type

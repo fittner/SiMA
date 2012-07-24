@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
@@ -81,27 +82,55 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 			iReturnTypes.add(eDataType.DM.nBinaryValue);
 			iReturnTypes.add(eDataType.TP.nBinaryValue);
 			iReturnTypes.add(eDataType.TPM.nBinaryValue);
-			iReturnTypes.add(eDataType.TI.nBinaryValue);
+			//iReturnTypes.add(eDataType.TI.nBinaryValue);
+		
+			for (Integer iType :iReturnTypes) {
+				ArrayList<clsAssociation> oAssList = readOutSearchSpace(iType, poDataStructure, true);
+				for (clsAssociation oAss : oAssList) {
+					//Add all associations but association time, as it is already there
+					if ((oAss instanceof clsAssociationTime)==true) {
+						//Special treatment
+						//If the data structure itself can have external associations AND it is not the leaf element of such an association then, the association can be added to the external associations
+						//FIXME: This is a workaround!!!!
+						if (poDataStructure instanceof clsThingPresentationMesh && poDataStructure.getMoDS_ID()!=oAss.getLeafElement().getMoDS_ID()) {
+							//Check if the association already exists in the internal associations
+							boolean bFound = false;
+							for (clsAssociation oLoadedAss : ((clsThingPresentationMesh)poDataStructure).getMoInternalAssociatedContent()) {
+								//If the association does not already exists, then add it to the result list
+								if (oLoadedAss.getMoDS_ID()!=oAss.getMoDS_ID()) {
+									bFound=true;
+									break;
+								}
+							}
+							
+							if (bFound==false) {
+								oRetVal.add(oAss);
+							}
+							
+						}
+					} else {
+						oRetVal.add(oAss);
+					}
+				}
+				
+				
+				//oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
+			}
+		
 		} else if (poDataStructure instanceof clsSecondaryDataStructure) {
-			iReturnTypes.add(eDataType.ACT.nBinaryValue);	//Add action plans, TODO AW: Add Andis plan structure here
+			//iReturnTypes.add(eDataType.ACT.nBinaryValue);	//Add action plans, TODO AW: Add Andis plan structure here
 			iReturnTypes.add(eDataType.WP.nBinaryValue);	//WP-WP/WPM-WPM associations
 			//iReturnTypes.add(eDataType.WPM.nBinaryValue);	//FIXME AW: It is inefficient that WP and WPM have the same binary values
-			iReturnTypes.add(eDataType.TI.nBinaryValue);	//Image associations for the secondary process
+			//iReturnTypes.add(eDataType.TI.nBinaryValue);	//Image associations for the secondary process
+			
+			for (Integer iType :iReturnTypes) {
+				ArrayList<clsAssociation> oAssList = readOutSearchSpace(iType, poDataStructure, true);
+				oRetVal.addAll(oAssList);
+			}
 			
 		}
 		
-		for (Integer iType :iReturnTypes) {
-			ArrayList<clsAssociation> oAssList = readOutSearchSpace(iType, poDataStructure, true);
-			for (clsAssociation oAss : oAssList) {
-				//Add all associations but association time, as it is already there
-				if ((oAss instanceof clsAssociationTime)==false) {
-					oRetVal.add(oAss);
-				}
-			}
-			
-			
-			//oRetVal.addAll(readOutSearchSpace(iType, poDataStructure, true));
-		}
+		
 		
 		return oRetVal; 
 	}

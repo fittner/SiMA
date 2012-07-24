@@ -191,7 +191,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// Generate actions for the top goal
 			try {
 				moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN);
-				System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Action: " + moPlans_Output.toString());
+				
+				//--- System printout of all important action dates ---//
+				System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
+				//-----------------------------------------------------//
 			} catch (Exception e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -692,9 +695,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
 				} else if (oExternalActionWPM.getMoContent().equals(eAction.SEARCH1.toString())) {
 					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				} else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
-					oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
-				}
+				} //else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
+				//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
+				//}
 				
 				
 			} else if (oInternalActionWPM.getMoContent().equals(eAction.EXECUTE_EXTERNAL_ACTION.toString())==true) {

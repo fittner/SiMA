@@ -96,15 +96,14 @@ public class clsOntologyLoader {
 								eDataType.ASSOCIATIONPRI,
 								eDataType.ASSOCIATIONSEC,
 								eDataType.ASSOCIATIONEMOTION,
-								//eDataType.ACT,
 								eDataType.AFFECT, 
 								eDataType.DM,
-								//eDataType.TI,
 								eDataType.TP,
 								eDataType.TPM,
 								eDataType.WP,
 								eDataType.WPM,
-								eDataType.EMOTION};
+								eDataType.EMOTION,
+								eDataType.ASSOCIATIONTEMP};
 		
 		/*eDataType [] oRetVal = {eDataType.ASSOCIATIONWP, 
 				eDataType.ASSOCIATIONDM, 
