@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
@@ -31,7 +32,7 @@ import du.enums.pa.ePartialDrive;
  * 11.08.2009, 13:40:06
  * 
  */
-public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send {
+public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "04";
 	
 	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
@@ -43,6 +44,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	//
 	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
 	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moHomeostaticDriveComponents_OUT;
+	
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moDriveChartData; 
 	
 	/** partial crive categories for the homeostatic drives */
 	//private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPartialDriveCategories;
@@ -60,7 +64,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	public F04_FusionOfSelfPreservationDrives(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
+		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 //		fillOppositePairs();
 	}
 	
@@ -190,10 +195,28 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			//add the components to the new list as PAIR(Agr,Lib)
 			oTempPair = new clsPair<clsDriveMesh, clsDriveMesh>(agressiveDM, libidoneusDM); 
 			moHomeostaticDriveComponents_OUT.add(oTempPair);
+			
+			
+			//add some time chart data
+			String oaKey = agressiveDM.getChartShortString();
+			if ( !moDriveChartData.containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+				moDriveChartData.put(oaKey, agressiveDM.getQuotaOfAffect());
+			}
+			
+			String olKey = libidoneusDM.getChartShortString();
+			if ( !moDriveChartData.containsKey(olKey) ) {
+				mnChartColumnsChanged = true;
+				moDriveChartData.put(olKey, libidoneusDM.getQuotaOfAffect());
+			}
 
 		}
+		
+		
 
 	}
+	
+	
 	
 	//TODO CM this need a new implementation
 //	private clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry){
@@ -368,5 +391,101 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	public void setDescription() {
 		moDescription = "F04: The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
+	}
+
+	/*************************************************************/
+	/***                   TIME CHART METHODS                  ***/
+	/*************************************************************/
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "self-preservation drives";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult = (ArrayList<Double>) moDriveChartData.values();
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult = (ArrayList<String>) moDriveChartData.keySet();
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2012 15:51:16
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;		
 	}	
 }

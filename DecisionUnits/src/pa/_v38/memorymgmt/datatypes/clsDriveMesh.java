@@ -225,6 +225,43 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return shortString;
 	}
 	
+	//this is used for chart data short lables only!
+	public String getChartShortString(){
+		String oRetval = "";
+		
+		if(this.moDriveComponent==eDriveComponent.AGGRESSIVE){
+			oRetval += "A.";
+		}
+		else if(this.moDriveComponent==eDriveComponent.LIBIDINOUS){
+			oRetval += "L.";
+		}
+		
+		oRetval +=getPartialShortString(this.moPartialDrive)+".";
+		oRetval += this.getActualDriveSourceAsENUM();
+
+		return oRetval;
+	}
+	
+	private String getPartialShortString(ePartialDrive oPartialDrive){
+		String oRetVal = "N"; //aka UNDEFINED,
+		
+		switch (oPartialDrive){
+		case ANAL:
+			oRetVal = "A";
+			break;
+		case ORAL:
+			oRetVal = "O";
+			break;
+		case PHALLIC:
+			oRetVal = "P";
+			break;
+		case GENITAL:
+			oRetVal = "G";
+			break;
+		}
+		return oRetVal;
+	}
+	
 	
 	/**
 	 * @since 11.07.2012 14:10:00
