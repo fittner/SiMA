@@ -766,7 +766,7 @@ public class _E28_KnowledgeBase_StoredScenarios extends clsModuleBaseKB implemen
 	 * @see pa._v38.interfaces.modules.I6_2_send#send_I6_2(int)
 	 */
 	@Override
-	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
+	public void send_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
 		// 
 		
 	}

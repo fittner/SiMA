@@ -14,6 +14,7 @@ import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
@@ -26,10 +27,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsPrediction;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.eTaskStatus;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -88,7 +90,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_OUT;
 	
 	// Anxiety from F20
-	private ArrayList<clsPrediction> moAnxiety_Input;
+	private ArrayList<clsWordPresentationMesh> moAnxiety_Input;
 	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
@@ -266,8 +268,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_2(ArrayList<clsSecondaryDataStructureContainer> poAnxiety_Input) {
-		moAnxiety_Input = (ArrayList<clsPrediction>)deepCopy(poAnxiety_Input);	
+	public void receive_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
+		moAnxiety_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poAnxiety_Input);	
 		//TODO
 		
 	}
@@ -300,11 +302,30 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		int nAddedGoals = 0;
 		
-		//1. Process goals with Superego???
+		//Process emotions
+		clsWordPresentationMesh oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
+		if (oPanicGoal.isNullObject()==false) {
+			oRetVal.add(oPanicGoal);
+		} else {
+			//1. Process goals with Superego???
 
-		//2. Sort the goals to get the most important goal first
-		//=== Sort and evaluate them === //
-		ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
+			//2. Sort the goals to get the most important goal first
+			//=== Sort and evaluate them === //
+			ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
+			
+			//Add all goals to this list
+			for (clsWordPresentationMesh oReachableGoal : oSortedReachableGoalList) {
+				if (nAddedGoals<mnNumberOfGoalsToPass) {
+					oRetVal.add(oReachableGoal);
+					nAddedGoals++;
+				} else {
+					break;
+				}
+
+			}
+		}
+		
+		
 				
 		
 		
@@ -396,16 +417,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //				}
 //			}
 			
-			//Add all goals to this list
-			for (clsWordPresentationMesh oReachableGoal : oSortedReachableGoalList) {
-				if (nAddedGoals<mnNumberOfGoalsToPass) {
-					oRetVal.add(oReachableGoal);
-					nAddedGoals++;
-				} else {
-					break;
-				}
 
-			}
 //			
 //			//If there are no goals, take special actions
 //			if (oRetVal.size()>=mnNumberOfGoalsToPass) {
@@ -881,52 +893,52 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		return oRetVal; 
 	}*/
 	
-	/**
-	 * Use expectations as goals. They have the correct acts in their associated memories.
-	 * (wendt)
-	 *
-	 * @since 23.07.2011 14:01:12
-	 *
-	 * @param poExtractedPrediction_IN
-	 * @return
-	 */
-	private ArrayList<clsWordPresentationMesh> comprisePrediction(ArrayList<clsPrediction> poExtractedPrediction_IN) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		//Get the expectations of the acts, and make them to goals
-		
-		//Get the drive with the higest value
-		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
-		
-		//find all drive components in the predictions
-		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
-			//Extract drives from the intention, where they may trigger an action
-			ArrayList<clsWordPresentationMesh> oFoundGoals = new ArrayList<clsWordPresentationMesh>(); //FIXME AW: Changed due to new mesh structure clsAffectTools.getDriveGoalsFromPrediction(oPrediction);
-			//Add corrective reduce factor
-			//FIXME AW: Deactivated due to mesh structure
-			//modifyGoalAffectWithCorrectiveFactor(oFoundGoals,  oPrediction.getIntention().getSecondaryComponent());
-			
-			
-			
-			//Merge goals for the whole image
-			//The expectation shall be set as associated structure. If the expectation is known, the agent can act upon that, else it has to
-			// execute the associated action
-			//ArrayList<clsSecondaryDataStructureContainer> oImageGoal = mergeImageGoals(oFoundGoals, (clsWordPresentationMesh) oPrediction.getIntention().getSecondaryComponent().getMoDataStructure());
-			
-			//Add the correct actions for the goals from the expectations
-//			for (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oGoalContainer : oFoundGoals) {
-//				//Add all expectations (ArrayList)
-//				//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
-//				//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
-//				clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
-//						oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), ePredicate.HASINTENTION.toString(), 1.0);
-//				oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
-//				oRetVal.add(oGoalContainer);
-//
-//			}
-			
-		}
-		return oRetVal;
-	}
+//	/**
+//	 * Use expectations as goals. They have the correct acts in their associated memories.
+//	 * (wendt)
+//	 *
+//	 * @since 23.07.2011 14:01:12
+//	 *
+//	 * @param poExtractedPrediction_IN
+//	 * @return
+//	 */
+//	private ArrayList<clsWordPresentationMesh> comprisePrediction(ArrayList<clsPrediction> poExtractedPrediction_IN) {
+//		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+//		//Get the expectations of the acts, and make them to goals
+//		
+//		//Get the drive with the higest value
+//		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+//		
+//		//find all drive components in the predictions
+//		for (clsPrediction oPrediction : poExtractedPrediction_IN) {
+//			//Extract drives from the intention, where they may trigger an action
+//			ArrayList<clsWordPresentationMesh> oFoundGoals = new ArrayList<clsWordPresentationMesh>(); //FIXME AW: Changed due to new mesh structure clsAffectTools.getDriveGoalsFromPrediction(oPrediction);
+//			//Add corrective reduce factor
+//			//FIXME AW: Deactivated due to mesh structure
+//			//modifyGoalAffectWithCorrectiveFactor(oFoundGoals,  oPrediction.getIntention().getSecondaryComponent());
+//			
+//			
+//			
+//			//Merge goals for the whole image
+//			//The expectation shall be set as associated structure. If the expectation is known, the agent can act upon that, else it has to
+//			// execute the associated action
+//			//ArrayList<clsSecondaryDataStructureContainer> oImageGoal = mergeImageGoals(oFoundGoals, (clsWordPresentationMesh) oPrediction.getIntention().getSecondaryComponent().getMoDataStructure());
+//			
+//			//Add the correct actions for the goals from the expectations
+////			for (ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> oGoalContainer : oFoundGoals) {
+////				//Add all expectations (ArrayList)
+////				//For each expectation, add the associated content of the secondary container. By doing this, the associations with the acts are passed.
+////				//Create an association between the drive goal and the intention. This intention is searched in the prediction in generation of plans
+////				clsAssociationSecondary oNewIntentionAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC("ASSOCIATIONSEC", oGoalContainer.getMoDataStructure(), 
+////						oPrediction.getIntention().getSecondaryComponent().getMoDataStructure(), ePredicate.HASINTENTION.toString(), 1.0);
+////				oGoalContainer.getMoAssociatedDataStructures().add(oNewIntentionAss);
+////				oRetVal.add(oGoalContainer);
+////
+////			}
+//			
+//		}
+//		return oRetVal;
+//	}
 	
 //	/**
 //	 * If there is a reduceaffect attached to the intention, it is added to its corresponding goal. The goal itself is modified.
@@ -986,23 +998,19 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @param poPotentialGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> getAvoidDrives(ArrayList<clsWordPresentationMesh> poPotentialGoalList) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	private clsWordPresentationMesh generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMesh> poFeelingList) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
 		
-		for (clsWordPresentationMesh oGoal : poPotentialGoalList) {
-			String oGoalContent = clsGoalTools.getGoalName(oGoal); //((clsSecondaryDataStructure)oGoal.getMoDataStructure()).getMoContent();
-			int nDriveIntensity = clsImportanceTools.getDriveIntensityAsInt(clsGoalTools.getAffectLevel(oGoal));
-			
-			if (nDriveIntensity<=mnAvoidIntensity) {
-				//String oDriveDemand = clsAffectTools.convertDriveGoalToDriveDemand(oGoalContent);
-				//clsWordPresentation oDriveWP = clsDataStructureGenerator.generateWP(new clsPair<String, Object>("DRIVEDEMAND", oDriveDemand));
-				//clsSecondaryDataStructureContainer oNewGoalContainer = new clsSecondaryDataStructureContainer(oDriveWP, new ArrayList<clsAssociation>());
-				//oRetVal.add(oNewGoalContainer);
-				oRetVal.add(oGoal);
+		if (poFeelingList.isEmpty()==false) {
+			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
+					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				clsGoalTools.setTaskStatus(oResult, eTaskStatus.PANIC);
 			}
+						
 		}
 		
-		return oRetVal;
+		return oResult;
 	}
 	
 	/**

@@ -22,10 +22,9 @@ import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -49,13 +48,13 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 					I5_17_receive, I5_16_receive, I6_5_receive, I6_4_receive, I6_2_send {
 	public static final String P_MODULENUMBER = "20";
 	
-	private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
+	//private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
 	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 	
-	private ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output = new ArrayList<clsSecondaryDataStructureContainer>();
+	private ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output = new ArrayList<clsWordPresentationMesh>();
 
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	
@@ -198,7 +197,7 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 		double poAverageQuotaOfAffect_Input = calculateQuotaOfAffect(moAffectOnlyList_Input);
 		
 		// convert quota of affect of the primary process into affect of the secondary process according to 2 thresholds
-		clsWordPresentation poAffect = calculateAffect(poAverageQuotaOfAffect_Input);
+		clsWordPresentationMesh poAffect = calculateAffect(poAverageQuotaOfAffect_Input);
 		
 		// add the calculated word-presentation with empty associations
 		// TODO FG: Which associations can be generated for ANXIETY, WORRIEDNESS, or PRICKL (for now the associations are empty)
@@ -208,9 +207,9 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 		//
 		// But we need a list here because:
 		// in later versions the list will have more elements like [anxiety, insecurity, self-hatred, ...]
-		moSecondaryDataStructureContainer_Output.clear();
+		//moSecondaryDataStructureContainer_Output.clear();
 		if (poAffect != null)
-			moSecondaryDataStructureContainer_Output.add(new clsSecondaryDataStructureContainer(poAffect, new ArrayList<clsAssociation>()));
+			moSecondaryDataStructureContainer_Output.add(poAffect);
 	}
 	
 	/* (non-Javadoc)
@@ -247,20 +246,20 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	 * 21.07.2011, 18:18:08
 	 * 
 	 */
-	private clsWordPresentation calculateAffect(double oAverageQuotaOfAffect) {
-		clsWordPresentation oAffect = null;
+	private clsWordPresentationMesh calculateAffect(double oAverageQuotaOfAffect) {
+		clsWordPresentationMesh oAffect = null;
 			
 		if (oAverageQuotaOfAffect == 999.9) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.CONFLICT.toString())); 
+			oAffect = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.EMOTION, eEmotionType.CONFLICT.toString()), new ArrayList<clsAssociation>());
 		}
 		else if (oAverageQuotaOfAffect > 0.7) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.ANXIETY.toString())); 
+			oAffect = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.EMOTION, eEmotionType.ANXIETY.toString()), new ArrayList<clsAssociation>());
 		}
 		else if (oAverageQuotaOfAffect > 0.3) {
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.WORRIEDNESS.toString())); 
+			oAffect = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.EMOTION, eEmotionType.WORRIEDNESS.toString()), new ArrayList<clsAssociation>());
 		}
 		else if (oAverageQuotaOfAffect > 0){
-			oAffect = (clsWordPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("AFFECT", affect.PRICKLE.toString())); 
+			oAffect = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.EMOTION, eEmotionType.PRICKLE.toString()), new ArrayList<clsAssociation>());
 		}
 		
 		return oAffect;
@@ -287,7 +286,7 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	 * @see pa.interfaces.send.I5_5_send#send_I5_5(int)
 	 */
 	@Override
-	public void send_I6_2(ArrayList<clsSecondaryDataStructureContainer> moSecondaryDataStructureContainer_Output) {
+	public void send_I6_2(ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output) {
 		((I6_2_receive)moModuleList.get(29)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		((I6_2_receive)moModuleList.get(26)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		

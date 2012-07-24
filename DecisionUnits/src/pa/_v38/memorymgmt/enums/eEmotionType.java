@@ -20,7 +20,14 @@ public enum eEmotionType {
 	FEAR,
 	PLEASURE,
 	SATURATION,
-	ELATION;
+	ELATION,
+	
+	//Emotions from FG through F20 -- Replace these emotions someday with the ones above
+	CONFLICT,
+	ANXIETY,
+	WORRIEDNESS,
+	PRICKLE;
+	
 	
 	public static eEmotionType getEmotionType(String poEmotionType) {
 	

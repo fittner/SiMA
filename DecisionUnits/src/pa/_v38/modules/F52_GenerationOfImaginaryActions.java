@@ -717,6 +717,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				//clsActionTools.setSupportiveDataStructure(oInternalActionWPM, oSupportiveDataStructure);
 				
 				oExternalActionWPM = oInternalActionWPM;
+			} else if (oInternalActionWPM.getMoContent().equals(eAction.FLEE.toString())==true) {
+				oExternalActionWPM = oInternalActionWPM;
 			}
 		}
 		
@@ -781,6 +783,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
 		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
 
+		//PANIC Goal
+		oResult.add(generateInternalActionFromPrecondition(eAction.FLEE, eTaskStatus.PANIC));
 		
 		return oResult;
 	
