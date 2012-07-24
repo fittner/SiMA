@@ -776,6 +776,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//ACT SOURCE
 		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS));
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
+
 		
 		return oResult;
 	

@@ -448,7 +448,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//--- Remove the temporal data from the last turn ---//
 			if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.MEMORYDRIVE)==true) {
 				//Remove all PI-matches from the images
-				clsActTools.removePIMatchFromWPMAndSubImages(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious)));
+				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious);
+				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
+				clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
 			} else if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.DRIVESOURCE)==true) {			
 				//Do nothing
@@ -708,25 +710,25 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//Perform basic act analysis
 			
 			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
-			//Find a goal in the list
-			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
-			
-			if (oGoalWithSameAct.isEmpty()==false) {
-				//Take the first structure and there, get the intention
-				clsWordPresentationMesh oNewIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0)));
-				//Merge the meshes, in order to get the latest PI-matches
-				clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal)), oNewIntention);
-				
-				
-			}
-			
-			
-			//-----------------------------------------------//
-			
-			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
-			for (eTaskStatus oTaskStatus : oTaskStatusList) {
-				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
-			}
+//			//Find a goal in the list
+//			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
+//			
+//			if (oGoalWithSameAct.isEmpty()==false) {
+//				//Take the first structure and there, get the intention
+//				clsWordPresentationMesh oNewIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0)));
+//				//Merge the meshes, in order to get the latest PI-matches
+//				clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal)), oNewIntention);
+//				
+//				
+//			}
+//			
+//			
+//			//-----------------------------------------------//
+//			
+//			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+//			for (eTaskStatus oTaskStatus : oTaskStatusList) {
+//				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
+//			}
 		}
 		
 		

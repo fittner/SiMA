@@ -422,7 +422,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//TODO AW: Add emotions here
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		oRetVal.addAll(clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN, eGoalType.PERCEPTIONALDRIVE));
+		oRetVal.addAll(clsGoalTools.extractPossibleGoals(moPerceptionalMesh_IN, eGoalType.PERCEPTIONALDRIVE, clsMeshTools.getNullObjectWPM()));
 		
 		return oRetVal;
 	}
@@ -444,7 +444,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			//Get the intention
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
 			if (oIntention!=null) {
-				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention, eGoalType.MEMORYDRIVE));
+				oRetVal.addAll(clsGoalTools.extractPossibleGoals(oIntention, eGoalType.MEMORYDRIVE, oAct));
 			} 
 			
 //			if (oRetVal.isEmpty()==true) {

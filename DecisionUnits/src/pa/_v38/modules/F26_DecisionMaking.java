@@ -30,7 +30,6 @@ import pa._v38.memorymgmt.datatypes.clsPrediction;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -435,27 +434,27 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		return oRetVal;
 	}
 	
-	/**
-	 * Get all possible reachable goals
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 05.08.2011 22:06:21
-	 *
-	 * @param poPerception
-	 * @param poExtractedPrediction_IN
-	 * @return
-	 */
-	private ArrayList<clsWordPresentationMesh> extractReachableDriveGoals(clsWordPresentationMesh poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-		//Add Goals from the perception
-		oRetVal.addAll(compriseExternalPerception(poPerception));
-		
-		//Add goals from activated memories
-		oRetVal.addAll(comprisePrediction(poExtractedPrediction_IN));
-		
-		return oRetVal;
-	}
+//	/**
+//	 * Get all possible reachable goals
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 05.08.2011 22:06:21
+//	 *
+//	 * @param poPerception
+//	 * @param poExtractedPrediction_IN
+//	 * @return
+//	 */
+//	private ArrayList<clsWordPresentationMesh> extractReachableDriveGoals(clsWordPresentationMesh poPerception, ArrayList<clsPrediction> poExtractedPrediction_IN) {
+//		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+//		
+//		//Add Goals from the perception
+//		oRetVal.addAll(compriseExternalPerception(poPerception));
+//		
+//		//Add goals from activated memories
+//		oRetVal.addAll(comprisePrediction(poExtractedPrediction_IN));
+//		
+//		return oRetVal;
+//	}
 	
 
 	
@@ -562,71 +561,71 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	
 	
 	
-	/**
-	 * DOCUMENT (kohlhauser) -
-	 *
-	 * @author kohlhauser
-	 * 27.08.2010, 15:28:53
-	 * @return 
-	 *
-	 */
-	private ArrayList<clsWordPresentationMesh> compriseExternalPerception(clsWordPresentationMesh poExternalPerception) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		// HZ 2010.08.27: This method selects a goal on the base of input parameters. Up to now
-		// these inputs are restricted to I_2.13 and I_1.7. As I_2.13 gives an image about the
-		// actual situation and I_1.7 retrieves an ordered list of actual "needs" in the form of 
-		// drives. Here it is iterated through the drive list and the need is compared with the 
-		// list of focused external perception. In case a match is found between an external perception
-		// and a drive (both of highest priority), the goal is formed to decrease the drive
-		// by the use of the externally perceived e.g. object. If no match turns up in the 
-		// highest priority, the iteration is going on until a match has been found. 
-		// However if there is no match between the externally perceived objects and the 
-		// received drives, the drive is buffered. In case its priority is the highest one, 
-		// the decision can be done, that exactly this drive has to be satisfied even there
-		// is no object in the area right now that can be used to do this. Hence the goal 
-		// would be to roam around and find an object that can be used to satisfy the drive. 
-		
-		//new AW 20110807
-		//get the secondary structure
-		ArrayList<clsWordPresentationMesh> oDriveGoals = new ArrayList<clsWordPresentationMesh>();
-		
-		oDriveGoals = clsImportanceTools.getWPMDriveGoals(poExternalPerception, eGoalType.PERCEPTIONALDRIVE, false);
-		
-		oRetVal.addAll(oDriveGoals);
-	
-		
-		//ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		//String oGoalContent; 
-		//clsWordPresentation oGoal = null; 
-		
-		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
-		//AW 20110807: The best goals are assigned later
-		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
-		
-		//if(oMaxDemand != null){
-		//	String oDriveContent = oMaxDemand.a; 
-		//	clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
-					
-//		for (clsSecondaryDataStructureContainer oExternalPerception : poExternalPerception ){
-//				String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
-//								
-//					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
-//					// only one goal is selected!
-//					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
-//					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
-//					// only by the first part.
-//				if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
-//					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
-//					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
-//					oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
-//					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-//						
-//					oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
-//			}
-//		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) -
+//	 *
+//	 * @author kohlhauser
+//	 * 27.08.2010, 15:28:53
+//	 * @return 
+//	 *
+//	 */
+//	private ArrayList<clsWordPresentationMesh> compriseExternalPerception(clsWordPresentationMesh poExternalPerception) {
+//		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+//		// HZ 2010.08.27: This method selects a goal on the base of input parameters. Up to now
+//		// these inputs are restricted to I_2.13 and I_1.7. As I_2.13 gives an image about the
+//		// actual situation and I_1.7 retrieves an ordered list of actual "needs" in the form of 
+//		// drives. Here it is iterated through the drive list and the need is compared with the 
+//		// list of focused external perception. In case a match is found between an external perception
+//		// and a drive (both of highest priority), the goal is formed to decrease the drive
+//		// by the use of the externally perceived e.g. object. If no match turns up in the 
+//		// highest priority, the iteration is going on until a match has been found. 
+//		// However if there is no match between the externally perceived objects and the 
+//		// received drives, the drive is buffered. In case its priority is the highest one, 
+//		// the decision can be done, that exactly this drive has to be satisfied even there
+//		// is no object in the area right now that can be used to do this. Hence the goal 
+//		// would be to roam around and find an object that can be used to satisfy the drive. 
+//		
+//		//new AW 20110807
+//		//get the secondary structure
+//		ArrayList<clsWordPresentationMesh> oDriveGoals = new ArrayList<clsWordPresentationMesh>();
+//		
+//		oDriveGoals = clsImportanceTools.getWPMDriveGoals(poExternalPerception, eGoalType.PERCEPTIONALDRIVE, false);
+//		
+//		oRetVal.addAll(oDriveGoals);
+//	
+//		
+//		//ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+//		//String oGoalContent; 
+//		//clsWordPresentation oGoal = null; 
+//		
+//		//FIXME HZ Actually the highest rated drive content is taken => this is sloppy and has to be evaluated in a later version! 
+//		//AW 20110807: The best goals are assigned later
+//		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+//		
+//		//if(oMaxDemand != null){
+//		//	String oDriveContent = oMaxDemand.a; 
+//		//	clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand.b; 
+//					
+////		for (clsSecondaryDataStructureContainer oExternalPerception : poExternalPerception ){
+////				String oExternalContent = ((clsWordPresentation)oExternalPerception.getMoDataStructure()).getMoContent(); 
+////								
+////					//TODO HZ: Here the first match is taken and added as goal to the output list; Actually
+////					// only one goal is selected!
+////					//Attention: the first part of the string (index 0 until the first string sequence "||" ) defines the drive that has to be
+////					// satisfied by the object outside; in case there is no adequate object perceived, the variable oContent is defined
+////					// only by the first part.
+////				if(oExternalContent.contains(oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)))){
+////					oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02 + oExternalContent; 
+////					oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent)); 
+////					oAssociatedDS.addAll(oExternalPerception.getMoAssociatedDataStructures()); 
+////					oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+////						
+////					oRetVal.add(new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS));
+////			}
+////		}
+//		
+//		return oRetVal;
+//	}
 
 	/**
 	 * DOCUMENT (kohlhauser) - insert description

@@ -71,40 +71,40 @@ public class clsImportanceTools {
 		return rTotalAffect/oDMList.size();
 	}
 	
-	/**
-	 * Get the max Affect from an image
-	 *
-	 * @since 31.08.2011 07:50:44
-	 *
-	 * @param poImage
-	 * @return
-	 */
-
-	public static int calculateMaxAffectSecondary(clsWordPresentationMesh poImage) {
-		//Precondition: In the TI, the affect values are used
-		
-		int rThisAffect = 0;
-		int rMaxAffect = 0;
-		
-		try {
-			//Get all DriveGoals
-			ArrayList<clsWordPresentationMesh> oDriveGoals = getWPMDriveGoals(poImage, eGoalType.NULLOBJECT, false);
-			for (clsWordPresentationMesh oGoal : oDriveGoals) {
-				//Get the drive intensity
-				rThisAffect = clsGoalTools.getAffectLevel(oGoal).mnAffectLevel;
-								
-				//Get the max value
-				if (rThisAffect>rMaxAffect) {
-					rMaxAffect = rThisAffect;
-				}	
-			}
-		} catch (Exception e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return rMaxAffect ;
-	}
+//	/**
+//	 * Get the max Affect from an image
+//	 *
+//	 * @since 31.08.2011 07:50:44
+//	 *
+//	 * @param poImage
+//	 * @return
+//	 */
+//
+//	public static int calculateMaxAffectSecondary(clsWordPresentationMesh poImage) {
+//		//Precondition: In the TI, the affect values are used
+//		
+//		int rThisAffect = 0;
+//		int rMaxAffect = 0;
+//		
+//		try {
+//			//Get all DriveGoals
+//			ArrayList<clsWordPresentationMesh> oDriveGoals = getWPMDriveGoals(poImage, eGoalType.NULLOBJECT, false);
+//			for (clsWordPresentationMesh oGoal : oDriveGoals) {
+//				//Get the drive intensity
+//				rThisAffect = clsGoalTools.getAffectLevel(oGoal).mnAffectLevel;
+//								
+//				//Get the max value
+//				if (rThisAffect>rMaxAffect) {
+//					rMaxAffect = rThisAffect;
+//				}	
+//			}
+//		} catch (Exception e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return rMaxAffect ;
+//	}
 	
 	/**
 	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
@@ -119,7 +119,7 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
+	public static ArrayList<clsWordPresentationMesh> getWPMDriveGoals(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
 		
@@ -147,10 +147,8 @@ public class clsImportanceTools {
 				//Create a supportive data structure from the goal object
 				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
 			} else if (poGoalType.equals(eGoalType.MEMORYDRIVE) || poGoalType.equals(eGoalType.MEMORYEMOTION)) {
-				//Get no supportive data structure
-				clsWordPresentationMesh oSupportiveDataStructure = clsMeshTools.getSuperStructure(oGoalObject);
-				//Create the goal
-				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, oSupportiveDataStructure);
+				//Create the goal with the incoming act as supportive datastructure
+				oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, poSupportiveDataStructure);
 			}
 			
 
