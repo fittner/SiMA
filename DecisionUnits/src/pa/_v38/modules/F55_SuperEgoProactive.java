@@ -113,6 +113,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 			ArrayList<clsDriveMesh> poDrives) {
 
 		moDrives_InputTEMPORARY = (ArrayList<clsDriveMesh>) deepCopy(poDrives); 
+		//TODO: change after adaptoion of new DM 
+		moDrives_OutputTEMPORARY = moDrives_InputTEMPORARY;
 	}
 
 	/* (non-Javadoc)

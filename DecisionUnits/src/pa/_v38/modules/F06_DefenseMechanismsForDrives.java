@@ -60,7 +60,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDriveList_Output;
 	
 	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
-	private ArrayList<clsDriveMesh> moDriveList_OutputTEMPORARY = new ArrayList<clsDriveMesh>();
+	private ArrayList<clsDriveMesh> moDriveList_OutputTEMPORARY;
 	
 	private ArrayList<String> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
@@ -182,7 +182,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
 
 		moDriveList_InputTEMPORARY = poData;
-		
+		//TODO: change after adaptoion of new DM
+		moDriveList_OutputTEMPORARY = poData;
 		
 		//moDriveList_Input = (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)deepCopy( (ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>>)poData);
 		

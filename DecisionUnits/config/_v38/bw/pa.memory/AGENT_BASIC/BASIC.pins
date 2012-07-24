@@ -1,4 +1,4 @@
-; Tue Jul 24 09:36:18 GMT 2012
+; Tue Jul 24 15:31:56 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -441,6 +441,13 @@
 		[TPM%3AACTION%3AL1_EAT])
 	(weight 1.0 1.0))
 
+([AD%3AAIM%3ACAKE%3ALEECH] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ALEECH%3ACAKE]
+		[TPM%3AACTION%3AL1_LEECH])
+	(weight 1.0 1.0))
+
 ([AD%3AAIM%3ACAKE%3ASUCK] of  ASSOCIATIONDM
 
 	(element
@@ -467,6 +474,13 @@
 	(element
 		[DM%3AREPRESS%3AEMPTYSPACE]
 		[TPM%3AACTION%3AL1_REPRESS])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3AMOTHERS_BREAST%3ABITE] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3AMOTHERSBREASTS]
+		[TPM%3AACTION%3AL1_BITE])
 	(weight 1.0 1.0))
 
 ([AD%3AAIM%3AMOTHERSBREASTS%3AEAT] of  ASSOCIATIONDM
@@ -537,6 +551,13 @@
 	(element
 		[DM%3AEAT%3ABODO]
 		[TPM%3AENTITY%3AARSIN%3ABODO])
+	(weight 1.0 1.0))
+
+([AD%3ADRIVEOBJECT%3ACAKE%3ALEECH] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ALEECH%3ACAKE]
+		[TPM%3AACTION%3AL1_LEECH])
 	(weight 1.0 1.0))
 
 ([AD%3ADRIVEOBJECT%3ACAKE%3ASUCK] of  ASSOCIATIONDM
@@ -1497,7 +1518,9 @@
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
 	(drive_component "AGGRESSIVE")
-	(instance_association [AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3ABITE])
+	(instance_association
+		[AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3ABITE]
+		[AD%3AAIM%3AMOTHERS_BREAST%3ABITE])
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
@@ -1511,7 +1534,7 @@
 		[AD%3ADRIVEOBJECT%3AREMOTEBOT%3ABITE]
 		[AD%3AAIM%3AREMOTEBOT%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
 
@@ -1523,7 +1546,7 @@
 		[AD%3ADRIVEOBJECT%3ASTONE%3ABITE]
 		[AD%3AAIM%3ASTONE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
 
@@ -1632,8 +1655,11 @@
 ([DM%3ALEECH%3ACAKE] of  DM_oral
 
 	(drive_component "AGGRESSIVE")
+	(instance_association
+		[AD%3AAIM%3ACAKE%3ALEECH]
+		[AD%3ADRIVEOBJECT%3ACAKE%3ALEECH])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.2)
 	(value "DM:ORAL:AGGRESSIVE")
 	(value_type "DRIVEREPRESENTATION"))
 
@@ -1669,7 +1695,7 @@
 		[AD%3ADRIVEOBJECT%3AEMPTYSPACE%3ASLEEP]
 		[AD%3AAIM%3ASTONE%3ASLEEP])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.1)
 	(value "DM:Stamina:Aggr")
 	(value_type "DRIVEREPRESENTATION"))
 
@@ -1680,7 +1706,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASUCK]
 		[AD%3AAIM%3ACAKE%3ASUCK])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.3)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
 
