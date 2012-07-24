@@ -710,41 +710,31 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//Perform basic act analysis
 			
 			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
-//			//Find a goal in the list
-//			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
-//			
-//			if (oGoalWithSameAct.isEmpty()==false) {
-//				//Take the first structure and there, get the intention
-//				clsWordPresentationMesh oNewIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0)));
-//				//Merge the meshes, in order to get the latest PI-matches
-//				clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal)), oNewIntention);
-//				
-//				
-//			}
-//			
-//			
-//			//-----------------------------------------------//
-//			
-//			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
-//			for (eTaskStatus oTaskStatus : oTaskStatusList) {
-//				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
-//			}
-		}
-		
-		
-		
-		
-		
-		
-		if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+			//Find a goal in the list, which has the same act inside of it
+			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
 			
+			if (oGoalWithSameAct.isEmpty()==false) {
+				//Take the first structure and there, get the intention
+				clsWordPresentationMesh oNewIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0)));
+				//Merge the meshes, in order to get the latest PI-matches
+				clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
+				clsMeshTools.mergeMesh(oCurrentIntention, oNewIntention);
+			}
+			
+			//-----------------------------------------------//
+			
+			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+			for (eTaskStatus oTaskStatus : oTaskStatusList) {
+				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
+			}
+		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
+					
 		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || poPreviousAction.equals(eAction.TURN_LEFT)==true || poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
-			
-			//Add 
+			//clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+			 
 		}
 	}
 	
