@@ -304,12 +304,14 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			//In case the data structure does not have an ID, it has to be compared to a stored 
 			//data structure and replaced by it (the processes base on information that is already
 			//defined
-			//Drive Mesh content is represented by a list of attribute associations	
+			
+				//Comparision of DMs makes only sense, if they have the same component, source (and partialdrive). Driveaim and -object are comparable
 					
 				if(this.moDriveComponent == oDataStructure.moDriveComponent){
 					if(this.moPartialDrive == oDataStructure.moPartialDrive){
-						if(this.getActualDriveSource().getMoContent() == oDataStructure.getActualDriveSource().getMoContent()){
+						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
 							oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+							oRetVal = (oRetVal + 1)/2; // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
 						}
 					}
 					
