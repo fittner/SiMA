@@ -73,16 +73,32 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	//orifices are fixed for PA body, thus we can do this here
 	public eOrifice getActualBodyOrificeAsENUM(){
-		return eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+		
+		eOrifice retVal = eOrifice.UNDEFINED;
+		
+		try{
+			retVal = eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+		}
+		catch(Exception e){
+			System.out.printf(e +"\n"+ e.getStackTrace().toString());
+		}
+		return retVal;
 	}
 	
 	public clsThingPresentationMesh getActualDriveSource(){
 		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
-	//organs are fixed for PA body, thus we can do this here
+	//organs are fixed for PA body, thus we can do this- here
 	public eOrgan getActualDriveSourceAsENUM(){
-		return eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+		eOrgan retVal = eOrgan.UNDEFINED;
+		try{
+			retVal = eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+		}
+		catch(Exception e){
+			System.out.printf(e +"\n"+ e.getStackTrace().toString());
+		}
+		return retVal;
 	}
 	
 	private clsAssociationDriveMesh getAssociation(eContentType oContentType){
