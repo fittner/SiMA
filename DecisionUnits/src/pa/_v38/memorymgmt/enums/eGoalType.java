@@ -20,5 +20,6 @@ public enum eGoalType {
 	PERCEPTIONALEMOTION,	//Emotions, which origins from perception
 	MEMORYEMOTION,			//Emotions, which origins from memories e. g. bad bodo
 	MEMORYDRIVE,
-	PERCEPTIONALDRIVE;		//Normal potential drive satisfier, which are found in the perception 
+	PERCEPTIONALDRIVE,		//Normal potential drive satisfier, which are found in the perception 
+	EMOTIONSOURCE;
 }

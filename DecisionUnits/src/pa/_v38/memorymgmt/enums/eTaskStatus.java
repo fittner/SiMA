@@ -30,6 +30,8 @@ public enum eTaskStatus {
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match
 	GOAL_REACHABLE,
 	
+	PANIC,
+	
 	
 	NEED_INTERNAL_INFO_SET;			//Phantasy was already triggered
 }

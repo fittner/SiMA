@@ -76,7 +76,13 @@ public class clsGoalTools {
 		clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION, ePredicate.HASDRIVEOBJECT, false);	
 		
 		//Add Supportive Data Structure to goal if it is not null
-		if (poSupportiveDataStructure != null) {
+		if (poSupportiveDataStructure == null) {
+			try {
+				throw new Exception("No nulls allowed");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		} else {
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
 		}
 		
