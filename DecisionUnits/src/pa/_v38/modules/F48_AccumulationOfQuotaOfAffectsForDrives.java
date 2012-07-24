@@ -8,7 +8,6 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.storage.DT4_PleasureStorage;
@@ -206,76 +205,76 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 		moDriveCandidates_OUT = new ArrayList<clsDriveMeshOLD>(); 
 
-		// first we do some magic to the homeostatic drives
-		for(clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>> oEntry : moHomoestasisCandidates_IN){
-			double rFactor = 0.5; //default value, the real values are taken from the config in the next loop
-			try {
-				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
-					if (oEntry.a.a.toString().contains(oSF.getKey())) {
-						rFactor = oSF.getValue();
-						break;
-					}
-				}
-			} catch (java.lang.Exception e) {
-				//do nothing
-			}			
-			//RL:
-			//for a constant increase of the affect values, the following function is implemented:
-			//1.: life-instinct increases faster than death-instinct
-			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
-			//3.: death-instinct reaches maximum (--> should result in deatch)
-			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
-					eDriveValueSplitter.ADVANCED, rFactor); 
-			
-			//set the calculated affects into the entry set of the loop, actually pleasure is not right here, this value is quota of affect not pleasure
-			double oLifeAffect  = oSplitResult.a;
-			double oDeathAffect = oSplitResult.b;
-			oEntry.a.a.setPleasure(oLifeAffect); 
-			oEntry.b.a.setPleasure(oDeathAffect); 
-			
-			//and add it to the outgoing list as two separate entries for life/death
-			moDriveCandidates_OUT.add(oEntry.a.a); 
-			moDriveCandidates_OUT.add(oEntry.b.a); 
-		}
-		
-		//now some love for the libido drives
-		for (clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oEntry:moLibidoCandidates_IN) {
-			double rFactor = 0.5; //default value, the real values are taken from the config
-			try {
-				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
-					if (oEntry.a.a.toString().contains(oSF.getKey())) {
-						rFactor = oSF.getValue();
-						break;
-					}
-				}
-			} catch (java.lang.Exception e) {
-				//do nothing
-			}
-			
-			//do the splitting math
-			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
-					eDriveValueSplitter.ADVANCED, rFactor); 
-			
-			//normalize the resultign values
-			double oLifeAffect  = normalize( oSplitResult.a * oEntry.a.c );
-			double oDeathAffect = normalize( oSplitResult.b * oEntry.b.c );
-			
-			oEntry.a.a.setPleasure(oLifeAffect); 
-			oEntry.b.a.setPleasure(oDeathAffect); 
-			
-			//add the two pairs to the final list, this mixes the libido to the homeostatic ones
-			moDriveCandidates_OUT.add(oEntry.a.a); 
-			moDriveCandidates_OUT.add(oEntry.b.a);
-
-		}
-		
-		//FIXME CM: This is a hack function by AW. Please remove it as soon as there is some meaningful SLEEP
-		//tempJACKBAUERWASHERE(moDriveCandidates_OUT);
-		
-		//TODO here the actual pleasure gained has to be stored in Dt4
-		//moPleasureStorage.receive_D4_1(xxx);
-			
-		//throw new java.lang.NoSuchMethodError();
+//		// first we do some magic to the homeostatic drives
+//		for(clsPair<clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand>> oEntry : moHomoestasisCandidates_IN){
+//			double rFactor = 0.5; //default value, the real values are taken from the config in the next loop
+//			try {
+//				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+//					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+//						rFactor = oSF.getValue();
+//						break;
+//					}
+//				}
+//			} catch (java.lang.Exception e) {
+//				//do nothing
+//			}			
+//			//RL:
+//			//for a constant increase of the affect values, the following function is implemented:
+//			//1.: life-instinct increases faster than death-instinct
+//			//2.: life-instinct reaches maximum (death-instinct at 50%) and decreases
+//			//3.: death-instinct reaches maximum (--> should result in deatch)
+//			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+//					eDriveValueSplitter.ADVANCED, rFactor); 
+//			
+//			//set the calculated affects into the entry set of the loop, actually pleasure is not right here, this value is quota of affect not pleasure
+//			double oLifeAffect  = oSplitResult.a;
+//			double oDeathAffect = oSplitResult.b;
+//			oEntry.a.a.setPleasure(oLifeAffect); 
+//			oEntry.b.a.setPleasure(oDeathAffect); 
+//			
+//			//and add it to the outgoing list as two separate entries for life/death
+//			moDriveCandidates_OUT.add(oEntry.a.a); 
+//			moDriveCandidates_OUT.add(oEntry.b.a); 
+//		}
+//		
+//		//now some love for the libido drives
+//		for (clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oEntry:moLibidoCandidates_IN) {
+//			double rFactor = 0.5; //default value, the real values are taken from the config
+//			try {
+//				for (Map.Entry<String, Double> oSF:moSplitterFactor.entrySet()) {
+//					if (oEntry.a.a.toString().contains(oSF.getKey())) {
+//						rFactor = oSF.getValue();
+//						break;
+//					}
+//				}
+//			} catch (java.lang.Exception e) {
+//				//do nothing
+//			}
+//			
+//			//do the splitting math
+//			clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(oEntry.a.b.getTension(), oEntry.b.b.getTension(), 
+//					eDriveValueSplitter.ADVANCED, rFactor); 
+//			
+//			//normalize the resultign values
+//			double oLifeAffect  = normalize( oSplitResult.a * oEntry.a.c );
+//			double oDeathAffect = normalize( oSplitResult.b * oEntry.b.c );
+//			
+//			oEntry.a.a.setPleasure(oLifeAffect); 
+//			oEntry.b.a.setPleasure(oDeathAffect); 
+//			
+//			//add the two pairs to the final list, this mixes the libido to the homeostatic ones
+//			moDriveCandidates_OUT.add(oEntry.a.a); 
+//			moDriveCandidates_OUT.add(oEntry.b.a);
+//
+//		}
+//		
+//		//FIXME CM: This is a hack function by AW. Please remove it as soon as there is some meaningful SLEEP
+//		//tempJACKBAUERWASHERE(moDriveCandidates_OUT);
+//		
+//		//TODO here the actual pleasure gained has to be stored in Dt4
+//		//moPleasureStorage.receive_D4_1(xxx);
+//			
+//		//throw new java.lang.NoSuchMethodError();
 	}
 
 	/**
