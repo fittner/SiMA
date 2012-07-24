@@ -47,6 +47,10 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
+
+	// TODO: change after adaption to new DM
+	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY = new ArrayList<clsDriveMesh>();
+	
 	//private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
 	
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output;
@@ -169,9 +173,13 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			e.printStackTrace();
 		}
 		
+
+		// TODO: change after adaption to new DM
+		//moDriveList_Input.add(oDM);
 		
-		moDriveList_Input.add(oDM);
-		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+		moDriveList_InputTEMPORARY.add(oDM);
+		
+		moDriveList_Output = getWPAssociations(moDriveList_InputTEMPORARY); 
 	}
 	
 	/**
