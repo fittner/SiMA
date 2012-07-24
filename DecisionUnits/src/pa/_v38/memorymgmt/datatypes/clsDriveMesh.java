@@ -30,8 +30,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
-	private eDriveComponent moDriveComponent = eDriveComponent.UNDEFINED;			//Triebkomponente (agressiv/libidonoes)
-	private ePartialDrive moPartialDrive = ePartialDrive.UNDEFINED ;				//Partialtriebe (A/O/P/G)
+	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
+	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
 	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -56,6 +56,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		mrQuotaOfAffect = prQuotaOfAffect;
 		moInternalAssociatedContent = poInternalAssociatedContent;
 		moDebugInfo = poContent;
+			
+		moPartialDrive = poPartialDrive;
+		
+		moDriveComponent = poDriveComponent;
 	}
 	
 	
