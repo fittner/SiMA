@@ -30,8 +30,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
-	private eDriveComponent moDriveComponent = eDriveComponent.UNDEFINED;			//Triebkomponente (agressiv/libidonoes)
-	private ePartialDrive moPartialDrive = ePartialDrive.UNDEFINED ;				//Partialtriebe (A/O/P/G)
+	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
+	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
 	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -56,6 +56,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		mrQuotaOfAffect = prQuotaOfAffect;
 		moInternalAssociatedContent = poInternalAssociatedContent;
 		moDebugInfo = poContent;
+			
+		moPartialDrive = poPartialDrive;
+		
+		moDriveComponent = poDriveComponent;
 	}
 	
 	
@@ -73,16 +77,32 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	//orifices are fixed for PA body, thus we can do this here
 	public eOrifice getActualBodyOrificeAsENUM(){
-		return eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+		
+		eOrifice retVal = eOrifice.UNDEFINED;
+		
+		try{
+			retVal = eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+		}
+		catch(Exception e){
+			System.out.printf(e +"\n"+ e.getStackTrace().toString());
+		}
+		return retVal;
 	}
 	
 	public clsThingPresentationMesh getActualDriveSource(){
 		return getAssociatedObject(eContentType.ORGAN);
 	}
 	
-	//organs are fixed for PA body, thus we can do this here
+	//organs are fixed for PA body, thus we can do this- here
 	public eOrgan getActualDriveSourceAsENUM(){
-		return eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+		eOrgan retVal = eOrgan.UNDEFINED;
+		try{
+			retVal = eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+		}
+		catch(Exception e){
+			System.out.printf(e +"\n"+ e.getStackTrace().toString());
+		}
+		return retVal;
 	}
 	
 	private clsAssociationDriveMesh getAssociation(eContentType oContentType){
@@ -136,10 +156,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ORGAN+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORGAN, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveSource, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveSource, prWeight));
 	}
 	
 	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
@@ -148,10 +165,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ACTION+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ACTION, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveAim, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveAim, prWeight));
 	}
 	
 	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
@@ -160,10 +174,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ENTITY+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ENTITY, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveObject, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveObject, prWeight));
 	}
 	
 	public void associateActualBodyOrifice(clsThingPresentationMesh poDriveOrifice, double prWeight) throws Exception{
@@ -172,10 +183,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			throw new Exception("Cannot associate type " +eContentType.ORIFICE+ " to DM, already associated.");
 		
 		moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE, 
-																		(clsPrimaryDataStructure)this, 
-																		(clsPrimaryDataStructure)poDriveOrifice, 
-																		prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveOrifice, prWeight));
 	}
 
 	

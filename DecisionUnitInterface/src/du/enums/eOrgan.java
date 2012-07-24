@@ -18,5 +18,6 @@ public enum eOrgan {
 	RECTUM,
 	BLADDER,
 	STAMINA,
-	LIBIDO
+	LIBIDO,
+	UNDEFINED
 }
