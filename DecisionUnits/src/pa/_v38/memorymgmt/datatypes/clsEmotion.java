@@ -123,21 +123,29 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::";  
+		String oResult = "::"+this.moDataStructureType+"::";
 		oResult += this.moDS_ID + ":";
+		try{
 		oResult += this.moContentType + ":";
 		oResult += this.moContent + ":";
-			
-		for (clsAssociation oEntry : moExternalAssociatedContent) {
-			oResult += oEntry.toString() + ":"; 
+		
+		if(moExternalAssociatedContent != null)
+		{
+			for (clsAssociation oEntry : moExternalAssociatedContent) {
+				oResult += oEntry.toString() + ":"; 
+			}
 		}
+		
 		oResult += " unpl: " + mrSourceUnpleasure; 
 		oResult += " pl: " + mrSourcePleasure;
 		oResult += " libid: " + mrSourceLibid;
 		oResult += " aggr: " + mrSourceAggr;
 		
 		oResult += " intensity: " + mrEmotionIntensity;
-		
+		}
+		catch(Exception e){
+			System.out.printf(e + "\n" + e.getStackTrace().toString());
+		}
 		
 		return oResult; 
 	}

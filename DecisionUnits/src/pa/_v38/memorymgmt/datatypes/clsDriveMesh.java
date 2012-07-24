@@ -77,7 +77,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		eOrifice retVal = eOrifice.UNDEFINED;
 		
 		try{
-			retVal = eOrifice.valueOf(getAssociatedObject(eContentType.ORIFICE).getMoContent());
+			clsThingPresentationMesh oDriveOrifice = getAssociatedObject(eContentType.ORIFICE);
+			if(oDriveOrifice != null)
+			{
+				retVal = eOrifice.valueOf(oDriveOrifice.getMoContent());
+			}
 		}
 		catch(Exception e){
 			System.out.printf(e +"\n"+ e.getStackTrace().toString());
@@ -93,7 +97,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public eOrgan getActualDriveSourceAsENUM(){
 		eOrgan retVal = eOrgan.UNDEFINED;
 		try{
-			retVal = eOrgan.valueOf(getAssociatedObject(eContentType.ORGAN).getMoContent());
+			clsThingPresentationMesh oDriveSource = getAssociatedObject(eContentType.ORGAN);
+			if(oDriveSource != null)
+			{
+				retVal = eOrgan.valueOf(oDriveSource.getMoContent());
+			}
 		}
 		catch(Exception e){
 			System.out.printf(e +"\n"+ e.getStackTrace().toString());
@@ -128,7 +136,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		}
 		else
 		{
-			System.out.printf("No Object of type " + oContentType.toString() +" associated to DriveMesh");
+			//TODO: deep debug info, if needed System.out.printf("No Object of type " + oContentType.toString() +" associated to DriveMesh");
 			return null;
 		}
 	}
