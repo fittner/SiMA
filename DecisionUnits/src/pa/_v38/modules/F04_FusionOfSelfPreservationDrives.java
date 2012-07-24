@@ -201,19 +201,18 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			String oaKey = agressiveDM.getChartShortString();
 			if ( !moDriveChartData.containsKey(oaKey) ) {
 				mnChartColumnsChanged = true;
-				moDriveChartData.put(oaKey, agressiveDM.getQuotaOfAffect());
+				
 			}
+			moDriveChartData.put(oaKey, agressiveDM.getQuotaOfAffect());	
 			
 			String olKey = libidoneusDM.getChartShortString();
 			if ( !moDriveChartData.containsKey(olKey) ) {
 				mnChartColumnsChanged = true;
-				moDriveChartData.put(olKey, libidoneusDM.getQuotaOfAffect());
+				
 			}
+			moDriveChartData.put(olKey, libidoneusDM.getQuotaOfAffect());
 
 		}
-		
-		
-
 	}
 	
 	
@@ -450,7 +449,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oResult = new ArrayList<Double>();
-		oResult = (ArrayList<Double>) moDriveChartData.values();
+		//oResult = (ArrayList<Double>) moDriveChartData.values().toArray();
+		oResult.addAll(moDriveChartData.values());
 		return oResult;
 	}
 
@@ -463,7 +463,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oResult = new ArrayList<String>();
-		oResult = (ArrayList<String>) moDriveChartData.keySet();
+		oResult.addAll(moDriveChartData.keySet());
 		return oResult;
 	}
 
