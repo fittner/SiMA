@@ -227,7 +227,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
 							
 							// add associations to memory-dm
-							oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
+							//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
 							
 							// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
 							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
@@ -248,6 +248,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				}
 				
 				oSimulatorDM.addExternalAssociations(oAssSimilarDMs);
+				
+				try {
+					oSimulatorDM.associateActualDriveObject(oDriveObject, 0.0);
+					oSimulatorDM.associateActualDriveAim(oDriveAim, 0.0);
+				}
+				catch(Exception e){
+					
+				}
+				
+				
 				oRetVal.add(oSimulatorDM);
 				
 		}

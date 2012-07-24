@@ -442,7 +442,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public void addExternalAssociations(
 			ArrayList<clsAssociation> poAssociatedDataStructures) {
 		// TODO (schaat) - Auto-generated method stub
-		moInternalAssociatedContent.addAll(poAssociatedDataStructures); 
+		moExternalAssociatedContent.addAll(poAssociatedDataStructures); 
 	}
 	
 	@Override
