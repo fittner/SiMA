@@ -200,7 +200,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		System.out.println("======================== START OF TURN SP ================================");
+		System.out.println("\n======================== START OF TURN SP ================================");
 		
 		//--- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();

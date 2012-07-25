@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
@@ -38,6 +39,7 @@ import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -557,28 +559,33 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
-			if (oTopImage == null) {
-				// try {
-				// throw new
-				// Exception("Error in F52: No object is allowed to be independent of an image");
-				// } catch (Exception e) {
-				// // TODO (wendt) - Auto-generated catch block
-				// e.printStackTrace();
-				// }
+			//Get goal type
+			eGoalType oGoalType = clsGoalTools.getGoalType(oGoal);
+			
+//			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
+//			if (oTopImage == null) {
+//				// try {
+//				// throw new
+//				// Exception("Error in F52: No object is allowed to be independent of an image");
+//				// } catch (Exception e) {
+//				// // TODO (wendt) - Auto-generated catch block
+//				// e.printStackTrace();
+//				// }
+//
+//				/** go to next goal */
+//				break;
+//			}
 
-				/** go to next goal */
-				break;
-			}
-
-			/**
-			 * what happens here? data from memory ?
-			 */
-			if (oTopImage.getMoContentType().equals(eContentType.RI) == true
-			    && oTopImage.getMoContentType().equals(eContentType.PI) == false) {
-				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = new ArrayList<clsWordPresentationMesh>();// planFromMemories(oGoal,
+			//Perform actions according to the goal type
+			
+			//Goal type is an act
+			if (oGoalType.equals(eGoalType.MEMORYDRIVE)) {
+				clsWordPresentationMesh oRecommendedAction = clsMeshTools.getNullObjectWPM();
 				// poPredictionList);
-				oActionContainer.addAll(oActionFromMemoryContainerList);
+				if (oRecommendedAction.isNullObject()==false) {
+					oActionContainer.add(oRecommendedAction);
+				}
+				
 
 				// If no plans could be generated for this goal, it is set
 				// false, else true
@@ -590,7 +597,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}
 
 			// If the image is a perceived image
-			if (oTopImage.getMoContentType().equals(eContentType.PI) == true && (bActionPlanOK == false)) {
+			if (oGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==true && (bActionPlanOK == false)) {
 				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromPerception_AW(oPIImageStructure, oGoal);
 				oActionContainer.addAll(oActionFromMemoryContainerList);
 
@@ -607,6 +614,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// If the image is just a general goal without object, then search
 			if (bActionPlanOK == false) {
 
+				//Search
 				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
 				oActionContainer.addAll(oActionFromMemoryContainerList);
 
@@ -646,7 +654,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			
 			//--- Find the suitable action for a certain combination of preconditions ---//
-			ArrayList<clsWordPresentationMesh> oActionList = getActionsFromPrecondition(oTaskList);
+			ArrayList<clsWordPresentationMesh> oUnsortedActionList = getActionsFromPrecondition(oTaskList);
+			ArrayList<clsWordPresentationMesh> oActionList = sortMostSpecializedAction(oUnsortedActionList, oTaskList);
 			if (oActionList.isEmpty()==false) {
 				//FIXME Only the first action is taken
 				oInternalActionWPM  = oActionList.get(0);
@@ -730,16 +739,16 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			oExternalActionWPM = clsActionTools.createAction(eAction.NONE.toString());
 		} else {
 			//Add ActionType
-			if (oExternalActionWPM.equals(eAction.FOCUS_ON) || 
-					oExternalActionWPM.equals(eAction.SEND_TO_PHANTASY) || 
-					oExternalActionWPM.equals(eAction.FOCUS_MOVE_FORWARD) || 
-					oExternalActionWPM.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS) ||
-					oExternalActionWPM.equals(eAction.NONE)) {
+			if (clsActionTools.getAction(oExternalActionWPM).equals(eAction.FOCUS_ON.toString()) || 
+					clsActionTools.getAction(oExternalActionWPM).equals(eAction.SEND_TO_PHANTASY.toString()) || 
+					clsActionTools.getAction(oExternalActionWPM).equals(eAction.FOCUS_MOVE_FORWARD.toString()) || 
+					clsActionTools.getAction(oExternalActionWPM).equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString()) ||
+					clsActionTools.getAction(oExternalActionWPM).equals(eAction.NONE.toString())) {
 				
 				clsActionTools.setActionType(oExternalActionWPM, eActionType.SINGLE_INTERNAL);
 				
-			} else if (oExternalActionWPM.equals(eAction.SEARCH1) ||
-					oExternalActionWPM.equals(eAction.FLEE)) {
+			} else if (clsActionTools.getAction(oExternalActionWPM).equals(eAction.SEARCH1) ||
+					clsActionTools.getAction(oExternalActionWPM).equals(eAction.FLEE)) {
 				
 				clsActionTools.setActionType(oExternalActionWPM, eActionType.COMPOSED_EXTERNAL);
 			} else {
@@ -788,20 +797,22 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> addNewDecisionTaskImages() {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		//DRIVESOURCE
+		//DRIVESOURCE AND ACT
 		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
+		
+		//DRIVESOURCE
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.NEED_INTERNAL_INFO_SET));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.NEED_INTERNAL_INFO_SET));
 		
 		//PECEPTIONSOURCE
 		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_GOAL_FOCUS));	//Focus on the supportive datastructure, which is an image
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.FOCUS_ON_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION));
 		
 		//ACT SOURCE
-		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS));
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.PERFORM_RECOMMENDED_ACTION));
+		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.PERFORM_RECOMMENDED_ACTION, eTaskStatus.NEED_INTERNAL_INFO_SET));
 
 		//PANIC Goal
 		oResult.add(generateInternalActionFromPrecondition(eAction.FLEE, eTaskStatus.PANIC));
@@ -851,6 +862,45 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				oResult.add((clsWordPresentationMesh) oWPM.clone());
 			}
 			
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Sort all actions for the best precondition. Function: The more specialized an action is, the higher ranked. The more generalized actions are lower ranked
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.07.2012 19:49:45
+	 *
+	 * @param poActionList
+	 * @param poPreconditionStatusList
+	 * @return
+	 */
+	private ArrayList<clsWordPresentationMesh> sortMostSpecializedAction(ArrayList<clsWordPresentationMesh> poActionList, ArrayList<eTaskStatus> poPreconditionStatusList) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oOpenToSortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		
+		//Go through all actions and get the number of successful preconditions 
+		for (clsWordPresentationMesh poAction : poActionList) {
+			ArrayList<eTaskStatus> oPreconditionForActionList = clsActionTools.getPreconditions(poAction);
+			int nScore = 0;
+			
+			for (eTaskStatus oPreconditionForAction : oPreconditionForActionList) {
+				if (poPreconditionStatusList.contains(oPreconditionForAction)==true) {
+					nScore++;
+				}
+			}
+			
+			oOpenToSortList.add(new clsPair<Integer, clsWordPresentationMesh>(nScore, poAction));			
+		}
+		
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSortedActionList =  clsImportanceTools.sortAndFilterRatedStructures(oOpenToSortList, -1);
+		
+		for (clsPair<Integer, clsWordPresentationMesh> oAction : oSortedActionList) {
+			oResult.add(oAction.b);
 		}
 		
 		return oResult;
