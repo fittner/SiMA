@@ -195,6 +195,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				
 				//--- System printout of all important action dates ---//
 				System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
+				System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
+				
 				//-----------------------------------------------------//
 			} catch (Exception e) {
 				// TODO (wendt) - Auto-generated catch block

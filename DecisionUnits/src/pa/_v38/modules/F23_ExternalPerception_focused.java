@@ -234,6 +234,9 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Remove all non focused objects
 		focusPerception(moPerceptionalMesh_OUT, oFocusOnGoalList, nNumberOfAllowedObjects);
 		
+		System.out.println("====================================\nF23: Focused perception:" + moPerceptionalMesh_OUT  + "\n==============================================");
+		System.out.println("Focuslist : " + oFocusOnGoalList.toString());
+		
 		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
 		
@@ -339,7 +342,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				
 				//If there is a supportive data structure
 				try {
-					if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT.toString())==true) {
+					if (oFocusImage.getMoContent().equals(eContentType.NULLOBJECT)==true) {
 						throw new Exception ("F23: Focused action was chosen but no supportive data structure exists");
 					}
 				} catch (Exception e) {

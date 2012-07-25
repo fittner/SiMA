@@ -30,7 +30,6 @@ import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
 /**
@@ -232,16 +231,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//=== Create the mental image ===
 		//Test AW: Relational Meshes
-		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
+		//clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
+
 		
 		//From now, only the environmental image is used
 		
-		if (moAssociatedMemories_IN.isEmpty()==false) {
-			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
-		}
+//		if (moAssociatedMemories_IN.isEmpty()==false) {
+//			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
+//		}
 		
 		//Process all goals individually without sorting them. Sorting is done in the decision making
 		
@@ -464,6 +464,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		} else {
 			//Assign the right goal
 			oResult = oEquivalentGoalList.get(0);
+			
+			
 		}
 		
 		return oResult;
@@ -658,18 +660,32 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			
 			clsWordPresentationMesh oEnvironmentalImage = this.moEnvironmentalImageStorage.getEnvironmentalImage();
 			ArrayList<clsWordPresentationMesh> oEntityList = clsMeshTools.getAllSubWPMInWPMImage(oEnvironmentalImage);
+			boolean bEntityInFocus = false;
 			for (clsWordPresentationMesh oExistingEntity : oEntityList) {
 				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(poPreviousGoal).getMoDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
 					clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+					bEntityInFocus = true;
+					//clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE);
 					break;
 				}
 			}
 			
+			if (bEntityInFocus==false) {
+				clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			}
 		}
 		
-		if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+		}
+		
+		if (poPreviousAction.equals(eAction.NONE)) {
+			
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			
+		} else if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
 			//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
 			//As the environmental image is not "mitgedreht", only fix positions are used.
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
@@ -680,13 +696,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
 			
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			//clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
 		
 		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || 
 				poPreviousAction.equals(eAction.TURN_LEFT)==true || 
 				poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE);
-			//clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			
 		}
 		System.out.print("");
 	}

@@ -178,6 +178,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 
 				
+				System.out.println("LastAction: " + lastAction.toString() + ". This action: " + oActionWPM.toString());
+				System.out.println("======================== END OF TURN SP ================================");
+				
 				//-----------------------------------------------------------------------------------//
 				
 				// mnCounter contains information for how much turns the current action is active
