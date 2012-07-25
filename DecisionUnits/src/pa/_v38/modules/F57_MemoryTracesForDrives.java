@@ -217,14 +217,18 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
-						rCurrentMatchFactor = oSearchPair.a; 
+						
+
+						// get similar memory-dm
+						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
+						
+						// weighting of matchingfactor
+						rCurrentMatchFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
+						
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
 							
-							// get similar memory-dm
-							clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
-
 							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
-							oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+							// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
 							
 							// add associations to memory-dm
 							//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
