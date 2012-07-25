@@ -234,7 +234,7 @@ public class clsActionTools {
 	 * @return
 	 */
 	public static eActionType getActionType(clsWordPresentationMesh poAction) {
-		eActionType oResult = null;
+		eActionType oResult = eActionType.NULLOBJECT;
 		
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poAction, ePredicate.HASACTIONTYPE);
 		

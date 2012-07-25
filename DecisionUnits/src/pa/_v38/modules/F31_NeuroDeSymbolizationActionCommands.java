@@ -167,11 +167,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				String oAction = oActionWPM.getMoContent();
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
-				if (clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
+				if (lastAction.isNullObject()==false &&
+						clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
 						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
 						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
-						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false &&
-						lastAction.isNullObject()==false) {
+						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false) {
 					
 					oAction=lastAction.getMoContent();
 				}

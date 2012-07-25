@@ -14,6 +14,8 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eActionType {
+	NULLOBJECT,
+	
 	SINGLE_INTERNAL,
 	COMPOSED_INTERNAL,
 	SINGLE_EXTERNAL,
