@@ -39,7 +39,7 @@ public class clsGoalTools {
 	 * @return the moNullObjectWPM
 	 */
 	public static clsWordPresentationMesh getNullObjectWPM() {
-		return moNullObjectWPM;
+		return clsMeshTools.getNullObjectWPM();
 	}
 	
 	

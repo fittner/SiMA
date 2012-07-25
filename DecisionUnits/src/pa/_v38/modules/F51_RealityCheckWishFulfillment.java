@@ -735,7 +735,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(poContinuedGoal);
 			
 				//Add the PI matches to the images of the act
-				transferAllPIMatches(oNewAct, oCurrentAct);
+				transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
 			
 			}
 			
@@ -762,6 +762,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	}
 	
 	private void transferAllPIMatches(clsWordPresentationMesh poSourceIntention, clsWordPresentationMesh poTargetIntention) {
+		
 		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
 			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
 				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {

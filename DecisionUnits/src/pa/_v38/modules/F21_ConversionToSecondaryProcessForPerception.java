@@ -12,7 +12,6 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -222,10 +221,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		moAssociatedMemories_OUT = oWPMConstruct.b;
 		
 		//debug
-		if (moAssociatedMemories_OUT.isEmpty()==false) {
-			ArrayList<clsWordPresentationMesh> poAct = clsMeshTools.getAllWPMImages(clsActDataStructureTools.getIntention(moAssociatedMemories_OUT.get(0)), 6);
-			System.out.print("poAct size" + poAct.size());
-		}
+//		if (moAssociatedMemories_OUT.isEmpty()==false) {
+//			ArrayList<clsWordPresentationMesh> poAct = clsMeshTools.getAllWPMImages(clsActDataStructureTools.getIntention(moAssociatedMemories_OUT.get(0)), 6);
+//			System.out.print("poAct size" + poAct.size());
+//		}
 		
 	}
 		
@@ -273,14 +272,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 			oEnhancedRIWPMList.add(oEnhancedWPM);
 			
 			//Check if all the loaded structures can be added by getting all WPM as a list
-			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 6);
+			//ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages(oEnhancedWPM, 6);
 			//Go through all new found entities
 //			for (clsWordPresentationMesh oWPM : oEnhancedList) {
 //				if (oEnhancedWPM!=oWPM) {
 //					clsMeshTools.mergeMesh(oEnhancedWPM, (clsWordPresentationMesh)oWPM);
 //				}
 //			}
-			System.out.println("oEnhancedList Size: " + oEnhancedList.size());
+			//System.out.println("oEnhancedList Size: " + oEnhancedList.size());
 		}
 		
 		//Create a List of all loaded acts and other memories
