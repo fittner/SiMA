@@ -255,8 +255,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				oSimulatorDM.addExternalAssociations(oAssSimilarDMs);
 				
 				try {
-					oSimulatorDM.associateActualDriveObject(oDriveObject, 0.0);
-					oSimulatorDM.associateActualDriveAim(oDriveAim, 0.0);
+					if(oDriveObject != null){
+						oSimulatorDM.associateActualDriveObject(oDriveObject, 1.0);						
+					}
+					if(oDriveAim != null){
+						oSimulatorDM.associateActualDriveAim(oDriveAim, 1.0);						
+					}
+					oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
 				}
 				catch(Exception e){
 					

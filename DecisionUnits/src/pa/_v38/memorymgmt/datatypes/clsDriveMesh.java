@@ -169,6 +169,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	public void associateActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
 		
+		if(poDriveAim == null) {
+			throw new Exception("Driveaim must not be null");
+		}
+		
 		if(ContainsAssociatedContentType(eContentType.ACTION))
 			throw new Exception("Cannot associate type " +eContentType.ACTION+ " to DM, already associated.");
 		
@@ -177,6 +181,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	public void associateActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
+		
+		if(poDriveObject == null) {
+			throw new Exception("Driveobject must not be null");
+		}
 		
 		if(ContainsAssociatedContentType(eContentType.ENTITY))
 			throw new Exception("Cannot associate type " +eContentType.ENTITY+ " to DM, already associated.");
