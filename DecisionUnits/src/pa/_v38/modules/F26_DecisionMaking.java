@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.storage.clsShortTermMemory;
@@ -15,7 +16,7 @@ import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsTriple;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -26,7 +27,6 @@ import pa._v38.interfaces.modules.I6_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
@@ -310,6 +310,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			//1. Process goals with Superego???
 
 			//2. Sort the goals to get the most important goal first
+			
+			//3. Remove unreachable goals direct from the list
+			//TODO: Make this fuction like a value funtion and not just remove if precondition
+			removeNonReachableGoals(poPossibleGoalInputs);
+			
 			//=== Sort and evaluate them === //
 			ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
 			
@@ -639,13 +644,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //		return oRetVal;
 //	}
 
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 18.04.2011, 23:12:13
-	 *
-	 */
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 18.04.2011, 23:12:13
+//	 *
+//	 */
 //	private void compriseRuleList() {
 //		//HZ 16.04.2011 - Here, the evaluation of received SUPER-Ego rules must be incorporated to the goal decision
 //		//obsolete for v38
@@ -788,32 +793,32 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //		}
 //	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.04.2011, 07:17:23
-	 *
-	 */
-	private clsTriple<String, eAffectLevel, clsWordPresentationMesh> compriseDrives(clsTriple<String, eAffectLevel, clsWordPresentationMesh> oDriveContainer) {
-	   // In case moGoal_output was not filled, the drive with the highest priority used as output
-		clsTriple<String, eAffectLevel, clsWordPresentationMesh> oRetVal = null;
-		
-		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
-		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
-		
-		//if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
-		//String oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
-			//clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand;
-			
-			//if( moGoal_Output.size() == 0 ){
-		//String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
-		//clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
-		//oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
-		//oRetVal = new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS);
-		
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.04.2011, 07:17:23
+//	 *
+//	 */
+//	private clsTriple<String, eAffectLevel, clsWordPresentationMesh> compriseDrives(clsTriple<String, eAffectLevel, clsWordPresentationMesh> oDriveContainer) {
+//	   // In case moGoal_output was not filled, the drive with the highest priority used as output
+//		clsTriple<String, eAffectLevel, clsWordPresentationMesh> oRetVal = null;
+//		
+//		ArrayList<clsAssociation> oAssociatedDS = new ArrayList<clsAssociation>();
+//		//clsPair<String, clsSecondaryDataStructureContainer> oMaxDemand = getDriveMaxDemand(); 
+//		
+//		//if(oMaxDemand != null) { //HZ if-statment should be obsolete in case input parameters are adapted
+//		//String oDriveContent = ((clsWordPresentation)oDriveContainer.getMoDataStructure()).getMoContent(); 
+//			//clsSecondaryDataStructureContainer oDriveContainer = oMaxDemand;
+//			
+//			//if( moGoal_Output.size() == 0 ){
+//		//String oGoalContent = oDriveContent.substring(0,oDriveContent.indexOf(_Delimiter01)) + _Delimiter02; 
+//		//clsWordPresentation oGoal = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<String, Object>("GOAL", oGoalContent));
+//		//oAssociatedDS.addAll(oDriveContainer.getMoAssociatedDataStructures()); 
+//		//oRetVal = new clsSecondaryDataStructureContainer(oGoal, oAssociatedDS);
+//		
+//		return oRetVal;
+//	}
 	
 
 	/**
@@ -1006,11 +1011,50 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
 				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
 				clsGoalTools.setTaskStatus(oResult, eTaskStatus.PANIC);
-			}
-						
+			}	
 		}
 		
 		return oResult;
+	}
+	
+	/**
+	 * Remove all non reachable goals, which are kept in the STM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.07.2012 11:39:25
+	 *
+	 * @param poGoalList
+	 */
+	private void removeNonReachableGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
+		ListIterator<clsWordPresentationMesh> Iter = poGoalList.listIterator();
+		
+		ArrayList<clsWordPresentationMesh> oRemoveList = new ArrayList<clsWordPresentationMesh>();
+		
+		//Get all goals from STM
+		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
+		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
+			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
+			if (clsGoalTools.checkIfTaskStatusExists(oSTM.b, eTaskStatus.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
+				oRemoveList.add(oSTM.b);
+			}
+		}
+						
+		//Find all unreachable goals from STMList
+		while (Iter.hasNext()) {
+			clsWordPresentationMesh oGoal = Iter.next();
+			
+			//Check if this is one of the STM goals, which shall be removed
+			for (clsWordPresentationMesh oRemoveGoal : oRemoveList) {
+				if (clsGoalTools.getGoalContentIdentifier(oGoal).equals(clsGoalTools.getGoalContentIdentifier(oRemoveGoal))==true) {
+					//if yes, remove this goal		
+					Iter.remove();
+				}
+			}
+			
+		}
+		
+		
 	}
 	
 	/**
