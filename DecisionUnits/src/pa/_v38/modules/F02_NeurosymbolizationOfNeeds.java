@@ -188,6 +188,22 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	 */
 	private void CollectBodilyDemandsInOneList() {
 		
+		//STOMACHTENSION
+		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
+			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
+
+		//INTESTINEPRESSURE
+		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
+			moHomeostaticSymbol_OUT.put(eOrgan.RECTUM.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
+
+		//HEALTH
+		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue()  );
+		
+		//STAMINA
+		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
+			moHomeostaticSymbol_OUT.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moBodilyDemands_IN.get(eSensorIntType.STAMINA)).getStaminaValue() );
+		
 		//SLOWMESSENGER
 		clsSlowMessenger oSlowMessengerSystem = (clsSlowMessenger)moBodilyDemands_IN.get(eSensorIntType.SLOWMESSENGER);
 		if(oSlowMessengerSystem!=null)
@@ -206,26 +222,14 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				Double rValue = oFastMessenger.getIntensity();
 				if (oName.equals("STOMACH")) {
 					oName += "_PAIN";
+					Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
+					moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
 				}
 				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}
 		}
 	
-		//STOMACHTENSION
-		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
-			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
-
-		//INTESTINEPRESSURE
-		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
-			moHomeostaticSymbol_OUT.put(eOrgan.RECTUM.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
-
-		//HEALTH
-		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue()  );
 		
-		//STAMINA
-		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moBodilyDemands_IN.get(eSensorIntType.STAMINA)).getStaminaValue() );
 	}
 	
 	
