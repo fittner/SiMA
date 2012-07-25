@@ -255,20 +255,22 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				oSimulatorDM.addExternalAssociations(oAssSimilarDMs);
 				
 				try {
-					if(oDriveObject != null){
-						oSimulatorDM.associateActualDriveObject(oDriveObject, 1.0);						
+					// just consider drives with driveobject and -aim
+					if(oDriveObject != null && oDriveAim != null){
+						oSimulatorDM.associateActualDriveObject(oDriveObject, 1.0);		
+						oSimulatorDM.associateActualDriveAim(oDriveAim, 1.0);	
+						oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
+						oRetVal.add(oSimulatorDM);
 					}
-					if(oDriveAim != null){
-						oSimulatorDM.associateActualDriveAim(oDriveAim, 1.0);						
+					else {
+						
 					}
-					oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
 				}
 				catch(Exception e){
 					
 				}
 				
 				
-				oRetVal.add(oSimulatorDM);
 				
 		}
 		
