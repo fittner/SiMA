@@ -30,8 +30,8 @@ import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
-//import pa._v38.memorymgmt.enums.eActionType;
-//import pa._v38.tools.clsActionTools;
+import pa._v38.memorymgmt.enums.eActionType;
+import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
 
@@ -167,14 +167,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				String oAction = oActionWPM.getMoContent();
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
-//				if (clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
-//						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
-//						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
-//						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false &&
-//						lastAction.isNullObject()==false) {
-//					
-//					oAction=lastAction.getMoContent();
-//				}
+
+				if (lastAction.isNullObject()==false &&
+						clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
+						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
+						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
+						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false) {
+					
+					oAction=lastAction.getMoContent();
+				}
+
 				
 				//-----------------------------------------------------------------------------------//
 				
