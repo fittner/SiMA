@@ -1,4 +1,4 @@
-; Tue Jul 24 19:44:13 GMT 2012
+; Wed Jul 25 11:34:17 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1619,7 +1619,7 @@
 		[AD%3ADRIVEOBJECT%3AMOTHERS_BREAST%3AEAT]
 		[AD%3AAIM%3AMOTHERSBREASTS%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.0)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "DRIVEREPRESENTATION"))
 
@@ -1661,6 +1661,7 @@
 
 ([DM%3ALEECH%3ACAKE] of  DM_oral
 
+	(class_association [TPM%3AORGANS%3ALIBIDO])
 	(drive_component "AGGRESSIVE")
 	(instance_association
 		[AD%3AAIM%3ACAKE%3ALEECH]
@@ -1708,6 +1709,7 @@
 
 ([DM%3ASUCK%3ACAKE] of  DM_oral
 
+	(class_association [TPM%3AORGANS%3ALIBIDO])
 	(drive_component "LIBIDINOUS")
 	(instance_association
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASUCK]
@@ -2322,6 +2324,11 @@
 ([TPM%3AORGANS%3ABLADDER] of  ORGANS
 
 	(value "BLADDER")
+	(value_type "ORGAN"))
+
+([TPM%3AORGANS%3ALIBIDO] of  ORGANS
+
+	(value "LIBIDO")
 	(value_type "ORGAN"))
 
 ([TPM%3AORGANS%3ARECTUM] of  ORGANS
