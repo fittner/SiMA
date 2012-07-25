@@ -489,7 +489,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE)) {
 			//Set the need to perform a basic act recognition analysis
-			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);
+			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
 		}
 	}
 	
@@ -705,28 +705,51 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private void processContinuedGoalTypeFromAct(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 				
 		//Check the status of the act. If the match has changed, perform basic act analysis again
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_INTERNAL_INFO_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
+		}
 		
-		if (poPreviousAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS)==true) {
-			//Perform basic act analysis
-			
-			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
+		
+		if (poPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
+			//Replace the supportive data structure with the one from the act
 			//Find a goal in the list, which has the same act inside of it
 			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
-			
 			if (oGoalWithSameAct.isEmpty()==false) {
-				//Take the first structure and there, get the intention
-				clsWordPresentationMesh oNewIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0)));
-				//Merge the meshes, in order to get the latest PI-matches
-				clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
-				clsMeshTools.mergeMesh(oCurrentIntention, oNewIntention);
+				//Get the act
+				clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+				//Set this act
+				clsGoalTools.setSupportiveDataStructure(poContinuedGoal, oAct);
 			}
+			
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
+			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//Trigger search
+			
+		} else if (poPreviousAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS)==true) {
+			//Perform basic act analysis as the act is completed
+			
+			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
+			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(poGoalList, poContinuedGoal);
+			if (oGoalWithSameAct.isEmpty()==false) {
+				//Get the act
+				clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+				clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(poContinuedGoal);
+			
+				//Add the PI matches to the images of the act
+				transferAllPIMatches(oNewAct, oCurrentAct);
+			
+			}
+			
+			
 			
 			//-----------------------------------------------//
 			
 			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+			
 			for (eTaskStatus oTaskStatus : oTaskStatusList) {
 				clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
 			}
+			
+			
 		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
 					
@@ -736,6 +759,26 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
 			 
 		}
+	}
+	
+	private void transferAllPIMatches(clsWordPresentationMesh poSourceIntention, clsWordPresentationMesh poTargetIntention) {
+		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
+			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
+				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {
+					copyPIMatches(oS, oT);
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	private void copyPIMatches(clsWordPresentationMesh poSourceImage, clsWordPresentationMesh poTargetImage) {
+		//Get PI-Match
+		double rPIMatch = clsActTools.getPIMatchFlag(poSourceImage);
+		
+		//Set PI-Match
+		clsActTools.setPIMatch(poTargetImage, rPIMatch);
 	}
 	
 	/**

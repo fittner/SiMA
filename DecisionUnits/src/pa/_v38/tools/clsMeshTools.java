@@ -57,7 +57,7 @@ public class clsMeshTools {
 	 * @return the moNullObjectTPM
 	 */
 	public static clsThingPresentationMesh getNullObjectTPM() {
-		return moNullObjectTPM;
+		return clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));//moNullObjectTPM;
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class clsMeshTools {
 	 * @return the moNullObjectWPM
 	 */
 	public static clsWordPresentationMesh getNullObjectWPM() {
-		return moNullObjectWPM;
+		return clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());//moNullObjectWPM;
 	}
 	
 	
@@ -1811,7 +1811,7 @@ public class clsMeshTools {
 	 * @param poOriginTPM
 	 * @param poAssociation
 	 */
-	public static void moveAssociation(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM, clsAssociation poAssociation) {
+	public static void moveAssociation(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM, clsAssociation poAssociation, boolean removeAfterMove) {
 		//1. Check if Element A or B has the origin structure
 		if ((poAssociation.getRootElement().equals(poOriginWPM)==true) || (poAssociation.getLeafElement().equals(poOriginWPM)==true)) {
 			if (poAssociation.getRootElement().equals(poOriginWPM)==true) {
@@ -1824,16 +1824,23 @@ public class clsMeshTools {
 				//2. Add the changed association to the targetTPM
 				poTargetWPM.getExternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginWPM.getExternalAssociatedContent().remove(poAssociation);
+				if (removeAfterMove==true) {
+					poOriginWPM.getExternalAssociatedContent().remove(poAssociation);
+				}
+				
 			} else if (poOriginWPM.getMoInternalAssociatedContent().contains(poAssociation)) {
 				//2. Add the changed association to the targetTPM
 				poTargetWPM.getMoInternalAssociatedContent().add(poAssociation);
 				//3. Remove the association from the originTPM
-				poOriginWPM.getMoInternalAssociatedContent().remove(poAssociation);
+				if (removeAfterMove==true) {
+					poOriginWPM.getMoInternalAssociatedContent().remove(poAssociation);
+				}
+				
 			}
 
 		}
 	}
+	
 	
 	/**
 	 * Merge 2 meshes. Only WPM are allowed. Move all associations from the new mesh to the source mesh
@@ -1878,6 +1885,7 @@ public class clsMeshTools {
 				//If the images are equal but not the same instance, then transfer the associations
 				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID() && oSourceWPM.equals(oNewWPM)==false) {
 					oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oSourceWPM, oNewWPM));
+					
 					break;
 				}
 			}
@@ -1885,7 +1893,34 @@ public class clsMeshTools {
 		
 		for (clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oInstancePair : oInstancePairList) {
 			//Move associations from the new mesh to the source b->a
+			//removeAllExternalAssociationsWithSameID(oInstancePair.a, oInstancePair.b);
 			moveAllAssociations(oInstancePair.a, oInstancePair.b);
+		}
+	}
+	
+	/**
+	 * Removes all associations which are identical but not the same instance
+	 * 
+	 * (wendt)
+	 *
+	 * @since 25.07.2012 02:16:31
+	 *
+	 * @param poOldWPM
+	 * @param poNewWPM
+	 */
+	private static void removeAllExternalAssociationsWithSameID(clsWordPresentationMesh poOldWPM, clsWordPresentationMesh poNewWPM) {
+		ArrayList<clsAssociation> oResult = new ArrayList<clsAssociation>();
+		
+		for(clsAssociation oOldAss : poOldWPM.getExternalAssociatedContent()) {
+			for(clsAssociation oNewAss : poNewWPM.getExternalAssociatedContent()) {
+				if(clsMeshTools.checkAssociationExists(oOldAss, oNewAss)) {
+					oResult.add(oOldAss);
+				}
+			}
+		}
+		
+		for (clsAssociation oAss : oResult) {
+			poOldWPM.getExternalAssociatedContent().remove(oAss);
 		}
 	}
 	
@@ -1900,7 +1935,13 @@ public class clsMeshTools {
 	 * @param poOriginWPM
 	 */
 	public static void moveAllAssociations(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM) {
-		moveAllAssociations(poTargetWPM, poOriginWPM, new ArrayList<clsDataStructurePA>());
+		ArrayList<clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation>> oTaskList = new ArrayList<clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation>>();
+		moveAllAssociations(poTargetWPM, poOriginWPM, new ArrayList<clsDataStructurePA>(), oTaskList);
+		
+		//Do all changes
+		for (clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation> oTask : oTaskList) {
+			//moveAssociation(oTask.a, oTask.b, oTask.c, true);
+		}
 	}
 	
 	
@@ -1919,10 +1960,11 @@ public class clsMeshTools {
 	 * @param poTargetTPM
 	 * @param poOriginTPM
 	 */
-	public static void moveAllAssociations(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM, ArrayList<clsDataStructurePA> poMovedAssociationList) {
+	public static void moveAllAssociations(clsWordPresentationMesh poTargetWPM, clsWordPresentationMesh poOriginWPM, ArrayList<clsDataStructurePA> poMovedAssociationList, ArrayList<clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation>> poTaskList) {
 		
 		//For the recursive function: Add processed objects
 		poMovedAssociationList.add(poOriginWPM);
+		poMovedAssociationList.add(poTargetWPM);
 		
 		//Move all internal associations from origin to target
 		
@@ -1938,6 +1980,7 @@ public class clsMeshTools {
 		//Create a list of associations, which shall be moved
 		ArrayList<clsAssociation> oAssList = new ArrayList<clsAssociation>();
 		
+		ArrayList<clsPair<clsAssociation, clsAssociation>> poTaskListInt = new ArrayList<clsPair<clsAssociation, clsAssociation>>();
 		for (clsAssociation oOriAss : poOriginWPM.getMoInternalAssociatedContent()) {
 			//Only if this association has not been processed yet, it can be moved
 			boolean bFound = false;
@@ -1946,12 +1989,13 @@ public class clsMeshTools {
 				if (bFound==true) {
 					//If it already exists, then the object associations shall be transferred recursively
 					//1. Get the other objects
-					clsDataStructurePA OtherOriWPM = oOriAss.getTheOtherElement(poOriginWPM);
-					clsDataStructurePA OtherTarWPM = oTarAss.getTheOtherElement(poTargetWPM);
-					
-					if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
-						clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList);
-					}
+//					clsDataStructurePA OtherOriWPM = oOriAss.getTheOtherElement(poOriginWPM);
+//					clsDataStructurePA OtherTarWPM = oTarAss.getTheOtherElement(poTargetWPM);
+//					
+//					if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
+//						clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList, poTaskList);
+//					}
+					poTaskListInt.add(new clsPair<clsAssociation, clsAssociation>(oOriAss, oTarAss));
 					
 					//break;
 				}
@@ -1961,11 +2005,22 @@ public class clsMeshTools {
 			if (bFound==false) {
 				//Move the association
 				oAssList.add(oOriAss);
+				//poTaskList.add(new clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation>(poTargetWPM, poOriginWPM, oOriAss));
 				//moveAssociation(poTargetWPM, poOriginWPM, oOriAss);
 			}
 		}
 		
+		for (clsPair<clsAssociation, clsAssociation> oP : poTaskListInt) {
+			clsDataStructurePA OtherOriWPM = oP.a.getTheOtherElement(poOriginWPM);
+			clsDataStructurePA OtherTarWPM = oP.b.getTheOtherElement(poTargetWPM);
+			
+			if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
+				clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList, poTaskList);
+			}
+		}
+		
 		//Move all external associations from origin to target
+		ArrayList<clsPair<clsAssociation, clsAssociation>> poTaskListExt = new ArrayList<clsPair<clsAssociation, clsAssociation>>();
 		for (clsAssociation oOriAss : poOriginWPM.getExternalAssociatedContent()) {
 			boolean bFound = false;
 			for (clsAssociation oTarAss : poTargetWPM.getExternalAssociatedContent()) {
@@ -1973,12 +2028,14 @@ public class clsMeshTools {
 				if (bFound==true) {
 					//If it already exists, then the object associations shall be transferred recursively
 					//1. Get the other objects
-					clsDataStructurePA OtherOriWPM = oOriAss.getTheOtherElement(poOriginWPM);
-					clsDataStructurePA OtherTarWPM = oTarAss.getTheOtherElement(poTargetWPM);
+					poTaskListExt.add(new clsPair<clsAssociation, clsAssociation>(oOriAss, oTarAss));
 					
-					if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
-						clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList);
-					}
+//					clsDataStructurePA OtherOriWPM = oOriAss.getTheOtherElement(poOriginWPM);
+//					clsDataStructurePA OtherTarWPM = oTarAss.getTheOtherElement(poTargetWPM);
+//					
+//					if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
+//						clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList, poTaskList);
+//					}
 					
 					//break;
 				}
@@ -1988,15 +2045,30 @@ public class clsMeshTools {
 			if (bFound==false) {
 				//Move the association
 				oAssList.add(oOriAss);
+				//poTaskList.add(new clsTriple<clsWordPresentationMesh, clsWordPresentationMesh, clsAssociation>(poTargetWPM, poOriginWPM, oOriAss));
+						
 				//moveAssociation(poTargetWPM, poOriginWPM, oOriAss);
 			}
 		}
 		
+		for (clsPair<clsAssociation, clsAssociation> oP : poTaskListExt) {
+			clsDataStructurePA OtherOriWPM = oP.a.getTheOtherElement(poOriginWPM);
+			clsDataStructurePA OtherTarWPM = oP.b.getTheOtherElement(poTargetWPM);
+			
+			if (poMovedAssociationList.contains(OtherOriWPM)==false && OtherOriWPM instanceof clsWordPresentationMesh && OtherTarWPM instanceof clsWordPresentationMesh) {
+				clsMeshTools.moveAllAssociations((clsWordPresentationMesh)OtherTarWPM, (clsWordPresentationMesh)OtherOriWPM, poMovedAssociationList, poTaskList);
+			}
+		}
+		
+		
+		
 		for (clsAssociation oAss : oAssList) {
 			//Move from the origin, i. e. the cloned value to the inout value
-			moveAssociation(poTargetWPM, poOriginWPM, oAss);
+			moveAssociation(poTargetWPM, poOriginWPM, oAss, true);
+			
 		}
 	}
+	
 	
 	/**
 	 * Check if 2 associations are the same. If yes, give true, else false

@@ -13,6 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -422,6 +423,59 @@ public class clsActTools {
 		}
 		
 		return oResult;
+	}
+	
+	public static void mergeIntentions(clsWordPresentationMesh poEnhanceIntention, clsWordPresentationMesh poNewIntention) {
+		//Check if the intention have a complete internal association
+		if (poEnhanceIntention.getMoInternalAssociatedContent().isEmpty()==true && poNewIntention.getMoInternalAssociatedContent().isEmpty()==false) {
+			
+		}
+		
+		//Get all present subimages
+		for (clsWordPresentationMesh oSourceSubImage : clsActTools.getAllSubImages(poEnhanceIntention)) {
+			
+			
+			
+		}
+		
+		
+		//TODO AW finish this. Workaround, get the stuff from the phantasy
+		
+	}
+	
+	/**
+	 * Set PIMatch
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:30:09
+	 *
+	 * @param poAction
+	 */
+	public static void setPIMatch(clsWordPresentationMesh poAction, double prPIMatch) {
+		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(prPIMatch), false);
+	}
+	
+	/**
+	 * Get the PIMatch
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:29:51
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static double getPIMatchFlag(clsWordPresentationMesh poImage) {
+		double rResult = 0.0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
+		
+		if (oWP!=null) {
+			rResult = Double.valueOf(oWP.getMoContent());
+		}
+		
+		return rResult;
 	}
 	
 		

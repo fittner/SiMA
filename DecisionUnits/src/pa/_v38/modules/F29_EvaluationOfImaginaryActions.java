@@ -285,7 +285,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			if (oFoundStructures.isEmpty()==false) {
 				clsAssociation oAss = (clsAssociation) oFoundStructures.get(0);	
-				clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss);
+				clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss, true);
 			}
 		}
 		

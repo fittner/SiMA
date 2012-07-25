@@ -333,11 +333,11 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			ArrayList<clsWordPresentationMesh> oEnhancedList = clsMeshTools.getAllWPMImages((clsWordPresentationMesh) oRetVal, 6);
 			System.out.println("oEnhancedListxxxVORHER Size: " + oEnhancedList.size());
 			
-			//clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
 			
 			ArrayList<clsWordPresentationMesh> oEnhancedList2 = clsMeshTools.getAllWPMImages((clsWordPresentationMesh) poInput, 6);
 			System.out.println("oEnhancedList2xxxNACHHER Size: " + oEnhancedList2.size());
+			
 		} else if (poInput instanceof clsThingPresentationMesh) {
 			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
 		}

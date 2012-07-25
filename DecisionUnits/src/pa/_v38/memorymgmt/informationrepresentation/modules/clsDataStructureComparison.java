@@ -650,7 +650,7 @@ public abstract class clsDataStructureComparison {
 	 */
 	public static clsWordPresentationMesh getCompleteMesh(clsWordPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
 		
-		clsWordPresentationMesh oFoundWPM = null;
+		clsWordPresentationMesh oFoundWPM = poInput;
 		clsWordPresentationMesh oRetVal = null;
 		
 		//Readoutsearchspace searches everything with a certain moDSID
@@ -667,6 +667,36 @@ public abstract class clsDataStructureComparison {
 				
 			//Define the WPM from one of the found associations
 			if (oAssList.isEmpty()==false) {
+				//ArrayList<clsAssociation> oClonedAssList = new ArrayList<clsAssociation>();
+				
+//				//Clone result;
+//				for (clsAssociation oAss : oAssList) {
+//					try {
+//						oClonedAssList.add((clsAssociation) oAss.clone());						
+//					} catch (CloneNotSupportedException e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+				
+//				for (clsAssociation oAss :oClonedAssList) {
+//				if (oAss.getRootElement().getMoDS_ID()==poInput.getMoDS_ID()) {
+//					oAss.setRootElement(oFoundWPM);
+//				} else if (oAss.getLeafElement().getMoDS_ID()==poInput.getMoDS_ID()) {
+//					oAss.setLeafElement(oFoundWPM);
+//				} else {
+//					try {
+//						throw new Exception("Error in DataStructureComparison: Only associations are allowed, where the input element is one of the elements.");
+//					} catch (Exception e) {
+//						// TODO (wendt) - Auto-generated catch block
+//						e.printStackTrace();
+//					}
+//				}
+//				
+//				break;
+//			}
+				
+				
 				for (clsAssociation oAss :oAssList) {
 					if (oAss.getRootElement().getMoDS_ID()==poInput.getMoDS_ID()) {
 						oFoundWPM = (clsWordPresentationMesh) oAss.getRootElement();
@@ -703,7 +733,7 @@ public abstract class clsDataStructureComparison {
 			//Copy the result after correctly adressing of the associations
 			try {
 				oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) oFoundWPM).clone();
-				oFoundWPM.getExternalAssociatedContent().clear();
+				oFoundWPM.setMoExternalAssociatedContent(new ArrayList<clsAssociation>());
 				//Test
 				//ArrayList<clsWordPresentationMesh> oWPMList2 = clsMeshTools.getAllWPMImages(oRetVal, 5);
 				//System.out.println("xx");
@@ -711,6 +741,19 @@ public abstract class clsDataStructureComparison {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
 			}
+			
+			//oRetVal = oFoundWPM;
+			
+//			try {
+//				oRetVal = (clsWordPresentationMesh) ((clsWordPresentationMesh) oFoundWPM).clone();
+//				oFoundWPM.getExternalAssociatedContent().clear();
+//				//Test
+//				//ArrayList<clsWordPresentationMesh> oWPMList2 = clsMeshTools.getAllWPMImages(oRetVal, 5);
+//				//System.out.println("xx");
+//			} catch (CloneNotSupportedException e) {
+//				// TODO (wendt) - Auto-generated catch block
+//				e.printStackTrace();
+//			}
 			//Add associations from intrinsic structures
 			for (clsAssociation oAss: oRetVal.getMoInternalAssociatedContent()) {
 				//Recursive function

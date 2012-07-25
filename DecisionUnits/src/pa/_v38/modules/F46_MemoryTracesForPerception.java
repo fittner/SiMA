@@ -636,7 +636,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		boolean bUsePerception = true;
 		boolean bMergePhantasyAndPerception = false;
 		
-		if (poReturnedPhantasyImage.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+		if (poReturnedPhantasyImage.isNullObject()==false) {
 			bMergePhantasyAndPerception=true;
 			//Only if the returned memory contains a special flag, it shall activate phantasy
 			if (clsPhantasyTools.checkPhantasyActivate(poReturnedPhantasyImage)==true) {
