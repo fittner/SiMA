@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 /**
  * Connects the last psychic module in the chain F30 to the neurodesymbolization of the actions F31.	
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
  * 
  */
 public interface I2_5_send {
-	public void send_I2_5(ArrayList<clsWordPresentation> poActionCommands);
+	public void send_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands);
 }

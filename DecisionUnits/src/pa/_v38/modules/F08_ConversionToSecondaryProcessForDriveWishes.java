@@ -21,15 +21,11 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 
 /**
@@ -167,22 +163,22 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		//FIXME AW .::::::: FAKE Prepare Drive input
 				clsDriveMesh oOnlyDriveMesh = null;
 				for (clsDriveMesh oDM : moDriveList_Input) {
-					if (oDM.getActualDriveObject().getMoContent().equals("CARROT")) {
+					if (oDM.getActualDriveObject().getMoContent().equals("CAKE")) {
 						//Change to cake
-						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
-						for (clsAssociation oAss : oAssList) {
-							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
-							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-								//Get the association with the carrot
-								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
-								{
-									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-									if(oTPM.getMoContentType() == eContentType.ENTITY) {
-										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
-									}
-								}
-							}
-						}
+//						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
+//						for (clsAssociation oAss : oAssList) {
+//							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
+//							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
+//								//Get the association with the carrot
+//								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
+//								{
+//									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+//									if(oTPM.getMoContentType() == eContentType.ENTITY) {
+//										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
+//									}
+//								}
+//							}
+//						}
 						
 						//Set mrPleasure to max
 						oDM.setQuotaOfAffect(1.0);

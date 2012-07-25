@@ -15,6 +15,8 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eTaskStatus;
@@ -81,6 +83,30 @@ public class clsActionTools {
 //		}
 //		
 //	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 25.07.2012 12:22:55
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static String getAction(clsWordPresentationMesh poAction) {
+		return poAction.getMoContent();
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 25.07.2012 12:22:57
+	 *
+	 * @param poAction
+	 * @param poActionName
+	 */
+	public static void setAction(clsWordPresentationMesh poAction, eAction poActionName) {
+		poAction.setMoContent(poActionName.toString());
+	}
 	
 	/**
 	 * Set the supportive data structure of an action
@@ -179,6 +205,41 @@ public class clsActionTools {
 			if (oWP.getMoContent().equals(eContent.TRUE.toString())) {
 				oResult = true;
 			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Set action type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:30:09
+	 *
+	 * @param poAction
+	 */
+	public static void setActionType(clsWordPresentationMesh poAction, eActionType poActionType) {
+		clsMeshTools.setUniquePredicateWP(poAction, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTIONTYPE, eContentType.ACTIONTYPE, poActionType.toString(), false);
+	}
+	
+	/**
+	 * Get the get action type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.07.2012 17:29:51
+	 *
+	 * @param poAction
+	 * @return
+	 */
+	public static eActionType getActionType(clsWordPresentationMesh poAction) {
+		eActionType oResult = null;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poAction, ePredicate.HASACTIONTYPE);
+		
+		if (oWP!=null) {
+			oResult = eActionType.valueOf(oWP.getMoContent());
 		}
 		
 		return oResult;

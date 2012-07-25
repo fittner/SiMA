@@ -28,8 +28,11 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eActionType;
+import pa._v38.tools.clsActionTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
 
 /**
@@ -44,9 +47,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	public static final String P_MODULENUMBER = "31";
 	
 	private ArrayList<clsActionCommand> moActionCommandList_Output;
-	private ArrayList<clsWordPresentation> moActionCommands_Input;
+	private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
 	private int mnCounter, moActionBlockingTime;
-	private String lastAction; 
+	private clsWordPresentationMesh lastAction; 
 	private static final boolean bUSEUNREAL = false;
 	
 	/**
@@ -68,7 +71,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		
 		mnCounter = 0;
 		moActionBlockingTime = 0;
-		lastAction = "";
+		lastAction = clsMeshTools.getNullObjectWPM();
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 	
@@ -138,8 +141,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
-		moActionCommands_Input = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
+	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
+		moActionCommands_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
 	}
 
 	/* (non-Javadoc)
@@ -156,17 +159,22 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		
 			
 		if( moActionCommands_Input.size() > 0 ) {
-			for(clsWordPresentation oWP : moActionCommands_Input) {
+			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 			    
-				if (oWP == null) 
+				if (oActionWPM == null) 
 					return;
 				
-				String oAction = oWP.getMoContent();
+				String oAction = oActionWPM.getMoContent();
 				
-				//--- AW: Correction for the usage of internal actions, which are controlling F23 ---//
-//				if (oAction.equals(eAction.FOCUS_ON.toString())==true && lastAction!="") {
-//					oAction=lastAction;
-//				}
+				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
+				if (clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
+						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
+						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
+						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false &&
+						lastAction.isNullObject()==false) {
+					
+					oAction=lastAction.getMoContent();
+				}
 				
 				//-----------------------------------------------------------------------------------//
 				
@@ -307,7 +315,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				}
 				
 				
-				lastAction=oAction;//oWP.getMoContent();
+				lastAction=oActionWPM;//oWP.getMoContent();
 			}
 		} else {
 			/*

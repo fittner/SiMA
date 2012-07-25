@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eTaskStatus;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -376,7 +377,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @see pa._v38.interfaces.modules.I2_5_receive#receive_I2_5(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
+	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		moMotilityActions_IN = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
 	}
 
@@ -725,6 +726,23 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//If any action was set, i. e. no nullobject 
 		if (oExternalActionWPM.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			oExternalActionWPM = clsActionTools.createAction(eAction.NONE.toString());
+		} else {
+			//Add ActionType
+			if (oExternalActionWPM.equals(eAction.FOCUS_ON) || 
+					oExternalActionWPM.equals(eAction.SEND_TO_PHANTASY) || 
+					oExternalActionWPM.equals(eAction.FOCUS_MOVE_FORWARD) || 
+					oExternalActionWPM.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS) ||
+					oExternalActionWPM.equals(eAction.NONE)) {
+				
+				clsActionTools.setActionType(oExternalActionWPM, eActionType.SINGLE_INTERNAL);
+				
+			} else if (oExternalActionWPM.equals(eAction.SEARCH1) ||
+					oExternalActionWPM.equals(eAction.FLEE)) {
+				
+				clsActionTools.setActionType(oExternalActionWPM, eActionType.COMPOSED_EXTERNAL);
+			} else {
+				clsActionTools.setActionType(oExternalActionWPM, eActionType.SINGLE_EXTERNAL);
+			}
 		}
 		
 		oResult.add(oExternalActionWPM);
@@ -806,7 +824,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (int i=0; i<poDecisionTask.length;i++) {
 			clsMeshTools.setNonUniquePredicateWP(oResult, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, poDecisionTask[i].toString(), false);
 		}
-		
 		
 		return oResult;
 	}
