@@ -53,6 +53,7 @@ public enum eContentType {
 	//--- Actions ---//
 	PRECONDITION,
 	POSTCONDITION,
+	ACTIONTYPE,
 	
 	// --- Bodypart --- //
 	BODYPART,

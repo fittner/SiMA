@@ -50,6 +50,7 @@ public enum ePredicate {
 	//Action
 	HASPRECONDITION,
 	HASPOSTCONDITION,
+	HASACTIONTYPE,
 	
 	//PI and RI
 	HASNEXT,

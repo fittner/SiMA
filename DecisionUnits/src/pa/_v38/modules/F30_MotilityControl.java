@@ -16,15 +16,11 @@ import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsDumper;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
-import pa._v38.memorymgmt.enums.eContentType;
 
 
 /**
@@ -40,7 +36,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	
 	private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
 	private clsWordPresentationMesh moEnvironmentalPerception_IN; // AP added environmental perception
-	private ArrayList<clsWordPresentation> moActionCommands_Output;
+	private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
 	//private int mnCounter, lastTurnDirection, mnTurns;
 	
 	private clsShortTermMemory moShortTermMemory;
@@ -63,7 +59,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);	
 		
-		moActionCommands_Output = new ArrayList<clsWordPresentation>(); 
+		moActionCommands_Output = new ArrayList<clsWordPresentationMesh>(); 
 		
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
@@ -111,7 +107,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 * 
 	 * @return the moActionCommands_Output
 	 */
-	public ArrayList<clsWordPresentation> getActionCommands_Output() {
+	public ArrayList<clsWordPresentationMesh> getActionCommands_Output() {
 		return moActionCommands_Output;
 	}
 	
@@ -189,9 +185,10 @@ public class F30_MotilityControl extends clsModuleBaseKB
 		
 		this.moEnvironmentalPerception_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
 		
-		if(moActionCommands_Input.size() >= 1) {
-			moActionCommands_Output = getWordPresentations(moActionCommands_Input);
-		}
+		this.moActionCommands_Output = this.moActionCommands_Input;
+		//if(moActionCommands_Input.size() >= 1) {
+		//	moActionCommands_Output = getWordPresentations(moActionCommands_Input);
+		//}
 		//else{
 			//when there are no actions, we generate a random seeking sequence 
 			//moActionCommands_Output = GenerateSeekingSequence();
@@ -204,33 +201,33 @@ public class F30_MotilityControl extends clsModuleBaseKB
 		//}
 	}
 	
-    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
-    /**
-     * convert the act to a word presentation, temp function!!! DOCUMENT (wendt) - insert description
-     * 
-     * @since 02.08.2011 09:50:37
-     * 
-     * @param poInput
-     * @return
-     */
-    private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsWordPresentationMesh> poInput) {
-        ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
-
-        for (clsWordPresentationMesh oCont : poInput) {
-            clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(oCont.getMoContentType(), oCont
-                    .getMoContent()));
-
-            oRetVal.add(oWP);
-        }
-
-        return oRetVal;
-    }
+//    // AW 20110629 New function, which converts clsSecondaryDataStructureContainer to clsWordpresentation
+//    /**
+//     * convert the act to a word presentation, temp function!!! DOCUMENT (wendt) - insert description
+//     * 
+//     * @since 02.08.2011 09:50:37
+//     * 
+//     * @param poInput
+//     * @return
+//     */
+//    private ArrayList<clsWordPresentation> getWordPresentations(ArrayList<clsWordPresentationMesh> poInput) {
+//        ArrayList<clsWordPresentation> oRetVal = new ArrayList<clsWordPresentation>();
+//
+//        for (clsWordPresentationMesh oCont : poInput) {
+//            clsWordPresentation oWP = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(oCont.getMoContentType(), oCont
+//                    .getMoContent()));
+//
+//            oRetVal.add(oWP);
+//        }
+//
+//        return oRetVal;
+//    }
 	
-	/**
-	 * This Method generates a simple random seeking sequence
-	 * @since 07.09.2011 14:02:14
-	 * @return
-	 */
+//	/**
+//	 * This Method generates a simple random seeking sequence
+//	 * @since 07.09.2011 14:02:14
+//	 * @return
+//	 */
 	
 	/*  // not need any more, CB 2011-11-14
 	private ArrayList<clsWordPresentation> GenerateSeekingSequence(){
@@ -279,7 +276,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 * @see pa.interfaces.send.I8_1_send#send_I8_1(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_5(ArrayList<clsWordPresentation> poActionCommands) {
+	public void send_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
 		((I2_5_receive)moModuleList.get(31)).receive_I2_5(poActionCommands);
 		((I2_5_receive)moModuleList.get(52)).receive_I2_5(poActionCommands);
 		
