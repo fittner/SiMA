@@ -326,7 +326,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
 				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true)) {
 						oEatableList.add(oContainer);
 					}
 				}
@@ -384,6 +384,25 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oPosAss);
 			}
 		}
+		
+		
+		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Search in the input for an object with location EATABLE and add them to a new list
+		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				//Go through all associated structures
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.MANIPULATEABLE)==true)) {
+						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
+						//oManipulatableList.add(oContainer);
+					}
+				}
+				
+			}
+		}
+		
 	}
 	
 //	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
