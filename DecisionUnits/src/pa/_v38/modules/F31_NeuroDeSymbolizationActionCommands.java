@@ -167,6 +167,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				String oAction = oActionWPM.getMoContent();
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
+
 				if (lastAction.isNullObject()==false &&
 						clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
 						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
@@ -175,6 +176,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					
 					oAction=lastAction.getMoContent();
 				}
+
+				
+				System.out.println("LastAction: " + lastAction.toString() + ". This action: " + oActionWPM.toString());
+				System.out.println("======================== END OF TURN SP ================================\n");
 				
 				//-----------------------------------------------------------------------------------//
 				

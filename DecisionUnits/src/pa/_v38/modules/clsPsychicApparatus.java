@@ -151,7 +151,7 @@ public class clsPsychicApparatus {
 		moPleasureStorage = new DT4_PleasureStorage();
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory(60, 7);
-		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(3, 30);	//Memorize 3 turns, 30 entities
+		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
 					
 		applyProperties(poPrefix, poProp);
 		

@@ -28,7 +28,8 @@ public enum eTaskStatus {
 	NEED_PERCEPTIONAL_INFO, 		//Trigger search
 	PERFORM_RECOMMENDED_ACTION,		//For acts, perform the recommended action, which is saved with the act
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match
-	GOAL_REACHABLE,
+	GOAL_REACHABLE_IN_PERCEPTION,
+	GOAL_REACHABLE_IN_ACT,
 	
 	PANIC,
 	
