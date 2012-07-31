@@ -55,7 +55,7 @@ import du.enums.eDistance;
  * @author deutsch
  * 07.05.2012, 16:16:45
  * 
- */
+ */ 
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 					I2_6_receive, I5_19_receive, I5_6_send {
 	public static final String P_MODULENUMBER = "46";
