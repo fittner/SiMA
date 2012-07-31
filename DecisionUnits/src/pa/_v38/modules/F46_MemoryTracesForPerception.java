@@ -69,7 +69,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	
 	/* Output */
 	/** A Perceived image incl. DMs */
-	private clsThingPresentationMesh moPerceptionalMesh_OUT;
+	private clsThingPresentationMesh moPerceptionalMesh_OUT; 
 	
 	
 	///* Internal */
