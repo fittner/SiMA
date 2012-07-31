@@ -9,6 +9,7 @@ public class clsTestFramePropertiesInspector extends JFrame {
 
 	/** DOCUMENT (jakubec) - insert description; @since 03.08.2011 20:06:04 */
 	private static final long serialVersionUID = 1L;
+	// Testkommentar
 
 	private static final String propertiesFilePath = "S:\\ARSIN_V01\\Sim\\config";
 	private static final String propertiesFileName = "TestPropertiesFileForPropertyInspector3";
