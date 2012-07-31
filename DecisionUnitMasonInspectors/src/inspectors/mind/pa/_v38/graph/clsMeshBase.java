@@ -29,8 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveDemand;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -203,9 +202,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 		DefaultGraphCell oRootCell = null;
 		
 		//check for the  main data types possible for clsDataStructurePA
-		if(poMemoryObject instanceof clsDriveMeshOLD)
+		if(poMemoryObject instanceof clsDriveMesh)
 		{
-			clsDriveMeshOLD tmpRootMemoryObject = (clsDriveMeshOLD)poMemoryObject;
+			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else if(poMemoryObject instanceof clsThingPresentation)
@@ -216,11 +215,6 @@ public abstract class clsMeshBase extends clsGraphBase {
 		else if(poMemoryObject instanceof clsWordPresentation)
 		{
 			clsWordPresentation tmpRootMemoryObject = (clsWordPresentation)poMemoryObject;
-			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
-		}
-		else if(poMemoryObject instanceof clsDriveDemand)
-		{
-			clsDriveDemand tmpRootMemoryObject = (clsDriveDemand)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else if(poMemoryObject instanceof clsAct)
@@ -477,8 +471,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 	/** [DM]
 	 * Generating cells from clsDriveMesh
 	 */
-	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMeshOLD poMemoryObject)
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveMesh poMemoryObject)
 	{
+		//TODO CM auf neue dm ausbessern
 		String oDescription = "DM";
 
 		if(!UseSimpleView()) 
@@ -630,29 +625,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		return oCell;
 	}
 	
-	/** [DD]
-	 * Generating cells from clsDriveDemand
-	 */
-	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsDriveDemand poMemoryObject)
-	{
-		String oDescription = "DD";
 
-		if(!UseSimpleView()) 
-		{
-			oDescription = 	poMemoryObject.toString();
-		}
-		
-		DefaultGraphCell oCell = createDefaultGraphVertex(oDescription, moColorDD);
-		this.moCellList.add(oCell);
-		
-		//get edge to parent cell
-		DefaultEdge oEdgeParent = new DefaultEdge();
-		oEdgeParent.setSource(poParentCell.getChildAt(0));
-		oEdgeParent.setTarget(oCell.getChildAt(0));
-		moCellList.add(oEdgeParent);
-		
-		return oCell;
-	}
 	
 	/** [Double]
 	 * Generating cells when a Pair a Double, happens in search

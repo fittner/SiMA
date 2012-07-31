@@ -8,7 +8,6 @@
  */
 package bw.utils.inspectors.entity;
 
-import inspectors.mind.pa._v38.graph.clsDriveInspector;
 
 import java.awt.BorderLayout;
 
@@ -59,7 +58,7 @@ public class clsInspectorARSin extends Inspector {
 	private clsInspectorBodyOverview moInspectorBodyOverview;
 	private clsInspectorBasic moDefaultInspector;
 	private clsInspectorSensor moInspectorSensor;
-	private clsDriveInspector moDriveInspector;
+	//private clsDriveInspector moDriveInspector;
 
 	
 
