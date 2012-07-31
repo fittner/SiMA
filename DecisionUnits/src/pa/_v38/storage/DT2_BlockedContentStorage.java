@@ -29,7 +29,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -340,7 +339,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 				this.removeBlockedContent(matchedItem.a);
 			}
 			// case 2: the item is a DriveMesh
-			else if (matchedItem.a instanceof clsDriveMeshOLD) {
+			else if (matchedItem.a instanceof clsDriveMesh) {
 				// attach all DMs in result to the input TI
 				//Here, only one association exists
 				for (clsAssociationDriveMesh oAssDM : matchedItem.c) {
@@ -486,7 +485,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 							i++;
 						}
 						// add to results
-						oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsDriveMeshOLD) oEntry, rMatchValue, newDMAssociations));
+						oMatchValues.add(i, new clsTriple<clsDataStructurePA, Double, ArrayList<clsAssociationDriveMesh>>((clsDriveMesh) oEntry, rMatchValue, newDMAssociations));
 					}
 					//}
 				}

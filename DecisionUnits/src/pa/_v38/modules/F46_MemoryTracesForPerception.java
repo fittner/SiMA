@@ -33,8 +33,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
@@ -988,14 +986,14 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @param pnNumberOfDriveMeshes
 	 * @return
 	 */
-	private ArrayList<clsDriveMeshOLD> extractDriveMeshes(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> poDriveList, int pnNumberOfDriveMeshes) {
-		ArrayList<clsDriveMeshOLD> oRetVal = new ArrayList<clsDriveMeshOLD>();
+	private ArrayList<clsDriveMesh> extractDriveMeshes(ArrayList<clsDriveMesh> poDriveList, int pnNumberOfDriveMeshes) {
+		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		
 		int nCounter = 0;
 		if (poDriveList.isEmpty()==false) {
 			for (int i=0; i<poDriveList.size();i++) {
-				clsPair<clsPhysicalRepresentation, clsDriveMeshOLD> oPair = poDriveList.get(i);
-				oRetVal.add(oPair.b);
+				clsDriveMesh oDM = poDriveList.get(i);
+				oRetVal.add(oDM);
 				
 				if (nCounter>=pnNumberOfDriveMeshes-1) {
 					break;

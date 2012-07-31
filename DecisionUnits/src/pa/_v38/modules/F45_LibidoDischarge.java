@@ -24,8 +24,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -61,13 +62,15 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/* Module parameters */
 	/** Threshold for the matching process of images */
 	private double mrMatchThreshold = 0.7;
-	/** The perceived image is compared to stored images in the libido storage in protege. For each found object, the attached
+	/** The perceived image is compared to stored images in the libido-image storage in protege. For each found object, the attached
 	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
 	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
 	 * memories */
 	private double mrPerceptionReduceFactor = 1.0;
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
 	private double mrMemoryReduceFactor = 0.5;
+	
+	private double mrPhantasyReduceFactor = 0.1;
 	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
@@ -226,7 +229,17 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {
-			mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
+			if(oImage.getMoContentType() == eContentType.PI){
+				mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
+			}
+			else if(oImage.getMoContentType() == eContentType.RI){
+				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
+
+			}
+			else if(oImage.getMoContentType() == eContentType.PHI){
+				mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
+
+			}
 		}
 		
 		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
@@ -294,28 +307,31 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//For each Pair, assign the drive meshes
 		double rTotalReduce = 0.0;
 		for (clsPair<clsThingPresentationMesh, clsAssociation> oAssignmentElement : poAssignment.b) {
-			clsDriveMeshOLD oDM = (clsDriveMeshOLD) oAssignmentElement.b.getLeafElement();
+			clsDriveMesh oDM = (clsDriveMesh) oAssignmentElement.b.getLeafElement();
 			//With this amount the libido puffer shall be reduced
-			double rDMReduce = oDM.getMrQuotaOfAffect() * prLibidoReduceRate;
+			double rDMReduce = oDM.getQuotaOfAffect() * prLibidoReduceRate;
 			//if the total reduction of libido is smaller than the buffer, then the DM can be assigned
 			//For perception, the reduce rate shall be 1.0 and for associated content, only 0.5
 			if (rTotalReduce + rDMReduce <= prAvailableLibido) {
 				try {
 					//Clone the original DM
-					clsDriveMeshOLD oNewDriveMesh = (clsDriveMeshOLD) oDM.clone();
-					//Set new Pleasurevalue, which depends on the reducevalue
-					oNewDriveMesh.setMrQuotaOfAffect(rDMReduce);
+					clsDriveMesh oNewDriveMesh = (clsDriveMesh) oDM.clone();
+					//Set new QoA, which depends on the reducevalue
+					oNewDriveMesh.setQuotaOfAffect(rDMReduce);
 					//Create new identifier
 					clsTriple<Integer, eDataType, eContentType> oIdentifyer = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONDM, eContentType.ASSOCIATIONDM);
 					//Create new association drivemesh but with the new root element
-					//TODO CM adapt to new DM -> clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
+					clsAssociationDriveMesh oDriveAss = new clsAssociationDriveMesh(oIdentifyer, oNewDriveMesh, (clsThingPresentationMesh)oAssignmentElement.a);
 					//Add the assocation to the input container
-					//TODO CM adapt to new DM ->oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
+					oAssignmentElement.a.getExternalMoAssociatedContent().add(oDriveAss);
 					//poAssignment.a.assignDataStructure(oDriveAss);
 					rTotalReduce += rDMReduce;
 				} catch (CloneNotSupportedException e) {
 					e.printStackTrace();
 				}
+			}
+			else {
+				rTotalReduce = prAvailableLibido;
 			}
 		}
 		return rTotalReduce;
