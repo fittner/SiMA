@@ -1,4 +1,4 @@
-; Wed Jul 25 11:34:17 CEST 2012
+; Tue Jul 31 16:30:51 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -398,7 +398,7 @@
 	(role concrete)
 	(single-slot value_type
 		(type STRING)
-		(default "RI:LIBIDO")
+		(default "RILIBIDO")
 ;+		(cardinality 1 1)
 		(create-accessor read-write)))
 
@@ -1067,6 +1067,10 @@
 	(role concrete))
 
 (defclass DM_genital
+	(is-a DM)
+	(role concrete))
+
+(defclass DM_LibidoDischarge
 	(is-a DM)
 	(role concrete))
 

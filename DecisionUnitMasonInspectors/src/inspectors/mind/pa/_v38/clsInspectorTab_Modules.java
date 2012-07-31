@@ -14,14 +14,12 @@ import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
-import inspectors.mind.pa._v38.graph.clsDriveInspector;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
-import pa._v38.interfaces.itfInspectorDrives;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -270,11 +268,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						"Activity Chart");				
 			}
 			
-			if (oModule instanceof itfInspectorDrives) {
-				poTI.addInspector(
-						new clsDriveInspector((itfInspectorDrives) oModule),	
-						"Current Drives (Graph)");				
-			}
+//			if (oModule instanceof itfInspectorDrives) {
+//				poTI.addInspector(
+//						new clsDriveInspector((itfInspectorDrives) oModule),	
+//						"Current Drives (Graph)");				
+//			}
 			
 			if (oModule instanceof itfInterfaceInterfaceData) {
 				poTI.addInspector(

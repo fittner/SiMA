@@ -32,7 +32,7 @@ import config.clsProperties;
  * 
  * @author hinterleitner
  * 05.08.2011, 10:23:13
- * 
+ *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
 		implements I4_1_receive,  I5_1_send{
