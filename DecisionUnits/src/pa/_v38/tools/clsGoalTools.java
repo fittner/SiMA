@@ -547,8 +547,8 @@ public class clsGoalTools {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		//Get all possibly reachable drivegoals
-		oRetVal = clsImportanceTools.getDriveGoalsFromWPM(poImage, eGoalType.PERCEPTIONALDRIVE, clsMeshTools.createImageFromEntity(poImage, eContentType.PERCEPTIONSUPPORT), true);	//Only in one image
-				
+		oRetVal = clsImportanceTools.getDriveGoalsFromWPM(poImage, eGoalType.PERCEPTIONALDRIVE, true);	//Only in one image
+		
 		return oRetVal;
 	}
 	

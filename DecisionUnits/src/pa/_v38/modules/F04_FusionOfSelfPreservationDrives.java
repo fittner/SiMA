@@ -30,7 +30,7 @@ import du.enums.pa.ePartialDrive;
  * 
  * @author muchitsch
  * 11.08.2009, 13:40:06
- * 
+ * test
  */
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "04";

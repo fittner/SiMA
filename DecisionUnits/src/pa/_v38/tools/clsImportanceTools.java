@@ -106,10 +106,69 @@ public class clsImportanceTools {
 //		return rMaxAffect ;
 //	}
 	
+	/**
+	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
+	 * with different instance ids of the objects are kept.
+	 * 
+	 * In this case, the goal object is the supportive data structure!!!
+	 * 
+	 * (wendt)
+	 *
+	 * @since 29.07.2011 14:16:29
+	 *
+	 * @param poWPInput
+	 * @param poContainer
+	 * @return
+	 * @throws Exception 
+	 */
+	public static ArrayList<clsWordPresentationMesh> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
+		
+		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
+		for (clsDataStructurePA oDSPA : oPrelResult) {
+			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
+			
+			//Get the drive
+			String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			
+			//Get the intensity
+			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			
+			//Get the drive object
+			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
+			
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
+
+			//Check if the drive and the intensity already exists in the list
+			if (pbKeepDuplicates==false) {
+				boolean bFound = false;
+				for (clsWordPresentationMesh oGoalTriple : oRetVal) {
+					if (clsGoalTools.getGoalName(oGoal) == clsGoalTools.getGoalName(oGoalTriple) && 
+							clsGoalTools.getAffectLevel(oGoal) == clsGoalTools.getAffectLevel(oGoalTriple) && 
+							clsGoalTools.getGoalObject(oGoal).getMoContent().equals(clsGoalTools.getGoalObject(oGoalTriple).getMoContent())) {
+						bFound = true;
+						break;
+					}
+				}
+				
+				if (bFound==false) {
+					oRetVal.add(oGoal);
+				}
+			} else {
+				oRetVal.add(oGoal);
+			}
+		}
+		
+		return oRetVal;
+	}
 	
 	/**
 	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
 	 * with different instance ids of the objects are kept.
+	 * 
+	 * The supportive data structure has to be provided here
 	 * 
 	 * (wendt)
 	 *

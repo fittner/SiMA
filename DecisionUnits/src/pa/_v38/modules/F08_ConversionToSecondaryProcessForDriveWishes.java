@@ -154,7 +154,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
@@ -205,6 +205,11 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsDriveMesh oPair : poDriveList_Input) {			
+			if (oPair.getDriveComponent()==null) {
+				//Break as there is an error
+				break;
+			}
+			
 			//Convert drive to affect
 			clsWordPresentation oAffect = convertDriveMeshToWP(oPair);
 			
