@@ -70,6 +70,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
 	private double mrMemoryReduceFactor = 0.5;
 	
+	private double mrPhantasyReduceFactor = 0.1;
+	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
 	/** Available Libido, double */
@@ -232,6 +234,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			}
 			else if(oImage.getMoContentType() == eContentType.RI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
+
+			}
+			else if(oImage.getMoContentType() == eContentType.PHI){
+				mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
 
 			}
 		}
