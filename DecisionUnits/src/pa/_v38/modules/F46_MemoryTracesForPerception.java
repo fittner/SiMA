@@ -165,6 +165,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
 		
+		
+		
 		//Set new instance IDs
 		//clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
 		//Convert LOCATION to DISTANCE and POSITION
@@ -324,7 +326,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				//Go through all associated structures
 				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE.toString())==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true)) {
 						oEatableList.add(oContainer);
 					}
 				}
@@ -332,18 +334,18 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			}
 		}
 		
-		//Search for all objects with the area MANIPULATABLE and add them to a new list
-		//for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-		//	if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-		//		//Go through all associated structures
-		//		for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
-		//			if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
-		//				oManipulatableList.add(oContainer);
-		//			}
-		//		}
-		//		
-		//	}
-		//}
+//		Search for all objects with the area MANIPULATABLE and add them to a new list
+//		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+//			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+//				//Go through all associated structures
+//				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
+//					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
+//						oManipulatableList.add(oContainer);
+//					}
+//				}
+//				
+//			}
+//		}
 		
 		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
 		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
@@ -359,16 +361,48 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 								break;
 							}
 						}
-						
-						
 					}
 				}
-				
+
 				if (bFound==true) {
 					break;
 				}
 			}
+		
+			//Replace the EATABLE through another distance and position
+			boolean bconv=false;
+			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+					((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
+					bconv=true;
+				}
+			}
+			
+			if (bconv==true) {
+				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.POSITION, ePhiPosition.CENTER));
+				clsAssociationAttribute oPosAss = (clsAssociationAttribute) clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.POSITIONASSOCIATION, (clsPrimaryDataStructure) oEContainer.getMoDataStructure(), oPos, 1.0);
+				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oPosAss);
+			}
 		}
+		
+		
+		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Search in the input for an object with location EATABLE and add them to a new list
+		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				//Go through all associated structures
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.MANIPULATEABLE)==true)) {
+						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
+						//oManipulatableList.add(oContainer);
+					}
+				}
+				
+			}
+		}
+		
 	}
 	
 //	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
