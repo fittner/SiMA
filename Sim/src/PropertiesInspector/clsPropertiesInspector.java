@@ -2,12 +2,16 @@ package PropertiesInspector;
 
 
 import config.clsProperties;
+
 import java.awt.Component;
 import java.awt.EventQueue;
 import java.awt.HeadlessException;
 import java.awt.event.ActionEvent;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.Enumeration;
 import javax.swing.AbstractAction;
@@ -26,12 +30,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.JTextArea;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 
 /**
@@ -78,6 +84,9 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private JMenuBar menuBar;
 	private JMenu menuEdit;
 	private JMenu menuFile;
+	private JMenu menuView;
+	private JPopupMenu menuPopup;
+	private JMenuItem menuItemExpandSubtree;
 	private JMenuItem menuItemCutSubtree;
 	private JMenuItem menuItemDeleteSubtree;
 	private JMenuItem menuItemEditNodeNew;
@@ -87,8 +96,16 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private JMenuItem menuItemFileOpen;
 	private JMenuItem menuItemFileSave;
 	private JMenuItem menuItemFileSaveAs;
+	private JMenuItem menuItemExpandSubtreePopup;
+	private JMenuItem menuItemCutSubtreePopup;
+	private JMenuItem menuItemDeleteSubtreePopup;
+	private JMenuItem menuItemEditNodeNewPopup;
+	private JMenuItem menuItemEditPastePopup;
+	private JMenuItem menuItemEditPasteRenamedPopup;
+	private JMenuItem menuItemEditTreeCopyPopup;
 	private JScrollPane jspScrollPane1, jspScrollPane2;
 	private JFileChooser jfcFileChooser;
+	private AbstractAction actionExpandSubtree;
 	private AbstractAction actionCutSubtree;
 	private AbstractAction actionDeleteSubtree;
 	private AbstractAction actionNodeNew;
@@ -101,6 +118,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private AbstractAction actionOpen;
 	private AbstractAction actionSave;
 	private AbstractAction actionSaveAs;
+	private boolean isPropertiesTreeToBeRestored = false;
 	private clsProperties BWProperties = null;
 	private String lastPropertyValue = ""; // Stores the value of the currently selected property.
 	private String propertyFilename = ""; // Fully qualified name of the loaded property file.
@@ -108,6 +126,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private boolean propertiesModified = false; // Stores, whether the properties have been modified.
 	private String [] bufferPropertylabels; // Stores the property labels to be copied.
 	private String [] bufferPropertyvalues; // Stores the property values to be copied.
+	private Enumeration<TreePath> bufferCurrentExpansion; // Stores the current expansion satus of the properties tree.
+	private TreePath bufferCurrentSelection; //Stores the path of the currently selected node of the properties tree.
 
 	
 	// Configuration Constants
@@ -136,6 +156,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final String LABEL_FOR_INPUT_FIELD_RENAME = "New label of the root of the to be inserted subtree:";
 	private static final String LABEL_FOR_MENU_EDIT = "Edit";
 	private static final String LABEL_FOR_MENU_FILE = "File";
+	private static final String LABEL_FOR_MENU_VIEW = "View";
 	private static final String LABEL_FOR_MENUITEM_EDIT_TREE_CUT = "Cut subtree";
 	private static final String LABEL_FOR_MENUITEM_EDIT_TREE_DELETE = "Delete subtree";
 	private static final String LABEL_FOR_MENUITEM_EDIT_NODE_NEW = "New node …";
@@ -145,6 +166,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final String LABEL_FOR_MENUITEM_FILE_OPEN = "Open …";
 	private static final String LABEL_FOR_MENUITEM_FILE_SAVE = "Save";
 	private static final String LABEL_FOR_MENUITEM_FILE_SAVE_AS = "Save as …";
+	private static final String LABEL_FOR_MENUITEM_VIEW_TREE_EXPAND = "Expand subtree";
 	private static final String LABEL_FOR_ROOTNODE_DEFAULT = "Properties";
 	private static final String LABEL_INFORMATION_COPY_BUFFER_EMPTY = "The copy buffer is empty.\nPlease perform function copy first.";
 	private static final String LABEL_INFORMATION_NEW_KEY_EMPTY = "The new key is empty.\nPlease specify a name.";
@@ -232,36 +254,48 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	/**
      * This method adds a new subtree below current node and current path. isACopy indicates, whether the new subtree is a copy.
      */
-	private void addNewSubtree(Component thisForTheSubobject, DefaultMutableTreeNode currentNode, String currentPath,  boolean isACopy, boolean isRenamed) {
+	private void addNewSubtree(Component thisForTheSubobject, DefaultMutableTreeNode currentNode, String currentPath,  boolean isACopy, boolean isRenamed, boolean isForeseenParentALeaf) {
 		
 		int iOfDot, l1;
 		String labelRootOfSubtree, labelRootOfSubtreeOld = "";
 		
-		if (isACopy &&  bufferPropertylabels != null) { // If the buffer is empty copy operations cannot be performed.
-			if (isRenamed) {
-				for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node, to get the to be replaced node name.
-					if (!bufferPropertylabels[l1].isEmpty()) {
-		    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
-		    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
-		    				labelRootOfSubtreeOld = bufferPropertylabels[l1];
-		    			} else { // There is a dot in the label, so its first part is the name of the root node.
-		    				labelRootOfSubtreeOld = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
-		    			}
-						break;
+		if (isACopy) { // If the buffer is empty copy operations cannot be performed.
+			if (bufferPropertylabels == null) { // If the buffer is empty an add (= paste) operation cannot be performed.
+				JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that the copy buffer is empty.
+					LABEL_INFORMATION_COPY_BUFFER_EMPTY, // Information that the copy buffer is empty.
+					LABEL_FOR_INFORMATION, // Label of the dialog window
+					JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+					JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+					null, // No specific icon is set.
+					OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+					OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+				return;
+			} else { // The new subtree is a copy, add can be performed.
+				if (isRenamed) {
+					for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node, to get the to be replaced node name.
+						if (!bufferPropertylabels[l1].isEmpty()) {
+			    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
+			    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
+			    				labelRootOfSubtreeOld = bufferPropertylabels[l1];
+			    			} else { // There is a dot in the label, so its first part is the name of the root node.
+			    				labelRootOfSubtreeOld = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
+			    			}
+							break;
+						}
 					}
-				}
-				labelRootOfSubtree = jtfTextFieldRename.getText();
-			} else { // If the to be added subtree is a copy and not renamed, the names of all potential sibblings must not be the same as the name of the subtree's root.
-				labelRootOfSubtree = "";
-				for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node.
-					if (!bufferPropertylabels[l1].isEmpty()) {
-		    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
-		    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
-		    				labelRootOfSubtree = bufferPropertylabels[l1];
-		    			} else { // There is a dot in the label, so its first part is the name of the root node.
-		    				labelRootOfSubtree = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
-		    			}
-						break;
+					labelRootOfSubtree = jtfTextFieldRename.getText();
+				} else { // If the to be added subtree is a copy and not renamed, the names of all potential sibblings must not be the same as the name of the subtree's root.
+					labelRootOfSubtree = "";
+					for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The buffer is looked through for the first to be pasted node.
+						if (!bufferPropertylabels[l1].isEmpty()) {
+			    			iOfDot = bufferPropertylabels[l1].indexOf(SEPERATOR_FOR_TREE_LEVELS); // If there is a SEPERATOR_FOR_TREE_LEVELS in the label, its position is stored in iOfDot. Otherwise iOfDot is -1.
+			    			if (iOfDot < 0) { // There is no dot in the label. The whole label is the name of the root node.
+			    				labelRootOfSubtree = bufferPropertylabels[l1];
+			    			} else { // There is a dot in the label, so its first part is the name of the root node.
+			    				labelRootOfSubtree = bufferPropertylabels[l1].substring(0, iOfDot); // The part of the label preceding the first dot is extracted.
+			    			}
+							break;
+						}
 					}
 				}
 			}
@@ -291,38 +325,29 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			jtfTextField1.setText(""); // Clean the name field for the new node.
 			jtfTextField1.grabFocus(); // The focus will be set into the field for the key label.
 		} else {
+			if (isForeseenParentALeaf) {
+				BWProperties.remove(currentPath); // The forseen parent as a leaf and has to be deleted, otherwise the new subtree would be created below a new copy of it.
+			}
 			if (isACopy) {
-				if (bufferPropertylabels == null) { // Buffer is empty.
-					JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that a node with the name for the new key already exists.
-						LABEL_INFORMATION_COPY_BUFFER_EMPTY, // Information that the copy buffer is empty.
-						LABEL_FOR_INFORMATION, // Label of the dialog window
-						JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
-						JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
-						null, // No specific icon is set.
-						OPTIONS_OKAY, // Only the option "Okay" is available for choose.
-						OPTIONS_OKAY[0]); // Option "Okay" is preselected.
-				} else {
-					if (isRenamed) {  // Function paste renamed.
-						for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
-							if (!bufferPropertylabels[l1].isEmpty()) {
-								BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + labelRootOfSubtree + bufferPropertylabels[l1].substring(labelRootOfSubtreeOld.length(), bufferPropertylabels[l1].length()), bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
-							}
+				if (isRenamed) {  // Function paste renamed.
+					for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
+						if (!bufferPropertylabels[l1].isEmpty()) {
+							BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + labelRootOfSubtree + bufferPropertylabels[l1].substring(labelRootOfSubtreeOld.length(), bufferPropertylabels[l1].length()), bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
 						}
-					} else { // Function paste.
-						for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
-							if (!bufferPropertylabels[l1].isEmpty()) {
-								BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + bufferPropertylabels[l1], bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
-							}
+					}
+				} else { // Function paste.
+					for (l1 = 0; l1 < bufferPropertylabels.length; l1++) { // The whole buffer has to be added.
+						if (!bufferPropertylabels[l1].isEmpty()) {
+							BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + bufferPropertylabels[l1], bufferPropertyvalues[l1]); // The new node is added below the current path. If current path is empty, there must not be a level separator.
 						}
 					}
 				}
 			} else { // Function new node.
 				BWProperties.setProperty(currentPath + (currentPath.isEmpty()? "": SEPERATOR_FOR_TREE_LEVELS) + jtfTextField1.getText(), jtfTextField2.getText()); // The new node is added below the current path. If current path is empty, there must not be a level separator.
 			}
-			jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
-			jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
-			propertiesModified = true;
-			actionSave.setEnabled(true);
+			rebuildTree (currentNode); // The tree gets reconstructed from the scratch. 
+			propertiesModified = true; // Information that a "save" action is needed.
+			actionSave.setEnabled(true); // Switches action "save" on in the menu.
 			if (!isACopy || isRenamed) { // Function new node or pasteRenamed only.
 				pnlNodeNew.setVisible(false);
 				pnlNodeRename.setVisible(false);
@@ -358,8 +383,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			currentPath = getPath (currentNode);
 			if (currentNode.isLeaf()) {
 				if (BWProperties.getProperty(currentPath).isEmpty()) { // As the leaf has no value, the new subtree simply can be added below of it.
-					BWProperties.remove(currentPath); // The leave has to be deleted, otherwise the new node would be created below a new copy of it.
-					addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+					addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
 				} else { // The leaf node has a value. The new node can only be added if the value gets deleted.
 					returnVal1 = JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog asks, whether the existing value of the leaf should be replaced by the new subtree or whether the value should remain untouched and the new node should be withdrawn.
 						QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 + currentNode.toString() + QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2, // The question, whether the value should be overwritten is composed from 2 text blocks and the label of the current node.
@@ -370,14 +394,13 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 						OPTIONS_YES_NO, // Two options are available for choose.
 						OPTIONS_YES_NO[1]); // Option "No" is preselected.
 					if (returnVal1 == 0) { // If the action to add the new subtree has been acknowledged by the user it gets performed.
-						BWProperties.remove(currentPath); // The leaf has to be deleted, otherwise the new subtree would be created below a new copy of it.
-						addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+						addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
 					} else { // The action to add a new node has to be cancelled.
 						actionEditCancel.actionPerformed(null);
 					}
 				}
 			} else { // New subtree has to be added below current node as another sibling of its children.
-				addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed);						
+				addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, false);						
 			}									
 		}
 	}
@@ -480,11 +503,13 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 							BWProperties.remove(propertylabels[l1]);
 						}
 					}
-					propertiesModified = true;
-					actionSave.setEnabled(true);
+					/*setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+					jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
+					*/
+					rebuildTree ((DefaultMutableTreeNode) currentNode.getParent()); // The tree gets reconstructed from the scratch.
+					propertiesModified = true; // Information that it is needed to save the tree.
+					actionSave.setEnabled(true); // Information to activate the "save" menu entry.
 				}
-				jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the modified clsBWProperties object and sets private field foreseen for the tree.
-				jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
 			}
 		}
 	}
@@ -503,6 +528,30 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			jtaTextArea1.setText(BWProperties.getProperty(key)); // The value identified by the key in object BWProperties is set as the text of text area 1.
  			jtaTextArea1.setEditable(true); // Enables to edit the value in the text area.
     	}
+	}
+
+	
+    /**
+     * This method expands the subtree of jtrConfigTree identified by selectedPath and all its subtrees.
+     */
+	@SuppressWarnings("unchecked") // As the usage of an Enumeration would cause a warning. Type cast would be  rejected.
+	private void expandSubtree (TreePath selectedPath) {
+		
+		Enumeration<DefaultMutableTreeNode> children;
+		TreePath lSelectedPath;
+		
+		if (selectedPath == null) {
+			lSelectedPath = new TreePath (((DefaultMutableTreeNode) (jtrConfigTree.getModel().getRoot())).getPath()); // If no node was selected a path to root has to be created;
+		} else {
+			lSelectedPath = selectedPath;
+		}
+		jtrConfigTree.setSelectionPath(lSelectedPath); // Ensures that the selected path is selectedPath resp. if no path was selected now root gets selected.
+		jtrConfigTree.expandPath(lSelectedPath); // Expands the path up to selectedPath.
+		children = ((DefaultMutableTreeNode) lSelectedPath.getLastPathComponent()).children();
+		while  (children.hasMoreElements()) { // Expands the path of all children of the node at selectedPath.
+			expandSubtree (new TreePath (children.nextElement().getPath()));
+		}
+
 	}
 
 	
@@ -579,12 +628,22 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuBar = new JMenuBar(); // Creates the menu bar of the frame.
     	menuEdit = new JMenu(LABEL_FOR_MENU_EDIT); // Creates the edit menu.
     	menuFile = new JMenu(LABEL_FOR_MENU_FILE); // Creates the file menu.
+    	menuView = new JMenu(LABEL_FOR_MENU_VIEW); // Creates the view menu.
+    	menuPopup = new JPopupMenu (); // Creates the popup menu.
+    	menuItemExpandSubtree = new JMenuItem(LABEL_FOR_MENUITEM_VIEW_TREE_EXPAND); // Creates the menu item to expand a subtree.
     	menuItemCutSubtree = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_CUT); // Creates the menu item to cut a subtree.
     	menuItemDeleteSubtree = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_DELETE); // Creates the menu item to delete a subtree.
     	menuItemEditNodeNew = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_NODE_NEW); // Creates the menu item to create new nodes.
     	menuItemEditPaste = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE); // Creates the menu item to paste a node or subtree.
     	menuItemEditPasteRenamed = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED); // Creates the menu item to paste a node or subtree with renamed root.
     	menuItemEditTreeCopy = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_COPY); // Creates the menu item to copy a subtree.
+    	menuItemExpandSubtreePopup = new JMenuItem(LABEL_FOR_MENUITEM_VIEW_TREE_EXPAND); // Creates the popup menu item to expand a subtree.
+    	menuItemCutSubtreePopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_CUT); // Creates the popup menu item to cut a subtree.
+    	menuItemDeleteSubtreePopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_DELETE); // Creates the popup menu item to delete a subtree.
+    	menuItemEditNodeNewPopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_NODE_NEW); // Creates the popup menu item to create new nodes.
+    	menuItemEditPastePopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE); // Creates the popup menu item to paste a node or subtree.
+    	menuItemEditPasteRenamedPopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED); // Creates the popup menu item to paste a node or subtree with renamed root.
+    	menuItemEditTreeCopyPopup = new JMenuItem(LABEL_FOR_MENUITEM_EDIT_TREE_COPY); // Creates the popup menu item to copy a subtree.
     	menuItemFileOpen = new JMenuItem(LABEL_FOR_MENUITEM_FILE_OPEN); // Creates the menu item to open files.
     	menuItemFileSave = new JMenuItem(LABEL_FOR_MENUITEM_FILE_SAVE); // Creates the menu item to save files.
     	menuItemFileSaveAs = new JMenuItem(LABEL_FOR_MENUITEM_FILE_SAVE_AS); // Creates the menu item to save files with a to be selected name.
@@ -619,6 +678,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuFile.add(menuItemFileSave); // Composes the file menu.
     	menuFile.add(menuItemFileSaveAs); // Composes the file menu.
     	menuBar.add(menuFile); // Composes the menu bar.
+    	menuView.add(menuItemExpandSubtree); // Composes the view menu.
+    	menuBar.add(menuView); // Composes the menu bar.
     	menuEdit.add(menuItemEditTreeCopy); // Composes the edit menu.
     	menuEdit.add(menuItemCutSubtree); // Composes the edit menu.
     	menuEdit.add(menuItemDeleteSubtree); // Composes the edit menu.
@@ -628,7 +689,15 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	menuBar.add(menuEdit); // Composes the menu bar.
     	setJMenuBar(menuBar); // Sets the menu bar for the frame.
     	
-    	
+    	menuPopup.add(menuItemEditTreeCopyPopup); // Composes the popup menu.
+    	menuPopup.add(menuItemCutSubtreePopup); // Composes the popup menu.
+    	menuPopup.add(menuItemDeleteSubtreePopup); // Composes the popup menu.
+    	menuPopup.add(menuItemEditNodeNewPopup); // Composes the popup menu.
+    	menuPopup.add(menuItemEditPastePopup); // Composes the popup menu.
+    	menuPopup.add(menuItemEditPasteRenamedPopup); // Composes the popup menu.
+    	menuPopup.addSeparator(); // Composes the popup menu.
+    	menuPopup.add(menuItemExpandSubtreePopup); // Composes the popup menu.
+    	   	    	
     	
 		final clsPropertiesInspector thisForEverySubobject = this; // variable to hand over the frame to the definitions of the menu actions
     	
@@ -681,7 +750,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 					propertyFilenameBackup = propertyFilename; // Backs up the name of the property file to enable to set it back if the save attempt fails.
 					propertyFilename = jfcFileChooser.getSelectedFile().getPath(); // The applications property file name is set to the name of the newly selected file.
 					if (savePropertyfile()) { // True if the save action is okay.
-						((DefaultMutableTreeNode) jtrConfigTree.getAnchorSelectionPath().getPathComponent(0)).setUserObject(propertyFilename); // Sets the root node to the new file name.
+						((DefaultMutableTreeNode) (jtrConfigTree.getModel().getRoot())).setUserObject(propertyFilename); // Sets the root node to the new file name.
 						jtrConfigTree.repaint(); // Tree has to be repainted, to show the new file name.
 					} else
 						propertyFilename = propertyFilenameBackup; // If the save action had failed (was cancelled), propertyFilename has to be set back.
@@ -695,6 +764,24 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		actionSave.setEnabled(false);
     	}
     	
+    	actionExpandSubtree = new AbstractAction () { // Implements the action to expand a subtree recursively.
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
+
+				TreePath currentlySelectedPath;
+				
+				currentlySelectedPath = jtrConfigTree.getSelectionPath(); // The currently selected path has to be remembered and reselected after the expansion.
+				expandSubtree (jtrConfigTree.getSelectionPath());
+				jtrConfigTree.setSelectionPath(currentlySelectedPath); // Reselects the path that has been selected before the expansion.
+				jtrConfigTree.repaint(); // Makes the expansion visible.
+			}
+    	};
+    	actionExpandSubtree.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_VIEW_TREE_EXPAND); // Equips the collapse subtree action with the foreseen name.
+    	menuItemExpandSubtree.setAction(actionExpandSubtree); // Assigns action expand subtree to the foreseen menu item.
+    	menuItemExpandSubtreePopup.setAction(actionExpandSubtree); // Assigns action expand subtree to the foreseen popup menu item.
+    	   	
     	actionCutSubtree = new AbstractAction () { // Implements the action to cut a subtree.
 			private static final long serialVersionUID = 1L;
 
@@ -705,6 +792,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	};
     	actionCutSubtree.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_CUT); // Equips the cut subtree action with the foreseen name.
     	menuItemCutSubtree.setAction(actionCutSubtree); // Assigns action cut subtree to the foreseen menu item.
+    	menuItemCutSubtreePopup.setAction(actionCutSubtree); // Assigns action cut subtree to the foreseen popup menu item.
     	   	
     	actionDeleteSubtree = new AbstractAction () { // Implements the action to delete a subtree.
 			private static final long serialVersionUID = 1L;
@@ -716,6 +804,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	};
     	actionDeleteSubtree.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_DELETE); // Equips the delete subtree action with the foreseen name.
     	menuItemDeleteSubtree.setAction(actionDeleteSubtree); // Assigns action delete subtree to the foreseen menu item.
+    	menuItemDeleteSubtreePopup.setAction(actionDeleteSubtree); // Assigns action delete subtree to the foreseen popup menu item.
     	   	
     	actionNodeNew = new AbstractAction () { // Implements the action to create new nodes.
 			private static final long serialVersionUID = 1L;
@@ -731,6 +820,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	};
     	actionNodeNew.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_NODE_NEW); // Equips the node new action with the foreseen name.
     	menuItemEditNodeNew.setAction(actionNodeNew); // Assigns action node new to the foreseen menu item.
+    	menuItemEditNodeNewPopup.setAction(actionNodeNew); // Assigns action node new to the foreseen popup menu item.
     	   	
     	actionPaste = new AbstractAction () { // Implements the action to paste nodes.
 			private static final long serialVersionUID = 1L;
@@ -739,10 +829,13 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			public void actionPerformed(ActionEvent actionEvent) { // To be implemented method of AbstractAction.
 				
 				addSubtree (thisForEverySubobject, true, false);
+				jtrConfigTree.grabFocus(); // The focus needs to be set to the tree, so that it gets reconstructed and its epansion and selection situation gets rebuilt. (I don't understand why this is done inplicitely after the other abstract actions.
+
 			}
     	};
     	actionPaste.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_PASTE); // Equips the paste action with the foreseen name.
     	menuItemEditPaste.setAction(actionPaste); // Assigns action node new to the foreseen menu item.
+    	menuItemEditPastePopup.setAction(actionPaste); // Assigns action node new to the foreseen popup menu item.
     	   	
     	actionPasteRenamed = new AbstractAction () { // Implements the action to paste nodes with renamed root.
 			private static final long serialVersionUID = 1L;
@@ -758,6 +851,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	};
     	actionPasteRenamed.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_PASTE_RENAMED); // Equips the paste action with the foreseen name.
     	menuItemEditPasteRenamed.setAction(actionPasteRenamed); // Assigns action node new to the foreseen menu item.
+    	menuItemEditPasteRenamedPopup.setAction(actionPasteRenamed); // Assigns action node new to the foreseen popup menu item.
     	   	
     	actionTreeCopy = new AbstractAction () { // Implements the action to copy a subtree.
 			private static final long serialVersionUID = 1L;
@@ -769,7 +863,8 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     	};
     	actionTreeCopy.putValue(AbstractAction.NAME, LABEL_FOR_MENUITEM_EDIT_TREE_COPY); // Equips the tree copy action with the foreseen name.
     	menuItemEditTreeCopy.setAction(actionTreeCopy); // Assigns action tree copy to the foreseen menu item.
-
+    	menuItemEditTreeCopyPopup.setAction(actionTreeCopy); // Assigns action tree copy to the foreseen popup menu item.
+   	
     	actionNodeNewAdd = new AbstractAction () { // Implements the action to add a new node.
 			private static final long serialVersionUID = 1L;
 
@@ -804,7 +899,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 
     	};
     	actionSubtreeAddRenamed.putValue(AbstractAction.NAME, LABEL_FOR_BUTTON_NODE_RENAME); // Equips the node new action with the foreseen name.
-
+    	
     	jtaTextArea1.setEditable(false); // Inhibits to edit the initially empty text area.
     	
     	jtaTextArea1.addFocusListener(new FocusListener () { // Creates the methods to detect when the text area gets entered or left.
@@ -994,6 +1089,70 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     }
 
 	
+	/**
+     * This method collects the activities to rebuild the tree after a modificication and to save the current axpansion and selection situation.
+     */
+	private void rebuildTree (DefaultMutableTreeNode toBeSelectedNode) {
+		
+		bufferCurrentSelection = new TreePath (toBeSelectedNode.getPath()); // The parent of the new node(s) is stored as the current selection.
+		storeCurrentExpansion (); // The current expansion situation is stored.
+		setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+		jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
+		isPropertiesTreeToBeRestored = true; // Information that the tree  apansion has to be restored when the tree gets the focus next time.
+		
+	}
+
+	
+	/**
+     * This method restores the recent expansion situation of the properties tree which is stored in bufferCurrentExpansion.
+     */
+	private void restoreExpansion () {
+		boolean mindNode;
+		DefaultMutableTreeNode currentChild;
+		Enumeration <?> children;
+		int l1;
+		Object [] currentPathObjects;
+		TreePath toBeSelectedPath = null;
+		
+		if (bufferCurrentExpansion != null) {
+			l1 = 0; // The variable counts the steps done in the buffer of the current selection.
+			while (bufferCurrentExpansion.hasMoreElements()) { // The expansions stored in the buffer have to be mapped to expansions in the newly generated tree. All elements in the buffer get treated.
+				jtrConfigTree.setSelectionPath(new TreePath (jtrConfigTree.getModel().getRoot())); // The root node of the new tree has to be selected anyway.
+				currentPathObjects = bufferCurrentExpansion.nextElement().getPath(); // The element of the buffer is a path, it gets transferred to an array of objects.
+				mindNode = false; // If the node is part of the path stored in bufferCurrentSelection it has to be minded as it might have to be selected finally at the end of the restoration.
+				for (Object currentPathObject : currentPathObjects) { // All nodes of the currently treated path stored in the buffer have to be treated one after the other.
+					if (currentPathObject == bufferCurrentSelection.getPathComponent(l1)) { // If the node in the expansion buffer is also a node in the path of the buffered selection this has to be minded.
+						mindNode = true;
+						if (l1 < bufferCurrentSelection.getPathCount() - 1) { // The next level of the buffered selection path has to be checked if it exists.
+							l1++;
+						}
+					}
+					if (currentPathObject != currentPathObjects[0]) { // If the node taken currently is the root the steps must not be executed as the root is already selected.
+						children = ((DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent()).children();
+						while (children.hasMoreElements()) {  // The child in the new tree which matches the currend step of the selected branch of the buffer has to be found and selected.
+							currentChild = (DefaultMutableTreeNode) children.nextElement();
+							if (currentPathObject.toString().compareTo(currentChild.toString()) == 0) { // If the correct node in the new tree is found it has to be selected. The correct node is the one that matches with the relevant node in the buffered path.
+								jtrConfigTree.setSelectionPath(jtrConfigTree.getSelectionPath().pathByAddingChild(currentChild));
+							}
+						}
+					}
+					jtrConfigTree.expandPath(jtrConfigTree.getSelectionPath()); // The now selected path has to be expanded.
+					if (mindNode) { // The now selected path also is the path in the bufferCurrentSelection.
+						toBeSelectedPath = jtrConfigTree.getSelectionPath(); // The path (it is mapping the bufferCurrentSelection) has to be saved. It has to be selected and expanded at the end oft the restoration.
+					}
+				}
+			}			
+			jtrConfigTree.setSelectionPath(toBeSelectedPath); // The path (it is mapping the bufferCurrentSelection) was saved. It now has to be selected and expanded at the end oft the restoration. 
+			jtrConfigTree.expandPath(jtrConfigTree.getSelectionPath()); // Expands the selected subtree.
+		} else {
+			jtrConfigTree.setSelectionPath(new TreePath (jtrConfigTree.getModel().getRoot())); // If the expansion buffer is empty the root node of the new tree gets selected.
+		}
+		
+		jtrConfigTree.expandPath(jtrConfigTree.getSelectionPath()); // Expands the selected subtree.
+
+	}
+
+	
     /**
      * This method performs the save activities for the property file. It is called by the actions file save and file save as.
      * It returns true, if the saving was successful, false otherwise.
@@ -1041,7 +1200,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     			iOfBackslash = propertyFilename.lastIndexOf(SEPARATOR_FOR_PATH);
     			BWProperties = clsProperties.readProperties(propertyFilename.substring (0, iOfBackslash), propertyFilename.substring (iOfBackslash + 1)); // Reads the given properties file and stores it in the BWProperties object.
     		}
-    		jtrConfigTree = setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
+    		setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
     		jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
     		propertiesModified = false;
     		actionSave.setEnabled(false);
@@ -1052,10 +1211,9 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     /**
      * This method creates a JTree object from a clsProperties object.
      */
-	private JTree setPropertiesTree (clsProperties anyProperties) {
+	private void setPropertiesTree (clsProperties anyProperties) {
 		// Definition of local variables.
 		DefaultMutableTreeNode branch = null, currentNode, nextNode, top;
-		final JTree ljtrConfigTree; // local tree object
 		String firstPartOfLabel, restOfLabel;
 		String[] propertyLabels;
 		int iOfDot, nPropertyelements;
@@ -1064,7 +1222,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 		propertyLabels = anyProperties.stringPropertyNames().toArray(new String[0]); // The keys of the properties are put into the String array propertyLabels.
 
 		top = new DefaultMutableTreeNode(propertyFilename.isEmpty()? LABEL_FOR_ROOTNODE_DEFAULT: propertyFilename); // A new root node is created from the name of the properties file. If there is no file, the root node is a constant.
-    	ljtrConfigTree = new JTree(top); // top is hooked in as the root of the local tree.
+    	jtrConfigTree = new JTree(top); // top is hooked in as the root of the local tree.
         
     	for (int l1 = 0; l1 < nPropertyelements; l1++) { // Every property from the object anyProperties is added to the tree.
     		restOfLabel = propertyLabels[l1]; // The label (the key) of the current property is read into restOfLabel.
@@ -1089,22 +1247,90 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		}
 		}
 	
-    	ljtrConfigTree.addTreeSelectionListener(new TreeSelectionListener() { // For the new tree a method is created, to react on the selection of nodes.
+    	jtrConfigTree.addTreeSelectionListener(new TreeSelectionListener() { // For the new tree a method is created, to react on the selection of nodes.
     	    @Override
 			public void valueChanged(TreeSelectionEvent anyEvent) {
-    	    	DefaultMutableTreeNode node = (DefaultMutableTreeNode) ljtrConfigTree.getLastSelectedPathComponent(); // The variable node will hold the last selected node.
+    	    	DefaultMutableTreeNode node = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // The variable node will hold the last selected node.
+    	    	
+    	        if (node == null) { // Nothing is selected.
+    	        	return;
+    	        }
 
-    	    	/* if nothing is selected */ 
-    	        if (node == null) return;
-
-    	        if (node.isLeaf())
+    	    	if (node.isLeaf())
     	        	displayPropertyvalue (getPath (node)); // If the selected node is a leaf, the corresponding property value has to be displayed in the form. The complete path of the node has to be handed over to the method displayPropertyvalue.
     	        else
     	        	displayPropertyvalue (""); // If the selected node is not a leaf an eventually previous display has to be cleaned. This has to be indicated to displayPropertyvalue by handing over an empty string.
     	    }
     	});
+    	
+    	jtrConfigTree.addFocusListener(new FocusListener () { // Needed to reconstruct the expansion situation after the addition or removal of nodes, as the tree gets rebuilt from scratch when the properties object has been modified.
 
-     	return ljtrConfigTree; // The locally constructed tree gets returned as the result of tree composition.
+			@Override
+			public void focusGained(FocusEvent arg0) {
+
+				if (isPropertiesTreeToBeRestored) {
+					restoreExpansion();
+				}
+				isPropertiesTreeToBeRestored = false;
+				
+			}
+
+			@Override
+			public void focusLost(FocusEvent arg0) {
+			}
+    		
+    	});
+    	
+    	jtrConfigTree.addMouseListener(new MouseListener () {
+
+			@Override
+			public void mouseClicked(MouseEvent mouseEvent) {
+				
+				switch (mouseEvent.getModifiers()) {
+				case InputEvent.BUTTON3_MASK:
+					menuPopup.show(mouseEvent.getComponent(), mouseEvent.getX(), mouseEvent.getY());
+					break;
+				}
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent arg0) {
+				// TODO (hias) - Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent arg0) {
+				// TODO (hias) - Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent arg0) {
+				// TODO (hias) - Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent arg0) {
+				// TODO (hias) - Auto-generated method stub
+				
+			}
+    		
+    	});
+    	
+	}
+
+	
+	/**
+     * This method stores the current expansion situation of the properties tree in bufferCurrentExpansion.
+     */
+	private void storeCurrentExpansion () {
+		
+		bufferCurrentExpansion = jtrConfigTree.getExpandedDescendants(new TreePath (jtrConfigTree.getModel().getRoot())); // Stores the expanded descendents of root.
+		bufferCurrentSelection = jtrConfigTree.getSelectionPath(); // Stores the path of the currently selected node.
+		
 	}
 
 	
