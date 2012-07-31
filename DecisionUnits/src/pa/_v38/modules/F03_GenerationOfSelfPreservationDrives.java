@@ -37,7 +37,7 @@ import du.enums.pa.ePartialDrive;
  * The quota of affect will be added later. For each bodily need, two drives 
  * are generated: a libidinous and an aggressive one.
  * 
- * @author muchitsch test2
+ * @author muchitsch test3
  * 11.08.2009, 12:19:04
  * 
  */
