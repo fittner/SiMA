@@ -1,4 +1,4 @@
-; Thu Jul 26 16:26:18 CEST 2012
+; Tue Jul 31 15:57:23 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2780,6 +2780,11 @@
 	(value "JUMP")
 	(value_type "ACTION"))
 
+([WPM%3AACTION%3AL1_LEECH] of  WPM%3AACTION%3AL1
+
+	(value "LEECH")
+	(value_type "ACTION"))
+
 ([WPM%3AACTION%3AL1_MOVE_FOREWARD] of  WPM%3AACTION%3AL1
 
 	(value "MOVE_FORWARD")
@@ -2790,9 +2795,24 @@
 	(value "PICKUP")
 	(value_type "ACTION"))
 
+([WPM%3AACTION%3AL1_RELAX] of  WPM%3AACTION%3AL1
+
+	(value "RELAX")
+	(value_type "ACTION"))
+
+([WPM%3AACTION%3AL1_REPRESS] of  WPM%3AACTION%3AL1
+
+	(value "REPRESS")
+	(value_type "ACTION"))
+
 ([WPM%3AACTION%3AL1_SLEEP] of  WPM%3AACTION%3AL1
 
 	(value "SLEEP")
+	(value_type "ACTION"))
+
+([WPM%3AACTION%3AL1_SUCK] of  WPM%3AACTION%3AL1
+
+	(value "SUCK")
 	(value_type "ACTION"))
 
 ([WPM%3AACTION%3AL1_TURN_LEFT] of  WPM%3AACTION%3AL1
