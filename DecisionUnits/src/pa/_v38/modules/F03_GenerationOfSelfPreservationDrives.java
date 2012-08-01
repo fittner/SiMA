@@ -27,6 +27,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
+import du.enums.eSlowMessenger;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -100,7 +101,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.5);
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
@@ -200,25 +201,36 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
-			boolean createDrive = true;
-			//test if the information comming from a body is in the eOrgan list, if not... only show a warning
-			try {
-				String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
-			
-			} catch (Exception e) {
-				createDrive = false;
-				System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
-				
-			}
-		
-			try {
-				
-				if(createDrive){
-					moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				//bloodsugar is special, make it to a stomach drive
+				try {
+					moDriveCandidates_OUT.add( CreateDriveCandidate(eOrgan.STOMACH, oEntry.getValue()) );
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+			}
+			else{
+				boolean createDrive = true;
+				//test if the information comming from a body is in the eOrgan list, if not... only show a warning
+				try {
+					String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
 				
-			} catch (Exception e) {
-				e.printStackTrace();
+				} catch (Exception e) {
+					createDrive = false;
+					System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+					
+				}
+			
+				try {
+					
+					if(createDrive){
+						moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
@@ -263,7 +275,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 
 
 	}
-
+	
 	/**
 	 * Creates a DM out of the entry, and adds necessary information, source, etc
 	 * @throws Exception 
@@ -271,16 +283,14 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @since 16.07.2012 15:20:26
 	 *
 	 */
-	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+	private clsDriveMesh CreateDriveCandidate(eOrgan poOrgan, double rTension) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
-		double rTension = pEntry.getValue();
-		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
-		eOrifice oOrifice = moOrificeMap.get(oOrgan);
+		eOrifice oOrifice = moOrificeMap.get(poOrgan);
 		
 		//create a TPM for the organ
 		clsThingPresentationMesh oOrganTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), poOrgan.toString()) );
 		
 		//create a TPM for the orifice
 		clsThingPresentationMesh oOrificeTPM = 
@@ -298,8 +308,22 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		oDriveCandidate.setQuotaOfAffect(rTension);
 		
+		return oDriveCandidate;
+	}
 
-	return oDriveCandidate;
+	/**
+	 * Creates a DM out of the entry, and adds necessary information, source, etc
+	 * @throws Exception 
+	 *
+	 * @since 16.07.2012 15:20:26
+	 *
+	 */
+	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+		
+		double rTension = pEntry.getValue();
+		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
+
+	return CreateDriveCandidate(oOrgan, rTension);
 		
 	}
 
@@ -320,7 +344,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			
 			//any special normalization needed for special types? do it here:
 			//Special STOMACH_PAIN
-			if(oEntry.getKey() == "STOMACH_PAIN")
+			if(oEntry.getKey() == "STOMACH_PAIN" )
 			{
 				rEntryTension /= 7;
 			}
@@ -335,6 +359,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
+			
+			//Special STOMACH
+			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				rEntryTension = 1-rEntryTension ;
+			}
+			
 			
 			//Special STAMINA
 			if(oEntry.getKey() == eSensorIntType.STAMINA.name())
