@@ -132,8 +132,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		//text += toText.listToTEXT("HomIN", moHomoestasisCandidates_IN);
-		//text += toText.listToTEXT("SexIN", moLibidoCandidates_IN);
+		text += toText.listToTEXT("HomIN", moHomoestasisDriveComponents_IN);
+		text += toText.listToTEXT("SexIN", moSexualDriveRepresentations_IN);
 		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);	
 				
 		return text;
