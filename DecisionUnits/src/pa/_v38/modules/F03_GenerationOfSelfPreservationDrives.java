@@ -218,7 +218,11 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				
 				} catch (Exception e) {
 					createDrive = false;
-					System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+					if(oEntry.getKey() == "ADREANLIN" || oEntry.getKey() == "HEALTH")
+					{}
+					else{
+						System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+					}
 					
 				}
 			
