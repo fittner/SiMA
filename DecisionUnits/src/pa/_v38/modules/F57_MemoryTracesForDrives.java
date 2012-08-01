@@ -43,7 +43,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
-	private double mrThresholdMatchFactor = 0.5;
+	private double mrThresholdMatchFactor = 0.0;
 	private double mrThresholdPleasure = 0.2;
 	
 	/**
@@ -197,7 +197,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
-						
+				
+			 	oDriveObject = null;
+				oDriveAim = null;
+				
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
 			
