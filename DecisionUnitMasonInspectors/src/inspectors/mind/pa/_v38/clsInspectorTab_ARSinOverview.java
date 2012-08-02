@@ -153,7 +153,7 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 		if (poModuleName.equals("Perception")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF14_ExternalPerception), "Perception");
 		} else if (poModuleName.equals("Drives")) {
-			oRetVal.addInspector(new cls_StateInspector(moPA.moF48_AccumulationOfAffectsForDrives), "Drives");
+			oRetVal.addInspector(new cls_StateInspector(moPA.moF48_AccumulationOfQuotaOfAffectsForDrives), "Drives");
 		} else if (poModuleName.equals("DefenseDrives")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF08_ConversionToSecondaryProcessForDriveWishes), "Def. drives");
 		} else if (poModuleName.equals("DefensePerception")) {

@@ -27,6 +27,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
+import du.enums.eSlowMessenger;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -37,7 +38,7 @@ import du.enums.pa.ePartialDrive;
  * The quota of affect will be added later. For each bodily need, two drives 
  * are generated: a libidinous and an aggressive one.
  * 
- * @author muchitsch test
+ * @author muchitsch test3
  * 11.08.2009, 12:19:04
  * 
  */
@@ -54,10 +55,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private HashMap<eOrgan, eOrifice> moOrificeMap;
 	
 	private ArrayList <clsDriveMesh> moDriveCandidates_OUT;
-	
-//	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > moDriveTemplates;
-//	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
-	
+
 	//einfluess auf die normalisierung von body -> psyche
 	private HashMap<String, Double> moHomeostaisImpactFactors;
 	
@@ -103,7 +101,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.5);
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
@@ -144,65 +142,6 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		return text;
 	}
 		
-//	@Deprecated
-//	private ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > createDriveMeshes() {
-//		ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> > oDrives = new ArrayList< clsTriple<clsDriveMeshOLD, String, ArrayList<String>> >();
-//		
-//		oDrives.add( createDrives(eContentType.LIFE, "NOURISH", "BLOODSUGAR") );
-//		oDrives.add( createDrives(eContentType.DEATH, "BITE", "BLOODSUGAR") );
-//		
-//		oDrives.add( createDrives(eContentType.LIFE, "RELAX", "STAMINA") );
-//		oDrives.add( createDrives(eContentType.DEATH, "SLEEP", "STAMINA") );
-//		
-//		oDrives.add( createDrives(eContentType.LIFE, "REPRESS", "INTESTINEPRESSURE") );
-//		oDrives.add( createDrives(eContentType.DEATH, "DEPOSIT", "INTESTINEPRESSURE") );
-//		
-//		return oDrives;
-//	}
-	
-//	@Deprecated
-//	private clsTriple<clsDriveMeshOLD, String, ArrayList<String>> createDrives(eContentType poContentType, String poContext, String poSource) {
-//		clsDriveMeshOLD oDriveMesh = createDriveMesh(poContentType, poContext);
-//		ArrayList<String> oObjects = getDriveSources(poContext, oDriveMesh);
-//		
-//		return new clsTriple<clsDriveMeshOLD, String, ArrayList<String>>(oDriveMesh, poSource, oObjects);
-//	}
-//
-//	@Deprecated
-//	private ArrayList<String> getDriveSources(String poContext, clsDriveMeshOLD poDriveMesh) {
-//        
-//        double nIntensity = 0.0; 
-//        ArrayList<String> oRes = new ArrayList<String>();
-//        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-//        
-//        search(eDataType.TPM, new ArrayList<clsDriveMeshOLD>(Arrays.asList(poDriveMesh)), oSearchResult ); 
-//        
-//        for(ArrayList<clsPair<Double,clsDataStructureContainer>> oPatternResults : oSearchResult ){
-//                 for(clsPair<Double, clsDataStructureContainer> oMatch : oPatternResults ){
-//                           for(clsAssociation oAssociation : oMatch.b.getMoAssociatedDataStructures()){
-//                                    
-//                                    nIntensity = ((clsDriveMeshOLD)oAssociation.getMoAssociationElementA()).getPleasure(); 
-//                                    
-//                                    if(nIntensity > 0){
-//                                             oRes.add(((clsThingPresentationMesh) oAssociation.getMoAssociationElementB()).getMoContent()); 
-//                                    }
-//                           }
-//                 }
-//        }
-//                           
-//        return oRes;
-//	}
-	
-//	private clsDriveMeshOLD createDriveMesh(eContentType poContentType, String poContext) {
-//		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
-//		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
-//		
-//		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
-//				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
-//				);
-//		
-//		return oRetVal;
-//	}
 
 	/* (non-Javadoc)
 	 *
@@ -262,77 +201,45 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
-			boolean createDrive = true;
-			//test if the information comming from a body is in the eOrgan list, if not... only show a warning
-			try {
-				String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
-			
-			} catch (Exception e) {
-				createDrive = false;
-				System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
-				
-			}
-		
-			try {
-				
-				if(createDrive){
-					moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				//bloodsugar is special, make it to a stomach drive
+				try {
+					moDriveCandidates_OUT.add( CreateDriveCandidate(eOrgan.STOMACH, oEntry.getValue()) );
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+			}
+			else{
+				boolean createDrive = true;
+				//test if the information comming from a body is in the eOrgan list, if not... only show a warning
+				try {
+					String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
 				
-			} catch (Exception e) {
-				e.printStackTrace();
+				} catch (Exception e) {
+					createDrive = false;
+					if(oEntry.getKey() == "ADREANLIN" || oEntry.getKey() == "HEALTH")
+					{}
+					else{
+						System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+					}
+					
+				}
+			
+				try {
+					
+					if(createDrive){
+						moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}
 	
-//	@Deprecated
-//	private double calculateNormalizedValue(double rValue, String poSource) {
-//		double rResult = rValue;
-//		double rMaxValue = 1;
-//		
-//		if (poSource.equals("BLOODSUGAR")) {
-//			rMaxValue = 1.0;
-//			rResult = (rMaxValue-rValue)/rMaxValue;
-//		} else if (poSource.equals("STAMINA")) {
-//			rMaxValue = 1.0;
-//			rResult = (rMaxValue-rValue)/rMaxValue;
-//		} else if (poSource.equals("INTESTINEPRESSURE")) {
-//			//rValue *= 0.1;
-//			rResult = rValue;
-//		}
-//		
-//		try {
-//			double rImpactFactor = moHomeostaisImpactFactors.get(poSource);
-//			rResult *= rImpactFactor;
-//		} catch (java.lang.Exception e) {
-//			// do nothing;
-//		}
-//		
-//		if (rResult > 1.0) {
-//			rResult = 1.0;
-//		} else if (rResult < 0.0) {
-//			rResult = 0.0;
-//		}
-//		
-//		return rResult;
-//	}
-	
-//	@Deprecated
-//	private clsDriveDemand getDriveDemand(clsTriple<clsDriveMeshOLD, String, ArrayList<String>> poDT) {
-//		double rDemand = 0.0;
-//		
-//		String oSource = poDT.b;
-//
-//		if (moHomeostasisSymbols_IN.containsKey(oSource)) {
-//			double rValue = moHomeostasisSymbols_IN.get(oSource);
-//			rDemand = calculateNormalizedValue(rValue, oSource);
-//		}
-//		
-//		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-//				new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, rDemand));
-//		
-//		return oDemand;
-//	}
+
 
 	/* (non-Javadoc)
 	 *
@@ -359,21 +266,6 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 	}
 
-//	/* (non-Javadoc)
-//	 *
-//	 * @author deutsch
-//	 * 18.05.2010, 16:44:46
-//	 * 
-//	 * @see pa.interfaces.send.I1_3_send#send_I1_3(java.util.ArrayList)
-//	 */
-//	@Override
-//	public void send_I3_2(ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > poHomeostaticDriveDemands) {
-//		((I3_2_receive)moModuleList.get(4)).receive_I3_2(poHomeostaticDriveDemands);
-//		putInterfaceData(I3_2_send.class, poHomeostaticDriveDemands);
-//	}
-	
-
-
 
 	/* (non-Javadoc)
 	 *
@@ -385,17 +277,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	@Override
 	protected void process_draft() {
 
-		//TODO: THE OLD CODE, delete me
-//		moDriveTemplates = createDriveMeshes();
-//		moDrives = new ArrayList< clsPair<clsDriveMeshOLD,clsDriveDemand> >();
-//		
-//		for (clsTriple<clsDriveMeshOLD, String, ArrayList<String>> oDT: moDriveTemplates) {
-//			clsDriveDemand oDD = getDriveDemand(oDT);
-//			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDT.a, oDD) );
-//		}
-	
-	}
 
+	}
+	
 	/**
 	 * Creates a DM out of the entry, and adds necessary information, source, etc
 	 * @throws Exception 
@@ -403,16 +287,14 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @since 16.07.2012 15:20:26
 	 *
 	 */
-	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+	private clsDriveMesh CreateDriveCandidate(eOrgan poOrgan, double rTension) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
-		double rTension = pEntry.getValue();
-		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
-		eOrifice oOrifice = moOrificeMap.get(oOrgan);
+		eOrifice oOrifice = moOrificeMap.get(poOrgan);
 		
 		//create a TPM for the organ
 		clsThingPresentationMesh oOrganTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), poOrgan.toString()) );
 		
 		//create a TPM for the orifice
 		clsThingPresentationMesh oOrificeTPM = 
@@ -430,8 +312,22 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		oDriveCandidate.setQuotaOfAffect(rTension);
 		
+		return oDriveCandidate;
+	}
 
-	return oDriveCandidate;
+	/**
+	 * Creates a DM out of the entry, and adds necessary information, source, etc
+	 * @throws Exception 
+	 *
+	 * @since 16.07.2012 15:20:26
+	 *
+	 */
+	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+		
+		double rTension = pEntry.getValue();
+		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
+
+	return CreateDriveCandidate(oOrgan, rTension);
 		
 	}
 
@@ -452,7 +348,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			
 			//any special normalization needed for special types? do it here:
 			//Special STOMACH_PAIN
-			if(oEntry.getKey() == "STOMACH_PAIN")
+			if(oEntry.getKey() == "STOMACH_PAIN" )
 			{
 				rEntryTension /= 7;
 			}
@@ -467,6 +363,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
+			
+			//Special STOMACH
+			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				rEntryTension = 1-rEntryTension ;
+			}
+			
 			
 			//Special STAMINA
 			if(oEntry.getKey() == eSensorIntType.STAMINA.name())

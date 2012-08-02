@@ -7,7 +7,6 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -16,18 +15,13 @@ import pa._v38.interfaces.modules.I3_1_send;
 import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
@@ -50,8 +44,6 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
 	private static final double mrLibitoStartingOffset = 0.2;
-	
-	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moDrives;
 	
 	//holds the sexual drives A-> agr / B-> lib parts
 	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moSexualDriveCandidates_OUT;
@@ -80,26 +72,7 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		applyProperties(poPrefix, poProp);	
 	}
 	
-	private ArrayList< clsDriveMeshOLD > createDriveMeshes() {
-		ArrayList< clsDriveMeshOLD > oDrives = new ArrayList< clsDriveMeshOLD >();
 		
-		oDrives.add( createDriveMesh(eContentType.LIFE,  "LIBIDINOUS") );
-		oDrives.add( createDriveMesh(eContentType.DEATH, "AGGRESSIVE") );
-		
-		return oDrives;
-	}
-	
-	private clsDriveMeshOLD createDriveMesh(eContentType poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
-		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
-		
-		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
-				);
-		
-		return oRetVal;
-	}
-	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -111,7 +84,6 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moDrives", moDrives);
 		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
 		text += toText.valueToTEXT("mrIncomingLibido", mrIncomingLibido);		
 		text += toText.valueToTEXT("mrTotalLibido", mrTotalLibido);
@@ -188,19 +160,6 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 		oTempPair = new clsPair<clsDriveMesh, clsDriveMesh>(agressiveDM, libidoneusDM); 
 		moSexualDriveCandidates_OUT.add(oTempPair);
 		
-		
-		
-		
-		
-		
-//		moDrives = new ArrayList<clsPair<clsDriveMeshOLD,clsDriveDemand>>();
-//		updateTempLibido();
-//		ArrayList<clsDriveMeshOLD> oDriveMeshes = createDriveMeshes();
-//		clsDriveDemand oDemand = (clsDriveDemand)clsDataStructureGenerator.generateDataStructure(eDataType.DRIVEDEMAND, 
-//					new clsPair<eContentType,Object>(eContentType.DRIVEDEMAND, mrTotalLibido));
-//		for (clsDriveMeshOLD oDM:oDriveMeshes) {
-//			moDrives.add( new clsPair<clsDriveMeshOLD, clsDriveDemand>(oDM, oDemand));
-//		}
 	}
 	
 	
