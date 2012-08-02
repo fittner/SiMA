@@ -37,6 +37,7 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 
 /**
@@ -230,6 +231,11 @@ public abstract class clsMeshBase extends clsGraphBase {
 		else if(poMemoryObject instanceof clsTemplateImage)
 		{
 			clsTemplateImage tmpRootMemoryObject = (clsTemplateImage)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		}
+		else if(poMemoryObject instanceof clsWordPresentationMesh)
+		{
+			clsWordPresentationMesh tmpRootMemoryObject = (clsWordPresentationMesh)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else
@@ -623,6 +629,58 @@ public abstract class clsMeshBase extends clsGraphBase {
 		moCellList.add(oEdgeParent);
 		
 		return oCell;
+	}
+	
+	/** [WPM]
+	 * Generating cells from clsDriveMesh
+	 */
+	private DefaultGraphCell generateGraphCell(DefaultGraphCell poParentCell, clsWordPresentationMesh poMemoryObject)
+	{
+		String oDescription = "WPM";
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	poMemoryObject.toString();
+		}
+
+		//generate root of the mesh
+		DefaultGraphCell oWPMrootCell = createDefaultGraphVertex(oDescription, moColorWPMRoot);
+		this.moCellList.add(oWPMrootCell);
+		
+		for(clsAssociation oWPMAssociations : poMemoryObject.getMoInternalAssociatedContent())
+		{
+			if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementA().getMoDS_ID())
+			{
+				clsDataStructurePA oMemoryObjectB = oWPMAssociations.getMoAssociationElementB();
+				DefaultGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectB);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());
+				oEdge.setSource(oWPMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else if(poMemoryObject.getMoDS_ID() == oWPMAssociations.getMoAssociationElementB().getMoDS_ID())
+			{
+				clsDataStructurePA oMemoryObjectA = oWPMAssociations.getMoAssociationElementA();
+				DefaultGraphCell oTargetCell = generateGraphCell(oWPMrootCell, oMemoryObjectA);
+				//add edge
+				DefaultEdge oEdge = new DefaultEdge("WPM w:" + oWPMAssociations.getMrWeight());
+				oEdge.setSource(oWPMrootCell.getChildAt(0));
+				oEdge.setTarget(oTargetCell.getChildAt(0));
+				moCellList.add(oEdge);
+				GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+				GraphConstants.setEndFill(oEdge.getAttributes(), true);
+			}
+			else
+			{ //should not be laut heimo!!!
+				System.out.println("ARS Exeption: [WPM] Neither A nor B are root element.");
+				throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
+			}
+			
+		}
+		return oWPMrootCell;	
 	}
 	
 

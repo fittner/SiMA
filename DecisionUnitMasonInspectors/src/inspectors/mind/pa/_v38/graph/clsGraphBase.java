@@ -122,6 +122,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
 	protected static final Color moColorDMRoot = new Color(0xffff0066); //pinkish red
 	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
+	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
 
 	public boolean UseSimpleView() {
 		return moUseSimpleView;
@@ -305,6 +306,7 @@ public abstract class clsGraphBase extends Inspector implements ActionListener {
     	poTaskGroup.add(addLegendItem( "String", moColorString, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "Double", moColorDouble, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "WP", moColorWP, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WPM", moColorWPMRoot, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "DD", moColorDD, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "ACT", moColorACT, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "Pair", moColorPair, "/World/src/resources/images/view.png") );
