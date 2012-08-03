@@ -8,11 +8,15 @@ package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (ende) - insert description 
@@ -75,7 +79,8 @@ public class clsDomainTest {
 	 */
 	@Test
 	public final void testClsDomain() {
-		fail("Not yet implemented"); // TODO
+		assertEquals(clsDomain.class, _domain.getClass());
+		assertEquals(new ArrayList<PlanningNode>(), _domain.returnContent());
 	}
 
 	/**
@@ -93,7 +98,9 @@ public class clsDomainTest {
 	 */
 	@Test
 	public final void testGetSize() {
-		fail("Not yet implemented"); // TODO
+		// 0 element check
+		assertEquals(0, _domain.getSize());
+		//TODO increase size
 	}
 
 	/**
@@ -101,7 +108,9 @@ public class clsDomainTest {
 	 */
 	@Test
 	public final void testToString() {
-		fail("Not yet implemented"); // TODO
+		// 0 element check
+		assertEquals("", _domain.toString());
+		//TODO increase size
 	}
 
 }

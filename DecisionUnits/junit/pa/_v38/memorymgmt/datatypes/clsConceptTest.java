@@ -99,7 +99,8 @@ public class clsConceptTest {
 	 */
 	@Test
 	public final void testSizes() {
-		fail("Not yet implemented"); // TODO
+		assertEquals(0, _concept.getSize()); 
+		// TODO increase size
 	}
 
 	/**
@@ -107,6 +108,7 @@ public class clsConceptTest {
 	 */
 	@Test
 	public final void testToString() {
-		fail("Not yet implemented"); // TODO
+		assertEquals("", _concept.toString()); 
+		// TODO increase size
 	}
 }
