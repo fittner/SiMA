@@ -1908,6 +1908,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
 	 * of WPMs.
 	 * 
+	 * IN WORK
 	 * @since 03.08.2012 17:05:53
 	 * 
 	 * @param poListWPM
@@ -1915,6 +1916,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	protected clsConcept generateConcept(
 			ArrayList<clsWordPresentationMesh> poListWPM) {
+		//TODO (havlicek) this mapping is in work
 		clsConcept _concept = new clsConcept();
 		for (clsWordPresentationMesh _wpm : poListWPM) {
 			if (!_wpm.isNullObject()) {
