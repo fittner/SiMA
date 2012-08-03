@@ -17,6 +17,8 @@ import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datatypes.clsConcept;
+import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -1900,7 +1902,30 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //		}
 //	}
 	
-
+	
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
+	 * of WPMs.
+	 * 
+	 * @since 03.08.2012 17:05:53
+	 * 
+	 * @param poListWPM
+	 * @return the constructed clsConcept based on the given WPMs
+	 */
+	protected clsConcept generateConcept(
+			ArrayList<clsWordPresentationMesh> poListWPM) {
+		clsConcept _concept = new clsConcept();
+		for (clsWordPresentationMesh _wpm : poListWPM) {
+			if (!_wpm.isNullObject()) {
+				clsPlanFragment _plan = new clsPlanFragment();
+				_plan.label = _wpm.getMoContent().intern();
+				
+				_concept.pushPlanFragment(_plan);
+			}
+		}
+		return _concept;
+	}
 	
 	/* (non-Javadoc)
 	 *
