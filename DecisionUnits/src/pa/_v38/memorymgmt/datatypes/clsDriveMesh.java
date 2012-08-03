@@ -158,6 +158,41 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return oRetVal;
 	}
 	
+	/*
+	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
+	 * @param poDriveTPM: DriveSource, DriveAim, DriveObject, or BodyOrifice
+	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
+	 * 
+	 * If the ContentType of the poDriveTPM is different from poContentType, the ContentType in poDriveTPM is set to poContentType
+	 */
+	private void setAssociatedContentType(eContentType poContentType, clsThingPresentationMesh poDriveTPM, double prWeight){
+		
+		for(clsAssociation oAA : moInternalAssociatedContent)
+		{
+			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+			if(oTPM.getMoContentType() == poContentType) {
+				oTPM = poDriveTPM;
+				oTPM.setMoContentType(poContentType); // In case the ContentType of the poDriveTPM was different from poContentType, set the right ContentType 
+				oAA.setMrWeight(prWeight);
+			}
+		}
+
+	}
+	
+	public void setActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
+		
+		if(poDriveAim == null) {
+			throw new Exception("Driveaim must not be null");
+		}
+		
+		if(ContainsAssociatedContentType(eContentType.ACTION))
+			setAssociatedContentType(eContentType.ACTION, poDriveAim, prWeight);
+		else		
+			moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveAim, prWeight));
+	}
+	
+	
 	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 
 		if(ContainsAssociatedContentType(eContentType.ORGAN))

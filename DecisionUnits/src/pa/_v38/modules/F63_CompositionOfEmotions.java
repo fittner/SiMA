@@ -93,7 +93,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 
 		applyProperties(poPrefix, poProp);	
 		
-		DT4_PleasureStorage moPleasureStorage = poPleasureStorage;
+		moPleasureStorage = poPleasureStorage;
 		
 		moEmotions_OUT = new ArrayList<clsEmotion>();
 	}
@@ -148,9 +148,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}			
 		}
 		
-		//TODO SSCH: Corrent this error
-		//mrDrivePleasure =  moPleasureStorage.send_D4_1();
-		mrDrivePleasure = 0.0;
+		//get Pleasure
+		mrDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
