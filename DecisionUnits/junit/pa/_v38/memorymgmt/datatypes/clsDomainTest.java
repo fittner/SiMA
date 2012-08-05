@@ -20,21 +20,20 @@ import org.junit.Test;
 import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
- * DOCUMENT (ende) - insert description 
+ * DOCUMENT (ende) - insert description
  * 
- * @author ende
- * 03.08.2012, 15:58:48
+ * @author ende 03.08.2012, 15:58:48
  * 
  */
 public class clsDomainTest {
 
 	private clsDomain _domain;
-	
+
 	/**
 	 * DOCUMENT (ende) - insert description
-	 *
+	 * 
 	 * @since 03.08.2012 15:58:48
-	 *
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@BeforeClass
@@ -43,9 +42,9 @@ public class clsDomainTest {
 
 	/**
 	 * DOCUMENT (ende) - insert description
-	 *
+	 * 
 	 * @since 03.08.2012 15:58:48
-	 *
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@AfterClass
@@ -54,9 +53,9 @@ public class clsDomainTest {
 
 	/**
 	 * DOCUMENT (ende) - insert description
-	 *
+	 * 
 	 * @since 03.08.2012 15:58:48
-	 *
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@Before
@@ -66,9 +65,9 @@ public class clsDomainTest {
 
 	/**
 	 * DOCUMENT (ende) - insert description
-	 *
+	 * 
 	 * @since 03.08.2012 15:58:48
-	 *
+	 * 
 	 * @throws java.lang.Exception
 	 */
 	@After
@@ -76,7 +75,8 @@ public class clsDomainTest {
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#clsDomain()}.
+	 * Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#clsDomain()}.
 	 */
 	@Test
 	public final void testClsDomain() {
@@ -85,9 +85,12 @@ public class clsDomainTest {
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#pushPlanFragment(pa._v38.tools.planningHelpers.PlanningNode)}.
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#returnContent()}.
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#getPlanAtPos(int)}.
+	 * Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#pushPlanFragment(pa._v38.tools.planningHelpers.PlanningNode)}
+	 * . Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#returnContent()}. Test
+	 * method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#getPlanAtPos(int)}.
 	 */
 	@Test
 	public final void testPlanFragment() {
@@ -110,13 +113,14 @@ public class clsDomainTest {
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#toString()}.
+	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsDomain#toString()}
+	 * .
 	 */
 	@Test
 	public final void testToString() {
 		// 0 element check
 		assertEquals("", _domain.toString());
-		//TODO increase size
+		// TODO increase size
 	}
 
 }
