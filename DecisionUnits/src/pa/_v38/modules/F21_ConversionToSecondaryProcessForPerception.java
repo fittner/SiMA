@@ -29,8 +29,10 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -427,6 +429,34 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		return oRetVal;		
 	}
+	
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
+	 * of WPMs.
+	 * 
+	 * IN WORK
+	 * @since 03.08.2012 17:05:53
+	 * 
+	 * @param poListWPM
+	 * @return the constructed clsConcept based on the given WPMs
+	 */
+	protected clsConcept generateConcept(
+			ArrayList<clsWordPresentationMesh> poListWPM) {
+		//TODO (havlicek) this mapping is in work
+		clsConcept _concept = new clsConcept();
+		for (clsWordPresentationMesh _wpm : poListWPM) {
+			if (!_wpm.isNullObject()) {
+				clsPlanFragment _plan = new clsPlanFragment();
+				_plan.label = _wpm.getMoContent().intern();
+				
+				_concept.pushPlanFragment(_plan);
+			}
+		}
+		return _concept;
+	}
+	
+	
 	
 	/* (non-Javadoc)
 	 *
