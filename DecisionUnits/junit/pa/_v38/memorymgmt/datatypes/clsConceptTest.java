@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
@@ -15,7 +16,6 @@ import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
 import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
@@ -91,7 +91,10 @@ public class clsConceptTest {
 	 */
 	@Test
 	public final void testPlanFragment() {		
-		fail("Not yet implemented"); // TODO
+		clsPlanFragment planFragment = mock(clsPlanFragment.class);
+		_concept.pushPlanFragment(planFragment);
+		assertEquals(planFragment, _concept.getPlanAtPos(0));
+		assertEquals(planFragment, _concept.returnContent().get(0));
 	}
 	
 	/**
@@ -100,7 +103,9 @@ public class clsConceptTest {
 	@Test
 	public final void testSizes() {
 		assertEquals(0, _concept.getSize()); 
-		// TODO increase size
+		clsPlanFragment planFragment = mock(clsPlanFragment.class);
+		_concept.pushPlanFragment(planFragment);
+		assertEquals(1, _concept.getSize());
 	}
 
 	/**

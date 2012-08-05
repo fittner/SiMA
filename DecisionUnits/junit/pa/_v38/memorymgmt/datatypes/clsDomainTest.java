@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 import java.util.ArrayList;
 
@@ -90,7 +91,10 @@ public class clsDomainTest {
 	 */
 	@Test
 	public final void testPlanFragment() {
-		fail("Not yet implemented"); // TODO
+		clsPlanFragment planFragment = mock(clsPlanFragment.class);
+		_domain.pushPlanFragment(planFragment);
+		assertEquals(planFragment, _domain.getPlanAtPos(0));
+		assertEquals(planFragment, _domain.returnContent().get(0));
 	}
 
 	/**
@@ -100,7 +104,9 @@ public class clsDomainTest {
 	public final void testGetSize() {
 		// 0 element check
 		assertEquals(0, _domain.getSize());
-		//TODO increase size
+		clsPlanFragment planFragment = mock(clsPlanFragment.class);
+		_domain.pushPlanFragment(planFragment);
+		assertEquals(1, _domain.getSize());
 	}
 
 	/**
