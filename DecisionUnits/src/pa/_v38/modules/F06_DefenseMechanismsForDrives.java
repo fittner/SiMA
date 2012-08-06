@@ -196,7 +196,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 		
 		
-		
+		/*
 		// search in list of incoming drives
 		for(clsDriveMesh oDrive : moDriveList_Input){
 			// check DriveMesh
@@ -204,7 +204,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				repress_single_drive(oDrive);
 			}
 		}
-		
+		*/
 		
 		
 		
