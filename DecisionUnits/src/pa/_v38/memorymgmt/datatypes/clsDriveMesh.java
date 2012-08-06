@@ -169,8 +169,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		int i = 0;
 		clsThingPresentationMesh oDriveTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
-				                              eDataType.TPM, new clsTriple<eContentType, Object, Object> 
-				                              (poContentType, new ArrayList<clsPhysicalRepresentation>(), poContent)); 
+				                              eDataType.TPM,
+				                              new clsTriple<eContentType, Object, Object> (poContentType, new ArrayList<clsPhysicalRepresentation>(), poContent)); 
 		
 		if(poContent == null) {
 			throw new Exception(poExceptionMessage);
