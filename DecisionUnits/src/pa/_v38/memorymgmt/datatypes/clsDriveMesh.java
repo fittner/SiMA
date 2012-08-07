@@ -158,6 +158,63 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		return oRetVal;
 	}
 	
+	/*
+	 * @param poExceptionMessage
+	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
+	 * @param poContent: DriveSource, DriveAim, DriveObject, or BodyOrifice
+	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
+	 * 
+	 */
+	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, eContentType poContent, double prWeight) throws Exception{
+		
+		int i = 0;
+		clsThingPresentationMesh oDriveTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+				                              eDataType.TPM,
+				                              new clsTriple<eContentType, Object, Object> (poContentType, new ArrayList<clsPhysicalRepresentation>(), poContent)); 
+		
+		if(poContent == null) {
+			throw new Exception(poExceptionMessage);
+		}
+
+		if(ContainsAssociatedContentType(poContentType))
+			for(clsAssociation oAA : moInternalAssociatedContent)
+			{
+				if(oAA.getMoAssociationElementB().getMoContentType() == poContentType) {
+					moInternalAssociatedContent.get(i).setMoAssociationElementB(oDriveTPM);
+					moInternalAssociatedContent.get(i).setMrWeight(prWeight);
+				}
+				
+				i++;
+			}
+		else		
+			moInternalAssociatedContent.add(
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)oDriveTPM, prWeight));
+
+	}
+
+
+	public void setActualDriveSource(eContentType poDriveSource, double prWeight) throws Exception{
+		
+		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
+	}
+	
+	public void setActualDriveAim(eContentType poDriveAim, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
+	}
+	
+	public void setActualDriveObject(eContentType poDriveObject, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
+	}
+
+	public void setActualBodyOrifice(eContentType poBodyOrifice, double prWeight) throws Exception{
+		
+		setAssociatedContent("Bodyorifice must not be null", eContentType.ORIFICE, poBodyOrifice, prWeight);
+	}	
+
+	
+	
 	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 
 		if(ContainsAssociatedContentType(eContentType.ORGAN))

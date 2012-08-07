@@ -27,6 +27,7 @@ public enum eEntity {
 	NONE,
 	SELF,
 	HEALTH,
-	WALL
+	WALL,
+	SMARTEXCREMENT
 
 }
