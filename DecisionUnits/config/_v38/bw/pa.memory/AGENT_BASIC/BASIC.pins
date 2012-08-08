@@ -1,4 +1,4 @@
-; Wed Aug 01 15:16:04 CEST 2012
+; Wed Aug 08 12:29:24 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -725,7 +725,7 @@
 
 	(element
 		[EMOTION%3AANGER%3ACARL_CAKE]
-		[TPM%3AIMAGE%3ACARL_CAKE])
+		[TPM%3AIMAGE%3ACARL_CAKE_NEAR])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGHNEGATIVE] of  AFFECT
@@ -1054,14 +1054,14 @@
 ([AT%3AI_BROTHERSCHNITZEL_BROTHER] of  ASSOCIATIONTEMP
 
 	(element
-		[TPM%3AIMAGE%3ACARL_CAKE]
+		[TPM%3AIMAGE%3ACARL_CAKE_NEAR]
 		[TPM%3AENTITY%3AARSIN%3ACARL])
 	(weight 1.0 1.0))
 
 ([AT%3AI_BROTHERSCHNITZEL_SCHNITZEL] of  ASSOCIATIONTEMP
 
 	(element
-		[TPM%3AIMAGE%3ACARL_CAKE]
+		[TPM%3AIMAGE%3ACARL_CAKE_NEAR]
 		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
@@ -1222,7 +1222,7 @@
 ([AW%3ABROTHERSCHNITZEL_BROTHER] of  ASSOCIATIONWP
 
 	(element
-		[TPM%3AIMAGE%3ACARL_CAKE]
+		[TPM%3AIMAGE%3ACARL_CAKE_NEAR]
 		[WPM%3AIMAGE%3ABROTHERSCHNITZEL])
 	(weight 1.0 1.0))
 
@@ -1558,7 +1558,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABITE%3ACAKE] of  DM_Stomach
 
@@ -1570,7 +1570,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABITE%3ACARROT] of  DM_Stomach
 
@@ -1582,7 +1582,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.3)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABITE%3AMOTHERSBREASTS] of  DM_Stomach
 
@@ -1594,7 +1594,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABITE%3AREMOTEBOT] of  DM_Stomach
 
@@ -1606,7 +1606,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABITE%3ASTONE] of  DM_Stomach
 
@@ -1618,7 +1618,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABLADDER%3AAGGRESSIVE] of  DM_Bladder
 
@@ -1627,7 +1627,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:BLADDER:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ABLADDER%3ALIBIDINOUS] of  DM_Bladder
 
@@ -1636,7 +1636,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.0)
 	(value "DM:BLADDER:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3ABODO] of  DM_Stomach
 
@@ -1648,7 +1648,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3ACAKE] of  DM_Stomach
 
@@ -1660,7 +1660,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3ACARROT] of  DM_Stomach
 
@@ -1672,7 +1672,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.3)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3AMOTHERSBREASTS] of  DM_Stomach
 
@@ -1684,7 +1684,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3AREMOTEBOT] of  DM_Stomach
 
@@ -1696,7 +1696,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEAT%3ASTONE] of  DM_Stomach
 
@@ -1708,7 +1708,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AEXCREMENT%3ASTONE] of  DM_Rectum
 
@@ -1720,7 +1720,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.4)
 	(value "DM:RECTUM:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ALEECH%3ACAKE] of  DM_oral
 
@@ -1732,7 +1732,7 @@
 	(partial_drive "ORAL")
 	(quotaOfAffect 0.2)
 	(value "DM:ORAL:AGGRESSIVE")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_FAR] of  DM_LibidoDischarge
 
@@ -1771,7 +1771,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.9)
 	(value "DM:Stamina:Libid")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3AREPRESS%3AEMPTYSPACE] of  DM_Rectum
 
@@ -1783,7 +1783,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.6)
 	(value "DM:RECTUM:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ASLEEP%3AEmptySpace] of  DM_Stamina
 
@@ -1795,7 +1795,7 @@
 	(partial_drive "UNDEFINED")
 	(quotaOfAffect 0.1)
 	(value "DM:Stamina:Aggr")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([DM%3ASUCK%3ACAKE] of  DM_oral
 
@@ -1807,7 +1807,7 @@
 	(partial_drive "ORAL")
 	(quotaOfAffect 0.3)
 	(value "DM:ORAL:LIBIDINOUS")
-	(value_type "DRIVEREPRESENTATION"))
+	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
 ([EMOTION%3AANGER%3AADAMSBROTHER] of  EMOTION
 
@@ -2410,7 +2410,7 @@
 	(value "A_BROTHERCOLLISION_L01_I04")
 	(value_type "RI"))
 
-([TPM%3AIMAGE%3ACARL_CAKE] of  TPM%3AIMAGE
+([TPM%3AIMAGE%3ACARL_CAKE_NEAR] of  TPM%3AIMAGE
 
 	(instance_association
 		[AT%3AI_BROTHERSCHNITZEL_BROTHER]

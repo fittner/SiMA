@@ -16,10 +16,12 @@ import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -54,7 +56,7 @@ import pa._v38.tools.toText;
  * 07.05.2012, 14:26:13
  * 
  */
-public class F14_ExternalPerception extends clsModuleBase implements 
+public class F14_ExternalPerception extends clsModuleBaseKB implements 
 					I2_3_receive, 
 					I2_4_receive,
 					I2_6_send,
@@ -85,8 +87,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -226,6 +228,16 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
 		
 		moEnvironmentalTP.add(oSelfContainer);
+		
+		
+		// For each TPM: take its TPs and get all memory-TPMs that are associated with this TP
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		
+		ArrayList<clsThingPresentation> poSearchPattern = new ArrayList<clsThingPresentation>();
+		poSearchPattern.add(clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.TASTE, "SWEET")));
+		
+		search(eDataType.TPM, poSearchPattern, oSearchResult);
 	}
 
 	/* (non-Javadoc)
