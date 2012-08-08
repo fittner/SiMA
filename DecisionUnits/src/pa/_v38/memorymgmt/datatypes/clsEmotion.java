@@ -135,11 +135,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 				oResult += oEntry.toString() + ":"; 
 			}
 		}
-		
-		oResult += " unpl: " + mrSourceUnpleasure; 
-		oResult += " pl: " + mrSourcePleasure;
-		oResult += " libid: " + mrSourceLibid;
-		oResult += " aggr: " + mrSourceAggr;
+			
 		
 		oResult += " intensity: " + mrEmotionIntensity;
 		}
