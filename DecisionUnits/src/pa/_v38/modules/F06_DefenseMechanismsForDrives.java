@@ -27,12 +27,10 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
@@ -238,7 +236,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", 999.9)); 
+			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 1.0)); 
 			 moQuotasOfAffect_Output.add(oAffect);
 			 
 			 return;
@@ -341,10 +339,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// Testdata: Defining the opposite drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
 		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
 		HashMap<String, ArrayList<Object>> oOppositeTP = new HashMap<String, ArrayList<Object>> ();
-		//oOppositeTP.put(eContentType.NOURISH, new ArrayList<Object>(Arrays.asList(eContentType.AGGRESSION, eContentType.BITE, "bite", eDriveComponent.AGGRESSIVE, ePartialDrive.ORAL) ));
-		oOppositeTP.put("BITE",    new ArrayList<Object>( Arrays.asList("NOURISH", "LIFE", 0.3, 0.0, 0.7, 0.0) ));
-		oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
-		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
+		oOppositeTP.put("NOURISH", new ArrayList<Object>(Arrays.asList(eContentType.AGGRESSION, "BITE", "bite", eDriveComponent.AGGRESSIVE, ePartialDrive.ORAL) ));
+		oOppositeTP.put("BITE",    new ArrayList<Object>( Arrays.asList(eContentType.LIFE, "NOURISH", "nourish", eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL) ));
+		//oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
+		//oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
 		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
 
 		
@@ -416,7 +414,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Input){
 				// check DriveMesh
-				if (oDrive.getActualDriveAim().equals(oContent)){
+				if (oDrive.getActualDriveAim().getMoContent().equals(oContent)){
 					
 					// Does opposite drive aim exist?
 					clsDriveMesh oChangedDrive = replaceDriveAim(oDrive, poOppositeTP);
@@ -455,12 +453,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		clsDriveMesh oOppositeDrive= null;
 		
 		
-		// What is the opposite TP?	
-		clsThingPresentationMesh oOriginalTPContent = poOriginalDM.getActualDriveAim();
+		// What is the opposite drive?	
+		String oOriginalTPContent = poOriginalDM.getActualDriveAim().getMoContent();
 
 		// parts of the opposite drive
 		eContentType oOppositeTPContentType = (eContentType)    poOppositeTP.get(oOriginalTPContent).get(0);
-		eContentType oOppositeTPDriveAim    = (eContentType)    poOppositeTP.get(oOriginalTPContent).get(1);
+		String oOppositeTPDriveAim          = (String)          poOppositeTP.get(oOriginalTPContent).get(1);
 		//String oOppositeTPContent = "";
 		String oDebugInformation            = (String)          poOppositeTP.get(oOriginalTPContent).get(2); // Name of Drive (word-presentations are not allowed in primary process)
 		eDriveComponent oDriveComponent     = (eDriveComponent) poOppositeTP.get(oOriginalTPContent).get(3);
@@ -475,7 +473,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		// search in list of incoming drives if drive similar to opposite drive already exists
 		for(clsDriveMesh oDrive : moDriveList_Output){
 			// check DriveMesh (TODO: only one kind of TPM in drivelist, so no compare of TPM necessary?)
-			if (oDrive.getActualDriveAim().equals(oOppositeTPDriveAim)){
+			if (oDrive.getActualDriveAim().getMoContent().equals(oOppositeTPDriveAim)){
 				// drive found
 				oOppositeDrive = oDrive;
 				break;
@@ -490,7 +488,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			rQuotaOfAffect = moDriveList_Output.get(j).getQuotaOfAffect() + poOriginalDM.getQuotaOfAffect();
 			
 			// remove from drivelist, new merged drive will be added to drivelist anyway
-			moDriveList_Output.remove(j);
+			//moDriveList_Output.remove(j);
 			
 			if(rQuotaOfAffect <= 1.0){
 				oOppositeDrive.setQuotaOfAffect(rQuotaOfAffect);				
@@ -505,7 +503,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				moQuotasOfAffect_Output.add(oAffect);
 				
 				
-				//orignialDM will be repressed later with 0 quota of affect
+				//orignialDM is repressed with 0 quota of affect
+				poOriginalDM.setQuotaOfAffect(0.0);
+				repress_single_drive(poOriginalDM);
 			}
 		}
 		else {
@@ -526,7 +526,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 * ePartialDrive (Partialtriebe: ePartialDrive.ANAL, ePartialDrive.ORAL, ePartialDrive.PHALLIC, or ePartialDrive.GENITAL)
 			 * 
 			 */
-			
+
+			/*
 			 oOppositeDrive = new clsDriveMesh(
 					new clsTriple <Integer, eDataType, eContentType> (-1, eDataType.DM, oOppositeTPContentType),
 					null,                    //drive aim: is added later via setActualDriveAim
@@ -541,11 +542,21 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				 // TODO (Friedrich) - Auto-generated catch block
 				 e.printStackTrace();
 			 }
+			 */
+			
+			// opposite drive = original drive with altered drive aim
+			oOppositeDrive = poOriginalDM;
+			try {
+				oOppositeDrive.setActualDriveAim(oOppositeTPDriveAim, 1.0);
+			} catch (Exception e) {
+				// TODO (Friedrich) - Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		
 		
-	    // repress old forbidden drive
-		repress_single_drive(poOriginalDM);
+	    // erase old forbidden drive
+		//repress_single_drive(poOriginalDM);
 		
 		return oOppositeDrive;
 		

@@ -272,6 +272,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				if (!moForbiddenDrives.contains("EAT"))
 					moForbiddenDrives.add("EAT");
 		
+		
+		// only for test purpose
+		//if (moDrives != null)
+		//	moForbiddenDrives.add("BITE");
+		
+		
 /*		
 		// sample rules to test repression
 		if (searchInDM ("NOURISH")) {
