@@ -161,18 +161,16 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	/*
 	 * @param poExceptionMessage
 	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
-	 * @param poContent: DriveSource, DriveAim, DriveObject, or BodyOrifice
+	 * @param poDriveTPM: DriveSource, DriveAim, DriveObject, or BodyOrifice
 	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
 	 * 
 	 */
-	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, eContentType poContent, double prWeight) throws Exception{
+	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, clsThingPresentationMesh poDriveTPM, double prWeight) throws Exception{
 		
 		int i = 0;
-		clsThingPresentationMesh oDriveTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
-				                              eDataType.TPM,
-				                              new clsTriple<eContentType, Object, Object> (poContentType, new ArrayList<clsPhysicalRepresentation>(), poContent)); 
+ 
 		
-		if(poContent == null) {
+		if(poDriveTPM == null) {
 			throw new Exception(poExceptionMessage);
 		}
 
@@ -180,7 +178,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			for(clsAssociation oAA : moInternalAssociatedContent)
 			{
 				if(oAA.getMoAssociationElementB().getMoContentType() == poContentType) {
-					moInternalAssociatedContent.get(i).setMoAssociationElementB(oDriveTPM);
+					moInternalAssociatedContent.get(i).setMoAssociationElementB(poDriveTPM);
 					moInternalAssociatedContent.get(i).setMrWeight(prWeight);
 				}
 				
@@ -188,12 +186,33 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			}
 		else		
 			moInternalAssociatedContent.add(
-				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)oDriveTPM, prWeight));
+				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveTPM, prWeight));
 
+	}
+	
+	/*
+	 * @param poExceptionMessage
+	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
+	 * @param poContent: DriveSource, DriveAim, DriveObject, or BodyOrifice
+	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
+	 * 
+	 */
+	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, eContentType poContent, double prWeight) throws Exception{
+		
+		clsThingPresentationMesh oDriveTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+				                              eDataType.TPM,
+				                              new clsTriple<eContentType, Object, Object> (poContentType, new ArrayList<clsThingPresentation>(), poContent));
+		
+		setAssociatedContent(poExceptionMessage, poContentType, oDriveTPM, prWeight);
 	}
 
 
 	public void setActualDriveSource(eContentType poDriveSource, double prWeight) throws Exception{
+		
+		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
+	}
+	
+	public void setActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 		
 		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
 	}
@@ -203,7 +222,17 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
 	}
 	
+	public void setActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
+	}
+	
 	public void setActualDriveObject(eContentType poDriveObject, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
+	}
+	
+	public void setActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
 		
 		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
 	}
@@ -211,7 +240,12 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public void setActualBodyOrifice(eContentType poBodyOrifice, double prWeight) throws Exception{
 		
 		setAssociatedContent("Bodyorifice must not be null", eContentType.ORIFICE, poBodyOrifice, prWeight);
-	}	
+	}
+	
+	public void setActualBodyOrifice(clsThingPresentationMesh poBodyOrifice, double prWeight) throws Exception{
+		
+		setAssociatedContent("Bodyorifice must not be null", eContentType.ORIFICE, poBodyOrifice, prWeight);
+	}
 
 	
 	

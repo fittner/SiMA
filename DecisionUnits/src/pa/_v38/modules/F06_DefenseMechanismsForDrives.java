@@ -348,7 +348,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
 
 		
-		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+		changeDriveAim (oForbiddenDrives_Input, oOppositeTP);
 	}
 	
 	/* (non-Javadoc)
@@ -371,7 +371,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("THROW_OUT_GARBAGE", "DEATH", 1.0, 0.1, 0.0, 0.0) ));
 
 		
-		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+		changeDriveAim (oForbiddenDrives_Input, oOppositeTP);
 	}
 	
 	/* (non-Javadoc)
@@ -394,7 +394,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("GET_RID_OF_WASTE", "DEATH", 1.0, 0.1, 0.0, 0.0) ));
 
 		
-		changeDrive (oForbiddenDrives_Input, oOppositeTP);
+		changeDriveAim (oForbiddenDrives_Input, oOppositeTP);
 	}
 	
 	/* (non-Javadoc)
@@ -407,7 +407,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 *
 	 *
 	 */
-	private void changeDrive(ArrayList<String> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
+	private void changeDriveAim(ArrayList<String> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
@@ -419,7 +419,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				if (oDrive.getActualDriveAim().equals(oContent)){
 					
 					// Does opposite drive aim exist?
-					clsDriveMesh oChangedDrive = changeDriveAim(oDrive, poOppositeTP);
+					clsDriveMesh oChangedDrive = replaceDriveAim(oDrive, poOppositeTP);
 					if (oChangedDrive != null) {
 					
 						// remove DriveMesh i from output list
@@ -445,7 +445,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * The third parameter poOppositeTP is a list which assigns the altered drive aim to the original drive aim 
 	 *
 	 */
-	private clsDriveMesh changeDriveAim(clsDriveMesh poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
+	private clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
 		// Helper   
 		int j = 0;
