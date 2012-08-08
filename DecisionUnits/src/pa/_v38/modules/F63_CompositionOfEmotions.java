@@ -169,6 +169,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// aggregate values from drive- and perception track
 		// Both have the same impact on the generation of emotions (no weighting necessary)
 		// TODO: problem: values from perception are much higher than values from drive-track. --> impact of perception on the generation of emotion is relatively high (relative to impact of drive-track)
+		// normalize grundkategorien
 		// or is  it a problem? (if agent sees many objects the perception has more influence, otherwise drives have moire influence on emotions)
 		rSystemUnpleasure = rDriveUnpleasure + oPerceptionExtractedValues.get("rPerceptionUnpleasure");
 		rSystemPleasure = rDrivePleasure + oPerceptionExtractedValues.get("rPerceptionPleasure");
@@ -269,7 +270,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 * emotions triggered by perception (by - to PI- similar RIs from memory) influence emotion-generation
 	 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emotion is based on) to influence the emotion generation in F63
 	 * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
-	 * ZK: use memorized drives and memorized emotions from perception track for emotion-generation
+	 * ZK: use memorized drives (entity-level) and memorized emotions (image-level) from perception track for emotion-generation
 	 */
 	private HashMap<String, Double> getEmotionValuesFromPerception() {
 		// values from perception-track (triggered emotions)
@@ -292,7 +293,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 					
 					for (clsAssociation oRIAss: oRI.getExternalMoAssociatedContent()) {
 						if (oRIAss.getMoContentType() == eContentType.ASSOCIATIONEMOTION) {
-							oEmotionFromPerception = (clsEmotion) oPIExtAss.getMoAssociationElementA();
+							oEmotionFromPerception = (clsEmotion) oRIAss.getMoAssociationElementA();
 							rPerceptionPleasure += oEmotionFromPerception.getMrSourcePleasure(); 
 							rPerceptionUnpleasure += oEmotionFromPerception.getMrSourceUnpleasure();
 							rPerceptionLibid += oEmotionFromPerception.getMrSourceLibid();
@@ -311,7 +312,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				
 				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
 					if (oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
-						// TODO: what about pleasure (libido-DM)
+						// TODO: what about pleasure (libidoDischarge-DM)?
 						
 						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
 						rPerceptionUnpleasure += oDM.getQuotaOfAffect();
