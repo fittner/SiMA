@@ -183,6 +183,30 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 //		return rRetVal;
 //	}
 	
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 8.08.2012, 16:12:00
+	 *
+	 * @return
+	 */
+	public ArrayList<clsThingPresentation> getAssociatedThingPresentations() {
+		ArrayList<clsThingPresentation> oResult = new ArrayList<clsThingPresentation>();
+			for(clsAssociation oIntAss: this.moInternalAssociatedContent) {
+				try {
+					oResult.add((clsThingPresentation)oIntAss.getMoAssociationElementB());
+				}
+				catch (Exception e) {
+					
+				}
+			}
+		return oResult;
+	}
+	
+	
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -204,6 +228,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			}
 		return oResult;
 	}
+	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

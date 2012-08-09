@@ -186,6 +186,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		//here also the body data should be processed, but nothing is coming from this path until now.
 		
+		// 1. Convert Neurosymbols to TPs/TPMs
+		
 		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		for(itfSymbol oSymbol : moEnvironmentalData.values()){
 			if(oSymbol!=null){
@@ -230,14 +232,28 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		moEnvironmentalTP.add(oSelfContainer);
 		
 		
-		// For each TPM: take its TPs and get all memory-TPMs that are associated with this TP
+		// 2. Object recognition and categorization
+		
+
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 		
-		ArrayList<clsThingPresentation> poSearchPattern = new ArrayList<clsThingPresentation>();
-		poSearchPattern.add(clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.TASTE, "SWEET")));
+		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
 		
-		search(eDataType.TPM, poSearchPattern, oSearchResult);
+		clsThingPresentationMesh oUnknownTPM = null;
+		
+		for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+			
+			if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+								
+				oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+				poSearchPattern.add(oUnknownTPM);			
+				
+			}
+		}
+		
+	search(eDataType.TPM, poSearchPattern, oSearchResult);
+		
 	}
 
 	/* (non-Javadoc)
