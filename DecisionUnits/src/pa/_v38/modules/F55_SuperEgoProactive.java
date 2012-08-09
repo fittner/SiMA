@@ -20,8 +20,6 @@ import pa._v38.interfaces.modules.I5_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
@@ -275,9 +273,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_5(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
+		send_I5_5(new ArrayList<clsDriveMesh>());
 		send_I5_12(moDrives_Output, moEmotions_Input);
-		send_I5_14(new ArrayList<clsPair<clsPhysicalRepresentation,clsDriveMesh>>());
+		send_I5_14(new ArrayList<clsDriveMesh>());
 	}
 
 	/* (non-Javadoc)
@@ -356,7 +354,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_5(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		
 		((I5_5_receive)moModuleList.get(6)).receive_I5_5(poData);
 		
@@ -372,7 +370,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_14(
-			ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+			ArrayList<clsDriveMesh> poData) {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}
@@ -383,6 +381,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 * 
 	 * @see pa._v38.interfaces.modules.I5_21_receive#receive_I5_21(java.util.ArrayList)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_21(ArrayList<clsEmotion> poEmotions) {
 		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions); 

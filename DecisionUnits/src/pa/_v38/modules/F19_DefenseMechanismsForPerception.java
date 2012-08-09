@@ -30,6 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -61,7 +62,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_Output;
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	
+	// Perceptions and emotions not "liked" by Super-Ego
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
+	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
 	
 	//private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
 	//private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
@@ -176,8 +179,12 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions, clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
+			                  clsThingPresentationMesh poPerceptionalMesh,
+			                  ArrayList<eEmotionType> poForbiddenEmotions,
+			                  ArrayList<clsEmotion> poEmotions) {
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -186,8 +193,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			e.printStackTrace();
 		}
 		
-		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		moForbiddenPerceptions_Input = poForbiddenPerceptions;
+		moForbiddenEmotions_Input    = poForbiddenEmotions;
+
 	}
 	
 	/* (non-Javadoc)
@@ -199,8 +208,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_14(
-			ArrayList<clsDriveMesh> poData) {
+	public void receive_I5_14(ArrayList<clsDriveMesh> poData) {
 		
 		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData);
 	}		
@@ -272,6 +280,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
 		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
+		 //defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
@@ -431,6 +440,32 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 	}
 
+	
+	private void defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input) {
+	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
+	   	if (oForbiddenEmotions_Input == null) return;
+		
+		// check list of forbidden emotions
+		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
+			for(clsEmotion oOneEmotion : moEmotions_Input) {
+				if(oOneEmotion.getMoContent() == oOneForbiddenEmotion) {
+					if(moEmotions_Input.contains(eEmotionType.FEAR)) {
+						
+						// add the old emotion intensity to the emotion intensity of the emotion FEAR
+						clsEmotion oEmotionFear = moEmotions_Input.get(oForbiddenEmotions_Input.indexOf(eEmotionType.FEAR));
+						oEmotionFear.setMrEmotionIntensity(oEmotionFear.getMrEmotionIntensity() + oOneEmotion.getMrEmotionIntensity());
+						// hier muss man noch schauen, ob die EmotionIntensity groesser als 1 ist. Wenn ja -> was tun ???
+						
+						// remove the old emotion from the input list of emotions
+						moEmotions_Input.remove(oOneEmotion);
+						break;
+					}
+					
+				}
+			}
+		}
+
+	}
 	
 	/**
 	 * This function load all images with the content type "IMAGE:REPRESSED" from the knowledgebase. Those images are defined in

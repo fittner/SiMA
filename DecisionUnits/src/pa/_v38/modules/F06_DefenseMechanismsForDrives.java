@@ -24,7 +24,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -160,7 +159,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @see pa.interfaces.I1_3#receive_I1_3(int)
 	 */
 	@Override
-	public void receive_I5_5(ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMesh>> poData) {
+	public void receive_I5_5(ArrayList<clsDriveMesh> poData) {
 
 	}
 
@@ -236,7 +235,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 1.0)); 
+			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 999.9)); 
 			 moQuotasOfAffect_Output.add(oAffect);
 			 
 			 return;
