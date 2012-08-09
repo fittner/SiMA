@@ -124,4 +124,17 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 		// TODO (wendt) - Auto-generated method stub
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Aug 9, 2012 1:25:22 PM
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#graphSearch(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
+			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
+		// TODO (schaat) - Auto-generated method stub
+		return null;
+	}
 }
