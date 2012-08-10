@@ -26,10 +26,13 @@ import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
@@ -545,8 +548,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			
 			// opposite drive = original drive with altered drive aim
 			oOppositeDrive = poOriginalDM;
+			clsThingPresentationMesh oOppositeDriveAim = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+                    eDataType.TPM,
+                    new clsTriple<eContentType, Object, Object> (eContentType.ACTION, new ArrayList<clsThingPresentation>(), oOppositeTPDriveAim));
 			try {
-				oOppositeDrive.setActualDriveAim(oOppositeTPDriveAim, 1.0);
+				oOppositeDrive.setActualDriveAim(oOppositeDriveAim, 1.0);
 			} catch (Exception e) {
 				// TODO (Friedrich) - Auto-generated catch block
 				e.printStackTrace();

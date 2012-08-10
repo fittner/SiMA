@@ -306,9 +306,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 		
 		//supplement the information
-		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
 		
-		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
+		oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
 		
 		oDriveCandidate.setQuotaOfAffect(rTension);
 		

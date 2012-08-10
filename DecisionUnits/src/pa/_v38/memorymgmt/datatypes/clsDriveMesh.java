@@ -171,7 +171,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		
 		int i = 0;
  
-		
 		if(poDriveTPM == null) {
 			throw new Exception(poExceptionMessage);
 		}
@@ -192,37 +191,10 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 					clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveTPM, prWeight));
 
 	}
-	
-	/*
-	 * @param poExceptionMessage
-	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
-	 * @param poContent: DriveSource, DriveAim, DriveObject, or BodyOrifice
-	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
-	 * 
-	 */
-	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, String poContent, double prWeight) throws Exception{
-		
-		clsThingPresentationMesh oDriveTPM = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
-				                              eDataType.TPM,
-				                              new clsTriple<eContentType, Object, Object> (poContentType, new ArrayList<clsThingPresentation>(), poContent));
-		
-		setAssociatedContent(poExceptionMessage, poContentType, oDriveTPM, prWeight);
-	}
 
-
-	public void setActualDriveSource(String poDriveSource, double prWeight) throws Exception{
-		
-		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
-	}
-	
 	public void setActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 		
 		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
-	}
-	
-	public void setActualDriveAim(String poDriveAim, double prWeight) throws Exception{
-		
-		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
 	}
 	
 	public void setActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
@@ -230,19 +202,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
 	}
 	
-	public void setActualDriveObject(String poDriveObject, double prWeight) throws Exception{
-		
-		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
-	}
-	
 	public void setActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
 		
 		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
-	}
-
-	public void setActualBodyOrifice(String poBodyOrifice, double prWeight) throws Exception{
-		
-		setAssociatedContent("Bodyorifice must not be null", eContentType.ORIFICE, poBodyOrifice, prWeight);
 	}
 	
 	public void setActualBodyOrifice(clsThingPresentationMesh poBodyOrifice, double prWeight) throws Exception{
@@ -251,7 +213,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 
 	
-	
+	/*
+	// Wenn Clemens einverstanden ist, kann man die folgenden 4 Methoden loeschen.
+	// Wenn es niemand bis Dezember 2012 geloescht hat und es auch niemendem abgegangen ist und irgendjemand diese Zeilen liest,
+	// dann kann er die folgenden 4 Methoden loeschen.   
+	  
 	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 
 		if(ContainsAssociatedContentType(eContentType.ORGAN))
@@ -295,7 +261,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveOrifice, prWeight));
 	}
-
+*/
 	
 	@Override
 	public String toString(){
