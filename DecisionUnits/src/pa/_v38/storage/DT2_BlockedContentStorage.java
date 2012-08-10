@@ -504,7 +504,7 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * @param poThreshold
 	 * @return
 	 */
-	private ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
+	public ArrayList<clsPair<Double, clsDriveMesh>> getMatchesForDrives(clsDriveMesh poDM, double poThreshold) {
 		ArrayList<clsPair<Double, clsDriveMesh>> oRetVal = new ArrayList<clsPair<Double, clsDriveMesh>>();	
 		
 		for (clsDataStructurePA oEntry : moBlockedContent) {
@@ -757,9 +757,10 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	 * gets drive object and drive aim from F6
 	 */
 	@Override
-	public void receive_D2_3(clsThingPresentationMesh poDS, clsDriveMesh poDM) {
+	public void receive_D2_3(clsDriveMesh poDM) {
 		// store drive object (clsPhysicalRepresentation) and drive aim (clsDriveMesh) in blocked content storage
-		add(poDS, poDM);
+		//this.add(null, poDM);
+		moBlockedContent.add(poDM);
 	}
 
 	/**

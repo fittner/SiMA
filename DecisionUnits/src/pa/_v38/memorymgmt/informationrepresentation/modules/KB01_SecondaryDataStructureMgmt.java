@@ -131,6 +131,19 @@ public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentatio
 		// TODO (wendt) - Auto-generated method stub
 		return null;
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Aug 9, 2012 12:57:10 PM
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#graphSearch(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
+			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
+		// TODO (schaat) - Auto-generated method stub
+		return null;
+	}
 	
 	
 }
