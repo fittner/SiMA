@@ -269,9 +269,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				if (!moForbiddenPerceptions.contains(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE")))
 					moForbiddenPerceptions.add(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"));
 		
-		// sample rule for conversion of emotion anger into emotion fear
+		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
 		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM (eDriveComponent.LIBIDINOUS, "EAT", 0.20))
+			if (searchInEmotions (eEmotionType.ANGER))
 				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
 					moForbiddenEmotions.add(eEmotionType.ANGER);
 
@@ -417,7 +417,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		return false;
 	}
 	
-	
 	/* (non-Javadoc)
 	 *
 	 * @author gelbard
@@ -441,7 +440,26 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			}
 		}
 		return false;
-	}	
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 10.08.2012, 17:06:50
+	 * 
+	 * searches emotions for example for eEmotionType.ANGER
+	 * 
+	 */
+	private boolean searchInEmotions (eEmotionType oEmotionType) {	
+		
+	   	for(clsEmotion oOneEmotion : moEmotions_Input) {
+	   		if(oOneEmotion.getMoContent() == oEmotionType) {
+	   			return true;
+	   		}
+	   	}
+	   	
+	   	return false;
+	}
 
 	/* (non-Javadoc)
 	 *

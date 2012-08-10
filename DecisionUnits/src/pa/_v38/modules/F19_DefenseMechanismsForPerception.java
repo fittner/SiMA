@@ -126,9 +126,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		//text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);
 		//text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
 		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
+		text += toText.listToTEXT("moForbiddenEmotions_Input", moForbiddenEmotions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
+		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 
 		return text;
 	}
@@ -260,7 +262,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			 
 			 return;
 		 }
-		 else if (moForbiddenPerceptions_Input.isEmpty())
+		 else if (moForbiddenPerceptions_Input.isEmpty() &&
+				  moForbiddenEmotions_Input.isEmpty())
 		 {
 			 // no conflicting events -> deactivate defense mechanisms
 			 defense_active = false;
@@ -280,7 +283,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
 		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
-		 //defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input);
+		 defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
@@ -445,21 +448,48 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 	   	if (oForbiddenEmotions_Input == null) return;
 		
+	   	// Is the emotion FEAR already in the list moEmotions_Input?
+	   	clsEmotion oEmotionFear = null;
+	   	for(clsEmotion oOneEmotion : moEmotions_Input) {
+	   		if(oOneEmotion.getMoContent() == eEmotionType.FEAR) {
+	   			oEmotionFear = oOneEmotion;
+	   			break;
+	   		}
+	   	}
+	   	
 		// check list of forbidden emotions
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
 			for(clsEmotion oOneEmotion : moEmotions_Input) {
 				if(oOneEmotion.getMoContent() == oOneForbiddenEmotion) {
-					if(moEmotions_Input.contains(eEmotionType.FEAR)) {
+					if(oEmotionFear != null) {
 						
 						// add the old emotion intensity to the emotion intensity of the emotion FEAR
-						clsEmotion oEmotionFear = moEmotions_Input.get(oForbiddenEmotions_Input.indexOf(eEmotionType.FEAR));
-						oEmotionFear.setMrEmotionIntensity(oEmotionFear.getMrEmotionIntensity() + oOneEmotion.getMrEmotionIntensity());
-						// hier muss man noch schauen, ob die EmotionIntensity groesser als 1 ist. Wenn ja -> was tun ???
-						
-						// remove the old emotion from the input list of emotions
-						moEmotions_Input.remove(oOneEmotion);
-						break;
+						double oNewEmotionIntensity = oEmotionFear.getMrEmotionIntensity() + oOneEmotion.getMrEmotionIntensity();
+						if (oNewEmotionIntensity > 1.0) {
+							oEmotionFear.setMrEmotionIntensity(1.0);
+							oOneEmotion .setMrEmotionIntensity(oNewEmotionIntensity - 1.0);
+						}
+						else {
+							oEmotionFear.setMrEmotionIntensity(oNewEmotionIntensity);
+
+							// remove the old emotion from the input list of emotions
+							moEmotions_Input.remove(oOneEmotion);
+						}						
+
 					}
+					else {
+						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
+								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.FEAR, oOneEmotion.getMrEmotionIntensity()),
+								oOneEmotion.getMrSourcePleasure(),
+								oOneEmotion.getMrSourceUnpleasure(),
+                                oOneEmotion.getMrSourceLibid(),
+                                oOneEmotion.getMrSourceAggr());
+						moEmotions_Input.add(oNewEmotion);
+						moEmotions_Input.remove(oOneEmotion);
+					}
+					
+					// there are not 2 emotions of the same eEmotionType in moEmotions_Input
+					break;
 					
 				}
 			}
