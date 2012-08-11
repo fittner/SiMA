@@ -71,7 +71,7 @@ public class clsTripleTest {
 
 	@Test
 	public final void constructionTest() {
-		clsTriple<Integer, Integer, Integer> testTriple1 = new clsTriple<>(1, 2, 3);
+		clsTriple<Integer, Integer, Integer> testTriple1 = new clsTriple<>(10, 20, 30);
 		// no exception expected
 		
 		clsTriple<Integer, Integer, Integer> testTriple2 = new clsTriple<Integer, Integer, Integer>(1, 2, 3);
