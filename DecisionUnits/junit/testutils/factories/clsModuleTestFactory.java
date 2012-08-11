@@ -116,7 +116,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	 * @return the _baseModule
 	 */
 	public clsModuleBase get_baseModule() {
-		//TODO
+		//TODO havlicek
 		return _baseModule;
 	}	
 }
