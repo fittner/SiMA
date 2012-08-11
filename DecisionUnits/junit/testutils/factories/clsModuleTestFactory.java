@@ -35,7 +35,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	private clsShortTermMemory poShortTermMemory;
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
 	
-	public clsModuleTestFactory() {
+	private clsModuleTestFactory() {
 		_factory = this;
 	}
 	
@@ -115,7 +115,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	 * 
 	 * @return the _baseModule
 	 */
-	public clsModuleBase get_baseModule() {
+	public clsModuleBase getBaseModule() {
 		//TODO havlicek
 		return _baseModule;
 	}	

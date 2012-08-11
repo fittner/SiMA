@@ -7,7 +7,6 @@
 package pa._v38.tools;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
@@ -25,16 +24,21 @@ public class clsPairTest {
 	public final void constructorTest() {
 		clsPair<Integer, Integer> pair = new clsPair<Integer, Integer>(1, 2);
 		// no exception expected
+		assertEquals((Integer) 1, pair.a);
+		assertEquals((Integer) 2, pair.b);
 		
 		clsPair.create(1, 2);
 		// no exception expected
 		
+		assertEquals(pair, clsPair.create(1, 2));
 		assertEquals(pair, pair.create(1, 2));
 	}
 	
 	@Test
-	public final void cloneTest() {
-		fail("Not yet implemented"); //TODO implement testcase
+	public final void cloneTest() throws CloneNotSupportedException {
+		clsPair<Integer, Integer> pair = new clsPair<Integer, Integer>(1, 2);
+		
+		assertEquals(pair, pair.clone());
 	}
 
 }
