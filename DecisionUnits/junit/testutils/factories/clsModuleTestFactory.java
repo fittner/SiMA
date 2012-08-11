@@ -4,7 +4,7 @@
  * 05.08.2012 ende - File created
  *
  */
-package pa._v38.test.helper;
+package testutils.factories;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -35,7 +35,7 @@ public class clsModuleTestFactory<T extends clsModuleBase> {
 	private clsShortTermMemory poShortTermMemory;
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
 	
-	public clsModuleTestFactory<T extends clsModuleBase>() {
+	public clsModuleTestFactory() {
 		_factory = this;
 	}
 	
