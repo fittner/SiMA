@@ -6,16 +6,14 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
-import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
+
 import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
@@ -27,29 +25,7 @@ import pa._v38.tools.planningHelpers.PlanningNode;
 public class clsConceptTest {
 
 	private clsConcept _concept;
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 * 
-	 * @since 03.08.2012 15:59:02
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 * 
-	 * @since 03.08.2012 15:59:02
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
+	
 	/**
 	 * DOCUMENT (ende) - insert description
 	 * 
@@ -63,22 +39,11 @@ public class clsConceptTest {
 	}
 
 	/**
-	 * DOCUMENT (ende) - insert description
-	 * 
-	 * @since 03.08.2012 15:59:02
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
 	 * Test method for
 	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
 	 */
 	@Test
-	public final void testClsConcept() {
+	public final void constructorTest() {
 		assertEquals(clsConcept.class, _concept.getClass());
 		assertEquals(new ArrayList<PlanningNode>(), _concept.returnContent());
 	}
@@ -92,7 +57,7 @@ public class clsConceptTest {
 	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#returnContent()}.
 	 */
 	@Test
-	public final void testPlanFragment() {
+	public final void planFragmentTest() {
 		clsPlanFragment planFragment = mock(clsPlanFragment.class);
 		_concept.pushPlanFragment(planFragment);
 		assertEquals(planFragment, _concept.getPlanAtPos(0));
@@ -104,7 +69,7 @@ public class clsConceptTest {
 	 * .
 	 */
 	@Test
-	public final void testSizes() {
+	public final void sizesTest() {
 		assertEquals(0, _concept.getSize());
 		clsPlanFragment planFragment = mock(clsPlanFragment.class);
 		_concept.pushPlanFragment(planFragment);
@@ -116,7 +81,7 @@ public class clsConceptTest {
 	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#toString()}.
 	 */
 	@Test
-	public final void testToString() {
+	public final void toStringTest() {
 		assertEquals("", _concept.toString());
 		// TODO increase size
 	}

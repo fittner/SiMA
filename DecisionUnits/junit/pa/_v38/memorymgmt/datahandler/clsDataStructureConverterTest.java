@@ -6,12 +6,8 @@
  */
 package pa._v38.memorymgmt.datahandler;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,63 +20,19 @@ import org.junit.Test;
 public class clsDataStructureConverterTest {
 
 	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 16:09:13
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 16:09:13
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 16:09:13
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 16:09:13
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
 	 * Test method for {@link pa._v38.memorymgmt.datahandler.clsDataStructureConverter#convertExtSymbolsToPsychicDataStructures(pa._v38.symbolization.representationsymbol.itfSymbol)}.
 	 */
 	@Test
-	public final void testConvertExtSymbolsToPsychicDataStructures() {
-		fail("Not yet implemented"); // TODO
+	public final void convertExtSymbolsToPsychicDataStructuresTest() {
+		fail("Not yet implemented"); //TODO implement testcase
 	}
 
 	/**
 	 * Test method for {@link pa._v38.memorymgmt.datahandler.clsDataStructureConverter#convertALtoALSecondaryDS(java.util.ArrayList)}.
 	 */
 	@Test
-	public final void testConvertALtoALSecondaryDS() {
-		fail("Not yet implemented"); // TODO
+	public final void convertALtoALSecondaryDSTest() {
+		fail("Not yet implemented"); //TODO implement testcase
 	}
 
 }

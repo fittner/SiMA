@@ -6,12 +6,8 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -24,63 +20,19 @@ import org.junit.Test;
 public class clsWordPresentationMeshTest {
 
 	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 20:38:45
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 20:38:45
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 20:38:45
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 03.08.2012 20:38:45
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
-	/**
 	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsWordPresentationMesh#toString()}.
 	 */
 	@Test
-	public final void testToString() {
-		fail("Not yet implemented"); // TODO
+	public final void toStringTest() {
+		fail("Not yet implemented"); //TODO implement testcase
 	}
 
 	/**
 	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsWordPresentationMesh#isNullObject()}.
 	 */
 	@Test
-	public final void testIsNullObject() {
-		fail("Not yet implemented"); // TODO
+	public final void isNullObjectTest() {
+		fail("Not yet implemented"); //TODO implement testcase
 	}
 
 }

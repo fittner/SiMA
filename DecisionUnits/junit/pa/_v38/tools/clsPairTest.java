@@ -6,12 +6,9 @@
  */
 package pa._v38.tools;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -23,53 +20,21 @@ import org.junit.Test;
  */
 public class clsPairTest {
 
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 11.08.2012 11:05:10
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 11.08.2012 11:05:11
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 11.08.2012 11:05:11
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-	}
-
-	/**
-	 * DOCUMENT (ende) - insert description
-	 *
-	 * @since 11.08.2012 11:05:11
-	 *
-	 * @throws java.lang.Exception
-	 */
-	@After
-	public void tearDown() throws Exception {
-	}
-
+	@SuppressWarnings("static-access")
 	@Test
-	public final void test() {
-		fail("Not yet implemented"); // TODO
+	public final void constructorTest() {
+		clsPair<Integer, Integer> pair = new clsPair<Integer, Integer>(1, 2);
+		// no exception expected
+		
+		clsPair.create(1, 2);
+		// no exception expected
+		
+		assertEquals(pair, pair.create(1, 2));
+	}
+	
+	@Test
+	public final void cloneTest() {
+		fail("Not yet implemented"); //TODO implement testcase
 	}
 
 }
