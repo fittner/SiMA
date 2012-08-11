@@ -23,9 +23,10 @@ import pa._v38.storage.clsShortTermMemory;
  * 05.08.2012, 09:34:56
  * 
  */
-public class ClsModuleFactory {
-
-	private clsModuleBase _baseModule;
+public class clsModuleTestFactory<T extends clsModuleBase> {
+	private final clsModuleTestFactory<?> _factory;
+	
+	private T _baseModule;
 	
 	private String poProb;
 	private HashMap<Integer, clsModuleBase> poModuleList;
@@ -34,14 +35,24 @@ public class ClsModuleFactory {
 	private clsShortTermMemory poShortTermMemory;
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
 	
+	public clsModuleTestFactory<T extends clsModuleBase>() {
+		_factory = this;
+	}
+	
+	public final clsModuleTestFactory<T> create() {
+		
+		return this;
+	}
+	
 	
 	/**
 	 * @since 05.08.2012 09:38:37
 	 * 
 	 * @param poProb the poProb to set
 	 */
-	public void setPoProb(String poProb) {
+	public clsModuleTestFactory<T> setPoProb(String poProb) {
 		this.poProb = poProb;
+		return this;
 	}
 	
 	/**
@@ -49,8 +60,9 @@ public class ClsModuleFactory {
 	 * 
 	 * @param poModuleList the poModuleList to set
 	 */
-	public void setPoModuleList(HashMap<Integer, clsModuleBase> poModuleList) {
+	public clsModuleTestFactory<T> setPoModuleList(HashMap<Integer, clsModuleBase> poModuleList) {
 		this.poModuleList = poModuleList;
+		return this;
 	}
 	
 	/**
@@ -58,9 +70,10 @@ public class ClsModuleFactory {
 	 * 
 	 * @param poInterfaceData the poInterfaceData to set
 	 */
-	public void setPoInterfaceData(
+	public clsModuleTestFactory<T> setPoInterfaceData(
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) {
 		this.poInterfaceData = poInterfaceData;
+		return this;
 	}
 	
 	/**
@@ -68,9 +81,10 @@ public class ClsModuleFactory {
 	 * 
 	 * @param poKnowledgeBaseHandler the poKnowledgeBaseHandler to set
 	 */
-	public void setPoKnowledgeBaseHandler(
+	public clsModuleTestFactory<T> setPoKnowledgeBaseHandler(
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler) {
 		this.poKnowledgeBaseHandler = poKnowledgeBaseHandler;
+		return this;
 	}
 	
 	/**
@@ -78,8 +92,9 @@ public class ClsModuleFactory {
 	 * 
 	 * @param poShortTermMemory the poShortTermMemory to set
 	 */
-	public void setPoShortTermMemory(clsShortTermMemory poShortTermMemory) {
+	public clsModuleTestFactory<T> setPoShortTermMemory(clsShortTermMemory poShortTermMemory) {
 		this.poShortTermMemory = poShortTermMemory;
+		return this;
 	}
 	
 	/**
@@ -87,9 +102,10 @@ public class ClsModuleFactory {
 	 * 
 	 * @param poTempLocalizationStorage the poTempLocalizationStorage to set
 	 */
-	public void setPoTempLocalizationStorage(
+	public clsModuleTestFactory<T> setPoTempLocalizationStorage(
 			clsEnvironmentalImageMemory poTempLocalizationStorage) {
 		this.poTempLocalizationStorage = poTempLocalizationStorage;
+		return this;
 	}
 
 	
