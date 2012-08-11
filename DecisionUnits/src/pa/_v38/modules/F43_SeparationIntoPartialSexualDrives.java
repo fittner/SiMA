@@ -230,10 +230,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		oDriveCandidate.setPartialDrive(oPartialDrive);
 		
 		
-		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
 		
 		
-		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
+		oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
 		
 		} catch (Exception e) {
 			// TODO (muchitsch) - Auto-generated catch block

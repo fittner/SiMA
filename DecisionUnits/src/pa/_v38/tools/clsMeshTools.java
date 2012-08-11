@@ -1349,6 +1349,7 @@ public class clsMeshTools {
 	 */
 	public static void setInverseAssociations(clsWordPresentationMesh poInput) {
 		//Go through the associations and search for the other elements in the external associations
+		System.out.println(poInput);
 		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
 				clsSecondaryDataStructure oOtherElement = (clsSecondaryDataStructure) oAss.getTheOtherElement(poInput);
