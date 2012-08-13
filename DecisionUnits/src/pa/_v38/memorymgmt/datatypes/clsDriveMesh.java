@@ -43,11 +43,22 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 
 	/**
-	 * DOCUMENT (schaat) - insert description 
+	 * DOCUMENT (schaat)
+	 * 
+	 * Constructor of clsDriveMesh:
+	 * 
+	 * @param clsTriple poDataStructureIdentifier:
+	 *            1. Integer (is always -1 for a new drive mesh) Braucht das irgenwer noch???
+	 *            2. eDataType (is always: eDataType.DM, DM = drive mesh) Völliger Schwachsinn den eDataType zu erben weil ein drive mesh nur ein drive mesh sein kann!!!
+	 *            3. eContentType ??? (e.g.: eContentType.AGGRESSION or eContentType.DEATH or eContentType.LIFE)
+	 * @param ArrayList<clsAssociation> poInternalAssociatedContent (1st list element: drive aim, 2nd list element: drive object, 3rd list element: drive source, ...) These list elements must be set via: setActualDriveAim, setActualDriveSource, ...
+	 * @param double prQuotaOfAffect (QuotaOfAffect)
+	 * @param String poContent (Is only a debug information how the drive is called. E.g. nourisch - Word-presentations are not allowed in the primary process)
+	 * @param eDriveComponent poDriveComponent (eDriveComponent.AGGRESSIVE or eDriveComponent.LIBIDINOUS)
+	 * @param ePartialDrive poPartialDrive (Partial drives: ePartialDrive.ANAL, ePartialDrive.ORAL, ePartialDrive.PHALLIC, or ePartialDrive.GENITAL)
 	 *
 	 * @since Jul 10, 2012 1:21:34 PM
-	 *
-	 * @param poDataStructureIdentifier
+	 * 
 	 */
 	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive) {
 		super(poDataStructureIdentifier);
@@ -283,7 +294,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//	oRetval += ": :External=NULL";
 			if(this.moDebugInfo!=null && this.moDebugInfo!="")
 				oRetval += ":DBG='"+this.moDebugInfo+"'";
-		oRetval += "|\n";
+		oRetval += "|";
 		return oRetval;
 	}
 	

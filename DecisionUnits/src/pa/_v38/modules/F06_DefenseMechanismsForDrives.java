@@ -201,7 +201,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		for(clsDriveMesh oDrive : moDriveList_Input){
 			// check DriveMesh
 			if (oDrive.getActualDriveAim().getMoContent().equals("BITE")){
-				repress_single_drive(oDrive);
+				ArrayList<String> test = new ArrayList<String>();
+				test.add("BITE");
+				defenseMechanism_ReactionFormation(test);
+				//repress_single_drive(oDrive);
+				break;
 			}
 		}
 		*/
@@ -409,31 +413,17 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	private void changeDriveAim(ArrayList<String> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
-		// Iterate over all forbidden drives
-		for (String oContent : oForbiddenDrives_Input) {
+		int i=0;
 		
-			int i = 0;
-			// search in list of incoming drives
+		for (String oContent : oForbiddenDrives_Input) {
 			for(clsDriveMesh oDrive : moDriveList_Input){
-				// check DriveMesh
-				if (oDrive.getActualDriveAim().getMoContent().equals(oContent)){
-					
-					// Does opposite drive aim exist?
-					clsDriveMesh oChangedDrive = replaceDriveAim(oDrive, poOppositeTP);
-					if (oChangedDrive != null) {
-					
-						// remove DriveMesh i from output list
-						moDriveList_Output.remove(i);
-						// and add the changed drive
-						moDriveList_Output.add(oChangedDrive);
-					}
+				if (oDrive.getActualDriveAim().getMoContent().equals(oContent)) {
+					replaceDriveAim(oDrive, i, poOppositeTP);
+					break;
 				}
-				
 				i++;
 			}
-		
 		}
-		return;
 	}
 	
 	/* (non-Javadoc)
@@ -445,31 +435,23 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * The third parameter poOppositeTP is a list which assigns the altered drive aim to the original drive aim 
 	 *
 	 */
-	private clsDriveMesh replaceDriveAim(clsDriveMesh poOriginalDM, HashMap<String, ArrayList<Object>> poOppositeTP) {
-		
-		// Helper   
+	private void replaceDriveAim(clsDriveMesh poOriginalDM, int i, HashMap<String, ArrayList<Object>> poOppositeTP) {
+		  
 		int j = 0;
 		double rQuotaOfAffect = 0;
 		
 		// opposite Drive
 		clsDriveMesh oOppositeDrive= null;
 		
-		
 		// What is the opposite drive?	
 		String oOriginalTPContent = poOriginalDM.getActualDriveAim().getMoContent();
 
-		// parts of the opposite drive
-		eContentType oOppositeTPContentType = (eContentType)    poOppositeTP.get(oOriginalTPContent).get(0);
-		String oOppositeTPDriveAim          = (String)          poOppositeTP.get(oOriginalTPContent).get(1);
-		//String oOppositeTPContent = "";
-		String oDebugInformation            = (String)          poOppositeTP.get(oOriginalTPContent).get(2); // Name of Drive (word-presentations are not allowed in primary process)
-		eDriveComponent oDriveComponent     = (eDriveComponent) poOppositeTP.get(oOriginalTPContent).get(3);
-		ePartialDrive oPartialDrive         = (ePartialDrive)   poOppositeTP.get(oOriginalTPContent).get(4);
+		// opposite drive aim
+		String oOppositeTPDriveAim = (String) poOppositeTP.get(oOriginalTPContent).get(1);
 		
 		// Opposite drive goal found?
 		if(oOppositeTPDriveAim == null) {
-			// error
-			return null;
+			return;
 		}
 		
 		// search in list of incoming drives if drive similar to opposite drive already exists
@@ -489,65 +471,31 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		if(oOppositeDrive != null) {			
 			rQuotaOfAffect = moDriveList_Output.get(j).getQuotaOfAffect() + poOriginalDM.getQuotaOfAffect();
 			
-			// remove from drivelist, new merged drive will be added to drivelist anyway
-			//moDriveList_Output.remove(j);
-			
 			if(rQuotaOfAffect <= 1.0){
 				oOppositeDrive.setQuotaOfAffect(rQuotaOfAffect);				
 			}
 			else {
-				poOriginalDM.setQuotaOfAffect(rQuotaOfAffect - 1.0);
 				oOppositeDrive.setQuotaOfAffect(1.0);
 				
 				// overflow quota of affect will be sent to F20  
 				// add single quota of affect to affect only list
-				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", poOriginalDM.getQuotaOfAffect())); 
-				moQuotasOfAffect_Output.add(oAffect);
-				
-				
-				//orignialDM is repressed with 0 quota of affect
-				poOriginalDM.setQuotaOfAffect(0.0);
-				repress_single_drive(poOriginalDM);
+				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, rQuotaOfAffect - 1.0)); 
+				moQuotasOfAffect_Output.add(oAffect);				
 			}
+			
+			// remove original drive mesh from output list
+			moDriveList_Output.remove(i);
+
 		}
 		else {
-			// new drive mesh needed
-			// construct opposite drive
-			
-			/*
-			 * Constructor of clsDriveMesh
-			 * 
-			 * clsTripel:
-			 *            1. Integer (is always -1 for a new drive mesh) Braucht das irgenwer noch???
-			 *            2. eDataType (is always: eDataType.DM, DM = drive mesh) Völliger Schwachsinn den eDataType zu erben weil ein drive mesh nur ein drive mesh sein kann!!!
-			 *            3. eContentType ??? (e.g.: eContentType.AGGRESSION or eContentType.DEATH or eContentType.LIFE)
-			 * ArrayList<clsAssociation> (1st list element: drive aim, 2nd list element: drive object, 3rd list element: drive source, ...) These list elements must be set via: setActualDriveAim, setActualDriveSource, ...
-			 * double (QuotaOfAffect)
-			 * String (Is only a debug information how the drive is called. E.g. nourisch - Word-presentations are not allowed in the primary process)
-			 * eDriveComponent (eDriveComponent.AGGRESSIVE or eDriveComponent.LIBIDINOUS)
-			 * ePartialDrive (Partialtriebe: ePartialDrive.ANAL, ePartialDrive.ORAL, ePartialDrive.PHALLIC, or ePartialDrive.GENITAL)
-			 * 
-			 */
-
-			/*
-			 oOppositeDrive = new clsDriveMesh(
-					new clsTriple <Integer, eDataType, eContentType> (-1, eDataType.DM, oOppositeTPContentType),
-					null,                    //drive aim: is added later via setActualDriveAim
-					poOriginalDM.getQuotaOfAffect(),
-					oDebugInformation,       //debug information
-					oDriveComponent,         //e.g. eDriveComponent.AGGRESSIVE
-					oPartialDrive);
-			 
-			 try {
-				 oOppositeDrive.setActualDriveAim(oOppositeTPDriveAim, 1.0);
-			 } catch (Exception e) {
-				 // TODO (Friedrich) - Auto-generated catch block
-				 e.printStackTrace();
-			 }
-			 */
-			
+	
 			// opposite drive = original drive with altered drive aim
-			oOppositeDrive = poOriginalDM;
+			try {
+				oOppositeDrive = (clsDriveMesh) poOriginalDM.clone();
+			} catch (CloneNotSupportedException e1) {
+				// TODO (Friedrich) - Auto-generated catch block
+				e1.printStackTrace();
+			}
 			clsThingPresentationMesh oOppositeDriveAim = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
                     eDataType.TPM,
                     new clsTriple<eContentType, Object, Object> (eContentType.ACTION, new ArrayList<clsThingPresentation>(), oOppositeTPDriveAim));
@@ -557,14 +505,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				// TODO (Friedrich) - Auto-generated catch block
 				e.printStackTrace();
 			}
-		}
-		
-		
-	    // erase old forbidden drive
-		//repress_single_drive(poOriginalDM);
-		
-		return oOppositeDrive;
-		
+			
+			// remove original drive mesh from output list
+			moDriveList_Output.remove(i);
+			// and add the changed drive
+			moDriveList_Output.add(oOppositeDrive);	
+		}	
 	}
 	
 	
@@ -576,7 +522,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * This method represses a single drive. Copied from FG
 	 *
 	 */
-	protected void repress_single_drive(clsDriveMesh poDM) {
+	protected void sendDriveToBlockedContentStorage(clsDriveMesh poDM) {
 		
 	// Only store the drive in blocked content storage, if there are no similar drives in blocked content storage
 		if (moBlockedContentStorage.getMatchesForDrives(poDM, 0.0).isEmpty()){
@@ -619,7 +565,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// if drive found	
 			if (i < moDriveList_Output.size()) {
 				
-				repress_single_drive(moDriveList_Output.get(i));				
+				sendDriveToBlockedContentStorage(moDriveList_Output.get(i));				
 				
 				// add single quotas of affect to affect only list
 				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).getQuotaOfAffect())); 
