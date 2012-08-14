@@ -130,7 +130,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
-		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
+		text += toText.listToTEXT("moEmotions_Output", moEmotions_Input);
 
 		return text;
 	}

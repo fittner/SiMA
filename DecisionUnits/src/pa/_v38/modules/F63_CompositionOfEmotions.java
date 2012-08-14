@@ -351,14 +351,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			
 		}
 		
+		
+		// TODO perception trigger to much emotion -> temporary set to 0. change 0.0 to the related variable
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
-		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
-		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerception", rMaxQoAPerception);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", rMaxQoAPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", rMaxQoAPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionPleasure", 0.0);
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", 0.0);
+		oPerceptionExtractedValues.put("rPerceptionLibid", 0.0);
+		oPerceptionExtractedValues.put("rPerceptionAggr", 0.0);
+		oPerceptionExtractedValues.put("rMaxQoAPerception", 0.0);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", 0.0);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", 0.0);
 		
 		return oPerceptionExtractedValues;
 	}

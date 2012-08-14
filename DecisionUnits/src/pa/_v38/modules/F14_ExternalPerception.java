@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eEntityInternalAttributes;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.symbolization.eSymbolExtType;
@@ -232,27 +233,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		moEnvironmentalTP.add(oSelfContainer);
 		
 		
-		// 2. Object recognition and categorization
-		
-
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		
-		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-		
-		clsThingPresentationMesh oUnknownTPM = null;
-		
-		for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
-			
-			if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
-								
-				oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
-				poSearchPattern.add(oUnknownTPM);			
-				
-			}
-		}
-		
-	search(eDataType.TPM, poSearchPattern, oSearchResult);
 		
 	}
 
@@ -290,7 +270,53 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-		throw new java.lang.NoSuchMethodError();
+
+		// 1. Convert Neurosymbols to TPs/TPMs
+		
+				moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
+				for(itfSymbol oSymbol : moEnvironmentalData.values()){
+					if(oSymbol!=null){
+						for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+							//convert the symbol to a PDSC/TP
+							clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+							moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+						}	
+					}
+				}
+				
+		
+				
+		// 3. Object recognition and categorization
+		
+
+				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+				
+				ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+				
+				clsThingPresentationMesh oUnknownTPM = null;
+				
+				for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+					
+					if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+						
+						oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+									
+						// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+						for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+							if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+								// remove Assoc from internal and put it in external assoc
+								//oUnknownTPM.
+							}
+							
+							
+						}
+						poSearchPattern.add(oUnknownTPM);			
+						
+					}
+				}
+				
+			search(eDataType.TPM, poSearchPattern, oSearchResult);
 	}
 
 	/* (non-Javadoc)
@@ -303,6 +329,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	protected void process_final() {
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	private boolean isInternalAttribute(String poAttribute) {
+		for(eEntityInternalAttributes eAttr: eEntityInternalAttributes.values()) {
+			if  (eAttr.toString().equals(poAttribute)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)

@@ -127,6 +127,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
+		
+		// a TPM-entity may have attributes of different importance. e.g. color and shape should be more important than position and distance (which should not be internal attributes, since they do not identify the TPM)
 				
     	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID specifies that the data structure has been already compared with a stored
