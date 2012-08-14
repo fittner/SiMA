@@ -194,18 +194,18 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @return
 	 */
-	public ArrayList<clsThingPresentation> getAssociatedThingPresentations() {
-		ArrayList<clsThingPresentation> oResult = new ArrayList<clsThingPresentation>();
-			for(clsAssociation oIntAss: this.moInternalAssociatedContent) {
-				try {
-					oResult.add((clsThingPresentation)oIntAss.getMoAssociationElementB());
-				}
-				catch (Exception e) {
-					
-				}
-			}
-		return oResult;
-	}
+//	public ArrayList<clsThingPresentation> getAssociatedThingPresentations() {
+//		ArrayList<clsThingPresentation> oResult = new ArrayList<clsThingPresentation>();
+//			for(clsAssociation oIntAss: this.moInternalAssociatedContent) {
+//				try {
+//					oResult.add((clsThingPresentation)oIntAss.getMoAssociationElementB());
+//				}
+//				catch (Exception e) {
+//					
+//				}
+//			}
+//		return oResult;
+//	}
 	
 	
 	

@@ -306,7 +306,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
 							if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
 								// remove Assoc from internal and put it in external assoc
-								//oUnknownTPM.
+								oUnknownTPM.removeInternalAssociation(oIntAss);
+								oUnknownTPM.addExternalAssociation(oIntAss);
 							}
 							
 							
