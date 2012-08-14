@@ -128,9 +128,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
-		text += toText.valueToTEXT("moDrives", moDrives);		
+		text += toText.valueToTEXT("moDrives", moDrives);
+		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
-		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
+		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);
+		text += toText.valueToTEXT("moForbiddenEmotions", moForbiddenEmotions);
 		return text;
 	}
 	
@@ -274,6 +276,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (searchInEmotions (eEmotionType.ANGER))
 				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
 					moForbiddenEmotions.add(eEmotionType.ANGER);
+		
+		// sample rule for conversion of emotion grief into emotion fear (reversal of affect)
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInEmotions (eEmotionType.GRIEF))
+				if (!moForbiddenEmotions.contains(eEmotionType.GRIEF))
+					moForbiddenEmotions.add(eEmotionType.GRIEF);
 
 		// sample rule for conversion of aggressive drive energy into anxiety
 		if (moSuperEgoStrength >= 0.8)

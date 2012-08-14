@@ -104,8 +104,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moDriveList_Input", moDriveList_Input);
-		text += toText.listToTEXT("moDriveList_Output", moDriveList_Output);
+		text += toText.valueToTEXT("moDriveList_Input", moDriveList_Input);
+		text += toText.valueToTEXT("moDriveList_Output", moDriveList_Output);
 		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);	
 		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);

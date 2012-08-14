@@ -82,6 +82,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private eContentType moBlockedContentType = eContentType.RIREPRESSED;
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
+	private ArrayList<clsEmotion> moEmotions_Output;
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -131,6 +132,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
 		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
 		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
+		text += toText.listToTEXT("moEmotions_Output", moEmotions_Output);
 
 		return text;
 	}
@@ -222,11 +224,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;		
 		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
+		
+		moEmotions_Output = (ArrayList<clsEmotion>) deepCopy(moEmotions_Input);
 		
 		detect_conflict_and_activate_defense_machanisms();
 		
@@ -448,9 +453,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 	   	if (oForbiddenEmotions_Input == null) return;
 		
-	   	// Is the emotion FEAR already in the list moEmotions_Input?
+	   	// Is the emotion FEAR already in the list moEmotions_Output?
 	   	clsEmotion oEmotionFear = null;
-	   	for(clsEmotion oOneEmotion : moEmotions_Input) {
+	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
 	   		if(oOneEmotion.getMoContent() == eEmotionType.FEAR) {
 	   			oEmotionFear = oOneEmotion;
 	   			break;
@@ -459,7 +464,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	
 		// check list of forbidden emotions
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
-			for(clsEmotion oOneEmotion : moEmotions_Input) {
+			for(clsEmotion oOneEmotion : moEmotions_Output) {
 				if(oOneEmotion.getMoContent() == oOneForbiddenEmotion) {
 					if(oEmotionFear != null) {
 						
@@ -469,12 +474,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 							oEmotionFear.setMrEmotionIntensity(1.0);
 							oOneEmotion .setMrEmotionIntensity(oNewEmotionIntensity - 1.0);
 						}
-						else {
+						else
 							oEmotionFear.setMrEmotionIntensity(oNewEmotionIntensity);
 
-							// remove the old emotion from the input list of emotions
-							moEmotions_Input.remove(oOneEmotion);
-						}						
+						// remove the old emotion from the input list of emotions
+						moEmotions_Output.remove(oOneEmotion);					
 
 					}
 					else {
@@ -484,11 +488,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 								oOneEmotion.getMrSourceUnpleasure(),
                                 oOneEmotion.getMrSourceLibid(),
                                 oOneEmotion.getMrSourceAggr());
-						moEmotions_Input.add(oNewEmotion);
-						moEmotions_Input.remove(oOneEmotion);
+						moEmotions_Output.add(oNewEmotion);
+						moEmotions_Output.remove(oOneEmotion);
 					}
 					
-					// there are not 2 emotions of the same eEmotionType in moEmotions_Input
+					// there are not 2 emotions of the same eEmotionType in moEmotions_Output
 					break;
 					
 				}
@@ -534,8 +538,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	@Override
 	protected void send() {
-		send_I5_15(moPerceptionalMesh_OUT, moEmotions_Input);
-		send_I5_16(moQuotasOfAffect_Output, moEmotions_Input);
+		send_I5_15(moPerceptionalMesh_OUT, moEmotions_Output);
+		send_I5_16(moQuotasOfAffect_Output, moEmotions_Output);
 	}
 	
 	/* (non-Javadoc)
