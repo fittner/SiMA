@@ -128,9 +128,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
-		text += toText.valueToTEXT("moDrives", moDrives);		
+		text += toText.valueToTEXT("moDrives", moDrives);
+		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
-		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);		
+		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);
+		text += toText.valueToTEXT("moForbiddenEmotions", moForbiddenEmotions);
 		return text;
 	}
 	

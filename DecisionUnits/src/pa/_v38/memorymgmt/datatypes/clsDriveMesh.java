@@ -294,7 +294,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//	oRetval += ": :External=NULL";
 			if(this.moDebugInfo!=null && this.moDebugInfo!="")
 				oRetval += ":DBG='"+this.moDebugInfo+"'";
-		oRetval += "|";
+		oRetval += "|\n";
 		return oRetval;
 	}
 	
