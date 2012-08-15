@@ -276,7 +276,14 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (searchInEmotions (eEmotionType.ANGER))
 				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
 					moForbiddenEmotions.add(eEmotionType.ANGER);
-
+		
+		/*
+		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInEmotions (eEmotionType.GRIEF))
+				if (!moForbiddenEmotions.contains(eEmotionType.GRIEF))
+					moForbiddenEmotions.add(eEmotionType.GRIEF);
+*/
 		// sample rule for conversion of aggressive drive energy into anxiety
 		if (moSuperEgoStrength >= 0.8)
 			if (searchInDM (eDriveComponent.AGGRESSIVE, "BITE", 0.20))
