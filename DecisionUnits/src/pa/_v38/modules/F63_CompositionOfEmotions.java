@@ -326,41 +326,41 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		
 		// use QoA of the PI's entities  for emotion-generation
-		for(clsAssociation oPIINtAss: moPerceptions_IN.getMoInternalAssociatedContent()) {
-			if(oPIINtAss.getMoContentType() == eContentType.PARTOFASSOCIATION){
-				
-				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
-					if (oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
-						// TODO: what about pleasure (libidoDischarge-DM)?
-						
-						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
-						rPerceptionUnpleasure += oDM.getQuotaOfAffect();
-						if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-							rPerceptionLibid += oDM.getQuotaOfAffect();
-							rMaxQoAPerceptionLibid++;
-						} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-							rPerceptionAggr += oDM.getQuotaOfAffect();
-							rMaxQoAPerceptionAggr++;
-						}
-						rMaxQoAPerception++;
-					}
-				}
-			}
+//		for(clsAssociation oPIINtAss: moPerceptions_IN.getMoInternalAssociatedContent()) {
+//			if(oPIINtAss.getMoContentType() == eContentType.PARTOFASSOCIATION){
+//				
+//				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
+//					if (oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
+//						// TODO: what about pleasure (libidoDischarge-DM)?
+//						
+//						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
+//						rPerceptionUnpleasure += oDM.getQuotaOfAffect();
+//						if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
+//							rPerceptionLibid += oDM.getQuotaOfAffect();
+//							rMaxQoAPerceptionLibid++;
+//						} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
+//							rPerceptionAggr += oDM.getQuotaOfAffect();
+//							rMaxQoAPerceptionAggr++;
+//						}
+//						rMaxQoAPerception++;
+//					}
+//				}
+//			}
+//			
 			
 			
-			
-		}
+//		}
 		
 		
 		// TODO perception trigger to much emotion -> temporary set to 0. change 0.0 to the related variable
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", 0.0);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", 0.0);
-		oPerceptionExtractedValues.put("rPerceptionLibid", 0.0);
-		oPerceptionExtractedValues.put("rPerceptionAggr", 0.0);
-		oPerceptionExtractedValues.put("rMaxQoAPerception", 0.0);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", 0.0);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", 0.0);
+		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
+		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerception", rMaxQoAPerception);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", rMaxQoAPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", rMaxQoAPerceptionLibid);
 		
 		return oPerceptionExtractedValues;
 	}
