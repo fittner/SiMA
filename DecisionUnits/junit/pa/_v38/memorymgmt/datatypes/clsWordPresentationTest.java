@@ -7,7 +7,6 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,44 +16,79 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (ende) - insert description 
- * 
- * @author ende
- * 03.08.2012, 20:39:21
+ * DOCUMENT (ende) - unit test for clsWorldPresentation
+ *  
+ * @author ende 03.08.2012, 20:39:21
  * 
  */
 public class clsWordPresentationTest {
-		
+
 	private clsTriple<Integer, eDataType, eContentType> _clsTriple;
-	
-	@SuppressWarnings("unchecked")
+
 	@Before
 	public void setUp() {
-		_clsTriple = new clsTriple<Integer, eDataType, eContentType>(100, eDataType.ACT, eContentType.ACTION);
+		_clsTriple = new clsTriple<Integer, eDataType, eContentType>(100,
+				eDataType.ACT, eContentType.ACTION);
 	}
-	
+
+	/**
+	 * 
+	 * DOCUMENT (ende) - Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#clsWordPresentation(clsTriple, Object)
+	 * (pa._v38.memorymgmt.datatypes.clsDataStructurePA)}
+	 * 
+	 * @since 12.08.2012 09:06:19
+	 * 
+	 */
 	@Test
 	public final void constructorTest() {
-		clsWordPresentation wp = new clsWordPresentation(_clsTriple, "something");
-		//no exception expected
+		clsWordPresentation wp;
+		wp = new clsWordPresentation(_clsTriple, "something");
+		// no exception expected
+
 		assertEquals(eContentType.ACTION, wp.moContentType);
-		assertEquals(0,wp.moDSInstance_ID);
+		assertEquals(0, wp.moDSInstance_ID);
+
+		wp = new clsWordPresentation(_clsTriple, null);
+		// no exception expected
 	}
-	
+
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#compareTo(pa._v38.memorymgmt.datatypes.clsDataStructurePA)}.
+	 * 
+	 * DOCUMENT (ende) - Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#compareTo(pa._v38.memorymgmt.datatypes.clsDataStructurePA)}
+	 * 
+	 * @since 12.08.2012 09:07:09
+	 * 
 	 */
 	@Test
 	public final void compareToTest() {
-		fail("Not yet implemented"); //TODO implement testcase
+		clsWordPresentation wp1 = new clsWordPresentation(_clsTriple,
+				"something");
+		clsWordPresentation wp2 = new clsWordPresentation(_clsTriple,
+				"something");
+		clsTriple<Integer, eDataType, eContentType> triple2 = new clsTriple<Integer, eDataType, eContentType>(
+				200, eDataType.EMOTION, eContentType.AFFECT);
+		clsWordPresentation wp3 = new clsWordPresentation(triple2, null);
+
+		assertEquals(1.0, wp1.compareTo(wp2), 0.0); // same return 1
+		assertEquals(0.0, wp1.compareTo(wp3), 0.0); // different return 0
 	}
 
 	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#toString()}.
+	 * 
+	 * DOCUMENT (ende) - Test method for
+	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#clone()
+	 * (pa._v38.memorymgmt.datatypes.clsDataStructurePA)}.
+	 * 
+	 * @since 12.08.2012 09:05:26
+	 * 
+	 * @throws CloneNotSupportedException
 	 */
 	@Test
-	public final void toStringTest() {
-		fail("Not yet implemented"); //TODO implement testcase
+	public final void cloneTest() throws CloneNotSupportedException {
+		clsWordPresentation wp = new clsWordPresentation(_clsTriple,
+				"something");
+		assertEquals(wp, (clsWordPresentation) wp.clone());
 	}
-
 }

@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.fail;
 
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -19,6 +20,13 @@ import org.junit.Test;
  */
 public class clsWordPresentationMeshTest {
 
+	private clsWordPresentationMesh _wpm;
+	
+	@Before
+	public void setUp() {
+		//_wpm = new clsWordPresentationMesh(poDataStructureIdentifier, poAssociatedStructures, poContent)
+	}
+	
 	/**
 	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsWordPresentationMesh#toString()}.
 	 */
