@@ -364,16 +364,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				rEntryTension = 1-rEntryTension ;
 			}
 			
-//<<<<<<< HEAD
-//=======
-//			//Special STOMACH
-//			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
-//			{
-//				rEntryTension = 1-rEntryTension ;
-//			}
-//			
-//			
-//>>>>>>> branch 'master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
+
+			//Special STOMACH
+			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				rEntryTension = 1-rEntryTension ;
+			}
+			
 			//Special STAMINA
 			if(oEntry.getKey() == eSensorIntType.STAMINA.name())
 			{

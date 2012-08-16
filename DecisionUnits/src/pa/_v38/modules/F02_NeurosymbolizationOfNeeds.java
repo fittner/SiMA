@@ -31,6 +31,7 @@ import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
 
+
 /**
  * Conversion of raw homoestatic data into neuro-symbols. Also slow and fast messengers are created here.<br><br>
  * 
@@ -192,22 +193,6 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private void CollectBodilyDemandsInOneList() {
 		
 		//STOMACHTENSION
-//		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
-//			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
-
-		//INTESTINEPRESSURE
-		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
-			moHomeostaticSymbol_OUT.put(eOrgan.RECTUM.name(), ((clsIntestinePressure)moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)).getPressure() );
-
-		//HEALTH
-		if(moBodilyDemands_IN.get(eSensorIntType.HEALTH)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.HEALTH.name(), ((clsHealthSystem)moBodilyDemands_IN.get(eSensorIntType.HEALTH)).getHealthValue()  );
-		
-		//STAMINA
-		if(moBodilyDemands_IN.get(eSensorIntType.STAMINA)!=null)
-			moHomeostaticSymbol_OUT.put(eSensorIntType.STAMINA.name(), ((clsStaminaSystem)moBodilyDemands_IN.get(eSensorIntType.STAMINA)).getStaminaValue() );
-		
-		//STOMACHTENSION
 		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
 			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
 
@@ -241,14 +226,10 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				Double rValue = oFastMessenger.getIntensity();
 				if (oName.equals("STOMACH")) {
 					oName += "_PAIN";
-//<<<<<<< HEAD
+
 					Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
 					moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
-//=======
-//					//special: add stomach pain too what drive...
-//					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
-//					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
-//>>>>>>> branch 'master' of ssh://wendt@vesta.ict.tuwien.ac.at/home/prj/ARS/GITRoot/ARSIN_V01
+
 				}
 				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}
