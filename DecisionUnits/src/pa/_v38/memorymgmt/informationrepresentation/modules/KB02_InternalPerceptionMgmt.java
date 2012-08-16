@@ -7,13 +7,18 @@
 package pa._v38.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
+import java.util.HashSet;
+
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+
+import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -210,6 +215,112 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		oRetVal = clsDataStructureComparison.compareDataStructuresMesh(moSearchSpaceHandler, poUnknown, prThreshold, pnLevel);	
 		
 		return oRetVal;
+	}
+
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 12.08.2012, 13:52:24
+	 *
+	 * @param poReturnType
+	 * @param poDataStructureUnknown
+	 * @return
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
+			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
+		
+		double rMatchScore = 0;
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		
+		// list for expanded nodes
+		
+		// list for unexpanded nodes
+
+		HashSet<clsDataStructurePA> oSearchFringe = new HashSet<clsDataStructurePA>();
+		
+		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = new ArrayList<clsPair<Double,clsDataStructurePA>>();
+				
+		clsPair<Double, clsDataStructurePA> oBestMatch = null;
+		
+		// of poDataStructureUnknown (not internal assoc objects!)
+		ArrayList<clsPair<Double, clsDataStructurePA>> oMatchingDataStructureList = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		
+		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
+			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
+		}
+		else if (poDataStructureUnknown  instanceof itfInternalAssociatedDataStructure) {
+
+			// For each unknowDS (e.g. UnknownTPM): take its internal associated data structures (e.g.TPs) and get all returntype of unknownDs (e.g. TPMs that are associated with this TP - if returntype is TPM) 
+			
+			// 1. get internal associated data structures of UnknowDS (e.g. UnknownTPM)
+			for( clsAssociation oIntAssOfUnknownDS: ((itfInternalAssociatedDataStructure) poDataStructureUnknown).getMoInternalAssociatedContent()) {
+				// 2. get matching data structures from knowledgebase
+				oMatchedDataStructures = compareElements(oIntAssOfUnknownDS.getMoAssociationElementB());
+				
+				if(oMatchedDataStructures.isEmpty()) continue;
+				
+				// 3. get best match of internal ass. data structures (e.g TPs) as starting fringe for graph search
+				oBestMatch =  getBestMatch(oMatchedDataStructures);
+				
+				// 4. get associated returntype (e.g. TPMs of TP)
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oBestMatch.b);	//Get container from a certain data value
+				oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oBestMatch.a, oDataStructureContainer));
+
+			}
+			
+			// 5. fill initial searchFringe. use a set (searchFringe) because different TPs may have the same TPM associated
+			for(clsPair<Double, clsDataStructureContainer> oAssReturnObjects: oDataStructureContainerList) {
+				for(clsAssociation oAssReturnObject: oAssReturnObjects.b.getMoAssociatedDataStructures()) {
+					oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
+				}
+			}
+			
+			
+			// 6. start search			
+			if(oSearchFringe.isEmpty() == true) {
+				// return failure
+			}
+			
+			// 7. Goal test (=similarity check)
+			for (clsDataStructurePA oFringeObject: oSearchFringe) {
+				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
+				
+				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
+					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oFringeObject));
+				}
+			}
+			 
+		}
+		
+		
+		return null;
+	}
+
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @since Aug 9, 2012 2:50:19 PM
+	 *
+	 * @param oMatchedDataStructures
+	 * @return
+	 */
+	private clsPair<Double, clsDataStructurePA> getBestMatch(
+			ArrayList<clsPair<Double, clsDataStructurePA>> poMatchedDataStructures) {
+		
+		clsPair<Double, clsDataStructurePA> oReturnValue = null;
+		double rMaxScore = 0;
+		
+		for(clsPair<Double, clsDataStructurePA> oPatternElement : poMatchedDataStructures){
+			if(oPatternElement.a > rMaxScore) {
+				rMaxScore = oPatternElement.a;
+				oReturnValue = new clsPair<Double, clsDataStructurePA>(rMaxScore,oPatternElement.b);
+			}
+		}
+		
+		return oReturnValue;
 	}
 
 }

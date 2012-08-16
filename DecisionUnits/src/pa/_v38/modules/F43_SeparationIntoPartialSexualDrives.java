@@ -7,7 +7,6 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.tools.clsPair;
@@ -18,14 +17,11 @@ import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_3_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsDriveDemand;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-
 import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -49,8 +45,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public static final String P_PARTIAL_PHALLIC = "phallic";
 	public static final String P_PARTIAL_GENITAL = "genital";
 	
-	private ArrayList< clsPair<clsDriveMeshOLD, clsDriveDemand> > moLibidoDriveDemands;
-	private ArrayList< clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > > moDriveCandidates;
+
 	private ArrayList< clsPair<ePartialDrive,Double> > moPartialSexualDrivesFactors;
 
 	private ArrayList<clsPair<clsDriveMesh, clsDriveMesh>> moSexualDriveComponents_IN;
@@ -88,8 +83,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
-		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		//text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
+		//text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
 		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrivesFactors);
 		
 		return text;
@@ -150,25 +145,6 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			CreateLibidoneusDriveRepresentations((clsDriveMesh)oEntry.a);
 		}
 		
-
-		
-//		moDriveCandidates = new ArrayList<clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>,clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>>();
-//		for (clsPair<String, Double> oPSD:moPartialSexualDrivesFactors) {
-//			if (moLibidoDriveDemands.size() == 2) {
-//				clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > oTMPDriveCandidate = createDMT_Double(oPSD);
-//				
-//				//set DM libido categories
-//				oTMPDriveCandidate.a.a.setCategories(moPartialSexualDrivesFactors.get(0).b, moPartialSexualDrivesFactors.get(1).b, moPartialSexualDrivesFactors.get(3).b, moPartialSexualDrivesFactors.get(2).b);
-//
-//				//set DM agressive categories
-//				oTMPDriveCandidate.b.a.setCategories(moPartialSexualDrivesFactors.get(0).b, moPartialSexualDrivesFactors.get(1).b, moPartialSexualDrivesFactors.get(3).b, moPartialSexualDrivesFactors.get(2).b);
-//				
-//				moDriveCandidates.add( oTMPDriveCandidate );
-//			} else {
-//				throw new java.lang.NoSuchMethodError();
-//				//E43_SeparationIntoPartialSexualDrives.process_basic(): don't know how to handle different number of entries for moHomeostaticDriveDemands.
-//			}
-//		}
 	}
 	
 	/**
@@ -254,10 +230,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		oDriveCandidate.setPartialDrive(oPartialDrive);
 		
 		
-		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
 		
 		
-		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
+		oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
 		
 		} catch (Exception e) {
 			// TODO (muchitsch) - Auto-generated catch block
@@ -303,53 +279,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		
 	}
 
-	/**
-	 * generate pairs of opposites. should be only one life and one death instinct available -> straight forward
-	 *
-	 * @since 12.07.2011 10:49:22
-	 *
-	 * @param oPSD
-	 * @return
-	 */
-	private clsPair< clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> > createDMT_Double(clsPair<String, Double> oPSD) {
-		eContentType oContentType;
-		String oContext;
-		clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD;
-		
-		//(0) = libido
-		oHDD = moLibidoDriveDemands.get(0);
-		oContentType = oHDD.a.getMoContentType();
-		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
-		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT_A =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
-		//oPSD.b  for the c part of the Tripple is the factor read from the propety files. no calculation is done! just added 
-		//to pass the factor down to module F54
-
-		//(1) = agressive
-		oHDD = moLibidoDriveDemands.get(1);
-		oContentType = oHDD.a.getMoContentType();
-		oContext = oHDD.a.getMoContent()+"_"+oPSD.a;
-		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT_B =	createDriveMeshTripple(oContentType, oContext, oHDD.b, oPSD.b);
-
-		return new clsPair<clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>, clsTriple<clsDriveMeshOLD,clsDriveDemand,Double>>(oT_A, oT_B);
-	}
 	
-	private clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> createDriveMeshTripple(eContentType poContentType, String poContext, clsDriveDemand poDemand, Double prValue) {
-		clsDriveMeshOLD oDM = createSexualDriveMesh(poContentType, poContext);
-		clsTriple<clsDriveMeshOLD,clsDriveDemand,Double> oT = new clsTriple<clsDriveMeshOLD, clsDriveDemand, Double>(oDM, poDemand, prValue);
-		return oT;
-	}
-	
-	private clsDriveMeshOLD createSexualDriveMesh(eContentType poContentType, String poContext) {
-		clsThingPresentation oDataStructure = (clsThingPresentation)clsDataStructureGenerator.generateDataStructure( eDataType.TP, new clsPair<eContentType, Object>(poContentType, poContext) );
-		ArrayList<Object> oContent = new ArrayList<Object>( Arrays.asList(oDataStructure) );
-		
-		clsDriveMeshOLD oRetVal = (pa._v38.memorymgmt.datatypes.clsDriveMeshOLD)clsDataStructureGenerator.generateDataStructure( 
-				eDataType.DM, new clsTriple<eContentType, Object, Object>(poContentType, oContent, poContext)
-				);
-		
-		oRetVal.mbSexualDM = true; // temporary solution to dinstinguish sexual drives from self-preservation drives
-		return oRetVal;
-	}	
 
 	/* (non-Javadoc)
 	 *

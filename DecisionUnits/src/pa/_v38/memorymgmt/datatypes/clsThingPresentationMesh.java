@@ -127,6 +127,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		clsThingPresentationMesh oDataStructure = (clsThingPresentationMesh)poDataStructure;
 		ArrayList <clsAssociation> oContentListTemplate = this.moInternalAssociatedContent; 
 		ArrayList <clsAssociation> oContentListUnknown = oDataStructure.moInternalAssociatedContent;
+		
+		// a TPM-entity may have attributes of different importance. e.g. color and shape should be more important than position and distance (which should not be internal attributes, since they do not identify the TPM)
 				
     	//This if statement proofs if the compared data structure does already have an ID =>
 		//the ID specifies that the data structure has been already compared with a stored
@@ -183,6 +185,30 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 //		return rRetVal;
 //	}
 	
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 8.08.2012, 16:12:00
+	 *
+	 * @return
+	 */
+//	public ArrayList<clsThingPresentation> getAssociatedThingPresentations() {
+//		ArrayList<clsThingPresentation> oResult = new ArrayList<clsThingPresentation>();
+//			for(clsAssociation oIntAss: this.moInternalAssociatedContent) {
+//				try {
+//					oResult.add((clsThingPresentation)oIntAss.getMoAssociationElementB());
+//				}
+//				catch (Exception e) {
+//					
+//				}
+//			}
+//		return oResult;
+//	}
+	
+	
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -204,6 +230,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			}
 		return oResult;
 	}
+	
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description

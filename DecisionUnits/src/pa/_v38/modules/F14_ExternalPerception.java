@@ -16,12 +16,13 @@ import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eEntityInternalAttributes;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.symbolization.eSymbolExtType;
@@ -55,7 +57,7 @@ import pa._v38.tools.toText;
  * 07.05.2012, 14:26:13
  * 
  */
-public class F14_ExternalPerception extends clsModuleBase implements 
+public class F14_ExternalPerception extends clsModuleBaseKB implements 
 					I2_3_receive, 
 					I2_4_receive,
 					I2_6_send,
@@ -70,10 +72,9 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT I2.6) @since 20.07.2011 10:26:23 */
 	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
 	/** Input from Drive System */
-	private ArrayList<clsPair<clsPhysicalRepresentation, clsDriveMeshOLD>> moDrives_IN;
+	private ArrayList<clsDriveMesh> moDrives_IN;
 
 	
-	private ArrayList<clsDriveMesh> moDrives_IN_TEMPORARY;
 	
 	/**
 	 * Constructor of F14, nothing unusual
@@ -87,8 +88,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -186,6 +187,8 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		
 		//here also the body data should be processed, but nothing is coming from this path until now.
 		
+		// 1. Convert Neurosymbols to TPs/TPMs
+		
 		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
 		for(itfSymbol oSymbol : moEnvironmentalData.values()){
 			if(oSymbol!=null){
@@ -228,6 +231,9 @@ public class F14_ExternalPerception extends clsModuleBase implements
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
 		
 		moEnvironmentalTP.add(oSelfContainer);
+		
+
+		
 	}
 
 	/* (non-Javadoc)
@@ -264,7 +270,61 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_draft() {
-		throw new java.lang.NoSuchMethodError();
+
+		// 1. Convert Neurosymbols to TPs/TPMs
+		
+				moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
+				for(itfSymbol oSymbol : moEnvironmentalData.values()){
+					if(oSymbol!=null){
+						for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+							//convert the symbol to a PDSC/TP
+							clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+							moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+						}	
+					}
+				}
+				
+
+				
+				// 3. Object recognition and categorization
+				// warum kommen keine bodypart etc bei arsins?
+
+				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+						ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+								new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+						
+						ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+						
+						clsThingPresentationMesh oUnknownTPM = null;
+						
+						for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+							
+							if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+								
+								oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+											
+								// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+								for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+									if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+										// remove Assoc from internal and put it in external assoc
+										oRemoveAss.add(oIntAss);
+									}
+									
+									
+								}
+								
+								for(clsAssociation oAss: oRemoveAss){
+									oUnknownTPM.removeInternalAssociation(oAss);
+									oUnknownTPM.addExternalAssociation(oAss);
+								}
+								poSearchPattern.add(oUnknownTPM);			
+								
+							}
+						}
+						
+					search(eDataType.TPM, poSearchPattern, oSearchResult);
+
+				
 	}
 
 	/* (non-Javadoc)
@@ -277,6 +337,15 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	@Override
 	protected void process_final() {
 		throw new java.lang.NoSuchMethodError();
+	}
+
+	private boolean isInternalAttribute(String poAttribute) {
+		for(eEntityInternalAttributes eAttr: eEntityInternalAttributes.values()) {
+			if  (eAttr.toString().equals(poAttribute)){
+				return true;
+			}
+		}
+		return false;
 	}
 
 	/* (non-Javadoc)
@@ -312,7 +381,7 @@ public class F14_ExternalPerception extends clsModuleBase implements
 	@Override
 	public void receive_I5_1(
 			ArrayList<clsDriveMesh> poDrives) {
-		moDrives_IN_TEMPORARY = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
+		moDrives_IN = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 		
 	}	
 }

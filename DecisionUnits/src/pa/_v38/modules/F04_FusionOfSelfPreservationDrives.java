@@ -30,16 +30,12 @@ import du.enums.pa.ePartialDrive;
  * 
  * @author muchitsch
  * 11.08.2009, 13:40:06
- * 
+ * test
  */
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "04";
 	
 	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
-	
-//	private ArrayList< clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > > moDriveCandidates; 
-//	private ArrayList< clsPair< clsDriveMeshOLD, clsDriveDemand> > moHomeostaticDriveDemands;
-//	private ArrayList< clsPair< clsPair<String, String>, clsPair<String, String> > > moDriveOfOppositePairs;
 	
 	//
 	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
@@ -69,21 +65,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 //		fillOppositePairs();
 	}
 	
-//	private void fillOppositePairs() {
-//		moDriveOfOppositePairs = new ArrayList<clsPair<clsPair<String,String>,clsPair<String,String>>>();
-//		
-//		ArrayList<clsQuadruppel<String, String, String, String>> oStaticList = new ArrayList<clsQuadruppel<String,String,String,String>>();
-//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","NOURISH","DEATH","BITE"));
-//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","RELAX","DEATH","SLEEP"));
-//		oStaticList.add(new clsQuadruppel<String, String, String, String>("LIFE","REPRESS","DEATH","DEPOSIT"));
-//		
-//		for (clsQuadruppel<String, String, String, String> oEntry:oStaticList) {
-//			clsPair<String, String> oLeft = new clsPair<String, String>(oEntry.a, oEntry.b);
-//			clsPair<String, String> oRight = new clsPair<String, String>(oEntry.c, oEntry.d);
-//			clsPair<clsPair<String,String>,clsPair<String,String>> oPair = new clsPair<clsPair<String,String>,clsPair<String,String>>(oLeft, oRight);
-//			moDriveOfOppositePairs.add(oPair);
-//		}
-//	}
+
 	
 	/* (non-Javadoc)
 	 *
@@ -215,65 +197,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		}
 	}
 	
-	
-	
-	//TODO CM this need a new implementation
-//	private clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > changeContentByFactor(clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry){
-//		
-//		if(Personality_Content_Factor <0) // more agressive
-//		{
-//			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
-//			{
-//				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
-//				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
-//			}
-//			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
-//			{
-//				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor*-1) );
-//				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor*-1) );
-//			}
-//			else
-//			{
-//			 //new content type?
-//			}
-//		}
-//		else //more libido
-//		{
-//			if(oEntry.a.a.getMoContentType() == eContentType.DEATH)
-//			{
-//				oEntry.b.b.setTension( oEntry.b.b.getTension()+(oEntry.b.b.getTension()*Personality_Content_Factor) );
-//				oEntry.a.b.setTension( oEntry.a.b.getTension()-(oEntry.a.b.getTension()*Personality_Content_Factor) );
-//			}
-//			else if (oEntry.a.a.getMoContentType() == eContentType.LIFE)
-//			{
-//				oEntry.b.b.setTension( oEntry.b.b.getTension()-(oEntry.b.b.getTension()*Personality_Content_Factor) );
-//				oEntry.a.b.setTension( oEntry.a.b.getTension()+(oEntry.a.b.getTension()*Personality_Content_Factor) );
-//			}
-//			else
-//			{
-//			 //new content type?
-//			}
-//		}
-//		
-//		return oEntry;
-//	}
-	
-//	private clsPair<clsDriveMeshOLD, clsDriveDemand> getEntry(clsPair<String, String> poId) {
-//		clsPair<clsDriveMeshOLD, clsDriveDemand> oResult =  null;
-//		String oContentType = poId.a; 
-//		String oContext = poId.b;
-//		
-//		for (clsPair<clsDriveMeshOLD, clsDriveDemand> oHDD:moHomeostaticDriveDemands) {
-//			clsDriveMeshOLD oTemp = oHDD.a;
-//			if ( oTemp.getMoContent().equals(oContext) && oTemp.getMoContentType().equals(oContentType)) {
-//				oResult = oHDD;
-//				break;
-//			}
-//		}
-//		
-//		return oResult;
-//	}
-	
 
 	/* (non-Javadoc)
 	 *
@@ -311,27 +234,6 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	@Override
 	protected void process_draft() {
 		
-		//the old code:
-
-//		moDriveCandidates = new ArrayList<clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>,clsPair<clsDriveMeshOLD,clsDriveDemand>>>();
-//		
-//		for (clsPair< clsPair<String, String>, clsPair<String, String> > oDOOP:moDriveOfOppositePairs) {
-//			clsPair<clsDriveMeshOLD, clsDriveDemand> oA = getEntry(oDOOP.a);
-//			clsPair<clsDriveMeshOLD, clsDriveDemand> oB = getEntry(oDOOP.b);
-//			
-//			
-//			
-//			if (oA != null && oB != null) {
-//				clsPair< clsPair<clsDriveMeshOLD, clsDriveDemand>, clsPair<clsDriveMeshOLD, clsDriveDemand> > oEntry = 
-//					new clsPair<clsPair<clsDriveMeshOLD,clsDriveDemand>, clsPair<clsDriveMeshOLD,clsDriveDemand>>(oA, oB);
-//					
-//					//chenge the agressive/lib content due to personaliyt
-//					if(Personality_Content_Factor != 0)
-//						oEntry = changeContentByFactor(oEntry);
-//				
-//					moDriveCandidates.add(oEntry); 
-//			}
-//		}
 		
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
@@ -345,9 +247,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 					,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 			
 			//copy the information from the drive candidate
-			oDriveComponent.associateActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);
+			oDriveComponent.setActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);
 
-			oDriveComponent.associateActualBodyOrifice(poDriveCandidate.getActualBodyOrifice(), 1.0);
+			oDriveComponent.setActualBodyOrifice(poDriveCandidate.getActualBodyOrifice(), 1.0);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

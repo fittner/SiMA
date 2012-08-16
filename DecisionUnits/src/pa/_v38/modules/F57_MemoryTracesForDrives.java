@@ -32,7 +32,7 @@ import config.clsProperties;
  * 
  * @author hinterleitner
  * 05.08.2011, 10:23:13
- * 
+ *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
 		implements I4_1_receive,  I5_1_send{
@@ -43,7 +43,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
-	private double mrThresholdMatchFactor = 0.5;
+	private double mrThresholdMatchFactor = 0.0;
 	private double mrThresholdPleasure = 0.2;
 	
 	/**
@@ -197,7 +197,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
-						
+				
+			 	oDriveObject = null;
+				oDriveAim = null;
+				
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
 			
@@ -257,8 +260,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				try {
 					// just consider drives with driveobject and -aim
 					if(oDriveObject != null && oDriveAim != null){
-						oSimulatorDM.associateActualDriveObject(oDriveObject, 1.0);		
-						oSimulatorDM.associateActualDriveAim(oDriveAim, 1.0);	
+						oSimulatorDM.setActualDriveObject(oDriveObject, 1.0);		
+						oSimulatorDM.setActualDriveAim(oDriveAim, 1.0);	
 						oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
 						oRetVal.add(oSimulatorDM);
 					}
