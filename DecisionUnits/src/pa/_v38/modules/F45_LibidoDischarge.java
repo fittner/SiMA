@@ -214,7 +214,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	protected void process_basic() {
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
-		
+		mrLibidoReducedBy =0;
 		//Clone input structure and make modification directly on the output
 		try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();

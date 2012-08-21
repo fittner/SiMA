@@ -1,4 +1,4 @@
-; Wed Aug 08 15:53:50 CEST 2012
+; Thu Aug 16 11:59:11 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1809,7 +1809,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_FAR])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.5)
+	(quotaOfAffect 0.1)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_FAR")
 	(value_type "LIBIDO"))
 
@@ -1818,7 +1818,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_MEDIUM])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.5)
+	(quotaOfAffect 0.2)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_MEDIUM")
 	(value_type "LIBIDO"))
 
@@ -1827,7 +1827,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_NEAR])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.9)
+	(quotaOfAffect 0.3)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_NEAR")
 	(value_type "LIBIDO"))
 
