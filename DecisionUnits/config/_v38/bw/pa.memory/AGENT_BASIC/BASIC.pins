@@ -1,4 +1,4 @@
-; Thu Aug 16 11:59:11 CEST 2012
+; Wed Aug 15 11:39:32 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1809,7 +1809,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_FAR])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.5)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_FAR")
 	(value_type "LIBIDO"))
 
@@ -1818,7 +1818,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_MEDIUM])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.5)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_MEDIUM")
 	(value_type "LIBIDO"))
 
@@ -1827,7 +1827,7 @@
 	(drive_component "LIBIDINOUS")
 	(instance_association [AD%3ALIBIDODISCHARGE%3ACAKE_DISTANCE_NEAR])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.3)
+	(quotaOfAffect 0.9)
 	(value "DM:LIBIDODISCHARGE:CAKE_DISTANCE_NEAR")
 	(value_type "LIBIDO"))
 
@@ -1882,30 +1882,30 @@
 ([EMOTION%3AANGER%3ACARL_CAKE_FAR] of  EMOTION
 
 	(emotionIntensity 0.3)
-	(sourceAggr 10.0)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 20.0)
+	(sourceUnpleasure 2.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AANGER%3ACARL_CAKE_MEDIUM] of  EMOTION
 
 	(emotionIntensity 0.4)
-	(sourceAggr 15.0)
+	(sourceAggr 1.5)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 20.0)
+	(sourceUnpleasure 4.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AANGER%3ACARL_CAKE_NEAR] of  EMOTION
 
 	(emotionIntensity 0.6)
-	(sourceAggr 30.0)
+	(sourceAggr 2.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 40.0)
+	(sourceUnpleasure 5.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 

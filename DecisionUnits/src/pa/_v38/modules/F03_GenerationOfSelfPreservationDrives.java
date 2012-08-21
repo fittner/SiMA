@@ -101,7 +101,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.5);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
@@ -364,12 +364,12 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				rEntryTension = 1-rEntryTension ;
 			}
 			
+
 			//Special STOMACH
 			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
-			
 			
 			//Special STAMINA
 			if(oEntry.getKey() == eSensorIntType.STAMINA.name())

@@ -232,7 +232,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		moEnvironmentalTP.add(oSelfContainer);
 		
-		
+
 		
 	}
 
@@ -284,40 +284,47 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					}
 				}
 				
-		
-				
-		// 3. Object recognition and categorization
-		
 
-				ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 				
-				ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-				
-				clsThingPresentationMesh oUnknownTPM = null;
-				
-				for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
-					
-					if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+				// 3. Object recognition and categorization
+				// warum kommen keine bodypart etc bei arsins?
+
+				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+						ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+								new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 						
-						oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+						ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+						
+						clsThingPresentationMesh oUnknownTPM = null;
+						
+						for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+							
+							if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+								
+								oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+											
+								// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+								for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+									if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+										// remove Assoc from internal and put it in external assoc
+										oRemoveAss.add(oIntAss);
+									}
 									
-						// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-						for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
-							if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
-								// remove Assoc from internal and put it in external assoc
-								oUnknownTPM.removeInternalAssociation(oIntAss);
-								oUnknownTPM.addExternalAssociation(oIntAss);
+									
+								}
+								
+								for(clsAssociation oAss: oRemoveAss){
+									oUnknownTPM.removeInternalAssociation(oAss);
+									oUnknownTPM.addExternalAssociation(oAss);
+								}
+								poSearchPattern.add(oUnknownTPM);			
+								
 							}
-							
-							
 						}
-						poSearchPattern.add(oUnknownTPM);			
 						
-					}
-				}
+					search(eDataType.TPM, poSearchPattern, oSearchResult);
+
 				
-			search(eDataType.TPM, poSearchPattern, oSearchResult);
 	}
 
 	/* (non-Javadoc)

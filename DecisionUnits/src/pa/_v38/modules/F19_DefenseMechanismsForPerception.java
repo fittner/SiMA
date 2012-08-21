@@ -288,7 +288,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
 		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
-		 defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input);
+		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Input);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
@@ -449,22 +449,22 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	}
 
 	
-	private void defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input) {
+	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
-	   	if (oForbiddenEmotions_Input == null) return;
+	   	if (oForbiddenEmotions_Input == null) return oEmotions_Output;
 		
 	   	// Is the emotion FEAR already in the list moEmotions_Output?
 	   	clsEmotion oEmotionFear = null;
-	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
-	   		if(oOneEmotion.getMoContent() == eEmotionType.FEAR) {
-	   			oEmotionFear = oOneEmotion;
+	   	for(clsEmotion oEmotion : oEmotions_Output) {
+	   		if(oEmotion.getMoContent() == eEmotionType.FEAR) {
+	   			oEmotionFear = oEmotion;
 	   			break;
 	   		}
 	   	}
 	   	
 		// check list of forbidden emotions
 		for(eEmotionType oOneForbiddenEmotion : oForbiddenEmotions_Input) {
-			for(clsEmotion oOneEmotion : moEmotions_Output) {
+			for(clsEmotion oOneEmotion : oEmotions_Output) {
 				if(oOneEmotion.getMoContent() == oOneForbiddenEmotion) {
 					if(oEmotionFear != null) {
 						
@@ -473,13 +473,17 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 						if (oNewEmotionIntensity > 1.0) {
 							oEmotionFear.setMrEmotionIntensity(1.0);
 							oOneEmotion .setMrEmotionIntensity(oNewEmotionIntensity - 1.0);
+							
+							// do not delete the original emotion if EmotionIntensity > 1
+							// otherwise psychic energy is lost
+							// -> the original emotion has a lower EmotionIntensity but still exists
 						}
-						else
+						else {
 							oEmotionFear.setMrEmotionIntensity(oNewEmotionIntensity);
 
 						// remove the old emotion from the input list of emotions
-						moEmotions_Output.remove(oOneEmotion);					
-
+						oEmotions_Output.remove(oOneEmotion);					
+						}
 					}
 					else {
 						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
@@ -498,7 +502,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				}
 			}
 		}
-
+		return oEmotions_Output;
 	}
 	
 	/**

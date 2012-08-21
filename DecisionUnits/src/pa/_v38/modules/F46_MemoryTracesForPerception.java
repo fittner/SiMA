@@ -163,8 +163,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
 		
-		
-		
 		//Set new instance IDs
 		//clsDataStructureTools.createInstanceFromTypeList(oContainerWithTypes, true);
 		//Convert LOCATION to DISTANCE and POSITION

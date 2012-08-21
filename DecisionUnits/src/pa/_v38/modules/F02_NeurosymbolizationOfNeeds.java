@@ -28,6 +28,8 @@ import du.itf.sensors.clsHealthSystem;
 import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
+import du.itf.sensors.clsStomachTension;
+
 
 
 /**
@@ -191,8 +193,8 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	private void CollectBodilyDemandsInOneList() {
 		
 		//STOMACHTENSION
-//		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
-//			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
+		if(moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)!=null)
+			moHomeostaticSymbol_OUT.put(eOrgan.STOMACH.name(), ((clsStomachTension)moBodilyDemands_IN.get(eSensorIntType.STOMACHTENSION)).getTension() );
 
 		//INTESTINEPRESSURE
 		if(moBodilyDemands_IN.get(eSensorIntType.INTESTINEPRESSURE)!=null)
@@ -224,9 +226,10 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				Double rValue = oFastMessenger.getIntensity();
 				if (oName.equals("STOMACH")) {
 					oName += "_PAIN";
-					//special: add stomach pain too what drive...
-					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
-					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
+
+					Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
+					moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
+
 				}
 				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}
