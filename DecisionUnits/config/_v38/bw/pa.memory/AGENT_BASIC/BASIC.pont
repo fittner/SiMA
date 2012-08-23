@@ -1,4 +1,4 @@
-; Wed Aug 15 11:39:32 CEST 2012
+; Wed Aug 22 15:04:32 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -283,15 +283,6 @@
 	(is-a TPM%3AENTITY)
 	(role concrete))
 
-(defclass EMPTYSPACE
-	(is-a TPM%3AENTITY)
-	(role concrete)
-	(single-slot value
-		(type STRING)
-;+		(value "EMPTYSPACE")
-;+		(cardinality 1 1)
-		(create-accessor read-write)))
-
 (defclass SMARTEXCREMENT
 	(is-a TPM%3AENTITY)
 	(role concrete)
@@ -426,6 +417,15 @@
 (defclass TPM%3AACTION%3AL2
 	(is-a TPM%3AACTION)
 	(role concrete))
+
+(defclass TPM%3AEMPTY_SPACE
+	(is-a TPM)
+	(role concrete)
+	(single-slot value_type
+		(type STRING)
+		(default "EMPTYSPACE")
+;+		(cardinality 1 1)
+		(create-accessor read-write)))
 
 (defclass WP
 	(is-a USER)

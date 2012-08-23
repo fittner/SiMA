@@ -119,10 +119,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
-		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		text += toText.listToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getMoInternalAssociatedContent());
+		text += toText.listToTEXT("External Associations", moPerceptionalMesh_OUT.getExternalMoAssociatedContent());
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		//text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		
 		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
 		
 		return text;

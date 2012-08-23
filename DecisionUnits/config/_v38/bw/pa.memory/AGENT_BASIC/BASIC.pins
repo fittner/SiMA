@@ -1,4 +1,4 @@
-; Wed Aug 15 11:39:32 CEST 2012
+; Wed Aug 22 15:04:32 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1885,7 +1885,7 @@
 	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 2.0)
+	(sourceUnpleasure 1.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -1895,7 +1895,7 @@
 	(sourceAggr 1.5)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 4.0)
+	(sourceUnpleasure 2.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -1905,7 +1905,7 @@
 	(sourceAggr 2.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 5.0)
+	(sourceUnpleasure 3.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -2382,8 +2382,9 @@
 		[TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 	(value "CARROT"))
 
-([TPM%3AENTITY%3AEMPTYSPACE01] of  EMPTYSPACE
-)
+([TPM%3AENTITY%3AEMPTYSPACE01] of  TPM%3AEMPTY_SPACE
+
+	(value_type "ENTITY"))
 
 ([TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST] of  PRIMAL_OBJECT
 

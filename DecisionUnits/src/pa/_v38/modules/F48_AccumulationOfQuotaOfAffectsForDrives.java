@@ -135,6 +135,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		text += toText.listToTEXT("HomIN", moHomoestasisDriveComponents_IN);
 		text += toText.listToTEXT("SexIN", moSexualDriveRepresentations_IN);
 		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);	
+		
+		text += toText.valueToTEXT("Pleasure", moPleasureStorage.send_D4_1());	
+		
 				
 		return text;
 	}

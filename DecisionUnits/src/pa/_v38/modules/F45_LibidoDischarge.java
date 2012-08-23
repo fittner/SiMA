@@ -232,10 +232,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			if(oImage.getMoContentType() == eContentType.PI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
 			}
-			else if(oImage.getMoContentType() == eContentType.RI){
-				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
-
-			}
+			// temporarily deactivated, since perception of "emptyspace" always trigger an RI with a cake. hence there would always be libidodischarge 
+//			else if(oImage.getMoContentType() == eContentType.RI){
+//				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
+//
+//			}
 			else if(oImage.getMoContentType() == eContentType.PHI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
 
