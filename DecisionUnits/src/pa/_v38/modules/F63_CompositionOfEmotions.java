@@ -7,9 +7,11 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
+import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_21_send;
 import pa._v38.interfaces.modules.I5_21_receive;
@@ -42,7 +44,7 @@ import du.enums.pa.eDriveComponent;
  * 07.06.2012, 15:47:11
  */
 public class F63_CompositionOfEmotions extends clsModuleBase 
-					implements I5_3_receive, I5_10_receive, I5_21_send {
+					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send {
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
@@ -52,13 +54,22 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
-		
-	private double mrMaxValue = 0.0;
+	
+	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold = 0.667;
 	
 	DT4_PleasureStorage moPleasureStorage = null;
 	
+	// values from perception-track (triggered emotions). to get a better output in the inspectors and a capsulated function-call a hashmap is used instead of separate variables
+	HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 
+	// values from drive-track . to get a better output in the inspectors a hashmap is used instead of separate variables
+	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
+
+	// perceiving a drive object sould trigger less emotions than the bodily needs
+	private double mrPerceptionTriggerFactor = 0.4;
+	
+	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
@@ -72,6 +83,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		moPleasureStorage = poPleasureStorage;
 		
 		moEmotions_OUT = new ArrayList<clsEmotion>();
+		
+		
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -99,7 +112,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);	
+		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);			
+		text += toText.valueToTEXT("rDriveUnpleasure", oDrivesExtractedValues.get("rDriveUnpleasure"));
+
+		text += toText.valueToTEXT("rDriveLibid", oDrivesExtractedValues.get("rDriveLibid"));
+		text += toText.valueToTEXT("rDriveAggr", oDrivesExtractedValues.get("rDriveAggr"));
+		
+		text += toText.valueToTEXT("rDrivePleasure",  moPleasureStorage.send_D4_1());
+		
+		text += toText.valueToTEXT("rPerceptionPleasure", oPerceptionExtractedValues.get("rPerceptionPleasure"));
+		text += toText.valueToTEXT("rPerceptionUnpleasure", oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
 				
 		return text;
 	}
@@ -116,7 +138,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		moEmotions_OUT = new ArrayList<clsEmotion>() ;
 		
-		// System = values from whole system (ARSIN), drives = values from drive track, perception = values from perception track
+		// rSystemXY = values from whole system (ARSIN), drives = values from drive track, perception = values from perception track
 
 		// four basic categories ("Grundkategorien", see document "Compositions of Emotions")
 		double rSystemPleasure = 0.0; 
@@ -130,9 +152,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rDriveLibid = 0.0;
 		double rDriveAggr = 0.0;
 		
-		// values from perception-track (triggered emotions)
-		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		
+			
 		double rRelativeSystemPleasure = 0.0; 
 		double rRelativeSystemUnpleasure = 0.0;
 		double rRelativeSystemLibid = 0.0;
@@ -163,6 +183,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		//get Pleasure
 		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
+		// TEMPORARY
+		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
+		oDrivesExtractedValues.put("rDriveUnpleasure", rDriveUnpleasure);
+		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid);
+		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr);
+		oDrivesExtractedValues.put("rMaxQoADrives", rMaxQoADrives);
+		oDrivesExtractedValues.put("rMaxQoADrivesAggr", rMaxQoADrivesAggr);
+		oDrivesExtractedValues.put("rMaxQoADrivesLibid", rMaxQoADrivesLibid);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
 		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emtion is based on) to influence the emotion generation in F63
@@ -173,10 +201,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oPerceptionExtractedValues = getEmotionValuesFromPerception();
 				
 		
-		//double[] rAllValues={mrSystemUnpleasure,mrSystemUnpleasure,rSystemAggrUnpleasure, rSystemLibidUnpleasure};
-		
-		//mrMaxValue = getMaxValue(rAllValues);
-
 		// aggregate values from drive- and perception track
 		// Both have the same impact on the generation of emotions (no weighting necessary)
 		// TODO: problem: values from perception are much higher than values from drive-track. --> impact of perception on the generation of emotion is relatively high (relative to impact of drive-track)
@@ -330,10 +354,12 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			if(oPIINtAss.getMoContentType() == eContentType.PARTOFASSOCIATION){
 				
 				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
-					if (oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
+					// exclude empty spaces (they are currently associated with the deposit drive). just use entities
+					if (((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getMoContentType() == eContentType.ENTITY && oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
 						// TODO: what about pleasure (libidoDischarge-DM)?
-						
+												
 						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
+					
 						rPerceptionUnpleasure += oDM.getQuotaOfAffect();
 						if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
 							rPerceptionLibid += oDM.getQuotaOfAffect();
@@ -343,22 +369,27 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 							rMaxQoAPerceptionAggr++;
 						}
 						rMaxQoAPerception++;
+						
+						// TODO: A cake is associated with multiple DMs of the same kind. this should not be the case. delete "break", after this problem is solved
+						break;
 					}
 				}
 			}
 			
 			
 			
-		}
+	}
 		
+		//// TEMPORARY
+		// TODO perception trigger to much emotion
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", rPerceptionUnpleasure);
-		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
-		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerception", rMaxQoAPerception);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", rMaxQoAPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", rMaxQoAPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionPleasure", mrPerceptionTriggerFactor*rPerceptionPleasure);
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", mrPerceptionTriggerFactor*rPerceptionUnpleasure);
+		oPerceptionExtractedValues.put("rPerceptionLibid", mrPerceptionTriggerFactor*rPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionAggr", mrPerceptionTriggerFactor*rPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerception", mrPerceptionTriggerFactor*rMaxQoAPerception);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", mrPerceptionTriggerFactor*rMaxQoAPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", mrPerceptionTriggerFactor*rMaxQoAPerceptionLibid);
 		
 		return oPerceptionExtractedValues;
 	}
@@ -455,7 +486,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	 */
 	@Override
 	public void setDescription() {
-		moDescription = "F63: TODO";
+		moDescription = "F63: F63 generate Emotions based on  Pleasure and  Unpleasure from the drive- and perception track. ";
 	}
 
 	/* (non-Javadoc)
@@ -499,8 +530,93 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		((I5_21_receive)moModuleList.get(55)).receive_I5_21(poEmotions);
 		
 	}
+
 	
+	/*************************************************************/
+	/***                   TIME CHART METHODS                  ***/
+	/*************************************************************/
 	
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChart#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oValues = new ArrayList<Double>();
+		
+		oValues.add(oDrivesExtractedValues.get("rDrivePleasure"));
+		oValues.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		
+		
+		oValues.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		
+		return oValues;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChart#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		return new ArrayList<String>(Arrays.asList("rDrivePleasure","rDriveUnpleasure", "rPerceptionUnpleasure"));
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Composition of Emotions";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 20;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @author deutsch
+	 * 21.04.2011, 20:29:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.5;
+	}	
+
 	
+
 
 }

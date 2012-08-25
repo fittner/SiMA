@@ -1,4 +1,4 @@
-; Wed Aug 08 15:53:50 CEST 2012
+; Wed Aug 22 15:04:32 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1882,30 +1882,30 @@
 ([EMOTION%3AANGER%3ACARL_CAKE_FAR] of  EMOTION
 
 	(emotionIntensity 0.3)
-	(sourceAggr 10.0)
+	(sourceAggr 1.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 20.0)
+	(sourceUnpleasure 1.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AANGER%3ACARL_CAKE_MEDIUM] of  EMOTION
 
 	(emotionIntensity 0.4)
-	(sourceAggr 15.0)
+	(sourceAggr 1.5)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 20.0)
+	(sourceUnpleasure 2.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
 ([EMOTION%3AANGER%3ACARL_CAKE_NEAR] of  EMOTION
 
 	(emotionIntensity 0.6)
-	(sourceAggr 30.0)
+	(sourceAggr 2.0)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
-	(sourceUnpleasure 40.0)
+	(sourceUnpleasure 3.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -2382,8 +2382,9 @@
 		[TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ACIRCLE])
 	(value "CARROT"))
 
-([TPM%3AENTITY%3AEMPTYSPACE01] of  EMPTYSPACE
-)
+([TPM%3AENTITY%3AEMPTYSPACE01] of  TPM%3AEMPTY_SPACE
+
+	(value_type "ENTITY"))
 
 ([TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST] of  PRIMAL_OBJECT
 

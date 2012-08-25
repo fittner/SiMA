@@ -214,7 +214,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	protected void process_basic() {
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
-		
+		mrLibidoReducedBy =0;
 		//Clone input structure and make modification directly on the output
 		try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
@@ -232,10 +232,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			if(oImage.getMoContentType() == eContentType.PI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
 			}
-			else if(oImage.getMoContentType() == eContentType.RI){
-				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
-
-			}
+			// temporarily deactivated, since perception of "emptyspace" always trigger an RI with a cake. hence there would always be libidodischarge 
+//			else if(oImage.getMoContentType() == eContentType.RI){
+//				mrLibidoReducedBy += setImageLibido(oImage, mrMemoryReduceFactor, mrAvailableLibido);
+//
+//			}
 			else if(oImage.getMoContentType() == eContentType.PHI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPhantasyReduceFactor, mrAvailableLibido);
 

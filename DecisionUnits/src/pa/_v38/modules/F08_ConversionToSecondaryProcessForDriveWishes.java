@@ -140,7 +140,6 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
-	
 
 
 	/* (non-Javadoc)
@@ -159,39 +158,39 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
-	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
-		//FIXME AW .::::::: FAKE Prepare Drive input
-				clsDriveMesh oOnlyDriveMesh = null;
-				for (clsDriveMesh oDM : moDriveList_Input) {
-					if (oDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-						//Change to cake
-//						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
-//						for (clsAssociation oAss : oAssList) {
-//							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
-//							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-//								//Get the association with the carrot
-//								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
-//								{
-//									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-//									if(oTPM.getMoContentType() == eContentType.ENTITY) {
-//										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
-//									}
-//								}
-//							}
-//						}
-						
-						//Set mrPleasure to max
-						oDM.setQuotaOfAffect(1.0);
-						
-						oOnlyDriveMesh = oDM;
-						
-						break;
-					}
-				}
-				
-				moDriveList_Input.clear();
-				moDriveList_Input.add(oOnlyDriveMesh);
-	}
+//	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
+//		//FIXME AW .::::::: FAKE Prepare Drive input
+//				clsDriveMesh oOnlyDriveMesh = null;
+//				for (clsDriveMesh oDM : moDriveList_Input) {
+//					if (oDM.getActualDriveObject().getMoContent().equals("CAKE")) {
+//						//Change to cake
+////						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
+////						for (clsAssociation oAss : oAssList) {
+////							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
+////							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
+////								//Get the association with the carrot
+////								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
+////								{
+////									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+////									if(oTPM.getMoContentType() == eContentType.ENTITY) {
+////										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
+////									}
+////								}
+////							}
+////						}
+//						
+//						//Set mrPleasure to max
+//						oDM.setQuotaOfAffect(1.0);
+//						
+//						oOnlyDriveMesh = oDM;
+//						
+//						break;
+//					}
+//				}
+//				
+//				moDriveList_Input.clear();
+//				moDriveList_Input.add(oOnlyDriveMesh);
+//	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description

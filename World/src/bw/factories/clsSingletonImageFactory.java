@@ -53,6 +53,23 @@ public class clsSingletonImageFactory {
 		return oResult;
 	}
 	
+	//new method
+	static public BufferedImage getString(eStrings pnString) throws IOException  {
+		BufferedImage oResult = null;
+		
+		if (!clsSingletonImageFactory.instance().moImageBuffer.containsKey(pnString)) {
+			//clsSingletonImageFactory.instance().loadImage(pnString);		
+		}
+		
+		oResult = clsSingletonImageFactory.instance().moImageBuffer.get(pnString);
+		
+		if (oResult == null) {
+			throw new IOException("clsSingletonImageFactory.getImage: file '"+clsGetARSPath.getImagePath() + pnString.getFilename()+"' not found/not loadable.");
+		}
+		
+		return oResult;
+	}
+	
 	private void loadImage(eImages pnImage){
 		String oFilename = clsGetARSPath.getImagePath() + pnImage.getFilename();
 		

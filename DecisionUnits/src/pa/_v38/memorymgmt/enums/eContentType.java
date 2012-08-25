@@ -17,7 +17,7 @@ public enum eContentType {
 	//--- System ---//
 	NULLOBJECT,
 	NOTHING,
-	
+	EMPTYSPACE,
 	
 	//---Images---//
 	PI,			//Perceived Image
