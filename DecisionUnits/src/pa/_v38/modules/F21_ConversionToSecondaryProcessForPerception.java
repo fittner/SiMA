@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.storage.clsEnvironmentalImageMemory;
@@ -219,6 +220,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//4. For each WPM, search for more SP-WPM-Parts and connect them
 		//5. Within the WPM-Structure, the allocation of images to acts is already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
+		
+		
+		//Take the created WPMs and build a clsConcept out of them.
+		clsConcept concept = generateConcept(oWPMConstruct.b);
+		
 		
 		//Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
@@ -433,16 +439,16 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	/**
 	 * 
 	 * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
-	 * of WPMs.
+	 * of {@link clsWordPresentationMesh}.
 	 * 
 	 * IN WORK
 	 * @since 03.08.2012 17:05:53
 	 * 
-	 * @param poListWPM
+	 * @param poListWPM give the list of <code>clsWordPresentationMesh</code>es of the current context.
 	 * @return the constructed clsConcept based on the given WPMs
 	 */
 	protected clsConcept generateConcept(
-			ArrayList<clsWordPresentationMesh> poListWPM) {
+			List<clsWordPresentationMesh> poListWPM) {
 		//TODO (havlicek) this mapping is in work
 		clsConcept _concept = new clsConcept();
 		for (clsWordPresentationMesh _wpm : poListWPM) {

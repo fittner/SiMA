@@ -89,6 +89,6 @@ public class clsWordPresentationTest {
 	public final void cloneTest() throws CloneNotSupportedException {
 		clsWordPresentation wp = new clsWordPresentation(_clsTriple,
 				"something");
-		assertEquals(wp, (clsWordPresentation) wp.clone());
+		assertEquals(wp, wp.clone());
 	}
 }
