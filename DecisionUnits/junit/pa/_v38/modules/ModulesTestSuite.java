@@ -11,15 +11,13 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 /**
- * DOCUMENT (ende) - insert description 
+ * DOCUMENT (ende) - insert description
  * 
- * @author ende
- * 15.08.2012, 15:39:23
+ * @author ende 15.08.2012, 15:39:23
  * 
  */
 @RunWith(Suite.class)
-@SuiteClasses({ clsModuleBaseKBTest.class, clsModuleBaseTest.class,
-		clsPsychicApparatusTest.class,
+@SuiteClasses({ clsPsychicApparatusTest.class,
 		F21_ConversionToSecondaryProcessForPerceptionTest.class })
 public class ModulesTestSuite {
 

@@ -24,7 +24,6 @@ import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
-import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 
 import pa._v38.interfaces.modules.eInterfaces;
@@ -32,6 +31,8 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsConcept;
+import pa._v38.memorymgmt.datatypes.clsImage;
+import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -51,8 +52,6 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 
 	private F21_ConversionToSecondaryProcessForPerception _f21;
 
-	ExpectedException _thrown = ExpectedException.none();
-
 	@Mock
 	private String poPrefix;
 	@Mock
@@ -67,8 +66,6 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	private clsShortTermMemory poShortTermMemory;
 	@Mock
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
-	@Mock
-	private clsTriple<Integer, eDataType, eContentType> tripleMock;
 
 	/**
 	 * DOCUMENT (ende) - insert description
@@ -79,7 +76,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	 */
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		
+
 	}
 
 	/**
@@ -161,13 +158,19 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 		clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(
 				1, eDataType.EMOTION, eContentType.GOAL);
 		ArrayList<clsSecondaryDataStructure> poAssociatedWordPresentations = new ArrayList<clsSecondaryDataStructure>();
-		clsWordPresentationMesh wpm1 = new clsWordPresentationMesh(poDataStructureIdentifier,
-				new ArrayList<clsAssociation>(), "NOTHING");
+		clsWordPresentationMesh wpm1 = new clsWordPresentationMesh(
+				poDataStructureIdentifier, new ArrayList<clsAssociation>(),
+				"NOTHING");
 		poAssociatedWordPresentations.add(wpm1);
 		String poContent = "HELLO";
 
 		clsAct act = new clsAct(poDataStructureIdentifier,
 				poAssociatedWordPresentations, poContent);
+
+		clsPlanFragment planFragment = new clsPlanFragment(act, new clsImage(),
+				new clsImage());
+
+		expectedResult.pushPlanFragment(planFragment);
 
 		List<clsWordPresentationMesh> wpms = new ArrayList<clsWordPresentationMesh>();
 		wpms.add(wpm1);

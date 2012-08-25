@@ -7,6 +7,8 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -17,7 +19,7 @@ import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (ende) - unit test for clsWorldPresentation
- *  
+ * 
  * @author ende 03.08.2012, 20:39:21
  * 
  */
@@ -89,6 +91,9 @@ public class clsWordPresentationTest {
 	public final void cloneTest() throws CloneNotSupportedException {
 		clsWordPresentation wp = new clsWordPresentation(_clsTriple,
 				"something");
+		clsWordPresentation wpClone = (clsWordPresentation) wp.clone();
+		assertNotNull(wpClone);
+		assertTrue(wpClone instanceof clsWordPresentation);
 		assertEquals(wp, wp.clone());
 	}
 }

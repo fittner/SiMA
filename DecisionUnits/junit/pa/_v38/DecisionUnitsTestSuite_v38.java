@@ -10,7 +10,6 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
-import pa._v38.memorymgmt.datahandler.DatahandlerTestSuite;
 import pa._v38.memorymgmt.datatypes.DatatypesTestSuite;
 import pa._v38.modules.ModulesTestSuite;
 import pa._v38.tools.ToolsTestSuite;
@@ -23,7 +22,7 @@ import pa._v38.tools.ToolsTestSuite;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ToolsTestSuite.class, ModulesTestSuite.class,
-		DatatypesTestSuite.class, DatahandlerTestSuite.class })
+		DatatypesTestSuite.class })
 public class DecisionUnitsTestSuite_v38 {
 
 }
