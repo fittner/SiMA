@@ -183,12 +183,13 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions) {
+		
+		// clone perceptions
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -197,7 +198,25 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			e.printStackTrace();
 		}
 		
-		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		
+		moEmotions_Input = clone(poEmotions);
+		
+		/*
+		// --- deep clone: emotions ---
+		moEmotions_Input = new ArrayList<clsEmotion>();
+		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+		
+		for (clsEmotion oOneEmotion : poEmotions) {
+			try {
+				moEmotions_Input.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		*/
+		
+		
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 		moForbiddenEmotions_Input    = poForbiddenEmotions;
 
@@ -215,7 +234,30 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public void receive_I5_14(ArrayList<clsDriveMesh> poData) {
 		
 		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData);
-	}		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 27.08.2012, 17:54:00
+	 * 
+	 * clones an ArrayList<clsEmotions>
+	 */
+	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
+		// deep clone: oEmotions --> oClonedEmotions
+		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+		for (clsEmotion oOneEmotion : oEmotions) {
+			try {
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oClonedEmotions;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -224,14 +266,28 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;		
 		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
 		
-		moEmotions_Output = (ArrayList<clsEmotion>) deepCopy(moEmotions_Input);
+		moEmotions_Output = clone(moEmotions_Input);
+		
+		/*
+		// deep clone: moEmotions_Input --> moEmotions_Output
+		moEmotions_Output = new ArrayList<clsEmotion>();
+		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+		for (clsEmotion oOneEmotion : moEmotions_Input) {
+			try {
+				moEmotions_Output.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		*/
+
 		
 		detect_conflict_and_activate_defense_machanisms();
 		
@@ -288,7 +344,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
 		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
-		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Input);
+		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
