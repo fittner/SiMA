@@ -81,6 +81,7 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 		root.add(new DefaultMutableTreeNode("Goals"));
 		root.add(new DefaultMutableTreeNode("Plans"));
 		root.add(new DefaultMutableTreeNode("Actions"));
+		root.add(new DefaultMutableTreeNode("Concepts"));
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
