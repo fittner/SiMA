@@ -23,7 +23,7 @@ public class clsTripleTest {
 
 	@Test
 	public final void constructionTest() {
-		clsTriple<Integer, Integer, Integer> testTriple1 = new clsTriple<>(1, 2, 3);
+		clsTriple<Integer, Integer, Integer> testTriple1 = new clsTriple<Integer, Integer, Integer>(1, 2, 3);
 		// no exception expected
 		assertEquals((Integer) 1, testTriple1.a);
 		assertEquals((Integer) 2, testTriple1.b);
