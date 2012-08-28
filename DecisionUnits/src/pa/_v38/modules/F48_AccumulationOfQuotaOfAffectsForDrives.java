@@ -13,6 +13,7 @@ import pa._v38.modules.eImplementationStage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.eDriveValueSplitter;
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I4_1_receive;
@@ -34,7 +35,7 @@ import du.enums.pa.ePartialDrive;
  * 07.05.2012, 15:47:11
  */
 public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase 
-					implements I3_3_receive, I3_4_receive, I4_1_send {
+					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart {
 
 	public static final String P_MODULENUMBER = "48";
 	public static final String P_SPLITFACTORLABEL = "label";
@@ -43,6 +44,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private HashMap<String, Double> moSplitterFactor;	
 
 	private DT4_PleasureStorage moPleasureStorage;
+	private double mnCurrentPleasure = 0.0;
+	
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moDriveChartData;
 	
 	//holds the homoestatic drive pairs, A is agressive
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
@@ -73,6 +78,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moPleasureStorage = poPleasureStorage;
+		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -136,7 +142,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		text += toText.listToTEXT("SexIN", moSexualDriveRepresentations_IN);
 		text += toText.listToTEXT("OUT", moAllDriveComponents_OUT);	
 		
-		text += toText.valueToTEXT("Pleasure", moPleasureStorage.send_D4_1());	
+		text += toText.valueToTEXT("Pleasure", mnCurrentPleasure);	
 		
 				
 		return text;
@@ -166,6 +172,26 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		//add some meaningfull information to the debug info, comment this out for performance
 		AddDebugInfoForUsProgrammers(this.moAllDriveComponents_OUT);
+		
+		
+		//add chart data for all drives:
+		for (clsDriveMesh oDriveMeshEntry : moAllDriveComponents_OUT )
+		{
+			//add some time chart data
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			if ( !moDriveChartData.containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+			}
+			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+			
+		}
+		
+		//now add chart for pleasure
+		String olKey = "pleasure";
+		if ( !moDriveChartData.containsKey(olKey) ) {
+			mnChartColumnsChanged = true;
+		}
+		moDriveChartData.put(olKey, mnCurrentPleasure);
 	}
 	
 	/**
@@ -203,6 +229,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		//set the actual drive list to DT4, this automatically calculates the pleasure and this value can the be used everywhere
 		moPleasureStorage.receive_D4_1(moAllDriveComponents_OUT);
+		mnCurrentPleasure = moPleasureStorage.send_D4_1();
 	}
 
 	/**
@@ -442,6 +469,104 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	public void receive_I3_3(
 			ArrayList<clsDriveMesh> poSexualDriveRepresentations) {
 		moSexualDriveRepresentations_IN = (ArrayList<clsDriveMesh>)poSexualDriveRepresentations;
+	}
+
+	
+	/*************************************************************/
+	/***                   TIME CHART METHODS                  ***/
+	/*************************************************************/
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Pleasure and Drives";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moDriveChartData.values());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moDriveChartData.keySet());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;	
+		
 	}
 
 }

@@ -258,6 +258,15 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	oColors.add(new Color(204, 51, 102));
     	oColors.add(new Color(153, 51, 0));
     	oColors.add(new Color(255, 153, 0));
+    	oColors.add(Color.darkGray);
+    	oColors.add(new Color(210, 55, 44));
+    	oColors.add(new Color(90, 153, 5));
+    	oColors.add(new Color(255, 103, 5));
+    	oColors.add(new Color(68, 5, 255));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
+    	oColors.add(new Color(0, 0, 0));
         
         return oColors;
     } 	
