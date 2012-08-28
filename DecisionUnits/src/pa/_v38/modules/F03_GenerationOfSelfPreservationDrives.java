@@ -201,6 +201,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
+						
 			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
 			{
 				//bloodsugar is special, make it to a stomach drive
@@ -209,6 +210,10 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
+			}
+			else if(oEntry.getKey().toString() == (eOrgan.STOMACH.name()))
+			{
+				//do nothing
 			}
 			else{
 				boolean createDrive = true;
