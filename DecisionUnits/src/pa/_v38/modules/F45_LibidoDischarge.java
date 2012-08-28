@@ -66,11 +66,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
 	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
 	 * memories */
-	private double mrPerceptionReduceFactor = 1.0;
+	private double mrPerceptionReduceFactor = 0.2;
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
-	private double mrMemoryReduceFactor = 0.5;
+	private double mrMemoryReduceFactor = 0.05;
 	
-	private double mrPhantasyReduceFactor = 0.1;
+	private double mrPhantasyReduceFactor = 0.01;
 	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)

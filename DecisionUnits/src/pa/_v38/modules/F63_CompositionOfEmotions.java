@@ -58,7 +58,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold = 0.667;
 	
-	DT4_PleasureStorage moPleasureStorage = null;
+	DT4_PleasureStorage moPleasureStorage;
 	
 	// values from perception-track (triggered emotions). to get a better output in the inspectors and a capsulated function-call a hashmap is used instead of separate variables
 	HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
@@ -67,7 +67,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
 
 	// perceiving a drive object sould trigger less emotions than the bodily needs
-	private double mrPerceptionTriggerFactor = 0.4;
+	private double mrPerceptionImpactFactor = 0.4;
 	
 	
 	public F63_CompositionOfEmotions(String poPrefix,
@@ -82,8 +82,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		moPleasureStorage = poPleasureStorage;
 		
-		moEmotions_OUT = new ArrayList<clsEmotion>();
-		
+	
 		
 	}
 	
@@ -118,10 +117,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		text += toText.valueToTEXT("rDriveLibid", oDrivesExtractedValues.get("rDriveLibid"));
 		text += toText.valueToTEXT("rDriveAggr", oDrivesExtractedValues.get("rDriveAggr"));
 		
-		text += toText.valueToTEXT("rDrivePleasure",  moPleasureStorage.send_D4_1());
+		text += toText.valueToTEXT("rDrivePleasure",  oDrivesExtractedValues.get("rDrivePleasure"));
 		
-		text += toText.valueToTEXT("rPerceptionPleasure", oPerceptionExtractedValues.get("rPerceptionPleasure"));
+		
 		text += toText.valueToTEXT("rPerceptionUnpleasure", oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		
+		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalMoAssociatedContent());
+		
 				
 		return text;
 	}
@@ -202,7 +204,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				
 		
 		// aggregate values from drive- and perception track
-		// Both have the same impact on the generation of emotions (no weighting necessary)
 		// TODO: problem: values from perception are much higher than values from drive-track. --> impact of perception on the generation of emotion is relatively high (relative to impact of drive-track)
 		// normalize grundkategorien
 		// or is  it a problem? (if agent sees many objects the perception has more influence, otherwise drives have moire influence on emotions)
@@ -226,7 +227,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		/*
 		 * Generate Emotions
 		 * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> FEAR. if agg prevails -> ANGER. if libid prevails -> GRIEF. if no one prevails -> both)
-		 * if pleasure prevails --> only generate pleasure-based emotions (if libid prevails -> LOVE)
+		 * if pleasure prevails --> only generate pleasure-based emotions (always->> PLEASURE. if agg prevails ->ELATION if libid prevails -> SATURATION)
 		 * 
 		 * the intensity of generated emotions is dependent on the relative amount of the basic category (Pleasuer, aggr, ... = from which the emotion is derived), particularly relative to the amount of pleasure+unpleasure
 		 * E.g. As Grief is based on aggr. unpleasure, its intensity is derived from the amount of aggr. unpleasure relative to the total amount of the ground truth (pleasure+unpleasure) 
@@ -383,13 +384,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		//// TEMPORARY
 		// TODO perception trigger to much emotion
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", mrPerceptionTriggerFactor*rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", mrPerceptionTriggerFactor*rPerceptionUnpleasure);
-		oPerceptionExtractedValues.put("rPerceptionLibid", mrPerceptionTriggerFactor*rPerceptionLibid);
-		oPerceptionExtractedValues.put("rPerceptionAggr", mrPerceptionTriggerFactor*rPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerception", mrPerceptionTriggerFactor*rMaxQoAPerception);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", mrPerceptionTriggerFactor*rMaxQoAPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", mrPerceptionTriggerFactor*rMaxQoAPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionPleasure", mrPerceptionImpactFactor*rPerceptionPleasure);
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", mrPerceptionImpactFactor*rPerceptionUnpleasure);
+		oPerceptionExtractedValues.put("rPerceptionLibid", mrPerceptionImpactFactor*rPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionAggr", mrPerceptionImpactFactor*rPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerception", mrPerceptionImpactFactor*rMaxQoAPerception);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", mrPerceptionImpactFactor*rMaxQoAPerceptionAggr);
+		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", mrPerceptionImpactFactor*rMaxQoAPerceptionLibid);
 		
 		return oPerceptionExtractedValues;
 	}
