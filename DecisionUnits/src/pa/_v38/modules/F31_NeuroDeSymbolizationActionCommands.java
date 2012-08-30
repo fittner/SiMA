@@ -50,6 +50,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
 	private int mnCounter, moActionBlockingTime;
 	private clsWordPresentationMesh lastAction; 
+	private clsWordPresentationMesh lastRealAction;
+	private clsWordPresentationMesh realAction;
 	private static final boolean bUSEUNREAL = false;
 	
 	/**
@@ -72,6 +74,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		mnCounter = 0;
 		moActionBlockingTime = 0;
 		lastAction = clsMeshTools.getNullObjectWPM();
+		lastRealAction = clsMeshTools.getNullObjectWPM();
+		realAction = clsMeshTools.getNullObjectWPM();
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 	}
 	
@@ -87,6 +91,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		String text ="";
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
 		text += toText.valueToTEXT("lastAction", lastAction);
+		text += toText.valueToTEXT("realAction", realAction);
+		text += toText.valueToTEXT("lastRealAction", lastRealAction);
 		text += toText.valueToTEXT("mnCounter", mnCounter);
 		text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
@@ -167,28 +173,47 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				String oAction = oActionWPM.getMoContent();
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
-
+				
 				if (lastAction.isNullObject()==false &&
 						clsActionTools.getActionType(lastAction).equals(eActionType.COMPOSED_EXTERNAL)==true && 
 						clsActionTools.getActionType(oActionWPM).equals(eActionType.SINGLE_INTERNAL)==true &&
 						clsActionTools.getAction(oActionWPM).equals(eAction.FOCUS_ON)==false &&
 						clsActionTools.getAction(oActionWPM).equals(eAction.SEND_TO_PHANTASY)==false) {
-					
 					oAction=lastAction.getMoContent();
 				}
-
 				
-				System.out.println("LastAction: " + lastAction.toString() + ". This action: " + oActionWPM.toString());
-				System.out.println("======================== END OF TURN SP ================================\n");
 				
+                if(oAction.equals(eAction.FOCUS_ON.toString()) ||
+                        oAction.equals(eAction.NONE.toString()) ||
+                        oAction.equals(eAction.SEND_TO_PHANTASY.toString()) ||
+                        oAction.equals(eAction.FOCUS_MOVE_FORWARD.toString()) ||
+                        oAction.equals(eAction.FOCUS_SEARCH1.toString()) ||
+                        oAction.equals(eAction.FOCUS_TURN_LEFT.toString()) ||
+                        oAction.equals(eAction.FOCUS_TURN_RIGHT.toString()) ||
+                        oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
+                	realAction=lastRealAction;
+                 } else {
+     			    realAction=oActionWPM;//oWP.getMoContent();
+     			}
+                
+                
 				// mnCounter contains information for how much turns the current action is active
-				if(oAction.equals(lastAction)) { 
-					mnCounter++; 
+				if(realAction.getMoContent().equals(lastRealAction.getMoContent())) { 
+					if(realAction.getMoContent().equals(oActionWPM.getMoContent()))
+					  mnCounter++; 
 				}
 				else  {
 					mnCounter = 0;
 				}
 			    
+				System.out.println(
+						 "LastAction: " + lastAction.getMoContent() + ", " + 
+						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
+				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
+				         "UsedAction: " + oAction.toString() + ", " +
+				         "mnCounter: " + mnCounter);
+				System.out.println("======================== END OF TURN SP ================================\n");
+
 				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
 				// currently only the action "FLEE" sets the moActionBlockingTime
 				if(moActionBlockingTime>0) {
@@ -289,7 +314,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 							mnCounter = 0;
 						} 
 					} else {
-						if (mnCounter%75==0) {
+						if (mnCounter%35==0) {
 							moActionCommandList_Output.add( clsActionSequenceFactory.getSeekingSequence(1.0f, 2) );
 							mnCounter = 0;
 						} 
@@ -311,13 +336,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
 					
 				}
-				
-				
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
 				
-				
+				lastRealAction=realAction;
 				lastAction=oActionWPM;//oWP.getMoContent();
 			}
 		} else {

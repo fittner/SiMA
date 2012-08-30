@@ -34,7 +34,7 @@ public class clsQuadruppel<A, B, C, D> implements Cloneable  {
  
  	@Override
 	public final boolean equals(Object o) {
-        if (!(o instanceof clsPair))
+        if (!(o instanceof clsQuadruppel))
             return false;
  
         final clsQuadruppel<?, ?, ?, ?> other = (clsQuadruppel<?, ?, ?, ?>) o;

@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import bw.factories.clsSingletonImageFactory;
 import bw.factories.eImages;
+import bw.factories.eStrings;
 
 
 /**
@@ -27,6 +28,8 @@ public class clsCircleImage extends Circle
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
+	eStrings moOverlayString = eStrings.Nourish;
+	
 	Paint moPaint = null;
 
 
@@ -118,8 +121,26 @@ public class clsCircleImage extends Circle
 			    	   	}
 			        	
 						oImageOverlay.getGraphics();
-						graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null );
+						graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
 			        }
+			      		        
+			        
+			      //display a overlay String - new method
+			        if(moOverlayString != eStrings.Nourish) {
+			        	
+			    	   	BufferedImage oStringOverlay = null;
+			    
+			    	   	try {
+			    	   		oStringOverlay = clsSingletonImageFactory.getString(moOverlayString);
+			    	   	} catch (IOException e) {
+			    	   		e.printStackTrace();
+			    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+			    	   	}
+			        	
+			    	   	oStringOverlay.getGraphics();
+						graphics.drawImage(oStringOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
+			        }
+	
 	
 	        	}
 	        }

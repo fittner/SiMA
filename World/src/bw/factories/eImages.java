@@ -34,6 +34,7 @@ public enum eImages {
 
 	
 	private String moFilename;
+	
 	private eImages(String poFilename) {
 		moFilename = poFilename;
 	}

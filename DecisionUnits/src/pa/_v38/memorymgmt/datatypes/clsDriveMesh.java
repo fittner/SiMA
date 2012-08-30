@@ -324,7 +324,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	private String getPartialShortString(ePartialDrive oPartialDrive){
-		String oRetVal = "N"; //aka UNDEFINED,
+		String oRetVal = "-"; //aka UNDEFINED,
 		
 		switch (oPartialDrive){
 		case ANAL:

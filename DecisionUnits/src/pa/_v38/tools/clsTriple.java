@@ -32,7 +32,7 @@ public class clsTriple<A, B, C> implements Cloneable {
  
 	@Override
 	public final boolean equals(Object o) {
-        if (!(o instanceof clsPair))
+        if (!(o instanceof clsTriple))
             return false;
  
         final clsTriple<?, ?, ?> other = (clsTriple<?, ?, ?>) o;

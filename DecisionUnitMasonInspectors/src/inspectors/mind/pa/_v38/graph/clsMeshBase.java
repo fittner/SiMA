@@ -106,10 +106,12 @@ public abstract class clsMeshBase extends clsGraphBase {
 	private void readInspectorDataAndGenerateGraphCells(DefaultGraphCell poParent) 
 	{
 		//check for the main list types possible
-		for(int i=0; i<moMesh.size(); i++){
-			Object oO = moMesh.get(i);
-		
-			generateGraphCell(poParent, oO);
+		if(moMesh!=null){
+			for(int i=0; i<moMesh.size(); i++){
+				Object oO = moMesh.get(i);
+			
+				generateGraphCell(poParent, oO);
+			}
 		}
 	}
 	
