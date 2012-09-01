@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -43,6 +44,28 @@ public class clsImportanceTools {
 	
 
 	/**
+	 * Calculate the average emotion for an image. No filtering used
+	 * 
+	 * (wendt)
+	 *
+	 * @since 31.08.2012 12:53:40
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static double calculateAverageImageEmotionalImportance(clsThingPresentationMesh poImage) {
+		double rTotalAffect = 0;
+		
+		ArrayList<clsAssociationEmotion> oEmotionList = clsMeshTools.getAllEmotionsInImage(poImage);
+		
+		for (clsAssociationEmotion oEmotionAss : oEmotionList) {
+			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oEmotionAss.getLeafElement()).getQuotaOfAffect());
+		}
+		
+		return rTotalAffect/oEmotionList.size();
+	}
+	
+	/**
 	 * The average affect of the mesh is calculated for one level (i. e. one image only).
 	 * 
 	 * 
@@ -53,13 +76,13 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMList) {
+	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMFilterList) {
 		double rTotalAffect = 0;
 		
-		ArrayList<clsPair<eContentType, String>> oDMContentType = new ArrayList<clsPair<eContentType, String>>();
+		ArrayList<eContentType> oDMContentType = new ArrayList<eContentType>();
 		//Get all contenttypes from the DM
-		for (clsDriveMesh oDM : poDMList) {
-			oDMContentType.add(new clsPair<eContentType, String>(oDM.getMoContentType(), ""));
+		for (clsDriveMesh oDM : poDMFilterList) {
+			oDMContentType.add(oDM.getMoContentType());
 		}
 		
 		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);

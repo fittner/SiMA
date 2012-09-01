@@ -369,14 +369,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
+			///////////////////////////////////
+			//FIXME FG: From AW, Content is not used here
+			//////////////////////////////////
+			
 			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
+			oContentTypeList.add(oContentType);
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -387,7 +391,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
@@ -466,14 +470,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
+			///////////////////////////////////
+			//FIXME FG: From AW, Content is not used here
+			//////////////////////////////////
+			
 			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
+			oContentTypeList.add(oContentType);
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -484,7 +492,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);

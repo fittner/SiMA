@@ -13,12 +13,12 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsDriveMeshOLD;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -133,12 +133,12 @@ public class clsMeshTools {
 	 * If pnLevel = 2, all direct matches to the top image are processed
 	 * @return
 	 */
-	public static ArrayList<clsDataStructurePA> getDataStructureInTPM(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	public static ArrayList<clsDataStructurePA> getDataStructureInTPM(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<eContentType> poContentTypeList, boolean pbStopAtFirstMatch, int pnLevel) {
 		ArrayList<clsThingPresentationMesh> oAddedElements = new ArrayList<clsThingPresentationMesh>();
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		//Go through each TPM (Node) and search for the defined structures. This is a recursive function
-		searchDataStructureInTPM(poMesh, oAddedElements, oRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel);
+		searchDataStructureInTPM(poMesh, oAddedElements, oRetVal, poDataType, poContentTypeList, pbStopAtFirstMatch, pnLevel);
 		
 		return oRetVal;
 	}
@@ -156,10 +156,10 @@ public class clsMeshTools {
 	 * @param pnLevel
 	 * @return
 	 */
-	public static clsDataStructurePA getFirstDataStructureInTPM(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, int pnLevel) {
+	public static clsDataStructurePA getFirstDataStructureInTPM(clsThingPresentationMesh poMesh, eDataType poDataType, ArrayList<eContentType> poContentTypeList, int pnLevel) {
 		clsDataStructurePA oResult = null;
 		
-		ArrayList<clsDataStructurePA> oListOfTP = clsMeshTools.getDataStructureInTPM(poMesh, poDataType, poContentTypeAndContent, true, 0);
+		ArrayList<clsDataStructurePA> oListOfTP = clsMeshTools.getDataStructureInTPM(poMesh, poDataType, poContentTypeList, true, 0);
 		
 		if (oListOfTP.isEmpty()==false) {
 			oResult = oListOfTP.get(0);
@@ -179,35 +179,41 @@ public class clsMeshTools {
 	 * @param poMesh
 	 * @return
 	 */
-	private static void searchDataStructureInTPM(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
+	private static void searchDataStructureInTPM(clsThingPresentationMesh poMesh, ArrayList<clsThingPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<eContentType> poContentTypeFilterList, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
 		//Add the structure itself to the list of passed elements
 		poAddedElements.add(poMesh);
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.TPM)==true) {
-			//Check if this mesh matches the content and content type filter. If yes, then add the result
-			for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
-				//Check if this mesh has this filter
-				boolean bMatchFound = filterTPM(poMesh, oCTC.a, oCTC.b);
-				
-				//As soon as positive, break loop
-				if (bMatchFound==true) {
-					poRetVal.add(poMesh);
-					break;
+			if (poContentTypeFilterList.isEmpty()==true) {
+				//If empty, then no matching at all
+				poRetVal.add(poMesh);
+			} else {
+				//Check if this mesh matches the content and content type filter. If yes, then add the result
+				for (eContentType oCTC : poContentTypeFilterList) {
+					//Check if this mesh has this filter
+					boolean bMatchFound = filterTPM(poMesh, oCTC);
+					
+					//As soon as positive, break loop
+					if (bMatchFound==true) {
+						poRetVal.add(poMesh);
+						break;
+					}
 				}
 			}
-
 		} else if (poDataType.equals(eDataType.TP)==true) {
-			ArrayList<clsAssociationAttribute> oFoundTPAssList = getTPAssociations(poMesh, poContentTypeAndContent, pbStopAtFirstMatch);
+			ArrayList<clsAssociationAttribute> oFoundTPAssList = getTPAssociations(poMesh, poContentTypeFilterList, pbStopAtFirstMatch);
 			poRetVal.addAll(oFoundTPAssList);
 		} else if (poDataType.equals(eDataType.DM)==true) {
-			
-			ArrayList<clsAssociationDriveMesh> oFoundDMAssList = getDMAssociations(poMesh, poContentTypeAndContent, pbStopAtFirstMatch);
+			ArrayList<clsAssociationDriveMesh> oFoundDMAssList = getDMAssociations(poMesh, poContentTypeFilterList, pbStopAtFirstMatch);
+			poRetVal.addAll(oFoundDMAssList);
+		} else if (poDataType.equals(eDataType.EMOTION)==true) {
+			ArrayList<clsAssociationEmotion> oFoundDMAssList = getEMOTIONAssociations(poMesh, poContentTypeFilterList, pbStopAtFirstMatch);
 			poRetVal.addAll(oFoundDMAssList);
 		} else {
 			try {
-				throw new Exception("clsDataStructureTools: searchDataStructureInMesh: Only TPM, TP or DM allowed as data types");
+				throw new Exception("clsDataStructureTools: searchDataStructureInMesh: Only TPM, TP, EMOTION or DM allowed as data types");
 			} catch (Exception e) {
 				// TODO (wendt) - Auto-generated catch block
 				e.printStackTrace();
@@ -220,9 +226,9 @@ public class clsMeshTools {
 			if ((pnLevel>0) || (pnLevel==-1)) {
 				for (clsAssociation oAss : poMesh.getMoInternalAssociatedContent()) {
 					if (poAddedElements.contains(oAss.getLeafElement())==false && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oAss.getRootElement())==false && oAss.getRootElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInTPM((clsThingPresentationMesh) oAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}
 			}
@@ -231,9 +237,9 @@ public class clsMeshTools {
 			if ((pnLevel>1) || (pnLevel==-1)) {
 				for (clsAssociation oExtAss : poMesh.getExternalMoAssociatedContent()) {
 					if (poAddedElements.contains(oExtAss.getLeafElement())==false && oExtAss.getLeafElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInTPM((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInTPM((clsThingPresentationMesh) oExtAss.getLeafElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					} else if (poAddedElements.contains(oExtAss.getRootElement())==false && oExtAss.getRootElement() instanceof clsThingPresentationMesh) {
-						searchDataStructureInTPM((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeAndContent, pbStopAtFirstMatch, pnLevel-1);
+						searchDataStructureInTPM((clsThingPresentationMesh) oExtAss.getRootElement(), poAddedElements, poRetVal, poDataType, poContentTypeFilterList, pbStopAtFirstMatch, pnLevel-1);
 					}
 				}
 			}
@@ -242,7 +248,7 @@ public class clsMeshTools {
 	}
 	
 	/**
-	 * Filter a list of TPMs for certain content and content type. NULL counts as nothing and is not used as filter criterium
+	 * Filter a list of TPMs for certain content type. 
 	 * 
 	 * (wendt)
 	 *
@@ -254,26 +260,34 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static boolean filterTPM(clsThingPresentationMesh poMesh, eContentType poContentType, String poContent) {
+	private static boolean filterTPM(clsThingPresentationMesh poMesh, eContentType poContentType) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		boolean oRetVal = false;
 		
-			if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
-				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
-						(poContent.equals(poMesh.getMoContent())==true)) {
-					oRetVal = true;
-				}
-			} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
-				if (poContentType.equals(poMesh.getMoContentType())==true) {
-					oRetVal = true;
-				}
-			} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-				if (poContent.equals(poMesh.getMoContent())==true) {
-					oRetVal = true;
-				}
-			} else {
+		//if (poContentType.equals(eContentType.NULLOBJECT)==true) {
+		//	oRetVal = true;
+		//} else {
+			if (poContentType.equals(poMesh.getMoContentType())==true) {
 				oRetVal = true;
 			}
+		//}
+		
+//		if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
+//				if ((poContentType.equals(poMesh.getMoContentType())==true) &&
+//						(poContent.equals(poMesh.getMoContent())==true)) {
+//					oRetVal = true;
+//				}
+//			} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
+//				if (poContentType.equals(poMesh.getMoContentType())==true) {
+//					oRetVal = true;
+//				}
+//			} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
+//				if (poContent.equals(poMesh.getMoContent())==true) {
+//					oRetVal = true;
+//				}
+//			} else {
+//				oRetVal = true;
+//			}
 		
 		return oRetVal;
 	}
@@ -290,15 +304,23 @@ public class clsMeshTools {
 	 * @param pbStopAtFirstMatch
 	 * @return
 	 */
-	private static ArrayList<clsAssociationDriveMesh> getDMAssociations(clsThingPresentationMesh poTPM, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationDriveMesh> getDMAssociations(clsThingPresentationMesh poTPM, ArrayList<eContentType> poContentTypeFilterList, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 
 		//Go through all external
-		if (poContentTypeAndContent.isEmpty()==true) {
-			oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), eContentType.NULLOBJECT, "", pbStopAtFirstMatch));
+		//If no filter set, add all associations
+		if (poContentTypeFilterList.isEmpty()==true) {
+			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+				if (oAss instanceof clsAssociationDriveMesh) {
+					oRetVal.add((clsAssociationDriveMesh) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
 		} else {
-			for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
-				oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
+			for (eContentType oCTC : poContentTypeFilterList) {
+				oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
 				if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
 					//Go through the external list
 					//oRetVal.addAll(FilterDMList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
@@ -307,8 +329,45 @@ public class clsMeshTools {
 			}
 		}
 		
-		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get a filtered list of all emotions of a certain TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.09.2012 12:45:04
+	 *
+	 * @param poTPM
+	 * @param poContentTypeFilterList
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	private static ArrayList<clsAssociationEmotion> getEMOTIONAssociations(clsThingPresentationMesh poTPM, ArrayList<eContentType> poContentTypeFilterList, boolean pbStopAtFirstMatch) {
+		ArrayList<clsAssociationEmotion> oResult = new ArrayList<clsAssociationEmotion>();
+		
+		//Go through all external
+		//If no filter set, add all associations
+		if (poContentTypeFilterList.isEmpty()==true) {
+			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+				if (oAss instanceof clsAssociationEmotion) {
+					oResult.add((clsAssociationEmotion) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+		} else {
+			for (eContentType oCTC : poContentTypeFilterList) {
+				oResult.addAll(FilterEMOTIONList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+				if (pbStopAtFirstMatch==false || oResult.isEmpty()==true) {
+					break;
+				}
+			}
+		}
+		
+		return oResult;
 	}
 	
 	/**
@@ -323,35 +382,13 @@ public class clsMeshTools {
 	 * @param poContent
 	 * @return
 	 */
-	private static ArrayList<clsAssociationAttribute> FilterTPList(ArrayList<clsAssociation> poAssList, eContentType poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationAttribute> FilterTPList(ArrayList<clsAssociation> poAssList, eContentType poContentType, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
 		
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationAttribute) {
-				if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
-					if ((poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) &&
-							(poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
-						oRetVal.add((clsAssociationAttribute) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					}
-				} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
-					if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
-						oRetVal.add((clsAssociationAttribute) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					}
-				} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-					if (poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
-						oRetVal.add((clsAssociationAttribute) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
-					}
-				} else {
+				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
 					oRetVal.add((clsAssociationAttribute) oAss);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -359,6 +396,40 @@ public class clsMeshTools {
 				}
 			}
 		}
+				
+				
+//				
+//				
+//				if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
+//					if ((poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) &&
+//							(poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true)) {
+//						oRetVal.add((clsAssociationAttribute) oAss);
+//						if (pbStopAtFirstMatch==true) {
+//							break;
+//						}
+//					}
+//				} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
+//					if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+//						oRetVal.add((clsAssociationAttribute) oAss);
+//						if (pbStopAtFirstMatch==true) {
+//							break;
+//						}
+//					}
+//				} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
+//					if (poContent.equals(((clsThingPresentation)oAss.getLeafElement()).getMoContent().toString())==true) {
+//						oRetVal.add((clsAssociationAttribute) oAss);
+//						if (pbStopAtFirstMatch==true) {
+//							break;
+//						}
+//					}
+//				} else {
+//					oRetVal.add((clsAssociationAttribute) oAss);
+//					if (pbStopAtFirstMatch==true) {
+//						break;
+//					}
+//				}
+//			}
+//		}
 		
 		return oRetVal;
 	}
@@ -375,51 +446,91 @@ public class clsMeshTools {
 	 * @param poContent
 	 * @return
 	 */
-	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, eContentType poContentType, String poContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationDriveMesh> FilterDMList(ArrayList<clsAssociation> poAssList, eContentType poContentType, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		
-		//FIXME Drive recognition with new DM structure
+		for (clsAssociation oAss: poAssList) {
+			//Check if attribute
+			if (oAss instanceof clsAssociationDriveMesh) {
+				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+					oRetVal.add((clsAssociationDriveMesh) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+		}
+			
+			
+//			boolean bBreakAssLoop = false;
+//			//Go through all pairs of contents and content types
+//			//for (clsPair<String, String> oCTC : poContentTypeAndContent) {
+//				//Check if dm has the corrent content and content type
+//				if (oAss instanceof clsAssociationDriveMesh) {
+//					if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
+//						if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
+//								(poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true)) {
+//							oRetVal.add((clsAssociationDriveMesh) oAss);
+//							if (pbStopAtFirstMatch==true) {
+//								bBreakAssLoop=true;
+//							}
+//							break;
+//						}
+//					} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
+//						if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
+//							oRetVal.add((clsAssociationDriveMesh) oAss);
+//							if (pbStopAtFirstMatch==true) {
+//								bBreakAssLoop=true;
+//							}
+//						}
+//					} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
+//						if (poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true) {
+//							oRetVal.add((clsAssociationDriveMesh) oAss);
+//							if (pbStopAtFirstMatch==true) {
+//								bBreakAssLoop=true;
+//							}
+//						}
+//					} else {
+//						oRetVal.add((clsAssociationDriveMesh) oAss);
+//						if (pbStopAtFirstMatch==true) {
+//							break;
+//						}
+//					}
+//				//}
+//			}
+//			
+//			if (bBreakAssLoop==true) {
+//				break;
+//			}
+//		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Add emotions connected from a list of associations, which fulfill a certain filter criterium
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.09.2012 12:43:36
+	 *
+	 * @param poAssList
+	 * @param poContentType
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	private static ArrayList<clsAssociationEmotion> FilterEMOTIONList(ArrayList<clsAssociation> poAssList, eContentType poContentType, boolean pbStopAtFirstMatch) {
+		ArrayList<clsAssociationEmotion> oRetVal = new ArrayList<clsAssociationEmotion>();
 		
 		for (clsAssociation oAss: poAssList) {
-			boolean bBreakAssLoop = false;
-			//Go through all pairs of contents and content types
-			//for (clsPair<String, String> oCTC : poContentTypeAndContent) {
-				//Check if dm has the corrent content and content type
-				if (oAss instanceof clsAssociationDriveMesh) {
-					if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
-						if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
-								(poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true)) {
-							oRetVal.add((clsAssociationDriveMesh) oAss);
-							if (pbStopAtFirstMatch==true) {
-								bBreakAssLoop=true;
-							}
-							break;
-						}
-					} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
-						if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
-							oRetVal.add((clsAssociationDriveMesh) oAss);
-							if (pbStopAtFirstMatch==true) {
-								bBreakAssLoop=true;
-							}
-						}
-					} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-						if (poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true) {
-							oRetVal.add((clsAssociationDriveMesh) oAss);
-							if (pbStopAtFirstMatch==true) {
-								bBreakAssLoop=true;
-							}
-						}
-					} else {
-						oRetVal.add((clsAssociationDriveMesh) oAss);
-						if (pbStopAtFirstMatch==true) {
-							break;
-						}
+			//Check if attribute
+			if (oAss instanceof clsAssociationEmotion) {
+				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+					oRetVal.add((clsAssociationEmotion) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
 					}
-				//}
-			}
-			
-			if (bBreakAssLoop==true) {
-				break;
+				}
 			}
 		}
 		
@@ -848,16 +959,28 @@ public class clsMeshTools {
 	 * @param poAssociatedMemories
 	 * @return
 	 */
-	private static ArrayList<clsAssociationAttribute> getTPAssociations(clsThingPresentationMesh poTPM, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch) {
+	private static ArrayList<clsAssociationAttribute> getTPAssociations(clsThingPresentationMesh poTPM, ArrayList<eContentType> poContentTypeFilterList, boolean pbStopAtFirstMatch) {
 		ArrayList<clsAssociationAttribute> oRetVal = new ArrayList<clsAssociationAttribute>();
 
-		//Go through all external
-		for (clsPair<eContentType, String> oCTC : poContentTypeAndContent) {
-			oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
-			if (pbStopAtFirstMatch==false || oRetVal.isEmpty()==true) {
-				//Go through the external list
-				oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC.a, oCTC.b, pbStopAtFirstMatch));
-				break;
+		//If no filter set, add all associations
+		if (poContentTypeFilterList.isEmpty()==true) {
+			for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
+				if (oAss instanceof clsAssociationAttribute) {
+					oRetVal.add((clsAssociationAttribute) oAss);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+		} else {
+			//Go through all external TPs
+			for (eContentType oCTC : poContentTypeFilterList) {
+				oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+				if (pbStopAtFirstMatch==true && oRetVal.isEmpty()==false) {
+					//Go through the external list
+					//oRetVal.addAll(FilterTPList(poTPM.getExternalMoAssociatedContent(), oCTC, pbStopAtFirstMatch));
+					break;
+				}
 			}
 		}
 		
@@ -1573,14 +1696,14 @@ public class clsMeshTools {
 		//ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
 		
 		//Add PI. There is only one
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairPI = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentPairPI.add(new clsPair<eContentType, String>(eContentType.PI, ""));
-		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPairPI, true, pnLevel));
+		ArrayList<eContentType> oContentTypePI = new ArrayList<eContentType>();
+		oContentTypePI.add(eContentType.PI);
+		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypePI, true, pnLevel));
 		
 		//Add all RI. 
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
-		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPairRI, false, pnLevel));
+		ArrayList<eContentType> oContentTypeRI = new ArrayList<eContentType>();
+		oContentTypeRI.add(eContentType.RI);
+		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRI, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -2251,9 +2374,9 @@ public class clsMeshTools {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Add all RI. 
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
-		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPairRI, false, pnLevel));
+		ArrayList<eContentType> oContentTypeRI = new ArrayList<eContentType>();
+		oContentTypeRI.add(eContentType.RI);
+		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeRI, false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -2281,9 +2404,7 @@ public class clsMeshTools {
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		
 		//Get all TPM for that level
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPair = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentPair.add(new clsPair<eContentType, String>(eContentType.NULLOBJECT, ""));
-		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, oContentTypeAndContentPair, false, pnLevel));
+		oFoundImages.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.TPM, new ArrayList<eContentType>(), false, pnLevel));
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
@@ -2304,9 +2425,7 @@ public class clsMeshTools {
 	public static ArrayList<clsAssociationDriveMesh> getAllDMInMesh(clsThingPresentationMesh poPerceptionalMesh) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		//This is an unconverted clsAssociationDriveMesh
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPair = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentPair.add(new clsPair<eContentType, String>(eContentType.NULLOBJECT, ""));
-		ArrayList<clsDataStructurePA> oFoundList = getDataStructureInTPM(poPerceptionalMesh, eDataType.DM, oContentTypeAndContentPair, false, 1);
+		ArrayList<clsDataStructurePA> oFoundList = getDataStructureInTPM(poPerceptionalMesh, eDataType.DM, new ArrayList<eContentType>(), false, 1);
 		
 		for (clsDataStructurePA oAss : oFoundList) {
 			oRetVal.add((clsAssociationDriveMesh) oAss);
@@ -2326,19 +2445,52 @@ public class clsMeshTools {
 	 * @param poFilterContentTypeAndContent
 	 * @return
 	 */
-	public static ArrayList<clsAssociationDriveMesh> getSelectedDMInImage(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsPair<eContentType, String>> poFilterContentTypeAndContent) {
+	public static ArrayList<clsAssociationDriveMesh> getSelectedDMInImage(clsThingPresentationMesh poPerceptionalMesh, ArrayList<eContentType> poFilterContentType) {
 		ArrayList<clsAssociationDriveMesh> oRetVal = new ArrayList<clsAssociationDriveMesh>();
 		
 		ArrayList<clsDataStructurePA> oFoundList = new ArrayList<clsDataStructurePA>();
 		
 		for (clsAssociation oAss : poPerceptionalMesh.getMoInternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationTime) {
-				oFoundList.addAll(getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.DM, poFilterContentTypeAndContent, false, 1));
+				oFoundList.addAll(getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.DM, poFilterContentType, false, 1));
 			}
 		}
 						
 		for (clsDataStructurePA oAss : oFoundList) {
 			oRetVal.add((clsAssociationDriveMesh) oAss);
+		}
+		
+		return oRetVal;
+	}
+	
+	
+	/**
+	 * Get all emotions in an image or entity
+	 * 
+	 * (wendt)
+	 *
+	 * @since 31.08.2012 12:47:04
+	 *
+	 * @param poPerceptionalMesh
+	 * @return
+	 */
+	public static ArrayList<clsAssociationEmotion> getAllEmotionsInImage(clsThingPresentationMesh poPerceptionalMesh) {
+		ArrayList<clsAssociationEmotion> oRetVal = new ArrayList<clsAssociationEmotion>();
+		
+		ArrayList<clsDataStructurePA> oFoundList = new ArrayList<clsDataStructurePA>();
+		
+		//Add for this image
+		oFoundList.addAll(getDataStructureInTPM(poPerceptionalMesh, eDataType.EMOTION, new ArrayList<eContentType>(), false, 1));
+		
+		//Add for all entities
+		for (clsAssociation oAss : poPerceptionalMesh.getMoInternalAssociatedContent()) {
+			if (oAss instanceof clsAssociationTime) {
+				oFoundList.addAll(getDataStructureInTPM((clsThingPresentationMesh) oAss.getLeafElement(), eDataType.EMOTION, new ArrayList<eContentType>(), false, 1));
+			}
+		}
+						
+		for (clsDataStructurePA oAss : oFoundList) {
+			oRetVal.add((clsAssociationEmotion) oAss);
 		}
 		
 		return oRetVal;
