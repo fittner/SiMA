@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
@@ -59,7 +60,7 @@ public class clsImportanceTools {
 		ArrayList<clsAssociationEmotion> oEmotionList = clsMeshTools.getAllEmotionsInImage(poImage);
 		
 		for (clsAssociationEmotion oEmotionAss : oEmotionList) {
-			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oEmotionAss.getLeafElement()).getQuotaOfAffect());
+			rTotalAffect += java.lang.Math.abs(((clsEmotion)oEmotionAss.getLeafElement()).getMrEmotionIntensity());
 		}
 		
 		return rTotalAffect/oEmotionList.size();
