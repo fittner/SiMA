@@ -165,8 +165,9 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF29_EvaluationOfImaginaryActions), "Plans");
 		} else if (poModuleName.equals("Actions")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF31_NeuroDeSymbolizationActionCommands), "Actions");
+		} else if (poModuleName.equals("Concepts")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moF21_ConversionToSecondaryProcessForPerception), "Concepts");
 		} else if (poModuleName.equals("Overview")) {
-			//oRetVal.addInspector(new cls_StateInspector(moPA.moF31_NeuroDeSymbolizationActionCommands), "Actions");
 		}
 		
 		return oRetVal;
