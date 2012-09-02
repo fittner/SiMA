@@ -1,7 +1,7 @@
-; Wed Aug 22 15:04:32 CEST 2012
+; Sun Sep 02 11:18:28 CEST 2012
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 ([AA%3AA02_AANDS_L01_I01%3AEMPTYSPACE01%3ADIST%3AFAR] of  ASSOCIATIONATTRIBUTE
 
@@ -1618,6 +1618,16 @@
 		[TPM%3AIMAGE%3ACARL_CAKE_NEAR])
 	(weight 1.0 1.0))
 
+([BASIC_Class7] of  Situational+Context
+
+	(action [WP%3AACTION%3AEAT])
+	(elementA [TPM%3AENTITY%3AARSIN%3ABODO])
+	(elementB [TPM%3AENTITY%3ACAKE%3ABASIC])
+	(precondition
+		[WP%3ADISTANCE%3ANEAR]
+		[WP%3ANOURISH])
+	(Value "Context_Ask_For_Food"))
+
 ([DM%3ABITE%3ABODO] of  DM_Stomach
 
 	(class_association [TPM%3AORGANS%3ASTOMACH])
@@ -2228,6 +2238,11 @@
 ([TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ASQUARE] of  SHAPE
 
 	(value "SQUARE"))
+
+([TPM%3AACTION%3AL1_ASK] of  TPM%3AACTION%3AL1
+
+	(value "ASK")
+	(value_type "ACTION"))
 
 ([TPM%3AACTION%3AL1_BITE] of  TPM%3AACTION%3AL1
 
