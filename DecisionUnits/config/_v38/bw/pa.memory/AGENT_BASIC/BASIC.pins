@@ -1,4 +1,4 @@
-; Sun Sep 02 12:10:53 CEST 2012
+; Sun Sep 02 12:26:10 CEST 2012
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -2870,6 +2870,11 @@
 ([WP%3AWALL] of  _OBSOLETE_WP%3AENTITY
 
 	(value "WALL"))
+
+([WPM%3AACTION%3AL1_ASK] of  WPM%3AACTION%3AL1
+
+	(value "ASK")
+	(value_type "ACTION"))
 
 ([WPM%3AACTION%3AL1_BITE] of  WPM%3AACTION%3AL1
 
