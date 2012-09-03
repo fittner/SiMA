@@ -122,7 +122,11 @@ public abstract class clsModuleBase implements
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
-		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));	
+		mnImplementationStage = eImplementationStage.valueOf(poProp.getPropertyString(pre+P_PROCESS_IMPLEMENTATION_STAGE));
+		
+		if(mnImplementationStage != eImplementationStage.BASIC){
+			System.out.printf("Implementationstage " +mnImplementationStage+ " for module: " + pre + " \n");
+		}
 	}
 	
 	/**
