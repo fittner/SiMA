@@ -6,14 +6,7 @@
  */
 package inspectors.mind.pa._v38.functionalmodel;
 
-import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
-import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
-import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
-import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
-import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
-import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
-import inspectors.mind.pa._v38.graph.clsMeshInterface;
-
+import inspectors.mind.pa._v38.clsInspectorTab_Modules;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
@@ -43,19 +36,10 @@ import org.jgraph.graph.GraphLayoutCache;
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
 
-import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
-import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInspectorGenericTimeChart;
-import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.interfaces.itfInterfaceDescription;
-import pa._v38.interfaces.itfInterfaceInterfaceData;
-import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.modules.clsModuleBase;
 import pa._v38.modules.clsPsychicApparatus;
 
 import sim.portrayal.Inspector;
 import sim.portrayal.inspector.TabbedInspector;
-import statictools.clsExceptionUtils;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
@@ -361,107 +345,38 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         		}
         	}
         	moContentWindow.setSize(750,550);
+        	if(id.length()<3){
+        		id = id.charAt(0) +"0"+id.charAt(1);
+        	}
         	moContentWindow.setTitle("Module" + id);
         	TabbedInspector moContent = new TabbedInspector();
         	moContents.add(moContent);
         	
-        	addAutocreatedInspectors(moContent, poPA, id);
+
+			Field oFields[] =poPA.getClass().getFields();
+
+			//Search through all Fields of poPA to get the full name of the selected Module
+			String fullId="";
+
+			for(int i = 0; i<oFields.length; i++){
+				if(oFields[i].getName().contains("_")){
+    				if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
+    					fullId=oFields[i].getName().substring(2);  
+
+    				}
+				}
+				
+			}
+
+        	
+        	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
+        	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
         	
         	moContentWindow.add(moContent); 
         	moContentWindow.repaint();
         	moContentWindow.setVisible(true);
         }
-        
-        
-        private void addAutocreatedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {
-    		try {
-    			//add leading zero for ID <10
-    			if(poModuleName.length()<3){
-    				poModuleName = poModuleName.charAt(0) + "0" + poModuleName.charAt(1);
-    			}
-    			String oName = "mo" + poModuleName;
-    			Field oFields[] =poPA.getClass().getFields();
-    			Field oField=null;
-    			//Search through all Fields of poPA to get the full name of the selected Module
-    			for(int i=0;i<oFields.length;i++){
-    				if(oFields[i].getName().contains("_")){
-	    				if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals(oName)){
-	    					oField= poPA.getClass().getField(oFields[i].getName());
-	    					
-	    				}
-    				}
-    				
-    			}
-    			clsModuleBase oModule = (clsModuleBase) oField.get( poPA );
-    			
-    			if (oModule instanceof itfInspectorInternalState) {
-    				poTI.addInspector( 
-    						new cls_StateInspector(oModule), 
-    						"State");
-    			}
-    			if (oModule instanceof itfInterfaceDescription) {
-    				poTI.addInspector( 
-    						new cls_DescriptionInspector(oModule), 
-    						"Desc");	
-    			}
-    			if (oModule instanceof itfInspectorGenericDynamicTimeChart) {
-    				poTI.addInspector(
-    						new cls_GenericDynamicTimeChartInspector((itfInspectorGenericDynamicTimeChart) oModule),	
-    						"Time Chart");				
-    			} else if (oModule instanceof itfInspectorGenericTimeChart) { //else if is important! itfInspectorGenericDynamicTimeChart is derived from itfInspectorGenericTimeChart
-    				poTI.addInspector(
-    						new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart) oModule),	
-    						"Time Chart");
-    			}
-    			if (oModule instanceof itfInspectorGenericActivityTimeChart) {
-    				poTI.addInspector(
-    						new cls_GenericActivityTimeChartInspector((itfInspectorGenericActivityTimeChart) oModule),	
-    						"Activity Chart");				
-    			}
-    			
-//    			if (oModule instanceof itfInspectorDrives) {
-//    				poTI.addInspector(
-//    						new clsDriveInspector((itfInspectorDrives) oModule),	
-//    						"Current Drives (Graph)");				
-//    			}
-    			
-    			if (oModule instanceof itfInterfaceInterfaceData) {
-    				poTI.addInspector(
-    						new clsE_SimpleInterfaceDataInspector(oModule, poPA.moInterfaceData),
-    						"Interface Data");
-    				
-    				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-    				ArrayList<eInterfaces> oRecv = oModule.getInterfacesRecv();
-    				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
-    				
-    				for (eInterfaces eRcv:oRecv) {
-    					poTI.addInspector( new clsMeshInterface(poPA, eRcv), "rcv "+eRcv.toString());
-    				}
-    				
-    				for (eInterfaces eSnd:oSend) {
-    					poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
-    				}
-    			
-    			}
-    		} catch (java.lang.NoSuchFieldException e) {
-    				// do nothing
-    		} catch (java.lang.Exception e) {
-    			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
-    			
-    		}		
-    	}
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
-        
+           
         private TreePath findNode( String nodeName ) {
         	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moMyTree.getModel().getRoot(), nodeName );
         	return new TreePath(oPath);
@@ -489,6 +404,4 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         
     }
 	
-	
-
 }

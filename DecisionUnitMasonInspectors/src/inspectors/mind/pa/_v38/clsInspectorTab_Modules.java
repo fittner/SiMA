@@ -8,10 +8,12 @@ package inspectors.mind.pa._v38;
 
 import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.clsI_SimpleInterfaceDataInspector;
+import inspectors.mind.pa._v38.autocreated.cls_AreaChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_SpiderWebChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
@@ -20,10 +22,12 @@ import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
+import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
+import pa._v38.interfaces.itfInspectorSpiderWebChart;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -234,7 +238,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		return oRetVal;
 	}
 	
-	private void addAutocreatedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {
+	public static void addAutocreatedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {
 		try {
 			String oName = "mo"+poModuleName;
 			Field oField = poPA.getClass().getField(oName);
@@ -260,6 +264,12 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				poTI.addInspector(
 						new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart) oModule),	
 						"Time Chart");
+			} 
+			
+			if (oModule instanceof itfInspectorSpiderWebChart) { 
+				poTI.addInspector(
+						new cls_SpiderWebChartInspector((itfInspectorSpiderWebChart) oModule),	
+						"Spider Chart");
 			}
 			
 			if (oModule instanceof itfInspectorGenericActivityTimeChart) {
@@ -268,6 +278,11 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						"Activity Chart");				
 			}
 			
+			if (oModule instanceof itfInspectorAreaChart) {
+				poTI.addInspector(
+						new cls_AreaChartInspector((itfInspectorAreaChart) oModule),	
+						"AreaChart");				
+			}
 //			if (oModule instanceof itfInspectorDrives) {
 //				poTI.addInspector(
 //						new clsDriveInspector((itfInspectorDrives) oModule),	
@@ -308,7 +323,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		return oRetVal;
 	}
 	
-	private void addHandCraftedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {		
+	public static void addHandCraftedInspectors(TabbedInspector poTI, clsPsychicApparatus poPA, String poModuleName) {		
 		if(poModuleName.equals("F01_SensorsMetabolism")) {
 		} else if(poModuleName.equals("E02_NeurosymbolizationOfNeeds")) {
 		} else if(poModuleName.equals("E03_GenerationOfSelfPreservationDrives")) {
