@@ -30,7 +30,7 @@ import pa._v38.interfaces.itfInspectorAreaChart;
 import sim.portrayal.Inspector;
 
 /**
- * DOCUMENT (herret) - insert description 
+ *  
  * 
  * @author herret
  * Sep 4, 2012, 9:35:36 AM
@@ -60,18 +60,15 @@ public class cls_AreaChartInspector extends Inspector {
 	
 	@Override
 	public void updateInspector() {
-		// TODO (herret) - Auto-generated method stub
 		
 		updateData();
 
 	}
 	
-	//to do
 	private void updateData(){
 
 		updateDataset(moDataset);
 		moChartPanel.repaint();
-		//((SpiderWebPlot) moChartPanel.getChart().getPlot()).setDataset(dataset);
         this.repaint();
 	}
 
@@ -99,7 +96,8 @@ public class cls_AreaChartInspector extends Inspector {
 	        		false
 	        );
 	        //place for optical improvements of the chart
-	    	chart.setBackgroundPaint(Color.LIGHT_GRAY); // background of the outside-panel
+	    	chart.setBackgroundPaint(Color.white); // background of the outside-panel
+	  
 	    	
 	    	
 	    	ChartPanel oChartPanel = new ChartPanel(chart);
@@ -111,6 +109,8 @@ public class cls_AreaChartInspector extends Inspector {
 	        iAxis.setAutoRange(false);
 	        iAxis.setRange(0.0,1.0);
 	        plot.setRangeAxis(iAxis);
+	        
+	        plot.setBackgroundPaint(Color.white);
 	        
 	        plot.setForegroundAlpha(0.5f);
 

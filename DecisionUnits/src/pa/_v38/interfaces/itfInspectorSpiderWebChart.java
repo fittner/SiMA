@@ -9,7 +9,7 @@ package pa._v38.interfaces;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * If an module implements this interface, a spider web chart inspector tab is added that displays the provided data.
  * 
  * @author herret
  * Aug 30, 2012, 9:30:47 AM

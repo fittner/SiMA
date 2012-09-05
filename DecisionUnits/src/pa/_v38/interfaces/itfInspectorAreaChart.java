@@ -1,15 +1,10 @@
-/**
- * CHANGELOG
- *
- * Aug 30, 2012 herret - File created
- *
- */
+
 package pa._v38.interfaces;
 
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * If an module implements this interface, a area chart inspector tab is added that displays the provided data.
  * 
  * @author herret
  * Aug 30, 2012, 3:41:59 PM
@@ -35,7 +30,7 @@ public interface itfInspectorAreaChart {
 	public ArrayList<ArrayList<Double>> getAreaChartData();
 	
 	/**
-	 * Returns an array that contains the labels of all Areas.
+	 * Returns an array that contains the labels of all Areas. Has to have the same number of entries as the main Array List return by getAreaChartData.
 	 *
 	 * @since 30.08.2012 10:00
 	 *
@@ -44,7 +39,7 @@ public interface itfInspectorAreaChart {
 	public ArrayList<String> getAreaChartAreaCaptions();
 	
 	/**
-	 * Returns an array that contains the labels for all Columns
+	 * Returns an array that contains the labels for all Columns. Has to have the same number of entries as the sub ArrayList retruned by getAreaChartData.
 	 *
 	 * @since 30.08.2012 10:00
 	 *

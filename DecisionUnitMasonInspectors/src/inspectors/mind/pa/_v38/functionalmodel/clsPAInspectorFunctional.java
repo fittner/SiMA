@@ -77,6 +77,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	//private static ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
 	private static JFrame moLastWindow;
 	private static ArrayList<TabbedInspector> moContents = new ArrayList<TabbedInspector>();
+	
 
 
     public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
@@ -345,6 +346,11 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         		}
         	}
         	moContentWindow.setSize(750,550);
+        	
+        	
+        	if(id.contains(":")){
+        		id= id.substring(0, id.indexOf(':'));
+        	}
         	if(id.length()<3){
         		id = id.charAt(0) +"0"+id.charAt(1);
         	}
