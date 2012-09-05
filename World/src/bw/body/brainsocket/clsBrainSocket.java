@@ -92,7 +92,7 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private  final double _UNREAL_NEAR_DISTANCE = 250;
 	private  final double _UNREAL_MEDIUM_DISTANCE = 500;
-	private  final double _UNREAL_FAR_DISTANCE =  750;
+	//private  final double _UNREAL_FAR_DISTANCE =  750;
 	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
