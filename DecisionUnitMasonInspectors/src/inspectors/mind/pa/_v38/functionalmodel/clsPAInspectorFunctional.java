@@ -9,6 +9,7 @@ package inspectors.mind.pa._v38.functionalmodel;
 import inspectors.mind.pa._v38.clsInspectorTab_Modules;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -76,7 +77,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	private static clsPsychicApparatus poPA;
 	//private static ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
 	private static JFrame moLastWindow;
-	private static ArrayList<TabbedInspector> moContents = new ArrayList<TabbedInspector>();
+	private static ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
 	
 
 
@@ -84,6 +85,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
     {
 
     	poPA=moPA;
+    	
     	
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
 		mnCompact = pnCompact;
@@ -100,12 +102,18 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	
 		moBtnUpdate = new JButton("Update graph...");	//create an update-button
 		moBtnUpdate.addActionListener(this);
-		
-        setLayout(new BorderLayout());
-        add(moBtnUpdate, BorderLayout.NORTH);
-		add(moGraph, BorderLayout.WEST);
-		
-		
+		System.out.println("1");
+		ScrollPane moScrollPane = new ScrollPane();
+		System.out.println("2");
+		moScrollPane.add(moGraph);
+		System.out.println("3");
+		setLayout(new BorderLayout());
+		System.out.println("4");
+		add(moBtnUpdate, BorderLayout.NORTH);
+		System.out.println("5");
+		//add(moGraph, BorderLayout.WEST);
+		add(moScrollPane, BorderLayout.CENTER);
+		System.out.println("6");
     }
     
     private void setDisplayValues() {

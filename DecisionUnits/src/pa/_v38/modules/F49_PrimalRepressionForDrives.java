@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.modules.ePsychicInstances;
+import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
@@ -30,12 +31,16 @@ import config.clsProperties;
  * 
  */
 public class F49_PrimalRepressionForDrives extends clsModuleBase 
-			implements I5_1_receive, I5_2_send{
+			implements I5_1_receive, I5_2_send, itfInspectorBarChart{
 
 	public static final String P_MODULENUMBER = "49";
 
 	private ArrayList<clsDriveMesh> moInput;
 	private ArrayList<clsDriveMesh> moOutput;
+	
+	private HashMap<String,Double> moChartInputData;
+	private HashMap<String,Double> moChartOutputData;
+	
 	
 	/** DOCUMENT (muchitsch) - insert description; @since 19.07.2011 14:06:33 */
 	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
@@ -60,6 +65,9 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 
 		applyProperties(poPrefix, poProp); 
 		fillPrimalRepressionMemory();
+		
+		moChartInputData = new HashMap<String,Double>();
+		moChartOutputData = new HashMap<String,Double>();
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -156,6 +164,16 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		}
 		*/
 	
+		
+		//chart data
+		for( clsDriveMesh oDriveMeshEntry:moOutput){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			moChartOutputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
+		for( clsDriveMesh oDriveMeshEntry:moInput){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			moChartInputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
 
 	}
 	
@@ -277,5 +295,67 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		((I5_2_receive)moModuleList.get(54)).receive_I5_2(poData);
 		
 		putInterfaceData(I5_2_send.class, poData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:38:56 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartTitle()
+	 */
+	@Override
+	public String getBarChartTitle() {
+
+		return "";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:38:56 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartData()
+	 */
+	@Override
+	public ArrayList<ArrayList<Double>> getBarChartData() {
+		ArrayList<Double> oInput= new ArrayList<Double>();
+		oInput.addAll(moChartInputData.values());
+		
+		ArrayList<Double> oOutput= new ArrayList<Double>();
+		oOutput.addAll(moChartOutputData.values());
+		
+		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		oResult.add(oInput);
+		oResult.add(oOutput);
+		
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:38:56 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartCategoryCaptions()
+	 */
+	@Override
+	public ArrayList<String> getBarChartCategoryCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.add("input values");
+		oResult.add("output values");
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:38:56 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartColumnCaptions()
+	 */
+	@Override
+	public ArrayList<String> getBarChartColumnCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moChartOutputData.keySet());
+
+		return oResult;
+
 	}
 }

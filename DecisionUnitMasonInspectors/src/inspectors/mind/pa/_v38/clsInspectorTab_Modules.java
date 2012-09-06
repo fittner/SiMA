@@ -9,6 +9,7 @@ package inspectors.mind.pa._v38;
 import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.clsI_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.cls_AreaChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_BarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
@@ -23,6 +24,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
 import pa._v38.interfaces.itfInspectorAreaChart;
+import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -282,6 +284,12 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				poTI.addInspector(
 						new cls_AreaChartInspector((itfInspectorAreaChart) oModule),	
 						"AreaChart");				
+			}
+			
+			if (oModule instanceof itfInspectorBarChart) {
+				poTI.addInspector(
+						new cls_BarChartInspector((itfInspectorBarChart) oModule),	
+						"BarChart");				
 			}
 //			if (oModule instanceof itfInspectorDrives) {
 //				poTI.addInspector(

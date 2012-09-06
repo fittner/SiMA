@@ -1,13 +1,15 @@
 /**
  * CHANGELOG
  *
- * Sep 4, 2012 herret - File created
+ * Sep 5, 2012 herret - File created
  *
  */
 package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.Font;
+
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -16,60 +18,48 @@ import org.jfree.chart.JFreeChart;
 
 
 import org.jfree.chart.axis.NumberAxis;
-
 import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
-
-
 import org.jfree.data.category.DefaultCategoryDataset;
-
 import org.jfree.data.general.DatasetUtilities;
 
-import pa._v38.interfaces.itfInspectorAreaChart;
+import pa._v38.interfaces.itfInspectorBarChart;
 
 import sim.portrayal.Inspector;
 
 /**
- *  
+ * DOCUMENT (herret) - insert description 
  * 
  * @author herret
- * Sep 4, 2012, 9:35:36 AM
+ * Sep 5, 2012, 11:23:21 AM
  * 
  */
-public class cls_AreaChartInspector extends Inspector {
+public class cls_BarChartInspector extends Inspector {
 
-	
-	private static final long serialVersionUID = 8474252951041507982L;
 	/* (non-Javadoc)
 	 *
-	 * @since Sep 4, 2012 9:35:37 AM
+	 * @since Sep 5, 2012 11:23:21 AM
 	 * 
 	 * @see sim.portrayal.Inspector#updateInspector()
 	 */
-	private itfInspectorAreaChart moContainer;
+	private itfInspectorBarChart moContainer;
 	private String moChartName;
-	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
+	private boolean created =false;
 	
-	public cls_AreaChartInspector(itfInspectorAreaChart poObject){
+	public cls_BarChartInspector(itfInspectorBarChart poObject){
 		this.moContainer = poObject;
-		this.moChartName =poObject.getAreaChartTitle();
+		this.moChartName = poObject.getBarChartTitle();
 		
 		createPanel();
 	}
 	
 	@Override
 	public void updateInspector() {
-		
-		updateData();
-
-	}
-	
-	private void updateData(){
-
 		updateDataset(moDataset);
-		moChartPanel.repaint();
+		this.repaint();
 	}
+
 
 	   protected void createPanel() {
 	    	ChartPanel oChartPanel = initChart(moChartName) ;
@@ -79,13 +69,11 @@ public class cls_AreaChartInspector extends Inspector {
 	    }
  
 	  private ChartPanel initChart(String poChartName) {
-
-		  
 	    	DefaultCategoryDataset dataset = createDataset();
 	        moDataset = dataset;
 	        // create the chart and pack it onto the panel
-	        JFreeChart chart = ChartFactory.createAreaChart(
-	        		moContainer.getAreaChartTitle(), 
+	        JFreeChart chart = ChartFactory.createBarChart(
+	        		moContainer.getBarChartTitle(), 
 	        		"Category", 
 	        		"Value", 
 	        		dataset, 
@@ -100,18 +88,18 @@ public class cls_AreaChartInspector extends Inspector {
 	    	
 	    	
 	    	ChartPanel oChartPanel = new ChartPanel(chart);
-	        moChartPanel = oChartPanel;
-	        oChartPanel.setPreferredSize(new java.awt.Dimension(600, 400));
+	        oChartPanel.setPreferredSize(new java.awt.Dimension(720, 400));
 	        chart.setTitle(moChartName);
 	        CategoryPlot plot =chart.getCategoryPlot();
 	        NumberAxis iAxis = new NumberAxis();
 	        iAxis.setAutoRange(false);
 	        iAxis.setRange(0.0,1.0);
 	        plot.setRangeAxis(iAxis);
+	        plot.getDomainAxis().setTickLabelFont(new Font("new",1,8));
+			
 	        
 	        plot.setBackgroundPaint(Color.white);
-	        
-	        plot.setForegroundAlpha(0.5f);
+	       
 
 	    	return oChartPanel;
 		}
@@ -119,7 +107,7 @@ public class cls_AreaChartInspector extends Inspector {
 	  
 	    private DefaultCategoryDataset createDataset() {
 	    	
-	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getAreaChartData();
+	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getBarChartData();
 		    double[][] data = new double[iContainer.size()][iContainer.get(0).size()];
 	    	
 	    	
@@ -129,24 +117,21 @@ public class cls_AreaChartInspector extends Inspector {
 	    		}
 	    		
 		   }
-		   String[] AreaCaption = new String[moContainer.getAreaChartAreaCaptions().size()];
-		   for(int i = 0; i<moContainer.getAreaChartAreaCaptions().size();i++){
-			   AreaCaption [i]= moContainer.getAreaChartAreaCaptions().get(i);
+		   String[] AreaCaption = new String[moContainer.getBarChartCategoryCaptions().size()];
+		   for(int i = 0; i<moContainer.getBarChartCategoryCaptions().size();i++){
+			   AreaCaption [i]= moContainer.getBarChartCategoryCaptions().get(i);
 		   }
-		   String[] ColumnCaption = new String[moContainer.getAreaChartColumnCaptions().size()];
-		   for(int i = 0; i<moContainer.getAreaChartColumnCaptions().size();i++){
-			   ColumnCaption [i]= moContainer.getAreaChartColumnCaptions().get(i);
+		   String[] ColumnCaption = new String[moContainer.getBarChartColumnCaptions().size()];
+		   for(int i = 0; i<moContainer.getBarChartColumnCaptions().size();i++){
+			   ColumnCaption [i]= moContainer.getBarChartColumnCaptions().get(i);
 		   }
 	        return (DefaultCategoryDataset) DatasetUtilities.createCategoryDataset(AreaCaption, ColumnCaption, data);
 	        
 	    }
 	    
-	    
-	    
 	    private DefaultCategoryDataset updateDataset(DefaultCategoryDataset poDataset){
-	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getAreaChartData();
-	    	//column or row size of given data != column or row size of actual dataset
-	    	//->clear dataset and crate an new on out of given data
+	    	//poDataset.clear();
+	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getBarChartData();
 	    	if(poDataset.getColumnCount()!=iContainer.get(0).size() || poDataset.getRowCount()!=iContainer.size()){
 	    		poDataset.clear();
 	    		DefaultCategoryDataset iDataset = createDataset();
@@ -155,14 +140,14 @@ public class cls_AreaChartInspector extends Inspector {
 	    				poDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
 	    			}
 	    		}
-	    	}
-	    	else{  
+	    	}else{   	
+
 			   for(int i =0 ;i< iContainer.size();i++){
 		    		for(int j=0;j<iContainer.get(0).size();j++){
-		    			if(!poDataset.getValue(moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
-		    				poDataset.setValue(iContainer.get(i).get(j), moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j));
+		    			if(!poDataset.getValue(moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
+		    				poDataset.setValue(iContainer.get(i).get(j), moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j));
 		    			}
-		    			//poDataset.addValue(iContainer.get(i).get(j), moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j));
+		    			//poDataset.addValue(iContainer.get(i).get(j), moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j));
 		    		}
 		    		
 			   }
@@ -171,3 +156,4 @@ public class cls_AreaChartInspector extends Inspector {
 	    }
 
 }
+
