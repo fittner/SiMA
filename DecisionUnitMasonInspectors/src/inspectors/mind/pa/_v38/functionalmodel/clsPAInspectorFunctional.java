@@ -102,18 +102,12 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	
 		moBtnUpdate = new JButton("Update graph...");	//create an update-button
 		moBtnUpdate.addActionListener(this);
-		System.out.println("1");
 		ScrollPane moScrollPane = new ScrollPane();
-		System.out.println("2");
 		moScrollPane.add(moGraph);
-		System.out.println("3");
 		setLayout(new BorderLayout());
-		System.out.println("4");
 		add(moBtnUpdate, BorderLayout.NORTH);
-		System.out.println("5");
 		//add(moGraph, BorderLayout.WEST);
 		add(moScrollPane, BorderLayout.CENTER);
-		System.out.println("6");
     }
     
     private void setDisplayValues() {
