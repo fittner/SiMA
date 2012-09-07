@@ -1,4 +1,4 @@
-; Sun Sep 02 12:26:10 CEST 2012
+; Sun Sep 02 14:23:40 CEST 2012
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -1617,6 +1617,9 @@
 		[WPM%3AIMAGE%3ACARL_CAKE_NEAR]
 		[TPM%3AIMAGE%3ACARL_CAKE_NEAR])
 	(weight 1.0 1.0))
+
+([BASIC_Class0] of  Concept%3A+Entity
+)
 
 ([BASIC_Class7] of  Situational+Context
 

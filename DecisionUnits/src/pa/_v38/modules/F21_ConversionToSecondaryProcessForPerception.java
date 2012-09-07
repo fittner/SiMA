@@ -120,8 +120,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
-		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
+		text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory);
+		text += toText.valueToTEXT("moEnvironmentalImageStorage", moEnvironmentalImageStorage);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
