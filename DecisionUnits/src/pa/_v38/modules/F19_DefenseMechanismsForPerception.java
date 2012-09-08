@@ -199,24 +199,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 		
 		
-		moEmotions_Input = clone(poEmotions);
-		
-		/*
-		// --- deep clone: emotions ---
-		moEmotions_Input = new ArrayList<clsEmotion>();
-		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-		
-		for (clsEmotion oOneEmotion : poEmotions) {
-			try {
-				moEmotions_Input.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-			} catch (CloneNotSupportedException e) {
-				// Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
-		
-		
+		moEmotions_Input             = clone(poEmotions);
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 		moForbiddenEmotions_Input    = poForbiddenEmotions;
 
@@ -273,20 +256,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
 		
 		moEmotions_Output = clone(moEmotions_Input);
-		
-		/*
-		// deep clone: moEmotions_Input --> moEmotions_Output
-		moEmotions_Output = new ArrayList<clsEmotion>();
-		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
-		for (clsEmotion oOneEmotion : moEmotions_Input) {
-			try {
-				moEmotions_Output.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
-			} catch (CloneNotSupportedException e) {
-				// Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		*/
 
 		
 		detect_conflict_and_activate_defense_machanisms();
@@ -406,7 +375,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			}
 		}
 	}
-
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -511,7 +480,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			}
 		}
 	}
-
 	
 	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
