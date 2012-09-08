@@ -183,12 +183,13 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.interfaces.I3_2#receive_I3_2(int)
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_11(ArrayList<clsPair<eContentType, String>> poForbiddenPerceptions,
 			                  clsThingPresentationMesh poPerceptionalMesh,
 			                  ArrayList<eEmotionType> poForbiddenEmotions,
 			                  ArrayList<clsEmotion> poEmotions) {
+		
+		// clone perceptions
 		try {
 			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
 			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
@@ -197,7 +198,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			e.printStackTrace();
 		}
 		
-		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		
+		moEmotions_Input             = clone(poEmotions);
 		moForbiddenPerceptions_Input = poForbiddenPerceptions;
 		moForbiddenEmotions_Input    = poForbiddenEmotions;
 
@@ -215,7 +217,30 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public void receive_I5_14(ArrayList<clsDriveMesh> poData) {
 		
 		moInput = (ArrayList<clsDriveMesh>) deepCopy(poData);
-	}		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 27.08.2012, 17:54:00
+	 * 
+	 * clones an ArrayList<clsEmotions>
+	 */
+	private ArrayList<clsEmotion> clone(ArrayList<clsEmotion> oEmotions) {
+		// deep clone: oEmotions --> oClonedEmotions
+		ArrayList<clsEmotion> oClonedEmotions = new ArrayList<clsEmotion>();
+		ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList = new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>();
+		for (clsEmotion oOneEmotion : oEmotions) {
+			try {
+				oClonedEmotions.add( (clsEmotion) oOneEmotion.clone(poClonedNodeList));
+			} catch (CloneNotSupportedException e) {
+				// Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		return oClonedEmotions;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -224,14 +249,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * @see pa.modules.clsModuleBase#process()
 	 */
-	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
 		
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;		
 		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
 		
-		moEmotions_Output = (ArrayList<clsEmotion>) deepCopy(moEmotions_Input);
+		moEmotions_Output = clone(moEmotions_Input);
+
 		
 		detect_conflict_and_activate_defense_machanisms();
 		
@@ -288,7 +313,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 // select defense mechanism
 		 //if (oQoA <= 0.9)
 		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
-		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Input);
+		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
 
 		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
 	}
@@ -313,14 +338,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
+			///////////////////////////////////
+			//FIXME FG: From AW, Content is not used here
+			//////////////////////////////////
+			
 			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
+			oContentTypeList.add(oContentType);
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -331,7 +360,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
@@ -346,7 +375,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			}
 		}
 	}
-
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -410,14 +439,18 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
+			///////////////////////////////////
+			//FIXME FG: From AW, Content is not used here
+			//////////////////////////////////
+			
 			clsDataStructurePA oFoundObject = null;
 			
 			// search in perceptions
 			//Get all images and objects in the mesh
 			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-			oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
+			oContentTypeList.add(oContentType);
+			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
 			if (oTPMList.isEmpty()==false) {
 				oFoundObject = oTPMList.get(0);
 			}
@@ -428,7 +461,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 			//The attribute list is clsAssociationAttribute
 
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
+			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
 			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
 			if (oAttributeList.isEmpty()==false) {
 				oFoundObject = oAttributeList.get(0);
@@ -447,7 +480,6 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			}
 		}
 	}
-
 	
 	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)

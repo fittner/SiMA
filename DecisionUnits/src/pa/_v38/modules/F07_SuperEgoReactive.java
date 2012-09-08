@@ -19,9 +19,11 @@ import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -278,12 +280,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 					moForbiddenEmotions.add(eEmotionType.ANGER);
 		
 		/*
-		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
+		// sample rule for conversion of emotion grief into emotion fear (reversal of affect)
 		if (moSuperEgoStrength >= 0.5)
 			if (searchInEmotions (eEmotionType.GRIEF))
 				if (!moForbiddenEmotions.contains(eEmotionType.GRIEF))
 					moForbiddenEmotions.add(eEmotionType.GRIEF);
-*/
+		*/
+
 		// sample rule for conversion of aggressive drive energy into anxiety
 		if (moSuperEgoStrength >= 0.8)
 			if (searchInDM (eDriveComponent.AGGRESSIVE, "BITE", 0.20))
@@ -344,13 +347,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
 		
 		//Association attribute are delivered here
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
+		ArrayList<eContentType> oContentTypeAndContentList = new ArrayList<eContentType>();
+		oContentTypeAndContentList.add(oContentType);
 		ArrayList<clsDataStructurePA> oAttributeAss = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
-		if (oAttributeAss.isEmpty()==false) {
-			return true;
+		for (clsDataStructurePA oAss : oAttributeAss) {
+			clsThingPresentation oTP  = (clsThingPresentation) (((clsAssociationAttribute)oAss).getLeafElement());
+			if (oTP.getMoContent().equals(oContent)) {
+				return true;
+			}
 		}
-		
 
 		return false;
 	}
@@ -367,14 +372,17 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// search in perceptions
 		
 		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
-		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentList = new ArrayList<clsPair<eContentType, String>>();
-		oContentTypeAndContentList.add(new clsPair<eContentType, String>(oContentType, oContent));
-		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeAndContentList, true, 1);
+		ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
+		oContentTypeList.add(oContentType);
+		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
 		
 		if (oTPMList.isEmpty()==false) {
 			return true;
 		}
 		
+		/////////////////////
+		//FIXME FG!!!!!!! From AW: oContent is not used here, as it does not exist anymore
+		/////////////////////
 
 		return false;
 	}

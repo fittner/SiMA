@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import pa._v38.tools.planningHelpers.PlanningNode;
 
@@ -16,9 +17,9 @@ import pa._v38.tools.planningHelpers.PlanningNode;
  * @author hinterleitner 19.05.2012, 16:28:04
  * 
  */
-public class clsConcept{
+public class clsConcept {
 
-	protected ArrayList<PlanningNode> myConcepts;
+	protected List<PlanningNode> myConcepts;
 
 	/**
 	 * DOCUMENT (hinterleitner) - insert description
@@ -50,8 +51,48 @@ public class clsConcept{
 		}
 		return content;
 	}
-	
-	public ArrayList<PlanningNode> returnContent() {
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @since 25.08.2012 13:23:05
+	 * 
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((myConcepts == null) ? 0 : myConcepts.hashCode());
+		return result;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @since 25.08.2012 13:23:05
+	 * 
+	 * @see java.lang.Object#equals(java.lang.Object)
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		clsConcept other = (clsConcept) obj;
+		if (myConcepts == null) {
+			if (other.myConcepts != null)
+				return false;
+		} else if (!myConcepts.equals(other.myConcepts))
+			return false;
+		return true;
+	}
+
+	public List<PlanningNode> returnContent() {
 		return myConcepts;
 	}
 

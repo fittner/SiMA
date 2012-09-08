@@ -33,9 +33,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
-	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
+	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
-	//private clsThingPresentation moDriveSource;			//Triebquelle
+	//private clsThingPresentation moDriveSource;		//Triebquelle
 	//private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
 	private ArrayList<clsAssociation> moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	private ArrayList<clsAssociation> moInternalAssociatedContent = new ArrayList<clsAssociation>();  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
@@ -324,7 +324,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	private String getPartialShortString(ePartialDrive oPartialDrive){
-		String oRetVal = "N"; //aka UNDEFINED,
+		String oRetVal = "-"; //aka UNDEFINED,
 		
 		switch (oPartialDrive){
 		case ANAL:

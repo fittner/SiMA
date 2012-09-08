@@ -85,7 +85,11 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		
 		//text += toText.listToTEXT("moLibidoDriveDemands", moLibidoDriveDemands);
 		//text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		
+		
 		text += toText.listToTEXT("moPartialSexualDrives", moPartialSexualDrivesFactors);
+		text += toText.listToTEXT("moSexualDriveComponents_IN", moSexualDriveComponents_IN);
+		text += toText.listToTEXT("moSexualDriveRepresentations_OUT", moSexualDriveRepresentations_OUT);
 		
 		return text;
 	}	
