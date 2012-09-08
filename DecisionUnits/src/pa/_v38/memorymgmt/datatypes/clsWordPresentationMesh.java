@@ -260,7 +260,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 			
 			//Add by AW
-			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI)) {
+			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
 				oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
 				for (clsAssociation oEntry : this.moInternalAssociatedContent) {
 					oResult += oEntry.getLeafElement().toString() + ","; 
