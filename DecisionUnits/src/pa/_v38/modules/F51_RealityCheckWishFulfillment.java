@@ -441,30 +441,42 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		ArrayList<clsWordPresentationMesh> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
 		
 		if (oEquivalentGoalList.isEmpty()==true) {
-			//--- COPY PREVIOUS GOAL ---//
-			clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+
 			
 			//----------------------------------//
 			
 			//--- Remove the temporal data from the last turn ---//
-			if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.MEMORYDRIVE)==true) {
+			if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.MEMORYDRIVE)==true) {
+				//--- COPY PREVIOUS GOAL ---//
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				
 				//Remove all PI-matches from the images
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious);
 				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
 				clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
-			} else if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.DRIVESOURCE)==true) {			
-				//Do nothing
+				//Add to goallist
+				poGoalList.add(oNewGoalFromPrevious);
+				
+				oResult = oNewGoalFromPrevious;
+			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				poGoalList.add(oNewGoalFromPrevious);
 			}
 			
-			//Add to goallist
-			poGoalList.add(oNewGoalFromPrevious);
-			
-			oResult = oNewGoalFromPrevious;
+
 
 		} else {
-			//Assign the right goal
-			oResult = oEquivalentGoalList.get(0);
+			//Assign the right spatially nearest goal from the previous goal if the goal is from the perception
+			eGoalType oPreviousGoalType = clsGoalTools.getGoalType(poPreviousGoal);
+			
+			if (oPreviousGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==true || oPreviousGoalType.equals(eGoalType.PERCEPTIONALEMOTION)==true) {
+				oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
+			} else {
+				oResult = oEquivalentGoalList.get(0);
+			}
+			
+				
 			
 			
 		}

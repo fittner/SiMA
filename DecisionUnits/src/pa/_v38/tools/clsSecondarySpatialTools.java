@@ -281,4 +281,28 @@ public class clsSecondarySpatialTools {
 		return bResult;
 	}
 	
+
+	
+	/**
+	 * Get the distance between 2 WPM entities
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.09.2012 20:26:55
+	 *
+	 * @param poElementA
+	 * @param poElementB
+	 * @return
+	 */
+	public static double getDistance(clsWordPresentationMesh poElementA, clsWordPresentationMesh poElementB) {
+		double rResult = -1;
+		
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oElementPositionA = clsEntityTools.getPosition(poElementA);
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oElementPositionB = clsEntityTools.getPosition(poElementB);
+		
+		rResult = clsPrimarySpatialTools.getDistance(oElementPositionA, oElementPositionB);
+		
+		return rResult;
+	}
+	
 }
