@@ -1,3 +1,4 @@
+
 /**
  * clsTripple.java: DecisionUnits - pa.tools
  * 
@@ -95,5 +96,4 @@ public class clsTriple<A, B, C> implements Cloneable {
 	@Override
 	public String toString() {
 		return "["+a+", "+b+", "+c+"]";
-	}	
-}
+	}	}

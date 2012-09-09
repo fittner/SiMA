@@ -610,21 +610,27 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				}
 
 			}
+			
+			if (oGoalType.equals(eGoalType.DRIVESOURCE)==true && (bActionPlanOK == false)) {
+				//Start search
+				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
+				oActionContainer.addAll(oActionFromMemoryContainerList);
+			}
 
 			// If the image is just a general goal without object, then search
 			if (bActionPlanOK == false) {
 
-				//Search
-				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
-				oActionContainer.addAll(oActionFromMemoryContainerList);
-
-				// If no plans could be generated for this goal, it is set
-				// false, else true
-				if (oActionContainer.isEmpty() == false) {
-					// oRetVal.addAll(oActionContainer);
-					bActionPlanOK = true;
-					// continue;
-				}
+//				//Search
+//				ArrayList<clsWordPresentationMesh> oActionFromMemoryContainerList = planFromNoObject(oGoal);
+//				oActionContainer.addAll(oActionFromMemoryContainerList);
+//
+//				// If no plans could be generated for this goal, it is set
+//				// false, else true
+//				if (oActionContainer.isEmpty() == false) {
+//					// oRetVal.addAll(oActionContainer);
+//					bActionPlanOK = true;
+//					// continue;
+//				}
 
 			}
 

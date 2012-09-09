@@ -1,7 +1,7 @@
-; Wed Aug 22 15:04:32 CEST 2012
+; Sun Sep 02 14:23:40 CEST 2012
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 
 (defclass %3ACLIPS_TOP_LEVEL_SLOT_CLASS "Fake class to save top-level slot information"
@@ -9,7 +9,7 @@
 	(role abstract)
 	(single-slot elementA
 		(type INSTANCE)
-;+		(allowed-classes WP)
+;+		(allowed-classes WP TPM)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aoral
@@ -34,7 +34,7 @@
 		(create-accessor read-write))
 	(single-slot elementB
 		(type INSTANCE)
-;+		(allowed-classes WP)
+;+		(allowed-classes WP TPM)
 ;+		(cardinality 0 1)
 		(create-accessor read-write))
 	(single-slot cathegory%3Aanal
@@ -61,7 +61,7 @@
 		(create-accessor read-write))
 	(multislot consequence
 		(type INSTANCE)
-;+		(allowed-classes WP _OBSOLETE_ACT)
+;+		(allowed-classes WP _OBSOLETE_ACT TPM)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(single-slot emotionIntensity
@@ -537,7 +537,7 @@
 	(role concrete)
 	(multislot consequence
 		(type INSTANCE)
-;+		(allowed-classes WP _OBSOLETE_ACT)
+;+		(allowed-classes WP _OBSOLETE_ACT TPM)
 		(cardinality 1 ?VARIABLE)
 		(create-accessor read-write))
 	(multislot precondition
@@ -1222,4 +1222,65 @@
 	(single-slot %3ANAME
 		(type STRING)
 ;+		(cardinality 0 1)
+		(create-accessor read-write)))
+
+(defclass CONCEPT
+	(is-a USER)
+	(role concrete))
+
+(defclass Concept%3AAction
+	(is-a CONCEPT)
+	(role concrete))
+
+(defclass Concept%3A+Entity
+	(is-a CONCEPT)
+	(role concrete))
+
+(defclass Concept%3A+Distance
+	(is-a CONCEPT)
+	(role concrete))
+
+(defclass Concept%3A+Psychic+Content
+	(is-a CONCEPT)
+	(role concrete))
+
+(defclass DOMAIN
+	(is-a USER)
+	(role concrete))
+
+(defclass Situational+Context
+	(is-a DOMAIN)
+	(role concrete)
+	(multislot consequence
+		(type INSTANCE)
+;+		(allowed-classes WP _OBSOLETE_ACT TPM)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(multislot precondition
+		(type INSTANCE)
+;+		(allowed-classes WP _OBSOLETE_ACT)
+		(cardinality 1 ?VARIABLE)
+		(create-accessor read-write))
+	(single-slot elementA
+		(type INSTANCE)
+;+		(allowed-classes WP TPM)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(multislot weight
+		(type FLOAT)
+		(create-accessor read-write))
+	(single-slot Value
+;+		(comment "EmotionType")
+		(type STRING)
+;+		(cardinality 1 1)
+		(create-accessor read-write))
+	(single-slot elementB
+		(type INSTANCE)
+;+		(allowed-classes WP TPM)
+;+		(cardinality 0 1)
+		(create-accessor read-write))
+	(single-slot action
+		(type INSTANCE)
+;+		(allowed-classes WP)
+;+		(cardinality 1 1)
 		(create-accessor read-write)))

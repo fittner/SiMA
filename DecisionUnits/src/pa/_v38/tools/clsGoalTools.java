@@ -734,7 +734,8 @@ public class clsGoalTools {
 	}
 	
 	/**
-	 * Get a list of all goals in a list which are equivalent to the input goal, i. e. same name, object and type and the same supportive datastructure name
+	 * Get a list of all goals in a list which are equivalent to the input goal, i. e. same name, object and 
+	 * type and the same supportive datastructure name. This function does not care about positions in the images
 	 * 
 	 * (wendt)
 	 *
@@ -748,6 +749,7 @@ public class clsGoalTools {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh poGoalFromList : poGoalList) {
+			//Check if it is the same goal
 			if (clsGoalTools.compareGoals(poGoalFromList, poCompareGoal)==true) {
 				oResult.add(poGoalFromList);
 			}
@@ -757,7 +759,57 @@ public class clsGoalTools {
 	}
 	
 	/**
-	 * Get all goals, which are useing the same supportive data structure, i.e name and type (like ACT)
+	 * This function shall be used only on a compare goal from perception and a list of goals only from perception. The function compares
+	 * the compare goal with the goals from the goal list and returns the goal from the goal list with the shortest distance to the compare goal
+	 * This function shall actually find the previous goal in the new goal list. This is a first implementation of object constance.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.09.2012 20:51:26
+	 *
+	 * @param poGoalList
+	 * @param poCompareGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getSpatiallyNearestGoalFromPerception(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		eGoalType oCompareGoalType = clsGoalTools.getGoalType(poCompareGoal);
+		
+		if (oCompareGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==false && oCompareGoalType.equals(eGoalType.PERCEPTIONALEMOTION)==false) {
+			try {
+				throw new Exception("Only Goal type from perception is allowed in this function");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		double rBestDistance = -1;
+		
+		for (clsWordPresentationMesh poGoal : poGoalList) {
+			eGoalType oGoalTypeFromListGoal = clsGoalTools.getGoalType(poGoal);
+			
+			if (oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALDRIVE) || oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALEMOTION)) {
+				double rCurrentDistance = clsSecondarySpatialTools.getDistance(clsGoalTools.getGoalObject(poGoal), clsGoalTools.getGoalObject(poCompareGoal));
+				
+				if ((rBestDistance==-1 && rCurrentDistance>=0) || (rBestDistance>=0 && rCurrentDistance<rBestDistance)) {
+					rBestDistance=rCurrentDistance;
+					oResult = poGoal;
+					
+					//If the position is exact the same, then break
+					if (rCurrentDistance==0) {
+						break;
+					}
+				}
+			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all goals, which are using the same supportive data structure, i.e name and type (like ACT)
 	 * 
 	 * (wendt)
 	 *

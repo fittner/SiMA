@@ -398,7 +398,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		oResult += this.moContentType + ":" + this.moContent;
 		
 		//Add by AW
-		if (this.moContentType.equals(eContentType.RI.toString()) || this.moContentType.equals(eContentType.PI.toString())) {
+		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI)) {
 			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
 				oResult += oEntry.getLeafElement().toString() + ","; 
