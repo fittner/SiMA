@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_12_send;
 import pa._v38.interfaces.modules.I5_14_send;
@@ -32,7 +33,7 @@ import du.enums.pa.eDriveComponent;
  * 
  */
 public class F55_SuperEgoProactive extends clsModuleBase
-		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send, I5_21_receive{
+		implements I5_4_receive, I5_5_send, I5_12_send, I5_14_send, I5_21_receive, itfInspectorGenericDynamicTimeChart{
 
 	public static final String P_MODULENUMBER = "55";
 	private ArrayList<clsDriveMesh> moDrives_Input;
@@ -41,6 +42,9 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	public int ReducedPsychicEnergy;
 	public int PsychicEnergy_IN;
 	private int step_count = 0;
+	
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moDriveChartData;
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -61,6 +65,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		applyProperties(poPrefix, poProp); 
+		
+		moDriveChartData = new HashMap<String, Double>();
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -137,6 +143,18 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		
 		// check drives and apply pro-active internalizes rules
 		//checkInternalizedRules();
+		
+		
+		//write chart Data
+		for (clsDriveMesh oDriveMeshEntry : moDrives_Output)
+		{
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			if ( !moDriveChartData.containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+			}
+			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+			
+		}
 		
 	}
 
@@ -385,6 +403,103 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	@Override
 	public void receive_I5_21(ArrayList<clsEmotion> poEmotions) {
 		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions); 
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		// TODO (herret) - Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		// TODO (herret) - Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		// TODO (herret) - Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		// TODO (herret) - Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moDriveChartData.values());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moDriveChartData.keySet());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 11:11:40 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;
 		
 	}	
 }

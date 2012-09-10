@@ -350,7 +350,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 				}
 				
 				//Get all found entities in the perceived image, which matches the entities in the supportive image
-				oResult.addAll(getPerceivedImageEntitiesFromImage(poPerceivedImage ,oFocusImage,70));		//Why 70? because 80 is very high importance. 	
+				oResult.addAll(getPerceivedImageEntitiesFromImage(poPerceivedImage, oFocusImage, 70));		//Why 70? because 80 is very high importance. 	
 			}
 		}
 		
@@ -375,12 +375,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			while (oPerceivedImageIterator.hasNext()) {
 				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPerceivedEntity = oPerceivedImageIterator.next();
 				
+				//Check if theses entities are the same
 				if (oSupportiveImageEntity.a.getMoDS_ID() == oPerceivedEntity.a.getMoDS_ID()) {
-					//Add to result list
-					oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oPerceivedEntity.a));
+					//If yes, then the entity position has to be equal
+					double rDistance  = clsSecondarySpatialTools.getDistance(oSupportiveImageEntity.a, oPerceivedEntity.a);
 					
-					//Delete from this list
-					oPerceivedImageIterator.remove();
+					//Only if the focused entities are found, they are added to the list
+					if (rDistance==0.0) {
+						//Add to result list
+						oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oPerceivedEntity.a));
+						
+						//Delete from this list
+						oPerceivedImageIterator.remove();
+					}
 				}
 			}	
 		}

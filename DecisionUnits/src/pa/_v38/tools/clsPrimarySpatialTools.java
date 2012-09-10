@@ -449,9 +449,9 @@ public class clsPrimarySpatialTools {
 	 * @param poPIElement
 	 * @return
 	 */
-	private static clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> specializePositions(clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> poPIElement, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> poRIElement) {
+	private static <E extends clsDataStructurePA> clsPair<clsTriple<E, ePhiPosition, eRadius>, clsTriple<E, ePhiPosition, eRadius>> specializePositions(clsTriple<E, ePhiPosition, eRadius> poPIElement, clsTriple<E, ePhiPosition, eRadius> poRIElement) {
 		//Element a: PI, b: RI
-		clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRetVal = new clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>>(poPIElement, poRIElement);
+		clsPair<clsTriple<E, ePhiPosition, eRadius>, clsTriple<E, ePhiPosition, eRadius>> oRetVal = new clsPair<clsTriple<E, ePhiPosition, eRadius>, clsTriple<E, ePhiPosition, eRadius>>(poPIElement, poRIElement);
 		//Set default positions, if they are both not specialized
 		ePhiPosition oDefaultXPosition = ePhiPosition.CENTER;
 		eRadius oDefaultYPosition = eRadius.NEAR;
@@ -494,10 +494,10 @@ public class clsPrimarySpatialTools {
 	 * @param poRIElement
 	 * @return
 	 */
-	public static double getDistance(clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> poPIElement, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> poRIElement) {
+	public static <E extends clsDataStructurePA> double getDistance(clsTriple<E, ePhiPosition, eRadius> poPIElement, clsTriple<E, ePhiPosition, eRadius> poRIElement) {
 		
 		//Specialize RI positions for PI
-		clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oSpecializedPositions = specializePositions(poPIElement, poRIElement);
+		clsPair<clsTriple<E, ePhiPosition, eRadius>, clsTriple<E, ePhiPosition, eRadius>> oSpecializedPositions = specializePositions(poPIElement, poRIElement);
 		
 		if (oSpecializedPositions.a.b==null||oSpecializedPositions.a.c==null) {
 			try {

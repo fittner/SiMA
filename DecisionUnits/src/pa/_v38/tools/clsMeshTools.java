@@ -1138,6 +1138,62 @@ public class clsMeshTools {
 		
 	}
 	
+	/**
+	 * Search a complete mesh for an instance of the search object, e.g. search for a certain WPM in a mesh, which may be not an instance.
+	 * Comparison: ID, ContentType and Content. They have to be equal.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.09.2012 12:13:37
+	 *
+	 * @param poFindInMesh
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	private static clsWordPresentationMesh searchInstanceOfDataStructureInWPMImageMeshbyID(clsWordPresentationMesh poFindInMesh, clsWordPresentationMesh poFindDataStructure) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllWPMImages(poFindInMesh, 10);
+		
+		for (clsWordPresentationMesh oMeshWPM : oWPMList) {
+			if (poFindDataStructure.getMoDS_ID()==oMeshWPM.getMoDS_ID() && 
+					poFindDataStructure.getMoContentType()==oMeshWPM.getMoContentType() && 
+					poFindDataStructure.getMoContent()==oMeshWPM.getMoContent()) {
+				oResult = oMeshWPM;
+				break;
+			}
+		}
+		
+		return oResult;
+	}
+	
+	
+	/**
+	 * Search a complete mesh for an instance of the search object. The hascodes are compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.09.2012 12:13:37
+	 *
+	 * @param poFindInMesh
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	private static clsWordPresentationMesh searchInstanceOfDataStructureInWPMImageMeshbyHashCode(clsWordPresentationMesh poFindInMesh, clsWordPresentationMesh poFindDataStructure) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllWPMImages(poFindInMesh, 10);
+		
+		for (clsWordPresentationMesh oMeshWPM : oWPMList) {
+			if (poFindDataStructure.equals(oMeshWPM)) {
+				oResult = oMeshWPM;
+				break;
+			}
+		}
+		
+		return oResult;
+	}
+	
 	//=== SEARCH DATA STRUCTURES IN WPM GENERAL --- END ===//
 	
 	
@@ -1730,7 +1786,7 @@ public class clsMeshTools {
 			
 		//Get the new mesh list
 		ArrayList<clsThingPresentationMesh> oNewTPMList = getAllTPMImages(poNewMesh, mnMaxLevel);
-			
+		
 		//Go through each mesh in the newMesh
 		for (clsThingPresentationMesh oNewTPM : oNewTPMList) {
 			//Go through each mesh in the source list
@@ -1985,17 +2041,18 @@ public class clsMeshTools {
 		//Get the new mesh list
 		ArrayList<clsWordPresentationMesh> oNewWPMList = getAllWPMImages(poNewMesh, mnMaxLevel);
 		
-		//Create process pairs
+		//Create process pairs Source and New
 		ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oInstancePairList = new ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>>();
 		
 		//Go through each mesh in the newMesh
 		for (int i=0; i<oNewWPMList.size();i++) {
-		//for (clsWordPresentationMesh oNewWPM : oNewWPMList) {
-		clsWordPresentationMesh oNewWPM = oNewWPMList.get(i);		
+			clsWordPresentationMesh oNewWPM = oNewWPMList.get(i);
+			clsWordPresentationMesh oFoundSourceMeshWPM = clsMeshTools.getNullObjectWPM();
+			
 			//Go through each mesh in the source list
 			for (int j=0; j<oSourceWPMList.size();j++) {
-			//for (clsWordPresentationMesh oSourceWPM : oSourceWPMList) {
 				clsWordPresentationMesh oSourceWPM = oSourceWPMList.get(j);
+				
 				//If there are IDs with -1, it is not allowed and should be thrown as exception
 				if (oSourceWPM.getMoDS_ID()==-1) {
 					try {
@@ -2007,20 +2064,216 @@ public class clsMeshTools {
 				}
 				
 				//If the images are equal but not the same instance, then transfer the associations
-				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID() && oSourceWPM.equals(oNewWPM)==false) {
-					oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oSourceWPM, oNewWPM));
-					
+				if (oSourceWPM.getMoDS_ID() == oNewWPM.getMoDS_ID()) {
+					oFoundSourceMeshWPM = oSourceWPM;
 					break;
 				}
 			}
+			
+			oInstancePairList.add(new clsPair<clsWordPresentationMesh, clsWordPresentationMesh>(oNewWPM, oFoundSourceMeshWPM));		
 		} 
 		
+		//Now all WPM-Matches have been listed in the instancePairlist
 		for (clsPair<clsWordPresentationMesh, clsWordPresentationMesh> oInstancePair : oInstancePairList) {
+			//Move all associations from the NEWWPM to the SOURCEWPM
+			
 			//Move associations from the new mesh to the source b->a
 			//removeAllExternalAssociationsWithSameID(oInstancePair.a, oInstancePair.b);
-			moveAllAssociations(oInstancePair.a, oInstancePair.b);
+			//Move all associations from the NEWWPM to the SOURCEWPM
+			if (oInstancePair.b.isNullObject()==false) {
+				clsMeshTools.moveAllAssociationsMergeMesh(oInstancePair.b, oInstancePair.a);
+			} else {
+				//This is a new object, then add it
+				clsMeshTools.addWPMImageToWPMImageMesh(poSourceMesh, oInstancePair.a);	
+			}
 		}
 	}
+	
+	/**
+	 * Move all associations from one mesh to another. Only the direct associations are considered.
+	 * Cases:
+	 * 1. WPM Association already exists -> Do nothing
+	 * 2. WP association already exists -> Replace the WP with the new one
+	 * 3. WP association does not exist -> Move the association
+	 * 4. WPM association does not already exist -> Find if the other element of the MoveFromMesh in the MoveToMesh. If it exists, move association, 
+	 * if not, do nothing. All new elements will be handled separately
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.09.2012 12:21:59
+	 *
+	 * @param poMoveToMesh
+	 * @param poMoveFromMesh
+	 */
+	private static void moveAllAssociationsMergeMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poMoveFromMesh) {
+		
+		//Check if the instances are equal
+		if (poMoveToMesh.equals(poMoveFromMesh)) {
+			return;
+		}
+		
+		//Internal associations
+		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getMoInternalAssociatedContent()) {
+			//Find this Ass in the internal Ass of the moveto mesh
+			boolean bAssExist=false;
+			for (clsAssociation oIntMoveToAss : poMoveToMesh.getMoInternalAssociatedContent()) {
+				bAssExist = clsMeshTools.checkAssociationExists(oIntMoveToAss, oIntMoveFromAss);
+				//Association found
+				if (bAssExist==true) {
+					//Only if one of the associations is a WP, then it will be replaced		
+					if (oIntMoveToAss.getTheOtherElement(poMoveToMesh) instanceof clsWordPresentation) {
+						clsWordPresentation oNewWP = (clsWordPresentation) oIntMoveFromAss.getLeafElement();
+						oIntMoveToAss.setLeafElement(oNewWP);
+					}
+					//Else nothing is done, as the association already exists
+					break;
+				}
+			}
+			
+			//In case the association does not exist at all, but the data structure may exist
+			if (bAssExist==false) {
+				//Check if WP, if WP, then add the whole association
+				if (oIntMoveFromAss.getLeafElement() instanceof clsWordPresentation) {
+					//Set the root element
+					oIntMoveFromAss.setRootElement(poMoveToMesh);
+					poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+				} else {
+					//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
+					//as the association to the new element is added by the new element
+					
+					//Then it has to be a WPM
+					clsDataStructurePA oOtherUnknownElement = oIntMoveFromAss.getTheOtherElement(poMoveFromMesh);
+					if (oOtherUnknownElement instanceof clsWordPresentationMesh) {
+						clsWordPresentationMesh oMeshElementWPM = clsMeshTools.searchInstanceOfDataStructureInWPMImageMeshbyID(poMoveToMesh, (clsWordPresentationMesh) oOtherUnknownElement);
+						if (oMeshElementWPM.isNullObject()==false) {
+							//Now, replace the other element of the MoveFromMesh with the found element in the MoveToMesh
+							oIntMoveFromAss.setTheOtherElement(poMoveFromMesh, oMeshElementWPM);
+							//Then replace the MoveFromMesh with the MoveToMesh
+							oIntMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
+							//Add the association to the MoveToMesh
+							poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+						}
+						
+						//Else nothing is done, as this structure is new to the mesh and will be handled separately
+						
+					} else {
+						try {
+							throw new Exception("Only WPM can be addressed here.");
+						} catch (Exception e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+				}
+			}
+		}
+		
+		//TODO: Primary process associations are not moved. If it is needed, it should be implemented
+		
+		//External associations
+		for (clsAssociation oExtMoveFromAss : poMoveFromMesh.getExternalAssociatedContent()) {
+			
+			if (oExtMoveFromAss instanceof clsAssociationSecondary) {
+				//Find this Ass in the internal Ass of the moveto mesh
+				boolean bAssExist=false;
+				for (clsAssociation oExtMoveToAss : poMoveToMesh.getExternalAssociatedContent()) {
+					bAssExist = clsMeshTools.checkAssociationExists(oExtMoveToAss, oExtMoveFromAss);
+					//Association found
+					if (bAssExist==true) {
+						//Only if one of the associations is a WP, then it will be replaced		
+						if (oExtMoveToAss.getTheOtherElement(poMoveToMesh) instanceof clsWordPresentation) {
+							clsWordPresentation oNewWP = (clsWordPresentation) oExtMoveFromAss.getLeafElement();
+							oExtMoveToAss.setLeafElement(oNewWP);
+						}
+						//Else nothing is done, as the association already exists
+						break;
+					}
+				}
+				
+				//In case the association does not exist at all, but the data structure may exist
+				if (bAssExist==false) {
+					//Check if WP, if WP, then add the whole association
+					if (oExtMoveFromAss.getLeafElement() instanceof clsWordPresentation) {
+						//Set the root element
+						oExtMoveFromAss.setRootElement(poMoveToMesh);
+						poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+					} else {
+						//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
+						//as the association to the new element is added by the new element
+						
+						//Then it has to be a WPM
+						clsDataStructurePA oOtherUnknownElement = oExtMoveFromAss.getTheOtherElement(poMoveFromMesh);
+						if (oOtherUnknownElement instanceof clsWordPresentationMesh) {
+							clsWordPresentationMesh oMeshElementWPM = clsMeshTools.searchInstanceOfDataStructureInWPMImageMeshbyID(poMoveToMesh, (clsWordPresentationMesh) oOtherUnknownElement);
+							if (oMeshElementWPM.isNullObject()==false) {
+								//Now, replace the other element of the MoveFromMesh with the found element in the MoveToMesh
+								oExtMoveFromAss.setTheOtherElement(poMoveFromMesh, oMeshElementWPM);
+								//Then replace the MoveFromMesh with the MoveToMesh
+								oExtMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
+								//Add the association to the MoveToMesh
+								poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+							}
+							
+							//Else nothing is done, as this structure is new to the mesh and will be handled separately
+							
+						} else {
+							try {
+								throw new Exception("Only WPM can be addressed here.");
+							} catch (Exception e) {
+								// TODO (wendt) - Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						
+					}
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * Add a new WPM to a mesh and redirect all associations
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.09.2012 12:32:18
+	 *
+	 * @param poMoveToMesh
+	 * @param poNewStructure
+	 */
+	private static void addWPMImageToWPMImageMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poNewStructure) {
+		//Check if this instance already exists in the mesh
+		clsWordPresentationMesh oExistingMesh = searchInstanceOfDataStructureInWPMImageMeshbyHashCode(poMoveToMesh, poNewStructure);
+		if (oExistingMesh.isNullObject()==true) {
+			//Nothing has to be done as the structure already exists
+			return;
+		}
+		
+		//Go through internal associations
+		//TODO: Implement if necessary
+
+		//Go through external associations
+		for (clsAssociation oAss : poNewStructure.getExternalAssociatedContent()) {
+			//Get the other element
+			clsDataStructurePA oOtherElement  = oAss.getTheOtherElement(poNewStructure);
+			
+			//Only WPM are treated
+			if (oOtherElement instanceof clsWordPresentationMesh) {
+				//Find in mesh
+				clsWordPresentationMesh oOtherElementInMesh = clsMeshTools.searchInstanceOfDataStructureInWPMImageMeshbyID(poMoveToMesh, (clsWordPresentationMesh) oOtherElement);
+				//If found, then replace the current other element with the element from the mesh and add the association to the mesh element
+				//if not found, do nothing, as the new other element has to be added separately
+				if (oOtherElementInMesh.isNullObject()==false) {
+					oAss.setTheOtherElement(poNewStructure, oOtherElementInMesh);
+					oOtherElementInMesh.getExternalAssociatedContent().add(oAss);
+				}
+			}
+		}
+	}
+	
+	
 	
 	/**
 	 * Removes all associations which are identical but not the same instance
@@ -2208,12 +2461,21 @@ public class clsMeshTools {
 	private static boolean checkAssociationExists(clsAssociation poAssA, clsAssociation poAssB) {
 		boolean bRetVal = false;
 		
-		if (poAssA.getMoDS_ID() == poAssB.getMoDS_ID() && 
+		if (poAssA.equals(poAssB)) {
+			bRetVal=true;
+		} else if (poAssA.getMoDS_ID() == poAssB.getMoDS_ID() && 
 				poAssA.getRootElement().getMoDS_ID() == poAssB.getRootElement().getMoDS_ID() &&
 				poAssA.getLeafElement().getMoDS_ID() == poAssB.getLeafElement().getMoDS_ID() &&
 				poAssA.getRootElement().getMoContentType().equals(poAssB.getRootElement().getMoContentType())==true &&
 				poAssA.getLeafElement().getMoContentType().equals(poAssB.getLeafElement().getMoContentType())==true) {
+					
+			if (poAssA instanceof clsAssociationSecondary) {
+				if (((clsAssociationSecondary)poAssA).getMoPredicate().equals(((clsAssociationSecondary)poAssB).getMoPredicate())) {
 					bRetVal = true;
+				}
+			} else {
+				bRetVal = true;
+			}
 		}
 		
 		return bRetVal;

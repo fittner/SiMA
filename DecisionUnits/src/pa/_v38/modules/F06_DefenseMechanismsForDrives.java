@@ -35,6 +35,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -60,7 +61,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
 	
-	private ArrayList<String> moForbiddenDrives_Input;
+	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
 	
@@ -175,10 +176,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+	public void receive_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
 
 		moDriveList_Input       = (ArrayList<clsDriveMesh>) deepCopy(poData);
-		moForbiddenDrives_Input = (ArrayList<String>)       deepCopy(poForbiddenDrives);
+		moForbiddenDrives_Input = (ArrayList<clsPair<eDriveComponent, eOrgan>>) deepCopy(poForbiddenDrives);
 	}
 
 	/* (non-Javadoc)
@@ -264,7 +265,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
 		 
 		 // select defense mechanism
-		 if (oQoA <= 0.5)
+		 if (oQoA <= 0.6)
 			 defenseMechanism_Repression(moForbiddenDrives_Input);
 		 else if (oQoA <= 0.9)
 		 	 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
@@ -283,8 +284,24 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * Displacement means that the drive object is changed.
 	 *
 	 */
-	protected void defenseMechanism_Displacement(ArrayList<String> oForbiddenDrives_Input) {
+	protected void defenseMechanism_Displacement(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
+		
+	   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
+
+	   if (!oMatchingDrives.isEmpty())
+		   for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
+				// remove the drive from output list
+				moDriveList_Output.remove(oOneMatchingDrive);
+				// insert displaced drive
+				moDriveList_Output.add(displacement(oOneMatchingDrive));
+			   
+		   }
+
+		
+		
+		
+/*	
 		// Iterate over all forbidden drives
 		for (String oContent : oForbiddenDrives_Input) {
 		
@@ -306,7 +323,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		}
 		return;
-	   	
+*/	   	
 	}
 	
 	/* (non-Javadoc)
@@ -340,13 +357,13 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * reaction formation changes the drive aim
 	 *
 	 */
-	private void defenseMechanism_ReactionFormation(ArrayList<String> oForbiddenDrives_Input) {
+	private void defenseMechanism_ReactionFormation(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
 		// Testdata: Defining the opposite drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
 		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
 		HashMap<String, ArrayList<Object>> oOppositeTP = new HashMap<String, ArrayList<Object>> ();
 		oOppositeTP.put("NOURISH", new ArrayList<Object>(Arrays.asList(eContentType.AGGRESSION, "BITE", "bite", eDriveComponent.AGGRESSIVE, ePartialDrive.ORAL) ));
-		oOppositeTP.put("BITE",    new ArrayList<Object>( Arrays.asList(eContentType.LIFE, "NOURISH", "nourish", eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL) ));
+		oOppositeTP.put("BITE",    new ArrayList<Object>(Arrays.asList(eContentType.LIFE, "NOURISH", "nourish", eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL) ));
 		//oOppositeTP.put("REPRESS", new ArrayList<Object>( Arrays.asList("DEPOSIT", "DEATH", 1.0, 0.1, 0.0, 0.5) ));
 		//oOppositeTP.put("DEPOSIT", new ArrayList<Object>( Arrays.asList("REPRESS", "LIFE", 1.0, 0.1, 0.0, 0.0) ));
 		//oOppositeTP.put("PLEASURE", new ArrayList<Object>( Arrays.asList("UNPLEASURE", "LIFE", 0.3, 0, 0.7, 0.2) ));
@@ -364,7 +381,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * sublimation changes the drive aim
 	 *
 	 */
-	private void defenseMechanism_Sublimation(ArrayList<String> oForbiddenDrives_Input) {
+	private void defenseMechanism_Sublimation(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
 		// Testdata: Defining the sublimated drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
 		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
@@ -387,7 +404,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * intellectualisation changes the drive aim
 	 *
 	 */
-	private void defenseMechanism_Intellectualization(ArrayList<String> oForbiddenDrives_Input) {
+	private void defenseMechanism_Intellectualization(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
 		// Testdata: Defining the intellectualisation drive aim (DM's TP). TODO: Represent this information in the Ontology and implement a possibility to fetch this information from the ontology 
 		// cathegories are only dependent on DM's TP (e.g. BITE) and independent from the associated TPM
@@ -411,17 +428,29 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 *
 	 *
 	 */
-	private void changeDriveAim(ArrayList<String> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
+	private void changeDriveAim(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input, HashMap<String, ArrayList<Object>> poOppositeTP) {
 		
-		int i=0;
+		int i;
 		
-		for (String oContent : oForbiddenDrives_Input) {
-			for(clsDriveMesh oDrive : moDriveList_Input){
-				if (oDrive.getActualDriveAim().getMoContent().equals(oContent)) {
+	    // Iterate over all forbidden drives
+		for (clsPair<eDriveComponent, eOrgan> oPair_DriveComponent_DriveOrgan : oForbiddenDrives_Input) {
+				
+			i=0;
+			// search in list of incoming drives
+			for(clsDriveMesh oDrive : moDriveList_Output){
+				// check DriveMesh
+				if (oDrive.getDriveComponent().equals(oPair_DriveComponent_DriveOrgan.a) &&
+					oDrive.getActualDriveSourceAsENUM().equals(oPair_DriveComponent_DriveOrgan.b)){
+
+					// matching drive found
 					replaceDriveAim(oDrive, i, poOppositeTP);
+					
+					// Das muss leider drinnen sein, sonst kennt sich der Iterator nicht mehr aus, wenn ein drive aus der Liste gelöscht wird.
+					// TODO FG: mit findInDriveList machen und i wegbekommen
 					break;
 				}
 				i++;
+				
 			}
 		}
 	}
@@ -540,19 +569,18 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * This method represents the defense mechanism "repression"
 	 * 
-	 * ToDo (FG): For now the whole DriveMesh and the PhysicalRepresentation are repressed.
-	 *            Later it could be possible to only repress the DriveMesh or only repress the PhysicalRepresentation.
 	 */
-    protected void defenseMechanism_Repression(ArrayList<String> oForbiddenDrives_Input) {
+    protected void defenseMechanism_Repression(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
 		// Iterate over all forbidden drives
-		for (String oContent : oForbiddenDrives_Input) {
+		for (clsPair<eDriveComponent, eOrgan> oPair_DriveComponent_DriveOrgan : oForbiddenDrives_Input) {
 				
 			int i = 0;
 			// search in list of incoming drives
 			for(clsDriveMesh oDrive : moDriveList_Output){
 				// check DriveMesh
-				if (oDrive.getActualDriveAim().equals(oContent)){
+				if (oDrive.getDriveComponent().equals(oPair_DriveComponent_DriveOrgan.a) &&
+					oDrive.getActualDriveSourceAsENUM().equals(oPair_DriveComponent_DriveOrgan.b)){
 
 					// drive found
 				    break;
@@ -568,7 +596,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				sendDriveToBlockedContentStorage(moDriveList_Output.get(i));				
 				
 				// add single quotas of affect to affect only list
-				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", moDriveList_Output.get(i).getQuotaOfAffect())); 
+				clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, moDriveList_Output.get(i).getQuotaOfAffect())); 
 				moQuotasOfAffect_Output.add(oAffect);
 				
 				// remove DriveMesh i from output list
@@ -583,11 +611,32 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * @author gelbard
 	 * 30.11.2011, 14:43:00
 	 * 
-	 * This method searches in the list of drives and returns the quota of affect (if a matching drive was found)
+	 * This method calculates the average quota of affect of the matching drives
+	 * (matching drives are drives which are forbidden drives and which are element of the input drive list)
 	 * 
 	 */
-   private double getQuotaOfAffect(ArrayList<String> oForbiddenDrives_Input) {
+   private double getQuotaOfAffect(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
    	
+	   double oSumOfQuotaOfAffect = 0.0;
+	   int i = 0;
+	   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
+
+	   if (!oMatchingDrives.isEmpty())
+		   
+		   // calculate sum of quotas of affect
+		   for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
+			   i++;
+			   oSumOfQuotaOfAffect += oOneMatchingDrive.getQuotaOfAffect();
+		   }
+			   
+	   if (i==0) return 0.0;
+	   else      return oSumOfQuotaOfAffect / i;
+	   
+	   
+	   
+	   
+	   
+/*	   
    	// If nothing to repress return immediately (otherwise NullPointerException)
    	if (oForbiddenDrives_Input == null) return 0.0;
 		
@@ -607,7 +656,42 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		}
 		
 		return 0.0;
+ */
+   
    }	
+   
+	/* (non-Javadoc)
+	 *
+	 * @author gelbard
+	 * 09.09.2012, 18:43:00
+	 * 
+	 * This method compares the list of input drives and the list of forbidden drives
+	 * It returns those drives from the input drive list which are forbidden (according to the forbidden drive list)
+	 * 
+	 */
+   private ArrayList<clsDriveMesh> findInDriveList(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
+		
+	   ArrayList<clsDriveMesh> returnDriveList = new ArrayList<clsDriveMesh>();
+	   
+	   // Iterate over all forbidden drives
+		for (clsPair<eDriveComponent, eOrgan> oPair_DriveComponent_DriveOrgan : oForbiddenDrives_Input) {
+				
+			// search in list of incoming drives
+			for(clsDriveMesh oDrive : moDriveList_Output){
+				// check DriveMesh
+				if (oDrive.getDriveComponent().equals(oPair_DriveComponent_DriveOrgan.a) &&
+					oDrive.getActualDriveSourceAsENUM().equals(oPair_DriveComponent_DriveOrgan.b)){
+
+					// matching drive found
+				    returnDriveList.add(oDrive);
+				}
+				
+
+			}
+		}
+		
+		return returnDriveList;
+   }
    
     
     /* (non-Javadoc)

@@ -207,9 +207,22 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 		//
 		// But we need a list here because:
 		// in later versions the list will have more elements like [anxiety, insecurity, self-hatred, ...]
-		//moSecondaryDataStructureContainer_Output.clear();
-		if (poAffect != null)
+		moSecondaryDataStructureContainer_Output.clear();
+		if (poAffect != null) {
+			
+			
+			/*
+			for(clsWordPresentationMesh oWPM : moSecondaryDataStructureContainer_Output) {
+				if(oWPM.getMoContent().equals(poAffect.getMoContent()))
+					
+					// if affect is already in list, do nothing.
+					return;
+			}
+			*/
+			
+			// add affect to list
 			moSecondaryDataStructureContainer_Output.add(poAffect);
+		}
 	}
 	
 	/* (non-Javadoc)

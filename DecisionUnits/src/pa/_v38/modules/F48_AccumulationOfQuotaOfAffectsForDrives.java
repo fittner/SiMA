@@ -677,4 +677,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		}
 		return oResult;
 	}
+
+
 }

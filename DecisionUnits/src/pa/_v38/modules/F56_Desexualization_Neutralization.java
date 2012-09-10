@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.modules.I5_3_receive;
 import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
@@ -29,7 +30,7 @@ import du.enums.pa.ePartialDrive;
  * 
  */
 public class F56_Desexualization_Neutralization extends clsModuleBase
-implements I5_3_receive, I5_4_send {
+implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 
 	public static final String P_MODULENUMBER = "56";
 
@@ -54,6 +55,9 @@ implements I5_3_receive, I5_4_send {
 	public static final String P_SPLITFACTORLABEL = "label";
 	public static final String P_SPLITFACTORVALUE = "value";
 	public static final String P_NUM_SPLIFACTOR = "num";
+	
+	private HashMap<String,Double> moChartInputData;
+	private HashMap<String,Double> moChartOutputData;
 
 	/**
 	 * DOCUMENT (zeilinger) - class 
@@ -77,6 +81,11 @@ implements I5_3_receive, I5_4_send {
 		
 		moPsychicEnergyStorage = poPsychicEnergyStorage;
 		applyProperties(poPrefix, poProp); 
+		
+		moChartInputData = new HashMap<String,Double>();
+		moChartOutputData = new HashMap<String,Double>();
+		
+		
 	}
 
 
@@ -160,6 +169,19 @@ implements I5_3_receive, I5_4_send {
 		moLibidoBuffer.receive_D1_3(reducedEnergy);*/
 	// send free drive energy to DT3 for distribution to other modules
 		//moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
+		
+		
+		
+		//create chart Data
+		for( clsDriveMesh oDriveMeshEntry:moDrives_OUT){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			moChartOutputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
+		for( clsDriveMesh oDriveMeshEntry:moDrives_IN){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			moChartInputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
+		
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -312,6 +334,71 @@ implements I5_3_receive, I5_4_send {
 		((I5_4_receive)moModuleList.get(55)).receive_I5_4(poDrives);
 
 		putInterfaceData(I5_4_send.class, poDrives);
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 9:02:17 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartTitle()
+	 */
+	@Override
+	public String getBarChartTitle() {
+		return "Drives Inputs and Outputs";
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 9:02:17 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartData()
+	 */
+	@Override
+	public ArrayList<ArrayList<Double>> getBarChartData() {
+		ArrayList<Double> oInput= new ArrayList<Double>();
+		oInput.addAll(moChartInputData.values());
+		
+		ArrayList<Double> oOutput= new ArrayList<Double>();
+		oOutput.addAll(moChartOutputData.values());
+		
+		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		oResult.add(oInput);
+		oResult.add(oOutput);
+		
+		return oResult;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 9:02:17 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartCategoryCaptions()
+	 */
+	@Override
+	public ArrayList<String> getBarChartCategoryCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.add("input values");
+		oResult.add("output values");
+		return oResult;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 6, 2012 9:02:17 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChart#getBarChartColumnCaptions()
+	 */
+	@Override
+	public ArrayList<String> getBarChartColumnCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moChartOutputData.keySet());
+
+		return oResult;
+
 	}
 
 }
