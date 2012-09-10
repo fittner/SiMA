@@ -8,7 +8,11 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import du.enums.eOrgan;
+import du.enums.pa.eDriveComponent;
+
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.tools.clsPair;
 
 
 
@@ -20,5 +24,5 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
  * 
  */
 public interface I5_13_receive {
-	public void receive_I5_13(ArrayList<String> poForbiddenDrive, ArrayList<clsDriveMesh> poData);
+	public void receive_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrive, ArrayList<clsDriveMesh> poData);
 }
