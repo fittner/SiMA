@@ -139,7 +139,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	 * @author schaat
 	 * 24.06.2012, 14:40:45
 	 *
-	 * @param poAssociatedWordPresentations
+	 * @param poAssociatedDataStructures
 	 */
 	@Override
 	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures) {
