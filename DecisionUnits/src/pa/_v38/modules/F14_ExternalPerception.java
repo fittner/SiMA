@@ -9,7 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import java.util.TreeSet;
+//import java.util.TreeSet;
 
 import config.clsProperties;
 import pa._v38.interfaces.modules.I2_3_receive;
@@ -19,19 +19,19 @@ import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.datahandler.clsActivationComperator;
+//import pa._v38.memorymgmt.datahandler.clsActivationComperator;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+//import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eActivationType;
+//import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -275,7 +275,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-
+/*
 		clsThingPresentationMesh oAppropriateTPM = null;
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
@@ -393,7 +393,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			}
 			
 		}
-		
+		*/
 		// 5. Rank appropriate TPMs --> not needed, since a TreeSet+Comparator is used
 				
 	}

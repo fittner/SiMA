@@ -171,6 +171,28 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		return oRetVal;
 	}
 	
+	/**
+	 * Set the other element of the association
+	 * 
+	 * (wendt)
+	 *
+	 * @since 08.09.2012 11:43:13
+	 *
+	 * @param poSubjectElement
+	 * @param poSetOtherElement
+	 */
+	public void setTheOtherElement(clsDataStructurePA poSubjectElement, clsDataStructurePA poSetOtherElement) {
+		
+		if (this.moAssociationElementA.equals(poSubjectElement)) {
+			this.moAssociationElementB=poSetOtherElement;
+		} else if (this.moAssociationElementB.equals(poSubjectElement)) {
+			this.moAssociationElementA = poSetOtherElement;
+		}
+		
+	}
+	
+	
+	
 	@Override
 	public Object clone() throws CloneNotSupportedException {
 		try {

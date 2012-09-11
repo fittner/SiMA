@@ -200,6 +200,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+		boolean bActivatePanicInfluence = false;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
@@ -214,7 +215,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		
 		//From the list of drives, match them with the list of potential goals
-		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList);
+		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, bActivatePanicInfluence);
 		
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
@@ -297,14 +298,14 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> processGoals(
 			ArrayList<clsWordPresentationMesh> poPossibleGoalInputs, 
 			ArrayList<clsWordPresentationMesh> poDriveList, 
-			ArrayList<clsAct> poRuleList) {
+			ArrayList<clsAct> poRuleList, boolean bActivateEmotionalInfluence) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		int nAddedGoals = 0;
 		
 		//Process emotions
 		clsWordPresentationMesh oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
-		if (oPanicGoal.isNullObject()==false) {
+		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
 			oRetVal.add(oPanicGoal);
 		} else {
 			//1. Process goals with Superego???

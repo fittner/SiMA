@@ -1,3 +1,4 @@
+
 /**
  * E46_FusionWithMemoryTraces.java: DecisionUnits - pa.modules._v38
  * 
@@ -678,7 +679,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		
 		if (bUsePerception==true) {	//Activate with perception
-			executePsychicSpreadActivation(poPerceivedImage, 0.9, new ArrayList<clsDriveMesh>());		
+			executePsychicSpreadActivation(poPerceivedImage, 0.9);		
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage)==null) {
@@ -688,7 +689,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
 			}
 			
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0, new ArrayList<clsDriveMesh>());
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0);
 		}
 		
 		

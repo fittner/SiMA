@@ -30,6 +30,7 @@ import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
 /**
@@ -231,7 +232,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//=== Create the mental image ===
 		//Test AW: Relational Meshes
-		//clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
+		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
@@ -239,9 +240,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//From now, only the environmental image is used
 		
-//		if (moAssociatedMemories_IN.isEmpty()==false) {
-//			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
-//		}
+		//if (moAssociatedMemories_IN.isEmpty()==false) {
+		//	clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
+		//}
 		
 		//Process all goals individually without sorting them. Sorting is done in the decision making
 		
@@ -440,30 +441,42 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		ArrayList<clsWordPresentationMesh> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
 		
 		if (oEquivalentGoalList.isEmpty()==true) {
-			//--- COPY PREVIOUS GOAL ---//
-			clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+
 			
 			//----------------------------------//
 			
 			//--- Remove the temporal data from the last turn ---//
-			if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.MEMORYDRIVE)==true) {
+			if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.MEMORYDRIVE)==true) {
+				//--- COPY PREVIOUS GOAL ---//
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				
 				//Remove all PI-matches from the images
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious);
 				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
 				clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
-			} else if (clsGoalTools.getGoalType(oNewGoalFromPrevious).equals(eGoalType.DRIVESOURCE)==true) {			
-				//Do nothing
+				//Add to goallist
+				poGoalList.add(oNewGoalFromPrevious);
+				
+				oResult = oNewGoalFromPrevious;
+			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				poGoalList.add(oNewGoalFromPrevious);
 			}
 			
-			//Add to goallist
-			poGoalList.add(oNewGoalFromPrevious);
-			
-			oResult = oNewGoalFromPrevious;
+
 
 		} else {
-			//Assign the right goal
-			oResult = oEquivalentGoalList.get(0);
+			//Assign the right spatially nearest goal from the previous goal if the goal is from the perception
+			eGoalType oPreviousGoalType = clsGoalTools.getGoalType(poPreviousGoal);
+			
+			if (oPreviousGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==true || oPreviousGoalType.equals(eGoalType.PERCEPTIONALEMOTION)==true) {
+				oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
+			} else {
+				oResult = oEquivalentGoalList.get(0);
+			}
+			
+				
 			
 			
 		}
