@@ -75,11 +75,11 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	 * @return
 	 */
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataStructure(int poReturnType, clsDataStructurePA poDataStructureUnknown){
-		// TODO: SSch use eSearchMEthod
-		//if(moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
-//		if(poDataStructureUnknown.getMoContentType() == eContentType.ENTITY){ 	
-//			return graphSearch(poReturnType, poDataStructureUnknown);
-//		}
+
+		if(moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
+			
+			return graphSearch(poReturnType, poDataStructureUnknown);
+		}
 				
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataStructureUnknown);}
 		/*TODO - HZ 	here, additional search algorithms have to be initialized*/
@@ -129,6 +129,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> graphSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	
 	/**
 	 * Start the list search for a container as input
@@ -149,7 +150,6 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 
-	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> graphSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	
 	public abstract ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel);
 }
