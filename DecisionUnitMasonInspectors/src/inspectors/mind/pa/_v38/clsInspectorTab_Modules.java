@@ -379,5 +379,13 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		} else if(poModuleName.equals("E46_FusionWithMemoryTraces")) {
 		} else if(poModuleName.equals("E47_ConversionToPrimaryProcess")) {
 		} 
-	}	
+	}
+	
+	public void close(){
+		for( Object oInsp : moContent.inspectors) {
+			if(oInsp instanceof clsPAInspectorFunctional) {
+				((clsPAInspectorFunctional) oInsp).closeAllChildWindows();
+			}
+		}
+	}
 }

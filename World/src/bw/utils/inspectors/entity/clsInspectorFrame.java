@@ -8,8 +8,12 @@
  */
 package bw.utils.inspectors.entity;
 
+import inspectors.mind.pa._v38.clsInspectorTab_Modules;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 import javax.swing.JFrame;
 
@@ -30,7 +34,7 @@ import sim.portrayal.inspector.TabbedInspector;
  * 14.07.2009, 14:46:22
  * 
  */
-public class clsInspectorFrame extends JFrame implements Steppable {
+public class clsInspectorFrame extends JFrame implements Steppable, WindowListener{
 
 	private TabbedInspector moInspectorContent; 
 	private Stoppable moStoppableInspectors = null;
@@ -55,13 +59,17 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 		oRetVal.setVisible(true);
 		oRetVal.setTitle(poName);
 		oRetVal.setSize(new Dimension(1024,768)); //set's the size of all TabbedInspector frames to this starting value
+		oRetVal.addWindowListener(oRetVal);
 		
 		//registers this frame as steppable and stores the stoppable for deregistration when the window is closed
         synchronized(clsSingletonMasonGetter.getSimState().schedule)  // //avoid deadlocks with MASON scheduler
         {
         	oRetVal.moStoppableInspectors = clsSingletonMasonGetter.getSimState().schedule.scheduleRepeating((Steppable)oRetVal, 10, 1);
         }
+        
 		return oRetVal;
+		
+		
 	}
 
 	/**
@@ -93,6 +101,7 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 		}
 	}
 	
+	
 	/**
 	 * deregisters the steppable element from the mason scheduler
 	 * this method has to be called from outside, when the window is closed
@@ -103,5 +112,54 @@ public class clsInspectorFrame extends JFrame implements Steppable {
 	 */
 	public void stopInspector() {
 		moStoppableInspectors.stop();
+	}
+
+
+	@Override
+	public void windowActivated(WindowEvent e) {
+		// do nothing
+		
+	}
+	
+	@Override
+	public void windowClosed(WindowEvent e) {
+		//if inspector is closed
+		for( Object oInsp : moInspectorContent.inspectors) {
+			//call clsInspectorTab_Modules.close() to close the child Inspector Windows
+			if(oInsp instanceof clsInspectorTab_Modules) {
+				((clsInspectorTab_Modules) oInsp).close();
+			}
+		}
+		
+	}
+
+	@Override
+	public void windowClosing(WindowEvent e) {
+		// do nothing
+		
+	}
+
+	@Override
+	public void windowDeactivated(WindowEvent e) {
+		// do nothing
+		
+	}
+
+	@Override
+	public void windowDeiconified(WindowEvent e) {
+		// do nothing
+		
+	}
+
+	@Override
+	public void windowIconified(WindowEvent e) {
+		// do nothing
+		
+	}
+
+	@Override
+	public void windowOpened(WindowEvent e) {
+		// do nothing
+		
 	}
 }
