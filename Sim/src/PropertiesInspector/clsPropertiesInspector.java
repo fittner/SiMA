@@ -175,7 +175,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final String LABEL_INFORMATION_ROOT_NODE_EXISTS = "A node with the same name as the root of the to be copied subtree already exists.\nThe subtree cannot be pasted here.\n(Hint: you may use 'Paste renamed …'.)";
 	private static final String LABEL_INFORMATION_ROOT_NODE_SELECTED = "The selected node is the root, which is not allowed for this operation.\nPlease select a different node.";
 	private static final String PATH_FOR_PROPERTY_FILES_DEFAULT = "S:\\ARSIN_V01";
-	private static final String QUESTION_CONFIRMATION_DIALOG_FILE_SAVE = " already exits!\nDo you want to overwrite?";
+	private static final String QUESTION_CONFIRMATION_DIALOG_FILE_SAVE = " already exists!\nDo you want to overwrite?";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_1 = "The properties ";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_2 = "in file ";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_3 = "have been modified.\nSave changes?";
@@ -252,9 +252,56 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 
 	
 	/**
+     * This method performs the necessary activities when a new subtree or single node has to be added after a node new or a copy action.
+     * If the to be inserted node is result of a copy isACopy has to be true.
+     */
+	private void addSubtree (Component thisForTheSubobject, boolean isACopy, boolean isRenamed) {
+		
+		DefaultMutableTreeNode currentNode;
+		int returnVal1;
+		String currentPath = "";
+		
+		currentNode = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // Finds the node, below which the new subtree has to be added.
+		if (currentNode == null) { // No parent node is selected.
+			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that there is no node selected.
+				LABEL_INFORMATION_NO_NODE_SELECTED, // Information that no current node is selected.
+				LABEL_FOR_INFORMATION, // Label of the dialog window
+				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
+				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
+				null, // No specific icon is set.
+				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
+				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
+		} else { // New node has a parent.
+			currentPath = getPath (currentNode);
+			if (currentNode.isLeaf()) {
+				if (BWProperties.getProperty(currentPath).isEmpty()) { // As the leaf has no value, the new subtree simply can be added below of it.
+					addSubtreeParticularly(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
+				} else { // The leaf node has a value. The new node can only be added if the value gets deleted.
+					returnVal1 = JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog asks, whether the existing value of the leaf should be replaced by the new subtree or whether the value should remain untouched and the new node should be withdrawn.
+						QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 + currentNode.toString() + QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2, // The question, whether the value should be overwritten is composed from 2 text blocks and the label of the current node.
+						LABEL_FOR_DIALOG_REPLACE_VALUE_BY_NODE, // Label of the dialog window
+						JOptionPane.YES_NO_OPTION, // Dialog type "Option" is indicated.
+						JOptionPane.QUESTION_MESSAGE, // Message type "Question" is indicated.
+						null, // No specific icon is set.
+						OPTIONS_YES_NO, // Two options are available for choose.
+						OPTIONS_YES_NO[1]); // Option "No" is preselected.
+					if (returnVal1 == 0) { // If the action to add the new subtree has been acknowledged by the user it gets performed.
+						addSubtreeParticularly(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
+					} else { // The action to add a new node has to be cancelled.
+						actionEditCancel.actionPerformed(null);
+					}
+				}
+			} else { // New subtree has to be added below current node as another sibling of its children.
+				addSubtreeParticularly(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, false);						
+			}									
+		}
+	}
+
+	
+	/**
      * This method adds a new subtree below current node and current path. isACopy indicates, whether the new subtree is a copy.
      */
-	private void addNewSubtree(Component thisForTheSubobject, DefaultMutableTreeNode currentNode, String currentPath,  boolean isACopy, boolean isRenamed, boolean isForeseenParentALeaf) {
+	private void addSubtreeParticularly(Component thisForTheSubobject, DefaultMutableTreeNode currentNode, String currentPath,  boolean isACopy, boolean isRenamed, boolean isForeseenParentALeaf) {
 		
 		int iOfDot, l1;
 		String labelRootOfSubtree, labelRootOfSubtreeOld = "";
@@ -360,53 +407,6 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 
 	
 	/**
-     * This method performs the necessary activities when a new subtree or single node has to be added after a node new or a copy action.
-     * If the to be inserted node is result of a copy isACopy has to be true.
-     */
-	private void addSubtree (Component thisForTheSubobject, boolean isACopy, boolean isRenamed) {
-		
-		DefaultMutableTreeNode currentNode;
-		int returnVal1;
-		String currentPath = "";
-		
-		currentNode = (DefaultMutableTreeNode) jtrConfigTree.getLastSelectedPathComponent(); // Finds the node, below which the new subtree has to be added.
-		if (currentNode == null) { // No parent node is selected.
-			JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog informs that there is no node selected.
-				LABEL_INFORMATION_NO_NODE_SELECTED, // Information that no current node is selected.
-				LABEL_FOR_INFORMATION, // Label of the dialog window
-				JOptionPane.OK_OPTION, // Dialog type "Okay_Option" is indicated.
-				JOptionPane.INFORMATION_MESSAGE, // Message type "Information" is indicated.
-				null, // No specific icon is set.
-				OPTIONS_OKAY, // Only the option "Okay" is available for choose.
-				OPTIONS_OKAY[0]); // Option "Okay" is preselected.
-		} else { // New node has a parent.
-			currentPath = getPath (currentNode);
-			if (currentNode.isLeaf()) {
-				if (BWProperties.getProperty(currentPath).isEmpty()) { // As the leaf has no value, the new subtree simply can be added below of it.
-					addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
-				} else { // The leaf node has a value. The new node can only be added if the value gets deleted.
-					returnVal1 = JOptionPane.showOptionDialog(thisForTheSubobject, // A dialog asks, whether the existing value of the leaf should be replaced by the new subtree or whether the value should remain untouched and the new node should be withdrawn.
-						QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART1 + currentNode.toString() + QUESTION_DIALOG_REPLACE_VALUE_BY_NODE_PART2, // The question, whether the value should be overwritten is composed from 2 text blocks and the label of the current node.
-						LABEL_FOR_DIALOG_REPLACE_VALUE_BY_NODE, // Label of the dialog window
-						JOptionPane.YES_NO_OPTION, // Dialog type "Option" is indicated.
-						JOptionPane.QUESTION_MESSAGE, // Message type "Question" is indicated.
-						null, // No specific icon is set.
-						OPTIONS_YES_NO, // Two options are available for choose.
-						OPTIONS_YES_NO[1]); // Option "No" is preselected.
-					if (returnVal1 == 0) { // If the action to add the new subtree has been acknowledged by the user it gets performed.
-						addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, true);						
-					} else { // The action to add a new node has to be cancelled.
-						actionEditCancel.actionPerformed(null);
-					}
-				}
-			} else { // New subtree has to be added below current node as another sibling of its children.
-				addNewSubtree(thisForTheSubobject, currentNode, currentPath, isACopy, isRenamed, false);						
-			}									
-		}
-	}
-
-	
-	/**
      * This method performs the necessary activities in the case when the properties have not been saved before they will get deselected.
      * The method returns true, if the calling method should continue,
      * it returns false if the calling method should get cancelled.
@@ -503,9 +503,9 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 							BWProperties.remove(propertylabels[l1]);
 						}
 					}
-					/*setPropertiesTree (BWProperties); // Creates the tree from the received clsBWProperties object and sets private field foreseen for the tree.
-					jspScrollPane1.setViewportView(jtrConfigTree); // Makes the tree the object to be displayed in the foreseen view.
-					*/
+					if (currentNode.getSiblingCount() <= 1) { // If root of the deleted subtree (it is not yet deleted in the tree, only in  the properties) has no sibblings (besides itself), a property named with the label of the parent of current node has to be added.
+						BWProperties.setProperty(getPath ((DefaultMutableTreeNode) currentNode.getParent()), ""); // The value of the property in current node is empty string after the deletion of its .
+					}
 					rebuildTree ((DefaultMutableTreeNode) currentNode.getParent()); // The tree gets reconstructed from the scratch.
 					propertiesModified = true; // Information that it is needed to save the tree.
 					actionSave.setEnabled(true); // Information to activate the "save" menu entry.
@@ -513,6 +513,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 			}
 		}
 	}
+
 
 	/**
      * This method fetches the property value with the specified key from the clsProperties object displays it in text area 1 and sets this area to editable.
@@ -1090,7 +1091,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 
 	
 	/**
-     * This method collects the activities to rebuild the tree after a modificication and to save the current axpansion and selection situation.
+     * This method collects the activities to rebuild the tree after a modificication and to save the current expansion and selection situation.
      */
 	private void rebuildTree (DefaultMutableTreeNode toBeSelectedNode) {
 		
@@ -1281,7 +1282,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
     		
     	});
     	
-    	jtrConfigTree.addMouseListener(new MouseListener () {
+    	jtrConfigTree.addMouseListener(new MouseListener () { // To show the popup menu after pressing of the right mouse button.
 
 			@Override
 			public void mouseClicked(MouseEvent mouseEvent) {
