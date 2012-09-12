@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
@@ -35,7 +36,7 @@ import config.clsProperties;
  *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive,  I5_1_send{
+		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart{
 
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
@@ -43,8 +44,11 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private ArrayList<clsDriveMesh> moDriveCandidates;
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
-	private double mrThresholdMatchFactor = 0.5;
+	private double mrThresholdMatchFactor = 0.0;
 	private double mrThresholdPleasure = 0.2;
+	
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moTimeChartData;
 	
 	/**
 	 * DOCUMENT (zeilinger) 
@@ -67,6 +71,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 
 		applyProperties(poPrefix, poProp); 
 		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
+		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -166,6 +171,15 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	protected void process_basic() {
 		
 		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates);
+		
+		// create time Chart Data
+		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			if ( !moTimeChartData.containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+			}
+			moTimeChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
 	
 	}
 
@@ -197,7 +211,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
-						
+				
+			 	oDriveObject = null;
+				oDriveAim = null;
+				
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
 			
@@ -257,8 +274,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				try {
 					// just consider drives with driveobject and -aim
 					if(oDriveObject != null && oDriveAim != null){
-						oSimulatorDM.associateActualDriveObject(oDriveObject, 1.0);		
-						oSimulatorDM.associateActualDriveAim(oDriveAim, 1.0);	
+						oSimulatorDM.setActualDriveObject(oDriveObject, 1.0);		
+						oSimulatorDM.setActualDriveAim(oDriveAim, 1.0);	
 						oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
 						oRetVal.add(oSimulatorDM);
 					}
@@ -383,6 +400,103 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		((I5_1_receive)moModuleList.get(14)).receive_I5_1(poData); 
 		
 		putInterfaceData(I5_1_send.class, poData);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+
+		return 1.0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+
+		return "";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moTimeChartData.values());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moTimeChartData.keySet());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 11:00:39 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged=false;
+		
 	}
 
 

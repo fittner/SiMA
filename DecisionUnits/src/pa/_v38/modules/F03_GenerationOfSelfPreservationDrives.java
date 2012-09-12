@@ -12,6 +12,8 @@ import java.util.Map.Entry;
 import java.util.SortedMap;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_2_send;
@@ -27,6 +29,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
+import du.enums.eSlowMessenger;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -41,7 +44,7 @@ import du.enums.pa.ePartialDrive;
  * 11.08.2009, 12:19:04
  * 
  */
-public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB implements I2_2_receive, I3_2_send {
+public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB implements I2_2_receive, I3_2_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "03";
 	public static final String P_HOMEOSTASISLABEL = "label";
 	public static final String P_HOMEOSTASISFACTOR = "factor";
@@ -57,6 +60,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 
 	//einfluess auf die normalisierung von body -> psyche
 	private HashMap<String, Double> moHomeostaisImpactFactors;
+	
+	private boolean mnChartColumnsChanged = true;
+	private HashMap<String, Double> moTimeChartData; 
 	
 	/**
 	 * basic constructor 
@@ -76,6 +82,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);
 		fillOrificeMapping();
+		
+		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
 	}
 	
 	
@@ -200,27 +208,58 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		// 2- create a drivecandidate for every entry in the list, set the tension, organ orifice
 		for( Entry<String, Double> oEntry : oNormalizedHomeostatsisSymbols.entrySet())
 		{
-			boolean createDrive = true;
-			//test if the information comming from a body is in the eOrgan list, if not... only show a warning
-			try {
-				String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
-			
-			} catch (Exception e) {
-				createDrive = false;
-				System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
-				
-			}
-		
-			try {
-				
-				if(createDrive){
-					moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+						
+			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
+			{
+				//bloodsugar is special, make it to a stomach drive
+				try {
+					moDriveCandidates_OUT.add( CreateDriveCandidate(eOrgan.STOMACH, oEntry.getValue()) );
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+			}
+			else if(oEntry.getKey().toString() == (eOrgan.STOMACH.name()))
+			{
+				//do nothing
+			}
+			else{
+				boolean createDrive = true;
+				//test if the information comming from a body is in the eOrgan list, if not... only show a warning
+				try {
+					String oSource = eOrgan.valueOf(oEntry.getKey()).toString();
 				
-			} catch (Exception e) {
-				e.printStackTrace();
+				} catch (Exception e) {
+					createDrive = false;
+					if(oEntry.getKey() == "ADREANLIN" || oEntry.getKey() == "HEALTH")
+					{}
+					else{
+						System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+					}
+					
+				}
+			
+				try {
+					
+					if(createDrive){
+						moDriveCandidates_OUT.add( CreateDriveCandidate(oEntry) );
+					}
+					
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		
+		//generate Time Chart Data
+		for( clsDriveMesh oDriveMeshEntry:moDriveCandidates_OUT){
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			if ( !moTimeChartData.containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+			}
+			moTimeChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+		}
+		
+		
 	}
 	
 
@@ -263,7 +302,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 
 
 	}
-
+	
 	/**
 	 * Creates a DM out of the entry, and adds necessary information, source, etc
 	 * @throws Exception 
@@ -271,16 +310,14 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	 * @since 16.07.2012 15:20:26
 	 *
 	 */
-	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+	private clsDriveMesh CreateDriveCandidate(eOrgan poOrgan, double rTension) throws Exception {
 		clsDriveMesh oDriveCandidate  = null;
-		double rTension = pEntry.getValue();
-		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
-		eOrifice oOrifice = moOrificeMap.get(oOrgan);
+		eOrifice oOrifice = moOrificeMap.get(poOrgan);
 		
 		//create a TPM for the organ
 		clsThingPresentationMesh oOrganTPM = 
 			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
-					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), poOrgan.toString()) );
 		
 		//create a TPM for the orifice
 		clsThingPresentationMesh oOrificeTPM = 
@@ -292,14 +329,28 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 		
 		//supplement the information
-		oDriveCandidate.associateActualDriveSource(oOrganTPM, 1.0);
+		oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
 		
-		oDriveCandidate.associateActualBodyOrifice(oOrificeTPM, 1.0);
+		oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
 		
 		oDriveCandidate.setQuotaOfAffect(rTension);
 		
+		return oDriveCandidate;
+	}
 
-	return oDriveCandidate;
+	/**
+	 * Creates a DM out of the entry, and adds necessary information, source, etc
+	 * @throws Exception 
+	 *
+	 * @since 16.07.2012 15:20:26
+	 *
+	 */
+	private clsDriveMesh CreateDriveCandidate(Entry<String, Double> pEntry) throws Exception {
+		
+		double rTension = pEntry.getValue();
+		eOrgan oOrgan = eOrgan.valueOf(pEntry.getKey());
+
+	return CreateDriveCandidate(oOrgan, rTension);
 		
 	}
 
@@ -320,7 +371,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			
 			//any special normalization needed for special types? do it here:
 			//Special STOMACH_PAIN
-			if(oEntry.getKey() == "STOMACH_PAIN")
+			if(oEntry.getKey() == "STOMACH_PAIN" )
 			{
 				rEntryTension /= 7;
 			}
@@ -332,6 +383,13 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			
 			//Special STOMACH
 			if(oEntry.getKey() == eSensorIntType.STOMACH.name())
+			{
+				rEntryTension = 1-rEntryTension ;
+			}
+			
+
+			//Special STOMACH
+			if(oEntry.getKey() == eSlowMessenger.BLOODSUGAR.name())
 			{
 				rEntryTension = 1-rEntryTension ;
 			}
@@ -408,6 +466,108 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public void setDescription() {
 		moDescription = "F03: The neurosymbolic representation of bodily needs are converted to memory traces representing the corresponding drives. At this stage, such a memory trace contains drive source, aim of drive, and drive object (cp Section ?). The quota of affect will be added later. For each bodily need, two drives are generated: a libidinous and an aggressive one. ";
 	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.0;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return 0;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "";
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moTimeChartData.values());
+		return oResult;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moTimeChartData.keySet());
+		return oResult;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 5, 2012 10:34:02 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;
+	}
+
+
 
 
 

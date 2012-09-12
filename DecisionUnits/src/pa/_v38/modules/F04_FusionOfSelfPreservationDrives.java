@@ -247,9 +247,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 					,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
 			
 			//copy the information from the drive candidate
-			oDriveComponent.associateActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);
+			oDriveComponent.setActualDriveSource(poDriveCandidate.getActualDriveSource(), 1.0);
 
-			oDriveComponent.associateActualBodyOrifice(poDriveCandidate.getActualBodyOrifice(), 1.0);
+			oDriveComponent.setActualBodyOrifice(poDriveCandidate.getActualBodyOrifice(), 1.0);
 			
 		} catch (Exception e) {
 			e.printStackTrace();

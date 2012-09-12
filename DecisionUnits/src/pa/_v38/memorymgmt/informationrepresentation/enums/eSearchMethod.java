@@ -14,5 +14,6 @@ package pa._v38.memorymgmt.informationrepresentation.enums;
  * 
  */
 public enum eSearchMethod {
-	LISTSEARCH
+	LISTSEARCH,
+	GRAPHSEARCH
 }

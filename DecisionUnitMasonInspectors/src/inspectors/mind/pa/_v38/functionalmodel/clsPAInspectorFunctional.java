@@ -6,18 +6,23 @@
  */
 package inspectors.mind.pa._v38.functionalmodel;
 
+import inspectors.mind.pa._v38.clsInspectorTab_Modules;
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Rectangle2D;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JButton;
+import javax.swing.JFrame;
 import javax.swing.JTree;
+
 import javax.swing.event.MouseInputAdapter;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
@@ -35,6 +40,7 @@ import org.jgraph.graph.VertexView;
 import pa._v38.modules.clsPsychicApparatus;
 
 import sim.portrayal.Inspector;
+import sim.portrayal.inspector.TabbedInspector;
 
 import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
@@ -66,10 +72,21 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	int x_mult;
 	int x_offset;
 	int y_mult;
-	int y_offset;	
+	int y_offset;
+	
+	private clsPsychicApparatus poPA;
+	private ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
+	private JFrame moLastWindow;
+	private ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
+
+
 
     public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
     {
+
+    	poPA=moPA;
+    	
+    	
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
 		mnCompact = pnCompact;
 		
@@ -85,10 +102,12 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	
 		moBtnUpdate = new JButton("Update graph...");	//create an update-button
 		moBtnUpdate.addActionListener(this);
-		
-        setLayout(new BorderLayout());
-        add(moBtnUpdate, BorderLayout.NORTH);
-		add(moGraph, BorderLayout.WEST);
+		ScrollPane moScrollPane = new ScrollPane();
+		moScrollPane.add(moGraph);
+		setLayout(new BorderLayout());
+		add(moBtnUpdate, BorderLayout.NORTH);
+		//add(moGraph, BorderLayout.WEST);
+		add(moScrollPane, BorderLayout.CENTER);
     }
     
     private void setDisplayValues() {
@@ -118,7 +137,13 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	 */
 	@Override
 	public void updateInspector() {
-
+		for(TabbedInspector moContent : moContents){
+			for(Object oInsp : moContent.inspectors) {
+				if( oInsp instanceof Inspector ) {
+					((Inspector) oInsp).updateInspector();
+				}
+			}
+		}
 	}
 	
 	private void resetAdded() {
@@ -260,7 +285,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	/**
 	 * Prevent from loosing the synchronisation after a graph element is dragged
 	 */
-	public static class MyMouseListener extends MouseInputAdapter {
+	public class MyMouseListener extends MouseInputAdapter {
 		protected JTree moMyTree;
 		private JGraph moMyGraph;
 		
@@ -277,7 +302,15 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	    			if (selection != null) {
 	    				for (Object s:selection) {
 	    					if (s instanceof itfMouseClick ) {
-	    						selectNodeInTree( ((itfMouseClick)s).getId() );
+	    						//select node in Tree
+	    						//selectNodeInTree( ((itfMouseClick)s).getId() );
+	    						//open Node Details in new Window
+	    						if(e.isAltDown()){
+	    							openNewWindow(((itfMouseClick)s).toString(),true);
+	    						}
+	    						else{
+	    							openNewWindow(((itfMouseClick)s).toString(),false);
+	    						}
 	    					}
 	    				}
 	    			}
@@ -289,9 +322,13 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         	TreePath oPath = findNode(poId);
         	moMyTree.setSelectionPath(oPath);  
         	moMyTree.expandPath(oPath);  
-        	moMyTree.makeVisible(oPath); 
+        	moMyTree.makeVisible(oPath);
         }
         
+ 
+        
+
+           
         private TreePath findNode( String nodeName ) {
         	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moMyTree.getModel().getRoot(), nodeName );
         	return new TreePath(oPath);
@@ -318,7 +355,76 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 		} 
         
     }
-	
-	
+    /*
+     * shows the internals of the selected Module in a new Frame
+     */
+    private void openNewWindow(String id, boolean newWindow){
+    	JFrame moContentWindow;
+    	if(newWindow){	
+    		moContentWindow = new clsModuleInspectorWindow(this);
+    		moContentWindows.add(moContentWindow);
+    	}
+    	else{
+    		if(moContentWindows.size()==0){
+    			moContentWindow = new clsModuleInspectorWindow(this);
+    			moContentWindows.add(moContentWindow);
+    			
+    		}
+    		else{
+    			//if min 1 frame is open the new frame will be loaded in the last opened frame
+    			moContentWindow = moContentWindows.get(moContentWindows.size()-1);
+    			moContentWindow.getContentPane().removeAll();
+    			
+    		}
+    	}
 
+    	//moContentWindow.setSize(750,550);
+    	
+    	
+    	if(id.contains(":")){
+    		id= id.substring(0, id.indexOf(':'));
+    	}
+    	if(id.length()<3){
+    		id = id.charAt(0) +"0"+id.charAt(1);
+    	}
+    	moContentWindow.setTitle("Module" + id);
+    	TabbedInspector moContent = new TabbedInspector();
+    	moContents.add(moContent);
+    	
+
+		Field oFields[] =poPA.getClass().getFields();
+
+		//Search through all Fields of poPA to get the full name of the selected Module
+		String fullId="";
+
+		for(int i = 0; i<oFields.length; i++){
+			if(oFields[i].getName().contains("_")){
+				if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
+					fullId=oFields[i].getName().substring(2);  
+
+				}
+			}
+			
+		}
+
+    	
+    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
+    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
+    	
+    	moContentWindow.add(moContent); 
+    	moContentWindow.repaint();
+    	moContentWindow.setVisible(true);
+    }
+    
+    
+    public void childWindowClosed(JFrame poWindow){
+    	moContentWindows.remove(poWindow);
+    }
+    
+    public void closeAllChildWindows(){
+		for( JFrame oWindow : moContentWindows) {
+			oWindow.dispose();
+		}
+    }
+	
 }

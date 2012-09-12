@@ -33,9 +33,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
-	//private clsThingPresentationMesh moDriveObject;		//Triebobjekt contenttype entity
+	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
-	//private clsThingPresentation moDriveSource;			//Triebquelle
+	//private clsThingPresentation moDriveSource;		//Triebquelle
 	//private clsThingPresentation moBodyOrifice; 		//Koerperoeffnung
 	private ArrayList<clsAssociation> moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
 	private ArrayList<clsAssociation> moInternalAssociatedContent = new ArrayList<clsAssociation>();  //enthällt das aktuelle triebzie, objekt und quelle (ggf Körperöffung), also max 2 Einträge
@@ -43,11 +43,22 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 
 	/**
-	 * DOCUMENT (schaat) - insert description 
+	 * DOCUMENT (schaat)
+	 * 
+	 * Constructor of clsDriveMesh:
+	 * 
+	 * @param clsTriple poDataStructureIdentifier:
+	 *            1. Integer (is always -1 for a new drive mesh) Braucht das irgenwer noch???
+	 *            2. eDataType (is always: eDataType.DM, DM = drive mesh) Völliger Schwachsinn den eDataType zu erben weil ein drive mesh nur ein drive mesh sein kann!!!
+	 *            3. eContentType ??? (e.g.: eContentType.AGGRESSION or eContentType.DEATH or eContentType.LIFE)
+	 * @param ArrayList<clsAssociation> poInternalAssociatedContent (1st list element: drive aim, 2nd list element: drive object, 3rd list element: drive source, ...) These list elements must be set via: setActualDriveAim, setActualDriveSource, ...
+	 * @param double prQuotaOfAffect (QuotaOfAffect)
+	 * @param String poContent (Is only a debug information how the drive is called. E.g. nourisch - Word-presentations are not allowed in the primary process)
+	 * @param eDriveComponent poDriveComponent (eDriveComponent.AGGRESSIVE or eDriveComponent.LIBIDINOUS)
+	 * @param ePartialDrive poPartialDrive (Partial drives: ePartialDrive.ANAL, ePartialDrive.ORAL, ePartialDrive.PHALLIC, or ePartialDrive.GENITAL)
 	 *
 	 * @since Jul 10, 2012 1:21:34 PM
-	 *
-	 * @param poDataStructureIdentifier
+	 * 
 	 */
 	public clsDriveMesh(	clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, ArrayList<clsAssociation> poInternalAssociatedContent, double prQuotaOfAffect, String poContent, eDriveComponent poDriveComponent, ePartialDrive poPartialDrive) {
 		super(poDataStructureIdentifier);
@@ -148,16 +159,76 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public boolean ContainsAssociatedContentType(eContentType oContentType){
 		boolean oRetVal = false;
 		
-		for(clsAssociation oAA : moInternalAssociatedContent)
-		{
-			clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-			if(oTPM.getMoContentType() == oContentType)
-				oRetVal = true;
+		if (moInternalAssociatedContent != null) {
+			for(clsAssociation oAA : moInternalAssociatedContent)
+			{
+				clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+				if(oTPM.getMoContentType() == oContentType)
+					oRetVal = true;
+			}
 		}
 		
 		return oRetVal;
 	}
 	
+	/*
+	 * @param poExceptionMessage
+	 * @param poContentType: eContentType.ORGAN, eContentType.ACTION, eContentType.ENTITY, or eContentType.ORIFICE
+	 * @param poDriveTPM: DriveSource, DriveAim, DriveObject, or BodyOrifice
+	 * @param prWeight: Importance of the DriveSource, DriveAim, DriveObject, or BodyOrifice 
+	 * 
+	 */
+	private void setAssociatedContent(String poExceptionMessage, eContentType poContentType, clsThingPresentationMesh poDriveTPM, double prWeight) throws Exception{
+		
+		int i = 0;
+ 
+		if(poDriveTPM == null) {
+			throw new Exception(poExceptionMessage);
+		}
+
+		if(ContainsAssociatedContentType(poContentType))
+			for(clsAssociation oAA : moInternalAssociatedContent)
+			{
+				if(oAA.getMoAssociationElementB().getMoContentType() == poContentType) {
+					moInternalAssociatedContent.get(i).setMoAssociationElementB(poDriveTPM);
+					moInternalAssociatedContent.get(i).setMrWeight(prWeight);
+				}
+				
+				i++;
+			}
+		else
+			if (moInternalAssociatedContent != null)
+				moInternalAssociatedContent.add(
+					clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveTPM, prWeight));
+
+	}
+
+	public void setActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
+		
+		setAssociatedContent("Drivesource must not be null", eContentType.ORGAN, poDriveSource, prWeight);
+	}
+	
+	public void setActualDriveAim(clsThingPresentationMesh poDriveAim, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveaim must not be null", eContentType.ACTION, poDriveAim, prWeight);
+	}
+	
+	public void setActualDriveObject(clsThingPresentationMesh poDriveObject, double prWeight) throws Exception{
+		
+		setAssociatedContent("Driveobject must not be null", eContentType.ENTITY, poDriveObject, prWeight);
+	}
+	
+	public void setActualBodyOrifice(clsThingPresentationMesh poBodyOrifice, double prWeight) throws Exception{
+		
+		setAssociatedContent("Bodyorifice must not be null", eContentType.ORIFICE, poBodyOrifice, prWeight);
+	}
+
+	
+	/*
+	// Wenn Clemens einverstanden ist, kann man die folgenden 4 Methoden loeschen.
+	// Wenn es niemand bis Dezember 2012 geloescht hat und es auch niemendem abgegangen ist und irgendjemand diese Zeilen liest,
+	// dann kann er die folgenden 4 Methoden loeschen.   
+	  
 	public void associateActualDriveSource(clsThingPresentationMesh poDriveSource, double prWeight) throws Exception{
 
 		if(ContainsAssociatedContentType(eContentType.ORGAN))
@@ -201,9 +272,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		moInternalAssociatedContent.add(
 				clsDataStructureGenerator.generateASSOCIATIONDM(this, (clsThingPresentationMesh)poDriveOrifice, prWeight));
 	}
-
+*/
 	
 	@Override
+	
+	
 	public String toString(){
 		String oRetval = "|DM:";
 		oRetval += ":QoA="+GetQuotaOfAffectAsMyString(this.mrQuotaOfAffect);
@@ -251,7 +324,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 	
 	private String getPartialShortString(ePartialDrive oPartialDrive){
-		String oRetVal = "N"; //aka UNDEFINED,
+		String oRetVal = "-"; //aka UNDEFINED,
 		
 		switch (oPartialDrive){
 		case ANAL:

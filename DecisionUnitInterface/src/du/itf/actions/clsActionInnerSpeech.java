@@ -5,27 +5,27 @@ package du.itf.actions;
  * Parameters
  * 	prForce = The force used to attack the entity   (Default ~4)
  * 
- * @author Benny Doenz
+ * @author IH
  * 20.06.2009, 15:31:13
  * 
  */
 public class clsActionInnerSpeech extends clsActionCommand {
 
-	private double mrForce;
+	private double Context;
 
 	public clsActionInnerSpeech(double prForce) {
-		mrForce=prForce;
+		Context=prForce;
 	}
 	
 	@Override
 	public String getLog() {
-		return "<AttackBite>" + mrForce + "</AttackBite>"; 
+		return "<Speak>" + Context + "</Speak>"; 
 	}
 
 	public double getForce() {
-		return mrForce;
+		return Context;
 	}
 	public void setForce(double prForce) {
-		mrForce=prForce;
+		Context=prForce;
 	}
 }

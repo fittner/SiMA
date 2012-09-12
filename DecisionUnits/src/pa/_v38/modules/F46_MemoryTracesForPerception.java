@@ -1,3 +1,4 @@
+
 /**
  * E46_FusionWithMemoryTraces.java: DecisionUnits - pa.modules._v38
  * 
@@ -45,7 +46,6 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 
 import config.clsProperties;
-import du.enums.eDistance;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 
@@ -64,7 +64,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
 	/** Input from perception */
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalPerception_IN;
+	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
 	
 	/* Output */
@@ -119,10 +119,12 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		text += toText.listToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
 		text += toText.valueToTEXT("moReturnedPhantasy_IN", moReturnedPhantasy_IN);
-		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		text += toText.listToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT.getMoInternalAssociatedContent());
+		text += toText.listToTEXT("External Associations", moPerceptionalMesh_OUT.getExternalMoAssociatedContent());
 		//text += toText.valueToTEXT("moEnhancedPerception", moEnhancedPerception);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		//text += toText.valueToTEXT("mrMatchThreshold", mrMatchThreshold);
+		
 		text += toText.listToTEXT("moTempLocalizationStorage", moTempLocalizationStorage.getMoShortTimeMemory());
 		
 		return text;
@@ -152,17 +154,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 		
-		//Variables
-		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
-		
-		//Workaround of Bug Eatable/Manipulatable sensors bug
-		//TODO CM: Remove this function, as the eatable area objects are working.
-		solveBUGFIXEATABLEAREA(moEnvironmentalPerception_IN);
-		
-		/* Construction of perceived images*/
-		/* Assign objects from storage to perception */
-		oContainerWithTypes = retrieveImages(moEnvironmentalPerception_IN);
-		
 		
 		
 		//Set new instance IDs
@@ -171,10 +162,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//FIXME AW: Remove this when CM has implemented it in his modules
 		//TEMPconvertLOCATIONtoPOSITIONandDISTANCE(oContainerWithTypes);
 		
-		//Convert all objects to enhanced TPMs 
-		ArrayList<clsThingPresentationMesh> oCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
-		
-		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(oCompleteThingPresentationMeshList, eContentType.PI, eContent.PI.toString());
+			
+		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
 				
 		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
 		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
@@ -305,103 +294,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	
 	
 	
-	/**
-	 * This is a temporary bugfix for the problem if there are objects in the eatable area. They are not loaded with all attributes and are recognized false
-	 * 
-	 * (wendt)
-	 *
-	 * @since 21.11.2011 16:30:06
-	 *
-	 * @param poEnvironmentalPerception_IN
-	 */
-	private void solveBUGFIXEATABLEAREA(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception_IN) {
-		//Exchange all objects in the EATABLE AREA with the objects in the MANIPULATEABLE AREA
-		ArrayList<clsPrimaryDataStructureContainer> oEatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		//Search in the input for an object with location EATABLE and add them to a new list
-		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true)) {
-						oEatableList.add(oContainer);
-					}
-				}
-				
-			}
-		}
-		
-//		Search for all objects with the area MANIPULATABLE and add them to a new list
-//		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-//			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-//				//Go through all associated structures
-//				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
-//					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
-//						oManipulatableList.add(oContainer);
-//					}
-//				}
-//				
-//			}
-//		}
-		
-		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
-		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
-			boolean bFound=false;
-			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
-				//When found, add all TP, which are not location to the EATABLE area
-				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoContent())) {
-						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
-								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oAss);
-								bFound=true;
-								break;
-							}
-						}
-					}
-				}
-
-				if (bFound==true) {
-					break;
-				}
-			}
-		
-			//Replace the EATABLE through another distance and position
-			boolean bconv=false;
-			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
-					((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
-					bconv=true;
-				}
-			}
-			
-			if (bconv==true) {
-				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.POSITION, ePhiPosition.CENTER));
-				clsAssociationAttribute oPosAss = (clsAssociationAttribute) clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.POSITIONASSOCIATION, (clsPrimaryDataStructure) oEContainer.getMoDataStructure(), oPos, 1.0);
-				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oPosAss);
-			}
-		}
-		
-		
-		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		//Search in the input for an object with location EATABLE and add them to a new list
-		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				//Go through all associated structures
-				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
-					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.MANIPULATEABLE)==true)) {
-						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
-						//oManipulatableList.add(oContainer);
-					}
-				}
-				
-			}
-		}
-		
-	}
 	
 //	private clsThingPresentationMesh rotateMesh(clsThingPresentationMesh poInput) {
 //		return (clsThingPresentationMesh) poInput.getMoAssociatedContent().get(0).getMoAssociationElementB();
@@ -465,50 +357,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//return oRetVal;
 	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - retrieves memory matches for environmental input; objects are identified and exchanged by their 
-	 * stored correspondance.
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 14:27:30
-	 *
-	 */
-	private ArrayList<clsPrimaryDataStructureContainer> retrieveImages(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal;
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-		
-		//Assign TP to the identified object in PerceivedImage_IN
-		search(eDataType.TP, oPerceivedImage_IN, oSearchResult); 
-		//Take the best match for object
-		oRetVal = createImage(oSearchResult);
-		
-		//Assign drive meshes to each found image
-		
-		assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they hava the same nBinaryValue as DM
-		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
-		//These values are now added in F14
-		//assignExternalTPAssociations(oRetVal);
-		
-		//assignEmotions(oRetVal);
-		
-		return oRetVal;
-	}	
-	
-	private ArrayList<clsThingPresentationMesh> retrieveImagesTPM(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
-		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
-		
-		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
-			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
-				oTPM.setMoExternalAssociatedContent(oContainer.getMoAssociatedDataStructures());
-				oRetVal.add(oTPM);
-			}
-		}
-		
-		return oRetVal;
-	}
 	
 	
 	/**
@@ -678,7 +526,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		
 		if (bUsePerception==true) {	//Activate with perception
-			executePsychicSpreadActivation(poPerceivedImage, 0.3, new ArrayList<clsDriveMesh>());		
+			executePsychicSpreadActivation(poPerceivedImage, 0.9);		
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage)==null) {
@@ -688,7 +536,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
 			}
 			
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0, new ArrayList<clsDriveMesh>());
+			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0);
 		}
 		
 		
@@ -765,103 +613,11 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	}
 
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 23:06:52
-	 *
-	 */
-	private ArrayList<clsPrimaryDataStructureContainer> createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
-		
-		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
-		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-		
-				int nEntryIndex = poSearchResult.indexOf(oEntry); 
-				clsPrimaryDataStructureContainer oNewImage;
-				clsPrimaryDataStructureContainer oPerceptionEntry =  moEnvironmentalPerception_IN.get(nEntryIndex); 
-				
-				if(oEntry.size() > 0){
-					oNewImage = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
-					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
-					
-					oRetVal.add(oNewImage);
-				}
-			}
-		return oRetVal;
-	}
 	
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 17.08.2010, 20:39:09
-	 *
-	 * @param oSearchResult
-	 * @param poEnvironmentalInput
-	 */
-	private void mergePerceptionAndKnowledge(clsPrimaryDataStructureContainer poNewImage,
-												   clsPrimaryDataStructureContainer poPerceptionEntry) {
+	
+	
 
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>(); 
-		
-		if(poNewImage.getMoDataStructure() instanceof clsThingPresentationMesh 
-			&& poPerceptionEntry.getMoDataStructure() instanceof clsThingPresentationMesh){
-
-			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
-			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult); 
-		 	addAttributeAssociations(oSearchResult, poNewImage); 
-		 }
-	}
-
-	/**
-	 * DOCUMENT (zeilinger) - insert description
-	 *
-	 * @author zeilinger
-	 * 15.03.2011, 10:27:04
-	 *
-	 * @param oUnknownData
-	 * @param poPerceptionEntry
-	 * @param poNewImage 
-	 */
-	private void extractUnknownData(ArrayList<clsDataStructurePA> poUnknownData,
-			clsPrimaryDataStructureContainer poPerceptionEntry, 
-			clsPrimaryDataStructureContainer poNewImage) {
-		
-		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoInternalAssociatedContent()){
-	 		
-	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
-	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
-	 		}
-	 	}
-	}
-
-	/**
-	 * Add corresponding attribute associations to a container
-	 *
-	 * @author zeilinger
-	 * 15.03.2011, 10:25:24
-	 *
-	 * @param oSearchResult
-	 * @param poNewImage
-	 */
-	private void addAttributeAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-						clsPrimaryDataStructureContainer poNewImage) {
-		
-		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
-			if(oEntry.size() > 0){
-				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
-				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
-							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
-							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
-							(clsThingPresentation)oBestMatch.getMoDataStructure());
-				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
-			}
-		}
-	}
+	
 	
 	/**
 	 * Add Empty-Space-Objects to perception for all floor elements, which are not visible
@@ -1010,21 +766,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	}
 	
 
-	/**
-	 * Get the first element of the input arraylist
-	 *
-	 * @author zeilinger
-	 * 14.03.2011, 23:08:28
-	 *
-	 * @param oEntry
-	 * @return
-	 */
-	private clsDataStructureContainer extractBestMatch(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry) {
-		
-		clsDataStructureContainer oBestMatch = oEntry.get(0).b;; 
-		
-		return oBestMatch; 
-	}
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -1124,9 +866,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I2_6(
-			ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception) {
+			ArrayList<clsThingPresentationMesh> poEnvironmentalPerception) {
 		
-		moEnvironmentalPerception_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poEnvironmentalPerception); 
+		moEnvironmentalPerception_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poEnvironmentalPerception); 
 	}
 	
 	/* (non-Javadoc)

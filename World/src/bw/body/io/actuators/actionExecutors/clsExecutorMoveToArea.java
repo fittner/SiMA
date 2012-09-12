@@ -54,6 +54,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 		moMutEx.add(clsActionToInventory.class);
 		moMutEx.add(clsActionMove.class);
 		moMutEx.add(clsActionTurn.class);
+		moMutEx.add(clsActionInnerSpeech.class);
 
 		applyProperties(poPrefix,poProp);
 	}
@@ -62,14 +63,14 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
-		oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
+		//oProp.setProperty(pre+P_RANGEDEST, eSensorExtType.EATABLE_AREA.toString());
 		
 		return oProp;
 	}
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-		moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
+	//	moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
 	}
 
 	/*

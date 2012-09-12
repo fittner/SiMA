@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 
@@ -74,10 +75,19 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	 * @return
 	 */
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> searchDataStructure(int poReturnType, clsDataStructurePA poDataStructureUnknown){
+
+		if(moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
+			
+			return graphSearch(poReturnType, poDataStructureUnknown);
+		}
+				
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataStructureUnknown);}
 		/*TODO - HZ 	here, additional search algorithms have to be initialized*/
 		/*TODO - actually the listSearch algorithm is defined in clsModuleBase - hence, there is 
 		 * 		 no difference made between the different modules*/
+		
+		
+		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
@@ -111,6 +121,16 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 	}
 	
+	
+	
+//	public clsDataStructureContainer getMesh(clsDataStructurePA poInput) {
+//		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+//	}
+	
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
+	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> graphSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
+	
 	/**
 	 * Start the list search for a container as input
 	 *
@@ -127,15 +147,14 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 			return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);
 		}
 		
+		//FIXME SSCH: workaround (graphsearch currently only available on entity-level, not image-level)
+		if (moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
+			return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);
+		}
+		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
-	
-//	public clsDataStructureContainer getMesh(clsDataStructurePA poInput) {
-//		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
-//	}
-	
-	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
-	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
+
 	
 	public abstract ArrayList<clsPair<Double, clsDataStructurePA>> listSearchMesh(int poReturnType, clsDataStructurePA poDataStructureUnknown, double prThreshold, int pnLevel);
 }

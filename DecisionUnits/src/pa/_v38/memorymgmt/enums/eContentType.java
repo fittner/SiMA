@@ -1,4 +1,4 @@
-/**
+/** 
  * CHANGELOG
  *
  * 29.11.2011 wendt - File created
@@ -17,7 +17,7 @@ public enum eContentType {
 	//--- System ---//
 	NULLOBJECT,
 	NOTHING,
-	
+	EMPTYSPACE,
 	
 	//---Images---//
 	PI,			//Perceived Image
@@ -143,6 +143,7 @@ public enum eContentType {
 	DRIVECANDIDATE,
 	DRIVECOMPONENT,
 	DRIVEREPRESENTATION,
+	MEMORIZEDDRIVEREPRESENTATION,
 	
 	
 	

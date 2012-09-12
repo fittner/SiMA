@@ -30,10 +30,11 @@ public enum eImages {
 	Overlay_Action_Sleep("Action_Sleep.png"),
 	Overlay_Action_TurnLeft("Action_TurnLeft.png"),
 	Overlay_Action_TurnRight("Action_TurnRight.png"),
-	Overlay_Action_InnerSpeech("Action_InnerSpeach.png");
+	Overlay_Action_InnerSpeech("Gedankenblase.png");
 
 	
 	private String moFilename;
+	
 	private eImages(String poFilename) {
 		moFilename = poFilename;
 	}

@@ -30,6 +30,8 @@ import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
 import du.itf.sensors.clsStomachTension;
 
+
+
 /**
  * Conversion of raw homoestatic data into neuro-symbols. Also slow and fast messengers are created here.<br><br>
  * 
@@ -170,11 +172,13 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		
 		//create some chart of them
 		for (String oKey:moHomeostaticSymbol_OUT.keySet()) {
-			if (!moChartColumnsCaptions.contains(oKey)) {
-				mnChartColumnsChanged = true;
-				moChartColumnsCaptions.add(oKey);
-				
-				Collections.sort(moChartColumnsCaptions);
+			if(oKey != eSensorIntType.HEALTH.toString()){ //health can be very large, dotn add it to chart
+				if (!moChartColumnsCaptions.contains(oKey)) {
+					mnChartColumnsChanged = true;
+					moChartColumnsCaptions.add(oKey);
+					
+					Collections.sort(moChartColumnsCaptions);
+				}
 			}
 		}
 	}
@@ -222,8 +226,10 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				Double rValue = oFastMessenger.getIntensity();
 				if (oName.equals("STOMACH")) {
 					oName += "_PAIN";
+
 					Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
 					moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
+
 				}
 				moHomeostaticSymbol_OUT.put(oName, rValue);
 			}

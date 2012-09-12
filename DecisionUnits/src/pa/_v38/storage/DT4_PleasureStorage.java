@@ -55,7 +55,9 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 				for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep){
 					if(	oOldDMEntry.getActualDriveSourceAsENUM() == oNewDMEntry.getActualDriveSourceAsENUM() &&
 						oOldDMEntry.getMoContentType() == oNewDMEntry.getMoContentType() &&
-						oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()	) {
+						oOldDMEntry.getPartialDrive() == oNewDMEntry.getPartialDrive()	&&
+						// drive component have to be considered to
+						oOldDMEntry.getDriveComponent() == oNewDMEntry.getDriveComponent() ) {
 							//old drive is the same as the new one, found a match... calculate pleasure
 						
 							double tmpCalc = oOldDMEntry.getQuotaOfAffect() - oNewDMEntry.getQuotaOfAffect();

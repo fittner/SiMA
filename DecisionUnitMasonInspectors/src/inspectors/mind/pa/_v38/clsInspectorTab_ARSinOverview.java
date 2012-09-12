@@ -81,6 +81,7 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 		root.add(new DefaultMutableTreeNode("Goals"));
 		root.add(new DefaultMutableTreeNode("Plans"));
 		root.add(new DefaultMutableTreeNode("Actions"));
+		root.add(new DefaultMutableTreeNode("Concepts"));
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -153,7 +154,7 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 		if (poModuleName.equals("Perception")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF14_ExternalPerception), "Perception");
 		} else if (poModuleName.equals("Drives")) {
-			oRetVal.addInspector(new cls_StateInspector(moPA.moF48_AccumulationOfAffectsForDrives), "Drives");
+			oRetVal.addInspector(new cls_StateInspector(moPA.moF48_AccumulationOfQuotaOfAffectsForDrives), "Drives");
 		} else if (poModuleName.equals("DefenseDrives")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF08_ConversionToSecondaryProcessForDriveWishes), "Def. drives");
 		} else if (poModuleName.equals("DefensePerception")) {
@@ -164,8 +165,9 @@ public class clsInspectorTab_ARSinOverview extends Inspector implements TreeSele
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF29_EvaluationOfImaginaryActions), "Plans");
 		} else if (poModuleName.equals("Actions")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moF31_NeuroDeSymbolizationActionCommands), "Actions");
+		} else if (poModuleName.equals("Concepts")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moF21_ConversionToSecondaryProcessForPerception), "Concepts");
 		} else if (poModuleName.equals("Overview")) {
-			//oRetVal.addInspector(new cls_StateInspector(moPA.moF31_NeuroDeSymbolizationActionCommands), "Actions");
 		}
 		
 		return oRetVal;

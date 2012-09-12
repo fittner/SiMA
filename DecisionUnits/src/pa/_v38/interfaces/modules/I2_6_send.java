@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
  * Memory traces representing perceived environment and body information are forwarded to F46.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
  * 
  */
 public interface I2_6_send {
-	public void send_I2_6(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP);
+	public void send_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalTP);
 }

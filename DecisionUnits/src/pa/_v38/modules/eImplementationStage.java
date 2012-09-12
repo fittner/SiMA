@@ -12,6 +12,10 @@ package pa._v38.modules;
  * implementation that provides minimum functionality. Especially it guarantees the modules that are called after this module have at least some
  * data to process. Draft is the implementation stage where alpha and beta stage implementations should be done. If everything is done and fits the 
  * specs, the implementation is moved to final.
+ * in impstage file this should look like this:
+ * processor.psychicapparatus.01.IMP_STAGE=BASIC
+*	processor.psychicapparatus.02.IMP_STAGE=BASIC
+*	processor.psychicapparatus.03.IMP_STAGE=BASIC ...
  * 
  * @see clsModuleBase
  * 
