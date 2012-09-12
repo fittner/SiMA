@@ -246,7 +246,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				for(E oClonedKnownDS : oClonedTemplateList){				
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
-						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
+						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).getMrWeight(); // In non-definitional models no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
@@ -269,15 +269,16 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 					}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
 				}
 			
-			//Norm the output
-			if (nAssociationCount>0) {
-				oMatchScoreNorm = oMatchScore/nAssociationCount;
-			} else {
-				oMatchScoreNorm = 0;
-			}
+			
 		}
 				
-		
+		//Norm the output
+		if (nAssociationCount>0) {
+			oMatchScoreNorm = oMatchScore/nAssociationCount;
+		} else {
+			oMatchScoreNorm = 0;
+		}
+			
 		//return oMatchScore;
 		return oMatchScoreNorm;
 	}

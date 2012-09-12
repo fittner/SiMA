@@ -147,6 +147,11 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 			return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);
 		}
 		
+		//FIXME SSCH: workaround (graphsearch currently only available on entity-level, not image-level)
+		if (moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
+			return listSearchMesh(poReturnType, poDataStructureUnknown, prThreshold, pnLevel);
+		}
+		
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 
