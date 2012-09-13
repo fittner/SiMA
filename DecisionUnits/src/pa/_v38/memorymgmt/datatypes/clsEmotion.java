@@ -146,6 +146,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		return oResult; 
 	}
 	
+	
 	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsEmotion oClone = null;
 		
