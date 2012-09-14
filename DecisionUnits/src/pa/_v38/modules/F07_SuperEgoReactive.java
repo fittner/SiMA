@@ -19,17 +19,13 @@ import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -244,8 +240,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		moForbiddenEmotions   .clear();
 		
 		// sample rule for repression of drives
+		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
 		if (moSuperEgoStrength >= 0.8)
-			if (searchInDM ("EAT") &&
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE")) {
 				// If all the conditions above are true then Super-Ego can fire.
@@ -255,15 +252,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				
 				// The following drive was found by Super-Ego as inappropriate or forbidden.
 				// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
+				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
 					moForbiddenDrives.add(oDrive);
 			}
 		
 		// sample rule for denial of perceptions
-		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM ("EAT") &&
-				searchInTP (eContentType.COLOR, "RED") &&
+		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
+		if (moSuperEgoStrength >= 0.8)
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE"))
 				// If all the conditions above are true then Super-Ego can fire.
@@ -303,20 +300,6 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// only for test purpose
 		//if (moDrives != null)
 		//	moForbiddenDrives.add("BITE");
-		
-		
-/*		
-		// sample rules to test repression
-		if (searchInDM ("NOURISH")) {
-			if (!moForbiddenDrives.contains("NOURISH"))
-				moForbiddenDrives.add("NOURISH");
-		}
-
-		if (searchInDM ("AGGRESSIVE_GENITAL")) {
-			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
-				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
-		}
-*/
 
 		
 /*		
@@ -328,42 +311,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
 */		
-		/*
-		// sample rule to test denial
-		if (searchInTI("IMAGE", "A3TOP")) {
-			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A3TOP"))) // no duplicate entries
-				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A3TOP"));
-		}
-		*/		
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 03.07.2011, 17:06:48
-	 * 
-	 * searches in the input-perception for example for a color red
-	 * 
-	 */
-	private boolean searchInTP (eContentType oContentType, String oContent) {
-		// search in perceptions
-		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
 		
-		//Get a list of all attribute associations in a 
-		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
-		
-		//Association attribute are delivered here
-		ArrayList<eContentType> oContentTypeAndContentList = new ArrayList<eContentType>();
-		oContentTypeAndContentList.add(oContentType);
-		ArrayList<clsDataStructurePA> oAttributeAss = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
-		for (clsDataStructurePA oAss : oAttributeAss) {
-			clsThingPresentation oTP  = (clsThingPresentation) (((clsAssociationAttribute)oAss).getLeafElement());
-			if (oTP.getMoContent().equals(oContent)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 	
 	/* (non-Javadoc)
@@ -371,72 +319,20 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a ARSIN
+	 * searches in the input-perception for example for an ENTITY like ARSIN
 	 * 
 	 */
 	private boolean searchInTPM (eContentType oContentType, String oContent) {
+		
 		// search in perceptions
-		
-		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
-		ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
-		oContentTypeList.add(oContentType);
-		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
-		
-		if (oTPMList.isEmpty()==false) {
-			return true;
+		ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+		for(clsAssociation oAssociation : oInternalAssociations){
+			if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh)
+				if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
+					((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) )
+					return true;
 		}
-		
-		/////////////////////
-		//FIXME FG!!!!!!! From AW: oContent is not used here, as it does not exist anymore
-		/////////////////////
-
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 07.09.2011, 17:06:49
-	 * 
-	 * searches in the input-perception for example for an ENTITY like a ARSIN
-	 * 
-	 */
-	/*
-	private boolean searchInTI (String oContentType, String oContent) {
-		// search in perceptions
-		
-		ArrayList<clsThingPresentationMesh> oImages = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
-		ArrayList<clsThingPresentationMesh> oFilteredImages = clsMeshTools.filterTPMList(oImages, null, oContent, true);
-		
-		if (oFilteredImages.isEmpty()==false) {
-			return true;
-		}
-		
-		return false;
-	}
-	*/
-
 	
-	
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 03.07.2011, 17:06:50
-	 * 
-	 * searches in the input-DriveMesh for example for NOURISH
-	 * 
-	 */
-	private boolean searchInDM (String oContent) {		
-		// search in drives
-		
-		for(clsDriveMesh oDrives : moDrives){
-			// check DriveMesh
-			// oDrives.getDriveComponent() = eDriveComponent.LIBIDINOUS or eDriveComponent.AGGRESSIVE
-			// oDrives.getActualDriveAim().getMoContent() = for example "EAT"
-			if (oDrives.getActualDriveAim().getMoContent().equals(oContent)){
-				return true;
-			}
-		}
 		return false;
 	}
 	

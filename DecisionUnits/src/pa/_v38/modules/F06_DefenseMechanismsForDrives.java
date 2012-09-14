@@ -259,9 +259,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 
 		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
 		 // Ego decides now which defense mechanisms to apply (depending on the quota of affect of the forbidden drive)
-		 
-		 // get quota of affect of forbidden drive (for now only one forbidden drive is possible)
-		 // ToDo FG: many forbidden drives possible
 		 double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
 		 
 		 // select defense mechanism
