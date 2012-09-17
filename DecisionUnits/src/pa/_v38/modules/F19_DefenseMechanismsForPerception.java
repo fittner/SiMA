@@ -38,12 +38,17 @@ import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
- * Defends forbidden perceptions. Super-Ego (F7, F55) sends a list with forbidden perceptions to F19. F19 decides whether to defend the forbidden perceptions or not.
+ * F19 defends forbidden perceptions and forbidden emotions.
+ * Super-Ego (F7, F55) sends a list with forbidden perceptions and forbidden emotions to F19.
+ * F19 decides whether to defend the forbidden perceptions or not.
  * If F19 decided to defend the forbidden perceptions F19 chooses the defense mechanism (denial, projection, depreciation, ...).
  * 
  * Implemented defense mechanisms for perception:
  * - denial (Verdrängung)
  * - idealization, depreciation (Idealisierung, Entwertung): only positive (negative) associations are perceived with an object
+ * 
+ * Implemented defense mechanisms for emotions
+ * - Reversal of affect: changes for example the emotion anger into the emotion fear
  * 
  * @author gelbard
  * 07.05.2012, 14:35:08
@@ -252,8 +257,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	protected void process_basic() {
 		
-		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;		
-		//moAssociatedMemories_Output      = moAssociatedMemories_Input;
+		try {
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}	
 		
 		moEmotions_Output = clone(moEmotions_Input);
 
@@ -287,7 +295,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<String, Object>("AFFECT", 999.9)); 
+			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eDataType, Object>(eDataType.AFFECT, 999.9)); 
 			 moQuotasOfAffect_Output.add(oAffect);
 			 
 			 return;
@@ -338,41 +346,19 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
-			///////////////////////////////////
-			//FIXME FG: From AW, Content is not used here
-			//////////////////////////////////
-			
-			clsDataStructurePA oFoundObject = null;
-			
 			// search in perceptions
-			//Get all images and objects in the mesh
-			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
-			oContentTypeList.add(oContentType);
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
-			if (oTPMList.isEmpty()==false) {
-				oFoundObject = oTPMList.get(0);
+			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+			for(clsAssociation oAssociation : oInternalAssociations){
+				if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh)
+					if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
+						((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) ) {
+						
+						// delete forbidden association from PI (Perception Image)
+						oInternalAssociations.remove(oAssociation);
+						break; // must leave here otherwise exception, if element of iterator is deleted!
+					}
 			}
-				
-			// or oContainer can contain a thing-presentation
-			// in this case
-			// check a TP
-		
-			//The attribute list is clsAssociationAttribute
-
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
-			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
-			if (oAttributeList.isEmpty()==false) {
-				oFoundObject = oAttributeList.get(0);
-			}	
-		
-			// if Perception found -->	
-			if (oFoundObject!=null) {
-				//Delete object from the perception
-				
-				if (oFoundObject instanceof clsThingPresentationMesh)
-				clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
-			}
+			
 		}
 	}
 	
@@ -439,6 +425,35 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			eContentType oContentType = oOneForbiddenPerception.a;
 			String oContent     = oOneForbiddenPerception.b;
 			
+			
+			
+			
+			
+			// search in perceptions
+			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+			
+			// search in perceived objects (objects are called associations)
+			for(clsAssociation oAssociation : oInternalAssociations){
+				if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh) 
+					if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
+						((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) ) {
+					
+						clsThingPresentationMesh oPerceivedObject = (clsThingPresentationMesh) oAssociation.getMoAssociationElementB();
+						
+						// delete forbidden properties from perceived object
+						for(clsThingPresentationMesh oPositiveOrNegativeObject : oListWithPositiveOrNegativeObjects) {
+							clsMeshTools.deleteAssociationInObject( oPerceivedObject, oPositiveOrNegativeObject);
+							// ---------------------------------------------------TODO FG:    ^^^  das sollte eigentlich ein TP sein
+						}
+											
+					}
+
+			}
+			
+			
+			
+			
+			/*
 			///////////////////////////////////
 			//FIXME FG: From AW, Content is not used here
 			//////////////////////////////////
@@ -478,6 +493,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 						clsMeshTools.deleteAssociationInObject((clsThingPresentationMesh) oFoundObject, oPositiveOrNegativeObject);
 					}
 			}
+			*/
+			
 		}
 	}
 	
