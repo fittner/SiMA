@@ -41,7 +41,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
-	private ArrayList<clsDriveMesh> moDriveCandidates;
+	private ArrayList<clsDriveMesh> moDriveCandidates_IN;
+
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
 	private double mrThresholdMatchFactor = 0.0;
@@ -100,7 +101,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public String stateToTEXT() {
 		String text ="";
 		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
-		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates_IN);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
 		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		
@@ -142,7 +143,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		moDriveCandidates = poDriveCandidates; 
+		moDriveCandidates_IN = poDriveCandidates;
+		moDrivesAndTraces_OUT =  (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	
 	}
 	
@@ -170,7 +172,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates);
+		attachDriveCandidates(moDrivesAndTraces_OUT);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -196,7 +198,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * associations 
 	 */
 
-	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
+	private void attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
 		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		ArrayList<clsAssociation> oAssSimilarDMs = null;
@@ -291,7 +293,6 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 		}
 		
-	return oRetVal;	
 	}
 	
 
