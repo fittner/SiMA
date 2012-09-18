@@ -17,6 +17,7 @@ import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_SpiderWebChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
+import inspectors.mind.pa._v38.graph.clsMeshCompare;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
@@ -30,6 +31,7 @@ import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInspectorSpiderWebChart;
+import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -313,6 +315,16 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				for (eInterfaces eSnd:oSend) {
 					poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
 				}
+			
+			}
+			
+			if (oModule instanceof itfInterfaceCompare) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> oRecv = oModule.getInterfacesRecv();
+				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
+				poTI.addInspector( new clsMeshCompare(poPA, oRecv, oSend), "Input vs. Output");
+
 			
 			}
 		} catch (java.lang.NoSuchFieldException e) {
