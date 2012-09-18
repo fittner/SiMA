@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
@@ -172,7 +173,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		attachDriveCandidates(moDrivesAndTraces_OUT);
+		hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -198,7 +199,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * associations 
 	 */
 
-	private void attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
+	private void hallucinatoryWishfulfillment(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
 		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		ArrayList<clsAssociation> oAssSimilarDMs = null;
@@ -210,12 +211,18 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rCurrentMatchFactor = 0.0;
 		double rMaxMatchfactor = 0.0;
 
+		double rSatisfactionOfActualDM = 0;
+		
+		double rTotSatisfactionOfActualDMs = 0;
+
 		
 		// for each simulator-DM (should be 16 for now)
 		for (clsDriveMesh oSimulatorDM : poDriveCandidates) {
 				
 			 	oDriveObject = null;
 				oDriveAim = null;
+				
+				rSatisfactionOfActualDM = 0;
 				
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
@@ -242,7 +249,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
 						// weighting of matchingfactor
-						rCurrentMatchFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
+						rCurrentMatchFactor = oSearchPair.a; 
+						
+						// take the best match
 						
 						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
 							
@@ -256,11 +265,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							// weighting of asscoiation-weight with QoA
 							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor*oMemoryDM.getQuotaOfAffect()));
 							
+							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
+							oMemoryDM.getActualDriveObject().applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
+							
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {
 								rMaxMatchfactor = rCurrentMatchFactor; 
 								oDriveObject = oMemoryDM.getActualDriveObject();
 								oDriveAim = oMemoryDM.getActualDriveAim();
+								
+								rSatisfactionOfActualDM = rCurrentMatchFactor;
 							}
 						}
 					}
@@ -280,6 +294,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						oSimulatorDM.setActualDriveAim(oDriveAim, 1.0);	
 						oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
 						oRetVal.add(oSimulatorDM);
+						
+						// embodiment activation: criterion activation function
+						oDriveObject.applyCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, poDriveCandidates.size());
 					}
 					else {
 						
