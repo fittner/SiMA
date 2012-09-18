@@ -548,7 +548,7 @@ public class clsCompareGraph extends JGraph {
 		lastXlevel = xLevel;
 		if(poMemoryObject instanceof clsDriveMesh)
 		{
-			if(!isMaster()){
+	/*		if(!isMaster()){
 				
 				while(((ArrayList<Object>)moLinkPartner.moMesh.get(0)).size()>xLevel-1){
 					System.out.println("Fremd | "+xLevel+" | "+((ArrayList<Object>)moLinkPartner.moMesh.get(0)).get(xLevel-1).toString());
@@ -560,7 +560,7 @@ public class clsCompareGraph extends JGraph {
 					//generateDummyCell(poParentCell);
 					xLevel++;
 				}
-			}
+			}*/
 			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
