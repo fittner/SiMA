@@ -165,9 +165,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		else if (this.moContentType  == poDataStructure.moContentType ){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
-		else if(this.moContentType  == eContentType.RI & poDataStructure.moContentType == eContentType.PI) {
-			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
-		}
+		
 		//Special case, if the TPM is empty	
 		
 			
@@ -258,6 +256,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public boolean contain(clsDataStructurePA poDataStructure){
 		
 		for(clsAssociation oAssociation : this.moInternalAssociatedContent){
+			if(oAssociation.moAssociationElementB.moContentType == poDataStructure.moContentType ){
+				return true;
+			}
+		}
+		
+		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
 			if(oAssociation.moAssociationElementB.moContentType == poDataStructure.moContentType ){
 				return true;
 			}

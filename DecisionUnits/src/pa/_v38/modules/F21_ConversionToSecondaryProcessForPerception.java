@@ -68,6 +68,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
+	private ArrayList<clsWordPresentationMesh> moConcept;
+	
+	
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	
 	/** TEMP A perceived image */
@@ -125,7 +128,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("AdamPerspective:", moConcept);
+
+		text += toText.valueToTEXT("BodosPerspective", moConcept);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
@@ -212,8 +217,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//--- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
-		
-		
+			
 		//Search for all images from the primary process in the memory
 		//Input: TPM
 		//1. Get all Images of the Mesh
