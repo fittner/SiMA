@@ -9,8 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-//import java.util.TreeSet;
-
+import java.util.TreeSet;
 import config.clsProperties;
 import du.enums.eDistance;
 import pa._v38.interfaces.modules.I2_3_receive;
@@ -20,12 +19,11 @@ import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-//import pa._v38.memorymgmt.datahandler.clsActivationComperator;
+import pa._v38.memorymgmt.datahandler.clsActivationComperator;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-//import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -34,7 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-//import pa._v38.memorymgmt.enums.eActivationType;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -309,11 +307,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-/*
+
 		clsThingPresentationMesh oAppropriateTPM = null;
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
-		TreeSet<clsThingPresentationMesh> oAppropriateTPMs = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
+		TreeSet<clsThingPresentationMesh> oCandidateTPMs = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
 		
 		ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
@@ -323,18 +321,32 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						
 		clsThingPresentationMesh oUnknownTPM = null;
 		
+		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
+		
 		// 1. Convert Neurosymbols to TPs/TPMs
 		
-		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		for(itfSymbol oSymbol : moEnvironmentalData.values()){
-			if(oSymbol!=null){
-				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
-					//convert the symbol to a PDSC/TP
-					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
-				}	
-			}
-		}
+				moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
+				for(itfSymbol oSymbol : moEnvironmentalData.values()){
+					if(oSymbol!=null){
+						for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+							//convert the symbol to a PDSC/TP
+							clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+							moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+						}	
+					}
+				}
+				
+				// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entites in moEnvironmentalData 
+				ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+				for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
+					clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
+					if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+						oRemoveDS.add(oCheckEntity);
+					}
+				}		
+				for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
+					moEnvironmentalTP.remove(oDS);			
+				}
 		
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
@@ -352,26 +364,21 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				
 		moEnvironmentalTP.add(oSelfContainer);
 				
+		//Workaround of Bug Eatable/Manipulatable sensors bug
+		//TODO CM: Remove this function, if the eatable area objects are working.
+		solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+				
 				
 		// 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment 
 		for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
-			for(clsAssociation oAssSimilarDrives : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
-				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrives.getMoAssociationElementB();
+				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
 				oAppropriateTPM = oMemorizedDriveMesh.getActualDriveObject();
 				
-		
-				// a TPM uses activation from the highest drive (-> use the highest possible activation) 
-				// but consider synergies, i.e. if a object satisifies multiple actual drives --> increase activation
-				// always use the highest drive for the basis-activation. the other drives are only considered as rest-activation. 
-				// That is, the rest until the max activation is considered as the maximal possible activation for the rest activation. E.g. if the basic activation is
-				// 0.7, then the max rest activation is 0.3. Next, the concerned drive (i.e. the drive that the TPM has satisfied) is normed with respect to the maximal possible 
-				// value, i.e. the max rest activation. E.g. if the basic activation (the highest drive, cf. pleasure principle) is 0.7 and another drive (which is satisfied by the TPM) is 0,4, then 
-				// the total activation of the TPM is 0.7+0.3*0.4
+				// embodiment activation is already done in F57 (in hallucinatory wishfulfillment). so, just add activated drive objects to oAppropriateTPMs		
 				
-				oAppropriateTPM.applyActivation(eActivationType.EMBODIMENT_ACTIVATION, oMemorizedDriveMesh.getQuotaOfAffect(), oSimulatorDrive.getQuotaOfAffect());
-				
-				oAppropriateTPMs.add(oAppropriateTPM);
+				oCandidateTPMs.add(oAppropriateTPM);
 				
 			}
 		}
@@ -382,7 +389,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		// process EvironmentTPM
 		for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
 							
-				if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+				
 								
 					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 											
@@ -402,7 +409,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					
 					poSearchPattern.add(oUnknownTPM);			
 								
-				}
+				
 		}
 						
 		
@@ -413,21 +420,21 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
 			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){
 				oAppropriateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
-				oAppropriateTPM.applyActivation(eActivationType.PERCEPTUAL_ACTIVATION, oSearchItem.a, 1);
-				oAppropriateTPMs.add(oAppropriateTPM);
+				oAppropriateTPM.applyCriterionActivation(eActivationType.PERCEPTUAL_ACTIVATION, 5);
+				oCandidateTPMs.add(oAppropriateTPM);
 			}
 		}
 		
 		// 4. associatove activation. context criterion
-		for(clsThingPresentationMesh oTPM : oAppropriateTPMs) {
+		/*for(clsThingPresentationMesh oTPM : oAppropriateTPMs) {
 			for(clsAssociation oTPMAss :oTPM.getExternalMoAssociatedContent()){
 				if(oTPMAss.getMoContentType() == eContentType.ASSOCIATIONPRI || oTPMAss.getMoContentType() == eContentType.ASSOCIATIONTEMP ) {
 					((clsThingPresentationMesh)oTPMAss.getMoAssociationElementB()).applyActivation(eActivationType.ASSOCIATIVE_ACTIVATION, oTPM.getOverallActivationLevel(), oTPMAss.getMrWeight());
 				}
 			}
 			
-		}
-		*/
+		}*/
+		
 		// 5. Rank appropriate TPMs --> not needed, since a TreeSet+Comparator is used
 				
 	}

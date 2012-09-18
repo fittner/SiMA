@@ -320,4 +320,16 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		return bResult;
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:28:53 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
+	}
+
 }
