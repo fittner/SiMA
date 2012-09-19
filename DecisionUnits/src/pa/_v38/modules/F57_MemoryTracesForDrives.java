@@ -174,7 +174,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
+		moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -200,7 +200,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * associations 
 	 */
 
-	private void hallucinatoryWishfulfillment(ArrayList<clsDriveMesh> poDriveCandidates) { 
+	private ArrayList<clsDriveMesh>  hallucinatoryWishfulfillment(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
 		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		ArrayList<clsAssociation> oAssSimilarDMs = null;
@@ -266,13 +266,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							// weighting of asscoiation-weight with QoA
 							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor*oMemoryDM.getQuotaOfAffect()));
 							
-							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
-							oMemoryDM.getActualDriveObject().applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
+							oDriveObject = oMemoryDM.getActualDriveObject();
 							
+							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
+							if(oDriveObject != null) {
+								oDriveObject.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
+							}
+														
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {
-								rMaxMatchfactor = rCurrentMatchFactor; 
-								oDriveObject = oMemoryDM.getActualDriveObject();
+								rMaxMatchfactor = rCurrentMatchFactor; 								
 								oDriveAim = oMemoryDM.getActualDriveAim();
 								
 								rSatisfactionOfActualDM = rCurrentMatchFactor;
@@ -310,6 +313,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				
 		}
+		
+		return oRetVal;
 		
 	}
 	
