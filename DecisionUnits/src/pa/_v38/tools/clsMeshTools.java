@@ -1264,9 +1264,20 @@ public class clsMeshTools {
 		//Create association
 		clsAssociationTime oAssTemp = (clsAssociationTime)clsDataStructureGenerator.generateASSOCIATIONTIME(oContentType, poSuperStructure, poSubStructure, prWeight);
 		//Add association to the superstructure
-		poSuperStructure.getMoInternalAssociatedContent().add(oAssTemp);
+		try{
+			poSuperStructure.getMoInternalAssociatedContent().add(oAssTemp);
+		}
+		catch (Exception e) {
+			System.out.println("error, no internal assoc in " + poSuperStructure);
+		}
 		//Add association to the substructure
-		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+		try{
+			poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+		}
+		catch (Exception e) {
+			System.out.println("error, no external assoc in " + poSubStructure);
+		}
+
 	}
 	
 	/**
