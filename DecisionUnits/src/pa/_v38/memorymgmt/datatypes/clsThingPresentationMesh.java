@@ -168,12 +168,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			if ((oContentListTemplate.isEmpty()==true) && (oContentListUnknown.isEmpty()==true)) {
 				oRetVal=1.0;
 			} else {
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getMatchScore(this, oDataStructure);
 			}
 			
 		}
 		else if (this.moContentType  == poDataStructure.moContentType ){
-			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+			oRetVal = getMatchScore(this, oDataStructure);
 		}
 		
 		//Special case, if the TPM is empty	
@@ -391,6 +391,19 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		// normalize. Every ActivationEntry is max 1, hence the overall max is the # of entries
 		return  oOverallActivation/moActivations.size();
 	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivation
+	 */
+	public void setCriterionActivation(eActivationType poActivationKind, double poActivationLevel) {
+		moActivations.put(poActivationKind, poActivationLevel);
+	}
+	
 	
 	/**
 	 * DOCUMENT (schaat) - insert description

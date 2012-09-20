@@ -92,8 +92,8 @@ public class TestDataCreator {
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.RIGHT, oEntity), new clsImage(
 		    eDirection.MIDDLE_RIGHT, oEntity)));
 
-		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.MIDDLE_RIGHT, oEntity),
-		    new clsImage(eDirection.CENTER, oEntity)));
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.MIDDLE_RIGHT, oEntity), new clsImage(
+			eDirection.CENTER, oEntity)));
 
 		// EAT REMOTEBOT
 		oEntity = eEntity.REMOTEBOT;
