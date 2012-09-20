@@ -462,6 +462,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
 				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
 				poGoalList.add(oNewGoalFromPrevious);
+				
+				oResult = oNewGoalFromPrevious;
 			}
 			
 
