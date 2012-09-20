@@ -437,7 +437,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 				if(this.moDriveComponent == oDataStructure.moDriveComponent){
 					if(this.moPartialDrive == oDataStructure.moPartialDrive){
 						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
-							oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+							oRetVal = getMatchScore(this, oDataStructure);
 							// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
 							if (oDataStructure.getQuotaOfAffect()>= this.mrQuotaOfAffect) {
 								rDiffQoA = 1;

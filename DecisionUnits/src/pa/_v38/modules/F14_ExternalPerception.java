@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.SortedMap;
 import java.util.TreeSet;
 import config.clsProperties;
@@ -36,7 +37,7 @@ import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eEntityInternalAttributes;
+import pa._v38.memorymgmt.enums.eEntityExternalAttributes;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.symbolization.eSymbolExtType;
@@ -308,11 +309,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	protected void process_draft() {
 
-		clsThingPresentationMesh oAppropriateTPM = null;
+		clsThingPresentationMesh oCandidateTPM = null;
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
-		TreeSet<clsThingPresentationMesh> oCandidateTPMs = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
-		
+		HashSet<TreeSet<clsThingPresentationMesh>> oRankedCandidateTPMs = new HashSet<TreeSet<clsThingPresentationMesh>>(); 
+	
 		ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
@@ -336,7 +337,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					}
 				}
 				
-				// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entites in moEnvironmentalData 
+				// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entities in moEnvironmentalData 
 				ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
 				for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
 					clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
@@ -374,11 +375,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
 				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
-				oAppropriateTPM = oMemorizedDriveMesh.getActualDriveObject();
+				oCandidateTPM = oMemorizedDriveMesh.getActualDriveObject();
 				
-				// embodiment activation is already done in F57 (in hallucinatory wishfulfillment). so, just add activated drive objects to oAppropriateTPMs		
+				// embodiment activation: source activation is already done in F57 (in hallucinatory wishfulfillment). so, just apply criterion activaion function
+				// and add activated drive objects to oAppropriateTPMs		
 				
-				oCandidateTPMs.add(oAppropriateTPM);
+				// criterion activation function
+				oCandidateTPM.applyCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, moDrives_IN.size());
+				
+				//oCandidateTPMs.add(oCandidateTPM);
 				
 			}
 		}
@@ -388,10 +393,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					
 		// process EvironmentTPM
 		for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
-							
-				
-								
-					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+
+			oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 											
 					// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
 					for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
@@ -412,19 +415,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				
 		}
 						
-		
 		search(eDataType.TPM, poSearchPattern, oSearchResults);	
 		
 		//TODO: embed this code in search function
-		
 		for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
-			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){
-				oAppropriateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
-				oAppropriateTPM.applyCriterionActivation(eActivationType.PERCEPTUAL_ACTIVATION, 5);
-				oCandidateTPMs.add(oAppropriateTPM);
+			TreeSet<clsThingPresentationMesh> oSpecificCandidates = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
+			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){				
+				oCandidateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
+				
+				oSpecificCandidates.add(oCandidateTPM);
 			}
+			oRankedCandidateTPMs.add(oSpecificCandidates);
 		}
 		
+		System.out.println("");
 		// 4. associatove activation. context criterion
 		/*for(clsThingPresentationMesh oTPM : oAppropriateTPMs) {
 			for(clsAssociation oTPMAss :oTPM.getExternalMoAssociatedContent()){
@@ -435,7 +439,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			
 		}*/
 		
-		// 5. Rank appropriate TPMs --> not needed, since a TreeSet+Comparator is used
+		// 5. Rank appropriate TPMs --> not needed, since a TreeSet+Comparator is used. but in the course of ranking, the aggregation function is applied
+
+		
+//		for(clsThingPresentationMesh oCandidate : oCandidateTPMs) {
+//			
+//		}
 				
 	}
 
@@ -452,12 +461,12 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	}
 
 	private boolean isInternalAttribute(String poAttribute) {
-		for(eEntityInternalAttributes eAttr: eEntityInternalAttributes.values()) {
+		for(eEntityExternalAttributes eAttr: eEntityExternalAttributes.values()) {
 			if  (eAttr.toString().equals(poAttribute)){
-				return true;
+				return false;
 			}
 		}
-		return false;
+		return true;
 	}
 
 

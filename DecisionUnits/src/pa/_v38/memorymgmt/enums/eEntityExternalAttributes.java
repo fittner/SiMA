@@ -13,6 +13,6 @@ package pa._v38.memorymgmt.enums;
  * 14.08.2012, 20:50:18
  * 
  */
-public enum eEntityInternalAttributes {
-	Color, ShapeType, Alive, Bodypart;
+public enum eEntityExternalAttributes {
+	POSITION, DISTANCE, NumEntitiesPresent, AntennaPositionLeft, AntennaPositionRight;
 }
