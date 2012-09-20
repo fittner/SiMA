@@ -19,21 +19,18 @@ import pa._v38.interfaces.modules.I5_12_receive;
 import pa._v38.interfaces.modules.I5_13_receive;
 import pa._v38.interfaces.modules.I5_13_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
 //import du.enums.pa.eContext;
+import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 
 /**
@@ -69,7 +66,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	@SuppressWarnings("unused")
 	private Object moMergedPrimaryInformation;
 	private ArrayList<clsDriveMesh> moDrives;
-	private ArrayList<String> moForbiddenDrives;
+	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives;
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	private ArrayList<eEmotionType>moForbiddenEmotions;
 	
@@ -95,7 +92,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
-		moForbiddenDrives = new ArrayList<String>();
+		moForbiddenDrives = new ArrayList<clsPair<eDriveComponent, eOrgan>>();
 		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
 		
@@ -243,10 +240,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		moForbiddenEmotions   .clear();
 		
 		// sample rule for repression of drives
-		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM ("EAT") &&
+		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
+		if (moSuperEgoStrength >= 0.8)
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
-				searchInTPM (eContentType.ENTITY, "CAKE"))
+				searchInTPM (eContentType.ENTITY, "CAKE")) {
 				// If all the conditions above are true then Super-Ego can fire.
 				// That means, an internalized rule was detected to be true.
 				// So the Super-Ego conflicts now with Ego. And Super-Ego requests from Ego to activate defense.
@@ -254,13 +252,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				
 				// The following drive was found by Super-Ego as inappropriate or forbidden.
 				// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
-				if (!moForbiddenDrives.contains("EAT")) // no duplicate entries
-					moForbiddenDrives.add("EAT");
+				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
+				if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
+					moForbiddenDrives.add(oDrive);
+			}
 		
 		// sample rule for denial of perceptions
-		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM ("EAT") &&
-				searchInTP (eContentType.COLOR, "RED") &&
+		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
+		if (moSuperEgoStrength >= 0.8)
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE"))
 				// If all the conditions above are true then Super-Ego can fire.
@@ -288,29 +288,18 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		*/
 
 		// sample rule for conversion of aggressive drive energy into anxiety
-		if (moSuperEgoStrength >= 0.8)
-			if (searchInDM (eDriveComponent.AGGRESSIVE, "BITE", 0.20))
-				if (!moForbiddenDrives.contains("EAT"))
-					moForbiddenDrives.add("EAT");
+		// (by repressing the aggressive drive energy, anxiety is produced)
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.45)) {
+				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
+				if (!moForbiddenDrives.contains(oDrive))
+					moForbiddenDrives.add(oDrive);
+			}
 		
 		
 		// only for test purpose
 		//if (moDrives != null)
 		//	moForbiddenDrives.add("BITE");
-		
-		
-/*		
-		// sample rules to test repression
-		if (searchInDM ("NOURISH")) {
-			if (!moForbiddenDrives.contains("NOURISH"))
-				moForbiddenDrives.add("NOURISH");
-		}
-
-		if (searchInDM ("AGGRESSIVE_GENITAL")) {
-			if (!moForbiddenDrives.contains("AGGRESSIVE_GENITAL"))
-				moForbiddenDrives.add("AGGRESSIVE_GENITAL");
-		}
-*/
 
 		
 /*		
@@ -322,42 +311,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				moForbiddenPerceptions.add(new clsPair<String, String> ("ENTITY", "CAKE"));
 		}
 */		
-		/*
-		// sample rule to test denial
-		if (searchInTI("IMAGE", "A3TOP")) {
-			if (!moForbiddenPerceptions.contains(new clsPair<String, String> ("IMAGE", "A3TOP"))) // no duplicate entries
-				moForbiddenPerceptions.add(new clsPair<String, String> ("IMAGE", "A3TOP"));
-		}
-		*/		
-	}
-	
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 03.07.2011, 17:06:48
-	 * 
-	 * searches in the input-perception for example for a color red
-	 * 
-	 */
-	private boolean searchInTP (eContentType oContentType, String oContent) {
-		// search in perceptions
-		// Todo FG: Die Frage ist generell: "Suche ich in perceptions oder in associated memories???"
 		
-		//Get a list of all attribute associations in a 
-		//ArrayList<clsAssociationAttribute> oAttributeAss = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 2, true, 1);
-		
-		//Association attribute are delivered here
-		ArrayList<eContentType> oContentTypeAndContentList = new ArrayList<eContentType>();
-		oContentTypeAndContentList.add(oContentType);
-		ArrayList<clsDataStructurePA> oAttributeAss = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeAndContentList, true, 1);
-		for (clsDataStructurePA oAss : oAttributeAss) {
-			clsThingPresentation oTP  = (clsThingPresentation) (((clsAssociationAttribute)oAss).getLeafElement());
-			if (oTP.getMoContent().equals(oContent)) {
-				return true;
-			}
-		}
-
-		return false;
 	}
 	
 	/* (non-Javadoc)
@@ -365,72 +319,20 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @author gelbard
 	 * 03.07.2011, 17:06:49
 	 * 
-	 * searches in the input-perception for example for an ENTITY like a ARSIN
+	 * searches in the input-perception for example for an ENTITY like ARSIN
 	 * 
 	 */
 	private boolean searchInTPM (eContentType oContentType, String oContent) {
+		
 		// search in perceptions
-		
-		//Get all TPM (in format DataStructurePA), which fulfill the filter contenttype and content
-		ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
-		oContentTypeList.add(oContentType);
-		ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
-		
-		if (oTPMList.isEmpty()==false) {
-			return true;
+		ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+		for(clsAssociation oAssociation : oInternalAssociations){
+			if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh)
+				if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
+					((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent) )
+					return true;
 		}
-		
-		/////////////////////
-		//FIXME FG!!!!!!! From AW: oContent is not used here, as it does not exist anymore
-		/////////////////////
-
-		return false;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 07.09.2011, 17:06:49
-	 * 
-	 * searches in the input-perception for example for an ENTITY like a ARSIN
-	 * 
-	 */
-	/*
-	private boolean searchInTI (String oContentType, String oContent) {
-		// search in perceptions
-		
-		ArrayList<clsThingPresentationMesh> oImages = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);	//Parameter 2=2 means, search the current TPM + one level of external structures
-		ArrayList<clsThingPresentationMesh> oFilteredImages = clsMeshTools.filterTPMList(oImages, null, oContent, true);
-		
-		if (oFilteredImages.isEmpty()==false) {
-			return true;
-		}
-		
-		return false;
-	}
-	*/
-
 	
-	
-	/* (non-Javadoc)
-	 *
-	 * @author gelbard
-	 * 03.07.2011, 17:06:50
-	 * 
-	 * searches in the input-DriveMesh for example for NOURISH
-	 * 
-	 */
-	private boolean searchInDM (String oContent) {		
-		// search in drives
-		
-		for(clsDriveMesh oDrives : moDrives){
-			// check DriveMesh
-			// oDrives.getDriveComponent() = eDriveComponent.LIBIDINOUS or eDriveComponent.AGGRESSIVE
-			// oDrives.getActualDriveAim().getMoContent() = for example "EAT"
-			if (oDrives.getActualDriveAim().getMoContent().equals(oContent)){
-				return true;
-			}
-		}
 		return false;
 	}
 	
@@ -443,15 +345,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * and check for a certain quota of affect
 	 * 
 	 */
-	private boolean searchInDM (eDriveComponent oDriveComponent, String oContent, double oQuotaOfAffect) {		
+	private boolean searchInDM (eDriveComponent oDriveComponent, eOrgan oDriveSource, double oQuotaOfAffect) {		
 		// search in drives
 		
 		for(clsDriveMesh oDrives : moDrives){
 			// check DriveMesh
 			// oDrives.getDriveComponent() = eDriveComponent.LIBIDINOUS or eDriveComponent.AGGRESSIVE
-			// oDrives.getActualDriveAim() = for example eContext.EAT
+			// oDrives.getActualDriveSourceAsENUM() = for example eOrgan.STOMACH
 			if (oDrives.getDriveComponent().equals(oDriveComponent) &&
-				oDrives.getActualDriveAim().getMoContent().equals(oContent) &&
+				oDrives.getActualDriveSourceAsENUM().equals(oDriveSource) &&
 				oDrives.getQuotaOfAffect() >= oQuotaOfAffect){
 				return true;
 			}
@@ -550,7 +452,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<String> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
+	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
 		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);

@@ -7,11 +7,13 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eActivationType;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 
@@ -28,6 +30,13 @@ import pa._v38.memorymgmt.enums.eDataType;
 public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 	private String moContent = "UNDEFINED";
+	
+	// 
+	private double mrPleasurePotential ;
+	
+	// TPMs in memory may get activation from different sources. (memory retrieval)
+	private HashMap<eActivationType, Double> moActivations = new HashMap<eActivationType, Double>();
+		
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:52:29
@@ -64,6 +73,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		super(poDataStructureIdentifier);
 		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
+		mrPleasurePotential = 0;
 	}
 	
 	/**
@@ -165,9 +175,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		else if (this.moContentType  == poDataStructure.moContentType ){
 			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
 		}
-		else if(this.moContentType  == eContentType.RI & poDataStructure.moContentType == eContentType.PI) {
-			oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
-		}
+		
 		//Special case, if the TPM is empty	
 		
 			
@@ -263,7 +271,177 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			}
 		}
 		
+		for(clsAssociation oAssociation : this.moExternalAssociatedContent){
+			if(oAssociation.moAssociationElementB.moContentType == poDataStructure.moContentType ){
+				return true;
+			}
+		}
+		
 		return false; 
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivationKind, prSourceActivation
+	 */
+	public void applySourceActivation(eActivationType poActivationKind, double prSourceActivation){
+		
+		double rPreviousActivation = 0;
+		
+		if(moActivations.containsKey(poActivationKind)) {
+			rPreviousActivation = moActivations.get(poActivationKind);
+		}
+		moActivations.put(poActivationKind, rPreviousActivation+prSourceActivation);
+	}
+	
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivationKind, poNorm
+	 */
+	public void applyCriterionActivation(eActivationType poActivationKind, double poNorm) {
+		
+		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / poNorm);
+			
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 */
+	/*public void applyEmbodimentActivation(ArrayList<clsDriveMesh> poActualDrives) {
+		
+
+		// diff between QoA of associated DM an actual DM --> how good would this memory DM satisfy the according actual DM
+		double rMatchDMs = 0;;
+		double rSatisfactionOfActualDM = 0;
+		double rTotSatisfactionOfActualDMs = 0;
+		double rCriterionActivation = 0;
+		
+		if(moActivations.containsKey(eActivationType.EMBODIMENT_ACTIVATION)) {
+			// exemplar has already this criterion activation
+			double rPreviousActivation = moActivations.get(eActivationType.EMBODIMENT_ACTIVATION);
+		}
+		else {
+					
+			// check for every associated memory-DM how this DM would satisfy the agent's actual drives
+			for (clsDriveMesh oActualDM : poActualDrives) {
+				rSatisfactionOfActualDM = 0;
+				for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
+					if (oExtAss instanceof clsAssociationDriveMesh) {
+						// if a drive is the same (has the same aim, object and source) and has the same QoA -> the matchingfactor is 1. hence the driveobject with this drive would satisfy the actual drive in the best possible way
+						rMatchDMs = oActualDM.compareTo(((clsDriveMesh)oExtAss.getMoAssociationElementA()));
+						// take the best match
+						if(rMatchDMs>rSatisfactionOfActualDM) {
+							rSatisfactionOfActualDM = rMatchDMs;
+						}
+					}
+					
+				}
+				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM;
+			}
+			
+			// Normalization. The Max possible satisfaction of all actual drives correspond to the number of them
+			rCriterionActivation = rTotSatisfactionOfActualDMs/poActualDrives.size();
+			moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, rCriterionActivation * this.getPleasurePotential()); //PleasurePotential for consideration of the pleasure principle --> one high DM is better as two middle DMs, even if they have the same (accumulated) total QoA
+			
+			
+		}
+	}*/
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivationKind
+	 */
+	public double getSpecificActivationLevel(eActivationType poActivationKind) {
+			double rActivationLevel = moActivations.get(poActivationKind);
+			
+			return rActivationLevel;
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivation
+	 */
+	public double getOverallActivationLevel() {
+		double oOverallActivation = 0;
+		for (double oActivation : moActivations.values()) {
+			oOverallActivation += oActivation;
+		}
+		
+		// normalize. Every ActivationEntry is max 1, hence the overall max is the # of entries
+		return  oOverallActivation/moActivations.size();
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 */
+	public void calculatePleasurePotential() {
+		// a TPM uses the highest possible activation
+		// but consider synergies, i.e. if a object gets  multiple actications --> increase activation
+		// always use the highest activation for the basis-activation. the other activations are only considered as rest-activation. 
+		// That is, the rest until the max activation is considered as the maximal possible activation for the rest activation. E.g. if the basic activation is
+		// 0.7, then the max rest activation is 0.3. Next, the concerned activation is normed with respect to the maximal possible 
+		// value, i.e. the max rest activation. E.g. if the basic activation is 0.7 and another activation  is 0,4, then 
+		// the total activation of the TPM is 0.7+0.3*0.4
+		
+		//pleasure potential
+		double rQoA = 0;
+		
+		for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
+			if (oExtAss instanceof clsAssociationDriveMesh) {
+				
+				rQoA = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).getQuotaOfAffect();
+		
+				if(this.mrPleasurePotential != 0) {					
+					mrPleasurePotential += (1-mrPleasurePotential)*rQoA;
+				}
+				else {
+					mrPleasurePotential = rQoA;
+				}
+			}
+			
+		}
+	
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 */
+	public double getPleasurePotential() {
+	
+		if(mrPleasurePotential == 0) {
+			calculatePleasurePotential();
+		}
+		return mrPleasurePotential;
+	
 	}
 	
 	/**

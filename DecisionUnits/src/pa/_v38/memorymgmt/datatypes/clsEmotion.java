@@ -80,7 +80,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * @author schaat
 	 * 17.06.2012, 00:50:38
 	 * 
-	 * @return the mrPleasure
+	 * @return the mrEmotionIntensity
 	 */
 	public double getMrEmotionIntensity() {
 		return mrEmotionIntensity;
@@ -90,7 +90,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * @author schaat
 	 * 17.06.2012, 00:50:38
 	 * 
-	 * @param mrPleasure the mrPleasure to set
+	 * @param mrEmotionIntensity the mrEmotionIntensity to set
 	 */
 	public void setMrEmotionIntensity(double mrEmotionIntensity) {
 		this.mrEmotionIntensity = mrEmotionIntensity;
@@ -100,7 +100,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 	 * @author schaat
 	 * 5.07.2012, 00:50:38
 	 * 
-	 * @return the mrPleasure
+	 * @return the mrSourcePleasure
 	 */
 	public double getMrSourcePleasure() {
 		return mrSourcePleasure;
@@ -145,6 +145,7 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		
 		return oResult; 
 	}
+	
 	
 	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsEmotion oClone = null;
@@ -245,5 +246,17 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		oDataStructureList.add(poDataStructurePA); 
 		
 		addExternalAssociations(oDataStructureList);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:28:06 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
 }

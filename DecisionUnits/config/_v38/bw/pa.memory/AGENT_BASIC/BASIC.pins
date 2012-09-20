@@ -1,4 +1,4 @@
-; Sun Sep 02 14:23:40 CEST 2012
+; Wed Sep 19 17:50:03 CEST 2012
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -728,6 +728,10 @@
 		[PRI%3ACAKE_FAR])
 	(weight 1.0 1.0))
 
+([Adam] of  Entity
+
+	(element [WPM%3AENTITY%3AARSIN_ADAM]))
+
 ([AE%3ACARL_CAKE_FAR%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
@@ -825,6 +829,10 @@
 		[TPM%3AENTITY%3ACARROT%3ABASIC]
 		[TPM%3AENTITY%3APRIMAL_OBJECT%3AMOTHERS_BREAST])
 	(weight 1.0 1.0))
+
+([Arousal] of  Content
+
+	(element [WP%3APLEASURE]))
 
 ([ARSi10_Class8] of  %3APAL-CONSTRAINT
 )
@@ -1618,18 +1626,17 @@
 		[TPM%3AIMAGE%3ACARL_CAKE_NEAR])
 	(weight 1.0 1.0))
 
-([BASIC_Class0] of  Concept%3A+Entity
-)
+([BASIC_Class11] of  Situational+Context
 
-([BASIC_Class7] of  Situational+Context
+	(action [WPM%3AACTION%3AL1_MOVE_FOREWARD])
+	(consequence [ACT%3AEAT%3AENTITY])
+	(elementA [WPM%3AENTITY%3AARSIN_ADAM])
+	(elementB [WPM%3AENTITY%3ACAKE])
+	(precondition [WP%3ANOURISH]))
 
-	(action [WP%3AACTION%3AEAT])
-	(elementA [TPM%3AENTITY%3AARSIN%3ABODO])
-	(elementB [TPM%3AENTITY%3ACAKE%3ABASIC])
-	(precondition
-		[WP%3ADISTANCE%3ANEAR]
-		[WP%3ANOURISH])
-	(Value "Context_Ask_For_Food"))
+([Bodo] of  Entity
+
+	(element [WPM%3AENTITY%3AARSIN_BODO]))
 
 ([DM%3ABITE%3ABODO] of  DM_Stomach
 
@@ -1926,6 +1933,10 @@
 
 	(%3ASLOT-CONSTRAINTS [ARSi10_Class8]))
 
+([Move] of  Action
+
+	(element [WPM%3AACTION%3AL1_MOVE_FOREWARD]))
+
 ([PRI%3AA02_AANDS_L01%3ACAKE] of  PRIMARYINSTANCE
 
 	(instance_type [TPM%3AENTITY%3ACAKE%3ABASIC]))
@@ -2021,6 +2032,12 @@
 ([PRI%3ACAKE_NEAR] of  PRIMARYINSTANCE
 
 	(instance_type [TPM%3AENTITY%3ACAKE%3ABASIC]))
+
+([Relax] of  Content
+
+	(element
+		[WP%3APLEASURE]
+		[WP%3ARELAX]))
 
 ([TP%3AACTION%3ADANCE_1] of  _OBSOLETE_ACTION
 
@@ -2241,11 +2258,6 @@
 ([TP%3ASENSOR_EXT%3AVISION%3ASHAPE%3ASQUARE] of  SHAPE
 
 	(value "SQUARE"))
-
-([TPM%3AACTION%3AL1_ASK] of  TPM%3AACTION%3AL1
-
-	(value "ASK")
-	(value_type "ACTION"))
 
 ([TPM%3AACTION%3AL1_BITE] of  TPM%3AACTION%3AL1
 
@@ -2873,11 +2885,6 @@
 ([WP%3AWALL] of  _OBSOLETE_WP%3AENTITY
 
 	(value "WALL"))
-
-([WPM%3AACTION%3AL1_ASK] of  WPM%3AACTION%3AL1
-
-	(value "ASK")
-	(value_type "ACTION"))
 
 ([WPM%3AACTION%3AL1_BITE] of  WPM%3AACTION%3AL1
 

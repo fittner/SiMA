@@ -9,7 +9,9 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+import java.util.TreeSet;
 import config.clsProperties;
+import du.enums.eDistance;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -17,17 +19,20 @@ import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.datahandler.clsActivationComperator;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -69,8 +74,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private HashMap<eSymbolExtType, itfSymbol> moEnvironmentalData;
 	/** this holds the symbols from the bodily perception (IN I2.4)  @since 21.07.2011 11:37:06 */
 	private HashMap<eSymbolExtType, itfSymbol> moBodyData;
-	/** OUT member of F14, this holds the to TP converted symbols of the two perception paths (OUT I2.6) @since 20.07.2011 10:26:23 */
-	private ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP; 
+	/** OUT member of F14, this holds the converted symbols of the two perception paths and the recognized TPMs (OUT I2.6) @since 20.07.2011 10:26:23 */
+	private ArrayList<clsThingPresentationMesh> moCompleteThingPresentationMeshList;
+	
+	ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
+	
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 
@@ -106,7 +114,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
-		text += toText.listToTEXT("moEnvironmentalTP", moEnvironmentalTP);
+		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
 		return text;
 	}
@@ -184,6 +192,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+	 
 		
 		//here also the body data should be processed, but nothing is coming from this path until now.
 		
@@ -199,6 +208,20 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				}	
 			}
 		}
+		
+		// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entites in moEnvironmentalData 
+		ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+		for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
+			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
+			if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+				oRemoveDS.add(oCheckEntity);
+			}
+		}		
+		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
+			moEnvironmentalTP.remove(oDS);			
+		}
+		
+		
 		//add the perception of the floor, as we dont have a sensor detecting the floor
 		
 		//AW 20120522: Outcommented this part as it is never used later
@@ -206,6 +229,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oFloorDataStructure,null));
 		
 		//prepared, but nothing is coming through so not much to do
+		//TODO: bodyData should be associated to the self-entity as external associations 
 		for(itfSymbol oSymbol : moBodyData.values()){
 			if(oSymbol!=null){
 				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
@@ -224,15 +248,28 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
 		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
 		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		
+				
 		//Add Distance to SELF
 		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
 		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+						
+		moEnvironmentalTP.add(oSelfContainer);		
 		
-		moEnvironmentalTP.add(oSelfContainer);
 		
-
+		//Variables
+		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
+				
+		//Workaround of Bug Eatable/Manipulatable sensors bug
+		//TODO CM: Remove this function, if the eatable area objects are working.
+		solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+				
+		/* Construction of perceived images*/
+		/* Assign objects from storage to perception */
+		oContainerWithTypes = retrieveImages(moEnvironmentalTP);	
+		
+		//Convert all objects to enhanced TPMs 
+		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
 	}
 
@@ -245,7 +282,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void send() {
-		send_I2_6(moEnvironmentalTP);
+		send_I2_6(moCompleteThingPresentationMeshList);
 	}
 
 	/* (non-Javadoc)
@@ -256,9 +293,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I2_5_send#send_I2_5(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I2_6(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalTP) {
-		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poEnvironmentalTP);
-		putInterfaceData(I2_6_send.class, poEnvironmentalTP);
+	public void send_I2_6(ArrayList<clsThingPresentationMesh> poCompleteThingPresentationMeshList) {
+		((I2_6_receive)moModuleList.get(46)).receive_I2_6(poCompleteThingPresentationMeshList);
+		putInterfaceData(I2_6_send.class, poCompleteThingPresentationMeshList);
 	}
 
 	/* (non-Javadoc)
@@ -271,6 +308,21 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	protected void process_draft() {
 
+		clsThingPresentationMesh oAppropriateTPM = null;
+		clsDriveMesh oMemorizedDriveMesh = null;
+		
+		TreeSet<clsThingPresentationMesh> oCandidateTPMs = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
+		
+		ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
+						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+					
+		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+						
+		clsThingPresentationMesh oUnknownTPM = null;
+		
+		ArrayList<clsPrimaryDataStructureContainer> oContainerWithTypes;
+		
 		// 1. Convert Neurosymbols to TPs/TPMs
 		
 				moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
@@ -284,46 +336,106 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					}
 				}
 				
-
+				// FIXME: delete this, if CM have changed the sensors to avoid the occurence of non-entites in moEnvironmentalData 
+				ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+				for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
+					clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
+					if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+						oRemoveDS.add(oCheckEntity);
+					}
+				}		
+				for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
+					moEnvironmentalTP.remove(oDS);			
+				}
+		
+		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
+		//TODO @CM: Please adapt the SELF for your needs. 
+		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
+		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+		//Add Position to SELF
+		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
+		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
+		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+		
+		//Add Distance to SELF
+		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
+		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
+		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
 				
-				// 3. Object recognition and categorization
-				// warum kommen keine bodypart etc bei arsins?
+		moEnvironmentalTP.add(oSelfContainer);
+				
+		//Workaround of Bug Eatable/Manipulatable sensors bug
+		//TODO CM: Remove this function, if the eatable area objects are working.
+		solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+				
+				
+		// 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment 
+		for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
+			for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
-				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
-						ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-								new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-						
-						ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-						
-						clsThingPresentationMesh oUnknownTPM = null;
-						
-						for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
+				oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+				oAppropriateTPM = oMemorizedDriveMesh.getActualDriveObject();
+				
+				// embodiment activation is already done in F57 (in hallucinatory wishfulfillment). so, just add activated drive objects to oAppropriateTPMs		
+				
+				oCandidateTPMs.add(oAppropriateTPM);
+				
+			}
+		}
+				
+				
+		// 3. similarity criterion. perceptual activation. memory-search
+					
+		// process EvironmentTPM
+		for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
 							
-							if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+				
 								
-								oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 											
-								// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-								for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
-									if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
-										// remove Assoc from internal and put it in external assoc
-										oRemoveAss.add(oIntAss);
-									}
-									
-									
-								}
-								
-								for(clsAssociation oAss: oRemoveAss){
-									oUnknownTPM.removeInternalAssociation(oAss);
-									oUnknownTPM.addExternalAssociation(oAss);
-								}
-								poSearchPattern.add(oUnknownTPM);			
-								
-							}
+					// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+					for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+						if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+							// remove Assoc from internal and put it in external assoc
+							oRemoveAss.add(oIntAss);
 						}
+									
+					}
+								
+					for(clsAssociation oAss: oRemoveAss){
+						oUnknownTPM.removeInternalAssociation(oAss);
+						oUnknownTPM.addExternalAssociation(oAss);
+					}
+					
+					poSearchPattern.add(oUnknownTPM);			
+								
+				
+		}
 						
-					search(eDataType.TPM, poSearchPattern, oSearchResult);
-
+		
+		search(eDataType.TPM, poSearchPattern, oSearchResults);	
+		
+		//TODO: embed this code in search function
+		
+		for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
+			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){
+				oAppropriateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
+				oAppropriateTPM.applyCriterionActivation(eActivationType.PERCEPTUAL_ACTIVATION, 5);
+				oCandidateTPMs.add(oAppropriateTPM);
+			}
+		}
+		
+		// 4. associatove activation. context criterion
+		/*for(clsThingPresentationMesh oTPM : oAppropriateTPMs) {
+			for(clsAssociation oTPMAss :oTPM.getExternalMoAssociatedContent()){
+				if(oTPMAss.getMoContentType() == eContentType.ASSOCIATIONPRI || oTPMAss.getMoContentType() == eContentType.ASSOCIATIONTEMP ) {
+					((clsThingPresentationMesh)oTPMAss.getMoAssociationElementB()).applyActivation(eActivationType.ASSOCIATIVE_ACTIVATION, oTPM.getOverallActivationLevel(), oTPMAss.getMrWeight());
+				}
+			}
+			
+		}*/
+		
+		// 5. Rank appropriate TPMs --> not needed, since a TreeSet+Comparator is used
 				
 	}
 
@@ -348,6 +460,295 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		return false;
 	}
 
+
+	/**
+	 * This is a temporary bugfix for the problem if there are objects in the eatable area. They are not loaded with all attributes and are recognized false
+	 * 
+	 * (wendt)
+	 *
+	 * @since 21.11.2011 16:30:06
+	 *
+	 * @param poEnvironmentalPerception_IN
+	 */
+	private void solveBUGFIXEATABLEAREA(ArrayList<clsPrimaryDataStructureContainer> poEnvironmentalPerception_IN) {
+		//Exchange all objects in the EATABLE AREA with the objects in the MANIPULATEABLE AREA
+		ArrayList<clsPrimaryDataStructureContainer> oEatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Search in the input for an object with location EATABLE and add them to a new list
+		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				//Go through all associated structures
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true)) {
+						oEatableList.add(oContainer);
+					}
+				}
+				
+			}
+		}
+		
+//		Search for all objects with the area MANIPULATABLE and add them to a new list
+//		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+//			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+//				//Go through all associated structures
+//				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoAssociatedContent()) {
+//					if (oAss.getLeafElement().getMoContentType().equals("LOCATION")==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals("MANIPULATABLE")==true) {
+//						oManipulatableList.add(oContainer);
+//					}
+//				}
+//				
+//			}
+//		}
+		
+		//Search for all elements in the EATABLE area for the same content in the MANIPULATABLE area
+		for (clsPrimaryDataStructureContainer oEContainer : oEatableList) {
+			boolean bFound=false;
+			for (clsPrimaryDataStructureContainer oMContainer : poEnvironmentalPerception_IN) {
+				//When found, add all TP, which are not location to the EATABLE area
+				if (oMContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+					if (((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoContent().equals(((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoContent())) {
+						for (clsAssociation oAss : ((clsThingPresentationMesh)oMContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+							if (oAss.getLeafElement().getMoContentType().equals("Color")) {
+								((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oAss);
+								bFound=true;
+								break;
+							}
+						}
+					}
+				}
+
+				if (bFound==true) {
+					break;
+				}
+			}
+		
+			//Replace the EATABLE through another distance and position
+			boolean bconv=false;
+			for (clsAssociation oAss : ((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+				if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && ((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.EATABLE)==true) {
+					((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
+					bconv=true;
+				}
+			}
+			
+			if (bconv==true) {
+				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.POSITION, ePhiPosition.CENTER));
+				clsAssociationAttribute oPosAss = (clsAssociationAttribute) clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.POSITIONASSOCIATION, (clsPrimaryDataStructure) oEContainer.getMoDataStructure(), oPos, 1.0);
+				((clsThingPresentationMesh)oEContainer.getMoDataStructure()).getMoInternalAssociatedContent().add(oPosAss);
+			}
+		}
+		
+		
+		ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		//ArrayList<clsPrimaryDataStructureContainer> oManipulatableList = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		//Search in the input for an object with location EATABLE and add them to a new list
+		for (clsPrimaryDataStructureContainer oContainer : poEnvironmentalPerception_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				//Go through all associated structures
+				for (clsAssociation oAss : ((clsThingPresentationMesh)oContainer.getMoDataStructure()).getMoInternalAssociatedContent()) {
+					if (oAss.getLeafElement().getMoContentType().equals(eContentType.DISTANCE)==true && (((clsThingPresentation)oAss.getLeafElement()).getMoContent().equals(eDistance.MANIPULATEABLE)==true)) {
+						((clsThingPresentation)oAss.getLeafElement()).setMoContent(eDistance.NEAR);
+						//oManipulatableList.add(oContainer);
+					}
+				}
+				
+			}
+		}
+		
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - retrieves memory matches for environmental input; objects are identified and exchanged by their 
+	 * stored correspondance.
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 14:27:30
+	 *
+	 */
+	private ArrayList<clsPrimaryDataStructureContainer> retrieveImages(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal;
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+		
+		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+		
+		// separate internal from external associations. for search just internal associations are relevant
+				for(clsPrimaryDataStructureContainer oEnvTPM :oPerceivedImage_IN) {
+									
+						if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+										
+							clsThingPresentationMesh oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+													
+							ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+							for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+								if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+									// remove Assoc from internal and put it in external assoc
+									oRemoveAss.add(oIntAss);
+								}
+											
+							}
+										
+							for(clsAssociation oAss: oRemoveAss){
+								oUnknownTPM.removeInternalAssociation(oAss);
+								oUnknownTPM.addExternalAssociation(oAss);
+							}
+							
+							poSearchPattern.add(oUnknownTPM);			
+										
+						}
+				}
+				
+		//Assign TP to the identified object in PerceivedImage_IN
+		search(eDataType.TP, poSearchPattern, oSearchResult); 
+		//Take the best match for object
+		oRetVal = createImage(oSearchResult);
+		
+		//Assign drive meshes to each found image		
+		assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they have the same nBinaryValue as DM
+		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
+		//These values are now added in F14
+		//assignExternalTPAssociations(oRetVal);
+		
+		//assignEmotions(oRetVal);
+		
+		return oRetVal;
+	}	
+	
+	private ArrayList<clsThingPresentationMesh> retrieveImagesTPM(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
+			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
+				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
+				oTPM.setMoExternalAssociatedContent(oContainer.getMoAssociatedDataStructures());
+				oRetVal.add(oTPM);
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Add associations 
+	 * wendt
+	 *
+	 * @since 18.08.2011 11:22:36
+	 *
+	 * @param poPerception
+	 */
+	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+	
+		//oSearchResult = search(eDataType.DM, poPerception);
+		
+		search(eDataType.DM, poPerception, oSearchResult);
+		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+		addAssociations(oSearchResult, poPerception);
+		//}
+		//addAssociations(oSearchResult, poPerception);
+	}
+	
+	/**
+	 * This method adds the associated items from the search result to the
+	 * associatedDataStructures of the (perception) container.
+	 *
+	 * @author Marcus Zottl (e0226304)
+	 * 22.06.2011, 18:29:38
+	 *
+	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
+	 * @param poPerception		- the perception to which the items in the search
+	 * result should be added.
+	 */
+	private void addAssociations(
+			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+
+		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
+		if (poSearchResult.size()!=poPerception.size()) {
+			try {
+				throw new Exception("F14: addAssociations, Error, different Sizes");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
+		for (int i=0;i<poSearchResult.size();i++) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
+			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
+			if (oSearchPair.size()>0) {
+				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+			}
+			
+		}
+		
+		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
+			if(oEntry.size() > 0){
+				//get associated DM from a the object e. g. CAKE
+				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
+				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
+				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
+			}
+		}*/
+	}	
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 23:06:52
+	 *
+	 */
+	private ArrayList<clsPrimaryDataStructureContainer> createImage(ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> poSearchResult) {
+		
+		ArrayList<clsPrimaryDataStructureContainer> oRetVal = new ArrayList<clsPrimaryDataStructureContainer>();
+		
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+		
+				int nEntryIndex = poSearchResult.indexOf(oEntry); 
+				clsPrimaryDataStructureContainer oNewImage;
+				clsPrimaryDataStructureContainer oPerceptionEntry =  moEnvironmentalTP.get(nEntryIndex); 
+				
+				if(oEntry.size() > 0){
+					oNewImage = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
+					oNewImage.setMoAssociatedDataStructures(oPerceptionEntry.getMoAssociatedDataStructures()); 
+					mergePerceptionAndKnowledge(oNewImage, oPerceptionEntry);
+					
+					oRetVal.add(oNewImage);
+				}
+			}
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 17.08.2010, 20:39:09
+	 *
+	 * @param oSearchResult
+	 * @param poEnvironmentalInput
+	 */
+	private void mergePerceptionAndKnowledge(clsPrimaryDataStructureContainer poNewImage,
+												   clsPrimaryDataStructureContainer poPerceptionEntry) {
+
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>(); 
+		
+		if(poNewImage.getMoDataStructure() instanceof clsThingPresentationMesh 
+			&& poPerceptionEntry.getMoDataStructure() instanceof clsThingPresentationMesh){
+
+			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
+			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult); 
+		 	addAttributeAssociations(oSearchResult, poNewImage); 
+		 }
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -358,6 +759,75 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	protected void setModuleNumber() {
 		mnModuleNumber = Integer.parseInt(P_MODULENUMBER);
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @author zeilinger
+	 * 15.03.2011, 10:27:04
+	 *
+	 * @param oUnknownData
+	 * @param poPerceptionEntry
+	 * @param poNewImage 
+	 */
+	private void extractUnknownData(ArrayList<clsDataStructurePA> poUnknownData,
+			clsPrimaryDataStructureContainer poPerceptionEntry, 
+			clsPrimaryDataStructureContainer poNewImage) {
+		
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getMoInternalAssociatedContent()){
+	 		
+	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
+	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		}
+	 	}
+		
+		for(clsAssociation oEntry : ((clsThingPresentationMesh)poPerceptionEntry.getMoDataStructure()).getExternalMoAssociatedContent()){
+	 		
+	 		if( !((clsThingPresentationMesh)poNewImage.getMoDataStructure()).contain(oEntry.getMoAssociationElementB())){
+	 			poUnknownData.add(oEntry.getMoAssociationElementB()); 
+	 		}
+	 	}
+	}
+
+	/**
+	 * Add corresponding attribute associations to a container
+	 *
+	 * @author zeilinger
+	 * 15.03.2011, 10:25:24
+	 *
+	 * @param oSearchResult
+	 * @param poNewImage
+	 */
+	private void addAttributeAssociations(ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+						clsPrimaryDataStructureContainer poNewImage) {
+		
+		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult){
+			if(oEntry.size() > 0){
+				clsPrimaryDataStructureContainer oBestMatch = (clsPrimaryDataStructureContainer)extractBestMatch(oEntry); 
+				clsAssociation oAssociation = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(
+							-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), 
+							(clsThingPresentationMesh)poNewImage.getMoDataStructure(), 
+							(clsThingPresentation)oBestMatch.getMoDataStructure());
+				poNewImage.getMoAssociatedDataStructures().add(oAssociation);
+			}
+		}
+	}
+	
+	/**
+	 * Get the first element of the input arraylist
+	 *
+	 * @author zeilinger
+	 * 14.03.2011, 23:08:28
+	 *
+	 * @param oEntry
+	 * @return
+	 */
+	private clsDataStructureContainer extractBestMatch(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry) {
+		
+		clsDataStructureContainer oBestMatch = oEntry.get(0).b;; 
+		
+		return oBestMatch; 
 	}
 	
 	/* (non-Javadoc)
