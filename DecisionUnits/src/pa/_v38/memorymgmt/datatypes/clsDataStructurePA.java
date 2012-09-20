@@ -11,6 +11,7 @@ import java.util.List;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -219,12 +220,16 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @param oContentListUnknown
 	 * @return
 	 */
-	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown) {
+	protected <E extends clsDataStructurePA> double getMatchScore(itfInternalAssociatedDataStructure poDSTemplate, itfInternalAssociatedDataStructure poDSUnknown) {
+		
+		ArrayList<E> oContentListTemplate = (ArrayList<E>)poDSTemplate.getMoInternalAssociatedContent();
+		ArrayList<E> oContentListUnknown = (ArrayList<E>)poDSUnknown.getMoInternalAssociatedContent();
+		
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
-		List<E> oClonedTemplateList = this.cloneList(poContentListTemplate); 
-		int nAssociationCount = poContentListUnknown.size(); 
+		List<E> oClonedTemplateList = this.cloneList(oContentListTemplate); 
+		int nAssociationCount = oContentListUnknown.size(); 
 		
 		//The unknown data structures are searched in the known data structures.
 		//If an unknown data structure is not found in the known data structures, the match is 0, i. e. if the 
@@ -236,7 +241,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		//An attribute is considered as found, if they share the same CONTENTTYPE
 		//oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC_AW.pprj"); in clsInformationRepresentationManager.java
 		
-			for(E oUnknownDS : poContentListUnknown){
+			for(E oUnknownDS : oContentListUnknown){
 				/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
 				 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
 				 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
@@ -263,6 +268,16 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				//Sums up the match score; Takes always the highest possible score 
 				oMatchScore += oMatch.a;
 			
+				
+				// perceptual activation: source activation
+				// TODO: currently just TPMs get activation. 
+				try {
+					((clsThingPresentationMesh)poDSUnknown).applySourceActivation(eActivationType.PERCEPTUAL_ACTIVATION, oMatch.a);
+				}
+				catch (Exception e) {
+					// just do nothing
+				}
+				
 				if(oMatch.a > 0.0){
 					try{
 						oClonedTemplateList.remove((int)oMatch.b);
@@ -279,6 +294,15 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 			oMatchScoreNorm = 0;
 		}
 			
+		// perceptual activation: source activation
+		// TODO: currently just TPMs get activation. 
+		try {
+			((clsThingPresentationMesh)poDSUnknown).applySourceActivation(eActivationType.PERCEPTUAL_ACTIVATION, nAssociationCount);
+		}
+		catch (Exception e) {
+			// just do nothing
+		}
+		
 		//return oMatchScore;
 		return oMatchScoreNorm;
 	}

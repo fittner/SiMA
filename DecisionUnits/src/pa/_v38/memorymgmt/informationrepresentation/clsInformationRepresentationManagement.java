@@ -364,6 +364,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		for(ArrayList<clsPair<Double, clsDataStructureContainer>> oListEntry : poSearchResult){
 			ArrayList<clsPair<Double, clsDataStructureContainer>> oClonedList = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 			
+			
 			for(clsPair<Double, clsDataStructureContainer> oPairEntry : oListEntry){
 				oClonedList.add((clsPair<Double, clsDataStructureContainer>) oPairEntry.clone()); //suppressed Warning
 			}

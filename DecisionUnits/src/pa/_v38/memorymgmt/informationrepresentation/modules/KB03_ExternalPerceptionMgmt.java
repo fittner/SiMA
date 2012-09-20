@@ -135,6 +135,8 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
 			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
 		// TODO (schaat) - Auto-generated method stub
-		return null;
+		
+		return listSearch(poReturnType, poDataStructureUnknown); 
+
 	}
 }

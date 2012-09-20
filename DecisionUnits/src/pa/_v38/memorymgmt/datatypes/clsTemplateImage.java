@@ -158,11 +158,11 @@ public class clsTemplateImage extends clsPhysicalStructureComposition {
 	
 		//4.
 		else if(this.moContent.intern() == oDataStructure.moContent.intern()){
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getMatchScore(this, oDataStructure);
 		}
 		//5.
 		else if (this.moContentType == poDataStructure.moContentType){
-				oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
+				oRetVal = getMatchScore(this, oDataStructure);
 		}
 		
 		return oRetVal;  
