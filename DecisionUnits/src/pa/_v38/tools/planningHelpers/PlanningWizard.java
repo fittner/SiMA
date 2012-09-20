@@ -193,21 +193,15 @@ public class PlanningWizard {
 				if (myFrag.m_preconditionImage.isEqualLooseTo(oImage)) {
 					//Add the distance if not available
 					clsPlanFragment clonedFragment;
-					try {
-						clonedFragment = (clsPlanFragment) myFrag.clone();
+					clonedFragment = new clsPlanFragment(myFrag.m_act, new clsImage(myFrag.m_preconditionImage.m_eDist, myFrag.m_preconditionImage.m_eDir, myFrag.m_preconditionImage.m_eObj), new clsImage(myFrag.m_effectImage.m_eDist, myFrag.m_effectImage.m_eDir, myFrag.m_effectImage.m_eObj), myFrag.planLabel); //    (clsPlanFragment) myFrag.clone();
+					
+					if (myFrag.m_preconditionImage.m_eDist==null || myFrag.m_preconditionImage.m_eDist!=oImage.m_eDist) {
 						
-						if (myFrag.m_preconditionImage.m_eDist==null || myFrag.m_preconditionImage.m_eDist!=oImage.m_eDist) {
-							
-							clonedFragment.m_preconditionImage.m_eDist = oImage.m_eDist;
-							clonedFragment.m_effectImage.m_eDist = clonedFragment.m_preconditionImage.m_eDist;
-						}
-											
-						applicablePlanFragments.add(clonedFragment);
-						
-					} catch (CloneNotSupportedException e) {
-						// TODO (wendt) - Auto-generated catch block
-						e.printStackTrace();
+						clonedFragment.m_preconditionImage.m_eDist = oImage.m_eDist;
+						clonedFragment.m_effectImage.m_eDist = clonedFragment.m_preconditionImage.m_eDist;
 					}
+										
+					applicablePlanFragments.add(clonedFragment);
 				}
 		}
 
