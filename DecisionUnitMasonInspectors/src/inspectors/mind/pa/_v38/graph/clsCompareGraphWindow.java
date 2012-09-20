@@ -27,6 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 
 
+
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
@@ -330,18 +331,84 @@ public abstract class clsCompareGraphWindow extends Inspector {
 			          moGraphInput.setLinked(abstractButton.getModel().isSelected());
 			          moGraphOutput.setLinked(abstractButton.getModel().isSelected());
 			      		if(abstractButton.getModel().isSelected()){
-			      			//moGraphOutput.scrollRectToVisible(moGraphInput.getVisibleRect());
 			      			moGraphOutput.setScale(moGraphInput.getScale());
 			      			updateGraphes();
 			      		}
-			    	//alter the visible rect to the mouse position, so we zoom on the mouse cursor
-
-			          
+  
 			        }
 			      };
 			      oLinkCB.addActionListener(actionListenerLCB);
 			      poTaskGroup.add(oLinkCB);
-		      
+			      
+			      
+			   //Checkbox Buttons intern Assoziations
+			   javax.swing.JCheckBox oIntern = new  javax.swing.JCheckBox("Interne Assoziations");
+
+			   
+			   oIntern.setSelected(true);
+			   
+			    ActionListener actionListenerCBI= new ActionListener() {
+			        @Override
+					public void actionPerformed(ActionEvent actionEvent) {
+			          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();			          	
+			          if(abstractButton.getModel().isSelected()){
+				          moGraphInput.showInternAssoc(true);
+				          moGraphOutput.showInternAssoc(true);
+			          }
+			          else{
+				          moGraphInput.showInternAssoc(false);
+				          moGraphOutput.showInternAssoc(false);
+			          }
+			          updateGraphes();
+			        }
+			      };
+			      oIntern.addActionListener(actionListenerCBI);
+			      poTaskGroup.add(oIntern);
+			      
+				   //Checkbox Buttons intern Assoziations			      
+				   javax.swing.JCheckBox oExtern = new  javax.swing.JCheckBox("Externe Assoziations");
+				   
+				   oExtern.setSelected(false);
+				   
+				    ActionListener actionListenerCBE= new ActionListener() {
+				        @Override
+						public void actionPerformed(ActionEvent actionEvent) {
+				          AbstractButton abstractButton = (AbstractButton) actionEvent.getSource();			          	
+				          
+				          if(abstractButton.getModel().isSelected()){
+					          moGraphInput.showExternAssoc(true);
+					          moGraphOutput.showExternAssoc(true);
+				          }
+				          else{
+					          moGraphInput.showExternAssoc(false);
+					          moGraphOutput.showExternAssoc(false);
+				          }
+				          updateGraphes();
+				        }
+				      };
+				      oExtern.addActionListener(actionListenerCBE);
+				      poTaskGroup.add(oExtern);
+			   
+				      poTaskGroup.add(new AbstractAction("Expand") {
+				    							
+							/** DOCUMENT (herret) - insert description; @since Sep 20, 2012 9:19:40 AM */
+						private static final long serialVersionUID = 8703769545272229866L;
+
+							@Override
+							public void actionPerformed(ActionEvent e) {
+								Object cellsInput[] = moGraphInput.getSelectionCells();
+								Object cellsOutput[] = moGraphOutput.getSelectionCells();
+								
+								for(int i =0; i<cellsInput.length;i++){
+									//TODO: find the marked element in datastructure and add associated elements
+									moGraphInput.generateDummyCell((clsGraphCell) cellsInput[i]);
+								}
+								if(cellsInput.length>0) moGraphInput.redraw();
+								
+							}
+						});
+				      
+	      
 	  return poTaskGroup;
 }
     
@@ -352,7 +419,9 @@ public abstract class clsCompareGraphWindow extends Inspector {
 			private static final long serialVersionUID = -7683571637499420675L;
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				updateGraphes();
+				//updateGraphes();
+				moGraphInput.updateControl();
+				moGraphOutput.updateControl();
 			}
 		});
 		
@@ -440,8 +509,6 @@ public abstract class clsCompareGraphWindow extends Inspector {
 		if(moAutoUpdate && moStepCounter > mnAutomaticUpdateInterval)
 		{
 			moStepCounter = 0;
-			moGraphInput.moCellList.clear();
-			moGraphOutput.moCellList.clear();
 			updateGraphes();
 		}
 		else

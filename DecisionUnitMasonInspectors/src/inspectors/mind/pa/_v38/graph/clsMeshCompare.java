@@ -40,7 +40,6 @@ public class clsMeshCompare extends clsCompareGraphWindow {
 		updateGraphes(); //loading Data to the graph
 		moGraphInput.reset();
 		moGraphOutput.reset();
-		
 	}
 	
 	/* (non-Javadoc)
