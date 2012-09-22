@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
@@ -236,6 +237,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
+		
+		clsLogger.jlog.debug("Environmental Storage: " + moEnvironmentalImageStorage.toString());
 
 		
 		//From now, only the environmental image is used
@@ -316,8 +319,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Get the goal
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poPreviousMentalSituation);
 		
+		clsLogger.jlog.debug("Previous goal: " + oPreviousGoal);
 		//Get the previous action
 		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(poPreviousMentalSituation);
+		
+		clsLogger.jlog.debug("Previous action " + oPreviousAction);
 		
 		//----------------------------------//
 		
