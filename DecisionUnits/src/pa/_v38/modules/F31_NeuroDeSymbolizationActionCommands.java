@@ -28,6 +28,7 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
@@ -206,13 +207,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					mnCounter = 0;
 				}
 			    
-				System.out.println(
+				clsLogger.jlog.debug(
 						 "LastAction: " + lastAction.getMoContent() + ", " + 
 						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
 				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
 				         "UsedAction: " + oAction.toString() + ", " +
 				         "mnCounter: " + mnCounter);
-				System.out.println("======================== END OF TURN SP ================================\n");
+				
 
 				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
 				// currently only the action "FLEE" sets the moActionBlockingTime
@@ -353,7 +354,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				mnCounter++;
 			}
 			*/
-		}			
+		}
+		
+		clsLogger.jlog.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
 	/* (non-Javadoc)

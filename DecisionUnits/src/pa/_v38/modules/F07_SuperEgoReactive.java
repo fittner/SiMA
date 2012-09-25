@@ -288,9 +288,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		*/
 
 		// sample rule for conversion of aggressive drive energy into anxiety
+		// (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH) means "BITE"
 		// (by repressing the aggressive drive energy, anxiety is produced)
 		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.45)) {
+			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.25)) {
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive))
 					moForbiddenDrives.add(oDrive);

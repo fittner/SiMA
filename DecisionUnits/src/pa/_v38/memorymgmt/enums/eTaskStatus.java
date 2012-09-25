@@ -27,7 +27,8 @@ public enum eTaskStatus {
 	FOCUS_MOVEMENTACTION_SET,		//It has been focused on in front of the agent		
 	NEED_PERCEPTIONAL_INFO, 		//Trigger search
 	PERFORM_RECOMMENDED_ACTION,		//For acts, perform the recommended action, which is saved with the act
-	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match
+	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
+	GOAL_MUST_BE_SEARCHED,			//Used for drives, in order to trigger search. This method is used, when nothing else works
 	GOAL_REACHABLE_IN_PERCEPTION,
 	GOAL_REACHABLE_IN_ACT,
 	

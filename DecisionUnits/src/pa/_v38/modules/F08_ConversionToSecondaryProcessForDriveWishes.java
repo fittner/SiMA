@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eGoalType;
 
@@ -218,6 +219,16 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			//Get the affect level
 			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
 			
+			//Get the preferred action name
+			String oActionString = oPair.getActualDriveAim().getMoContent();
+			eAction oAction = eAction.NULLOBJECT;
+			try {
+				oAction =  eAction.getAction(oActionString);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
 			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.getActualDriveObject(), 1.0);
@@ -231,7 +242,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
 				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oDriveObject, clsMeshTools.getNullObjectWPM()));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, oDriveObject, clsMeshTools.getNullObjectWPM()));
 			}
 		}
 		
