@@ -275,7 +275,13 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			// 5. fill initial searchFringe. use a set (searchFringe) because different TPs may have the same TPM associated
 			for(clsPair<Double, clsDataStructureContainer> oAssReturnObjects: oDataStructureContainerList) {
 				for(clsAssociation oAssReturnObject: oAssReturnObjects.b.getMoAssociatedDataStructures()) {
-					oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
+					// for safety (readOutSearchSpace is not secure)
+					if(oAssReturnObject.getMoAssociationElementA().getMoDataStructureType().nBinaryValue ==  poReturnType){
+						oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
+					}
+					else {
+						System.out.println("wrong returntype");
+					}
 				}
 			}
 			
@@ -289,9 +295,6 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			// 7. Goal test (=similarity check)
 			for (clsDataStructurePA oFringeObject: oSearchFringe) {
 				
-				// initialize perceptual activation
-				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
-				
 				//TODO: currently activation is only considered for TPMs
 				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
 				try {
@@ -300,6 +303,11 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 				catch (Exception e) {
 					
 				}
+				
+				// initialize perceptual activation
+				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
+				
+				
 				//if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){ consider all memory-DS as candidates
 					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oFringeObject));
 					
