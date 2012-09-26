@@ -161,5 +161,10 @@ public enum eContentType {
 	DEFAULT,
 	X,
 	Y, 
-	A;
+	A,
+	
+	//Debug Values for Inspectors only, dont use or delete or Rename them - CM 25.09.2012
+	ExactDebugX,
+	ExactDebugY,
+	DebugSensorArousal;
 }

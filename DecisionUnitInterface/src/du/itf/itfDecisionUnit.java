@@ -6,8 +6,12 @@
  */
 package du.itf;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import du.enums.eDecisionType;
 import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
 /**
@@ -60,4 +64,7 @@ public interface itfDecisionUnit {
 	 * @return
 	 */
 	public eDecisionType getDecisionUnitType();
+	
+	
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData();
 }

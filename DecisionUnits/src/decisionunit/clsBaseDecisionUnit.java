@@ -5,11 +5,15 @@
  */
 package decisionunit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import pa._v30.logger.clsActionLogger;
 import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
 /**
@@ -28,6 +32,8 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	protected eDecisionType meDecisionType;
 	/** history of selected and executed actions.; @since 06.07.2011 12:47:05 */
 	public clsActionLogger moActionLogger;
+	
+	protected HashMap<String, ArrayList<clsInspectorPerceptionItem>> moPerceptionInspectorData;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -122,6 +128,11 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	@Override
 	public void updateActionLogger() {
 		moActionLogger.add(moActionProcessor.logText());
+	}
+	
+	@Override
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
+		return moPerceptionInspectorData;
 	}
 	
 	/**

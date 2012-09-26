@@ -10,6 +10,7 @@ package bw.factories;
 import factories.clsSingletonSimState;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.PhysicsEngine2D;
 
 /**
@@ -32,6 +33,14 @@ public class clsSingletonMasonGetter {
 	}
 	public static Continuous2D getFieldEnvironment() {
 		return clsSingletonField.getField();
+	}
+	
+	//double grid for color map display
+	public static void setArousalGridEnvironment(DoubleGrid2D poArousalGrid) {
+		clsSingletonGridField.setField(poArousalGrid);
+	}
+	public static DoubleGrid2D getArousalGridEnvironment() {
+		return clsSingletonGridField.getField();
 	}
 	
 	public static void setSimState(SimState poSimState) {

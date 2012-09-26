@@ -13,6 +13,8 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
+import sim.portrayal.grid.FastValueGridPortrayal2D;
+//import sim.portrayal.grid.ValueGridPortrayal2D;
 import statictools.clsGetARSPath;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
@@ -22,6 +24,7 @@ import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import javax.swing.JFrame;
+
 
 
 
@@ -60,6 +63,7 @@ public class SimulatorMain extends GUIState {
     /** turn logging to file on-off */
     public static final String P_USELOGGER = "useLogger";
     /** filename of the system properties file. contains all the P_* params defined in this class. */
+
     public static final String  F_CONFIGFILENAME = "system.properties";
     
 	/** GUI widget which holds some number of field portrayals and frames, 
@@ -72,6 +76,8 @@ public class SimulatorMain extends GUIState {
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them */
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
+	
+	FastValueGridPortrayal2D moArousalGridPortrayal = new FastValueGridPortrayal2D("Sensor Arousal Grid");
 
 	
 	/**
@@ -201,7 +207,16 @@ public class SimulatorMain extends GUIState {
 		moDisplayGamegridFrame.setVisible( true );
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
+		//add the arousal Grid, in case of problems, outcomment the following line and it wont be there
+		moDisplay.attach(moArousalGridPortrayal, "arousal perception");
+		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
+		
+		// add another window for test
+		//Display2D test = new Display2D(300, 300,this, 22);
+		//test.setVisible(true);
+		//poController.registerFrame(test.createFrame()); 
+		//clsSingletonMasonGetter.setDisplay2D(test);
 	}
     
     /** Called by the Console when the user is quitting the SimState.  A good place
@@ -253,7 +268,11 @@ public class SimulatorMain extends GUIState {
 				
 		// tell the portrayals what to portray and how to portray them = connection between field and portrayal
 		moGameGridPortrayal.setField(clsSingletonMasonGetter.getFieldEnvironment());
-		
+	
+		//add a arousal layer portrayal
+		moArousalGridPortrayal.setField(clsSingletonMasonGetter.getArousalGridEnvironment());
+		moArousalGridPortrayal.setMap(new sim.util.gui.SimpleColorMap(0,1,new Color(0,0,0,0),new Color(255,165,0,255)));
+
 		moDisplay.reset();
 		
 		// redraw the display
