@@ -17,6 +17,7 @@ import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
@@ -196,8 +197,9 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				moPlans_Output = processGoals_AW(moPerceptionalMesh_IN, moGoalList_IN);
 				
 				//--- System printout of all important action dates ---//
-				System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
-				System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
+				clsLogger.jlog.debug("Decided Action" + moPlans_Output.toString());
+				//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
+				//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				
 				//-----------------------------------------------------//
 			} catch (Exception e) {

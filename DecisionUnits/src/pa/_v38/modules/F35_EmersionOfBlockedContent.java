@@ -102,7 +102,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 		//mrContextSensitivity = poProp.getPropertyDouble(pre+P_CONTEXT_SENSTITIVITY);
 	}
 

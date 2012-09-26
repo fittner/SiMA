@@ -27,8 +27,39 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected Color moColor = new Color(0,0,0);
 	protected eSide moObjectPosition = eSide.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
-	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;	
+	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
+	protected double moExactDebugX;
+	protected double moExactDebugY;
+	protected double moExactDebugAngle;
+	protected double moDebugSensorArousal;
 
+	
+	public double getExactDebugX() {
+		return moExactDebugX;
+	}
+
+	public double getExactDebugY() {
+		return moExactDebugY;
+	}
+
+	public double getExactDebugAngle() {
+		return moExactDebugAngle;
+	}
+	
+	public double getDebugSensorArousal() {
+		return moDebugSensorArousal;
+	}
+	
+	public void setDebugSensorArousal(double poDebugSensorArousal) {
+		moDebugSensorArousal = poDebugSensorArousal;
+	}
+	
+	public void setExactDebugPosition(double poExactX, double poExactY, double poExactAngle) {
+		moExactDebugX = poExactX;
+		moExactDebugY = poExactY;
+		moExactDebugAngle = poExactAngle;
+	}
+	
 	public boolean getAlive() {
 		return mnAlive;
 	}

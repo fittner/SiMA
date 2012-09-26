@@ -36,7 +36,10 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		moColor = poSensor.getColor();
 		moObjectPosition = poSensor.getObjectPosition(); 
 		moAntennaPositionLeft = poSensor.getAntennaPositionLeft(); 
-		moAntennaPositionRight = poSensor.getAntennaPositionRight();			
+		moAntennaPositionRight = poSensor.getAntennaPositionRight();	
+		moExactDebugX = poSensor.getExactDebugX();
+		moExactDebugY = poSensor.getExactDebugY();
+		moExactDebugAngle = poSensor.getExactDebugAngle();
 	}
 	/* (non-Javadoc)
 	 *

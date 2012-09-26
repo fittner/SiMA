@@ -7,6 +7,7 @@
 
 package sim;
 
+import bw.factories.clsSingletonProperties;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
@@ -145,5 +146,13 @@ public class clsMain extends SimState{
         	if (args[x].equalsIgnoreCase(key))
         		return true;
     	return false;
+    }
+    
+    public void setShowArousalGrid(boolean value){
+    	clsSingletonProperties.setShowArousalGridPortrayal(value);
+    }
+    
+    public boolean getShowArousalGrid(){
+    	return clsSingletonProperties.showArousalGridPortrayal();
     }
  }

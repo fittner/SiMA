@@ -138,18 +138,22 @@ public class Display2D extends sim.display.Display2D {
 	 */
 	public void moveSelectedObject(Point poPoint)
 	{
-	    for(int x=0;x<moHitObjects.length;x++)
+		//moHitObjects.length = count ob bags
+	    for(int bag=0;bag<moHitObjects.length;bag++)
 	    {
-	    	Object oHitObject = moHitObjects[x].objs[x];
-	    	if( oHitObject instanceof LocationWrapper )
-	    	{
-	    		Object oLocation = ((LocationWrapper)oHitObject).getObject();
-	    		if( oLocation instanceof MobileObject2D )
-	        	{
-	    			MobileObject2D oMobile = (MobileObject2D)oLocation;
-	    			oMobile.setPose(transformToMasonCoord(poPoint), oMobile.getOrientation());
-	        	}
-	    	}
+	    	for(int numObj=0;numObj<moHitObjects[bag].size();numObj++)
+		    {
+		    	Object oHitObject = moHitObjects[bag].objs[numObj];
+		    	if( oHitObject instanceof LocationWrapper )
+		    	{
+		    		Object oLocation = ((LocationWrapper)oHitObject).getObject();
+		    		if( oLocation instanceof MobileObject2D )
+		        	{
+		    			MobileObject2D oMobile = (MobileObject2D)oLocation;
+		    			oMobile.setPose(transformToMasonCoord(poPoint), oMobile.getOrientation());
+		        	}
+		    	}
+		    }
 	    }
 	}
 	
