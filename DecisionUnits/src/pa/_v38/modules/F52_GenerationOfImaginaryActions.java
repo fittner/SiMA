@@ -83,6 +83,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	
+	private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
+	
 	private ArrayList<clsWordPresentation> moMotilityActions_IN;
 	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
 
@@ -233,6 +235,23 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			// moExtractedPrediction_IN);;
 			
 		}
+		
+		//FIXME AW: TEMP Get the last 10 goals and actions for the inspector
+		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
+		clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
+		String oAction = "NONE";
+		
+		if (moPlans_Output.isEmpty()==false) {
+			oAction = moPlans_Output.get(0).getMoContent();
+		}
+		
+		if (moTEMPWriteLastActions.size()==10) {
+			moTEMPWriteLastActions.remove(moTEMPWriteLastActions.size()-1);
+		}
+		
+		moTEMPWriteLastActions.add("Time: " + "Goal: " + oGoal.toString() + "; Action: " + oAction);
+		
+		
 
 	}
 
@@ -315,6 +334,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		text += toText.listToTEXT("moGoalList_IN", moGoalList_IN);
 		//text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 
+		text += toText.listToTEXT("Goals and actions", moTEMPWriteLastActions);
+		
 		text += newline;
 		text += "current generated plans:";
 		text += newline;
