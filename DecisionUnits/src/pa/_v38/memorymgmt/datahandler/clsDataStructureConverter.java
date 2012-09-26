@@ -123,18 +123,28 @@ public class clsDataStructureConverter {
 		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
 	
-			try {
-				oContentTP = oM.invoke(poSymbolObject,new Object[0]);
-			} catch (IllegalArgumentException e) {
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				e.printStackTrace();
-			} catch (InvocationTargetException e) {
-				e.printStackTrace();
-			}
-			
-			oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
-			oAssociatedContent.add(oTP); 
+			if ((oM.getName().equals("getExactDebugX")) || 
+				(oM.getName().equals("getExactDebugY")) || 
+				(oM.getName().equals("getDebugSensorArousal")) ||
+				(oM.getName().equals("getExactDebugAngle"))  )
+				{
+					//do nothing, as this is not wanted information in the psyApperatus
+				}
+				else
+				{
+					try {
+						oContentTP = oM.invoke(poSymbolObject,new Object[0]);
+					} catch (IllegalArgumentException e) {
+						e.printStackTrace();
+					} catch (IllegalAccessException e) {
+						e.printStackTrace();
+					} catch (InvocationTargetException e) {
+						e.printStackTrace();
+					}
+					
+					oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
+					oAssociatedContent.add(oTP); 
+				}
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 
 		return oTPM; 	
