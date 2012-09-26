@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -221,7 +221,7 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void setTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static void setTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
 		//Get the current one
 		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
 		
@@ -245,13 +245,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static ArrayList<eTaskStatus> getTaskStatus(clsWordPresentationMesh poGoal) {
-		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+	public static ArrayList<eCondition> getTaskStatus(clsWordPresentationMesh poGoal) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 				
 		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
-			oResult.add(eTaskStatus.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
+			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
 		}
 	
 		
@@ -269,10 +269,10 @@ public class clsGoalTools {
 	 * @param poTask
 	 * @return
 	 */
-	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eCondition poTask) {
 		boolean bResult = false;
 		
-		ArrayList<eTaskStatus> oResult = clsGoalTools.getTaskStatus(poGoal);
+		ArrayList<eCondition> oResult = clsGoalTools.getTaskStatus(poGoal);
 		if (oResult.contains(poTask)) {
 			bResult=true;
 		}
@@ -290,7 +290,7 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
 		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 		
 		for (clsWordPresentation oTaskStatus : oFoundStructureList) {

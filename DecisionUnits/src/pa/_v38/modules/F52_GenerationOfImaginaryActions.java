@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
@@ -658,7 +658,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
 			//--- Check which DecisionTasks have been set on the goal ---//
-			ArrayList<eTaskStatus> oTaskList = clsGoalTools.getTaskStatus(oCurrentGoal);
+			ArrayList<eCondition> oTaskList = clsGoalTools.getTaskStatus(oCurrentGoal);
 			
 			
 			//--- Find the suitable action for a certain combination of preconditions ---//
@@ -806,24 +806,24 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		//DRIVESOURCE AND ACT
-		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eTaskStatus.NEED_INTERNAL_INFO));
+		oResult.add(generateInternalActionFromPrecondition(eAction.SEND_TO_PHANTASY, eCondition.NEED_INTERNAL_INFO));
 		
 		//DRIVESOURCE
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.NEED_INTERNAL_INFO_SET));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.GOAL_NOT_REACHABLE, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eCondition.GOAL_NOT_REACHABLE, eCondition.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eCondition.GOAL_NOT_REACHABLE, eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.NEED_INTERNAL_INFO_SET));
 		
 		//PECEPTIONSOURCE
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eTaskStatus.NEED_GOAL_FOCUS));	//Focus on the supportive datastructure, which is an image
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.FOCUS_ON_SET, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_ON, eCondition.NEED_GOAL_FOCUS));	//Focus on the supportive datastructure, which is an image
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eCondition.FOCUS_ON_SET, eCondition.GOAL_REACHABLE_IN_PERCEPTION));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.FOCUS_ON_SET, eCondition.GOAL_REACHABLE_IN_PERCEPTION));
 		
 		//ACT SOURCE
-		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_BASIC_ACT_ANALYSIS, eTaskStatus.NEED_INTERNAL_INFO_SET));
-		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eTaskStatus.PERFORM_RECOMMENDED_ACTION, eTaskStatus.NEED_INTERNAL_INFO_SET));
-		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eTaskStatus.FOCUS_MOVEMENTACTION_SET, eTaskStatus.PERFORM_RECOMMENDED_ACTION, eTaskStatus.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.PERFORM_BASIC_ACT_ANALYSIS, eCondition.NEED_BASIC_ACT_ANALYSIS, eCondition.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FOCUS_MOVEMENT, eCondition.PERFORM_RECOMMENDED_ACTION, eCondition.NEED_INTERNAL_INFO_SET));
+		oResult.add(generateInternalActionFromPrecondition(eAction.EXECUTE_EXTERNAL_ACTION, eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.PERFORM_RECOMMENDED_ACTION, eCondition.NEED_INTERNAL_INFO_SET));
 
 		//PANIC Goal
-		oResult.add(generateInternalActionFromPrecondition(eAction.FLEE, eTaskStatus.PANIC));
+		oResult.add(generateInternalActionFromPrecondition(eAction.FLEE, eCondition.PANIC));
 		
 		return oResult;
 	
@@ -840,7 +840,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poTaskStatus
 	 * @return
 	 */
-	private clsWordPresentationMesh generateInternalActionFromPrecondition(eAction poAction, eTaskStatus ... poDecisionTask) {
+	private clsWordPresentationMesh generateInternalActionFromPrecondition(eAction poAction, eCondition ... poDecisionTask) {
 		clsWordPresentationMesh oResult = clsActionTools.createAction(poAction.toString());
 		for (int i=0; i<poDecisionTask.length;i++) {
 			clsMeshTools.setNonUniquePredicateWP(oResult, ePredicate.HASPRECONDITION, eContentType.PRECONDITION, poDecisionTask[i].toString(), false);
@@ -860,7 +860,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @return
 	 * @throws CloneNotSupportedException
 	 */
-	private ArrayList<clsWordPresentationMesh> getActionsFromPrecondition(ArrayList<eTaskStatus> poPreconditionStatusList) throws CloneNotSupportedException {
+	private ArrayList<clsWordPresentationMesh> getActionsFromPrecondition(ArrayList<eCondition> poPreconditionStatusList) throws CloneNotSupportedException {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oWPM : this.moPossibleInternalActionPlans) {
@@ -886,17 +886,17 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poPreconditionStatusList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> sortMostSpecializedAction(ArrayList<clsWordPresentationMesh> poActionList, ArrayList<eTaskStatus> poPreconditionStatusList) {
+	private ArrayList<clsWordPresentationMesh> sortMostSpecializedAction(ArrayList<clsWordPresentationMesh> poActionList, ArrayList<eCondition> poPreconditionStatusList) {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oOpenToSortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
 		//Go through all actions and get the number of successful preconditions 
 		for (clsWordPresentationMesh poAction : poActionList) {
-			ArrayList<eTaskStatus> oPreconditionForActionList = clsActionTools.getPreconditions(poAction);
+			ArrayList<eCondition> oPreconditionForActionList = clsActionTools.getPreconditions(poAction);
 			int nScore = 0;
 			
-			for (eTaskStatus oPreconditionForAction : oPreconditionForActionList) {
+			for (eCondition oPreconditionForAction : oPreconditionForActionList) {
 				if (poPreconditionStatusList.contains(oPreconditionForAction)==true) {
 					nScore++;
 				}

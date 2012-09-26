@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.ePredicate;
 
 /**
@@ -255,13 +255,13 @@ public class clsActionTools {
 	 * @param poAction
 	 * @return
 	 */
-	public static ArrayList<eTaskStatus> getPreconditions(clsWordPresentationMesh poAction) {
-		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+	public static ArrayList<eCondition> getPreconditions(clsWordPresentationMesh poAction) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		ArrayList<clsWordPresentation> oWPList = clsMeshTools.getNonUniquePredicateWP(poAction, ePredicate.HASPRECONDITION);
 		
 		for (clsWordPresentation oWP : oWPList) {
-			oResult.add(eTaskStatus.valueOf(oWP.getMoContent()));
+			oResult.add(eCondition.valueOf(oWP.getMoContent()));
 		}
 		
 		return oResult;
@@ -278,16 +278,16 @@ public class clsActionTools {
 	 * @param poDecisionTask
 	 * @return
 	 */
-	public static boolean checkIfPreconditionsMatch(clsWordPresentationMesh poAction, ArrayList<eTaskStatus> poInputTaskStatusList) {
+	public static boolean checkIfPreconditionsMatch(clsWordPresentationMesh poAction, ArrayList<eCondition> poInputTaskStatusList) {
 		boolean bResult = true;
 		
 		if (poInputTaskStatusList.isEmpty()==true) {
 			bResult=false;
 		} else {
-			ArrayList<eTaskStatus> oActionPreconditionList = clsActionTools.getPreconditions(poAction);
+			ArrayList<eCondition> oActionPreconditionList = clsActionTools.getPreconditions(poAction);
 		
 			//Check if ALL preconditions can be matched
-			for (eTaskStatus oTaskStatus : oActionPreconditionList) {
+			for (eCondition oTaskStatus : oActionPreconditionList) {
 				if (poInputTaskStatusList.contains(oTaskStatus)==false) {
 					bResult = false;
 					break;
