@@ -96,7 +96,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 	
 	}
 

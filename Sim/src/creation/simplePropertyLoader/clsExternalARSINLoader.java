@@ -227,7 +227,7 @@ public class clsExternalARSINLoader extends clsLoader {
      * @param poProp
      */
     private clsEntity createArsin(String poPrefix, clsProperties poProp) {
-    	String pre = clsProperties.addDot(poPrefix);
+    	//String pre = clsProperties.addDot(poPrefix);
     	
     	//get enttity type
     	eEntityType nEntityType = eEntityType.ARSIN;

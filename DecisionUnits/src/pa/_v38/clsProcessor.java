@@ -5,6 +5,7 @@
  */
 package pa._v38;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.apache.log4j.*;
@@ -12,8 +13,10 @@ import org.apache.log4j.*;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
+
 import du.itf.actions.itfActionProcessor;
 import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
@@ -21,6 +24,7 @@ import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa._v38.modules.clsPsychicApparatus;
+
 
 /**
  * The clsProcessor of the implemenation v38 is responsible for feeding the sensor data into the decision unit, calling all modules to process this data
@@ -305,5 +309,23 @@ public class clsProcessor implements itfProcessor  {
 	 */
 	public clsPsychicApparatus getPsychicApparatus() {
 		return moPsyApp;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 20.09.2012 10:23:14
+	 * 
+	 * @see pa.itfProcessor#getPerceptionInspectorData()
+	 */
+	@Override
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
+		
+		HashMap<String, ArrayList<clsInspectorPerceptionItem>> oInspectorData = new HashMap<String, ArrayList<clsInspectorPerceptionItem>>();
+		
+		ArrayList<clsInspectorPerceptionItem> oF14sensorData =  moPsyApp.moF14_ExternalPerception.GetSensorDataForInspectors();
+		
+		oInspectorData.put("F14", oF14sensorData);
+		
+		return oInspectorData;
 	}
 }

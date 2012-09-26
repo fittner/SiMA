@@ -62,6 +62,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private boolean mnAlive;
 	private boolean mnImmortal;
 	
+
+	
 	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
@@ -190,6 +192,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		if (isAlive()) {
 			super.processing();
 		}
+
+		//this.getSensorEngineAreas()
 	}
 
 	/* (non-Javadoc)
