@@ -261,17 +261,21 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			
 			//Add by AW
 			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
-				oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
-				for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-					oResult += oEntry.getLeafElement().toString() + ","; 
+				if (this.moInternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
+					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+						oResult += oEntry.getLeafElement().toString() + ","; 
+					}
 				}
 				
-				oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
-				for (clsAssociation oEntry : moExternalAssociatedContent) {
-					oResult += oEntry.toString() + ","; 
+				if (moExternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
+					for (clsAssociation oEntry : moExternalAssociatedContent) {
+						oResult += oEntry.toString() + ","; 
+					}
 				}
 			}
-			
+
 			return oResult; 
 	}
 	
@@ -318,6 +322,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		}
 		
 		return bResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:28:53 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
 
 }

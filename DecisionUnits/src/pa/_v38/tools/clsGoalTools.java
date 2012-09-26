@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -57,7 +58,7 @@ public class clsGoalTools {
 	 * @param poSupportiveDataStructure
 	 * @return
 	 */
-	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
+	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, eAction poPreferredAction, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		
 		//Generate goalidentifier
 		String oGoalID = clsGoalTools.generateGoalContentIdentifier(poGoalContent, poGoalObject, poGoalType);
@@ -68,8 +69,8 @@ public class clsGoalTools {
 		//Create the basic goal structure
 		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID);
 		
-		//--- Create Affectlevel ---//
-		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString(), true);
+		//--- Create Affectlevel as importance number ---//
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(clsImportanceTools.convertAffectLevelToImportance(poAffectLevel)), true);
 		
 		//--- Create Goal object ---//
 		//Add Goalobject to the mesh
@@ -84,6 +85,12 @@ public class clsGoalTools {
 			}
 		} else if (poSupportiveDataStructure.isNullObject()==false) {
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+		}
+		
+		//--- Add preferred action to the goal --- //
+		if (poPreferredAction.equals(eAction.NULLOBJECT)==false) {
+			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction.toString());
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, oPreferredActionMesh, 0, 1.0, eContentType.PREFERREDACTION, ePredicate.HASPREFERREDACTION, false);
 		}
 		
 		//--- Add goal type to mesh ---//
@@ -180,16 +187,16 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static eAffectLevel getAffectLevel(clsWordPresentationMesh poGoal) {
-		eAffectLevel oRetVal = null;
-		
+	public static int getAffectLevel(clsWordPresentationMesh poGoal) {
+		int oRetVal = 0;
+	
 		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASAFFECTLEVEL, true);
-		
+	
 		if (oFoundStructures.isEmpty()==false) {
 			//The drive object is always a WPM
-			oRetVal = eAffectLevel.valueOf(oFoundStructures.get(0).getMoContent());
+			oRetVal = clsImportanceTools.getImportance((clsWordPresentation) oFoundStructures.get(0));
 		}
-		
+	
 		return oRetVal;
 	}
 	
@@ -611,7 +618,7 @@ public class clsGoalTools {
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).mnAffectLevel>=1) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.LOWPOSITIVE.mnAffectLevel) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 				
@@ -673,7 +680,7 @@ public class clsGoalTools {
 		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
-			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal).mnAffectLevel;
+			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal);
 			
 			if (nCurrentAffectLevel>=pnAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time

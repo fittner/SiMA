@@ -25,9 +25,11 @@ import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -220,7 +222,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
+			
+			clsLogger.jlog.debug("Decided goal: " + moDecidedGoalList_OUT.get(0));
+			clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
+		} else {
+			clsLogger.jlog.debug("Decided goal: No goal ");
 		}
+		
 		
 		
 		
@@ -1010,7 +1018,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (poFeelingList.isEmpty()==false) {
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
 				clsGoalTools.setTaskStatus(oResult, eTaskStatus.PANIC);
 			}	
 		}

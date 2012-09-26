@@ -64,7 +64,7 @@ public class clsPlanFragment extends PlanningNode {
 	public String toString() {
 		if (this.planLabel != null && !this.planLabel.isEmpty())
 			return this.planLabel;
-		return super.label + ", hasChild: " + super.hasChild + ", myParent: " + super.myParent;
+		return super.label + ", hasChild: " + super.hasChild + ", myParent: " + super.myParent + ", \nprecondition: " + this.m_preconditionImage + " postcondition:" + this.m_effectImage;
 
 	}
 }

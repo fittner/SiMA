@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -67,6 +68,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private clsShortTermMemory moShortTermMemory;
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
+	
+	private ArrayList<clsWordPresentationMesh> moConcept;
+	
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	
@@ -125,7 +129,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN);
+		text += toText.valueToTEXT("AdamPerspective:", moConcept);
+
+		text += toText.valueToTEXT("BodosPerspective", moConcept);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
@@ -205,15 +211,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		System.out.println("\n======================== START OF TURN SP ================================");
+		//System.out.println("\n======================== START OF TURN SP ================================");
+		clsLogger.jlog.debug("\n===START OF SECONDARY PROCESS===");
 		
 		//--- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
 		
 		//--- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
-		
-		
+			
 		//Search for all images from the primary process in the memory
 		//Input: TPM
 		//1. Get all Images of the Mesh
@@ -223,6 +229,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//5. Within the WPM-Structure, the allocation of images to acts is already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 		
+		clsLogger.jlog.debug("Perceived Image: \n" + oWPMConstruct.a);
 		
 		//Take the created WPMs and build a clsConcept out of them.
 		clsConcept concept = generateConcept(oWPMConstruct.b);

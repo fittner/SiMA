@@ -96,6 +96,7 @@ public abstract class clsPhysicalStructureComposition extends clsPhysicalReprese
 	 *
 	 * @param poInternalAssociation
 	 */
+	@Override
 	public void addExternalAssociation (clsAssociation poAssociation) {
 		this.moExternalAssociatedContent.add(poAssociation);
 	}

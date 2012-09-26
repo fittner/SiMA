@@ -15,10 +15,11 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
-import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -282,21 +283,33 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			// 6. start search			
 			if(oSearchFringe.isEmpty() == true) {
 				// return failure
+				System.out.println("searchFringe is empty");
 			}
 			
 			// 7. Goal test (=similarity check)
 			for (clsDataStructurePA oFringeObject: oSearchFringe) {
+				
+				// initialize perceptual activation
 				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
 				
-				if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
-					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oFringeObject));
+				//TODO: currently activation is only considered for TPMs
+				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
+				try {
+					((clsThingPresentationMesh)oFringeObject).setCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
 				}
+				catch (Exception e) {
+					
+				}
+				//if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){ consider all memory-DS as candidates
+					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oFringeObject));
+					
+				//}
 			}
 			 
 		}
 		
 		
-		return null;
+		return oDataStructureContainerList;
 	}
 
 	/**

@@ -7,6 +7,9 @@ package pa._v38;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+
+import org.apache.log4j.*;
+
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -17,6 +20,7 @@ import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import pa._v38.modules.clsPsychicApparatus;
@@ -59,6 +63,13 @@ public class clsProcessor implements itfProcessor  {
 	 */
 	public clsProcessor(String poPrefix, clsProperties poProp, int uid) {
 		applyProperties(poPrefix, poProp, uid);
+		
+		// --- Set logger properties --- //
+		clsLogger.jlog.removeAllAppenders();
+		clsLogger.jlog.setLevel(Level.ALL);
+		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+		Layout layout = new PatternLayout("(%F:%L) - %m%n");
+		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
 	}
 	
 	/**

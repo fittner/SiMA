@@ -433,11 +433,20 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			
 				//Comparision of DMs makes only sense, if they have the same component, source (and partialdrive). Driveaim and -object are comparable
 					
+				double rDiffQoA = 0 ;
 				if(this.moDriveComponent == oDataStructure.moDriveComponent){
 					if(this.moPartialDrive == oDataStructure.moPartialDrive){
 						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
-							oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
-							oRetVal = (oRetVal + 1)/2; // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
+							oRetVal = getMatchScore(this, oDataStructure);
+							// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
+							if (oDataStructure.getQuotaOfAffect()>= this.mrQuotaOfAffect) {
+								rDiffQoA = 1;
+							}
+							else {
+								rDiffQoA = 1-(this.mrQuotaOfAffect-oDataStructure.getQuotaOfAffect());
+							}
+							
+							oRetVal = (oRetVal + 1 + rDiffQoA)/3; // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
 						}
 					}
 					
@@ -597,6 +606,19 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         } catch (CloneNotSupportedException e) {
            return e;
         }
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:27:17 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
 
 }

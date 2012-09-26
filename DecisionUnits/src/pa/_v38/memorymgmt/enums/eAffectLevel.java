@@ -33,13 +33,13 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eAffectLevel {
-	HIGHNEGATIVE (-3),	//-10 < x <= -0.8
-	NEGATIVE (-2),		//-0.8 < x <= -0.5
-	LOWNEGATIVE (-1),			//-0.5 < x <= -0.1
+	HIGHNEGATIVE (-700),	//-10 < x <= -0.8
+	NEGATIVE (-500),		//-0.8 < x <= -0.5
+	LOWNEGATIVE (-200),			//-0.5 < x <= -0.1
 	INSIGNIFICANT (0),		//-0.1 < x <= 0.1
-	LOWPOSITIVE (1),			//0.1 < x <= 0.5
-	POSITIVE (2),		//0.5 < x <= 0.8
-	HIGHPOSITIVE (3);	//0.8 < x <= 10
+	LOWPOSITIVE (200),			//0.1 < x <= 0.5
+	POSITIVE (500),		//0.5 < x <= 0.8
+	HIGHPOSITIVE (700);	//0.8 < x <= 10
 	
 	public int mnAffectLevel;
 	
@@ -52,9 +52,24 @@ public enum eAffectLevel {
 	{
 		eAffectLevel oRetVal = null;
 		eAffectLevel lvls[] = eAffectLevel.values();
-		if ((i>=-3) && (i<=3)) {
-			oRetVal = lvls[i+3];
+		for (int j=0; j<lvls.length-1;j++) {
+			eAffectLevel oBottom = lvls[j];
+			eAffectLevel oTop = lvls[j+1];
+			
+			if (j<=oBottom.mnAffectLevel && j==0) {
+				oRetVal=oBottom;
+				break;
+			} else if (j>=oTop.mnAffectLevel && j==lvls.length-2) {
+				oRetVal=oTop;
+				break;
+			} else if (j>=oBottom.mnAffectLevel && j<oTop.mnAffectLevel) {
+				oRetVal = oBottom;
+				break;
+			}
 		}
+//		if ((i>=-3) && (i<=3)) {
+//			oRetVal = lvls[i+3];
+//		}
 		
 		return oRetVal;
 	}
