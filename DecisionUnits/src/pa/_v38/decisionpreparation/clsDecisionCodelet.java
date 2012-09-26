@@ -16,7 +16,7 @@ import pa._v38.storage.clsShortTermMemory;
  * 22.09.2012, 17:05:50
  * 
  */
-public abstract class clsAnalysisCodelet extends clsCodelet {
+public abstract class clsDecisionCodelet extends clsCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -26,7 +26,7 @@ public abstract class clsAnalysisCodelet extends clsCodelet {
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 */
-	public clsAnalysisCodelet(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
+	public clsDecisionCodelet(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}

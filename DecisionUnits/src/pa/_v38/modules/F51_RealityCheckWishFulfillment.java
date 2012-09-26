@@ -459,7 +459,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//--- Remove the temporal data from the last turn ---//
 			if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.MEMORYDRIVE)==true) {
 				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				
 				//Remove all PI-matches from the images
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious);
@@ -472,7 +472,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				
 				oResult = oNewGoalFromPrevious;
 			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				clsGoalTools.setTaskStatus(oNewGoalFromPrevious, eCondition.IS_DRIVE_SOURCE);
 				clsGoalTools.setTaskStatus(oNewGoalFromPrevious, eCondition.IS_NEW_CONTINUED_GOAL);
 				poGoalList.add(oNewGoalFromPrevious);

@@ -4,11 +4,11 @@
  * 22.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.analysiscodelets;
+package pa._v38.decisionpreparation.decisioncodelets;
 
 import java.util.ArrayList;
 
-import pa._v38.decisionpreparation.clsAnalysisCodelet;
+import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
@@ -25,7 +25,7 @@ import pa._v38.tools.clsMeshTools;
  * 22.09.2012, 17:20:52
  * 
  */
-public class clsACCheckFocusExists extends clsAnalysisCodelet {
+public class clsDCCheckFocusExists extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -36,7 +36,7 @@ public class clsACCheckFocusExists extends clsAnalysisCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACCheckFocusExists(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
+	public clsDCCheckFocusExists(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	

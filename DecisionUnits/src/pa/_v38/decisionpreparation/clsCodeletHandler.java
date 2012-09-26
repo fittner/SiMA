@@ -8,9 +8,9 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.decisionpreparation.actioncodeletes.clsActCSendtophantasy;
-import pa._v38.decisionpreparation.analysiscodelets.clsACCheckFocusExists;
-import pa._v38.decisionpreparation.analysiscodelets.clsACDriveContinousAnalysis;
+import pa._v38.decisionpreparation.actioncodeletes.clsACSendToPhantasy;
+import pa._v38.decisionpreparation.decisioncodelets.clsDCCheckFocusExists;
+import pa._v38.decisionpreparation.decisioncodelets.clsDCDriveContinousAnalysis;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.clsEnvironmentalImageMemory;
@@ -71,13 +71,13 @@ public class clsCodeletHandler {
 	}
 	
 	private void registerCodelets() {
-		clsACCheckFocusExists oCheckFocus = new clsACCheckFocusExists(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsDCCheckFocusExists oCheckFocus = new clsDCCheckFocusExists(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oCheckFocus.toString());
 		
-		clsACDriveContinousAnalysis oContinousAnalysis = new clsACDriveContinousAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsDCDriveContinousAnalysis oContinousAnalysis = new clsDCDriveContinousAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oContinousAnalysis.toString());
 		
-		clsActCSendtophantasy oACSendToPhantasy = new clsActCSendtophantasy(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsACSendToPhantasy oACSendToPhantasy = new clsACSendToPhantasy(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oACSendToPhantasy.toString());
 	}
 	

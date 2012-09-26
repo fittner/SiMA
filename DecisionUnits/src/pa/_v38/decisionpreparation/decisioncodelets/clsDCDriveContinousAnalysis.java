@@ -4,9 +4,9 @@
  * 23.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.analysiscodelets;
+package pa._v38.decisionpreparation.decisioncodelets;
 
-import pa._v38.decisionpreparation.clsAnalysisCodelet;
+import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
@@ -22,7 +22,7 @@ import pa._v38.tools.clsGoalTools;
  * 23.09.2012, 12:34:31
  * 
  */
-public class clsACDriveContinousAnalysis extends clsAnalysisCodelet {
+public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -33,7 +33,7 @@ public class clsACDriveContinousAnalysis extends clsAnalysisCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACDriveContinousAnalysis(
+	public clsDCDriveContinousAnalysis(
 			clsWordPresentationMesh poEnvironmentalImage,
 			clsShortTermMemory poShortTermMemory,
 			clsCodeletHandler poCodeletHandler) {

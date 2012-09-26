@@ -8,6 +8,7 @@ package pa._v38.decisionpreparation;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.planning.clsTEMPPlannerAW;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
@@ -22,6 +23,7 @@ import pa._v38.tools.clsGoalTools;
 public abstract class clsActionCodelet extends clsCodelet {
 
 	protected clsWordPresentationMesh moAction;
+	protected clsTEMPPlannerAW moExternalActionPlanner;
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -35,7 +37,9 @@ public abstract class clsActionCodelet extends clsCodelet {
 			clsShortTermMemory poShortTermMemory,
 			clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
-		// TODO (wendt) - Auto-generated constructor stub
+		
+		 moExternalActionPlanner = new clsTEMPPlannerAW();
+		
 	}
 	
 	protected void generateAction(eAction poAction) {

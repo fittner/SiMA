@@ -1461,6 +1461,49 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:31:58
+	 *
+	 * @param poOriginWPM
+	 * @param poAssPredicate
+	 * @param poAddWPM
+	 * @param pbAddToInternalAssociations
+	 */
+	public static void setNonUniquePredicateWPM(clsWordPresentationMesh poOriginWPM, ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+		//Get association if exists
+		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poOriginWPM, poAssPredicate, 0, true, false);
+		
+		boolean bWPFound = false;
+		
+		for (clsDataStructurePA oAss : oAssList) {
+			clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+			if (oDS instanceof clsWordPresentationMesh) {
+				clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+				
+				if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+					bWPFound = true;	//Do nothing as it is already set
+					break;
+				}
+			}
+		}
+		
+		if (bWPFound==false) {
+			
+			//Create and add association
+			if (pbAddToInternalAssociations==false) {
+				clsMeshTools.createAssociationSecondary(poOriginWPM, 2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			} else {
+				clsMeshTools.createAssociationSecondary(poOriginWPM, 1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			}
+		}
+	}
+	
+	
+	
+	/**
 	 * Remove all secondary data structures, which are connected with poWPM via a certain ePredicate
 	 * 
 	 * (wendt)
@@ -1470,7 +1513,7 @@ public class clsMeshTools {
 	 * @param poWPM
 	 * @param poAssPredicate
 	 */
-	public static void removeAllNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+	public static void removeAllNonUniquePredicateSecondaryDataStructure(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
 		
 		for (clsDataStructurePA oAss : oAssList) {
@@ -1503,6 +1546,43 @@ public class clsMeshTools {
 		return oResult;
 	}
 	
+	public static clsWordPresentationMesh getUniquePredicateWPM(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		clsWordPresentationMesh oResult = clsMeshTools.moNullObjectWPM;
+		
+		clsDataStructurePA oResultPrel = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, false);
+		
+		if (oResultPrel instanceof clsWordPresentationMesh) {
+			oResult = (clsWordPresentationMesh) oResultPrel;
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	private static ArrayList<clsSecondaryDataStructure> getNonUniquePredicateSecondaryDataStructure(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsSecondaryDataStructure> oResult = new ArrayList<clsSecondaryDataStructure>();
+			
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+		for (clsDataStructurePA oDS : oDSList) {
+			if (oDS instanceof clsSecondaryDataStructure) {
+				oResult.add((clsSecondaryDataStructure) oDS);
+			}
+		}
+			
+		return oResult;
+	}
+	
 	/**
 	 * Get all WP of a certain predicate
 	 * 
@@ -1516,11 +1596,40 @@ public class clsMeshTools {
 	 */
 	public static ArrayList<clsWordPresentation> getNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
-			
-		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+		
+		ArrayList<clsSecondaryDataStructure> oSecondaryList = clsMeshTools.getNonUniquePredicateSecondaryDataStructure(poWPM, poAssPredicate);
+		
+		//ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
 
-		for (clsDataStructurePA oDS : oDSList) {
+		for (clsSecondaryDataStructure oDS : oSecondaryList) {
+			if (oDS instanceof clsWordPresentation)
 			oResult.add((clsWordPresentation) oDS);
+		}
+			
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getNonUniquePredicateWPM(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsSecondaryDataStructure> oSecondaryList = clsMeshTools.getNonUniquePredicateSecondaryDataStructure(poWPM, poAssPredicate);
+		
+		//ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+		for (clsSecondaryDataStructure oDS : oSecondaryList) {
+			if (oDS instanceof clsWordPresentationMesh)
+			oResult.add((clsWordPresentationMesh) oDS);
 		}
 			
 		return oResult;

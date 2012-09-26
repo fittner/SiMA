@@ -112,7 +112,7 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static clsWordPresentationMesh copyGoalWithoutTaskStatus(clsWordPresentationMesh poGoal) {
+	public static clsWordPresentationMesh copyGoalWithoutTaskStatusAndAction(clsWordPresentationMesh poGoal) {
 		clsWordPresentationMesh oResult = null;
 		
 		try {
@@ -120,6 +120,7 @@ public class clsGoalTools {
 			
 			//Remove all task status from the goal
 			clsGoalTools.removeAllTaskStatus(oResult);
+			clsGoalTools.removeAllAssociatedAction(oResult);
 			
 		} catch (CloneNotSupportedException e) {
 			System.out.println("previous goal could not be cloned");
@@ -517,6 +518,40 @@ public class clsGoalTools {
 		
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:17:57
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getAssociatedAction(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION);
+		
+	} 
+	
+	/**
+	 * Set associated action
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:20:16
+	 *
+	 * @param poGoal
+	 * @param poAssociatedAction
+	 */
+	public static void setAssociatedAction(clsWordPresentationMesh poGoal, clsWordPresentationMesh poAssociatedAction) {
+		clsMeshTools.setNonUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION, poAssociatedAction, false);
+		
+	}
+	
+	public static void removeAllAssociatedAction(clsWordPresentationMesh poGoal) {
+		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASASSOCIATEDACTION);
 	}
 	
 	/**

@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPhantasyTools;
 
@@ -24,7 +25,7 @@ import pa._v38.tools.clsPhantasyTools;
  * 23.09.2012, 13:22:21
  * 
  */
-public class clsActCSendtophantasy extends clsActionCodelet {
+public class clsACSendToPhantasy extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,7 +36,7 @@ public class clsActCSendtophantasy extends clsActionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsActCSendtophantasy(clsWordPresentationMesh poEnvironmentalImage,
+	public clsACSendToPhantasy(clsWordPresentationMesh poEnvironmentalImage,
 			clsShortTermMemory poShortTermMemory,
 			clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
@@ -66,6 +67,12 @@ public class clsActCSendtophantasy extends clsActionCodelet {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		//Get the supportive data structure
+		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		
+		//Associate this structure with the action
+		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
