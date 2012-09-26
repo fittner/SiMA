@@ -156,7 +156,7 @@ public class clsCodeletHandler {
 		for (clsCodelet oCodelet : oCodeletList) {
 			oCodelet.assignGoal(poGoal);
 			oCodelet.startCodelet();
-			clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + " executed");
+			//clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + " executed");
 			oCodelet.clearGoal();
 		}
 	}
