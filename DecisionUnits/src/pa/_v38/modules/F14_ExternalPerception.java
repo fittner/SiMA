@@ -6,6 +6,7 @@
  */
 package pa._v38.modules;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -249,12 +250,25 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
 		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
 		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
 				
 		//Add Distance to SELF
 		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
 		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-						
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
+		
+		//Add color and shape
+		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
+		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
+		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
+		
+		clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
+		clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
+		oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
+		
 		moEnvironmentalTP.add(oSelfContainer);		
 		
 		
@@ -349,19 +363,32 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					moEnvironmentalTP.remove(oDS);			
 				}
 		
-		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
-		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
-		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
-		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		
-		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
-		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+				//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
+				//TODO @CM: Please adapt the SELF for your needs. 
+				clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
+				clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+				//Add Position to SELF
+				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
+				clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
+				oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
+						
+				//Add Distance to SELF
+				clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
+				clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
+				oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
+				
+				//Add color and shape
+				clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
+				clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
+				oSelfContainer.addMoAssociatedDataStructure(oColorAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
+				
+				clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
+				clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
+				oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 				
 		moEnvironmentalTP.add(oSelfContainer);
 				
