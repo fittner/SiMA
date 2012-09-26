@@ -11,11 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.PatternLayout;
+
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
@@ -143,6 +150,15 @@ public class clsPsychicApparatus {
 	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
+		
+		// --- Set logger properties --- //
+		clsLogger.jlog.removeAllAppenders();
+		clsLogger.jlog.setLevel(Level.ALL);
+		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+		Layout layout = new PatternLayout("(%F:%L) - %m%n");
+		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
+		
+		
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
