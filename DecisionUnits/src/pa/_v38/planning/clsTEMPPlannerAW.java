@@ -67,7 +67,7 @@ public class clsTEMPPlannerAW {
 	public ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception, clsWordPresentationMesh poGoal) {
 		ArrayList<clsWordPresentationMesh> oResult =  new ArrayList<clsWordPresentationMesh>();
 		
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		//ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
 		// String oPI = "PERCEIVEDIMAGE"; //This is the perceived image
 		// String oRI = "IMAGE"; //This is from the memory
@@ -167,7 +167,7 @@ public class clsTEMPPlannerAW {
 
 			}
 
-			oRetVal.addAll(oActionContainer);
+			oResult.addAll(oActionContainer);
 
 		}
 		// then select, if the goal is connected to perception or to an
@@ -373,7 +373,7 @@ public class clsTEMPPlannerAW {
 
 		// Convert the containers into WPM
 		for (clsPlanFragment oPF : moPlans) {
-			clsWordPresentationMesh oAction = clsActionTools.createAction(oPF.m_act.m_strAction);
+			clsWordPresentationMesh oAction = clsActionTools.createAction(eAction.valueOf(oPF.m_act.m_strAction));
 			
 			clsWordPresentationMesh oGoalObject = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ENTITY,oPF.m_effectImage.m_eObj.toString()), new ArrayList<clsAssociation>());
 			try {

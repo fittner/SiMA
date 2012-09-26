@@ -43,15 +43,17 @@ public abstract class clsActionCodelet extends clsCodelet {
 	}
 	
 	protected void generateAction(eAction poAction) {
-		moAction = clsActionTools.createAction(poAction.toString());
+		moAction = clsActionTools.createAction(poAction);
 	}
 	
 	protected void setActionAssociationInGoal() {
+		clsGoalTools.setAssociatedAction(this.moGoal, this.moAction);
+		
 		//Get the supportive data structure
-		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		//clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 				
 		//Associate this structure with the action
-		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+		//clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
 	}
 
 	

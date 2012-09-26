@@ -8,9 +8,11 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
@@ -274,6 +276,12 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 						oResult += oEntry.toString() + ","; 
 					}
 				}
+			} else if (this.moContentType.equals(eContentType.GOAL)) {
+				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
+				if (oConditionList.isEmpty()==false) {
+					oResult += oConditionList.toString();
+				}
+				
 			}
 
 			return oResult; 

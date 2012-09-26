@@ -42,6 +42,5 @@ public enum eCondition {
 	
 	PANIC,
 	
-	
 	NEED_INTERNAL_INFO_SET;			//Phantasy was already triggered
 }

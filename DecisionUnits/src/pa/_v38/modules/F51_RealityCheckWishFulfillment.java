@@ -590,9 +590,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private void processContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
-		//Process the continued goal
+		//Process the continued goal, in order to update the status
 		//This status is processed and removed: IS_NEW_CONTINUED_GOAL
 		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal);
+		
+		//Process the codelets once again
 		
 		
 		//SupportDataStructureType
@@ -676,6 +678,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		} else {
 			clsGoalTools.removeAllTaskStatus(poContinuedGoal);
 			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.IS_DRIVE_SOURCE);
 		}
 		
 		//-----------------------------------------------------//

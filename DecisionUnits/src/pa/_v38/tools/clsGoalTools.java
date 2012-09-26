@@ -89,7 +89,7 @@ public class clsGoalTools {
 		
 		//--- Add preferred action to the goal --- //
 		if (poPreferredAction.equals(eAction.NULLOBJECT)==false) {
-			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction.toString());
+			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction);
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, oPreferredActionMesh, 0, 1.0, eContentType.PREFERREDACTION, ePredicate.HASPREFERREDACTION, false);
 		}
 		
@@ -295,7 +295,9 @@ public class clsGoalTools {
 		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 		
 		for (clsWordPresentation oTaskStatus : oFoundStructureList) {
-			clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			if (oTaskStatus.getMoContent().equals(poTask.toString())) {
+				clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			}
 		}
 	}
 	

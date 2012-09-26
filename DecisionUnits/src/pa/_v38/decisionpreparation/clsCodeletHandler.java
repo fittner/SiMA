@@ -8,6 +8,11 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
+import pa._v38.decisionpreparation.actioncodeletes.clsACExecuteExternalAction;
+import pa._v38.decisionpreparation.actioncodeletes.clsACFlee;
+import pa._v38.decisionpreparation.actioncodeletes.clsACFocusMovement;
+import pa._v38.decisionpreparation.actioncodeletes.clsACFocusOn;
+import pa._v38.decisionpreparation.actioncodeletes.clsACPerformBasicActAnalysis;
 import pa._v38.decisionpreparation.actioncodeletes.clsACSendToPhantasy;
 import pa._v38.decisionpreparation.decisioncodelets.clsDCCheckFocusExists;
 import pa._v38.decisionpreparation.decisioncodelets.clsDCDriveContinousAnalysis;
@@ -71,14 +76,39 @@ public class clsCodeletHandler {
 	}
 	
 	private void registerCodelets() {
+		//Decision codelets
 		clsDCCheckFocusExists oCheckFocus = new clsDCCheckFocusExists(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oCheckFocus.toString());
+		System.out.println("Codelet registered: " + oCheckFocus.toString());
 		
 		clsDCDriveContinousAnalysis oContinousAnalysis = new clsDCDriveContinousAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oContinousAnalysis.toString());
+		System.out.println("Codelet registered: " + oContinousAnalysis.toString());
+		
+		//Action codelets
+		clsACExecuteExternalAction oACExecuteExternalAction = new clsACExecuteExternalAction(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsLogger.jlog.debug("Codelet registered: " + oACExecuteExternalAction.toString());
+		System.out.println("Codelet registered: " + oACExecuteExternalAction.toString());
+		
+		clsACFlee oACFlee = new clsACFlee(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsLogger.jlog.debug("Codelet registered: " + oACFlee.toString());
+		System.out.println("Codelet registered: " + oACFlee.toString());
+		
+		clsACFocusMovement oACFocusMovement = new clsACFocusMovement(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsLogger.jlog.debug("Codelet registered: " + oACFocusMovement.toString());
+		System.out.println("Codelet registered: " + oACFocusMovement.toString());
+		
+		clsACFocusOn oACFocuOn = new clsACFocusOn(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsLogger.jlog.debug("Codelet registered: " + oACFocuOn.toString());
+		System.out.println("Codelet registered: " + oACFocuOn.toString());
+		
+		clsACPerformBasicActAnalysis oACPerformBasicActAnalysis = new clsACPerformBasicActAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this);
+		clsLogger.jlog.debug("Codelet registered: " + oACPerformBasicActAnalysis.toString());
+		System.out.println("Codelet registered: " + oACPerformBasicActAnalysis.toString());
 		
 		clsACSendToPhantasy oACSendToPhantasy = new clsACSendToPhantasy(this.moEnvironmentalImage, this.moShortTermMemory, this);
 		clsLogger.jlog.debug("Codelet registered: " + oACSendToPhantasy.toString());
+		System.out.println("Codelet registered: " + oACSendToPhantasy.toString());
 	}
 	
 	public ArrayList<clsCodelet> getMatchingCodelets(clsWordPresentationMesh poGoal) {
@@ -126,13 +156,14 @@ public class clsCodeletHandler {
 		for (clsCodelet oCodelet : oCodeletList) {
 			oCodelet.assignGoal(poGoal);
 			oCodelet.startCodelet();
-			clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + "executed");
+			clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + " executed");
 			oCodelet.clearGoal();
 		}
 	}
 	
 	public void executeMatchingCodelets(clsWordPresentationMesh poGoal) {
-		this.executeCodeletListOnGoal(this.getMatchingCodelets(poGoal), poGoal);
+		ArrayList<clsCodelet> oCList = this.getMatchingCodelets(poGoal);
+		this.executeCodeletListOnGoal(oCList, poGoal);
 	}
 	
 	

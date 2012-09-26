@@ -18,22 +18,21 @@ import pa._v38.storage.clsShortTermMemory;
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 12:02:42
+ * 26.09.2012, 20:27:43
  * 
  */
-public class clsACPerformBasicActAnalysis extends clsActionCodelet {
+public class clsACFlee extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 12:02:57
+	 * @since 26.09.2012 20:28:12
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACPerformBasicActAnalysis(
-			clsWordPresentationMesh poEnvironmentalImage,
+	public clsACFlee(clsWordPresentationMesh poEnvironmentalImage,
 			clsShortTermMemory poShortTermMemory,
 			clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
@@ -42,13 +41,13 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
 	protected void processGoal() {
-		this.generateAction(eAction.PERFORM_BASIC_ACT_ANALYSIS);
+		this.generateAction(eAction.FLEE);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
@@ -57,19 +56,19 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_BASIC_ACT_ANALYSIS, eCondition.NEED_INTERNAL_INFO_SET));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.PANIC));
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -81,13 +80,13 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "PERFORM_BASIC_ACT_ANALYSIS";
+		this.moCodeletName = eAction.FLEE.toString();
 		
 	}
 

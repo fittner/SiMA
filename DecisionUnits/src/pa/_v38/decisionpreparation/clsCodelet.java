@@ -102,7 +102,7 @@ public abstract class clsCodelet {
 			oResult += oC.toString() + "; ";
 		}
 		
-		oResult+=this.moCodeletName + ", Postconditions: ";
+		oResult+= ", Postconditions: ";
 		for (clsConditionGroup oC :moPostConditionGroupList) {
 			oResult += oC.toString() + "; ";
 		}

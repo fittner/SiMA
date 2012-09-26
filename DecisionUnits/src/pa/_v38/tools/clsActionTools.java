@@ -43,8 +43,32 @@ public class clsActionTools {
 		return moNullObjectWPM;
 	}
 	
-	public static clsWordPresentationMesh createAction(String poAction) {
-		return clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ACTION, poAction), new ArrayList<clsAssociation>());
+	public static clsWordPresentationMesh createAction(eAction poAction) {
+		clsWordPresentationMesh oResult = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.ACTION, poAction.toString()), new ArrayList<clsAssociation>());
+		
+		clsActionTools.setActionType(oResult);
+		
+		return oResult;
+	}
+	
+	private static void setActionType(clsWordPresentationMesh oResult) {
+		
+		if (clsActionTools.getAction(oResult).equals(eAction.FOCUS_ON.toString()) || 
+				clsActionTools.getAction(oResult).equals(eAction.SEND_TO_PHANTASY.toString()) || 
+				clsActionTools.getAction(oResult).equals(eAction.FOCUS_MOVE_FORWARD.toString()) || 
+				clsActionTools.getAction(oResult).equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString()) ||
+				clsActionTools.getAction(oResult).equals(eAction.NONE.toString())) {
+			
+			clsActionTools.setActionType(oResult, eActionType.SINGLE_INTERNAL);
+			
+		} else if (clsActionTools.getAction(oResult).equals(eAction.SEARCH1) ||
+				clsActionTools.getAction(oResult).equals(eAction.FLEE)) {
+			
+			clsActionTools.setActionType(oResult, eActionType.COMPOSED_EXTERNAL);
+		} else {
+			clsActionTools.setActionType(oResult, eActionType.SINGLE_EXTERNAL);
+		}
+		
 	}
 	
 //	public static clsWordPresentationMesh getSupportiveDataStructureFromHashCode(clsWordPresentationMesh poAction, clsShortTermMemory poSTM) {
