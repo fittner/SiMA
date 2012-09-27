@@ -207,6 +207,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		ArrayList<clsAssociation> oMemoryDMAssociations =new ArrayList<clsAssociation>();
 				
 		clsThingPresentationMesh oDriveObject = null;
+		clsThingPresentationMesh oDriveObjectActivated = null;
+		
 		clsThingPresentationMesh  oDriveAim = null;
 		
 		double rCurrentMatchFactor = 0.0;
@@ -249,7 +251,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						// get similar memory-dm
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
-						// weighting of matchingfactor
+						// 
 						rCurrentMatchFactor = oSearchPair.a; 
 						
 						// take the best match
@@ -266,18 +268,19 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							// weighting of asscoiation-weight with QoA
 							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor*oMemoryDM.getQuotaOfAffect()));
 							
-							oDriveObject = oMemoryDM.getActualDriveObject();
+							
 							
 							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
-							if(oDriveObject != null) {
-								oDriveObject.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
+							if(oMemoryDM.getActualDriveObject() != null) {
+								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
 							}
 														
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {
 								rMaxMatchfactor = rCurrentMatchFactor; 								
 								oDriveAim = oMemoryDM.getActualDriveAim();
-								
+								oDriveObject = oMemoryDM.getActualDriveObject();
 								rSatisfactionOfActualDM = rCurrentMatchFactor;
 							}
 						}
