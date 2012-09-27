@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -89,7 +89,7 @@ public class clsGoalTools {
 		
 		//--- Add preferred action to the goal --- //
 		if (poPreferredAction.equals(eAction.NULLOBJECT)==false) {
-			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction.toString());
+			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction);
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, oPreferredActionMesh, 0, 1.0, eContentType.PREFERREDACTION, ePredicate.HASPREFERREDACTION, false);
 		}
 		
@@ -112,7 +112,7 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static clsWordPresentationMesh copyGoalWithoutTaskStatus(clsWordPresentationMesh poGoal) {
+	public static clsWordPresentationMesh copyGoalWithoutTaskStatusAndAction(clsWordPresentationMesh poGoal) {
 		clsWordPresentationMesh oResult = null;
 		
 		try {
@@ -120,6 +120,7 @@ public class clsGoalTools {
 			
 			//Remove all task status from the goal
 			clsGoalTools.removeAllTaskStatus(oResult);
+			clsGoalTools.removeAllAssociatedAction(oResult);
 			
 		} catch (CloneNotSupportedException e) {
 			System.out.println("previous goal could not be cloned");
@@ -221,7 +222,7 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void setTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static void setTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
 		//Get the current one
 		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
 		
@@ -245,13 +246,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static ArrayList<eTaskStatus> getTaskStatus(clsWordPresentationMesh poGoal) {
-		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+	public static ArrayList<eCondition> getTaskStatus(clsWordPresentationMesh poGoal) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 				
 		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
-			oResult.add(eTaskStatus.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
+			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
 		}
 	
 		
@@ -269,10 +270,10 @@ public class clsGoalTools {
 	 * @param poTask
 	 * @return
 	 */
-	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eCondition poTask) {
 		boolean bResult = false;
 		
-		ArrayList<eTaskStatus> oResult = clsGoalTools.getTaskStatus(poGoal);
+		ArrayList<eCondition> oResult = clsGoalTools.getTaskStatus(poGoal);
 		if (oResult.contains(poTask)) {
 			bResult=true;
 		}
@@ -290,11 +291,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
 		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
 		
 		for (clsWordPresentation oTaskStatus : oFoundStructureList) {
-			clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			if (oTaskStatus.getMoContent().equals(poTask.toString())) {
+				clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			}
 		}
 	}
 	
@@ -517,6 +520,40 @@ public class clsGoalTools {
 		
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:17:57
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getAssociatedAction(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION);
+		
+	} 
+	
+	/**
+	 * Set associated action
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:20:16
+	 *
+	 * @param poGoal
+	 * @param poAssociatedAction
+	 */
+	public static void setAssociatedAction(clsWordPresentationMesh poGoal, clsWordPresentationMesh poAssociatedAction) {
+		clsMeshTools.setNonUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION, poAssociatedAction, false);
+		
+	}
+	
+	public static void removeAllAssociatedAction(clsWordPresentationMesh poGoal) {
+		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASASSOCIATEDACTION);
 	}
 	
 	/**

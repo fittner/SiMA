@@ -11,10 +11,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.PatternLayout;
+
 import config.clsProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
@@ -106,6 +114,8 @@ public class clsPsychicApparatus {
 	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
 	public clsShortTermMemory moGoalMemory;
 	
+	public clsCodeletHandler moCodeletHandler;
+	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
@@ -140,6 +150,15 @@ public class clsPsychicApparatus {
 	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
+		
+		// --- Set logger properties --- //
+		clsLogger.jlog.removeAllAppenders();
+		clsLogger.jlog.setLevel(Level.ALL);
+		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+		Layout layout = new PatternLayout("(%F:%L) - %m%n");
+		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
+		
+		
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
@@ -152,6 +171,9 @@ public class clsPsychicApparatus {
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory(60, 7);
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
+		
+		//Init codelethandler
+		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
 					
 		applyProperties(poPrefix, poProp);
 		
@@ -253,7 +275,7 @@ public class clsPsychicApparatus {
 			moF20_CompositionOfFeelings = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
-			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moCodeletHandler);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
@@ -273,7 +295,7 @@ public class clsPsychicApparatus {
 			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			moF55_SuperEgoProactive = new F55_SuperEgoProactive(pre + F55_SuperEgoProactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moCodeletHandler);
 			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
 			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moEnvironmentalImageStorage);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
