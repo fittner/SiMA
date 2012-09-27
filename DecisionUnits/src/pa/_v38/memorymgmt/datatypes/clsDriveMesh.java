@@ -439,11 +439,11 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
 							oRetVal = getMatchScore(this, oDataStructure);
 							// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
-							if (oDataStructure.getQuotaOfAffect()>= this.mrQuotaOfAffect) {
+							if (oDataStructure.getQuotaOfAffect()< this.mrQuotaOfAffect) {
 								rDiffQoA = 1;
 							}
 							else {
-								rDiffQoA = 1-(this.mrQuotaOfAffect-oDataStructure.getQuotaOfAffect());
+								rDiffQoA = (this.mrQuotaOfAffect/oDataStructure.getQuotaOfAffect());
 							}
 							
 							oRetVal = (oRetVal + 1 + rDiffQoA)/3; // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
