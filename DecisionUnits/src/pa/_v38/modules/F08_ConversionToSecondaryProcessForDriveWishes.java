@@ -156,7 +156,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
@@ -165,7 +165,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		//FIXME AW .::::::: FAKE Prepare Drive input
 				clsDriveMesh oOnlyDriveMesh = null;
 				for (clsDriveMesh oDM : moDriveList_Input) {
-					if (oDM.getActualDriveObject().getMoContent().equals("REMOTEBOT")) {
+					if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
 						
 						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
