@@ -22,4 +22,5 @@ public class clsCommonCodeletTools {
 		return clsMentalSituationTools.getGoal(poMem.findPreviousSingleMemory());
 			
 	}
+	
 }

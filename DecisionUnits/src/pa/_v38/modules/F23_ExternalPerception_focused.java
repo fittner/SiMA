@@ -115,6 +115,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.listToTEXT("moDriveList", moDriveGoalList_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.valueToTEXT("mrAvailableFocusEnergy", mrAvailableFocusEnergy);

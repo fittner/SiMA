@@ -38,7 +38,7 @@ public abstract class clsActionCodelet extends clsCodelet {
 			clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
 		
-		 moExternalActionPlanner = new clsTEMPPlannerAW();
+		 moExternalActionPlanner = clsTEMPPlannerAW.getPlanner();
 		
 	}
 	
