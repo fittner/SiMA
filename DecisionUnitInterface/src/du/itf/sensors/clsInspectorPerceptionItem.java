@@ -19,6 +19,7 @@ public class clsInspectorPerceptionItem {
 	
 	public String moContent;
 	public String moContentType;
+	
 	public String moPosition;
 	public String moDistance;
 	public double moExactX;
@@ -26,4 +27,11 @@ public class clsInspectorPerceptionItem {
 	public double moSensorArousal;
 	
 
+	public String getContentType() {
+		return moContentType;
+	}
+	
+	public String getContent() {
+		return moContent;
+	}
 }
