@@ -11,6 +11,7 @@ import factories.clsSingletonSimState;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.field.grid.DoubleGrid2D;
+import sim.field.network.Network;
 import sim.physics2D.PhysicsEngine2D;
 
 /**
@@ -41,6 +42,22 @@ public class clsSingletonMasonGetter {
 	}
 	public static DoubleGrid2D getArousalGridEnvironment() {
 		return clsSingletonGridField.getField();
+	}
+	
+	//network field for TMP Network display
+	public static void setTPMNetworkField(Network poTPMNetworkField) {
+		clsSingletonTPMNetworkField.setField(poTPMNetworkField);
+	}
+	public static Network getTPMNetworkField() {
+		return clsSingletonTPMNetworkField.getField();
+	}
+	
+	//nNode field for the TPM network field see p187 of manual for explanation http://cs.gmu.edu/~eclab/projects/mason/manual.pdf
+	public static void setTPMNodeField(Continuous2D poTPMNodeField) {
+		clsSingletonTPMNodeField.setField(poTPMNodeField);
+	}
+	public static Continuous2D getTPMNodeField() {
+		return clsSingletonTPMNodeField.getField();
 	}
 	
 	public static void setSimState(SimState poSimState) {
