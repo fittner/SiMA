@@ -262,7 +262,7 @@ public class clsActTools {
 		ArrayList<clsWordPresentationMesh> MIA = clsMeshTools.getAllWPMImages(poImage, 2);
 		
 		for (clsWordPresentationMesh oWPM : MIA) {
-			clsMeshTools.removeAllNonUniquePredicateWP(oWPM, ePredicate.HASPIMATCH);
+			clsMeshTools.removeAllNonUniquePredicateSecondaryDataStructure(oWPM, ePredicate.HASPIMATCH);
 		}
 		
 	}

@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import config.clsProperties;
+import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -22,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
@@ -99,6 +100,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
+	private clsCodeletHandler moCodeletHandler;
+	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -112,7 +115,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -123,6 +126,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		moShortTimeMemory = poShortTimeMemory;
 		//moGoalMemory = poGoalMemory;
 		moEnvironmentalImageStorage = poTempLocalizationStorage;
+		
+		moCodeletHandler = poCodeletHandler;
 	}
 
 	/* (non-Javadoc)
@@ -454,19 +459,22 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//--- Remove the temporal data from the last turn ---//
 			if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.MEMORYDRIVE)==true) {
 				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				
 				//Remove all PI-matches from the images
 				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(oNewGoalFromPrevious);
 				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
 				clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
+				clsGoalTools.setTaskStatus(oNewGoalFromPrevious, eCondition.IS_NEW_CONTINUED_GOAL);
 			
 				//Add to goallist
 				poGoalList.add(oNewGoalFromPrevious);
 				
 				oResult = oNewGoalFromPrevious;
 			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {			
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatus(poPreviousGoal);
+				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+				clsGoalTools.setTaskStatus(oNewGoalFromPrevious, eCondition.IS_DRIVE_SOURCE);
+				clsGoalTools.setTaskStatus(oNewGoalFromPrevious, eCondition.IS_NEW_CONTINUED_GOAL);
 				poGoalList.add(oNewGoalFromPrevious);
 				
 				oResult = oNewGoalFromPrevious;
@@ -483,6 +491,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			} else {
 				oResult = oEquivalentGoalList.get(0);
 			}
+			
+			clsGoalTools.setTaskStatus(oResult, eCondition.IS_NEW_CONTINUED_GOAL);
 			
 				
 			
@@ -506,13 +516,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
 		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
 			//Set the NEED_FOCUS for all focus images
-			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_GOAL_FOCUS);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
 			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
-			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.IS_DRIVE_SOURCE);
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE)) {
 			//Set the need to perform a basic act recognition analysis
-			clsGoalTools.setTaskStatus(poGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.IS_MEMORY_SOURCE);
 		}
 	}
 	
@@ -577,6 +590,11 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private void processContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousMentalSituation, clsWordPresentationMesh poPreviousGoal, eAction poPreviousAction) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
+		//Process the continued goal, in order to update the status
+		//This status is processed and removed: IS_NEW_CONTINUED_GOAL
+		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal);
+		
+		//Process the codelets once again
 		
 		
 		//SupportDataStructureType
@@ -612,16 +630,20 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//--- CHECK PRECONDITIONS FROM LAST GOAL -------------//
 		//Set the task to trigger search
+		
+		
 		//Transfer from previous
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_INTERNAL_INFO_SET)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
-		}
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
-		}
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.GOAL_NOT_REACHABLE)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_NOT_REACHABLE);
-		}
+		//this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal);
+		
+//		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.NEED_INTERNAL_INFO_SET)==true) {
+//			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO_SET);
+//		}
+//		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.FOCUS_MOVEMENTACTION_SET)==true) {
+//			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
+//		}
+//		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
+//			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.GOAL_NOT_REACHABLE);
+//		}
 		
 		//-----------------------------------------------------//
 		
@@ -630,8 +652,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//1. Check if phantasy was performed actually performed for this goal in the last turn, therefore, get the action
 		if (poPreviousAction.equals(eAction.SEND_TO_PHANTASY)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
 			
 			//Set the focus structure for phantasy
 			clsActionTools.setSupportiveDataStructure(poContinuedGoal, clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
@@ -641,7 +663,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true ||
 				poPreviousAction.equals(eAction.FOCUS_SEARCH1)==true) {
 		
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Set first focus
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);	//Set first focus
 			
 		}
 		
@@ -651,11 +673,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 					poPreviousAction.equals(eAction.SEARCH1)==true) {
 			 	
 			//Remove the focus movement as a movement has happened
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
 			
 		} else {
 			clsGoalTools.removeAllTaskStatus(poContinuedGoal);
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.IS_DRIVE_SOURCE);
 		}
 		
 		//-----------------------------------------------------//
@@ -678,7 +701,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//--- CHECK PRECONDITIONS FROM LAST GOAL --------------//
 		
 		//Prove if FOCUS_SET can be kept
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_ON_SET)) {
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.FOCUS_ON_SET)) {
 			//If focus was set the last time, check if focus is still there in the STM
 			//Find the supportive structure in the STM
 			
@@ -689,23 +712,23 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(poPreviousGoal).getMoDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
-					clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
+					clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_ON_SET);
 					bEntityInFocus = true;
 					break;
 				}
 			}
 			
 			if (bEntityInFocus==false) {
-				clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+				clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_GOAL_FOCUS);
 			}
 		}
 		
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.FOCUS_MOVEMENTACTION_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
 		}
 		
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION);
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		}
 		
 		//-------------------------------------------------------//
@@ -715,14 +738,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		if (poPreviousAction.equals(eAction.FOCUS_ON)==true) {
 			//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
 			//As the environmental image is not "mitgedreht", only fix positions are used.
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_REACHABLE_IN_PERCEPTION);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_ON_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		
 		} else if (poPreviousAction.equals(eAction.FOCUS_MOVE_FORWARD)==true || 
 				poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || 
 				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
 			
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
 			//clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
 		
 		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || 
@@ -730,14 +753,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
 			
 			//Remove FOCUS_MOVEMENTACTION_SET if set
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_ON_SET);
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.FOCUS_ON_SET);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_GOAL_FOCUS);
 			
 		} else {
 			//Deafult case
 			clsGoalTools.removeAllTaskStatus(poContinuedGoal);
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_GOAL_FOCUS);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_GOAL_FOCUS);
 		}
 		
 	}
@@ -758,16 +781,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//--- CHECK PRECONDITIONS FROM LAST GOAL --------------//
 		
 		//Check the status of the act. If the match has changed, perform basic act analysis again
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.NEED_INTERNAL_INFO_SET)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.NEED_INTERNAL_INFO_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO_SET);
 		}
 		
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.FOCUS_MOVEMENTACTION_SET)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
 		}
 		
-		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eTaskStatus.PERFORM_RECOMMENDED_ACTION)==true) {
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.PERFORM_RECOMMENDED_ACTION);
+		if (clsGoalTools.checkIfTaskStatusExists(poPreviousGoal, eCondition.PERFORM_RECOMMENDED_ACTION)==true) {
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.PERFORM_RECOMMENDED_ACTION);
 		}
 		
 		//-------------------------------------------------------//
@@ -785,8 +808,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				clsGoalTools.setSupportiveDataStructure(poContinuedGoal, oAct);
 			}
 			
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//Trigger search
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//Trigger search
 			
 		} else if (poPreviousAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS)==true) {
 			//Perform basic act analysis as the act is completed
@@ -806,14 +829,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			
 			//-----------------------------------------------//
 			
-			ArrayList<eTaskStatus> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+			ArrayList<eCondition> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(poContinuedGoal), clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
 			
 			//Check if act analysis failed and remove all status if this is the case
-			if (oTaskStatusList.contains(eTaskStatus.GOAL_NOT_REACHABLE)==true) {
+			if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
 				clsGoalTools.removeAllTaskStatus(poContinuedGoal);
-				clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.GOAL_NOT_REACHABLE);
+				clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.GOAL_NOT_REACHABLE);
 			} else {
-				for (eTaskStatus oTaskStatus : oTaskStatusList) {
+				for (eCondition oTaskStatus : oTaskStatusList) {
 					clsGoalTools.setTaskStatus(poContinuedGoal, oTaskStatus);
 				}
 			}
@@ -822,18 +845,18 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 				poPreviousAction.equals(eAction.FOCUS_TURN_LEFT)==true || 
 				poPreviousAction.equals(eAction.FOCUS_TURN_RIGHT)==true) {
 			
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);	//Focus has been set. Now a movement can take place
 					
 		} else if (poPreviousAction.equals(eAction.MOVE_FORWARD)==true || poPreviousAction.equals(eAction.TURN_LEFT)==true || poPreviousAction.equals(eAction.TURN_RIGHT)==true) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.FOCUS_MOVEMENTACTION_SET);
-			clsGoalTools.removeTaskStatus(poContinuedGoal, eTaskStatus.PERFORM_RECOMMENDED_ACTION);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
+			clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.PERFORM_RECOMMENDED_ACTION);
 			
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
 			 
 		} else {
 			//Default case
-			clsGoalTools.setTaskStatus(poContinuedGoal, eTaskStatus.NEED_INTERNAL_INFO);
+			clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.NEED_INTERNAL_INFO);
 		}
 		
 		//-------------------------------------------------------//
@@ -880,8 +903,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poPreviousAct
 	 * @return
 	 */
-	private ArrayList<eTaskStatus> performBasicActAnalysis(clsWordPresentationMesh poAct, clsWordPresentationMesh poPreviousAct) {
-		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+	private ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsWordPresentationMesh poPreviousAct) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		//Find the moment in the act
 		boolean bMomentExists = analyzeMomentInAct(poAct, poPreviousAct);
@@ -901,9 +924,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 
 		//Return the recommended action here
 		if (bMomentExists==true && bExpectationExists==true) {
-			oResult.add(eTaskStatus.PERFORM_RECOMMENDED_ACTION);
+			oResult.add(eCondition.PERFORM_RECOMMENDED_ACTION);
 		} else {
-			oResult.add(eTaskStatus.GOAL_NOT_REACHABLE);
+			oResult.add(eCondition.GOAL_NOT_REACHABLE);
 		}
 
 		

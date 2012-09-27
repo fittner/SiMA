@@ -32,4 +32,7 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public eAntennaPositions getAntennaPositionLeft();
 	public eAntennaPositions getAntennaPositionRight();
 	public eDistance getDistance();
+	public double getExactDebugX();
+	public double getExactDebugY();
+	public double getDebugSensorArousal();
 }

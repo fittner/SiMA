@@ -5,7 +5,11 @@
  */
 package pa;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import du.itf.actions.itfActionProcessor;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
 /**
@@ -42,5 +46,15 @@ public interface itfProcessor {
 	 * @param poData
 	 */
 	public abstract void applySensorData(clsSensorData poData);
+	
+	
+	/**
+	 * Return the result of the deliberation.
+	 *
+	 * @since 11.07.2011 16:57:26
+	 *
+	 * @param poActionContainer
+	 */
+	public abstract HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData();
 
 }

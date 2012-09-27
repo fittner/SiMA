@@ -33,7 +33,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -1019,7 +1019,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
 				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
-				clsGoalTools.setTaskStatus(oResult, eTaskStatus.PANIC);
+				clsGoalTools.setTaskStatus(oResult, eCondition.PANIC);
 			}	
 		}
 		
@@ -1044,7 +1044,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
 		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
 			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-			if (clsGoalTools.checkIfTaskStatusExists(oSTM.b, eTaskStatus.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
+			if (clsGoalTools.checkIfTaskStatusExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
 				oRemoveList.add(oSTM.b);
 			}
 		}

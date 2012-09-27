@@ -6,13 +6,18 @@
  */
 package pa._v38.modules;
 
+import java.awt.Color;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.SortedMap;
+//iport java.util.TreeSet;
 import java.util.TreeSet;
 import config.clsProperties;
 import du.enums.eDistance;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -41,6 +46,9 @@ import pa._v38.memorymgmt.enums.eEntityExternalAttributes;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.symbolization.eSymbolExtType;
+import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
+import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
+import pa._v38.symbolization.representationsymbol.itfIsContainer;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -80,6 +88,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 	ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
 	
+	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
+	
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 
@@ -99,6 +109,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		moPerceptionSymbolsForInspectors = new ArrayList<clsInspectorPerceptionItem>();
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -195,6 +206,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_basic() {
 	 
 		
+		PrepareSensorInformatinForInspector(moEnvironmentalData);
+		
+		
 		//here also the body data should be processed, but nothing is coming from this path until now.
 		
 		// 1. Convert Neurosymbols to TPs/TPMs
@@ -249,12 +263,25 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
 		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
 		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
 				
 		//Add Distance to SELF
 		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
 		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
 		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-						
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
+		
+		//Add color and shape
+		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
+		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
+		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
+		
+		clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
+		clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
+		oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
+		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
+		
 		moEnvironmentalTP.add(oSelfContainer);		
 		
 		
@@ -273,6 +300,145 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
 	}
+	
+	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){
+		return moPerceptionSymbolsForInspectors;
+	}
+
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 19.09.2012 16:00:47
+	 *
+	 * @param moEnvironmentalData2
+	 */
+	private void PrepareSensorInformatinForInspector( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
+
+		moPerceptionSymbolsForInspectors.clear();
+		
+		for(itfSymbol oSymbol : moEnvironmentalData.values()){
+			if(oSymbol!=null){
+				for(itfSymbol poSymbolObject : oSymbol.getSymbolObjects()) {
+					
+					if(poSymbolObject instanceof itfIsContainer) {
+					
+					
+					clsInspectorPerceptionItem oInspectorItem = new clsInspectorPerceptionItem();
+					
+					Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
+					eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
+					oInspectorItem.moContentType = oContentType.toString();
+					oInspectorItem.moContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
+					
+					if (oContentType.equals(eContentType.POSITIONCHANGE)) {
+						//do nothing, we dont want this sensor info
+					}
+					else
+					{
+					
+						for(Method oM : oMethods){
+							if (oM.getName().equals("getSymbolObjects")) {
+								continue;
+							}
+							
+							if (oM.getName().equals("getExactDebugX")) {
+								try {
+									oInspectorItem.moExactX = Double.parseDouble( (String) oM.invoke(poSymbolObject,new Object[0]).toString() );
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									e.printStackTrace();
+								}
+							}
+							
+							if (oM.getName().equals("getExactDebugY")) {
+								try {
+									oInspectorItem.moExactY = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									e.printStackTrace();
+								}
+							}
+							
+							
+							if (oM.getName().equals("getDebugSensorArousal")) {
+								try {
+									oInspectorItem.moSensorArousal = 1;
+									//oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+//								} catch (IllegalAccessException e) {
+//									e.printStackTrace();
+//								} catch (InvocationTargetException e) {
+//									e.printStackTrace();
+								}
+							}
+							
+							eContentType oContentTypeTP = eContentType.DEFAULT; 
+							Object oContentTP = "DEFAULT";
+							
+							oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
+									
+		
+							if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
+								oContentTypeTP = eContentType.POSITION; 
+								try {
+									oInspectorItem.moPosition = oM.invoke(poSymbolObject,new Object[0]).toString();
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									e.printStackTrace();
+								}
+								
+							}
+							
+							if (oContentTypeTP.equals(eContentType.Distance)) {
+								oContentTypeTP = eContentType.DISTANCE;
+								try {
+									oInspectorItem.moDistance = oM.invoke(poSymbolObject,new Object[0]).toString();
+								} catch (IllegalArgumentException e) {
+									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									e.printStackTrace();
+								}
+							}
+
+						}
+						
+						moPerceptionSymbolsForInspectors.add(oInspectorItem);	
+					}
+						
+						}
+					else {
+						//TODO)
+						}				
+					}
+				
+				}	
+			}
+		}
+		
+	
+	
+	private static String removePrefix(String poName) {
+		if (poName.startsWith("get")) {
+			poName = poName.substring(3);
+		}
+				
+		return poName;
+	}
+	
+	
+	
 
 	/* (non-Javadoc)
 	 *
@@ -349,19 +515,32 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					moEnvironmentalTP.remove(oDS);			
 				}
 		
-		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
-		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
-		//Add Position to SELF
-		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
-		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		
-		//Add Distance to SELF
-		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
-		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+				//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
+				//TODO @CM: Please adapt the SELF for your needs. 
+				clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
+				clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+				//Add Position to SELF
+				clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
+				clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
+				oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
+						
+				//Add Distance to SELF
+				clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
+				clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
+				oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
+				
+				//Add color and shape
+				clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
+				clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
+				oSelfContainer.addMoAssociatedDataStructure(oColorAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
+				
+				clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
+				clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
+				oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
+				((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 				
 		moEnvironmentalTP.add(oSelfContainer);
 				

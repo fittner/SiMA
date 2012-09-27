@@ -13,11 +13,19 @@ package pa._v38.memorymgmt.enums;
  * 16.07.2012, 13:34:39
  * 
  */
-public enum eTaskStatus {
+public enum eCondition {
 	NULLOBJECT,
 	NOTHING,
 	
-	//Initial
+	//Goaltype conditions
+	IS_DRIVE_SOURCE,
+	IS_PERCEPTIONAL_SOURCE,
+	IS_MEMORY_SOURCE,
+	
+	//Model Temporal condition
+	IS_NEW_CONTINUED_GOAL,
+	
+	//Initial (deafult)
 	NEED_BASIC_ACT_ANALYSIS,		//Needs an act analysis. This option has to be triggered by an action
 	NEED_GOAL_FOCUS,				//Needs a set focus
 	NEED_INTERNAL_INFO,				//Trigger phantasy
@@ -33,7 +41,6 @@ public enum eTaskStatus {
 	GOAL_REACHABLE_IN_ACT,
 	
 	PANIC,
-	
 	
 	NEED_INTERNAL_INFO_SET;			//Phantasy was already triggered
 }

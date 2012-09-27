@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
+import du.enums.eShapeType;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -23,6 +24,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
@@ -154,44 +156,53 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
-//	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
-//		//FIXME AW .::::::: FAKE Prepare Drive input
-//				clsDriveMesh oOnlyDriveMesh = null;
-//				for (clsDriveMesh oDM : moDriveList_Input) {
-//					if (oDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-//						//Change to cake
-////						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
-////						for (clsAssociation oAss : oAssList) {
-////							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
-////							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-////								//Get the association with the carrot
-////								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
-////								{
-////									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-////									if(oTPM.getMoContentType() == eContentType.ENTITY) {
-////										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
-////									}
-////								}
-////							}
-////						}
-//						
-//						//Set mrPleasure to max
-//						oDM.setQuotaOfAffect(1.0);
-//						
-//						oOnlyDriveMesh = oDM;
-//						
-//						break;
-//					}
-//				}
-//				
-//				moDriveList_Input.clear();
-//				moDriveList_Input.add(oOnlyDriveMesh);
-//	}
+	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
+		//FIXME AW .::::::: FAKE Prepare Drive input
+				clsDriveMesh oOnlyDriveMesh = null;
+				for (clsDriveMesh oDM : moDriveList_Input) {
+					if (oDM.getActualDriveObject().getMoContent().equals("REMOTEBOT")) {
+						//Change to cake
+						
+						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						
+						try {
+							oDM.setActualDriveObject(oTPM, 1.0);
+						} catch (Exception e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
+						}
+//						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
+//						for (clsAssociation oAss : oAssList) {
+//							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
+//							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
+//								//Get the association with the carrot
+//								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
+//								{
+//									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
+//									if(oTPM.getMoContentType() == eContentType.ENTITY) {
+//										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
+//									}
+//								}
+//							}
+//						}
+						
+						//Set mrPleasure to max
+						oDM.setQuotaOfAffect(1.0);
+						
+						oOnlyDriveMesh = oDM;
+						
+						break;
+					}
+				}
+				
+				moDriveList_Input.clear();
+				moDriveList_Input.add(oOnlyDriveMesh);
+	}
 	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description

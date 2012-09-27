@@ -428,6 +428,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		double rSLEEP = 0.0;
 		double rEXCREMENT = 0.0;
 		double rSEARCH1 = 0.0;
+		double rBITE = 0.0;
+		double rFOCUS_ON = 0.0;
+		double rSEND_TO_PHANTASY = 0.0;
+		double rFOCUS_MOVEMENT = 0.0;
+		double rFLEE = 0.0;
 		double rUNKNOWN = 0.0;
 		
 		String oCurrentActionCommand = "";
@@ -452,6 +457,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			rEXCREMENT = 1.0;
 		} else if (oCurrentActionCommand.equals("SEARCH1")) {
 			rSEARCH1 = 1.0;
+		} else if (oCurrentActionCommand.equals("BITE")) {
+			rBITE = 1.0;
+		} else if (oCurrentActionCommand.equals("FOCUS_ON")) {
+			rFOCUS_ON = 1.0;
+		} else if (oCurrentActionCommand.equals("SEND_TO_PHANTASY")) {
+			rSEND_TO_PHANTASY = 1.0;
+		} else if (oCurrentActionCommand.equals("FOCUS_MOVEMENT")) {
+			rFOCUS_MOVEMENT = 1.0;
+		} else if (oCurrentActionCommand.equals("FLEE")) {
+			rFLEE = 1.0;
 		} else {
 			rUNKNOWN = 1.0;
 		}
@@ -463,6 +478,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		oRetVal.add(rSLEEP);
 		oRetVal.add(rEXCREMENT);
 		oRetVal.add(rSEARCH1);
+		oRetVal.add(rBITE);
+		oRetVal.add(rFOCUS_ON);
+		oRetVal.add(rSEND_TO_PHANTASY);
+		oRetVal.add(rFOCUS_MOVEMENT);
+		oRetVal.add(rFLEE);
 		oRetVal.add(rUNKNOWN);
 
 		return oRetVal; 
@@ -486,6 +506,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		oCaptions.add("SLEEP");
 		oCaptions.add("EXCREMENT");
 		oCaptions.add("SEARCH1");
+		oCaptions.add("BITE");
+		oCaptions.add("FOCUS_ON");
+		oCaptions.add("SEND_TO_PHANTASY");
+		oCaptions.add("FOCUS_MOVEMENT");
+		oCaptions.add("FLEE");
 		oCaptions.add("UNKNOWN");
 		
 		return oCaptions;
