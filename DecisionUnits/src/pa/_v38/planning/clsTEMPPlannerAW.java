@@ -39,10 +39,12 @@ import pa._v38.tools.planningHelpers.eEntity;
  */
 public class clsTEMPPlannerAW {
 	
+	private static clsTEMPPlannerAW moTEMPPlanner = null;
+	
 	ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	PlanningGraph plGraph;
 	
-	public clsTEMPPlannerAW() {
+	private clsTEMPPlannerAW() {
 		moAvailablePlanFragments = TestDataCreator.generateTestPlans_AW();
 
 		/** init planning engine */
@@ -63,6 +65,23 @@ public class clsTEMPPlannerAW {
 		//moAvailablePlanFragments = poAvailablePlanFragments;
 		//plGraph = poGraph;
 	}
+	
+	/**
+	 * Singleton for the Tempplanner
+	 * 
+	 * @since 27.09.2012 10:01:22
+	 * 
+	 * @return the moTEMPPlanner
+	 */
+	public static clsTEMPPlannerAW getPlanner() {
+		if (moTEMPPlanner==null) {
+			moTEMPPlanner = new clsTEMPPlannerAW();
+		}  
+			
+		return moTEMPPlanner;
+	}
+
+	
 	
 	public ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception, clsWordPresentationMesh poGoal) {
 		ArrayList<clsWordPresentationMesh> oResult =  new ArrayList<clsWordPresentationMesh>();
@@ -392,5 +411,7 @@ public class clsTEMPPlannerAW {
 		// add perception
 		return oRetVal;
 	}
+
+
 	
 }
