@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
-import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
@@ -30,10 +29,13 @@ import javax.swing.ToolTipManager;
 
 import org.jgraph.JGraph;
 
+import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
+import org.jgraph.graph.DefaultPort;
 import org.jgraph.graph.GraphConstants;
+import org.jgraph.graph.GraphLayoutCache;
 
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
@@ -55,17 +57,20 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
+import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
 import com.jgraph.components.labels.RichTextValue;
 import com.jgraph.example.JGraphGraphFactory;
 
+import com.jgraph.layout.DataGraphLayoutCache;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 
+import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import com.jgraph.layout.tree.JGraphTreeLayout;
 
 import du.itf.actions.clsActionCommand;
@@ -103,14 +108,16 @@ public class clsCompareGraph extends JGraph {
 	private boolean showInternAssoc = true;
 	private boolean showExternAssoc = false;
 	
+	private boolean showInternAssocFirstLevel = false;
+	private boolean showInternAssocBest = false;
+	
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
-	protected JCheckBox flushOriginCheckBox = new JCheckBox("Flush", true);
 	
 	private JGraph me;
 	
 	
-	private JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
+
 	
 	//colors for all datatypes, used in clsMeshBase:
 	protected static final Color moColorTP = new Color(0xff99FF33); //light green
@@ -153,6 +160,22 @@ public class clsCompareGraph extends JGraph {
 	
 	public boolean isInternAssocShown(){
 		return showInternAssoc;
+	}
+	
+	public void showInternAssocFirstLevel(boolean i){
+		showInternAssocFirstLevel =i;
+	}
+	
+	public boolean isInternAssocFirstLevelShown(){
+		return showInternAssocFirstLevel;
+	}
+	
+	public void showInternAssocBest(boolean i){
+		showInternAssocBest =i;
+	}
+	
+	public boolean isInternAssocBestShown(){
+		return showInternAssocBest;
 	}
 	
 	public void showExternAssoc(boolean i){
@@ -278,7 +301,7 @@ public class clsCompareGraph extends JGraph {
 	    		
 	    	}
     	}
-    	redraw();
+    	updateModel();
     	
     	
     }
@@ -321,7 +344,7 @@ public class clsCompareGraph extends JGraph {
 		// When not using a JGraph instance, a GraphLayoutCache does not
 		// automatically listen to model changes. Therefore, use a special
 		// layout cache with a built-in listener
-		/* GraphLayoutCache cache = new DataGraphLayoutCache(model,
+	/*	 GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
 					private static final long serialVersionUID = 5527702598146461914L;
 					@Override
@@ -352,6 +375,70 @@ public class clsCompareGraph extends JGraph {
 		JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
 		facade.setOrdered(true);
 		// Create the layout to be applied (Tree)
+		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
+		
+		//layout.setNodeDistance(15); //minimal distance from node to node horizontal
+		//layout.setLevelDistance(30); //minimal distance from node to node vertical
+		layout.setOrientation(SwingConstants.WEST);
+		// Run the layout, the facade holds the results
+		layout.run(facade);
+		// Obtain the output of the layout from the facade. The second
+		// parameter defines whether or not to flush the output to the
+		// origin of the graph
+		Map<?,?> nested = facade.createNestedMap(true, true);
+		// Apply the result to the graph
+		
+		
+	//	cache.edit(nested);
+		
+		setModel(model);
+
+		getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+
+		//setGraphLayoutCache(cache);
+		updateUI();
+	}
+    
+    protected void redraw() {
+
+		//clear the cell list, or u get doubles, tripples, ...
+
+		// Construct Model and GraphLayoutCache
+		GraphModel model = new RichTextGraphModel();
+
+		// When not using a JGraph instance, a GraphLayoutCache does not
+		// automatically listen to model changes. Therefore, use a special
+		// layout cache with a built-in listener
+		 GraphLayoutCache cache = new DataGraphLayoutCache(model,
+				new DefaultCellViewFactory() {
+					private static final long serialVersionUID = 5527702598146461914L;
+					@Override
+				protected VertexView createVertexView(Object cell) {
+						 // Return an EllipseView for EllipseCells
+					   // TODO... if (cell instanceof EllipseCell)
+					   //   return new EllipseView(cell);
+					    // Else Call Superclass
+					    return new MultiLineVertexView(cell);
+					}
+				}, true);
+		
+		
+		//transfer graph-cells from arraylist to fix-size array (needed for registration)
+		
+		DefaultGraphCell[] cells = new DefaultGraphCell[moCellList.size()];
+		for(int i=0; i<moCellList.size(); i++) {
+			cells[i] = (DefaultGraphCell)moCellList.get(i);
+			
+		}
+		
+		// Insert the cells via the cache
+		JGraphGraphFactory.insert(model, cells);
+		// Create the layout facade. When creating a facade for the tree
+		// layouts, pass in any cells that are intended to be the tree roots
+		// in the layout
+		JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
+		facade.setOrdered(true);
+		// Create the layout to be applied (Tree)
 		JGraphTreeLayout layout= new JGraphTreeLayout();
 		
 		layout.setNodeDistance(15); //minimal distance from node to node horizontal
@@ -365,21 +452,15 @@ public class clsCompareGraph extends JGraph {
 		// origin of the graph
 		Map<?,?> nested = facade.createNestedMap(true, true);
 		// Apply the result to the graph
-		//cache.edit(nested);
-
-/*		if(moGraph==null) {
-			moGraph = new JGraph(model);
-		}
-		else {
-			moGraph.setModel(model);	
-		} */
+		cache.edit(nested);
 		
 		setModel(model);
 		getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+		//setGraphLayoutCache(cache);
 		updateUI();
 	}
     
-    public void redraw(){
+    private void updateModel(){
 
 
 		// Construct Model
@@ -469,7 +550,8 @@ public class clsCompareGraph extends JGraph {
 		int h = (countLines+1)*20;
 		int w =maxLineLength*8; 
 		
-		clsGraphCell oCell = createDefaultGraphVertex(name, xLevel*xStep, yLevel*yStep, 150, 50, poNodeColor);
+		//clsGraphCell oCell = createDefaultGraphVertex(name, xLevel*xStep, yLevel*yStep, 150, 50, poNodeColor);
+		clsGraphCell oCell = createDefaultGraphVertex(name, 40, 40, 150, 40, poNodeColor);
 		return oCell;
 	}
 	
@@ -481,7 +563,7 @@ public class clsCompareGraph extends JGraph {
 					if(text.charAt(i)=='\n')countLines++;
 				}
 				int h = (countLines+1)*20;
-			clsGraphCell oCell = createDefaultGraphVertex(richText, xLevel*xStep, yLevel*yStep, 150, 50, poNodeColor);
+			clsGraphCell oCell = createDefaultGraphVertex(richText, 40, 40, 150, 40, poNodeColor);
 		return oCell;
 	}
 	
@@ -649,7 +731,6 @@ public class clsCompareGraph extends JGraph {
 	/** [MAIN]...
 	 * Generating cells from clsDataStructurePA
 	 */
-	@SuppressWarnings("unchecked")
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsDataStructurePA poMemoryObject)
 	{
 		clsGraphCell oRootCell = null;
@@ -720,10 +801,10 @@ public class clsCompareGraph extends JGraph {
 		}
 		
 		//get edge to parent cell [parent cell] <-> [rootCell]
-		DefaultEdge oEdgeParent = new DefaultEdge();
-		oEdgeParent.setSource(poParentCell.getChildAt(0));
-		oEdgeParent.setTarget(oRootCell.getChildAt(0));
-		moCellList.add(oEdgeParent);
+		//DefaultEdge oEdgeParent = new DefaultEdge();
+		//oEdgeParent.setSource(poParentCell.getChildAt(0));
+		//oEdgeParent.setTarget(oRootCell.getChildAt(0));
+		//moCellList.add(oEdgeParent);
 		xLevel--;
 		// attach object to GraphCell
 		oRootCell.setReference(poMemoryObject);
@@ -955,7 +1036,6 @@ public class clsCompareGraph extends JGraph {
 		poMemoryObject.getPartialDrive().name() + "\n" +
 		poMemoryObject.getActualDriveSourceAsENUM() + "\n" +
 		poMemoryObject.getActualBodyOrificeAsENUM();
-		
 
 		if(!UseSimpleView()) 
 		{
@@ -966,7 +1046,7 @@ public class clsCompareGraph extends JGraph {
 		clsGraphCell oDMrootCell = createDefaultGraphVertex(oDescription, moColorDMRoot);
 		
 		this.moCellList.add(oDMrootCell);
-		if(showInternAssoc){
+		if(showInternAssoc || (xLevel==1 && showInternAssocFirstLevel)){
 			for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
 			{
 				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
@@ -978,6 +1058,7 @@ public class clsCompareGraph extends JGraph {
 					oEdge.setSource(oDMrootCell.getChildAt(0));
 					oEdge.setTarget(oTargetCell.getChildAt(0));
 					moCellList.add(oEdge);
+					
 					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
 					GraphConstants.setEndFill(oEdge.getAttributes(), true);
 				}
@@ -1009,11 +1090,17 @@ public class clsCompareGraph extends JGraph {
 				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
 				{
 					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					//save intern assoc status
+					boolean internAssocStatus = isInternAssocShown();
+					if(bestAssoc.equals(oDMAssociations) && showInternAssocBest) showInternAssoc(true);
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 					//mark best rated external association
 					if(bestAssoc.equals(oDMAssociations)){
 						GraphConstants.setBorder(oTargetCell.getAttributes(), BorderFactory.createLineBorder(moColorDMBestAssocBorder, (int)oDMAssociations.getMrWeight()*5+2));
 					}
+					//restore intern assoc status
+					showInternAssoc(internAssocStatus);
+					
 					//add edge
 					
 					DefaultEdge oEdge = new DefaultEdge("DM w:" + oDMAssociations.getMrWeight());
@@ -1361,7 +1448,12 @@ public class clsCompareGraph extends JGraph {
 
 		for (int j=0; j<poMemoryObject.size(); j++) {
 			Object o = poMemoryObject.get(j);
-			generateGraphCell(oListCellRoot, o);
+			DefaultGraphCell oCell= generateGraphCell(oListCellRoot, o);
+			
+			oEdgeParent = new DefaultEdge();
+			oEdgeParent.setSource(oListCellRoot.getChildAt(0));
+			oEdgeParent.setTarget(oCell.getChildAt(0));
+			moCellList.add(oEdgeParent);
 		}
 
 		return poParentCell;
@@ -1416,7 +1508,7 @@ public class clsCompareGraph extends JGraph {
 		if (isEnabled() && isMoveable()
 				&& layout != null) {
 			final JGraphFacade facade = createFacade(this);
-
+			final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
 			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
 					this, (JGraphLayout.Stoppable) layout)
 					: null;
@@ -1432,8 +1524,13 @@ public class clsCompareGraph extends JGraph {
 							// has been displayed or cancel has not been pressed
 							// then
 							// the result of the layout algorithm is processed.
-							layout.run(facade);
-
+							facade.setOrdered(true);
+							try{
+								layout.run(facade);
+							}
+							catch(java.util.ConcurrentModificationException e){
+								throw e;//if the last layout change still runs
+							}
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
@@ -1452,12 +1549,9 @@ public class clsCompareGraph extends JGraph {
 										// The morpher will animate the change and then
 										// invoke the edit method on the graph layout
 										// cache.
-										Map<?,?> map = facade.createNestedMap(true,
-												(flushOriginCheckBox
-														.isSelected()) ? true
-														: false);
+										Map<?,?> map = facade.createNestedMap(true,true);
 										moMorpher.morph(me, map);
-										moMorpher.morph(me, map);
+										//moMorpher.morph(me, map);
 										requestFocus();
 									}
 								}
@@ -1506,6 +1600,60 @@ public class clsCompareGraph extends JGraph {
 		}
     	return moAssociation;
     }
+    
+    public void expandGraphCellInternAssoc(clsGraphCell poCell){
+    		boolean saveShowInternAssoc = showInternAssoc;
+    		boolean saveShowExternAssoc =showExternAssoc;
+    		
+    		showInternAssoc = true;
+    		showExternAssoc =false;
+    		
+    		expand(poCell);
+
+    		//restore show Assoc settings
+    		showInternAssoc = saveShowInternAssoc;
+    		showExternAssoc =saveShowExternAssoc;
+    		
+    }
+
+    public void expandGraphCellExternAssoc(clsGraphCell poCell){
+		boolean saveShowInternAssoc = showInternAssoc;
+		boolean saveShowExternAssoc = showExternAssoc;
+		boolean saveShowInternAssocBest = showInternAssocBest;
+		boolean saveShowInternAssocFirstLevel = showInternAssocFirstLevel;
+		
+		showInternAssoc = false;
+		showExternAssoc =true;
+		showInternAssocFirstLevel =false;
+		showInternAssocBest =false;
+		
+		expand(poCell);
+
+		//restore show Assoc settings
+		showInternAssoc = saveShowInternAssoc;
+		showExternAssoc =saveShowExternAssoc;
+		showInternAssocBest=saveShowInternAssocBest;
+		showInternAssocFirstLevel=saveShowInternAssocFirstLevel;
+		
+}
+    private void expand(clsGraphCell poCell){
+		int oldLength = moCellList.size();
+		DefaultGraphCell oCell= generateGraphCell(poCell,poCell.getReference());
+
+		//redefine Edges
+    	for(int i = oldLength;i<moCellList.size();i++) {
+    		if(moCellList.get(i) instanceof DefaultEdge){
+    			DefaultPort iPort =(DefaultPort)((DefaultEdge) moCellList.get(i)).getSource();
+
+    			if(iPort.getParent().equals(oCell)){
+    				
+    				((DefaultEdge) moCellList.get(i)).setSource(poCell.getChildAt(0));        				
+    			}
+    		}
+    	}
+    	moCellList.remove(oCell);
+    }
+ 
 	
 	/**
 	 * Creates a {@link JGraphLayoutProgressMonitor} for the specified layout.

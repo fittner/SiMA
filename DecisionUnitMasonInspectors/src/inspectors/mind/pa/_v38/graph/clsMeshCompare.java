@@ -38,8 +38,8 @@ public class clsMeshCompare extends clsCompareGraphWindow {
 		moGraphInput.setRootNodeName("Input");
 		moGraphOutput.setRootNodeName("Output");
 		updateGraphes(); //loading Data to the graph
-		moGraphInput.reset();
-		moGraphOutput.reset();
+		//moGraphInput.reset();
+		//moGraphOutput.reset();
 	}
 	
 	/* (non-Javadoc)

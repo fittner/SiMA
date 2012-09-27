@@ -324,7 +324,6 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				ArrayList<eInterfaces> oRecv = oModule.getInterfacesRecv();
 				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
 				poTI.addInspector( new clsMeshCompare(poPA, oRecv, oSend), "Input vs. Output");
-
 			
 			}
 		} catch (java.lang.NoSuchFieldException e) {
