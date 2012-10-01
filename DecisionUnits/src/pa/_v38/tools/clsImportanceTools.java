@@ -21,9 +21,11 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.eRadius;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -473,6 +475,12 @@ public class clsImportanceTools {
 		setImportance(poImportanceWP, nOriginalImportance);
 	}
 	
+	public static void addImportance(clsWordPresentationMesh poGoal, int pnImportance) {
+		int nOriginalAffectLevel = clsGoalTools.getAffectLevel(poGoal);
+		int nNewAffectLevel = nOriginalAffectLevel + pnImportance;
+		clsGoalTools.setAffectLevel(poGoal, nNewAffectLevel);
+	}
+	
 	public static int getImportance(clsWordPresentation poImportanceWP) {
 		return Integer.valueOf(poImportanceWP.getMoContent());
 	}
@@ -581,6 +589,52 @@ public class clsImportanceTools {
 		}
 		
 		return oResult;
+	}
+	
+	/**
+	 * Get a defined value for increasing the pleasure or unpleasure for a goal
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.10.2012 20:22:41
+	 *
+	 * @param poCondition
+	 * @return
+	 */
+	public static int getEffortValueOfCondition(eCondition poCondition) {
+		int nResult = 0;
+		
+		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
+			nResult+=-200;
+		} else
+		if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			nResult+= 0;
+		} else
+		if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
+			nResult+= -50;
+		} else
+		if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
+			nResult+=-20;
+		} else
+		if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
+			nResult+=20;
+		} 
+		
+		return nResult;
+	}
+	
+	public static int getEffortValueOfDistance(eRadius poRadius) {
+		int nResult = 0;
+		
+		if (poRadius.equals(eRadius.NEAR)) {
+			nResult = 0;
+		} else if (poRadius.equals(eRadius.MEDIUM)) {
+			nResult = -10;
+		} else if (poRadius.equals(eRadius.FAR)) {
+			nResult = -20;
+		}
+		
+		return nResult;
 	}
 
 }

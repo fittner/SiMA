@@ -281,6 +281,8 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContentType + ":" + this.moContent;
 				
+				oResult += ":" + clsGoalTools.getAffectLevel(this);
+				
 				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
 				if (oConditionList.isEmpty()==false) {
 					oResult += " " + oConditionList.toString();

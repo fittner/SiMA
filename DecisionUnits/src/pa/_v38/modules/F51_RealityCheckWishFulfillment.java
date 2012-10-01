@@ -22,10 +22,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
@@ -269,6 +268,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
 		clsLogger.jlog.debug("New decision, goal:" + oContinuedGoal.toString());
 		
+		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+		applyEffortOfGoal(moReachableGoalList_IN);
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		
@@ -276,12 +277,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//The act is accessed through the goal.
 		//Take the first act in the list and process it
 		//FIXME AW: In the first step, perform only simple processing
-		
-		
-		
-		
-		
-		
 		
 		//moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
 		//moAssociatedMemories_OUT = moAssociatedMemories_IN;
@@ -619,14 +614,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poContinuedGoal
 	 */
 	private void proveContinousConditions(clsWordPresentationMesh poContinuedGoal) {
-		//Set condition for continuous preprocessing
-		clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
 		
 		//Execute all codelets, which are using IS_NEW_CONTINUED_GOAL
 		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.INIT, -1);
 			
 		//Remove conditions for continuous preprocessing
-		clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		//clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
 	}
 	
 	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
@@ -635,6 +628,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Execute codelets, which decide what the next action in F52 will be
 		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.DECISION, 1);
+		
+	}
+	
+	private void applyEffortOfGoal(ArrayList<clsWordPresentationMesh> poGoalList) {
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			//Get the penalty for the effort
+			int oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
+			
+			//Add to affect value
+			clsImportanceTools.addImportance(oGoal, oImportanceValue);
+		}
 		
 	}
 	

@@ -13,11 +13,16 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -50,7 +55,9 @@ public class clsDecisionPreparationTools {
 		
 		
 		// --- GET AND INIT THE CONTINUED GOAL --- //
+		//Set condition for continuous preprocessing
 		clsWordPresentationMesh oResult = clsDecisionPreparationTools.initContinuedGoal(oPreviousGoal, poGoalList);
+		clsGoalTools.setTaskStatus(oResult, eCondition.IS_NEW_CONTINUED_GOAL);
 		
 		return oResult;
 	}
@@ -157,6 +164,7 @@ public class clsDecisionPreparationTools {
 			//clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
 			clsGoalTools.setTaskStatus(poGoal, eCondition.COMPOSED_CODELET);
 			clsGoalTools.setTaskStatus(poGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
 			
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
 			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
@@ -259,37 +267,27 @@ public class clsDecisionPreparationTools {
 		
 	}
 	
-	/**
-	 * Get a defined value for increasing the pleasure or unpleasure for a goal
-	 * 
-	 * (wendt)
-	 *
-	 * @since 01.10.2012 20:22:41
-	 *
-	 * @param poCondition
-	 * @return
-	 */
-	public double getValueOfCondition(eCondition poCondition) {
-		double rResult = 0.0;
+	public static int calculateEffortPenalty(clsWordPresentationMesh poGoal) {
+		int nResult = 0;
 		
-		switch (poCondition) {
-			case IS_DRIVE_SOURCE: 
-				rResult = -10;
-				break;
-			case IS_PERCEPTIONAL_SOURCE: 
-				rResult = 0;
-				break;
-			case IS_MEMORY_SOURCE: 
-				rResult = -5;
-				break;
-			case GOAL_NOT_REACHABLE: 
-				rResult = -20;
-				break;
-			default: 
-				rResult = 0.0;
-				break;
+		if (clsGoalTools.checkIfTaskStatusExists(poGoal, eCondition.IS_DRIVE_SOURCE)) {
+			//There is no position
+			nResult = clsImportanceTools.getEffortValueOfCondition(eCondition.IS_DRIVE_SOURCE);
+		} else if (clsGoalTools.checkIfTaskStatusExists(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			//Check how far away the goal is
+			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(clsGoalTools.getGoalObject(poGoal));
+			nResult = clsImportanceTools.getEffortValueOfDistance(oPosition.c);
+			nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
+			if (clsGoalTools.checkIfTaskStatusExists(poGoal, eCondition.IS_NEW_CONTINUED_GOAL)==true) {
+				nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_NEW_CONTINUED_GOAL);
+			}
+			
+			
+		} else if (clsGoalTools.checkIfTaskStatusExists(poGoal, eCondition.IS_MEMORY_SOURCE)) {
+			//There are only the acts
+			nResult = clsImportanceTools.getEffortValueOfCondition(eCondition.IS_MEMORY_SOURCE);
 		}
 		
-		return rResult;
+		return nResult;
 	}
 }

@@ -191,14 +191,15 @@ public class clsGoalTools {
 	public static int getAffectLevel(clsWordPresentationMesh poGoal) {
 		int oRetVal = 0;
 	
-		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASAFFECTLEVEL, true);
-	
-		if (oFoundStructures.isEmpty()==false) {
-			//The drive object is always a WPM
-			oRetVal = clsImportanceTools.getImportance((clsWordPresentation) oFoundStructures.get(0));
-		}
+		clsWordPresentation oAffectLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASAFFECTLEVEL);
+		
+		oRetVal = clsImportanceTools.getImportance(oAffectLevelWP);
 	
 		return oRetVal;
+	}
+	
+	public static void setAffectLevel(clsWordPresentationMesh poGoal, int pnImportance) {
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(pnImportance), true);
 	}
 	
 	
