@@ -14,8 +14,10 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPhantasyTools;
 
 /**
@@ -54,6 +56,9 @@ public class clsACSendToPhantasy extends clsActionCodelet {
 		//Generate this action
 		this.generateAction(eAction.SEND_TO_PHANTASY);
 		
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+		
 		//Set supportive datastructure from the goal
 		if (clsGoalTools.getSupportiveDataStructure(this.moGoal).isNullObject()==true) {
 			//Create a supportive data structure
@@ -62,17 +67,34 @@ public class clsACSendToPhantasy extends clsActionCodelet {
 		
 		//Set phantasyflag
 		try {
+			clsWordPresentationMesh oSupportiveDataStructureForAction;
+			
+			//Get the supportive data structure
+			clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			
+			//Check if the intention already has a PP-Image
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
+			//Check if the intention has content
+			if (clsMeshTools.checkIfTPMStructureAvailableFromWPM(oIntention)) {
+				
+			}
+			
+			
+			
+			//Get the supportive data structure
+			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			
+			//Associate this structure with the action
+			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+			
+			
 			clsPhantasyTools.setPhantasyFlagTrue(clsGoalTools.getSupportiveDataStructure(this.moGoal));
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
 		
-		//Get the supportive data structure
-		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-		
-		//Associate this structure with the action
-		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

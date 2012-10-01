@@ -13,6 +13,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -48,6 +49,9 @@ public class clsACFlee extends clsActionCodelet {
 	@Override
 	protected void processGoal() {
 		this.generateAction(eAction.FLEE);
+		
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.PANIC);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
@@ -86,7 +90,7 @@ public class clsACFlee extends clsActionCodelet {
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = eAction.FLEE.toString();
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 

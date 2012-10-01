@@ -24,6 +24,7 @@ public enum eCondition {
 	
 	//Model Temporal condition
 	IS_NEW_CONTINUED_GOAL,
+	NEED_CONTINUOS_ANALYSIS,
 	
 	//Initial (deafult)
 	NEED_BASIC_ACT_ANALYSIS,		//Needs an act analysis. This option has to be triggered by an action
@@ -42,5 +43,40 @@ public enum eCondition {
 	
 	PANIC,
 	
-	NEED_INTERNAL_INFO_SET;			//Phantasy was already triggered
+	NEED_INTERNAL_INFO_SET,			//Phantasy was already triggered
+	
+	//Actions - System
+	EXECUTED_NONE,
+	
+	//Actions - Movement single
+	EXECUTED_MOVE_FORWARD,
+	EXECUTED_MOVE_BACKWARD,
+	EXECUTED_TURN_RIGHT,
+	EXECUTED_TURN_LEFT,
+	
+	//Actions - Movement composed
+	EXECUTED_SEARCH1,
+	EXECUTED_FLEE,
+	
+	//Actions - Manipulation
+	EXECUTED_EXCREMENT,
+	EXECUTED_REPRESS,
+	EXECUTED_SLEEP,
+	EXECUTED_RELAX,
+	EXECUTED_EAT,
+	EXECUTED_BITE,
+	EXECUTED_SUCK, 
+
+	//Actions - Unreal
+	EXECUTED_UNREAL_MOVE_TO,
+		
+	//Internal actions
+	EXECUTED_SEND_TO_PHANTASY,	//Send to phantasy
+	EXECUTED_PERFORM_BASIC_ACT_ANALYSIS,
+	EXECUTED_FOCUS_ON,	//Send to F23
+	EXECUTED_FOCUS_MOVE_FORWARD,
+	EXECUTED_FOCUS_TURN_RIGHT,
+	EXECUTED_FOCUS_TURN_LEFT,
+	EXECUTED_FOCUS_SEARCH1;
+	
 }

@@ -51,6 +51,9 @@ public class clsACFocusOn extends clsActionCodelet {
 	protected void processGoal() {		
 		this.generateAction(eAction.FOCUS_ON);
 		
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+		
 		//Get the supportive data structure
 		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 		
@@ -94,7 +97,7 @@ public class clsACFocusOn extends clsActionCodelet {
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "FOCUS_ON";
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 

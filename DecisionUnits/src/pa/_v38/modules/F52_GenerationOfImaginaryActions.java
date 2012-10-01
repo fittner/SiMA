@@ -250,10 +250,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}
 		
 		if (moTEMPWriteLastActions.size()==10) {
-			moTEMPWriteLastActions.remove(moTEMPWriteLastActions.size()-1);
+			moTEMPWriteLastActions.remove(0);
 		}
 		
-		moTEMPWriteLastActions.add("Time: " + "Goal: " + oGoal.toString() + "; Action: " + oAction);
+		moTEMPWriteLastActions.add("Time: " + "Goal: " + oGoal.getMoContent().toString() + "; Action: " + oAction);
 		
 		
 
@@ -678,7 +678,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
 			//Get actions from codelets
-			moCodeletHandler.executeMatchingCodelets(oCurrentGoal);
+			moCodeletHandler.executeMatchingCodelets(oCurrentGoal, this);
 			
 			//Extract action from goal
 			

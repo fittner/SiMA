@@ -1,16 +1,17 @@
 /**
  * CHANGELOG
  *
- * 26.09.2012 wendt - File created
+ * 27.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.actioncodeletes;
+package pa._v38.decisionpreparation.decisioncodelets;
 
-import pa._v38.decisionpreparation.clsActionCodelet;
+import java.util.ArrayList;
+
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
+import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
@@ -19,61 +20,60 @@ import pa._v38.tools.clsGoalTools;
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 12:02:42
+ * 27.09.2012, 15:16:15
  * 
  */
-public class clsACPerformBasicActAnalysis extends clsActionCodelet {
+public class clsDCActionFocusOn extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 12:02:57
+	 * @since 27.09.2012 15:16:41
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
+	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsACPerformBasicActAnalysis(
-			clsWordPresentationMesh poEnvironmentalImage,
+	public clsDCActionFocusOn(clsWordPresentationMesh poEnvironmentalImage,
 			clsShortTermMemory poShortTermMemory,
+			ArrayList<clsWordPresentationMesh> poReachableGoalList,
 			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+		super(poEnvironmentalImage, poShortTermMemory, poReachableGoalList,
+				poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 27.09.2012 15:16:45
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
 	protected void processGoal() {
-		this.generateAction(eAction.PERFORM_BASIC_ACT_ANALYSIS);
-		
-		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);
-		
-		//Associate the action with the goal
-		setActionAssociationInGoal();
+		//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
+		//As the environmental image is not "mitgedreht", only fix positions are used.
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.FOCUS_ON_SET);
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 27.09.2012 15:16:45
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_BASIC_ACT_ANALYSIS, eCondition.NEED_INTERNAL_INFO_SET));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.EXECUTED_FOCUS_ON));
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 27.09.2012 15:16:45
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -85,13 +85,13 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 27.09.2012 15:16:45
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "PERFORM_BASIC_ACT_ANALYSIS";
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 

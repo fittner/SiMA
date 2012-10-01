@@ -1194,6 +1194,19 @@ public class clsMeshTools {
 		return oResult;
 	}
 	
+	public static boolean checkIfTPMStructureAvailableFromWPM(clsWordPresentationMesh poWPM) {
+		boolean bResult = false;
+		
+//		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
+//			if (oAss instanceof clsAssociationWordPresentation) {
+//				bResult = true;
+//				break;
+//			}
+//		}
+		
+		return bResult;
+	}
+	
 	//=== SEARCH DATA STRUCTURES IN WPM GENERAL --- END ===//
 	
 	

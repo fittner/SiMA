@@ -525,6 +525,7 @@ public class clsImportanceTools {
 	}
 	
 	
+	
 	/**
 	 * Sort and filter any list with rates in integer format.
 	 * 
@@ -559,8 +560,29 @@ public class clsImportanceTools {
 		
 		return oResult;
 	}
-
 	
+	public static <E extends Object> ArrayList<clsPair<Double, E>> sortAndFilterRatedStructuresDouble(ArrayList<clsPair<Double, E>> poInput, int pnNumberOfAllowedObjects) {
+		ArrayList<clsPair<Double, E>>oResult = new ArrayList<clsPair<Double, E>>();
+		
+		for (clsPair<Double, E> oP : poInput) {
+			int nIndex = 0;
+			//Increase index if the list is not empty
+			while((oResult.isEmpty()==false) && 
+					(nIndex<oResult.size()) &&
+					(oResult.get(nIndex).a > oP.a)) {
+				nIndex++;
+			}
+			
+			oResult.add(nIndex, oP);
+			
+			if (pnNumberOfAllowedObjects!=-1 && oResult.size()==pnNumberOfAllowedObjects) {
+				break;
+			}
+		}
+		
+		return oResult;
+	}
+
 }
 
 
