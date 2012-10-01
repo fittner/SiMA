@@ -21,7 +21,6 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
@@ -71,10 +70,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions_Input;
 	private ArrayList<eEmotionType>                  moForbiddenEmotions_Input;
 	
-	//private ArrayList<clsPrimaryDataStructureContainer> moSubjectivePerception_Input; 
-	//private ArrayList<clsPrimaryDataStructureContainer> moFilteredPerception_Output; 
+
 	private ArrayList<pa._v38.memorymgmt.datatypes.clsThingPresentation> moDeniedThingPresentations;
-	private ArrayList<clsAssociationDriveMesh> moDeniedAffects;
+	clsAffect moAffect; // anxiety which is generated while repressing content, also CONFLICT is sent via this affect
 	private ArrayList<clsPrimaryDataStructure> moQuotasOfAffect_Output = new ArrayList<clsPrimaryDataStructure>(); // anxiety which is generated while repressing content
     private ArrayList<clsDriveMesh> moInput;
 	
@@ -106,8 +104,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
-		moDeniedAffects = new ArrayList<clsAssociationDriveMesh>();  //TD 2011/07/20 - added initialization of member field
- 		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);	
  		
  		//Get Blocked content storage
 		moBlockedContentStorage = poBlockedContentStorage;
@@ -134,8 +131,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
 		text += toText.listToTEXT("moForbiddenEmotions_Input", moForbiddenEmotions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
-		text += toText.listToTEXT("moDeniedAffects", moDeniedAffects);
-		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
+		text += toText.valueToTEXT("moAffect", moAffect);
 		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		text += toText.listToTEXT("moEmotions_Output", moEmotions_Output);
 
@@ -295,8 +291,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			 clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eDataType, Object>(eDataType.AFFECT, 999.9)); 
-			 moQuotasOfAffect_Output.add(oAffect);
+			  moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eDataType, Object>(eDataType.AFFECT, 999.9)); 
+			  moQuotasOfAffect_Output.add(moAffect);
 			 
 			 return;
 		 }
@@ -453,47 +449,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			
 			
 			
-			/*
-			///////////////////////////////////
-			//FIXME FG: From AW, Content is not used here
-			//////////////////////////////////
 			
-			clsDataStructurePA oFoundObject = null;
-			
-			// search in perceptions
-			//Get all images and objects in the mesh
-			//ArrayList<clsThingPresentationMesh> oTPMList = clsDataStructureTools.getTPMObjects(moPerceptionalMesh_OUT, oContentType, oContent, true, 1);
-			ArrayList<eContentType> oContentTypeList = new ArrayList<eContentType>();
-			oContentTypeList.add(oContentType);
-			ArrayList<clsDataStructurePA> oTPMList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TPM, oContentTypeList, true, 1);
-			if (oTPMList.isEmpty()==false) {
-				oFoundObject = oTPMList.get(0);
-			}
-				
-			// or oContainer can contain a thing-presentation
-			// in this case
-			// check a TP
-		
-			//The attribute list is clsAssociationAttribute
-
-			ArrayList<clsDataStructurePA> oAttributeList = clsMeshTools.getDataStructureInTPM(moPerceptionalMesh_OUT, eDataType.TP, oContentTypeList, true, 1);
-			//ArrayList<clsAssociationAttribute> oAttributeList = clsDataStructureTools.getTPAssociations(moPerceptionalMesh_OUT, oContentType, oContent, 0, true, 1);
-			if (oAttributeList.isEmpty()==false) {
-				oFoundObject = oAttributeList.get(0);
-			}	
-		
-			// if Perception found -->	
-			if (oFoundObject!=null) {
-				// Search all associations of an object and delete all negative (or positive) associations.
-				// The negative (or positive) associations are listed in oListWithPositiveOrNegativeObjects
-				
-				if (oFoundObject instanceof clsThingPresentationMesh)
-				//clsMeshTools.deleteObjectInMesh((clsThingPresentationMesh) oFoundObject);
-					for(clsThingPresentationMesh oPositiveOrNegativeObject : oListWithPositiveOrNegativeObjects) {
-						clsMeshTools.deleteAssociationInObject((clsThingPresentationMesh) oFoundObject, oPositiveOrNegativeObject);
-					}
-			}
-			*/
 			
 		}
 	}
