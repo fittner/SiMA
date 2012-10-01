@@ -36,8 +36,8 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsDCCheckFocusExists(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsDCCheckFocusExists(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
+		super(poEnvironmentalImage, poShortTermMemory, poReachableGialList, poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	
 	}

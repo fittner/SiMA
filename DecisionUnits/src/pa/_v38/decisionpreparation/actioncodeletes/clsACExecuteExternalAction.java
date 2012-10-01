@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -51,6 +52,11 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 	@Override
 	protected void processGoal() {
 		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
+		
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.FOCUS_ON_SET);
+		
 		eAction oChosenAction = eAction.NONE;
 		
 		if (oExternalPlans.isEmpty()==false) {
@@ -97,7 +103,7 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "EXECUTE_EXTERNAL_ACTION";
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 

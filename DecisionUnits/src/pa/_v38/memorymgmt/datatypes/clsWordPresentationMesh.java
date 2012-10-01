@@ -279,7 +279,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			} else if (this.moContentType.equals(eContentType.GOAL)) {
 				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
 				if (oConditionList.isEmpty()==false) {
-					oResult += oConditionList.toString();
+					oResult += " " + oConditionList.toString();
 				}
 				
 			}

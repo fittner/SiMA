@@ -62,20 +62,24 @@ public abstract class clsCodelet {
 	
 	protected abstract void setName();
 	
-	private boolean checkMatchingPreconditions(clsConditionGroup poForeignConditionGroup) {
-		boolean bResult = false;
+	private double checkMatchingPreconditions(clsConditionGroup poForeignConditionGroup) {
+		//double rResult = 0.0;
+		
+		double rBestMatch = 0.0;
 		
 		for (clsConditionGroup oGroup : this.moPreconditionGroupList) {
-			if (oGroup.checkConditionGroupMatch(poForeignConditionGroup)>=1.0) {
-				bResult=true;
-				break;
+			double rCurrentMatch = oGroup.checkConditionGroupMatch(poForeignConditionGroup);
+			if (rCurrentMatch>=1.0 && rBestMatch<rCurrentMatch) {
+				rBestMatch=rCurrentMatch;
+				//bResult=true;
+				//break;
 			}
 		}
 		
-		return bResult;
+		return rBestMatch;
 	}
 	
-	public boolean checkMatchingPreconditions(clsWordPresentationMesh poGoal) {
+	public double checkMatchingPreconditions(clsWordPresentationMesh poGoal) {
 		clsConditionGroup oGroupFromGoal = new clsConditionGroup(clsGoalTools.getTaskStatus(poGoal));
 		
 		return checkMatchingPreconditions(oGroupFromGoal);

@@ -15,6 +15,8 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -24,7 +26,7 @@ import pa._v38.tools.clsGoalTools;
  * 23.09.2012, 12:34:31
  * 
  */
-public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
+public class clsDCContinousAnalysis extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,7 +37,7 @@ public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsDCDriveContinousAnalysis(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
+	public clsDCContinousAnalysis(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
 		super(poEnvironmentalImage, poShortTermMemory, poReachableGialList, poCodeletHandler);
 	}
 
@@ -49,6 +51,12 @@ public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 	protected void processGoal() {
 		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
+		//Remove currently processed stati
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_CONTINUOS_ANALYSIS);
+		
+		
+		//Transfer previous stati in general
 		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.NEED_INTERNAL_INFO_SET)==true) {
 			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO_SET);
 		}
@@ -59,7 +67,31 @@ public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 			clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
 		}
 		
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		
+		//Transfer previous stati in special
+		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+			
+			if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.NEED_INTERNAL_INFO_SET)==false &&
+					clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+				clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+			}
+			
+			
+		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+			
+			//Remove all PI-matches from the images
+			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
+			clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
+			
+		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+			
+			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION)==true) {
+				clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
+			}
+		}
+		
+		
 		
 	}
 
@@ -71,7 +103,9 @@ public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
 	}
 
 	/* (non-Javadoc)
@@ -94,7 +128,7 @@ public class clsDCDriveContinousAnalysis extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "ACDriveContinousAnalysis";
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 

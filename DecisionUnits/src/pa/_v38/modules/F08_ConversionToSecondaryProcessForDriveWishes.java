@@ -156,19 +156,21 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
 	
 	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
 		//FIXME AW .::::::: FAKE Prepare Drive input
-				clsDriveMesh oOnlyDriveMesh = null;
+				//ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
 				for (clsDriveMesh oDM : moDriveList_Input) {
-					if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
+					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
 						
-						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
+						
 						
 						try {
 							oDM.setActualDriveObject(oTPM, 1.0);
@@ -192,16 +194,18 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 //						}
 						
 						//Set mrPleasure to max
-						oDM.setQuotaOfAffect(1.0);
+						//oDM.setQuotaOfAffect(1.0);
 						
-						oOnlyDriveMesh = oDM;
+						//oOnlyDriveMesh = oDM;
 						
-						break;
-					}
+						//break;
+					//} 
+
+					
 				}
 				
-				moDriveList_Input.clear();
-				moDriveList_Input.add(oOnlyDriveMesh);
+				//moDriveList_Input.clear();
+				//moDriveList_Input.add(oOnlyDriveMesh);
 	}
 	
 	/**

@@ -113,7 +113,7 @@ public class clsACFocusMovement extends clsActionCodelet {
 	 */
 	@Override
 	protected void setName() {
-		this.moCodeletName = "FOCUS_MOVEMENT";
+		this.moCodeletName = this.getClass().getName();
 		
 	}
 
