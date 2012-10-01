@@ -4,16 +4,12 @@
  * 27.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
-
-import java.util.ArrayList;
+package pa._v38.decisionpreparation.consequencecodelets;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.decisionpreparation.clsDecisionCodelet;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -23,7 +19,7 @@ import pa._v38.tools.clsGoalTools;
  * 27.09.2012, 15:20:49
  * 
  */
-public class clsDCActionFocusMovement extends clsDecisionCodelet {
+public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,13 +31,8 @@ public class clsDCActionFocusMovement extends clsDecisionCodelet {
 	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsDCActionFocusMovement(
-			clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			ArrayList<clsWordPresentationMesh> poReachableGoalList,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGoalList,
-				poCodeletHandler);
+	public clsCC_FOCUS_MOVEMENT(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
@@ -53,7 +44,8 @@ public class clsDCActionFocusMovement extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.FOCUS_MOVEMENTACTION_SET);	//Set first focus
+		//This is the consequence of the movement
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);	//Set first focus
 	}
 
 	/* (non-Javadoc)
@@ -83,15 +75,19 @@ public class clsDCActionFocusMovement extends clsDecisionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 27.09.2012 15:21:12
+	 * @since 01.10.2012 15:29:16
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_MOVE_FORWARD);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_LEFT);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_RIGHT);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_SEARCH1);
 		
 	}
 

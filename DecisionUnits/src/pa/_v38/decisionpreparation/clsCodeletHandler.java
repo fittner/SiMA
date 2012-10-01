@@ -8,22 +8,8 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.decisionpreparation.actioncodeletes.clsACExecuteExternalAction;
-import pa._v38.decisionpreparation.actioncodeletes.clsACFlee;
-import pa._v38.decisionpreparation.actioncodeletes.clsACFocusMovement;
-import pa._v38.decisionpreparation.actioncodeletes.clsACFocusOn;
-import pa._v38.decisionpreparation.actioncodeletes.clsACPerformBasicActAnalysis;
-import pa._v38.decisionpreparation.actioncodeletes.clsACSendToPhantasy;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCActionFocusMovement;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCActionFocusOn;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCActionMovement;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCActionPerformBasicActAnalysis;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCActionSendToPhantasy;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCCheckFocusExists;
-import pa._v38.decisionpreparation.decisioncodelets.clsDCContinousAnalysis;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.modules.clsModuleBase;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
@@ -39,13 +25,19 @@ import pa._v38.tools.clsPair;
 public class clsCodeletHandler {
 	
 	private clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
+	
+
 	private clsEnvironmentalImageMemory moEnvironmentalImageMemory;
+	
+
 	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
-	
-	private ArrayList<clsWordPresentationMesh> moGoalListFromF51 = null;
-	
+
+	private ArrayList<clsWordPresentationMesh> moGoalListFromF51 = new ArrayList<clsWordPresentationMesh>();
+
 	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
 	private ArrayList<clsDecisionCodelet> moDecisionCodeletList = new ArrayList<clsDecisionCodelet>();
+	private ArrayList<clsInitCodelet> moInitCodeletList = new ArrayList<clsInitCodelet>();
+	private ArrayList<clsConsequenceCodelet> moConsequenceCodeletList = new ArrayList<clsConsequenceCodelet>();
 	
 	
 	public clsCodeletHandler(clsEnvironmentalImageMemory poEnvironmentalImageMemory, clsShortTermMemory poShortTermMemory) {
@@ -54,10 +46,86 @@ public class clsCodeletHandler {
 		
 		this.moEnvironmentalImage=moEnvironmentalImageMemory.getEnvironmentalImage();
 		this.moShortTermMemory=poShortTermMemory;
-		
-		init();
 	}
 
+	
+	/**
+	 * @since 01.10.2012 16:32:05
+	 * 
+	 * @return the moEnvironmentalImage
+	 */
+	public clsWordPresentationMesh getEnvironmentalImage() {
+		return moEnvironmentalImage;
+	}
+
+
+	/**
+	 * @since 01.10.2012 16:32:05
+	 * 
+	 * @param moEnvironmentalImage the moEnvironmentalImage to set
+	 */
+	public void setEnvironmentalImage(clsWordPresentationMesh moEnvironmentalImage) {
+		this.moEnvironmentalImage = moEnvironmentalImage;
+	}
+	
+	/**
+	 * @since 01.10.2012 16:32:33
+	 * 
+	 * @return the moShortTermMemory
+	 */
+	public clsShortTermMemory getShortTermMemory() {
+		return moShortTermMemory;
+	}
+
+
+	/**
+	 * @since 01.10.2012 16:32:33
+	 * 
+	 * @param moShortTermMemory the moShortTermMemory to set
+	 */
+	public void setShortTermMemory(clsShortTermMemory moShortTermMemory) {
+		this.moShortTermMemory = moShortTermMemory;
+	}
+	
+	
+	/**
+	 * @since 01.10.2012 20:07:37
+	 * 
+	 * @return the moInitCodeletList
+	 */
+	public ArrayList<clsInitCodelet> getInitCodeletList() {
+		return moInitCodeletList;
+	}
+
+
+	/**
+	 * @since 01.10.2012 20:07:37
+	 * 
+	 * @param moInitCodeletList the moInitCodeletList to set
+	 */
+	public void setInitCodeletList(ArrayList<clsInitCodelet> moInitCodeletList) {
+		this.moInitCodeletList = moInitCodeletList;
+	}
+
+
+	/**
+	 * @since 01.10.2012 20:07:41
+	 * 
+	 * @return the moConsequenceCodeletList
+	 */
+	public ArrayList<clsConsequenceCodelet> getConsequenceCodeletList() {
+		return moConsequenceCodeletList;
+	}
+
+
+	/**
+	 * @since 01.10.2012 20:07:41
+	 * 
+	 * @param moConsequenceCodeletList the moConsequenceCodeletList to set
+	 */
+	public void setConsequenceCodeletList(ArrayList<clsConsequenceCodelet> moConsequenceCodeletList) {
+		this.moConsequenceCodeletList = moConsequenceCodeletList;
+	}
 
 	/**
 	 * @since 23.09.2012 12:10:38
@@ -70,6 +138,26 @@ public class clsCodeletHandler {
 	
 	public ArrayList<clsDecisionCodelet> getDecisionCodeletList() {
 		return moDecisionCodeletList;
+	}
+	
+	/**
+	 * @since 01.10.2012 16:37:16
+	 * 
+	 * @return the moGoalListFromF51
+	 */
+	public ArrayList<clsWordPresentationMesh> getGoalListFromF51() {
+		return moGoalListFromF51;
+	}
+
+
+	/**
+	 * @since 01.10.2012 16:37:16
+	 * 
+	 * @param moGoalListFromF51 the moGoalListFromF51 to set
+	 */
+	public void setGoalListFromF51(
+			ArrayList<clsWordPresentationMesh> moGoalListFromF51) {
+		this.moGoalListFromF51 = moGoalListFromF51;
 	}
 
 
@@ -86,12 +174,43 @@ public class clsCodeletHandler {
 		this.moDecisionCodeletList = poDecisionCodeletList;
 	}
 	
+	/**
+	 * @since 01.10.2012 20:31:58
+	 * 
+	 * @return the moEnvironmentalImageMemory
+	 */
+	public clsEnvironmentalImageMemory getMoEnvironmentalImageMemory() {
+		return moEnvironmentalImageMemory;
+	}
+
+
+	/**
+	 * @since 01.10.2012 20:31:58
+	 * 
+	 * @param moEnvironmentalImageMemory the moEnvironmentalImageMemory to set
+	 */
+	public void setMoEnvironmentalImageMemory(
+			clsEnvironmentalImageMemory moEnvironmentalImageMemory) {
+		this.moEnvironmentalImageMemory = moEnvironmentalImageMemory;
+	}
+	
 	public void addToCodeletList(clsCodelet poCodelet) {
+		String oList = "";
 		if (poCodelet instanceof clsActionCodelet) {
 			this.moActionCodeletList.add((clsActionCodelet) poCodelet);
+			oList = "Action";
 		} else if (poCodelet instanceof clsDecisionCodelet) {
 			this.moDecisionCodeletList.add((clsDecisionCodelet) poCodelet);
+			oList = "Decision";
+		} else if (poCodelet instanceof clsConsequenceCodelet) {
+			this.moConsequenceCodeletList.add((clsConsequenceCodelet) poCodelet);
+			oList = "Consequence";
+		} else if (poCodelet instanceof clsInitCodelet) {
+			this.moInitCodeletList.add((clsInitCodelet) poCodelet);
+			oList = "Init";
 		}
+		
+		clsLogger.jlog.debug(oList + " codelet registered: " + poCodelet.toString());
 		
 	}
 	
@@ -103,71 +222,8 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public void init() {
-		this.registerCodelets();
-	}
-	
-	private void registerCodelets() {
-		//Decision codelets
-		clsDCActionFocusMovement oDCActionFocusMovement = new clsDCActionFocusMovement(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oDCActionFocusMovement.toString());
-		
-		clsDCActionFocusOn oDCActionFocusOn = new clsDCActionFocusOn(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oDCActionFocusOn.toString());
-		
-		clsDCActionMovement oDCActionMovement = new clsDCActionMovement(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oDCActionMovement.toString());
-		
-		clsDCActionPerformBasicActAnalysis oDCActionPerformBasicActAnalysis = new clsDCActionPerformBasicActAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oDCActionPerformBasicActAnalysis.toString());
-		
-		clsDCActionSendToPhantasy oDCActionSendToPhantasy = new clsDCActionSendToPhantasy(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oDCActionSendToPhantasy.toString());
-		
-		clsDCCheckFocusExists oCheckFocus = new clsDCCheckFocusExists(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51,  this);
-		clsLogger.jlog.debug("Codelet registered: " + oCheckFocus.toString());
-		
-		clsDCContinousAnalysis oContinousAnalysis = new clsDCContinousAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this.moGoalListFromF51, this);
-		clsLogger.jlog.debug("Codelet registered: " + oContinousAnalysis.toString());
-		
-		
-		
-		
-		//Action codelets
-		clsACExecuteExternalAction oACExecuteExternalAction = new clsACExecuteExternalAction(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACExecuteExternalAction.toString());
-		//System.out.println("Codelet registered: " + oACExecuteExternalAction.toString());
-		
-		clsACFlee oACFlee = new clsACFlee(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACFlee.toString());
-		//System.out.println("Codelet registered: " + oACFlee.toString());
-		
-		clsACFocusMovement oACFocusMovement = new clsACFocusMovement(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACFocusMovement.toString());
-		//System.out.println("Codelet registered: " + oACFocusMovement.toString());
-		
-		clsACFocusOn oACFocuOn = new clsACFocusOn(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACFocuOn.toString());
-		//System.out.println("Codelet registered: " + oACFocuOn.toString());
-		
-		clsACPerformBasicActAnalysis oACPerformBasicActAnalysis = new clsACPerformBasicActAnalysis(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACPerformBasicActAnalysis.toString());
-		//System.out.println("Codelet registered: " + oACPerformBasicActAnalysis.toString());
-		
-		clsACSendToPhantasy oACSendToPhantasy = new clsACSendToPhantasy(this.moEnvironmentalImage, this.moShortTermMemory, this);
-		clsLogger.jlog.debug("Codelet registered: " + oACSendToPhantasy.toString());
-		//System.out.println("Codelet registered: " + oACSendToPhantasy.toString());
-	}
-	
 	public ArrayList<clsCodelet> getMatchingActionCodelets(clsWordPresentationMesh poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
-		
-//		for (clsActionCodelet oCodelet : this.moActionCodeletList) {
-//			
-//			if (oCodelet.checkMatchingPreconditions(poGoal)==true) {
-//				oResult.add(oCodelet);
-//			}
-//		}
 		
 		ArrayList<clsActionCodelet> oPrelResult = sortAndFilterRatedStructures(this.moActionCodeletList, poGoal);
 		oResult.addAll(oPrelResult);
@@ -178,16 +234,27 @@ public class clsCodeletHandler {
 	public ArrayList<clsCodelet> getMatchingDecisionCodelets(clsWordPresentationMesh poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
-//		for (clsDecisionCodelet oCodelet : this.moDecisionCodeletList) {
-//			
-//			if (oCodelet.checkMatchingPreconditions(poGoal)>=1.0) {
-//				clsImportanceTools.sortAndFilterRatedStructures(poInput, -1);
-//				
-//				oResult.add(oCodelet);
-//			}
-//		}
-		
 		ArrayList<clsDecisionCodelet> oPrelResult = sortAndFilterRatedStructures(this.moDecisionCodeletList, poGoal);
+		oResult.addAll(oPrelResult);
+		
+		
+		return oResult;
+	}
+	
+	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(clsWordPresentationMesh poGoal) {
+		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
+		
+		ArrayList<clsConsequenceCodelet> oPrelResult = sortAndFilterRatedStructures(this.moConsequenceCodeletList, poGoal);
+		oResult.addAll(oPrelResult);
+		
+		
+		return oResult;
+	}
+	
+	public ArrayList<clsCodelet> getMatchingInitCodelets(clsWordPresentationMesh poGoal) {
+		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
+		
+		ArrayList<clsInitCodelet> oPrelResult = sortAndFilterRatedStructures(this.moInitCodeletList, poGoal);
 		oResult.addAll(oPrelResult);
 		
 		
@@ -218,55 +285,64 @@ public class clsCodeletHandler {
 		
 	}
 	
-//	private ArrayList<clsWordPresentationMesh> sortMostSpecializedAction(ArrayList<clsWordPresentationMesh> poActionList, clsWordPresentationMesh poGoal) {
-//		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
-//		
-//		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oOpenToSortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-//		
-//		//Go through all actions and get the number of successful preconditions 
-//		for (clsWordPresentationMesh poAction : poActionList) {
-//			ArrayList<eCondition> oPreconditionForActionList = clsActionTools.getPreconditions(poAction);
-//			int nScore = 0;
-//			
-//			for (eCondition oPreconditionForAction : oPreconditionForActionList) {
-//				if (poPreconditionStatusList.contains(oPreconditionForAction)==true) {
-//					nScore++;
-//				}
-//			}
-//			
-//			oOpenToSortList.add(new clsPair<Integer, clsWordPresentationMesh>(nScore, poAction));			
-//		}
-//		
-//		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSortedActionList =  clsImportanceTools.sortAndFilterRatedStructures(oOpenToSortList, -1);
-//		
-//		for (clsPair<Integer, clsWordPresentationMesh> oAction : oSortedActionList) {
-//			oResult.add(oAction.b);
-//		}
-//		
-//		return oResult;
-//	}
 	
-	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMesh poGoal) {
+	/**
+	 * Execute the number of codelets in the codeletlist
+	 * 
+	 * If the number of codelets are -1, then execute all codelets
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.10.2012 21:20:16
+	 *
+	 * @param oCodeletList
+	 * @param poGoal
+	 * @param pnNumberOfExecutions
+	 */
+	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMesh poGoal, int pnNumberOfExecutions) {
+		int nInit=0;
+		int nMax = oCodeletList.size();
+		if (pnNumberOfExecutions >= 0) {
+			nMax = pnNumberOfExecutions;
+		}
+		
 		for (clsCodelet oCodelet : oCodeletList) {
+			if (nInit >= nMax) {
+				break;
+			}
+			
 			oCodelet.assignGoal(poGoal);
 			oCodelet.startCodelet();
 			//clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + " executed");
 			oCodelet.clearGoal();
+			
+			nInit++;
 		}
 	}
 	
-	public void executeMatchingCodelets(clsWordPresentationMesh poGoal, clsModuleBase oModulebase) {
-		int nModuleNumber = oModulebase.getModuleNumber();
+	public void executeMatchingCodelets(clsWordPresentationMesh poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
 		
-		//ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
+		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
+		String oTypeString = "";
 		
-		if (nModuleNumber==52) {
-			ArrayList<clsCodelet> oCList = this.getMatchingActionCodelets(poGoal);
-			this.executeCodeletListOnGoal(oCList, poGoal);
-		} else if (nModuleNumber==51) {
-			ArrayList<clsCodelet> oCList = this.getMatchingDecisionCodelets(poGoal);
-			this.executeCodeletListOnGoal(oCList, poGoal);
+		if (poCodeletType.equals(eCodeletType.ACTION)) {
+			oCList = this.getMatchingActionCodelets(poGoal);
+			oTypeString = "Execute action codelets: ";
+		} else if (poCodeletType.equals(eCodeletType.DECISION)) {
+			oCList = this.getMatchingDecisionCodelets(poGoal);
+			oTypeString = "Execute decision codelets: ";
+		} else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
+			oCList = this.getMatchingConsequenceCodelets(poGoal);
+			oTypeString = "Execute conseqeunce codelets: ";
+		} else if (poCodeletType.equals(eCodeletType.INIT)) {
+			oCList = this.getMatchingInitCodelets(poGoal);
+			oTypeString = "Execute init codelets: ";
 		}
+		
+		clsLogger.jlog.debug(oTypeString + oCList.toString());
+		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
+
+
 	
 }

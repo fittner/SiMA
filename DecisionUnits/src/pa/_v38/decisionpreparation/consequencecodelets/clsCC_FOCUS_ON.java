@@ -4,16 +4,12 @@
  * 27.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
-
-import java.util.ArrayList;
+package pa._v38.decisionpreparation.consequencecodelets;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.decisionpreparation.clsDecisionCodelet;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -23,7 +19,7 @@ import pa._v38.tools.clsGoalTools;
  * 27.09.2012, 15:16:15
  * 
  */
-public class clsDCActionFocusOn extends clsDecisionCodelet {
+public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,12 +31,8 @@ public class clsDCActionFocusOn extends clsDecisionCodelet {
 	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsDCActionFocusOn(clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			ArrayList<clsWordPresentationMesh> poReachableGoalList,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGoalList,
-				poCodeletHandler);
+	public clsCC_FOCUS_ON(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
@@ -54,8 +46,11 @@ public class clsDCActionFocusOn extends clsDecisionCodelet {
 	protected void processGoal() {
 		//If the goal is not found in perception, it has to be newly analysed. If the focus is lost, then default need focus is searched for.
 		//As the environmental image is not "mitgedreht", only fix positions are used.
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.FOCUS_ON_SET);
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
+		
+		
+		//Set consequence
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_ON);
+		//clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		
 	}
 
@@ -83,15 +78,16 @@ public class clsDCActionFocusOn extends clsDecisionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 27.09.2012 15:16:45
+	 * @since 01.10.2012 15:41:30
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_ON);
 		
 	}
 

@@ -4,17 +4,16 @@
  * 27.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
+package pa._v38.decisionpreparation.consequencecodelets;
 
 import java.util.ArrayList;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.decisionpreparation.clsDecisionCodelet;
+import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
@@ -27,7 +26,7 @@ import pa._v38.tools.clsMentalSituationTools;
  * 27.09.2012, 15:38:41
  * 
  */
-public class clsDCActionPerformBasicActAnalysis extends clsDecisionCodelet {
+public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 
 	private static final double mrMomentActivationThreshold = 1.0;
 	
@@ -41,13 +40,8 @@ public class clsDCActionPerformBasicActAnalysis extends clsDecisionCodelet {
 	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsDCActionPerformBasicActAnalysis(
-			clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			ArrayList<clsWordPresentationMesh> poReachableGoalList,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGoalList,
-				poCodeletHandler);
+	public clsCC_PERFORM_BASIC_ACT_ANALYSIS(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
@@ -154,7 +148,7 @@ public class clsDCActionPerformBasicActAnalysis extends clsDecisionCodelet {
 
 		//Return the recommended action here
 		if (bMomentExists==true && bExpectationExists==true) {
-			oResult.add(eCondition.PERFORM_RECOMMENDED_ACTION);
+			oResult.add(eCondition.SET_BASIC_ACT_ANALYSIS);
 		} else {
 			oResult.add(eCondition.GOAL_NOT_REACHABLE);
 		}
@@ -303,14 +297,13 @@ public class clsDCActionPerformBasicActAnalysis extends clsDecisionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 27.09.2012 15:39:04
+	 * @since 01.10.2012 15:38:01
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
-		
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
 	}
 
 }

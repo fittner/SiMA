@@ -4,17 +4,16 @@
  * 22.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
+package pa._v38.decisionpreparation.initcodelets;
 
 import java.util.ArrayList;
 
-import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
+import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 
@@ -25,7 +24,7 @@ import pa._v38.tools.clsMeshTools;
  * 22.09.2012, 17:20:52
  * 
  */
-public class clsDCCheckFocusExists extends clsDecisionCodelet {
+public class clsIC_CheckSetFocus extends clsInitCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -36,8 +35,8 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsDCCheckFocusExists(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGialList, poCodeletHandler);
+	public clsIC_CheckSetFocus(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	
 	}
@@ -53,7 +52,7 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 		
 		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.FOCUS_ON_SET)) {
+		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_FOCUS_ON)) {
 			//If focus was set the last time, check if focus is still there in the STM
 			//Find the supportive structure in the STM
 			
@@ -63,7 +62,7 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(oPreviousGoal).getMoDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
-					clsGoalTools.setTaskStatus(this.moGoal, eCondition.FOCUS_ON_SET);
+					clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_ON);
 					bEntityInFocus = true;
 					break;
 				}
@@ -74,7 +73,7 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 			}
 		}
 		
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		
 
 		
 	}
@@ -100,20 +99,20 @@ public class clsDCCheckFocusExists extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_ON_SET));
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.NEED_GOAL_FOCUS));
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 23.09.2012 12:06:17
+	 * @since 01.10.2012 15:33:43
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = "ACCheckFocusExists";
+	protected void removeTriggerCondition() {
+		//Do not remove as this is continuous analysis
+		
 	}
 
 }

@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
+import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -21,8 +22,10 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
@@ -227,7 +230,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	protected void process_basic() {
 		//Get previous memory
-		clsWordPresentationMesh oPreviousMentalSituation = moShortTimeMemory.findPreviousSingleMemory();
+		//clsWordPresentationMesh oPreviousMentalSituation = moShortTimeMemory.findPreviousSingleMemory();
 		
 		
 		//=== Create the mental image ===
@@ -236,26 +239,35 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
-		
 		clsLogger.jlog.debug("Environmental Storage: " + moEnvironmentalImageStorage.toString());
 
 		
 		//From now, only the environmental image is used
 		
-		//if (moAssociatedMemories_IN.isEmpty()==false) {
-		//	clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
-		//}
+		if (moAssociatedMemories_IN.isEmpty()==false) {
+			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
+		}
 		
+		// --- INIT GOALS --- //
 		//Preprocess all new goals and assign one goal as continued goal
-		clsWordPresentationMesh oContinuedGoal = clsDecisionPreparationTools.preprocessGoals(moShortTimeMemory, moReachableGoalList_IN);
+		clsWordPresentationMesh oContinuedGoal = clsDecisionPreparationTools.initGoals(moShortTimeMemory, moReachableGoalList_IN);
+		clsLogger.jlog.debug("Continued goal:" + oContinuedGoal.toString());
 		
-		//Process the continued goal
-		processContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
+		// --- PROVE CONTINUOUS CONDITIONS --- //
+		//Start codelets for new continuous goals 
+		proveContinousConditions(oContinuedGoal);
+		clsLogger.jlog.debug("Prove previous, goal:" + oContinuedGoal.toString());
 		
+		// --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
+		clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
 		
-		//processGoals(moReachableGoalList_IN, oPreviousMentalSituation);
+		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
+		applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
+		clsLogger.jlog.debug("Append consequence, goal:" + oContinuedGoal.toString());
 		
-		//=== Sort and evaluate them === //
+		// --- SET NEW PRECONDITIONS FOR ACTIONS --- //
+		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
+		clsLogger.jlog.debug("New decision, goal:" + oContinuedGoal.toString());
 		
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
@@ -579,7 +591,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //	}
 	
 	/**
-	 * Process the selected goal, which is continued from the last step
+	 * Process the selected goal, which is continued from the last step. This method executes all codelets, which apply conseqeunces of an executed action (internal or external)
 	 * 
 	 * (wendt)
 	 *
@@ -587,30 +599,43 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void processContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal) {
+	private void applyConsequencesOfActionsOnContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
-		//Process the continued goal, in order to update the status
-		//This status is processed and removed: IS_NEW_CONTINUED_GOAL
-		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, this);
 		
 		//Process the codelets once again with new continued stati
-		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, this);
+		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
 		
-//		//SupportDataStructureType
-//		eGoalType oType = clsGoalTools.getGoalType(poContinuedGoal);
-//		
-//		if (oType==eGoalType.DRIVESOURCE) {
-//			processContinuedGoalTypeFromDrive(poContinuedGoal, poPreviousAction, poPreviousGoal);
-//			
-//		} else if (oType==eGoalType.PERCEPTIONALDRIVE) {
-//			processContinuedGoalTypeFromPerception(poContinuedGoal, poPreviousMentalSituation, poPreviousGoal, poPreviousAction);
-//			
-//			
-//		} else if (oType==eGoalType.MEMORYDRIVE) {
-//			processContinuedGoalTypeFromAct(poGoalList, poContinuedGoal, poPreviousGoal, poPreviousAction);
-//			
-//		}
+	}
+	
+	/**
+	 * Execute matching codelets for the continuous goal. The condition IS_NEW_CONTINUED_GOAL is set prior and after the execution of
+	 * those codelets
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.10.2012 15:43:40
+	 *
+	 * @param poContinuedGoal
+	 */
+	private void proveContinousConditions(clsWordPresentationMesh poContinuedGoal) {
+		//Set condition for continuous preprocessing
+		clsGoalTools.setTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		
+		//Execute all codelets, which are using IS_NEW_CONTINUED_GOAL
+		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.INIT, -1);
+			
+		//Remove conditions for continuous preprocessing
+		clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+	}
+	
+	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
+		//Set default actions for all not continued goals
+		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
+		
+		//Execute codelets, which decide what the next action in F52 will be
+		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.DECISION, 1);
+		
 	}
 	
 //	/**

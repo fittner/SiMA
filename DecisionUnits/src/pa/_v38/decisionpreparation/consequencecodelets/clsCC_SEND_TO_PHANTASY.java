@@ -4,16 +4,15 @@
  * 27.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
+package pa._v38.decisionpreparation.consequencecodelets;
 
 import java.util.ArrayList;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.decisionpreparation.clsDecisionCodelet;
+import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 
@@ -24,7 +23,7 @@ import pa._v38.tools.clsGoalTools;
  * 27.09.2012, 14:51:02
  * 
  */
-public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
+public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,8 +34,8 @@ public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsDCActionSendToPhantasy(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGialList, poCodeletHandler);
+	public clsCC_SEND_TO_PHANTASY(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 	}
 
 	/* (non-Javadoc)
@@ -48,7 +47,7 @@ public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
 	@Override
 	protected void processGoal() {
 
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO_SET);	//Do not send this goal to phantasy twice
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_INTERNAL_INFO);	//Do not send this goal to phantasy twice
 		
 		//Perform dec
 		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
@@ -58,6 +57,7 @@ public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
 			//Set the focus structure for phantasy
 			clsActionTools.setSupportiveDataStructure(this.moGoal, clsGoalTools.getSupportiveDataStructure(this.moGoal));
 		
+			
 		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
 			//Replace the supportive data structure with the one from the act
 			//Find a goal in the list, which has the same act inside of it
@@ -69,7 +69,7 @@ public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
 				clsGoalTools.setSupportiveDataStructure(this.moGoal, oAct);
 			}
 			
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//Trigger search
+			//clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);x	//Trigger search
 		}
 
 		
@@ -102,13 +102,13 @@ public class clsDCActionSendToPhantasy extends clsDecisionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 27.09.2012 14:51:18
+	 * @since 01.10.2012 15:36:29
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY);
 		
 	}
 

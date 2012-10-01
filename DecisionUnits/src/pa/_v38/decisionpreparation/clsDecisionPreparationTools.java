@@ -28,26 +28,29 @@ import pa._v38.tools.clsMeshTools;
  */
 public class clsDecisionPreparationTools {
 
-	public static clsWordPresentationMesh preprocessGoals(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMesh> poGoalList) {
+	/**
+	 * This method prepoesses goal in F51. There are 2 types of goals: One goal, which is continued and many goals, which are processed for the first time. These goals get default preconditions 
+	 * and the continued goal is mapped to one of the new goals
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.10.2012 14:50:37
+	 *
+	 * @param poSTM
+	 * @param poGoalList
+	 * @return
+	 */
+	public static clsWordPresentationMesh initGoals(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMesh> poGoalList) {
 		
-		//Get previous memory
+		//--- GET PREVIOUS MENTAL SITUATION ---//
 		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
-		
-		//--- EXTRACT PREVIOUS GOAL INFO ---//
-		//Get the goal
+		//Get the previous goal
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
 		clsLogger.jlog.debug("Previous goal: " + oPreviousGoal);
-		//Get the previous action
-		clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(oPreviousMentalSituation);
-		clsLogger.jlog.debug("Previous action " + oPreviousAction);
 		
 		
-		
+		// --- GET AND INIT THE CONTINUED GOAL --- //
 		clsWordPresentationMesh oResult = clsDecisionPreparationTools.initContinuedGoal(oPreviousGoal, poGoalList);
-		
-		clsDecisionPreparationTools.setDefaultConditionForGoalList(oResult, poGoalList);
-		
-		clsDecisionPreparationTools.updateGoalConditionWithPreviousAction(oResult, oPreviousAction);
 		
 		return oResult;
 	}
@@ -81,7 +84,7 @@ public class clsDecisionPreparationTools {
 				poGoalList.add(oNewGoalFromPrevious);
 				oResult = oNewGoalFromPrevious;	
 				
-				clsGoalTools.setTaskStatus(oResult, eCondition.IS_MEMORY_SOURCE);
+				clsGoalTools.setTaskStatus(oResult, eCondition.IS_MEMORY_SOURCE);	//FIXME: This operation should not be necessary here
 				
 			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
 				//--- COPY PREVIOUS GOAL ---//
@@ -109,10 +112,9 @@ public class clsDecisionPreparationTools {
 			
 		}
 		
-		
-		//Set default precondition for all continued goals
-		clsGoalTools.setTaskStatus(oResult, eCondition.IS_NEW_CONTINUED_GOAL);
-		clsGoalTools.setTaskStatus(oResult, eCondition.NEED_CONTINUOS_ANALYSIS);
+//		//Set default precondition for all continued goals
+//		
+//		clsGoalTools.setTaskStatus(oResult, eCondition.NEED_CONTINUOS_ANALYSIS);
 		
 		return oResult;
 	}
@@ -128,7 +130,7 @@ public class clsDecisionPreparationTools {
 	 * @param poContinuedGoal
 	 * @param poGoalList
 	 */
-	private static void setDefaultConditionForGoalList(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
+	public static void setDefaultConditionForGoalList(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
 		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			if (poContinuedGoal!=oGoal) {
@@ -151,8 +153,11 @@ public class clsDecisionPreparationTools {
 		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
 		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
 			//Set the NEED_FOCUS for all focus images
-			clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_GOAL_FOCUS);
-			clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
+			//clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_GOAL_FOCUS);
+			//clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.COMPOSED_CODELET);
+			clsGoalTools.setTaskStatus(poGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
+			
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
 			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
 			clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_INTERNAL_INFO);
@@ -164,10 +169,17 @@ public class clsDecisionPreparationTools {
 		}
 	}
 	
-	private static void updateGoalConditionWithPreviousAction(clsWordPresentationMesh poContinuedGoal, clsWordPresentationMesh poPreviousAction) {
+	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMesh poContinuedGoal, clsShortTermMemory poSTM) {
 		eCondition oActionCondition = eCondition.EXECUTED_NONE;
 		
-		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(poPreviousAction));
+		//--- GET PREVIOUS MENTAL SITUATION ---//
+		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
+
+		//Get the previous action
+		clsWordPresentationMesh oPreviousActionMesh = clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		clsLogger.jlog.debug("Previous action " + oPreviousActionMesh);
+		
+		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh));
 		
 		
 		switch (oPreviousAction) {
@@ -241,9 +253,43 @@ public class clsDecisionPreparationTools {
 			}
 		}
 		
-		if (oActionCondition.equals(eCondition.NULLOBJECT)==false) {
+		if (oActionCondition.equals(eCondition.NULLOBJECT)==false && oActionCondition.equals(eCondition.EXECUTED_NONE)==false) {
 			clsGoalTools.setTaskStatus(poContinuedGoal, oActionCondition);
 		}
 		
+	}
+	
+	/**
+	 * Get a defined value for increasing the pleasure or unpleasure for a goal
+	 * 
+	 * (wendt)
+	 *
+	 * @since 01.10.2012 20:22:41
+	 *
+	 * @param poCondition
+	 * @return
+	 */
+	public double getValueOfCondition(eCondition poCondition) {
+		double rResult = 0.0;
+		
+		switch (poCondition) {
+			case IS_DRIVE_SOURCE: 
+				rResult = -10;
+				break;
+			case IS_PERCEPTIONAL_SOURCE: 
+				rResult = 0;
+				break;
+			case IS_MEMORY_SOURCE: 
+				rResult = -5;
+				break;
+			case GOAL_NOT_REACHABLE: 
+				rResult = -20;
+				break;
+			default: 
+				rResult = 0.0;
+				break;
+		}
+		
+		return rResult;
 	}
 }

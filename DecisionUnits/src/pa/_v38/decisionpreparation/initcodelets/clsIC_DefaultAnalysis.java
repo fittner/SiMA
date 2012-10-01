@@ -4,17 +4,14 @@
  * 23.09.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.decisioncodelets;
+package pa._v38.decisionpreparation.initcodelets;
 
-import java.util.ArrayList;
-
-import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
+import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
@@ -26,7 +23,7 @@ import pa._v38.tools.clsGoalTools;
  * 23.09.2012, 12:34:31
  * 
  */
-public class clsDCContinousAnalysis extends clsDecisionCodelet {
+public class clsIC_DefaultAnalysis extends clsInitCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -37,8 +34,8 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsDCContinousAnalysis(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGialList, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poReachableGialList, poCodeletHandler);
+	public clsIC_DefaultAnalysis(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 	}
 
 	/* (non-Javadoc)
@@ -51,17 +48,13 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 	protected void processGoal() {
 		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
-		//Remove currently processed stati
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.IS_NEW_CONTINUED_GOAL);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_CONTINUOS_ANALYSIS);
-		
 		
 		//Transfer previous stati in general
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.NEED_INTERNAL_INFO_SET)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO_SET);
+		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_INTERNAL_INFO)==true) {
+			clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_INTERNAL_INFO);
 		}
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.FOCUS_MOVEMENTACTION_SET)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
+		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_FOCUS_MOVEMENT)==true) {
+			clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
 		}
 		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
 			clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
@@ -71,10 +64,6 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 		//Transfer previous stati in special
 		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
 			
-			if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.NEED_INTERNAL_INFO_SET)==false &&
-					clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO);
-			}
 			
 			
 		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
@@ -85,9 +74,12 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 			clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
 		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
-			
-			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION)==true) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
+
+			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.COMPOSED_CODELET)==true) {
+				clsGoalTools.setTaskStatus(this.moGoal, eCondition.COMPOSED_CODELET);
+			}
+			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
+				clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
 			}
 		}
 		
@@ -103,9 +95,7 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_CONTINUOS_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_NEW_CONTINUED_GOAL));
 	}
 
 	/* (non-Javadoc)
@@ -120,15 +110,16 @@ public class clsDCContinousAnalysis extends clsDecisionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 23.09.2012 12:34:55
+	 * @since 01.10.2012 15:32:19
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		//Special case, do not remove the condition
 		
 	}
 

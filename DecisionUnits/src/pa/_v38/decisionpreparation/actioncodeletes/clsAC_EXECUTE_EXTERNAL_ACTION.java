@@ -14,7 +14,6 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -24,7 +23,7 @@ import pa._v38.tools.clsGoalTools;
  * 26.09.2012, 11:52:09
  * 
  */
-public class clsACExecuteExternalAction extends clsActionCodelet {
+public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -35,11 +34,8 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACExecuteExternalAction(
-			clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsAC_EXECUTE_EXTERNAL_ACTION(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
@@ -51,11 +47,8 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
 		
-		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.FOCUS_MOVEMENTACTION_SET);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.FOCUS_ON_SET);
+		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
 		
 		eAction oChosenAction = eAction.NONE;
 		
@@ -77,9 +70,12 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.GOAL_NOT_REACHABLE, eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.NEED_INTERNAL_INFO_SET));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.FOCUS_ON_SET, eCondition.GOAL_REACHABLE_IN_PERCEPTION));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.PERFORM_RECOMMENDED_ACTION, eCondition.NEED_INTERNAL_INFO_SET));
+		//Drives
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_SEARCH_INFO, eCondition.SET_FOCUS_MOVEMENT, eCondition.SET_INTERNAL_INFO));
+		//Perception
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_MOVEMENT, eCondition.SET_FOCUS_ON, eCondition.SET_FOCUS_MOVEMENT));
+		//Memory
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_PERFORM_RECOMMENDED_ACTION, eCondition.SET_FOCUS_MOVEMENT));
 		
 	}
 
@@ -97,13 +93,14 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:52:28
+	 * @since 01.10.2012 15:15:19
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsActionCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		
 	}
 

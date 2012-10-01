@@ -6,11 +6,6 @@
  */
 package pa._v38.decisionpreparation;
 
-import java.util.ArrayList;
-
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.storage.clsShortTermMemory;
-
 /**
  * DOCUMENT (wendt) - insert description 
  * 
@@ -20,7 +15,7 @@ import pa._v38.storage.clsShortTermMemory;
  */
 public abstract class clsDecisionCodelet extends clsCodelet {
 
-	protected ArrayList<clsWordPresentationMesh> moReachableGoalList;
+	
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -29,10 +24,9 @@ public abstract class clsDecisionCodelet extends clsCodelet {
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 */
-	public clsDecisionCodelet(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, ArrayList<clsWordPresentationMesh> poReachableGoalList, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsDecisionCodelet(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 
-		moReachableGoalList = poReachableGoalList;
 	}
 
 }

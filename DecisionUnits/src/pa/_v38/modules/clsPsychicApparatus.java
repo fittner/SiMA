@@ -20,6 +20,26 @@ import org.apache.log4j.PatternLayout;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.decisionpreparation.clsCodeletHandler;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FLEE;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FOCUS_MOVEMENT;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FOCUS_ON;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_FOCUS_ON;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_PERFORM_BASIC_ACT_ANALYSIS;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_SEND_TO_PHANTASY;
+import pa._v38.decisionpreparation.decisioncodelets.clsDCComposed_Goto;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_ActAnalysisToRecAction;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_ExeMovementToNull;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_FocusToMoveFocus;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_InitAction;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_SET_NEED_MOVEMENT_FOCUS;
+import pa._v38.decisionpreparation.initcodelets.clsIC_CheckSetFocus;
+import pa._v38.decisionpreparation.initcodelets.clsIC_DefaultAnalysis;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.logger.clsLogger;
@@ -174,7 +194,8 @@ public class clsPsychicApparatus {
 		
 		//Init codelethandler
 		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
-					
+		this.registerCodelets();
+		
 		applyProperties(poPrefix, poProp);
 		
 		moDataLogger = new clsDataLogger(moModules, this.uid);
@@ -379,5 +400,35 @@ public class clsPsychicApparatus {
 			
 			moInterfaceMesh.put(oKey, oList); 
 		}
+	}
+	
+	private void registerCodelets() {
+		//Decision codelets
+		clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
+		clsIC_DefaultAnalysis oContinousAnalysis = new clsIC_DefaultAnalysis(moCodeletHandler);
+		
+		clsCC_EXECUTE_MOVEMENT oDCActionMovement = new clsCC_EXECUTE_MOVEMENT(moCodeletHandler);
+		clsCC_FOCUS_MOVEMENT oDCActionFocusMovement = new clsCC_FOCUS_MOVEMENT(moCodeletHandler);
+		clsCC_FOCUS_ON oDCActionFocusOn = new clsCC_FOCUS_ON(moCodeletHandler);
+		clsCC_PERFORM_BASIC_ACT_ANALYSIS oDCActionPerformBasicActAnalysis = new clsCC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
+		clsCC_SEND_TO_PHANTASY oDCActionSendToPhantasy = new clsCC_SEND_TO_PHANTASY(moCodeletHandler);
+		
+		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moCodeletHandler);
+		clsDC_ActAnalysisToRecAction oDCTrans_ActAnalysisToRecAction = new clsDC_ActAnalysisToRecAction(moCodeletHandler);
+		clsDC_FocusToMoveFocus oDCTrans_FocusToMove = new clsDC_FocusToMoveFocus(moCodeletHandler);
+		clsDC_SetIntInfoToActAnalysis oDCTrans_IntInfoToActAnalysis = new clsDC_SetIntInfoToActAnalysis(moCodeletHandler);
+		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moCodeletHandler);
+		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
+
+		clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
+		
+		//Action codelets
+		clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);
+		clsAC_FLEE oACFlee = new clsAC_FLEE(moCodeletHandler);
+		clsAC_FOCUS_MOVEMENT oACFocusMovement = new clsAC_FOCUS_MOVEMENT(moCodeletHandler);
+		clsAC_FOCUS_ON oACFocuOn = new clsAC_FOCUS_ON(moCodeletHandler);
+		clsAC_PERFORM_BASIC_ACT_ANALYSIS oACPerformBasicActAnalysis = new clsAC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
+		clsAC_SEND_TO_PHANTASY oACSendToPhantasy = new clsAC_SEND_TO_PHANTASY(moCodeletHandler);
+
 	}
 }

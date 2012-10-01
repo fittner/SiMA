@@ -9,50 +9,46 @@ package pa._v38.decisionpreparation.actioncodeletes;
 import pa._v38.decisionpreparation.clsActionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 12:02:42
+ * 26.09.2012, 20:27:43
  * 
  */
-public class clsACPerformBasicActAnalysis extends clsActionCodelet {
+public class clsAC_FLEE extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 12:02:57
+	 * @since 26.09.2012 20:28:12
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACPerformBasicActAnalysis(
-			clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsAC_FLEE(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
 	protected void processGoal() {
-		this.generateAction(eAction.PERFORM_BASIC_ACT_ANALYSIS);
+		
+		this.generateAction(eAction.FLEE);
 		
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.PANIC);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
@@ -61,19 +57,19 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_BASIC_ACT_ANALYSIS, eCondition.NEED_INTERNAL_INFO_SET));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.PANIC));
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -83,15 +79,16 @@ public class clsACPerformBasicActAnalysis extends clsActionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 12:03:00
+	 * @since 01.10.2012 15:16:28
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsActionCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = "PERFORM_BASIC_ACT_ANALYSIS";
+	protected void removeTriggerCondition() {
+		// TODO (wendt) - Auto-generated method stub
 		
 	}
 

@@ -14,7 +14,7 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -23,7 +23,7 @@ import pa._v38.storage.clsShortTermMemory;
  * 26.09.2012, 11:22:34
  * 
  */
-public class clsACFocusMovement extends clsActionCodelet {
+public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -34,10 +34,8 @@ public class clsACFocusMovement extends clsActionCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACFocusMovement(clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsAC_FOCUS_MOVEMENT(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
@@ -49,6 +47,7 @@ public class clsACFocusMovement extends clsActionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
+		
 		
 		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
 		eAction oChosenAction = eAction.NONE;
@@ -85,9 +84,12 @@ public class clsACFocusMovement extends clsActionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.GOAL_NOT_REACHABLE, eCondition.NEED_INTERNAL_INFO_SET));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_ON_SET, eCondition.GOAL_REACHABLE_IN_PERCEPTION));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.PERFORM_RECOMMENDED_ACTION, eCondition.NEED_INTERNAL_INFO_SET));
+		//Drive
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_SEARCH_INFO, eCondition.SET_INTERNAL_INFO));
+		//Perception
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_FOCUS_MOVEMENT, eCondition.SET_FOCUS_ON));
+		//Memory
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_ON, eCondition.SET_BASIC_ACT_ANALYSIS));
 		
 		
 		
@@ -105,15 +107,17 @@ public class clsACFocusMovement extends clsActionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:22:53
+	 * @since 01.10.2012 15:16:46
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsActionCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = this.getClass().getName();
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_SEARCH_INFO);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
 		
 	}
 

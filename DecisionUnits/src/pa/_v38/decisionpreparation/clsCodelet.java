@@ -25,30 +25,31 @@ public abstract class clsCodelet {
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	protected clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
-	protected String moCodeletName;
+	protected String moCodeletName = "";
 	
 	protected ArrayList<clsConditionGroup> moPreconditionGroupList = new ArrayList<clsConditionGroup>();
 	protected ArrayList<clsConditionGroup> moPostConditionGroupList = new ArrayList<clsConditionGroup>();
 	
 	
 	
-	public clsCodelet (clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
-		moEnvironmentalImage=poEnvironmentalImage;
-		moShortTermMemory=poShortTermMemory;
+	public clsCodelet (clsCodeletHandler poCodeletHandler) {
 		moCodeletHandler=poCodeletHandler;
+		
+		moEnvironmentalImage=moCodeletHandler.getEnvironmentalImage();
+		moShortTermMemory=moCodeletHandler.getShortTermMemory();
 		
 		moGoal=clsMeshTools.getNullObjectWPM();
 		
 		this.setPreconditions();
 		this.setPostConditions();
-		this.setName();
+		this.moCodeletName = this.getClass().getSimpleName();
 		
 		//Register this codelet in the list
 		this.register();
 	}
 	
 	public void startCodelet() {
-		
+		removeTriggerCondition();
 		this.processGoal();
 		
 		//moGoal=clsMeshTools.getNullObjectWPM();
@@ -60,7 +61,7 @@ public abstract class clsCodelet {
 	
 	protected abstract void setPostConditions();
 	
-	protected abstract void setName();
+	protected abstract void removeTriggerCondition();
 	
 	private double checkMatchingPreconditions(clsConditionGroup poForeignConditionGroup) {
 		//double rResult = 0.0;
@@ -106,15 +107,22 @@ public abstract class clsCodelet {
 			oResult += oC.toString() + "; ";
 		}
 		
-		oResult+= ", Postconditions: ";
-		for (clsConditionGroup oC :moPostConditionGroupList) {
-			oResult += oC.toString() + "; ";
+		if (moPostConditionGroupList.isEmpty()==false) {
+			oResult+= ", Postconditions: ";
+			for (clsConditionGroup oC :moPostConditionGroupList) {
+				oResult += oC.toString() + "; ";
+			}
 		}
 		
-		oResult+="\nGoal: " + this.moGoal.toString();
+		if (this.moGoal.isNullObject()==false) {
+			oResult+="; Goal: " + this.moGoal.toString();
+		}
+		
 		
 		return oResult;
 	}
+	
+
 	
 	
 }
