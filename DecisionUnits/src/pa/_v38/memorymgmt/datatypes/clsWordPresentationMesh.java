@@ -8,10 +8,14 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -258,30 +262,45 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	
 	@Override
 	public String toString(){
-			String oResult = "::"+this.moDataStructureType+"::";  
-			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
-			
+			String oResult = "";
+
 			//Add by AW
 			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContentType + ":" + this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
-					oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
+					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
 					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-						oResult += oEntry.getLeafElement().toString() + ","; 
+						oResult += oEntry.getLeafElement().toString() + ";"; 
 					}
 				}
 				
 				if (moExternalAssociatedContent.isEmpty()==false) {
-					oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
+					oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
 					for (clsAssociation oEntry : moExternalAssociatedContent) {
-						oResult += oEntry.toString() + ","; 
+						oResult += oEntry.toString() + ";"; 
 					}
 				}
 			} else if (this.moContentType.equals(eContentType.GOAL)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContent;
+				int nAffectLevel = clsGoalTools.getAffectLevel(this);
+				oResult += ":" + eAffectLevel.elementAt(nAffectLevel) + "(" + nAffectLevel + ")";
+				
 				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
 				if (oConditionList.isEmpty()==false) {
-					oResult += oConditionList.toString();
+					oResult += " " + oConditionList.toString();
 				}
 				
+			} else if (this.moContentType.equals(eContentType.ENTITY)) {
+				oResult += this.moContentType + ":" + this.moContent;
+				
+				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(this);
+				oResult += "|" + oPosition.b.toString() + ":" + oPosition.c.toString();
+			}
+			else {
+				oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 			}
 
 			return oResult; 

@@ -18,6 +18,7 @@ import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 import sim.physics2D.util.Angle;
+import sim.util.Double2D;
 import du.enums.eAntennaPositions;
 import du.enums.eFastMessengerSources;
 import du.enums.eSensorExtType;
@@ -147,6 +148,10 @@ public class clsBrainSocket implements itfStepProcessing {
 				ConvertSensorDataAndAddToArousalGrid(moDecisionUnit.getPerceptionInspectorData());
 			}
 			
+			if(clsSingletonProperties.showTPMNetworkGrid()){
+				ConvertTPMDataAndAddToTPMNetworkGrid(moDecisionUnit.getPerceptionInspectorData());
+			}
+			
 			
 		} 
 	}
@@ -186,13 +191,33 @@ public class clsBrainSocket implements itfStepProcessing {
 		return oData;
 	}
 	
+	private void ConvertTPMDataAndAddToTPMNetworkGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
+		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
+			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
+			
+			clsInspectorPerceptionItem lastNode = null;
+			
+			for(clsInspectorPerceptionItem oItem: oF14Data){
+				
+					clsSingletonMasonGetter.getTPMNodeField().setObjectLocation(oItem, new Double2D(oItem.moExactX, oItem.moExactY ));
+					clsSingletonMasonGetter.getTPMNetworkField().addNode(oItem);
+					
+					if(lastNode != null){
+						clsSingletonMasonGetter.getTPMNetworkField().addEdge(oItem, lastNode, "test");
+					}
+	
+					lastNode = oItem;
+			}
+		}
+	}
+	
 	private void ConvertSensorDataAndAddToArousalGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
 		
 		//clsSingletonMasonGetter.setArousalGridEnvironment( clsSingletonMasonGetter.getArousalGridEnvironment().multiply(4) );
 		
 		clsSingletonMasonGetter.getArousalGridEnvironment().add(-0.05);
 		
-		if(poPerceptionInspectorData.containsKey("F14")){
+		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
 			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
 			
 			for(clsInspectorPerceptionItem oItem: oF14Data){
@@ -212,7 +237,6 @@ public class clsBrainSocket implements itfStepProcessing {
 					sensorArousal = 0;
 				
 				SetDifusedArousalGridDate(posX, posY, sensorArousal);
-
 			}
 		}
 	}

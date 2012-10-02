@@ -229,7 +229,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//5. Within the WPM-Structure, the allocation of images to acts is already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 		
-		clsLogger.jlog.debug("Perceived Image: \n" + oWPMConstruct.a);
+		clsLogger.jlog.debug("Perceived Image: " + oWPMConstruct.a);
 		
 		//Take the created WPMs and build a clsConcept out of them.
 		clsConcept concept = generateConcept(oWPMConstruct.b);

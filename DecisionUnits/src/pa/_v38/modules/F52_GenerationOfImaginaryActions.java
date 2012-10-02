@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
+import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -250,10 +251,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		}
 		
 		if (moTEMPWriteLastActions.size()==10) {
-			moTEMPWriteLastActions.remove(moTEMPWriteLastActions.size()-1);
+			moTEMPWriteLastActions.remove(0);
 		}
 		
-		moTEMPWriteLastActions.add("Time: " + "Goal: " + oGoal.toString() + "; Action: " + oAction);
+		moTEMPWriteLastActions.add("Time: " + "Goal: " + oGoal.getMoContent().toString() + "; Action: " + oAction);
 		
 		
 
@@ -678,7 +679,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
 			//Get actions from codelets
-			moCodeletHandler.executeMatchingCodelets(oCurrentGoal);
+			moCodeletHandler.executeMatchingCodelets(oCurrentGoal, eCodeletType.ACTION, 1);
 			
 			//Extract action from goal
 			

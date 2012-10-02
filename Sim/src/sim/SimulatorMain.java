@@ -14,7 +14,10 @@ import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
 import sim.portrayal.grid.FastValueGridPortrayal2D;
-//import sim.portrayal.grid.ValueGridPortrayal2D;
+import sim.portrayal.network.NetworkPortrayal2D;
+import sim.portrayal.network.SimpleEdgePortrayal2D;
+import sim.portrayal.network.SpatialNetwork2D;
+import sim.portrayal.simple.OvalPortrayal2D;
 import statictools.clsGetARSPath;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
@@ -24,6 +27,10 @@ import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import javax.swing.JFrame;
+import java.awt.Graphics2D;
+import sim.portrayal.DrawInfo2D;
+
+import du.itf.sensors.clsInspectorPerceptionItem;
 
 
 
@@ -78,6 +85,11 @@ public class SimulatorMain extends GUIState {
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
 	
 	FastValueGridPortrayal2D moArousalGridPortrayal = new FastValueGridPortrayal2D("Sensor Arousal Grid");
+	
+	NetworkPortrayal2D moTPMNetworkPortrayal = new NetworkPortrayal2D();
+	private ContinuousPortrayal2D moTPMNodePortrayal = new ContinuousPortrayal2D();
+	
+
 
 	
 	/**
@@ -210,6 +222,9 @@ public class SimulatorMain extends GUIState {
 		//add the arousal Grid, in case of problems, outcomment the following line and it wont be there
 		moDisplay.attach(moArousalGridPortrayal, "arousal perception");
 		
+		moDisplay.attach(moTPMNetworkPortrayal, "TPM Network Portrayal");
+		moDisplay.attach(moTPMNodePortrayal, "TPM Node Portrayal");
+		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
 		
 		// add another window for test
@@ -272,7 +287,30 @@ public class SimulatorMain extends GUIState {
 		//add a arousal layer portrayal
 		moArousalGridPortrayal.setField(clsSingletonMasonGetter.getArousalGridEnvironment());
 		moArousalGridPortrayal.setMap(new sim.util.gui.SimpleColorMap(0,1,new Color(0,0,0,0),new Color(255,165,0,255)));
+		
+		//set up TPM network portrayal
+		moTPMNodePortrayal.setField(clsSingletonMasonGetter.getTPMNodeField());
+		moTPMNodePortrayal.setPortrayalForAll(
+	                        new OvalPortrayal2D(5)
+	                            {
+								private static final long serialVersionUID = 1L;
+								@Override
+								public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
+	                                {
+	                            	clsInspectorPerceptionItem oItem = (clsInspectorPerceptionItem)object;
 
+	                                //int agitationShade = (int) (student.getAgitation() * 255 / 10.0);
+	                                //if (agitationShade > 255) agitationShade = 255;
+	                                //paint = new Color(agitationShade, 0, 255 - agitationShade);
+	                            	paint = new Color(0, 255, 0, 25);
+	                                super.draw(object, graphics, info);
+	                                }
+	                            } 
+                    );
+		
+		moTPMNetworkPortrayal.setField( new SpatialNetwork2D( clsSingletonMasonGetter.getTPMNodeField(), clsSingletonMasonGetter.getTPMNetworkField() ) );
+		moTPMNetworkPortrayal.setPortrayalForAll(new SimpleEdgePortrayal2D());
+ 
 		moDisplay.reset();
 		
 		// redraw the display

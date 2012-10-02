@@ -20,7 +20,9 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eRadius;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -191,14 +193,15 @@ public class clsGoalTools {
 	public static int getAffectLevel(clsWordPresentationMesh poGoal) {
 		int oRetVal = 0;
 	
-		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASAFFECTLEVEL, true);
-	
-		if (oFoundStructures.isEmpty()==false) {
-			//The drive object is always a WPM
-			oRetVal = clsImportanceTools.getImportance((clsWordPresentation) oFoundStructures.get(0));
-		}
+		clsWordPresentation oAffectLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASAFFECTLEVEL);
+		
+		oRetVal = clsImportanceTools.getImportance(oAffectLevelWP);
 	
 		return oRetVal;
+	}
+	
+	public static void setAffectLevel(clsWordPresentationMesh poGoal, int pnImportance) {
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(pnImportance), true);
 	}
 	
 	
@@ -207,7 +210,22 @@ public class clsGoalTools {
 	}
 	
 	public static String generateGoalContentIdentifier(String poGoalName, clsWordPresentationMesh poGoalObject, eGoalType poGoalType) {
-		return poGoalName + ":" + poGoalObject.getMoContent() + ":" + poGoalType.toString();
+		String oResult = "";
+		
+		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoalObject);
+		String oPhiPos = "null";
+		String oRadPos = "null";
+		
+		if (oPosition.b!=null) {
+			oPhiPos = oPosition.b.toString();
+		}
+		if (oPosition.c!=null) {
+			oRadPos = oPosition.c.toString();
+		}
+		
+		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + "(" + oPhiPos + ":" + oRadPos + ")" + ":" + poGoalType.toString();
+		 
+		 return oResult;
 	}
 	
 	

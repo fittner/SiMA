@@ -33,13 +33,13 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eAffectLevel {
-	HIGHNEGATIVE (-700),	//-10 < x <= -0.8
-	NEGATIVE (-500),		//-0.8 < x <= -0.5
+	HIGHNEGATIVE (-1000),	//-10 < x <= -0.8
+	NEGATIVE (-600),		//-0.8 < x <= -0.5
 	LOWNEGATIVE (-200),			//-0.5 < x <= -0.1
 	INSIGNIFICANT (0),		//-0.1 < x <= 0.1
 	LOWPOSITIVE (200),			//0.1 < x <= 0.5
-	POSITIVE (500),		//0.5 < x <= 0.8
-	HIGHPOSITIVE (700);	//0.8 < x <= 10
+	POSITIVE (600),		//0.5 < x <= 0.8
+	HIGHPOSITIVE (1000);	//0.8 < x <= 10
 	
 	public int mnAffectLevel;
 	

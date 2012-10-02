@@ -14,42 +14,41 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 11:52:09
+ * 26.09.2012, 11:22:34
  * 
  */
-public class clsACExecuteExternalAction extends clsActionCodelet {
+public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 11:52:26
+	 * @since 26.09.2012 11:22:50
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACExecuteExternalAction(
-			clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsAC_FOCUS_MOVEMENT(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:52:28
+	 * @since 26.09.2012 11:22:53
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
 	protected void processGoal() {
+		
+		
 		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
 		eAction oChosenAction = eAction.NONE;
 		
@@ -57,29 +56,48 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 			oChosenAction = eAction.valueOf(oExternalPlans.get(0).getMoContent());
 		}
 		
+		//Now the movement is gotten. Compose a new action for focusing, rename the action
+		if (oChosenAction.equals(eAction.MOVE_FORWARD)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.TURN_LEFT)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.TURN_RIGHT)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} else if (oChosenAction.equals(eAction.SEARCH1)) {
+			oChosenAction = eAction.FOCUS_MOVE_FORWARD;
+		} //else if (oExternalActionWPM.getMoContent().equals(eAction.FLEE.toString())) {
+		//	oExternalActionWPM.setMoContent(eAction.FOCUS_MOVE_FORWARD.toString());
+		//}
+		
 		this.generateAction(oChosenAction);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();
+		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:52:28
+	 * @since 26.09.2012 11:22:53
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.GOAL_NOT_REACHABLE, eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.NEED_INTERNAL_INFO_SET));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.FOCUS_ON_SET, eCondition.GOAL_REACHABLE_IN_PERCEPTION));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.FOCUS_MOVEMENTACTION_SET, eCondition.PERFORM_RECOMMENDED_ACTION, eCondition.NEED_INTERNAL_INFO_SET));
+		//Drive
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_SEARCH_INFO, eCondition.SET_INTERNAL_INFO));
+		//Perception
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_FOCUS_MOVEMENT, eCondition.SET_FOCUS_ON));
+		//Memory
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_ON, eCondition.SET_BASIC_ACT_ANALYSIS));
+		
+		
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:52:28
+	 * @since 26.09.2012 11:22:53
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -89,15 +107,17 @@ public class clsACExecuteExternalAction extends clsActionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:52:28
+	 * @since 01.10.2012 15:16:46
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsActionCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = "EXECUTE_EXTERNAL_ACTION";
+	protected void removeTriggerCondition() {
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_SEARCH_INFO);
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
 		
 	}
 
