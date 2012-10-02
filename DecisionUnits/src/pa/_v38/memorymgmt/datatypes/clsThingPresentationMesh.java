@@ -300,8 +300,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		}
 		moActivations.put(poActivationKind, rPreviousActivation+(prSourceActivation*rWeight));
 		
-		System.out.println(poActivationKind);
-		System.out.println(rPreviousActivation+(prSourceActivation*rWeight));
+//		System.out.println(poActivationKind);
+//		System.out.println(rPreviousActivation+(prSourceActivation*rWeight));
 	}
 	
 	
@@ -315,10 +315,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 */
 	public void applyCriterionActivation(eActivationType poActivationKind, double poCriterionMaxValue) {
 		
-		System.out.println(poActivationKind);
-		System.out.println("act" + moActivations.get(poActivationKind)); 
-		System.out.println("max" +poCriterionMaxValue);
-		
+//		System.out.println(poActivationKind);
+//		System.out.println("act" + moActivations.get(poActivationKind)); 
+//		System.out.println("max" +poCriterionMaxValue);
+//		
 		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / poCriterionMaxValue);
 			
 	}
@@ -544,7 +544,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
+			
 			oClone = (clsThingPresentationMesh)super.clone();
+			oClone.moActivations = (HashMap<eActivationType, Double>) this.moActivations.clone();
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
 			//Add this structure and the new clone to the list of cloned structures

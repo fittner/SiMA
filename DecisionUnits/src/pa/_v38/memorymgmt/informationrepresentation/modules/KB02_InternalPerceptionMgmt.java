@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.NoSuchElementException;
 
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -325,9 +326,44 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		}
 		
 		
-		return oDataStructureContainerListReturn;
+		try {
+			return this.cloneSingleResult(oDataStructureContainerListReturn);
+		} catch (CloneNotSupportedException e) {
+			// TODO (schaat) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		throw new NoSuchElementException("No return value defined"); 
 	}
 
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 2.10.2012, 16:58:22
+	 *
+	 * @param poSingleSearchResult
+	 * @return
+	 * @throws CloneNotSupportedException 
+	 */
+	@SuppressWarnings("unchecked")
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> cloneSingleResult(
+			ArrayList<clsPair<Double,clsDataStructureContainer>> poSingleSearchResult) throws CloneNotSupportedException {
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oClone = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		
+
+			clsPair<Double, clsDataStructureContainer> oClonedPair = null;
+			
+			
+			for(clsPair<Double, clsDataStructureContainer> oPairEntry : poSingleSearchResult){
+				oClonedPair = (clsPair<Double, clsDataStructureContainer>) oPairEntry.clone(); //suppressed Warning
+			}
+			
+			oClone.add(oClonedPair); 
+		 
+		return oClone;
+	}
+	
 	/**
 	 * DOCUMENT (schaat) - insert description
 	 *
