@@ -31,8 +31,8 @@ public enum eImages {
 	Overlay_Action_TurnLeft("Action_TurnLeft.png"),
 	Overlay_Action_TurnRight("Action_TurnRight.png"),
 	Overlay_Action_InnerSpeech("Gedankenblase.png"),
-	Overlay_Action_OuterSpeach_Eat("Eat.png"),
-	Overlay_Action_InnerSpeach_Nourish("Action_Nourish.png");
+	Overlay_Action_OuterSpeech_Eat("Eat.png"),
+	Overlay_Action_InnerSpeech_Nourish("Action_Nourish.png");
 
 	
 	private String moFilename;
