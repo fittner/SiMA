@@ -116,7 +116,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	    	clsProperties oProp = new clsProperties();
 	    	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	    	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
-	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.GRAPHSEARCH.toString());
+	    	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	    	//TODO HZ: Make the project file-path configurable
 	    	oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 	    	return oProp;
