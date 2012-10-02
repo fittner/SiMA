@@ -250,8 +250,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						// get similar memory-dm
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
-						// 
-						rCurrentMatchFactor = oSearchPair.a; 
+						// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
+						rCurrentMatchFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
 						
 						// take the best match
 						

@@ -231,7 +231,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 						if (oFirstDM.getDriveComponent() == oSecondDM.getDriveComponent() && oFirstDM.getActualDriveSourceAsENUM() == oSecondDM.getActualDriveSourceAsENUM()) {
 							//1. Add mrPleasure from the second to the first DM
 							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
-							oFirstDM.setQuotaOfAffect(mrNewPleasure);
+							//oFirstDM.setQuotaOfAffect(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM

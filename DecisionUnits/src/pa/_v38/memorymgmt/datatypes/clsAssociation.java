@@ -273,6 +273,9 @@ public abstract class clsAssociation extends clsDataStructurePA{
 //	    return oClone;
 //	}
 	
+
+			
+			
 	public Object clone(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 	//public Object cloneGraph(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsAssociation oClone = null;
