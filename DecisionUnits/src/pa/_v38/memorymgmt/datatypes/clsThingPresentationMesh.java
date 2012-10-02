@@ -10,10 +10,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eActivationType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.eRadius;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 
@@ -585,11 +588,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 	@Override
 	public String toString(){
-		String oResult = "::"+this.moDataStructureType+"::";  
-		oResult += this.moContentType + ":" + this.moContent;
-		
 		//Add by AW
+		String oResult = "";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI)) {
+			//"::"+this.moDataStructureType+"::";  
+			oResult += this.moContentType + ":" + this.moContent;
+			
 			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
 				oResult += oEntry.getLeafElement().toString() + ","; 
@@ -599,6 +603,15 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			for (clsAssociation oEntry : moExternalAssociatedContent) {
 				oResult += oEntry.toString() + ","; 
 			}
+		} else if (this.moContentType.equals(eContentType.ENTITY)) {
+			oResult += this.moContentType + ":" + this.moContent;
+			
+			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosition = clsPrimarySpatialTools.getPosition(this);
+			oResult += "|" + oPosition.b.toString() + ":" + oPosition.c.toString();
+			
+		} else {
+			oResult += "::"+this.moDataStructureType+"::";  
+			oResult += this.moContentType + ":" + this.moContent;
 		}
 		
 		return oResult; 
