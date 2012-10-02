@@ -1044,9 +1044,14 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
 		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
 			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-			if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
-				oRemoveList.add(oSTM.b);
-			}
+			ArrayList<clsWordPresentationMesh> oExcludedGoalList = clsMentalSituationTools.getExcludedGoal(oSTM.b);
+			oRemoveList.addAll(oExcludedGoalList);
+//			for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
+//				if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
+//					oRemoveList.add(oSTM.b);
+//				}
+//			}
+			
 		}
 						
 		//Find all unreachable goals from STMList
@@ -1058,11 +1063,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 				if (clsGoalTools.getGoalContentIdentifier(oGoal).equals(clsGoalTools.getGoalContentIdentifier(oRemoveGoal))==true) {
 					//if yes, remove this goal		
 					Iter.remove();
+					clsLogger.jlog.debug("Non reachable goal removed: " + oGoal.toString());
 				}
 			}
 			
 		}
-		
 		
 	}
 	
