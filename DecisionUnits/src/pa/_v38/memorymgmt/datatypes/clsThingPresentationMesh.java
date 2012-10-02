@@ -604,7 +604,18 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			oResult += this.moContentType + ":" + this.moContent;
 			
 			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosition = clsPrimarySpatialTools.getPosition(this);
-			oResult += "|" + oPosition.b.toString() + ":" + oPosition.c.toString();
+			
+			String oPhiPos = "null";
+			String oRadPos = "null";
+			
+			if (oPosition.b!=null) {
+				oPhiPos = oPosition.b.toString();
+			}
+			if (oPosition.c!=null) {
+				oRadPos = oPosition.c.toString();
+			}
+			
+			oResult += "|" + oPhiPos + ":" + oRadPos;
 			
 		} else {
 			oResult += "::"+this.moDataStructureType+"::";  

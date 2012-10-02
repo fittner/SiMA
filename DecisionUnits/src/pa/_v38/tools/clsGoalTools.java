@@ -714,7 +714,7 @@ public class clsGoalTools {
 				int nIndex = 0;
 				//Increase index if the list is not empty
 				while((oPreliminarySortList.isEmpty()==false) && 
-						(nIndex<oRetVal.size()) &&
+						(nIndex<oPreliminarySortList.size()) &&
 						(oPreliminarySortList.get(nIndex).a > oPair.a)) {
 					nIndex++;
 				}
@@ -722,7 +722,7 @@ public class clsGoalTools {
 				oPreliminarySortList.add(nIndex, oPair);
 			}
 			
-			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
+			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminarySortList) {
 				oRetVal.add(oPair.b);
 			}
 		}	
@@ -757,7 +757,7 @@ public class clsGoalTools {
 	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> filterDriveGoalsFromImageGoals(clsWordPresentationMesh poDriveGoal, ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList, int pnAffectLevelThreshold) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		boolean bGoalObjectFound = false;
+		//boolean bGoalObjectFound = false;
 		
 		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
@@ -777,7 +777,7 @@ public class clsGoalTools {
 					//FIXME AW: The goal objects are always true!!!! This should be corrected
 					if (clsGoalTools.getGoalObject(poDriveGoal).getMoDS_ID()==clsGoalTools.getGoalObject(oPossibleGoal).getMoDS_ID()) {
 						nCurrentPISortOrder++;	//same drive object => +1
-						bGoalObjectFound=true;
+						//bGoalObjectFound=true;
 					}
 					
 					//Check if it exists in perception

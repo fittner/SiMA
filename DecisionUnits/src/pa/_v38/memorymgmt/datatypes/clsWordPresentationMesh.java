@@ -295,7 +295,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				oResult += this.moContentType + ":" + this.moContent;
 				
 				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(this);
-				oResult += "|" + oPosition.b.toString() + ":" + oPosition.c.toString();
+				String oPhiPos = "null";
+				String oRadPos = "null";
+				
+				if (oPosition.b!=null) {
+					oPhiPos = oPosition.b.toString();
+				}
+				if (oPosition.c!=null) {
+					oRadPos = oPosition.c.toString();
+				}
+				
+				oResult += "|" + oPhiPos + ":" + oRadPos;
 			}
 			else {
 				oResult += "::"+this.moDataStructureType+"::";  
