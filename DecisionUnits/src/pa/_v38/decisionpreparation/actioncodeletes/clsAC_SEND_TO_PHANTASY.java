@@ -131,7 +131,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_INTERNAL_INFO);
 		
 	}
 

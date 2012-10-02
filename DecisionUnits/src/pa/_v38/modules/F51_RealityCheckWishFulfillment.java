@@ -22,9 +22,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsImportanceTools;
+import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
@@ -250,26 +252,31 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		// --- INIT GOALS --- //
 		//Preprocess all new goals and assign one goal as continued goal
 		clsWordPresentationMesh oContinuedGoal = clsDecisionPreparationTools.initGoals(moShortTimeMemory, moReachableGoalList_IN);
-		clsLogger.jlog.debug("Continued goal:" + oContinuedGoal.toString());
+		
 		
 		// --- PROVE CONTINUOUS CONDITIONS --- //
 		//Start codelets for new continuous goals 
 		proveContinousConditions(oContinuedGoal);
-		clsLogger.jlog.debug("Prove previous, goal:" + oContinuedGoal.toString());
+		
 		
 		// --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
 		clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
 		
+		
 		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
 		applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
-		clsLogger.jlog.debug("Append consequence, goal:" + oContinuedGoal.toString());
+		
 		
 		// --- SET NEW PRECONDITIONS FOR ACTIONS --- //
 		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
-		clsLogger.jlog.debug("New decision, goal:" + oContinuedGoal.toString());
+		
 		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
 		applyEffortOfGoal(moReachableGoalList_IN);
+		
+		
+		// --- ADD NON REACHABLE GOALS TO THE STM --- //
+		addNonReachableGoalsToSTM(moReachableGoalList_IN);
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		
@@ -600,6 +607,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process the codelets once again with new continued stati
 		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
+		clsLogger.jlog.debug("Append consequence, goal:" + poContinuedGoal.toString());
 		
 	}
 	
@@ -620,6 +628,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			
 		//Remove conditions for continuous preprocessing
 		//clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
+		clsLogger.jlog.debug("Prove previous, goal:" + poContinuedGoal.toString());
 	}
 	
 	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
@@ -629,6 +638,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Execute codelets, which decide what the next action in F52 will be
 		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.DECISION, 1);
 		
+		clsLogger.jlog.debug("New decision, goal:" + poContinuedGoal.toString());
+		
 	}
 	
 	private void applyEffortOfGoal(ArrayList<clsWordPresentationMesh> poGoalList) {
@@ -636,10 +647,22 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//Get the penalty for the effort
 			int oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
 			
-			//Add to affect value
-			clsImportanceTools.addImportance(oGoal, oImportanceValue);
+			clsGoalTools.setEffortLevel(oGoal, oImportanceValue);
 		}
 		
+		clsLogger.jlog.debug("Corrected goals:" + poGoalList.toString());
+		
+	}
+	
+	private void addNonReachableGoalsToSTM(ArrayList<clsWordPresentationMesh> poGoalList) {
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			if (clsGoalTools.checkIfConditionExists(oGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
+				clsWordPresentationMesh oMentalSituation = this.moShortTimeMemory.findCurrentSingleMemory();
+				clsMentalSituationTools.setExcludedGoal(oMentalSituation, oGoal);
+				
+				clsLogger.jlog.debug("Added non reachable goal to STM : " + oGoal.toString());
+			}
+		}
 	}
 	
 //	/**

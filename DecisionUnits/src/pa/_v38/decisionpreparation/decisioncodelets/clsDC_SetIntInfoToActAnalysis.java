@@ -10,6 +10,7 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -43,7 +44,7 @@ public class clsDC_SetIntInfoToActAnalysis extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_BASIC_ACT_ANALYSIS));
+		clsGoalTools.setCondition(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);
 		
 	}
 

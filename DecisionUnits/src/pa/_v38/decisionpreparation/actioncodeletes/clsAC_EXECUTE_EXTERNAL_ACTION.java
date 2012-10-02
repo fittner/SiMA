@@ -100,7 +100,7 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		
 	}
 

@@ -38,7 +38,7 @@ public class clsDCComposed_Goto extends clsDecisionCodelet {
 		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moInternalCodeletHandler);
 		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moInternalCodeletHandler);
 		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moInternalCodeletHandler);
-		clsDC_FocusToMoveFocus oDCTrans_FocusToMove = new clsDC_FocusToMoveFocus(moInternalCodeletHandler);
+		clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moInternalCodeletHandler);
 		
 	}
 

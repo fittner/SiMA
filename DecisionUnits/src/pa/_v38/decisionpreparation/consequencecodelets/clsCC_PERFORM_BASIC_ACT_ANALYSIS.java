@@ -77,11 +77,12 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		//Check if act analysis failed and remove all status if this is the case
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
-			clsGoalTools.removeAllTaskStatus(this.moGoal);
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+			clsGoalTools.removeAllConditions(this.moGoal);
+			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+			clsGoalTools.setCondition(this.moGoal, eCondition.IS_MEMORY_SOURCE);
 		} else {
 			for (eCondition oTaskStatus : oTaskStatusList) {
-				clsGoalTools.setTaskStatus(this.moGoal, oTaskStatus);
+				clsGoalTools.setCondition(this.moGoal, oTaskStatus);
 			}
 		}
 		
@@ -303,7 +304,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
 	}
 
 }

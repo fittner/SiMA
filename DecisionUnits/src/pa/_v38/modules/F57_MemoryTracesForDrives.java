@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-//import pa._v38.memorymgmt.enums.eActivationType;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
@@ -270,10 +270,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							
 							
 							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
-//							if(oMemoryDM.getActualDriveObject() != null) {
-//								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
-//								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
-//							}
+							if(oMemoryDM.getActualDriveObject() != null) {
+								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+							}
 														
 							// take  drive object+drive aim of best match 
 							if( rCurrentMatchFactor > rMaxMatchfactor) {

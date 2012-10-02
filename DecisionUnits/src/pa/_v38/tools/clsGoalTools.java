@@ -121,7 +121,7 @@ public class clsGoalTools {
 			oResult = (clsWordPresentationMesh) poGoal.clone();
 			
 			//Remove all task status from the goal
-			clsGoalTools.removeAllTaskStatus(oResult);
+			clsGoalTools.removeAllConditions(oResult);
 			clsGoalTools.removeAllAssociatedAction(oResult);
 			
 		} catch (CloneNotSupportedException e) {
@@ -195,13 +195,35 @@ public class clsGoalTools {
 	
 		clsWordPresentation oAffectLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASAFFECTLEVEL);
 		
-		oRetVal = clsImportanceTools.getImportance(oAffectLevelWP);
+		if (oAffectLevelWP==null) {
+			oRetVal = 0;
+		} else {
+			oRetVal = clsImportanceTools.getImportance(oAffectLevelWP);
+		}
 	
 		return oRetVal;
 	}
 	
 	public static void setAffectLevel(clsWordPresentationMesh poGoal, int pnImportance) {
 		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(pnImportance), true);
+	}
+	
+	public static int getEffortLevel(clsWordPresentationMesh poGoal) {
+		int oRetVal = 0;
+	
+		clsWordPresentation oEffortLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASEFFORTLEVEL);
+		
+		if (oEffortLevelWP==null) {
+			oRetVal = 0;
+		} else {
+			oRetVal = clsImportanceTools.getImportance(oEffortLevelWP);
+		}
+		
+		return oRetVal;
+	}
+	
+	public static void setEffortLevel(clsWordPresentationMesh poGoal, int pnImportance) {
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASEFFORTLEVEL, eContentType.EFFORTLEVEL, String.valueOf(pnImportance), true);
 	}
 	
 	
@@ -215,6 +237,7 @@ public class clsGoalTools {
 		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoalObject);
 		String oPhiPos = "null";
 		String oRadPos = "null";
+		String oPositionToAdd = "";
 		
 		if (oPosition.b!=null) {
 			oPhiPos = oPosition.b.toString();
@@ -223,7 +246,12 @@ public class clsGoalTools {
 			oRadPos = oPosition.c.toString();
 		}
 		
-		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + "(" + oPhiPos + ":" + oRadPos + ")" + ":" + poGoalType.toString();
+		if (oPosition.b!=null || oPosition.c!=null) {
+			oPositionToAdd = "(" + oPhiPos + ":" + oRadPos + ")";
+		}
+			
+		
+		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + oPositionToAdd + ":" + poGoalType.toString();
 		 
 		 return oResult;
 	}
@@ -240,13 +268,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void setTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
+	public static void setCondition(clsWordPresentationMesh poGoal, eCondition poTask) {
 		//Get the current one
 		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
 		
 		//Replace or create new
 		//if (oFoundStructure==null) {
-		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS, eContentType.TASKSTATUS, poTask.toString(), false);
+		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASCONDITION, eContentType.CONDITION, poTask.toString(), false);
 		//} else {
 		//	oFoundStructure.setMoContent(poTask.toString());
 		//}
@@ -264,10 +292,10 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static ArrayList<eCondition> getTaskStatus(clsWordPresentationMesh poGoal) {
+	public static ArrayList<eCondition> getCondition(clsWordPresentationMesh poGoal) {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
-		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getConditionDataStructure(poGoal);
 				
 		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
 			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
@@ -288,10 +316,10 @@ public class clsGoalTools {
 	 * @param poTask
 	 * @return
 	 */
-	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eCondition poTask) {
+	public static boolean checkIfConditionExists(clsWordPresentationMesh poGoal, eCondition poTask) {
 		boolean bResult = false;
 		
-		ArrayList<eCondition> oResult = clsGoalTools.getTaskStatus(poGoal);
+		ArrayList<eCondition> oResult = clsGoalTools.getCondition(poGoal);
 		if (oResult.contains(poTask)) {
 			bResult=true;
 		}
@@ -309,8 +337,8 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eCondition poTask) {
-		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+	public static void removeCondition(clsWordPresentationMesh poGoal, eCondition poTask) {
+		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getConditionDataStructure(poGoal);
 		
 		for (clsWordPresentation oTaskStatus : oFoundStructureList) {
 			if (oTaskStatus.getMoContent().equals(poTask.toString())) {
@@ -328,8 +356,8 @@ public class clsGoalTools {
 	 *
 	 * @param poGoal
 	 */
-	public static void removeAllTaskStatus(clsWordPresentationMesh poGoal) {
-		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASTASKSTATUS);
+	public static void removeAllConditions(clsWordPresentationMesh poGoal) {
+		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASCONDITION);
 	}
 	
 	/**
@@ -344,8 +372,8 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	private static ArrayList<clsWordPresentation> getTaskStatusDataStructure(clsWordPresentationMesh poGoal) {
-		return clsMeshTools.getNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS);
+	private static ArrayList<clsWordPresentation> getConditionDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getNonUniquePredicateWP(poGoal, ePredicate.HASCONDITION);
 	}
 	
 	
@@ -686,7 +714,7 @@ public class clsGoalTools {
 				int nIndex = 0;
 				//Increase index if the list is not empty
 				while((oPreliminarySortList.isEmpty()==false) && 
-						(nIndex<oRetVal.size()) &&
+						(nIndex<oPreliminarySortList.size()) &&
 						(oPreliminarySortList.get(nIndex).a > oPair.a)) {
 					nIndex++;
 				}
@@ -694,7 +722,7 @@ public class clsGoalTools {
 				oPreliminarySortList.add(nIndex, oPair);
 			}
 			
-			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
+			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminarySortList) {
 				oRetVal.add(oPair.b);
 			}
 		}	
@@ -729,13 +757,13 @@ public class clsGoalTools {
 	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> filterDriveGoalsFromImageGoals(clsWordPresentationMesh poDriveGoal, ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList, int pnAffectLevelThreshold) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		boolean bGoalObjectFound = false;
+		//boolean bGoalObjectFound = false;
 		
 		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
-			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal);
+			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal) + clsGoalTools.getEffortLevel(oPossibleGoal);
 			
 			if (nCurrentAffectLevel>=pnAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time
@@ -749,13 +777,13 @@ public class clsGoalTools {
 					//FIXME AW: The goal objects are always true!!!! This should be corrected
 					if (clsGoalTools.getGoalObject(poDriveGoal).getMoDS_ID()==clsGoalTools.getGoalObject(oPossibleGoal).getMoDS_ID()) {
 						nCurrentPISortOrder++;	//same drive object => +1
-						bGoalObjectFound=true;
+						//bGoalObjectFound=true;
 					}
 					
 					//Check if it exists in perception
-					if (clsGoalTools.getSupportiveDataStructureType(oPossibleGoal) == eContentType.PI) {
-						nCurrentPISortOrder++;	//Object exists in the perception => +1 because it is nearer
-					}
+					//if (clsGoalTools.getSupportiveDataStructureType(oPossibleGoal) == eContentType.PI) {
+					//	nCurrentPISortOrder++;	//Object exists in the perception => +1 because it is nearer
+					//}
 
 					//Sort goals
 					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);

@@ -41,14 +41,14 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
 			
-			if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.SET_INTERNAL_INFO)==false &&
-					clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+			if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.SET_INTERNAL_INFO)==false &&
+					clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+				clsGoalTools.setCondition(this.moGoal, eCondition.NEED_INTERNAL_INFO);
 			}
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
 		}
 			
 		

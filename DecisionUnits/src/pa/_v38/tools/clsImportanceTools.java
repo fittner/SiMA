@@ -311,7 +311,7 @@ public class clsImportanceTools {
 		//Go through the original list
 		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
 			//The the content of each drive
-			clsWordPresentationMesh oGoal = poDriveDemandsList.get(i);
+			clsWordPresentationMesh oDriveGoal = poDriveDemandsList.get(i);
 			//Get the content of the datatype in the container
 			//String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
 			
@@ -319,12 +319,15 @@ public class clsImportanceTools {
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffectValue = clsGoalTools.getAffectLevel(oGoal); //getDriveIntensityAsInt(oContent);
+			int nAffectLevel = clsGoalTools.getAffectLevel(oDriveGoal);
+			//int nEffortLevel = clsGoalTools.getEffortLevel(oGoal); //getDriveIntensityAsInt(oContent);
+			int nTotalAffectValue = nAffectLevel;
 			//Sort the affects for priority according to the order in the list in this class
-			int nAffectSortOrder = (moAffectSortOrder.size() - moAffectSortOrder.indexOf(nAffectValue)-1) * 10;
+			int nAffectSortOrder = (moAffectSortOrder.size() -1 - moAffectSortOrder.indexOf(nTotalAffectValue)) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
-			String oDriveType = clsGoalTools.getGoalName(oGoal); //getDriveType(oContent);
+			String oDriveType = clsGoalTools.getGoalName(oDriveGoal); //getDriveType(oContent);
+			
 			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
 			
 			int nIndex = 0;
@@ -335,7 +338,7 @@ public class clsImportanceTools {
 				nIndex++;
 			}
 			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsWordPresentationMesh>(nAffectSortOrder, nDriveIndex, oGoal));
+			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsWordPresentationMesh>(nAffectSortOrder, nDriveIndex, oDriveGoal));
 		}
 		
 		//Add results to the new list
@@ -443,43 +446,43 @@ public class clsImportanceTools {
 		return oDriveType;
 	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 21.09.2012 21:05:35
-	 *
-	 * @param poImportanceWP
-	 * @param pnImportance
-	 */
-	public static void setImportance(clsWordPresentation poImportanceWP, int pnImportance) {
-		poImportanceWP.setMoContent(String.valueOf(pnImportance));
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 21.09.2012 21:05:35
+//	 *
+//	 * @param poImportanceWP
+//	 * @param pnImportance
+//	 */
+//	public static void setImportance(clsWordPresentation poImportanceWP, int pnImportance) {
+//		poImportanceWP.setMoContent(String.valueOf(pnImportance));
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 21.09.2012 21:05:34
-	 *
-	 * @param poImportanceWP
-	 * @param pnAbsoluteImportance
-	 */
-	public static void addAbsoulteImportance(clsWordPresentation poImportanceWP, int pnAbsoluteImportance) {
-		int nOriginalImportance = getImportance(poImportanceWP);
-		
-		if (nOriginalImportance<0) {
-			nOriginalImportance =- pnAbsoluteImportance;
-		} else {
-			nOriginalImportance =+ pnAbsoluteImportance;
-		}
-		
-		setImportance(poImportanceWP, nOriginalImportance);
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 21.09.2012 21:05:34
+//	 *
+//	 * @param poImportanceWP
+//	 * @param pnAbsoluteImportance
+//	 */
+//	public static void addAbsoulteImportance(clsWordPresentation poImportanceWP, int pnAbsoluteImportance) {
+//		int nOriginalImportance = getImportance(poImportanceWP);
+//		
+//		if (nOriginalImportance<0) {
+//			nOriginalImportance =- pnAbsoluteImportance;
+//		} else {
+//			nOriginalImportance =+ pnAbsoluteImportance;
+//		}
+//		
+//		setImportance(poImportanceWP, nOriginalImportance);
+//	}
 	
-	public static void addImportance(clsWordPresentationMesh poGoal, int pnImportance) {
-		int nOriginalAffectLevel = clsGoalTools.getAffectLevel(poGoal);
-		int nNewAffectLevel = nOriginalAffectLevel + pnImportance;
-		clsGoalTools.setAffectLevel(poGoal, nNewAffectLevel);
-	}
+//	public static void addImportance(clsWordPresentationMesh poGoal, int pnImportance) {
+//		int nOriginalAffectLevel = clsGoalTools.getAffectLevel(poGoal);
+//		int nNewAffectLevel = nOriginalAffectLevel + pnImportance;
+//		clsGoalTools.setAffectLevel(poGoal, nNewAffectLevel);
+//	}
 	
 	public static int getImportance(clsWordPresentation poImportanceWP) {
 		return Integer.valueOf(poImportanceWP.getMoContent());
@@ -605,7 +608,7 @@ public class clsImportanceTools {
 		int nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-200;
+			nResult+=-100;
 		} else
 		if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
@@ -614,7 +617,7 @@ public class clsImportanceTools {
 			nResult+= -50;
 		} else
 		if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
-			nResult+=-20;
+			nResult+=-2000;
 		} else
 		if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
 			nResult+=20;

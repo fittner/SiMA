@@ -33,6 +33,7 @@ public enum eContentType {
 	
 	AREASUBSET,
 	AFFECTLEVEL,
+	EFFORTLEVEL,
 	PREDICTION,
 	PLAN,
 	INTENTION,
@@ -46,7 +47,7 @@ public enum eContentType {
 	
 	
 	//--- Goals ---//
-	TASKSTATUS,
+	CONDITION,
 	GOALTYPE,
 	GOALNAME,
 	PREFERREDACTION,

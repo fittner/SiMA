@@ -47,18 +47,18 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_INTERNAL_INFO);	//Do not send this goal to phantasy twice
+		clsGoalTools.setCondition(this.moGoal, eCondition.SET_INTERNAL_INFO);	//Do not send this goal to phantasy twice
 		
 		//Perform dec
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
 			
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
+			//clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
 			
 			//Set the focus structure for phantasy
 			clsActionTools.setSupportiveDataStructure(this.moGoal, clsGoalTools.getSupportiveDataStructure(this.moGoal));
 		
 			
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
 			//Replace the supportive data structure with the one from the act
 			//Find a goal in the list, which has the same act inside of it
 			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal);
@@ -108,7 +108,7 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY);
 		
 	}
 

@@ -44,13 +44,13 @@ public class clsDC_ExeMovementToNull extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
 
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_GOAL_FOCUS);
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
 
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
 		}
 		
 	}

@@ -49,7 +49,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 		
 		
 		//Set consequence
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_ON);
+		clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_ON);
 		//clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		
 	}
@@ -87,7 +87,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_ON);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_ON);
 		
 	}
 

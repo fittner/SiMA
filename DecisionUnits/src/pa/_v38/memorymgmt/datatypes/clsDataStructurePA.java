@@ -11,7 +11,6 @@ import java.util.List;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
-import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 
@@ -228,6 +227,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
+		double rWeight = 0.0;
 		List<E> oClonedTemplateList = this.cloneList(oContentListTemplate); 
 		int nAssociationCount = oContentListUnknown.size(); 
 		
@@ -251,7 +251,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				for(E oClonedKnownDS : oClonedTemplateList){				
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
-						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  ((clsAssociation)oClonedKnownDS).mrImperativeFactor; // In non-definitional models no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ((clsAssociation)oClonedKnownDS).getMrWeight(); 
+						rWeight = ((clsAssociation)oClonedKnownDS).getMrWeight();
+						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  rWeight; // In non-definitional models no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
@@ -269,14 +270,11 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				oMatchScore += oMatch.a;
 			
 				
-				// perceptual activation: source activation
-				// TODO: currently just TPMs get activation. 
-				try {
-					((clsThingPresentationMesh)poDSUnknown).applySourceActivation(eActivationType.PERCEPTUAL_ACTIVATION, oMatch.a);
-				}
-				catch (Exception e) {
-					// just do nothing
-				}
+//				// perceptual activation: source activation
+//				// TODO: currently just TPMs get activation. 
+//				if(poDSUnknown instanceof clsThingPresentationMesh) {
+//					((clsThingPresentationMesh)poDSUnknown).applySourceActivation(eActivationType.PERCEPTUAL_ACTIVATION, oMatch.a, rWeight);
+//				}
 				
 				if(oMatch.a > 0.0){
 					try{
@@ -294,14 +292,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 			oMatchScoreNorm = 0;
 		}
 			
-		// perceptual activation: source activation
-		// TODO: currently just TPMs get activation. 
-		try {
-			((clsThingPresentationMesh)poDSUnknown).applyCriterionActivation(eActivationType.PERCEPTUAL_ACTIVATION, nAssociationCount);
-		}
-		catch (Exception e) {
-			// just do nothing
-		}
+				
 		
 		//return oMatchScore;
 		return oMatchScoreNorm;

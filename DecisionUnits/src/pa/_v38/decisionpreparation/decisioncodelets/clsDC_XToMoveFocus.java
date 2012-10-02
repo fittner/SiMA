@@ -19,7 +19,7 @@ import pa._v38.tools.clsGoalTools;
  * 01.10.2012, 16:19:10
  * 
  */
-public class clsDC_FocusToMoveFocus extends clsDecisionCodelet {
+public class clsDC_XToMoveFocus extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -31,7 +31,7 @@ public class clsDC_FocusToMoveFocus extends clsDecisionCodelet {
 	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsDC_FocusToMoveFocus(clsCodeletHandler poCodeletHandler) {
+	public clsDC_XToMoveFocus(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
@@ -44,12 +44,12 @@ public class clsDC_FocusToMoveFocus extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_MOVEMENT);
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_SEARCH_INFO);
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_MOVEMENT);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		}
 
 	}
@@ -63,7 +63,7 @@ public class clsDC_FocusToMoveFocus extends clsDecisionCodelet {
 	@Override
 	protected void setPreconditions() {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_MOVEMENT));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.GOAL_NOT_REACHABLE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_INTERNAL_INFO));
 	}
 
 	/* (non-Javadoc)
