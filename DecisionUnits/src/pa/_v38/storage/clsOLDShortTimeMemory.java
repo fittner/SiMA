@@ -21,7 +21,7 @@ import pa._v38.tools.clsPair;
  * 
  * @author wendt
  * 31.08.2011, 07:12:10
- * 
+ * @deprecated
  */
 public class clsOLDShortTimeMemory {
 	/** The variable for the short time memory */
