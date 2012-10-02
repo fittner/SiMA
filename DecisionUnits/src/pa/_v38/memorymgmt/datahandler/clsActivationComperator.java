@@ -34,19 +34,20 @@ public class clsActivationComperator  implements Comparator<clsThingPresentation
 			double rActivationLevel1 = oTPM1.getOverallActivationLevel();			
 			double rActivationLevel2 = oTPM2.getOverallActivationLevel();
 			
-			if(rActivationLevel1 < rActivationLevel2){
+			if(rActivationLevel1 > rActivationLevel2){
 				return -1;
 			}
 			else if(rActivationLevel1 == rActivationLevel2) {
 				return 0;
 			}
-			else if(rActivationLevel1 > rActivationLevel2) {
+			else if(rActivationLevel1 < rActivationLevel2) {
 				return 1;
 			}
 			
 			return 0;//
 		}
 		catch (Exception e) {
+			e.printStackTrace();
 			return 0;
 		}
 		

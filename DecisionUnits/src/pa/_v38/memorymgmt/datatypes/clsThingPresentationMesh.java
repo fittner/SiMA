@@ -288,14 +288,17 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivationKind, prSourceActivation
 	 */
-	public void applySourceActivation(eActivationType poActivationKind, double prSourceActivation){
+	public void applySourceActivation(eActivationType poActivationKind, double prSourceActivation, double rWeight){
 		
 		double rPreviousActivation = 0;
 		
 		if(moActivations.containsKey(poActivationKind)) {
 			rPreviousActivation = moActivations.get(poActivationKind);
 		}
-		moActivations.put(poActivationKind, rPreviousActivation+prSourceActivation);
+		moActivations.put(poActivationKind, rPreviousActivation+(prSourceActivation*rWeight));
+		
+		System.out.println(poActivationKind);
+		System.out.println(rPreviousActivation+(prSourceActivation*rWeight));
 	}
 	
 	
@@ -307,9 +310,13 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivationKind, poNorm
 	 */
-	public void applyCriterionActivation(eActivationType poActivationKind, double poNorm) {
+	public void applyCriterionActivation(eActivationType poActivationKind, double poCriterionMaxValue) {
 		
-		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / poNorm);
+		System.out.println(poActivationKind);
+		System.out.println("act" + moActivations.get(poActivationKind)); 
+		System.out.println("max" +poCriterionMaxValue);
+		
+		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / poCriterionMaxValue);
 			
 	}
 	
@@ -368,7 +375,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivationKind
 	 */
-	public double getSpecificActivationLevel(eActivationType poActivationKind) {
+	public double getCriterionActivationValue(eActivationType poActivationKind) {
 			double rActivationLevel = moActivations.get(poActivationKind);
 			
 			return rActivationLevel;
@@ -387,9 +394,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		for (double oActivation : moActivations.values()) {
 			oOverallActivation += oActivation;
 		}
-		
+				
 		// normalize. Every ActivationEntry is max 1, hence the overall max is the # of entries
-		return  oOverallActivation/moActivations.size();
+		// TEST
+		return  moActivations.get(eActivationType.SIMILARITY_ACTIVATION); //oOverallActivation/moActivations.size();
 	}
 	
 	/**
@@ -400,7 +408,10 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivation
 	 */
-	public void setCriterionActivation(eActivationType poActivationKind, double poActivationLevel) {
+	public void setCriterionActivationValue(eActivationType poActivationKind, double poActivationLevel) {
+		if(moActivations.containsKey(poActivationKind)) {
+			System.out.println(poActivationKind + " already exist");
+		}
 		moActivations.put(poActivationKind, poActivationLevel);
 	}
 	
@@ -412,7 +423,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * 28.08.2012, 12:10:28
 	 *
 	 */
-	public void calculatePleasurePotential() {
+	public void embodimentCriterionWeighting() {
 		// a TPM uses the highest possible activation
 		// but consider synergies, i.e. if a object gets  multiple actications --> increase activation
 		// always use the highest activation for the basis-activation. the other activations are only considered as rest-activation. 
@@ -441,21 +452,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 	}
 	
-	/**
-	 * DOCUMENT (schaat) - insert description
-	 *
-	 * @author schaat
-	 * 28.08.2012, 12:10:28
-	 *
-	 */
-	public double getPleasurePotential() {
-	
-		if(mrPleasurePotential == 0) {
-			calculatePleasurePotential();
-		}
-		return mrPleasurePotential;
-	
-	}
+
 	
 	/**
 	 * Check if this object is a null object
