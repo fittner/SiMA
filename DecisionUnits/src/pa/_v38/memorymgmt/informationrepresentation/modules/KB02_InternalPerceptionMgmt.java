@@ -15,10 +15,10 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+
 
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
-import pa._v38.memorymgmt.enums.eActivationType;
+
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 
 /**
@@ -234,7 +234,9 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		
 		double rMatchScore = 0;
 		
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerListReturn = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		
 		// list for expanded nodes
 		
@@ -295,14 +297,14 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			// 7. Goal test (=similarity check)
 			for (clsDataStructurePA oFringeObject: oSearchFringe) {
 				
-				//TODO: currently activation is only considered for TPMs
-				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
-				try {
-					((clsThingPresentationMesh)oFringeObject).setCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
-				}
-				catch (Exception e) {
-					
-				}
+//				//TODO: currently activation is only considered for TPMs
+//				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
+//				try {
+//					((clsThingPresentationMesh)oFringeObject).setCriterionActivationValue(eActivationType.PERCEPTUAL_ACTIVATION, 0.0);
+//				}
+//				catch (Exception e) {
+//					
+//				}
 				
 				// initialize perceptual activation
 				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
@@ -313,11 +315,17 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 					
 				//}
 			}
+			
+			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchingDataStructureList){
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
+				oDataStructureContainerListReturn.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
+			}
+			return oDataStructureContainerListReturn;
 			 
 		}
 		
 		
-		return oDataStructureContainerList;
+		return oDataStructureContainerListReturn;
 	}
 
 	/**

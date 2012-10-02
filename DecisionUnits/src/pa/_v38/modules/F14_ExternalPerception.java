@@ -10,11 +10,9 @@ import java.awt.Color;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.SortedMap;
-//iport java.util.TreeSet;
-import java.util.TreeSet;
 import config.clsProperties;
 import du.enums.eDistance;
 import du.itf.sensors.clsInspectorPerceptionItem;
@@ -478,7 +476,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsThingPresentationMesh oCandidateTPM = null;
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
-		HashSet<TreeSet<clsThingPresentationMesh>> oRankedCandidateTPMs = new HashSet<TreeSet<clsThingPresentationMesh>>(); 
+		ArrayList<ArrayList<clsThingPresentationMesh>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsThingPresentationMesh>>(); 
 	
 		ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
@@ -598,12 +596,17 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		//TODO: embed this code in search function
 		for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {
-			TreeSet<clsThingPresentationMesh> oSpecificCandidates = new TreeSet<clsThingPresentationMesh>(new clsActivationComperator());
+			ArrayList<clsThingPresentationMesh> oSpecificCandidates = new ArrayList<clsThingPresentationMesh>();
 			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){				
 				oCandidateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
 				
+				// similarity activation: source activation
+				
+				oCandidateTPM.setCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION, oSearchItem.a);
+			
 				oSpecificCandidates.add(oCandidateTPM);
 			}
+			Collections.sort( oSpecificCandidates, new clsActivationComperator() );
 			oRankedCandidateTPMs.add(oSpecificCandidates);
 		}
 		

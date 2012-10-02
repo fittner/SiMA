@@ -15,6 +15,6 @@ package pa._v38.memorymgmt.enums;
  */
 public enum eActivationType {
 	EMBODIMENT_ACTIVATION,
-	PERCEPTUAL_ACTIVATION,
+	SIMILARITY_ACTIVATION,
 	ASSOCIATIVE_ACTIVATION;
 }

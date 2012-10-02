@@ -1277,7 +1277,7 @@ public abstract class clsDataStructureComparison {
 					//TODO: currently activation is only considered for TPMs
 					//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
 					try {
-						((clsThingPresentationMesh)oCompareElement).setCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
+						((clsThingPresentationMesh)oCompareElement).setCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
 					}
 					catch (Exception e) {
 						
