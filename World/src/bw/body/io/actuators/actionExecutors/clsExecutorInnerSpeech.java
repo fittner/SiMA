@@ -122,7 +122,7 @@ public class clsExecutorInnerSpeech extends clsActionExecutor{
     		//((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
     		break;
     	case MOVE_BACKWARD:
-    		moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeech);
+    		moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeach_Nourish);
     		//((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
     		break;
     	}
