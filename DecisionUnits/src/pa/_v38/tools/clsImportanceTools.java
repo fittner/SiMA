@@ -617,7 +617,7 @@ public class clsImportanceTools {
 			nResult+= -50;
 		} else
 		if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
-			nResult+=-20;
+			nResult+=-2000;
 		} else
 		if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
 			nResult+=20;

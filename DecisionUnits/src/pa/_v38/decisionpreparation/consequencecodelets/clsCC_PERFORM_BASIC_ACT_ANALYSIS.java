@@ -79,6 +79,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
 			clsGoalTools.removeAllConditions(this.moGoal);
 			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+			clsGoalTools.setCondition(this.moGoal, eCondition.IS_MEMORY_SOURCE);
 		} else {
 			for (eCondition oTaskStatus : oTaskStatusList) {
 				clsGoalTools.setCondition(this.moGoal, oTaskStatus);
