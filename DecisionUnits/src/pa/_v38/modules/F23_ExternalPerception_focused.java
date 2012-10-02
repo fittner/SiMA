@@ -234,6 +234,12 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//=== Filter the perception === //
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+//		try {
+//			moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		//Remove all non focused objects
 		focusPerception(moPerceptionalMesh_OUT, oFocusOnGoalList, nNumberOfAllowedObjects);

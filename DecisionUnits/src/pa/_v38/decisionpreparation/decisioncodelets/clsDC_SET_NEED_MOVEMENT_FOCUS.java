@@ -1,74 +1,67 @@
 /**
  * CHANGELOG
  *
- * 26.09.2012 wendt - File created
+ * 01.10.2012 wendt - File created
  *
  */
-package pa._v38.decisionpreparation.actioncodeletes;
+package pa._v38.decisionpreparation.decisioncodelets;
 
-import pa._v38.decisionpreparation.clsActionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 20:27:43
+ * 01.10.2012, 15:51:30
  * 
  */
-public class clsACFlee extends clsActionCodelet {
+public class clsDC_SET_NEED_MOVEMENT_FOCUS extends clsDecisionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 20:28:12
+	 * @since 01.10.2012 15:51:45
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
+	 * @param poReachableGoalList
 	 * @param poCodeletHandler
 	 */
-	public clsACFlee(clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsDC_SET_NEED_MOVEMENT_FOCUS(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 20:28:14
+	 * @since 01.10.2012 15:51:48
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
 	protected void processGoal() {
-		this.generateAction(eAction.FLEE);
-		
-		//Associate the action with the goal
-		setActionAssociationInGoal();
+		clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 20:28:14
+	 * @since 01.10.2012 15:51:48
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.PANIC));
-		
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_FOCUS_ON));
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 20:28:14
+	 * @since 01.10.2012 15:51:48
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -80,13 +73,13 @@ public class clsACFlee extends clsActionCodelet {
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 20:28:14
+	 * @since 01.10.2012 15:51:48
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = eAction.FLEE.toString();
+	protected void removeTriggerCondition() {
+		// TODO (wendt) - Auto-generated method stub
 		
 	}
 

@@ -258,11 +258,12 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	
 	@Override
 	public String toString(){
-			String oResult = "::"+this.moDataStructureType+"::";  
-			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
-			
+			String oResult = "";
+
 			//Add by AW
 			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
+				oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
 					oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
 					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
@@ -277,11 +278,19 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					}
 				}
 			} else if (this.moContentType.equals(eContentType.GOAL)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContentType + ":" + this.moContent;
+				
+				oResult += ":" + clsGoalTools.getAffectLevel(this);
+				
 				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
 				if (oConditionList.isEmpty()==false) {
-					oResult += oConditionList.toString();
+					oResult += " " + oConditionList.toString();
 				}
 				
+			} else {
+				oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
 			}
 
 			return oResult; 

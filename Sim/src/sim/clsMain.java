@@ -155,4 +155,12 @@ public class clsMain extends SimState{
     public boolean getShowArousalGrid(){
     	return clsSingletonProperties.showArousalGridPortrayal();
     }
+    
+    public void setShowTPMNetworkGrid(boolean value){
+    	clsSingletonProperties.setShowTPMNetworkGrid(value);
+    }
+    
+    public boolean getShowTPMNetworkGrid(){
+    	return clsSingletonProperties.showTPMNetworkGrid();
+    }
  }

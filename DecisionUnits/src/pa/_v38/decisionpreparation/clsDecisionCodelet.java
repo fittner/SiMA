@@ -6,9 +6,6 @@
  */
 package pa._v38.decisionpreparation;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.storage.clsShortTermMemory;
-
 /**
  * DOCUMENT (wendt) - insert description 
  * 
@@ -18,6 +15,7 @@ import pa._v38.storage.clsShortTermMemory;
  */
 public abstract class clsDecisionCodelet extends clsCodelet {
 
+	
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -26,9 +24,9 @@ public abstract class clsDecisionCodelet extends clsCodelet {
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 */
-	public clsDecisionCodelet(clsWordPresentationMesh poEnvironmentalImage, clsShortTermMemory poShortTermMemory, clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
-		// TODO (wendt) - Auto-generated constructor stub
+	public clsDecisionCodelet(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
+
 	}
 
 }

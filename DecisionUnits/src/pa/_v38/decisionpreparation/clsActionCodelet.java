@@ -9,7 +9,6 @@ package pa._v38.decisionpreparation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.planning.clsTEMPPlannerAW;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 
@@ -33,10 +32,8 @@ public abstract class clsActionCodelet extends clsCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsActionCodelet(clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsActionCodelet(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		
 		 moExternalActionPlanner = clsTEMPPlannerAW.getPlanner();
 		

@@ -224,7 +224,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			clsLogger.jlog.debug("Decided goal: " + moDecidedGoalList_OUT.get(0));
-			clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
+			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
 			clsLogger.jlog.debug("Decided goal: No goal ");
 		}

@@ -12,6 +12,7 @@ import bw.factories.clsSingletonMasonGetter;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
 import sim.field.grid.DoubleGrid2D;
+import sim.field.network.Network;
 import sim.physics2D.PhysicsEngine2D;
 import statictools.clsGetARSPath;
 
@@ -175,23 +176,22 @@ public abstract class clsLoader {
     	double nHeight = poProp.getPropertyDouble(pre+P_FIELD_HEIGHT);
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, nWidth, nHeight));
     	
-    	//add 
+    	//add sensor arousal grid
     	DoubleGrid2D arousalgrid = new DoubleGrid2D((int)nWidth, (int)nHeight, 0);
-    	
-    	//test data for the gradient
-//    	arousalgrid.set(10, 10, 1);
-//    	arousalgrid.set(10, 11, 0.1);
-//    	arousalgrid.set(10, 12, 0.2);
-//    	arousalgrid.set(10, 13, 0.3);
-//    	arousalgrid.set(10, 14, 0.4);
-//    	arousalgrid.set(10, 15, 0.5);
-//    	arousalgrid.set(10, 16, 0.6);
-//    	arousalgrid.set(10, 17, 0.7);
-//    	arousalgrid.set(10, 18, 0.8);
-//    	arousalgrid.set(10, 19, 0.9);
-//    	arousalgrid.set(10, 20, 1);
-
     	clsSingletonMasonGetter.setArousalGridEnvironment(arousalgrid);
+    	
+    	//add TPM network for primary process
+    	Network oTPMNetwork = new Network();
+    	
+    	
+    	oTPMNetwork.addNode("test2");
+    	oTPMNetwork.addEdge("test", "test2", "edgeinfo");
+    	
+    	clsSingletonMasonGetter.setTPMNetworkField(oTPMNetwork);
+    	clsSingletonMasonGetter.setTPMNodeField(new Continuous2D(25, nWidth, nHeight));
+    	
+    	
+    	
     }	
     
 	/**

@@ -38,6 +38,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
+import java.util.Map.Entry;
 
 /**
  * Defends forbidden drives. Super-Ego (F7 and F55) sends a list with forbidden drives to F06. F06 decides whether to defend the forbidden drives or not.
@@ -426,37 +427,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			   
 		   }
 
-		
-		
-		
-/*	
-		// Iterate over all forbidden drives
-		for (String oContent : oForbiddenDrives_Input) {
-		
-			int i = 0;
-			// search in list of incoming drives
-			for(clsDriveMesh oDrive : moDriveList_Input){
-				// check DriveMesh
-				if (oDrive.getActualDriveAim().equals(oContent)){
-					
-					// remove DriveMesh i from output list
-					moDriveList_Output.remove(i);
-					// drive found
-					moDriveList_Output.add(displacement(oDrive));
-									
-				}
-				
-				i++;
-			}
-		
-		}
-		return;
-*/	   	
+	   	
 	}
 	
 	/* (non-Javadoc)
 	 *
-	 * @author gelbard
+	 * @author gelbard, lotfi
 	 * 28.03.2012, 17:30:00
 	 * 
 	 * This method represents the defense mechanism "displacement"
@@ -464,15 +440,35 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 *
 	 */
 	protected clsDriveMesh displacement(clsDriveMesh poOriginalDM) {
-	    // Liste mit möglichen Trieben und dazugehöriges displaced drive object (und reserve drive object, falls displace drive object das original drive object ist.)
-		// (eventuell könnte man auch noch das drive object des nächsten Triebes nehmen, falls gar kein drive object passt)
+
+		HashMap<String, String> DisplaceDriveObjectList = new HashMap<String, String> ();
+
+		// Liste mit möglichen Trieben und dazugehöriges displaced drive object
+				DisplaceDriveObjectList.put("CARROT","CAKE");
+				DisplaceDriveObjectList.put("CAKE","CARROT");
+				DisplaceDriveObjectList.put("STONE","TREE");
 		
-		// Liste der Triebe ist NOURISH, BITE, DEPOSIT, usw. -> heraussuchen aus Inspektoren
+				String oOriginalDOContent = poOriginalDM.getActualDriveObject().getMoContent();
 		
-		// Wo finde ich die möglichen Triebobjekte (TPM)?
+				for (clsDriveMesh oDrive : moDriveList_Output){			
+								for (Entry<String, String> entry: DisplaceDriveObjectList.entrySet()){
+									if(oDrive.getActualDriveObject().getMoContent().equals(entry.getKey())){
+										String DisplacedDriveObject = DisplaceDriveObjectList.get(oOriginalDOContent);
+										
+										clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+								                eDataType.TPM,
+								                new clsTriple<eContentType, Object, Object> (eContentType.ENTITY, new ArrayList<clsThingPresentation>(), DisplacedDriveObject));//eContentType.ACTION
+												
+											try {
+												poOriginalDM.setActualDriveObject(oDisplacedDriveObject, 1.0);
+											} catch (Exception e) {
+												e.printStackTrace();
+											}			
+									}
+								}
+							}
 		
-		//clsPhysicalRepresentation oDisplacedDriveObject = TPM(search(poOriginalDM -> displacedDriveObject));
-		//return oDisplacedDriveObject;
+
 		return poOriginalDM;
 	}
 

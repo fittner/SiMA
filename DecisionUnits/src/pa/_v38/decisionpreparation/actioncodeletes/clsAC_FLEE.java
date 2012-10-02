@@ -9,74 +9,67 @@ package pa._v38.decisionpreparation.actioncodeletes;
 import pa._v38.decisionpreparation.clsActionCodelet;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 26.09.2012, 11:55:49
+ * 26.09.2012, 20:27:43
  * 
  */
-public class clsACFocusOn extends clsActionCodelet {
+public class clsAC_FLEE extends clsActionCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
-	 * @since 26.09.2012 11:57:56
+	 * @since 26.09.2012 20:28:12
 	 *
 	 * @param poEnvironmentalImage
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsACFocusOn(clsWordPresentationMesh poEnvironmentalImage,
-			clsShortTermMemory poShortTermMemory,
-			clsCodeletHandler poCodeletHandler) {
-		super(poEnvironmentalImage, poShortTermMemory, poCodeletHandler);
+	public clsAC_FLEE(clsCodeletHandler poCodeletHandler) {
+		super(poCodeletHandler);
 		// TODO (wendt) - Auto-generated constructor stub
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:57:58
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
 	 */
 	@Override
-	protected void processGoal() {		
-		this.generateAction(eAction.FOCUS_ON);
+	protected void processGoal() {
 		
-		//Get the supportive data structure
-		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		this.generateAction(eAction.FLEE);
 		
-		//Associate this structure with the action
-		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+		//Update goal status - remove the conditions to execute this codelet
+		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.PANIC);
 		
-		
+		//Associate the action with the goal
 		setActionAssociationInGoal();
+		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:57:58
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
 	 */
 	@Override
 	protected void setPreconditions() {
-		//eCondition.NEED_GOAL_FOCUS
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_GOAL_FOCUS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.PANIC));
 		
 	}
 
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:57:58
+	 * @since 26.09.2012 20:28:14
 	 * 
 	 * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
 	 */
@@ -86,15 +79,16 @@ public class clsACFocusOn extends clsActionCodelet {
 		
 	}
 
+
 	/* (non-Javadoc)
 	 *
-	 * @since 26.09.2012 11:57:58
+	 * @since 01.10.2012 15:16:28
 	 * 
-	 * @see pa._v38.decisionpreparation.clsCodelet#setName()
+	 * @see pa._v38.decisionpreparation.clsActionCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void setName() {
-		this.moCodeletName = "FOCUS_ON";
+	protected void removeTriggerCondition() {
+		// TODO (wendt) - Auto-generated method stub
 		
 	}
 

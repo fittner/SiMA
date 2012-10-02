@@ -25,6 +25,7 @@ public class clsSingletonProperties {
 	private boolean mnUse3DPerception;
 	private boolean mnUseLogger;
 	private boolean mnShowArousalGridPortrayal;
+	private boolean mnShowTPMNetworkGridPortrayal;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -34,9 +35,11 @@ public class clsSingletonProperties {
 		mnUse3DPerception = false;
 		mnUseLogger = false;
 		mnShowArousalGridPortrayal = false;
+		mnShowTPMNetworkGridPortrayal = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
+	
 	
 	static public clsSingletonProperties instance() {
 		if (null == _instance) {
@@ -91,6 +94,15 @@ public class clsSingletonProperties {
 	static public void setShowArousalGridPortrayal(boolean value) {
 		(clsSingletonProperties.instance()).mnShowArousalGridPortrayal = value;
 		clsSingletonMasonGetter.getArousalGridEnvironment().setTo(0.0);
+	}
+	
+	static public boolean showTPMNetworkGrid() {
+		return (clsSingletonProperties.instance()).mnShowTPMNetworkGridPortrayal;
+	}
+	static public void setShowTPMNetworkGrid(boolean value) {
+		(clsSingletonProperties.instance()).mnShowTPMNetworkGridPortrayal = value;
+		clsSingletonMasonGetter.getTPMNetworkField().clear();
+		clsSingletonMasonGetter.getTPMNodeField().clear();
 	}
 	
 	
