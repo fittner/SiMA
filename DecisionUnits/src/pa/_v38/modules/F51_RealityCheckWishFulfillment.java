@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsImportanceTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
@@ -270,6 +270,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
 		applyEffortOfGoal(moReachableGoalList_IN);
+		clsLogger.jlog.debug("Corrected goals:" + moReachableGoalList_IN.toString());
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		
@@ -636,8 +637,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			//Get the penalty for the effort
 			int oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
 			
-			//Add to affect value
-			clsImportanceTools.addImportance(oGoal, oImportanceValue);
+			clsGoalTools.setEffortLevel(oGoal, oImportanceValue);
 		}
 		
 	}

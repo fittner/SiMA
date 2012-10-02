@@ -44,12 +44,12 @@ public class clsDC_FocusToMoveFocus extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_MOVEMENT);
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_SEARCH_INFO);
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_MOVEMENT);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		}
 
 	}

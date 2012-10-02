@@ -44,7 +44,7 @@ public class clsDC_SET_NEED_MOVEMENT_FOCUS extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
+		clsGoalTools.setCondition(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
 		
 	}
 

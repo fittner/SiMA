@@ -8,7 +8,6 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -284,10 +283,10 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			} else if (this.moContentType.equals(eContentType.GOAL)) {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContent;
-				int nAffectLevel = clsGoalTools.getAffectLevel(this);
-				oResult += ":" + eAffectLevel.elementAt(nAffectLevel) + "(" + nAffectLevel + ")";
+				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
+				oResult += ":" + nTotalAffectLevel;
 				
-				ArrayList<eCondition> oConditionList = clsGoalTools.getTaskStatus(this);
+				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
 				if (oConditionList.isEmpty()==false) {
 					oResult += " " + oConditionList.toString();
 				}

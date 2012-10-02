@@ -1019,7 +1019,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
 				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
-				clsGoalTools.setTaskStatus(oResult, eCondition.PANIC);
+				clsGoalTools.setCondition(oResult, eCondition.PANIC);
 			}	
 		}
 		
@@ -1044,7 +1044,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
 		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
 			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-			if (clsGoalTools.checkIfTaskStatusExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
+			if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
 				oRemoveList.add(oSTM.b);
 			}
 		}
