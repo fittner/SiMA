@@ -288,7 +288,7 @@ public class clsDecisionPreparationTools {
 		if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			//Check how far away the goal is
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(clsGoalTools.getGoalObject(poGoal));
-			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.c);
+			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
 			//nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
 //			if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_NEW_CONTINUED_GOAL)==true) {
 //				nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_NEW_CONTINUED_GOAL);

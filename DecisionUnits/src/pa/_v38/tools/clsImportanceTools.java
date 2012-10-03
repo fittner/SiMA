@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 
 /**
@@ -616,21 +617,29 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-2000;
 		} else if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
-			nResult+=25;
+			nResult+=35;
 		} 
 		
 		return nResult;
 	}
 	
-	public static int getEffortValueOfDistance(eRadius poRadius) {
+	public static int getEffortValueOfDistance(ePhiPosition poPosition, eRadius poRadius) {
 		int nResult = 0;
 		
 		if (poRadius.equals(eRadius.NEAR)) {
-			nResult = 0;
+			nResult += 0;
 		} else if (poRadius.equals(eRadius.MEDIUM)) {
-			nResult = -10;
+			nResult += -5;
 		} else if (poRadius.equals(eRadius.FAR)) {
-			nResult = -20;
+			nResult += -18;
+		}
+		
+		if (poPosition.equals(ePhiPosition.CENTER)) {
+			nResult += 0;
+		} else if (poPosition.equals(ePhiPosition.MIDDLE_LEFT) || poPosition.equals(ePhiPosition.MIDDLE_RIGHT)) {
+			nResult += -3;
+		} else if (poPosition.equals(ePhiPosition.RIGHT) || poPosition.equals(ePhiPosition.LEFT)) {
+			nResult += -6;
 		}
 		
 		return nResult;
