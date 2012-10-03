@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.NoSuchElementException;
+
 
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -325,14 +325,15 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			 
 		}
 		
-		
-		try {
-			return this.cloneSingleResult(oDataStructureContainerListReturn);
-		} catch (CloneNotSupportedException e) {
-			// TODO (schaat) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		throw new NoSuchElementException("No return value defined"); 
+		return oDataStructureContainerListReturn;
+				
+//		try {
+//			return this.cloneSingleResult(oDataStructureContainerListReturn);
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (schaat) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		throw new NoSuchElementException("No return value defined"); 
 	}
 
 	/**

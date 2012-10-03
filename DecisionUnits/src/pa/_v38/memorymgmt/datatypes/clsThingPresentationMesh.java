@@ -39,7 +39,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	
 	// TPMs in memory may get activation from different sources. (memory retrieval)
 	private HashMap<eActivationType, Double> moActivations = new HashMap<eActivationType, Double>();
-		
+	private HashMap<eActivationType, Double> moCriterionWeights = new HashMap<eActivationType, Double>();
+	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
+	
 	/**
 	 * @author zeilinger
 	 * 17.03.2011, 00:52:29
@@ -300,6 +302,25 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		}
 		moActivations.put(poActivationKind, rPreviousActivation+(prSourceActivation*rWeight));
 		
+		
+		// calculate criterion impact factor
+		if(poActivationKind == eActivationType.EMBODIMENT_ACTIVATION) {
+			double currentWeight = 0;
+			try {
+				 currentWeight = moCriterionWeights.get(poActivationKind);
+			}
+			catch(Exception e) {
+				 currentWeight = 0;
+			}
+			moCriterionWeights.put(poActivationKind, currentWeight + (1-currentWeight)*rWeight);
+			
+			double currentMax = 0;
+			if(moCriterionMaxValues.containsKey(poActivationKind)){
+				currentMax = moCriterionMaxValues.get(poActivationKind);
+			}
+			moCriterionMaxValues.put(poActivationKind, currentMax + rWeight);
+		}
+		
 //		System.out.println(poActivationKind);
 //		System.out.println(rPreviousActivation+(prSourceActivation*rWeight));
 	}
@@ -392,15 +413,26 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivation
 	 */
-	public double getOverallActivationLevel() {
+	public double getAggregatedActivationValue() {
 		double oOverallActivation = 0;
-		for (double oActivation : moActivations.values()) {
-			oOverallActivation += oActivation;
+		double oOverallWeights = 0;
+		
+		for (eActivationType oActivationType : moActivations.keySet()) {
+			//TEST
+			if(oActivationType == eActivationType.SIMILARITY_ACTIVATION) {
+				oOverallActivation += moActivations.get(oActivationType) *1;
+				oOverallWeights += 1;
+			}
+			else {
+				oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
+				oOverallWeights += moCriterionWeights.get(oActivationType);
+			}
+			
+			
 		}
-				
-		// normalize. Every ActivationEntry is max 1, hence the overall max is the # of entries
+	
 		// TEST
-		return  moActivations.get(eActivationType.SIMILARITY_ACTIVATION); //oOverallActivation/moActivations.size();
+		return  moActivations.get(eActivationType.SIMILARITY_ACTIVATION); //oOverallActivation/oOverallWeights;
 	}
 	
 	/**

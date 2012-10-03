@@ -31,8 +31,8 @@ public class clsActivationComperator  implements Comparator<clsThingPresentation
 	public int compare(clsThingPresentationMesh oTPM1, clsThingPresentationMesh oTPM2) {
 		try {
 			
-			double rActivationLevel1 = oTPM1.getOverallActivationLevel();			
-			double rActivationLevel2 = oTPM2.getOverallActivationLevel();
+			double rActivationLevel1 = oTPM1.getAggregatedActivationValue();			
+			double rActivationLevel2 = oTPM2.getAggregatedActivationValue();
 			
 			if(rActivationLevel1 > rActivationLevel2){
 				return -1;
