@@ -173,13 +173,14 @@ implements I5_6_receive, I5_7_send  {
 	@Override
 	protected void process_basic() {
 		// clone input to allow for comparison before/after processing
-		try {
-			//moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.cloneGraph();
-			moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+//		try {
+//			//moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.cloneGraph();
+//			moPerceptionalMesh_OUT = (clsThingPresentationMesh)moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 		evaluatePerception(moPerceptionalMesh_OUT);
 		
@@ -366,13 +367,14 @@ implements I5_6_receive, I5_7_send  {
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_6(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
-			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		moPerceptionalMesh_IN = poPerceptionalMesh;
+//		try {
+//			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+//			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
 	}
 

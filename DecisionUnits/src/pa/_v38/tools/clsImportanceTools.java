@@ -632,7 +632,7 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-200;
 		} else if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
-			nResult+=30;
+			nResult+=5;
 		} 
 		
 		return nResult;
@@ -644,17 +644,17 @@ public class clsImportanceTools {
 		if (poRadius.equals(eRadius.NEAR)) {
 			nResult += 0;
 		} else if (poRadius.equals(eRadius.MEDIUM)) {
-			nResult += -5;
+			nResult += -2;
 		} else if (poRadius.equals(eRadius.FAR)) {
-			nResult += -18;
+			nResult += -7;
 		}
 		
 		if (poPosition.equals(ePhiPosition.CENTER)) {
 			nResult += 0;
 		} else if (poPosition.equals(ePhiPosition.MIDDLE_LEFT) || poPosition.equals(ePhiPosition.MIDDLE_RIGHT)) {
-			nResult += -3;
+			nResult += -1;
 		} else if (poPosition.equals(ePhiPosition.RIGHT) || poPosition.equals(ePhiPosition.LEFT)) {
-			nResult += -6;
+			nResult += -2;
 		}
 		
 		return nResult;
