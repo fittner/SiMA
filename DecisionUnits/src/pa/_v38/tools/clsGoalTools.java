@@ -699,7 +699,7 @@ public class clsGoalTools {
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.LOWPOSITIVE.mnAffectLevel) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.POSITIVE10.mnAffectLevel) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 				

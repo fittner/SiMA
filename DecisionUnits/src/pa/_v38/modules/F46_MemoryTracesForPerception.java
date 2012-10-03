@@ -170,9 +170,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				
 				
 		//Create EMPTYSPACE objects
-		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
+		//ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
-		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
+		//clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		
 		//--- Enhance perception with environmental image ---//
 		enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);

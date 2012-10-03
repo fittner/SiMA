@@ -198,14 +198,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	public void receive_I6_6(clsWordPresentationMesh poPerception, 
 			ArrayList<clsWordPresentationMesh> poReachableGoalList, 
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
+		
+		moPerceptionalMesh_IN = poPerception;
+//		try {
+//			moPerceptionalMesh_IN = (clsWordPresentationMesh)poPerception.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poReachableGoalList);
+		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
+		
+		moReachableGoalList_IN = poReachableGoalList;
+		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 	}
 	
 	/* (non-Javadoc)

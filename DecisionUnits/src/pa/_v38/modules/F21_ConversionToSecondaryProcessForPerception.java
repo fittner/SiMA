@@ -190,15 +190,17 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	 */
 	@Override
 	public void receive_I5_15(clsThingPresentationMesh poPerceptionalMesh, ArrayList<clsEmotion> poEmotions) {
-		try {
-			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
-			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		moPerceptionalMesh_IN = poPerceptionalMesh;
+//		try {
+//			//moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.cloneGraph();
+//			moPerceptionalMesh_IN = (clsThingPresentationMesh)poPerceptionalMesh.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		//moAssociatedMemories_IN = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
-		moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		//moEmotions_Input = (ArrayList<clsEmotion>) deepCopy(poEmotions);
+		moEmotions_Input = poEmotions;
 
 	}
 

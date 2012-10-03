@@ -27,7 +27,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlan;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -86,8 +85,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private clsCodeletHandler moCodeletHandler;
 	
-	private ArrayList<clsWordPresentation> moMotilityActions_IN;
-	private ArrayList<clsWordPresentation> moImaginaryActions_IN;
+	private ArrayList<clsWordPresentationMesh> moMotilityActions_IN;
+	private ArrayList<clsWordPresentationMesh> moImaginaryActions_IN;
 
 	/** Associated memories out */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
@@ -399,7 +398,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList) {
-		moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
+		//moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
+		moGoalList_IN = poDecidedGoalList;
 	}
 	
 	/* (non-Javadoc)
@@ -410,7 +410,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I2_5(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		moMotilityActions_IN = (ArrayList<clsWordPresentation>) deepCopy(poActionCommands); 
+		moMotilityActions_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands); 
+		//moMotilityActions_IN = poActionCommands; 
 	}
 
 	/* (non-Javadoc)
@@ -421,7 +422,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@Override
 	public void receive_I6_11(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		moImaginaryActions_IN = (ArrayList<clsWordPresentation>)deepCopy(poActionCommands);
+		moImaginaryActions_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poActionCommands);
+		//moImaginaryActions_IN = poActionCommands;
 	}
 
 	/*
