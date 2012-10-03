@@ -35,7 +35,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	private String moContent = "UNDEFINED";
 	
 	// 
-	private double mrPleasurePotential ;
+	private double mrAggregatedActivationValue ;
 	
 	// TPMs in memory may get activation from different sources. (memory retrieval)
 	private HashMap<eActivationType, Double> moActivations = new HashMap<eActivationType, Double>();
@@ -78,7 +78,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		super(poDataStructureIdentifier);
 		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
-		mrPleasurePotential = 0;
+		mrAggregatedActivationValue = 0;
 	}
 	
 	/**
@@ -293,36 +293,63 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivationKind, prSourceActivation
 	 */
-	public void applySourceActivation(eActivationType poActivationKind, double prSourceActivation, double rWeight){
+	public void applySourceActivation(eActivationType poActivationKind, double prSourceActivation, double prWeight){
 		
 		double rPreviousActivation = 0;
 		
 		if(moActivations.containsKey(poActivationKind)) {
 			rPreviousActivation = moActivations.get(poActivationKind);
 		}
-		moActivations.put(poActivationKind, rPreviousActivation+(prSourceActivation*rWeight));
+		moActivations.put(poActivationKind, rPreviousActivation+(prSourceActivation*prWeight));
 		
 		
-		// calculate criterion impact factor
-		if(poActivationKind == eActivationType.EMBODIMENT_ACTIVATION) {
-			double currentWeight = 0;
-			try {
-				 currentWeight = moCriterionWeights.get(poActivationKind);
-			}
-			catch(Exception e) {
-				 currentWeight = 0;
-			}
-			moCriterionWeights.put(poActivationKind, currentWeight + (1-currentWeight)*rWeight);
-			
-			double currentMax = 0;
-			if(moCriterionMaxValues.containsKey(poActivationKind)){
-				currentMax = moCriterionMaxValues.get(poActivationKind);
-			}
-			moCriterionMaxValues.put(poActivationKind, currentMax + rWeight);
-		}
 		
 //		System.out.println(poActivationKind);
 //		System.out.println(rPreviousActivation+(prSourceActivation*rWeight));
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param prWeight
+	 */
+	public void extendCriterionWeight(eActivationType poActivationKind,  double prWeight){
+		// calculate criterion impact factor
+				if(poActivationKind == eActivationType.EMBODIMENT_ACTIVATION) {
+					double currentWeight = 0;
+					if(moCriterionWeights.containsKey(poActivationKind)){
+						 currentWeight = moCriterionWeights.get(poActivationKind);
+					}
+					else {
+						 currentWeight = 0;
+					}
+					moCriterionWeights.put(poActivationKind, currentWeight + (1-currentWeight)*prWeight);
+					
+					
+				}
+	}	
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param prWeight
+	 */
+	public void extendCriterionMaxValue(eActivationType poActivationKind,  double prWeight){
+		// calculate criterion impact factor
+				if(poActivationKind == eActivationType.EMBODIMENT_ACTIVATION) {
+					
+					double currentMax = 0;
+					if(moCriterionMaxValues.containsKey(poActivationKind)){
+						currentMax = moCriterionMaxValues.get(poActivationKind);
+					}
+					moCriterionMaxValues.put(poActivationKind, currentMax + prWeight);
+				}
 	}
 	
 	
@@ -334,13 +361,34 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 *
 	 * @param poActivationKind, poNorm
 	 */
-	public void applyCriterionActivation(eActivationType poActivationKind, double poCriterionMaxValue) {
+	public void applyCriterionActivation(eActivationType poActivationKind) {
 		
 //		System.out.println(poActivationKind);
 //		System.out.println("act" + moActivations.get(poActivationKind)); 
 //		System.out.println("max" +poCriterionMaxValue);
 //		
-		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / poCriterionMaxValue);
+		double rCriterionMaxValue = moCriterionMaxValues.get(poActivationKind);
+		
+		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / rCriterionMaxValue);
+			
+	}
+	
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 28.08.2012, 12:10:28
+	 *
+	 * @param poActivationKind, poNorm
+	 */
+	public void applyCriterionActivation(eActivationType poActivationKind, double prCriterionMaxValue) {
+		
+//		System.out.println(poActivationKind);
+//		System.out.println("act" + moActivations.get(poActivationKind)); 
+//		System.out.println("max" +poCriterionMaxValue);
+//		 
+		
+		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / prCriterionMaxValue);
 			
 	}
 	
@@ -417,22 +465,25 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		double oOverallActivation = 0;
 		double oOverallWeights = 0;
 		
-		for (eActivationType oActivationType : moActivations.keySet()) {
-			//TEST
-			if(oActivationType == eActivationType.SIMILARITY_ACTIVATION) {
-				oOverallActivation += moActivations.get(oActivationType) *1;
-				oOverallWeights += 1;
+		if(mrAggregatedActivationValue == 0) {
+			for (eActivationType oActivationType : moActivations.keySet()) {
+				//TEST
+				if(oActivationType == eActivationType.SIMILARITY_ACTIVATION) {
+					oOverallActivation += moActivations.get(oActivationType) *1;
+					oOverallWeights += 1;
+				}
+				else {
+					oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
+					oOverallWeights += moCriterionWeights.get(oActivationType);
+				}				
 			}
-			else {
-				oOverallActivation += moActivations.get(oActivationType) * moCriterionWeights.get(oActivationType);	
-				oOverallWeights += moCriterionWeights.get(oActivationType);
-			}
-			
-			
+			mrAggregatedActivationValue = oOverallActivation/oOverallWeights;
 		}
-	
-		// TEST
-		return  moActivations.get(eActivationType.SIMILARITY_ACTIVATION); //oOverallActivation/oOverallWeights;
+		
+		
+		
+		// 
+		return  mrAggregatedActivationValue; // TEST moActivations.get(eActivationType.SIMILARITY_ACTIVATION);
 	}
 	
 	/**
@@ -450,44 +501,64 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		moActivations.put(poActivationKind, poActivationLevel);
 	}
 	
-	
+
 	/**
 	 * DOCUMENT (schaat) - insert description
 	 *
 	 * @author schaat
-	 * 28.08.2012, 12:10:28
+	 * 03.10.2012, 12:10:28
+	 *
+	 * @param poTPM
 	 *
 	 */
-	public void embodimentCriterionWeighting() {
-		// a TPM uses the highest possible activation
-		// but consider synergies, i.e. if a object gets  multiple actications --> increase activation
-		// always use the highest activation for the basis-activation. the other activations are only considered as rest-activation. 
-		// That is, the rest until the max activation is considered as the maximal possible activation for the rest activation. E.g. if the basic activation is
-		// 0.7, then the max rest activation is 0.3. Next, the concerned activation is normed with respect to the maximal possible 
-		// value, i.e. the max rest activation. E.g. if the basic activation is 0.7 and another activation  is 0,4, then 
-		// the total activation of the TPM is 0.7+0.3*0.4
-		
-		//pleasure potential
-		double rQoA = 0;
-		
-		for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
-			if (oExtAss instanceof clsAssociationDriveMesh) {
-				
-				rQoA = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).getQuotaOfAffect();
-		
-				if(this.mrPleasurePotential != 0) {					
-					mrPleasurePotential += (1-mrPleasurePotential)*rQoA;
-				}
-				else {
-					mrPleasurePotential = rQoA;
-				}
+	public void takeActivationsFromTPM(clsThingPresentationMesh poTPM) {
+		for (eActivationType oActivationType : poTPM.moActivations.keySet()) {
+			if(this.moActivations.containsKey(oActivationType) == false) {
+				this.moActivations.put(oActivationType, poTPM.moActivations.get(oActivationType));
+				this.moCriterionMaxValues.put(oActivationType, poTPM.moCriterionMaxValues.get(oActivationType));
+				this.moCriterionWeights.put(oActivationType, poTPM.moCriterionWeights.get(oActivationType));
 			}
-			
 		}
-	
+		
 	}
+//	/**
+//	 * DOCUMENT (schaat) - insert description
+//	 *
+//	 * @author schaat
+//	 * 28.08.2012, 12:10:28
+//	 *
+//	 */
+//	public void embodimentCriterionWeighting() {
+//		// a TPM uses the highest possible activation
+//		// but consider synergies, i.e. if a object gets  multiple actications --> increase activation
+//		// always use the highest activation for the basis-activation. the other activations are only considered as rest-activation. 
+//		// That is, the rest until the max activation is considered as the maximal possible activation for the rest activation. E.g. if the basic activation is
+//		// 0.7, then the max rest activation is 0.3. Next, the concerned activation is normed with respect to the maximal possible 
+//		// value, i.e. the max rest activation. E.g. if the basic activation is 0.7 and another activation  is 0,4, then 
+//		// the total activation of the TPM is 0.7+0.3*0.4
+//		
+//		//pleasure potential
+//		double rQoA = 0;
+//		
+//		for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
+//			if (oExtAss instanceof clsAssociationDriveMesh) {
+//				
+//				rQoA = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).getQuotaOfAffect();
+//		
+//				if(this.mrPleasurePotential != 0) {					
+//					mrPleasurePotential += (1-mrPleasurePotential)*rQoA;
+//				}
+//				else {
+//					mrPleasurePotential = rQoA;
+//				}
+//			}
+//			
+//		}
+//	
+//	}
 	
-
+	
+	
 	
 	/**
 	 * Check if this object is a null object
@@ -579,6 +650,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			
 			oClone = (clsThingPresentationMesh)super.clone();
 			oClone.moActivations = (HashMap<eActivationType, Double>) this.moActivations.clone();
+			oClone.moCriterionMaxValues = (HashMap<eActivationType, Double>) this.moCriterionMaxValues.clone();
+			oClone.moCriterionWeights = (HashMap<eActivationType, Double>) this.moCriterionWeights.clone();
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
 			//Add this structure and the new clone to the list of cloned structures
@@ -616,6 +689,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		
 		return oClone;
 	}
+	
+	
 	
 	@Override
 	public String toString(){
