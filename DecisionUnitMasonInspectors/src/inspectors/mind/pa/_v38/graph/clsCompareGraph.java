@@ -72,8 +72,6 @@ import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
-import com.jgraph.layout.tree.JGraphTreeLayout;
-
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;
@@ -113,6 +111,8 @@ public class clsCompareGraph extends JGraph {
 	
 	private boolean showInternAssocFirstLevel = false;
 	private boolean showInternAssocBest = false;
+	
+	protected boolean moLayoutChangeIsRunning =false;
 	
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
@@ -375,28 +375,29 @@ public class clsCompareGraph extends JGraph {
 		// Create the layout facade. When creating a facade for the tree
 		// layouts, pass in any cells that are intended to be the tree roots
 		// in the layout
-		JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
-		facade.setOrdered(true);
+//JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
+//facade.setOrdered(true);
 		// Create the layout to be applied (Tree)
 		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
 		
 		//layout.setNodeDistance(15); //minimal distance from node to node horizontal
 		//layout.setLevelDistance(30); //minimal distance from node to node vertical
-		layout.setOrientation(SwingConstants.WEST);
+		//layout.setOrientation(SwingConstants.WEST);
 		// Run the layout, the facade holds the results
-		layout.run(facade);
+		//layout.run(facade);
 		// Obtain the output of the layout from the facade. The second
 		// parameter defines whether or not to flush the output to the
 		// origin of the graph
-		Map<?,?> nested = facade.createNestedMap(true, true);
+//Map<?,?> nested = facade.createNestedMap(true, true);
 		// Apply the result to the graph
-		
+		setModel(model);
+		performGraphLayoutChange(layout);
 		
 	//	cache.edit(nested);
 		
-		setModel(model);
+		
 
-		getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+//getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
 
 		//setGraphLayoutCache(cache);
 		updateUI();
@@ -442,25 +443,24 @@ public class clsCompareGraph extends JGraph {
 		JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
 		facade.setOrdered(true);
 		// Create the layout to be applied (Tree)
-		JGraphTreeLayout layout= new JGraphTreeLayout();
+		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
 		
-		layout.setNodeDistance(15); //minimal distance from node to node horizontal
-		layout.setLevelDistance(30); //minimal distance from node to node vertical
 		layout.setOrientation(SwingConstants.WEST);
 		// Run the layout, the facade holds the results
 		
-		layout.run(facade);
+//layout.run(facade);
 		// Obtain the output of the layout from the facade. The second
 		// parameter defines whether or not to flush the output to the
 		// origin of the graph
-		Map<?,?> nested = facade.createNestedMap(true, true);
+//Map<?,?> nested = facade.createNestedMap(true, true);
 		// Apply the result to the graph
-		cache.edit(nested);
+		//cache.edit(nested);
 		
 		setModel(model);
-		getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
+		performGraphLayoutChange(layout);
+//getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
 		//setGraphLayoutCache(cache);
-		updateUI();
+		//updateUI();
 	}
     
     private void updateModel(){
@@ -1604,9 +1604,9 @@ public class clsCompareGraph extends JGraph {
 				&& layout != null) {
 			final JGraphFacade facade = createFacade(this);
 			final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
-			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
+/*			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
 					this, (JGraphLayout.Stoppable) layout)
-					: null;
+					: null;*/
 			new Thread() {
 				@Override
 				public void run() {
@@ -1624,19 +1624,20 @@ public class clsCompareGraph extends JGraph {
 								layout.run(facade);
 							}
 							catch(java.util.ConcurrentModificationException e){
+								System.out.println("layout run faild");
 								//if the last layout change still runs
 							}
 							SwingUtilities.invokeLater(new Runnable() {
 								@Override
 								public void run() {
-									boolean ignoreResult = false;
+									/*boolean ignoreResult = false;
 									if (progressMonitor != null) {
 										ignoreResult = progressMonitor
 												.isCanceled();
 										progressMonitor.close();
 									}
 									if (!ignoreResult) {
-
+									*/
 										// Processes the result of the layout algorithm
 										// by creating a nested map based on the global
 										// settings and passing the map to a morpher
@@ -1648,11 +1649,11 @@ public class clsCompareGraph extends JGraph {
 										moMorpher.morph(me, map);
 										//moMorpher.morph(me, map);
 										requestFocus();
-									}
+									//}
 								}
 							});
 						} catch (Exception e) {
-							e.printStackTrace();
+							//e.printStackTrace();
 							//JOptionPane.showMessageDialog(this, e.getMessage());
 						}
 					}
