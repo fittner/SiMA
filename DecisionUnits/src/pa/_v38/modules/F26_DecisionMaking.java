@@ -223,10 +223,10 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
-			clsLogger.jlog.debug("Decided goal: " + moDecidedGoalList_OUT.get(0));
+			clsLogger.jlog.info("Decided goal: " + moDecidedGoalList_OUT.get(0));
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
-			clsLogger.jlog.debug("Decided goal: No goal ");
+			clsLogger.jlog.info("Decided goal: No goal ");
 		}
 		
 		
@@ -262,7 +262,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_7(ArrayList<clsWordPresentationMesh> poReachableGoalList) {
-		moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
+		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
+		moReachableGoalList_IN = poReachableGoalList; 
 	}
 	
 	/* (non-Javadoc)
@@ -325,7 +326,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			removeNonReachableGoals(poPossibleGoalInputs);
 			
 			//=== Sort and evaluate them === //
-			ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(moReachableGoalList_IN, moDriveGoalList_IN, mnAffectThresold);
+			ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, mnAffectThresold);
 			
 			//Add all goals to this list
 			for (clsWordPresentationMesh oReachableGoal : oSortedReachableGoalList) {
@@ -1018,7 +1019,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (poFeelingList.isEmpty()==false) {
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.HIGHNEGATIVE, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE80, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
 				clsGoalTools.setCondition(oResult, eCondition.PANIC);
 			}	
 		}
@@ -1044,9 +1045,14 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
 		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
 			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-			if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true && clsGoalTools.getGoalType(oSTM.b).equals(eGoalType.DRIVESOURCE)==false) {
-				oRemoveList.add(oSTM.b);
-			}
+			ArrayList<clsWordPresentationMesh> oExcludedGoalList = clsMentalSituationTools.getExcludedGoal(oSTM.b);
+			oRemoveList.addAll(oExcludedGoalList);
+//			for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
+//				if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
+//					oRemoveList.add(oSTM.b);
+//				}
+//			}
+			
 		}
 						
 		//Find all unreachable goals from STMList
@@ -1058,11 +1064,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 				if (clsGoalTools.getGoalContentIdentifier(oGoal).equals(clsGoalTools.getGoalContentIdentifier(oRemoveGoal))==true) {
 					//if yes, remove this goal		
 					Iter.remove();
+					clsLogger.jlog.debug("Non reachable goal removed: " + oGoal.toString());
 				}
 			}
 			
 		}
-		
 		
 	}
 	

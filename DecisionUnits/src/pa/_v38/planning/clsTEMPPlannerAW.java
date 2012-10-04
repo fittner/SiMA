@@ -17,11 +17,15 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.clsActionTools;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.planningHelpers.PlanningGraph;
 import pa._v38.tools.planningHelpers.PlanningNode;
 import pa._v38.tools.planningHelpers.PlanningWizard;
@@ -339,7 +343,13 @@ public class clsTEMPPlannerAW {
 		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
 
 		for (clsImage oImage : poCurrentImageAllObjects) {
-			if (clsGoalTools.getGoalObject(poGoal).getMoContent().equals(oImage.m_eObj.toString())) {
+			clsWordPresentationMesh oGoalEntity = clsGoalTools.getGoalObject(poGoal);
+			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oGoalPosition = clsEntityTools.getPosition(oGoalEntity);
+			
+			
+			if (oGoalEntity.getMoContent().equals(oImage.m_eObj.toString()) && 
+					eDirection.getDirection(oGoalPosition.b).equals(oImage.m_eDir) && 
+					eDistance.getDistance(oGoalPosition.c).equals(oImage.m_eDist)) {
 				currentImageSorted.add(oImage);
 			}
 		}

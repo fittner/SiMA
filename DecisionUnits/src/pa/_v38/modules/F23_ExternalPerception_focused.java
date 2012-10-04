@@ -172,14 +172,17 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	@Override
 	public void receive_I6_12(clsWordPresentationMesh poPerception,
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		moPerceptionalMesh_IN = poPerception;
+//		try {
+//			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		//AW 20110602 Added Associtated memories
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 		
 	}	
 
@@ -283,7 +286,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			//React on goals in the perception, which are emotion and are HIGH NEGATIVE
 			if (clsGoalTools.getSupportiveDataStructureType(oReachableGoal) == eContentType.PI && 
 					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.PERCEPTIONALEMOTION &&
-					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.HIGHNEGATIVE.mnAffectLevel) {
+					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.NEGATIVE80.mnAffectLevel) {
 				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsGoalTools.getAffectLevel(oReachableGoal), oReachableGoal));
 			}
 		}

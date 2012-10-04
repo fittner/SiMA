@@ -93,6 +93,16 @@ public class clsMentalSituationTools {
 		return oRetVal;
 	}
 	
+	public static ArrayList<clsWordPresentationMesh> getExcludedGoal(clsWordPresentationMesh poMentalSituation) {		
+		return clsMeshTools.getNonUniquePredicateWPM(poMentalSituation, ePredicate.HASEXCLUDEDGOAL);
+	}
+	
+	public static void setExcludedGoal(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poGoal) {
+		clsMeshTools.setNonUniquePredicateWPM(poMentalSituation, ePredicate.HASEXCLUDEDGOAL, poGoal, true);
+	}
+	
+	
+	
 	public static void setAction(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
 		clsWordPresentationMesh oExistingDataStructure = getAction(poMentalSituation);
 				

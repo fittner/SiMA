@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 
 /**
@@ -41,13 +42,28 @@ public class clsImportanceTools {
 	//AGGRESSIVESTOMACH, LIBIDINOUSSTOMACH, AGGRESSIVESTAMINA, LIBIDINOUSSTAMINA, AGGRESSIVERECTUM, LIBIDINOUSRECTUM, LIBIDINOUSLIBIDO]
 	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
 	/** A list of possible affects sorted in the order of importance */
-	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(eAffectLevel.HIGHNEGATIVE.mnAffectLevel,
-																								eAffectLevel.HIGHPOSITIVE.mnAffectLevel,
-																								eAffectLevel.NEGATIVE.mnAffectLevel,
-																								eAffectLevel.POSITIVE.mnAffectLevel,
-																								eAffectLevel.LOWNEGATIVE.mnAffectLevel,
-																								eAffectLevel.LOWPOSITIVE.mnAffectLevel,
-																								eAffectLevel.INSIGNIFICANT.mnAffectLevel));	//FIXME AW: Possibly use another solution for sorting
+	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(
+			eAffectLevel.NEGATIVE100.mnAffectLevel,
+			eAffectLevel.POSITIVE100.mnAffectLevel,
+			eAffectLevel.NEGATIVE90.mnAffectLevel,
+			eAffectLevel.POSITIVE90.mnAffectLevel,
+			eAffectLevel.NEGATIVE80.mnAffectLevel,
+			eAffectLevel.POSITIVE80.mnAffectLevel,
+			eAffectLevel.NEGATIVE70.mnAffectLevel,
+			eAffectLevel.POSITIVE70.mnAffectLevel,
+			eAffectLevel.NEGATIVE60.mnAffectLevel,
+			eAffectLevel.POSITIVE60.mnAffectLevel,
+			eAffectLevel.NEGATIVE50.mnAffectLevel,
+			eAffectLevel.POSITIVE50.mnAffectLevel,
+			eAffectLevel.NEGATIVE40.mnAffectLevel,
+			eAffectLevel.NEGATIVE40.mnAffectLevel,
+			eAffectLevel.NEGATIVE30.mnAffectLevel,
+			eAffectLevel.NEGATIVE30.mnAffectLevel,
+			eAffectLevel.NEGATIVE20.mnAffectLevel,
+			eAffectLevel.NEGATIVE20.mnAffectLevel,
+			eAffectLevel.NEGATIVE10.mnAffectLevel,
+			eAffectLevel.NEGATIVE10.mnAffectLevel,
+			eAffectLevel.INSIGNIFICANT.mnAffectLevel));	//FIXME AW: Possibly use another solution for sorting
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
 	private static String _Delimiter03 = "|";
@@ -323,7 +339,7 @@ public class clsImportanceTools {
 			//int nEffortLevel = clsGoalTools.getEffortLevel(oGoal); //getDriveIntensityAsInt(oContent);
 			int nTotalAffectValue = nAffectLevel;
 			//Sort the affects for priority according to the order in the list in this class
-			int nAffectSortOrder = (moAffectSortOrder.size() -1 - moAffectSortOrder.indexOf(nTotalAffectValue)) * 10;
+			int nAffectSortOrder = Math.abs(nTotalAffectValue)*10; //Just set the absolute affect as the worst one//(moAffectSortOrder.size() -1 - moAffectSortOrder.indexOf(nTotalAffectValue)) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
 			String oDriveType = clsGoalTools.getGoalName(oDriveGoal); //getDriveType(oContent);
@@ -608,33 +624,37 @@ public class clsImportanceTools {
 		int nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-100;
-		} else
-		if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			nResult+=-10;
+		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
-		} else
-		if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
-			nResult+= -50;
-		} else
-		if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
-			nResult+=-20;
-		} else
-		if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
-			nResult+=20;
+		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
+			nResult+= -5;
+		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
+			nResult+=-200;
+		} else if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
+			nResult+=5;
 		} 
 		
 		return nResult;
 	}
 	
-	public static int getEffortValueOfDistance(eRadius poRadius) {
+	public static int getEffortValueOfDistance(ePhiPosition poPosition, eRadius poRadius) {
 		int nResult = 0;
 		
 		if (poRadius.equals(eRadius.NEAR)) {
-			nResult = 0;
+			nResult += 0;
 		} else if (poRadius.equals(eRadius.MEDIUM)) {
-			nResult = -10;
+			nResult += -2;
 		} else if (poRadius.equals(eRadius.FAR)) {
-			nResult = -20;
+			nResult += -7;
+		}
+		
+		if (poPosition.equals(ePhiPosition.CENTER)) {
+			nResult += 0;
+		} else if (poPosition.equals(ePhiPosition.MIDDLE_LEFT) || poPosition.equals(ePhiPosition.MIDDLE_RIGHT)) {
+			nResult += -1;
+		} else if (poPosition.equals(ePhiPosition.RIGHT) || poPosition.equals(ePhiPosition.LEFT)) {
+			nResult += -2;
 		}
 		
 		return nResult;

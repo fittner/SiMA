@@ -108,7 +108,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.5);
+		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.6);
 		i++;
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
 		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);

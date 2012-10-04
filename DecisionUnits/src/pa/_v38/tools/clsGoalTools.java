@@ -20,9 +20,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.enums.eRadius;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -234,21 +232,21 @@ public class clsGoalTools {
 	public static String generateGoalContentIdentifier(String poGoalName, clsWordPresentationMesh poGoalObject, eGoalType poGoalType) {
 		String oResult = "";
 		
-		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoalObject);
-		String oPhiPos = "null";
-		String oRadPos = "null";
+//		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoalObject);
+//		String oPhiPos = "null";
+//		String oRadPos = "null";
 		String oPositionToAdd = "";
 		
-		if (oPosition.b!=null) {
-			oPhiPos = oPosition.b.toString();
-		}
-		if (oPosition.c!=null) {
-			oRadPos = oPosition.c.toString();
-		}
-		
-		if (oPosition.b!=null || oPosition.c!=null) {
-			oPositionToAdd = "(" + oPhiPos + ":" + oRadPos + ")";
-		}
+//		if (oPosition.b!=null) {
+//			oPhiPos = oPosition.b.toString();
+//		}
+//		if (oPosition.c!=null) {
+//			oRadPos = oPosition.c.toString();
+//		}
+//		
+//		if (oPosition.b!=null || oPosition.c!=null) {
+//			oPositionToAdd = "(" + oPhiPos + ":" + oRadPos + ")";
+//		}
 			
 		
 		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + oPositionToAdd + ":" + poGoalType.toString();
@@ -701,7 +699,7 @@ public class clsGoalTools {
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.LOWPOSITIVE.mnAffectLevel) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.POSITIVE10.mnAffectLevel) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 				

@@ -34,7 +34,7 @@ import pa._v38.decisionpreparation.consequencecodelets.clsCC_SEND_TO_PHANTASY;
 import pa._v38.decisionpreparation.decisioncodelets.clsDCComposed_Goto;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_ActAnalysisToRecAction;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_ExeMovementToNull;
-import pa._v38.decisionpreparation.decisioncodelets.clsDC_FocusToMoveFocus;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_XToMoveFocus;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_InitAction;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_SET_NEED_MOVEMENT_FOCUS;
@@ -173,8 +173,8 @@ public class clsPsychicApparatus {
 		
 		// --- Set logger properties --- //
 		clsLogger.jlog.removeAllAppenders();
-		//clsLogger.jlog.setLevel(Level.DEBUG);
-		clsLogger.jlog.setLevel(Level.INFO);
+		clsLogger.jlog.setLevel(Level.DEBUG);
+		//clsLogger.jlog.setLevel(Level.INFO);
 		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
 		Layout layout = new PatternLayout("(%F:%L) - %m%n");
 		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
@@ -416,7 +416,7 @@ public class clsPsychicApparatus {
 		
 		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moCodeletHandler);
 		clsDC_ActAnalysisToRecAction oDCTrans_ActAnalysisToRecAction = new clsDC_ActAnalysisToRecAction(moCodeletHandler);
-		clsDC_FocusToMoveFocus oDCTrans_FocusToMove = new clsDC_FocusToMoveFocus(moCodeletHandler);
+		clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moCodeletHandler);
 		clsDC_SetIntInfoToActAnalysis oDCTrans_IntInfoToActAnalysis = new clsDC_SetIntInfoToActAnalysis(moCodeletHandler);
 		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moCodeletHandler);
 		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);

@@ -286,13 +286,15 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
 				oResult += ":" + nTotalAffectLevel;
 				
+				oResult += ":" + clsGoalTools.getGoalObject(this);
+				
 				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
 				if (oConditionList.isEmpty()==false) {
 					oResult += " " + oConditionList.toString();
 				}
 				
 			} else if (this.moContentType.equals(eContentType.ENTITY)) {
-				oResult += this.moContentType + ":" + this.moContent;
+				oResult += this.moContent;
 				
 				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(this);
 				String oPhiPos = "null";
@@ -305,7 +307,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					oRadPos = oPosition.c.toString();
 				}
 				
-				oResult += "|" + oPhiPos + ":" + oRadPos;
+				oResult += "(" + oPhiPos + ":" + oRadPos + ")";
 			}
 			else {
 				oResult += "::"+this.moDataStructureType+"::";  
