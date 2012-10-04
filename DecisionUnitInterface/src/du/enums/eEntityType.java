@@ -17,6 +17,8 @@ public enum eEntityType {
 	BASE,
 	CAN,
 	CAKE,
+	APPLE,
+	TOMATO,
 	SCHNITZL,
 	STONE,
 	WALL,

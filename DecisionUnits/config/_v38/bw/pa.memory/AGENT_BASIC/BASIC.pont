@@ -1,4 +1,4 @@
-; Wed Oct 03 15:46:20 CEST 2012
+; Thu Oct 04 16:15:12 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -324,6 +324,14 @@
 	(role concrete))
 
 (defclass EMPTYSPACE
+	(is-a TPM%3AENTITY)
+	(role concrete))
+
+(defclass APPLE
+	(is-a TPM%3AENTITY)
+	(role concrete))
+
+(defclass TOMATO
 	(is-a TPM%3AENTITY)
 	(role concrete))
 
