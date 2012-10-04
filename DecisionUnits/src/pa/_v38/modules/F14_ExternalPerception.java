@@ -474,6 +474,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	protected void process_draft() {
 
 		clsThingPresentationMesh oCandidateTPM = null;
+		clsThingPresentationMesh oCandidateTPM_DM = null;
+		
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
 		ArrayList<ArrayList<clsThingPresentationMesh>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsThingPresentationMesh>>(); 
@@ -558,7 +560,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				// and add activated drive objects to oAppropriateTPMs		
 				
 				// criterion activation function
-				oCandidateTPM.applyCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, moDrives_IN.size());
+				oCandidateTPM.applyCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION);
 				
 				//oCandidateTPMs.add(oCandidateTPM);
 				
@@ -600,10 +602,27 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			for(clsPair<Double,clsDataStructureContainer> oSearchItem: oSearchResult){				
 				oCandidateTPM = (clsThingPresentationMesh)oSearchItem.b.getMoDataStructure();
 				
-				// similarity activation: source activation
+				// TEST similarity activation: source activation
 				
 				oCandidateTPM.setCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION, oSearchItem.a);
 			
+				
+				//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
+				for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
+					for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+
+						oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+						oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
+						
+						// is it the same TPM?
+						if(oCandidateTPM_DM.getMoDS_ID() == oCandidateTPM.getMoDS_ID()){
+							oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+						}
+						
+					}
+				}
+				
+				// add candidates to ranking
 				oSpecificCandidates.add(oCandidateTPM);
 			}
 			Collections.sort( oSpecificCandidates, new clsActivationComperator() );

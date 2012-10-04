@@ -278,6 +278,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							if(oMemoryDM.getActualDriveObject() != null) {
 								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
 								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+								oDriveObjectActivated.extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
+								oDriveObjectActivated.extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
 							}
 														
 							// take  drive object+drive aim of best match 
