@@ -324,12 +324,14 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 				clsDataStructureContainer oDataStructureContainer = getDataContainer(prReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
 				oDataStructureContainerListReturn.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 			}
-			return oDataStructureContainerListReturn;
 			 
+		}
+		else {
+			oDataStructureContainerListReturn = listSearch( prReturnType, poDataStructureUnknown);
 		}
 		
 		return oDataStructureContainerListReturn;
-				
+		
 //		try {
 //			return this.cloneSingleResult(oDataStructureContainerListReturn);
 //		} catch (CloneNotSupportedException e) {
