@@ -1,5 +1,4 @@
 /**
- * clsPsychoAnalysisInspector.java: DecisionUnitMasonInspectors - inspectors.mind.pa
  * 
  * @author muchitsch
  * 20.07.2010, 14:50:56

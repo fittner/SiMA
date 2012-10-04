@@ -10,11 +10,13 @@ import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.clsI_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.cls_AreaChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_BarChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_CombinedTimeChart;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_SpiderWebChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
 import inspectors.mind.pa._v38.graph.clsMeshCompare;
@@ -26,11 +28,13 @@ import java.awt.Dimension;
 import pa._v38.clsProcessor;
 import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorBarChart;
+import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInspectorSpiderWebChart;
+import pa._v38.interfaces.itfInspectorStackedBarChart;
 import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
@@ -293,6 +297,17 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						new cls_BarChartInspector((itfInspectorBarChart) oModule),	
 						"BarChart");				
 			}
+			if (oModule instanceof itfInspectorStackedBarChart) {
+				poTI.addInspector(
+						new cls_StackedBarChartInspector((itfInspectorStackedBarChart) oModule),	
+						"StackedBarChart");				
+			}
+			if (oModule instanceof itfInspectorCombinedTimeChart) {
+				poTI.addInspector(
+						new cls_CombinedTimeChart((itfInspectorCombinedTimeChart) oModule),	
+						"Combined Time Chart");				
+			}
+			
 //			if (oModule instanceof itfInspectorDrives) {
 //				poTI.addInspector(
 //						new clsDriveInspector((itfInspectorDrives) oModule),	
@@ -315,14 +330,13 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				for (eInterfaces eSnd:oSend) {
 					poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
 				}
-			
 			}
 			
 			if (oModule instanceof itfInterfaceCompare) {
 				
 				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-				ArrayList<eInterfaces> oRecv = oModule.getInterfacesRecv();
-				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
+				ArrayList<eInterfaces> oRecv = ((itfInterfaceCompare )oModule).getCompareInterfacesRecv();
+				ArrayList<eInterfaces> oSend = ((itfInterfaceCompare )oModule).getCompareInterfacesSend();
 				poTI.addInspector( new clsMeshCompare(poPA, oRecv, oSend), "Input vs. Output");
 			
 			}

@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
+import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_21_send;
@@ -44,7 +45,7 @@ import du.enums.pa.eDriveComponent;
  * 07.06.2012, 15:47:11
  */
 public class F63_CompositionOfEmotions extends clsModuleBase 
-					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send {
+					implements  itfInspectorGenericTimeChart, I5_3_receive, I5_10_receive, I5_21_send,itfInspectorCombinedTimeChart {
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
@@ -53,6 +54,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private ArrayList<clsEmotion> moEmotions_OUT; 
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
+	
+	private HashMap<String,Boolean> moCombinedChartData = new HashMap<String,Boolean>();
 	
 	
 	// threshold to determine in which case domination of a emotion occurs
@@ -111,7 +114,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);			
+		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);
 		text += toText.valueToTEXT("rDriveUnpleasure", oDrivesExtractedValues.get("rDriveUnpleasure"));
 
 		text += toText.valueToTEXT("rDriveLibid", oDrivesExtractedValues.get("rDriveLibid"));
@@ -237,7 +240,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		*/
 		
 		// just generate Unpleasure--based Emotions
-		if(rRelativeSystemUnpleasure > mrRelativeThreshold){			
+		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
 			generateEmotion(eEmotionType.FEAR, rSystemUnpleasure/rMaxQoASystem, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
@@ -266,7 +269,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		// generate both
 		else {
-			
 			// pleasure-based emotions
 			generateEmotion(eEmotionType.PLEASURE, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
@@ -294,8 +296,18 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}
 		}
 		
+	//set chart data	
+		moCombinedChartData.put("unpleasure", false);
+		moCombinedChartData.put("pleasure", false);
+		if(rRelativeSystemUnpleasure > mrRelativeThreshold)moCombinedChartData.put("unpleasure", true);
+		else if(rRelativeSystemPleasure > mrRelativeThreshold)moCombinedChartData.put("pleasure", true);
 		
-		
+		moCombinedChartData.put("aggr", false);
+		moCombinedChartData.put("libid", false);
+		if(rRelativeSystemAggr > mrRelativeThreshold)moCombinedChartData.put("aggr", true);
+		else if(rRelativeSystemLibid > mrRelativeThreshold)moCombinedChartData.put("libid", true);
+
+
 		
 	}
 	
@@ -615,6 +627,213 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	public double getTimeChartLowerLimit() {
 		return -0.5;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 1:31:29 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartAxis()
+	 */
+	@Override
+	public String getCombinedTimeChartAxis() {
+		return "";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 1:31:29 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartData()
+	 */
+	@Override
+	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
+		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		//EMOTIONS
+		ArrayList<Double> oAnger =new ArrayList<Double>();
+		
+		Double oAngerQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANGER")){
+				oAngerQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+
+			}
+		}
+		oAnger.add(oAngerQoA);
+		oResult.add(oAnger);
+		
+		
+		ArrayList<Double> oFear =new ArrayList<Double>();
+		Double oFearQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("FEAR")){
+				oFearQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+
+			}
+		}
+		oFear.add(oFearQoA);
+		oResult.add(oFear);
+		
+		ArrayList<Double> oGrief =new ArrayList<Double>();
+		Double oGriefQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+				oGriefQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+
+			}
+		}
+		oGrief.add(oGriefQoA);
+		oResult.add(oGrief);
+		
+		//Chart ANGER
+		ArrayList<Double> oDriveAnger =new ArrayList<Double>();
+		oDriveAnger.add(oDrivesExtractedValues.get("rDriveAggr"));
+		oDriveAnger.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		//oAnger.add(moCombinedChartData.get("aggr")?1.01:0.02);
+		//oAnger.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+		oResult.add(oDriveAnger);
+		
+		//Chart FEAR
+		ArrayList<Double> oDriveFear =new ArrayList<Double>();
+		oDriveFear.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		//oFear.add(moCombinedChartData.get("unpleasure")?1.0:0.01);
+		oResult.add(oDriveFear);
+		
+		//Chart GRIEF
+		ArrayList<Double> oDriveGrief =new ArrayList<Double>();
+		oDriveGrief.add(oDrivesExtractedValues.get("rDriveLibid"));
+		oDriveGrief.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		
+		//oGrief.add(moCombinedChartData.get("libid")?1.01:0.02);
+		//oGrief.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+
+		oResult.add(oDriveGrief);
+		
+		//add charts perception
+			
+		//Chart ANGER
+		ArrayList<Double> oAngerPerception =new ArrayList<Double>();
+		oAngerPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
+		oAngerPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		//oAnger.add(moCombinedChartData.get("aggr")?1.01:0.02);
+		//oAnger.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+	
+		oResult.add(oAngerPerception);
+		
+		//Chart FEAR
+		ArrayList<Double> oFearPerception =new ArrayList<Double>();
+		oFearPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		//oFear.add(moCombinedChartData.get("unpleasure")?1.0:0.01);
+
+		oResult.add(oFearPerception);
+		
+		//Chart GRIEF
+		ArrayList<Double> oGriefPerception =new ArrayList<Double>();
+		oGriefPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
+		oGriefPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		
+		//oGrief.add(moCombinedChartData.get("libid")?1.01:0.02);
+		//oGrief.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+
+		oResult.add(oGriefPerception);
+		
+		
+		return oResult;
+		}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 1:31:29 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
+	 */
+	@Override
+	public ArrayList<String> getChartTitles() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.add("ANGER");
+		oResult.add("FEAR");
+		oResult.add("GRIEF");
+		
+		oResult.add("Drive");
+		oResult.add("Drive");
+		oResult.add("Drive");
+		
+		oResult.add("Perception");
+		oResult.add("Perception");
+		oResult.add("Perception");
+		
+
+		
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 1:31:29 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
+	 */
+	@Override
+	public ArrayList<ArrayList<String>> getValueCaptions() {
+		ArrayList<ArrayList<String>> oResult = new ArrayList<ArrayList<String>>();
+		
+		//Emotions
+		
+		//ChartAnger
+		ArrayList<String> chartAnger = new ArrayList<String>();
+		chartAnger.add("Emotion ANGER");
+		oResult.add(chartAnger);
+		
+		//ChartFear
+		ArrayList<String> chartFear = new ArrayList<String>();
+		chartFear.add("Emotion FEAR");
+		oResult.add(chartFear);
+		
+		//ChartGrief
+		ArrayList<String> chartGrief = new ArrayList<String>();
+		chartGrief.add("Emotion GRIEF");
+		oResult.add(chartGrief);	
+		
+		//ChartAnger
+		ArrayList<String> chartDriveAnger = new ArrayList<String>();
+		chartDriveAnger.add("Aggr");
+		chartDriveAnger.add("Unpleasure");
+
+		oResult.add(chartDriveAnger);
+		
+		//ChartFear
+		ArrayList<String> chartDriveFear = new ArrayList<String>();
+		chartDriveFear.add("Unpleasure");
+		oResult.add(chartDriveFear);
+		
+		//ChartGrief
+		ArrayList<String> chartDriveGrief = new ArrayList<String>();
+		chartDriveGrief.add("Libid");
+		chartDriveGrief.add("Unpleasure");
+		oResult.add(chartDriveGrief);
+		
+		//ChartAnger
+		ArrayList<String> chartPerceptionAnger = new ArrayList<String>();
+		chartPerceptionAnger.add("Aggr");
+		chartPerceptionAnger.add("Unpleasure");
+		oResult.add(chartPerceptionAnger);
+		
+		//ChartFear
+		ArrayList<String> chartPerceptionFear = new ArrayList<String>();
+		chartPerceptionFear.add("Unpleasure");
+		oResult.add(chartPerceptionFear);
+		
+		//ChartGrief
+		ArrayList<String> chartPerceptionGrief = new ArrayList<String>();
+		chartPerceptionGrief.add("Libid");
+		chartPerceptionGrief.add("Unpleasure");
+		oResult.add(chartPerceptionGrief);
+		
+
+		
+		
+		return oResult;
 	}	
 
 	
