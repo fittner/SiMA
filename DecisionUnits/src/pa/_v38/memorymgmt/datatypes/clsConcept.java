@@ -56,13 +56,13 @@ public class clsConcept {
 
 		moVisitedWPMs = new HashSet<Integer>();
 	}
-	
+
 	public void addWPMs(List<clsWordPresentationMesh> in) {
 		for (clsWordPresentationMesh wpm : in) {
 			addWPMs(wpm);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * DOCUMENT (ende) - Method to integrate clsWordPresentationMesh into the
@@ -85,6 +85,8 @@ public class clsConcept {
 				if (eDataType.EMOTION.equals(wpm.moDataStructureType)) {
 					integrateWPM(wpm, moEmotionTriple);
 				} else if (eContentType.EMOTION.equals(wpm.moContentType)) {
+					integrateWPM(wpm, moEmotionTriple);
+				} else if (eContentType.BASICEMOTION.equals(wpm.moContentType)) {
 					integrateWPM(wpm, moEmotionTriple);
 				} else if (eContentType.ENTITY.equals(wpm.moContentType)) {
 					integrateWPM(wpm, moEntityTriple);
@@ -123,8 +125,8 @@ public class clsConcept {
 				new clsTriple<Integer, eDataType, eContentType>(mesh.moDS_ID,
 						mesh.moDataStructureType, mesh.moContentType),
 				new ArrayList<clsAssociation>(), mesh.moContent);
-		
-		//TODO select fitting ePredicate
+
+		// TODO select fitting ePredicate
 		clsAssociation association = new clsAssociationSecondary(identifier,
 				moConceptMesh, newMesh, ePredicate.NONE);
 
@@ -185,10 +187,14 @@ public class clsConcept {
 		String text = "";
 		text += moConceptMesh.toString();
 		if (null != moConceptMesh.moInternalAssociatedContent) {
-			text += "[internal: " + moConceptMesh.moInternalAssociatedContent.toString() + "]";
+			text += "[internal: "
+					+ moConceptMesh.moInternalAssociatedContent.toString()
+					+ "]";
 		}
 		if (null != moConceptMesh.moExternalAssociatedContent) {
-			text += "[external: " + moConceptMesh.moInternalAssociatedContent.toString() + "]";
+			text += "[external: "
+					+ moConceptMesh.moInternalAssociatedContent.toString()
+					+ "]";
 		}
 		return text;
 	}
