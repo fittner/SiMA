@@ -128,6 +128,9 @@ public class clsPsychicApparatus {
 	
 	public DT4_PleasureStorage moPleasureStorage;
 	
+	/** (havlicek) Memory of the generated concepts; @since 06.10.2012 */
+	private clsShortTermMemory moConceptMemory;
+	
 	/** (wendt) The instance of the short time memory; @since 15.11.2011 12:38:18 */
 	public clsShortTermMemory moShortTimeMemory;
 	
@@ -192,6 +195,7 @@ public class clsPsychicApparatus {
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory(60, 7);
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
+		moConceptMemory = new clsShortTermMemory(60, 4);
 		
 		//Init codelethandler
 		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
@@ -295,7 +299,7 @@ public class clsPsychicApparatus {
 			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfQuotaOfAffectsForPerception(pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moKnowledgeBaseHandler);
 			moF20_CompositionOfFeelings = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moConceptMemory, moEnvironmentalImageStorage);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moCodeletHandler);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);

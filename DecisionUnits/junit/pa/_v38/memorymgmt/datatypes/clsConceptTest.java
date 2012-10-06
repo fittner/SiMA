@@ -7,14 +7,23 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 
 import java.util.ArrayList;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import pa._v38.tools.planningHelpers.PlanningNode;
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
+import pa._v38.tools.planningHelpers.eDistance;
+import du.enums.eEntityType;
 
 /**
  * DOCUMENT (ende) - insert description
@@ -25,7 +34,7 @@ import pa._v38.tools.planningHelpers.PlanningNode;
 public class clsConceptTest {
 
 	private clsConcept _concept;
-	
+
 	/**
 	 * DOCUMENT (ende) - insert description
 	 * 
@@ -45,44 +54,119 @@ public class clsConceptTest {
 	@Test
 	public final void constructorTest() {
 		assertEquals(clsConcept.class, _concept.getClass());
-		assertEquals(new ArrayList<PlanningNode>(), _concept.returnContent());
+
 	}
 
-	/**
-	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#pushPlanFragment(pa._v38.tools.planningHelpers.PlanningNode)}
-	 * . Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#getPlanAtPos(int)}. Test
-	 * method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#returnContent()}.
-	 */
 	@Test
-	public final void planFragmentTest() {
-		clsPlanFragment planFragment = mock(clsPlanFragment.class);
-		_concept.pushPlanFragment(planFragment);
-		assertEquals(planFragment, _concept.getPlanAtPos(0));
-		assertEquals(planFragment, _concept.returnContent().get(0));
+	public final void convertSingleWPMTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.ENTITY, "cake");
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
 	}
 
-	/**
-	 * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#getSize()}
-	 * .
-	 */
 	@Test
-	public final void sizesTest() {
-		assertEquals(0, _concept.getSize());
-		clsPlanFragment planFragment = mock(clsPlanFragment.class);
-		_concept.pushPlanFragment(planFragment);
-		assertEquals(1, _concept.getSize());
+	public final void addEntityWPMTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.ENTITY, "cake");
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
 	}
 
-	/**
-	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#toString()}.
-	 */
 	@Test
-	public final void toStringTest() {
-		assertEquals("", _concept.toString());
-		// TODO increase size
+	public final void addDistanceWPMTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.DISTANCE, eDistance.MEDIUM.name());
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
 	}
+
+	@Test
+	public final void addActionWPMTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.ACTION, eAction.EAT.name());
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
+	}
+
+	@Test
+	public final void addEmotionWPMTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.EMOTION, eEmotionType.PLEASURE.name());
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
+	}
+
+	@Test
+	public final void addWPMwithSelfLoopTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.EMOTION, eEmotionType.PLEASURE.name());
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		clsAssociation loop = new clsAssociationSecondary(
+				new clsTriple<Integer, eDataType, eContentType>(1,
+						eDataType.EMOTION, eContentType.EMOTION), wpm, wpm,
+				ePredicate.HASDISTANCE);
+		wpm.moInternalAssociatedContent.add(loop);
+		_concept.addWPMs(wpm);
+		assertEquals(1,
+				_concept.returnContent().moInternalAssociatedContent.size());
+	}
+	
+	@Test
+	public final void addWPMwithAssociationsTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.GOAL, eGoalType.DRIVESOURCE.name());
+		clsPair<eContentType, Object> entityPair = new clsPair<eContentType, Object>(eContentType.ENTITY, eEntityType.CAKE.name());
+		clsPair<eContentType, Object> actionPair = new clsPair<eContentType, Object>(eContentType.ACTION, eAction.EAT.name());
+		
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		clsWordPresentationMesh wpmEntity = clsDataStructureGenerator.generateWPM(
+				entityPair, new ArrayList<clsAssociation>());
+		clsWordPresentationMesh wpmAction = clsDataStructureGenerator.generateWPM(
+				actionPair, new ArrayList<clsAssociation>());
+		
+		clsAssociation association = new clsAssociationSecondary(new clsTriple<Integer, eDataType, eContentType>(1,
+						eDataType.ACT, eContentType.ACTIONTYPE), wpmEntity, wpmAction, ePredicate.HASACTION);
+		wpm.moInternalAssociatedContent.add(association);
+		
+		_concept.addWPMs(wpm);
+		
+		assertEquals(2, _concept.returnContent().moInternalAssociatedContent.size());
+	}
+
+	@Test
+	public final void addNotValidTest() {
+		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
+				eContentType.GOAL, eEmotionType.PLEASURE.name());
+		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
+				basicPair, new ArrayList<clsAssociation>());
+		_concept.addWPMs(wpm);
+		assertEquals(0,
+				_concept.returnContent().moInternalAssociatedContent.size());
+		assertEquals(0,
+				_concept.returnContent().moExternalAssociatedContent.size());
+	}
+
 }
