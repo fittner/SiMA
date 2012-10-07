@@ -69,10 +69,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
-	private ArrayList<clsWordPresentationMesh> moConcept;
+	private ArrayList< clsTriple<String, String, String >> moConcept;
 	
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
+	
+	/** DOCUMENT (hinterleitner) - insert description; */
+	private ArrayList< clsTriple<String, String, String >> moSituationalMemory;
 	
 	/** TEMP A perceived image */
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
@@ -129,9 +132,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.valueToTEXT("AdamPerspective:", moConcept);
-
-		text += toText.valueToTEXT("BodosPerspective", moConcept);
+		//text += toText.valueToTEXT("AdamPerspective:", moConcept);
+		text += toText.valueToTEXT("BodosPerspective:", moConcept);
+		text += toText.valueToTEXT("moSituationalMemory", moSituationalMemory);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
@@ -181,6 +184,29 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
+//in F7 kommt eine Distanz 
+	
+	private void fillSituationalMemory() {
+		
+		moSituationalMemory = new ArrayList<clsTriple<String,String,String>>();
+
+		moSituationalMemory.add( new clsTriple<String,String, String>("ADAM", "NOURISH", "WAIT" ));
+		moSituationalMemory.add( new clsTriple<String,String, String>("ADAM", "REPRESS", "THINK" ));
+		moSituationalMemory.add( new clsTriple<String,String, String>("BELLA", "REPRESS", "THINK" ));
+
+		moSituationalMemory.add( new clsTriple<String,String, String>("BODO", "NOURISH", "EAT" ));
+		moSituationalMemory.add( new clsTriple<String,String, String>("BODO", "GRIEF", "THINK" ));
+		moSituationalMemory.add( new clsTriple<String,String, String>("BELLA", "GRIEF", "THINK" ));		
+	}
+	
+
+private void fillConcept() {
+		
+		moConcept = new ArrayList< clsTriple<String, String, String >> ();
+
+		moConcept.add( new clsTriple<String,String, String>("ADAM", "NOURISH", "WAIT" ));
+		moConcept.add( new clsTriple<String,String, String>("ADAM", "REPRESS", "WAIT" ));
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author kohlhauser
@@ -221,7 +247,10 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 		//--- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
-			
+		
+		fillSituationalMemory();	
+		fillConcept();
+		
 		//Search for all images from the primary process in the memory
 		//Input: TPM
 		//1. Get all Images of the Mesh
@@ -251,7 +280,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		
 	/**
 	 * For the TPM as input, assign all of them with WPM images
-	 * Return a pair of 1) Peception, 2) A list of memories. This function extracts all acts and other 
+	 * Return a pair of 1) Perception, 2) A list of memories. This function extracts all acts and other 
 	 * memories from the primary process data structures. The list of memories is categorized in acts from the images
 	 * 
 	 * (wendt)
