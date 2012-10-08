@@ -161,8 +161,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//text += toText.valueToTEXT("AdamPerspective:", moConcept);
 		text += toText.valueToTEXT("BodosPerspective:", moConcept);
 		text += toText.valueToTEXT("moSituationalMemory", moSituationalMemory);
-		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		//text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
