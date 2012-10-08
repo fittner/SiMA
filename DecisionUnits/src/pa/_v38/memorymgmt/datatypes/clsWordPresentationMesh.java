@@ -270,7 +270,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
 					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
 					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-						oResult += oEntry.getLeafElement().toString() + ";"; 
+						oResult += oEntry.getLeafElement().toString() + ";";
 					}
 				}
 				

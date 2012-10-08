@@ -2240,10 +2240,14 @@ public class clsMeshTools {
 	 */
 	private static void moveAllAssociationsMergeMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poMoveFromMesh) {
 		
+		//clsLogger.jlog.debug("Move all associations from " + poMoveFromMesh + " \n to " + poMoveToMesh);
 		//Check if the instances are equal
 		if (poMoveToMesh.equals(poMoveFromMesh)) {
 			return;
 		}
+		
+		//Create a removelist
+		ArrayList<clsAssociation> oRemoveIntAssList = new ArrayList<clsAssociation>();
 		
 		//Internal associations
 		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getMoInternalAssociatedContent()) {
@@ -2275,6 +2279,10 @@ public class clsMeshTools {
 					//as the association to the new element is added by the new element
 					
 					//Then it has to be a WPM
+					//Check if data structure was already transferred
+					
+					
+					
 					clsDataStructurePA oOtherUnknownElement = oIntMoveFromAss.getTheOtherElement(poMoveFromMesh);
 					if (oOtherUnknownElement instanceof clsWordPresentationMesh) {
 						clsWordPresentationMesh oMeshElementWPM = clsMeshTools.searchInstanceOfDataStructureInWPMImageMeshbyID(poMoveToMesh, (clsWordPresentationMesh) oOtherUnknownElement);
@@ -2285,6 +2293,8 @@ public class clsMeshTools {
 							oIntMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 							//Add the association to the MoveToMesh
 							poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							//Remove the association from the "From" entity
+							oRemoveIntAssList.add(oIntMoveFromAss);
 						}
 						
 						//Else nothing is done, as this structure is new to the mesh and will be handled separately
@@ -2302,7 +2312,14 @@ public class clsMeshTools {
 			}
 		}
 		
+		for (clsAssociation oRemoveIntAss : oRemoveIntAssList) {
+			poMoveFromMesh.getMoInternalAssociatedContent().remove(oRemoveIntAss);
+		}
+		
 		//TODO: Primary process associations are not moved. If it is needed, it should be implemented
+		
+		//Create a removelist
+		ArrayList<clsAssociation> oRemoveExtAssList = new ArrayList<clsAssociation>();
 		
 		//External associations
 		for (clsAssociation oExtMoveFromAss : poMoveFromMesh.getExternalAssociatedContent()) {
@@ -2318,6 +2335,8 @@ public class clsMeshTools {
 						if (oExtMoveToAss.getTheOtherElement(poMoveToMesh) instanceof clsWordPresentation) {
 							clsWordPresentation oNewWP = (clsWordPresentation) oExtMoveFromAss.getLeafElement();
 							oExtMoveToAss.setLeafElement(oNewWP);
+							
+							//clsLogger.jlog.debug("WP " + oNewWP.getMoContent() + " moved from " + oExtMoveToAss + " \n to " + oExtMoveToAss);
 						}
 						//Else nothing is done, as the association already exists
 						break;
@@ -2330,7 +2349,7 @@ public class clsMeshTools {
 					if (oExtMoveFromAss.getLeafElement() instanceof clsWordPresentation) {
 						//Set the root element
 						oExtMoveFromAss.setRootElement(poMoveToMesh);
-						poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+						poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
 					} else {
 						//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
 						//as the association to the new element is added by the new element
@@ -2345,14 +2364,20 @@ public class clsMeshTools {
 								//Then replace the MoveFromMesh with the MoveToMesh
 								oExtMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 								//Add the association to the MoveToMesh
-								poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+								poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+								//Remove the old association as it is handled once again if found
+								oRemoveExtAssList.add(oExtMoveFromAss);
+								//Remove the association from the found unknown element
+								((clsWordPresentationMesh) oOtherUnknownElement).getExternalAssociatedContent().remove(oExtMoveFromAss);
+								
+								//clsLogger.jlog.debug("WPM " + oMeshElementWPM + " in " + oExtMoveFromAss + " moved from " + poMoveFromMesh + " \n to " + poMoveToMesh);
 							}
 							
 							//Else nothing is done, as this structure is new to the mesh and will be handled separately
 							
 						} else {
 							try {
-								throw new Exception("Only WPM can be addressed here.");
+								throw new Exception("Only WPM can be addressed here. Object: " + oOtherUnknownElement + "The association " + oExtMoveFromAss + " does not contain " + poMoveFromMesh);
 							} catch (Exception e) {
 								// TODO (wendt) - Auto-generated catch block
 								e.printStackTrace();
@@ -2362,6 +2387,10 @@ public class clsMeshTools {
 					}
 				}
 			}
+		}
+		
+		for (clsAssociation oRemoveExtAss : oRemoveExtAssList) {
+			poMoveFromMesh.getExternalAssociatedContent().remove(oRemoveExtAss);
 		}
 		
 	}
