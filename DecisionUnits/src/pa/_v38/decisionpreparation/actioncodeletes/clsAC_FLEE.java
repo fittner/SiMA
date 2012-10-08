@@ -48,7 +48,7 @@ public class clsAC_FLEE extends clsActionCodelet {
 		this.generateAction(eAction.FLEE);
 		
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.PANIC);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.PANIC);
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

@@ -103,6 +103,7 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 
 	}
 	
+	
 	/**
 	 * DOCUMENT (wendt) - insert description
 	 *

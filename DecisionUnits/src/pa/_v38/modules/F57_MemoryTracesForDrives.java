@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-//import pa._v38.memorymgmt.enums.eActivationType;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
@@ -212,7 +212,10 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		clsThingPresentationMesh  oDriveAim = null;
 		
 		double rCurrentMatchFactor = 0.0;
-		double rMaxMatchfactor = 0.0;
+		
+		double rCurrentDecisionFactor= 0.0;
+		
+		double rMaxDecisionfactor = 0.0;
 
 		double rSatisfactionOfActualDM = 0;
 		
@@ -239,8 +242,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				search(eDataType.TPM, poSearchPattern, oSearchResult);
 				
-				rMaxMatchfactor = 0.0;
+				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
+				rCurrentDecisionFactor= 0.0;
 					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for results of similar memory-DMs (should be various similar DMs)
@@ -251,12 +255,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						// get similar memory-dm
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
-						// 
+						// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
 						rCurrentMatchFactor = oSearchPair.a; 
+						rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
 						
 						// take the best match
 						
-						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
+						if( rCurrentDecisionFactor > mrThresholdMatchFactor) {
 							
 							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
 							// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
@@ -271,17 +276,19 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 							
 							
 							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
-//							if(oMemoryDM.getActualDriveObject() != null) {
-//								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
-//								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor);
-//							}
+							if(oMemoryDM.getActualDriveObject() != null) {
+								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+								oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+								oDriveObjectActivated.extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
+								oDriveObjectActivated.extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
+							}
 														
 							// take  drive object+drive aim of best match 
-							if( rCurrentMatchFactor > rMaxMatchfactor) {
-								rMaxMatchfactor = rCurrentMatchFactor; 								
+							if( rCurrentDecisionFactor > rMaxDecisionfactor) {
+								rMaxDecisionfactor = rCurrentDecisionFactor; 								
 								oDriveAim = oMemoryDM.getActualDriveAim();
 								oDriveObject = oMemoryDM.getActualDriveObject();
-								rSatisfactionOfActualDM = rCurrentMatchFactor;
+								rSatisfactionOfActualDM = rCurrentDecisionFactor;
 							}
 						}
 					}

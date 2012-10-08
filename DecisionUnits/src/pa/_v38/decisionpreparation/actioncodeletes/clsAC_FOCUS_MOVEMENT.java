@@ -116,8 +116,8 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_SEARCH_INFO);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
 		
 	}
 

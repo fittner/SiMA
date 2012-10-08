@@ -53,7 +53,7 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
         		oClone.moAssociatedDataStructures = new ArrayList<clsAssociation>(); 
         		for(clsAssociation oAssociation : moAssociatedDataStructures){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
+    					Object dupl = oAssociation.clone(); 
     					oClone.moAssociatedDataStructures.add((clsAssociation)dupl); 
     				} catch (Exception e) {
     					return e;

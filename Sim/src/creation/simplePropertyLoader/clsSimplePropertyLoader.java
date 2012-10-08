@@ -39,6 +39,7 @@ import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 import bw.entities.clsAnimate;
+import bw.entities.clsApple;
 import bw.entities.clsBase;
 import bw.entities.clsARSIN;
 import bw.entities.clsFungusEater;
@@ -54,6 +55,7 @@ import bw.entities.clsRectangleStationary;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsStone;
 import bw.entities.clsToilet;
+import bw.entities.clsTomato;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
@@ -234,6 +236,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( clsBase.getDefaultProperties			(pre+eEntityType.BASE.name()) );
 		oProp.putAll( clsCan.getDefaultProperties			(pre+eEntityType.CAN.name()) );
 		oProp.putAll( clsCake.getDefaultProperties			(pre+eEntityType.CAKE.name()) );
+		oProp.putAll( clsApple.getDefaultProperties			(pre+eEntityType.APPLE.name()) );
+		oProp.putAll( clsTomato.getDefaultProperties		(pre+eEntityType.TOMATO.name()) );
 		oProp.putAll( clsStone.getDefaultProperties			(pre+eEntityType.STONE.name()) );
 		oProp.putAll( clsFungus.getDefaultProperties		(pre+eEntityType.FUNGUS.name()) );
 		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
@@ -562,6 +566,14 @@ public class clsSimplePropertyLoader extends clsLoader {
     		case RECTANGLE_STATIONARY:
     			oEntity = new clsRectangleStationary(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsRectangleStationary)oEntity);		
+    			break;
+    		case APPLE:
+    			oEntity = new clsApple(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsApple)oEntity);		
+    			break;
+    		case TOMATO:
+    			oEntity = new clsTomato(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsTomato)oEntity);		
     			break;
 			default:
 				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	

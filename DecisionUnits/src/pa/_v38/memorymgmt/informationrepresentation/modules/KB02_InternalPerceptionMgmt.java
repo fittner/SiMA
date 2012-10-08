@@ -9,16 +9,17 @@ package pa._v38.memorymgmt.informationrepresentation.modules;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+
 import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+
 
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
-import pa._v38.memorymgmt.enums.eActivationType;
+
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 
 /**
@@ -224,17 +225,21 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @author schaat
 	 * 12.08.2012, 13:52:24
 	 *
-	 * @param poReturnType
+	 * @param prReturnType
 	 * @param poDataStructureUnknown
 	 * @return
 	 */
 	@Override
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
-			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
+			int prReturnType, clsDataStructurePA poDataStructureUnknown) {
 		
 		double rMatchScore = 0;
 		
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		int rReturnTypeInternAss = 0;
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerListReturn = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
 		
 		// list for expanded nodes
 		
@@ -267,7 +272,8 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 				oBestMatch =  getBestMatch(oMatchedDataStructures);
 				
 				// 4. get associated returntype (e.g. TPMs of TP)
-				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsPhysicalRepresentation)oBestMatch.b);	//Get container from a certain data value
+				rReturnTypeInternAss = poDataStructureUnknown.getMoDataStructureType().nBinaryValue;
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(rReturnTypeInternAss, (clsPhysicalRepresentation)oBestMatch.b);	//Get container from a certain data value
 				oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oBestMatch.a, oDataStructureContainer));
 
 			}
@@ -276,7 +282,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			for(clsPair<Double, clsDataStructureContainer> oAssReturnObjects: oDataStructureContainerList) {
 				for(clsAssociation oAssReturnObject: oAssReturnObjects.b.getMoAssociatedDataStructures()) {
 					// for safety (readOutSearchSpace is not secure)
-					if(oAssReturnObject.getMoAssociationElementA().getMoDataStructureType().nBinaryValue ==  poReturnType){
+					if(oAssReturnObject.getMoAssociationElementA().getMoDataStructureType().nBinaryValue ==  rReturnTypeInternAss){
 						oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
 					}
 					else {
@@ -295,14 +301,14 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			// 7. Goal test (=similarity check)
 			for (clsDataStructurePA oFringeObject: oSearchFringe) {
 				
-				//TODO: currently activation is only considered for TPMs
-				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
-				try {
-					((clsThingPresentationMesh)oFringeObject).setCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
-				}
-				catch (Exception e) {
-					
-				}
+//				//TODO: currently activation is only considered for TPMs
+//				//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
+//				try {
+//					((clsThingPresentationMesh)oFringeObject).setCriterionActivationValue(eActivationType.PERCEPTUAL_ACTIVATION, 0.0);
+//				}
+//				catch (Exception e) {
+//					
+//				}
 				
 				// initialize perceptual activation
 				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
@@ -313,13 +319,57 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 					
 				//}
 			}
+			
+			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchingDataStructureList){
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(prReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
+				oDataStructureContainerListReturn.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
+			}
 			 
 		}
+		else {
+			oDataStructureContainerListReturn = listSearch( prReturnType, poDataStructureUnknown);
+		}
 		
+		return oDataStructureContainerListReturn;
 		
-		return oDataStructureContainerList;
+//		try {
+//			return this.cloneSingleResult(oDataStructureContainerListReturn);
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (schaat) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		throw new NoSuchElementException("No return value defined"); 
 	}
 
+	/**
+	 * DOCUMENT (schaat) - insert description
+	 *
+	 * @author schaat
+	 * 2.10.2012, 16:58:22
+	 *
+	 * @param poSingleSearchResult
+	 * @return
+	 * @throws CloneNotSupportedException 
+	 */
+	@SuppressWarnings("unchecked")
+	private ArrayList<clsPair<Double,clsDataStructureContainer>> cloneSingleResult(
+			ArrayList<clsPair<Double,clsDataStructureContainer>> poSingleSearchResult) throws CloneNotSupportedException {
+		
+		ArrayList<clsPair<Double,clsDataStructureContainer>> oClone = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+		
+
+			clsPair<Double, clsDataStructureContainer> oClonedPair = null;
+			
+			
+			for(clsPair<Double, clsDataStructureContainer> oPairEntry : poSingleSearchResult){
+				oClonedPair = (clsPair<Double, clsDataStructureContainer>) oPairEntry.clone(); //suppressed Warning
+			}
+			
+			oClone.add(oClonedPair); 
+		 
+		return oClone;
+	}
+	
 	/**
 	 * DOCUMENT (schaat) - insert description
 	 *

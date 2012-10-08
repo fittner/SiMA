@@ -30,7 +30,6 @@ import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
@@ -1274,14 +1273,7 @@ public abstract class clsDataStructureComparison {
 				//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
 				//if (oCompareElement.getMoDSInstance_ID()==0) {
 				
-					//TODO: currently activation is only considered for TPMs
-					//  (since the activation-value of the pre-step is not considered, it has to be set to 0)
-					try {
-						((clsThingPresentationMesh)oCompareElement).setCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION, 0.0);
-					}
-					catch (Exception e) {
-						
-					}
+					
 					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 					
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){

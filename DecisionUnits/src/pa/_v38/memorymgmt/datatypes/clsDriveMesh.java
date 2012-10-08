@@ -575,6 +575,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
+        	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
         	if (moInternalAssociatedContent != null) {
         		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
         		

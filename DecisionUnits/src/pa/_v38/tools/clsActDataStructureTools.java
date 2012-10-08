@@ -87,7 +87,11 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getIntention(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+		clsWordPresentationMesh oPrelRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+		
+		if (oPrelRetVal!=null) {
+			oRetVal = oPrelRetVal;
+		}
 		
 		return oRetVal;
 	}

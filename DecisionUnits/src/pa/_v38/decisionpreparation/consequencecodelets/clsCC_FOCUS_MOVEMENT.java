@@ -45,7 +45,7 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 		//This is the consequence of the movement
-		clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);	//Set first focus
+		clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);	//Set first focus
 	}
 
 	/* (non-Javadoc)
@@ -84,10 +84,10 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_MOVE_FORWARD);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_LEFT);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_RIGHT);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_FOCUS_SEARCH1);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_MOVE_FORWARD);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_LEFT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_RIGHT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_SEARCH1);
 		
 	}
 

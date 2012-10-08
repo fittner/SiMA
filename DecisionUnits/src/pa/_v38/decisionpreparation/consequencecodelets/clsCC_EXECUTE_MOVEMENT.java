@@ -45,8 +45,8 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.SET_FOCUS_ON);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_ON);
 		
 	}
 
@@ -87,10 +87,10 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Remove the focus movement as a movement has happened
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_MOVE_FORWARD);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_TURN_LEFT);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_TURN_RIGHT);
-		clsGoalTools.removeTaskStatus(this.moGoal, eCondition.EXECUTED_SEARCH1);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_MOVE_FORWARD);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_LEFT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_RIGHT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_SEARCH1);
 		
 	}
 

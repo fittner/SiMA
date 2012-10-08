@@ -50,36 +50,36 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 		
 		
 		//Transfer previous stati in general
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_INTERNAL_INFO)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_INTERNAL_INFO);
+		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_INTERNAL_INFO)==true) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.SET_INTERNAL_INFO);
 		}
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_FOCUS_MOVEMENT)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
+		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_FOCUS_MOVEMENT)==true) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
 		}
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
-			clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
 		}
 		
 		
 		//Transfer previous stati in special
-		if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
 			
 			
 			
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
 			
 			//Remove all PI-matches from the images
 			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
 			clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
-		} else if (clsGoalTools.checkIfTaskStatusExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 
-			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.COMPOSED_CODELET)==true) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.COMPOSED_CODELET);
+			if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.COMPOSED_CODELET)==true) {
+				clsGoalTools.setCondition(this.moGoal, eCondition.COMPOSED_CODELET);
 			}
-			if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
+			if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
+				clsGoalTools.setCondition(this.moGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
 			}
 		}
 		

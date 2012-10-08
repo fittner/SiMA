@@ -6,7 +6,12 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
+
+
+
+
 
 /**
  * DOCUMENT (zeilinger) -
@@ -167,5 +172,40 @@ public abstract class clsDataStructureContainer implements Cloneable{
 		}
 	
 		return oRetVal;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		
+		clsDataStructureContainer clone = null;
+		ArrayList cloneList = new ArrayList();
+		
+	     try { 
+	       clone = (clsDataStructureContainer) super.clone(); // unchecked warning
+	     } catch (CloneNotSupportedException e) { 
+	       throw e; 
+	     }
+	     
+	    // clsDataStructurePA cloneDS = (clsDataStructurePA) this.moDataStructure.clone();
+//	     clone.moDataStructure = cloneDS;
+	     
+	     for (clsDataStructurePA entry: this.moAssociatedDataStructures) {
+	    	try{
+	    		Class<?> clzz = entry.getClass();
+	    		Method   meth = clzz.getMethod("clone", new Class[0]);
+			    Object   dupl = meth.invoke(entry, new Object[0]);
+			    cloneList.add((clsDataStructurePA)dupl);
+	    	}
+	    	catch (Exception e) {
+	    		cloneList.add(entry);
+				// no clone possible.
+			}
+		    
+	     }
+	     
+	     clone.setMoAssociatedDataStructures(cloneList);
+		
+	     return clone;
 	}
 }

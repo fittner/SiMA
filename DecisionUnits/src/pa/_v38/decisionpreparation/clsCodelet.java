@@ -81,7 +81,7 @@ public abstract class clsCodelet {
 	}
 	
 	public double checkMatchingPreconditions(clsWordPresentationMesh poGoal) {
-		clsConditionGroup oGroupFromGoal = new clsConditionGroup(clsGoalTools.getTaskStatus(poGoal));
+		clsConditionGroup oGroupFromGoal = new clsConditionGroup(clsGoalTools.getCondition(poGoal));
 		
 		return checkMatchingPreconditions(oGroupFromGoal);
 	}

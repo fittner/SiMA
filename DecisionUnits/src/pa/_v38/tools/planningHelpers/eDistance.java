@@ -6,6 +6,8 @@
  */
 package pa._v38.tools.planningHelpers;
 
+import pa._v38.memorymgmt.enums.eRadius;
+
 /**
  * DOCUMENT (perner) - insert description 
  * 
@@ -18,7 +20,24 @@ public enum eDistance {
 	FAR,
 	MEDIUM,
 	NEAR,
-	NODISTANCE
+	NODISTANCE;
+	
+	public static eDistance getDistance(eRadius poRadius) {
+		eDistance oResult = null;
+		
+		if (poRadius.equals(eRadius.NODISTANCE)) {
+			oResult = eDistance.NODISTANCE;
+		} else if (poRadius.equals(eRadius.NEAR)) {
+			oResult = eDistance.NEAR;
+		} else if (poRadius.equals(eRadius.MEDIUM)) {
+			oResult = eDistance.MEDIUM;
+		} else if (poRadius.equals(eRadius.FAR)) {
+			oResult = eDistance.FAR;
+		} 
+		
+		return oResult;
+	}
+	
 	
 /*	
 	FAR,

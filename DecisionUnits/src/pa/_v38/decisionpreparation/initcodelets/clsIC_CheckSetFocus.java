@@ -52,7 +52,7 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 		
 		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
-		if (clsGoalTools.checkIfTaskStatusExists(oPreviousGoal, eCondition.SET_FOCUS_ON)) {
+		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_FOCUS_ON)) {
 			//If focus was set the last time, check if focus is still there in the STM
 			//Find the supportive structure in the STM
 			
@@ -62,14 +62,14 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(oPreviousGoal).getMoDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
-					clsGoalTools.setTaskStatus(this.moGoal, eCondition.SET_FOCUS_ON);
+					clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_ON);
 					bEntityInFocus = true;
 					break;
 				}
 			}
 			
 			if (bEntityInFocus==false) {
-				clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+				clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
 			}
 		}
 		
