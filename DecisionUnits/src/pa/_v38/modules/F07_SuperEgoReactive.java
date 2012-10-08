@@ -53,6 +53,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	public static final String P_MODULENUMBER = "7";
 	private static final int threshold_psychicEnergy = 10;
+	private static final int msPriorityPsychicEnergy = 10;
 	private double moSuperEgoStrength; // personality parameter to adjust the strength of Super-Ego
 	
 	@SuppressWarnings("unused")
@@ -70,7 +71,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	private ArrayList<eEmotionType>moForbiddenEmotions;
 	
-	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage = new DT3_PsychicEnergyStorage();
+	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage;
 	
 	private ArrayList<clsEmotion> moEmotions_Input;
 	
@@ -84,17 +85,20 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @param poProp
 	 * @param poModuleList
 	 * @param poInterfaceData
+	 * @param poPsychicEnergyStorage 
 	 * @param poKnowledgeBaseHandler
 	 * @throws Exception
 	 */
 	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moForbiddenDrives = new ArrayList<clsPair<eDriveComponent, eOrgan>>();
 		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
+		
+		moDT3_PsychicEnergyStorage = poPsychicEnergyStorage;
 		
 		applyProperties(poPrefix, poProp); 
 	}
@@ -189,8 +193,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		}
 		
 		
+		
+		double rReceivedPsychicEnergy = moDT3_PsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
 		// if there is enough psychic energy
-		if (moDT3_PsychicEnergyStorage.send_D3_1(mnModuleNumber) > threshold_psychicEnergy
+		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
 			checkInternalizedRules();	 // check perceptions and drives, and apply internalized rules	
 	}

@@ -133,30 +133,36 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		
 		// 1.Reduce drive energy and send it to DT3
 		
-		double reducedEnergy = 0.0;
+		double sumReducedEnergy = 0.0;
 		// copy input to allow comparison before/after
 		moDrives_OUT = (ArrayList<clsDriveMesh>)deepCopy(moDrives_IN);
 		
 		// take energy from drives attached to the perception
 		for (clsDriveMesh oEntry : moDrives_OUT) {
 			// take specified amount of drive energy
-			reducedEnergy = 0.0; // initialize for each one, just to be sure.
 			
 			if (oEntry.getPartialDrive() != ePartialDrive.UNDEFINED) {
-				reducedEnergy = oEntry.getQuotaOfAffect() * mrEnergyReductionRateSexual;
+				sumReducedEnergy += oEntry.getQuotaOfAffect() * mrEnergyReductionRateSexual;
 				// update the drive energy 
 				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSexual));
 			}
 			else {
-				reducedEnergy = oEntry.getQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
+				sumReducedEnergy += oEntry.getQuotaOfAffect() * mrEnergyReductionRateSelfPreserv;
 				
 				// update the drive energy 
 				oEntry.setQuotaOfAffect(oEntry.getQuotaOfAffect() * (1 - mrEnergyReductionRateSelfPreserv));
 			}
 
-			// send free drive energy to DT3 for distribution to other modules
-			moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
+			
 		}
+		
+		
+		// send free drive energy to DT3 for distribution to other modules
+		moPsychicEnergyStorage.receive_D3_1(sumReducedEnergy);
+		
+		
+		
+		
 		
 		// 2. Distribute free energy
 		
@@ -167,7 +173,7 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		reducedEnergy = moLibidoBuffer.send_D1_2() * mrEnergyReductionRate;
 		// update libidobuffer
 		moLibidoBuffer.receive_D1_3(reducedEnergy);*/
-	// send free drive energy to DT3 for distribution to other modules
+		// send free drive energy to DT3 for distribution to other modules
 		//moPsychicEnergyStorage.receive_D3_1(reducedEnergy);
 		
 		
