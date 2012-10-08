@@ -52,16 +52,18 @@ public class clsMeshCompare extends clsCompareGraphWindow {
 	@Override
 	protected void updateInspectorData() {
 		ArrayList<Object> oMesh = new ArrayList<Object>();
-		for( eInterfaces oInter: moRecv){
-			if(moPA.moInterfaceData.containsKey(oInter)){
-				oMesh.addAll(moPA.moInterfaceData.get(oInter));
-			}
-
-		}
-		
-		
+		if(moRecv!=null){
+			for( eInterfaces oInter: moRecv){
+				if(moPA.moInterfaceData.containsKey(oInter)){
+					oMesh.addAll(moPA.moInterfaceData.get(oInter));
+				}
 	
-		moGraphInput.moMesh =(ArrayList<Object>) oMesh.clone();
+			}
+			
+			
+		
+			moGraphInput.moMesh =(ArrayList<Object>) oMesh.clone();
+		}
 		oMesh = new ArrayList<Object>();
 		for( eInterfaces oInter: moSend){
 			if(moPA.moInterfaceData.containsKey(oInter)){

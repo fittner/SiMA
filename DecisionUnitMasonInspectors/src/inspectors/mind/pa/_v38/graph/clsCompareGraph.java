@@ -53,6 +53,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
@@ -151,7 +152,7 @@ public class clsCompareGraph extends JGraph {
 		moUseSimpleView=poUseSimpleView;
 	}
 	public void setMaster(boolean m) {
-		master =m;
+		master = m;
 	}
 	public boolean isMaster(){
 		return master;
@@ -376,6 +377,7 @@ public class clsCompareGraph extends JGraph {
 		// layouts, pass in any cells that are intended to be the tree roots
 		// in the layout
 //JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
+
 //facade.setOrdered(true);
 		// Create the layout to be applied (Tree)
 		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
@@ -384,7 +386,9 @@ public class clsCompareGraph extends JGraph {
 		//layout.setLevelDistance(30); //minimal distance from node to node vertical
 		//layout.setOrientation(SwingConstants.WEST);
 		// Run the layout, the facade holds the results
-		//layout.run(facade);
+//		synchronized(this){
+//			layout.run(facade);
+		
 		// Obtain the output of the layout from the facade. The second
 		// parameter defines whether or not to flush the output to the
 		// origin of the graph
@@ -732,6 +736,13 @@ public class clsCompareGraph extends JGraph {
 			System.out.println("[clsMeshBase.rIDAGGC] Unkown data structure, displaying toString(): "+oO.getClass());
 		}
 		
+		if(oRootCell!=null&& !oRootCell.equals(poParent)){
+			DefaultEdge oEdgeParent = new DefaultEdge();
+			oEdgeParent.setSource(poParent.getChildAt(0));
+			oEdgeParent.setTarget(oRootCell.getChildAt(0));
+			moCellList.add(oEdgeParent);
+		}
+		
 		return oRootCell;
 	}
 
@@ -742,6 +753,7 @@ public class clsCompareGraph extends JGraph {
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsDataStructurePA poMemoryObject)
 	{
 		clsGraphCell oRootCell = null;
+		
 		if(lastXlevel!=xLevel)yLevel++;
 		
 		xLevel++;
@@ -749,19 +761,7 @@ public class clsCompareGraph extends JGraph {
 		lastXlevel = xLevel;
 		if(poMemoryObject instanceof clsDriveMesh)
 		{
-	/*		if(!isMaster()){
-				
-				while(((ArrayList<Object>)moLinkPartner.moMesh.get(0)).size()>xLevel-1){
-					System.out.println("Fremd | "+xLevel+" | "+((ArrayList<Object>)moLinkPartner.moMesh.get(0)).get(xLevel-1).toString());
-					System.out.println("Eigen "+poMemoryObject.toString());
-					if(((ArrayList<Object>)moLinkPartner.moMesh.get(0)).get(xLevel-1).equals(poMemoryObject)){
-						break;
-					}
 
-					//generateDummyCell(poParentCell);
-					xLevel++;
-				}
-			}*/
 			clsDriveMesh tmpRootMemoryObject = (clsDriveMesh)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 			
@@ -1044,13 +1044,7 @@ public class clsCompareGraph extends JGraph {
 		oDescription += poMemoryObject.getPartialDrive().name().equals("UNDEFINED") ? "":  "\n" + poMemoryObject.getPartialDrive().name();
 		oDescription += poMemoryObject.getActualDriveSourceAsENUM().toString().equals("UNDEFINED") ? "": "\n" + poMemoryObject.getActualDriveSourceAsENUM();
 		oDescription += poMemoryObject.getActualBodyOrificeAsENUM().toString().equals("UNDEFINED") ? "": "\n" + poMemoryObject.getActualBodyOrificeAsENUM();
-/*
-		if(!poMemoryObject.getActualBodyOrificeAsENUM().toString().equals("UNDEFINED")){
-			System.out.println("##########################################\n"+oDescription+":");
-			oDescription += poMemoryObject.getActualBodyOrificeAsENUM();
-			System.out.println(":+++++++"+poMemoryObject.getActualBodyOrificeAsENUM()+":");
-			System.out.println(":"+oDescription+"\n###########################################");
-		}*/
+
 		if(!UseSimpleView()) 
 		{
 			oDescription = 	poMemoryObject.toString();
@@ -1155,7 +1149,8 @@ public class clsCompareGraph extends JGraph {
 	{
 		String oDescription = 	poMemoryObject.getMoContentType().name() + "\n" +
 				poMemoryObject.getMoContent();
-
+		oDescription += poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null ?"\n"+poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION):"";
+			
 		
 		
 		if(!UseSimpleView()) 
@@ -1200,6 +1195,48 @@ public class clsCompareGraph extends JGraph {
 				}
 				
 			}
+		}
+		
+		if(showExternAssoc){
+
+			showExternAssoc=false;
+
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			{ 	
+				
+				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				{
+					
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
+					//add edge
+					DefaultEdge oEdge = new DefaultEdge("w:" + oDMAssociations.getMrWeight());
+					oEdge.setSource(oTPMrootCell.getChildAt(0));
+					oEdge.setTarget(oTargetCell.getChildAt(0));
+					moCellList.add(oEdge);
+					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+					GraphConstants.setEndFill(oEdge.getAttributes(), true);
+				}
+				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				{
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
+					//add edge
+					DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+					oEdge.setSource(oTPMrootCell.getChildAt(0));
+					oEdge.setTarget(oTargetCell.getChildAt(0));
+					moCellList.add(oEdge);
+					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+					GraphConstants.setEndFill(oEdge.getAttributes(), true);
+				}
+				else
+				{ //should not be laut heimo!!!
+					//System.out.println("ARS Exeption: [DM] Neither A nor B are root element.");
+					//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
+				}
+
+			}
+			showExternAssoc=true;
 		}
 		return oTPMrootCell;	
 	}
@@ -1455,7 +1492,7 @@ public class clsCompareGraph extends JGraph {
 		clsGraphCell oListCellRoot = createDefaultGraphVertex("LIST", moColorTrippleRoot);
 		moCellList.add(oListCellRoot);
 		//edge to the [parrent cell] <-> [root of list]
-		DefaultEdge oEdgeParent = new DefaultEdge("list");
+		DefaultEdge oEdgeParent = new DefaultEdge();
 		oEdgeParent.setSource(poParentCell.getChildAt(0));
 		oEdgeParent.setTarget(oListCellRoot.getChildAt(0));
 		moCellList.add(oEdgeParent);
@@ -1463,11 +1500,6 @@ public class clsCompareGraph extends JGraph {
 		for (int j=0; j<poMemoryObject.size(); j++) {
 			Object o = poMemoryObject.get(j);
 			DefaultGraphCell oCell= generateGraphCell(oListCellRoot, o);
-			
-			oEdgeParent = new DefaultEdge();
-			oEdgeParent.setSource(oListCellRoot.getChildAt(0));
-			oEdgeParent.setTarget(oCell.getChildAt(0));
-			moCellList.add(oEdgeParent);
 		}
 
 		return poParentCell;
@@ -1541,7 +1573,7 @@ public class clsCompareGraph extends JGraph {
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntry poMemoryObject)
 	{
 		String oDescription = poMemoryObject.getEntityType().toString();
-			
+		oDescription ="?";	
 		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorString);
 		this.moCellList.add(oCell);
 		poMemoryObject.getClass().getFields();
@@ -1646,7 +1678,9 @@ public class clsCompareGraph extends JGraph {
 										// invoke the edit method on the graph layout
 										// cache.
 										Map<?,?> map = facade.createNestedMap(true,true);
-										moMorpher.morph(me, map);
+										//moMorpher.morph(me, map);
+										getGraphLayoutCache().edit(map);
+										
 										//moMorpher.morph(me, map);
 										requestFocus();
 									//}

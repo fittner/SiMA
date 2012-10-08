@@ -110,11 +110,8 @@ public abstract class clsCompareGraphWindow extends Inspector {
      * @param poModuleMemoryMemberName 
      */
     public clsCompareGraphWindow()  {
-    	initializePanel();	//put all components on the panel	
-		
+    	initializePanel();	//put all components on the panel		
     }
-    
- 
 
     private void initializePanel()
     {
@@ -132,6 +129,8 @@ public abstract class clsCompareGraphWindow extends Inspector {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
 				oSplitPaneGraph.setDividerLocation((getSize().width-150)/2);
+				if(moGraphInput.moMesh.size()==0) oSplitPaneGraph.setDividerLocation(0);
+				if(moGraphOutput.moMesh.size()==0) oSplitPaneGraph.setDividerLocation(getSize().width);
 				
 			}
 	      };
@@ -594,7 +593,7 @@ public abstract class clsCompareGraphWindow extends Inspector {
 			}
 		});
     	// TODO: Auto Update doesn't work correctly
-    	/*		
+    			
 		javax.swing.JCheckBox oAutoUpdateCB = new javax.swing.JCheckBox("Auto Update");
 		
 		    ActionListener actionListener = new ActionListener() {
@@ -606,7 +605,7 @@ public abstract class clsCompareGraphWindow extends Inspector {
 		      };
 		      oAutoUpdateCB.addActionListener(actionListener);
 		      poTaskGroup.add(oAutoUpdateCB);
-*/			
+			
 		      	//link Checkbox
 				javax.swing.JCheckBox oLinkCB = new javax.swing.JCheckBox("Link Input and Output Graphes");
 				oLinkCB.setSelected(true);
@@ -621,7 +620,6 @@ public abstract class clsCompareGraphWindow extends Inspector {
 			      			moGraphOutput.setScale(moGraphInput.getScale());
 			      			updateGraphes();
 			      		}
-
 			        }
 			      };
 			      oLinkCB.addActionListener(actionListenerLCB);
