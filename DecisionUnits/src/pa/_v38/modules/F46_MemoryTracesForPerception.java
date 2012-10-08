@@ -248,7 +248,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+		
 		}
 
 	/* (non-Javadoc)
@@ -260,7 +260,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_final() {
-		// TODO (HINTERLEITNER) - Auto-generated method stub
+	
 
 	}
 	
