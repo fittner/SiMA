@@ -2293,6 +2293,10 @@ public class clsMeshTools {
 							oIntMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 							//Add the association to the MoveToMesh
 							poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							//Add to the other element as well if not already present
+							if (oMeshElementWPM.getMoInternalAssociatedContent().contains(oIntMoveFromAss)==false) {
+								oMeshElementWPM.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							}
 							//Remove the association from the "From" entity
 							oRemoveIntAssList.add(oIntMoveFromAss);
 						}
@@ -2365,6 +2369,10 @@ public class clsMeshTools {
 								oExtMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 								//Add the association to the MoveToMesh
 								poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+								//Add to the other element as well if not already present
+								if (oMeshElementWPM.getExternalAssociatedContent().contains(oExtMoveFromAss)==false) {
+									oMeshElementWPM.getExternalAssociatedContent().add(oExtMoveFromAss);
+								}
 								//Remove the old association as it is handled once again if found
 								oRemoveExtAssList.add(oExtMoveFromAss);
 								//Remove the association from the found unknown element
