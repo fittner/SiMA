@@ -96,7 +96,12 @@ public class clsImportanceTools {
 			rTotalAffect += java.lang.Math.abs(((clsEmotion)oEmotionAss.getLeafElement()).getMrEmotionIntensity());
 		}
 		
-		return rTotalAffect/oEmotionList.size();
+		double rNormedAffect = 0.0;
+		if (oEmotionList.isEmpty()==false) {
+			rNormedAffect = rTotalAffect/oEmotionList.size();
+		}
+		
+		return rNormedAffect;
 	}
 	
 	/**

@@ -873,27 +873,60 @@ public class clsGoalTools {
 			}
 		}
 		
+		//double rBestDistance = -1;
+		
+		ArrayList<clsWordPresentationMesh> oZeroDistanceList = sortSpatiallyGoalList(poGoalList, poCompareGoal);
+		
+		//If the size of the list is >1 then there are several possibilites. Therefore correct the comparegoal with the movement
+		if (oZeroDistanceList.size()>1) {
+//			if (poLastAction.equals(eAction.TURN_LEFT)) {
+//				
+//			} else if (poLastAction.equals(eAction.TURN_RIGHT)) {
+//				
+//			} else if (poLastAction.equals(eAction.MOVE_FORWARD)) {
+//				
+//			}
+			
+			//TODO someone: Implement the cases above. At a movement, the goal search shall be corrected.
+			
+			oResult = oZeroDistanceList.get(0);
+			
+		} else if (oZeroDistanceList.size()==1){
+			oResult = oZeroDistanceList.get(0);
+		}
+		
+		return oResult;
+	}
+	
+	private static ArrayList<clsWordPresentationMesh> sortSpatiallyGoalList(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal) {
+		ArrayList<clsWordPresentationMesh> oResultList = new ArrayList<clsWordPresentationMesh>();
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
 		double rBestDistance = -1;
 		
-		for (clsWordPresentationMesh poGoal : poGoalList) {
-			eGoalType oGoalTypeFromListGoal = clsGoalTools.getGoalType(poGoal);
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			eGoalType oGoalTypeFromListGoal = clsGoalTools.getGoalType(oGoal);
 			
 			if (oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALDRIVE) || oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALEMOTION)) {
-				double rCurrentDistance = clsSecondarySpatialTools.getDistance(clsGoalTools.getGoalObject(poGoal), clsGoalTools.getGoalObject(poCompareGoal));
+				double rCurrentDistance = clsSecondarySpatialTools.getDistance(clsGoalTools.getGoalObject(oGoal), clsGoalTools.getGoalObject(poCompareGoal));
 				
 				if ((rBestDistance==-1 && rCurrentDistance>=0) || (rBestDistance>=0 && rCurrentDistance<rBestDistance)) {
 					rBestDistance=rCurrentDistance;
-					oResult = poGoal;
+					oResult = oGoal;
 					
 					//If the position is exact the same, then break
 					if (rCurrentDistance==0) {
-						break;
+						oResultList.add(oGoal);
 					}
 				}
 			}
 		}
 		
-		return oResult;
+		if (oResultList.isEmpty()==true) {
+			oResultList.add(oResult);
+		}
+		
+		return oResultList;
 	}
 	
 	/**

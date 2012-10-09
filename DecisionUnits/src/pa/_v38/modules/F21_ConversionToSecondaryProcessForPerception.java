@@ -142,7 +142,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = poConceptMemory;
+		this.moConceptMemory = new clsShortTermMemory(1,1); //FIXME ISABELLA: Dont use the environmental image storage to init your memory. It does not work properly then//poConceptMemory;
 
 	}
 	
