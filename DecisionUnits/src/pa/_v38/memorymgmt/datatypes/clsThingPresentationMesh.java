@@ -399,7 +399,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	 * 28.08.2012, 12:10:28
 	 *
 	 */
-	/*public void applyEmbodimentActivation(ArrayList<clsDriveMesh> poActualDrives) {
+	public void applyEmbodimentActivation(ArrayList<clsDriveMesh> poActualDrives) {
 		
 
 		// diff between QoA of associated DM an actual DM --> how good would this memory DM satisfy the according actual DM
@@ -410,7 +410,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 		
 		if(moActivations.containsKey(eActivationType.EMBODIMENT_ACTIVATION)) {
 			// exemplar has already this criterion activation
-			double rPreviousActivation = moActivations.get(eActivationType.EMBODIMENT_ACTIVATION);
+			//double rPreviousActivation = moActivations.get(eActivationType.EMBODIMENT_ACTIVATION);
 		}
 		else {
 					
@@ -428,16 +428,16 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 					}
 					
 				}
-				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM;
+				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM*oActualDM.getQuotaOfAffect();
 			}
 			
 			// Normalization. The Max possible satisfaction of all actual drives correspond to the number of them
-			rCriterionActivation = rTotSatisfactionOfActualDMs/poActualDrives.size();
-			moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, rCriterionActivation * this.getPleasurePotential()); //PleasurePotential for consideration of the pleasure principle --> one high DM is better as two middle DMs, even if they have the same (accumulated) total QoA
+//			rCriterionActivation = rTotSatisfactionOfActualDMs/poActualDrives.size();
+			moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, rTotSatisfactionOfActualDMs ); 
 			
 			
 		}
-	}*/
+	}
 	
 	/**
 	 * DOCUMENT (schaat) - insert description

@@ -1,4 +1,4 @@
-; Thu Oct 04 21:38:56 CEST 2012
+; Tue Oct 09 11:11:02 CEST 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -332,6 +332,10 @@
 	(role concrete))
 
 (defclass TOMATO
+	(is-a TPM%3AENTITY)
+	(role concrete))
+
+(defclass ORANGE
 	(is-a TPM%3AENTITY)
 	(role concrete))
 
