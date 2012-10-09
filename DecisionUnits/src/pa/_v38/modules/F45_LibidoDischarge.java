@@ -214,7 +214,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	protected void process_basic() {
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
-		mrLibidoReducedBy =0;
+		mrLibidoReducedBy = 0;
 		//Clone input structure and make modification directly on the output
 		try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
@@ -242,6 +242,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 
 			}
 		}
+		
 		
 		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
 		//added to the image and in mrLibidoReducedBy is set as mrPerceptionReduceFactor * Quota of affect
@@ -545,7 +546,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	public double getTimeChartUpperLimit() {
-		return 2;
+		return 1;
 	}
 
 	/* (non-Javadoc)

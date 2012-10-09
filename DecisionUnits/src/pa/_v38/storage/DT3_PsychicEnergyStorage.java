@@ -11,14 +11,13 @@ package pa._v38.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Hashtable;
-import java.util.Map;
 
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D3_1_receive;
 import pa._v38.interfaces.modules.D3_1_send;
-import pa._v38.interfaces.modules.D3_2_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
@@ -26,43 +25,31 @@ import pa._v38.tools.toText;
  * Module F56 sends freed psychic energy that is taken from the drives from {I5.3}.
  * A special storage containing this psychic energy is necessary in order to distribute it.
  * The stored data is simply the amount of energy available to each connected module.
- * The modules are connected to this special type of storage with {D3_1_receive},
- * {D3_1_send} and {D3_2_receive} interfaces.
+ * The modules are connected to this special type of storage with {D3_1_receive} and
+ * {D3_1_send} interfaces.
  * 
- * @author Marcus Zottl (e0226304)
- * @since 12.10.2011
+ * @author Kogelnig Philipp (e0225185)
+ * @since 08.10.2012
  */
 public class DT3_PsychicEnergyStorage 
-implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_1_send, D3_2_receive {
-
-	private Hashtable<Integer, Double> moPsychicEnergyBuffer;
+implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_1_send {
+	// distributed energy for all modules <module number, <energy in buffer, last requested energy, priority of request>> 
+	private Hashtable<Integer, clsTriple<Double, Double, Double>> moPsychicEnergyPerModule;
 	
-	private Hashtable<Integer, Double> moStepDifferenceBuffer;
-
-	private double mrInitialEnergy = 0.5;
-	private double mrFreePsychicEnergy = 0;
+	private static int srMaxRoundStorageSize = 10;
+	private double[] moPsychicEnergyRoundStorage;
+	private int mnOldEnergyIndex = 0;
+	private int mnCurrentEnergyIndex = 0;
 	
+	private double mrFreePsychicEnergy = 0.0;
 	
 	public DT3_PsychicEnergyStorage() {
 		initializeBuffers();
 	}
 
-	/**
-	 * Initialize the buffers for free psychic energy.
-	 * 
-	 * @author Marcus Zottl (e0226304)
-	 * @since 12.10.2011 16:03:02
-	 */
 	private void initializeBuffers() {
-		moPsychicEnergyBuffer = new Hashtable<Integer, Double>();
-		// initially no module has available free psychic energy
-		double initial = mrInitialEnergy/moPsychicEnergyBuffer.size();
-		moPsychicEnergyBuffer.put(7, initial);
-		moPsychicEnergyBuffer.put(8, initial);
-		moPsychicEnergyBuffer.put(20, initial);
-		moPsychicEnergyBuffer.put(21, initial);
-		moPsychicEnergyBuffer.put(23, initial);
-		moPsychicEnergyBuffer.put(55, initial);
+		moPsychicEnergyRoundStorage = new double[srMaxRoundStorageSize];
+		moPsychicEnergyPerModule = new Hashtable<Integer, clsTriple<Double, Double, Double>>();
 	}
 
 
@@ -79,7 +66,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 		"A special storage containing this psychic energy is necessary in order to distribute it. " +
 		"The stored data is simply the amount of energy available to each connected module. " +
 		"The modules are connected to this special type of storage with {D3_1_receive}," +
-		"{D3_1_send} and {D3_2_receive} interfaces.";
+		"and {D3_1_send} interfaces.";
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +77,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	 */
 	@Override
 	public ArrayList<eInterfaces> getInterfacesRecv() {
-		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D3_1, eInterfaces.D3_2) );
+		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D3_1) );
 	}
 
 	/* (non-Javadoc)
@@ -115,7 +102,7 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 		String text = "";
 		
 		text += toText.h1("Psychic Energy Storage");
-		text += toText.mapToTEXT("moPsychicEnergyBuffer", moPsychicEnergyBuffer);
+		text += toText.mapToTEXT("moPsychicEnergyPerModule", moPsychicEnergyPerModule);
 		
 		return text;
 	}
@@ -128,11 +115,19 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	 * @see pa._v38.interfaces.modules.D3_1_send#send_D3_1(int)
 	 */
 	@Override
-	public double send_D3_1(int pnModuleNr) {
+	public double send_D3_1(int pnModuleNr,double prRequestedPsychicEnergy, double prPriority) {
 		double freeEnergy = 0.0;
-		// send energy to module. energy in module-buffer is not reduced here, but in receive_D3_2()
-		if (moPsychicEnergyBuffer.containsKey(pnModuleNr)) {
-			freeEnergy = moPsychicEnergyBuffer.get(pnModuleNr);
+		if(moPsychicEnergyPerModule.containsKey(pnModuleNr)) {
+			freeEnergy = moPsychicEnergyPerModule.get(pnModuleNr).a;
+			if(freeEnergy > prRequestedPsychicEnergy) {
+				moPsychicEnergyPerModule.put(pnModuleNr, new clsTriple<Double,Double,Double>(freeEnergy - prRequestedPsychicEnergy, prRequestedPsychicEnergy, prPriority));
+				freeEnergy = prRequestedPsychicEnergy;
+			} else {
+				moPsychicEnergyPerModule.put(pnModuleNr, new clsTriple<Double,Double,Double>(0.0, prRequestedPsychicEnergy, prPriority));
+			}
+		} else {
+			// first request
+			moPsychicEnergyPerModule.put(pnModuleNr, new clsTriple<Double,Double,Double>(0.0, prRequestedPsychicEnergy, prPriority));
 		}
 		return freeEnergy;
 	}
@@ -146,42 +141,77 @@ implements itfInspectorInternalState, itfInterfaceDescription, D3_1_receive, D3_
 	 */
 	@Override
 	public void receive_D3_1(double prFreePsychicEnergy) {
-		mrFreePsychicEnergy = prFreePsychicEnergy;
+		moPsychicEnergyRoundStorage[mnCurrentEnergyIndex] += prFreePsychicEnergy;
 	}
-
-
-	/* (non-Javadoc)
-	 *
-	 * @since 12.10.2011 15:55:37
+	
+	/**
+	 * Distributes the free PsychicEnergy relative to requested amount 
+	 * and requested priority
 	 * 
-	 * @see pa._v38.interfaces.modules.D3_2_receive#receive_D3_2(double, int)
+	 * Discards energy if it isn't consumed for srMaxRoundStorageSize to simulate
+	 * a decay in PsychicEnergy and prevent buffer from overflowing.
 	 */
-	@Override
-	public void receive_D3_2(double prConsumedPsychicEnergy, int pnModuleNr) {
-		double newEnergyLevel, oldEnergyLevel = 0.0;
-		// reduce buffer of module according to consumedpsychicenergy
-		if (moPsychicEnergyBuffer.containsKey(pnModuleNr)) {
-			oldEnergyLevel = moPsychicEnergyBuffer.get(pnModuleNr);
-			newEnergyLevel = oldEnergyLevel - prConsumedPsychicEnergy;
-			if (newEnergyLevel < 0) {
-				newEnergyLevel = 0.0;
-			}
-			
-			// Update of the StepDifferenceBuffer (ration of consumed energy = relative energy consumption)
-			moStepDifferenceBuffer.put(pnModuleNr, prConsumedPsychicEnergy/oldEnergyLevel);
-			
-			moPsychicEnergyBuffer.put(pnModuleNr, newEnergyLevel);			
+	public void divideFreePsychicEnergy () {
+		double rStoredPsychicEnergy = 0.0;
+		double rSumRequestEnergy = 0.0;
+		double rSumPriorityMulRequest = 0.0;
+		for(clsTriple<Double, Double, Double> oPsychicEnergyPerModule:moPsychicEnergyPerModule.values()) {
+			rStoredPsychicEnergy += oPsychicEnergyPerModule.a;
+			rSumRequestEnergy += oPsychicEnergyPerModule.b;
+			rSumPriorityMulRequest += oPsychicEnergyPerModule.b * oPsychicEnergyPerModule.c;
 		}
 		
-	}
-	
-	public void divideFreePsychicEnergy () {
-	
-		// divides received energy uniformly
-		for (Map.Entry<Integer, Double> entry: moPsychicEnergyBuffer.entrySet()) {
-			entry.setValue(entry.getValue() + (mrFreePsychicEnergy / moPsychicEnergyBuffer.size()));
+		double rConsumedPsychicEnergy = mrFreePsychicEnergy - rStoredPsychicEnergy;
+		while(rConsumedPsychicEnergy > 0.) {
+			if(moPsychicEnergyRoundStorage[mnOldEnergyIndex] > rConsumedPsychicEnergy) {
+				moPsychicEnergyRoundStorage[mnOldEnergyIndex] -= rConsumedPsychicEnergy;
+				rConsumedPsychicEnergy = 0.;
+			} else {
+				rConsumedPsychicEnergy -= moPsychicEnergyRoundStorage[mnOldEnergyIndex];
+				moPsychicEnergyRoundStorage[mnOldEnergyIndex] = 0.;
+				mnOldEnergyIndex = (mnOldEnergyIndex+1)%moPsychicEnergyRoundStorage.length;
+			}
 		}
-	
+		
+		mrFreePsychicEnergy = rStoredPsychicEnergy + moPsychicEnergyRoundStorage[mnCurrentEnergyIndex];
+		mnCurrentEnergyIndex = (mnCurrentEnergyIndex+1)%moPsychicEnergyRoundStorage.length;
+		if(mnCurrentEnergyIndex == mnOldEnergyIndex) {
+			// discard old energy
+			mrFreePsychicEnergy -= moPsychicEnergyRoundStorage[mnOldEnergyIndex];
+			moPsychicEnergyRoundStorage[mnOldEnergyIndex] = 0.;
+			mnOldEnergyIndex = (mnOldEnergyIndex+1)%moPsychicEnergyRoundStorage.length;
+		}
+		
+		if(moPsychicEnergyPerModule.size() == 0)
+			// no active modules
+			return;
+		
+		if(rSumRequestEnergy <= 0) {
+			// no module requested PsychicEnergy
+			// distribute received energy uniformly
+			double rEnergyForEachModule = mrFreePsychicEnergy / moPsychicEnergyPerModule.size();
+			for(clsTriple<Double, Double, Double> oPsychicEnergyPerModule:moPsychicEnergyPerModule.values()) {
+				oPsychicEnergyPerModule.a = rEnergyForEachModule;
+				oPsychicEnergyPerModule.b = 0.;
+				oPsychicEnergyPerModule.c = 0.;
+			}
+		} else if(mrFreePsychicEnergy >= rSumRequestEnergy) {
+			// enough free PsychicEnergy to full fill all requests
+			// distribute rest free PsychicEnergy depending on request and priority
+			double rRestFreePsychicEnergy = mrFreePsychicEnergy - rSumRequestEnergy;
+			for(clsTriple<Double, Double, Double> oPsychicEnergyPerModule:moPsychicEnergyPerModule.values()) {
+				oPsychicEnergyPerModule.a = oPsychicEnergyPerModule.b + rRestFreePsychicEnergy * oPsychicEnergyPerModule.b * oPsychicEnergyPerModule.c / rSumPriorityMulRequest;
+				oPsychicEnergyPerModule.b = 0.;
+				oPsychicEnergyPerModule.c = 0.;
+			}
+		} else {
+			// not enough free PsychicEnergy to full fill all requests
+			// distribute PsychicEnergy depending on request and priority
+			for(clsTriple<Double, Double, Double> oPsychicEnergyPerModule:moPsychicEnergyPerModule.values()) {
+				oPsychicEnergyPerModule.a = mrFreePsychicEnergy * oPsychicEnergyPerModule.b * oPsychicEnergyPerModule.c / rSumPriorityMulRequest;
+				oPsychicEnergyPerModule.b = 0.;
+				oPsychicEnergyPerModule.c = 0.;
+			}
+		}
 	}
-
 }

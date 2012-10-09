@@ -129,8 +129,11 @@ public class TestDataCreator {
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.FAR, eDirection.CENTER,
 		    eEntity.STONE), new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
 
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.MEDIUM, eDirection.CENTER,
+			    eEntity.STONE), new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.STONE)));
+		
 		moAvailablePlanFragments
-		    .add(new clsPlanFragment(new clsAct(eAction.DEPOSIT), new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE), new clsImage(
+		    .add(new clsPlanFragment(new clsAct(eAction.DEPOSIT), new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.STONE), new clsImage(
 		        eDistance.MEDIUM, eDirection.CENTER, eEntity.STONE)));
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.DEPOSIT), new clsImage(eDistance.NEAR, eDirection.MIDDLE_LEFT,
