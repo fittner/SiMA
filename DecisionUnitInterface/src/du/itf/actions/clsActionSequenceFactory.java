@@ -74,12 +74,11 @@ public class clsActionSequenceFactory {
 		double rRand3 = Math.random();
 		
 		for (int i=0;i<piDuration;i++) {
-			oSeq.add(i*90, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20),15); //180deg turn
-			oSeq.add(i*90+20, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),2);
-			oSeq.add(i*90+30, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),5);
-			oSeq.add(i*90+50, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*30*rRand2),10);
-			oSeq.add(i*90+60, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
-			oSeq.add(i*90+80, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*30*rRand3),10);
+			oSeq.add(i*90, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20),37); // 360 deg turn
+			oSeq.add(i*90+40, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),15);
+			oSeq.add(i*90+60, new clsActionTurn(eActionTurnDirection.TURN_LEFT,prSpeed*30*rRand2),5);
+			oSeq.add(i*90+75, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, prSpeed),25);
+			oSeq.add(i*90+105, new clsActionTurn(eActionTurnDirection.TURN_RIGHT,prSpeed*30*rRand3),5);
 		}
 		
 		return oSeq;

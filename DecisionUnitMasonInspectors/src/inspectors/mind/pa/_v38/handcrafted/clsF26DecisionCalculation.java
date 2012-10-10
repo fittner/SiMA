@@ -84,7 +84,7 @@ public class clsF26DecisionCalculation extends Inspector {
     	chart.setBackgroundPaint(Color.LIGHT_GRAY); // background of the outside-panel
         moChartPanel = new ChartPanel(chart);
         moChartPanel.setPreferredSize(new java.awt.Dimension(500, 500));
-        
+
     }
     
     /**

@@ -44,9 +44,9 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	private static final long serialVersionUID = 3125332229433964204L;
 
 	protected final int mnHistoryLength;
-	protected final int mnWidth;
-	protected final int mnHeight;
-	protected final int mnOffset;
+	protected int mnWidth;
+	protected int mnHeight;
+	protected int mnOffset;
 	
 	protected itfInspectorTimeChartBase moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
@@ -54,8 +54,11 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 
 	private String moChartName;
 	private String moYAxisCaption;
+	private ChartPanel moChartPanel;
 	
-    public cls_AbstractChartInspector(
+	private boolean showRangeLabel=true;
+
+	public cls_AbstractChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
             String poYAxisCaption,
             String poChartName,
@@ -74,7 +77,16 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	create();
     }
     
-    public cls_AbstractChartInspector(
+    /**
+	 * @since Oct 10, 2012 10:42:26 AM
+	 * 
+	 * @param showRangeLabel the showRangeLabel to set
+	 */
+	public void setShowRangeLabel(boolean showRangeLabel) {
+		this.showRangeLabel = showRangeLabel;
+	}
+
+	public cls_AbstractChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
             String poYAxisCaption,
             String poChartName,
@@ -138,8 +150,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     protected void createPanel() {
     	ChartPanel oChartPanel = initChart(moChartName,  createDataset(), 
     			"Steps", moYAxisCaption, mnWidth, mnHeight);
+    	moChartPanel=oChartPanel;
     	add(oChartPanel);
-    	
 		setLayout(new FlowLayout(FlowLayout.LEFT));
     }
     
@@ -170,6 +182,9 @@ public abstract class cls_AbstractChartInspector extends Inspector {
         plot.setRangeGridlinePaint(Color.black);
         plot.setBackgroundPaint(Color.white);
      
+        if(showRangeLabel){
+        	plot.getRangeAxis().setTickLabelsVisible(false);
+        }
      // set line colors
         ArrayList<Color> oColors = getColorList();
         for (int i=0; i<moValueHistory.size(); i++) {
@@ -197,7 +212,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
      // get a reference to the plot for further customisation...
         XYPlot plot = (XYPlot) oChartPanel.getPlot();
         customizePlot(plot);
-         
+
+
      // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
@@ -206,6 +222,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
         poChartPanel.setFillZoomRectangle(true);
         poChartPanel.setPreferredSize(new Dimension(pnWidth, pnHeight));
         
+
         return poChartPanel;
 	}
 
@@ -269,5 +286,30 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	oColors.add(new Color(0, 0, 0));
         
         return oColors;
-    } 	
+    }
+
+	/**
+	 * @since Oct 2, 2012 9:34:30 AM
+	 * 
+	 * @param mnWidth the mnWidth to set
+	 */
+	public void setMnWidth(int mnWidth) {
+		this.mnWidth = mnWidth;
+		moChartPanel.setSize(mnWidth, mnHeight);
+		
+	}
+
+	/**
+	 * @since Oct 2, 2012 9:34:30 AM
+	 * 
+	 * @param mnHeight the mnHeight to set
+	 */
+	public void setMnHeight(int mnHeight) {
+		this.mnHeight = mnHeight;
+		moChartPanel.setSize(mnWidth, mnHeight);
+	} 	
+    
+    
+    
+    
 }

@@ -8,16 +8,16 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.eDriveValueSplitter;
-import pa._v38.interfaces.itfInspectorAreaChart;
+
+import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInspectorSpiderWebChart;
+import pa._v38.interfaces.itfInspectorStackedBarChart;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I4_1_receive;
@@ -39,7 +39,7 @@ import du.enums.pa.ePartialDrive;
  * 07.05.2012, 15:47:11
  */
 public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase 
-					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart, itfInspectorSpiderWebChart, itfInspectorAreaChart {
+					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart, itfInspectorStackedBarChart, itfInspectorCombinedTimeChart {
 
 	public static final String P_MODULENUMBER = "48";
 	public static final String P_SPLITFACTORLABEL = "label";
@@ -52,7 +52,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
-	
 	//holds the homoestatic drive pairs, A is agressive
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
@@ -196,6 +195,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			mnChartColumnsChanged = true;
 		}
 		moDriveChartData.put(olKey, mnCurrentPleasure);
+		
+
 	}
 	
 	/**
@@ -477,7 +478,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 	
 	/*************************************************************/
-	/***                   TIME CHART METHODS                  ***/
+	/***                        CHART METHODS                  ***/
 	/*************************************************************/
 	
 	/* (non-Javadoc)
@@ -572,109 +573,112 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		mnChartColumnsChanged = false;	
 		
 	}
-	
-	@Override
-	public String getSpiderWebChartTitle(){
-		return "Drives";
-	}
-	
-	@Override
-	public ArrayList<Double> getSpiderChartData(){
-		
-		ArrayList<Double> oResult = new ArrayList<Double>();
-		Iterator<String> it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp =it.next();
-			if(tmp.charAt(0)=='A'){
-				oResult.add(moDriveChartData.get(tmp));
-			}
-		}	
-		it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp =it.next();
-			if(tmp.charAt(0)=='L'){
-				oResult.add(moDriveChartData.get(tmp));
-			}
-		}
-		return oResult;
-	}
-	
-	@Override
-	public ArrayList<String> getSpiderChartCaptions(){
-		
-		ArrayList<String> oResult = new ArrayList<String>();
-		Iterator<String> it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp = it.next();
-			if(tmp.charAt(0)=='A'){
-				oResult.add(tmp);
-			}
-		}	
-		it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp =it.next();
-			if(tmp.charAt(0)=='L'){
-				oResult.add(tmp);
-			}
-		}
-		return oResult;
-	}
+
 
 	@Override
-	public double getSpiderChartStartingAngle(){
-	
-		return (90-12.5);
-	}
-	@Override
-	public String getAreaChartTitle(){
+	public String getStackedBarChartTitle(){
 		
-		return "Area Chart";
+		return "Drives Chart";
 	}
 	
 
 	@Override
-	public ArrayList<ArrayList<Double>> getAreaChartData(){
-		
-		ArrayList<Double> oAggr= new ArrayList<Double>();
-		ArrayList<String> order =new ArrayList<String>();
-		Iterator<String> it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp =it.next();
-			if(tmp.charAt(0)=='A'){
-				oAggr.add(moDriveChartData.get(tmp));
-				order.add(tmp);
-			}
-		}
-		ArrayList<Double> oLib= new ArrayList<Double>();
-
-		//search for the libidonous counterpart 
-		for (String tmp: order){
-			oLib.add(moDriveChartData.get("L"+tmp.substring(1)));
-		}
+	public ArrayList<ArrayList<Double>> getStackedBarChartData(){
+//		ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> imoHomoestasisDriveComponents_IN;
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
-		oResult.add(oAggr);
-		oResult.add(oLib);
+		ArrayList<Double> aggr = new ArrayList<Double>();
+		ArrayList<Double> lib = new ArrayList<Double>();
+		if(moHomoestasisDriveComponents_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+				aggr.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
+				lib.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
+			}
+		}
+		
+		oResult.add(aggr);
+		oResult.add(lib);
 		return oResult;
 	}
 	
 
 	@Override
-	public ArrayList<String> getAreaChartAreaCaptions(){
+	public ArrayList<String> getStackedBarChartCategoryCaptions(){
 		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.add("agressiv");
-		oResult.add("libidinous");
+		oResult.add("aggr");
+		oResult.add("lib");
 		return oResult;
 	}
 	@Override
-	public ArrayList<String> getAreaChartColumnCaptions(){
+	public ArrayList<String> getStackedBarChartColumnCaptions(){
 		ArrayList<String> oResult = new ArrayList<String>();
-		Iterator<String> it = moDriveChartData.keySet().iterator();
-		while(it.hasNext()){
-			String tmp = it.next();
-			if(tmp.charAt(0)=='A'){
-				oResult.add(tmp.substring(2));
+		if(moHomoestasisDriveComponents_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+				oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
 			}
 		}
+		return oResult;
+	}
+
+
+	@Override
+	public String getCombinedTimeChartAxis() {
+		return "1 to 0";
+	}
+
+
+
+	@Override
+	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
+		ArrayList<ArrayList<Double>> oResult =new ArrayList<ArrayList<Double>>();
+		if(moHomoestasisDriveComponents_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+				ArrayList<Double> iSeries = new ArrayList<Double>();
+				iSeries.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
+				iSeries.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
+				oResult.add(iSeries);
+			}
+		}
+		ArrayList<Double> iSeries = new ArrayList<Double>();
+		iSeries.add(moPleasureStorage.send_D4_1());
+		oResult.add(iSeries);
+		
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 27, 2012 2:57:48 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
+	 */
+	@Override
+	public ArrayList<String> getChartTitles() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+			oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
+		}
+		oResult.add("pleasure");
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 27, 2012 2:57:48 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
+	 */
+	@Override
+	public ArrayList<ArrayList<String>> getValueCaptions() {
+		ArrayList<ArrayList<String>> oResult =new ArrayList<ArrayList<String>>();
+		for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+			ArrayList<String> iSeries = new ArrayList<String>();
+			iSeries.add("aggr");
+			iSeries.add("lib");
+			oResult.add(iSeries);
+		}
+		ArrayList<String> iSeries = new ArrayList<String>();
+		iSeries.add("pleasure");
+		oResult.add(iSeries);
 		return oResult;
 	}
 
