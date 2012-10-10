@@ -6,10 +6,10 @@
  */
 package pa._v38.tools;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
@@ -41,37 +41,84 @@ public class clsEntityTools {
 		//Search for xy compontents
 		ePhiPosition X = null;	//default error value
 		eRadius Y = null;
-
-		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationSecondary) {
-				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE)) {
-					//Get content of the association
-					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
-					if (Y==null) {
-						Y = eRadius.elementAt(oContent);
-					}
-					//Special case if EATABLE is used
-					//FIXME AW: EATABLE is center
-					if (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE")==true) {
-						if (X==null) {
-							X = ePhiPosition.CENTER;
-						}
-					}
-				
-				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION)) {
-					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
-					//Get the X-Part
-					if (X==null) {
-						X = ePhiPosition.elementAt(oContent);
-					}
-				}
-			}
 		
+		clsWordPresentation oDistance = clsMeshTools.getUniquePredicateWP(poDS, ePredicate.HASDISTANCE);
+		clsWordPresentation oPosition = clsMeshTools.getUniquePredicateWP(poDS, ePredicate.HASPOSITION);
+		
+		if (oDistance!=null && oDistance.getMoContent().equals("EATABLE")==true) {
+			X = ePhiPosition.CENTER;
+			Y = eRadius.NEAR;
+		} else {
+			if (oDistance!=null) {
+				Y = eRadius.elementAt(oDistance.getMoContent());
+			}
+			if (oPosition!=null) {
+				X = ePhiPosition.elementAt(oPosition.getMoContent());
+			}
 		}
+
+//		for (clsAssociation oAss : poDS.getExternalAssociatedContent()) {
+//			if (oAss instanceof clsAssociationSecondary) {
+//				if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASDISTANCE)) {
+//					//Get content of the association
+//					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
+//					if (Y==null) {
+//						Y = eRadius.elementAt(oContent);
+//					}
+//					//Special case if EATABLE is used
+//					//FIXME AW: EATABLE is center
+//					if (((clsWordPresentation)oAss.getLeafElement()).getMoContent().equals("EATABLE")==true) {
+//						if (X==null) {
+//							X = ePhiPosition.CENTER;
+//						}
+//					}
+//				
+//				} else if (((clsAssociationSecondary)oAss).getMoPredicate().equals(ePredicate.HASPOSITION)) {
+//					String oContent = (String) ((clsWordPresentation)oAss.getLeafElement()).getMoContent();
+//					//Get the X-Part
+//					if (X==null) {
+//						X = ePhiPosition.elementAt(oContent);
+//					}
+//				}
+//			}
+//		
+//		}
 		
 		oRetVal.b = X;
 		oRetVal.c = Y;
 				
 		return oRetVal;
+	}
+	
+	/**
+	 * Remove the position of an entity
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.10.2012 18:14:03
+	 *
+	 * @param poEntity
+	 */
+	public static void removePosition(clsWordPresentationMesh poEntity) {
+		clsMeshTools.removeAllNonUniquePredicateSecondaryDataStructure(poEntity, ePredicate.HASDISTANCE);	
+		clsMeshTools.removeAllNonUniquePredicateSecondaryDataStructure(poEntity, ePredicate.HASPOSITION);
+		
+		clsThingPresentationMesh oTPM = clsMeshTools.getPrimaryDataStructureOfWPM(poEntity);
+		removePosition(oTPM);
+		
+	}
+	
+	/**
+	 * Remove the position of an entity
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:07:41
+	 *
+	 * @param poEntity
+	 */
+	public static void removePosition(clsThingPresentationMesh poEntity) {
+		clsMeshTools.removeUniqueTP(poEntity, eContentType.DISTANCE);
+		clsMeshTools.removeUniqueTP(poEntity, eContentType.POSITION);
 	}
 }

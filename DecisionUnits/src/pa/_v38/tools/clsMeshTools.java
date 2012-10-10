@@ -567,7 +567,7 @@ public class clsMeshTools {
 	}
 	
 	/**
-	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
 	 * 
 	 * (wendt)
 	 *
@@ -577,18 +577,122 @@ public class clsMeshTools {
 	 * @param poFindDataStructure
 	 * @return
 	 */
-	public static clsThingPresentationMesh searchDataStructureInstanceInMeshTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel) {
-		clsThingPresentationMesh oRetVal = null;
+	public static ArrayList<clsThingPresentationMesh> searchDataStructureInstanceInImageTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		
 		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMImages(poTargetImageMesh, pnLevel);
 		
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
-			if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
-				oRetVal = oObject;
-				break;
+			if (pbUseTypeID==true) {
+				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else {
+				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
 			}
+			
+			
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> searchDataStructureInstanceInTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMObjects(poTargetImageMesh, pnLevel);
+		
+		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
+			if (pbUseTypeID==true) {
+				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else {
+				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+			
+			
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsThingPresentationMesh searchFirstDataStructureInstanceInTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID) {
+		clsThingPresentationMesh oRetVal = clsMeshTools.getNullObjectTPM();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = clsMeshTools.searchDataStructureInstanceInTPM(poTargetImageMesh, poFindDataStructure, pnLevel, pbUseTypeID, true);
+		
+		if (oAllTPMInMesh.isEmpty()==false) {
+			oRetVal = oAllTPMInMesh.get(0);
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsThingPresentationMesh searchFirstDataStructureInstanceInImageTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID) {
+		clsThingPresentationMesh oRetVal = clsMeshTools.getNullObjectTPM();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = clsMeshTools.searchDataStructureInstanceInImageTPM(poTargetImageMesh, poFindDataStructure, pnLevel, pbUseTypeID, true);
+		
+		if (oAllTPMInMesh.isEmpty()==false) {
+			oRetVal = oAllTPMInMesh.get(0);
 		}
 
 		return oRetVal;
@@ -614,11 +718,22 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		for (clsAssociation oAss : poInputList) {
-			if (pnMode==0 && oAss.getTheOtherElement(poThisDataStructure).getMoContentType().equals(poDSContentType)) {
+			clsDataStructurePA oDS = oAss.getTheOtherElement(poThisDataStructure);
+			if (oDS==null) {
+				try {
+					throw new Exception("The other element of the association " + oAss + " is not the source of the other element");
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+					continue;
+				}
+				
+			}
+			if (pnMode==0 && oDS.getMoContentType().equals(poDSContentType)) {
 				if (pbGetWholeAssociation==true) {
 					oRetVal.add(oAss);
 				} else {
-					oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+					oRetVal.add(oDS);
 				}
 				
 				if (pbStopAtFirstMatch==true) {
@@ -849,6 +964,37 @@ public class clsMeshTools {
 					break;
 				}
 				
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Search for a secondary data structure within an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.06.2012 14:55:26
+	 *
+	 * @param poInput
+	 * @param poPredicate
+	 * @param poDataStructureContent
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	public static ArrayList<clsSecondaryDataStructure> searchSecondaryDataStructureInImage(clsWordPresentationMesh poInput, ePredicate poPredicate, int poID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+		ArrayList<clsDataStructurePA> oFoundDSList =  searchDataStructureOverAssociation(poInput, poPredicate, 0, false, false);
+		
+		for (clsDataStructurePA oDS : oFoundDSList) {
+			if (oDS.getMoDS_ID()==poID) {
+				oRetVal.add((clsSecondaryDataStructure) oDS);
+				
+				if (pbStopAtFirstMatch == true) {
+					break;
+				}
 			}
 		}
 		
@@ -1321,6 +1467,27 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Remove unique TP from TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:00:06
+	 *
+	 * @param poTPM
+	 * @param poTPContentType
+	 */
+	public static void removeUniqueTP(clsThingPresentationMesh poTPM, eContentType poTPContentType) {
+		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, poTPContentType);
+		
+		if (oAss!=null) {
+			boolean bDeleted = poTPM.getExternalMoAssociatedContent().remove(oAss);
+			if (bDeleted==false) {
+				poTPM.getMoInternalAssociatedContent().remove(oAss);
+			}
+		}
+	}
+	
+	/**
 	 * Get a unique Thing Presentation in a TPM. This option is used to get settings, which are saved as TPs
 	 * 
 	 * 
@@ -1535,6 +1702,8 @@ public class clsMeshTools {
 		
 	
 	}
+	
+	
 		
 	/**
 	 * Get the first WP for a certain predicate in a certian mesh
@@ -2840,6 +3009,28 @@ public class clsMeshTools {
 		
 		for (clsDataStructurePA oTPM : oFoundImages) {
 			oRetVal.add((clsThingPresentationMesh) oTPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all sub TPM from a TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:33:11
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> getAllSubTPMFromTPM(clsThingPresentationMesh poImage) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+			if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+				oRetVal.add((clsThingPresentationMesh) oAss.getLeafElement());
+			}
 		}
 		
 		return oRetVal;

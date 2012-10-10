@@ -131,6 +131,8 @@ public class clsPrimarySpatialTools {
 		//Search for xy compontents
 		ePhiPosition X = null;	//default error value
 		eRadius Y = null;
+		
+		
 		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
 		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationAttribute) {

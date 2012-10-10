@@ -44,7 +44,10 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-
+		//Clear the environmental image
+		this.moEnvironmentalImageMemory.clearEnvironmentalImage();
+		
+		//Remove conditions for the movement
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_ON);
 		

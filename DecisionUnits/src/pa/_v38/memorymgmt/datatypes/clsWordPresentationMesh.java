@@ -280,6 +280,16 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 						oResult += oEntry.toString() + ";"; 
 					}
 				}
+			} else if (this.moContentType.equals(eContentType.ENHANCEDENVIRONMENTALIMAGE) || this.moContentType.equals(eContentType.ENVIRONMENTALIMAGE)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContent;
+				if (this.moInternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+						oResult += oEntry.getLeafElement().toString() + ";";
+					}
+				}
+				
 			} else if (this.moContentType.equals(eContentType.GOAL)) {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContent;
