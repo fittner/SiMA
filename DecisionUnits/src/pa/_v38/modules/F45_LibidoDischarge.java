@@ -81,6 +81,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;	
 	
+	private double mrChartLibidio=0;
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned
 	 * 
@@ -254,7 +255,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//}
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-	
+		mrChartLibidio=mrLibidoReducedBy;
+
 	}
 	
 	/**
@@ -495,7 +497,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
 		oValues.add(mrAvailableLibido);
-		oValues.add(mrLibidoReducedBy);
+		oValues.add(mrChartLibidio);
 		
 		return oValues;
 	}

@@ -651,7 +651,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
 		//EMOTIONS
 		ArrayList<Double> oAnger =new ArrayList<Double>();
-		
 		Double oAngerQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
 			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANGER")){
@@ -685,57 +684,56 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oGrief.add(oGriefQoA);
 		oResult.add(oGrief);
 		
-		//Chart ANGER
-		ArrayList<Double> oDriveAnger =new ArrayList<Double>();
-		oDriveAnger.add(oDrivesExtractedValues.get("rDriveAggr"));
-		oDriveAnger.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
-		//oAnger.add(moCombinedChartData.get("aggr")?1.01:0.02);
-		//oAnger.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
-		oResult.add(oDriveAnger);
-		
-		//Chart FEAR
-		ArrayList<Double> oDriveFear =new ArrayList<Double>();
-		oDriveFear.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
-		//oFear.add(moCombinedChartData.get("unpleasure")?1.0:0.01);
-		oResult.add(oDriveFear);
-		
-		//Chart GRIEF
-		ArrayList<Double> oDriveGrief =new ArrayList<Double>();
-		oDriveGrief.add(oDrivesExtractedValues.get("rDriveLibid"));
-		oDriveGrief.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
-		
-		//oGrief.add(moCombinedChartData.get("libid")?1.01:0.02);
-		//oGrief.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+		ArrayList<Double> oLoveSa =new ArrayList<Double>();
+		Double oLoveSaQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+				oLoveSaQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
-		oResult.add(oDriveGrief);
+			}
+		}
+		oLoveSa.add(oLoveSaQoA);
+		oResult.add(oLoveSa);
 		
-		//add charts perception
+		ArrayList<Double> oLoveEx =new ArrayList<Double>();
+		Double oLoveExQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+				oLoveExQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+
+			}
+		}
+		oLoveEx.add(oLoveExQoA);
+		oResult.add(oLoveEx);
+		
+		ArrayList<Double> oPleasure =new ArrayList<Double>();
+		Double oPleasureQoA= 0.0;
+		for(int i=0; i<moEmotions_OUT.size();i++){
+			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+				oPleasureQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
+
+			}
+		}
+		oPleasure.add(oPleasureQoA);
+		oResult.add(oPleasure);
+		
+		//Chart Drive
+		ArrayList<Double> oDrive =new ArrayList<Double>();
+		oDrive.add(oDrivesExtractedValues.get("rDriveAggr"));
+		oDrive.add(oDrivesExtractedValues.get("rDriveLibid"));
+		oDrive.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		oResult.add(oDrive);
+		
 			
-		//Chart ANGER
-		ArrayList<Double> oAngerPerception =new ArrayList<Double>();
-		oAngerPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
-		oAngerPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		//Chart Perception
+		ArrayList<Double> oPerception =new ArrayList<Double>();
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
 		//oAnger.add(moCombinedChartData.get("aggr")?1.01:0.02);
 		//oAnger.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
 	
-		oResult.add(oAngerPerception);
-		
-		//Chart FEAR
-		ArrayList<Double> oFearPerception =new ArrayList<Double>();
-		oFearPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		//oFear.add(moCombinedChartData.get("unpleasure")?1.0:0.01);
-
-		oResult.add(oFearPerception);
-		
-		//Chart GRIEF
-		ArrayList<Double> oGriefPerception =new ArrayList<Double>();
-		oGriefPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
-		oGriefPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		
-		//oGrief.add(moCombinedChartData.get("libid")?1.01:0.02);
-		//oGrief.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
-
-		oResult.add(oGriefPerception);
+		oResult.add(oPerception);
 		
 		
 		return oResult;
@@ -755,16 +753,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oResult.add("FEAR");
 		oResult.add("GRIEF");
 		
-		oResult.add("Drive");
-		oResult.add("Drive");
-		oResult.add("Drive");
+		oResult.add("LOVE (saturation)");
+		oResult.add("LOVE (exhilaration)");
+		oResult.add("PLEASURE");
 		
-		oResult.add("Perception");
-		oResult.add("Perception");
-		oResult.add("Perception");
 		
+		oResult.add("DRIVE");
+		oResult.add("PERCEPTION");
 
-		
 		return oResult;
 	}
 
@@ -795,42 +791,37 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		chartGrief.add("Emotion GRIEF");
 		oResult.add(chartGrief);	
 		
-		//ChartAnger
-		ArrayList<String> chartDriveAnger = new ArrayList<String>();
-		chartDriveAnger.add("Aggr");
-		chartDriveAnger.add("Unpleasure");
+		//ChartLoveSaturation
+		ArrayList<String> chartLoveSaturation = new ArrayList<String>();
+		chartLoveSaturation.add("Emotion LOVE (saturation)");
+		oResult.add(chartLoveSaturation);
+		
+		//ChartLoveexhilaration
+		ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
+		chartLoveExhilaration.add("Emotion LOVE (exhilaration)");
+		oResult.add(chartLoveExhilaration);	
+		
+		//ChartPleasure
+		ArrayList<String> chartPleasure= new ArrayList<String>();
+		chartPleasure.add("PLEASURE");
+		oResult.add(chartPleasure);	
+		
+		
+		//ChartDrive
+		ArrayList<String> chartDrive = new ArrayList<String>();
+		chartDrive.add("Aggr");
+		chartDrive.add("Libid");
+		chartDrive.add("Unpleasure");
 
-		oResult.add(chartDriveAnger);
+		oResult.add(chartDrive);
 		
-		//ChartFear
-		ArrayList<String> chartDriveFear = new ArrayList<String>();
-		chartDriveFear.add("Unpleasure");
-		oResult.add(chartDriveFear);
 		
-		//ChartGrief
-		ArrayList<String> chartDriveGrief = new ArrayList<String>();
-		chartDriveGrief.add("Libid");
-		chartDriveGrief.add("Unpleasure");
-		oResult.add(chartDriveGrief);
-		
-		//ChartAnger
-		ArrayList<String> chartPerceptionAnger = new ArrayList<String>();
-		chartPerceptionAnger.add("Aggr");
-		chartPerceptionAnger.add("Unpleasure");
-		oResult.add(chartPerceptionAnger);
-		
-		//ChartFear
-		ArrayList<String> chartPerceptionFear = new ArrayList<String>();
-		chartPerceptionFear.add("Unpleasure");
-		oResult.add(chartPerceptionFear);
-		
-		//ChartGrief
-		ArrayList<String> chartPerceptionGrief = new ArrayList<String>();
-		chartPerceptionGrief.add("Libid");
-		chartPerceptionGrief.add("Unpleasure");
-		oResult.add(chartPerceptionGrief);
-		
-
+		//ChartPerception
+		ArrayList<String> chartPerception = new ArrayList<String>();
+		chartPerception.add("Aggr");
+		chartPerception.add("Libid");
+		chartPerception.add("Unpleasure");
+		oResult.add(chartPerception);
 		
 		
 		return oResult;

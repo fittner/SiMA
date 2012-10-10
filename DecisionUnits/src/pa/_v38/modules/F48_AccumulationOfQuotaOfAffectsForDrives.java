@@ -52,7 +52,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
-	
 	//holds the homoestatic drive pairs, A is agressive
 	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
@@ -640,7 +639,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			}
 		}
 		ArrayList<Double> iSeries = new ArrayList<Double>();
-		iSeries.add(mnCurrentPleasure);
+		iSeries.add(moPleasureStorage.send_D4_1());
 		oResult.add(iSeries);
 		
 		return oResult;

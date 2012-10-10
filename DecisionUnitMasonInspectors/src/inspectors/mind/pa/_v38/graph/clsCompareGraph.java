@@ -658,7 +658,8 @@ public class clsCompareGraph extends JGraph {
 	private clsGraphCell generateGraphCell(clsGraphCell poParent, Object oO) {
 		
 		clsGraphCell oRootCell = null;
-		
+		//set setEdge =true if typ is not connected to the rest of the graph
+
 		if (oO instanceof List) {
 			@SuppressWarnings("rawtypes")
 			List oL = (List)oO;
@@ -736,7 +737,7 @@ public class clsCompareGraph extends JGraph {
 			System.out.println("[clsMeshBase.rIDAGGC] Unkown data structure, displaying toString(): "+oO.getClass());
 		}
 		
-		if(oRootCell!=null&& !oRootCell.equals(poParent)){
+		if(oRootCell!=null && !oRootCell.equals(poParent)){
 			DefaultEdge oEdgeParent = new DefaultEdge();
 			oEdgeParent.setSource(poParent.getChildAt(0));
 			oEdgeParent.setTarget(oRootCell.getChildAt(0));
@@ -1054,13 +1055,20 @@ public class clsCompareGraph extends JGraph {
 		clsGraphCell oDMrootCell = createDefaultGraphVertex(oDescription, moColorDMRoot);
 		
 		this.moCellList.add(oDMrootCell);
+
+		
+		
 		if(showInternAssoc || (xLevel==1 && showInternAssocFirstLevel)){
 			for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
 			{
 				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
 				{
+					
+					boolean externAssocStatus = isExternAssocShown();
+					showExternAssoc(false);
 					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
+					showExternAssoc(externAssocStatus);
 					//add edge
 					DefaultEdge oEdge = new DefaultEdge("DM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces)));
 					oEdge.setSource(oDMrootCell.getChildAt(0));
@@ -1101,6 +1109,7 @@ public class clsCompareGraph extends JGraph {
 					//save intern assoc status
 					boolean internAssocStatus = isInternAssocShown();
 					if(bestAssoc.equals(oDMAssociations) && showInternAssocBest) showInternAssoc(true);
+					//else showInternAssoc(false);
 					clsGraphCell oTargetCell = generateGraphCell(oDMrootCell, oMemoryObjectB);
 					//mark best rated external association
 					if(bestAssoc.equals(oDMAssociations)){
@@ -1147,12 +1156,14 @@ public class clsCompareGraph extends JGraph {
 	 */
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsThingPresentationMesh poMemoryObject)
 	{
+		
 		String oDescription = 	poMemoryObject.getMoContentType().name() + "\n" +
 				poMemoryObject.getMoContent();
-		oDescription += poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null ?"\n"+poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION):"";
-			
+		oDescription += poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)!=null 
+				?"\n"+(Math.round(poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION)*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces))
+				:"";
 		
-		
+		//oDescription +="\n" + poMemoryObject.getMoActivations().get(eActivationType.EMBODIMENT_ACTIVATION);
 		if(!UseSimpleView()) 
 		{
 			oDescription = 	poMemoryObject.toString();
@@ -1161,6 +1172,9 @@ public class clsCompareGraph extends JGraph {
 		//generate root of the mesh
 		clsGraphCell oTPMrootCell = createDefaultGraphVertex(oDescription, moColorTPMRoot);
 		this.moCellList.add(oTPMrootCell);
+
+
+		
 		if(showInternAssoc){
 			for(clsAssociation oDMAssociations : poMemoryObject.getMoInternalAssociatedContent())
 			{
@@ -1169,7 +1183,8 @@ public class clsCompareGraph extends JGraph {
 					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
 					//add edge
-					DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+					DefaultEdge oEdge = new DefaultEdge("TPM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces)));
+					
 					oEdge.setSource(oTPMrootCell.getChildAt(0));
 					oEdge.setTarget(oTargetCell.getChildAt(0));
 					moCellList.add(oEdge);
@@ -1181,7 +1196,7 @@ public class clsCompareGraph extends JGraph {
 					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
 					//add edge
-					DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+					DefaultEdge oEdge = new DefaultEdge("TPM w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces)));
 					oEdge.setSource(oTPMrootCell.getChildAt(0));
 					oEdge.setTarget(oTargetCell.getChildAt(0));
 					moCellList.add(oEdge);
@@ -1210,7 +1225,7 @@ public class clsCompareGraph extends JGraph {
 					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectB);
 					//add edge
-					DefaultEdge oEdge = new DefaultEdge("w:" + oDMAssociations.getMrWeight());
+					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces)));
 					oEdge.setSource(oTPMrootCell.getChildAt(0));
 					oEdge.setTarget(oTargetCell.getChildAt(0));
 					moCellList.add(oEdge);
@@ -1222,7 +1237,7 @@ public class clsCompareGraph extends JGraph {
 					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
 					clsGraphCell oTargetCell = generateGraphCell(oTPMrootCell, oMemoryObjectA);
 					//add edge
-					DefaultEdge oEdge = new DefaultEdge("TPM w:" + oDMAssociations.getMrWeight());
+					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, moEdgeDecimalPlaces))/Math.pow(10, moEdgeDecimalPlaces)));
 					oEdge.setSource(oTPMrootCell.getChildAt(0));
 					oEdge.setTarget(oTargetCell.getChildAt(0));
 					moCellList.add(oEdge);
@@ -1770,17 +1785,23 @@ public class clsCompareGraph extends JGraph {
 		int oldLength = moCellList.size();
 		DefaultGraphCell oCell= generateGraphCell(poCell,poCell.getReference());
 
+		DefaultEdge link=null;
 		//redefine Edges
     	for(int i = oldLength;i<moCellList.size();i++) {
     		if(moCellList.get(i) instanceof DefaultEdge){
-    			DefaultPort iPort =(DefaultPort)((DefaultEdge) moCellList.get(i)).getSource();
+    			DefaultPort iPortSource =(DefaultPort)((DefaultEdge) moCellList.get(i)).getSource();
 
-    			if(iPort.getParent().equals(oCell)){
+    			if(iPortSource.getParent().equals(oCell)){
     				
     				((DefaultEdge) moCellList.get(i)).setSource(poCell.getChildAt(0));        				
     			}
+    			DefaultPort iPortTaget =(DefaultPort)((DefaultEdge) moCellList.get(i)).getTarget();
+    			if(iPortTaget.getParent().equals(oCell)){
+    				link=(DefaultEdge)moCellList.get(i);
+    			}
     		}
     	}
+    	if(link!=null)moCellList.remove(link);
     	moCellList.remove(oCell);
     }
  
