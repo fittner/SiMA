@@ -56,6 +56,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
 	private String moYAxisCaption;
 	private ChartPanel moChartPanel;
 	
+	private boolean showRangeLabel=true;
 
 	public cls_AbstractChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
@@ -76,7 +77,16 @@ public abstract class cls_AbstractChartInspector extends Inspector {
     	create();
     }
     
-    public cls_AbstractChartInspector(
+    /**
+	 * @since Oct 10, 2012 10:42:26 AM
+	 * 
+	 * @param showRangeLabel the showRangeLabel to set
+	 */
+	public void setShowRangeLabel(boolean showRangeLabel) {
+		this.showRangeLabel = showRangeLabel;
+	}
+
+	public cls_AbstractChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
             String poYAxisCaption,
             String poChartName,
@@ -172,6 +182,9 @@ public abstract class cls_AbstractChartInspector extends Inspector {
         plot.setRangeGridlinePaint(Color.black);
         plot.setBackgroundPaint(Color.white);
      
+        if(showRangeLabel){
+        	plot.getRangeAxis().setTickLabelsVisible(false);
+        }
      // set line colors
         ArrayList<Color> oColors = getColorList();
         for (int i=0; i<moValueHistory.size(); i++) {
@@ -199,7 +212,8 @@ public abstract class cls_AbstractChartInspector extends Inspector {
      // get a reference to the plot for further customisation...
         XYPlot plot = (XYPlot) oChartPanel.getPlot();
         customizePlot(plot);
-         
+
+
      // change the auto tick unit selection to integer units only...
         NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
         rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
@@ -208,6 +222,7 @@ public abstract class cls_AbstractChartInspector extends Inspector {
         poChartPanel.setFillZoomRectangle(true);
         poChartPanel.setPreferredSize(new Dimension(pnWidth, pnHeight));
         
+
         return poChartPanel;
 	}
 

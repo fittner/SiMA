@@ -30,7 +30,19 @@ public class cls_CombinedTimeChart extends Inspector{
 	private ArrayList<Inspector> moCharts;
 	private ArrayList<DataContainer> moData;
 	
+	private boolean showRangeLabel =true;
 	
+	
+	
+	/**
+	 * @since Oct 10, 2012 10:43:38 AM
+	 * 
+	 * @param showRangeLabel the showRangeLabel to set
+	 */
+	public void setShowRangeLabel(boolean showRangeLabel) {
+		this.showRangeLabel = showRangeLabel;
+	}
+
 	public class DataContainer implements itfInspectorGenericTimeChart{
 		protected String moTitle;
 		protected String moAxis;
@@ -79,6 +91,7 @@ public class cls_CombinedTimeChart extends Inspector{
 		for(int i=0; i <  moContainer.getCombinedTimeChartData().size(); i++){
 			DataContainer iData = new DataContainer(moContainer.getChartTitles().get(i),moContainer.getCombinedTimeChartAxis(),moContainer.getCombinedTimeChartData().get(i),moContainer.getValueCaptions().get(i));
 			cls_GenericTimeChartInspector iContainer = new cls_GenericTimeChartInspector(iData,200,750/iColumns,550/iColumns);
+			iContainer.setShowRangeLabel(false);
 			moCharts.add(iContainer);
 			moData.add(iData);
 			add(iContainer);
