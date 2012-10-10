@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
+import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
@@ -37,7 +38,7 @@ import config.clsProperties;
  *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart{
+		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart, itfInterfaceCompare{
 
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
@@ -528,6 +529,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void chartColumnsUpdated() {
 		mnChartColumnsChanged=false;
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 18, 2012 2:42:46 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesRecv() {
+		
+		return getInterfacesRecv();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 18, 2012 2:42:46 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesSend() {
+		
+		return getInterfacesSend();
 	}
 
 

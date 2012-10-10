@@ -454,6 +454,15 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	}
 	
 	/**
+	 * @since Oct 8, 2012 2:12:38 PM
+	 * 
+	 * @return the moActivations
+	 */
+	public HashMap<eActivationType, Double> getMoActivations() {
+		return moActivations;
+	}
+
+	/**
 	 * DOCUMENT (schaat) - insert description
 	 *
 	 * @author schaat

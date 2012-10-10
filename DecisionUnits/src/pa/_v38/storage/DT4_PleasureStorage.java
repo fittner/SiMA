@@ -71,7 +71,8 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 				}
 				
 			}
-			this.mnSystemPleasureValue = nNewPleasureValue;
+			this.mnSystemPleasureValue +=nNewPleasureValue;
+			if(this.mnSystemPleasureValue>1.0)this.mnSystemPleasureValue=1.0;
 		}
 		
 		//overwrite old ones with new ones for next step calculation

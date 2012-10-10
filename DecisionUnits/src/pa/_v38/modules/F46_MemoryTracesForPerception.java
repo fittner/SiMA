@@ -20,6 +20,7 @@ import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -57,7 +58,7 @@ import config.clsProperties;
  * 
  */ 
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
-					I2_6_receive, I5_19_receive, I5_6_send {
+					I2_6_receive, I5_19_receive, I5_6_send,itfInterfaceCompare {
 	public static final String P_MODULENUMBER = "46";
 	
 	/* Inputs */
@@ -881,5 +882,27 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	@Override
 	public void setDescription() {
 		moDescription = "Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 4, 2012 11:15:51 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesRecv() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 4, 2012 11:15:51 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesSend() {
+		return this.getInterfacesSend();
 	}		
 }
