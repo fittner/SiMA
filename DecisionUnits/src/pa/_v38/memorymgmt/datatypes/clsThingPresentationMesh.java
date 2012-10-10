@@ -733,7 +733,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				oRadPos = oPosition.c.toString();
 			}
 			
-			oResult += "|" + oPhiPos + ":" + oRadPos;
+			oResult += "(" + oPhiPos + ":" + oRadPos + ")";
 			
 		} else {
 			oResult += "::"+this.moDataStructureType+"::";  
