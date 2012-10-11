@@ -9,6 +9,7 @@ package pa._v38.decisionpreparation;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -22,6 +23,7 @@ import pa._v38.tools.clsMeshTools;
  */
 public abstract class clsCodelet {
 	protected clsWordPresentationMesh moGoal;	//Goal to be processed
+	protected clsEnvironmentalImageMemory moEnvironmentalImageMemory;
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	protected clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
@@ -35,6 +37,7 @@ public abstract class clsCodelet {
 	public clsCodelet (clsCodeletHandler poCodeletHandler) {
 		moCodeletHandler=poCodeletHandler;
 		
+		moEnvironmentalImageMemory = moCodeletHandler.getMoEnvironmentalImageMemory();
 		moEnvironmentalImage=moCodeletHandler.getEnvironmentalImage();
 		moShortTermMemory=moCodeletHandler.getShortTermMemory();
 		

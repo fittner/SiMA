@@ -77,7 +77,7 @@ public class clsConcept {
 	public void addWPMs(clsWordPresentationMesh... in) {
 
 		for (clsWordPresentationMesh wpm : in) {
-			System.out.println("Checking WPM: " + wpm.toString());
+			//TODO IH: use logger to print or disable test prints before pushing System.out.println("Checking WPM: " + wpm.toString());
 			if (moVisitedWPMs.contains(wpm.hashCode())) {
 
 			} else {
@@ -133,7 +133,8 @@ public class clsConcept {
 		if (moConceptMesh.moInternalAssociatedContent.contains(newMesh)) {
 
 		} else {
-			System.out.println("Integrating WPM: " + mesh.toString());
+			//System.out.println("Integrating WPM: " + mesh.toString()); 
+			//FIXME IH: Use logger
 
 			ArrayList<clsAssociation> associations = new ArrayList<clsAssociation>();
 			associations.add(association);
