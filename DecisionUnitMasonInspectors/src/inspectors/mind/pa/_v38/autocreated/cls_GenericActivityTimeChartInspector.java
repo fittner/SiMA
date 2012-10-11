@@ -24,7 +24,7 @@ import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
  * 15.04.2011, 18:54:16
  * 
  */
-public class cls_GenericActivityTimeChartInspector extends cls_AbstractChartInspector {
+public class cls_GenericActivityTimeChartInspector extends cls_AbstractTimeChartInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
