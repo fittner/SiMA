@@ -76,7 +76,6 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	
 	private clsPsychicApparatus poPA;
 	private ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
-	private JFrame moLastWindow;
 	private ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
 
 
@@ -359,61 +358,63 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
      * shows the internals of the selected Module in a new Frame
      */
     private void openNewWindow(String id, boolean newWindow){
-    	JFrame moContentWindow;
-    	if(newWindow){	
-    		moContentWindow = new clsModuleInspectorWindow(this);
-    		moContentWindows.add(moContentWindow);
-    	}
-    	else{
-    		if(moContentWindows.size()==0){
-    			moContentWindow = new clsModuleInspectorWindow(this);
-    			moContentWindows.add(moContentWindow);
-    			
-    		}
-    		else{
-    			//if min 1 frame is open the new frame will be loaded in the last opened frame
-    			moContentWindow = moContentWindows.get(moContentWindows.size()-1);
-    			moContentWindow.getContentPane().removeAll();
-    			
-    		}
-    	}
-
-    	//moContentWindow.setSize(750,550);
-    	
-    	
-    	if(id.contains(":")){
-    		id= id.substring(0, id.indexOf(':'));
-    	}
-    	if(id.length()<3){
-    		id = id.charAt(0) +"0"+id.charAt(1);
-    	}
-    	moContentWindow.setTitle("Module" + id);
-    	TabbedInspector moContent = new TabbedInspector();
-    	moContents.add(moContent);
-    	
-
-		Field oFields[] =poPA.getClass().getFields();
-
-		//Search through all Fields of poPA to get the full name of the selected Module
-		String fullId="";
-
-		for(int i = 0; i<oFields.length; i++){
-			if(oFields[i].getName().contains("_")){
-				if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
-					fullId=oFields[i].getName().substring(2);  
-
+    	if(id.length()!=0){
+	    	JFrame moContentWindow;
+	    	if(newWindow){	
+	    		moContentWindow = new clsModuleInspectorWindow(this);
+	    		moContentWindows.add(moContentWindow);
+	    	}
+	    	else{
+	    		if(moContentWindows.size()==0){
+	    			moContentWindow = new clsModuleInspectorWindow(this);
+	    			moContentWindows.add(moContentWindow);
+	    			
+	    		}
+	    		else{
+	    			//if min 1 frame is open the new frame will be loaded in the last opened frame
+	    			moContentWindow = moContentWindows.get(moContentWindows.size()-1);
+	    			moContentWindow.getContentPane().removeAll();
+	    			
+	    		}
+	    	}
+	
+	    	//moContentWindow.setSize(750,550);
+	    	
+	    	
+	    	if(id.contains(":")){
+	    		id= id.substring(0, id.indexOf(':'));
+	    	}
+	    	if(id.length()<3){
+	    		id = id.charAt(0) +"0"+id.charAt(1);
+	    	}
+	    	moContentWindow.setTitle("Module" + id);
+	    	TabbedInspector moContent = new TabbedInspector();
+	    	moContents.add(moContent);
+	    	
+	
+			Field oFields[] =poPA.getClass().getFields();
+	
+			//Search through all Fields of poPA to get the full name of the selected Module
+			String fullId="";
+	
+			for(int i = 0; i<oFields.length; i++){
+				if(oFields[i].getName().contains("_")){
+					if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
+						fullId=oFields[i].getName().substring(2);  
+	
+					}
 				}
+				
 			}
-			
-		}
-
-    	
-    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
-    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
-    	
-    	moContentWindow.add(moContent); 
-    	moContentWindow.repaint();
-    	moContentWindow.setVisible(true);
+	
+	    	
+	    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
+	    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
+	    	
+	    	moContentWindow.add(moContent); 
+	    	moContentWindow.repaint();
+	    	moContentWindow.setVisible(true);
+    	}
     }
     
     
