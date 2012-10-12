@@ -6,12 +6,8 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
-
-
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
-
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -20,11 +16,7 @@ import org.jfree.chart.plot.CategoryPlot;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DatasetUtilities;
-
 import pa._v38.interfaces.itfInspectorStackedBarChart;
-import sim.portrayal.Inspector;
-
-
 
 /**
  * DOCUMENT (herret) - insert description 
@@ -33,32 +25,30 @@ import sim.portrayal.Inspector;
  * Sep 27, 2012, 9:44:49 AM
  * 
  */
-public class cls_StackedBarChartInspector extends Inspector {
+
+public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
 
 	private static final long serialVersionUID = 5401441807093048593L;
 	
 	private itfInspectorStackedBarChart moContainer;
-	private String moChartName;
-	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
+
 
 	
 	public cls_StackedBarChartInspector(itfInspectorStackedBarChart poContainer){
+		super(poContainer.getStackedBarChartTitle());
 		moContainer = poContainer;
-		moChartName = moContainer.getStackedBarChartTitle();
 		moDataset = createDataset();
 		
 		moChartPanel = createPanel();
 		add(moChartPanel);
+		
 	}
 	
-	private ChartPanel createPanel() {
-	    	ChartPanel oChartPanel = initChart() ;
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-			return oChartPanel;
-	}
+
 	
-	private ChartPanel initChart(){
+	@Override
+	protected ChartPanel initChart(){
         // create the chart and pack it onto the panel
         JFreeChart chart = ChartFactory.createStackedBarChart(
         		moContainer.getStackedBarChartTitle(), 
@@ -111,7 +101,9 @@ public class cls_StackedBarChartInspector extends Inspector {
 	        return (DefaultCategoryDataset) DatasetUtilities.createCategoryDataset(AreaCaption, ColumnCaption, data);
 	}
 	
-	private void updateDataset(){
+
+	@Override
+	protected void updateDataset(){
     	ArrayList<ArrayList<Double>> iContainer = moContainer.getStackedBarChartData();
     	//column or row size of given data != column or row size of actual dataset
     	//->clear dataset and crate an new on out of given data
@@ -135,28 +127,5 @@ public class cls_StackedBarChartInspector extends Inspector {
 		   }
     	}		
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	@Override
-	public void updateInspector() {
-		updateDataset();
-		moChartPanel.repaint();
-		
-	}
-
-
-	
 
 }

@@ -14,7 +14,6 @@ import pa._v38.modules.eImplementationStage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.eDriveValueSplitter;
-
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorStackedBarChart;
@@ -39,7 +38,7 @@ import du.enums.pa.ePartialDrive;
  * 07.05.2012, 15:47:11
  */
 public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase 
-					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart, itfInspectorStackedBarChart, itfInspectorCombinedTimeChart {
+					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart,itfInspectorStackedBarChart, itfInspectorCombinedTimeChart {
 
 	public static final String P_MODULENUMBER = "48";
 	public static final String P_SPLITFACTORLABEL = "label";
@@ -576,51 +575,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 
 	@Override
-	public String getStackedBarChartTitle(){
-		
-		return "Drives Chart";
-	}
-	
-
-	@Override
-	public ArrayList<ArrayList<Double>> getStackedBarChartData(){
-//		ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> imoHomoestasisDriveComponents_IN;
-		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
-		ArrayList<Double> aggr = new ArrayList<Double>();
-		ArrayList<Double> lib = new ArrayList<Double>();
-		if(moHomoestasisDriveComponents_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
-				aggr.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
-				lib.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
-			}
-		}
-		
-		oResult.add(aggr);
-		oResult.add(lib);
-		return oResult;
-	}
-	
-
-	@Override
-	public ArrayList<String> getStackedBarChartCategoryCaptions(){
-		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.add("aggr");
-		oResult.add("lib");
-		return oResult;
-	}
-	@Override
-	public ArrayList<String> getStackedBarChartColumnCaptions(){
-		ArrayList<String> oResult = new ArrayList<String>();
-		if(moHomoestasisDriveComponents_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
-				oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
-			}
-		}
-		return oResult;
-	}
-
-
-	@Override
 	public String getCombinedTimeChartAxis() {
 		return "1 to 0";
 	}
@@ -682,5 +636,69 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		return oResult;
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 11, 2012 9:53:04 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartTitle()
+	 */
+	@Override
+	public String getStackedBarChartTitle() {
+		return "Drives Chart";
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 11, 2012 9:53:04 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartData()
+	 */
+	@Override
+	public ArrayList<ArrayList<Double>> getStackedBarChartData() {
+//		ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> imoHomoestasisDriveComponents_IN;
+		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		ArrayList<Double> aggr = new ArrayList<Double>();
+		ArrayList<Double> lib = new ArrayList<Double>();
+		if(moHomoestasisDriveComponents_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+				aggr.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
+				lib.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
+			}
+		}
+		
+		oResult.add(aggr);
+		oResult.add(lib);
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 11, 2012 9:53:04 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartCategoryCaptions()
+	 */
+	@Override
+	public ArrayList<String> getStackedBarChartCategoryCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.add("aggr");
+		oResult.add("lib");
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 11, 2012 9:53:04 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartColumnCaptions()
+	 */
+	@Override
+	public ArrayList<String> getStackedBarChartColumnCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		if(moHomoestasisDriveComponents_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+				oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
+			}
+		}
+		return oResult;
+	}
 }

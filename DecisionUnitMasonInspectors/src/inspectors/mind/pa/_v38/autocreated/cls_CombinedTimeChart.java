@@ -6,7 +6,11 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -96,6 +100,21 @@ public class cls_CombinedTimeChart extends Inspector{
 			moData.add(iData);
 			add(iContainer);
 		}
+		
+		ComponentListener compList = new ComponentAdapter() {
+			
+			
+			@Override
+			public void componentResized(ComponentEvent arg0) {
+				int iColumns=(int) Math.ceil(Math.sqrt(moContainer.getCombinedTimeChartData().size()));
+				for(Inspector iInspector : moCharts){
+					if(iInspector instanceof cls_GenericTimeChartInspector){
+						((cls_GenericTimeChartInspector) iInspector).setChartSize(new Dimension((int)getSize().getWidth()/iColumns,(int)getSize().getHeight()/iColumns));
+					}
+				}
+			}
+	      };
+		addComponentListener(compList);
 	}
 
 	
