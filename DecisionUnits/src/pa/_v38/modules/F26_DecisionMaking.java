@@ -202,7 +202,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
-		boolean bActivatePanicInfluence = false;
+		boolean bActivatePanicInfluence = true;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
 		
@@ -1019,7 +1019,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (poFeelingList.isEmpty()==false) {
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE80, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE100, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
 				clsGoalTools.setCondition(oResult, eCondition.PANIC);
 			}	
 		}

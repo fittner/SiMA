@@ -166,7 +166,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	@Override
 	public void receive_I5_5(ArrayList<clsDriveMesh> poData) {
-
+		
 	}
 
 	/* Input from Super-Ego = E7
@@ -265,8 +265,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 
 		 // select defense mechanism
 		 if (oQoA <= 0.6)
-			 //defenseMechanism_Repression(moForbiddenDrives_Input);
-			 defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
+			 defenseMechanism_Repression(moForbiddenDrives_Input);
+			 //defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
 		 else if (oQoA <= 0.9)
 		 	 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 		 // else if (oQoA > 0.9)

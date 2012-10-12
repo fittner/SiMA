@@ -20,7 +20,7 @@ import pa._v38.interfaces.itfInspectorGenericTimeChart;
  * 15.04.2011, 19:01:42
  * 
  */
-public class cls_GenericTimeChartInspector extends cls_AbstractChartInspector {
+public class cls_GenericTimeChartInspector extends cls_AbstractTimeChartInspector {
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 

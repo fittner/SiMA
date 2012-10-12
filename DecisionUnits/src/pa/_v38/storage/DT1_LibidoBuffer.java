@@ -72,10 +72,10 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public void receive_D1_1(double prValue) {
 		//Only values < are allowed. Total value > 1 is cut of
-		if (mrBufferedLibido+prValue >= 0) {
+		if (mrBufferedLibido+prValue <= 1) {
 			mrBufferedLibido += prValue;
 		} else {
-			mrBufferedLibido = 0;	
+			mrBufferedLibido = 1;	
 		}		
 		
 		normalizeBuffer();

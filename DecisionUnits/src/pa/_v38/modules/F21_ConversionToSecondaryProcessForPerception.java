@@ -144,7 +144,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = poConceptMemory;
+		this.moConceptMemory = new clsShortTermMemory(1,1); //FIXME ISABELLA: Dont use the environmental image storage to init your memory. It does not work properly then//poConceptMemory;
 
 	}
 	
@@ -163,9 +163,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		//text += toText.valueToTEXT("AdamPerspective:", moConcept);
 		text += toText.valueToTEXT("BodosPerspective:", moConcept);
 		text += toText.valueToTEXT("moSituationalMemory", moSituationalMemory);
-		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
-		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
-		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
+		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
 		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		//text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
 		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);

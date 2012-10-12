@@ -12,14 +12,14 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsDataStructureTools;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -29,12 +29,9 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainerPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsTemplateImage;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
@@ -57,7 +54,7 @@ import config.clsProperties;
  * 
  */ 
 public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
-					I2_6_receive, I5_19_receive, I5_6_send {
+					I2_6_receive, I5_19_receive, I5_6_send,itfInterfaceCompare {
 	public static final String P_MODULENUMBER = "46";
 	
 	/* Inputs */
@@ -170,12 +167,9 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 				
 				
 		//Create EMPTYSPACE objects
-		//ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
+		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
-		//clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
-		
-		//--- Enhance perception with environmental image ---//
-		enhancePerceptionWithLocalization(oPerceivedImage, moTempLocalizationStorage);
+		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		
 		//--- Activation of associated memories ---//
 		
@@ -312,49 +306,57 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @return
 	 * @throws CloneNotSupportedException 
 	 */
-	private void enhancePerceptionWithLocalization(clsThingPresentationMesh poPI, clsShortTermMemory poTempLocalizationStorage) {
+	private void enhancePerceptionWithEnhancedEnvironmentalImage(clsThingPresentationMesh poPI, clsEnvironmentalImageMemory poEnvironmentalImageStorage) {
 		//Clone the PI
 		//clsThingPresentationMesh oRetVal = (clsThingPresentationMesh) poPI.cloneGraph();
 		
 		//Get all objects from the localization
-		ArrayList<clsPair<Integer, Object>> oInvisibleObjects = new ArrayList<clsPair<Integer, Object>>();//poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
-		ArrayList<clsThingPresentationMesh> oPTPMList = new ArrayList<clsThingPresentationMesh>();
+		//ArrayList<clsPair<Integer, Object>> oInvisibleObjects = new ArrayList<clsPair<Integer, Object>>();//poTempLocalizationStorage.findMemoriesDataType(eSupportDataType.CONTAINERPAIR);
+		ArrayList<clsThingPresentationMesh> oPTPMList = poEnvironmentalImageStorage.getAllTPMFromEnhancedEnvironmentalImage();
+		ArrayList<clsThingPresentationMesh> oExtendEntityList = new ArrayList<clsThingPresentationMesh>();
 		
-		for (clsPair<Integer, Object> oPair : oInvisibleObjects) {
-			//Get the Primary data structure container from that pair
-			clsPrimaryDataStructureContainer oPContainer = ((clsDataStructureContainerPair)oPair.b).getPrimaryComponent();
-			clsPrimaryDataStructure oSavedDS = (clsPrimaryDataStructure) oPContainer.getMoDataStructure();
-			//Check if this object can be found in the perception
-			clsPrimaryDataStructure oFoundObject = (clsPrimaryDataStructure) clsDataStructureTools.containsInstanceType(oSavedDS, poPI);
-			//If no such object was found, then add the object to the template image
-			if (oFoundObject==null) {
-				//Get the associations
-				ArrayList<clsAssociation> oAllAssociationAttributes = oPContainer.getAnyAssociatedDataStructures(oPContainer.getMoDataStructure());
-				ArrayList<clsAssociation> oSelectedAssociationAttributes = new ArrayList<clsAssociation>();
-				for (clsAssociation oAss : oAllAssociationAttributes) {
-					//Add no localization attributes
-					if (oAss instanceof clsAssociationDriveMesh) {
-						oSelectedAssociationAttributes.add(oAss);
-					}
+		for(clsThingPresentationMesh oTPM : oPTPMList) {
+			//Check if the PI contains this type of object
+			clsThingPresentationMesh oFoundTPM = clsMeshTools.searchFirstDataStructureInstanceInTPM(poPI, oTPM, 3, true);
+			
+			//if not then add to 
+			if (oFoundTPM.isNullObject()==true) {
+				clsThingPresentationMesh oNewTPM;
+				try {
+					oNewTPM = (clsThingPresentationMesh) oTPM.clone();
+					clsEntityTools.removePosition(oNewTPM);
+					
+					oExtendEntityList.add(oNewTPM);
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
 				}
-				
-				//Replate container associations, i. e. remove the locations associations
-				oPContainer.setMoAssociatedDataStructures(oSelectedAssociationAttributes);
-				//Add the container to the list
-				//oPContainerList.add(oPContainer);
-				//Convert to TPM, check if it is a TPM 
-				if (oPContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
-					clsThingPresentationMesh oExtendedVisionObject = (clsThingPresentationMesh) oPContainer.getMoDataStructure();
-					oExtendedVisionObject.setMoExternalAssociatedContent(oPContainer.getMoAssociatedDataStructures());
-					oPTPMList.add(oExtendedVisionObject);
-				}
+
 			}
 		}
 		
 		//Add the containerlist to the PI
-		clsMeshTools.addTPMToTPMImage(poPI, oPTPMList);	
+		clsMeshTools.addTPMToTPMImage(poPI, oExtendEntityList);	
+	}
+	
+	/**
+	 * Remove all entites with no position, i. e. the entities from the enhanced environmental image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:40:28
+	 *
+	 * @param poPI
+	 */
+	private void removeEnhancedEnvironmentalImageFromPerception(clsThingPresentationMesh poPI) {
+		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllSubTPMFromTPM(poPI);
 		
-		//return oRetVal;
+		for (clsThingPresentationMesh oTPM : oTPMList) {
+			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPos = clsPrimarySpatialTools.getPosition(oTPM);
+			if (oPos.b==null && oPos.c==null) {
+				clsMeshTools.deleteAssociationInObject(poPI, oTPM);
+			}
+		}
 	}
 	
 	
@@ -526,7 +528,16 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		
 		if (bUsePerception==true) {	//Activate with perception
-			executePsychicSpreadActivation(poPerceivedImage, 0.9);		
+			
+			//--- Enhance perception with environmental image ---//
+			enhancePerceptionWithEnhancedEnvironmentalImage(poPerceivedImage, moTempLocalizationStorage);
+			
+			executePsychicSpreadActivation(poPerceivedImage, 2.0);		
+			
+			//--- Remove enhanced perception from PI as these were only there to activate memories
+			removeEnhancedEnvironmentalImageFromPerception(poPerceivedImage);
+			
+			
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage)==null) {
@@ -881,5 +892,27 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	@Override
 	public void setDescription() {
 		moDescription = "Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). In a first step these are attached with a value to get a meaning. Secondly the fantasies are added from the TPMs to the thing presentations";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 4, 2012 11:15:51 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesRecv() {
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 4, 2012 11:15:51 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesSend() {
+		return this.getInterfacesSend();
 	}		
 }

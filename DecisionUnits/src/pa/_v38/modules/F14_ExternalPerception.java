@@ -16,6 +16,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import du.enums.eDistance;
 import du.itf.sensors.clsInspectorPerceptionItem;
+import pa._v38.interfaces.itfInterfaceCompare;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -73,7 +74,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I2_3_receive, 
 					I2_4_receive,
 					I2_6_send,
-					I5_1_receive
+					I5_1_receive,
+					itfInterfaceCompare
 					{
 	public static final String P_MODULENUMBER = "14";
 	
@@ -1266,5 +1268,29 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			ArrayList<clsDriveMesh> poDrives) {
 		moDrives_IN = (ArrayList<clsDriveMesh>)deepCopy(poDrives);
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 3:22:40 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesRecv() {
+		ArrayList<eInterfaces> oResult = new ArrayList<eInterfaces>();
+		oResult.add(eInterfaces.I2_3);
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 2, 2012 3:22:40 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesSend() {
+		return getInterfacesSend();
 	}	
 }
