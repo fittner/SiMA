@@ -275,7 +275,6 @@ private void fillConcept() {
 	 */
 	@Override
 	protected void process_basic() {
-		// System.out.println("\n======================== START OF TURN SP ================================");
 		clsLogger.jlog.debug("\n\n\n===START OF SECONDARY PROCESS===");
 
 		// --- Update short term memory ---//

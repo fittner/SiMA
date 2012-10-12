@@ -72,19 +72,21 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
 			//Check if the intention has content
 			if (clsMeshTools.checkIfTPMStructureAvailableFromWPM(oIntention)) {
+				//Associate this structure with the action
+				clsActionTools.setSupportiveDataStructure(this.moAction, oIntention);
+				
+				
+			} else {
+				//Get the supportive data structure
+				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+				
+				//Associate this structure with the action
+				clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
 				
 			}
+
+			clsPhantasyTools.setPhantasyFlagTrue(clsActionTools.getSupportiveDataStructure(this.moAction));
 			
-			
-			
-			//Get the supportive data structure
-			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-			
-			//Associate this structure with the action
-			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
-			
-			
-			clsPhantasyTools.setPhantasyFlagTrue(clsGoalTools.getSupportiveDataStructure(this.moGoal));
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();

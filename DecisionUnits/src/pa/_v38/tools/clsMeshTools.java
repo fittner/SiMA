@@ -1343,12 +1343,11 @@ public class clsMeshTools {
 	public static boolean checkIfTPMStructureAvailableFromWPM(clsWordPresentationMesh poWPM) {
 		boolean bResult = false;
 		
-//		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
-//			if (oAss instanceof clsAssociationWordPresentation) {
-//				bResult = true;
-//				break;
-//			}
-//		}
+		ArrayList<clsWordPresentationMesh> oContentList = clsMeshTools.getAllSubWPMInWPMImage(poWPM);
+		
+		if (oContentList.isEmpty()==false) {
+			bResult=true;
+		}
 		
 		return bResult;
 	}
