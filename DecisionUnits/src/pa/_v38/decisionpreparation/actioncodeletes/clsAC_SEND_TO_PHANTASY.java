@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -61,38 +62,52 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			clsGoalTools.createSupportiveDataStructureFromGoalObject(this.moGoal, eContentType.PHI);
 		}
 		
-		//Set phantasyflag
-		try {
-			clsWordPresentationMesh oSupportiveDataStructureForAction;
+		//Check if drive or goal
+		if (clsGoalTools.checkIfConditionExists(moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+			//Get the supportive data structure
+			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			
+			//Associate this structure with the action
+			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+			
+		} else if (clsGoalTools.checkIfConditionExists(moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
 			//Get the supportive data structure
 			clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			
 			//Check if the intention already has a PP-Image
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
 			//Check if the intention has content
-			if (clsMeshTools.checkIfTPMStructureAvailableFromWPM(oIntention)) {
+			
+			if (clsMeshTools.checkIfWPMImageHasSubImages(oIntention)) {
 				//Associate this structure with the action
 				clsActionTools.setSupportiveDataStructure(this.moAction, oIntention);
-				
-				
 			} else {
-				//Get the supportive data structure
-				clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+				//Search the trigger structure, i. e. the substructure with the highest match
+				clsWordPresentationMesh oNearestMatch = clsActTools.getHighestPIMatchFromSubImages(oIntention);
 				
-				//Associate this structure with the action
-				clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
-				
+				//Set the nearest match as the best try
+				if (oNearestMatch.isNullObject()==false) {
+					clsActionTools.setSupportiveDataStructure(this.moAction, oNearestMatch);
+				}
 			}
-
-			clsPhantasyTools.setPhantasyFlagTrue(clsActionTools.getSupportiveDataStructure(this.moAction));
+		} else {
+			//Get the supportive data structure
+			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			
+			//Associate this structure with the action
+			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
+		}
+		
+		//Set phantasyflag
+		try {
+			clsWordPresentationMesh oSupportDS = clsActionTools.getSupportiveDataStructure(this.moAction);
+			if (oSupportDS.isNullObject()==false) {
+				clsPhantasyTools.setPhantasyFlagTrue(oSupportDS);
+			}
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

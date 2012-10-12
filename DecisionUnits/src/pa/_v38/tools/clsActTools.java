@@ -125,7 +125,7 @@ public class clsActTools {
 	 * @param poInputList
 	 * @return
 	 */
-	private static boolean checkIfIntention(clsWordPresentationMesh poInput) {
+	public static boolean isIntention(clsWordPresentationMesh poInput) {
 		boolean bRetVal = false;
 		
 		//Get all external associations of each memory
@@ -154,7 +154,7 @@ public class clsActTools {
 	 * @param poInput
 	 * @return
 	 */
-	private static boolean checkIfEvent(clsWordPresentationMesh poInput) {
+	public static boolean isEvent(clsWordPresentationMesh poInput) {
 		boolean bRetVal = false;
 		boolean bHasSuper = false;
 		boolean bHasNext = false;
@@ -476,6 +476,35 @@ public class clsActTools {
 		}
 		
 		return rResult;
+	}
+	
+	/**
+	 * Get the subimage with the highest PIMatch from the intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.10.2012 22:51:08
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static clsWordPresentationMesh getHighestPIMatchFromSubImages(clsWordPresentationMesh poIntention) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oSubImageList = clsActTools.getAllSubImages(poIntention);
+		
+		double rBestPIMatch = 0.0;
+		for (clsWordPresentationMesh oSubImage : oSubImageList) {
+			//Get PIMatch
+			double rCurrentPIMatch = clsActTools.getPIMatchFlag(oSubImage);
+			
+			if (rBestPIMatch<rCurrentPIMatch) {
+				rBestPIMatch = rCurrentPIMatch;
+				oResult = oSubImage;
+			}
+		}
+		
+		return oResult;
 	}
 	
 		

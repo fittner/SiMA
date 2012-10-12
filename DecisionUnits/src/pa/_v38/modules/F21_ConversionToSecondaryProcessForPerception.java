@@ -395,8 +395,7 @@ private void fillConcept() {
 		}
 
 		// Create a List of all loaded acts and other memories
-		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools
-				.processMemories(oEnhancedRIWPMList);
+		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
 
 		// Output: ArrayList<WPM> for each TPM-Image. The WPM are already
 		// assigned their acts here

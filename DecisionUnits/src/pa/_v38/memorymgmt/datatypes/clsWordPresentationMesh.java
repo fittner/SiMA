@@ -14,6 +14,8 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
@@ -263,8 +265,48 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	public String toString(){
 			String oResult = "";
 
+			
+			
+			
 			//Add by AW
-			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
+			if (this.moContentType.equals(eContentType.RI)) {
+				if (clsActTools.isIntention(this)==true) {
+					//oResult += "::"+this.moDataStructureType+"::";  
+					oResult += this.moContentType + ":" + this.moContent;
+					//List PI-Match
+					double rPIMatch = clsActTools.getPIMatchFlag(this);
+					oResult += "(PIMatch=" + rPIMatch + ")";
+					
+					//Get all subimages
+					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
+					oResult += "\nSUBIMAGES: ";
+					for (clsWordPresentationMesh oSubImage : oSubImages) {
+						oResult += oSubImage.getMoContent() + "(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + ");"; 
+					}
+				} else if (clsActTools.isEvent(this)==true) {
+					//oResult += "::"+this.moDataStructureType+"::";  
+					oResult += this.moContentType + ":" + this.moContent;
+					//List PI-Match
+					double rPIMatch = clsActTools.getPIMatchFlag(this);
+					oResult += "(PIMatch=" + rPIMatch + ")";
+				} else {  
+					oResult += this.moContentType + ":" + this.moContent;
+					if (this.moInternalAssociatedContent.isEmpty()==false) {
+						oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+							oResult += oEntry.getLeafElement().toString() + ";";
+						}
+					}
+					
+					if (moExternalAssociatedContent.isEmpty()==false) {
+						oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
+						for (clsAssociation oEntry : moExternalAssociatedContent) {
+							oResult += oEntry.toString() + ";"; 
+						}
+					}
+				}
+				
+			} else if (this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContentType + ":" + this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
@@ -280,6 +322,24 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 						oResult += oEntry.toString() + ";"; 
 					}
 				}
+			} else if (this.moContentType.equals(eContentType.ACT)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContentType + ":" + this.moContent;
+				
+				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(this);
+				if (oIntention.isNullObject()==false) {
+					oResult += "\nINTENTION: " + oIntention.toString();
+				}
+				clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(this);
+				if (oMoment.isNullObject()==false) {
+					oResult += "\nMOMENT: " + oMoment.toString();
+				}
+				clsWordPresentationMesh oExpectation = clsActDataStructureTools.getExpectation(this);
+				if (oExpectation.isNullObject()==false) {
+					oResult += "\nEXPECTATION: " + oExpectation.toString();
+				}
+				oResult += "\n";
+				
 			} else if (this.moContentType.equals(eContentType.ENHANCEDENVIRONMENTALIMAGE) || this.moContentType.equals(eContentType.ENVIRONMENTALIMAGE)) {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContent;
