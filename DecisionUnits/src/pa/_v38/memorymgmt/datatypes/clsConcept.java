@@ -11,9 +11,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 
 /**
@@ -32,6 +34,8 @@ public class clsConcept {
 	private clsTriple<Integer, eDataType, eContentType> moEmotionTriple;
 
 	private Set<Integer> moVisitedWPMs;
+
+	private List<clsQuadruppel<Entity, Action, Emotion, Distance>> moConceptEntities;
 
 	/**
 	 * DOCUMENT (hinterleitner) - Basic Constructor for a new Concept
@@ -55,11 +59,19 @@ public class clsConcept {
 				eDataType.CONCEPT, eContentType.EMOTION);
 
 		moVisitedWPMs = new HashSet<Integer>();
+
+		moConceptEntities = new ArrayList<clsQuadruppel<Entity, Action, Emotion, Distance>>();
 	}
 
 	public void addWPMs(List<clsWordPresentationMesh> in) {
 		for (clsWordPresentationMesh wpm : in) {
-			addWPMs(wpm);
+			checkDataStructure(wpm);
+		}
+	}
+
+	public void addWPMs(clsWordPresentationMesh... in) {
+		for (clsWordPresentationMesh wpm : in) {
+			checkDataStructure(wpm);
 		}
 	}
 
@@ -74,36 +86,55 @@ public class clsConcept {
 	 * @param in
 	 *            the wpms to be checked for interesting wpms
 	 */
-	public void addWPMs(clsWordPresentationMesh... in) {
+	public void checkDataStructure(clsDataStructurePA moDataStructurePA) {
 
-		for (clsWordPresentationMesh wpm : in) {
-			//TODO IH: use logger to print or disable test prints before pushing System.out.println("Checking WPM: " + wpm.toString());
-			if (moVisitedWPMs.contains(wpm.hashCode())) {
+		// TODO IH: use logger to print or disable test prints before pushing
+		// System.out.println("Checking WPM: " + wpm.toString());
+		if (null == moDataStructurePA
+				|| moVisitedWPMs.contains(moDataStructurePA.hashCode())) {
 
-			} else {
-				moVisitedWPMs.add(wpm.hashCode());
-				if (eDataType.EMOTION.equals(wpm.moDataStructureType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.EMOTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.BASICEMOTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.ENTITY.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEntityTriple);
-				} else if (eContentType.ACTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moActionTriple);
-				} else if (eContentType.DISTANCE.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moDistanceTriple);
-				}
-
-				for (clsAssociation externalAssociation : wpm.moExternalAssociatedContent) {
+		} else {
+			clsLogger.jlog.info("checking " + moDataStructurePA);
+			moVisitedWPMs.add(moDataStructurePA.hashCode());
+			if (eDataType.EMOTION.equals(moDataStructurePA.moDataStructureType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.EMOTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.BASICEMOTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.ENTITY
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEntityTriple);
+			} else if (eContentType.ACTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moActionTriple);
+			} else if (eContentType.DISTANCE
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moDistanceTriple);
+			}
+			if (moDataStructurePA instanceof clsWordPresentationMesh) {
+				clsWordPresentationMesh mesh = (clsWordPresentationMesh) moDataStructurePA;
+				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
 					checkAssociation(externalAssociation);
 				}
-				for (clsAssociation internalAssociation : wpm.moInternalAssociatedContent) {
+				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
 					checkAssociation(internalAssociation);
 				}
 			}
+			if (moDataStructurePA instanceof clsThingPresentationMesh) {
+				clsThingPresentationMesh mesh = (clsThingPresentationMesh) moDataStructurePA;
+				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
+					checkAssociation(externalAssociation);
+				}
+				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
+					checkAssociation(internalAssociation);
+				}
+			}
+
 		}
+
 	}
 
 	/**
@@ -118,28 +149,85 @@ public class clsConcept {
 	 * @param identifier
 	 *            the clsTriple to be used for identifying the WPM
 	 */
-	private void integrateWPM(clsWordPresentationMesh mesh,
+	private void integrateDataStructure(clsDataStructurePA moDataStructurePA,
 			clsTriple<Integer, eDataType, eContentType> identifier) {
 
 		clsWordPresentationMesh newMesh = new clsWordPresentationMesh(
-				new clsTriple<Integer, eDataType, eContentType>(mesh.moDS_ID,
-						mesh.moDataStructureType, mesh.moContentType),
-				new ArrayList<clsAssociation>(), mesh.moContent);
-
+				new clsTriple<Integer, eDataType, eContentType>(
+						moDataStructurePA.moDS_ID,
+						moDataStructurePA.moDataStructureType,
+						moDataStructurePA.moContentType),
+				new ArrayList<clsAssociation>(), " ");
+		newMesh.moDS_ID = 0 + moDataStructurePA.moDS_ID;
 		// TODO select fitting ePredicate
 		clsAssociation association = new clsAssociationSecondary(identifier,
 				moConceptMesh, newMesh, ePredicate.NONE);
 
-		if (moConceptMesh.moInternalAssociatedContent.contains(newMesh)) {
+		if (moConceptMesh.moInternalAssociatedContent.contains(association)) {
 
 		} else {
-			//System.out.println("Integrating WPM: " + mesh.toString()); 
-			//FIXME IH: Use logger
+			// System.out.println("Integrating WPM: " + mesh.toString());
+			// FIXME IH: Use logger
 
 			ArrayList<clsAssociation> associations = new ArrayList<clsAssociation>();
 			associations.add(association);
 			moConceptMesh.addInternalAssociations(associations);
 		}
+	}
+
+	private void integrateEntity(Integer oDS_ID, String oContent) {
+		Entity entity = new Entity();
+		entity.setEntity(oDS_ID, oContent);
+		boolean entityKnown = false;
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.equals(entity)) {
+				entityKnown = true;
+			}
+		}
+		if (!entityKnown) {
+			moConceptEntities
+					.add(new clsQuadruppel<clsConcept.Entity, clsConcept.Action, clsConcept.Emotion, clsConcept.Distance>(
+							entity, new Action(), new Emotion(), new Distance()));
+		}
+	}
+
+	private void integrateDistance(Integer oDS_ID, String oEntityContent,
+			String oDistanceContent) {
+		integrateEntity(oDS_ID, oEntityContent);
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				conceptEntity.d.setDistance((String) oDistanceContent);
+				return;
+			}
+		}
+	}
+
+	private void integratePosition(Integer oDS_ID, String oEntityContent,
+			String oPositionContent) {
+		integrateEntity(oDS_ID, oEntityContent);
+
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				conceptEntity.d.setPosition((String) oPositionContent);
+				return;
+			}
+		}
+	}
+
+	private String extractContentString(clsDataStructurePA oDataStructure) {
+		if (oDataStructure instanceof clsWordPresentation) {
+			return ((clsWordPresentation) oDataStructure).moContent;
+		} else if (oDataStructure instanceof clsWordPresentationMesh) {
+			return ((clsWordPresentationMesh) oDataStructure).moContent;
+		} else if (oDataStructure instanceof clsThingPresentation) {
+			return ((clsThingPresentation) oDataStructure).getMoContent()
+					.toString();
+		} else if (oDataStructure instanceof clsThingPresentationMesh) {
+			return ((clsThingPresentationMesh) oDataStructure).getMoContent()
+					.toString();
+		}
+
+		return "";
 	}
 
 	/**
@@ -152,12 +240,34 @@ public class clsConcept {
 	 * @param association
 	 */
 	private void checkAssociation(clsAssociation association) {
-		if (association.moAssociationElementA instanceof clsWordPresentationMesh) {
-			addWPMs((clsWordPresentationMesh) association.moAssociationElementA);
+
+		checkDataStructure(association.moAssociationElementA);
+		checkDataStructure(association.moAssociationElementB);
+
+		if (eContentType.ASSOCIATIONATTRIBUTE.equals(association.moContentType)) {
+			if (eContentType.POSITION
+					.equals(association.moAssociationElementB.moContentType)) {
+				clsLogger.jlog.info("found Position " + association);
+				integratePosition(association.moAssociationElementA.moDS_ID,
+						extractContentString(association.moAssociationElementA),
+						extractContentString(association.moAssociationElementB));
+			} else if (eContentType.DISTANCE
+					.equals(association.moAssociationElementB.moContentType)) {
+				clsLogger.jlog.info("found Distance " + association);
+				integrateDistance(association.moAssociationElementA.moDS_ID,
+						extractContentString(association.moAssociationElementA),
+						extractContentString(association.moAssociationElementB));
+			}
 		}
-		if (association.moAssociationElementB instanceof clsWordPresentationMesh) {
-			addWPMs((clsWordPresentationMesh) association.moAssociationElementB);
-		}
+
+		// if (association.moAssociationElementA instanceof
+		// clsWordPresentationMesh) {
+		// addWPMs((clsWordPresentationMesh) association.moAssociationElementA);
+		// }
+		// if (association.moAssociationElementB instanceof
+		// clsWordPresentationMesh) {
+		// addWPMs((clsWordPresentationMesh) association.moAssociationElementB);
+		// }
 	}
 
 	/**
@@ -197,6 +307,8 @@ public class clsConcept {
 					+ moConceptMesh.moInternalAssociatedContent.toString()
 					+ "]";
 		}
+		text += "\n";
+		text += moConceptEntities.toString();
 		return text;
 	}
 
@@ -240,4 +352,108 @@ public class clsConcept {
 		return true;
 	}
 
+	public class Entity {
+
+		private int moDS_ID = -1;
+		private String moEntity = "";
+
+		public void setEntity(int oDS_ID, String oContent) {
+			moDS_ID = oDS_ID;
+			moEntity = oContent;
+		}
+
+		@Override
+		public String toString() {
+			return "(" + moEntity + ":" + moDS_ID + ")";
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof Entity) {
+				Entity o = (Entity) other;
+				if (moDS_ID == o.moDS_ID) {
+					if (moEntity.equals(o.moEntity)) {
+						return true;
+					}
+				}
+			}
+			return false;
+		}
+	}
+
+	public class Action {
+		
+		@Override
+		public String toString() {
+			String text = "";
+
+			return text;
+		}
+		
+	}
+
+	public class Emotion {
+		
+		@Override
+		public String toString() {
+			String text = "";
+
+			return text;
+		}
+	}
+
+	public class Distance {
+
+		private String moDistance = "";
+		private String moPosition = "";
+
+		/**
+		 * @since 13.10.2012 12:01:28
+		 * 
+		 * @return the moPosition
+		 */
+		public String getPosition() {
+			return moPosition;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:28
+		 * 
+		 * @param moPosition
+		 *            the moPosition to set
+		 */
+		public void setPosition(String moPosition) {
+			this.moPosition = moPosition;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:42
+		 * 
+		 * @return the moDistance
+		 */
+		public String getDistance() {
+			return moDistance;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:42
+		 * 
+		 * @param moDistance
+		 *            the moDistance to set
+		 */
+		public void setDistance(String moDistance) {
+			this.moDistance = moDistance;
+		}
+
+		@Override
+		public String toString() {
+			String text = "(";
+			text += moDistance;
+			text += ":";
+			text += moPosition;
+			text += ")";
+			return text;
+		}
+
+	}
 }
