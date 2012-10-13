@@ -19,13 +19,18 @@ import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (hinterleitner) - insert description
+ * DOCUMENT (hinterleitner) - The clsConcept class represents the collected
+ * ConceptEntities for one agent in one step.
  * 
  * @author hinterleitner 19.05.2012, 16:28:04
  * 
  */
 public class clsConcept {
 
+	/**
+	 * The Concept stored as a {@link clsWordPresentationMesh} to enable
+	 * integration into the memory.
+	 */
 	protected clsWordPresentationMesh moConceptMesh;
 
 	private clsTriple<Integer, eDataType, eContentType> moActionTriple;
@@ -33,8 +38,10 @@ public class clsConcept {
 	private clsTriple<Integer, eDataType, eContentType> moDistanceTriple;
 	private clsTriple<Integer, eDataType, eContentType> moEmotionTriple;
 
+	/** Internal Helper for the generation of the clsConcept. */
 	private Set<Integer> moVisitedWPMs;
 
+	/** The String representations of the ConceptEntities */
 	private List<clsQuadruppel<Entity, Action, Emotion, Distance>> moConceptEntities;
 
 	/**
@@ -63,23 +70,38 @@ public class clsConcept {
 		moConceptEntities = new ArrayList<clsQuadruppel<Entity, Action, Emotion, Distance>>();
 	}
 
-	public void addWPMs(List<clsWordPresentationMesh> in) {
-		for (clsWordPresentationMesh wpm : in) {
-			checkDataStructure(wpm);
-		}
-	}
-
-	public void addWPMs(clsWordPresentationMesh... in) {
-		for (clsWordPresentationMesh wpm : in) {
+	/**
+	 * DOCUMENT (havlicek) - insert description
+	 * 
+	 * @since 13.10.2012 16:59:05
+	 * 
+	 * @param oWPMs
+	 */
+	public void addWPMs(List<clsWordPresentationMesh> oWPMs) {
+		for (clsWordPresentationMesh wpm : oWPMs) {
 			checkDataStructure(wpm);
 		}
 	}
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - Method to integrate clsWordPresentationMesh into the
-	 * concept. This method splits up the wpm and forwards interesting parts to
-	 * be integrated.
+	 * DOCUMENT (havlicek) - insert description
+	 * 
+	 * @since 13.10.2012 16:59:12
+	 * 
+	 * @param oWPMs
+	 */
+	public void addWPMs(clsWordPresentationMesh... oWPMs) {
+		for (clsWordPresentationMesh wpm : oWPMs) {
+			checkDataStructure(wpm);
+		}
+	}
+
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - Method to integrate clsWordPresentationMesh into
+	 * the concept. This method splits up the wpm and forwards interesting parts
+	 * to be integrated.
 	 * 
 	 * @since 16.09.2012 14:05:29
 	 * 
@@ -138,7 +160,7 @@ public class clsConcept {
 	}
 
 	/**
-	 * DOCUMENT (ende) - integrate a given wpm into the concept mesh. It is
+	 * DOCUMENT (havlicek) - integrate a given wpm into the concept mesh. It is
 	 * needed to seperate the interesting part from any associations in order to
 	 * save space.
 	 * 
@@ -175,6 +197,17 @@ public class clsConcept {
 		}
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - Method to integrate an Entity into the String
+	 * representation of a ConceptEntity.
+	 * 
+	 * @since 13.10.2012 17:13:17
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oContent
+	 *            the Name of the Entity
+	 */
 	private void integrateEntity(Integer oDS_ID, String oContent) {
 		Entity entity = new Entity();
 		entity.setEntity(oDS_ID, oContent);
@@ -191,6 +224,21 @@ public class clsConcept {
 		}
 	}
 
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - Method to integrate a Distance into the String
+	 * representation of a ConceptEntity
+	 * 
+	 * @since 13.10.2012 17:14:23
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oEntityContent
+	 *            the Name of the Entity
+	 * @param oDistanceContent
+	 *            the String representation of the Distance of the specified
+	 *            Entity
+	 */
 	private void integrateDistance(Integer oDS_ID, String oEntityContent,
 			String oDistanceContent) {
 		integrateEntity(oDS_ID, oEntityContent);
@@ -202,6 +250,20 @@ public class clsConcept {
 		}
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - Method to integrate a Position into the String
+	 * representation of a ConceptEntity
+	 * 
+	 * @since 13.10.2012 17:24:28
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oEntityContent
+	 *            the Name of the Entity
+	 * @param oPositionContent
+	 *            the String representation of the Position of the specified
+	 *            Entity
+	 */
 	private void integratePosition(Integer oDS_ID, String oEntityContent,
 			String oPositionContent) {
 		integrateEntity(oDS_ID, oEntityContent);
@@ -214,6 +276,18 @@ public class clsConcept {
 		}
 	}
 
+	/**
+	 * DOCUMENT (ende) - internal helper method to extract the String
+	 * representing the Content from different extensions of the
+	 * clsDataStructurePA.
+	 * 
+	 * @since 13.10.2012 17:30:16
+	 * 
+	 * @param oDataStructure
+	 *            A class instance of a any extended class of clsDataStructurePA
+	 *            from which the Content should be extracted.
+	 * @return the String representation of the Content
+	 */
 	private String extractContentString(clsDataStructurePA oDataStructure) {
 		if (oDataStructure instanceof clsWordPresentation) {
 			return ((clsWordPresentation) oDataStructure).moContent;
@@ -232,7 +306,7 @@ public class clsConcept {
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - helper method to split up the check concerning
+	 * DOCUMENT (havlicek) - helper method to split up the check concerning
 	 * Associations.
 	 * 
 	 * @since 16.09.2012 17:49:44
@@ -248,31 +322,24 @@ public class clsConcept {
 			if (eContentType.POSITION
 					.equals(association.moAssociationElementB.moContentType)) {
 				clsLogger.jlog.info("found Position " + association);
-				integratePosition(association.moAssociationElementA.moDS_ID,
+				integratePosition(
+						association.moAssociationElementA.moDS_ID,
 						extractContentString(association.moAssociationElementA),
 						extractContentString(association.moAssociationElementB));
 			} else if (eContentType.DISTANCE
 					.equals(association.moAssociationElementB.moContentType)) {
 				clsLogger.jlog.info("found Distance " + association);
-				integrateDistance(association.moAssociationElementA.moDS_ID,
+				integrateDistance(
+						association.moAssociationElementA.moDS_ID,
 						extractContentString(association.moAssociationElementA),
 						extractContentString(association.moAssociationElementB));
 			}
 		}
-
-		// if (association.moAssociationElementA instanceof
-		// clsWordPresentationMesh) {
-		// addWPMs((clsWordPresentationMesh) association.moAssociationElementA);
-		// }
-		// if (association.moAssociationElementB instanceof
-		// clsWordPresentationMesh) {
-		// addWPMs((clsWordPresentationMesh) association.moAssociationElementB);
-		// }
 	}
 
 	/**
-	 * DOCUMENT (ende) - Get the current content of the Concept together with
-	 * its WPM.
+	 * DOCUMENT (havlicek) - Get the current content of the Concept together
+	 * with its WPM.
 	 * 
 	 * @since 30.09.2012 17:09:03
 	 * 
@@ -283,7 +350,7 @@ public class clsConcept {
 	}
 
 	/**
-	 * DOCUMENT (ende) - Get the current content of the Concept as String
+	 * DOCUMENT (havlicek) - Get the current content of the Concept as String
 	 * 
 	 * @since 30.09.2012 17:10:14
 	 * 
@@ -352,6 +419,12 @@ public class clsConcept {
 		return true;
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an entity.
+	 * 
+	 * @author havlicek 13.10.2012, 15:25:03
+	 * 
+	 */
 	public class Entity {
 
 		private int moDS_ID = -1;
@@ -364,44 +437,113 @@ public class clsConcept {
 
 		@Override
 		public String toString() {
-			return "(" + moEntity + ":" + moDS_ID + ")";
+			String text = "(";
+			text += moEntity;
+			text += ":";
+			text += moDS_ID;
+			text += ")";
+			return text;
 		}
 
 		@Override
 		public boolean equals(Object other) {
 			if (other instanceof Entity) {
 				Entity o = (Entity) other;
-				if (moDS_ID == o.moDS_ID) {
-					if (moEntity.equals(o.moEntity)) {
-						return true;
-					}
+				boolean isEqual = true;
+				if (moDS_ID != o.moDS_ID) {
+					isEqual = false;
 				}
+				if (!moEntity.equals(o.moEntity)) {
+					isEqual = false;
+
+				}
+				return isEqual;
 			}
 			return false;
 		}
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an action.
+	 * 
+	 * @author havlicek 13.10.2012, 15:24:48
+	 * 
+	 */
 	public class Action {
-		
+
+		private String moAction = "";
+
+		/**
+		 * @since 13.10.2012 15:27:57
+		 * 
+		 * @return the moAction
+		 */
+		public String getAction() {
+			return moAction;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:57
+		 * 
+		 * @param moAction
+		 *            the moAction to set
+		 */
+		public void setAction(String moAction) {
+			this.moAction = moAction;
+		}
+
 		@Override
 		public String toString() {
 			String text = "";
-
+			text += moAction;
 			return text;
 		}
-		
+
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an emotion.
+	 * 
+	 * @author havlicek 13.10.2012, 15:24:33
+	 * 
+	 */
 	public class Emotion {
-		
+
+		private String moEmotion = "";
+
 		@Override
 		public String toString() {
 			String text = "";
-
+			text += moEmotion;
 			return text;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:11
+		 * 
+		 * @return the moEmotion
+		 */
+		public String getMoEmotion() {
+			return moEmotion;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:11
+		 * 
+		 * @param moEmotion
+		 *            the moEmotion to set
+		 */
+		public void setMoEmotion(String moEmotion) {
+			this.moEmotion = moEmotion;
 		}
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - internal representation of a distance.
+	 * 
+	 * @author havlicek 13.10.2012, 15:23:53
+	 * 
+	 */
 	public class Distance {
 
 		private String moDistance = "";
