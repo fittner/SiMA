@@ -11,7 +11,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -110,13 +109,11 @@ public class clsConcept {
 	 */
 	public void checkDataStructure(clsDataStructurePA moDataStructurePA) {
 
-		// TODO IH: use logger to print or disable test prints before pushing
-		// System.out.println("Checking WPM: " + wpm.toString());
 		if (null == moDataStructurePA
 				|| moVisitedWPMs.contains(moDataStructurePA.hashCode())) {
 
 		} else {
-			clsLogger.jlog.info("checking " + moDataStructurePA);
+			// clsLogger.jlog.debug("checking " + moDataStructurePA);
 			moVisitedWPMs.add(moDataStructurePA.hashCode());
 			if (eDataType.EMOTION.equals(moDataStructurePA.moDataStructureType)) {
 				integrateDataStructure(moDataStructurePA, moEmotionTriple);
@@ -188,9 +185,6 @@ public class clsConcept {
 		if (moConceptMesh.moInternalAssociatedContent.contains(association)) {
 
 		} else {
-			// System.out.println("Integrating WPM: " + mesh.toString());
-			// FIXME IH: Use logger
-
 			ArrayList<clsAssociation> associations = new ArrayList<clsAssociation>();
 			associations.add(association);
 			moConceptMesh.addInternalAssociations(associations);
@@ -218,6 +212,8 @@ public class clsConcept {
 			}
 		}
 		if (!entityKnown) {
+			// clsLogger.jlog.debug("Concept: found Entity " +
+			// entity.toString());
 			moConceptEntities
 					.add(new clsQuadruppel<clsConcept.Entity, clsConcept.Action, clsConcept.Emotion, clsConcept.Distance>(
 							entity, new Action(), new Emotion(), new Distance()));
@@ -244,6 +240,8 @@ public class clsConcept {
 		integrateEntity(oDS_ID, oEntityContent);
 		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
 			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				// clsLogger.jlog.info("Concept: found Distance " +
+				// oDistanceContent);
 				conceptEntity.d.setDistance((String) oDistanceContent);
 				return;
 			}
@@ -270,6 +268,8 @@ public class clsConcept {
 
 		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
 			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				// clsLogger.jlog.info("Concept: found Position " +
+				// oPositionContent);
 				conceptEntity.d.setPosition((String) oPositionContent);
 				return;
 			}
@@ -321,14 +321,12 @@ public class clsConcept {
 		if (eContentType.ASSOCIATIONATTRIBUTE.equals(association.moContentType)) {
 			if (eContentType.POSITION
 					.equals(association.moAssociationElementB.moContentType)) {
-				clsLogger.jlog.info("found Position " + association);
 				integratePosition(
 						association.moAssociationElementA.moDS_ID,
 						extractContentString(association.moAssociationElementA),
 						extractContentString(association.moAssociationElementB));
 			} else if (eContentType.DISTANCE
 					.equals(association.moAssociationElementB.moContentType)) {
-				clsLogger.jlog.info("found Distance " + association);
 				integrateDistance(
 						association.moAssociationElementA.moDS_ID,
 						extractContentString(association.moAssociationElementA),
