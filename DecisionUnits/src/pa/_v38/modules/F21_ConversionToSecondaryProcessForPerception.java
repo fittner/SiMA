@@ -320,18 +320,10 @@ private void fillConcept() {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * For the TPM as input, assign all of them with WPM images
-	 * Return a pair of 1) Perception, 2) A list of memories. This function extracts all acts and other 
-	 * memories from the primary process data structures. The list of memories is categorized in acts from the images
-=======
 	 * For the TPM as input, assign all of them with WPM images Return a pair of
 	 * 1) Peception, 2) A list of memories. This function extracts all acts and
 	 * other memories from the primary process data structures. The list of
 	 * memories is categorized in acts from the images
->>>>>>> e61ceb1d2a51a0954a64232c38a3647a95f9a245
-	 * 
-	 * (wendt)
 	 * 
 	 * @since 25.01.2012 13:55:04
 	 * 
