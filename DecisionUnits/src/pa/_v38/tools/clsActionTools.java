@@ -146,7 +146,7 @@ public class clsActionTools {
 		clsAssociationSecondary oExistingDataStructure = getSupportiveDataStructureAssociation(poAction);
 				
 		if (oExistingDataStructure==null) {
-			clsMeshTools.createAssociationSecondary(poAction, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
+			clsMeshTools.createAssociationSecondary(poAction, 2, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, false);
 		} else {
 			oExistingDataStructure.setLeafElement(poDataStructure);
 		}

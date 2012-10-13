@@ -39,6 +39,8 @@ import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.clsQuadruppel;
+
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -71,7 +73,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
-	private ArrayList< clsTriple<String, String, String >> moSituationalConcept;
+	private ArrayList< clsQuadruppel<String, String, String, String >> moSituationalConcept;
 	
 	
 	private ArrayList<clsEmotion> moEmotions_Input; 
@@ -228,11 +230,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 private void fillConcept() {
 		
-		moSituationalConcept = new ArrayList< clsTriple<String, String, String >> ();
-
-		moSituationalConcept.add( new clsTriple<String,String, String>("ADAM", "NOURISH", "WAIT" ));
-		moSituationalConcept.add( new clsTriple<String,String, String>("ADAM", "REPRESS", "WAIT" ));
+		moSituationalConcept = new ArrayList< clsQuadruppel<String, String, String, String >> ();
+		moSituationalConcept.add( new clsQuadruppel<String,String, String, String>("ADAM", "NOURISH", "WAIT", ""));
+		moSituationalConcept.add( new clsQuadruppel<String,String, String, String>("ADAM", "REPRESS", "WAIT", ""));
 	}
+
 	/* (non-Javadoc)
 	 *
 	 * @author kohlhauser
@@ -275,7 +277,6 @@ private void fillConcept() {
 	 */
 	@Override
 	protected void process_basic() {
-		// System.out.println("\n======================== START OF TURN SP ================================");
 		clsLogger.jlog.debug("\n\n\n===START OF SECONDARY PROCESS===");
 
 		// --- Update short term memory ---//
@@ -387,8 +388,7 @@ private void fillConcept() {
 		}
 
 		// Create a List of all loaded acts and other memories
-		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools
-				.processMemories(oEnhancedRIWPMList);
+		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
 
 		// Output: ArrayList<WPM> for each TPM-Image. The WPM are already
 		// assigned their acts here

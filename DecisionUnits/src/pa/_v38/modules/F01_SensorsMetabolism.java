@@ -14,6 +14,7 @@ import pa._v38.interfaces.modules.I0_3_receive;
 import pa._v38.interfaces.modules.I1_2_receive;
 import pa._v38.interfaces.modules.I1_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eSensorIntType;
@@ -110,6 +111,8 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_basic() {
+		clsLogger.jlog.debug("\n\n\n===START OF PRIMARY PROCESS===");
+		
 		moHomeostasis_OUT = moHomeostasis_IN;
 		
 		putInterfaceData(I0_3_receive.class, moHomeostasis_OUT);

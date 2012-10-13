@@ -7,7 +7,6 @@
 package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -27,8 +26,6 @@ import org.jfree.data.general.DatasetUtilities;
 
 import pa._v38.interfaces.itfInspectorAreaChart;
 
-import sim.portrayal.Inspector;
-
 /**
  *  
  * 
@@ -36,7 +33,7 @@ import sim.portrayal.Inspector;
  * Sep 4, 2012, 9:35:36 AM
  * 
  */
-public class cls_AreaChartInspector extends Inspector {
+public class cls_AreaChartInspector extends cls_AbstractChartInspector {
 
 	
 	private static final long serialVersionUID = 8474252951041507982L;
@@ -47,38 +44,18 @@ public class cls_AreaChartInspector extends Inspector {
 	 * @see sim.portrayal.Inspector#updateInspector()
 	 */
 	private itfInspectorAreaChart moContainer;
-	private String moChartName;
-	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
 	
 	public cls_AreaChartInspector(itfInspectorAreaChart poObject){
-		this.moContainer = poObject;
-		this.moChartName =poObject.getAreaChartTitle();
+		super(poObject.getAreaChartTitle());
+		moContainer = poObject;
 		
-		createPanel();
+		moChartPanel=createPanel();
+		add(moChartPanel);
 	}
 	
-	@Override
-	public void updateInspector() {
-		
-		updateData();
-
-	}
-	
-	private void updateData(){
-
-		updateDataset(moDataset);
-		moChartPanel.repaint();
-	}
-
-	   protected void createPanel() {
-	    	ChartPanel oChartPanel = initChart(moChartName) ;
-	    	add(oChartPanel);
-	    	
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-	    }
- 
-	  private ChartPanel initChart(String poChartName) {
+  @Override
+	protected ChartPanel initChart() {
 
 		  
 	    	DefaultCategoryDataset dataset = createDataset();
@@ -143,31 +120,31 @@ public class cls_AreaChartInspector extends Inspector {
 	    
 	    
 	    
-	    private DefaultCategoryDataset updateDataset(DefaultCategoryDataset poDataset){
+	    @Override
+		protected void updateDataset(){
 	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getAreaChartData();
 	    	//column or row size of given data != column or row size of actual dataset
 	    	//->clear dataset and crate an new on out of given data
-	    	if(poDataset.getColumnCount()!=iContainer.get(0).size() || poDataset.getRowCount()!=iContainer.size()){
-	    		poDataset.clear();
+	    	if(moDataset.getColumnCount()!=iContainer.get(0).size() || moDataset.getRowCount()!=iContainer.size()){
+	    		moDataset.clear();
 	    		DefaultCategoryDataset iDataset = createDataset();
 	    		for (int i= 0; i<iDataset.getRowCount();i++){
 	    			for (int j=0; j<iDataset.getColumnCount();j++){
-	    				poDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
+	    				moDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
 	    			}
 	    		}
 	    	}
 	    	else{  
 			   for(int i =0 ;i< iContainer.size();i++){
 		    		for(int j=0;j<iContainer.get(0).size();j++){
-		    			if(!poDataset.getValue(moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
-		    				poDataset.setValue(iContainer.get(i).get(j), moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j));
+		    			if(!moDataset.getValue(moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
+		    				moDataset.setValue(iContainer.get(i).get(j), moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j));
 		    			}
 		    			//poDataset.addValue(iContainer.get(i).get(j), moContainer.getAreaChartAreaCaptions().get(i), moContainer.getAreaChartColumnCaptions().get(j));
 		    		}
 		    		
 			   }
 	    	}
-	    	return poDataset;
 	    }
 
 }

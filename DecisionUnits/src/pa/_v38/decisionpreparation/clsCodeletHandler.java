@@ -33,6 +33,7 @@ public class clsCodeletHandler {
 	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 
 	private ArrayList<clsWordPresentationMesh> moGoalListFromF51 = new ArrayList<clsWordPresentationMesh>();
+	//private ArrayList<clsWordPresentationMesh> moAssociatedMemoriesFromF51 = new ArrayList<clsWordPresentationMesh>();
 
 	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
 	private ArrayList<clsDecisionCodelet> moDecisionCodeletList = new ArrayList<clsDecisionCodelet>();
@@ -155,8 +156,7 @@ public class clsCodeletHandler {
 	 * 
 	 * @param moGoalListFromF51 the moGoalListFromF51 to set
 	 */
-	public void setGoalListFromF51(
-			ArrayList<clsWordPresentationMesh> moGoalListFromF51) {
+	public void setGoalListFromF51(ArrayList<clsWordPresentationMesh> moGoalListFromF51) {
 		this.moGoalListFromF51 = moGoalListFromF51;
 	}
 
@@ -342,7 +342,5 @@ public class clsCodeletHandler {
 		clsLogger.jlog.debug(oTypeString + oCList.toString());
 		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
-
-
 	
 }
