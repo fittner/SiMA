@@ -301,12 +301,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					if (moExternalAssociatedContent.isEmpty()==false) {
 						oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
 						for (clsAssociation oEntry : moExternalAssociatedContent) {
-							oResult += oEntry.toString() + ";"; 
+							clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
+							if (oDS instanceof clsWordPresentationMesh) {
+								oResult += ((clsWordPresentationMesh)oDS).moContentType + ":" + ((clsWordPresentationMesh)oDS).moContent + ", "; 
+							} else {
+								oResult += oDS.toString()  + ","; 
+							}
 						}
 					}
 				}
 				
-			} else if (this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
+			} else if (this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION) || this.moContentType.equals(eContentType.PHI)) {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContentType + ":" + this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
@@ -319,7 +324,12 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				if (moExternalAssociatedContent.isEmpty()==false) {
 					oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
 					for (clsAssociation oEntry : moExternalAssociatedContent) {
-						oResult += oEntry.toString() + ";"; 
+						clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
+						if (oDS instanceof clsWordPresentationMesh) {
+							oResult += ((clsWordPresentationMesh)oDS).moContentType + ":" + ((clsWordPresentationMesh)oDS).moContent + ", "; 
+						} else {
+							oResult += oDS.toString()  + ","; 
+						}
 					}
 				}
 			} else if (this.moContentType.equals(eContentType.ACT)) {

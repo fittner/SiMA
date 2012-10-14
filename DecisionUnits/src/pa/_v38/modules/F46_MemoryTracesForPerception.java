@@ -25,6 +25,7 @@ import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -179,6 +180,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
 		
+		clsLogger.jlog.debug("PI: " + oPerceivedImage.toString());
 		moPerceptionalMesh_OUT = oPerceivedImage;
 		
 	}
@@ -540,7 +542,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
-			if (clsMeshTools.getSELF(poReturnedPhantasyImage)==null) {
+			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
 				clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity("SELF", "", "");
 				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
 				oSELFList.add(oSELF);
