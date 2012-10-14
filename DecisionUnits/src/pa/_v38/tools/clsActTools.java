@@ -507,6 +507,45 @@ public class clsActTools {
 		return oResult;
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 25.07.2012 20:00:34
+	 *
+	 * @param poSourceIntention
+	 * @param poTargetIntention
+	 */
+	public static void transferAllPIMatches(clsWordPresentationMesh poSourceIntention, clsWordPresentationMesh poTargetIntention) {
+		
+		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
+			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
+				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {
+					copyPIMatches(oS, oT);
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Copy a PI match from one image to another
+	 * 
+	 * (wendt)
+	 *
+	 * @since 14.10.2012 12:30:22
+	 *
+	 * @param poSourceImage
+	 * @param poTargetImage
+	 */
+	private static void copyPIMatches(clsWordPresentationMesh poSourceImage, clsWordPresentationMesh poTargetImage) {
+		//Get PI-Match
+		double rPIMatch = clsActTools.getPIMatchFlag(poSourceImage);
+		
+		//Set PI-Match
+		clsActTools.setPIMatch(poTargetImage, rPIMatch);
+	}
+	
 		
 	// ============== ACT CATEGORIZATION START ==============================//
 	

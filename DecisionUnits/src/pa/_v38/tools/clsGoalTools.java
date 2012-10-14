@@ -929,30 +929,65 @@ public class clsGoalTools {
 		return oResultList;
 	}
 	
+
 	/**
-	 * Get all goals, which are using the same supportive data structure, i.e name and type (like ACT)
+	 * Compare a goal with a list of goals and if the same supportive data structures are used, then return them. 
 	 * 
 	 * (wendt)
 	 *
-	 * @since 23.07.2012 16:30:38
+	 * @since 14.10.2012 12:20:41
 	 *
-	 * @param poGoalList
-	 * @param poCompareGoal
+	 * @param poGoalList: List of goals
+	 * @param poCompareGoal: Compare goal, which supportive data structure shall be found in the list
+	 * @param pbStopAtFirstMatch: Stop at the first match
+	 * @param pbIncludeCurrentGoal: If another instance of the current goal is found, include it in the list
+	 * @param pbCompareByInstance: Compare the supportive data structure by instance comparison, else by content
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMesh> getOtherGoalsWithSameSupportiveDataStructure(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal) {
+	public static ArrayList<clsWordPresentationMesh> getOtherGoalsWithSameSupportiveDataStructure(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal, boolean pbStopAtFirstMatch, boolean pbIncludeCurrentGoal, boolean pbCompareByInstance) {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh poGoalFromList : poGoalList) {
-			if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
-					clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal) &&
-					clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
-				oResult.add(poGoalFromList);
+			if (pbIncludeCurrentGoal==true) {
+				if (pbCompareByInstance==true) {
+					if (clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal)) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					if (clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				}
+			} else {
+				if (pbCompareByInstance==true) {
+					if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
+							clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal)) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
+							clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				}
 			}
 		}
-		
 		return oResult;
 	}
+	
+	
 
 }
 	
