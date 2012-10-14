@@ -134,6 +134,9 @@ public class clsPsychicApparatus {
 	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
 	public clsShortTermMemory moGoalMemory;
 	
+	/** (havlicek) The instance of ShortTermMemory for managing the concepts; @since 12.10.2012 17:12:15 */
+	public clsShortTermMemory moConceptMemory;
+	
 	public clsCodeletHandler moCodeletHandler;
 	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
@@ -192,6 +195,7 @@ public class clsPsychicApparatus {
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory(60, 7);
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
+		moConceptMemory = new clsShortTermMemory(60, 7);
 		
 		//Init codelethandler
 		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);

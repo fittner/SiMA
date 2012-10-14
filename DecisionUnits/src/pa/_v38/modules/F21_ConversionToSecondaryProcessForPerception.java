@@ -144,7 +144,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = new clsShortTermMemory(1,1); //FIXME ISABELLA: Dont use the environmental image storage to init your memory. It does not work properly then//poConceptMemory;
+		this.moConceptMemory = poConceptMemory; //FIXME ISABELLA: Dont use the environmental image storage to init your memory. It does not work properly then//poConceptMemory;
 
 	}
 	
@@ -281,6 +281,7 @@ private void fillConcept() {
 
 		// --- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
+		this.moConceptMemory.updateTimeSteps();
 		
 		//--- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
@@ -320,18 +321,10 @@ private void fillConcept() {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * For the TPM as input, assign all of them with WPM images
-	 * Return a pair of 1) Perception, 2) A list of memories. This function extracts all acts and other 
-	 * memories from the primary process data structures. The list of memories is categorized in acts from the images
-=======
 	 * For the TPM as input, assign all of them with WPM images Return a pair of
 	 * 1) Peception, 2) A list of memories. This function extracts all acts and
 	 * other memories from the primary process data structures. The list of
 	 * memories is categorized in acts from the images
->>>>>>> e61ceb1d2a51a0954a64232c38a3647a95f9a245
-	 * 
-	 * (wendt)
 	 * 
 	 * @since 25.01.2012 13:55:04
 	 * 

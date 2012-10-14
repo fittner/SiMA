@@ -14,16 +14,22 @@ import java.util.Set;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (hinterleitner) - insert description
+ * DOCUMENT (hinterleitner) - The clsConcept class represents the collected
+ * ConceptEntities for one agent in one step.
  * 
  * @author hinterleitner 19.05.2012, 16:28:04
  * 
  */
 public class clsConcept {
 
+	/**
+	 * The Concept stored as a {@link clsWordPresentationMesh} to enable
+	 * integration into the memory.
+	 */
 	protected clsWordPresentationMesh moConceptMesh;
 
 	private clsTriple<Integer, eDataType, eContentType> moActionTriple;
@@ -31,7 +37,11 @@ public class clsConcept {
 	private clsTriple<Integer, eDataType, eContentType> moDistanceTriple;
 	private clsTriple<Integer, eDataType, eContentType> moEmotionTriple;
 
+	/** Internal Helper for the generation of the clsConcept. */
 	private Set<Integer> moVisitedWPMs;
+
+	/** The String representations of the ConceptEntities */
+	private List<clsQuadruppel<Entity, Action, Emotion, Distance>> moConceptEntities;
 
 	/**
 	 * DOCUMENT (hinterleitner) - Basic Constructor for a new Concept
@@ -55,59 +65,99 @@ public class clsConcept {
 				eDataType.CONCEPT, eContentType.EMOTION);
 
 		moVisitedWPMs = new HashSet<Integer>();
+
+		moConceptEntities = new ArrayList<clsQuadruppel<Entity, Action, Emotion, Distance>>();
 	}
 
-	public void addWPMs(List<clsWordPresentationMesh> in) {
-		for (clsWordPresentationMesh wpm : in) {
-			addWPMs(wpm);
+	/**
+	 * DOCUMENT (havlicek) - insert description
+	 * 
+	 * @since 13.10.2012 16:59:05
+	 * 
+	 * @param oWPMs
+	 */
+	public void addWPMs(List<clsWordPresentationMesh> oWPMs) {
+		for (clsWordPresentationMesh wpm : oWPMs) {
+			checkDataStructure(wpm);
 		}
 	}
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - Method to integrate clsWordPresentationMesh into the
-	 * concept. This method splits up the wpm and forwards interesting parts to
-	 * be integrated.
+	 * DOCUMENT (havlicek) - insert description
+	 * 
+	 * @since 13.10.2012 16:59:12
+	 * 
+	 * @param oWPMs
+	 */
+	public void addWPMs(clsWordPresentationMesh... oWPMs) {
+		for (clsWordPresentationMesh wpm : oWPMs) {
+			checkDataStructure(wpm);
+		}
+	}
+
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - Method to integrate clsWordPresentationMesh into
+	 * the concept. This method splits up the wpm and forwards interesting parts
+	 * to be integrated.
 	 * 
 	 * @since 16.09.2012 14:05:29
 	 * 
 	 * @param in
 	 *            the wpms to be checked for interesting wpms
 	 */
-	public void addWPMs(clsWordPresentationMesh... in) {
+	public void checkDataStructure(clsDataStructurePA moDataStructurePA) {
 
-		for (clsWordPresentationMesh wpm : in) {
-			//TODO IH: use logger to print or disable test prints before pushing System.out.println("Checking WPM: " + wpm.toString());
-			if (moVisitedWPMs.contains(wpm.hashCode())) {
+		if (null == moDataStructurePA
+				|| moVisitedWPMs.contains(moDataStructurePA.hashCode())) {
 
-			} else {
-				moVisitedWPMs.add(wpm.hashCode());
-				if (eDataType.EMOTION.equals(wpm.moDataStructureType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.EMOTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.BASICEMOTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEmotionTriple);
-				} else if (eContentType.ENTITY.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moEntityTriple);
-				} else if (eContentType.ACTION.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moActionTriple);
-				} else if (eContentType.DISTANCE.equals(wpm.moContentType)) {
-					integrateWPM(wpm, moDistanceTriple);
-				}
-
-				for (clsAssociation externalAssociation : wpm.moExternalAssociatedContent) {
+		} else {
+			// clsLogger.jlog.debug("checking " + moDataStructurePA);
+			moVisitedWPMs.add(moDataStructurePA.hashCode());
+			if (eDataType.EMOTION.equals(moDataStructurePA.moDataStructureType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.EMOTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.BASICEMOTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			} else if (eContentType.ENTITY
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moEntityTriple);
+			} else if (eContentType.ACTION
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moActionTriple);
+			} else if (eContentType.DISTANCE
+					.equals(moDataStructurePA.moContentType)) {
+				integrateDataStructure(moDataStructurePA, moDistanceTriple);
+			}
+			if (moDataStructurePA instanceof clsWordPresentationMesh) {
+				clsWordPresentationMesh mesh = (clsWordPresentationMesh) moDataStructurePA;
+				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
 					checkAssociation(externalAssociation);
 				}
-				for (clsAssociation internalAssociation : wpm.moInternalAssociatedContent) {
+				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
 					checkAssociation(internalAssociation);
 				}
 			}
+			if (moDataStructurePA instanceof clsThingPresentationMesh) {
+				clsThingPresentationMesh mesh = (clsThingPresentationMesh) moDataStructurePA;
+				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
+					checkAssociation(externalAssociation);
+				}
+				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
+					checkAssociation(internalAssociation);
+				}
+			}
+
 		}
+
 	}
 
 	/**
-	 * DOCUMENT (ende) - integrate a given wpm into the concept mesh. It is
+	 * DOCUMENT (havlicek) - integrate a given wpm into the concept mesh. It is
 	 * needed to seperate the interesting part from any associations in order to
 	 * save space.
 	 * 
@@ -118,24 +168,23 @@ public class clsConcept {
 	 * @param identifier
 	 *            the clsTriple to be used for identifying the WPM
 	 */
-	private void integrateWPM(clsWordPresentationMesh mesh,
+	private void integrateDataStructure(clsDataStructurePA moDataStructurePA,
 			clsTriple<Integer, eDataType, eContentType> identifier) {
 
 		clsWordPresentationMesh newMesh = new clsWordPresentationMesh(
-				new clsTriple<Integer, eDataType, eContentType>(mesh.moDS_ID,
-						mesh.moDataStructureType, mesh.moContentType),
-				new ArrayList<clsAssociation>(), mesh.moContent);
-
+				new clsTriple<Integer, eDataType, eContentType>(
+						moDataStructurePA.moDS_ID,
+						moDataStructurePA.moDataStructureType,
+						moDataStructurePA.moContentType),
+				new ArrayList<clsAssociation>(), " ");
+		newMesh.moDS_ID = 0 + moDataStructurePA.moDS_ID;
 		// TODO select fitting ePredicate
 		clsAssociation association = new clsAssociationSecondary(identifier,
 				moConceptMesh, newMesh, ePredicate.NONE);
 
-		if (moConceptMesh.moInternalAssociatedContent.contains(newMesh)) {
+		if (moConceptMesh.moInternalAssociatedContent.contains(association)) {
 
 		} else {
-			//System.out.println("Integrating WPM: " + mesh.toString()); 
-			//FIXME IH: Use logger
-
 			ArrayList<clsAssociation> associations = new ArrayList<clsAssociation>();
 			associations.add(association);
 			moConceptMesh.addInternalAssociations(associations);
@@ -143,8 +192,121 @@ public class clsConcept {
 	}
 
 	/**
+	 * DOCUMENT (havlicek) - Method to integrate an Entity into the String
+	 * representation of a ConceptEntity.
 	 * 
-	 * DOCUMENT (ende) - helper method to split up the check concerning
+	 * @since 13.10.2012 17:13:17
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oContent
+	 *            the Name of the Entity
+	 */
+	private void integrateEntity(Integer oDS_ID, String oContent) {
+		Entity entity = new Entity();
+		entity.setEntity(oDS_ID, oContent);
+		boolean entityKnown = false;
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.equals(entity)) {
+				entityKnown = true;
+			}
+		}
+		if (!entityKnown) {
+			// clsLogger.jlog.debug("Concept: found Entity " +
+			// entity.toString());
+			moConceptEntities
+					.add(new clsQuadruppel<clsConcept.Entity, clsConcept.Action, clsConcept.Emotion, clsConcept.Distance>(
+							entity, new Action(), new Emotion(), new Distance()));
+		}
+	}
+
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - Method to integrate a Distance into the String
+	 * representation of a ConceptEntity
+	 * 
+	 * @since 13.10.2012 17:14:23
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oEntityContent
+	 *            the Name of the Entity
+	 * @param oDistanceContent
+	 *            the String representation of the Distance of the specified
+	 *            Entity
+	 */
+	private void integrateDistance(Integer oDS_ID, String oEntityContent,
+			String oDistanceContent) {
+		integrateEntity(oDS_ID, oEntityContent);
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				// clsLogger.jlog.info("Concept: found Distance " +
+				// oDistanceContent);
+				conceptEntity.d.setDistance((String) oDistanceContent);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * DOCUMENT (havlicek) - Method to integrate a Position into the String
+	 * representation of a ConceptEntity
+	 * 
+	 * @since 13.10.2012 17:24:28
+	 * 
+	 * @param oDS_ID
+	 *            the ID of the Entity
+	 * @param oEntityContent
+	 *            the Name of the Entity
+	 * @param oPositionContent
+	 *            the String representation of the Position of the specified
+	 *            Entity
+	 */
+	private void integratePosition(Integer oDS_ID, String oEntityContent,
+			String oPositionContent) {
+		integrateEntity(oDS_ID, oEntityContent);
+
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (conceptEntity.a.moDS_ID == oDS_ID) {
+				// clsLogger.jlog.info("Concept: found Position " +
+				// oPositionContent);
+				conceptEntity.d.setPosition((String) oPositionContent);
+				return;
+			}
+		}
+	}
+
+	/**
+	 * DOCUMENT (ende) - internal helper method to extract the String
+	 * representing the Content from different extensions of the
+	 * clsDataStructurePA.
+	 * 
+	 * @since 13.10.2012 17:30:16
+	 * 
+	 * @param oDataStructure
+	 *            A class instance of a any extended class of clsDataStructurePA
+	 *            from which the Content should be extracted.
+	 * @return the String representation of the Content
+	 */
+	private String extractContentString(clsDataStructurePA oDataStructure) {
+		if (oDataStructure instanceof clsWordPresentation) {
+			return ((clsWordPresentation) oDataStructure).moContent;
+		} else if (oDataStructure instanceof clsWordPresentationMesh) {
+			return ((clsWordPresentationMesh) oDataStructure).moContent;
+		} else if (oDataStructure instanceof clsThingPresentation) {
+			return ((clsThingPresentation) oDataStructure).getMoContent()
+					.toString();
+		} else if (oDataStructure instanceof clsThingPresentationMesh) {
+			return ((clsThingPresentationMesh) oDataStructure).getMoContent()
+					.toString();
+		}
+
+		return "";
+	}
+
+	/**
+	 * 
+	 * DOCUMENT (havlicek) - helper method to split up the check concerning
 	 * Associations.
 	 * 
 	 * @since 16.09.2012 17:49:44
@@ -152,17 +314,30 @@ public class clsConcept {
 	 * @param association
 	 */
 	private void checkAssociation(clsAssociation association) {
-		if (association.moAssociationElementA instanceof clsWordPresentationMesh) {
-			addWPMs((clsWordPresentationMesh) association.moAssociationElementA);
-		}
-		if (association.moAssociationElementB instanceof clsWordPresentationMesh) {
-			addWPMs((clsWordPresentationMesh) association.moAssociationElementB);
+
+		checkDataStructure(association.moAssociationElementA);
+		checkDataStructure(association.moAssociationElementB);
+
+		if (eContentType.ASSOCIATIONATTRIBUTE.equals(association.moContentType)) {
+			if (eContentType.POSITION
+					.equals(association.moAssociationElementB.moContentType)) {
+				integratePosition(
+						association.moAssociationElementA.moDS_ID,
+						extractContentString(association.moAssociationElementA),
+						extractContentString(association.moAssociationElementB));
+			} else if (eContentType.DISTANCE
+					.equals(association.moAssociationElementB.moContentType)) {
+				integrateDistance(
+						association.moAssociationElementA.moDS_ID,
+						extractContentString(association.moAssociationElementA),
+						extractContentString(association.moAssociationElementB));
+			}
 		}
 	}
 
 	/**
-	 * DOCUMENT (ende) - Get the current content of the Concept together with
-	 * its WPM.
+	 * DOCUMENT (havlicek) - Get the current content of the Concept together
+	 * with its WPM.
 	 * 
 	 * @since 30.09.2012 17:09:03
 	 * 
@@ -173,7 +348,7 @@ public class clsConcept {
 	}
 
 	/**
-	 * DOCUMENT (ende) - Get the current content of the Concept as String
+	 * DOCUMENT (havlicek) - Get the current content of the Concept as String
 	 * 
 	 * @since 30.09.2012 17:10:14
 	 * 
@@ -197,6 +372,8 @@ public class clsConcept {
 					+ moConceptMesh.moInternalAssociatedContent.toString()
 					+ "]";
 		}
+		text += "\n";
+		text += moConceptEntities.toString();
 		return text;
 	}
 
@@ -240,4 +417,183 @@ public class clsConcept {
 		return true;
 	}
 
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an entity.
+	 * 
+	 * @author havlicek 13.10.2012, 15:25:03
+	 * 
+	 */
+	public class Entity {
+
+		private int moDS_ID = -1;
+		private String moEntity = "";
+
+		public void setEntity(int oDS_ID, String oContent) {
+			moDS_ID = oDS_ID;
+			moEntity = oContent;
+		}
+
+		@Override
+		public String toString() {
+			String text = "(";
+			text += moEntity;
+			text += ":";
+			text += moDS_ID;
+			text += ")";
+			return text;
+		}
+
+		@Override
+		public boolean equals(Object other) {
+			if (other instanceof Entity) {
+				Entity o = (Entity) other;
+				boolean isEqual = true;
+				if (moDS_ID != o.moDS_ID) {
+					isEqual = false;
+				}
+				if (!moEntity.equals(o.moEntity)) {
+					isEqual = false;
+
+				}
+				return isEqual;
+			}
+			return false;
+		}
+	}
+
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an action.
+	 * 
+	 * @author havlicek 13.10.2012, 15:24:48
+	 * 
+	 */
+	public class Action {
+
+		private String moAction = "";
+
+		/**
+		 * @since 13.10.2012 15:27:57
+		 * 
+		 * @return the moAction
+		 */
+		public String getAction() {
+			return moAction;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:57
+		 * 
+		 * @param moAction
+		 *            the moAction to set
+		 */
+		public void setAction(String moAction) {
+			this.moAction = moAction;
+		}
+
+		@Override
+		public String toString() {
+			String text = "";
+			text += moAction;
+			return text;
+		}
+
+	}
+
+	/**
+	 * DOCUMENT (havlicek) - internal representation of an emotion.
+	 * 
+	 * @author havlicek 13.10.2012, 15:24:33
+	 * 
+	 */
+	public class Emotion {
+
+		private String moEmotion = "";
+
+		@Override
+		public String toString() {
+			String text = "";
+			text += moEmotion;
+			return text;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:11
+		 * 
+		 * @return the moEmotion
+		 */
+		public String getMoEmotion() {
+			return moEmotion;
+		}
+
+		/**
+		 * @since 13.10.2012 15:27:11
+		 * 
+		 * @param moEmotion
+		 *            the moEmotion to set
+		 */
+		public void setMoEmotion(String moEmotion) {
+			this.moEmotion = moEmotion;
+		}
+	}
+
+	/**
+	 * DOCUMENT (havlicek) - internal representation of a distance.
+	 * 
+	 * @author havlicek 13.10.2012, 15:23:53
+	 * 
+	 */
+	public class Distance {
+
+		private String moDistance = "";
+		private String moPosition = "";
+
+		/**
+		 * @since 13.10.2012 12:01:28
+		 * 
+		 * @return the moPosition
+		 */
+		public String getPosition() {
+			return moPosition;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:28
+		 * 
+		 * @param moPosition
+		 *            the moPosition to set
+		 */
+		public void setPosition(String moPosition) {
+			this.moPosition = moPosition;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:42
+		 * 
+		 * @return the moDistance
+		 */
+		public String getDistance() {
+			return moDistance;
+		}
+
+		/**
+		 * @since 13.10.2012 12:01:42
+		 * 
+		 * @param moDistance
+		 *            the moDistance to set
+		 */
+		public void setDistance(String moDistance) {
+			this.moDistance = moDistance;
+		}
+
+		@Override
+		public String toString() {
+			String text = "(";
+			text += moDistance;
+			text += ":";
+			text += moPosition;
+			text += ")";
+			return text;
+		}
+
+	}
 }
