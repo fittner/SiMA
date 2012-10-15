@@ -6,6 +6,8 @@
  */
 package pa._v38.decisionpreparation.initcodelets;
 
+import java.util.ArrayList;
+
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
@@ -15,6 +17,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -72,6 +75,27 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
 			clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
+			
+			//Get new information for this goal from the incoming goals
+			//TODO AW: Put this part into an own codelet
+			
+			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
+			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal, true, true, false);
+			if (oGoalWithSameAct.isEmpty()==false) {
+				//Get the act
+				clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+				clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			
+				//Merge the acts
+				clsMeshTools.mergeMesh(oCurrentAct, oNewAct);
+				
+				//Add the PI matches to the images of the act
+				//clsActTools.transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
+			}
+
+			//-----------------------------------------------//
+			
+			
 			
 		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 

@@ -6,6 +6,10 @@
  */
 package pa._v38.decisionpreparation;
 
+import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+
 /**
  * DOCUMENT (wendt) - insert description 
  * 
@@ -14,6 +18,8 @@ package pa._v38.decisionpreparation;
  * 
  */
 public abstract class clsInitCodelet extends clsCodelet {
+	
+	protected ArrayList<clsWordPresentationMesh> moReachableGoalList;
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -24,6 +30,8 @@ public abstract class clsInitCodelet extends clsCodelet {
 	 */
 	public clsInitCodelet(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
+		
+		moReachableGoalList = this.moCodeletHandler.getGoalListFromF51();
 		
 	}
 

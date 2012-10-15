@@ -2018,14 +2018,14 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsThingPresentationMesh getSELF(clsThingPresentationMesh poImage) {
-		 clsThingPresentationMesh oTPMRetVal = null;
+		clsThingPresentationMesh oTPMRetVal = clsMeshTools.getNullObjectTPM();
 		
-		for (clsAssociation oAss : ((clsThingPresentationMesh)poImage).getMoInternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-				if (((clsThingPresentationMesh)oAss.getLeafElement()).getMoContent().equals(eContent.SELF)) {
-					oTPMRetVal = (clsThingPresentationMesh)oAss.getLeafElement();
-					break;
-				}
+		ArrayList<clsThingPresentationMesh> oEntites = clsMeshTools.getAllSubTPMFromTPM(poImage);
+		
+		for (clsThingPresentationMesh oEntity : oEntites) {
+			if (oEntity.getMoContent().equals(eContent.SELF.toString())==true) {
+				oTPMRetVal = oEntity;
+				break;
 			}
 		}
 			
@@ -2596,7 +2596,7 @@ public class clsMeshTools {
 	private static void addWPMImageToWPMImageMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poNewStructure) {
 		//Check if this instance already exists in the mesh
 		clsWordPresentationMesh oExistingMesh = searchInstanceOfDataStructureInWPMImageMeshbyHashCode(poMoveToMesh, poNewStructure);
-		if (oExistingMesh.isNullObject()==true) {
+		if (oExistingMesh.isNullObject()==false) {
 			//Nothing has to be done as the structure already exists
 			return;
 		}
