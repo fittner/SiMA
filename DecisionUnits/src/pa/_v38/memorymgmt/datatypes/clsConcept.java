@@ -63,7 +63,7 @@ public class clsConcept {
 				eDataType.CONCEPT, eContentType.DISTANCE);
 		moEmotionTriple = new clsTriple<Integer, eDataType, eContentType>(1,
 				eDataType.CONCEPT, eContentType.EMOTION);
-
+		
 		moVisitedWPMs = new HashSet<Integer>();
 
 		moConceptEntities = new ArrayList<clsQuadruppel<Entity, Action, Emotion, Distance>>();
@@ -96,6 +96,17 @@ public class clsConcept {
 		}
 	}
 
+	public void addMentalSituation(clsWordPresentationMesh oMentalSituation) {
+		String situation = oMentalSituation.toString();
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
+			if (situation.contains(conceptEntity.a.moEntity)) {
+				String[] situationArray = situation.split(":");
+				situationArray[situationArray.length-1] = situationArray[situationArray.length-1].replace(";", "");
+				conceptEntity.b.setAction(situationArray[situationArray.length-1]);
+			}
+		}
+	}
+	
 	/**
 	 * 
 	 * DOCUMENT (havlicek) - Method to integrate clsWordPresentationMesh into
@@ -361,18 +372,18 @@ public class clsConcept {
 	@Override
 	public String toString() {
 		String text = "";
-		text += moConceptMesh.toString();
-		if (null != moConceptMesh.moInternalAssociatedContent) {
-			text += "[internal: "
-					+ moConceptMesh.moInternalAssociatedContent.toString()
-					+ "]";
-		}
-		if (null != moConceptMesh.moExternalAssociatedContent) {
-			text += "[external: "
-					+ moConceptMesh.moInternalAssociatedContent.toString()
-					+ "]";
-		}
-		text += "\n";
+//		text += moConceptMesh.toString();
+//		if (null != moConceptMesh.moInternalAssociatedContent) {
+//			text += "[internal: "
+//					+ moConceptMesh.moInternalAssociatedContent.toString()
+//					+ "]";
+//		}
+//		if (null != moConceptMesh.moExternalAssociatedContent) {
+//			text += "[external: "
+//					+ moConceptMesh.moInternalAssociatedContent.toString()
+//					+ "]";
+//		}
+//		text += "\n";
 		text += moConceptEntities.toString();
 		return text;
 	}
