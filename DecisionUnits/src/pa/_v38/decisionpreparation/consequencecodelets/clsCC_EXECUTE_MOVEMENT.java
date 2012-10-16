@@ -50,6 +50,7 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		//Remove conditions for the movement
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_ON);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_BASIC_ACT_ANALYSIS);
 		
 	}
 

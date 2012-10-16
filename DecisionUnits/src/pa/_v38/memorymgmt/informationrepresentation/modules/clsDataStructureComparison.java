@@ -581,7 +581,7 @@ public abstract class clsDataStructureComparison {
 //				e.printStackTrace();
 //			}
 			
-			if (poInput.getMoDS_ID()>0 && pnLevel >=0) {
+			if (oRetVal.getMoDS_ID()>0 && pnLevel >=0) {
 				//Get the internal associations
 				//Add associations from intrinsic structures
 				for (clsAssociation oAss: oRetVal.getMoInternalAssociatedContent()) {
@@ -609,23 +609,44 @@ public abstract class clsDataStructureComparison {
 				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
 				
 				for (clsAssociation oAss : oAssList) {
-					if (oAss instanceof clsAssociationPrimary) {
-						//If pnLevel is at least 1 and this association does not exist in the list
-						if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oAss)==false) {
-							oRetVal.getExternalMoAssociatedContent().add(oAss);
-							//Replace the erroneous associations
-							if (oRetVal.getMoDS_ID()==oAss.getRootElement().getMoDS_ID()) {
-								oAss.setRootElement(oRetVal);
-							} else if (oRetVal.getMoDS_ID()==oAss.getLeafElement().getMoDS_ID()) {
-								oAss.setLeafElement(oRetVal);
-							}
-							
+					//Check if the association already exists
+					//FIXME: This is a hack to avoid that multiple Drive Meshes are added to the same structure
+					
+					boolean bFound = false;
+					for (clsAssociation oExternalAss : oRetVal.getExternalMoAssociatedContent()) {
+						if (oAss.getMoDS_ID()==oExternalAss.getMoDS_ID()) {
+							bFound=true;
+							break;
 						}
-					} else {
-						oRetVal.getExternalMoAssociatedContent().add(oAss);
 					}
+					
+					if (bFound==false) {
+						try {
+							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
+							
+							if (oClonedAss instanceof clsAssociationPrimary) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+									//Replace the erroneous associations
+									if (oRetVal.getMoDS_ID()==oClonedAss.getRootElement().getMoDS_ID()) {
+										oClonedAss.setRootElement(oRetVal);
+									} else if (oRetVal.getMoDS_ID()==oClonedAss.getLeafElement().getMoDS_ID()) {
+										oClonedAss.setLeafElement(oRetVal);
+									}
+									
+								}
+							} else {
+								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+							}
+						} catch (CloneNotSupportedException e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+					
+					
 				}
-				
 				//oRetVal.setMoExternalAssociatedContent(oAssList);
 				
 			}

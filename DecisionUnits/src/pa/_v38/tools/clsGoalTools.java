@@ -659,9 +659,10 @@ public class clsGoalTools {
 		oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
 		
 		//Get from all subimages too
-		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
-			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
-		}
+//		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
+//			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
+//		}
+		//No sub images are used as goals
 		
 		return oRetVal;
 	}

@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -194,7 +195,7 @@ public class clsActTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double getSecondaryMatchValueToPI(clsWordPresentationMesh poImage) {
+	public static double getSecondaryMatchValueToPIFromPrimaryPart(clsWordPresentationMesh poImage) {
 		double rRetVal = 0.0;
 		
 		//Get the primary datastructure
@@ -241,12 +242,35 @@ public class clsActTools {
 	 */
 	private static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
 		//Get the PI-match
-		double rPIMatchValue = getSecondaryMatchValueToPI(poImage);
+		double rPIMatchValue = getSecondaryMatchValueToPIFromPrimaryPart(poImage);
 		
 		if (rPIMatchValue>0.0) {
 			//Add new WP to image
 			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue), false);
 		}
+	}
+	
+	/**
+	 * Get the PI match of an image in the secondary process. This function only gets the secondary process match, which is set in a WP and is not taking the match from 
+	 * the primary process.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.10.2012 21:14:41
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static double getPIMatch(clsWordPresentationMesh poImage) {
+		double rResult = 0.0;
+		
+		clsWordPresentation oPIMatch = clsMeshTools.getUniquePredicateWP(poImage, ePredicate.HASPIMATCH);
+		
+		if (oPIMatch!=null) {
+			rResult = Double.valueOf(oPIMatch.getMoContent());
+		}
+		
+		return rResult;
 	}
 	
 	/**
@@ -544,6 +568,20 @@ public class clsActTools {
 		
 		//Set PI-Match
 		clsActTools.setPIMatch(poTargetImage, rPIMatch);
+	}
+	
+	/**
+	 * Get the recommended action from an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.10.2012 22:12:37
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static eAction getRecommendedAction(clsWordPresentationMesh poImage) {
+		return eAction.valueOf(clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION).getMoContent());
 	}
 	
 		

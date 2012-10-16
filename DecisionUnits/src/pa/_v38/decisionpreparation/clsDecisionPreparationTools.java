@@ -89,7 +89,9 @@ public class clsDecisionPreparationTools {
 				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				
 				//Add to goallist
-				poGoalList.add(oNewGoalFromPrevious);
+				if (poGoalList.contains(oNewGoalFromPrevious)==false) {
+					poGoalList.add(oNewGoalFromPrevious);
+				}
 				oResult = oNewGoalFromPrevious;	
 				
 				clsGoalTools.setCondition(oResult, eCondition.IS_MEMORY_SOURCE);	//FIXME: This operation should not be necessary here

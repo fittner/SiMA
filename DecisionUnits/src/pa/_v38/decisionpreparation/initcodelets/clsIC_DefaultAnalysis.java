@@ -6,8 +6,6 @@
  */
 package pa._v38.decisionpreparation.initcodelets;
 
-import java.util.ArrayList;
-
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
@@ -62,6 +60,9 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
 			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
 		}
+		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
+			clsGoalTools.setCondition(this.moGoal, eCondition.SET_BASIC_ACT_ANALYSIS);
+		}
 		
 		
 		//Transfer previous stati in special
@@ -71,32 +72,49 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 			
 		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
 			
-			//Remove all PI-matches from the images
-			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSupportiveDataStructure);
+			//Get the act from the continued goal
+			clsWordPresentationMesh poNewAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			
+			//Get the act of the previous goal
+			clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
+			
+			//Set the Act of the previous goal as the new act of the continued goal
+			if (oPreviousAct.isNullObject()==false) {
+				try {
+					clsWordPresentationMesh oClonedPreviousAct = (clsWordPresentationMesh) oPreviousAct.clone();
+					//Set the cloned act as this act
+					clsGoalTools.setSupportiveDataStructure(this.moGoal, oClonedPreviousAct);
+					
+				} catch (CloneNotSupportedException e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
+			//Remove all PI-matches from the images in this goal
+			clsWordPresentationMesh oContinuedSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oContinuedSupportiveDataStructure);
 			clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 			
 			//Get new information for this goal from the incoming goals
 			//TODO AW: Put this part into an own codelet
 			
 			//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
-			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal, true, true, false);
-			if (oGoalWithSameAct.isEmpty()==false) {
-				//Get the act
-				clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
-				clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			//ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal, true, true, false);
+			//if (oGoalWithSameAct.isEmpty()==false) {
+			//Get the act
+			//clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+			//clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
 			
-				//Merge the acts
-				clsMeshTools.mergeMesh(oCurrentAct, oNewAct);
+			//Merge the acts
+			clsMeshTools.mergeMesh(oContinuedSupportiveDataStructure, poNewAct);
 				
-				//Add the PI matches to the images of the act
+			//Add the PI matches to the images of the act
 				//clsActTools.transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
-			}
+			//}
 
 			//-----------------------------------------------//
-			
-			
-			
+
 		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 
 			if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.COMPOSED_CODELET)==true) {

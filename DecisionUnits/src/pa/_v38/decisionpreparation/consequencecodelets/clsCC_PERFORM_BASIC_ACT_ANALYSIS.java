@@ -55,25 +55,14 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	protected void processGoal() {
 		//Get Previous goal
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(this.moShortTermMemory.findPreviousSingleMemory());
+		//clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory());
 		
-		//Perform basic act analysis as the act is completed
+		//Perform basic act analysis as the act is complete
+		clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
 		
-//		//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
-//		ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal);
-//		if (oGoalWithSameAct.isEmpty()==false) {
-//			//Get the act
-//			clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
-//			clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-//		
-//			//Add the PI matches to the images of the act
-//			transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
-//		
-//		}
-//
-//		
-//		//-----------------------------------------------//
-		
-		ArrayList<eCondition> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(this.moGoal), clsGoalTools.getSupportiveDataStructure(oPreviousGoal));
+		//This function shall extract the current moment and the expectation
+		ArrayList<eCondition> oTaskStatusList = performBasicActAnalysis(oCurrentAct, oPreviousAct);
 		
 		//Check if act analysis failed and remove all status if this is the case
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
@@ -144,7 +133,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		boolean bSetCurrentMomentAsMoment = true;
 		
 		//Get the image from an act with the highest PI-match according to the primary process and consider the moment activation threshold
-		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMomentWithHighestPIMatch(poCurrentAct, this.mrMomentActivationThreshold);
+		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMomentWithHighestPIMatch(poCurrentAct, mrMomentActivationThreshold);
 
 		//Get previous act
 		//clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
@@ -160,8 +149,6 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		if (poPreviousAct.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			//Break as there is nothing to compare with
-
-			
 			
 		}
 		
@@ -201,7 +188,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		clsWordPresentationMesh oCurrentExpectation = clsActTools.getNextImage(clsActDataStructureTools.getMoment(poCurrentAct));
 		
 		//Set the expectation
-		if (oCurrentExpectation.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
+		if (oCurrentExpectation.isNullObject()==false) {
 			clsActDataStructureTools.setExpectation(poCurrentAct, oCurrentExpectation);
 			bResult=true;
 		}
@@ -231,10 +218,10 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		//Check if the moment match has changed
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poCurrentAct);
-		double oCurrentMatch = clsActTools.getSecondaryMatchValueToPI(oCurrentMoment);
+		double oCurrentMatch = clsActTools.getPIMatch(oCurrentMoment);
 		
 		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
-		double oPreviousMatch = clsActTools.getSecondaryMatchValueToPI(oPreviousMoment);
+		double oPreviousMatch = clsActTools.getPIMatch(oPreviousMoment);
 
 		if (oCurrentMoment.getMoDS_ID()!=oPreviousMoment.getMoDS_ID() || oCurrentMatch!=oPreviousMatch) {
 			bResult=true;

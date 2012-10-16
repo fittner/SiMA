@@ -175,7 +175,7 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getMomentAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, false);
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, true);
 		if (oDS!=null) {
 			oRetVal = (clsAssociationSecondary) oDS;
 		}
@@ -293,7 +293,7 @@ public class clsActDataStructureTools {
 		ArrayList<clsWordPresentationMesh> oSubImageList = clsActTools.getAllSubImages(oIntention);
 		
 		for (clsWordPresentationMesh oSubImage : oSubImageList) {
-			double rCurrentPIMatch = clsActTools.getSecondaryMatchValueToPI(oSubImage);
+			double rCurrentPIMatch = clsActTools.getPIMatch(oSubImage);
 						
 			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
 				rMaxPIMatch = rCurrentPIMatch;

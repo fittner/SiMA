@@ -20,6 +20,8 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
@@ -136,19 +138,19 @@ public class clsTEMPPlannerAW {
 			
 			//Goal type is an act
 			if (oGoalType.equals(eGoalType.MEMORYDRIVE)) {
-				clsWordPresentationMesh oRecommendedAction = clsMeshTools.getNullObjectWPM();
-				// poPredictionList);
-				if (oRecommendedAction.isNullObject()==false) {
-					oActionContainer.add(oRecommendedAction);
-				}
-				
-
-				// If no plans could be generated for this goal, it is set
-				// false, else true
-				if (oActionContainer.isEmpty() == false) {
-					bActionPlanOK = true;
-					// continue;
-				}
+//				clsWordPresentationMesh oRecommendedAction = clsMeshTools.getNullObjectWPM();
+//				// poPredictionList);
+//				if (oRecommendedAction.isNullObject()==false) {
+//					oActionContainer.add(oRecommendedAction);
+//				}
+//				
+//
+//				// If no plans could be generated for this goal, it is set
+//				// false, else true
+//				if (oActionContainer.isEmpty() == false) {
+//					bActionPlanOK = true;
+//					// continue;
+//				}
 
 			}
 
@@ -196,6 +198,32 @@ public class clsTEMPPlannerAW {
 		// then select, if the goal is connected to perception or to an
 		// associated memory
 
+		
+		return oResult;
+	}
+	
+	/**
+	 * Extract the current action from a goal and return it as a WPM.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.10.2012 22:15:33
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public ArrayList<clsWordPresentationMesh> extractRecommendedActionsFromAct(clsWordPresentationMesh poGoal) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(clsGoalTools.getSupportiveDataStructure(poGoal));
+		
+		if (oMoment.isNullObject()==false) {
+			eAction oAction = clsActTools.getRecommendedAction(oMoment);
+			
+			if (oAction.equals(eAction.NULLOBJECT)==false) {
+				oResult.add(clsActionTools.createAction(oAction));
+			}
+		}
 		
 		return oResult;
 	}
