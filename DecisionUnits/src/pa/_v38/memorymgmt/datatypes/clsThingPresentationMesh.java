@@ -705,7 +705,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 	public String toString(){
 		//Add by AW
 		String oResult = "";
-		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI)) {
+		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
 			//"::"+this.moDataStructureType+"::";  
 			oResult += this.moContentType + ":" + this.moContent;
 			
@@ -716,7 +716,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			
 			oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
 			for (clsAssociation oEntry : moExternalAssociatedContent) {
-				oResult += oEntry.toString() + ","; 
+				clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
+				if (oDS instanceof clsThingPresentationMesh) {
+					oResult += ((clsThingPresentationMesh)oDS).moContentType + ":" + ((clsThingPresentationMesh)oDS).moContent + ", "; 
+				} else {
+					oResult += oDS.toString()  + ","; 
+				}
 			}
 		} else if (this.moContentType.equals(eContentType.ENTITY)) {
 			oResult += this.moContentType + ":" + this.moContent;

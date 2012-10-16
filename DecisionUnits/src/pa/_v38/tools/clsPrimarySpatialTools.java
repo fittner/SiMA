@@ -246,7 +246,11 @@ public class clsPrimarySpatialTools {
 		double rRetVal = 0;
 		
 		//Get the number of elements in the RI position list
-		double rNormalizefactor = poRIPositionList.size();
+		double rNormalizefactor = 1;
+		if (poRIPositionList.size()>0) {
+			rNormalizefactor = poRIPositionList.size();
+		}
+		
 		//Get the sum of distance associations in the RIPI Match list
 		double rWeightSum = 0;
 		for (clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {

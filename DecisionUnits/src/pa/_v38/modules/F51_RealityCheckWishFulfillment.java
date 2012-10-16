@@ -250,9 +250,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//From now, only the environmental image is used
 		
-		if (moAssociatedMemories_IN.isEmpty()==false) {
-			clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
-		}
+		//if (moAssociatedMemories_IN.isEmpty()==false) {
+		//	clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
+		//}
 		
 		// --- INIT GOALS --- //
 		//Preprocess all new goals and assign one goal as continued goal

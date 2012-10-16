@@ -125,7 +125,7 @@ public class clsActTools {
 	 * @param poInputList
 	 * @return
 	 */
-	private static boolean checkIfIntention(clsWordPresentationMesh poInput) {
+	public static boolean isIntention(clsWordPresentationMesh poInput) {
 		boolean bRetVal = false;
 		
 		//Get all external associations of each memory
@@ -154,7 +154,7 @@ public class clsActTools {
 	 * @param poInput
 	 * @return
 	 */
-	private static boolean checkIfEvent(clsWordPresentationMesh poInput) {
+	public static boolean isEvent(clsWordPresentationMesh poInput) {
 		boolean bRetVal = false;
 		boolean bHasSuper = false;
 		boolean bHasNext = false;
@@ -476,6 +476,74 @@ public class clsActTools {
 		}
 		
 		return rResult;
+	}
+	
+	/**
+	 * Get the subimage with the highest PIMatch from the intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 12.10.2012 22:51:08
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static clsWordPresentationMesh getHighestPIMatchFromSubImages(clsWordPresentationMesh poIntention) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oSubImageList = clsActTools.getAllSubImages(poIntention);
+		
+		double rBestPIMatch = 0.0;
+		for (clsWordPresentationMesh oSubImage : oSubImageList) {
+			//Get PIMatch
+			double rCurrentPIMatch = clsActTools.getPIMatchFlag(oSubImage);
+			
+			if (rBestPIMatch<rCurrentPIMatch) {
+				rBestPIMatch = rCurrentPIMatch;
+				oResult = oSubImage;
+			}
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 25.07.2012 20:00:34
+	 *
+	 * @param poSourceIntention
+	 * @param poTargetIntention
+	 */
+	public static void transferAllPIMatches(clsWordPresentationMesh poSourceIntention, clsWordPresentationMesh poTargetIntention) {
+		
+		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
+			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
+				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {
+					copyPIMatches(oS, oT);
+					
+					break;
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Copy a PI match from one image to another
+	 * 
+	 * (wendt)
+	 *
+	 * @since 14.10.2012 12:30:22
+	 *
+	 * @param poSourceImage
+	 * @param poTargetImage
+	 */
+	private static void copyPIMatches(clsWordPresentationMesh poSourceImage, clsWordPresentationMesh poTargetImage) {
+		//Get PI-Match
+		double rPIMatch = clsActTools.getPIMatchFlag(poSourceImage);
+		
+		//Set PI-Match
+		clsActTools.setPIMatch(poTargetImage, rPIMatch);
 	}
 	
 		

@@ -1340,15 +1340,14 @@ public class clsMeshTools {
 		return oResult;
 	}
 	
-	public static boolean checkIfTPMStructureAvailableFromWPM(clsWordPresentationMesh poWPM) {
+	public static boolean checkIfWPMImageHasSubImages(clsWordPresentationMesh poWPM) {
 		boolean bResult = false;
 		
-//		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
-//			if (oAss instanceof clsAssociationWordPresentation) {
-//				bResult = true;
-//				break;
-//			}
-//		}
+		ArrayList<clsWordPresentationMesh> oContentList = clsMeshTools.getAllSubWPMInWPMImage(poWPM);
+		
+		if (oContentList.isEmpty()==false) {
+			bResult=true;
+		}
 		
 		return bResult;
 	}
@@ -2019,14 +2018,14 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsThingPresentationMesh getSELF(clsThingPresentationMesh poImage) {
-		 clsThingPresentationMesh oTPMRetVal = null;
+		clsThingPresentationMesh oTPMRetVal = clsMeshTools.getNullObjectTPM();
 		
-		for (clsAssociation oAss : ((clsThingPresentationMesh)poImage).getMoInternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-				if (((clsThingPresentationMesh)oAss.getLeafElement()).getMoContent().equals(eContent.SELF)) {
-					oTPMRetVal = (clsThingPresentationMesh)oAss.getLeafElement();
-					break;
-				}
+		ArrayList<clsThingPresentationMesh> oEntites = clsMeshTools.getAllSubTPMFromTPM(poImage);
+		
+		for (clsThingPresentationMesh oEntity : oEntites) {
+			if (oEntity.getMoContent().equals(eContent.SELF.toString())==true) {
+				oTPMRetVal = oEntity;
+				break;
 			}
 		}
 			
@@ -2466,11 +2465,16 @@ public class clsMeshTools {
 							if (oMeshElementWPM.getMoInternalAssociatedContent().contains(oIntMoveFromAss)==false) {
 								oMeshElementWPM.getMoInternalAssociatedContent().add(oIntMoveFromAss);
 							}
-							//Remove the association from the "From" entity
-							oRemoveIntAssList.add(oIntMoveFromAss);
+						} else {
+							//move the type. 
+							//Assumption: No inner associations are bound
+							clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oIntMoveFromAss, false);
 						}
 						
-						//Else nothing is done, as this structure is new to the mesh and will be handled separately
+						//Remove the association from the "From" entity
+						oRemoveIntAssList.add(oIntMoveFromAss);
+
+						
 						
 					} else {
 						try {
@@ -2548,9 +2552,10 @@ public class clsMeshTools {
 								((clsWordPresentationMesh) oOtherUnknownElement).getExternalAssociatedContent().remove(oExtMoveFromAss);
 								
 								//clsLogger.jlog.debug("WPM " + oMeshElementWPM + " in " + oExtMoveFromAss + " moved from " + poMoveFromMesh + " \n to " + poMoveToMesh);
+							} else {
+								//Do nothing			
+								
 							}
-							
-							//Else nothing is done, as this structure is new to the mesh and will be handled separately
 							
 						} else {
 							try {
@@ -2562,6 +2567,12 @@ public class clsMeshTools {
 						}
 						
 					}
+				}
+			} else if (oExtMoveFromAss instanceof clsAssociationWordPresentation) {
+				//Check if the structure already have one. If not move it.
+				if (clsMeshTools.getPrimaryDataStructureOfWPM(poMoveToMesh).isNullObject()==true) {
+					clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oExtMoveFromAss, false);
+					oRemoveExtAssList.add(oExtMoveFromAss);
 				}
 			}
 		}
@@ -2585,7 +2596,7 @@ public class clsMeshTools {
 	private static void addWPMImageToWPMImageMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poNewStructure) {
 		//Check if this instance already exists in the mesh
 		clsWordPresentationMesh oExistingMesh = searchInstanceOfDataStructureInWPMImageMeshbyHashCode(poMoveToMesh, poNewStructure);
-		if (oExistingMesh.isNullObject()==true) {
+		if (oExistingMesh.isNullObject()==false) {
 			//Nothing has to be done as the structure already exists
 			return;
 		}
@@ -3221,17 +3232,16 @@ public class clsMeshTools {
 		clsWordPresentationMesh oRetVal = poInput;
 		
 		//If it is an image, this will work
-		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASSUPER, 2, false);
-				
-		//If it is an entity, this will work
-		if (oSuperStructure==null) {
-			oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);		
-		}
-		
+		clsDataStructurePA oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASSUPER, 2, false);
 		if (oSuperStructure!=null) {
-			oRetVal = oSuperStructure;
+			oRetVal = (clsWordPresentationMesh) oSuperStructure;
+		} else {
+			oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);
+			if (oSuperStructure!=null) {
+				oRetVal = (clsWordPresentationMesh) oSuperStructure;
+			}
 		}
-		
+
 		return oRetVal;
 	}
 	

@@ -58,20 +58,20 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		//Perform basic act analysis as the act is completed
 		
-		//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
-		ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal);
-		if (oGoalWithSameAct.isEmpty()==false) {
-			//Get the act
-			clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
-			clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-		
-			//Add the PI matches to the images of the act
-			transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
-		
-		}
-
-		
-		//-----------------------------------------------//
+//		//--- MERGE CONTINUED GOAL WITH INCOMING ACTS ---//
+//		ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal);
+//		if (oGoalWithSameAct.isEmpty()==false) {
+//			//Get the act
+//			clsWordPresentationMesh oNewAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+//			clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+//		
+//			//Add the PI matches to the images of the act
+//			transferAllPIMatches(clsActDataStructureTools.getIntention(oNewAct), clsActDataStructureTools.getIntention(oCurrentAct));
+//		
+//		}
+//
+//		
+//		//-----------------------------------------------//
 		
 		ArrayList<eCondition> oTaskStatusList = performBasicActAnalysis(clsGoalTools.getSupportiveDataStructure(this.moGoal), clsGoalTools.getSupportiveDataStructure(oPreviousGoal));
 		
@@ -86,35 +86,6 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 			}
 		}
 		
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 25.07.2012 20:00:34
-	 *
-	 * @param poSourceIntention
-	 * @param poTargetIntention
-	 */
-	private void transferAllPIMatches(clsWordPresentationMesh poSourceIntention, clsWordPresentationMesh poTargetIntention) {
-		
-		for (clsWordPresentationMesh oS : clsActTools.getAllSubImages(poSourceIntention)) {
-			for (clsWordPresentationMesh oT : clsActTools.getAllSubImages(poTargetIntention)) {
-				if (oS.getMoDS_ID()==oT.getMoDS_ID()) {
-					copyPIMatches(oS, oT);
-					
-					break;
-				}
-			}
-		}
-	}
-	
-	private void copyPIMatches(clsWordPresentationMesh poSourceImage, clsWordPresentationMesh poTargetImage) {
-		//Get PI-Match
-		double rPIMatch = clsActTools.getPIMatchFlag(poSourceImage);
-		
-		//Set PI-Match
-		clsActTools.setPIMatch(poTargetImage, rPIMatch);
 	}
 	
 	/**
