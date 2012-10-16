@@ -8,10 +8,6 @@ package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
-import java.awt.event.ComponentListener;
 import java.util.ArrayList;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
@@ -25,7 +21,6 @@ import org.jfree.ui.RectangleInsets;
 import pa._v38.interfaces.itfInspectorTimeChartBase;
 import pa._v38.interfaces.itfInterfaceTimeChartHistory;
 import pa._v38.tools.clsPair;
-import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 import statictools.clsSimState;
 
@@ -36,7 +31,7 @@ import statictools.clsSimState;
  * 15.04.2011, 17:25:08
  * 
  */
-public abstract class cls_AbstractTimeChartInspector extends Inspector {
+public abstract class cls_AbstractTimeChartInspector extends cls_AbstractChartInspector {
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -50,16 +45,14 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
 	protected int mnWidth;
 	protected int mnHeight;
 	protected int mnOffset;
+	protected XYSeriesCollection moDataset;
 	
 	protected itfInspectorTimeChartBase moTimeingContainer;
 	protected ArrayList<XYSeries> moValueHistory;
 	protected long mnCurrentTime;
 
-	private String moChartName;
 	private String moYAxisCaption;
-	private ChartPanel moChartPanel;
-	
-	private boolean showRangeLabel=true;
+
 
 	public cls_AbstractTimeChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
@@ -67,6 +60,7 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
             String poChartName,
             int pnOffset)
     {
+		super(poChartName);
     	mnHistoryLength = 200;
     	mnWidth = 600;
     	mnHeight = 400;
@@ -74,28 +68,14 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
     	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
-    	moChartName = poChartName;
     	moYAxisCaption = poYAxisCaption;
 
-    	create();
+    	moDataset=createDataset();
+    	moChartPanel=create();
+    	add(moChartPanel);
     	
-		ComponentListener compList = new ComponentAdapter() {
-			@Override
-			public void componentResized(ComponentEvent arg0) {
-				moChartPanel.setPreferredSize(getSize());
-			}
-	      };
-		addComponentListener(compList);
     }
     
-    /**
-	 * @since Oct 10, 2012 10:42:26 AM
-	 * 
-	 * @param showRangeLabel the showRangeLabel to set
-	 */
-	public void setShowRangeLabel(boolean showRangeLabel) {
-		this.showRangeLabel = showRangeLabel;
-	}
 
 	public cls_AbstractTimeChartInspector(
     		itfInspectorTimeChartBase poTimingContainer,
@@ -103,6 +83,7 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
             String poChartName,
             int pnOffset, int pnHistoryLength, int pnWidth, int pnHeight)
     {
+		super(poChartName);
     	mnHistoryLength = pnHistoryLength;
     	mnWidth = pnWidth;
     	mnHeight = pnHeight;
@@ -110,18 +91,29 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
     	mnCurrentTime = clsSimState.getSteps();
     	mnOffset = pnOffset;
     	
-    	moChartName = poChartName;
     	moYAxisCaption = poYAxisCaption;
 
-    	create();
+    	moDataset=createDataset();
+    	moChartPanel=create();
+    	add(moChartPanel);
     }
-    
-    private void create()  {
-    	createPanel();
+	
+    /**
+	 * @since Oct 10, 2012 10:42:26 AM
+	 * 
+	 * @param showRangeLabel the showRangeLabel to set
+	 */
+	public void setShowRangeLabel(boolean showRangeLabel) {
+		((XYPlot) moChartPanel.getChart().getPlot()).getRangeAxis().setTickLabelsVisible(showRangeLabel);
+	}
+
+    private ChartPanel create()  {
+    	ChartPanel poChartPanel =createPanel();
     	
     	if (moTimeingContainer instanceof itfInterfaceTimeChartHistory) {
     		fetchDataFromHistory();
     	}
+    	return poChartPanel;
     }
     
     private void recreate() {
@@ -157,14 +149,6 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
         	}
     	}
     }
-  
-    protected void createPanel() {
-    	ChartPanel oChartPanel = initChart(moChartName,  createDataset(), 
-    			"Steps", moYAxisCaption, mnWidth, mnHeight);
-    	moChartPanel=oChartPanel;
-    	add(oChartPanel);
-		setLayout(new FlowLayout(FlowLayout.LEFT));
-    }
     
     protected XYSeriesCollection createDataset() {
     	XYSeriesCollection poDataset = new XYSeriesCollection();
@@ -193,9 +177,6 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
         plot.setRangeGridlinePaint(Color.black);
         plot.setBackgroundPaint(Color.white);
      
-        if(showRangeLabel){
-        	plot.getRangeAxis().setTickLabelsVisible(false);
-        }
      // set line colors
         ArrayList<Color> oColors = getColorList();
         for (int i=0; i<moValueHistory.size(); i++) {
@@ -203,14 +184,15 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
         }    	
     }
     
-    private ChartPanel initChart(String poChartName, XYSeriesCollection poDataset, 
-    		String poXAxisCaption, String poYAxisCaption, int pnWidth, int pnHeight) {
-    	
+ //   private ChartPanel initChart(String poChartName, XYSeriesCollection poDataset, 
+   // 		String poXAxisCaption, String poYAxisCaption, int pnWidth, int pnHeight) {
+    @Override
+	protected ChartPanel initChart(){	
         JFreeChart oChartPanel = ChartFactory.createXYLineChart(
-                poChartName,     // chart title
-                poXAxisCaption,               // domain axis label
-                poYAxisCaption,                  // range axis label
-                poDataset,                  // data
+                moChartName,     // chart title
+                "Steps",               // domain axis label
+                moYAxisCaption,                  // range axis label
+                moDataset,                  // data
                 PlotOrientation.VERTICAL, // orientation
                 true,                     // include legend
                 true,                     // tooltips?
@@ -231,7 +213,7 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
         
         ChartPanel poChartPanel = new ChartPanel(oChartPanel);
         poChartPanel.setFillZoomRectangle(true);
-        poChartPanel.setPreferredSize(new Dimension(pnWidth, pnHeight));
+        poChartPanel.setPreferredSize(new Dimension(mnWidth, mnHeight));
         
 
         return poChartPanel;
@@ -248,12 +230,13 @@ public abstract class cls_AbstractTimeChartInspector extends Inspector {
 	public void updateInspector() {
 		mnCurrentTime = clsSimState.getSteps();
 		
-		updateData();
+		updateDataset();
 		
 		this.repaint();
 	}    
 	
-	protected void updateData() {
+	@Override
+	protected void updateDataset() {
 		ArrayList<Double> oTimingData = moTimeingContainer.getTimeChartData();
 		
 		int nOffset=0;

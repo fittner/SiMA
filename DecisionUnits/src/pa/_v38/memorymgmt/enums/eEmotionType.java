@@ -15,16 +15,16 @@ package pa._v38.memorymgmt.enums;
  */
 public enum eEmotionType {
 	ANGER,
-	GRIEF,
+	MOURNING,
 	LOVE,
-	FEAR,
+	ANXIETY,
 	PLEASURE,
 	SATURATION,
 	ELATION,
 	
 	//Emotions from FG through F20 -- Replace these emotions someday with the ones above
 	CONFLICT,
-	ANXIETY,
+	//ANXIETY, 
 	WORRIEDNESS,
 	PRICKLE;
 	

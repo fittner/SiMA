@@ -46,7 +46,7 @@ public class cls_BarChartInspector extends cls_AbstractChartInspector {
 
 	}
 	
-	  @Override
+	@Override
 	protected ChartPanel initChart() {
 	    	DefaultCategoryDataset dataset = createDataset();
 	        moDataset = dataset;

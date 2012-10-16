@@ -6,6 +6,7 @@
  */
 package inspectors.mind.pa._v38.autocreated;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -22,7 +23,7 @@ import sim.portrayal.Inspector;
  * Oct 10, 2012, 2:32:44 PM
  * 
  */
-public abstract class cls_AbstractChartInspector extends Inspector  {
+public abstract class cls_AbstractChartInspector extends Inspector {
 
 
 	private static final long serialVersionUID = 1688668508314593129L;
@@ -35,7 +36,16 @@ public abstract class cls_AbstractChartInspector extends Inspector  {
 		ComponentListener compList = new ComponentAdapter() {
 			@Override
 			public void componentResized(ComponentEvent arg0) {
-				moChartPanel.setPreferredSize(getSize());
+				double maxWidth= getSize().getHeight()*3/2;
+				double maxHeight= getSize().getWidth()*2/3;
+				Dimension iDimension = getSize();
+				if(iDimension.getHeight() >= maxHeight){
+					iDimension.setSize(maxHeight*3/2, maxHeight);
+				}
+				else if (iDimension.getWidth() >= maxWidth){
+					iDimension.setSize(maxWidth, maxWidth*2/3);
+				}
+				moChartPanel.setPreferredSize(iDimension);
 			}
 	      };
 		addComponentListener(compList);
