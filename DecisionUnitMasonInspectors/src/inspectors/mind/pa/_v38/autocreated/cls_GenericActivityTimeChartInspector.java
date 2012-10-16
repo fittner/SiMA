@@ -123,8 +123,9 @@ public class cls_GenericActivityTimeChartInspector extends cls_AbstractTimeChart
     }	
     
     @Override
-	protected void updateData() {
-    	super.updateData();
+	protected void updateDataset() {
+    	super.updateDataset();
 		updateLimitLines();
-    }    
+    }
+   
 }

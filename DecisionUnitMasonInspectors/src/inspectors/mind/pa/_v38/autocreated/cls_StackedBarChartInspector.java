@@ -45,7 +45,6 @@ public class cls_StackedBarChartInspector extends cls_AbstractChartInspector {
 		
 	}
 	
-
 	
 	@Override
 	protected ChartPanel initChart(){

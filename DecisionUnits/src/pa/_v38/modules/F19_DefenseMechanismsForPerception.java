@@ -461,7 +461,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	   	// Is the emotion FEAR already in the list moEmotions_Output?
 	   	clsEmotion oEmotionFear = null;
 	   	for(clsEmotion oEmotion : oEmotions_Output) {
-	   		if(oEmotion.getMoContent() == eEmotionType.FEAR) {
+	   		if(oEmotion.getMoContent() == eEmotionType.ANXIETY) {
 	   			oEmotionFear = oEmotion;
 	   			break;
 	   		}
@@ -492,7 +492,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 					}
 					else {
 						clsEmotion oNewEmotion = clsDataStructureGenerator.generateEMOTION(
-								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.FEAR, oOneEmotion.getMrEmotionIntensity()),
+								new clsTriple <eContentType, eEmotionType, Object>(eContentType.BASICEMOTION, eEmotionType.ANXIETY, oOneEmotion.getMrEmotionIntensity()),
 								oOneEmotion.getMrSourcePleasure(),
 								oOneEmotion.getMrSourceUnpleasure(),
                                 oOneEmotion.getMrSourceLibid(),
