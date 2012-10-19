@@ -13,6 +13,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 
@@ -43,10 +44,10 @@ public class clsActPreparationTools {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		//Get previous act
-		clsWordPresentationMesh oPreviousAct = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
+		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
 		
 		//Find the moment in the act
-		analyzeMomentInAct(poAct, oPreviousAct);
+		analyzeMomentInAct(poAct, oPreviousGoal);
 		
 		//Current found moment
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poAct);
@@ -66,7 +67,7 @@ public class clsActPreparationTools {
 		//Current Intention
 		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poAct);
 		
-		analyzeIntentionInAct(oPreviousAct, oCurrentMoment, oCurrentIntention);
+		analyzeIntentionInAct(clsGoalTools.getSupportiveDataStructure(oPreviousGoal), oCurrentMoment, oCurrentIntention);
 		
 //		//Set all Progress settings to the act
 //		//If the act is new, then new progress settings shall be added, else, they shall be updated
@@ -301,7 +302,7 @@ public class clsActPreparationTools {
 		double rConfidence = clsActTools.getActConfidenceLevel(poIntention);
 		
 		if (oPreviousMoment.isNullObject()==true) {
-			rConfidence += mrDefaultConfidenceIncreasement;
+			rConfidence = mrDefaultConfidenceIncreasement;
 		} else {
 			rConfidence += clsActPreparationTools.getAdditionalActConfidenceByPreviousAct(poCurrentMoment, oPreviousExpectation);
 		}

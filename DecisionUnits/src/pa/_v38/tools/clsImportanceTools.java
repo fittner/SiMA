@@ -664,6 +664,23 @@ public class clsImportanceTools {
 		
 		return nResult;
 	}
+	
+	public static int getEffortValueOfActConfidence(clsWordPresentationMesh poIntention) {
+		int nResult = 0;
+		
+		double rActConfidence = clsActTools.getActConfidenceLevel(poIntention);
+		
+		if (rActConfidence==1.0) {
+			nResult += 0;
+		} else if (rActConfidence<1.0 && rActConfidence>=0.5) {
+			nResult += -2;
+		} else if (rActConfidence<0.5) {
+			nResult += -10;
+		}
+		
+		
+		return nResult;
+	}
 
 }
 

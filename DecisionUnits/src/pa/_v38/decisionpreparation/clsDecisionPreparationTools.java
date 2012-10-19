@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
@@ -275,6 +276,16 @@ public class clsDecisionPreparationTools {
 		
 	}
 	
+	/**
+	 * Calculate the effort penalty
+	 * 
+	 * (wendt)
+	 *
+	 * @since 19.10.2012 10:41:45
+	 *
+	 * @param poGoal
+	 * @return
+	 */
 	public static int calculateEffortPenalty(clsWordPresentationMesh poGoal) {
 		int nResult = 0;
 		
@@ -284,23 +295,18 @@ public class clsDecisionPreparationTools {
 			nResult += clsImportanceTools.getEffortValueOfCondition(oC);
 		}
 		
-//		if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_DRIVE_SOURCE)) {
-//			//There is no position
-//			nResult = clsImportanceTools.getEffortValueOfCondition(eCondition.IS_DRIVE_SOURCE);
 		if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			//Check how far away the goal is
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(clsGoalTools.getGoalObject(poGoal));
 			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
-			//nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
-//			if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_NEW_CONTINUED_GOAL)==true) {
-//				nResult += clsImportanceTools.getEffortValueOfCondition(eCondition.IS_NEW_CONTINUED_GOAL);
-//			}
+
+		} else if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_MEMORY_SOURCE)) {
+			if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.SET_BASIC_ACT_ANALYSIS)) {
+				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
+				nResult = clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poGoal)));
+			}
 			
 		}
-//		} else if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_MEMORY_SOURCE)) {
-//			//There are only the acts
-//			nResult = clsImportanceTools.getEffortValueOfCondition(eCondition.IS_MEMORY_SOURCE);
-//		}
 		
 		return nResult;
 	}
