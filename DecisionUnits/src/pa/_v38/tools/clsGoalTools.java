@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.storage.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -988,6 +989,31 @@ public class clsGoalTools {
 		return oResult;
 	}
 	
+	/**
+	 * Search the whole STM and get all of the same goals.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 16:35:26
+	 *
+	 * @param poGoal
+	 * @param poSTM
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllSameGoalsFromSTM(clsWordPresentationMesh poGoal, clsShortTermMemory poSTM) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsWordPresentationMesh> oMentalSituationList = poSTM.getAllWPMFromSTM();
+		for (clsWordPresentationMesh oMS : oMentalSituationList) {
+			clsWordPresentationMesh oGoalFromSTM = clsMentalSituationTools.getGoal(oMS);
+			
+			if (clsGoalTools.compareGoals(poGoal, oGoalFromSTM)==true) {
+				oResult.add(oGoalFromSTM);
+			}
+		}
+		
+		return oResult;
+	}
 	
 
 }

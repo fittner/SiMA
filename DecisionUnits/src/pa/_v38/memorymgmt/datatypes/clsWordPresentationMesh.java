@@ -275,13 +275,13 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					oResult += this.moContentType + ":" + this.moContent;
 					//List PI-Match
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
-					oResult += "(PIMatch=" + rPIMatch + ")";
+					oResult += "(PIMatch=" + rPIMatch + ")(ActConf=" + clsActTools.getActConfidenceLevel(this) + ");";
 					
 					//Get all subimages
 					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
 					oResult += "\nSUBIMAGES: ";
 					for (clsWordPresentationMesh oSubImage : oSubImages) {
-						oResult += oSubImage.getMoContent() + "(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + ");"; 
+						oResult += oSubImage.getMoContent() + "(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + ")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + ");"; 
 					}
 				} else if (clsActTools.isEvent(this)==true) {
 					//oResult += "::"+this.moDataStructureType+"::";  

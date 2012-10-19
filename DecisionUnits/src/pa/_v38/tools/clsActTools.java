@@ -304,17 +304,15 @@ public class clsActTools {
 	public static clsWordPresentationMesh getNextImage(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 2, false);
+		//Return the whole association, with the leaf elements of the associations of the image
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 2, true, false);
 		
-		if (oDS!=null) {
-			oRetVal = (clsWordPresentationMesh)oDS;
+		for (clsDataStructurePA oDS : oDSList) {
+			clsAssociationSecondary oAss = (clsAssociationSecondary) oDS;
+			if (oAss.getRootElement().getMoDS_ID()==poImage.getMoDS_ID()) {
+				oRetVal = (clsWordPresentationMesh) oAss.getLeafElement();
+			}
 		}
-//		for (clsDataStructurePA oAss : oAssociationList) {
-//			if (((clsAssociationSecondary)oAss).getLeafElement()!=poImage) {
-//				oRetVal = (clsWordPresentationMesh) ((clsAssociationSecondary)oAss).getLeafElement();
-//				break;
-//			}
-//		}
 		
 		return oRetVal;
 	}
@@ -332,10 +330,14 @@ public class clsActTools {
 	public static clsWordPresentationMesh getPreviousImage(clsWordPresentationMesh poImage) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poImage, ePredicate.HASNEXT, 1, false);
-		
-		if (oDS!=null) {
-			oRetVal = (clsWordPresentationMesh)oDS;
+		//Return the whole association, with the leaf elements of the associations of the image
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poImage, ePredicate.HASNEXT, 1, true, false);
+				
+		for (clsDataStructurePA oDS : oDSList) {
+			clsAssociationSecondary oAss = (clsAssociationSecondary) oDS;
+			if (oAss.getLeafElement().getMoDS_ID()==poImage.getMoDS_ID()) {
+				oRetVal = (clsWordPresentationMesh) oAss.getRootElement();
+			}
 		}
 		
 		return oRetVal;
@@ -357,7 +359,7 @@ public class clsActTools {
 		clsWordPresentationMesh oPreviousImage = getPreviousImage(poImage);
 		//clsWordPresentationMesh oNextImage = getNextImage(poImage);
 		
-		if (oPreviousImage!=null) {
+		if (oPreviousImage.isNullObject()==false) {
 			oRetVal = true;
 		}
 		
@@ -378,9 +380,8 @@ public class clsActTools {
 		boolean oRetVal = false;
 		
 		clsWordPresentationMesh oNextImage = getNextImage(poImage);
-		//clsWordPresentationMesh oNextImage = getNextImage(poImage);
 		
-		if (oNextImage!=null) {
+		if (oNextImage.isNullObject()==false) {
 			oRetVal = true;
 		}
 		
@@ -417,14 +418,35 @@ public class clsActTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static clsWordPresentationMesh getLastImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = poImage;
+	public static clsWordPresentationMesh getLastImage(clsWordPresentationMesh poEventImage) {
+		clsWordPresentationMesh oRetVal = poEventImage;
 		
 		while (hasNextImage(oRetVal)==true) {
 			oRetVal = getNextImage(oRetVal);
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Check if an event is the last image of an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 15:44:04
+	 *
+	 * @param poEventImage
+	 * @return
+	 */
+	public static boolean isLastImage(clsWordPresentationMesh poEventImage) {
+		boolean bResult = false;
+		
+		clsWordPresentationMesh oLastImage = getLastImage(poEventImage);
+		if (oLastImage.getMoDS_ID()==poEventImage.getMoDS_ID()) {
+			bResult = true;
+		}
+		
+		return bResult;
 	}
 	
 	/**
@@ -447,24 +469,6 @@ public class clsActTools {
 		}
 		
 		return oResult;
-	}
-	
-	public static void mergeIntentions(clsWordPresentationMesh poEnhanceIntention, clsWordPresentationMesh poNewIntention) {
-		//Check if the intention have a complete internal association
-		if (poEnhanceIntention.getMoInternalAssociatedContent().isEmpty()==true && poNewIntention.getMoInternalAssociatedContent().isEmpty()==false) {
-			
-		}
-		
-		//Get all present subimages
-		for (clsWordPresentationMesh oSourceSubImage : clsActTools.getAllSubImages(poEnhanceIntention)) {
-			
-			
-			
-		}
-		
-		
-		//TODO AW finish this. Workaround, get the stuff from the phantasy
-		
 	}
 	
 	/**
@@ -582,6 +586,114 @@ public class clsActTools {
 	 */
 	public static eAction getRecommendedAction(clsWordPresentationMesh poImage) {
 		return eAction.valueOf(clsMeshTools.getUniquePredicateWPM(poImage, ePredicate.HASACTION).getMoContent());
+	}
+	
+	/**
+	 * Set confidence level
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:41
+	 *
+	 * @param poIntention
+	 * @param prValue
+	 */
+	public static void setMomentConfidenceLevel(clsWordPresentationMesh poMoment, double prValue) {
+		clsMeshTools.setUniquePredicateWP(poMoment, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASMOMENTCONFIDENCE, eContentType.MOMENTCONFIDENCE, String.valueOf(prValue), false);
+	}
+	
+	/**
+	 * Get confidence level
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:53
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static double getMomentConfidenceLevel(clsWordPresentationMesh poMoment) {
+		double rResult = 0.0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASMOMENTCONFIDENCE);
+		
+		if (oWP!=null) {
+			rResult = Double.valueOf(oWP.getMoContent());
+		}
+		
+		return rResult;
+	}
+	
+	/**
+	 * Set confidence level
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:41
+	 *
+	 * @param poIntention
+	 * @param prValue
+	 */
+	public static void setActConfidenceLevel(clsWordPresentationMesh poIntention, double prValue) {
+		clsMeshTools.setUniquePredicateWP(poIntention, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASACTCONFIDENCE, eContentType.ACTCONFIDENCE, String.valueOf(prValue), false);
+	}
+	
+	/**
+	 * Get confidence level
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:53
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static double getActConfidenceLevel(clsWordPresentationMesh poIntention) {
+		double rResult = 0.0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poIntention, ePredicate.HASACTCONFIDENCE);
+		
+		if (oWP!=null) {
+			rResult = Double.valueOf(oWP.getMoContent());
+		}
+		
+		return rResult;
+	}
+	
+	/**
+	 * Set timeout for a certain moment.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:41
+	 *
+	 * @param poIntention
+	 * @param prValue
+	 */
+	public static void setMovementTimeoutValue(clsWordPresentationMesh poMoment, int pnNumberOfTimeoutMovements) {
+		clsMeshTools.setUniquePredicateWP(poMoment, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASMOVEMENTTIMEOUT, eContentType.MOVEMENTTIMEOUT, String.valueOf(pnNumberOfTimeoutMovements), false);
+	}
+	
+	/**
+	 * Get the timeout for a certain moment
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 10:27:53
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static int getMovementTimeoutValue(clsWordPresentationMesh poMoment) {
+		int nResult = 0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASMOVEMENTTIMEOUT);
+		
+		if (oWP!=null) {
+			nResult = Integer.valueOf(oWP.getMoContent());
+		}
+		
+		return nResult;
 	}
 	
 		

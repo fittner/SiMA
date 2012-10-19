@@ -61,9 +61,11 @@ public enum eCondition {
 	SET_FOCUS_MOVEMENT,		//It has been focused on in front of the agent		
 	SET_INTERNAL_INFO,			//Phantasy was already triggered
 	SET_BASIC_ACT_ANALYSIS,
+	SET_FOLLOW_ACT,
 	SET_MOVEMENT_EXECUTED,
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
 	GOAL_REACHABLE,
+	GOAL_COMPLETED,
 	
 	//--- Preconditions for action codelets set by decision codelets --- //
 	//Initial (deafult)

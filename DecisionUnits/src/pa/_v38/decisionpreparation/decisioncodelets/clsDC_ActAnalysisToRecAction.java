@@ -56,7 +56,7 @@ public class clsDC_ActAnalysisToRecAction extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_BASIC_ACT_ANALYSIS, eCondition.SET_INTERNAL_INFO));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_FOLLOW_ACT, eCondition.SET_BASIC_ACT_ANALYSIS, eCondition.SET_INTERNAL_INFO));
 		
 	}
 

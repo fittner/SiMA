@@ -58,6 +58,11 @@ public enum eContentType {
 	POSTCONDITION,
 	ACTIONTYPE,
 	
+	//Acts
+	MOMENTCONFIDENCE,
+	ACTCONFIDENCE,
+	MOVEMENTTIMEOUT,
+	
 	// --- Bodypart --- //
 	BODYPART,
 	ORIFICE,
@@ -154,7 +159,7 @@ public enum eContentType {
 	DEATH, LIFE, AGGRESSION,
 	
 	//Delete after implementation of secondary process
-	ACTIVATEREDUCEAFFECT,
+	//ACTIVATEREDUCEAFFECT,
 	
 	//???? OBSOLETE Delete ????
 	RELATION,

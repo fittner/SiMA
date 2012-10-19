@@ -271,7 +271,8 @@ public class clsActDataStructureTools {
 	}
 	
 	/**
-	 * Get the image with the highest PI match from the sub images of an act within an act data structure
+	 * Get the image with the highest PI match from the sub images of an act within an act data structure. 
+	 * Multiple structures can be added if there is more than one PI match with the same value
 	 * 
 	 * (wendt)
 	 *
@@ -281,12 +282,10 @@ public class clsActDataStructureTools {
 	 * @param prMomentActivationThreshold 
 	 * @return
 	 */
-	public static clsWordPresentationMesh getMomentWithHighestPIMatch(clsWordPresentationMesh poAct, double prMomentActivationThreshold) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+	public static ArrayList<clsWordPresentationMesh> getMomentWithHighestPIMatch(clsWordPresentationMesh poAct, double prMomentActivationThreshold) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
-				
-		//clsWordPresentationMesh oFirstImage = clsActTools.getFirstSituationFromIntention(oIntention);
 		
 		double rMaxPIMatch = 0.0;
 		
@@ -297,7 +296,10 @@ public class clsActDataStructureTools {
 						
 			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
 				rMaxPIMatch = rCurrentPIMatch;
-				oResult = oSubImage;
+				oResult.clear();
+				oResult.add(oSubImage);
+			} else if (rCurrentPIMatch==rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
+				oResult.add(oSubImage);
 			}
 		}
 		
