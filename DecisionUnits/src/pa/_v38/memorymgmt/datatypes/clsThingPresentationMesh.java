@@ -420,7 +420,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 				for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
 					if (oExtAss instanceof clsAssociationDriveMesh) {
 						// if a drive is the same (has the same aim, object and source) and has the same QoA -> the matchingfactor is 1. hence the driveobject with this drive would satisfy the actual drive in the best possible way
-						rMatchDMs = oActualDM.compareTo(((clsDriveMesh)oExtAss.getMoAssociationElementA()));
+						rMatchDMs = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).compareTo(oActualDM);
 						// take the best match
 						if(rMatchDMs>rSatisfactionOfActualDM) {
 							rSatisfactionOfActualDM = rMatchDMs;
@@ -429,12 +429,15 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 					
 				}
 				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM*oActualDM.getQuotaOfAffect();
+				extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
+				extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
 			}
 			
 			// Normalization. The Max possible satisfaction of all actual drives correspond to the number of them
 //			rCriterionActivation = rTotSatisfactionOfActualDMs/poActualDrives.size();
 			moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, rTotSatisfactionOfActualDMs ); 
 			
+			this.applyCriterionActivation(eActivationType.EMBODIMENT_ACTIVATION);
 			
 		}
 	}

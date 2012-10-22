@@ -156,8 +156,8 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			double rLibTension = 0;
 			
 			//calculate the tension for both parts from personality split 50/50
-			rAgrTension = oEntry.getQuotaOfAffect() /2;
-			rLibTension = oEntry.getQuotaOfAffect() /2;
+			rAgrTension = oEntry.getQuotaOfAffect()/2; 
+			rLibTension = oEntry.getQuotaOfAffect()/2; 
 			
 			//change the agressive/lib content due to personality
 			if(Personality_Content_Factor != 0){

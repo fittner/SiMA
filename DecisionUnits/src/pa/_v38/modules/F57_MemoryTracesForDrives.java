@@ -23,7 +23,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;
@@ -280,8 +279,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
 								oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
 								//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
-								oDriveObjectActivated.extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
-								oDriveObjectActivated.extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oSimulatorDM.getQuotaOfAffect());
+								
 							}
 														
 							// take  drive object+drive aim of best match 

@@ -296,6 +296,7 @@ public class clsOntologyLoader {
 		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 
 				
+	
 		oAssociationList.addAll(loadInstanceAssociations(poElement, poDataContainer));
 		
 		oDataStructure.addInternalAssociations(oAssociationList);
@@ -730,7 +731,7 @@ public class clsOntologyLoader {
 				return new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType >(oID,peElementType,peContentType),
 						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB); 
 			
-			case ASSOCIATIONDM:
+			case ASSOCIATIONDM:				
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
 				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 												   (clsDriveMesh)oAssociationElements.a, 

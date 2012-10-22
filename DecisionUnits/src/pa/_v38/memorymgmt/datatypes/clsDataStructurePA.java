@@ -252,7 +252,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
 						rWeight = ((clsAssociation)oClonedKnownDS).getMrWeight();
-						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  rWeight; // In non-definitional models no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
+						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  rWeight; // In non-definitional models no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ; 
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);

@@ -490,7 +490,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						
 		// 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
 		// since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 
-		drivesActivateEntities();
+		//drivesActivateEntities();
 						
 		// 3. similarity criterion. perceptual activation. memory-search
 		oRankedCandidateTPMs = stimulusActivatesEntities();			
@@ -1100,7 +1100,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		long k = 0;
 		
 		clsThingPresentationMesh oFirstTPM = (clsThingPresentationMesh) poSpecificCandidates.get(0).getMoDataStructure();
-		clsThingPresentationMesh oSecondTPM = (clsThingPresentationMesh) poSpecificCandidates.get(0).getMoDataStructure();
+		clsThingPresentationMesh oSecondTPM = (clsThingPresentationMesh) poSpecificCandidates.get(1).getMoDataStructure();
 		
 		rActivationValueFirst = oFirstTPM.getAggregatedActivationValue();
 		rActivationValueSecond = oSecondTPM.getAggregatedActivationValue();
@@ -1108,7 +1108,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		// Ambigous?
 		rAmbiguousFactor = Math.abs(rActivationValueFirst-rActivationValueSecond);
 		rSimilarityAcivationFirst = oFirstTPM.getCriterionActivationValue(eActivationType.SIMILARITY_ACTIVATION);
-		if(rAmbiguousFactor > 0.1 || rSimilarityAcivationFirst != 1) {
+		if(rAmbiguousFactor < 0.1 || rSimilarityAcivationFirst != 1) {
 			// generalized drive obj.categ
 			k = Math.round((1-rActivationValueFirst) * poSpecificCandidates.size());
 		}
@@ -1117,7 +1117,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			k=1;
 		}
 		
-		System.out.print(k);
+		
 		
 		return k;
 	}
@@ -1131,13 +1131,14 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsDriveMesh oExemplarDM = null;
 		String oDMID = null;
 	
-		for (int i=0; i==prK; i++) {
+		for (int i=0; i<prK; i++) {
 			
 			// weight qoA with categopry appropriateness
 			for (clsAssociation oAssDM: poSpecificCandidates.get(i).getMoAssociatedDataStructures()){
 				//set categ appropriatenes as association weight (workaraound?)
 				//oAssDM.setMrWeight();
 				oExemplarDM = (clsDriveMesh) oAssDM.getMoAssociationElementA();
+				oAssDM.setMrWeight(((clsThingPresentationMesh) poSpecificCandidates.get(i).getMoDataStructure()).getAggregatedActivationValue());
 				
 				oDMID = oExemplarDM.getActualDriveSourceAsENUM().toString() + oExemplarDM.getDriveComponent();
 				if(oAssDMforCategorization.containsKey(oDMID) == false) {
@@ -1170,7 +1171,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		for (String oDMID_End: oAssDMforCategorization.keySet()){
 			for(clsAssociation oAss : oAssDMforCategorization.get(oDMID_End)) {
 				// category appropriateness * QoA
-				rActivationValue = ((clsThingPresentationMesh) oAss.getMoAssociationElementB()).getAggregatedActivationValue();
+				rActivationValue =  oAss.getMrWeight();
 				oDMExemplar = (clsDriveMesh) oAss.getMoAssociationElementA();
 				rQoASum +=  rActivationValue* (oDMExemplar).getQuotaOfAffect();
 				rMax += rActivationValue;
