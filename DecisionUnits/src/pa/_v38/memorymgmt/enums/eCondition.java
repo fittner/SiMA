@@ -18,6 +18,9 @@ public enum eCondition {
 	NULLOBJECT,
 	NOTHING,
 	
+	// --- Precondition intentions --- //
+	START_WITH_FIRST_IMAGE,
+	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
 	IS_PERCEPTIONAL_SOURCE,
@@ -66,6 +69,7 @@ public enum eCondition {
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
 	GOAL_REACHABLE,
 	GOAL_COMPLETED,
+	GOAL_CONDITION_BAD,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
 	
 	//--- Preconditions for action codelets set by decision codelets --- //
 	//Initial (deafult)
