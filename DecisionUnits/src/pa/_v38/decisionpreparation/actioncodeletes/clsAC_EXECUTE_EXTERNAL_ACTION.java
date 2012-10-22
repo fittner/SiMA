@@ -47,8 +47,13 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
+		ArrayList<clsWordPresentationMesh> oExternalPlans = new ArrayList<clsWordPresentationMesh>();
 		
-		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true || clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+			oExternalPlans.addAll(this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal));
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
+		}
 		
 		eAction oChosenAction = eAction.NONE;
 		
@@ -71,11 +76,11 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	@Override
 	protected void setPreconditions() {
 		//Drives
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_SEARCH_INFO, eCondition.SET_FOCUS_MOVEMENT, eCondition.SET_INTERNAL_INFO));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.NEED_SEARCH_INFO, eCondition.SET_FOCUS_MOVEMENT, eCondition.SET_INTERNAL_INFO));
 		//Perception
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_MOVEMENT, eCondition.SET_FOCUS_ON, eCondition.SET_FOCUS_MOVEMENT));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.NEED_MOVEMENT, eCondition.SET_FOCUS_ON, eCondition.SET_FOCUS_MOVEMENT));
 		//Memory
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_PERFORM_RECOMMENDED_ACTION, eCondition.SET_FOCUS_MOVEMENT));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.NEED_PERFORM_RECOMMENDED_ACTION, eCondition.SET_FOCUS_MOVEMENT));
 		
 	}
 

@@ -51,8 +51,9 @@ import config.clsProperties;
  * @author kohlhauser 07.05.2012, 14:38:29
  * 
  */
-public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBaseKB implements I5_15_receive, I6_1_send, I6_4_send {
-	
+public class F21_ConversionToSecondaryProcessForPerception extends
+		clsModuleBaseKB implements I5_15_receive, I6_1_send, I6_4_send {
+
 	public static final String P_MODULENUMBER = "21";
 
 	/** Perception IN */
@@ -65,22 +66,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 
 	private clsShortTermMemory moShortTermMemory;
-	
-	/** Memory of the generated concepts; @since 06.10.2012 */
+
+	/** @author havlicek; Memory of the generated concepts; @since 06.10.2012 */
 	private clsShortTermMemory moConceptMemory;
+	/** @author havlicek; Currently generated concept. */
+	private clsConcept moConcept;
 
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
-	
-	private ArrayList< clsTriple<String, String, String >> moSituationalConcept;
-	
-	
-	private ArrayList<clsEmotion> moEmotions_Input; 
-	
-	/** DOCUMENT (hinterleitner) - insert description; */
-	private ArrayList< clsTriple<String, String, String >> moSituationalMemory;
-	
 
-	private clsConcept moConcept;
+	private ArrayList<clsEmotion> moEmotions_Input;
 
 	/** TEMP A perceived image */
 	// private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
@@ -142,10 +136,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = new clsShortTermMemory(1,1); //FIXME ISABELLA: Dont use the environmental image storage to init your memory. It does not work properly then//poConceptMemory;
+		this.moConceptMemory = poConceptMemory; // FIXME ISABELLA: Dont use the
+												// environmental image storage
+												// to init your memory. It does
+												// not work properly
+												// then//poConceptMemory;
 
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -156,18 +154,20 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 	@Override
 	public String stateToTEXT() {
 		String text = "";
-
-		
-		//text += toText.valueToTEXT("AdamPerspective:", moConcept);
-		text += toText.valueToTEXT("BodosPerspective:", moConcept);
-		text += toText.valueToTEXT("moSituationalMemory", moSituationalMemory);
-		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
-		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
-		text += toText.listToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		//text += toText.listToTEXT("moOrderedResult", moOrderedResult);
-		//text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
-		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
-		text += toText.valueToTEXT("Concept Memory", moConceptMemory.toString());
+		// text += toText.valueToTEXT("AdamPerspective:", moConcept);
+		text += toText.valueToTEXT("moPerceptionalMesh_IN",
+				moPerceptionalMesh_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT",
+				moPerceptionalMesh_OUT);
+		text += toText.listToTEXT("moAssociatedMemories_OUT",
+				moAssociatedMemories_OUT);
+		// text += toText.listToTEXT("moOrderedResult", moOrderedResult);
+		// text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
+		text += toText.valueToTEXT("moKnowledgeBaseHandler",
+				moKnowledgeBaseHandler);
+		text += toText.valueToTEXT("moConcept", moConcept);
+		text += toText.valueToTEXT("moConceptMemory",
+				moConceptMemory.toString());
 		return text;
 	}
 
@@ -211,38 +211,13 @@ public class F21_ConversionToSecondaryProcessForPerception extends clsModuleBase
 		mnPsychicInstances = ePsychicInstances.EGO;
 	}
 
-	
-	private void fillSituationalMemory() {
-		
-		moSituationalMemory = new ArrayList<clsTriple<String,String,String>>();
-
-		moSituationalMemory.add( new clsTriple<String,String, String>("ADAM", "NOURISH", "WAIT" ));
-		moSituationalMemory.add( new clsTriple<String,String, String>("ADAM", "REPRESS", "THINK" ));
-		moSituationalMemory.add( new clsTriple<String,String, String>("BELLA", "REPRESS", "THINK" ));
-
-		moSituationalMemory.add( new clsTriple<String,String, String>("BODO", "NOURISH", "EAT" ));
-		moSituationalMemory.add( new clsTriple<String,String, String>("BODO", "GRIEF", "THINK" ));
-		moSituationalMemory.add( new clsTriple<String,String, String>("BELLA", "GRIEF", "THINK" ));		
-	}
-	
-
-private void fillConcept() {
-		
-		moSituationalConcept = new ArrayList< clsTriple<String, String, String >> ();
-
-		moSituationalConcept.add( new clsTriple<String,String, String>("ADAM", "NOURISH", "WAIT" ));
-		moSituationalConcept.add( new clsTriple<String,String, String>("ADAM", "REPRESS", "WAIT" ));
-	}
-	/* (non-Javadoc)
-	 *
-	 * @author kohlhauser
-	 * 11.08.2009, 14:39:18
-=======
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @author kohlhauser 11.08.2009, 14:39:18
->>>>>>> e61ceb1d2a51a0954a64232c38a3647a95f9a245
+	 * @author kohlhauser 11.08.2009, 14:39:18 ======= /* (non-Javadoc)
+	 * 
+	 * @author kohlhauser 11.08.2009, 14:39:18 >>>>>>>
+	 * e61ceb1d2a51a0954a64232c38a3647a95f9a245
 	 * 
 	 * @see pa.interfaces.I2_10#receive_I2_10(int)
 	 */
@@ -275,25 +250,23 @@ private void fillConcept() {
 	 */
 	@Override
 	protected void process_basic() {
-		// System.out.println("\n======================== START OF TURN SP ================================");
 		clsLogger.jlog.debug("\n\n\n===START OF SECONDARY PROCESS===");
 
 		// --- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
-		
-		//--- Update the environmental image ---//
+		this.moConceptMemory.updateTimeSteps();
+
+		// --- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
-		
-		fillSituationalMemory();	
-		fillConcept();
-		
-		//Search for all images from the primary process in the memory
-		//Input: TPM
-		//1. Get all Images of the Mesh
-		//2. Search for WPM for the image
-		//3. Search for WPM for all internal objects in the WPM
-		//4. For each WPM, search for more SP-WPM-Parts and connect them
-		//5. Within the WPM-Structure, the allocation of images to acts is already done. Each image except the PI
+
+		// Search for all images from the primary process in the memory
+		// Input: TPM
+		// 1. Get all Images of the Mesh
+		// 2. Search for WPM for the image
+		// 3. Search for WPM for all internal objects in the WPM
+		// 4. For each WPM, search for more SP-WPM-Parts and connect them
+		// 5. Within the WPM-Structure, the allocation of images to acts is
+		// already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 
 		clsLogger.jlog.debug("Perceived Image: " + oWPMConstruct.a);
@@ -302,6 +275,7 @@ private void fillConcept() {
 		moConcept = new clsConcept();
 		moConcept.addWPMs(oWPMConstruct.a);
 		moConcept.addWPMs(oWPMConstruct.b);
+		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
 		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
 
 		// Assign the output to the meshes
@@ -319,18 +293,10 @@ private void fillConcept() {
 	}
 
 	/**
-<<<<<<< HEAD
-	 * For the TPM as input, assign all of them with WPM images
-	 * Return a pair of 1) Perception, 2) A list of memories. This function extracts all acts and other 
-	 * memories from the primary process data structures. The list of memories is categorized in acts from the images
-=======
 	 * For the TPM as input, assign all of them with WPM images Return a pair of
 	 * 1) Peception, 2) A list of memories. This function extracts all acts and
 	 * other memories from the primary process data structures. The list of
 	 * memories is categorized in acts from the images
->>>>>>> e61ceb1d2a51a0954a64232c38a3647a95f9a245
-	 * 
-	 * (wendt)
 	 * 
 	 * @since 25.01.2012 13:55:04
 	 * 
@@ -588,30 +554,31 @@ private void fillConcept() {
 		return oRetVal;
 	}
 
-//	/**
-//	 * 
-//	 * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
-//	 * of {@link clsWordPresentationMesh}.
-//	 * 
-//	 * IN WORK
-//	 * 
-//	 * @since 03.08.2012 17:05:53
-//	 * 
-//	 * @param poListWPM
-//	 *            give the list of <code>clsWordPresentationMesh</code>es of the
-//	 *            current context.
-//	 * @return the constructed clsConcept based on the given WPMs
-//	 */
-//	protected clsConcept generateConcept(clsWordPresentationMesh... poListWPM) {
-//		// TODO (havlicek) this mapping is in work
-//		clsConcept _concept = new clsConcept();
-//		for (clsWordPresentationMesh _wpm : poListWPM) {
-//			if (!_wpm.isNullObject()) {
-//				_concept.addWPMs(_wpm);
-//			}
-//		}
-//		return _concept;
-//	}
+	// /**
+	// *
+	// * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
+	// * of {@link clsWordPresentationMesh}.
+	// *
+	// * IN WORK
+	// *
+	// * @since 03.08.2012 17:05:53
+	// *
+	// * @param poListWPM
+	// * give the list of <code>clsWordPresentationMesh</code>es of the
+	// * current context.
+	// * @return the constructed clsConcept based on the given WPMs
+	// */
+	// protected clsConcept generateConcept(clsWordPresentationMesh...
+	// poListWPM) {
+	// // TODO (havlicek) this mapping is in work
+	// clsConcept _concept = new clsConcept();
+	// for (clsWordPresentationMesh _wpm : poListWPM) {
+	// if (!_wpm.isNullObject()) {
+	// _concept.addWPMs(_wpm);
+	// }
+	// }
+	// return _concept;
+	// }
 
 	/*
 	 * (non-Javadoc)

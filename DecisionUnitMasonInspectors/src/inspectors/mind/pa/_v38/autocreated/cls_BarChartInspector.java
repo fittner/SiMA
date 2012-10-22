@@ -7,9 +7,7 @@
 package inspectors.mind.pa._v38.autocreated;
 
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
-
 import java.util.ArrayList;
 
 import org.jfree.chart.ChartFactory;
@@ -25,7 +23,6 @@ import org.jfree.data.general.DatasetUtilities;
 
 import pa._v38.interfaces.itfInspectorBarChart;
 
-import sim.portrayal.Inspector;
 
 /**
  * DOCUMENT (herret) - insert description 
@@ -34,41 +31,23 @@ import sim.portrayal.Inspector;
  * Sep 5, 2012, 11:23:21 AM
  * 
  */
-public class cls_BarChartInspector extends Inspector {
+public class cls_BarChartInspector extends cls_AbstractChartInspector {
 
-	/* (non-Javadoc)
-	 *
-	 * @since Sep 5, 2012 11:23:21 AM
-	 * 
-	 * @see sim.portrayal.Inspector#updateInspector()
-	 */
 	private itfInspectorBarChart moContainer;
-	private String moChartName;
 	private DefaultCategoryDataset moDataset;
-	private boolean created =false;
-	
+
 	public cls_BarChartInspector(itfInspectorBarChart poObject){
-		this.moContainer = poObject;
-		this.moChartName = poObject.getBarChartTitle();
+		super(poObject.getBarChartTitle());
+		moContainer = poObject;
+		moDataset = createDataset();
 		
-		createPanel();
+		moChartPanel = createPanel();
+		add(moChartPanel);
+
 	}
 	
 	@Override
-	public void updateInspector() {
-		updateDataset(moDataset);
-		this.repaint();
-	}
-
-
-	   protected void createPanel() {
-	    	ChartPanel oChartPanel = initChart(moChartName) ;
-	    	add(oChartPanel);
-	    	
-			setLayout(new FlowLayout(FlowLayout.LEFT));
-	    }
- 
-	  private ChartPanel initChart(String poChartName) {
+	protected ChartPanel initChart() {
 	    	DefaultCategoryDataset dataset = createDataset();
 	        moDataset = dataset;
 	        // create the chart and pack it onto the panel
@@ -129,30 +108,30 @@ public class cls_BarChartInspector extends Inspector {
 	        
 	    }
 	    
-	    private DefaultCategoryDataset updateDataset(DefaultCategoryDataset poDataset){
+	    @Override
+		protected void updateDataset(){
 	    	//poDataset.clear();
 	    	ArrayList<ArrayList<Double>> iContainer = moContainer.getBarChartData();
-	    	if(poDataset.getColumnCount()!=iContainer.get(0).size() || poDataset.getRowCount()!=iContainer.size()){
-	    		poDataset.clear();
+	    	if(moDataset.getColumnCount()!=iContainer.get(0).size() || moDataset.getRowCount()!=iContainer.size()){
+	    		moDataset.clear();
 	    		DefaultCategoryDataset iDataset = createDataset();
 	    		for (int i= 0; i<iDataset.getRowCount();i++){
 	    			for (int j=0; j<iDataset.getColumnCount();j++){
-	    				poDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
+	    				moDataset.addValue(iDataset.getValue(i, j), iDataset.getRowKey(i), iDataset.getColumnKey(j));
 	    			}
 	    		}
 	    	}else{   	
 
 			   for(int i =0 ;i< iContainer.size();i++){
 		    		for(int j=0;j<iContainer.get(0).size();j++){
-		    			if(!poDataset.getValue(moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
-		    				poDataset.setValue(iContainer.get(i).get(j), moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j));
+		    			if(!moDataset.getValue(moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j)).equals(iContainer.get(i).get(j))){
+		    				moDataset.setValue(iContainer.get(i).get(j), moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j));
 		    			}
 		    			//poDataset.addValue(iContainer.get(i).get(j), moContainer.getBarChartCategoryCaptions().get(i), moContainer.getBarChartColumnCaptions().get(j));
 		    		}
 		    		
 			   }
 	    	}
-	    	return poDataset;
 	    }
 
 }

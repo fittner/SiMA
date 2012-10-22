@@ -6,12 +6,9 @@
  */
 package pa._v38.decisionpreparation.consequencecodelets;
 
-import java.util.ArrayList;
-
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsGoalTools;
@@ -61,13 +58,13 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
 			//Replace the supportive data structure with the one from the act
 			//Find a goal in the list, which has the same act inside of it
-			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal);
-			if (oGoalWithSameAct.isEmpty()==false) {
-				//Get the act
-				clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
-				//Set this act
-				clsGoalTools.setSupportiveDataStructure(this.moGoal, oAct);
-			}
+//			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal, true);
+//			if (oGoalWithSameAct.isEmpty()==false) {
+//				//Get the act
+//				clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(oGoalWithSameAct.get(0));
+//				//Set this act
+//				clsGoalTools.setSupportiveDataStructure(this.moGoal, oAct);
+//			}
 			
 			//clsGoalTools.setTaskStatus(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);x	//Trigger search
 		}

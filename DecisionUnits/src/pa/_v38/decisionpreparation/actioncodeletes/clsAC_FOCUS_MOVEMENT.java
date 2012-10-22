@@ -48,8 +48,14 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 	@Override
 	protected void processGoal() {
 		
+		ArrayList<clsWordPresentationMesh> oExternalPlans = new ArrayList<clsWordPresentationMesh>();
 		
-		ArrayList<clsWordPresentationMesh> oExternalPlans = this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal);
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true || clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+			oExternalPlans.addAll(this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal));
+		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
+		}
+		
 		eAction oChosenAction = eAction.NONE;
 		
 		if (oExternalPlans.isEmpty()==false) {
@@ -85,11 +91,11 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 	@Override
 	protected void setPreconditions() {
 		//Drive
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_SEARCH_INFO, eCondition.SET_INTERNAL_INFO));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.NEED_SEARCH_INFO, eCondition.SET_INTERNAL_INFO));
 		//Perception
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.NEED_FOCUS_MOVEMENT, eCondition.SET_FOCUS_ON));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.NEED_FOCUS_MOVEMENT, eCondition.SET_FOCUS_ON));
 		//Memory
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_ON, eCondition.SET_BASIC_ACT_ANALYSIS));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.NEED_PERFORM_RECOMMENDED_ACTION));
 		
 		
 		

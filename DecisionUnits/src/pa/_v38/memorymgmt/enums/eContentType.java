@@ -40,6 +40,7 @@ public enum eContentType {
 	MOMENT,
 	EXPECTATION,
 	ENVIRONMENTALIMAGE,
+	ENHANCEDENVIRONMENTALIMAGE,
 	
 	DRIVEGOALSUPPORT,
 	PERCEPTIONSUPPORT,
@@ -56,6 +57,11 @@ public enum eContentType {
 	PRECONDITION,
 	POSTCONDITION,
 	ACTIONTYPE,
+	
+	//Acts
+	MOMENTCONFIDENCE,
+	ACTCONFIDENCE,
+	MOVEMENTTIMEOUT,
 	
 	// --- Bodypart --- //
 	BODYPART,
@@ -153,7 +159,7 @@ public enum eContentType {
 	DEATH, LIFE, AGGRESSION,
 	
 	//Delete after implementation of secondary process
-	ACTIVATEREDUCEAFFECT,
+	//ACTIVATEREDUCEAFFECT,
 	
 	//???? OBSOLETE Delete ????
 	RELATION,

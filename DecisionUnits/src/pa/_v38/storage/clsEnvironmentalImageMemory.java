@@ -10,12 +10,18 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsSecondarySpatialTools;
+import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -27,6 +33,7 @@ import pa._v38.tools.clsSecondarySpatialTools;
 public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 
 	private final clsWordPresentationMesh moEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENVIRONMENTALIMAGE, eContent.ENVIRONMENTALIMAGE.toString());
+	private final clsWordPresentationMesh moEnhancedEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENHANCEDENVIRONMENTALIMAGE, eContent.ENHANCEDENVIRONMENTALIMAGE.toString());
 
 	/**
 	 * Constructor. Initialize the environental image
@@ -52,6 +59,15 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 	}
 	
 	/**
+	 * @since 09.10.2012 17:58:54
+	 * 
+	 * @return the moEnhancedEnvironmentalImage
+	 */
+	public clsWordPresentationMesh getEnhancedEnvironmentalImage() {
+		return moEnhancedEnvironmentalImage;
+	}
+	
+	/**
 	 * Add all entities of the perceived image to the environmental image
 	 * 
 	 * (wendt)
@@ -62,36 +78,38 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 	 */
 	public void addNewImage(clsWordPresentationMesh poPerceivedImage) {
 		
-		//Get all entities in the perceived image, which are already exists in the environmental image
-		ArrayList<clsWordPresentationMesh> oAlreadyExistingEntityList = clsSecondarySpatialTools.getAlreadyExistingEntitiesInImage(this.moEnvironmentalImage, poPerceivedImage, true);
+		//Remove all already existing entities to make way for the new entities
+		removeAllDuplicateEntitiesInImage(this.moEnvironmentalImage, poPerceivedImage);
+		removeAllDuplicateEntitiesInImage(this.moEnhancedEnvironmentalImage, poPerceivedImage);
 		
-		//Remove all already existing entities from the image
-		for (clsWordPresentationMesh oEntityToDelete : oAlreadyExistingEntityList) {
-			//Delete the entity from the environmental image
-			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oEntityToDelete);
-			
-			//Delete the entitiy from the memory
-			this.removeMemory(oEntityToDelete);
-		}
 		
 		ArrayList<clsWordPresentationMesh> oEntityListInPI = clsMeshTools.getAllSubWPMInWPMImage(poPerceivedImage);
 		ArrayList<clsSecondaryDataStructure> oAddList = new ArrayList<clsSecondaryDataStructure>();
 		//Save each entity separately in the STM structure. This is later used to delete entities from the environmental image
 		for (clsWordPresentationMesh oEntity : oEntityListInPI) {
+			//--- Prepare the entities --- //
+			
 			//Delete all connections to the PI
 			clsMeshTools.removeAssociationInObject(oEntity, poPerceivedImage);
 			//Remove all connections also in the PP-Part
 			clsMeshTools.removeAllTemporaryAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEntity));
 			
+			//--- Prepare the enhanced environmental image ---//
+			//Remove all entities of the same type, which has no position from the enhanced entities image
+			removeAllEntitiesOfTheSameTypeWithNoPosition(this.moEnhancedEnvironmentalImage, oEntity);
+			
+			//--- Save to memory ---//
 			this.saveToShortTimeMemory(oEntity);
 			
+			//Add to the list of entities, which shall be added
 			oAddList.add(oEntity);
 		}
 		
-		 
-		
 		//Create association with the environmental image
 		clsMeshTools.addSecondaryDataStructuresToWPMImage(this.moEnvironmentalImage, oAddList);
+		
+		//Create association with the enhanced environmental image
+		clsMeshTools.addSecondaryDataStructuresToWPMImage(this.moEnhancedEnvironmentalImage, oAddList);
 		
 		//Remove the associationWordPresentationFrom the PI
 		poPerceivedImage.setMoExternalAssociatedContent(new ArrayList<clsAssociation>());
@@ -101,6 +119,103 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 		
 		//The perceived image is consumed and is no more used.
 
+	}
+	
+	/**
+	 * Remove all entities, which are duplicate in an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.10.2012 18:02:27
+	 *
+	 * @param poImage: This is the image, where the duplicate images exist
+	 * @param poPerceivedImage: This is the image with the new entities
+	 */
+	private void removeAllDuplicateEntitiesInImage(clsWordPresentationMesh poImage, clsWordPresentationMesh poPerceivedImage) {
+		//Get all entities in the perceived image, which are already exists in the environmental image
+		ArrayList<clsWordPresentationMesh> oAlreadyExistingEntityList = clsSecondarySpatialTools.getAlreadyExistingEntitiesInImage(poImage, poPerceivedImage, true);
+		
+		//Remove all already existing entities from the image
+		for (clsWordPresentationMesh oEntityToDelete : oAlreadyExistingEntityList) {
+			//Delete the entity from the environmental image
+			clsMeshTools.removeAssociationInObject(poImage, oEntityToDelete);
+			
+			//Delete the entitiy from the memory
+			this.removeMemory(oEntityToDelete);
+		}
+	}
+	
+	/**
+	 * Get all entities in the image, which is the same type as the entity. Then remove those entities, where there is no position
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.10.2012 20:26:09
+	 *
+	 * @param poImage
+	 * @param poEntity
+	 */
+	private void removeAllEntitiesOfTheSameTypeWithNoPosition(clsWordPresentationMesh poImage, clsWordPresentationMesh poEntity) {
+		//Get a list of all entities in the image, which are of the same type
+		ArrayList<clsSecondaryDataStructure> oSameEntityList = clsMeshTools.searchSecondaryDataStructureInImage(poImage, ePredicate.HASPART, poEntity.getMoDS_ID(), false);
+		
+		for (clsSecondaryDataStructure oEntity : oSameEntityList) {
+			if (oEntity instanceof clsWordPresentationMesh) {
+				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oEntityPosition = clsEntityTools.getPosition((clsWordPresentationMesh) oEntity);
+				//Remove the positions of these entities
+				if (oEntityPosition.b==null && oEntityPosition.c==null) {
+					//Delete the entity from the environmental image
+					clsMeshTools.removeAssociationInObject(poImage, oEntity);
+					
+					//Delete the entitiy from the memory
+					this.removeMemory((clsWordPresentationMesh)oEntity);
+					
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Remove all entities in the environmental image and remove all positions of those entities in the enhanced environmental image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 09.10.2012 20:42:49
+	 *
+	 */
+	public void clearEnvironmentalImage() {
+		//Get all entities
+		ArrayList<clsWordPresentationMesh> oEntitiesInImageList = clsMeshTools.getAllSubWPMInWPMImage(this.moEnvironmentalImage);
+		
+		for (clsWordPresentationMesh oEntity : oEntitiesInImageList) {
+			//Remove all entities from the environmental image
+			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oEntity);
+			
+			//Remove all positions of the entities of the enhanced environmental image
+			clsEntityTools.removePosition(oEntity);
+		}
+		
+	}
+	
+	/**
+	 * Get all TPM from the enhanced environmental image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:03:20
+	 *
+	 * @return
+	 */
+	public ArrayList<clsThingPresentationMesh> getAllTPMFromEnhancedEnvironmentalImage() {
+		ArrayList<clsThingPresentationMesh> oResult = new ArrayList<clsThingPresentationMesh>();
+		
+		ArrayList<clsWordPresentationMesh> oWPMList = clsMeshTools.getAllSubWPMInWPMImage(moEnhancedEnvironmentalImage);
+		
+		for (clsWordPresentationMesh oWPM : oWPMList) {
+			oResult.add(clsMeshTools.getPrimaryDataStructureOfWPM(oWPM));
+		}
+		
+		return oResult;
 	}
 	
 	
@@ -123,8 +238,10 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 		}
 		//Remove the overdue objects
 		for (clsPair<Integer, clsWordPresentationMesh> oSingleRemoveObject : oRemoveObjects) {
-			//Remove the entity from the environmental image
+			//Remove the entity from the environmental image (if it is there)
 			clsMeshTools.removeAssociationInObject(this.moEnvironmentalImage, oSingleRemoveObject.b);
+			//Remove the entity from the enhanced environmental image
+			clsMeshTools.removeAssociationInObject(this.moEnhancedEnvironmentalImage, oSingleRemoveObject.b);
 			
 			//Remove the entity from the memory
 			removeMemory(oSingleRemoveObject);

@@ -425,6 +425,26 @@ public class clsShortTermMemory {
 		return oRetVal;
 	}
 	
+	/**
+	 * Get all WPMs from the STM, i. e. all mental images
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 16:31:15
+	 *
+	 * @return
+	 */
+	public ArrayList<clsWordPresentationMesh> getAllWPMFromSTM() {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsPair<Integer, clsWordPresentationMesh> oPair : this.moShortTimeMemory) {
+			oResult.add(oPair.b);
+		}
+		
+		return oResult;
+		
+	}
+	
 	
 	
 	@Override

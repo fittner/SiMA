@@ -9,7 +9,10 @@ package pa._v38.decisionpreparation.consequencecodelets;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -44,10 +47,29 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-
+		//Clear the environmental image
+		this.moEnvironmentalImageMemory.clearEnvironmentalImage();
+		
+		//Remove conditions for the movement
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_ON);
 		
+		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+			clsGoalTools.removeCondition(this.moGoal, eCondition.SET_BASIC_ACT_ANALYSIS);
+			clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOLLOW_ACT);
+			
+			clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
+			
+			if (oMoment.isNullObject()==false) {
+				int nTimeOutValue = clsActTools.getMovementTimeoutValue(oMoment);
+				
+				if (nTimeOutValue>0) {
+					nTimeOutValue--;
+					clsActTools.setMovementTimeoutValue(oMoment, nTimeOutValue);
+				}
+			}
+		}
 	}
 
 	/* (non-Javadoc)

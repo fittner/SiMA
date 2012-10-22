@@ -223,7 +223,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
-			clsLogger.jlog.info("Decided goal: " + moDecidedGoalList_OUT.get(0));
+			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
+			clsLogger.jlog.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + clsGoalTools.getSupportiveDataStructure(moDecidedGoalList_OUT.get(0)).toString());
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
 			clsLogger.jlog.info("Decided goal: No goal ");
