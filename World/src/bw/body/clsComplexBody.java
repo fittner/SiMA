@@ -18,7 +18,12 @@ import bw.body.io.clsExternalIO;
 import bw.body.io.clsInternalIO;
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.clsEntity;
+import bw.exceptions.exFoodAlreadyNormalized;
+import bw.exceptions.exFoodWeightBelowZero;
+import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyType;
+import bw.utils.enums.eNutritions;
+import bw.utils.tools.clsFood;
 
 
 /**
@@ -182,6 +187,73 @@ public class clsComplexBody extends clsBaseBody implements
 	
 	public boolean isAlive() {
 		return moInternalSystem.getHealthSystem().getIsAlive();
+	}
+	
+	
+	// ATTENTION THE FOLLOWING FUNCTIONS ARE FOR DEBUG USE ONLY!!!
+	//************************************************************
+	/**
+	 * ATTENTION: THE FUNCTION IS FOR DEBUG USE ONLY!!!
+	 *Empties the Stomach
+	 */
+	public void DEBUG_DestroyAllNutritionAndEnergyForModelTesting() {
+		this.getInternalSystem().getStomachSystem().DestroyAllEnergyForModelTesting();
+	}
+	
+	/**
+	 * ATTENTION: THE FUNCTION IS FOR DEBUG USE ONLY!!!
+	 *get the internal health value
+	 */
+	public double DEBUG_getInternalHealthValue() {
+		return this.getInternalSystem().getHealthSystem().getHealth().getContent();
+	}
+	
+	/**
+	 * ATTENTION: THE FUNCTION IS FOR DEBUG USE ONLY!!!
+	 *removes health
+	 */
+	public void DEBUG_HurtBody(double rDamage) {
+		this.getInternalSystem().getHealthSystem().hurt(rDamage);
+	}
+	
+	/**
+	 * ATTENTION: THE FUNCTION IS FOR DEBUG USE ONLY!!!
+	 *Add health
+	 */
+	public void DEBUG_HealBody(double rAmount) {
+		this.getInternalSystem().getHealthSystem().heal(rAmount);
+	}
+	
+	/**
+	 * ATTENTION: THE FUNCTION IS FOR DEBUG USE ONLY!!!
+	 *Makes ARSin eat something
+	 */
+	public void DEBUG_EatFoodPackage(){
+
+		clsFood oFood = new clsFood();
+		try {
+			oFood.setWeight(6f);
+		} catch (exFoodWeightBelowZero e) {
+			e.printStackTrace();
+		}
+		try {
+		oFood.addNutritionFraction(eNutritions.CARBOHYDRATE, new clsMutableDouble(1.0) );
+		oFood.addNutritionFraction(eNutritions.FAT, new clsMutableDouble(1.0f));
+		oFood.addNutritionFraction(eNutritions.MINERAL, new clsMutableDouble(1.0f));
+		oFood.addNutritionFraction(eNutritions.PROTEIN, new clsMutableDouble(1.0f));
+		oFood.addNutritionFraction(eNutritions.VITAMIN, new clsMutableDouble(1.0f));
+		oFood.addNutritionFraction(eNutritions.WATER, new clsMutableDouble(1.0f));
+		} catch (exFoodAlreadyNormalized e) {
+			e.printStackTrace();
+		}
+
+		try {
+			oFood.finalize();
+		} catch (exFoodAlreadyNormalized e) {
+			e.printStackTrace();
+		}
+		
+        this.getInterBodyWorldSystem().getConsumeFood().digest(oFood);   
 	}
 	
 }
