@@ -345,22 +345,7 @@ public class clsCompareGraph extends JGraph {
 		// Construct Model and GraphLayoutCache
 		GraphModel model = new RichTextGraphModel();
 
-		// When not using a JGraph instance, a GraphLayoutCache does not
-		// automatically listen to model changes. Therefore, use a special
-		// layout cache with a built-in listener
-	/*	 GraphLayoutCache cache = new DataGraphLayoutCache(model,
-				new DefaultCellViewFactory() {
-					private static final long serialVersionUID = 5527702598146461914L;
-					@Override
-				protected VertexView createVertexView(Object cell) {
-						 // Return an EllipseView for EllipseCells
-					   // TODO... if (cell instanceof EllipseCell)
-					   //   return new EllipseView(cell);
-					    // Else Call Superclass
-					    return new MultiLineVertexView(cell);
-					}
-				}, true);
-		*/
+
 		moCellList.add( createGraph() );
 		
 		//transfer graph-cells from arraylist to fix-size array (needed for registration)
@@ -373,37 +358,13 @@ public class clsCompareGraph extends JGraph {
 		
 		// Insert the cells via the cache
 		JGraphGraphFactory.insert(model, cells);
-		// Create the layout facade. When creating a facade for the tree
-		// layouts, pass in any cells that are intended to be the tree roots
-		// in the layout
-//JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
 
-//facade.setOrdered(true);
-		// Create the layout to be applied (Tree)
 		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
-		
-		//layout.setNodeDistance(15); //minimal distance from node to node horizontal
-		//layout.setLevelDistance(30); //minimal distance from node to node vertical
-		//layout.setOrientation(SwingConstants.WEST);
-		// Run the layout, the facade holds the results
-//		synchronized(this){
-//			layout.run(facade);
-		
-		// Obtain the output of the layout from the facade. The second
-		// parameter defines whether or not to flush the output to the
-		// origin of the graph
-//Map<?,?> nested = facade.createNestedMap(true, true);
-		// Apply the result to the graph
+
 		setModel(model);
 		performGraphLayoutChange(layout);
 		
-	//	cache.edit(nested);
-		
-		
 
-//getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
-
-		//setGraphLayoutCache(cache);
 		updateUI();
 	}
     
@@ -450,21 +411,11 @@ public class clsCompareGraph extends JGraph {
 		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
 		
 		layout.setOrientation(SwingConstants.WEST);
-		// Run the layout, the facade holds the results
-		
-//layout.run(facade);
-		// Obtain the output of the layout from the facade. The second
-		// parameter defines whether or not to flush the output to the
-		// origin of the graph
-//Map<?,?> nested = facade.createNestedMap(true, true);
-		// Apply the result to the graph
-		//cache.edit(nested);
+
 		
 		setModel(model);
 		performGraphLayoutChange(layout);
-//getGraphLayoutCache().edit(nested); // Apply the results to the actual graph
-		//setGraphLayoutCache(cache);
-		//updateUI();
+
 	}
     
     private void updateModel(){
@@ -1780,7 +1731,7 @@ public class clsCompareGraph extends JGraph {
 		showInternAssocBest=saveShowInternAssocBest;
 		showInternAssocFirstLevel=saveShowInternAssocFirstLevel;
 		
-}
+    }
     private void expand(clsGraphCell poCell){
 		int oldLength = moCellList.size();
 		DefaultGraphCell oCell= generateGraphCell(poCell,poCell.getReference());
