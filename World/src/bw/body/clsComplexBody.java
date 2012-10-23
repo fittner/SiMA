@@ -256,4 +256,27 @@ public class clsComplexBody extends clsBaseBody implements
         this.getInterBodyWorldSystem().getConsumeFood().digest(oFood);   
 	}
 	
+	public void DEBUG_EatUndigestablePackage(){
+
+		clsFood oFood = new clsFood();
+		try {
+			oFood.setWeight(6f);
+		} catch (exFoodWeightBelowZero e) {
+			e.printStackTrace();
+		}
+		try {
+		oFood.addNutritionFraction(eNutritions.UNDIGESTABLE, new clsMutableDouble(1.0f));
+		} catch (exFoodAlreadyNormalized e) {
+			e.printStackTrace();
+		}
+
+		try {
+			oFood.finalize();
+		} catch (exFoodAlreadyNormalized e) {
+			e.printStackTrace();
+		}
+		
+        this.getInterBodyWorldSystem().getConsumeFood().digest(oFood);   
+	}
+	
 }

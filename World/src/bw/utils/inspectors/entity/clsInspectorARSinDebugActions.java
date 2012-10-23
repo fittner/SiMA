@@ -54,6 +54,7 @@ public class clsInspectorARSinDebugActions extends Inspector implements ActionLi
 
 	private JButton moBtnClearStomach;
 	private JButton moBtnFeedArsin;
+	private JButton moBtnFeedUndigestable;
 	private JButton moBtnHurtArsin;
 	private JButton moBtnHealArsin;
 
@@ -89,6 +90,7 @@ public class clsInspectorARSinDebugActions extends Inspector implements ActionLi
 		moBtnFeedArsin = new JButton("Feed ARSin");
 		moBtnHurtArsin = new JButton("Hurt ARSin");
 		moBtnHealArsin = new JButton("Heal ARSin");
+		moBtnFeedUndigestable = new JButton("Feed Undigestable");
 		
 		//inspected defalt clsEntity fields, nothing else!....
 		moPropID = new  PropertyField("ID", ""+moEntity.getId(), false, null, PropertyField.SHOW_TEXTFIELD);
@@ -96,6 +98,7 @@ public class clsInspectorARSinDebugActions extends Inspector implements ActionLi
 		oBox1.add(moPropID, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moBtnClearStomach, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moBtnFeedArsin, BorderLayout.AFTER_LAST_LINE);
+		oBox1.add(moBtnFeedUndigestable, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moBtnHealArsin, BorderLayout.AFTER_LAST_LINE);
 		oBox1.add(moBtnHurtArsin, BorderLayout.AFTER_LAST_LINE);
 		
@@ -103,6 +106,7 @@ public class clsInspectorARSinDebugActions extends Inspector implements ActionLi
 		
 		moBtnClearStomach.addActionListener(this);
 		moBtnFeedArsin.addActionListener(this);
+		moBtnFeedUndigestable.addActionListener(this);
 		moBtnHurtArsin.addActionListener(this);
 		moBtnHealArsin.addActionListener(this);
 	}
@@ -138,6 +142,9 @@ public class clsInspectorARSinDebugActions extends Inspector implements ActionLi
 		}
 		else if (source == moBtnHurtArsin){
 			oBody.DEBUG_HurtBody(25);
+		}
+		else if (source == moBtnFeedUndigestable){
+			oBody.DEBUG_EatUndigestablePackage();
 		}
 	}
 	
