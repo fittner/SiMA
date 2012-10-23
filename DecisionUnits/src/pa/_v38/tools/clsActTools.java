@@ -96,28 +96,6 @@ public class clsActTools {
 	}
 	
 	/**
-	 * Get the first image (Situation) from an intention
-	 * 
-	 * (wendt)
-	 *
-	 * @since 19.07.2012 12:51:29
-	 *
-	 * @param poIntention
-	 * @return
-	 */
-	private static clsWordPresentationMesh getFirstSituationFromIntention(clsWordPresentationMesh poIntention) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
-		
-		clsWordPresentationMesh oAnySituation = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poIntention, ePredicate.HASSUPER, 1, false);	//Get the root element
-		
-		clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oAnySituation);
-		
-		oResult = oFirstImage;
-		
-		return oResult;
-	}
-	
-	/**
 	 * Check if the current WPM is an intention.
 	 *  
 	 * (wendt)
@@ -448,6 +426,48 @@ public class clsActTools {
 		}
 		
 		return oRetVal;
+	}
+	
+	/**
+	 * Get the position of an image in an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 21:24:44
+	 *
+	 * @param poEventImage
+	 * @return
+	 */
+	public static int getEventPositionInAct(clsWordPresentationMesh poEventImage) {
+		int nResult = 0;
+		
+		//Get the first image
+		clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(poEventImage);
+		
+		while (hasNextImage(oFirstImage)==true) {
+			if (oFirstImage==poEventImage) {
+				break;
+			}
+			
+			nResult++;
+			oFirstImage = getNextImage(oFirstImage);
+		}
+		
+		return nResult;
+	}
+	
+	/**
+	 * Get the number of events in the act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 21:34:02
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static int getEventImageCount(clsWordPresentationMesh poIntention) {
+		return clsActTools.getAllSubImages(poIntention).size();
 	}
 	
 	/**
@@ -784,6 +804,38 @@ public class clsActTools {
 		}
 		
 		return bResult;
+	}
+	
+	/**
+	 * Find a certain instance of an event within an act by comparing similar images with the same ID
+	 * 
+	 * This function is used to find the current moment in an act where the input is the current moment of the previous act (previous step)
+	 * 
+	 * If an instance of the same act would be searched for as input, then the same instance would be returned again. 
+	 * 
+	 * Precondition: Break at first match as only one image with an ID is allowed within an act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 20:46:00
+	 *
+	 * @param poIntention: Intention of the act
+	 * @param poEvent: Other event.
+	 * @return
+	 */
+	public static clsWordPresentationMesh getEventFromIntentionByImageID(clsWordPresentationMesh poIntention, clsWordPresentationMesh poEvent) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oEventList = clsActTools.getAllSubImages(poIntention);
+		
+		for (clsWordPresentationMesh oActEvent : oEventList) {
+			if (oActEvent.getMoDS_ID()==poEvent.getMoDS_ID()) {
+				oResult = oActEvent;
+				break;
+			}
+		}
+		
+		return oResult;
 	}
 	
 		
