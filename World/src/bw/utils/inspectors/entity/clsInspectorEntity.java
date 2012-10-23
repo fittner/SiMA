@@ -72,6 +72,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 	private JButton moBtnBodyInspectors;
 	private JButton moBtnBrainInspectors;
 	private JButton moBtnOverviewInspectors;
+	private JButton moBtnDebugActions;
 
 	private PropertyField moPropEntityType;
 	private PropertyField moPropBodyType;
@@ -136,6 +137,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moBtnBodyInspectors = new JButton("Body Details... ");
 		moBtnBrainInspectors = new JButton("Brain Details...");
 		moBtnOverviewInspectors = new JButton("ARSin Overview");
+		moBtnDebugActions = new JButton("Debug Actions...");
 		
 
 		oPropertyLayoutContainerBox.add(moPropEntityID, BorderLayout.AFTER_LAST_LINE);
@@ -150,6 +152,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		oPropertyLayoutContainerBox.add(moBtnBodyInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnBrainInspectors, BorderLayout.AFTER_LAST_LINE);
 		oPropertyLayoutContainerBox.add(moBtnOverviewInspectors, BorderLayout.AFTER_LAST_LINE);
+		oPropertyLayoutContainerBox.add(moBtnDebugActions, BorderLayout.AFTER_LAST_LINE);
 
 		add(oPropertyLayoutContainerBox, BorderLayout.AFTER_LAST_LINE);
 		
@@ -159,6 +162,7 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 		moBtnBodyInspectors.addActionListener(this);
 		moBtnBrainInspectors.addActionListener(this);
 		moBtnOverviewInspectors.addActionListener(this);
+		moBtnDebugActions.addActionListener(this);
 	}
 
 	/*
@@ -272,7 +276,32 @@ public class clsInspectorEntity extends Inspector implements ActionListener {
 
 			}
 
-		}
+		
+		
+			//add the action for the debugAction Window	
+		} else if (source == moBtnDebugActions) {
+			// define the inspector-content for each entity in the responsible
+			// InspectorMapping-class
+			try {
+				
+				if( moEntity instanceof clsARSIN) {
+					
+					TabbedInspector oMasonInspector = clsInspectorMappingEntity
+					.getInspectorARSINDebugActions(moOriginalInspector, moWrapper, moGuiState, moEntity);
+					
+					moEntityWindows.add(clsInspectorFrame.getInspectorFrame(oMasonInspector, oTabName + " - ARSin Debug Actions"));
+		    	}
+		    	else{
+		    		System.out.println("Error: DebugActionWindow only works on Entity types of ARSin!!!");
+		    	}
+	
+			} catch (java.lang.ClassCastException ex) {
+				System.out.println(clsExceptionUtils.getCustomStackTrace(ex));
+	
+			}
+	
+
+	}
 		
 	}
 }
