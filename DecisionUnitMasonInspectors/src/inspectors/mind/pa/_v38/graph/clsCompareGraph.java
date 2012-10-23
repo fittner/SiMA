@@ -17,29 +17,19 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
-import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
-
-
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
-
 import org.jgraph.JGraph;
-
-import org.jgraph.graph.DefaultCellViewFactory;
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
 import org.jgraph.graph.DefaultPort;
 import org.jgraph.graph.GraphConstants;
-import org.jgraph.graph.GraphLayoutCache;
-
 import org.jgraph.graph.GraphModel;
 import org.jgraph.graph.VertexView;
-
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -58,20 +48,14 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
-
-import com.jgraph.components.labels.MultiLineVertexView;
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
 import com.jgraph.components.labels.RichTextValue;
 import com.jgraph.example.JGraphGraphFactory;
-
-import com.jgraph.layout.DataGraphLayoutCache;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
-import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
-
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
@@ -94,11 +78,7 @@ public class clsCompareGraph extends JGraph {
 
 	private final int moEdgeDecimalPlaces =2;
 	
-	private final int yStep = 45;
-	private int yLevel=0;
-	private final int xStep = 170;
 	private int xLevel = 0;
-	private int lastXlevel = 0;
 	protected ArrayList<Object> moMesh = new ArrayList<Object>();
 	private String moRootNodeName = "root";
 	private boolean moUseSimpleView = false;
@@ -118,7 +98,6 @@ public class clsCompareGraph extends JGraph {
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
 	
-	private JGraph me;
 	
 	
 
@@ -205,7 +184,6 @@ public class clsCompareGraph extends JGraph {
 	
 	public clsCompareGraph(){
 		super (new DefaultGraphModel());
-		me = this;
 		setGridSize(4);
 		setGridEnabled(true);
 		setAntiAliased(true);
@@ -378,7 +356,7 @@ public class clsCompareGraph extends JGraph {
 		// When not using a JGraph instance, a GraphLayoutCache does not
 		// automatically listen to model changes. Therefore, use a special
 		// layout cache with a built-in listener
-		 GraphLayoutCache cache = new DataGraphLayoutCache(model,
+	/*	 GraphLayoutCache cache = new DataGraphLayoutCache(model,
 				new DefaultCellViewFactory() {
 					private static final long serialVersionUID = 5527702598146461914L;
 					@Override
@@ -390,7 +368,7 @@ public class clsCompareGraph extends JGraph {
 					    return new MultiLineVertexView(cell);
 					}
 				}, true);
-		
+		*/
 		
 		//transfer graph-cells from arraylist to fix-size array (needed for registration)
 		
@@ -491,22 +469,6 @@ public class clsCompareGraph extends JGraph {
 	 * @return
 	 */
 	protected clsGraphCell createDefaultGraphVertex(String name, Color poNodeColor) {
-		//count Linebreaks
-		int countLines=0;
-		int maxLineLength=0;
-		int countLineLength=0;
-		for (int i= 0;i<name.length();i++){
-			if(name.charAt(i)=='\n'){
-				countLines++;
-				if(maxLineLength<countLineLength)maxLineLength=countLineLength;
-				countLineLength =0;
-			}
-			else{
-				countLineLength++;
-			}
-		}
-		int h = (countLines+1)*20;
-		int w =maxLineLength*8; 
 		
 		//clsGraphCell oCell = createDefaultGraphVertex(name, xLevel*xStep, yLevel*yStep, 150, 50, poNodeColor);
 		clsGraphCell oCell = createDefaultGraphVertex(name, 40, 40, 150, 40, poNodeColor);
@@ -514,13 +476,7 @@ public class clsCompareGraph extends JGraph {
 	}
 	
 	protected clsGraphCell createDefaultGraphVertex(RichTextValue richText, Color poNodeColor) {
-		//count Linebreaks
-				int countLines=0;
-				String text =richText.getRichText();
-				for (int i= 0;i<text.length();i++){
-					if(text.charAt(i)=='\n')countLines++;
-				}
-				int h = (countLines+1)*20;
+
 			clsGraphCell oCell = createDefaultGraphVertex(richText, 40, 40, 150, 40, poNodeColor);
 		return oCell;
 	}
@@ -576,7 +532,6 @@ public class clsCompareGraph extends JGraph {
 		//create root node (it's a mesh-list) and add it to the registration list
 		clsGraphCell oParent = createDefaultGraphVertex(moRootNodeName, 0, 0, 60, 40, moColorRoot);
 		//get graph-cells for each object in the of the mesh
-		yLevel=0;
 		xLevel=0;
 		readInspectorDataAndGenerateGraphCells(oParent);
 		
@@ -706,11 +661,8 @@ public class clsCompareGraph extends JGraph {
 	{
 		clsGraphCell oRootCell = null;
 		
-		if(lastXlevel!=xLevel)yLevel++;
-		
 		xLevel++;
 		//check for the  main data types possible for clsDataStructurePA
-		lastXlevel = xLevel;
 		if(poMemoryObject instanceof clsDriveMesh)
 		{
 
@@ -1465,7 +1417,7 @@ public class clsCompareGraph extends JGraph {
 
 		for (int j=0; j<poMemoryObject.size(); j++) {
 			Object o = poMemoryObject.get(j);
-			DefaultGraphCell oCell= generateGraphCell(oListCellRoot, o);
+			generateGraphCell(oListCellRoot, o);
 		}
 
 		return poParentCell;
@@ -1601,7 +1553,7 @@ public class clsCompareGraph extends JGraph {
 		if (isEnabled() && isMoveable()
 				&& layout != null) {
 			final JGraphFacade facade = createFacade(this);
-			final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
+		//	final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
 /*			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
 					this, (JGraphLayout.Stoppable) layout)
 					: null;*/
@@ -1766,7 +1718,7 @@ public class clsCompareGraph extends JGraph {
 	 *            The layout to create the progress monitor for.
 	 * @return Returns a new progress monitor.
 	 */
-    private ProgressMonitor createProgressMonitor(JGraph graph,
+ /*   private ProgressMonitor createProgressMonitor(JGraph graph,
 			JGraphLayout.Stoppable layout) {
 		ProgressMonitor monitor = new JGraphLayoutProgressMonitor(graph,
 				((JGraphLayout.Stoppable) layout).getProgress(),
@@ -1775,7 +1727,7 @@ public class clsCompareGraph extends JGraph {
 		monitor.setMillisToPopup(500);
 		return monitor;
 	}
-	
+*/	
 	/**
 	 * Resets the graph to compact tree Layout.
 	 */

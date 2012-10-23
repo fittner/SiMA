@@ -32,17 +32,7 @@ public class cls_CombinedTimeChart extends Inspector{
 	private ArrayList<Inspector> moCharts;
 	private ArrayList<DataContainer> moData;
 	
-	private boolean showRangeLabel =true;
 	
-	
-	/**
-	 * @since Oct 10, 2012 10:43:38 AM
-	 * 
-	 * @param showRangeLabel the showRangeLabel to set
-	 */
-	public void setShowRangeLabel(boolean showRangeLabel) {
-		this.showRangeLabel = showRangeLabel;
-	}
 
 	public class DataContainer implements itfInspectorGenericTimeChart{
 		protected String moTitle;
