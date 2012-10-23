@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 
@@ -398,8 +399,8 @@ public class clsActTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static clsWordPresentationMesh getFirstImage(clsWordPresentationMesh poImage) {
-		clsWordPresentationMesh oRetVal = poImage;
+	public static clsWordPresentationMesh getFirstImage(clsWordPresentationMesh poEventImage) {
+		clsWordPresentationMesh oRetVal = poEventImage;
 				
 		while (hasPreviousImage(oRetVal)==true) {
 			oRetVal = getPreviousImage(oRetVal);
@@ -694,6 +695,74 @@ public class clsActTools {
 		}
 		
 		return nResult;
+	}
+	
+	/**
+	 * Set task status or replace if it already exists
+	 * 
+	 * (wendt)
+	 *
+	 * @since 17.07.2012 22:00:32
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 */
+	public static void setCondition(clsWordPresentationMesh poIntention, eCondition poTask) {
+		//Get the current one
+		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
+		
+		//Replace or create new
+		//if (oFoundStructure==null) {
+		clsMeshTools.setNonUniquePredicateWP(poIntention, ePredicate.HASCONDITION, eContentType.CONDITION, poTask.toString(), false);
+		//} else {
+		//	oFoundStructure.setMoContent(poTask.toString());
+		//}
+		
+	}
+	
+	
+	/**
+	 * Get the current decision task
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 16:42:03
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static ArrayList<eCondition> getCondition(clsWordPresentationMesh poIntention) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
+		
+		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsMeshTools.getNonUniquePredicateWP(poIntention, ePredicate.HASCONDITION);
+				
+		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
+			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Check if a certain taskstatus exists
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.07.2012 20:27:12
+	 *
+	 * @param poGoal
+	 * @param poTask
+	 * @return
+	 */
+	public static boolean checkIfConditionExists(clsWordPresentationMesh poGoal, eCondition poTask) {
+		boolean bResult = false;
+		
+		ArrayList<eCondition> oResult = clsActTools.getCondition(poGoal);
+		if (oResult.contains(poTask)) {
+			bResult=true;
+		}
+		
+		return bResult;
 	}
 	
 		

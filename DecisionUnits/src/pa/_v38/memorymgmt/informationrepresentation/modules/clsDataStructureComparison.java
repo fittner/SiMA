@@ -636,7 +636,7 @@ public abstract class clsDataStructureComparison {
 									}
 									
 								}
-							} else {
+							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
 								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 							}
 						} catch (CloneNotSupportedException e) {

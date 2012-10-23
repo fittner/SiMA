@@ -250,44 +250,48 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
 						
-
 						// get similar memory-dm
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
-						// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
-						rCurrentMatchFactor = oSearchPair.a; 
-						rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
+						//Add by AW: In order to use drive meshes for images, only the ones, which are in the "semantic" memory can be used. The drive meshes in the "episodic" part
+						//of the memory cannot be used for this purpose
 						
-						// take the best match
-						
-						if( rCurrentDecisionFactor > mrThresholdMatchFactor) {
+						if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)) {
+							// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
+							rCurrentMatchFactor = oSearchPair.a; 
+							rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
 							
-							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
-							// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+							// take the best match
 							
-							// add associations to memory-dm
-							//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
-							
-							// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
-							// weighting of asscoiation-weight with QoA
-							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
-							
-							
-							
-							// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
-							if(oMemoryDM.getActualDriveObject() != null) {
-								oDriveObjectActivated = oMemoryDM.getActualDriveObject();
-								oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
-								//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+							if( rCurrentDecisionFactor > mrThresholdMatchFactor) {
 								
-							}
-														
-							// take  drive object+drive aim of best match 
-							if( rCurrentDecisionFactor > rMaxDecisionfactor) {
-								rMaxDecisionfactor = rCurrentDecisionFactor; 								
-								oDriveAim = oMemoryDM.getActualDriveAim();
-								oDriveObject = oMemoryDM.getActualDriveObject();
-								rSatisfactionOfActualDM = rCurrentDecisionFactor;
+								// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
+								// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+								
+								// add associations to memory-dm
+								//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
+								
+								// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
+								// weighting of asscoiation-weight with QoA
+								oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
+								
+								
+								
+								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
+								if(oMemoryDM.getActualDriveObject() != null) {
+									oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
+									//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+									
+								}
+															
+								// take  drive object+drive aim of best match 
+								if( rCurrentDecisionFactor > rMaxDecisionfactor) {
+									rMaxDecisionfactor = rCurrentDecisionFactor; 								
+									oDriveAim = oMemoryDM.getActualDriveAim();
+									oDriveObject = oMemoryDM.getActualDriveObject();
+									rSatisfactionOfActualDM = rCurrentDecisionFactor;
+								}
 							}
 						}
 					}

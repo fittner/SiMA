@@ -156,7 +156,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 	}
@@ -168,12 +168,16 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
 						
-						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
-						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
+						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
 						
 						
 						try {
-							oDM.setActualDriveObject(oTPM, 1.0);
+							if (oDM.getDebugInfo().equals("nourish")) {
+								oDM.setActualDriveObject(oTPM, 1.0);
+								oDM.setQuotaOfAffect(1.0);
+							}
+							
 						} catch (Exception e) {
 							// TODO (wendt) - Auto-generated catch block
 							e.printStackTrace();

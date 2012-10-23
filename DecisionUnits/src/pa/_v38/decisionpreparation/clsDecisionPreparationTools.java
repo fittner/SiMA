@@ -17,6 +17,7 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
@@ -148,7 +149,7 @@ public class clsDecisionPreparationTools {
 		
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			if (poContinuedGoal!=oGoal) {
-				setDefaultGoalCondition(oGoal);
+				setDefaultGoalCondition(oGoal, poContinuedGoal);
 			}
 		}
 	}
@@ -163,7 +164,7 @@ public class clsDecisionPreparationTools {
 	 *
 	 * @param poGoal
 	 */
-	private static void setDefaultGoalCondition(clsWordPresentationMesh poGoal) {
+	private static void setDefaultGoalCondition(clsWordPresentationMesh poGoal, clsWordPresentationMesh poContinuedGoal) {
 		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
 		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
 			//Set the NEED_FOCUS for all focus images
@@ -178,9 +179,43 @@ public class clsDecisionPreparationTools {
 			clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
 			clsGoalTools.setCondition(poGoal, eCondition.IS_DRIVE_SOURCE);
 		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE)) {
-			//Set the need to perform a basic act recognition analysis
-			clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
 			clsGoalTools.setCondition(poGoal, eCondition.IS_MEMORY_SOURCE);
+			
+			// --- Check the conditions in the intention --- //
+			
+			//Get the intention
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poGoal));
+			
+			//If the act has to start with the first image:
+			if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true) {
+				//Cases:
+				//1. If the first image has match 1.0 and there is no first act ||
+				//2. If the this act is the same as from the previous goal -> start this act as normal
+				//else set GOAL_CONDITION_BAD
+				
+				//Get the first image and its match to the PI
+				ArrayList<clsWordPresentationMesh> oEventImageList = clsActTools.getAllSubImages(oIntention);
+				double rCurrentFirstImageMatch = 0.0;
+				if (oEventImageList.isEmpty()==false) {
+					clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oEventImageList.get(0));
+					rCurrentFirstImageMatch = clsActTools.getPIMatch(oFirstImage);
+				}
+				
+				
+				clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
+				
+				
+				if (oPreviousIntention.getMoDS_ID()!=oIntention.getMoDS_ID() && rCurrentFirstImageMatch < 1.0) {
+					clsGoalTools.setCondition(poGoal, eCondition.GOAL_CONDITION_BAD);
+				} else {
+					//Set the need to perform a basic act recognition analysis
+					clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
+				}
+				
+			} else {
+				//Set the need to perform a basic act recognition analysis
+				clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
+			}
 		}
 	}
 	

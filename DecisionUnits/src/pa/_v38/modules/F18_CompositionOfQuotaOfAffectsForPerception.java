@@ -233,7 +233,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
 							
 							//SSCH 20121002 decommented due to a bug ( continous QoA-increase). if needed, take care to not accumulate the QoA
-							//oFirstDM.setQuotaOfAffect(mrNewPleasure);
+							oFirstDM.setQuotaOfAffect(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM
@@ -296,13 +296,14 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	 * @return
 	 */
 	private double setNewQuotaOfAffectValue(double rOriginal, double rAddValue) {
+		double rResult = (rOriginal + rAddValue);
 		// This function was made in order to be able to set the calculation function of the total 
 		//  quota of affect separately 
 		//
 		
 		//Averaging is used and normalization of quota of affect, as this quota of affect is only the "erinnerte Besetzung" and does not follow the law
 		//of constanct quota of affect
-		return (rOriginal + rAddValue);
+		return  rResult;
 	}
 	
 	/* (non-Javadoc)
