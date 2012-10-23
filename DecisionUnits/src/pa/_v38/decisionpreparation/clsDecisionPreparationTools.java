@@ -35,6 +35,8 @@ import pa._v38.tools.clsTriple;
  */
 public class clsDecisionPreparationTools {
 
+	private static final double mrActMatchActivationThreshold = 1.0; 
+	
 	/**
 	 * This method prepoesses goal in F51. There are 2 types of goals: One goal, which is continued and many goals, which are processed for the first time. These goals get default preconditions 
 	 * and the continued goal is mapped to one of the new goals
@@ -186,32 +188,27 @@ public class clsDecisionPreparationTools {
 			//Get the intention
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poGoal));
 			
+			//Check if the previous act is the same as this one
+			boolean bSameAct = clsActPreparationTools.checkIfPreviousActIsEqualToCurrentAct(poContinuedGoal, poGoal);
+			double rCurrentImageMatch = 0.0;
+			
 			//If the act has to start with the first image:
 			if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true) {
 				//Cases:
 				//1. If the first image has match 1.0 and there is no first act ||
 				//2. If the this act is the same as from the previous goal -> start this act as normal
 				//else set GOAL_CONDITION_BAD
+				clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
+				rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
 				
-				//Get the first image and its match to the PI
-				ArrayList<clsWordPresentationMesh> oEventImageList = clsActTools.getAllSubImages(oIntention);
-				double rCurrentFirstImageMatch = 0.0;
-				if (oEventImageList.isEmpty()==false) {
-					clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oEventImageList.get(0));
-					rCurrentFirstImageMatch = clsActTools.getPIMatch(oFirstImage);
-				}
-				
-				
-				clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poContinuedGoal));
-				
-				
-				if (oPreviousIntention.getMoDS_ID()!=oIntention.getMoDS_ID() && rCurrentFirstImageMatch < 1.0) {
-					clsGoalTools.setCondition(poGoal, eCondition.GOAL_CONDITION_BAD);
-				} else {
-					//Set the need to perform a basic act recognition analysis
-					clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
-				}
-				
+			} else {
+				//Get best match from an intention
+				clsWordPresentationMesh oBestMatchEvent = clsActTools.getHighestPIMatchFromSubImages(oIntention);
+				rCurrentImageMatch = clsActTools.getPIMatch(oBestMatchEvent);
+			}
+			
+			if (bSameAct==true && rCurrentImageMatch < mrActMatchActivationThreshold) {
+				clsGoalTools.setCondition(poGoal, eCondition.ACT_MATCH_TOO_LOW);
 			} else {
 				//Set the need to perform a basic act recognition analysis
 				clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);

@@ -1,4 +1,4 @@
-; Mon Oct 22 20:31:26 GMT 2012
+; Tue Oct 23 14:17:55 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -1069,6 +1069,10 @@
 	(role concrete))
 
 (defclass DM_LibidoDischarge
+	(is-a DM)
+	(role concrete))
+
+(defclass _TEMP_DM_PRIDM
 	(is-a DM)
 	(role concrete))
 

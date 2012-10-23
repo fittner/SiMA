@@ -27,7 +27,9 @@ import pa._v38.tools.clsMeshTools;
 public class clsActPreparationTools {
 	
 	private static final double mrMomentActivationThreshold = 1.0;
+	private static final double mrMomentConfidenceThreshold = 0.3;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
+	private static final double mrActConfidenceThreshold = 0.5;
 
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
@@ -80,7 +82,7 @@ public class clsActPreparationTools {
 		
 		//Return the recommendation
 		//If the moment match > Threshold and there is an expectation
-		if (rCurrentMomentConfidence>=mrMomentActivationThreshold && oCurrentExpectation.isNullObject()==false) {
+		if (rCurrentMomentConfidence>=mrMomentConfidenceThreshold && rCurrentIntentionActConfidence >= mrActConfidenceThreshold && oCurrentExpectation.isNullObject()==false) {
 			oResult.add(eCondition.SET_FOLLOW_ACT);
 		//If the moment is the last image
 		} else if (bMomentIsLastImage==true) {
@@ -366,6 +368,45 @@ public class clsActPreparationTools {
 		double oPreviousMatch = clsActTools.getPIMatch(oPreviousMoment);
 
 		if (oCurrentMoment.getMoDS_ID()!=oPreviousMoment.getMoDS_ID() || oCurrentMatch!=oPreviousMatch) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
+	
+	/**
+	 * Check if the previous act from a goal is the same as this act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 15:50:38
+	 *
+	 * @param poPreviousGoal
+	 * @param poCurrentGoal
+	 * @return
+	 */
+	public static boolean checkIfPreviousActIsEqualToCurrentAct(clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poCurrentGoal) {
+		boolean bResult = false;
+		
+		clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poCurrentGoal));
+		
+		
+//		double rCurrentFirstImageMatch = clsActTools.getPIMatch(clsActTools.getFirstImageFromIntention(poIntention));
+//		
+//		//Get the first image and its match to the PI
+//		ArrayList<clsWordPresentationMesh> oEventImageList = clsActTools.getAllSubImages(oIntention);
+//		double rCurrentFirstImageMatch = 0.0;
+//		if (oEventImageList.isEmpty()==false) {
+//			clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oEventImageList.get(0));
+//			rCurrentFirstImageMatch = clsActTools.getPIMatch(oFirstImage);
+//		}
+//		
+//		
+//		
+//		
+		
+		if (oPreviousIntention.getMoDS_ID()!=oCurrentIntention.getMoDS_ID()) {
 			bResult=true;
 		}
 		

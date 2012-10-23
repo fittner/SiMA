@@ -410,6 +410,27 @@ public class clsActTools {
 	}
 	
 	/**
+	 * Getthe first image from an act by having the intention
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 15:46:41
+	 *
+	 * @param poIntention
+	 * @return
+	 */
+	public static clsWordPresentationMesh getFirstImageFromIntention(clsWordPresentationMesh poIntention) {
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
+		ArrayList<clsWordPresentationMesh> oEventImageList = clsActTools.getAllSubImages(poIntention);
+		if (oEventImageList.isEmpty()==false) {
+			oResult = clsActTools.getFirstImage(oEventImageList.get(0));
+		}
+		
+		return oResult;
+	}
+	
+	/**
 	 * Get the last image in the sequence
 	 * 
 	 * (wendt)

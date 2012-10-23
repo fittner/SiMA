@@ -255,7 +255,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						
 						//Add by AW: In order to use drive meshes for images, only the ones, which are in the "semantic" memory can be used. The drive meshes in the "episodic" part
 						//of the memory cannot be used for this purpose
-						
+						//FIXME: SOMEBODY! In Protege, drive meshes are put on PRIINSTANCES. They should be replaced by emotions, as drive meshes only exist for entity types and for images,
+						//only emotions should be used. This is a hack by AW, in order to finish the phd implementation within 2012. This is a good student task! Contact AW for more info.
 						if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)) {
 							// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
 							rCurrentMatchFactor = oSearchPair.a; 

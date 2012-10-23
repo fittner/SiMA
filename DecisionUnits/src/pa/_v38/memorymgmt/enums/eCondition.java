@@ -69,8 +69,8 @@ public enum eCondition {
 	GOAL_NOT_REACHABLE,				//This is put on acts, where there is no match, in order to exclude the act
 	GOAL_REACHABLE,
 	GOAL_COMPLETED,
-	GOAL_CONDITION_BAD,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
-	
+	ACT_MATCH_TOO_LOW,		//This is used to suppress the pleasure level for goals, which are not suitable in a certain situation
+		
 	//--- Preconditions for action codelets set by decision codelets --- //
 	//Initial (deafult)
 	NEED_BASIC_ACT_ANALYSIS,		//Needs an act analysis. This option has to be triggered by an action
