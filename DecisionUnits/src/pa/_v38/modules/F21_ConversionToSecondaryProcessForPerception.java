@@ -136,7 +136,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = poConceptMemory; // FIXME ISABELLA: Dont use the
+		this.moConceptMemory = new clsShortTermMemory(1,1); // FIXME ISABELLA: Dont use the
 												// environmental image storage
 												// to init your memory. It does
 												// not work properly
@@ -360,13 +360,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		}
 
 		// Create a List of all loaded acts and other memories
-		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools
-				.processMemories(oEnhancedRIWPMList);
+		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
 
 		// Output: ArrayList<WPM> for each TPM-Image. The WPM are already
 		// assigned their acts here
-		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(
-				oPIWPM, oCategorizedRIWPMList);
+		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oCategorizedRIWPMList);
 
 		return oRetVal;
 	}

@@ -281,14 +281,19 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
 					oResult += "\nSUBIMAGES: ";
 					for (clsWordPresentationMesh oSubImage : oSubImages) {
-						oResult += oSubImage.getMoContent() + "(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + ")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + ");"; 
+						oResult += oSubImage.getMoContent() + 
+								"(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + 
+								")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + 
+								")(Timeout=" + clsActTools.getMovementTimeoutValue(oSubImage) + ");"; 
 					}
 				} else if (clsActTools.isEvent(this)==true) {
 					//oResult += "::"+this.moDataStructureType+"::";  
 					oResult += this.moContentType + ":" + this.moContent;
 					//List PI-Match
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
-					oResult += "(PIMatch=" + rPIMatch + ")";
+					oResult += "(PIMatch=" + rPIMatch + 
+					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
+					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");"; 
 				} else {  
 					oResult += this.moContentType + ":" + this.moContent;
 					if (this.moInternalAssociatedContent.isEmpty()==false) {

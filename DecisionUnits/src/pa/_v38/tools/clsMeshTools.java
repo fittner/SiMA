@@ -2255,7 +2255,7 @@ public class clsMeshTools {
 	//=== PERCEIVED IMAGE AND REMEMBERED IMAGE TOOLS WPM --- START ===//
 	
 	/**
-	 * Get all images in a WPM mesh, i. e. contentType = RI or PI
+	 * Get all images in a WPM mesh, i. e. contentType = RI
 	 * 
 	 * (wendt)
 	 *
@@ -2272,6 +2272,33 @@ public class clsMeshTools {
 		//Add all RI. 
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
+		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
+		
+		for (clsDataStructurePA oWPM : oFoundImages) {
+			oRetVal.add((clsWordPresentationMesh) oWPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all action WPMs in a mesh
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 22:45:39
+	 *
+	 * @param poMesh
+	 * @param pnLevel
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllActionsFromWPMImages(clsWordPresentationMesh poMesh, int pnLevel) {
+		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		//Add all RI. 
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.ACTION, ""));
 		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
 		
 		for (clsDataStructurePA oWPM : oFoundImages) {
@@ -2337,10 +2364,16 @@ public class clsMeshTools {
 		//Check if both presentations are TPM or WPM. Else nothing is done
 		//if (poSourceMesh instanceof clsThingPresentationMesh && poNewMesh instanceof clsThingPresentationMesh) {
 		//Get source mesh list
-		ArrayList<clsWordPresentationMesh> oSourceWPMList = getAllWPMImages(poSourceMesh, mnMaxLevel);
-			
+		ArrayList<clsWordPresentationMesh> oSourceWPMList = getAllWPMImages(poSourceMesh, mnMaxLevel); 
+		ArrayList<clsWordPresentationMesh> oSourceWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poSourceMesh, mnMaxLevel);
+		
+		oSourceWPMList.addAll(oSourceWPMListActions);
+		
 		//Get the new mesh list
 		ArrayList<clsWordPresentationMesh> oNewWPMList = getAllWPMImages(poNewMesh, mnMaxLevel);
+		ArrayList<clsWordPresentationMesh> oNewWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poNewMesh, mnMaxLevel);
+		
+		oNewWPMList.addAll(oNewWPMListActions);
 		
 		//Create process pairs Source and New
 		ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oInstancePairList = new ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>>();

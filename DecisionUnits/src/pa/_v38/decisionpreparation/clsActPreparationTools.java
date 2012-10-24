@@ -27,7 +27,10 @@ import pa._v38.tools.clsMeshTools;
 public class clsActPreparationTools {
 	
 	private static final double mrMomentActivationThreshold = 1.0;
+	private static final double mrMomentConfidenceThreshold = 0.25;
 	private static final double mrDefaultConfidenceIncreasement = 0.5;
+	private static final double mrActConfidenceThreshold = 0.5;
+	private static final int mnMovementTimeoutValue = 10;
 
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
@@ -45,9 +48,10 @@ public class clsActPreparationTools {
 		
 		//Get previous act
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
+		clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
 		
 		//Find the moment in the act
-		analyzeMomentInAct(poAct, oPreviousGoal);
+		analyzeMomentInAct(poAct, oPreviousAct);
 		
 		//Current found moment
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poAct);
@@ -80,7 +84,7 @@ public class clsActPreparationTools {
 		
 		//Return the recommendation
 		//If the moment match > Threshold and there is an expectation
-		if (rCurrentMomentConfidence>=mrMomentActivationThreshold && oCurrentExpectation.isNullObject()==false) {
+		if (rCurrentMomentConfidence>=mrMomentConfidenceThreshold && rCurrentIntentionActConfidence >= mrActConfidenceThreshold && oCurrentExpectation.isNullObject()==false) {
 			oResult.add(eCondition.SET_FOLLOW_ACT);
 		//If the moment is the last image
 		} else if (bMomentIsLastImage==true) {
@@ -132,19 +136,33 @@ public class clsActPreparationTools {
 		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
 		clsWordPresentationMesh oPreviousExpectation = clsActDataStructureTools.getExpectation(poPreviousAct);
 		
-		clsWordPresentationMesh oCurrentMoment = calculateMoment(oCurrentMomentCandidateList, oPreviousMoment, oPreviousExpectation);
-
-		//Get previous act
-		//clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
+		enhanceListWithPreviousMoment(oCurrentMomentCandidateList, poCurrentAct, oPreviousMoment);
 		
-		//Verify the temporal order
+		clsWordPresentationMesh oCurrentMoment = calculateMoment(oCurrentMomentCandidateList, oPreviousMoment, oPreviousExpectation);
+		
 		//A correct moment is either same moment as now or a moment, which is connected somehow with the last moment.
 		if (oCurrentMoment.isNullObject()==false) {
+			//Set the moment in the act
 			clsActDataStructureTools.setMoment(poCurrentAct, oCurrentMoment);
-			//bResult=true;
 		}
 			
-		//return bResult;
+	}
+	
+	private static void enhanceListWithPreviousMoment(ArrayList<clsWordPresentationMesh> poCurrentMomentCandidateList, clsWordPresentationMesh poCurrentAct, clsWordPresentationMesh poPreviousMoment) {
+		//Enhance currentmomentcandidatelist with the current moment of the previous act
+		if (poPreviousMoment.isNullObject()==false) {
+			//poCurrentMomentCandidateList.clear();
+			
+			clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poCurrentAct);
+			clsWordPresentationMesh oProposedMomentFromPreviousAct = clsActTools.getEventFromIntentionByImageID(oCurrentIntention, poPreviousMoment);
+			
+			//Check validity through timeout
+			//int nTimeOut = clsActTools.getMovementTimeoutValue(oProposedMomentFromPreviousAct);
+			//if (nTimeOut>=0) {
+			poCurrentMomentCandidateList.add(oProposedMomentFromPreviousAct);
+			//} 
+			
+		}
 	}
 	
 	/**
@@ -182,21 +200,27 @@ public class clsActPreparationTools {
 		if (oPreviousMoment.isNullObject()==true) {
 			//Check if there are more than one possible moment
 			if (oPossibleMomentList.size()>=1) {
+				int nBestImagePosition = clsActTools.getEventPositionInAct(oPossibleMomentList.get(0));
+				oResult = oPossibleMomentList.get(0);
+				
 				for (clsWordPresentationMesh oMoment : oPossibleMomentList) {
 					double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
-					
 					clsActTools.setMomentConfidenceLevel(oMoment, rMomentConfidence);
+					int nImagePosition = clsActTools.getEventPositionInAct(oMoment);
+					
+					if (nBestImagePosition>nImagePosition) {
+						oResult = oMoment;
+					}
+					
 				}
-				
-				//TODO AW: Implement the last case. If the matches are the same, select the first image. In this case just take the first image from the list
-				oResult = oPossibleMomentList.get(0);
-								
 			} else {
 				//The list is empty, do nothing
 			}
 			
 			
 		} else {
+			//Previous moment exists
+			
 			//Check if there are more than one possible moment
 			if (oPossibleMomentList.size()>=1) {
 				double rBestConfidence = 0.0;
@@ -232,6 +256,12 @@ public class clsActPreparationTools {
 			}
 		}
 		
+		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
+		double oPIMatch = clsActTools.getPIMatch(oResult);
+		if (oPIMatch == mrMomentActivationThreshold) {
+			clsActTools.setMovementTimeoutValue(oResult, mnMovementTimeoutValue);
+		}
+		
 		return oResult;
 	}
 	
@@ -251,9 +281,11 @@ public class clsActPreparationTools {
 		double rResult = 0.0;
 		
 		if (oCurrentMoment.getMoDS_ID() == oPreviousMoment.getMoDS_ID()) {
-			rResult += mrDefaultConfidenceIncreasement*0.2;
+			rResult += mrDefaultConfidenceIncreasement*0.5;
 		} else if (oCurrentMoment.getMoDS_ID() == oPreviousExpectation.getMoDS_ID()) {
-			rResult += mrDefaultConfidenceIncreasement*0.4;
+			rResult += mrDefaultConfidenceIncreasement*1.0;
+		} else if (oPreviousMoment.isNullObject()==false) {
+			rResult += mrDefaultConfidenceIncreasement*(-0.5);
 		}
 		
 		return rResult;
@@ -366,6 +398,45 @@ public class clsActPreparationTools {
 		double oPreviousMatch = clsActTools.getPIMatch(oPreviousMoment);
 
 		if (oCurrentMoment.getMoDS_ID()!=oPreviousMoment.getMoDS_ID() || oCurrentMatch!=oPreviousMatch) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
+	
+	/**
+	 * Check if the previous act from a goal is the same as this act
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 15:50:38
+	 *
+	 * @param poPreviousGoal
+	 * @param poCurrentGoal
+	 * @return
+	 */
+	public static boolean checkIfPreviousActIsEqualToCurrentAct(clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poCurrentGoal) {
+		boolean bResult = false;
+		
+		clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
+		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poCurrentGoal));
+		
+		
+//		double rCurrentFirstImageMatch = clsActTools.getPIMatch(clsActTools.getFirstImageFromIntention(poIntention));
+//		
+//		//Get the first image and its match to the PI
+//		ArrayList<clsWordPresentationMesh> oEventImageList = clsActTools.getAllSubImages(oIntention);
+//		double rCurrentFirstImageMatch = 0.0;
+//		if (oEventImageList.isEmpty()==false) {
+//			clsWordPresentationMesh oFirstImage = clsActTools.getFirstImage(oEventImageList.get(0));
+//			rCurrentFirstImageMatch = clsActTools.getPIMatch(oFirstImage);
+//		}
+//		
+//		
+//		
+//		
+		
+		if (oPreviousIntention.getMoDS_ID()!=oCurrentIntention.getMoDS_ID()) {
 			bResult=true;
 		}
 		
