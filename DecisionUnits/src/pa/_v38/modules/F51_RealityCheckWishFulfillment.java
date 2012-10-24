@@ -27,7 +27,6 @@ import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
-import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.toText;
 
 /**
@@ -239,7 +238,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//=== Create the mental image ===
 		//Test AW: Relational Meshes
-		clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
+		//clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);

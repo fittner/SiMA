@@ -594,7 +594,8 @@ public class clsPrimarySpatialTools {
 	 * @return
 	 */
 	private static double calculateAssociationWeightFromDistance(double prDistance) {
-		return 1/(1+prDistance);
+		//return 1/(1+prDistance);
+		return Math.pow(Math.E, -prDistance/5);
 	}
 	
 	/**

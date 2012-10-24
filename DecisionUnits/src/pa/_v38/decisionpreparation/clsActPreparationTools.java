@@ -55,7 +55,6 @@ public class clsActPreparationTools {
 		
 		//Current found moment
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poAct);
-
 		
 		//Process the found moment
 		boolean bMomentIsLastImage = clsActTools.isLastImage(oCurrentMoment);

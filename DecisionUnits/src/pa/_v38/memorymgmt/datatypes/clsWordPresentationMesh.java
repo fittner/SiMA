@@ -307,7 +307,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 						oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
 						for (clsAssociation oEntry : moExternalAssociatedContent) {
 							clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
-							if (oDS instanceof clsWordPresentationMesh) {
+							if (oDS == null) {
+								oResult += "ERRONEOUS ASSOCIATION:" + oEntry;
+							} else if (oDS instanceof clsWordPresentationMesh) {
 								oResult += ((clsWordPresentationMesh)oDS).moContentType + ":" + ((clsWordPresentationMesh)oDS).moContent + ", "; 
 							} else {
 								oResult += oDS.toString()  + ","; 

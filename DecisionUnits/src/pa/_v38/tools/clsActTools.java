@@ -223,10 +223,10 @@ public class clsActTools {
 		//Get the PI-match
 		double rPIMatchValue = getSecondaryMatchValueToPIFromPrimaryPart(poImage);
 		
-		if (rPIMatchValue>0.0) {
+		//if (rPIMatchValue>0.0) {
 			//Add new WP to image
 			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue), false);
-		}
+		//}
 	}
 	
 	/**

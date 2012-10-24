@@ -1829,7 +1829,7 @@ public class clsMeshTools {
 	 */
 	public static void setInverseAssociations(clsWordPresentationMesh poInput) {
 		//Go through the associations and search for the other elements in the external associations
-		System.out.println(poInput);
+		//System.out.println(poInput);
 		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
 				clsSecondaryDataStructure oOtherElement = (clsSecondaryDataStructure) oAss.getTheOtherElement(poInput);
@@ -2505,7 +2505,7 @@ public class clsMeshTools {
 						}
 						
 						//Remove the association from the "From" entity
-						oRemoveIntAssList.add(oIntMoveFromAss);
+						//oRemoveIntAssList.add(oIntMoveFromAss);
 
 						
 						
@@ -2522,14 +2522,14 @@ public class clsMeshTools {
 			}
 		}
 		
-		for (clsAssociation oRemoveIntAss : oRemoveIntAssList) {
-			poMoveFromMesh.getMoInternalAssociatedContent().remove(oRemoveIntAss);
-		}
+//		for (clsAssociation oRemoveIntAss : oRemoveIntAssList) {
+//			poMoveFromMesh.getMoInternalAssociatedContent().remove(oRemoveIntAss);
+//		}
 		
 		//TODO: Primary process associations are not moved. If it is needed, it should be implemented
 		
 		//Create a removelist
-		ArrayList<clsAssociation> oRemoveExtAssList = new ArrayList<clsAssociation>();
+		//ArrayList<clsAssociation> oRemoveExtAssList = new ArrayList<clsAssociation>();
 		
 		//External associations
 		for (clsAssociation oExtMoveFromAss : poMoveFromMesh.getExternalAssociatedContent()) {
@@ -2560,6 +2560,9 @@ public class clsMeshTools {
 						//Set the root element
 						oExtMoveFromAss.setRootElement(poMoveToMesh);
 						poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+						//Remove the association as the association is 
+						//oRemoveExtAssList.add(oExtMoveFromAss);
+						
 					} else {
 						//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
 						//as the association to the new element is added by the new element
@@ -2580,7 +2583,7 @@ public class clsMeshTools {
 									oMeshElementWPM.getExternalAssociatedContent().add(oExtMoveFromAss);
 								}
 								//Remove the old association as it is handled once again if found
-								oRemoveExtAssList.add(oExtMoveFromAss);
+								//oRemoveExtAssList.add(oExtMoveFromAss);
 								//Remove the association from the found unknown element
 								((clsWordPresentationMesh) oOtherUnknownElement).getExternalAssociatedContent().remove(oExtMoveFromAss);
 								
@@ -2605,14 +2608,18 @@ public class clsMeshTools {
 				//Check if the structure already have one. If not move it.
 				if (clsMeshTools.getPrimaryDataStructureOfWPM(poMoveToMesh).isNullObject()==true) {
 					clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oExtMoveFromAss, false);
-					oRemoveExtAssList.add(oExtMoveFromAss);
+					//oRemoveExtAssList.add(oExtMoveFromAss);
 				}
 			}
 		}
 		
-		for (clsAssociation oRemoveExtAss : oRemoveExtAssList) {
-			poMoveFromMesh.getExternalAssociatedContent().remove(oRemoveExtAss);
-		}
+//		for (clsAssociation oRemoveExtAss : oRemoveExtAssList) {
+//			poMoveFromMesh.getExternalAssociatedContent().remove(oRemoveExtAss);
+//		}
+		
+		//Delete all assoications
+		poMoveFromMesh.getExternalAssociatedContent().clear();
+		poMoveFromMesh.getMoInternalAssociatedContent().clear();
 		
 	}
 	

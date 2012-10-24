@@ -166,8 +166,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		text += toText.valueToTEXT("moKnowledgeBaseHandler",
 				moKnowledgeBaseHandler);
 		text += toText.valueToTEXT("moConcept", moConcept);
-		text += toText.valueToTEXT("moConceptMemory",
-				moConceptMemory.toString());
+		text += toText.valueToTEXT("moConceptMemory", moConceptMemory.toString());
 		return text;
 	}
 
@@ -254,7 +253,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		// --- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
-		this.moConceptMemory.updateTimeSteps();
+		//this.moConceptMemory.updateTimeSteps();
 
 		// --- Update the environmental image ---//
 		this.moEnvironmentalImageStorage.updateTimeSteps();
@@ -313,8 +312,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		// Input: TPM
 		// 1. Get all Images of the Mesh
-		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools
-				.getAllTPMMemories(poPerceivedImage, 4);
+		ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
 		// 2. Search for WPM for the image and add the found image to a list.
 		// The WPM is connected with the TPM by an associationWP
 		ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
@@ -338,8 +336,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			// level 2. Input is a WPM, therefore, only WPM is returned
 			// FIXME AW: As the intention is loaded, all other connected
 			// containers are loaded here. This is too specialized
-			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(
-					oRIWPM, 2);
+			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
 			// Add the enhanced WPM to a new list, as the enhanced WPM are
 			// complete and the former RI are not.
 			oEnhancedRIWPMList.add(oEnhancedWPM);
@@ -369,10 +366,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		return oRetVal;
 	}
 
-	private clsWordPresentationMesh convertCompleteTPMtoWPMRoot(
-			clsThingPresentationMesh poTPM) {
-		return convertCompleteTPMtoWPM(poTPM,
-				new ArrayList<clsThingPresentationMesh>(), 1);
+	private clsWordPresentationMesh convertCompleteTPMtoWPMRoot(clsThingPresentationMesh poTPM) {
+		return convertCompleteTPMtoWPM(poTPM, new ArrayList<clsThingPresentationMesh>(), 1);
 	}
 
 	/**
@@ -390,9 +385,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	 * @param poSubTPM
 	 * @return
 	 */
-	private clsWordPresentationMesh convertCompleteTPMtoWPM(
-			clsThingPresentationMesh poTPM,
-			ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel) {
+	private clsWordPresentationMesh convertCompleteTPMtoWPM(clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel) {
 		clsWordPresentationMesh oRetVal = null;
 
 		// add the current TPM to the list
@@ -423,13 +416,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			// It may be the PI, then create a new image with for the PI or from
 			// the repressed content
 			oRetVal = new clsWordPresentationMesh(
-					new clsTriple<Integer, eDataType, eContentType>(-1,
-							eDataType.WPM, poTPM.getMoContentType()),
-					new ArrayList<clsAssociation>(), poTPM.getMoContent());
-			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(
-					new clsTriple<Integer, eDataType, eContentType>(-1,
-							eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP),
-					oRetVal, poTPM);
+					new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
+			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
 			oRetVal.getExternalAssociatedContent().add(oWPAss);
 		}
 
@@ -448,20 +436,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 				// Case AssociationAttribute
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
 					// Get the location templates
-					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh(
-							(clsPrimaryDataStructure) oTPMExternalAss
-									.getLeafElement(),
-							1.0);
+					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
 					if (oWPforTPAttribute != null) {
 						clsWordPresentation oAttributeWP = null;
 						try {
 							oAttributeWP = (clsWordPresentation) oWPforTPAttribute
 									.getLeafElement();
 						} catch (Exception e) {
-							System.out.println(oWPforTPAttribute
-									.getLeafElement().toString());
-							System.out.println(oWPforTPAttribute
-									.getRootElement().toString());
+							System.out.println(oWPforTPAttribute.getLeafElement().toString());
+							System.out.println(oWPforTPAttribute.getRootElement().toString());
 							e.printStackTrace();
 						}
 
