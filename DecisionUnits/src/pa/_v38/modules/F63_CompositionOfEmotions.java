@@ -33,12 +33,14 @@ import du.enums.pa.eDriveComponent;
 
 /**
  * (see document "Compositions of Emotions")
- * F63 generate Emotions based on  Pleasure and  Unpleasure. Four basic emotions exists: ANGER, FEAR, GRIEF and LOVE. They are not mutual exclusive. 
+ * F63 generate Emotions based on  Pleasure and  Unpleasure. Six basic emotions exists: ANGER, Anxiety, Mourning, Pleasure, Elation and Saturation. They are not mutual exclusive. 
  * Dependent on the dominance of the basic categories Pleasure, Unpleasure and the aggressive and libidinous drive parts, the corresponding emotions are generated.
  * Dominance of Unpleasure +  Dominance of aggr. Drivecomponents --> ANGER
- * Dominance of Unpleasure +  Dominance of libid. Drivecomponents --> GRIEF
- * Dominance of Unpleasure --> FEAR
- * Dominance of Pleasure +  Dominance of libid. Drivecomponents --> LOVE
+ * Dominance of Unpleasure +  Dominance of libid. Drivecomponents --> Mourning
+ * Dominance of Unpleasure --> Anxiety
+ * Dominance of Pleasure --> Pleasure
+ * Dominance of Pleasure + Dominance of aggr. Drivecomponents -->  Elation
+ * Dominance of Pleasure +  Dominance of libid. Drivecomponents --> Saturation
  * 
  * 
  * @author schaat
@@ -209,7 +211,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// aggregate values from drive- and perception track
 		// TODO: problem: values from perception are much higher than values from drive-track. --> impact of perception on the generation of emotion is relatively high (relative to impact of drive-track)
 		// normalize grundkategorien
-		// or is  it a problem? (if agent sees many objects the perception has more influence, otherwise drives have moire influence on emotions)
+		// or is  it a problem? (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
 		rSystemUnpleasure = rDriveUnpleasure + oPerceptionExtractedValues.get("rPerceptionUnpleasure");
 		rSystemPleasure = rDrivePleasure + oPerceptionExtractedValues.get("rPerceptionPleasure");
 		rSystemLibid = rDriveLibid +oPerceptionExtractedValues.get("rPerceptionLibid");
@@ -220,16 +222,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		rMaxQoASystemAggr = rMaxQoADrivesAggr + oPerceptionExtractedValues.get("rMaxQoAPerceptionAggr");
 		
 		// Normalize to be able to decide which basic category prevails/dominates
-		double orSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
-		double orSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
-		rRelativeSystemPleasure = rSystemPleasure/orSumValuesPlUnPl; 
-		rRelativeSystemUnpleasure = rSystemUnpleasure/orSumValuesPlUnPl;
-		rRelativeSystemLibid = rSystemLibid/orSumValuesLibidAggr;
-		rRelativeSystemAggr = rSystemAggr/orSumValuesLibidAggr;
+		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
+		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
+		rRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
+		rRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
+		rRelativeSystemLibid = rSystemLibid/rSumValuesLibidAggr;
+		rRelativeSystemAggr = rSystemAggr/rSumValuesLibidAggr;
 
 		/*
 		 * Generate Emotions
-		 * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> FEAR. if agg prevails -> ANGER. if libid prevails -> GRIEF. if no one prevails -> both)
+		 * if unpleasure prevails --> only generate unpleasure-based  emotions (always-> anxiety. if agg prevails -> ANGER. if libid prevails -> mourning. if no one prevails -> both)
 		 * if pleasure prevails --> only generate pleasure-based emotions (always->> PLEASURE. if agg prevails ->ELATION if libid prevails -> SATURATION)
 		 * 
 		 * the intensity of generated emotions is dependent on the relative amount of the basic category (Pleasuer, aggr, ... = from which the emotion is derived), particularly relative to the amount of pleasure+unpleasure

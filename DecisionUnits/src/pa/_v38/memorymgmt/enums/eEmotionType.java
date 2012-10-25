@@ -16,7 +16,6 @@ package pa._v38.memorymgmt.enums;
 public enum eEmotionType {
 	ANGER,
 	MOURNING,
-	LOVE,
 	ANXIETY,
 	PLEASURE,
 	SATURATION,
