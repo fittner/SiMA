@@ -72,6 +72,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	private ArrayList<clsAct> moRuleList; 
 	
 	private clsShortTermMemory moShortTermMemory;
+	
+	private String moTEMPDecisionString = "";
 //	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
 //	
@@ -147,6 +149,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
 		text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
+		
+		text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
 		
 		return text;
 	}		
@@ -225,27 +229,65 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
 			clsLogger.jlog.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + clsGoalTools.getSupportiveDataStructure(moDecidedGoalList_OUT.get(0)).toString());
+			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
+			//System.out.println(moTEMPDecisionString);
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
 			clsLogger.jlog.info("Decided goal: No goal ");
 		}
 		
+	}
+	
+	private String setDecisionString(clsWordPresentationMesh poDecidedGoal) {
+		String oResult = "";
 		
+		//Get the Goal String
+		String oGoalString = clsGoalTools.getGoalName(poDecidedGoal);
 		
+		//Get the goal object
+		String oGoalObjectString = clsGoalTools.getGoalObject(poDecidedGoal).toString();
 		
-		//Pass PI to Planning
-//		try {
-//			moPerceptionalMesh_OUT = (clsWordPresentationMesh)moPerceptionalMesh_IN.clone();
-//		} catch (CloneNotSupportedException e) {
-//			// TODO (wendt) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
+		//Get the Goal source
+		String oGoalSource = "NONE"; 
+		if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_DRIVE_SOURCE)) {
+			oGoalSource = "DRIVES (Drive goal not found in perception or acts)";
+		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_MEMORY_SOURCE)) {
+			oGoalSource = "ACT";
+		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			oGoalSource = "PERCEPTION";
+		}
 		
-		//Pass the prediction to the planning
-		//moExtractedPrediction_OUT = (ArrayList<clsPrediction>)deepCopy(moExtractedPrediction_IN);
+		//Get the AffectLevel
+		String oAffectLevel = eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
 		
-		//Pass the associated memories forward
-		//moAssociatedMemories_OUT = (ArrayList<clsWordPresentationMesh>)deepCopy(moAssociatedMemories_IN);
+		//Get Conditions
+		String oGoalConditions = "";
+		ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(poDecidedGoal);
+		for (eCondition oC : oConditionList) {
+			oGoalConditions += oC.toString() + "; ";
+		}				
+		
+		//Get the Supportive DataStructure
+		String oSupportiveDataStructureString = "";
+		if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_DRIVE_SOURCE)) {
+			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();
+		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_MEMORY_SOURCE)) {
+			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();	
+		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();
+		}
+		
+		//Set the current decision string
+		oResult += "============================================================================================\n";
+		oResult += "[GOAL NAME]\n   " + oGoalString + "\n\n";
+		oResult += "[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n";
+		oResult += "[GOAL SOURCE]\n   " + oGoalSource + "\n\n";
+		oResult += "[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n";
+		oResult += "[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n";
+		oResult += "[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n";
+		oResult += "============================================================================================\n";
+		
+		return oResult;
 	}
 
 
