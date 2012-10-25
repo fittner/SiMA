@@ -720,7 +720,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
 			oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
 			for (clsAssociation oEntry : moExternalAssociatedContent) {
 				clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
-				if (oDS instanceof clsThingPresentationMesh) {
+				if (oDS == null) {
+					oResult += "ERRONEOUS ASSOCIATION: " + oEntry;
+				} else if (oDS instanceof clsThingPresentationMesh) {
 					oResult += ((clsThingPresentationMesh)oDS).moContentType + ":" + ((clsThingPresentationMesh)oDS).moContent + ", "; 
 				} else {
 					oResult += oDS.toString()  + ","; 
