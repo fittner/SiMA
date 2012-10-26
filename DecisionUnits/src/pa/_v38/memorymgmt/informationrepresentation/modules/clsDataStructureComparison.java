@@ -15,8 +15,11 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -199,7 +202,12 @@ public abstract class clsDataStructureComparison {
 						e.printStackTrace();
 					}
 					//INFO: In the image function, the inverse associations are also created.
-					getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
+					try {
+						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
+					} catch (Exception e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
 							
@@ -557,9 +565,10 @@ public abstract class clsDataStructureComparison {
 	 *
 	 * @param poInput
 	 * @param poSearchSpaceHandler
+	 * @throws Exception 
 	 * @throws CloneNotSupportedException 
 	 */
-	public static void getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
+	public static void getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) throws Exception {
 		
 		clsThingPresentationMesh oRetVal = poInput;
 		
@@ -624,21 +633,29 @@ public abstract class clsDataStructureComparison {
 						try {
 							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
 							
-							if (oClonedAss instanceof clsAssociationPrimary) {
+							if (oClonedAss instanceof clsAssociationPrimary || 
+									oClonedAss instanceof clsAssociationPrimaryDM || 
+									oClonedAss instanceof clsAssociationDriveMesh || 
+									oClonedAss instanceof clsAssociationEmotion ||
+									oClonedAss instanceof clsAssociationAttribute) {
 								//If pnLevel is at least 1 and this association does not exist in the list
 								if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
-									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 									//Replace the erroneous associations
 									if (oRetVal.getMoDS_ID()==oClonedAss.getRootElement().getMoDS_ID()) {
 										oClonedAss.setRootElement(oRetVal);
 									} else if (oRetVal.getMoDS_ID()==oClonedAss.getLeafElement().getMoDS_ID()) {
 										oClonedAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
 									}
+									
+									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 									
 								}
 							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
 								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 							}
+							
 						} catch (CloneNotSupportedException e) {
 							// TODO (wendt) - Auto-generated catch block
 							e.printStackTrace();

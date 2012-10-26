@@ -258,7 +258,7 @@ public class clsActPreparationTools {
 		
 		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
 		double oPIMatch = clsActTools.getPIMatch(oResult);
-		if (oPIMatch == mrMomentActivationThreshold) {
+		if (oPIMatch == mrMomentActivationThreshold && oResult.getMoDS_ID() != oPreviousMoment.getMoDS_ID()) {
 			clsActTools.setMovementTimeoutValue(oResult, mnMovementTimeoutStartValue);
 		}
 		
