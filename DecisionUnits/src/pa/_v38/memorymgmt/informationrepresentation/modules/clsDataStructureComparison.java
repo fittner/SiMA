@@ -634,10 +634,7 @@ public abstract class clsDataStructureComparison {
 							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
 							
 							if (oClonedAss instanceof clsAssociationPrimary || 
-									oClonedAss instanceof clsAssociationPrimaryDM || 
-									oClonedAss instanceof clsAssociationDriveMesh || 
-									oClonedAss instanceof clsAssociationEmotion ||
-									oClonedAss instanceof clsAssociationAttribute) {
+									oClonedAss instanceof clsAssociationPrimaryDM) {
 								//If pnLevel is at least 1 and this association does not exist in the list
 								if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
 									//Replace the erroneous associations
@@ -650,8 +647,24 @@ public abstract class clsDataStructureComparison {
 									}
 									
 									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
-									
 								}
+							} else if (oClonedAss instanceof clsAssociationAttribute || 
+									oClonedAss instanceof clsAssociationDriveMesh || 
+									oClonedAss instanceof clsAssociationEmotion) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getMoDS_ID()==oClonedAss.getRootElement().getMoDS_ID()) {
+										oClonedAss.setRootElement(oRetVal);
+									} else if (oRetVal.getMoDS_ID()==oClonedAss.getLeafElement().getMoDS_ID()) {
+										oClonedAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
+									}
+									
+									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+								}
+								
 							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
 								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 							}
