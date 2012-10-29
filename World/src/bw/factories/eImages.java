@@ -34,7 +34,7 @@ public enum eImages {
 	Overlay_Action_OuterSpeech_Eat("Eat.png"),
 	Overlay_Action_InnerSpeech_Nourish("Action_Nourish.png"),
 	Overlay_Action_InnerSpeech_Schnitzel("Action_Schnitzel.png"),
-	Overlay_FacialExpression_ANGER("Expression_-Anger.png"),
+	Overlay_FacialExpression_ANGER("Expression_Anger.png"),
 	Overlay_FacialExpression_DISGUST("Expression_Disgust.png"),
 	Overlay_FacialExpression_FEAR("Expression_Fear.png"),
 	Overlay_FacialExpression_JOY("Expression_Joy.png"),
