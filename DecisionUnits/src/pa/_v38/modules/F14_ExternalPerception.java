@@ -1246,6 +1246,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 	}
 	
+	////// DRAFT FUNCTIONS END
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
