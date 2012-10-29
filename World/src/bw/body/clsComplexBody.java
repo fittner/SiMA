@@ -8,6 +8,11 @@
 package bw.body;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import config.clsProperties;
 import du.enums.eBodyActionType;
 import du.enums.eFacialExpression;
@@ -173,8 +178,40 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalSystem.stepUpdateInternalState(); //call first!
 		moIntraBodySystem.stepUpdateInternalState();
 		moInterBodyWorldSystem.stepUpdateInternalState();
+		//stepUpdateInternalBodyActions();
 	}
 	
+	/**
+	 * iterates through the bodily actions and reduces it by one step
+	 *
+	 * @since 29.10.2012 20:02:43
+	 *
+	 */
+	private void stepUpdateInternalBodyActions() {
+		if(moBodyActionList!= null && !moBodyActionList.isEmpty())
+		{
+			Set<Entry<eBodyActionType, Integer>> set = moBodyActionList.entrySet();
+			Iterator<Entry<eBodyActionType, Integer>> i = set.iterator();
+			 
+			while(i.hasNext()){
+			      
+			      Map.Entry<eBodyActionType, Integer>  entry = (Map.Entry<eBodyActionType, Integer> )i.next();
+			      eBodyActionType oBodyAction = (eBodyActionType) entry.getKey();
+			      int iDuration =  (Integer) entry.getValue();
+			      
+			      iDuration = iDuration-1;
+			      if(iDuration <= 0)
+			      {
+			    	  //remove it
+			    	  moBodyActionList.remove(oBodyAction);
+			      }else{
+			    	  //update it
+			    	  moBodyActionList.put(oBodyAction, iDuration);
+			      }
+			    }
+		}
+	}
+
 	@Override
 	public void stepProcessing(){
 		moBrain.stepProcessing();
