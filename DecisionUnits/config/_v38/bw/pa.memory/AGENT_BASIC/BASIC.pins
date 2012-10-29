@@ -1,4 +1,4 @@
-; Wed Oct 24 12:56:52 GMT 2012
+; Fri Oct 26 17:53:45 GMT 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -902,13 +902,6 @@
 	(value_max 0.8)
 	(value_min 0.5)
 	(value_type "AFFECT"))
-
-([AP%3AA_BROTHERCOLLISION_L01_I01%3AA_BROTHERCOLLISION_L01] of  ASSOCIATIONPRI
-
-	(element
-		[TPM%3AIMAGE%3AA_BROTHERCOLLISION_L01_I01]
-		[TPM%3AIMAGE%3AA_BROTHERCOLLISION_L01])
-	(weight 1.0 1.0))
 
 ([AP%3ABODO%3ACARL] of  ASSOCIATIONPRI
 

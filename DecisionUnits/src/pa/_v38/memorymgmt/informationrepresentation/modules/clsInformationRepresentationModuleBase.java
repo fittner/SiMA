@@ -113,7 +113,12 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
-		clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+		try {
+			clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+		} catch (Exception e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
 		return poInput;
 	}
 	

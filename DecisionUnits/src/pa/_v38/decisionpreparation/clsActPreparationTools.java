@@ -8,6 +8,7 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
@@ -47,6 +48,8 @@ public class clsActPreparationTools {
 	public static ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsShortTermMemory poSTM) {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
+		clsLogger.jlog.debug("Perform basic act analysis on " + poAct.toString());
+		
 		//Get previous act
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
 		clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
@@ -56,6 +59,7 @@ public class clsActPreparationTools {
 		
 		//Current found moment
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poAct);
+		clsLogger.jlog.debug("Extracted moment: " + oCurrentMoment.toString());
 		
 		//Process the found moment
 		boolean bMomentIsLastImage = clsActTools.isLastImage(oCurrentMoment);
@@ -66,7 +70,7 @@ public class clsActPreparationTools {
 		}
 		
 		clsWordPresentationMesh oCurrentExpectation = clsActDataStructureTools.getExpectation(poAct);
-		
+		clsLogger.jlog.debug("Extracted expectation: " + oCurrentExpectation.toString() + "\n");
 		
 		//Current Intention
 		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poAct);
@@ -156,11 +160,9 @@ public class clsActPreparationTools {
 			clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poCurrentAct);
 			clsWordPresentationMesh oProposedMomentFromPreviousAct = clsActTools.getEventFromIntentionByImageID(oCurrentIntention, poPreviousMoment);
 			
-			//Check validity through timeout
-			//int nTimeOut = clsActTools.getMovementTimeoutValue(oProposedMomentFromPreviousAct);
-			//if (nTimeOut>=0) {
-			poCurrentMomentCandidateList.add(oProposedMomentFromPreviousAct);
-			//} 
+			if (poCurrentMomentCandidateList.contains(oProposedMomentFromPreviousAct)==false) {
+				poCurrentMomentCandidateList.add(oProposedMomentFromPreviousAct);
+			}
 			
 		}
 	}
@@ -237,9 +239,16 @@ public class clsActPreparationTools {
 					//Set the new confidence
 					clsActTools.setMomentConfidenceLevel(oMoment, rNewMomentConfidence);
 					
+					//Take the best confidence value as moment
 					if (rNewMomentConfidence>rBestConfidence) {
 						rBestConfidence = rNewMomentConfidence;
 						oResult = oMoment;
+					//If the values are equal, take the one, which was the moment the last time.
+					} else if (rNewMomentConfidence==rBestConfidence) {
+						if (oMoment.getMoDS_ID()==oPreviousMoment.getMoDS_ID()) {
+							rBestConfidence = rNewMomentConfidence;
+							oResult = oMoment;
+						}
 					}
 				}
 			} else {
@@ -258,7 +267,7 @@ public class clsActPreparationTools {
 		
 		//If the PI match of the moment is over the recognition threshold, then set a new timeout value, else not.
 		double oPIMatch = clsActTools.getPIMatch(oResult);
-		if (oPIMatch == mrMomentActivationThreshold) {
+		if (oPIMatch == mrMomentActivationThreshold && oResult.getMoDS_ID() != oPreviousMoment.getMoDS_ID()) {
 			clsActTools.setMovementTimeoutValue(oResult, mnMovementTimeoutStartValue);
 		}
 		
@@ -359,6 +368,9 @@ public class clsActPreparationTools {
 		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==false && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==false) {
 			//This is a confirmation of the previous moment as there is no certain match of the expectation
 			rReinforceFactor += 0.8;
+		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false && bNextEventPIMatchEquals10==false) {
+				//This is a confirmation of the previous moment as there is no certain match of the expectation
+				rReinforceFactor += 0.3;
 		} else if (bPreviousMomentIsNullObject==false) {
 			//Reduce all other image in the act, which is not covered by the cases above
 			rReinforceFactor += -0.5;
