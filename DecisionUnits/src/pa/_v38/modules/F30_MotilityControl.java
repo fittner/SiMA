@@ -183,6 +183,7 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
+				
 		this.moEnvironmentalPerception_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
 		
 		this.moActionCommands_Output = this.moActionCommands_Input;

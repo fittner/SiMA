@@ -26,6 +26,7 @@ public class clsSingletonProperties {
 	private boolean mnUseLogger;
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
+	private boolean mnShowFacialExpressionOverlay;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -36,6 +37,7 @@ public class clsSingletonProperties {
 		mnUseLogger = false;
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
+		mnShowFacialExpressionOverlay = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -103,6 +105,13 @@ public class clsSingletonProperties {
 		(clsSingletonProperties.instance()).mnShowTPMNetworkGridPortrayal = value;
 		clsSingletonMasonGetter.getTPMNetworkField().clear();
 		clsSingletonMasonGetter.getTPMNodeField().clear();
+	}
+	
+	static public boolean showFacialExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
+	}
+	static public void setShowFacialExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
 	
 	

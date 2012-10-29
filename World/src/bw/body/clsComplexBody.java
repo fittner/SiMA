@@ -178,7 +178,7 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalSystem.stepUpdateInternalState(); //call first!
 		moIntraBodySystem.stepUpdateInternalState();
 		moInterBodyWorldSystem.stepUpdateInternalState();
-		//stepUpdateInternalBodyActions();
+		stepUpdateInternalBodyActions();
 	}
 	
 	/**
@@ -188,6 +188,8 @@ public class clsComplexBody extends clsBaseBody implements
 	 *
 	 */
 	private void stepUpdateInternalBodyActions() {
+		
+	
 		if(moBodyActionList!= null && !moBodyActionList.isEmpty())
 		{
 			Set<Entry<eBodyActionType, Integer>> set = moBodyActionList.entrySet();

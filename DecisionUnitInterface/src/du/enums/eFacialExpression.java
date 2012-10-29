@@ -8,13 +8,23 @@ package du.enums;
  * 
  */
 public enum eFacialExpression {
-	ANGER,
-	DISGUST,
-	FEAR,
-	JOY,
-	NEUTRAL,
-	SADNESS,
-	SURPRISE
+	NONE("none.png"),
+	ANGER("Overlay_FacialExpression_ANGER"),
+	DISGUST("Overlay_FacialExpression_DISGUST"),
+	FEAR("Overlay_FacialExpression_FEAR"),
+	JOY("Overlay_FacialExpression_JOY"),
+	NEUTRAL("Overlay_FacialExpression_NEUTRAL"),
+	SADNESS("Overlay_FacialExpression_SADNESS"),
+	SURPRISE("Overlay_FacialExpression_SURPRISE");
+
+	private String moeImagesString;
+	
+	private eFacialExpression(String poeImagesString) {
+		moeImagesString = poeImagesString;
+	}
+	
+	public String getEImagesString() {
+		return moeImagesString;
+	}
+
 }
-
-
