@@ -14,7 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 //import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
- * DOCUMENT (schaat) - insert description 
+ * DOCUMENT (schaat) - this comparator is used to construct a sorted list. the sorting should be done with respect to the TPMs activation level, which can be determined by multiple sources (multiple criteria)
  * 
  * @author schaat
  * Aug 30, 2012, 5:25:29 PM

@@ -278,7 +278,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 								
 								
 								
-								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy act DM?)
+								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy actual DM?)
 								if(oMemoryDM.getActualDriveObject() != null) {
 									oDriveObjectActivated = oMemoryDM.getActualDriveObject();
 									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);

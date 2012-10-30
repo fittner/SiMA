@@ -640,6 +640,8 @@ public class clsImportanceTools {
 			nResult+=5;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-100;
+		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
+			nResult+=-200;
 		}
 		
 		return nResult;

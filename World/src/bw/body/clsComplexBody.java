@@ -7,7 +7,15 @@
  */
 package bw.body;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
+
 import config.clsProperties;
+import du.enums.eBodyActionType;
+import du.enums.eFacialExpression;
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
 import bw.body.interBodyWorldSystems.clsInterBodyWorldSystem;
@@ -51,8 +59,15 @@ public class clsComplexBody extends clsBaseBody implements
     private clsInternalSystem moInternalSystem;
     private clsIntraBodySystem moIntraBodySystem;
     private clsInterBodyWorldSystem moInterBodyWorldSystem;
+    
+    private HashMap<eBodyActionType, Integer> moBodyActionList;
+    private eFacialExpression moFacialExpression;
        
-    public clsComplexBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+
+
+
+
+	public clsComplexBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);
 		applyProperties(poPrefix, poProp, poEntity);
 	}
@@ -67,6 +82,9 @@ public class clsComplexBody extends clsBaseBody implements
 		moExternalIO	= new clsExternalIO(pre+P_EXTERNALIO, poProp, this, poEntity);
 		moInternalIO 	= new clsInternalIO(pre+P_INTERNALIO, poProp, this);
 		moBrain 		= new clsBrainSocket(pre+P_BRAINSOCKET, poProp, moExternalIO.moSensorEngine.getMeRegisteredSensors(), moInternalIO.moSensorInternal, moExternalIO.getActionProcessor());
+		
+		moBodyActionList = new HashMap<eBodyActionType, Integer>();
+		moFacialExpression = eFacialExpression.NEUTRAL;
 	}	    
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -160,8 +178,42 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalSystem.stepUpdateInternalState(); //call first!
 		moIntraBodySystem.stepUpdateInternalState();
 		moInterBodyWorldSystem.stepUpdateInternalState();
+		stepUpdateInternalBodyActions();
 	}
 	
+	/**
+	 * iterates through the bodily actions and reduces it by one step
+	 *
+	 * @since 29.10.2012 20:02:43
+	 *
+	 */
+	private void stepUpdateInternalBodyActions() {
+		
+	
+		if(moBodyActionList!= null && !moBodyActionList.isEmpty())
+		{
+			Set<Entry<eBodyActionType, Integer>> set = moBodyActionList.entrySet();
+			Iterator<Entry<eBodyActionType, Integer>> i = set.iterator();
+			 
+			while(i.hasNext()){
+			      
+			      Map.Entry<eBodyActionType, Integer>  entry = (Map.Entry<eBodyActionType, Integer> )i.next();
+			      eBodyActionType oBodyAction = (eBodyActionType) entry.getKey();
+			      int iDuration =  (Integer) entry.getValue();
+			      
+			      iDuration = iDuration-1;
+			      if(iDuration <= 0)
+			      {
+			    	  //remove it
+			    	  moBodyActionList.remove(oBodyAction);
+			      }else{
+			    	  //update it
+			    	  moBodyActionList.put(oBodyAction, iDuration);
+			      }
+			    }
+		}
+	}
+
 	@Override
 	public void stepProcessing(){
 		moBrain.stepProcessing();
@@ -188,6 +240,48 @@ public class clsComplexBody extends clsBaseBody implements
 	public boolean isAlive() {
 		return moInternalSystem.getHealthSystem().getIsAlive();
 	}
+	
+	/**
+	 * Add a bodily reaction with this method, and this method only!
+	 * When the reaction is already there, the duration will be 
+	 * set to the new duration
+	 *
+	 * @since 29.10.2012 19:43:24
+	 *
+	 * @param durationInSteps
+	 */
+	public void AddBodyAction(eBodyActionType poBodyAction, int durationInSteps){
+		
+		if(moBodyActionList.containsKey(poBodyAction)){
+			//update the duration
+			moBodyActionList.put(poBodyAction, durationInSteps);
+			//jaja schaut gleich aus, ist es auch, teilung für debug messages gedacht und vielleicht später für fast messenger
+		}else{
+			//add the new action
+			moBodyActionList.put(poBodyAction, durationInSteps);
+		}
+	}
+	
+    /**
+     * Get the list og bodily reactions to emotions, work with it, now!
+     *
+     * @since 29.10.2012 19:53:52
+     *
+     * @return
+     */
+    public HashMap<eBodyActionType, Integer> getMoBodyActionList() {
+		return moBodyActionList;
+	}
+    
+	public eFacialExpression getFacialExpression() {
+		return moFacialExpression;
+	}
+
+	public void setFacialExpression(eFacialExpression moFacialExpression) {
+		this.moFacialExpression = moFacialExpression;
+	}
+	
+	
 	
 	
 	// ATTENTION THE FOLLOWING FUNCTIONS ARE FOR DEBUG USE ONLY!!!

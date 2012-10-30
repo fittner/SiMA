@@ -115,6 +115,17 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 				clsMeshTools.mergeMesh(oContinuedSupportiveDataStructure, poNewAct);
 
 				//-----------------------------------------------//
+				
+				//FIXME: Find a better solution. In order to break a deadlock, check if the moment is the last image of the act
+				//If yes, set goal completed, in order to lower the pleasure value of the goal.
+				clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oContinuedSupportiveDataStructure);
+				if (oMoment.isNullObject()==false && clsActTools.isLastImage(oMoment)==true) {
+					clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_COMPLETED);
+				} else if (oMoment.isNullObject()==false && clsActTools.getMovementTimeoutValue(oMoment)<=0) {
+					clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+				}
+				
+				
 
 			} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 

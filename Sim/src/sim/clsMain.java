@@ -164,4 +164,12 @@ public class clsMain extends SimState{
     public boolean getShowTPMNetworkGrid(){
     	return clsSingletonProperties.showTPMNetworkGrid();
     }
+    
+    public void setShowFaciaExpressionOverlay(boolean value){
+    	clsSingletonProperties.setShowFacialExpressionOverlay(value);
+    }
+    
+    public boolean getShowFaciaExpressionOverlay(){
+    	return clsSingletonProperties.showFacialExpressionOverlay();
+    }
  }
