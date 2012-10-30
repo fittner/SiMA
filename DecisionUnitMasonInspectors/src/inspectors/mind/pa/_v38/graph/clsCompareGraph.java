@@ -249,9 +249,6 @@ public class clsCompareGraph extends JGraph {
 	    			if(((clsGraphCell) cell).getReference() instanceof clsDataStructurePA){
 		    			clsDataStructurePA struct = (clsDataStructurePA)((clsGraphCell) cell).getReference();
 	    				//compare all cells in list with selected cell
-		    			//System.out.println(struct.getMoDS_ID());
-		    			
-		    			//if ID ==-1 -> ID not set in this object
 		    			if(struct.getMoDS_ID()!=-1){
 			    			for( DefaultGraphCell oCell: moCellList){
 			    				
@@ -319,9 +316,8 @@ public class clsCompareGraph extends JGraph {
 
 		// Construct Model and GraphLayoutCache
 		GraphModel model = new RichTextGraphModel();
-
-
-		moCellList.add( createGraph() );
+		
+		moCellList.add(createGraph());
 		
 		//transfer graph-cells from arraylist to fix-size array (needed for registration)
 		
@@ -331,7 +327,7 @@ public class clsCompareGraph extends JGraph {
 			
 		}
 		
-		// Insert the cells via the cache
+		// Insert the cells
 		JGraphGraphFactory.insert(model, cells);
 
 		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
@@ -341,6 +337,7 @@ public class clsCompareGraph extends JGraph {
 		
 
 		updateUI();
+		
 	}
     
     protected void redraw() {
@@ -1545,7 +1542,7 @@ public class clsCompareGraph extends JGraph {
 	 * result of the layout algorithm a {@link JGraphLayoutMorphingManager} is
 	 * used.
 	 */
-    public void performGraphLayoutChange(final JGraphLayout layout) 
+    public synchronized void performGraphLayoutChange(final JGraphLayout layout) 
 	{
 		if (isEnabled() && isMoveable()
 				&& layout != null) {
@@ -1566,7 +1563,7 @@ public class clsCompareGraph extends JGraph {
 							// has been displayed or cancel has not been pressed
 							// then
 							// the result of the layout algorithm is processed.
-							facade.setOrdered(true);
+							
 							try{
 								layout.run(facade);
 							}
@@ -1597,7 +1594,7 @@ public class clsCompareGraph extends JGraph {
 										getGraphLayoutCache().edit(map);
 										
 										//moMorpher.morph(me, map);
-										requestFocus();
+										//requestFocus();
 									//}
 								}
 							});
@@ -1626,6 +1623,7 @@ public class clsCompareGraph extends JGraph {
 		facade.setIgnoresUnconnectedCells(true);
 		facade.setIgnoresCellsInGroups(true);
 		facade.setIgnoresHiddenCells(true);
+		facade.setOrdered(true);
 		//facade.setDirected(directedCheckBox.isSelected()); need?
 
 		// Removes all existing control points from edges
@@ -1681,6 +1679,7 @@ public class clsCompareGraph extends JGraph {
 		mbShowInternAssocFirstLevel=saveShowInternAssocFirstLevel;
 		
     }
+    
     private void expand(clsGraphCell poCell){
 		int oldLength = moCellList.size();
 		DefaultGraphCell oCell= generateGraphCell(poCell,poCell.getReference());
