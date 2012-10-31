@@ -11,6 +11,7 @@ import java.util.HashMap;
 
 import du.enums.eDecisionType;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
@@ -38,6 +39,9 @@ public interface itfDecisionUnit {
 	 * @param poActionProcessor
 	 */
 	public void setActionProcessor(itfActionProcessor poActionProcessor);
+	
+	//same for internal actions
+	public void setInternalActionProcessor(itfInternalActionProcessor poInternalActionProcessor);
 	
 	/**
 	 * Updates the stored sensor data to the incoming values.

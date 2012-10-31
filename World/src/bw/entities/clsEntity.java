@@ -89,6 +89,7 @@ public abstract class clsEntity implements itfGetBody {
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
 		mnCurrentOverlay = eImages.NONE;
+		mnCurrentFacialExpressionOverlay = eFacialExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		shapes3D = null;
@@ -350,11 +351,13 @@ public abstract class clsEntity implements itfGetBody {
 	}
 	
 	private void updateOverlayImage() {
+		((itfSetupFunctions)moPhysicalObject2D).setFacialExpressionOverlayImage(mnCurrentFacialExpressionOverlay);
+		
 		if (clsSimState.getSteps() > mnLastSetOverlayCall+10) /*10 is the time how long the overlay will be displayed*/ {
 			mnCurrentOverlay = eImages.NONE;
 		}
 		((itfSetupFunctions)moPhysicalObject2D).setOverlayImage(mnCurrentOverlay);
-		((itfSetupFunctions)moPhysicalObject2D).setFacialExpressionOverlayImage(mnCurrentFacialExpressionOverlay);
+		
 	}
 	
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {

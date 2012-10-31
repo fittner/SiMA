@@ -13,6 +13,7 @@ import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
@@ -198,6 +199,20 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF32_Actuators.getOutput(poActionContainer);
 	}
 	
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 30.10.2012 14:15:44
+	 * 
+	 * @see pa.itfProcessor#getInternalActionCommands(du.itf.actions.itfInternalActionProcessor)
+	 */
+	@Override
+	public void getInternalActionCommands(
+			itfInternalActionProcessor poInternalActionContainer) {
+		moPsyApp.moF20_CompositionOfFeelings.getBodilyReactions(poInternalActionContainer);
+		
+	}
+	
 	@Override
 	public void step() {
 		//BODY --------------------------------------------- 
@@ -319,4 +334,6 @@ public class clsProcessor implements itfProcessor  {
 		
 		return oInspectorData;
 	}
+
+	
 }

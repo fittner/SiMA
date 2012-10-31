@@ -27,6 +27,7 @@ import du.enums.eSlowMessenger;
 import du.itf.itfDecisionUnit;
 import du.itf.itfProcessKeyPressed;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsEatableArea;
@@ -101,14 +102,16 @@ public class clsBrainSocket implements itfStepProcessing {
 
 	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
+	private itfInternalActionProcessor moInternalActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 //	private clsSensorDataCalculation moSensorCalculation;
 	
 	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
 	
-	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
+	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, itfInternalActionProcessor poInternalActionProcessor) {
 		moActionProcessor=poActionProcessor;
+		moInternalActionProcessor=poInternalActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
 //		moSensorCalculation = new clsSensorDataCalculation();
@@ -1029,6 +1032,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 
 	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
+		moDecisionUnit.setInternalActionProcessor(moInternalActionProcessor);
 		moDecisionUnit.setActionProcessor(moActionProcessor);
 	}
 	

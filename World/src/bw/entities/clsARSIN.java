@@ -23,6 +23,7 @@ import du.enums.eActionKissIntensity;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.clsActionCommand;
+import du.itf.actions.clsInternalActionCommand;
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
 import bw.body.attributes.clsAttributeAntenna;
@@ -297,6 +298,15 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	public void clearStack(){
 		((clsComplexBody)moBody).getExternalIO().getActionProcessor().clear();
+	}
+	
+	public void clearInternalActionsStack(){
+		((clsComplexBody)moBody).getInternalActionProcessor().clear();
+	}
+	
+	public ArrayList<clsInternalActionCommand> getInternalActions(){
+		
+		return ((clsComplexBody)moBody).getInternalActionProcessor().getCommandStack();
 	}
 
 }

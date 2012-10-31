@@ -1,7 +1,7 @@
 package du.enums;
 
 /**
- * 
+ * enum in den DuInterfaces das mappt auf eImages
  * 
  * @author muchitsch
  * 04.08.2009, 15:28:01
