@@ -81,7 +81,7 @@ public abstract class clsGraphWindow extends Inspector {
 	
 		
 	//colors for all datatypes, used in clsMeshBase:
-	protected static final Color moColorTP = new Color(0xff99FF33); //light green
+	/*protected static final Color moColorTP = new Color(0xff99FF33); //light green
 	protected static final Color moColorNULL = new Color(0xff222222); // dark dark grey
 	protected static final Color moColorString = Color.WHITE;
 	protected static final Color moColorDouble = Color.WHITE;
@@ -99,7 +99,7 @@ public abstract class clsGraphWindow extends Inspector {
 	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
-
+*/
 
     /**
      * Constructor of the class. Creates the panel
@@ -295,19 +295,20 @@ public abstract class clsGraphWindow extends Inspector {
     	poTaskGroup.setTitle("Legend");
     	poTaskGroup.setExpanded(false);
  
-    	poTaskGroup.add(addLegendItem( "TP", moColorTP, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "NULL", moColorNULL, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "String", moColorString, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Double", moColorDouble, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WP", moColorWP, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WPM", moColorWPMRoot, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DD", moColorDD, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "ACT", moColorACT, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Pair", moColorPair, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Tripple", moColorTripple, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "PDSC", moColorPrimaryDataStructureContainer, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "SDSC", moColorSecondaryDataStructureContainer, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DM root", moColorDMRoot, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "TP", clsGraph.moColorTP, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "NULL", clsGraph.moColorNULL, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "String", clsGraph.moColorString, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Double", clsGraph.moColorDouble, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WP", clsGraph.moColorWP, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WPM", clsGraph.moColorWPMRoot, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DD", clsGraph.moColorDD, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "ACT", clsGraph.moColorACT, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Pair", clsGraph.moColorPair, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Tripple", clsGraph.moColorTripple, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "PDSC", clsGraph.moColorPrimaryDataStructureContainer, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "SDSC", clsGraph.moColorSecondaryDataStructureContainer, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DM root", clsGraph.moColorDMRoot, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Emotion", clsGraph.moColorEmotion, "/World/src/resources/images/view.png") );
      	
     	return poTaskGroup;
     }

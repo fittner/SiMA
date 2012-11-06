@@ -38,6 +38,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -127,6 +128,7 @@ public class clsGraph extends JGraph {
 	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
+	protected static final Color moColorEmotion = new Color(0xff8B4513);
 	
 	public boolean UseSimpleView() {
 		return mbUseSimpleView;
@@ -688,6 +690,10 @@ public class clsGraph extends JGraph {
 		else if(poMemoryObject instanceof clsWordPresentationMesh)
 		{
 			clsWordPresentationMesh tmpRootMemoryObject = (clsWordPresentationMesh)poMemoryObject;
+			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
+		} 
+		else if (poMemoryObject instanceof clsEmotion){
+			clsEmotion tmpRootMemoryObject = (clsEmotion)poMemoryObject;
 			oRootCell = generateGraphCell(poParentCell, tmpRootMemoryObject);
 		}
 		else
@@ -1301,6 +1307,70 @@ public class clsGraph extends JGraph {
 		
 		
 		return oWPMrootCell;	
+	}
+	
+	/** [EMOTION]
+	 * Generating cells from clsEmotion
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsEmotion poMemoryObject)
+	{
+		String oDescription = poMemoryObject.getMoContent() + "\n" +
+				poMemoryObject.getMoContentType();
+
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	poMemoryObject.toString();
+		}
+
+		//generate root of the mesh
+		clsGraphCell oEmpotionRootCell = createDefaultGraphVertex(oDescription, moColorEmotion);
+		this.moCellList.add(oEmpotionRootCell);
+		
+		boolean bSaveIntern =mbShowInternAssoc;
+		if(mbShowExternAssoc){
+			mbShowExternAssoc = false;
+			mbShowInternAssoc = false;
+			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
+			{ 	
+				
+				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
+				{
+					
+					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
+					clsGraphCell oTargetCell = generateGraphCell(oEmpotionRootCell, oMemoryObjectB);
+					//add edge
+					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
+					oEdge.setSource(oEmpotionRootCell.getChildAt(0));
+					oEdge.setTarget(oTargetCell.getChildAt(0));
+					moCellList.add(oEdge);
+					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+					GraphConstants.setEndFill(oEdge.getAttributes(), true);
+				}
+				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
+				{
+					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
+					clsGraphCell oTargetCell = generateGraphCell(oEmpotionRootCell, oMemoryObjectA);
+					//add edge
+					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
+					oEdge.setSource(oEmpotionRootCell.getChildAt(0));
+					oEdge.setTarget(oTargetCell.getChildAt(0));
+					moCellList.add(oEdge);
+					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+					GraphConstants.setEndFill(oEdge.getAttributes(), true);
+				}
+				else
+				{ //should not be laut heimo!!!
+					//System.out.println("ARS Exeption: [DM] Neither A nor B are root element.");
+					//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
+				}
+			}
+			mbShowInternAssoc = bSaveIntern;
+			mbShowExternAssoc=true;
+		}
+		
+		
+		
+		return oEmpotionRootCell;	
 	}
 	
 
