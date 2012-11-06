@@ -19,13 +19,15 @@ import inspectors.mind.pa._v38.autocreated.cls_SpiderWebChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
-import inspectors.mind.pa._v38.graph.clsMeshCompare;
+import inspectors.mind.pa._v38.graph.clsGraphCompareInterfaces;
+import inspectors.mind.pa._v38.graph.clsGraphInterface;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
+import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -35,7 +37,7 @@ import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInspectorSpiderWebChart;
 import pa._v38.interfaces.itfInspectorStackedBarChart;
-import pa._v38.interfaces.itfInterfaceCompare;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -332,14 +334,21 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				}
 			}
 			
-			if (oModule instanceof itfInterfaceCompare) {
+			if (oModule instanceof itfGraphCompareInterfaces) {
 				
 				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-				ArrayList<eInterfaces> oRecv = ((itfInterfaceCompare )oModule).getCompareInterfacesRecv();
-				ArrayList<eInterfaces> oSend = ((itfInterfaceCompare )oModule).getCompareInterfacesSend();
-				poTI.addInspector( new clsMeshCompare(poPA, oRecv, oSend), "Input vs. Output");
+				ArrayList<eInterfaces> oRecv = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesRecv();
+				ArrayList<eInterfaces> oSend = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesSend();
+				poTI.addInspector( new clsGraphCompareInterfaces(poPA, oRecv, oSend, true), "Input vs. Output");
 			
 			}
+			if (oModule instanceof itfGraphInterface) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> oInterfaces = ((itfGraphInterface )oModule).getGraphInterfaces();
+				poTI.addInspector( new clsGraphInterface(poPA, oInterfaces, false), "Interface");
+			}
+			
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
 		} catch (java.lang.Exception e) {

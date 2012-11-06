@@ -14,6 +14,7 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.itfGraphData;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D2_1_receive;
@@ -42,7 +43,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 09.03.2011, 17:12:46
  * 
  */
-public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, D2_1_receive, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
+public class DT2_BlockedContentStorage implements itfInspectorInternalState, itfInterfaceDescription, itfGraphData, D2_1_receive, D2_2_send, D2_4_send, D2_4_receive, D2_3_receive {
 	/** Blocked content buffer */
 	private ArrayList<clsDataStructurePA> moBlockedContent;
 	
@@ -838,5 +839,21 @@ public class DT2_BlockedContentStorage implements itfInspectorInternalState, itf
 	@Override
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D2_2, eInterfaces.D2_4) );
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 31, 2012 11:28:59 AM
+	 * 
+	 * @see pa._v38.interfaces.itfGraphData#getGraphData()
+	 */
+	@Override
+	public ArrayList<Object> getGraphData() {
+		ArrayList<Object> oRetVal= new ArrayList<Object>();
+		for(clsDataStructurePA oData: moBlockedContent){
+			oRetVal.add(oData);
+		}
+		return oRetVal;
 	}
 }

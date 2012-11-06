@@ -24,8 +24,7 @@ import sim.portrayal.Inspector;
  * 
  */
 public abstract class cls_AbstractChartInspector extends Inspector {
-
-
+	
 	private static final long serialVersionUID = 1688668508314593129L;
 	protected String moChartName;
 	protected ChartPanel moChartPanel;

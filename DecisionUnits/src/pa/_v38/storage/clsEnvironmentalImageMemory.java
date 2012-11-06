@@ -7,7 +7,8 @@
 package pa._v38.storage;
 
 import java.util.ArrayList;
-
+import pa._v38.interfaces.itfGraphData;
+import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -30,7 +31,7 @@ import pa._v38.tools.clsTriple;
  * 17.07.2012, 14:23:05
  * 
  */
-public class clsEnvironmentalImageMemory extends clsShortTermMemory {
+public class clsEnvironmentalImageMemory extends clsShortTermMemory implements itfGraphData, itfInspectorInternalState{
 
 	private final clsWordPresentationMesh moEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENVIRONMENTALIMAGE, eContent.ENVIRONMENTALIMAGE.toString());
 	private final clsWordPresentationMesh moEnhancedEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENHANCEDENVIRONMENTALIMAGE, eContent.ENHANCEDENVIRONMENTALIMAGE.toString());
@@ -246,6 +247,24 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory {
 			//Remove the entity from the memory
 			removeMemory(oSingleRemoveObject);
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 31, 2012 10:28:04 AM
+	 * 
+	 * @see pa._v38.interfaces.itfGraphData#getGraphData()
+	 */
+	@Override
+	public ArrayList<Object> getGraphData() {
+		ArrayList<Object> oRetVal = new ArrayList<Object>();
+		oRetVal.add(moEnhancedEnvironmentalImage);
+		return oRetVal;
+	}
+
+	@Override
+	public String stateToTEXT() {
+		return moEnvironmentalImage.toString();
 	}
 	
 
