@@ -19,11 +19,13 @@ import java.util.List;
 import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
+import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
 
 import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import org.jgraph.JGraph;
+
 import org.jgraph.graph.DefaultEdge;
 import org.jgraph.graph.DefaultGraphCell;
 import org.jgraph.graph.DefaultGraphModel;
@@ -57,6 +59,7 @@ import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
 import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
+import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import du.itf.actions.clsActionCommand;
 import du.itf.sensors.clsSensorExtern;
@@ -96,6 +99,8 @@ public class clsGraph extends JGraph {
 	private boolean mbShowInternAssocBest = false;
 	
 	protected boolean mbLayoutChangeIsRunning =false;
+	
+	private JGraphLayout moLayout;
 	
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
@@ -184,10 +189,13 @@ public class clsGraph extends JGraph {
 	public clsGraph(boolean pbOrientationVertical){
 		super (new DefaultGraphModel());
 		mbOrientationVertical=pbOrientationVertical;
+		moLayout=new JGraphCompactTreeLayout();
+		((JGraphCompactTreeLayout) moLayout).setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
 		setGridSize(4);
 		setGridEnabled(true);
 		setAntiAliased(true);
 		setCloneable(true);
+		setModel(new RichTextGraphModel());
 		initializeListeners();
 		ToolTipManager.sharedInstance().registerComponent(this);
 	}
@@ -334,15 +342,16 @@ public class clsGraph extends JGraph {
 		// Insert the cells
 		JGraphGraphFactory.insert(model, cells);
 
-		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
-		layout.setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
+		//JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
+		//layout.setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
 		setModel(model);
-		performGraphLayoutChange(layout);
+		performGraphLayoutChange(moLayout);
 		
 
 		updateUI();
 		
 	}
+    
     
     protected void redraw() {
 
@@ -351,22 +360,7 @@ public class clsGraph extends JGraph {
 		// Construct Model and GraphLayoutCache
 		GraphModel model = new RichTextGraphModel();
 
-		// When not using a JGraph instance, a GraphLayoutCache does not
-		// automatically listen to model changes. Therefore, use a special
-		// layout cache with a built-in listener
-	/*	 GraphLayoutCache cache = new DataGraphLayoutCache(model,
-				new DefaultCellViewFactory() {
-					private static final long serialVersionUID = 5527702598146461914L;
-					@Override
-				protected VertexView createVertexView(Object cell) {
-						 // Return an EllipseView for EllipseCells
-					   // TODO... if (cell instanceof EllipseCell)
-					   //   return new EllipseView(cell);
-					    // Else Call Superclass
-					    return new MultiLineVertexView(cell);
-					}
-				}, true);
-		*/
+
 		
 		//transfer graph-cells from arraylist to fix-size array (needed for registration)
 		
@@ -1595,68 +1589,75 @@ public class clsGraph extends JGraph {
 	 */
     public synchronized void performGraphLayoutChange(final JGraphLayout layout) 
 	{
-		if (isEnabled() && isMoveable()
-				&& layout != null) {
-			final JGraphFacade facade = createFacade(this);
-		//	final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
-/*			final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
-					this, (JGraphLayout.Stoppable) layout)
-					: null;*/
-			new Thread() {
-				@Override
-				public void run() {
-					synchronized (this) {
-						try {
-							// Executes the layout and checks if the user has
-							// clicked
-							// on cancel during the layout run. If no progress
-							// monitor
-							// has been displayed or cancel has not been pressed
-							// then
-							// the result of the layout algorithm is processed.
-							
-							try{
+    	try{
+	    	moLayout = layout;
+			if (isEnabled() && isMoveable()
+					&& layout != null) {
+				final JGraphFacade facade = createFacade(this);
+			//	final JGraphLayoutMorphingManager moMorpher = new JGraphLayoutMorphingManager();
+				final ProgressMonitor progressMonitor = (layout instanceof JGraphLayout.Stoppable) ? createProgressMonitor(
+						this, (JGraphLayout.Stoppable) layout)
+						: null;
+				new Thread() {
+					@Override
+					public void run() {
+						synchronized (this) {
+							try {
+								// Executes the layout and checks if the user has
+								// clicked
+								// on cancel during the layout run. If no progress
+								// monitor
+								// has been displayed or cancel has not been pressed
+								// then
+								// the result of the layout algorithm is processed.
+								
+	
 								layout.run(facade);
-							}
-							catch(java.util.ConcurrentModificationException e){
-								System.out.println("layout run faild");
-								//if the last layout change still runs
-							}
-							SwingUtilities.invokeLater(new Runnable() {
-								@Override
-								public void run() {
-									/*boolean ignoreResult = false;
-									if (progressMonitor != null) {
-										ignoreResult = progressMonitor
-												.isCanceled();
-										progressMonitor.close();
+	
+								SwingUtilities.invokeLater(new Runnable() {
+									@Override
+									public void run() {
+										try{
+											boolean ignoreResult = false;
+											if (progressMonitor != null) {
+												ignoreResult = progressMonitor
+														.isCanceled();
+												progressMonitor.close();
+											}
+											if (!ignoreResult) {
+											
+												// Processes the result of the layout algorithm
+												// by creating a nested map based on the global
+												// settings and passing the map to a morpher
+												// for the graph that should be changed.
+												// The morpher will animate the change and then
+												// invoke the edit method on the graph layout
+												// cache.
+												Map<?,?> map = facade.createNestedMap(true,true);
+												//moMorpher.morph(me, map);
+												getGraphLayoutCache().edit(map);
+												
+												//moMorpher.morph(me, map);
+												//requestFocus();
+											}
+										}
+										catch(Exception e){
+											
+										}
 									}
-									if (!ignoreResult) {
-									*/
-										// Processes the result of the layout algorithm
-										// by creating a nested map based on the global
-										// settings and passing the map to a morpher
-										// for the graph that should be changed.
-										// The morpher will animate the change and then
-										// invoke the edit method on the graph layout
-										// cache.
-										Map<?,?> map = facade.createNestedMap(true,true);
-										//moMorpher.morph(me, map);
-										getGraphLayoutCache().edit(map);
-										
-										//moMorpher.morph(me, map);
-										//requestFocus();
-									//}
-								}
-							});
-						} catch (Exception e) {
-							//e.printStackTrace();
-							//JOptionPane.showMessageDialog(this, e.getMessage());
+								});
+							} catch (Exception e) {
+								//e.printStackTrace();
+								//JOptionPane.showMessageDialog(this, e.getMessage());
+							}
 						}
 					}
-				}
-			}.start(); // fork
-		}
+				}.start(); // fork
+			}
+    	}
+    	catch(Exception e){
+    		
+    	}
 	}
 	
 	/**
@@ -1765,7 +1766,7 @@ public class clsGraph extends JGraph {
 	 *            The layout to create the progress monitor for.
 	 * @return Returns a new progress monitor.
 	 */
- /*   private ProgressMonitor createProgressMonitor(JGraph graph,
+    private ProgressMonitor createProgressMonitor(JGraph graph,
 			JGraphLayout.Stoppable layout) {
 		ProgressMonitor monitor = new JGraphLayoutProgressMonitor(graph,
 				((JGraphLayout.Stoppable) layout).getProgress(),
@@ -1774,7 +1775,7 @@ public class clsGraph extends JGraph {
 		monitor.setMillisToPopup(500);
 		return monitor;
 	}
-*/	
+	
 	/**
 	 * Resets the graph to compact tree Layout.
 	 */

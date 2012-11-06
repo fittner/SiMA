@@ -9,7 +9,7 @@ package pa._v38.interfaces;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * Implement this interface to display a bar chart within an inspector tab.
  * 
  * @author herret
  * Sep 5, 2012, 11:26:06 AM

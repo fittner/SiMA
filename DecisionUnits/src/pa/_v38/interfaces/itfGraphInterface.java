@@ -1,7 +1,7 @@
 /**
  * CHANGELOG
  *
- * Oct 30, 2012 herret - File created
+ * Nov 6, 2012 herret - File created
  *
  */
 package pa._v38.interfaces;
@@ -11,20 +11,20 @@ import java.util.ArrayList;
 import pa._v38.interfaces.modules.eInterfaces;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * If this interface is implemented by a module, an inspector tab that displays the interfaces returned by getGraphInterfaces() is added.
  * 
  * @author herret
- * Oct 30, 2012, 2:13:42 PM
+ * Nov 6, 2012, 10:32:05 AM
  * 
  */
 public interface itfGraphInterface {
+
 	/**
-	 * A list of all interfaces that should be shown within the graph 
+	 * Returns the interfaces that should be displayed in the graph.
 	 *
-	 * @since 12.07.2011 11:30:19
+	 * @since 06.11.2012 10:00
 	 *
 	 * @return
 	 */
 	public ArrayList<eInterfaces> getGraphInterfaces();
-	
 }

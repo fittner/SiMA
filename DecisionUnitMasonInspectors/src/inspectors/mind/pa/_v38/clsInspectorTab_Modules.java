@@ -27,6 +27,7 @@ import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
+
 import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorBarChart;
@@ -316,6 +317,23 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 //						"Current Drives (Graph)");				
 //			}
 			
+			if (oModule instanceof itfGraphCompareInterfaces) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> oRecv = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesRecv();
+				ArrayList<eInterfaces> oSend = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesSend();
+				poTI.addInspector( new clsGraphCompareInterfaces(poPA, oRecv, oSend, true), "Input vs. Output");
+			
+			}
+			
+			if (oModule instanceof itfGraphInterface) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> inter = ((itfGraphInterface )oModule).getGraphInterfaces();
+				poTI.addInspector( new clsGraphInterface(poPA, inter, true), "Interfaces");
+			
+			}
+			
 			if (oModule instanceof itfInterfaceInterfaceData) {
 				poTI.addInspector(
 						new clsE_SimpleInterfaceDataInspector(oModule, poPA.moInterfaceData),
@@ -326,28 +344,21 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
 				
 				for (eInterfaces eRcv:oRecv) {
-					poTI.addInspector( new clsMeshInterface(poPA, eRcv), "rcv "+eRcv.toString());
+					//poTI.addInspector( new clsMeshInterface(poPA, eRcv), "rcv "+eRcv.toString());				
+					ArrayList<eInterfaces> eRecvList = new ArrayList<eInterfaces>();
+					eRecvList.add(eRcv);
+					poTI.addInspector( new clsGraphInterface(poPA, eRecvList, false), "rcv "+eRcv.toString());
 				}
 				
 				for (eInterfaces eSnd:oSend) {
-					poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
+					//poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
+					ArrayList<eInterfaces> eSndList = new ArrayList<eInterfaces>();
+					eSndList.add(eSnd);
+					poTI.addInspector( new clsGraphInterface(poPA, eSndList, false), "snd "+eSnd.toString());
 				}
 			}
 			
-			if (oModule instanceof itfGraphCompareInterfaces) {
-				
-				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-				ArrayList<eInterfaces> oRecv = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesRecv();
-				ArrayList<eInterfaces> oSend = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesSend();
-				poTI.addInspector( new clsGraphCompareInterfaces(poPA, oRecv, oSend, true), "Input vs. Output");
-			
-			}
-			if (oModule instanceof itfGraphInterface) {
-				
-				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-				ArrayList<eInterfaces> oInterfaces = ((itfGraphInterface )oModule).getGraphInterfaces();
-				poTI.addInspector( new clsGraphInterface(poPA, oInterfaces, false), "Interface");
-			}
+
 			
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing

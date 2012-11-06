@@ -79,10 +79,6 @@ public abstract class clsGraphWindow extends Inspector {
 	private int moStepCounter = 0; //counter for the automatic interval updating
 	protected static int mnAutomaticUpdateInterval = 100;
 	
-//	private JScrollPane oGraphInputScrollPane;
-//	private JScrollPane oGraphOutputScrollPane;
-	
-//	private JSplitPane oSplitPaneGraph;
 		
 	//colors for all datatypes, used in clsMeshBase:
 	protected static final Color moColorTP = new Color(0xff99FF33); //light green

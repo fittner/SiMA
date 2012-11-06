@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 
 /**
- * DOCUMENT (herret) - insert description 
+ * Implement this interface to display a graph with the return objects by getGraphData() within an inspector tab.
  * 
  * @author herret
  * Oct 31, 2012, 10:19:21 AM
