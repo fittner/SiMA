@@ -11,6 +11,7 @@ import config.clsProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
+
 /**
  * This class wraps the implementation of the psychoanalytically inspired decision units to be compatible 
  * with the interface specified in decisionunit.clsBaseDecisionUnit. Can distinguish between v19, v30, and v38. The default
@@ -134,6 +135,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		moProcessor.applySensorData( getSensorData() );
 		moProcessor.step();
 		moPerceptionInspectorData = moProcessor.getPerceptionInspectorData();
+		moProcessor.getInternalActionCommands( getInternalActionProcessor() );
 		moProcessor.getActionCommands( getActionProcessor() );
 
 	}
@@ -164,5 +166,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		meDecisionType = eDecisionType.PA;
 		
 	}
+
+
 
 }

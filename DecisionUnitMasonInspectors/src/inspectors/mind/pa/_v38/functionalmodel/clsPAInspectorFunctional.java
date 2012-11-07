@@ -59,6 +59,7 @@ import com.jgraph.layout.JGraphModelFacade;
  * 18.10.2009, 15:08:13
  * 
  */
+
 public class clsPAInspectorFunctional extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = -1191073481242249784L;
@@ -74,16 +75,16 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	int y_mult;
 	int y_offset;
 	
-	private clsPsychicApparatus poPA;
+	private clsPsychicApparatus moPA;
 	private ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
 	private ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
 
 
 
-    public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
+    public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus poPA)
     {
 
-    	poPA=moPA;
+    	moPA=poPA;
     	
     	
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
@@ -324,10 +325,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         	moMyTree.makeVisible(oPath);
         }
         
- 
-        
-
-           
+   
         private TreePath findNode( String nodeName ) {
         	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moMyTree.getModel().getRoot(), nodeName );
         	return new TreePath(oPath);
@@ -392,7 +390,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	    	moContents.add(moContent);
 	    	
 	
-			Field oFields[] =poPA.getClass().getFields();
+			Field oFields[] =moPA.getClass().getFields();
 	
 			//Search through all Fields of poPA to get the full name of the selected Module
 			String fullId="";
@@ -408,8 +406,8 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 			}
 	
 	    	
-	    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
-	    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
+	    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, moPA, fullId);
+	    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, moPA, fullId);
 	    	
 	    	moContentWindow.add(moContent); 
 	    	moContentWindow.repaint();

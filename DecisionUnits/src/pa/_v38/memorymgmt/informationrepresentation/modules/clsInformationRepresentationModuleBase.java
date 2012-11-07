@@ -78,7 +78,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 
 		if(moSearchMethod.equals(eSearchMethod.GRAPHSEARCH.name())){ 
 			
-			return graphSearch(poReturnType, poDataStructureUnknown);
+			return associativeSearch(poReturnType, poDataStructureUnknown);
 		}
 				
 		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearch(poReturnType, poDataStructureUnknown);}
@@ -134,7 +134,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	
 	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	public abstract ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold);
-	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> graphSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
+	public abstract ArrayList<clsPair<Double,clsDataStructureContainer>> associativeSearch(int poReturnType, clsDataStructurePA poDataStructureUnknown);
 	
 	/**
 	 * Start the list search for a container as input

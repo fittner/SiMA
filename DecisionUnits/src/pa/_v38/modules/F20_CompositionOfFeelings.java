@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
+import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionSweat;
+import du.itf.actions.itfInternalActionProcessor;
 import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I6_5_receive;
@@ -58,6 +62,9 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	
+	//list of internal actions, fill it with what you want to be shown
+	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
+	
 	/**
 	 * DOCUMENT (gelbard) - insert description 
 	 * 
@@ -73,6 +80,7 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
+
 	}
 
 	/* (non-Javadoc)
@@ -193,6 +201,9 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	 */
 	@Override
 	protected void process_basic() {
+		
+		FillInternalActions(moEmotions_Input);
+		
 		// calculate average of separated quota of affect for drives and perceptions
 		double poAverageQuotaOfAffect_Input = calculateQuotaOfAffect(moAffectOnlyList_Input);
 		
@@ -225,6 +236,8 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 		}
 	}
 	
+	
+
 	/* (non-Javadoc)
 	 *
 	 * @author gelbard
@@ -354,6 +367,42 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	@Override
 	public void setDescription() {
 		moDescription = "Until now, only quota of affects attached to thing presentations were available. Although the value of these quota of affects has immediate and strong influence on decision making they cannot become conscious. The qualitative counterpart of the quota of affects in the primary processes is the affect in the secondary processes. The affect is represented by a word presentation and thus can become conscious. Two different groups of affects are generated. Based on the output of the defense mechanisms, a set of affects is built. For these no explanation on their origin is available; they cannot be grasped. The other set uses the output of {E8} and {E21}. With the addition of word presentations ``explaining'' the contents attached to the quota of affects, the origin of the affect can be understood up to some extent. This results in more differentiated moods like unlust, fear, joy, sadness.";
+	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 31.10.2012 12:57:55
+	 *
+	 * @param moEmotions_Input2
+	 */
+	private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
+		//todo fill moInternalActions with the approriate poEmotions_Inputm see PSY document per mail for what, when, where
+		
+		//zB:
+		//Angst
+		//Magen Zusammenziehen, Zittern, Schwitzen, Herzrasen – passender Gesichtsausdruck
+		//Wut
+		//Blutdruckanstieg (Errötung), Muskelanspannung – passender Gesichtsausdruck
+		
+		//CM: for testing now:
+		clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+		//moInternalActions.add( test );
+		
+	}
+
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 31.10.2012 12:54:43
+	 *
+	 * @param poInternalActionContainer
+	 */
+	public void getBodilyReactions(	itfInternalActionProcessor poInternalActionContainer) {
+		
+		for( clsInternalActionCommand oCmd : moInternalActions ) {
+			poInternalActionContainer.call(oCmd);
+		}
 	}
 
 }

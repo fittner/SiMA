@@ -1,5 +1,5 @@
 /**
- * @author zeilinger
+ * @author muchitsch
  * 18.07.2009, 17:15:35
  * 
  * $Rev::                      $: Revision of last commit
@@ -19,9 +19,9 @@ import bw.utils.enums.eBodyParts;
 import sim.physics2D.util.Double2D;
 
 /**
- * DOCUMENT (zeilinger) - insert description 
+ * DOCUMENT (muchitsch) - insert description 
  * 
- * @author zeilinger
+ * @author muchitsch
  * 18.07.2009, 17:15:35
  * 
  */
@@ -29,9 +29,9 @@ public class clsSensorOlfactoric extends clsSensorExt{
 
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description 
+	 * DOCUMENT (muchitsch) - insert description 
 	 * 
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 18.07.2009, 17:15:47
 	 *
 	 * @param poBaseIO
@@ -71,7 +71,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 18.07.2009, 17:15:44
 	 * 
 	 * @see bw.body.io.sensors.itfSensorUpdate#updateSensorData()
@@ -84,7 +84,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 22.07.2009, 14:58:13
 	 * 
 	 * @see bw.body.io.sensors.ext.clsSensorExt#updateSensorData(java.lang.Double, java.util.ArrayList, java.util.HashMap)
@@ -98,7 +98,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 27.07.2009, 10:58:10
 	 * 
 	 * @see bw.body.io.sensors.ext.clsSensorExt#setDetectedObjectsList(java.lang.Double, java.util.ArrayList, java.util.HashMap)
@@ -111,7 +111,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 	
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 18.07.2009, 17:15:44
 	 * 
 	 * @see bw.body.io.clsSensorActuatorBase#setBodyPartId()
@@ -124,7 +124,7 @@ public class clsSensorOlfactoric extends clsSensorExt{
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
+	 * @author muchitsch
 	 * 18.07.2009, 17:15:44
 	 * 
 	 * @see bw.body.io.clsSensorActuatorBase#setName()

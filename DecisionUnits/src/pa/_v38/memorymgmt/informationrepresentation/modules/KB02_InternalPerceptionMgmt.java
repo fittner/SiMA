@@ -11,6 +11,7 @@ import java.util.HashSet;
 
 
 import pa._v38.tools.clsPair;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -220,8 +221,10 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	}
 
 	/**
-	 * DOCUMENT (schaat) - insert description
-	 *
+	 * DOCUMENT (schaat) - all datastructures that implement itfInternalAssociatedDataStructure can be used for associative search. in this case the search space
+	 * can be decreased significantly by using only those datastructures from searchspace that are associated to internal associated data structures of the search pattern.
+	 * Associative Search is compliant with the idea of spreading activation. 
+	 * 
 	 * @author schaat
 	 * 12.08.2012, 13:52:24
 	 *
@@ -230,7 +233,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @return
 	 */
 	@Override
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> associativeSearch(
 			int prReturnType, clsDataStructurePA poDataStructureUnknown) {
 		
 		double rMatchScore = 0;
@@ -257,7 +260,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		if(poDataStructureUnknown.getMoDS_ID() > -1 ){	//If the data structure already has an ID, no matching is necessary and it has found itself
 			oMatchedDataStructures.add(new clsPair<Double, clsDataStructurePA>(1.0,poDataStructureUnknown)); 
 		}
-		else if (poDataStructureUnknown  instanceof itfInternalAssociatedDataStructure) {
+		else if (poDataStructureUnknown  instanceof itfInternalAssociatedDataStructure && !((itfInternalAssociatedDataStructure)poDataStructureUnknown).getMoInternalAssociatedContent().isEmpty()) {
 
 			// For each unknowDS (e.g. UnknownTPM): take its internal associated data structures (e.g.TPs) and get all returntype of unknownDs (e.g. TPMs that are associated with this TP - if returntype is TPM) 
 			
@@ -271,7 +274,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 				// 3. get best match of internal ass. data structures (e.g TPs) as starting fringe for graph search
 				oBestMatch =  getBestMatch(oMatchedDataStructures);
 				
-				// 4. get associated returntype (e.g. TPMs of TP)
+				// 4. get associated returntype from search space (e.g. all TPMs that are associated to a TP)
 				rReturnTypeInternAss = poDataStructureUnknown.getMoDataStructureType().nBinaryValue;
 				clsDataStructureContainer oDataStructureContainer = getDataContainer(rReturnTypeInternAss, (clsPhysicalRepresentation)oBestMatch.b);	//Get container from a certain data value
 				oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oBestMatch.a, oDataStructureContainer));
@@ -286,7 +289,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 						oSearchFringe.add(oAssReturnObject.getMoAssociationElementA());
 					}
 					else {
-						System.out.println("wrong returntype");
+						clsLogger.jlog.debug("Wrong Returntype: " + oAssReturnObject.getMoAssociationElementA().getMoDataStructureType() + " instead of " + rReturnTypeInternAss);
 					}
 				}
 			}
@@ -294,8 +297,13 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 			
 			// 6. start search			
 			if(oSearchFringe.isEmpty() == true) {
-				// return failure
-				System.out.println("searchFringe is empty");
+				// no search possible
+				try {
+					throw new Exception("searchFringe is empty");
+				} catch (Exception e) {
+					// TODO (schaat) - Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 			
 			// 7. Goal test (=similarity check)
@@ -310,22 +318,26 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 //					
 //				}
 				
-				// initialize perceptual activation
+				// get matchScore and initialize perceptual activation
 				rMatchScore = oFringeObject.compareTo(poDataStructureUnknown);
 				
 				
-				//if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){ consider all memory-DS as candidates
+				//if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){ 
+				// currently do not use a threshold, consider all memory-DS as candidates
 					oMatchingDataStructureList.add(new clsPair<Double, clsDataStructurePA>(rMatchScore, oFringeObject));
 					
 				//}
 			}
 			
+			// get returntypes of search pattern (e.g. DMs that are associated with the search pattern (e.g. TPM))
 			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchingDataStructureList){
 				clsDataStructureContainer oDataStructureContainer = getDataContainer(prReturnType, (clsPhysicalRepresentation)oPatternElement.b);	//Get container from a certain data value
 				oDataStructureContainerListReturn.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
 			}
 			 
 		}
+		
+		// if associative search is not possible (no internal associations) do list search
 		else {
 			oDataStructureContainerListReturn = listSearch( prReturnType, poDataStructureUnknown);
 		}

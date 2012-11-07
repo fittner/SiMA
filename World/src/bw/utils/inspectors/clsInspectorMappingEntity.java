@@ -83,7 +83,6 @@ public class clsInspectorMappingEntity {
 	public static TabbedInspector getInspectorEntity(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity)
 	{
     	TabbedInspector oRetVal = new TabbedInspector();
-
     	//change the default inspector to the one you created for the entity if you want more inspected
     	if( poEntity instanceof clsMobile )
     	{

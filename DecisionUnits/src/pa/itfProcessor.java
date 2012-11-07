@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
@@ -37,6 +38,9 @@ public interface itfProcessor {
 	 * @param poActionContainer
 	 */
 	public abstract void getActionCommands(itfActionProcessor poActionContainer);
+	
+	
+	public abstract void getInternalActionCommands(itfInternalActionProcessor poInternalActionContainer);
 	
 	/**
 	 * Provide the currently perceived sensor data to the decision unit.

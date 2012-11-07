@@ -13,6 +13,7 @@ import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
@@ -387,5 +388,18 @@ public class clsProcessor implements itfProcessor {
 	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
 		// TODO (muchitsch) - Auto-generated method stub
 		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 31.10.2012 13:00:16
+	 * 
+	 * @see pa.itfProcessor#getInternalActionCommands(du.itf.actions.itfInternalActionProcessor)
+	 */
+	@Override
+	public void getInternalActionCommands(
+			itfInternalActionProcessor poInternalActionContainer) {
+		// TODO (muchitsch) - Auto-generated method stub
+		
 	}
 }

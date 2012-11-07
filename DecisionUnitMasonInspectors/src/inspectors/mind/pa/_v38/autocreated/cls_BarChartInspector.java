@@ -33,6 +33,8 @@ import pa._v38.interfaces.itfInspectorBarChart;
  */
 public class cls_BarChartInspector extends cls_AbstractChartInspector {
 
+	/** DOCUMENT (herret) - insert description; @since Oct 23, 2012 10:51:49 AM */
+	private static final long serialVersionUID = -6851896833850214331L;
 	private itfInspectorBarChart moContainer;
 	private DefaultCategoryDataset moDataset;
 

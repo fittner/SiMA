@@ -69,7 +69,7 @@ public abstract class clsCompareGraphWindow extends Inspector {
 
 	private boolean moAutoUpdate = false;
 	private int moStepCounter = 0; //counter for the automatic interval updating
-	protected static int mnAutomaticUpdateInterval = 20;
+	protected static int mnAutomaticUpdateInterval = 100;
 	
 	private JScrollPane oGraphInputScrollPane;
 	private JScrollPane oGraphOutputScrollPane;
@@ -98,16 +98,11 @@ public abstract class clsCompareGraphWindow extends Inspector {
 
 
     /**
-     * Constructor of the class. Creates the panel, buttons etc. 
+     * Constructor of the class. Creates the panel
      * 
-     * @author muchitsch
-     * 04.08.2010, 16:56:58
+     * @author herret
+     * 20.09.2012, 16:56:58
      *
-     * @param originalInspector
-     * @param wrapper
-     * @param guiState
-     * @param poModuleContainer eg moPA.moG02Id.moG06AffectGeneration.moE05GenerationOfAffectsForDrives
-     * @param poModuleMemoryMemberName 
      */
     public clsCompareGraphWindow()  {
     	initializePanel();	//put all components on the panel		
@@ -238,8 +233,8 @@ public abstract class clsCompareGraphWindow extends Inspector {
     /**
      * Adds a Color&Icon legend to the TaskPane. This needs to be altered when new datatypes are added.
      *
-     * @author muchitsch
-     * 07.06.2011, 14:41:43
+     * @author herret
+     * 20.09.2012, 14:41:43
      *
      * @param poTaskGroup
      * @return poTaskGroup
@@ -268,8 +263,8 @@ public abstract class clsCompareGraphWindow extends Inspector {
     /**
      * adds a single legend item in the form of a JLabel and a Icon is called by @see #method addTaskPaneLegend
      *
-     * @author muchitsch
-     * 07.06.2011, 14:43:31
+     * @author herret
+     * 20.09.2012, 14:43:31
      *
      * @param poText
      * @param poColor
@@ -592,7 +587,6 @@ public abstract class clsCompareGraphWindow extends Inspector {
 				//moGraphOutput.updateControl();
 			}
 		});
-    	// TODO: Auto Update doesn't work correctly
     			
 		javax.swing.JCheckBox oAutoUpdateCB = new javax.swing.JCheckBox("Auto Update");
 		

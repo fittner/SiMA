@@ -21,6 +21,7 @@ import bw.factories.eImages;
 import bw.utils.enums.eBodyType;
 import config.clsProperties;
 import du.enums.eEntityType;
+import du.enums.eFacialExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.cls3DUniverse;
@@ -81,12 +82,14 @@ public abstract class clsEntity implements itfGetBody {
 	
 	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
+	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
 	private BranchGroup shapes3D; 
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
 		mnCurrentOverlay = eImages.NONE;
+		mnCurrentFacialExpressionOverlay = eFacialExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		shapes3D = null;
@@ -348,10 +351,17 @@ public abstract class clsEntity implements itfGetBody {
 	}
 	
 	private void updateOverlayImage() {
+		((itfSetupFunctions)moPhysicalObject2D).setFacialExpressionOverlayImage(mnCurrentFacialExpressionOverlay);
+		
 		if (clsSimState.getSteps() > mnLastSetOverlayCall+10) /*10 is the time how long the overlay will be displayed*/ {
 			mnCurrentOverlay = eImages.NONE;
 		}
 		((itfSetupFunctions)moPhysicalObject2D).setOverlayImage(mnCurrentOverlay);
+		
+	}
+	
+	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
+		mnCurrentFacialExpressionOverlay = poOverlay;
 	}
 	
 	/**

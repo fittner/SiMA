@@ -3,6 +3,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import du.enums.eFacialExpression;
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -197,6 +198,18 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	public void setOverlayImage(eImages poOverlay) {
 		// TODO (muchitsch) - Auto-generated method stub
 		// TODO do stationary objects need a overlay? not yet if needed later look at implementation of clsMobileObject
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 29.10.2012 21:47:08
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setFacialExpressionOverlayImage(du.enums.eFacialExpression)
+	 */
+	@Override
+	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
+		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
 }
