@@ -21,8 +21,9 @@ import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.ProgressMonitor;
 import javax.swing.SwingConstants;
-
 import javax.swing.SwingUtilities;
+
+
 import javax.swing.ToolTipManager;
 import org.jgraph.JGraph;
 
@@ -58,19 +59,23 @@ import com.jgraph.components.labels.RichTextValue;
 import com.jgraph.example.JGraphGraphFactory;
 import com.jgraph.layout.JGraphFacade;
 import com.jgraph.layout.JGraphLayout;
-import com.jgraph.layout.JGraphModelFacade;
 import com.jgraph.layout.demo.JGraphLayoutMorphingManager;
 import com.jgraph.layout.demo.JGraphLayoutProgressMonitor;
 import com.jgraph.layout.tree.JGraphCompactTreeLayout;
 import du.itf.actions.clsActionCommand;
+import du.itf.sensors.clsBump;
+import du.itf.sensors.clsPositionChange;
+import du.itf.sensors.clsRadiation;
 import du.itf.sensors.clsSensorExtern;
 import du.itf.sensors.clsSensorIntern;
+import du.itf.sensors.clsSensorRingSegment;
+import du.itf.sensors.clsSensorRingSegmentEntry;
 import du.itf.sensors.clsVisionEntry;
 
 
 
 /**
- * DOCUMENT (herret) - insert description 
+ * Class that holds one Graph
  * 
  * @author herret
  * Sep 11, 2012, 4:44:44 PM
@@ -78,7 +83,6 @@ import du.itf.sensors.clsVisionEntry;
  */
 public class clsGraph extends JGraph {
 
-	/** DOCUMENT (herret) - insert description; @since Sep 12, 2012 10:02:30 AM */
 	private static final long serialVersionUID = -3249202451622954082L;
 
 	private final int mnEdgeDecimalPlaces =2;
@@ -101,7 +105,7 @@ public class clsGraph extends JGraph {
 	
 	protected boolean mbLayoutChangeIsRunning =false;
 	
-	private JGraphLayout moLayout;
+
 	
 	
 	protected ArrayList<DefaultGraphCell> moCellList = new ArrayList<DefaultGraphCell>();
@@ -109,7 +113,7 @@ public class clsGraph extends JGraph {
 	
 	//colors for all datatypes, used in clsMeshBase:
 	protected static final Color moColorTP = new Color(0xff99FF33); //light green
-	protected static final Color moColorNULL = new Color(0xff222222); // dark dark grey
+	protected static final Color moColorNULL = Color.WHITE; 
 	protected static final Color moColorString = Color.WHITE;
 	protected static final Color moColorDouble = Color.WHITE;
 	protected static final Color moColorDummy = Color.WHITE;
@@ -122,13 +126,17 @@ public class clsGraph extends JGraph {
 	protected static final Color moColorTripple = new Color(0xffffFF99);
 	protected static final Color moColorRoot = Color.GRAY;
 	protected static final Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33); //dark green
-	protected static final Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
+	protected static final Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC); //dark blue
 	protected static final Color moColorDMRoot = new Color(0xffff0066); //pinkish red
 	protected static final Color moColorDMBestAssocBorder = Color.black; //light orange
 	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
 	protected static final Color moColorTI = new Color(0xffFF9933); //brown
 	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
-	protected static final Color moColorEmotion = new Color(0xff8B4513);
+	protected static final Color moColorEmotion = new Color(0xff8B4513); //brown
+	protected static final Color moColorSensorIntern = new Color(0xff00E5EE); //türkis
+	protected static final Color moColorSymbolVision = new Color(0xffBEBEBE); //gray
+	protected static final Color moColorVisionEntry = new Color(0xff8B864E); //khaki
+	protected static final Color moColorSensorExtern = new Color(0xffFFE4C4); //skin 
 	
 	public boolean UseSimpleView() {
 		return mbUseSimpleView;
@@ -191,9 +199,7 @@ public class clsGraph extends JGraph {
 	public clsGraph(boolean pbOrientationVertical){
 		super (new DefaultGraphModel());
 		mbOrientationVertical=pbOrientationVertical;
-		moLayout=new JGraphCompactTreeLayout();
-		((JGraphCompactTreeLayout) moLayout).setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
-		setGridSize(4);
+		setGridSize(2);
 		setGridEnabled(true);
 		setAntiAliased(true);
 		setCloneable(true);
@@ -328,65 +334,19 @@ public class clsGraph extends JGraph {
 		//clear the cell list, or u get doubles, tripples, ...
 		moCellList.clear();
 
-		// Construct Model and GraphLayoutCache
-		GraphModel model = new RichTextGraphModel();
-		
 		moCellList.add(createGraph());
 		
-		//transfer graph-cells from arraylist to fix-size array (needed for registration)
-		
-		DefaultGraphCell[] cells = new DefaultGraphCell[moCellList.size()];
-		for(int i=0; i<moCellList.size(); i++) {
-			cells[i] = (DefaultGraphCell)moCellList.get(i);
-			
-		}
-		
-		// Insert the cells
-		JGraphGraphFactory.insert(model, cells);
-
-		//JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
-		//layout.setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
-		setModel(model);
-		performGraphLayoutChange(moLayout);
-		
-
-		updateUI();
+		redraw();
 		
 	}
     
     
     protected void redraw() {
 
-		//clear the cell list, or u get doubles, tripples, ...
-
-		// Construct Model and GraphLayoutCache
-		GraphModel model = new RichTextGraphModel();
-
-
+    	updateModel();
 		
-		//transfer graph-cells from arraylist to fix-size array (needed for registration)
-		
-		DefaultGraphCell[] cells = new DefaultGraphCell[moCellList.size()];
-		for(int i=0; i<moCellList.size(); i++) {
-			cells[i] = (DefaultGraphCell)moCellList.get(i);
-			
-		}
-		
-		// Insert the cells via the cache
-		JGraphGraphFactory.insert(model, cells);
-		// Create the layout facade. When creating a facade for the tree
-		// layouts, pass in any cells that are intended to be the tree roots
-		// in the layout
-		JGraphFacade facade = new JGraphModelFacade(model, new Object[]{cells[0]});
-		facade.setOrdered(true);
-		// Create the layout to be applied (Tree)
-		JGraphCompactTreeLayout layout= new JGraphCompactTreeLayout();
-		
-		//layout.setOrientation(SwingConstants.WEST);
-
-		
-		setModel(model);
-		performGraphLayoutChange(layout);
+		performGraphLayoutChange();
+		updateUI();
 
 	}
     
@@ -620,10 +580,10 @@ public class clsGraph extends JGraph {
 			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);	
 			
 		} else if (oO instanceof clsSensorIntern) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, (clsSensorIntern) oO); 
 			
 		} else if (oO instanceof clsSensorExtern) {
-			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
+			oRootCell = generateGraphCell(poParent, (clsSensorExtern) oO); 
 			
 		} else if (oO instanceof clsActionCommand) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
@@ -641,7 +601,9 @@ public class clsGraph extends JGraph {
 			oEdgeParent.setTarget(oRootCell.getChildAt(0));
 			moCellList.add(oEdgeParent);
 		}
-		
+		if(oRootCell!=null){
+			oRootCell.setReference(oO);
+		}
 		return oRootCell;
 	}
 
@@ -1326,107 +1288,95 @@ public class clsGraph extends JGraph {
 		clsGraphCell oEmpotionRootCell = createDefaultGraphVertex(oDescription, moColorEmotion);
 		this.moCellList.add(oEmpotionRootCell);
 		
-		boolean bSaveIntern =mbShowInternAssoc;
-		if(mbShowExternAssoc){
-			mbShowExternAssoc = false;
-			mbShowInternAssoc = false;
-			for(clsAssociation oDMAssociations : poMemoryObject.getExternalMoAssociatedContent())
-			{ 	
-				
-				if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementA().getMoDS_ID())
-				{
-					
-					clsDataStructurePA oMemoryObjectB = oDMAssociations.getMoAssociationElementB();
-					clsGraphCell oTargetCell = generateGraphCell(oEmpotionRootCell, oMemoryObjectB);
-					//add edge
-					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
-					oEdge.setSource(oEmpotionRootCell.getChildAt(0));
-					oEdge.setTarget(oTargetCell.getChildAt(0));
-					moCellList.add(oEdge);
-					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-					GraphConstants.setEndFill(oEdge.getAttributes(), true);
-				}
-				else if(poMemoryObject.getMoDS_ID() == oDMAssociations.getMoAssociationElementB().getMoDS_ID())
-				{
-					clsDataStructurePA oMemoryObjectA = oDMAssociations.getMoAssociationElementA();
-					clsGraphCell oTargetCell = generateGraphCell(oEmpotionRootCell, oMemoryObjectA);
-					//add edge
-					DefaultEdge oEdge = new DefaultEdge("w:" + (Math.round(oDMAssociations.getMrWeight()*Math.pow(10, mnEdgeDecimalPlaces))/Math.pow(10, mnEdgeDecimalPlaces)));
-					oEdge.setSource(oEmpotionRootCell.getChildAt(0));
-					oEdge.setTarget(oTargetCell.getChildAt(0));
-					moCellList.add(oEdge);
-					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
-					GraphConstants.setEndFill(oEdge.getAttributes(), true);
-				}
-				else
-				{ //should not be laut heimo!!!
-					//System.out.println("ARS Exeption: [DM] Neither A nor B are root element.");
-					//throw new UnsupportedOperationException("ARS Exeption: Neither A nor B are root element. argh");
-				}
-			}
-			mbShowInternAssoc = bSaveIntern;
-			mbShowExternAssoc=true;
-		}
-		
-		
-		
+	
 		return oEmpotionRootCell;	
 	}
 	
+	/** [clsSensorIntern]
+	 * Generating cells from clsEmotion
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsSensorIntern poMemoryObject)
+	{
+		
+		String oDescription = poMemoryObject.toString();
+		
+		if(!UseSimpleView()) 
+		{
+			oDescription = 	poMemoryObject.toString();
+		}
 
+		//generate root of the mesh
+		clsGraphCell oEmpotionRootCell = createDefaultGraphVertex(oDescription, moColorSensorIntern);
+		this.moCellList.add(oEmpotionRootCell);
+		
 	
-	/** [Double]
-	 * Generating cells when a Pair a Double, happens in search
-	 */
-	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, Double popoMemoryObject)
-	{
-		clsGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorDouble);
-		this.moCellList.add(oCell);
-		
-		//get edge to parent cell
-		DefaultEdge oEdgeParent = new DefaultEdge();
-		oEdgeParent.setSource(poParentCell.getChildAt(0));
-		oEdgeParent.setTarget(oCell.getChildAt(0));
-		moCellList.add(oEdgeParent);
-		
-		return oCell;
+		return oEmpotionRootCell;	
 	}
 	
-	/** [String]
-	 * Generating cells when a Pair a Double, happens in search
+	/** [clsSensorExtern]
+	 * Generating cells from clsEmotion
 	 */
-	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, String popoMemoryObject)
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsSensorExtern poMemoryObject)
 	{
-		clsGraphCell oCell = createDefaultGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
-		//clsGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
-		this.moCellList.add(oCell);
-		
-		//get edge to parent cell
-		DefaultEdge oEdgeParent = new DefaultEdge();
-		oEdgeParent.setSource(poParentCell.getChildAt(0));
-		oEdgeParent.setTarget(oCell.getChildAt(0));
-		moCellList.add(oEdgeParent);
-		
-		return oCell;
-	}	
+		boolean showChilds=false;
+		clsGraphCell oCell;
+		String oDescription="";
+		if( poMemoryObject instanceof clsBump){
+			oDescription="Bumped: "+((clsBump)poMemoryObject).getBumped();
+			
+		}else if (poMemoryObject instanceof clsPositionChange){
+			oDescription=((clsPositionChange)poMemoryObject).getSensorType() +"\n"+
+					"X: "+ ((clsPositionChange)poMemoryObject).getX() +"\n" +
+					"Y: "+ ((clsPositionChange)poMemoryObject).getY();
+		}else if (poMemoryObject instanceof clsRadiation){
+			oDescription="Radiation Intensity: "+((clsRadiation)poMemoryObject).getIntensity();
+			
+		}else if (poMemoryObject instanceof clsSensorRingSegment){
+			showChilds=true;
+			oDescription=((clsSensorRingSegment)poMemoryObject).getSensorType().toString();
+			
+		}else if(poMemoryObject instanceof clsSensorRingSegmentEntry){
+			oDescription=((clsSensorRingSegmentEntry)poMemoryObject).getEntityId()+"\n"+
+					((clsSensorRingSegmentEntry)poMemoryObject).getShapeType()+"\n"+
+					"X: "+ ((clsSensorRingSegmentEntry)poMemoryObject).getPolarcoordinate().getVector().mrX+"\n"+
+					"Y: "+ ((clsSensorRingSegmentEntry)poMemoryObject).getPolarcoordinate().getVector().mrY;
+		}else{
+			showChilds=true;
+			oDescription = poMemoryObject.getSensorType().toString();
+		}
+			
 	
-	/** [NULL]
-	 * Generating cells when a Pair is NULL, should not be, but happens
-	 */
-	private clsGraphCell generateNULLGraphCell(clsGraphCell poParentCell)
-	{
-		clsGraphCell oCell = createDefaultGraphVertex("NULL", moColorNULL);
-		this.moCellList.add(oCell);
-		
-		//get edge to parent cell
-		DefaultEdge oEdgeParent = new DefaultEdge("");
-		oEdgeParent.setSource(poParentCell.getChildAt(0));
-		oEdgeParent.setTarget(oCell.getChildAt(0));
-		moCellList.add(oEdgeParent);
+			
+			if(!UseSimpleView()) 
+			{
+				oDescription = 	poMemoryObject.toString();
+			}
+	
+			//generate root of the mesh
+			oCell = createDefaultGraphVertex(oDescription, moColorSensorExtern);
+			this.moCellList.add(oCell);
+			
+			
+			if(mbShowInternAssoc && showChilds){
+				mbShowInternAssoc=false;
+				for (clsSensorExtern oO: poMemoryObject.getDataObjects()){
+					clsGraphCell oTargetCell = generateGraphCell(oCell, (Object) oO);
+					//add edge
+					DefaultEdge oEdge = new DefaultEdge();
+					oEdge.setSource(oCell.getChildAt(0));
+					oEdge.setTarget(oTargetCell.getChildAt(0));
+					moCellList.add(oEdge);
+					
+					GraphConstants.setLineEnd(oEdge.getAttributes(), GraphConstants.ARROW_CLASSIC);
+					GraphConstants.setEndFill(oEdge.getAttributes(), true);
+				}
+				mbShowInternAssoc=true;
+			}
+			
 		
 		return oCell;
+		
 	}
-	
 	/** [ACT]
 	 * Generating cells from clsAct
 	 */
@@ -1449,7 +1399,6 @@ public class clsGraph extends JGraph {
 		moCellList.add(oEdgeParent);
 		
 		//add a cell for every acossiation
-		//TODO could be any data type? now its only to string
 		for(clsSecondaryDataStructure oAssociatedContent : poMemoryObject.getMoAssociatedContent())
 		{
 			clsGraphCell oTargetCell = generateGraphCell(oActRootCell, oAssociatedContent);
@@ -1566,7 +1515,7 @@ public class clsGraph extends JGraph {
 		String oDescription = poMemoryObject.getSensorType().toString();
 		
 		
-		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorString);
+		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorSymbolVision);
 		this.moCellList.add(oCell);
 		
 		//get edge to parent cell
@@ -1600,8 +1549,8 @@ public class clsGraph extends JGraph {
 	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, clsVisionEntry poMemoryObject)
 	{
 		String oDescription = poMemoryObject.getEntityType().toString();
-		oDescription ="?";	
-		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorString);
+		oDescription ="  ?  ";	
+		clsGraphCell oCell = createDefaultGraphVertex(oDescription, moColorVisionEntry);
 		this.moCellList.add(oCell);
 		poMemoryObject.getClass().getFields();
 
@@ -1635,6 +1584,61 @@ public class clsGraph extends JGraph {
 	
 		return oCell;
 	}
+
+	
+	/** [Double]
+	 * Generating cells when a Pair a Double, happens in search
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, Double popoMemoryObject)
+	{
+		clsGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorDouble);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}
+	
+	/** [String]
+	 * Generating cells when a Pair a Double, happens in search
+	 */
+	private clsGraphCell generateGraphCell(clsGraphCell poParentCell, String popoMemoryObject)
+	{
+		clsGraphCell oCell = createDefaultGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
+		//clsGraphCell oCell = createCircleGraphVertex(popoMemoryObject.toString(), 30, 30, 30, 30, moColorString);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge();
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}	
+	
+	/** [NULL]
+	 * Generating cells when a Pair is NULL, should not be, but happens
+	 */
+	private clsGraphCell generateNULLGraphCell(clsGraphCell poParentCell)
+	{
+		clsGraphCell oCell = createDefaultGraphVertex("NULL", moColorNULL);
+		this.moCellList.add(oCell);
+		
+		//get edge to parent cell
+		DefaultEdge oEdgeParent = new DefaultEdge("");
+		oEdgeParent.setSource(poParentCell.getChildAt(0));
+		oEdgeParent.setTarget(oCell.getChildAt(0));
+		moCellList.add(oEdgeParent);
+		
+		return oCell;
+	}
+	
+
 	
 	
 	public clsGraphCell generateDummyCell(clsGraphCell poParentCell){
@@ -1649,7 +1653,14 @@ public class clsGraph extends JGraph {
 		
 		return oCell;
 	}
-	
+	/**
+	* creates a standard layout for the methode performLayoutChange(JGraphLayout layout)
+	 */
+    public void performGraphLayoutChange(){
+		JGraphCompactTreeLayout layout = new JGraphCompactTreeLayout();
+		layout.setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
+		performGraphLayoutChange(layout);
+    }
 	/**
 	 * Executes the current layout on the current graph by creating a facade and
 	 * progress monitor for the layout and invoking it's run method in a
@@ -1660,7 +1671,7 @@ public class clsGraph extends JGraph {
     public synchronized void performGraphLayoutChange(final JGraphLayout layout) 
 	{
     	try{
-	    	moLayout = layout;
+
 			if (isEnabled() && isMoveable()
 					&& layout != null) {
 				final JGraphFacade facade = createFacade(this);
@@ -1680,7 +1691,7 @@ public class clsGraph extends JGraph {
 								// has been displayed or cancel has not been pressed
 								// then
 								// the result of the layout algorithm is processed.
-								
+
 	
 								layout.run(facade);
 	

@@ -51,7 +51,7 @@ import statictools.clsGetARSPath;
 
 
 /**
- * DOCUMENT (herret) - insert description 
+ * Abstract window to hold one ore more graphs. Including control elements and triggers the graph update
  * 
  * @author herret
  * Sep 11, 2012, 4:21:44 PM
@@ -80,26 +80,7 @@ public abstract class clsGraphWindow extends Inspector {
 	protected static int mnAutomaticUpdateInterval = 100;
 	
 		
-	//colors for all datatypes, used in clsMeshBase:
-	/*protected static final Color moColorTP = new Color(0xff99FF33); //light green
-	protected static final Color moColorNULL = new Color(0xff222222); // dark dark grey
-	protected static final Color moColorString = Color.WHITE;
-	protected static final Color moColorDouble = Color.WHITE;
-	protected static final Color moColorWP = new Color(0xff6699FF); //light blue
-	protected static final Color moColorDD = new Color(0xffCC66CC);  //Drive Demand, lavendel
-	protected static final Color moColorACT = new Color(0xffFF9933); //brown
-	protected static final Color moColorPairRoot = new Color(0xffFFCC00); //light orange
-	protected static final Color moColorPair = new Color(0xffFFCC00);
-	protected static final Color moColorTrippleRoot = new Color(0xffffFF99); //light yellow
-	protected static final Color moColorTripple = new Color(0xffffFF99);
-	protected static final Color moColorRoot = Color.GRAY;
-	protected static final Color moColorPrimaryDataStructureContainer = new Color(0xff99CC33); //dark green
-	protected static final Color moColorSecondaryDataStructureContainer = new Color(0xff3366CC);
-	protected static final Color moColorDMRoot = new Color(0xffff0066); //pinkish red
-	protected static final Color moColorTPMRoot = new Color(0xff99CC33); //dark green
-	protected static final Color moColorTI = new Color(0xffFF9933); //brown
-	protected static final Color moColorWPMRoot = new Color(0xff1874CD); //dark blue
-*/
+
 
     /**
      * Constructor of the class. Creates the panel
@@ -238,7 +219,6 @@ public abstract class clsGraphWindow extends Inspector {
 			for(i = 0; i< countGraphes-1;i++){
 				JSplitPane oSPane = new JSplitPane(mbOrientationVertical?JSplitPane.HORIZONTAL_SPLIT:JSplitPane.VERTICAL_SPLIT);
 				if(i==0){
-					//erster Schleifen Durchlauf
 					oSPane.setTopComponent(moScrollPanes.get(0));
 				}
 
@@ -309,7 +289,10 @@ public abstract class clsGraphWindow extends Inspector {
     	poTaskGroup.add(addLegendItem( "SDSC", clsGraph.moColorSecondaryDataStructureContainer, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "DM root", clsGraph.moColorDMRoot, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "Emotion", clsGraph.moColorEmotion, "/World/src/resources/images/view.png") );
-     	
+    	poTaskGroup.add(addLegendItem( "Symbol Vision", clsGraph.moColorSymbolVision, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Vision Entry", clsGraph.moColorVisionEntry, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Sensor Intern", clsGraph.moColorSensorIntern, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Sensor Extern", clsGraph.moColorSensorExtern, "/World/src/resources/images/view.png") );
     	return poTaskGroup;
     }
     
@@ -376,7 +359,7 @@ public abstract class clsGraphWindow extends Inspector {
 					JGraphCompactTreeLayout layout = new JGraphCompactTreeLayout();
 					layout.setOrientation(mbOrientationVertical?SwingConstants.WEST:SwingConstants.NORTH);
 					for(clsGraph oGraph: moGraphes){
-						oGraph.performGraphLayoutChange(layout);
+						oGraph.performGraphLayoutChange();
 					}
 				}
 			});
@@ -646,8 +629,6 @@ public abstract class clsGraphWindow extends Inspector {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				updateGraphes();
-				//moGraphInput.updateControl();
-				//moGraphOutput.updateControl();
 			}
 		});
     			
@@ -674,10 +655,6 @@ public abstract class clsGraphWindow extends Inspector {
 						for(clsGraph oGraph: moGraphes){
 							oGraph.setLinked(abstractButton.getModel().isSelected());
 						}
-			     // 		if(abstractButton.getModel().isSelected()){
-			     // 			moGraphOutput.setScale(moGraphInput.getScale());
-			     // 			updateGraphes();
-			     // 		}
 			        }
 			      };
 			      oLinkCB.addActionListener(actionListenerLCB);
@@ -774,8 +751,6 @@ public abstract class clsGraphWindow extends Inspector {
 		for(clsGraph oGraph: moGraphes){
 			oGraph.updateControl();
 		}
-		//moGraphInput.performGraphLayoutChange(actualLayout);
-		//moGraphOutput.performGraphLayoutChange(actualLayout);
 	}
 
 }
