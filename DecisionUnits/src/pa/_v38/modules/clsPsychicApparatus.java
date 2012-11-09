@@ -50,6 +50,7 @@ import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.systemtest.clsTester;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -200,6 +201,9 @@ public class clsPsychicApparatus {
 		//Init codelethandler
 		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
 		this.registerCodelets();
+		
+		//Set testmode
+		clsTester.getTester().setActivated(false);
 		
 		applyProperties(poPrefix, poProp);
 		
