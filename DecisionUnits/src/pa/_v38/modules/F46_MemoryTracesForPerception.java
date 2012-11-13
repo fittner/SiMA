@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.storage.clsEnvironmentalImageMemory;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -179,6 +180,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
+		
+		if (clsTester.getTester().isActivated()) {
+			clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+		}
 		
 		clsLogger.jlog.debug("PI: " + oPerceivedImage.toString());
 		moPerceptionalMesh_OUT = oPerceivedImage;
