@@ -108,7 +108,7 @@ public class clsConceptTest {
 	@Test
 	public final void addEmotionWPMTest() {
 		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.EMOTION, eEmotionType.PLEASURE.name());
+				eContentType.EMOTION, eEmotionType.JOY.name());
 		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
 				basicPair, new ArrayList<clsAssociation>());
 		_concept.addWPMs(wpm);
@@ -120,7 +120,7 @@ public class clsConceptTest {
 	@Test
 	public final void addWPMwithSelfLoopTest() {
 		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.EMOTION, eEmotionType.PLEASURE.name());
+				eContentType.EMOTION, eEmotionType.JOY.name());
 		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
 				basicPair, new ArrayList<clsAssociation>());
 		clsAssociation loop = new clsAssociationSecondary(
@@ -159,7 +159,7 @@ public class clsConceptTest {
 	@Test
 	public final void addNotValidTest() {
 		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.GOAL, eEmotionType.PLEASURE.name());
+				eContentType.GOAL, eEmotionType.JOY.name());
 		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
 				basicPair, new ArrayList<clsAssociation>());
 		_concept.addWPMs(wpm);
