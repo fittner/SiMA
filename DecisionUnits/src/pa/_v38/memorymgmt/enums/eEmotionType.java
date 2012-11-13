@@ -17,7 +17,7 @@ public enum eEmotionType {
 	ANGER,
 	MOURNING,
 	ANXIETY,
-	PLEASURE,
+	JOY,
 	SATURATION,
 	ELATION,
 	

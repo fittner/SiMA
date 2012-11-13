@@ -66,7 +66,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
 	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
 	 * memories */
-	private double mrPerceptionReduceFactor = 0.2;
+	private double mrPerceptionReduceFactor = 0.1;
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
 	private double mrMemoryReduceFactor = 0.05;
 	
@@ -227,6 +227,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Perception and phantasy are treated equal, therefore, get all images in the mesh
 		ArrayList<clsThingPresentationMesh> oImageList = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
 		
+		// consider relative reduction (relative to currently available libido) --> the higher the libido, the higher the absolute reduction
+		mrPerceptionReduceFactor = mrPerceptionReduceFactor * mrAvailableLibido;
+		mrPerceptionReduceFactor = mrPhantasyReduceFactor * mrAvailableLibido;
+		mrPerceptionReduceFactor = mrMemoryReduceFactor * mrAvailableLibido;	
+		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {
 			if(oImage.getMoContentType() == eContentType.PI){
@@ -253,6 +258,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
 		//	mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
 		//}
+		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 

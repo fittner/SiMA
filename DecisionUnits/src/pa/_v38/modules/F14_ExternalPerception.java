@@ -507,7 +507,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			// c. get set of graded DMs
 			ArrayList<clsDriveMesh> oDMStimulusList = getStimulusDMs(oAssDMforCategorization);
 			
-			// constructivismus
+			// extend object
 			clsThingPresentationMesh oInputTPM = (clsThingPresentationMesh) moEnvironmentalTP.get(oRankedCandidateTPMs.indexOf(oRankedCandidates)).getMoDataStructure(); 
 			clsThingPresentationMesh oOutputTPM = (clsThingPresentationMesh) oRankedCandidates.get(0).getMoDataStructure();
 			ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>();
@@ -1019,7 +1019,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
 	
-		ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+		ArrayList<clsAssociation> oRemoveAss = null;
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
 						new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 					
@@ -1031,6 +1031,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		// process EvironmentTPM
 				for(clsPrimaryDataStructureContainer oEnvTPM :moEnvironmentalTP) {
 
+					oRemoveAss = new ArrayList<clsAssociation>();
+					
 					oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
 													
 							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)

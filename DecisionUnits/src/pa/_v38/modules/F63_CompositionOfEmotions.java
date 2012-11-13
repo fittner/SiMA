@@ -127,6 +127,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		text += toText.valueToTEXT("rPerceptionUnpleasure", oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
 		
+		text += toText.valueToTEXT("rPerceptionLibid", oPerceptionExtractedValues.get("rPerceptionLibid"));
+		
+		text += toText.valueToTEXT("rPerceptionAggr", oPerceptionExtractedValues.get("rPerceptionAggr"));
+		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalMoAssociatedContent());
 		
 				
@@ -209,9 +213,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				
 		
 		// aggregate values from drive- and perception track
-		// TODO: problem: values from perception are much higher than values from drive-track. --> impact of perception on the generation of emotion is relatively high (relative to impact of drive-track)
 		// normalize grundkategorien
-		// or is  it a problem? (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
+		// (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
 		rSystemUnpleasure = rDriveUnpleasure + oPerceptionExtractedValues.get("rPerceptionUnpleasure");
 		rSystemPleasure = rDrivePleasure + oPerceptionExtractedValues.get("rPerceptionPleasure");
 		rSystemLibid = rDriveLibid +oPerceptionExtractedValues.get("rPerceptionLibid");
@@ -257,7 +260,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		// just generate Pleasure-based Emotions
 		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
-			generateEmotion(eEmotionType.PLEASURE, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
@@ -272,7 +275,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// generate both
 		else {
 			// pleasure-based emotions
-			generateEmotion(eEmotionType.PLEASURE, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 			}
@@ -369,21 +372,27 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			if(oPIINtAss.getMoContentType() == eContentType.PARTOFASSOCIATION){
 				
 				for (clsAssociation oEntityAss: ((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getExternalMoAssociatedContent()) {
-					// exclude empty spaces (they are currently associated with the deposit drive). just use entities
-					if (((clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getMoContentType() == eContentType.ENTITY && oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM) {
-						// TODO: what about pleasure (libidoDischarge-DM)?
-												
+					// exclude empty spaces (they are currently associated with drives). just use entities. (this is not nice, but due to the use of emptySpaces-objekte in ars necessary)
+					if ( oEntityAss.getMoContentType() == eContentType.ASSOCIATIONDM && !(( clsThingPresentationMesh)oPIINtAss.getMoAssociationElementB()).getMoContent().equalsIgnoreCase("EMPTYSPACE")   ) {
+																		
 						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
-					
-						rPerceptionUnpleasure += oDM.getQuotaOfAffect();
-						if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-							rPerceptionLibid += oDM.getQuotaOfAffect();
-							rMaxQoAPerceptionLibid++;
-						} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-							rPerceptionAggr += oDM.getQuotaOfAffect();
-							rMaxQoAPerceptionAggr++;
+						
+						if(oDM.getMoContentType() == eContentType.LIBIDO) {
+							rPerceptionPleasure += oDM.getQuotaOfAffect();
+							
 						}
-						rMaxQoAPerception++;
+						else {
+							rPerceptionUnpleasure += oDM.getQuotaOfAffect();
+							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
+								rPerceptionLibid += oDM.getQuotaOfAffect();
+								rMaxQoAPerceptionLibid++;
+							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
+								rPerceptionAggr += oDM.getQuotaOfAffect();
+								rMaxQoAPerceptionAggr++;
+							}
+							rMaxQoAPerception++;
+						}
+						
 						
 						// TODO: A cake is associated with multiple DMs of the same kind. this should not be the case. delete "break", after this problem is solved
 						break;
