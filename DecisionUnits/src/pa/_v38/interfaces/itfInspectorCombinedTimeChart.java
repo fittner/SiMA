@@ -9,7 +9,7 @@ package pa._v38.interfaces;
 import java.util.ArrayList;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * Implement this interface to display a set of time charts
  * 
  * @author herret
  * Sep 27, 2012, 11:21:03 AM

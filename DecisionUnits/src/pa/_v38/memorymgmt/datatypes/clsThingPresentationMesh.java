@@ -30,7 +30,7 @@ import pa._v38.memorymgmt.enums.eRadius;
  * 24.05.2010, 12:51:07
  * 
  */
-public class clsThingPresentationMesh extends clsPhysicalStructureComposition{
+public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	
 	private String moContent = "UNDEFINED";
 	

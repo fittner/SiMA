@@ -1532,7 +1532,9 @@ public class clsMeshTools {
 	 * @param poPredicate
 	 * @param pbSwapDirectionAB
 	 */
-	public static <E extends clsSecondaryDataStructure> void createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
+	public static <E extends clsSecondaryDataStructure> clsAssociationSecondary createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
+		clsAssociationSecondary oResult = null;
+		
 		//Create association
 		clsAssociationSecondary oNewAss;
 		if (pbSwapDirectionAB==false) {
@@ -1557,6 +1559,10 @@ public class clsMeshTools {
 				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
 			}
 		}
+		
+		oResult = oNewAss;
+		
+		return oResult;
 	}
 	
 	/**

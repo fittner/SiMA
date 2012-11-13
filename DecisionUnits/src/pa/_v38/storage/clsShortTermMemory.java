@@ -8,6 +8,8 @@ package pa._v38.storage;
 
 import java.util.ArrayList;
 
+import pa._v38.interfaces.itfGraphData;
+import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -19,7 +21,7 @@ import pa._v38.tools.clsPair;
  * 31.08.2011, 07:12:10
  * 
  */
-public class clsShortTermMemory {
+public class clsShortTermMemory implements itfGraphData,itfInspectorInternalState{
 	/** The variable for the short time memory */
 	protected ArrayList<clsPair<Integer, clsWordPresentationMesh>> moShortTimeMemory;
 	
@@ -454,6 +456,32 @@ public class clsShortTermMemory {
 		} else {
 			return "empty";
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 31, 2012 10:59:07 AM
+	 * 
+	 * @see pa._v38.interfaces.itfGraphData#getGraphData()
+	 */
+	@Override
+	public ArrayList<Object> getGraphData() {
+		ArrayList<Object> oRetVal = new ArrayList<Object>();
+		for(clsPair<Integer, clsWordPresentationMesh> oClsPair :moShortTimeMemory){
+			oRetVal.add(oClsPair.b);
+		}
+		return oRetVal;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Oct 31, 2012 11:26:51 AM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToTEXT()
+	 */
+	@Override
+	public String stateToTEXT() {
+		return moShortTimeMemory.toString();
 	}
 
 }

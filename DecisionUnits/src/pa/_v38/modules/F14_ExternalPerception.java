@@ -16,7 +16,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import du.enums.eDistance;
 import du.itf.sensors.clsInspectorPerceptionItem;
-import pa._v38.interfaces.itfInterfaceCompare;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.modules.I2_3_receive;
 import pa._v38.interfaces.modules.I2_4_receive;
 import pa._v38.interfaces.modules.I2_6_receive;
@@ -75,7 +75,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					I2_4_receive,
 					I2_6_send,
 					I5_1_receive,
-					itfInterfaceCompare
+					itfGraphCompareInterfaces
 					{
 	public static final String P_MODULENUMBER = "14";
 	

@@ -19,13 +19,16 @@ import inspectors.mind.pa._v38.autocreated.cls_SpiderWebChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.functionalmodel.clsPAInspectorFunctional;
-import inspectors.mind.pa._v38.graph.clsMeshCompare;
+import inspectors.mind.pa._v38.graph.clsGraphCompareInterfaces;
+import inspectors.mind.pa._v38.graph.clsGraphInterface;
 import inspectors.mind.pa._v38.graph.clsMeshInterface;
 import inspectors.mind.pa._v38.handcrafted.clsF26DecisionCalculation;
 import inspectors.mind.pa._v38.handcrafted.clsI_AllInterfaceData;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import pa._v38.clsProcessor;
+
+import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -35,7 +38,7 @@ import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInspectorSpiderWebChart;
 import pa._v38.interfaces.itfInspectorStackedBarChart;
-import pa._v38.interfaces.itfInterfaceCompare;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.itfInterfaceInterfaceData;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -314,6 +317,23 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 //						"Current Drives (Graph)");				
 //			}
 			
+			if (oModule instanceof itfGraphCompareInterfaces) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> oRecv = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesRecv();
+				ArrayList<eInterfaces> oSend = ((itfGraphCompareInterfaces )oModule).getCompareInterfacesSend();
+				poTI.addInspector( new clsGraphCompareInterfaces(poPA, oRecv, oSend, true), "Input vs. Output");
+			
+			}
+			
+			if (oModule instanceof itfGraphInterface) {
+				
+				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
+				ArrayList<eInterfaces> inter = ((itfGraphInterface )oModule).getGraphInterfaces();
+				poTI.addInspector( new clsGraphInterface(poPA, inter, true), "Interfaces");
+			
+			}
+			
 			if (oModule instanceof itfInterfaceInterfaceData) {
 				poTI.addInspector(
 						new clsE_SimpleInterfaceDataInspector(oModule, poPA.moInterfaceData),
@@ -324,22 +344,22 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 				ArrayList<eInterfaces> oSend = oModule.getInterfacesSend();
 				
 				for (eInterfaces eRcv:oRecv) {
-					poTI.addInspector( new clsMeshInterface(poPA, eRcv), "rcv "+eRcv.toString());
+					//poTI.addInspector( new clsMeshInterface(poPA, eRcv), "rcv "+eRcv.toString());				
+					ArrayList<eInterfaces> eRecvList = new ArrayList<eInterfaces>();
+					eRecvList.add(eRcv);
+					poTI.addInspector( new clsGraphInterface(poPA, eRecvList, false), "rcv "+eRcv.toString());
 				}
 				
 				for (eInterfaces eSnd:oSend) {
-					poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
+					//poTI.addInspector( new clsMeshInterface(poPA, eSnd), "snd "+eSnd.toString());
+					ArrayList<eInterfaces> eSndList = new ArrayList<eInterfaces>();
+					eSndList.add(eSnd);
+					poTI.addInspector( new clsGraphInterface(poPA, eSndList, false), "snd "+eSnd.toString());
 				}
 			}
 			
-			if (oModule instanceof itfInterfaceCompare) {
-				
-				//iterating through all receive and send interfaces and creates a graphical inspector tab for each of them
-				ArrayList<eInterfaces> oRecv = ((itfInterfaceCompare )oModule).getCompareInterfacesRecv();
-				ArrayList<eInterfaces> oSend = ((itfInterfaceCompare )oModule).getCompareInterfacesSend();
-				poTI.addInspector( new clsMeshCompare(poPA, oRecv, oSend), "Input vs. Output");
+
 			
-			}
 		} catch (java.lang.NoSuchFieldException e) {
 			// do nothing
 		} catch (java.lang.Exception e) {

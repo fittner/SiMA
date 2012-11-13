@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInterfaceCompare;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
@@ -37,7 +37,7 @@ import config.clsProperties;
  *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart, itfInterfaceCompare{
+		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart, itfGraphCompareInterfaces{
 
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure

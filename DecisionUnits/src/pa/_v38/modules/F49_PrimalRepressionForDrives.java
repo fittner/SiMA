@@ -13,7 +13,7 @@ import java.util.SortedMap;
 
 import pa._v38.modules.ePsychicInstances;
 import pa._v38.interfaces.itfInspectorBarChart;
-import pa._v38.interfaces.itfInterfaceCompare;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
@@ -32,7 +32,7 @@ import config.clsProperties;
  * 
  */
 public class F49_PrimalRepressionForDrives extends clsModuleBase 
-			implements I5_1_receive, I5_2_send, itfInspectorBarChart, itfInterfaceCompare{
+			implements I5_1_receive, I5_2_send, itfInspectorBarChart, itfGraphCompareInterfaces{
 
 	public static final String P_MODULENUMBER = "49";
 

@@ -12,6 +12,7 @@ import java.util.SortedMap;
 
 import pa._v38.modules.eProcessType;
 import pa._v38.modules.ePsychicInstances;
+import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_11_receive;
 import pa._v38.interfaces.modules.I5_11_send;
@@ -49,7 +50,7 @@ import du.enums.pa.eDriveComponent;
  * 
  */
 public class F07_SuperEgoReactive extends clsModuleBase
-	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send{
+	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface{
 
 	public static final String P_MODULENUMBER = "7";
 	private static final int threshold_psychicEnergy = 10;
@@ -477,5 +478,16 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		((I5_11_receive)moModuleList.get(19)).receive_I5_11(poForbiddenPerceptions, poPerceptionalMesh, poForbiddenEmotions, poEmotions);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenPerceptions, poPerceptionalMesh);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Nov 6, 2012 11:11:19 AM
+	 * 
+	 * @see pa._v38.interfaces.itfGraphInterface#getGraphInterfaces()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getGraphInterfaces() {
+		return this.getInterfaces();
 	}
 }
