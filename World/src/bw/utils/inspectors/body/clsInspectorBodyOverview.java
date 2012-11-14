@@ -200,8 +200,8 @@ public class clsInspectorBodyOverview extends Inspector{
 		//*** INTESTINE PRESSURE ***
 		double rPressure = 0;
 		try {
-			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getContent() / 
-						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getMaxContent() *100;
+			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getContent() / 
+						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getMaxContent() *100;
 		} catch (java.lang.ArithmeticException e) {
 			//nothing to do
 		}		

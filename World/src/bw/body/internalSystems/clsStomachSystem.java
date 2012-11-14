@@ -14,6 +14,7 @@ import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFillLevel;
 import bw.utils.tools.clsNutritionLevel;
@@ -99,6 +100,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		oProp.setProperty(pre+i+"."+clsFillLevel.P_LOWERBOUND, 0.0);
+		i++;
+		
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.EXCREMENT.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
 		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
@@ -383,11 +391,58 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	public void stepUpdateInternalState() {
 		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
+		CreateExcrementFromUndigestable();
+		
 		while (i.hasNext()) {
 			moNutritions.get(i.next()).step();
 		}
 		
+		
+		
 		updateEnergy();
+
+	}
+
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 14.11.2012 13:43:43
+	 *
+	 */
+	private void CreateExcrementFromUndigestable() {
+		
+		double digestionAmountperStep = 0.01; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
+
+		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
+		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
+		
+		if(oUndigestable.getContent() > 0 && oUndigestable.getContent() > digestionAmountperStep)
+		{
+			try {
+				
+				if(oExcrement.getContent() >= oExcrement.getMaxContent())
+				{
+					//TODO zB schmerz erzeugen, derzeit warten wir damit auf die Entleerung
+				}
+				else
+				{ // undigestable -> excrement
+				
+				oUndigestable.decrease(digestionAmountperStep);
+
+				this.addNutrition(eNutritions.EXCREMENT, digestionAmountperStep);
+				}
+				
+			} catch (exContentColumnMaxContentExceeded e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (exContentColumnMinContentUnderrun e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (exNoSuchNutritionType e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	/**

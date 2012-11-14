@@ -97,7 +97,7 @@ public class clsIntestinePressureSensor  extends clsSensorInt {
 			clsStomachSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
 
 			try {
-				clsNutritionLevel oUndigestable = oStomachSystem.getNutritionLevel(eNutritions.UNDIGESTABLE);
+				clsNutritionLevel oUndigestable = oStomachSystem.getNutritionLevel(eNutritions.EXCREMENT);
 				mrTension = oUndigestable.getContent() / oUndigestable.getMaxContent();
 			} catch (java.lang.ArithmeticException e) {
 				mrTension = 0; // per definition.

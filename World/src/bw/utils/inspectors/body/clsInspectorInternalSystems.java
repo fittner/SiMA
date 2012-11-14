@@ -99,8 +99,8 @@ public class clsInspectorInternalSystems extends Inspector{
 
 		double rPressure = 0;
 		try {
-			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getContent() / 
-						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getMaxContent();
+			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getContent() / 
+						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getMaxContent();
 		} catch (java.lang.ArithmeticException e) {
 			//nothing to do
 		}		
@@ -208,8 +208,8 @@ public class clsInspectorInternalSystems extends Inspector{
 		
 		double rPressure = 0;
 		try {
-			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getContent() / 
-						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.UNDIGESTABLE).getMaxContent();
+			rPressure = moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getContent() / 
+						moInternalSystem.getStomachSystem().getNutritionLevel(eNutritions.EXCREMENT).getMaxContent();
 		} catch (java.lang.ArithmeticException e) {
 			//nothing to do
 		}		
