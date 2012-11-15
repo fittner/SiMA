@@ -331,7 +331,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		clsThingPresentationMesh oRI = null;
 		
 		// use  assoc. emotions from PI's RIs for emotion-generation		
-		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
+		/*for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
 			
 			if(oPIExtAss.getMoContentType() == eContentType.PIASSOCIATION){
 				if(oPIExtAss.getMoAssociationElementB().getMoContentType() == eContentType.RI) {
@@ -353,7 +353,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				}
 			}
 			
-		}
+		}*/
 		
 		
 		// use QoA of the PI's entities  for emotion-generation
