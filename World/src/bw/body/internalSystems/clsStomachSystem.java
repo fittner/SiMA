@@ -40,6 +40,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private double mrMaxWeight;
 	private double mrWeight;
 	
+	int moRectumWaitStepCounter = 0;
+	
 	public clsStomachSystem(String poPrefix, clsProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moEnergyEfficiency = new HashMap<eNutritions, Double>();
@@ -412,6 +414,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private void CreateExcrementFromUndigestable() {
 		
 		double digestionAmountperStep = 0.01; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
+		int oWaitForSteps = 20; // wie viele steps verzoegerung zwischen essen und start der Verdauung
+		
 
 		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
 		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
@@ -420,17 +424,31 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		{
 			try {
 				
-				if(oExcrement.getContent() >= oExcrement.getMaxContent())
-				{
-					//TODO zB schmerz erzeugen, derzeit warten wir damit auf die Entleerung
-				}
-				else
-				{ // undigestable -> excrement
-				
-				oUndigestable.decrease(digestionAmountperStep);
+//				if(oExcrement.getContent() >= oExcrement.getMaxContent())
+//				{
+//					//TODO zB schmerz erzeugen, derzeit warten wir damit auf die verdauung wenn excremente voll ist
+//					
+//				}
+//				else
+//				{ // undigestable -> excrement
+					if(oUndigestable.getContent() >= oUndigestable.getUpperBound()) // wenn undigestable voll -> starte verdauung
+					{
+						if(moRectumWaitStepCounter >= oWaitForSteps) //warte fuer X steps
+						{
+							oUndigestable.decrease(digestionAmountperStep);
 
-				this.addNutrition(eNutritions.EXCREMENT, digestionAmountperStep);
-				}
+							this.addNutrition(eNutritions.EXCREMENT, digestionAmountperStep);
+							
+						}
+						else
+						{
+							moRectumWaitStepCounter++;
+						}
+						
+					}
+					
+
+				//}
 				
 			} catch (exContentColumnMaxContentExceeded e) {
 				// TODO (muchitsch) - Auto-generated catch block
@@ -443,6 +461,10 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 				e.printStackTrace();
 			}
 		}
+	}
+	
+	public void ResetRectumWaitCounter(){
+		this.moRectumWaitStepCounter = 0;
 	}
 
 	/**
