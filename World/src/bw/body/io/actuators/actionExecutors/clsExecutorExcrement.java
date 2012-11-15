@@ -106,6 +106,8 @@ public class clsExecutorExcrement extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
 		moEntity.setOverlayImage(eImages.Overlay_Action_Deposit);
+		
+		
 
 		//Get Smart Excrement
 		clsSmartExcrement oEx = oBody.getInterBodyWorldSystem().getCreateExcrement().getSmartExcrements(oCommand.getIntensity()*mrIntensityScalingFactor );
@@ -114,6 +116,9 @@ public class clsExecutorExcrement extends clsActionExecutor{
 		//Drop it in Mason
 		clsRegisterEntity.registerEntity(oEx);
 		oEx.setRegistered(true);
+		
+		//reset the wait till digestion starts again
+		oBody.getInternalSystem().getStomachSystem().ResetRectumWaitCounter();
 		
 		return true;
 	}	
