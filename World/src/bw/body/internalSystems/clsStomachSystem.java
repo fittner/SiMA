@@ -49,9 +49,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		applyProperties(poPrefix, poProp);
 		
+		EmptyRectum();
+		
 		updateEnergy();
 	}
 
+	
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -404,6 +407,36 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		updateEnergy();
 
 	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 15.11.2012 15:52:37
+	 *
+	 */
+	private void EmptyRectum() {
+
+		//for startup
+		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
+		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
+		
+
+		double rExcrementContent = oExcrement.getContent();
+		double rUndigestableContent = oUndigestable.getContent();
+
+		try {
+			oUndigestable.decrease(rUndigestableContent);
+			oExcrement.decrease(rExcrementContent);
+		} catch (exContentColumnMaxContentExceeded e) {
+			// TODO (muchitsch) - Auto-generated catch block
+			e.printStackTrace();
+		} catch (exContentColumnMinContentUnderrun e) {
+			// TODO (muchitsch) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description
@@ -413,8 +446,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 */
 	private void CreateExcrementFromUndigestable() {
 		
-		double digestionAmountperStep = 0.01; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
-		int oWaitForSteps = 20; // wie viele steps verzoegerung zwischen essen und start der Verdauung
+		double digestionAmountperStep = 0.005; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
+		int oWaitForSteps = 40; // wie viele steps verzoegerung zwischen essen und start der Verdauung
 		
 
 		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
