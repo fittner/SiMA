@@ -57,8 +57,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private clsThingPresentationMesh moPerceptions_IN;
 	
-	private HashMap<String,Boolean> moCombinedChartData = new HashMap<String,Boolean>();
-	
 	
 	// threshold to determine in which case domination of a emotion occurs
 	private double mrRelativeThreshold = 0.667;
@@ -133,7 +131,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalMoAssociatedContent());
 		
-				
+		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
+		
 		return text;
 	}
 
@@ -147,6 +146,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		
+		clsThingPresentationMesh x = moPerceptions_IN;
 		moEmotions_OUT = new ArrayList<clsEmotion>() ;
 		
 		// rSystemXY = values from whole system (ARSIN), drives = values from drive track, perception = values from perception track
@@ -301,18 +301,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}
 		}
 		
-	//set chart data	
-		moCombinedChartData.put("unpleasure", false);
-		moCombinedChartData.put("pleasure", false);
-		if(rRelativeSystemUnpleasure > mrRelativeThreshold)moCombinedChartData.put("unpleasure", true);
-		else if(rRelativeSystemPleasure > mrRelativeThreshold)moCombinedChartData.put("pleasure", true);
-		
-		moCombinedChartData.put("aggr", false);
-		moCombinedChartData.put("libid", false);
-		if(rRelativeSystemAggr > mrRelativeThreshold)moCombinedChartData.put("aggr", true);
-		else if(rRelativeSystemLibid > mrRelativeThreshold)moCombinedChartData.put("libid", true);
-
-
+	
 		
 	}
 	
@@ -395,7 +384,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						
 						
 						// TODO: A cake is associated with multiple DMs of the same kind. this should not be the case. delete "break", after this problem is solved
-						break;
+						//break;
 					}
 				}
 			}
@@ -404,7 +393,6 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			
 	}
 		
-		//// TEMPORARY
 		// TODO perception trigger to much emotion
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
 		oPerceptionExtractedValues.put("rPerceptionPleasure", mrPerceptionImpactFactor*rPerceptionPleasure);
@@ -741,8 +729,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		//oAnger.add(moCombinedChartData.get("aggr")?1.01:0.02);
-		//oAnger.add(moCombinedChartData.get("unpleasure")?0.99:0.01);
+	
 	
 		oResult.add(oPerception);
 		
