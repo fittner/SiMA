@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
@@ -53,6 +54,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private clsWordPresentationMesh lastAction; 
 	private clsWordPresentationMesh lastRealAction;
 	private clsWordPresentationMesh realAction;
+	private ArrayList<String> inputActionHistory;
 	private static final boolean bUSEUNREAL = false;
 	
 	/**
@@ -77,7 +79,9 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		lastAction = clsMeshTools.getNullObjectWPM();
 		lastRealAction = clsMeshTools.getNullObjectWPM();
 		realAction = clsMeshTools.getNullObjectWPM();
+		inputActionHistory = new ArrayList<String>(); 
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
+		
 	}
 	
 	/* (non-Javadoc)
@@ -89,8 +93,18 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
+		StringBuilder sb = new StringBuilder();
+		ArrayList<String> inputActionHistoryReverse = new ArrayList<String>(inputActionHistory);
+		Collections.reverse(inputActionHistoryReverse);
+		for (String line : inputActionHistoryReverse) {
+			sb.append(line);
+			sb.append(", ");
+		}
+		String inputActionHistoryText = sb.toString();
+
 		String text ="";
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		text += toText.valueToTEXT("inputActionHistoryText", inputActionHistoryText);
 		text += toText.valueToTEXT("lastAction", lastAction);
 		text += toText.valueToTEXT("realAction", realAction);
 		text += toText.valueToTEXT("lastRealAction", lastRealAction);
@@ -172,6 +186,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					return;
 				
 				String oAction = oActionWPM.getMoContent();
+				inputActionHistory.add(oAction.toString());
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
 				
