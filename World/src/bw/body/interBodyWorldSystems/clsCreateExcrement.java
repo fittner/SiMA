@@ -101,7 +101,7 @@ public class clsCreateExcrement {
 		double rExcrementWeight = mrWeight * prIntensity;
 				
 		try {
-			double rFraction = moStomachSystem.withdrawNutrition(mnGarbageNutritionType, mrWeight * prIntensity);
+			double rFraction = moStomachSystem.withdrawNutrition(eNutritions.EXCREMENT, mrWeight * prIntensity);
 			rExcrementWeight *= rFraction;
 			
 		} catch (exNoSuchNutritionType e) {
