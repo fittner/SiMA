@@ -539,7 +539,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 			//--- Enhance perception with environmental image ---//
 			enhancePerceptionWithEnhancedEnvironmentalImage(poPerceivedImage, moTempLocalizationStorage);
 			
-			executePsychicSpreadActivation(poPerceivedImage, 2.0);		
+			executePsychicSpreadActivation(poPerceivedImage, 5.0);		
 			
 			//--- Remove enhanced perception from PI as these were only there to activate memories
 			removeEnhancedEnvironmentalImageFromPerception(poPerceivedImage);

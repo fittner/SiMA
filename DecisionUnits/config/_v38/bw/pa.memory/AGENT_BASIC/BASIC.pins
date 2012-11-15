@@ -1,4 +1,4 @@
-; Tue Nov 13 16:33:20 CET 2012
+; Wed Nov 14 16:47:00 CET 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -833,25 +833,11 @@
 		[PRI%3ACAKE_FAR])
 	(weight 1.0 1.0))
 
-([AE%3ACARL_CAKE_FAR%3AANGER] of  ASSOCIATIONEMOTION
+([AE%3ACARL_CAKE%3AANGER] of  ASSOCIATIONEMOTION
 
 	(element
-		[EMOTION%3AANGER%3ACARL_CAKE_FAR]
-		[TPM%3AIMAGE%3ACARL_CAKE_L01_I01_FAR])
-	(weight 1.0 1.0))
-
-([AE%3ACARL_CAKE_MEDIUM%3AANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[EMOTION%3AANGER%3ACARL_CAKE_MEDIUM]
+		[EMOTION%3AANGER%3ACARL_CAKE]
 		[TPM%3AIMAGE%3ACARL_CAKE_L01_I02_MEDIUM])
-	(weight 1.0 1.0))
-
-([AE%3ACARL_CAKE_NEAR%3AANGER] of  ASSOCIATIONEMOTION
-
-	(element
-		[EMOTION%3AANGER%3ACARL_CAKE_NEAR]
-		[TPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGHNEGATIVE] of  AFFECT
@@ -1372,6 +1358,13 @@
 	(element
 		[TPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR]
 		[PRI%3ABODO_NEAR])
+	(weight 1.0 1.0))
+
+([AT%3AI_CARL_CAKE%3ACAKE] of  ASSOCIATIONTEMP
+
+	(element
+		[TPM%3AIMAGE%3ACARL_CAKE]
+		[TPM%3AENTITY%3ACAKE%3ABASIC])
 	(weight 1.0 1.0))
 
 ([AT%3AI_CARL_CAKE%3ACAKE_FAR] of  ASSOCIATIONTEMP
@@ -2235,33 +2228,13 @@
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
-([EMOTION%3AANGER%3ACARL_CAKE_FAR] of  EMOTION
-
-	(emotionIntensity 0.3)
-	(sourceAggr 1.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 1.0)
-	(value "ANGER")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AANGER%3ACARL_CAKE_MEDIUM] of  EMOTION
+([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
 
 	(emotionIntensity 0.4)
 	(sourceAggr 1.5)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.0)
 	(sourceUnpleasure 1.5)
-	(value "ANGER")
-	(value_type "BASICEMOTION"))
-
-([EMOTION%3AANGER%3ACARL_CAKE_NEAR] of  EMOTION
-
-	(emotionIntensity 0.6)
-	(sourceAggr 2.0)
-	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 2.0)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
@@ -2925,6 +2898,11 @@
 
 	(instance_association [AT%3AA_BROTHERCOLLISION_L01_I04_ADAMSBROTHER])
 	(value "A_BROTHERCOLLISION_L01_I04")
+	(value_type "RI"))
+
+([TPM%3AIMAGE%3ACARL_CAKE] of  TPM%3AIMAGE
+
+	(value "CARL_CAKE")
 	(value_type "RI"))
 
 ([TPM%3AIMAGE%3ACARL_CAKE_L01] of  TPM%3AIMAGE

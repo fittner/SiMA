@@ -31,6 +31,7 @@ import java.awt.Graphics2D;
 import sim.portrayal.DrawInfo2D;
 
 import du.itf.sensors.clsInspectorPerceptionItem;
+import factories.clsSingletonSimState;
 
 
 
@@ -134,6 +135,8 @@ public class SimulatorMain extends GUIState {
 		//  6. apply
 		//  7. start debuggin / running
 		
+		
+		
 		String oPath = clsMain.argumentForKey("-path", args, 0);
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
@@ -162,6 +165,7 @@ public class SimulatorMain extends GUIState {
 		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
 		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
+		System.out.println(clsSingletonSimState.getSimState().schedule.getSteps());
 	}
 
 	
