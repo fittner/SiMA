@@ -513,11 +513,18 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		while (i.hasNext()) {
 			eNutritions oKey = i.next();
 			
-			clsNutritionLevel oNL = moNutritions.get(oKey);
-			double rEfficiency = moEnergyEfficiency.get(oKey);
+			if(oKey == eNutritions.EXCREMENT || oKey == eNutritions.UNDIGESTABLE)	{
+			}
+			else{
 			
-			mrWeight += oNL.getContent();
-			mrEnergy += oNL.getContent() * rEfficiency;
+				clsNutritionLevel oNL = moNutritions.get(oKey);
+
+				double rEfficiency = moEnergyEfficiency.get(oKey);
+				
+				mrWeight += oNL.getContent();
+				mrEnergy += oNL.getContent() * rEfficiency;
+			}
+			
 			
 		}
 		
