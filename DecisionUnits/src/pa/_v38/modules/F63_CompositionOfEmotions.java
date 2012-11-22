@@ -652,7 +652,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oAnger =new ArrayList<Double>();
 		Double oAngerQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANGER")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANGER)){
 				oAngerQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -664,7 +664,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oFear =new ArrayList<Double>();
 		Double oFearQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANXIETY")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANXIETY)){
 				oFearQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -675,7 +675,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oGrief =new ArrayList<Double>();
 		Double oGriefQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("MOURNING")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.MOURNING)){
 				oGriefQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -686,7 +686,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveSa =new ArrayList<Double>();
 		Double oLoveSaQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("SATURATION")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.SATURATION)){
 				oLoveSaQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -697,7 +697,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveEx =new ArrayList<Double>();
 		Double oLoveExQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ELATION")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ELATION)){
 				oLoveExQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -708,7 +708,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oPleasure =new ArrayList<Double>();
 		Double oPleasureQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.JOY)){
 				oPleasureQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -747,13 +747,13 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	public ArrayList<String> getChartTitles() {
 		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.add("ANGER");
-		oResult.add("ANXIETY");
-		oResult.add("MOURNING");
+		oResult.add(eEmotionType.ANGER.toString());
+		oResult.add(eEmotionType.ANXIETY.toString());
+		oResult.add(eEmotionType.MOURNING.toString());
 		
-		oResult.add("SATURATION");
-		oResult.add("ELATION");
-		oResult.add("JOY");
+		oResult.add(eEmotionType.SATURATION.toString());
+		oResult.add(eEmotionType.ELATION.toString());
+		oResult.add(eEmotionType.JOY.toString());
 		
 		
 		oResult.add("DRIVE");
@@ -776,32 +776,32 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//ChartAnger
 		ArrayList<String> chartAnger = new ArrayList<String>();
-		chartAnger.add("Emotion ANGER");
+		chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
 		oResult.add(chartAnger);
 		
 		//ChartFear
 		ArrayList<String> chartFear = new ArrayList<String>();
-		chartFear.add("Emotion ANXIETY");
+		chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
 		oResult.add(chartFear);
 		
 		//ChartGrief
 		ArrayList<String> chartGrief = new ArrayList<String>();
-		chartGrief.add("Emotion MOURNING");
+		chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
 		oResult.add(chartGrief);	
 		
 		//ChartLoveSaturation
 		ArrayList<String> chartLoveSaturation = new ArrayList<String>();
-		chartLoveSaturation.add("Emotion SATURATION)");
+		chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
 		oResult.add(chartLoveSaturation);
 		
 		//ChartLoveexhilaration
 		ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
-		chartLoveExhilaration.add("Emotion ELATION");
+		chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
 		oResult.add(chartLoveExhilaration);	
 		
 		//ChartPleasure
 		ArrayList<String> chartPleasure= new ArrayList<String>();
-		chartPleasure.add("PLEASURE");
+		chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
 		oResult.add(chartPleasure);	
 		
 		
