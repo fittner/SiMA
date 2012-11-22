@@ -55,6 +55,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private clsWordPresentationMesh lastRealAction;
 	private clsWordPresentationMesh realAction;
 	private ArrayList<String> inputActionHistory;
+	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
 	
 	/**
@@ -80,6 +81,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		lastRealAction = clsMeshTools.getNullObjectWPM();
 		realAction = clsMeshTools.getNullObjectWPM();
 		inputActionHistory = new ArrayList<String>(); 
+		realActionHistory = new ArrayList<String>(); 
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
 		
 	}
@@ -93,23 +95,20 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
-		StringBuilder sb = new StringBuilder();
 		ArrayList<String> inputActionHistoryReverse = new ArrayList<String>(inputActionHistory);
 		Collections.reverse(inputActionHistoryReverse);
-		for (String line : inputActionHistoryReverse) {
-			sb.append(line);
-			sb.append(", ");
-		}
-		String inputActionHistoryText = sb.toString();
+		ArrayList<String> realActionHistoryReverse = new ArrayList<String>(realActionHistory);		
+		Collections.reverse(realActionHistoryReverse);
 
 		String text ="";
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
-		text += toText.valueToTEXT("inputActionHistoryText", inputActionHistoryText);
-		text += toText.valueToTEXT("lastAction", lastAction);
-		text += toText.valueToTEXT("realAction", realAction);
-		text += toText.valueToTEXT("lastRealAction", lastRealAction);
-		text += toText.valueToTEXT("mnCounter", mnCounter);
-		text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
+		text += toText.valueToTEXT("input Action History", compactActionHistory(inputActionHistoryReverse));		
+		text += toText.valueToTEXT("real Action History", compactActionHistory(realActionHistoryReverse));		
+		//text += toText.valueToTEXT("lastAction", lastAction);
+		//text += toText.valueToTEXT("realAction", realAction);
+		//text += toText.valueToTEXT("lastRealAction", lastRealAction);
+		//text += toText.valueToTEXT("mnCounter", mnCounter);
+		//text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
 		return text;
 	}
@@ -176,9 +175,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moActionCommandList_Output.clear();
-		
-		
-			
+
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 			    
@@ -212,6 +209,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
      			    realAction=oActionWPM;//oWP.getMoContent();
      			}
                 
+                realActionHistory.add(realAction.getMoContent().toString());
                 
 				// mnCounter contains information for how much turns the current action is active
 				if(realAction.getMoContent().equals(lastRealAction.getMoContent())) { 
@@ -382,6 +380,44 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		clsLogger.jlog.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 22.11.2012, 12:06:19
+	 * 
+	 */
+	public String compactActionHistory(ArrayList<String> actionHistory) {
+		StringBuilder sb = new StringBuilder();
+		String lastLine="first";
+		Integer count=0;
+		for (String line : actionHistory) {
+			if(lastLine=="first") {
+              sb.append(line);
+			  count=1;
+			}
+			else {
+			  if(lastLine==line) {
+			    count++;
+			  }
+			  else {
+			    if(count==1) {
+				    sb.append(", ");
+			    }
+			    else {
+				    sb.append(" (");
+				    sb.append(count);
+				    sb.append("x), ");
+			    }
+				sb.append(line);
+                count=1;
+			  }
+			}
+			lastLine=line;
+		}
+		return sb.toString();
+	}
+
+	
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
