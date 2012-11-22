@@ -270,11 +270,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				oMatchScore += oMatch.a;
 			
 				
-//				// perceptual activation: source activation
-//				// TODO: currently just TPMs get activation. 
-//				if(poDSUnknown instanceof clsThingPresentationMesh) {
-//					((clsThingPresentationMesh)poDSUnknown).applySourceActivation(eActivationType.PERCEPTUAL_ACTIVATION, oMatch.a, rWeight);
-//				}
+
 				
 				if(oMatch.a > 0.0){
 					try{

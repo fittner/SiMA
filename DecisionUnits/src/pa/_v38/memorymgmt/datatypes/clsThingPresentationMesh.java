@@ -363,10 +363,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 */
 	public void applyCriterionActivation(eActivationType poActivationKind) {
 		
-//		System.out.println(poActivationKind);
-//		System.out.println("act" + moActivations.get(poActivationKind)); 
-//		System.out.println("max" +poCriterionMaxValue);
-//		
+
 		double rCriterionMaxValue = moCriterionMaxValues.get(poActivationKind);
 		
 		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / rCriterionMaxValue);
@@ -381,16 +378,13 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 *
 	 * @param poActivationKind, poNorm
 	 */
-	public void applyCriterionActivation(eActivationType poActivationKind, double prCriterionMaxValue) {
-		
-//		System.out.println(poActivationKind);
-//		System.out.println("act" + moActivations.get(poActivationKind)); 
-//		System.out.println("max" +poCriterionMaxValue);
+//	public void applyCriterionActivation(eActivationType poActivationKind, double prCriterionMaxValue) {
+//		
 //		 
-		
-		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / prCriterionMaxValue);
-			
-	}
+//		
+//		moActivations.put(poActivationKind, moActivations.get(poActivationKind) / prCriterionMaxValue);
+//			
+//	}
 	
 	/**
 	 * DOCUMENT (schaat) - insert description
@@ -430,7 +424,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				}
 				rTotSatisfactionOfActualDMs += rSatisfactionOfActualDM*oActualDM.getQuotaOfAffect();
 				extendCriterionMaxValue(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
-				extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
+				if(rSatisfactionOfActualDM > 0) {
+					extendCriterionWeight(eActivationType.EMBODIMENT_ACTIVATION, oActualDM.getQuotaOfAffect());
+				}
 			}
 			
 			// Normalization. The Max possible satisfaction of all actual drives correspond to the number of them
@@ -479,7 +475,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		
 		if(mrAggregatedActivationValue == 0) {
 			for (eActivationType oActivationType : moActivations.keySet()) {
-				//TEST
+				
 				if(oActivationType == eActivationType.SIMILARITY_ACTIVATION) {
 					oOverallActivation += moActivations.get(oActivationType) *1;
 					oOverallWeights += 1;

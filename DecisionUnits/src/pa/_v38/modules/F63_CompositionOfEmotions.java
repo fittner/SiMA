@@ -753,7 +753,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		oResult.add("SATURATION");
 		oResult.add("ELATION");
-		oResult.add("PLEASURE");
+		oResult.add("JOY");
 		
 		
 		oResult.add("DRIVE");
