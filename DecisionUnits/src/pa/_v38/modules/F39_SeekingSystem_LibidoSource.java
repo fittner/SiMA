@@ -19,6 +19,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import du.enums.eFastMessengerSources;
+import du.enums.eSensorIntType;
+import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsFastMessenger;
+import du.itf.sensors.clsFastMessengerEntry;
 
 /**
  * The seeking system is the basic motivational system. {E39} is collecting information on libido 
@@ -38,6 +43,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private double mrIncomingLibido_I0_2;
 	private double mrOutgoingLibido;
 	
+	private HashMap<String, Double> moErogenousZoneStimuliList;
+	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_IN;
+	
 	/**
 	 * basic constructor
 	 * 
@@ -54,7 +62,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
-		
+		moErogenousZoneStimuliList = new HashMap<String, Double>();
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -104,7 +112,55 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
+		
+		//calculate libido
 		 updateTempLibido();
+		 
+		//clear the old list
+		moErogenousZoneStimuliList.clear();
+		
+		//collect all zones together
+		CollectErogenousZoneStimuliAndReduceLibido();
+
+
+	}
+
+	/**
+	 * collects all the stimuli from the erogenous zones and combines them into one list for later reactin of libido
+	 *
+	 * @since 26.11.2012 14:17:32
+	 *
+	 */
+	private void CollectErogenousZoneStimuliAndReduceLibido() {
+
+		//FASTMESSENGER, the only sensor source we get to F39!
+		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moSensorSystems_IN.get(eSensorIntType.FASTMESSENGER);
+		if(oFastMessengerSystem!=null)
+		{
+			//loop through the fast messagers
+			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
+				
+				eFastMessengerSources oFMSource = oFastMessenger.getSource();
+				Double rIntensity = oFastMessenger.getIntensity();
+				
+				//wenn quelle X, dann Einfluß auf libido im Umfang von...
+				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_MUCOSA) {
+
+					//TODO: calculate influence zones-> libido
+					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
+					if(mrOutgoingLibido < 0)
+						mrOutgoingLibido=0;
+					
+					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
+					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
+
+				}
+				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
+					
+				}
+			}//end for
+		}//end null check
+		
 	}
 
 	/* (non-Javadoc)
@@ -172,11 +228,10 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * 
 	 * @see pa.interfaces.receive._v38.I0_2_receive#receive_I0_2(java.util.List)
 	 */
+	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I0_2(Double prLibido) {
-		mrIncomingLibido_I0_2 = prLibido;
-		
-		putInterfaceData(I0_2_receive.class, prLibido);
+	public void receive_I0_2(HashMap<eSensorIntType, clsDataBase> poData) {
+		moSensorSystems_IN = (HashMap<eSensorIntType, clsDataBase>) deepCopy(poData); 
 	}
 
 	/* (non-Javadoc)
