@@ -41,6 +41,8 @@ public enum eBodyParts {
 	INTER_PAIN_STOMACHTENSION,
 	INTER_ORIFICE_ORAL_MUCOSA,
 	INTER_ORIFICE_RECTAL_MUCOSA,
+	INTER_ORIFICE_PHALLIC_MUCOSA, //aka schautrieb geht eigentlich über F45 innerpsychisch, da gibt es keine orifice (CM)
+	INTER_ORIFICE_GENITAL_MUCOSA,
 	
 	EXTERNAL_IO,
 	INTERNAL_IO,

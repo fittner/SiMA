@@ -148,17 +148,28 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 
 					//TODO: calculate influence zones-> libido
 					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-					if(mrOutgoingLibido < 0)
-						mrOutgoingLibido=0;
 					
 					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
 					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
 
 				}
 				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-					
+					//TODO: calculate influence zones-> libido
+					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
+				}
+				else if(oFMSource ==  eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
+					//TODO: calculate influence zones-> libido
+					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
+				}
+				else if(oFMSource ==  eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
+					//phallic aka Schautrieb geht eigentlich über F45 auf die Libido, dazu gibt es keine erogene Zone (bisher! CM 27.11.2012)
 				}
 			}//end for
+			
+			//cannot be below zero
+			if(mrOutgoingLibido < 0)
+				mrOutgoingLibido=0;
+			
 		}//end null check
 		
 	}

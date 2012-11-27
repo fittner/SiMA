@@ -647,6 +647,8 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			
 			case INTER_ORIFICE_ORAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_ORAL_MUCOSA; break;
 			case INTER_ORIFICE_RECTAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_RECTAL_MUCOSA; break;
+			case INTER_ORIFICE_GENITAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_GENITAL_MUCOSA; break;
+			case INTER_ORIFICE_PHALLIC_MUCOSA: oSource=eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA; break;
 				
 			
 			default:throw new java.lang.NullPointerException("unkown fast messenger source: "+poEntry.getSource());

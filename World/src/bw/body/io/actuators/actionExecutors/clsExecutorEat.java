@@ -152,7 +152,7 @@ public class clsExecutorEat extends clsActionExecutor{
         }
         
         //2) the stimulation of the erogenous zone
-        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralMucosa(0.5);
+        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralMucosa(0.5); //TODO 0.5 frei gewählt
         
         
 		//3) activation of the memorytrace of the action eat @self
