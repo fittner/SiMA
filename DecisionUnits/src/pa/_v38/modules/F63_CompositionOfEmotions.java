@@ -192,7 +192,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		
 		//get Pleasure
-		rDrivePleasure =  moPleasureStorage.send_D4_1();
+		rDrivePleasure =  moPleasureStorage.send_D4_1()*35 ; //FOR ISIE *35 for the CHARTS, TODO react to new low pleasure values in here
 		
 		// TEMPORARY
 		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
@@ -258,8 +258,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.MOURNING,  rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
-		// just generate Pleasure-based Emotions
-		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
+		else if (rRelativeSystemPleasure > mrRelativeThreshold) { // just generate Pleasure-based Emotions
 			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
@@ -271,9 +270,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			} 
-		}
-		// generate both
-		else {
+		}		
+		else {// generate both
 			// pleasure-based emotions
 			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
@@ -753,10 +751,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		oResult.add("SATURATION");
 		oResult.add("ELATION");
-		oResult.add("PLEASURE");
+		oResult.add("JOY");
 		
 		
-		oResult.add("DRIVE");
+		oResult.add("DRIVE (SUM)");
 		oResult.add("PERCEPTION");
 
 		return oResult;
@@ -801,7 +799,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//ChartPleasure
 		ArrayList<String> chartPleasure= new ArrayList<String>();
-		chartPleasure.add("PLEASURE");
+		chartPleasure.add("JOY");
 		oResult.add(chartPleasure);	
 		
 		

@@ -931,6 +931,11 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 					
 			oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
 			
+			if(oEntity.getBody() != null){
+				//sets if the body is full/half etc, 0.5 = 50%
+				oData.setObjectBodyIntegrity(oEntity.getBody().getBodyIntegrity());
+			}
+			
 			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
 			
 			/*FIXME HZ actually the antenna positions are undefined*/
