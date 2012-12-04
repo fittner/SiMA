@@ -131,6 +131,8 @@ public class clsPrimarySpatialTools {
 		//Search for xy compontents
 		ePhiPosition X = null;	//default error value
 		eRadius Y = null;
+		
+		
 		//ArrayList<clsAssociation> oDSAssList = poImageContainer.getMoAssociatedDataStructures(poDS);
 		for (clsAssociation oAss : poDS.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationAttribute) {
@@ -244,7 +246,11 @@ public class clsPrimarySpatialTools {
 		double rRetVal = 0;
 		
 		//Get the number of elements in the RI position list
-		double rNormalizefactor = poRIPositionList.size();
+		double rNormalizefactor = 1;
+		if (poRIPositionList.size()>0) {
+			rNormalizefactor = poRIPositionList.size();
+		}
+		
 		//Get the sum of distance associations in the RIPI Match list
 		double rWeightSum = 0;
 		for (clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>> oRIPIMatch : poRIPIMatchList) {
@@ -588,7 +594,8 @@ public class clsPrimarySpatialTools {
 	 * @return
 	 */
 	private static double calculateAssociationWeightFromDistance(double prDistance) {
-		return 1/(1+prDistance);
+		//return 1/(1+prDistance);
+		return Math.pow(Math.E, -prDistance/5);
 	}
 	
 	/**

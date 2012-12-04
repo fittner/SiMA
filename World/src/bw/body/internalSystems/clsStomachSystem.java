@@ -14,6 +14,7 @@ import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
+import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsFillLevel;
 import bw.utils.tools.clsNutritionLevel;
@@ -39,6 +40,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private double mrMaxWeight;
 	private double mrWeight;
 	
+	int moRectumWaitStepCounter = 0;
+	
 	public clsStomachSystem(String poPrefix, clsProperties poProp) {
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moEnergyEfficiency = new HashMap<eNutritions, Double>();
@@ -46,9 +49,12 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		applyProperties(poPrefix, poProp);
 		
+		EmptyRectum();
+		
 		updateEnergy();
 	}
 
+	
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -99,6 +105,13 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		i++;
 
 		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
+		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
+		oProp.setProperty(pre+i+"."+clsFillLevel.P_LOWERBOUND, 0.0);
+		i++;
+		
+		oProp.setProperty(pre+i+"."+P_NUTRITIONTYPE, eNutritions.EXCREMENT.toString());
 		oProp.setProperty(pre+i+"."+P_NUTRITIONEFFICIENCY, 0);
 		oProp.setProperty(pre+i+"."+P_NUTRITIONMETABOLISMFACTOR, 0);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(pre+i+".") );
@@ -383,11 +396,108 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	public void stepUpdateInternalState() {
 		Iterator<eNutritions> i = moNutritions.keySet().iterator();
 		
+		CreateExcrementFromUndigestable();
+		
 		while (i.hasNext()) {
 			moNutritions.get(i.next()).step();
 		}
 		
+		
+		
 		updateEnergy();
+
+	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 15.11.2012 15:52:37
+	 *
+	 */
+	private void EmptyRectum() {
+
+		//for startup
+		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
+		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
+		
+
+		double rExcrementContent = oExcrement.getContent();
+		double rUndigestableContent = oUndigestable.getContent();
+
+		try {
+			oUndigestable.decrease(rUndigestableContent);
+			oExcrement.decrease(rExcrementContent);
+		} catch (exContentColumnMaxContentExceeded e) {
+			// TODO (muchitsch) - Auto-generated catch block
+			e.printStackTrace();
+		} catch (exContentColumnMinContentUnderrun e) {
+			// TODO (muchitsch) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 14.11.2012 13:43:43
+	 *
+	 */
+	private void CreateExcrementFromUndigestable() {
+		
+		double digestionAmountperStep = 0.005; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
+		int oWaitForSteps = 40; // wie viele steps verzoegerung zwischen essen und start der Verdauung
+		
+
+		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
+		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
+		
+		if(oUndigestable.getContent() > 0 && oUndigestable.getContent() > digestionAmountperStep)
+		{
+			try {
+				
+//				if(oExcrement.getContent() >= oExcrement.getMaxContent())
+//				{
+//					//TODO zB schmerz erzeugen, derzeit warten wir damit auf die verdauung wenn excremente voll ist
+//					
+//				}
+//				else
+//				{ // undigestable -> excrement
+					if(oUndigestable.getContent() >= oUndigestable.getUpperBound()) // wenn undigestable voll -> starte verdauung
+					{
+						if(moRectumWaitStepCounter >= oWaitForSteps) //warte fuer X steps
+						{
+							oUndigestable.decrease(digestionAmountperStep);
+
+							this.addNutrition(eNutritions.EXCREMENT, digestionAmountperStep);
+							
+						}
+						else
+						{
+							moRectumWaitStepCounter++;
+						}
+						
+					}
+					
+
+				//}
+				
+			} catch (exContentColumnMaxContentExceeded e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (exContentColumnMinContentUnderrun e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			} catch (exNoSuchNutritionType e) {
+				// TODO (muchitsch) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void ResetRectumWaitCounter(){
+		this.moRectumWaitStepCounter = 0;
 	}
 
 	/**
@@ -403,11 +513,18 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		while (i.hasNext()) {
 			eNutritions oKey = i.next();
 			
-			clsNutritionLevel oNL = moNutritions.get(oKey);
-			double rEfficiency = moEnergyEfficiency.get(oKey);
+			if(oKey == eNutritions.EXCREMENT || oKey == eNutritions.UNDIGESTABLE)	{
+			}
+			else{
 			
-			mrWeight += oNL.getContent();
-			mrEnergy += oNL.getContent() * rEfficiency;
+				clsNutritionLevel oNL = moNutritions.get(oKey);
+
+				double rEfficiency = moEnergyEfficiency.get(oKey);
+				
+				mrWeight += oNL.getContent();
+				mrEnergy += oNL.getContent() * rEfficiency;
+			}
+			
 			
 		}
 		

@@ -14,9 +14,11 @@ import java.util.Map;
 import java.util.Vector;
 
 import config.clsProperties;
+import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.*;
 import sim.physics2D.util.Angle;
+import sim.util.Double2D;
 import du.enums.eAntennaPositions;
 import du.enums.eFastMessengerSources;
 import du.enums.eSensorExtType;
@@ -25,6 +27,7 @@ import du.enums.eSlowMessenger;
 import du.itf.itfDecisionUnit;
 import du.itf.itfProcessKeyPressed;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsEatableArea;
@@ -33,6 +36,7 @@ import du.itf.sensors.clsEnergy;
 import du.itf.sensors.clsEnergyConsumption;
 import du.itf.sensors.clsFastMessenger;
 import du.itf.sensors.clsHealthSystem;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsIntestinePressure;
 import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
@@ -76,6 +80,7 @@ import bw.entities.clsARSIN;
 import bw.entities.clsEntity;
 import bw.entities.clsAnimal;
 import bw.entities.clsRemoteBot;
+import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
@@ -92,19 +97,21 @@ public class clsBrainSocket implements itfStepProcessing {
 	
 	private  final double _UNREAL_NEAR_DISTANCE = 250;
 	private  final double _UNREAL_MEDIUM_DISTANCE = 500;
-	private  final double _UNREAL_FAR_DISTANCE =  750;
+	//private  final double _UNREAL_FAR_DISTANCE =  750;
 	public  final double _UNREAL_AREA_OF_VIEW_RADIANS = Math.PI/2;
 
 	private itfDecisionUnit moDecisionUnit; //reference
 	private itfActionProcessor moActionProcessor; //reference
+	private itfInternalActionProcessor moInternalActionProcessor; //reference
 	private HashMap<eSensorExtType, clsSensorExt> moSensorsExt; //reference
 	private HashMap<eSensorIntType, clsSensorInt> moSensorsInt; //reference
 //	private clsSensorDataCalculation moSensorCalculation;
 	
 	private Vector<clsUnrealSensorValueVision> moUnrealVisionValues;
 	
-	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor) {
+	public clsBrainSocket(String poPrefix, clsProperties poProp, HashMap<eSensorExtType, clsSensorExt> poSensorsExt, HashMap<eSensorIntType, clsSensorInt> poSensorsInt, itfActionProcessor poActionProcessor, itfInternalActionProcessor poInternalActionProcessor) {
 		moActionProcessor=poActionProcessor;
+		moInternalActionProcessor=poInternalActionProcessor;
 		moSensorsExt = poSensorsExt;
 		moSensorsInt = poSensorsInt;
 //		moSensorCalculation = new clsSensorDataCalculation();
@@ -140,6 +147,15 @@ public class clsBrainSocket implements itfStepProcessing {
 				moDecisionUnit.updateActionLogger();
 			}
 			
+			if(clsSingletonProperties.showArousalGridPortrayal()){
+				ConvertSensorDataAndAddToArousalGrid(moDecisionUnit.getPerceptionInspectorData());
+			}
+			
+			if(clsSingletonProperties.showTPMNetworkGrid()){
+				ConvertTPMDataAndAddToTPMNetworkGrid(moDecisionUnit.getPerceptionInspectorData());
+			}
+			
+			
 		} 
 	}
 	
@@ -156,8 +172,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
-		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
-		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
+		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
+		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
@@ -173,7 +189,94 @@ public class clsBrainSocket implements itfStepProcessing {
 		if(moUnrealVisionValues!=null && !moUnrealVisionValues.isEmpty())
 			processUnrealVision(moUnrealVisionValues, oData);
 		
+		
+		
 		return oData;
+	}
+	
+	private void ConvertTPMDataAndAddToTPMNetworkGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
+		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
+			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
+			
+			clsInspectorPerceptionItem lastNode = null;
+			
+			for(clsInspectorPerceptionItem oItem: oF14Data){
+				
+					clsSingletonMasonGetter.getTPMNodeField().setObjectLocation(oItem, new Double2D(oItem.moExactX, oItem.moExactY ));
+					clsSingletonMasonGetter.getTPMNetworkField().addNode(oItem);
+					
+					if(lastNode != null){
+						clsSingletonMasonGetter.getTPMNetworkField().addEdge(oItem, lastNode, "test");
+					}
+	
+					lastNode = oItem;
+			}
+		}
+	}
+	
+	private void ConvertSensorDataAndAddToArousalGrid(HashMap<String, ArrayList<clsInspectorPerceptionItem>> poPerceptionInspectorData){
+		
+		//clsSingletonMasonGetter.setArousalGridEnvironment( clsSingletonMasonGetter.getArousalGridEnvironment().multiply(4) );
+		
+		clsSingletonMasonGetter.getArousalGridEnvironment().add(-0.05);
+		
+		if(poPerceptionInspectorData != null && poPerceptionInspectorData.containsKey("F14")){
+			ArrayList<clsInspectorPerceptionItem> oF14Data = poPerceptionInspectorData.get("F14");
+			
+			for(clsInspectorPerceptionItem oItem: oF14Data){
+				
+				int posX = (int)oItem.moExactX;
+				int posY = (int)oItem.moExactY;
+				
+				if(posX < 0)
+					posX = 0;
+				
+				if(posY < 0)
+					posY = 0;
+				
+				double sensorArousal = (double)oItem.moSensorArousal;
+				
+				if(sensorArousal < 0)
+					sensorArousal = 0;
+				
+				SetDifusedArousalGridDate(posX, posY, sensorArousal);
+			}
+		}
+	}
+	
+	private void SetDifusedArousalGridDate(int X, int Y, double value){
+
+			
+			int dotSize = 26;
+			
+			DoubleGrid2D arousalGrid = clsSingletonMasonGetter.getArousalGridEnvironment();
+						
+			for(int x=X-dotSize/2;x< X+dotSize/2;x++){
+                for(int y=Y-dotSize/2;y< Y+dotSize/2;y++){
+                	if(x<0 || y<0){
+                		//do nothing
+                	}
+                	else if(x>arousalGrid.getWidth()-1 || y>arousalGrid.getHeight()-1){
+                		//do nothing
+                	}
+                	else
+                	{
+                		//distance to dot center
+                		int dx = X - x;
+                		int dy = Y - y;
+                		double distancetospot = Math.sqrt(dx*dx + dy*dy);
+                		
+                		try{
+                			double actualvalue = arousalGrid.field[x][y];
+                        	//arousalGrid.field[x][y] = actualvalue+ value;
+                			arousalGrid.field[x][y] =  value - (distancetospot/14);
+                		}catch(java.lang.ArrayIndexOutOfBoundsException e){
+                			e.printStackTrace();
+                		}
+                		
+                	} //is not under 0
+                }//all y
+            }//all x
 	}
 	
 	private void processUnrealVision(Vector<clsUnrealSensorValueVision> poUnrealVisionValues, clsSensorData poData) {
@@ -809,6 +912,11 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
 		    
+		   oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
+		   
+		   //values from 0-1, this is for testing, should be set to the real arousal value
+		   double sensorArousalValue = 1;
+		   oData.setDebugSensorArousal(sensorArousalValue);
 					
 			// FIXME: (horvath) - temporary polar coordinates calculation
 			clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
@@ -924,6 +1032,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 
 	public void setDecisionUnit(itfDecisionUnit poDecisionUnit) {
 		moDecisionUnit = poDecisionUnit;
+		moDecisionUnit.setInternalActionProcessor(moInternalActionProcessor);
 		moDecisionUnit.setActionProcessor(moActionProcessor);
 	}
 	

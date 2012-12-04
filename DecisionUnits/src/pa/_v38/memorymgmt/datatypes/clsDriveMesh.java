@@ -1,3 +1,4 @@
+
 /**
  * CHANGELOG
  *
@@ -31,7 +32,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
-	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G) oral, anal und phallisch
+	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
 	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -51,7 +52,6 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 *            1. Integer (is always -1 for a new drive mesh) Braucht das irgenwer noch???
 	 *            2. eDataType (is always: eDataType.DM, DM = drive mesh) Völliger Schwachsinn den eDataType zu erben weil ein drive mesh nur ein drive mesh sein kann!!!
 	 *            3. eContentType ??? (e.g.: eContentType.AGGRESSION or eContentType.DEATH or eContentType.LIFE)
-	 * dm
 	 * @param ArrayList<clsAssociation> poInternalAssociatedContent (1st list element: drive aim, 2nd list element: drive object, 3rd list element: drive source, ...) These list elements must be set via: setActualDriveAim, setActualDriveSource, ...
 	 * @param double prQuotaOfAffect (QuotaOfAffect)
 	 * @param String poContent (Is only a debug information how the drive is called. E.g. nourisch - Word-presentations are not allowed in the primary process)
@@ -434,11 +434,19 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			
 				//Comparision of DMs makes only sense, if they have the same component, source (and partialdrive). Driveaim and -object are comparable
 					
+				double rDiffQoA = 0 ;
 				if(this.moDriveComponent == oDataStructure.moDriveComponent){
 					if(this.moPartialDrive == oDataStructure.moPartialDrive){
 						if(this.getActualDriveSourceAsENUM() == oDataStructure.getActualDriveSourceAsENUM()){
-							oRetVal = getMatchScore(oContentListTemplate, oContentListUnknown);
-							oRetVal = (oRetVal + 1)/2; // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
+							oRetVal = getMatchScore(this, oDataStructure);
+							// also consider QoA. if the two DMs have the same QoA -> higher matchingfactor
+							
+							rDiffQoA = (this.mrQuotaOfAffect/oDataStructure.getQuotaOfAffect());
+							
+							if(rDiffQoA>1){
+								rDiffQoA =1;
+							}
+							oRetVal = ((oRetVal + 1 +rDiffQoA)/3); // drivecomponent (+ partialdrive) (at this stage always "1") have the same weight as driveobject + driveaim
 						}
 					}
 					
@@ -568,6 +576,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public Object clone() throws CloneNotSupportedException {
         try {
         	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
+        	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
         	if (moInternalAssociatedContent != null) {
         		oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
         		
@@ -601,6 +610,17 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	}
 
 
-	
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:27:17 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
+	}
 
 }
+

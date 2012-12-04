@@ -6,12 +6,15 @@
  */
 package pa._v30;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
 import du.itf.sensors.clsDataBase;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
@@ -247,5 +250,30 @@ public class clsProcessor implements itfProcessor  {
 	 */
 	public clsPsychicApparatus getPsychicApparatus() {
 		return moPsyApp;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 20.09.2012 10:27:44
+	 * 
+	 * @see pa.itfProcessor#getPerceptionInspectorData()
+	 */
+	@Override
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
+		// TODO (muchitsch) - Auto-generated method stub
+		return null;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 31.10.2012 13:00:20
+	 * 
+	 * @see pa.itfProcessor#getInternalActionCommands(du.itf.actions.itfInternalActionProcessor)
+	 */
+	@Override
+	public void getInternalActionCommands(
+			itfInternalActionProcessor poInternalActionContainer) {
+		// TODO (muchitsch) - Auto-generated method stub
+		
 	}
 }

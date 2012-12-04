@@ -1,5 +1,4 @@
 /**
- * clsPsychoAnalysisInspector.java: DecisionUnitMasonInspectors - inspectors.mind.pa
  * 
  * @author muchitsch
  * 20.07.2010, 14:50:56
@@ -9,6 +8,7 @@ package inspectors.mind.pa._v38;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
+import inspectors.mind.pa._v38.graph.clsGraphData;
 import inspectors.mind.pa._v38.graph.clsMeshKnowledgebase;
 
 import java.awt.BorderLayout;
@@ -80,6 +80,9 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 		root.add(new DefaultMutableTreeNode("TP"));
 		root.add(new DefaultMutableTreeNode("Libido Storage"));
 		root.add(new DefaultMutableTreeNode("Blocked Content Storage"));
+		root.add(new DefaultMutableTreeNode("Environmental Image Memory"));
+		root.add(new DefaultMutableTreeNode("Short Time Memory"));
+		
 
 		moModuleTree = new JTree(root);
 		moModuleTree.addTreeSelectionListener(this);
@@ -163,8 +166,16 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 		} else if (poModuleName.equals("Blocked Content Storage")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moBlockedContentStorage), "State");
 			oRetVal.addInspector(new cls_DescriptionInspector(moPA.moBlockedContentStorage), "Desc");
-			//TODO (MUCHITSCH): added graphinspector for blocked content storage
+			oRetVal.addInspector(new clsGraphData(moPA,moPA.moBlockedContentStorage, true), "DataGraph");
 		} 
+		else if (poModuleName.equals("Environmental Image Memory")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moEnvironmentalImageStorage), "State");
+			oRetVal.addInspector(new clsGraphData(moPA,moPA.moEnvironmentalImageStorage, true), "DataGraph");
+		} 
+		else if (poModuleName.equals("Short Time Memory")) {
+			oRetVal.addInspector(new cls_StateInspector(moPA.moShortTimeMemory), "State");
+			oRetVal.addInspector(new clsGraphData(moPA, moPA.moShortTimeMemory, true), "DataGraph");
+		}  
 		
 		return oRetVal;
 	}	

@@ -24,9 +24,13 @@ public enum eAction {
 	TURN_RIGHT,
 	
 	DEPOSIT,
+	EXCREMENT, 
 	SLEEP,
 	RELAX,
 	EAT,
+	BITE,
+	SUCK, 
+	REPRESS,
 	NONE,
 	
 	//Unreal actions
@@ -52,5 +56,9 @@ public enum eAction {
 	
 	//Composed actions
 	SEARCH1,
-	FLEE,
+	FLEE;
+	
+	public static eAction getAction(String poAction) {
+		return eAction.valueOf(poAction);
+	}
 }

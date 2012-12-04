@@ -146,7 +146,7 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			CreateAgressiveDriveRepresentations((clsDriveMesh)oEntry.a);
 			
 			//create A,O,P,G for the libidoneus component
-			CreateLibidoneusDriveRepresentations((clsDriveMesh)oEntry.a);
+			CreateLibidoneusDriveRepresentations((clsDriveMesh)oEntry.b);
 		}
 		
 	}

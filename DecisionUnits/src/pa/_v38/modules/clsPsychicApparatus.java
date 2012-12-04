@@ -11,10 +11,38 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+
+import org.apache.log4j.ConsoleAppender;
+import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
+import org.apache.log4j.PatternLayout;
+
 import config.clsProperties;
 import pa._v38.tools.clsPair;
+import pa._v38.decisionpreparation.clsCodeletHandler;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FLEE;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FOCUS_MOVEMENT;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_FOCUS_ON;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_PERFORM_BASIC_ACT_ANALYSIS;
+import pa._v38.decisionpreparation.actioncodeletes.clsAC_SEND_TO_PHANTASY;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_EXECUTE_MOVEMENT;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_FOCUS_MOVEMENT;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_FOCUS_ON;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_PERFORM_BASIC_ACT_ANALYSIS;
+import pa._v38.decisionpreparation.consequencecodelets.clsCC_SEND_TO_PHANTASY;
+import pa._v38.decisionpreparation.decisioncodelets.clsDCComposed_Goto;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_ActAnalysisToRecAction;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_ExeMovementToNull;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_XToMoveFocus;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_InitAction;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
+import pa._v38.decisionpreparation.decisioncodelets.clsDC_SET_NEED_MOVEMENT_FOCUS;
+import pa._v38.decisionpreparation.initcodelets.clsIC_CheckSetFocus;
+import pa._v38.decisionpreparation.initcodelets.clsIC_DefaultAnalysis;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
@@ -22,6 +50,7 @@ import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
+import pa._v38.systemtest.clsTester;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -106,6 +135,11 @@ public class clsPsychicApparatus {
 	/** (wendt) Instance of the goal memory; @since 24.05.2012 15:21:26 */
 	public clsShortTermMemory moGoalMemory;
 	
+	/** (havlicek) The instance of ShortTermMemory for managing the concepts; @since 12.10.2012 17:12:15 */
+	public clsShortTermMemory moConceptMemory;
+	
+	public clsCodeletHandler moCodeletHandler;
+	
 	/** (wendt) This is a temporary localization storage, which will save the last perceived objects for some steps; @since 15.11.2011 14:36:56 */
 	public clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
@@ -140,6 +174,16 @@ public class clsPsychicApparatus {
 	public clsPsychicApparatus(String poPrefix, clsProperties poProp, 
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler, int uid) {
 		this.uid = uid;
+		
+		// --- Set logger properties --- //
+		clsLogger.jlog.removeAllAppenders();
+		clsLogger.jlog.setLevel(Level.DEBUG);
+		//clsLogger.jlog.setLevel(Level.INFO);
+		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+		Layout layout = new PatternLayout("%t: (%F:%L) - %m%n");
+		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
+		
+		
 		moModules = new HashMap<Integer, clsModuleBase>();
 		moInterfaceData = new TreeMap<eInterfaces, ArrayList<Object>>();
 		
@@ -152,7 +196,15 @@ public class clsPsychicApparatus {
 		//Initialize short time memory
 		moShortTimeMemory = new clsShortTermMemory(60, 7);
 		moEnvironmentalImageStorage = new clsEnvironmentalImageMemory(4, 30);	//Memorize 3 turns, 30 entities
-					
+		moConceptMemory = new clsShortTermMemory(60, 7);
+		
+		//Init codelethandler
+		moCodeletHandler = new clsCodeletHandler(moEnvironmentalImageStorage, moShortTimeMemory);
+		this.registerCodelets();
+		
+		//Set testmode
+		clsTester.getTester().setActivated(false);
+		
 		applyProperties(poPrefix, poProp);
 		
 		moDataLogger = new clsDataLogger(moModules, this.uid);
@@ -251,9 +303,9 @@ public class clsPsychicApparatus {
 			moF18_CompositionOfAffectsForPerception = new F18_CompositionOfQuotaOfAffectsForPerception(pre + F18_CompositionOfQuotaOfAffectsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF19_DefenseMechanismsForPerception = new F19_DefenseMechanismsForPerception(pre + F19_DefenseMechanismsForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moKnowledgeBaseHandler);
 			moF20_CompositionOfFeelings = new F20_CompositionOfFeelings(pre + F20_CompositionOfFeelings.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF21_ConversionToSecondaryProcessForPerception = new F21_ConversionToSecondaryProcessForPerception(pre + F21_ConversionToSecondaryProcessForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moEnvironmentalImageStorage);
 			moF23_ExternalPerception_focused = new F23_ExternalPerception_focused(pre + F23_ExternalPerception_focused.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
-			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF51_RealityCheckWishFulfillment = new F51_RealityCheckWishFulfillment(pre + F51_RealityCheckWishFulfillment.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moCodeletHandler);
 			moF26_DecisionMaking = new F26_DecisionMaking(pre + F26_DecisionMaking.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF29_EvaluationOfImaginaryActions = new F29_EvaluationOfImaginaryActions(pre + F29_EvaluationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
 			moF30_MotilityControl = new F30_MotilityControl(pre + F30_MotilityControl.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
@@ -272,8 +324,8 @@ public class clsPsychicApparatus {
 			moF54_EmersionOfBlockedDriveContent = new F54_EmersionOfBlockedDriveContent(pre + F54_EmersionOfBlockedDriveContent.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF56_Desexualization_Neutralization = new F56_Desexualization_Neutralization(pre + F56_Desexualization_Neutralization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			moF55_SuperEgoProactive = new F55_SuperEgoProactive(pre + F55_SuperEgoProactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage);
+			moF07_SuperEgoReactive = new F07_SuperEgoReactive(pre + F07_SuperEgoReactive.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
+			moF52_GenerationOfImaginaryActions = new F52_GenerationOfImaginaryActions(pre + F52_GenerationOfImaginaryActions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moShortTimeMemory, moEnvironmentalImageStorage, moCodeletHandler);
 			moF45_LibidoDischarge = new F45_LibidoDischarge(pre + F45_LibidoDischarge.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moKnowledgeBaseHandler);
 			moF46_MemoryTracesForPerception = new F46_MemoryTracesForPerception(pre + F46_MemoryTracesForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moKnowledgeBaseHandler, moEnvironmentalImageStorage);
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
@@ -357,5 +409,35 @@ public class clsPsychicApparatus {
 			
 			moInterfaceMesh.put(oKey, oList); 
 		}
+	}
+	
+	private void registerCodelets() {
+		//Decision codelets
+		clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
+		clsIC_DefaultAnalysis oContinousAnalysis = new clsIC_DefaultAnalysis(moCodeletHandler);
+		
+		clsCC_EXECUTE_MOVEMENT oDCActionMovement = new clsCC_EXECUTE_MOVEMENT(moCodeletHandler);
+		clsCC_FOCUS_MOVEMENT oDCActionFocusMovement = new clsCC_FOCUS_MOVEMENT(moCodeletHandler);
+		clsCC_FOCUS_ON oDCActionFocusOn = new clsCC_FOCUS_ON(moCodeletHandler);
+		clsCC_PERFORM_BASIC_ACT_ANALYSIS oDCActionPerformBasicActAnalysis = new clsCC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
+		clsCC_SEND_TO_PHANTASY oDCActionSendToPhantasy = new clsCC_SEND_TO_PHANTASY(moCodeletHandler);
+		
+		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moCodeletHandler);
+		clsDC_ActAnalysisToRecAction oDCTrans_ActAnalysisToRecAction = new clsDC_ActAnalysisToRecAction(moCodeletHandler);
+		clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moCodeletHandler);
+		clsDC_SetIntInfoToActAnalysis oDCTrans_IntInfoToActAnalysis = new clsDC_SetIntInfoToActAnalysis(moCodeletHandler);
+		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moCodeletHandler);
+		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moCodeletHandler);
+
+		clsDCComposed_Goto oDCComposed_Goto = new clsDCComposed_Goto(moCodeletHandler);
+		
+		//Action codelets
+		clsAC_EXECUTE_EXTERNAL_ACTION oACExecuteExternalAction = new clsAC_EXECUTE_EXTERNAL_ACTION(moCodeletHandler);
+		clsAC_FLEE oACFlee = new clsAC_FLEE(moCodeletHandler);
+		clsAC_FOCUS_MOVEMENT oACFocusMovement = new clsAC_FOCUS_MOVEMENT(moCodeletHandler);
+		clsAC_FOCUS_ON oACFocuOn = new clsAC_FOCUS_ON(moCodeletHandler);
+		clsAC_PERFORM_BASIC_ACT_ANALYSIS oACPerformBasicActAnalysis = new clsAC_PERFORM_BASIC_ACT_ANALYSIS(moCodeletHandler);
+		clsAC_SEND_TO_PHANTASY oACSendToPhantasy = new clsAC_SEND_TO_PHANTASY(moCodeletHandler);
+
 	}
 }

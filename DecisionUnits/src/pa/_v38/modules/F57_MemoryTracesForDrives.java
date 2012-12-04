@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
+import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
@@ -36,12 +37,13 @@ import config.clsProperties;
  *  
  */
 public class F57_MemoryTracesForDrives extends clsModuleBaseKB 
-		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart{
+		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart, itfGraphCompareInterfaces{
 
 	public static final String P_MODULENUMBER = "57";
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
-	private ArrayList<clsDriveMesh> moDriveCandidates;
+	private ArrayList<clsDriveMesh> moDriveCandidates_IN;
+
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
 	private double mrThresholdMatchFactor = 0.0;
@@ -100,7 +102,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public String stateToTEXT() {
 		String text ="";
 		text += toText.listToTEXT("moDrivesAndTraces_OUT", moDrivesAndTraces_OUT);
-		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates);
+		text += toText.listToTEXT("moDriveCandidates", moDriveCandidates_IN);
 		//text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);	
 		//text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		
@@ -142,7 +144,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 */
 	@Override
 	public void receive_I4_1(ArrayList<clsDriveMesh> poDriveCandidates) {
-		moDriveCandidates = poDriveCandidates; 
+		moDriveCandidates_IN = poDriveCandidates;
+		moDrivesAndTraces_OUT =  (ArrayList<clsDriveMesh>) deepCopy(poDriveCandidates); 
 	
 	}
 	
@@ -170,7 +173,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	@Override
 	protected void process_basic() {
 		
-		moDrivesAndTraces_OUT = attachDriveCandidates(moDriveCandidates);
+		moDrivesAndTraces_OUT = hallucinatoryWishfulfillment(moDrivesAndTraces_OUT);
 		
 		// create time Chart Data
 		for( clsDriveMesh oDriveMeshEntry:moDrivesAndTraces_OUT){
@@ -196,17 +199,26 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	 * associations 
 	 */
 
-	private ArrayList<clsDriveMesh> attachDriveCandidates(ArrayList<clsDriveMesh> poDriveCandidates) { 
+	private ArrayList<clsDriveMesh>  hallucinatoryWishfulfillment(ArrayList<clsDriveMesh> poDriveCandidates) { 
 		
 		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
 		ArrayList<clsAssociation> oAssSimilarDMs = null;
 		ArrayList<clsAssociation> oMemoryDMAssociations =new ArrayList<clsAssociation>();
 				
 		clsThingPresentationMesh oDriveObject = null;
+		clsThingPresentationMesh oDriveObjectActivated = null;
+		
 		clsThingPresentationMesh  oDriveAim = null;
 		
 		double rCurrentMatchFactor = 0.0;
-		double rMaxMatchfactor = 0.0;
+		
+		double rCurrentDecisionFactor= 0.0;
+		
+		double rMaxDecisionfactor = 0.0;
+
+		double rSatisfactionOfActualDM = 0;
+		
+		double rTotSatisfactionOfActualDMs = 0;
 
 		
 		// for each simulator-DM (should be 16 for now)
@@ -214,6 +226,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 			 	oDriveObject = null;
 				oDriveAim = null;
+				
+				rSatisfactionOfActualDM = 0;
 				
 				oAssSimilarDMs = new ArrayList<clsAssociation>();
 				
@@ -227,38 +241,58 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
 				search(eDataType.TPM, poSearchPattern, oSearchResult);
 				
-				rMaxMatchfactor = 0.0;
+				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
+				rCurrentDecisionFactor= 0.0;
 					
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
 						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
 						
-
 						// get similar memory-dm
 						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
-						// weighting of matchingfactor
-						rCurrentMatchFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
-						
-						if( rCurrentMatchFactor > mrThresholdMatchFactor) {
+						//Add by AW: In order to use drive meshes for images, only the ones, which are in the "semantic" memory can be used. The drive meshes in the "episodic" part
+						//of the memory cannot be used for this purpose
+						//FIXME: SOMEBODY! In Protege, drive meshes are put on PRIINSTANCES. They should be replaced by emotions, as drive meshes only exist for entity types and for images,
+						//only emotions should be used. This is a hack by AW, in order to finish the phd implementation within 2012. This is a good student task! Contact AW for more info.
+						if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)) {
+							// weight with QoA, otherwise all DMs are handled the same if they all have a higher QoA than the simulatorDM (often the case) 
+							rCurrentMatchFactor = oSearchPair.a; 
+							rCurrentDecisionFactor = oSearchPair.a * oMemoryDM.getQuotaOfAffect(); 
 							
-							// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
-							// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+							// take the best match
 							
-							// add associations to memory-dm
-							//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
-							
-							// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
-							// weighting of asscoiation-weight with QoA
-							oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor*oMemoryDM.getQuotaOfAffect()));
-							
-							// take  drive object+drive aim of best match 
-							if( rCurrentMatchFactor > rMaxMatchfactor) {
-								rMaxMatchfactor = rCurrentMatchFactor; 
-								oDriveObject = oMemoryDM.getActualDriveObject();
-								oDriveAim = oMemoryDM.getActualDriveAim();
+							if( rCurrentDecisionFactor > mrThresholdMatchFactor) {
+								
+								// get associations of memory-dm (= drive object + drive aim). this is needed because search do not return the dm with associations
+								// oMemoryDMAssociations = oSearchPair.b.getMoAssociatedDataStructures();
+								
+								// add associations to memory-dm
+								//oMemoryDM.addInternalAssociations(oMemoryDMAssociations);
+								
+								// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
+								// weighting of asscoiation-weight with QoA
+								oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
+								
+								
+								
+								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy actual DM?)
+								if(oMemoryDM.getActualDriveObject() != null) {
+									oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
+									//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
+									
+								}
+															
+								// take  drive object+drive aim of best match 
+								if( rCurrentDecisionFactor > rMaxDecisionfactor) {
+									rMaxDecisionfactor = rCurrentDecisionFactor; 								
+									oDriveAim = oMemoryDM.getActualDriveAim();
+									oDriveObject = oMemoryDM.getActualDriveObject();
+									rSatisfactionOfActualDM = rCurrentDecisionFactor;
+								}
 							}
 						}
 					}
@@ -277,7 +311,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						oSimulatorDM.setActualDriveObject(oDriveObject, 1.0);		
 						oSimulatorDM.setActualDriveAim(oDriveAim, 1.0);	
 						oSimulatorDM.setMoContentType(eContentType.DRIVEREPRESENTATION);
-						oRetVal.add(oSimulatorDM);
+						oRetVal.add(oSimulatorDM);												
 					}
 					else {
 						
@@ -291,7 +325,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 		}
 		
-	return oRetVal;	
+		return oRetVal;
+		
 	}
 	
 
@@ -497,6 +532,30 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public void chartColumnsUpdated() {
 		mnChartColumnsChanged=false;
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 18, 2012 2:42:46 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesRecv()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesRecv() {
+		
+		return getInterfacesRecv();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 18, 2012 2:42:46 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInterfaceCompare#getCompareInterfacesSend()
+	 */
+	@Override
+	public ArrayList<eInterfaces> getCompareInterfacesSend() {
+		
+		return getInterfacesSend();
 	}
 
 

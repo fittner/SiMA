@@ -118,6 +118,7 @@ public class clsExecutorInnerSpeech extends clsActionExecutor{
     	{
     	case MOVE_FORWARD:
     		moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeech);
+    		moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
     		//((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
     		break;
     	case MOVE_BACKWARD:

@@ -69,7 +69,7 @@ public class clsExecutorMoveToArea extends clsActionExecutor{
 	}
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
-		String pre = clsProperties.addDot(poPrefix);
+	//	String pre = clsProperties.addDot(poPrefix);
 	//	moRangeDest=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGEDEST));
 	}
 

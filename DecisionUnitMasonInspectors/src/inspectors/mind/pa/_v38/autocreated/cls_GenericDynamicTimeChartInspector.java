@@ -139,12 +139,12 @@ public class cls_GenericDynamicTimeChartInspector extends cls_GenericTimeChartIn
     }
     
     @Override
-	protected void updateData() {
+	protected void updateDataset() {
     	if (((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsChanged()) {
     		reCreateChart();
     		((itfInspectorGenericDynamicTimeChart)moTimeingContainer).chartColumnsUpdated();
     	}
-    	super.updateData();
+    	super.updateDataset();
 		updateLimitLines();
     }	
 }

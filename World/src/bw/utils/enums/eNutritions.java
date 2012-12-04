@@ -27,4 +27,5 @@ public enum eNutritions {
 	VITAMIN_B,
 	VITAMIN_C,
 	UNDIGESTABLE,
+	EXCREMENT
 }

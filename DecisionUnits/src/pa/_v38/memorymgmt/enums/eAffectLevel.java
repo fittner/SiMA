@@ -33,13 +33,27 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eAffectLevel {
-	HIGHNEGATIVE (-3),	//-10 < x <= -0.8
-	NEGATIVE (-2),		//-0.8 < x <= -0.5
-	LOWNEGATIVE (-1),			//-0.5 < x <= -0.1
+	NEGATIVE100 (-100),
+	NEGATIVE90 (-90),
+	NEGATIVE80 (-80),	//-10 < x <= -0.8
+	NEGATIVE70 (-70),
+	NEGATIVE60 (-60),
+	NEGATIVE50 (-50),		//-0.8 < x <= -0.5
+	NEGATIVE40 (-40),
+	NEGATIVE30 (-30),
+	NEGATIVE20 (-20),
+	NEGATIVE10 (-10),			//-0.5 < x <= -0.1
 	INSIGNIFICANT (0),		//-0.1 < x <= 0.1
-	LOWPOSITIVE (1),			//0.1 < x <= 0.5
-	POSITIVE (2),		//0.5 < x <= 0.8
-	HIGHPOSITIVE (3);	//0.8 < x <= 10
+	POSITIVE10 (10),			//0.1 < x <= 0.5
+	POSITIVE20 (20),			//0.1 < x <= 0.5
+	POSITIVE30 (30),			//0.1 < x <= 0.5
+	POSITIVE40 (40),			//0.1 < x <= 0.5
+	POSITIVE50 (50),			//0.5 < x <= 0.8
+	POSITIVE60 (60),			//0.1 < x <= 0.5
+	POSITIVE70 (70),			//0.1 < x <= 0.5
+	POSITIVE80 (80),	//0.8 < x <= 10
+	POSITIVE90 (90),			//0.1 < x <= 0.5
+	POSITIVE100 (100);			//0.1 < x <= 0.5
 	
 	public int mnAffectLevel;
 	
@@ -52,9 +66,24 @@ public enum eAffectLevel {
 	{
 		eAffectLevel oRetVal = null;
 		eAffectLevel lvls[] = eAffectLevel.values();
-		if ((i>=-3) && (i<=3)) {
-			oRetVal = lvls[i+3];
+		for (int j=0; j<lvls.length-1;j++) {
+			eAffectLevel oBottom = lvls[j];
+			eAffectLevel oTop = lvls[j+1];
+			
+			if (j<=oBottom.mnAffectLevel && j==0) {
+				oRetVal=oBottom;
+				break;
+			} else if (j>=oTop.mnAffectLevel && j==lvls.length-2) {
+				oRetVal=oTop;
+				break;
+			} else if (j>=oBottom.mnAffectLevel && j<oTop.mnAffectLevel) {
+				oRetVal = oBottom;
+				break;
+			}
 		}
+//		if ((i>=-3) && (i<=3)) {
+//			oRetVal = lvls[i+3];
+//		}
 		
 		return oRetVal;
 	}
@@ -72,20 +101,48 @@ public enum eAffectLevel {
 	public static eAffectLevel convertQuotaOfAffectToAffectLevel(double poQoA) {
 		eAffectLevel oResult = eAffectLevel.INSIGNIFICANT;
 		
-		if (poQoA <=-0.90) {
-			oResult = eAffectLevel.HIGHNEGATIVE;
-		} else if (poQoA >-0.90 && poQoA <=-0.50) {
-			oResult = eAffectLevel.NEGATIVE;
-		} else if (poQoA >-0.50 && poQoA <=-0.05) {
-			oResult = eAffectLevel.LOWNEGATIVE;
-		} else if (poQoA >-0.05 && poQoA <=0.05) {
+		if (poQoA <=-1.00) {
+			oResult = eAffectLevel.NEGATIVE100;
+		} else if (poQoA >-1.00 && poQoA <=-0.90) {
+			oResult = eAffectLevel.NEGATIVE90;
+		} else if (poQoA >-0.90 && poQoA <=-0.80) {
+			oResult = eAffectLevel.NEGATIVE80;
+		} else if (poQoA >-0.80 && poQoA <=-0.70) {
+			oResult = eAffectLevel.NEGATIVE70;
+		} else if (poQoA >-0.70 && poQoA <=-0.60) {
+			oResult = eAffectLevel.NEGATIVE60;
+		} else if (poQoA >-0.60 && poQoA <=-0.50) {
+			oResult = eAffectLevel.NEGATIVE50;
+		} else if (poQoA >-0.50 && poQoA <=-0.40) {
+			oResult = eAffectLevel.NEGATIVE40;
+		} else if (poQoA >-0.40 && poQoA <=-0.30) {
+			oResult = eAffectLevel.NEGATIVE30;
+		} else if (poQoA >-0.30 && poQoA <=-0.20) {
+			oResult = eAffectLevel.NEGATIVE20;
+		} else if (poQoA >-0.20 && poQoA <=-0.10) {
+			oResult = eAffectLevel.NEGATIVE10;
+		} else if (poQoA >-0.10 && poQoA <0.10) {
 			oResult = eAffectLevel.INSIGNIFICANT;
-		} else if (poQoA >0.05 && poQoA <=0.50) {
-			oResult = eAffectLevel.LOWPOSITIVE;
-		} else if (poQoA >0.50 && poQoA <=0.90) {
-			oResult = eAffectLevel.POSITIVE;
-		} else if (poQoA >0.90) {
-			oResult = eAffectLevel.HIGHPOSITIVE;
+		} else if (poQoA >=0.10 && poQoA <0.20) {
+			oResult = eAffectLevel.POSITIVE10;
+		} else if (poQoA >=0.20 && poQoA <0.30) {
+			oResult = eAffectLevel.POSITIVE20;
+		} else if (poQoA >=0.30 && poQoA <0.40) {
+			oResult = eAffectLevel.POSITIVE30;
+		} else if (poQoA >=0.40 && poQoA <0.50) {
+			oResult = eAffectLevel.POSITIVE40;
+		} else if (poQoA >=0.50 && poQoA <0.60) {
+			oResult = eAffectLevel.POSITIVE50;
+		} else if (poQoA >=0.60 && poQoA <0.70) {
+			oResult = eAffectLevel.POSITIVE60;
+		} else if (poQoA >=0.70 && poQoA <0.80) {
+			oResult = eAffectLevel.POSITIVE70;
+		} else if (poQoA >=0.80 && poQoA <0.90) {
+			oResult = eAffectLevel.POSITIVE80;
+		} else if (poQoA >=0.90 && poQoA <1.00) {
+			oResult = eAffectLevel.POSITIVE90;
+		} else if (poQoA >=1.00) {
+			oResult = eAffectLevel.POSITIVE100;
 		} else {
 			try {
 				throw new Exception("Error: No acceptable value");

@@ -219,12 +219,17 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 	 * @param oContentListUnknown
 	 * @return
 	 */
-	protected <E extends clsDataStructurePA> double getMatchScore(ArrayList<E> poContentListTemplate, ArrayList<E> poContentListUnknown) {
+	protected <E extends clsDataStructurePA> double getMatchScore(itfInternalAssociatedDataStructure poDSTemplate, itfInternalAssociatedDataStructure poDSUnknown) {
+		
+		ArrayList<E> oContentListTemplate = (ArrayList<E>)poDSTemplate.getMoInternalAssociatedContent();
+		ArrayList<E> oContentListUnknown = (ArrayList<E>)poDSUnknown.getMoInternalAssociatedContent();
+		
 		double oMatchScore = 0.0;
 		double oMatchScoreNorm = 0.0;
 		double rMatchScoreTemp = 0.0;
-		List<E> oClonedTemplateList = this.cloneList(poContentListTemplate); 
-		int nAssociationCount = poContentListUnknown.size(); 
+		double rWeight = 0.0;
+		List<E> oClonedTemplateList = this.cloneList(oContentListTemplate); 
+		int nAssociationCount = oContentListUnknown.size(); 
 		
 		//The unknown data structures are searched in the known data structures.
 		//If an unknown data structure is not found in the known data structures, the match is 0, i. e. if the 
@@ -236,7 +241,7 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		//An attribute is considered as found, if they share the same CONTENTTYPE
 		//oProp.setProperty(pre+P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC_AW.pprj"); in clsInformationRepresentationManager.java
 		
-			for(E oUnknownDS : poContentListUnknown){
+			for(E oUnknownDS : oContentListUnknown){
 				/*oMatch defines an object of clsPair that contains the match-score (Double value) between two objects (moAssociationElementB of 
 				 * oAssociationUnknown and oAssociationTemplate) and the entry number where the best matching element is found in 
 				 * oClonedTemplateList. After it is selected as best match it is removed from the list in order to admit that the 
@@ -246,7 +251,8 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				for(E oClonedKnownDS : oClonedTemplateList){				
 					//Check data types
 					if( oClonedKnownDS instanceof clsAssociation ){
-						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) * ((clsAssociation)oClonedKnownDS).mrImperativeFactor; 
+						rWeight = ((clsAssociation)oClonedKnownDS).getMrWeight();
+						rMatchScoreTemp = ((clsAssociation)oClonedKnownDS).moAssociationElementB.compareTo(((clsAssociation)oUnknownDS).moAssociationElementB) *  rWeight; // In non-definitional representations no imperative factor is used (TPMs are experienced objects and not definitions of object-classes) ; 
 					}
 					else if (oClonedKnownDS instanceof clsSecondaryDataStructure){
 						rMatchScoreTemp = oClonedKnownDS.compareTo(oUnknownDS);
@@ -263,19 +269,25 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 				//Sums up the match score; Takes always the highest possible score 
 				oMatchScore += oMatch.a;
 			
+				
+
+				
 				if(oMatch.a > 0.0){
 					try{
 						oClonedTemplateList.remove((int)oMatch.b);
 					}catch(Exception e){System.out.println("oMatch.b was set to an incorrect value " + e.toString());}
 				}
 			
-			//Norm the output
-			if (nAssociationCount>0) {
-				oMatchScoreNorm = oMatchScore/nAssociationCount;
-			} else {
-				oMatchScoreNorm = 0;
-			}
+			
 		}
+				
+		//Norm the output
+		if (nAssociationCount>0) {
+			oMatchScoreNorm = oMatchScore/nAssociationCount;
+		} else {
+			oMatchScoreNorm = 0;
+		}
+			
 				
 		
 		//return oMatchScore;

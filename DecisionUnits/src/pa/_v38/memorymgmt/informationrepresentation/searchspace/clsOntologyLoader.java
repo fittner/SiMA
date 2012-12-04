@@ -40,6 +40,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -295,11 +296,17 @@ public class clsOntologyLoader {
 		
 		ArrayList <clsAssociation> oAssociationList = loadClassAssociations(poElement, oDataStructure, poDataContainer); 
 				
+	
 		oAssociationList.addAll(loadInstanceAssociations(poElement, poDataContainer));
 		
 		oDataStructure.addInternalAssociations(oAssociationList);
+	
+		// Association should be added to both associated ends (moAssociationElementA and moAssociationElementB)
+		for(clsAssociation oAss : oAssociationList) {
+			clsDataStructurePA oAssociationElementB = oAss.getMoAssociationElementB();
+			((itfExternalAssociatedDataStructure)oAssociationElementB).addExternalAssociation(oAss);				
+		}
 		
-
 		 
 	}
 	
@@ -724,7 +731,7 @@ public class clsOntologyLoader {
 				return new clsAssociationTime(new clsTriple<Integer, eDataType, eContentType >(oID,peElementType,peContentType),
 						(clsThingPresentationMesh)poElementA,(clsThingPresentationMesh)poElementB); 
 			
-			case ASSOCIATIONDM:
+			case ASSOCIATIONDM:				
 				oAssociationElements = evaluateElementOrder(poElementA, poElementB, eDataType.DM);
 				return new clsAssociationDriveMesh(new clsTriple<Integer, eDataType, eContentType>(oID,peElementType,peContentType),
 												   (clsDriveMesh)oAssociationElements.a, 
@@ -817,6 +824,8 @@ public class clsOntologyLoader {
 				//the instance associations are defined => moAssociationImperative is set to false => optional.
 				oAssociation.setMrImperativeFactor(eDataStructureMatch.OPTIONALMATCH.getMatchFactor()); 
 				oAssociationList.add(oAssociation);
+													
+				
 		}
 		return oAssociationList; 
 	}

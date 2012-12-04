@@ -12,7 +12,6 @@ import java.io.IOException;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
-
 import statictools.clsGetARSPath;
 
 /**
@@ -53,6 +52,8 @@ public class clsSingletonImageFactory {
 		return oResult;
 	}
 	
+	
+	
 	//new method
 	static public BufferedImage getString(eStrings pnString) throws IOException  {
 		BufferedImage oResult = null;
@@ -85,6 +86,8 @@ public class clsSingletonImageFactory {
 		
 		moImageBuffer.put(pnImage, oBI);		
 	}
+	
+
 	
 	
 

@@ -59,6 +59,7 @@ import com.jgraph.layout.JGraphModelFacade;
  * 18.10.2009, 15:08:13
  * 
  */
+
 public class clsPAInspectorFunctional extends Inspector implements ActionListener {
 
 	private static final long serialVersionUID = -1191073481242249784L;
@@ -74,17 +75,16 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	int y_mult;
 	int y_offset;
 	
-	private static clsPsychicApparatus poPA;
-	//private static ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
-	private static JFrame moLastWindow;
-	private static ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
-	
+	private clsPsychicApparatus moPA;
+	private ArrayList<JFrame> moContentWindows = new ArrayList<JFrame>();
+	private ArrayList<TabbedInspector> moContents= new ArrayList<TabbedInspector>();
 
 
-    public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus moPA)
+
+    public clsPAInspectorFunctional(JTree poTree, boolean pnCompact, clsPsychicApparatus poPA)
     {
 
-    	poPA=moPA;
+    	moPA=poPA;
     	
     	
 		moRootNodes = clsGenerateFunctionalModel.getRootNodes(moPA);
@@ -285,7 +285,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 	/**
 	 * Prevent from loosing the synchronisation after a graph element is dragged
 	 */
-	public static class MyMouseListener extends MouseInputAdapter {
+	public class MyMouseListener extends MouseInputAdapter {
 		protected JTree moMyTree;
 		private JGraph moMyGraph;
 		
@@ -325,66 +325,7 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
         	moMyTree.makeVisible(oPath);
         }
         
-        /*
-         * shows the internals of the selected Module in a new Frame
-         */
-        private void openNewWindow(String id, boolean newWindow){
-        	JFrame moContentWindow;
-        	if(newWindow){
-        		moContentWindow = new JFrame();
-        		moLastWindow=moContentWindow;
-        	}
-        	else{
-        		if(moLastWindow==null){
-        			moContentWindow = new JFrame();
-        			moLastWindow=moContentWindow;
-        			
-        		}
-        		else{
-        			//if min 1 frame is open the new frame will be loaded in the last opened frame
-        			moContentWindow = moLastWindow;
-        			moContentWindow.getContentPane().removeAll();
-        			
-        		}
-        	}
-        	moContentWindow.setSize(750,550);
-        	
-        	
-        	if(id.contains(":")){
-        		id= id.substring(0, id.indexOf(':'));
-        	}
-        	if(id.length()<3){
-        		id = id.charAt(0) +"0"+id.charAt(1);
-        	}
-        	moContentWindow.setTitle("Module" + id);
-        	TabbedInspector moContent = new TabbedInspector();
-        	moContents.add(moContent);
-        	
-
-			Field oFields[] =poPA.getClass().getFields();
-
-			//Search through all Fields of poPA to get the full name of the selected Module
-			String fullId="";
-
-			for(int i = 0; i<oFields.length; i++){
-				if(oFields[i].getName().contains("_")){
-    				if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
-    					fullId=oFields[i].getName().substring(2);  
-
-    				}
-				}
-				
-			}
-
-        	
-        	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, poPA, fullId);
-        	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, poPA, fullId);
-        	
-        	moContentWindow.add(moContent); 
-        	moContentWindow.repaint();
-        	moContentWindow.setVisible(true);
-        }
-           
+   
         private TreePath findNode( String nodeName ) {
         	TreeNode[] oPath = findNodeRecursive( (DefaultMutableTreeNode) moMyTree.getModel().getRoot(), nodeName );
         	return new TreePath(oPath);
@@ -410,6 +351,79 @@ public class clsPAInspectorFunctional extends Inspector implements ActionListene
 			return result;
 		} 
         
+    }
+    /*
+     * shows the internals of the selected Module in a new Frame
+     */
+    private void openNewWindow(String id, boolean newWindow){
+    	if(id.length()!=0){
+	    	JFrame moContentWindow;
+	    	if(newWindow){	
+	    		moContentWindow = new clsModuleInspectorWindow(this);
+	    		moContentWindows.add(moContentWindow);
+	    	}
+	    	else{
+	    		if(moContentWindows.size()==0){
+	    			moContentWindow = new clsModuleInspectorWindow(this);
+	    			moContentWindows.add(moContentWindow);
+	    			
+	    		}
+	    		else{
+	    			//if min 1 frame is open the new frame will be loaded in the last opened frame
+	    			moContentWindow = moContentWindows.get(moContentWindows.size()-1);
+	    			moContentWindow.getContentPane().removeAll();
+	    			
+	    		}
+	    	}
+	
+	    	//moContentWindow.setSize(750,550);
+	    	
+	    	
+	    	if(id.contains(":")){
+	    		id= id.substring(0, id.indexOf(':'));
+	    	}
+	    	if(id.length()<3){
+	    		id = id.charAt(0) +"0"+id.charAt(1);
+	    	}
+	    	moContentWindow.setTitle("Module" + id);
+	    	TabbedInspector moContent = new TabbedInspector();
+	    	moContents.add(moContent);
+	    	
+	
+			Field oFields[] =moPA.getClass().getFields();
+	
+			//Search through all Fields of poPA to get the full name of the selected Module
+			String fullId="";
+	
+			for(int i = 0; i<oFields.length; i++){
+				if(oFields[i].getName().contains("_")){
+					if(oFields[i].getName().substring(0, oFields[i].getName().indexOf("_")).equals("mo"+id)){
+						fullId=oFields[i].getName().substring(2);  
+	
+					}
+				}
+				
+			}
+	
+	    	
+	    	clsInspectorTab_Modules.addAutocreatedInspectors(moContent, moPA, fullId);
+	    	clsInspectorTab_Modules.addHandCraftedInspectors(moContent, moPA, fullId);
+	    	
+	    	moContentWindow.add(moContent); 
+	    	moContentWindow.repaint();
+	    	moContentWindow.setVisible(true);
+    	}
+    }
+    
+    
+    public void childWindowClosed(JFrame poWindow){
+    	moContentWindows.remove(poWindow);
+    }
+    
+    public void closeAllChildWindows(){
+		for( JFrame oWindow : moContentWindows) {
+			oWindow.dispose();
+		}
     }
 	
 }

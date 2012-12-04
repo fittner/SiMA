@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -87,7 +88,11 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getIntention(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+		clsWordPresentationMesh oPrelRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+		
+		if (oPrelRetVal!=null) {
+			oRetVal = oPrelRetVal;
+		}
 		
 		return oRetVal;
 	}
@@ -104,8 +109,11 @@ public class clsActDataStructureTools {
 	 */
 	public static clsAssociationSecondary getIntentionAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
-		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASINTENTION, 2, false);
+		if (oDS!=null) {
+			oRetVal = (clsAssociationSecondary) oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -146,7 +154,10 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getMoment(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, false);
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, false);
+		if (oDS!=null) {
+			oRetVal = (clsWordPresentationMesh) oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -164,7 +175,10 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getMomentAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, true);
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, true);
+		if (oDS!=null) {
+			oRetVal = (clsAssociationSecondary) oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -205,7 +219,10 @@ public class clsActDataStructureTools {
 	public static clsWordPresentationMesh getExpectation(clsWordPresentationMesh poPrediction) {
 		clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
 		
-		oRetVal = (clsWordPresentationMesh) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASEXPECTATION, 2, false);
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASEXPECTATION, 2, false);
+		if (oDS!=null) {
+			oRetVal = (clsWordPresentationMesh) oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -223,7 +240,10 @@ public class clsActDataStructureTools {
 	public static clsAssociationSecondary getExpectationAssociation(clsWordPresentationMesh poPrediction) {
 		clsAssociationSecondary oRetVal = null;
 		
-		oRetVal = (clsAssociationSecondary) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASMOMENT, 2, true);
+		clsDataStructurePA oDS = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poPrediction, ePredicate.HASEXPECTATION, 2, true);
+		if (oDS!=null) {
+			oRetVal = (clsAssociationSecondary) oDS;
+		}
 		
 		return oRetVal;
 	}
@@ -251,7 +271,8 @@ public class clsActDataStructureTools {
 	}
 	
 	/**
-	 * Get the image with the highest PI match from the sub images of an act within an act data structure
+	 * Get the image with the highest PI match from the sub images of an act within an act data structure. 
+	 * Multiple structures can be added if there is more than one PI match with the same value
 	 * 
 	 * (wendt)
 	 *
@@ -261,23 +282,24 @@ public class clsActDataStructureTools {
 	 * @param prMomentActivationThreshold 
 	 * @return
 	 */
-	public static clsWordPresentationMesh getMomentWithHighestPIMatch(clsWordPresentationMesh poAct, double prMomentActivationThreshold) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+	public static ArrayList<clsWordPresentationMesh> getMomentWithHighestPIMatch(clsWordPresentationMesh poAct, double prMomentActivationThreshold) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
-				
-		//clsWordPresentationMesh oFirstImage = clsActTools.getFirstSituationFromIntention(oIntention);
 		
 		double rMaxPIMatch = 0.0;
 		
 		ArrayList<clsWordPresentationMesh> oSubImageList = clsActTools.getAllSubImages(oIntention);
 		
 		for (clsWordPresentationMesh oSubImage : oSubImageList) {
-			double rCurrentPIMatch = clsActTools.getSecondaryMatchValueToPI(oSubImage);
+			double rCurrentPIMatch = clsActTools.getPIMatch(oSubImage);
 						
 			if (rCurrentPIMatch>rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
 				rMaxPIMatch = rCurrentPIMatch;
-				oResult = oSubImage;
+				oResult.clear();
+				oResult.add(oSubImage);
+			} else if (rCurrentPIMatch==rMaxPIMatch && rCurrentPIMatch>=prMomentActivationThreshold) {
+				oResult.add(oSubImage);
 			}
 		}
 		

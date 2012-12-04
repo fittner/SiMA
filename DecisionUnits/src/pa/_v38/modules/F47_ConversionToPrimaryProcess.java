@@ -13,6 +13,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -110,6 +111,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			
 		try {
 			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
+			clsLogger.jlog.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

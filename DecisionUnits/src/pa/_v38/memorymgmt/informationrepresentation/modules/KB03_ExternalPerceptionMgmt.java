@@ -132,9 +132,11 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#graphSearch(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA)
 	 */
 	@Override
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> graphSearch(
+	public ArrayList<clsPair<Double, clsDataStructureContainer>> associativeSearch(
 			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
 		// TODO (schaat) - Auto-generated method stub
-		return null;
+		
+		return listSearch(poReturnType, poDataStructureUnknown); 
+
 	}
 }

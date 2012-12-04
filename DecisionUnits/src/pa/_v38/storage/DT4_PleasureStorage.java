@@ -49,7 +49,6 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 			//go through the list of drives from last step, and calculate the pleasure out of the reduction
 			
 			for( clsDriveMesh oOldDMEntry : moAllDrivesLastStep){
-				double rOldTension = oOldDMEntry.getQuotaOfAffect();
 				
 				//find the drive from the list from last step
 				for( clsDriveMesh oNewDMEntry : moAllDrivesActualStep){
@@ -71,7 +70,15 @@ implements itfInspectorInternalState, itfInterfaceDescription, D4_1_receive, D4_
 				}
 				
 			}
-			this.mnSystemPleasureValue = nNewPleasureValue;
+			
+			//dynamiic protion of lust
+			if((nNewPleasureValue - this.mnSystemPleasureValue) > 0)
+				nNewPleasureValue = nNewPleasureValue + (nNewPleasureValue - this.mnSystemPleasureValue);
+			
+			this.mnSystemPleasureValue =nNewPleasureValue;
+			
+			
+			if(this.mnSystemPleasureValue>1.0)this.mnSystemPleasureValue=1.0;
 		}
 		
 		//overwrite old ones with new ones for next step calculation

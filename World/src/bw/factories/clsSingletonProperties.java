@@ -24,6 +24,9 @@ public class clsSingletonProperties {
 	private boolean mnDrawSensors;
 	private boolean mnUse3DPerception;
 	private boolean mnUseLogger;
+	private boolean mnShowArousalGridPortrayal;
+	private boolean mnShowTPMNetworkGridPortrayal;
+	private boolean mnShowFacialExpressionOverlay;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -32,9 +35,13 @@ public class clsSingletonProperties {
 		mnDrawSensors = false;
 		mnUse3DPerception = false;
 		mnUseLogger = false;
+		mnShowArousalGridPortrayal = false;
+		mnShowTPMNetworkGridPortrayal = false;
+		mnShowFacialExpressionOverlay = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
+	
 	
 	static public clsSingletonProperties instance() {
 		if (null == _instance) {
@@ -61,6 +68,8 @@ public class clsSingletonProperties {
 		(clsSingletonProperties.instance()).mnDrawSensors = poProperties.getPropertyBoolean(P_DRAWSENSORS);
 		(clsSingletonProperties.instance()).mnUse3DPerception = poProperties.getPropertyBoolean(P_USE3DPERCEPTION);
 		(clsSingletonProperties.instance()).mnUseLogger = poProperties.getPropertyBoolean(P_USELOGGER);
+
+		//wenn wir die leute zwingen wollen das in ihren config zu haben.. wieder einkommentieren
 	}	
 	
 	static public boolean drawImages() {
@@ -80,4 +89,30 @@ public class clsSingletonProperties {
 	static public boolean useLogger() {
 		return (clsSingletonProperties.instance()).mnUseLogger;
 	}
+	
+	static public boolean showArousalGridPortrayal() {
+		return (clsSingletonProperties.instance()).mnShowArousalGridPortrayal;
+	}
+	static public void setShowArousalGridPortrayal(boolean value) {
+		(clsSingletonProperties.instance()).mnShowArousalGridPortrayal = value;
+		clsSingletonMasonGetter.getArousalGridEnvironment().setTo(0.0);
+	}
+	
+	static public boolean showTPMNetworkGrid() {
+		return (clsSingletonProperties.instance()).mnShowTPMNetworkGridPortrayal;
+	}
+	static public void setShowTPMNetworkGrid(boolean value) {
+		(clsSingletonProperties.instance()).mnShowTPMNetworkGridPortrayal = value;
+		clsSingletonMasonGetter.getTPMNetworkField().clear();
+		clsSingletonMasonGetter.getTPMNodeField().clear();
+	}
+	
+	static public boolean showFacialExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
+	}
+	static public void setShowFacialExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
+	}
+	
+	
 }

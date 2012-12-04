@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -114,6 +115,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		text += toText.valueToTEXT("moPerceptionalMesh_IN", moPerceptionalMesh_IN);
 		text += toText.listToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.listToTEXT("moDriveList", moDriveGoalList_IN);
+		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moEnvironmentalPerception_OUT", moEnvironmentalPerception_OUT);
 		//text += toText.listToTEXT("moAssociatedMemoriesSecondary_OUT", moAssociatedMemoriesSecondary_OUT);
 		text += toText.valueToTEXT("mrAvailableFocusEnergy", mrAvailableFocusEnergy);
@@ -170,14 +172,17 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	@Override
 	public void receive_I6_12(clsWordPresentationMesh poPerception,
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+		
+		moPerceptionalMesh_IN = poPerception;
+//		try {
+//			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		//AW 20110602 Added Associtated memories
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 		
 	}	
 
@@ -213,6 +218,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(extractPossibleGoalsFromActs(moAssociatedMemories_IN));
 		
+		clsLogger.jlog.debug("Extracted goals : " + moReachableGoalList_OUT.toString());
+		
 		//--- Select Goals for Perception ---//
 		ArrayList<clsPair<Integer,clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Integer,clsWordPresentationMesh>>();
 		
@@ -230,12 +237,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//=== Filter the perception === //
 		int nNumberOfAllowedObjects = (int)mrAvailableFocusEnergy;	//FIXME AW: What is the desexualalized energy and how many objects/unit are used.
 		moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+//		try {
+//			moPerceptionalMesh_OUT = (clsWordPresentationMesh) moPerceptionalMesh_IN.clone();
+//		} catch (CloneNotSupportedException e) {
+//			// TODO (wendt) - Auto-generated catch block
+//			e.printStackTrace();
+//		}
 		
 		//Remove all non focused objects
 		focusPerception(moPerceptionalMesh_OUT, oFocusOnGoalList, nNumberOfAllowedObjects);
 		
-		System.out.println("====================================\nF23: Focused perception:" + moPerceptionalMesh_OUT  + "\n==============================================");
-		System.out.println("Focuslist : " + oFocusOnGoalList.toString());
+		clsLogger.jlog.debug("List to focus on: " + oFocusOnGoalList.toString());
+		//System.out.println("====================================\nF23: Focused perception:" + moPerceptionalMesh_OUT  + "\n==============================================");
+		//System.out.println("Focuslist : " + oFocusOnGoalList.toString());
 		
 		//TODO AW: Memories are not focused at all, only prioritized!!! Here is a concept necessary
 		moAssociatedMemories_OUT = moAssociatedMemories_IN;
@@ -272,8 +286,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			//React on goals in the perception, which are emotion and are HIGH NEGATIVE
 			if (clsGoalTools.getSupportiveDataStructureType(oReachableGoal) == eContentType.PI && 
 					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.PERCEPTIONALEMOTION &&
-					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.HIGHNEGATIVE) {
-				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsImportanceTools.convertAffectLevelToImportance(clsGoalTools.getAffectLevel(oReachableGoal)), oReachableGoal));
+					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.NEGATIVE80.mnAffectLevel) {
+				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsGoalTools.getAffectLevel(oReachableGoal), oReachableGoal));
 			}
 		}
 		

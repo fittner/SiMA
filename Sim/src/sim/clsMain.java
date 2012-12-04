@@ -7,6 +7,7 @@
 
 package sim;
 
+import bw.factories.clsSingletonProperties;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
@@ -74,7 +75,8 @@ public class clsMain extends SimState{
 					case 7: oFilename = "AW.survivalworld.properties"; break;
 					case 8: oFilename = "one_bubble_one_cake_one_staticbubble.properties"; break;
 					case 9: oFilename = "TD_PhD.main.properties"; break;
-					case 10: oFilename = "AW.pa.pausecase.properties"; break;
+					//case 10: oFilename = "AW.pa.pausecase.properties"; break;
+					case 10: oFilename = "AW.PhD.Testcase.01.GetAroundStone.properties"; break;
 					default: oFilename = "testsetup.main.properties"; break;
 				}
 			} catch (NumberFormatException e) {
@@ -145,5 +147,29 @@ public class clsMain extends SimState{
         	if (args[x].equalsIgnoreCase(key))
         		return true;
     	return false;
+    }
+    
+    public void setShowArousalGrid(boolean value){
+    	clsSingletonProperties.setShowArousalGridPortrayal(value);
+    }
+    
+    public boolean getShowArousalGrid(){
+    	return clsSingletonProperties.showArousalGridPortrayal();
+    }
+    
+    public void setShowTPMNetworkGrid(boolean value){
+    	clsSingletonProperties.setShowTPMNetworkGrid(value);
+    }
+    
+    public boolean getShowTPMNetworkGrid(){
+    	return clsSingletonProperties.showTPMNetworkGrid();
+    }
+    
+    public void setShowFaciaExpressionOverlay(boolean value){
+    	clsSingletonProperties.setShowFacialExpressionOverlay(value);
+    }
+    
+    public boolean getShowFaciaExpressionOverlay(){
+    	return clsSingletonProperties.showFacialExpressionOverlay();
     }
  }

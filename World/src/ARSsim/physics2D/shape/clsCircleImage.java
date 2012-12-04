@@ -8,7 +8,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+
+import du.enums.eFacialExpression;
 import bw.factories.clsSingletonImageFactory;
+import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
 import bw.factories.eStrings;
 
@@ -29,7 +32,7 @@ public class clsCircleImage extends Circle
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
 	eStrings moOverlayString = eStrings.Nourish;
-	
+	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
 	Paint moPaint = null;
 
 
@@ -123,6 +126,27 @@ public class clsCircleImage extends Circle
 						oImageOverlay.getGraphics();
 						graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
 			        }
+			        
+			        
+			      //display a facial expressionoverlay Icon
+			        if(clsSingletonProperties.showFacialExpressionOverlay()) {
+			        	if(moFacialExpressionOverlayImage != null && moFacialExpressionOverlayImage != eFacialExpression.NONE){
+			        		
+				        	eImages oFaciaExpressionImage = eImages.valueOf(moFacialExpressionOverlayImage.getEImagesString());
+				        	
+				    	   	BufferedImage oImageOverlay = null;
+				    
+				    	   	try {
+				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oFaciaExpressionImage);
+				    	   	} catch (IOException e) {
+				    	   		e.printStackTrace();
+				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+				    	   	}
+				        	
+							oImageOverlay.getGraphics();
+							graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
+			        	}
+			        }
 			      		        
 			        
 			      //display a overlay String - new method
@@ -166,6 +190,23 @@ public class clsCircleImage extends Circle
 	 */
 	public void setOverlayImage(eImages moOverlay) {
 		this.moOverlayImage = moOverlay;
+	}
+	
+	
+	public eFacialExpression getFacialExpressionOverlayImage() {
+		return moFacialExpressionOverlayImage;
+	}
+
+
+
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
+	public void setFacialExpressionOverlayImage(eFacialExpression moOverlay) {
+		this.moFacialExpressionOverlayImage = moOverlay;
 	}
    
     }

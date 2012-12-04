@@ -5,11 +5,16 @@
  */
 package decisionunit;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import pa._v30.logger.clsActionLogger;
 import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
 /**
@@ -24,10 +29,14 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	private clsSensorData moSensorData;
 	/** the action processer of the BW project. stores the selected actions.; @since 06.07.2011 12:46:08 */
 	private itfActionProcessor moActionProcessor;
+	/** the INTERNAL action processer of the BW project. stores the selected actions.; @since 06.07.2011 12:46:08 */
+	private itfInternalActionProcessor moInternalActionProcessor;
 	/** which decision unit type. @see eDecisionType; @since 06.07.2011 12:46:45 */
 	protected eDecisionType meDecisionType;
 	/** history of selected and executed actions.; @since 06.07.2011 12:47:05 */
 	public clsActionLogger moActionLogger;
+	
+	protected HashMap<String, ArrayList<clsInspectorPerceptionItem>> moPerceptionInspectorData;
 
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -100,6 +109,15 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	public itfActionProcessor getActionProcessor() {
 		return moActionProcessor;
 	}
+	
+	public itfInternalActionProcessor getInternalActionProcessor() {
+		return moInternalActionProcessor;
+	}
+	
+	@Override
+	public void setInternalActionProcessor(itfInternalActionProcessor poInternalActionProcessor) {
+		this.moInternalActionProcessor = poInternalActionProcessor;
+	}
 
 	/**
 	 * Returns the sensor data.
@@ -122,6 +140,11 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	@Override
 	public void updateActionLogger() {
 		moActionLogger.add(moActionProcessor.logText());
+	}
+	
+	@Override
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData() {
+		return moPerceptionInspectorData;
 	}
 	
 	/**

@@ -14,12 +14,14 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eTaskStatus;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.storage.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -57,7 +59,7 @@ public class clsGoalTools {
 	 * @param poSupportiveDataStructure
 	 * @return
 	 */
-	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
+	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, eAction poPreferredAction, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		
 		//Generate goalidentifier
 		String oGoalID = clsGoalTools.generateGoalContentIdentifier(poGoalContent, poGoalObject, poGoalType);
@@ -68,8 +70,8 @@ public class clsGoalTools {
 		//Create the basic goal structure
 		clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID);
 		
-		//--- Create Affectlevel ---//
-		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString(), true);
+		//--- Create Affectlevel as importance number ---//
+		clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(clsImportanceTools.convertAffectLevelToImportance(poAffectLevel)), true);
 		
 		//--- Create Goal object ---//
 		//Add Goalobject to the mesh
@@ -84,6 +86,12 @@ public class clsGoalTools {
 			}
 		} else if (poSupportiveDataStructure.isNullObject()==false) {
 			clsMeshTools.createAssociationSecondary(oRetVal, 1, poSupportiveDataStructure, 0, 1.0, eContentType.SUPPORTDSASSOCIATION, ePredicate.HASSUPPORTIVEDATASTRUCTURE, false);
+		}
+		
+		//--- Add preferred action to the goal --- //
+		if (poPreferredAction.equals(eAction.NULLOBJECT)==false) {
+			clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction);
+			clsMeshTools.createAssociationSecondary(oRetVal, 1, oPreferredActionMesh, 0, 1.0, eContentType.PREFERREDACTION, ePredicate.HASPREFERREDACTION, false);
 		}
 		
 		//--- Add goal type to mesh ---//
@@ -105,14 +113,15 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static clsWordPresentationMesh copyGoalWithoutTaskStatus(clsWordPresentationMesh poGoal) {
+	public static clsWordPresentationMesh copyGoalWithoutTaskStatusAndAction(clsWordPresentationMesh poGoal) {
 		clsWordPresentationMesh oResult = null;
 		
 		try {
 			oResult = (clsWordPresentationMesh) poGoal.clone();
 			
 			//Remove all task status from the goal
-			clsGoalTools.removeAllTaskStatus(oResult);
+			clsGoalTools.removeAllConditions(oResult);
+			clsGoalTools.removeAllAssociatedAction(oResult);
 			
 		} catch (CloneNotSupportedException e) {
 			System.out.println("previous goal could not be cloned");
@@ -180,17 +189,40 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static eAffectLevel getAffectLevel(clsWordPresentationMesh poGoal) {
-		eAffectLevel oRetVal = null;
+	public static int getAffectLevel(clsWordPresentationMesh poGoal) {
+		int oRetVal = 0;
+	
+		clsWordPresentation oAffectLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASAFFECTLEVEL);
 		
-		ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASAFFECTLEVEL, true);
+		if (oAffectLevelWP==null) {
+			oRetVal = 0;
+		} else {
+			oRetVal = clsImportanceTools.getImportance(oAffectLevelWP);
+		}
+	
+		return oRetVal;
+	}
+	
+	public static void setAffectLevel(clsWordPresentationMesh poGoal, int pnImportance) {
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, String.valueOf(pnImportance), true);
+	}
+	
+	public static int getEffortLevel(clsWordPresentationMesh poGoal) {
+		int oRetVal = 0;
+	
+		clsWordPresentation oEffortLevelWP = clsMeshTools.getUniquePredicateWP(poGoal, ePredicate.HASEFFORTLEVEL);
 		
-		if (oFoundStructures.isEmpty()==false) {
-			//The drive object is always a WPM
-			oRetVal = eAffectLevel.valueOf(oFoundStructures.get(0).getMoContent());
+		if (oEffortLevelWP==null) {
+			oRetVal = 0;
+		} else {
+			oRetVal = clsImportanceTools.getImportance(oEffortLevelWP);
 		}
 		
 		return oRetVal;
+	}
+	
+	public static void setEffortLevel(clsWordPresentationMesh poGoal, int pnImportance) {
+		clsMeshTools.setUniquePredicateWP(poGoal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASEFFORTLEVEL, eContentType.EFFORTLEVEL, String.valueOf(pnImportance), true);
 	}
 	
 	
@@ -199,7 +231,28 @@ public class clsGoalTools {
 	}
 	
 	public static String generateGoalContentIdentifier(String poGoalName, clsWordPresentationMesh poGoalObject, eGoalType poGoalType) {
-		return poGoalName + ":" + poGoalObject.getMoContent() + ":" + poGoalType.toString();
+		String oResult = "";
+		
+//		clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoalObject);
+//		String oPhiPos = "null";
+//		String oRadPos = "null";
+		String oPositionToAdd = "";
+		
+//		if (oPosition.b!=null) {
+//			oPhiPos = oPosition.b.toString();
+//		}
+//		if (oPosition.c!=null) {
+//			oRadPos = oPosition.c.toString();
+//		}
+//		
+//		if (oPosition.b!=null || oPosition.c!=null) {
+//			oPositionToAdd = "(" + oPhiPos + ":" + oRadPos + ")";
+//		}
+			
+		
+		 oResult += poGoalName + ":" + poGoalObject.getMoContent() + oPositionToAdd + ":" + poGoalType.toString();
+		 
+		 return oResult;
 	}
 	
 	
@@ -214,13 +267,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void setTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static void setCondition(clsWordPresentationMesh poGoal, eCondition poTask) {
 		//Get the current one
 		//clsWordPresentation oFoundStructure = clsGoalTools.getDecisionTaskDataStructure(poGoal);
 		
 		//Replace or create new
 		//if (oFoundStructure==null) {
-		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS, eContentType.TASKSTATUS, poTask.toString(), false);
+		clsMeshTools.setNonUniquePredicateWP(poGoal, ePredicate.HASCONDITION, eContentType.CONDITION, poTask.toString(), false);
 		//} else {
 		//	oFoundStructure.setMoContent(poTask.toString());
 		//}
@@ -238,13 +291,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static ArrayList<eTaskStatus> getTaskStatus(clsWordPresentationMesh poGoal) {
-		ArrayList<eTaskStatus> oResult = new ArrayList<eTaskStatus>();
+	public static ArrayList<eCondition> getCondition(clsWordPresentationMesh poGoal) {
+		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
-		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+		ArrayList<clsWordPresentation> oFoundTaskStatusList = clsGoalTools.getConditionDataStructure(poGoal);
 				
 		for (clsWordPresentation oTaskStatus : oFoundTaskStatusList) {
-			oResult.add(eTaskStatus.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
+			oResult.add(eCondition.valueOf(((clsWordPresentation) oTaskStatus).getMoContent()));
 		}
 	
 		
@@ -262,10 +315,10 @@ public class clsGoalTools {
 	 * @param poTask
 	 * @return
 	 */
-	public static boolean checkIfTaskStatusExists(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
+	public static boolean checkIfConditionExists(clsWordPresentationMesh poGoal, eCondition poTask) {
 		boolean bResult = false;
 		
-		ArrayList<eTaskStatus> oResult = clsGoalTools.getTaskStatus(poGoal);
+		ArrayList<eCondition> oResult = clsGoalTools.getCondition(poGoal);
 		if (oResult.contains(poTask)) {
 			bResult=true;
 		}
@@ -283,11 +336,13 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @param poTask
 	 */
-	public static void removeTaskStatus(clsWordPresentationMesh poGoal, eTaskStatus poTask) {
-		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getTaskStatusDataStructure(poGoal);
+	public static void removeCondition(clsWordPresentationMesh poGoal, eCondition poTask) {
+		ArrayList<clsWordPresentation> oFoundStructureList = clsGoalTools.getConditionDataStructure(poGoal);
 		
 		for (clsWordPresentation oTaskStatus : oFoundStructureList) {
-			clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			if (oTaskStatus.getMoContent().equals(poTask.toString())) {
+				clsMeshTools.removeAssociationInObject(poGoal, oTaskStatus);
+			}
 		}
 	}
 	
@@ -300,8 +355,8 @@ public class clsGoalTools {
 	 *
 	 * @param poGoal
 	 */
-	public static void removeAllTaskStatus(clsWordPresentationMesh poGoal) {
-		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASTASKSTATUS);
+	public static void removeAllConditions(clsWordPresentationMesh poGoal) {
+		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASCONDITION);
 	}
 	
 	/**
@@ -316,8 +371,8 @@ public class clsGoalTools {
 	 * @param poGoal
 	 * @return
 	 */
-	private static ArrayList<clsWordPresentation> getTaskStatusDataStructure(clsWordPresentationMesh poGoal) {
-		return clsMeshTools.getNonUniquePredicateWP(poGoal, ePredicate.HASTASKSTATUS);
+	private static ArrayList<clsWordPresentation> getConditionDataStructure(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getNonUniquePredicateWP(poGoal, ePredicate.HASCONDITION);
 	}
 	
 	
@@ -513,6 +568,40 @@ public class clsGoalTools {
 	}
 	
 	/**
+	 * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:17:57
+	 *
+	 * @param poGoal
+	 * @return
+	 */
+	public static clsWordPresentationMesh getAssociatedAction(clsWordPresentationMesh poGoal) {
+		return clsMeshTools.getUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION);
+		
+	} 
+	
+	/**
+	 * Set associated action
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:20:16
+	 *
+	 * @param poGoal
+	 * @param poAssociatedAction
+	 */
+	public static void setAssociatedAction(clsWordPresentationMesh poGoal, clsWordPresentationMesh poAssociatedAction) {
+		clsMeshTools.setNonUniquePredicateWPM(poGoal, ePredicate.HASASSOCIATEDACTION, poAssociatedAction, false);
+		
+	}
+	
+	public static void removeAllAssociatedAction(clsWordPresentationMesh poGoal) {
+		clsMeshTools.removeAssociationInObject(poGoal, ePredicate.HASASSOCIATEDACTION);
+	}
+	
+	/**
 	 * Get the content type of the support data structure type of the goal
 	 * 
 	 * (wendt)
@@ -571,9 +660,10 @@ public class clsGoalTools {
 		oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
 		
 		//Get from all subimages too
-		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
-			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
-		}
+//		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
+//			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
+//		}
+		//No sub images are used as goals
 		
 		return oRetVal;
 	}
@@ -611,7 +701,7 @@ public class clsGoalTools {
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal).mnAffectLevel>=1) {
+			if (oPreliminaryGoalList.isEmpty()==true && clsGoalTools.getAffectLevel(oDriveGoal)>=eAffectLevel.POSITIVE10.mnAffectLevel) {
 				//There is no current affect level
 				//This sort order shall have the last priority
 				
@@ -624,7 +714,7 @@ public class clsGoalTools {
 				int nIndex = 0;
 				//Increase index if the list is not empty
 				while((oPreliminarySortList.isEmpty()==false) && 
-						(nIndex<oRetVal.size()) &&
+						(nIndex<oPreliminarySortList.size()) &&
 						(oPreliminarySortList.get(nIndex).a > oPair.a)) {
 					nIndex++;
 				}
@@ -632,7 +722,7 @@ public class clsGoalTools {
 				oPreliminarySortList.add(nIndex, oPair);
 			}
 			
-			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminaryGoalList) {
+			for (clsPair<Integer, clsWordPresentationMesh> oPair : oPreliminarySortList) {
 				oRetVal.add(oPair.b);
 			}
 		}	
@@ -667,13 +757,13 @@ public class clsGoalTools {
 	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> filterDriveGoalsFromImageGoals(clsWordPresentationMesh poDriveGoal, ArrayList<clsWordPresentationMesh> poSortedPossibleGoalList, int pnAffectLevelThreshold) {
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
 		
-		boolean bGoalObjectFound = false;
+		//boolean bGoalObjectFound = false;
 		
 		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMesh oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
-			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal).mnAffectLevel;
+			int nCurrentAffectLevel = clsGoalTools.getAffectLevel(oPossibleGoal) + clsGoalTools.getEffortLevel(oPossibleGoal);
 			
 			if (nCurrentAffectLevel>=pnAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time
@@ -687,13 +777,13 @@ public class clsGoalTools {
 					//FIXME AW: The goal objects are always true!!!! This should be corrected
 					if (clsGoalTools.getGoalObject(poDriveGoal).getMoDS_ID()==clsGoalTools.getGoalObject(oPossibleGoal).getMoDS_ID()) {
 						nCurrentPISortOrder++;	//same drive object => +1
-						bGoalObjectFound=true;
+						//bGoalObjectFound=true;
 					}
 					
 					//Check if it exists in perception
-					if (clsGoalTools.getSupportiveDataStructureType(oPossibleGoal) == eContentType.PI) {
-						nCurrentPISortOrder++;	//Object exists in the perception => +1 because it is nearer
-					}
+					//if (clsGoalTools.getSupportiveDataStructureType(oPossibleGoal) == eContentType.PI) {
+					//	nCurrentPISortOrder++;	//Object exists in the perception => +1 because it is nearer
+					//}
 
 					//Sort goals
 					int nTotalCurrentAffectLevel = Math.abs(nCurrentAffectLevel * 10 + nCurrentPISortOrder);
@@ -785,53 +875,146 @@ public class clsGoalTools {
 			}
 		}
 		
+		//double rBestDistance = -1;
+		
+		ArrayList<clsWordPresentationMesh> oZeroDistanceList = sortSpatiallyGoalList(poGoalList, poCompareGoal);
+		
+		//If the size of the list is >1 then there are several possibilites. Therefore correct the comparegoal with the movement
+		if (oZeroDistanceList.size()>1) {
+//			if (poLastAction.equals(eAction.TURN_LEFT)) {
+//				
+//			} else if (poLastAction.equals(eAction.TURN_RIGHT)) {
+//				
+//			} else if (poLastAction.equals(eAction.MOVE_FORWARD)) {
+//				
+//			}
+			
+			//TODO someone: Implement the cases above. At a movement, the goal search shall be corrected.
+			
+			oResult = oZeroDistanceList.get(0);
+			
+		} else if (oZeroDistanceList.size()==1){
+			oResult = oZeroDistanceList.get(0);
+		}
+		
+		return oResult;
+	}
+	
+	private static ArrayList<clsWordPresentationMesh> sortSpatiallyGoalList(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal) {
+		ArrayList<clsWordPresentationMesh> oResultList = new ArrayList<clsWordPresentationMesh>();
+		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+		
 		double rBestDistance = -1;
 		
-		for (clsWordPresentationMesh poGoal : poGoalList) {
-			eGoalType oGoalTypeFromListGoal = clsGoalTools.getGoalType(poGoal);
+		for (clsWordPresentationMesh oGoal : poGoalList) {
+			eGoalType oGoalTypeFromListGoal = clsGoalTools.getGoalType(oGoal);
 			
 			if (oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALDRIVE) || oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALEMOTION)) {
-				double rCurrentDistance = clsSecondarySpatialTools.getDistance(clsGoalTools.getGoalObject(poGoal), clsGoalTools.getGoalObject(poCompareGoal));
+				double rCurrentDistance = clsSecondarySpatialTools.getDistance(clsGoalTools.getGoalObject(oGoal), clsGoalTools.getGoalObject(poCompareGoal));
 				
 				if ((rBestDistance==-1 && rCurrentDistance>=0) || (rBestDistance>=0 && rCurrentDistance<rBestDistance)) {
 					rBestDistance=rCurrentDistance;
-					oResult = poGoal;
+					oResult = oGoal;
 					
 					//If the position is exact the same, then break
 					if (rCurrentDistance==0) {
-						break;
+						oResultList.add(oGoal);
 					}
 				}
+			}
+		}
+		
+		if (oResultList.isEmpty()==true) {
+			oResultList.add(oResult);
+		}
+		
+		return oResultList;
+	}
+	
+
+	/**
+	 * Compare a goal with a list of goals and if the same supportive data structures are used, then return them. 
+	 * 
+	 * (wendt)
+	 *
+	 * @since 14.10.2012 12:20:41
+	 *
+	 * @param poGoalList: List of goals
+	 * @param poCompareGoal: Compare goal, which supportive data structure shall be found in the list
+	 * @param pbStopAtFirstMatch: Stop at the first match
+	 * @param pbIncludeCurrentGoal: If another instance of the current goal is found, include it in the list
+	 * @param pbCompareByInstance: Compare the supportive data structure by instance comparison, else by content
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getOtherGoalsWithSameSupportiveDataStructure(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal, boolean pbStopAtFirstMatch, boolean pbIncludeCurrentGoal, boolean pbCompareByInstance) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		for (clsWordPresentationMesh poGoalFromList : poGoalList) {
+			if (pbIncludeCurrentGoal==true) {
+				if (pbCompareByInstance==true) {
+					if (clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal)) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					if (clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				}
+			} else {
+				if (pbCompareByInstance==true) {
+					if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
+							clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal)) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				} else {
+					if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
+							clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
+						oResult.add(poGoalFromList);
+						if (pbStopAtFirstMatch==true) {
+							break;
+						}
+					}
+				}
+			}
+		}
+		return oResult;
+	}
+	
+	/**
+	 * Search the whole STM and get all of the same goals.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.10.2012 16:35:26
+	 *
+	 * @param poGoal
+	 * @param poSTM
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllSameGoalsFromSTM(clsWordPresentationMesh poGoal, clsShortTermMemory poSTM) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsWordPresentationMesh> oMentalSituationList = poSTM.getAllWPMFromSTM();
+		for (clsWordPresentationMesh oMS : oMentalSituationList) {
+			clsWordPresentationMesh oGoalFromSTM = clsMentalSituationTools.getGoal(oMS);
+			
+			if (clsGoalTools.compareGoals(poGoal, oGoalFromSTM)==true) {
+				oResult.add(oGoalFromSTM);
 			}
 		}
 		
 		return oResult;
 	}
 	
-	/**
-	 * Get all goals, which are using the same supportive data structure, i.e name and type (like ACT)
-	 * 
-	 * (wendt)
-	 *
-	 * @since 23.07.2012 16:30:38
-	 *
-	 * @param poGoalList
-	 * @param poCompareGoal
-	 * @return
-	 */
-	public static ArrayList<clsWordPresentationMesh> getOtherGoalsWithSameSupportiveDataStructure(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poCompareGoal) {
-		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
-		
-		for (clsWordPresentationMesh poGoalFromList : poGoalList) {
-			if (clsGoalTools.getGoalContentIdentifier(poGoalFromList)!=clsGoalTools.getGoalContentIdentifier(poCompareGoal) &&
-					clsGoalTools.getSupportiveDataStructureType(poGoalFromList)==clsGoalTools.getSupportiveDataStructureType(poCompareGoal) &&
-					clsGoalTools.getSupportiveDataStructure(poGoalFromList).getMoContent()==clsGoalTools.getSupportiveDataStructure(poCompareGoal).getMoContent()) {
-				oResult.add(poGoalFromList);
-			}
-		}
-		
-		return oResult;
-	}
 
 }
 	

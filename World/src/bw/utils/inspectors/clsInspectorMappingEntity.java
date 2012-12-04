@@ -12,6 +12,7 @@ import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
+import bw.body.itfget.itfGetBody;
 
 
 import bw.entities.clsARSIN;
@@ -38,6 +39,7 @@ import bw.utils.inspectors.body.clsInspectorInternalEnergyConsumption;
 import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorARSin;
+import bw.utils.inspectors.entity.clsInspectorARSinDebugActions;
 import bw.utils.inspectors.entity.clsInspectorFungusEater;
 import bw.utils.inspectors.entity.clsInspectorBasic;
 import bw.utils.inspectors.entity.clsInspectorFungus;
@@ -81,7 +83,6 @@ public class clsInspectorMappingEntity {
 	public static TabbedInspector getInspectorEntity(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity)
 	{
     	TabbedInspector oRetVal = new TabbedInspector();
-
     	//change the default inspector to the one you created for the entity if you want more inspected
     	if( poEntity instanceof clsMobile )
     	{
@@ -202,6 +203,36 @@ public class clsInspectorMappingEntity {
 	    	else{
 	    	
 	    		System.out.println("Error: Overview Inspector only works on Entity types of ARSin!!!");
+	    	}
+
+    	return oRetVal;
+	}
+	
+	
+	/**
+	 * A inspector that holds debug actions for the ARSIN
+	 *
+	 * @since 21.09.2011 10:46:32
+	 */
+	public static TabbedInspector getInspectorARSINDebugActions(Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity)
+	{
+    	TabbedInspector oRetVal = new TabbedInspector();
+    	
+    	oRetVal.setBounds(100,100,100,100);
+
+    	//change the default inspector to the one you created for the entity if you want more inspected
+
+	    	if( poEntity instanceof clsARSIN) {
+	    		
+	    		//***Debug Actions ***
+	    		//this like work because I can be sure we have a ARSin with a complex body, because there is no arsin without one!
+	    		clsComplexBody oBody = (clsComplexBody)((itfGetBody) poEntity).getBody();
+	        	oRetVal.addInspector( new clsInspectorARSinDebugActions(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "Arsin Debug Actions");
+
+	    	}
+	    	else{
+	    	
+	    		System.out.println("Error: DebugAction Inspector only works on Entity types of ARSin!!!");
 	    	}
 
     	return oRetVal;

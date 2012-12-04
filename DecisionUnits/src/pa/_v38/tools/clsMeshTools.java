@@ -567,7 +567,7 @@ public class clsMeshTools {
 	}
 	
 	/**
-	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
 	 * 
 	 * (wendt)
 	 *
@@ -577,18 +577,122 @@ public class clsMeshTools {
 	 * @param poFindDataStructure
 	 * @return
 	 */
-	public static clsThingPresentationMesh searchDataStructureInstanceInMeshTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel) {
-		clsThingPresentationMesh oRetVal = null;
+	public static ArrayList<clsThingPresentationMesh> searchDataStructureInstanceInImageTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
 		//Compare IDs of the structures
 		//TODO: Extend to instance_IDs
 		
 		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMImages(poTargetImageMesh, pnLevel);
 		
 		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
-			if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
-				oRetVal = oObject;
-				break;
+			if (pbUseTypeID==true) {
+				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else {
+				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
 			}
+			
+			
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> searchDataStructureInstanceInTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = getAllTPMObjects(poTargetImageMesh, pnLevel);
+		
+		for (clsThingPresentationMesh oObject : oAllTPMInMesh) {
+			if (pbUseTypeID==true) {
+				if (poFindDataStructure.getMoDS_ID() == oObject.getMoDS_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			} else {
+				if (poFindDataStructure.getMoDSInstance_ID() == oObject.getMoDSInstance_ID()) {
+					oRetVal.add(oObject);
+					if (pbStopAtFirstMatch==true) {
+						break;
+					}
+				}
+			}
+			
+			
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsThingPresentationMesh searchFirstDataStructureInstanceInTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID) {
+		clsThingPresentationMesh oRetVal = clsMeshTools.getNullObjectTPM();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = clsMeshTools.searchDataStructureInstanceInTPM(poTargetImageMesh, poFindDataStructure, pnLevel, pbUseTypeID, true);
+		
+		if (oAllTPMInMesh.isEmpty()==false) {
+			oRetVal = oAllTPMInMesh.get(0);
+		}
+
+		return oRetVal;
+	}
+	
+	/**
+	 * Find a certain instance of a TPM in a mesh. The instance ID is compared here or the TypeID is compared
+	 * 
+	 * (wendt)
+	 *
+	 * @since 22.09.2011 14:31:10
+	 *
+	 * @param poTargetImage
+	 * @param poFindDataStructure
+	 * @return
+	 */
+	public static clsThingPresentationMesh searchFirstDataStructureInstanceInImageTPM(clsThingPresentationMesh poTargetImageMesh, clsThingPresentationMesh poFindDataStructure, int pnLevel, boolean pbUseTypeID) {
+		clsThingPresentationMesh oRetVal = clsMeshTools.getNullObjectTPM();
+		//Compare IDs of the structures
+		//TODO: Extend to instance_IDs
+		
+		ArrayList<clsThingPresentationMesh> oAllTPMInMesh = clsMeshTools.searchDataStructureInstanceInImageTPM(poTargetImageMesh, poFindDataStructure, pnLevel, pbUseTypeID, true);
+		
+		if (oAllTPMInMesh.isEmpty()==false) {
+			oRetVal = oAllTPMInMesh.get(0);
 		}
 
 		return oRetVal;
@@ -614,11 +718,22 @@ public class clsMeshTools {
 		ArrayList<clsDataStructurePA> oRetVal = new ArrayList<clsDataStructurePA>();
 		
 		for (clsAssociation oAss : poInputList) {
-			if (pnMode==0 && oAss.getTheOtherElement(poThisDataStructure).getMoContentType().equals(poDSContentType)) {
+			clsDataStructurePA oDS = oAss.getTheOtherElement(poThisDataStructure);
+			if (oDS==null) {
+				try {
+					throw new Exception("The other element of the association " + oAss + " is not the source of the other element");
+				} catch (Exception e) {
+					// TODO (wendt) - Auto-generated catch block
+					e.printStackTrace();
+					continue;
+				}
+				
+			}
+			if (pnMode==0 && oDS.getMoContentType().equals(poDSContentType)) {
 				if (pbGetWholeAssociation==true) {
 					oRetVal.add(oAss);
 				} else {
-					oRetVal.add(oAss.getTheOtherElement(poThisDataStructure));
+					oRetVal.add(oDS);
 				}
 				
 				if (pbStopAtFirstMatch==true) {
@@ -849,6 +964,37 @@ public class clsMeshTools {
 					break;
 				}
 				
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Search for a secondary data structure within an image
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.06.2012 14:55:26
+	 *
+	 * @param poInput
+	 * @param poPredicate
+	 * @param poDataStructureContent
+	 * @param pbStopAtFirstMatch
+	 * @return
+	 */
+	public static ArrayList<clsSecondaryDataStructure> searchSecondaryDataStructureInImage(clsWordPresentationMesh poInput, ePredicate poPredicate, int poID, boolean pbStopAtFirstMatch) {
+		ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+		
+		ArrayList<clsDataStructurePA> oFoundDSList =  searchDataStructureOverAssociation(poInput, poPredicate, 0, false, false);
+		
+		for (clsDataStructurePA oDS : oFoundDSList) {
+			if (oDS.getMoDS_ID()==poID) {
+				oRetVal.add((clsSecondaryDataStructure) oDS);
+				
+				if (pbStopAtFirstMatch == true) {
+					break;
+				}
 			}
 		}
 		
@@ -1194,6 +1340,18 @@ public class clsMeshTools {
 		return oResult;
 	}
 	
+	public static boolean checkIfWPMImageHasSubImages(clsWordPresentationMesh poWPM) {
+		boolean bResult = false;
+		
+		ArrayList<clsWordPresentationMesh> oContentList = clsMeshTools.getAllSubWPMInWPMImage(poWPM);
+		
+		if (oContentList.isEmpty()==false) {
+			bResult=true;
+		}
+		
+		return bResult;
+	}
+	
 	//=== SEARCH DATA STRUCTURES IN WPM GENERAL --- END ===//
 	
 	
@@ -1264,9 +1422,20 @@ public class clsMeshTools {
 		//Create association
 		clsAssociationTime oAssTemp = (clsAssociationTime)clsDataStructureGenerator.generateASSOCIATIONTIME(oContentType, poSuperStructure, poSubStructure, prWeight);
 		//Add association to the superstructure
-		poSuperStructure.getMoInternalAssociatedContent().add(oAssTemp);
+		try{
+			poSuperStructure.getMoInternalAssociatedContent().add(oAssTemp);
+		}
+		catch (Exception e) {
+			System.out.println("error, no internal assoc in " + poSuperStructure);
+		}
 		//Add association to the substructure
-		poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+		try{
+			poSubStructure.getExternalMoAssociatedContent().add(oAssTemp);
+		}
+		catch (Exception e) {
+			System.out.println("error, no external assoc in " + poSubStructure);
+		}
+
 	}
 	
 	/**
@@ -1294,6 +1463,27 @@ public class clsMeshTools {
 			clsMeshTools.createAssociationAttribute(poTPM, oTP, 1.0, 1);
 		}
 		
+	}
+	
+	/**
+	 * Remove unique TP from TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:00:06
+	 *
+	 * @param poTPM
+	 * @param poTPContentType
+	 */
+	public static void removeUniqueTP(clsThingPresentationMesh poTPM, eContentType poTPContentType) {
+		clsAssociation oAss = clsMeshTools.getUniqueTPAssociation(poTPM, poTPContentType);
+		
+		if (oAss!=null) {
+			boolean bDeleted = poTPM.getExternalMoAssociatedContent().remove(oAss);
+			if (bDeleted==false) {
+				poTPM.getMoInternalAssociatedContent().remove(oAss);
+			}
+		}
 	}
 	
 	/**
@@ -1342,7 +1532,9 @@ public class clsMeshTools {
 	 * @param poPredicate
 	 * @param pbSwapDirectionAB
 	 */
-	public static <E extends clsSecondaryDataStructure> void createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
+	public static <E extends clsSecondaryDataStructure> clsAssociationSecondary createAssociationSecondary(clsWordPresentationMesh poElementOrigin, int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
+		clsAssociationSecondary oResult = null;
+		
 		//Create association
 		clsAssociationSecondary oNewAss;
 		if (pbSwapDirectionAB==false) {
@@ -1367,6 +1559,10 @@ public class clsMeshTools {
 				((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
 			}
 		}
+		
+		oResult = oNewAss;
+		
+		return oResult;
 	}
 	
 	/**
@@ -1450,6 +1646,49 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 26.09.2012 12:31:58
+	 *
+	 * @param poOriginWPM
+	 * @param poAssPredicate
+	 * @param poAddWPM
+	 * @param pbAddToInternalAssociations
+	 */
+	public static void setNonUniquePredicateWPM(clsWordPresentationMesh poOriginWPM, ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+		//Get association if exists
+		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poOriginWPM, poAssPredicate, 0, true, false);
+		
+		boolean bWPFound = false;
+		
+		for (clsDataStructurePA oAss : oAssList) {
+			clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+			if (oDS instanceof clsWordPresentationMesh) {
+				clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+				
+				if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+					bWPFound = true;	//Do nothing as it is already set
+					break;
+				}
+			}
+		}
+		
+		if (bWPFound==false) {
+			
+			//Create and add association
+			if (pbAddToInternalAssociations==false) {
+				clsMeshTools.createAssociationSecondary(poOriginWPM, 2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			} else {
+				clsMeshTools.createAssociationSecondary(poOriginWPM, 1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+			}
+		}
+	}
+	
+	
+	
+	/**
 	 * Remove all secondary data structures, which are connected with poWPM via a certain ePredicate
 	 * 
 	 * (wendt)
@@ -1459,7 +1698,7 @@ public class clsMeshTools {
 	 * @param poWPM
 	 * @param poAssPredicate
 	 */
-	public static void removeAllNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+	public static void removeAllNonUniquePredicateSecondaryDataStructure(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, true, false);
 		
 		for (clsDataStructurePA oAss : oAssList) {
@@ -1468,6 +1707,8 @@ public class clsMeshTools {
 		
 	
 	}
+	
+	
 		
 	/**
 	 * Get the first WP for a certain predicate in a certian mesh
@@ -1492,6 +1733,43 @@ public class clsMeshTools {
 		return oResult;
 	}
 	
+	public static clsWordPresentationMesh getUniquePredicateWPM(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		clsWordPresentationMesh oResult = clsMeshTools.moNullObjectWPM;
+		
+		clsDataStructurePA oResultPrel = clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, false);
+		
+		if (oResultPrel instanceof clsWordPresentationMesh) {
+			oResult = (clsWordPresentationMesh) oResultPrel;
+		}
+		
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	private static ArrayList<clsSecondaryDataStructure> getNonUniquePredicateSecondaryDataStructure(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsSecondaryDataStructure> oResult = new ArrayList<clsSecondaryDataStructure>();
+			
+		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+		for (clsDataStructurePA oDS : oDSList) {
+			if (oDS instanceof clsSecondaryDataStructure) {
+				oResult.add((clsSecondaryDataStructure) oDS);
+			}
+		}
+			
+		return oResult;
+	}
+	
 	/**
 	 * Get all WP of a certain predicate
 	 * 
@@ -1505,11 +1783,40 @@ public class clsMeshTools {
 	 */
 	public static ArrayList<clsWordPresentation> getNonUniquePredicateWP(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
 		ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
-			
-		ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+		
+		ArrayList<clsSecondaryDataStructure> oSecondaryList = clsMeshTools.getNonUniquePredicateSecondaryDataStructure(poWPM, poAssPredicate);
+		
+		//ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
 
-		for (clsDataStructurePA oDS : oDSList) {
+		for (clsSecondaryDataStructure oDS : oSecondaryList) {
+			if (oDS instanceof clsWordPresentation)
 			oResult.add((clsWordPresentation) oDS);
+		}
+			
+		return oResult;
+	}
+	
+	/**
+	 * Get all WP of a certain predicate
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.07.2012 20:56:24
+	 *
+	 * @param poWPM
+	 * @param poAssPredicate
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getNonUniquePredicateWPM(clsWordPresentationMesh poWPM, ePredicate poAssPredicate) {
+		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+		
+		ArrayList<clsSecondaryDataStructure> oSecondaryList = clsMeshTools.getNonUniquePredicateSecondaryDataStructure(poWPM, poAssPredicate);
+		
+		//ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+		for (clsSecondaryDataStructure oDS : oSecondaryList) {
+			if (oDS instanceof clsWordPresentationMesh)
+			oResult.add((clsWordPresentationMesh) oDS);
 		}
 			
 		return oResult;
@@ -1528,7 +1835,7 @@ public class clsMeshTools {
 	 */
 	public static void setInverseAssociations(clsWordPresentationMesh poInput) {
 		//Go through the associations and search for the other elements in the external associations
-		System.out.println(poInput);
+		//System.out.println(poInput);
 		for (clsAssociation oAss : poInput.getExternalAssociatedContent()) {
 			if (oAss instanceof clsAssociationSecondary) {
 				clsSecondaryDataStructure oOtherElement = (clsSecondaryDataStructure) oAss.getTheOtherElement(poInput);
@@ -1717,14 +2024,14 @@ public class clsMeshTools {
 	 * @return
 	 */
 	public static clsThingPresentationMesh getSELF(clsThingPresentationMesh poImage) {
-		 clsThingPresentationMesh oTPMRetVal = null;
+		clsThingPresentationMesh oTPMRetVal = clsMeshTools.getNullObjectTPM();
 		
-		for (clsAssociation oAss : ((clsThingPresentationMesh)poImage).getMoInternalAssociatedContent()) {
-			if (oAss instanceof clsAssociationTime && oAss.getLeafElement() instanceof clsThingPresentationMesh) {
-				if (((clsThingPresentationMesh)oAss.getLeafElement()).getMoContent().equals(eContent.SELF)) {
-					oTPMRetVal = (clsThingPresentationMesh)oAss.getLeafElement();
-					break;
-				}
+		ArrayList<clsThingPresentationMesh> oEntites = clsMeshTools.getAllSubTPMFromTPM(poImage);
+		
+		for (clsThingPresentationMesh oEntity : oEntites) {
+			if (oEntity.getMoContent().equals(eContent.SELF.toString())==true) {
+				oTPMRetVal = oEntity;
+				break;
 			}
 		}
 			
@@ -1954,7 +2261,7 @@ public class clsMeshTools {
 	//=== PERCEIVED IMAGE AND REMEMBERED IMAGE TOOLS WPM --- START ===//
 	
 	/**
-	 * Get all images in a WPM mesh, i. e. contentType = RI or PI
+	 * Get all images in a WPM mesh, i. e. contentType = RI
 	 * 
 	 * (wendt)
 	 *
@@ -1971,6 +2278,33 @@ public class clsMeshTools {
 		//Add all RI. 
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.RI, ""));
+		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
+		
+		for (clsDataStructurePA oWPM : oFoundImages) {
+			oRetVal.add((clsWordPresentationMesh) oWPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * Get all action WPMs in a mesh
+	 * 
+	 * (wendt)
+	 *
+	 * @since 23.10.2012 22:45:39
+	 *
+	 * @param poMesh
+	 * @param pnLevel
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllActionsFromWPMImages(clsWordPresentationMesh poMesh, int pnLevel) {
+		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		//Add all RI. 
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.ACTION, ""));
 		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
 		
 		for (clsDataStructurePA oWPM : oFoundImages) {
@@ -2036,10 +2370,16 @@ public class clsMeshTools {
 		//Check if both presentations are TPM or WPM. Else nothing is done
 		//if (poSourceMesh instanceof clsThingPresentationMesh && poNewMesh instanceof clsThingPresentationMesh) {
 		//Get source mesh list
-		ArrayList<clsWordPresentationMesh> oSourceWPMList = getAllWPMImages(poSourceMesh, mnMaxLevel);
-			
+		ArrayList<clsWordPresentationMesh> oSourceWPMList = getAllWPMImages(poSourceMesh, mnMaxLevel); 
+		ArrayList<clsWordPresentationMesh> oSourceWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poSourceMesh, mnMaxLevel);
+		
+		oSourceWPMList.addAll(oSourceWPMListActions);
+		
 		//Get the new mesh list
 		ArrayList<clsWordPresentationMesh> oNewWPMList = getAllWPMImages(poNewMesh, mnMaxLevel);
+		ArrayList<clsWordPresentationMesh> oNewWPMListActions = clsMeshTools.getAllActionsFromWPMImages(poNewMesh, mnMaxLevel);
+		
+		oNewWPMList.addAll(oNewWPMListActions);
 		
 		//Create process pairs Source and New
 		ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>> oInstancePairList = new ArrayList<clsPair<clsWordPresentationMesh, clsWordPresentationMesh>>();
@@ -2107,10 +2447,14 @@ public class clsMeshTools {
 	 */
 	private static void moveAllAssociationsMergeMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poMoveFromMesh) {
 		
+		//clsLogger.jlog.debug("Move all associations from " + poMoveFromMesh + " \n to " + poMoveToMesh);
 		//Check if the instances are equal
 		if (poMoveToMesh.equals(poMoveFromMesh)) {
 			return;
 		}
+		
+		//Create a removelist
+		ArrayList<clsAssociation> oRemoveIntAssList = new ArrayList<clsAssociation>();
 		
 		//Internal associations
 		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getMoInternalAssociatedContent()) {
@@ -2142,6 +2486,10 @@ public class clsMeshTools {
 					//as the association to the new element is added by the new element
 					
 					//Then it has to be a WPM
+					//Check if data structure was already transferred
+					
+					
+					
 					clsDataStructurePA oOtherUnknownElement = oIntMoveFromAss.getTheOtherElement(poMoveFromMesh);
 					if (oOtherUnknownElement instanceof clsWordPresentationMesh) {
 						clsWordPresentationMesh oMeshElementWPM = clsMeshTools.searchInstanceOfDataStructureInWPMImageMeshbyID(poMoveToMesh, (clsWordPresentationMesh) oOtherUnknownElement);
@@ -2152,9 +2500,20 @@ public class clsMeshTools {
 							oIntMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 							//Add the association to the MoveToMesh
 							poMoveToMesh.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							//Add to the other element as well if not already present
+							if (oMeshElementWPM.getMoInternalAssociatedContent().contains(oIntMoveFromAss)==false) {
+								oMeshElementWPM.getMoInternalAssociatedContent().add(oIntMoveFromAss);
+							}
+						} else {
+							//move the type. 
+							//Assumption: No inner associations are bound
+							clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oIntMoveFromAss, false);
 						}
 						
-						//Else nothing is done, as this structure is new to the mesh and will be handled separately
+						//Remove the association from the "From" entity
+						//oRemoveIntAssList.add(oIntMoveFromAss);
+
+						
 						
 					} else {
 						try {
@@ -2169,7 +2528,14 @@ public class clsMeshTools {
 			}
 		}
 		
+//		for (clsAssociation oRemoveIntAss : oRemoveIntAssList) {
+//			poMoveFromMesh.getMoInternalAssociatedContent().remove(oRemoveIntAss);
+//		}
+		
 		//TODO: Primary process associations are not moved. If it is needed, it should be implemented
+		
+		//Create a removelist
+		//ArrayList<clsAssociation> oRemoveExtAssList = new ArrayList<clsAssociation>();
 		
 		//External associations
 		for (clsAssociation oExtMoveFromAss : poMoveFromMesh.getExternalAssociatedContent()) {
@@ -2185,6 +2551,8 @@ public class clsMeshTools {
 						if (oExtMoveToAss.getTheOtherElement(poMoveToMesh) instanceof clsWordPresentation) {
 							clsWordPresentation oNewWP = (clsWordPresentation) oExtMoveFromAss.getLeafElement();
 							oExtMoveToAss.setLeafElement(oNewWP);
+							
+							//clsLogger.jlog.debug("WP " + oNewWP.getMoContent() + " moved from " + oExtMoveToAss + " \n to " + oExtMoveToAss);
 						}
 						//Else nothing is done, as the association already exists
 						break;
@@ -2197,7 +2565,10 @@ public class clsMeshTools {
 					if (oExtMoveFromAss.getLeafElement() instanceof clsWordPresentation) {
 						//Set the root element
 						oExtMoveFromAss.setRootElement(poMoveToMesh);
-						poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+						poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+						//Remove the association as the association is 
+						//oRemoveExtAssList.add(oExtMoveFromAss);
+						
 					} else {
 						//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
 						//as the association to the new element is added by the new element
@@ -2212,14 +2583,25 @@ public class clsMeshTools {
 								//Then replace the MoveFromMesh with the MoveToMesh
 								oExtMoveFromAss.setTheOtherElement(oMeshElementWPM, poMoveToMesh);
 								//Add the association to the MoveToMesh
-								poMoveToMesh.getMoInternalAssociatedContent().add(oExtMoveFromAss);
+								poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+								//Add to the other element as well if not already present
+								if (oMeshElementWPM.getExternalAssociatedContent().contains(oExtMoveFromAss)==false) {
+									oMeshElementWPM.getExternalAssociatedContent().add(oExtMoveFromAss);
+								}
+								//Remove the old association as it is handled once again if found
+								//oRemoveExtAssList.add(oExtMoveFromAss);
+								//Remove the association from the found unknown element
+								((clsWordPresentationMesh) oOtherUnknownElement).getExternalAssociatedContent().remove(oExtMoveFromAss);
+								
+								//clsLogger.jlog.debug("WPM " + oMeshElementWPM + " in " + oExtMoveFromAss + " moved from " + poMoveFromMesh + " \n to " + poMoveToMesh);
+							} else {
+								//Do nothing			
+								
 							}
-							
-							//Else nothing is done, as this structure is new to the mesh and will be handled separately
 							
 						} else {
 							try {
-								throw new Exception("Only WPM can be addressed here.");
+								throw new Exception("Only WPM can be addressed here. Object: " + oOtherUnknownElement + "The association " + oExtMoveFromAss + " does not contain " + poMoveFromMesh);
 							} catch (Exception e) {
 								// TODO (wendt) - Auto-generated catch block
 								e.printStackTrace();
@@ -2228,8 +2610,22 @@ public class clsMeshTools {
 						
 					}
 				}
+			} else if (oExtMoveFromAss instanceof clsAssociationWordPresentation) {
+				//Check if the structure already have one. If not move it.
+				if (clsMeshTools.getPrimaryDataStructureOfWPM(poMoveToMesh).isNullObject()==true) {
+					clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oExtMoveFromAss, false);
+					//oRemoveExtAssList.add(oExtMoveFromAss);
+				}
 			}
 		}
+		
+//		for (clsAssociation oRemoveExtAss : oRemoveExtAssList) {
+//			poMoveFromMesh.getExternalAssociatedContent().remove(oRemoveExtAss);
+//		}
+		
+		//Delete all assoications
+		poMoveFromMesh.getExternalAssociatedContent().clear();
+		poMoveFromMesh.getMoInternalAssociatedContent().clear();
 		
 	}
 	
@@ -2246,7 +2642,7 @@ public class clsMeshTools {
 	private static void addWPMImageToWPMImageMesh(clsWordPresentationMesh poMoveToMesh, clsWordPresentationMesh poNewStructure) {
 		//Check if this instance already exists in the mesh
 		clsWordPresentationMesh oExistingMesh = searchInstanceOfDataStructureInWPMImageMeshbyHashCode(poMoveToMesh, poNewStructure);
-		if (oExistingMesh.isNullObject()==true) {
+		if (oExistingMesh.isNullObject()==false) {
 			//Nothing has to be done as the structure already exists
 			return;
 		}
@@ -2676,6 +3072,28 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Get all sub TPM from a TPM
+	 * 
+	 * (wendt)
+	 *
+	 * @since 10.10.2012 12:33:11
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static ArrayList<clsThingPresentationMesh> getAllSubTPMFromTPM(clsThingPresentationMesh poImage) {
+		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+		
+		for (clsAssociation oAss : poImage.getMoInternalAssociatedContent()) {
+			if (oAss.getLeafElement() instanceof clsThingPresentationMesh) {
+				oRetVal.add((clsThingPresentationMesh) oAss.getLeafElement());
+			}
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
 	 * Get a list of all drivemeshes in a certain thing presentation mesh, pnLevel=1 (Only this image)
 	 * (wendt)
 	 *
@@ -2860,17 +3278,16 @@ public class clsMeshTools {
 		clsWordPresentationMesh oRetVal = poInput;
 		
 		//If it is an image, this will work
-		clsWordPresentationMesh oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASSUPER, 2, false);
-				
-		//If it is an entity, this will work
-		if (oSuperStructure==null) {
-			oSuperStructure = (clsWordPresentationMesh) searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);		
-		}
-		
+		clsDataStructurePA oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASSUPER, 2, false);
 		if (oSuperStructure!=null) {
-			oRetVal = oSuperStructure;
+			oRetVal = (clsWordPresentationMesh) oSuperStructure;
+		} else {
+			oSuperStructure = searchFirstDataStructureOverAssociationWPM(poInput, ePredicate.HASPART, 1, false);
+			if (oSuperStructure!=null) {
+				oRetVal = (clsWordPresentationMesh) oSuperStructure;
+			}
 		}
-		
+
 		return oRetVal;
 	}
 	

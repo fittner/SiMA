@@ -65,7 +65,7 @@ public class UnrealTestMain {
 		clsBrainSocket ARSBrain = ((clsComplexBody)moARSAgent.getBody()).getBrain();
 		ARSBrain.setUnrealVisionValues(ARSObjectsList);
 		
-		double health = ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent();
+		//double health = ((clsComplexBody)moARSAgent.getBody()).getInternalSystem().getHealthSystem().getHealth().getContent();
 		//((clsUnrealBody)moARSAgent.getBody()).DestroyAllNutritionAndEnergyForModelTesting();
 		//((clsUnrealBody)ARSAgent.getBody()).EatHealthPack();
 		

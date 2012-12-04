@@ -23,6 +23,7 @@ public interface itfExternalAssociatedDataStructure {
 	public void setMoExternalAssociatedContent(ArrayList<clsAssociation> moAssociatedContent);
 	public double getNumbExternalAssociations() ;
 	public void addExternalAssociations(ArrayList<clsAssociation> poAssociatedDataStructures);
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure);
 	
 	// public sortByWeights();
 }

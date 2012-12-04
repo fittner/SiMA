@@ -23,6 +23,7 @@ import du.enums.eActionKissIntensity;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import du.itf.actions.clsActionCommand;
+import du.itf.actions.clsInternalActionCommand;
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
 import bw.body.attributes.clsAttributeAntenna;
@@ -61,6 +62,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	
 	private boolean mnAlive;
 	private boolean mnImmortal;
+	
+
 	
 	public clsARSIN(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
@@ -173,6 +176,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void execution() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.execution();
 		}
@@ -187,9 +191,12 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void processing() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.processing();
 		}
+
+		//this.getSensorEngineAreas()
 	}
 
 	/* (non-Javadoc)
@@ -201,6 +208,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void sensing() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.sensing();
 		}
@@ -216,6 +224,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void updateInternalState() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.updateInternalState();
 		}
@@ -293,6 +302,15 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	public void clearStack(){
 		((clsComplexBody)moBody).getExternalIO().getActionProcessor().clear();
+	}
+	
+	public void clearInternalActionsStack(){
+		((clsComplexBody)moBody).getInternalActionProcessor().clear();
+	}
+	
+	public ArrayList<clsInternalActionCommand> getInternalActions(){
+		
+		return ((clsComplexBody)moBody).getInternalActionProcessor().getCommandStack();
 	}
 
 }

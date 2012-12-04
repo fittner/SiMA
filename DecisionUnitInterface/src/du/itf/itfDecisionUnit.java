@@ -6,8 +6,13 @@
  */
 package du.itf;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import du.enums.eDecisionType;
 import du.itf.actions.itfActionProcessor;
+import du.itf.actions.itfInternalActionProcessor;
+import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 
 /**
@@ -35,6 +40,9 @@ public interface itfDecisionUnit {
 	 */
 	public void setActionProcessor(itfActionProcessor poActionProcessor);
 	
+	//same for internal actions
+	public void setInternalActionProcessor(itfInternalActionProcessor poInternalActionProcessor);
+	
 	/**
 	 * Updates the stored sensor data to the incoming values.
 	 *
@@ -60,4 +68,7 @@ public interface itfDecisionUnit {
 	 * @return
 	 */
 	public eDecisionType getDecisionUnitType();
+	
+	
+	public HashMap<String, ArrayList<clsInspectorPerceptionItem>> getPerceptionInspectorData();
 }

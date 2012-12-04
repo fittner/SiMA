@@ -13,6 +13,11 @@ import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.portrayal.Inspector;
 import sim.portrayal.continuous.ContinuousPortrayal2D;
+import sim.portrayal.grid.FastValueGridPortrayal2D;
+import sim.portrayal.network.NetworkPortrayal2D;
+import sim.portrayal.network.SimpleEdgePortrayal2D;
+import sim.portrayal.network.SpatialNetwork2D;
+import sim.portrayal.simple.OvalPortrayal2D;
 import statictools.clsGetARSPath;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.clsEventLoggerInspector;
@@ -22,6 +27,12 @@ import config.clsProperties;
 import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import javax.swing.JFrame;
+import java.awt.Graphics2D;
+import sim.portrayal.DrawInfo2D;
+
+import du.itf.sensors.clsInspectorPerceptionItem;
+import factories.clsSingletonSimState;
+
 
 
 
@@ -60,6 +71,7 @@ public class SimulatorMain extends GUIState {
     /** turn logging to file on-off */
     public static final String P_USELOGGER = "useLogger";
     /** filename of the system properties file. contains all the P_* params defined in this class. */
+
     public static final String  F_CONFIGFILENAME = "system.properties";
     
 	/** GUI widget which holds some number of field portrayals and frames, 
@@ -72,6 +84,13 @@ public class SimulatorMain extends GUIState {
 	/** responsible for drawing fields and letting the user manipulate 
 	 * objects stored within them */
 	private ContinuousPortrayal2D moGameGridPortrayal = new ContinuousPortrayal2D();
+	
+	FastValueGridPortrayal2D moArousalGridPortrayal = new FastValueGridPortrayal2D("Sensor Arousal Grid");
+	
+	NetworkPortrayal2D moTPMNetworkPortrayal = new NetworkPortrayal2D();
+	private ContinuousPortrayal2D moTPMNodePortrayal = new ContinuousPortrayal2D();
+	
+
 
 	
 	/**
@@ -116,6 +135,8 @@ public class SimulatorMain extends GUIState {
 		//  6. apply
 		//  7. start debuggin / running
 		
+		
+		
 		String oPath = clsMain.argumentForKey("-path", args, 0);
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
@@ -144,6 +165,7 @@ public class SimulatorMain extends GUIState {
 		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
 		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
+		System.out.println(clsSingletonSimState.getSimState().schedule.getSteps());
 	}
 
 	
@@ -202,7 +224,19 @@ public class SimulatorMain extends GUIState {
 		moDisplayGamegridFrame.setVisible( true );
 		moDisplay.attach(moGameGridPortrayal, oProp.getPropertyString(pre+P_PORTRAYALTITLE) ); //attach the Portrayal to the Display2D to display it 
 		
+		//add the arousal Grid, in case of problems, outcomment the following line and it wont be there
+		moDisplay.attach(moArousalGridPortrayal, "arousal perception");
+		
+		moDisplay.attach(moTPMNetworkPortrayal, "TPM Network Portrayal");
+		moDisplay.attach(moTPMNodePortrayal, "TPM Node Portrayal");
+		
 		clsSingletonMasonGetter.setDisplay2D(moDisplay);
+		
+		// add another window for test
+		//Display2D test = new Display2D(300, 300,this, 22);
+		//test.setVisible(true);
+		//poController.registerFrame(test.createFrame()); 
+		//clsSingletonMasonGetter.setDisplay2D(test);
 	}
     
     /** Called by the Console when the user is quitting the SimState.  A good place
@@ -254,7 +288,34 @@ public class SimulatorMain extends GUIState {
 				
 		// tell the portrayals what to portray and how to portray them = connection between field and portrayal
 		moGameGridPortrayal.setField(clsSingletonMasonGetter.getFieldEnvironment());
+	
+		//add a arousal layer portrayal
+		moArousalGridPortrayal.setField(clsSingletonMasonGetter.getArousalGridEnvironment());
+		moArousalGridPortrayal.setMap(new sim.util.gui.SimpleColorMap(0,1,new Color(0,0,0,0),new Color(255,165,0,255)));
 		
+		//set up TPM network portrayal
+		moTPMNodePortrayal.setField(clsSingletonMasonGetter.getTPMNodeField());
+		moTPMNodePortrayal.setPortrayalForAll(
+	                        new OvalPortrayal2D(5)
+	                            {
+								private static final long serialVersionUID = 1L;
+								@Override
+								public void draw(Object object, Graphics2D graphics, DrawInfo2D info)
+	                                {
+	                            	clsInspectorPerceptionItem oItem = (clsInspectorPerceptionItem)object;
+
+	                                //int agitationShade = (int) (student.getAgitation() * 255 / 10.0);
+	                                //if (agitationShade > 255) agitationShade = 255;
+	                                //paint = new Color(agitationShade, 0, 255 - agitationShade);
+	                            	paint = new Color(0, 255, 0, 25);
+	                                super.draw(object, graphics, info);
+	                                }
+	                            } 
+                    );
+		
+		moTPMNetworkPortrayal.setField( new SpatialNetwork2D( clsSingletonMasonGetter.getTPMNodeField(), clsSingletonMasonGetter.getTPMNetworkField() ) );
+		moTPMNetworkPortrayal.setPortrayalForAll(new SimpleEdgePortrayal2D());
+ 
 		moDisplay.reset();
 		
 		// redraw the display

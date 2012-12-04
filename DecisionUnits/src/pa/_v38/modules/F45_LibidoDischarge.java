@@ -66,7 +66,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
 	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
 	 * memories */
-	private double mrPerceptionReduceFactor = 0.2;
+	private double mrPerceptionReduceFactor = 0.1;
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
 	private double mrMemoryReduceFactor = 0.05;
 	
@@ -80,6 +80,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;	
+	
 	
 	/**
 	 * Constructor of the libido buffer. Here the libido buffer is assigned
@@ -102,7 +103,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		moLibidoBuffer = poLibidoBuffer;
 		
 		applyProperties(poPrefix, poProp);	
-		
 		//fillLibidioDischargeCandidates();
 	}
 	
@@ -214,7 +214,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	protected void process_basic() {
 		//Get available amount of free libido 
 		mrAvailableLibido = moLibidoBuffer.send_D1_4();
-		mrLibidoReducedBy =0;
+		mrLibidoReducedBy = 0;
 		//Clone input structure and make modification directly on the output
 		try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();
@@ -226,6 +226,11 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		
 		//Perception and phantasy are treated equal, therefore, get all images in the mesh
 		ArrayList<clsThingPresentationMesh> oImageList = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
+		
+		// consider relative reduction (relative to currently available libido) --> the higher the libido, the higher the absolute reduction
+		mrPerceptionReduceFactor = mrPerceptionReduceFactor * mrAvailableLibido;
+		mrPerceptionReduceFactor = mrPhantasyReduceFactor * mrAvailableLibido;
+		mrPerceptionReduceFactor = mrMemoryReduceFactor * mrAvailableLibido;	
 		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {
@@ -243,6 +248,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			}
 		}
 		
+		
 		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
 		//added to the image and in mrLibidoReducedBy is set as mrPerceptionReduceFactor * Quota of affect
 		//mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, mrPerceptionReduceFactor, mrAvailableLibido);
@@ -254,7 +260,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//}
 		
 		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
-	
+
+
 	}
 	
 	/**
@@ -494,7 +501,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-		oValues.add(mrAvailableLibido);
+		oValues.add(moLibidoBuffer.send_D1_4());
 		oValues.add(mrLibidoReducedBy);
 		
 		return oValues;
@@ -545,7 +552,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	 */
 	@Override
 	public double getTimeChartUpperLimit() {
-		return 2;
+		return 1;
 	}
 
 	/* (non-Javadoc)

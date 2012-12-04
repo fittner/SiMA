@@ -7,6 +7,7 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import du.enums.eFacialExpression;
 import bw.factories.eImages;
 import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
@@ -30,6 +31,7 @@ public interface itfSetupFunctions {
 	public void setShape(Shape poShape, double poMass);
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
 	public void setOverlayImage(eImages poOverlay);
+	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay);
 	
 	public clsPose getPose();
     public Shape getShape();

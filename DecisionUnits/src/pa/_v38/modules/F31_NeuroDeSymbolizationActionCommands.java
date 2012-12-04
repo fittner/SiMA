@@ -7,6 +7,7 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
@@ -28,6 +29,7 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
@@ -52,6 +54,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private clsWordPresentationMesh lastAction; 
 	private clsWordPresentationMesh lastRealAction;
 	private clsWordPresentationMesh realAction;
+	private ArrayList<String> inputActionHistory;
+	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
 	
 	/**
@@ -76,7 +80,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		lastAction = clsMeshTools.getNullObjectWPM();
 		lastRealAction = clsMeshTools.getNullObjectWPM();
 		realAction = clsMeshTools.getNullObjectWPM();
+		inputActionHistory = new ArrayList<String>(); 
+		realActionHistory = new ArrayList<String>(); 
 		moActionCommandList_Output = new ArrayList<clsActionCommand>();
+		
 	}
 	
 	/* (non-Javadoc)
@@ -88,13 +95,20 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	public String stateToTEXT() {
+		ArrayList<String> inputActionHistoryReverse = new ArrayList<String>(inputActionHistory);
+		Collections.reverse(inputActionHistoryReverse);
+		ArrayList<String> realActionHistoryReverse = new ArrayList<String>(realActionHistory);		
+		Collections.reverse(realActionHistoryReverse);
+
 		String text ="";
 		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
-		text += toText.valueToTEXT("lastAction", lastAction);
-		text += toText.valueToTEXT("realAction", realAction);
-		text += toText.valueToTEXT("lastRealAction", lastRealAction);
-		text += toText.valueToTEXT("mnCounter", mnCounter);
-		text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
+		text += toText.valueToTEXT("input Action History", compactActionHistory(inputActionHistoryReverse));		
+		text += toText.valueToTEXT("real Action History", compactActionHistory(realActionHistoryReverse));		
+		//text += toText.valueToTEXT("lastAction", lastAction);
+		//text += toText.valueToTEXT("realAction", realAction);
+		//text += toText.valueToTEXT("lastRealAction", lastRealAction);
+		//text += toText.valueToTEXT("mnCounter", mnCounter);
+		//text += toText.valueToTEXT("moActionBlockingTime", moActionBlockingTime);
 		text += toText.listToTEXT("moActionCommandList_Output", moActionCommandList_Output);
 		return text;
 	}
@@ -161,9 +175,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moActionCommandList_Output.clear();
-		
-		
-			
+
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 			    
@@ -171,6 +183,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					return;
 				
 				String oAction = oActionWPM.getMoContent();
+				inputActionHistory.add(oAction.toString());
 				
 				//--- AW: FIXME HACK IN ORDER TO BE ABLE TO USED COMPOSED ACTIONS ---//
 				
@@ -196,6 +209,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
      			    realAction=oActionWPM;//oWP.getMoContent();
      			}
                 
+                realActionHistory.add(realAction.getMoContent().toString());
                 
 				// mnCounter contains information for how much turns the current action is active
 				if(realAction.getMoContent().equals(lastRealAction.getMoContent())) { 
@@ -206,13 +220,13 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					mnCounter = 0;
 				}
 			    
-				System.out.println(
+				clsLogger.jlog.debug(
 						 "LastAction: " + lastAction.getMoContent() + ", " + 
 						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
 				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
 				         "UsedAction: " + oAction.toString() + ", " +
 				         "mnCounter: " + mnCounter);
-				System.out.println("======================== END OF TURN SP ================================\n");
+				
 
 				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
 				// currently only the action "FLEE" sets the moActionBlockingTime
@@ -269,6 +283,14 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 180.0));
 				} else if(oAction.equals("LOOK_AROUND")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 360.0));
+				} else if(oAction.equals("STRAFE_LEFT")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 90.0));
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,10.0) );
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+				} else if(oAction.equals("STRAFE_RIGHT")){
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,10.0) );
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
 				} else if(oAction.equals("EAT")) {
 					moActionCommandList_Output.add( new clsActionEat() );
 				//} else if(oAction.equals("BITE")) {
@@ -353,9 +375,49 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				mnCounter++;
 			}
 			*/
-		}			
+		}
+		
+		clsLogger.jlog.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @author brandstaetter
+	 * 22.11.2012, 12:06:19
+	 * 
+	 */
+	public String compactActionHistory(ArrayList<String> actionHistory) {
+		StringBuilder sb = new StringBuilder();
+		String lastLine="first";
+		Integer count=0;
+		for (String line : actionHistory) {
+			if(lastLine=="first") {
+              sb.append(line);
+			  count=1;
+			}
+			else {
+			  if(lastLine==line) {
+			    count++;
+			  }
+			  else {
+			    if(count==1) {
+				    sb.append(", ");
+			    }
+			    else {
+				    sb.append(" (");
+				    sb.append(count);
+				    sb.append("x), ");
+			    }
+				sb.append(line);
+                count=1;
+			  }
+			}
+			lastLine=line;
+		}
+		return sb.toString();
+	}
+
+	
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter
@@ -425,6 +487,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		double rSLEEP = 0.0;
 		double rEXCREMENT = 0.0;
 		double rSEARCH1 = 0.0;
+		double rBITE = 0.0;
+		double rFOCUS_ON = 0.0;
+		double rSEND_TO_PHANTASY = 0.0;
+		double rFOCUS_MOVEMENT = 0.0;
+		double rFLEE = 0.0;
 		double rUNKNOWN = 0.0;
 		
 		String oCurrentActionCommand = "";
@@ -449,6 +516,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			rEXCREMENT = 1.0;
 		} else if (oCurrentActionCommand.equals("SEARCH1")) {
 			rSEARCH1 = 1.0;
+		} else if (oCurrentActionCommand.equals("BITE")) {
+			rBITE = 1.0;
+		} else if (oCurrentActionCommand.equals("FOCUS_ON")) {
+			rFOCUS_ON = 1.0;
+		} else if (oCurrentActionCommand.equals("SEND_TO_PHANTASY")) {
+			rSEND_TO_PHANTASY = 1.0;
+		} else if (oCurrentActionCommand.equals("FOCUS_MOVEMENT")) {
+			rFOCUS_MOVEMENT = 1.0;
+		} else if (oCurrentActionCommand.equals("FLEE")) {
+			rFLEE = 1.0;
 		} else {
 			rUNKNOWN = 1.0;
 		}
@@ -460,6 +537,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		oRetVal.add(rSLEEP);
 		oRetVal.add(rEXCREMENT);
 		oRetVal.add(rSEARCH1);
+		oRetVal.add(rBITE);
+		oRetVal.add(rFOCUS_ON);
+		oRetVal.add(rSEND_TO_PHANTASY);
+		oRetVal.add(rFOCUS_MOVEMENT);
+		oRetVal.add(rFLEE);
 		oRetVal.add(rUNKNOWN);
 
 		return oRetVal; 
@@ -483,6 +565,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		oCaptions.add("SLEEP");
 		oCaptions.add("EXCREMENT");
 		oCaptions.add("SEARCH1");
+		oCaptions.add("BITE");
+		oCaptions.add("FOCUS_ON");
+		oCaptions.add("SEND_TO_PHANTASY");
+		oCaptions.add("FOCUS_MOVEMENT");
+		oCaptions.add("FLEE");
 		oCaptions.add("UNKNOWN");
 		
 		return oCaptions;

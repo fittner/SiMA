@@ -33,12 +33,14 @@ public enum eContentType {
 	
 	AREASUBSET,
 	AFFECTLEVEL,
+	EFFORTLEVEL,
 	PREDICTION,
 	PLAN,
 	INTENTION,
 	MOMENT,
 	EXPECTATION,
 	ENVIRONMENTALIMAGE,
+	ENHANCEDENVIRONMENTALIMAGE,
 	
 	DRIVEGOALSUPPORT,
 	PERCEPTIONSUPPORT,
@@ -46,14 +48,20 @@ public enum eContentType {
 	
 	
 	//--- Goals ---//
-	TASKSTATUS,
+	CONDITION,
 	GOALTYPE,
 	GOALNAME,
+	PREFERREDACTION,
 	
 	//--- Actions ---//
 	PRECONDITION,
 	POSTCONDITION,
 	ACTIONTYPE,
+	
+	//Acts
+	MOMENTCONFIDENCE,
+	ACTCONFIDENCE,
+	MOVEMENTTIMEOUT,
 	
 	// --- Bodypart --- //
 	BODYPART,
@@ -144,6 +152,7 @@ public enum eContentType {
 	DRIVECOMPONENT,
 	DRIVEREPRESENTATION,
 	MEMORIZEDDRIVEREPRESENTATION,
+	MEMORIZEDDRIVEREPRESENTATIONIMAGE, 	//Add by AW. This shall only be used in PRI instances
 	
 	
 	
@@ -151,7 +160,7 @@ public enum eContentType {
 	DEATH, LIFE, AGGRESSION,
 	
 	//Delete after implementation of secondary process
-	ACTIVATEREDUCEAFFECT,
+	//ACTIVATEREDUCEAFFECT,
 	
 	//???? OBSOLETE Delete ????
 	RELATION,
@@ -161,5 +170,10 @@ public enum eContentType {
 	DEFAULT,
 	X,
 	Y, 
-	A;
+	A,
+	
+	//Debug Values for Inspectors only, dont use or delete or Rename them - CM 25.09.2012
+	ExactDebugX,
+	ExactDebugY,
+	DebugSensorArousal;
 }

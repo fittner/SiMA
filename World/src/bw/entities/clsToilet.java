@@ -44,7 +44,7 @@ public class clsToilet extends clsStationary {
     
     
     private void applyProperties(String poPrefix, clsProperties poProp){		
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 		
     	// null - Stationary objects don't have a body, therefore can't have an instance of clsBaseIO 
     	//moSensorEatable = new clsSensorEatableArea(pre+P_SENSOR, poProp, null);		

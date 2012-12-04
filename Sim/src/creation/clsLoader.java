@@ -11,6 +11,8 @@ import bw.factories.clsSingletonProperties;
 import bw.factories.clsSingletonMasonGetter;
 import sim.engine.SimState;
 import sim.field.continuous.Continuous2D;
+import sim.field.grid.DoubleGrid2D;
+import sim.field.network.Network;
 import sim.physics2D.PhysicsEngine2D;
 import statictools.clsGetARSPath;
 
@@ -174,6 +176,23 @@ public abstract class clsLoader {
     	double nWidth = poProp.getPropertyDouble(pre+P_FIELD_WIDTH);
     	double nHeight = poProp.getPropertyDouble(pre+P_FIELD_HEIGHT);
     	clsSingletonMasonGetter.setFieldEnvironment(new Continuous2D(25, nWidth, nHeight));
+    	
+    	//add sensor arousal grid
+    	DoubleGrid2D arousalgrid = new DoubleGrid2D((int)nWidth, (int)nHeight, 0);
+    	clsSingletonMasonGetter.setArousalGridEnvironment(arousalgrid);
+    	
+    	//add TPM network for primary process
+    	Network oTPMNetwork = new Network();
+    	
+    	
+    	oTPMNetwork.addNode("test2");
+    	oTPMNetwork.addEdge("test", "test2", "edgeinfo");
+    	
+    	clsSingletonMasonGetter.setTPMNetworkField(oTPMNetwork);
+    	clsSingletonMasonGetter.setTPMNodeField(new Continuous2D(25, nWidth, nHeight));
+    	
+    	
+    	
     }	
     
 	/**

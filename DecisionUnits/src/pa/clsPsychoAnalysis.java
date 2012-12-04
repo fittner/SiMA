@@ -5,9 +5,12 @@
  */
 package pa;
 
+
+
 import config.clsProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
+
 
 /**
  * This class wraps the implementation of the psychoanalytically inspired decision units to be compatible 
@@ -29,6 +32,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	private static final eModelVersion P_MODEL = eModelVersion.v38; 	//AW 20110519 Start with V38 now.
 	
 	private itfProcessor moProcessor;
+	
+	
 	
 	/**
 	 * Creates an instance of the class with the provided properties and the uid.
@@ -130,6 +135,8 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public void process() {
 		moProcessor.applySensorData( getSensorData() );
 		moProcessor.step();
+		moPerceptionInspectorData = moProcessor.getPerceptionInspectorData();
+		moProcessor.getInternalActionCommands( getInternalActionProcessor() );
 		moProcessor.getActionCommands( getActionProcessor() );
 
 	}
@@ -144,6 +151,9 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	public itfProcessor getProcessor() {
 		return moProcessor;
 	}
+	
+	
+
 
 	/* (non-Javadoc)
 	 *
@@ -157,5 +167,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		meDecisionType = eDecisionType.PA;
 		
 	}
+
+
 
 }

@@ -6,6 +6,8 @@ package ARSsim.physics2D.physicalObject;
 //import inspectors.clsInspectorMapping;
 import java.util.ArrayList;
 
+import du.enums.eFacialExpression;
+
 import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
@@ -468,6 +470,15 @@ public class clsMobileObject2D extends
 		Shape oShape = this.getShape();
 		if(oShape instanceof clsCircleImage){
 			((clsCircleImage) oShape).setOverlayImage(poOverlay);
+		}
+		
+	}
+	
+	@Override
+	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsCircleImage){
+			((clsCircleImage) oShape).setFacialExpressionOverlayImage(poOverlay);
 		}
 		
 	}

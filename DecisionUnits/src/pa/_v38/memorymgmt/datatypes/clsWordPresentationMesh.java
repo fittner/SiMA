@@ -8,9 +8,16 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.clsActDataStructureTools;
+import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsEntityTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
@@ -256,22 +263,144 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	
 	@Override
 	public String toString(){
-			String oResult = "::"+this.moDataStructureType+"::";  
-			oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+			String oResult = "";
+
+			
+			
 			
 			//Add by AW
-			if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION)) {
-				oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
-				for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-					oResult += oEntry.getLeafElement().toString() + ","; 
+			if (this.moContentType.equals(eContentType.RI)) {
+				if (clsActTools.isIntention(this)==true) {
+					//oResult += "::"+this.moDataStructureType+"::";  
+					oResult += this.moContentType + ":" + this.moContent;
+					//List PI-Match
+					double rPIMatch = clsActTools.getPIMatchFlag(this);
+					oResult += "(PIMatch=" + rPIMatch + ")(ActConf=" + clsActTools.getActConfidenceLevel(this) + ");";
+					
+					//Get all subimages
+					ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(this);
+					oResult += "\nSUBIMAGES: ";
+					for (clsWordPresentationMesh oSubImage : oSubImages) {
+						oResult += oSubImage.getMoContent() + 
+								"(PIMatch=" + clsActTools.getPIMatchFlag(oSubImage) + 
+								")(MomConf=" + clsActTools.getMomentConfidenceLevel(oSubImage) + 
+								")(Timeout=" + clsActTools.getMovementTimeoutValue(oSubImage) + ");"; 
+					}
+				} else if (clsActTools.isEvent(this)==true) {
+					//oResult += "::"+this.moDataStructureType+"::";  
+					oResult += this.moContentType + ":" + this.moContent;
+					//List PI-Match
+					double rPIMatch = clsActTools.getPIMatchFlag(this);
+					oResult += "(PIMatch=" + rPIMatch + 
+					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
+					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");"; 
+				} else {  
+					oResult += this.moContentType + ":" + this.moContent;
+					if (this.moInternalAssociatedContent.isEmpty()==false) {
+						oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+							oResult += oEntry.getLeafElement().toString() + ";";
+						}
+					}
+					
+					if (moExternalAssociatedContent.isEmpty()==false) {
+						oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
+						for (clsAssociation oEntry : moExternalAssociatedContent) {
+							clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
+							if (oDS == null) {
+								oResult += "ERRONEOUS ASSOCIATION:" + oEntry;
+							} else if (oDS instanceof clsWordPresentationMesh) {
+								oResult += ((clsWordPresentationMesh)oDS).moContentType + ":" + ((clsWordPresentationMesh)oDS).moContent + ", "; 
+							} else {
+								oResult += oDS.toString()  + ","; 
+							}
+						}
+					}
 				}
 				
-				oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
-				for (clsAssociation oEntry : moExternalAssociatedContent) {
-					oResult += oEntry.toString() + ","; 
+			} else if (this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.MENTALSITUATION) || this.moContentType.equals(eContentType.PHI)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContentType + ":" + this.moContent;
+				if (this.moInternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+						oResult += oEntry.getLeafElement().toString() + ";";
+					}
 				}
+				
+				if (moExternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
+					for (clsAssociation oEntry : moExternalAssociatedContent) {
+						clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
+						if (oDS instanceof clsWordPresentationMesh) {
+							oResult += ((clsWordPresentationMesh)oDS).moContentType + ":" + ((clsWordPresentationMesh)oDS).moContent + ", "; 
+						} else {
+							oResult += oDS.toString()  + ","; 
+						}
+					}
+				}
+			} else if (this.moContentType.equals(eContentType.ACT)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContentType + ":" + this.moContent;
+				
+				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(this);
+				if (oIntention.isNullObject()==false) {
+					oResult += "\nINTENTION: " + oIntention.toString();
+				}
+				clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(this);
+				if (oMoment.isNullObject()==false) {
+					oResult += "\nMOMENT: " + oMoment.toString();
+				}
+				clsWordPresentationMesh oExpectation = clsActDataStructureTools.getExpectation(this);
+				if (oExpectation.isNullObject()==false) {
+					oResult += "\nEXPECTATION: " + oExpectation.toString();
+				}
+				oResult += "\n";
+				
+			} else if (this.moContentType.equals(eContentType.ENHANCEDENVIRONMENTALIMAGE) || this.moContentType.equals(eContentType.ENVIRONMENTALIMAGE)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContent;
+				if (this.moInternalAssociatedContent.isEmpty()==false) {
+					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
+						oResult += oEntry.getLeafElement().toString() + ";";
+					}
+				}
+				
+			} else if (this.moContentType.equals(eContentType.GOAL)) {
+				//oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moContent;
+				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
+				oResult += ":" + nTotalAffectLevel;
+				
+				oResult += ":" + clsGoalTools.getGoalObject(this);
+				
+				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
+				if (oConditionList.isEmpty()==false) {
+					oResult += " " + oConditionList.toString();
+				}
+				
+			} else if (this.moContentType.equals(eContentType.ENTITY)) {
+				oResult += this.moContent;
+				
+				clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(this);
+				String oPhiPos = "null";
+				String oRadPos = "null";
+				
+				if (oPosition.b!=null) {
+					oPhiPos = oPosition.b.toString();
+				}
+				if (oPosition.c!=null) {
+					oRadPos = oPosition.c.toString();
+				}
+				
+				oResult += "(" + oPhiPos + ":" + oRadPos + ")";
 			}
-			
+			else {
+				oResult += "::"+this.moDataStructureType+"::";  
+				oResult += this.moDS_ID + ":" + this.moContentType + ":" + this.moContent;
+			}
+
 			return oResult; 
 	}
 	
@@ -318,6 +447,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		}
 		
 		return bResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Sep 13, 2012 1:28:53 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfExternalAssociatedDataStructure#addExternalAssociation(pa._v38.memorymgmt.datatypes.clsAssociation)
+	 */
+	@Override
+	public void addExternalAssociation(clsAssociation poAssociatedDataStructure) {
+		// TODO (schaat) - Auto-generated method stub
+		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
 
 }

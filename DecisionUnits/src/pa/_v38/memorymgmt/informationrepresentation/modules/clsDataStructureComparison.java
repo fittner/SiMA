@@ -15,8 +15,11 @@ import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
+import pa._v38.memorymgmt.datatypes.clsAssociationPrimaryDM;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -199,7 +202,12 @@ public abstract class clsDataStructureComparison {
 						e.printStackTrace();
 					}
 					//INFO: In the image function, the inverse associations are also created.
-					getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
+					try {
+						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
+					} catch (Exception e) {
+						// TODO (wendt) - Auto-generated catch block
+						e.printStackTrace();
+					}
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
 							
@@ -557,9 +565,10 @@ public abstract class clsDataStructureComparison {
 	 *
 	 * @param poInput
 	 * @param poSearchSpaceHandler
+	 * @throws Exception 
 	 * @throws CloneNotSupportedException 
 	 */
-	public static void getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) {
+	public static void getCompleteMesh(clsThingPresentationMesh poInput, clsSearchSpaceHandler poSearchSpaceHandler, int pnLevel) throws Exception {
 		
 		clsThingPresentationMesh oRetVal = poInput;
 		
@@ -581,7 +590,7 @@ public abstract class clsDataStructureComparison {
 //				e.printStackTrace();
 //			}
 			
-			if (poInput.getMoDS_ID()>0 && pnLevel >=0) {
+			if (oRetVal.getMoDS_ID()>0 && pnLevel >=0) {
 				//Get the internal associations
 				//Add associations from intrinsic structures
 				for (clsAssociation oAss: oRetVal.getMoInternalAssociatedContent()) {
@@ -609,23 +618,65 @@ public abstract class clsDataStructureComparison {
 				oAssList.addAll(poSearchSpaceHandler.readOutSearchSpace((clsThingPresentationMesh)poInput));
 				
 				for (clsAssociation oAss : oAssList) {
-					if (oAss instanceof clsAssociationPrimary) {
-						//If pnLevel is at least 1 and this association does not exist in the list
-						if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oAss)==false) {
-							oRetVal.getExternalMoAssociatedContent().add(oAss);
-							//Replace the erroneous associations
-							if (oRetVal.getMoDS_ID()==oAss.getRootElement().getMoDS_ID()) {
-								oAss.setRootElement(oRetVal);
-							} else if (oRetVal.getMoDS_ID()==oAss.getLeafElement().getMoDS_ID()) {
-								oAss.setLeafElement(oRetVal);
+					//Check if the association already exists
+					//FIXME: This is a hack to avoid that multiple Drive Meshes are added to the same structure
+					
+					boolean bFound = false;
+					for (clsAssociation oExternalAss : oRetVal.getExternalMoAssociatedContent()) {
+						if (oAss.getMoDS_ID()==oExternalAss.getMoDS_ID()) {
+							bFound=true;
+							break;
+						}
+					}
+					
+					if (bFound==false) {
+						try {
+							clsAssociation oClonedAss = (clsAssociation) oAss.clone();
+							
+							if (oClonedAss instanceof clsAssociationPrimary || 
+									oClonedAss instanceof clsAssociationPrimaryDM) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (pnLevel>=1 && oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getMoDS_ID()==oClonedAss.getRootElement().getMoDS_ID()) {
+										oClonedAss.setRootElement(oRetVal);
+									} else if (oRetVal.getMoDS_ID()==oClonedAss.getLeafElement().getMoDS_ID()) {
+										oClonedAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
+									}
+									
+									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+								}
+							} else if (oClonedAss instanceof clsAssociationAttribute || 
+									oClonedAss instanceof clsAssociationDriveMesh || 
+									oClonedAss instanceof clsAssociationEmotion) {
+								//If pnLevel is at least 1 and this association does not exist in the list
+								if (oRetVal.getExternalMoAssociatedContent().contains(oClonedAss)==false) {
+									//Replace the erroneous associations
+									if (oRetVal.getMoDS_ID()==oClonedAss.getRootElement().getMoDS_ID()) {
+										oClonedAss.setRootElement(oRetVal);
+									} else if (oRetVal.getMoDS_ID()==oClonedAss.getLeafElement().getMoDS_ID()) {
+										oClonedAss.setLeafElement(oRetVal);
+									} else {
+										throw new Exception("Error: No object in the association can be associated to the source structure.\nTPM: " + oRetVal + "\nAssociation: " + oClonedAss);
+									}
+									
+									oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
+								}
+								
+							} else if ((oClonedAss instanceof clsAssociationTime)==false) {
+								oRetVal.getExternalMoAssociatedContent().add(oClonedAss);
 							}
 							
+						} catch (CloneNotSupportedException e) {
+							// TODO (wendt) - Auto-generated catch block
+							e.printStackTrace();
 						}
-					} else {
-						oRetVal.getExternalMoAssociatedContent().add(oAss);
 					}
+					
+					
 				}
-				
 				//oRetVal.setMoExternalAssociatedContent(oAssList);
 				
 			}
@@ -1272,6 +1323,8 @@ public abstract class clsDataStructureComparison {
 				clsDataStructurePA oCompareElement = oEntry.getValue().a; 
 				//A comparison will only take place, if the search data structure instanceID is 0, in order to compare the unknown structures with a type
 				//if (oCompareElement.getMoDSInstance_ID()==0) {
+				
+					
 					rMatchScore = oCompareElement.compareTo(poDS_Unknown);
 					
 					if(rMatchScore > eDataStructureMatch.THRESHOLDMATCH.getMatchFactor()){
