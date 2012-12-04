@@ -90,7 +90,7 @@ public abstract class clsLoader {
 
 	private void applyProperties(String poPrefix, clsProperties poProp){		
 		String pre = clsProperties.addDot(poPrefix);
-		
+		 
 		moTitle = poProp.getPropertyString(pre+P_TITLE);
 		moShortDesc = poProp.getPropertyString(pre+P_SHORTDESC);
 		moDescription = poProp.getPropertyString(pre+P_DESCRIPTION);
@@ -133,6 +133,7 @@ public abstract class clsLoader {
 		String pre = clsProperties.addDot(poPrefix);
 	
 		clsProperties oProp = new clsProperties();
+	       oProp.setProperty(pre+"superego", 0.5); 
 
 		oProp.setProperty(pre+P_TITLE, "default title");
 		oProp.setProperty(pre+P_SHORTDESC, "loader which loads lots of entities");

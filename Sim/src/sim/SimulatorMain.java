@@ -175,6 +175,7 @@ public class SimulatorMain extends GUIState {
     	 oProp.setProperty(pre+P_USE3DPERCEPTION, false);
     	 oProp.setProperty(pre+P_USELOGGER, false);
     	 
+    	 
     	 return oProp;
      }
     
@@ -259,6 +260,7 @@ public class SimulatorMain extends GUIState {
 		// redraw the display
 		moDisplay.repaint();
 	}
+	
 	
     /** Returns an object with various property methods (getFoo(...), isFoo(...), setFoo(...)) whose
     properties will be accessible by the user.  This gives you an easy way to allow the user to

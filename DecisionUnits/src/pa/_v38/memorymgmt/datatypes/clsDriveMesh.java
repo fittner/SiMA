@@ -31,7 +31,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	
 	private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
-	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
+	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G) oral, anal und phallisch
 	
 	//private clsThingPresentationMesh moDriveObject;	//Triebobjekt contenttype entity
 	//private clsThingPresentationMesh moDriveAim;		//Triebziel contenttype action
@@ -51,6 +51,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 *            1. Integer (is always -1 for a new drive mesh) Braucht das irgenwer noch???
 	 *            2. eDataType (is always: eDataType.DM, DM = drive mesh) Völliger Schwachsinn den eDataType zu erben weil ein drive mesh nur ein drive mesh sein kann!!!
 	 *            3. eContentType ??? (e.g.: eContentType.AGGRESSION or eContentType.DEATH or eContentType.LIFE)
+	 * dm
 	 * @param ArrayList<clsAssociation> poInternalAssociatedContent (1st list element: drive aim, 2nd list element: drive object, 3rd list element: drive source, ...) These list elements must be set via: setActualDriveAim, setActualDriveSource, ...
 	 * @param double prQuotaOfAffect (QuotaOfAffect)
 	 * @param String poContent (Is only a debug information how the drive is called. E.g. nourisch - Word-presentations are not allowed in the primary process)
@@ -598,5 +599,8 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
            return e;
         }
 	}
+
+
+	
 
 }

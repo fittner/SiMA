@@ -282,22 +282,37 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
 					moForbiddenEmotions.add(eEmotionType.ANGER);
 		
-		/*
+		
 		// sample rule for conversion of emotion grief into emotion fear (reversal of affect)
-		if (moSuperEgoStrength >= 0.5)
+		/*if (moSuperEgoStrength >= 0.5)
 			if (searchInEmotions (eEmotionType.GRIEF))
 				if (!moForbiddenEmotions.contains(eEmotionType.GRIEF))
 					moForbiddenEmotions.add(eEmotionType.GRIEF);
-		*/
+		// to Try 
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInEmotions (eEmotionType.FEAR))
+				if (!moForbiddenEmotions.contains(eEmotionType.FEAR))
+					moForbiddenEmotions.add(eEmotionType.FEAR);*/
+		
+		
 
 		// sample rule for conversion of aggressive drive energy into anxiety
 		// (by repressing the aggressive drive energy, anxiety is produced)
+		
 		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.45)) {
+			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.35)) { //0.45
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive))
 					moForbiddenDrives.add(oDrive);
 			}
+		/*-----------------------For Test the Replacement on DefenseMechnisms For Drive -----------------------------------------------*/
+		if (moSuperEgoStrength >= 0.5)
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.25)) { //0.45
+				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
+				if (!moForbiddenDrives.contains(oDrive))
+					moForbiddenDrives.add(oDrive);
+			}
+		/*-----------------------------------------------------------------------------------------------------------------------------------*/
 		
 		
 		// only for test purpose
@@ -483,6 +498,21 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	   	
 	   	return false;
 	}
+	
+	// to Get the last Emotion
+	/*private ArrayList<clsEmotion>  GetLastEmotionInput(ArrayList<clsEmotion> moEmotions_Input){
+		clsEmotion oLastEmotion = null;
+		ArrayList<clsEmotion> LastList_clsEmotion = new ArrayList<clsEmotion>();
+		
+		//for (clsEmotion oOneEmotion:  moEmotions_Input){
+		for (int i =0; i<moEmotions_Input.size();i++){
+			
+			oLastEmotion = moEmotions_Input.get(moEmotions_Input.size()-1);
+			LastList_clsEmotion.add(oLastEmotion);
+		}
+		
+		return LastList_clsEmotion;
+	}*/
 
 	/* (non-Javadoc)
 	 *
@@ -493,7 +523,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I5_13(moForbiddenDrives, moDrives); 
+		send_I5_13(moForbiddenDrives, moDrives,moForbiddenEmotions, moEmotions_Input ); 
 		send_I5_11(moForbiddenPerceptions, moPerceptionalMesh_OUT, moForbiddenEmotions, moEmotions_Input); 
 	}
 
@@ -556,8 +586,8 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 * @see pa._v38.interfaces.modules.I5_13_send#send_I5_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData) {
-		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData);
+	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions) {
+		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData,poForbiddenEmotions, poEmotions);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);
 	}
