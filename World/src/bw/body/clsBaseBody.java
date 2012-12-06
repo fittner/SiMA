@@ -24,6 +24,7 @@ import config.clsProperties;
 public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInternalState, 
 												itfStepProcessing, itfStepExecution {
 
+	
 	public static final String P_ATTRIBUTES     = "attributes";
     protected clsAttributes  moAttributes;
     protected eBodyType meBodyType;

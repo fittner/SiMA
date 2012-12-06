@@ -7,22 +7,16 @@
  */
 package bw.entities;
 
-import java.awt.Color;
+
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import du.enums.eSensorExtType;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import statictools.clsGetARSPath;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import bw.body.io.clsExternalIO;
 import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorEngine;
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
-import bw.utils.enums.eShapeType;
 
 /**
  * DOCUMENT Is a landmark for safe defection and stores smart excrements. Has infinite capacity.
@@ -32,6 +26,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsToilet extends clsStationary {
+	public static final String CONFIG_FILE_NAME="toilet.default.properties";
 	public static String P_SENSOR = "sensor";
 
 	private clsSensorEatableArea moSensorEatable;	// 'eatability' sensor
@@ -56,6 +51,10 @@ public class clsToilet extends clsStationary {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
+		
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
 /*
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 25.0 );
@@ -64,7 +63,9 @@ public class clsToilet extends clsStationary {
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_Y , 0.0 );
 	*/
 
-		String tmp_pre = pre+P_SENSOR+".";
+/* the old hardcoded properties; now in toilet.default.properties
+ * 		String tmp_pre = pre+P_SENSOR+".";
+
 		
 		oProp.putAll( clsSensorEngine.getDefaultProperties(tmp_pre+clsExternalIO.P_SENSORENGINE) );
 		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORRANGE, 0.0); // Default - changed later on
@@ -81,7 +82,7 @@ public class clsToilet extends clsStationary {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.white);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/toilet.jpg");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-		
+	*/	
 		return oProp;
 	}	
 

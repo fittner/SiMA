@@ -25,6 +25,8 @@ import du.enums.eFacialExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.cls3DUniverse;
+import statictools.clsGetARSPath;
+
 import statictools.clsSimState;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
@@ -57,6 +59,9 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsEntity implements itfGetBody {
+	
+	public static final String CONFIG_FILE_NAME = "entity.default.properties";
+	
 	public static final String P_ID = "id";
 	public static final String P_STRUCTURALWEIGHT = "weight_structural";
 	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShape2DCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
@@ -118,13 +123,23 @@ public abstract class clsEntity implements itfGetBody {
 		String pre = clsProperties.addDot(poPrefix);
 
 		clsProperties oProp = new clsProperties();
+
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+		
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
+		
+		
+//old hardcoded properties now in property file entity.default.properties
+/*		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		oProp.setProperty(pre+P_ID, -1);
 		
 		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
-		
+*/		
 		return oProp;
 	}	
 

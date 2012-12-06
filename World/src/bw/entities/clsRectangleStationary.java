@@ -8,13 +8,11 @@
  */
 package bw.entities;
 
-import java.awt.Color;
+import statictools.clsGetARSPath;
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
-import bw.utils.enums.eShapeType;
+
 
 /**
  * DOCUMENT a simple stationary rectangle for multiple purpose, has NO image
@@ -24,7 +22,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsRectangleStationary extends clsStationary {
-
+	public static final String CONFIG_FILE_NAME="rectangle_stationary.default.properties";
 	public clsRectangleStationary(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
     	applyProperties(poPrefix, poProp);
@@ -35,14 +33,19 @@ public class clsRectangleStationary extends clsStationary {
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+		
+/*	the old hardcoded properties : now they are in rectange_stationary.default.properties	
+ * 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.RECTANGLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, 30);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_LENGTH, 30);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.YELLOW);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
-	
+*/	
 	
 		return oProp;
 	}		

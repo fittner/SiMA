@@ -12,6 +12,7 @@ import javax.media.j3d.TransformGroup;
 import config.clsProperties;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import statictools.clsGetARSPath;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -25,6 +26,7 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsStationary extends clsEntity {
+	public static final String CONFIG_FILE_NAME = "stationary.default.properties";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 		
 	private double mrDefaultRestitution; 			 //0.5 
@@ -40,13 +42,20 @@ public abstract class clsStationary extends clsEntity {
 
 		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
-		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
+		
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+		
+		
+/*	the old hardcoded properties; now they are in stationary.default.properties	
+ * 		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_ANGLE, 0.0);
 				
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT , java.lang.Double.MAX_VALUE);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 1.0);
-		
+*/		
 		return oProp;
 	}	
 	

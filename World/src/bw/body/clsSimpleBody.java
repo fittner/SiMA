@@ -20,6 +20,8 @@ import config.clsProperties;
  */
 public class clsSimpleBody extends clsBaseBody {
 	
+	
+	
 	public clsSimpleBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp, poEntity);	
 		applyProperties(poPrefix, poProp, poEntity);	

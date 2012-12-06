@@ -15,6 +15,8 @@ import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import statictools.clsGetARSPath;
+
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -25,6 +27,9 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsMobile extends clsEntity {
+	
+	public static final String CONFIG_FILE_NAME = "mobile.default.properties";
+	
 	public static final String P_START_VELOCITY_X = "start_velocity_x";
 	public static final String P_START_VELOCITY_Y = "start_velocity_y";
 
@@ -60,7 +65,12 @@ public abstract class clsMobile extends clsEntity {
 
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
 		
-		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+		
+// old hardcoded properties now in propertyfile mobile.default.properties
+/*		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_ANGLE, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
@@ -69,7 +79,7 @@ public abstract class clsMobile extends clsEntity {
 		oProp.setProperty(pre+P_DEF_COEFF_FRICTION , 0.5);
 		oProp.setProperty(pre+P_DEF_STATIC_FRICTION , 0.2);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 0.3);
-		
+*/		
 		return oProp;
 	}	
 

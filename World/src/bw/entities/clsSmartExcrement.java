@@ -6,20 +6,14 @@
  */
 package bw.entities;
 
-import java.awt.Color;
-
+import statictools.clsGetARSPath;
 import config.clsProperties;
 import du.enums.eEntityType;
-
-
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
-import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBodyType;
-import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -29,6 +23,8 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsSmartExcrement extends clsInanimate {
+	public static final String CONFIG_FILE_NAME="smart_excrement.default.properties";
+	
 	public clsSmartExcrement(String poPrefix, clsProperties poProp, int uid, double prWeight)
     {
 		super(poPrefix, poProp, uid);		
@@ -40,6 +36,13 @@ public class clsSmartExcrement extends clsInanimate {
 			// nothing to do
 		}
 		setVariableWeight(getFlesh().getWeight());
+    } 
+	
+	public clsSmartExcrement(String poPrefix, clsProperties poProp, int uid)
+    {
+		super(poPrefix, poProp, uid);		
+		applyProperties(poPrefix, poProp);
+		
     } 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
@@ -61,7 +64,13 @@ public class clsSmartExcrement extends clsInanimate {
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.0001);
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+		
+/* the old hardcoded properties; now they are in samrt_excrement.default.properties
+ * 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 0.0001);
+
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -76,7 +85,7 @@ public class clsSmartExcrement extends clsInanimate {
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 1 );
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, Double.MAX_VALUE);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
-		
+	 */	
 		return oProp;
 	}
 	

@@ -53,9 +53,12 @@ import bw.entities.clsLynx;
 import bw.entities.clsPlant;
 import bw.entities.clsRectangleStationary;
 import bw.entities.clsRemoteBot;
+import bw.entities.clsSchnitzl;
+import bw.entities.clsSmartExcrement;
 import bw.entities.clsStone;
 import bw.entities.clsToilet;
 import bw.entities.clsTomato;
+import bw.entities.clsUnrealHealth;
 import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
@@ -244,6 +247,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( clsCarrot.getDefaultProperties		(pre+eEntityType.CARROT.name()) );
 		oProp.putAll( clsToilet.getDefaultProperties			(pre+eEntityType.TOILET.name()) );
 		oProp.putAll( clsRectangleStationary.getDefaultProperties			(pre+eEntityType.RECTANGLE_STATIONARY.name()) );
+		oProp.putAll( clsUnrealHealth.getDefaultProperties			(pre+eEntityType.HEALTH.name()) );
+		oProp.putAll( clsSmartExcrement.getDefaultProperties			(pre+eEntityType.SMARTEXCREMENT.name()) );
+		oProp.putAll( clsSchnitzl.getDefaultProperties			(pre+eEntityType.SCHNITZL.name()) );
 		
 		return oProp;
     }
@@ -575,6 +581,19 @@ public class clsSimplePropertyLoader extends clsLoader {
     			oEntity = new clsTomato(pre, poPropEntity, uid);
     			clsRegisterEntity.registerEntity((clsTomato)oEntity);		
     			break;
+    		case HEALTH:
+    			oEntity = new clsUnrealHealth(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsUnrealHealth)oEntity);
+    			break;
+    		case SMARTEXCREMENT:
+    			oEntity = new clsSmartExcrement(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsSmartExcrement)oEntity);
+    			break;
+    		case SCHNITZL:
+    			oEntity = new clsSchnitzl(pre, poPropEntity, uid);
+    			clsRegisterEntity.registerEntity((clsSchnitzl)oEntity);
+    			break;	
+    		
 			default:
 				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	
     	}

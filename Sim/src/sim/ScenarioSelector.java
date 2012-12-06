@@ -508,8 +508,7 @@ class ScenarioEntry {
 	    this.moFilename = poFilename;
 	    
 	    String oPath = clsGetARSPath.getConfigPath();
-        clsProperties oProp = clsProperties.readProperties(oPath, moFilename);
- 	   
+        clsProperties oProp = clsProperties.readProperties(oPath, moFilename); 	   
         try {
 	        moName = oProp.getPropertyString("title");
 	        moShortDescription = oProp.getPropertyString("short_description");

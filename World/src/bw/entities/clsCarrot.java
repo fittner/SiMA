@@ -8,11 +8,12 @@
  */
 package bw.entities;
 
-import java.awt.Color;
 import java.util.Random;
 import config.clsProperties;
 import du.enums.eEntityType;
 import sim.physics2D.shape.Shape;
+
+import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -23,12 +24,9 @@ import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.exceptions.exFoodWeightBelowZero;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
-import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 
 /**
@@ -39,10 +37,12 @@ import bw.utils.tools.clsFood;
  * 
  */
 public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfIsConsumeable {
+	public static final String CONFIG_FILE_NAME 	= "carrot.default.properties";
 	public static final String P_SHAPE_FRESH 		= "shape_fresh";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_REGROW_STEPS_MIN 	= "regrow_steps_min";
 	public static final String P_REGROW_STEPS_MAX 	= "regrow_steps_max";
+	
 
 	private Shape moFresh2D;
 	private Shape moDead2D;
@@ -89,6 +89,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		mrInitialFleshWeight = poProp.getPropertyDouble(pre+P_BODY+"."+clsFlesh.P_WEIGHT);
 				
 		setVariableWeight(getFlesh().getWeight());		
+
 	}	
 		
 	
@@ -102,8 +103,17 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		// remove whatever body has been assigned by getDefaultProperties
 		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
 		//add correct body
+		//properties for the body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
+		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
+		oPropFile.addPrefix(poPrefix);
+		oProp.putAll(oPropFile);
+
+		
+// old hardcoded properties - now in carrot.default.property		
+/*		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5000);
 
@@ -136,7 +146,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		
 		oProp.setProperty(pre+P_REGROW_STEPS_MIN, 250);
 		oProp.setProperty(pre+P_REGROW_STEPS_MAX, 1000);
-		
+*/	
 		return oProp;
 	}
 	
