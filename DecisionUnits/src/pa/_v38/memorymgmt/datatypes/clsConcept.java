@@ -18,11 +18,11 @@ import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (hinterleitner) - The clsConcept class represents the collected
+ * DOCUMENT (havlicek) - The clsConcept class represents the collected
  * ConceptEntities for one agent in one step.
  * 
  * @author hinterleitner 19.05.2012, 16:28:04
- * 
+ * @author havlicek 13.07.2012 17:32:05
  */
 public class clsConcept {
 
@@ -44,7 +44,8 @@ public class clsConcept {
 	private List<clsQuadruppel<Entity, Action, Emotion, Distance>> moConceptEntities;
 
 	/**
-	 * DOCUMENT (hinterleitner) - Basic Constructor for a new Concept
+	 * DOCUMENT (havlicek) - Basic Constructor for a new Concept. Holds an empty
+	 * list of situation specific context entities.
 	 * 
 	 * @since 19.05.2012 16:28:39
 	 * 
@@ -63,18 +64,21 @@ public class clsConcept {
 				eDataType.CONCEPT, eContentType.DISTANCE);
 		moEmotionTriple = new clsTriple<Integer, eDataType, eContentType>(1,
 				eDataType.CONCEPT, eContentType.EMOTION);
-		
+
 		moVisitedWPMs = new HashSet<Integer>();
 
 		moConceptEntities = new ArrayList<clsQuadruppel<Entity, Action, Emotion, Distance>>();
 	}
 
 	/**
-	 * DOCUMENT (havlicek) - insert description
+	 * DOCUMENT (havlicek) - searches the passed on WPMs for information that is
+	 * of interest for creating the context entities.
 	 * 
 	 * @since 13.10.2012 16:59:05
 	 * 
 	 * @param oWPMs
+	 *            a list of clsWorldPresentationMesh that shall be recursively
+	 *            searched for associations of interest.
 	 */
 	public void addWPMs(List<clsWordPresentationMesh> oWPMs) {
 		for (clsWordPresentationMesh wpm : oWPMs) {
@@ -84,11 +88,14 @@ public class clsConcept {
 
 	/**
 	 * 
-	 * DOCUMENT (havlicek) - insert description
+	 * DOCUMENT (havlicek) - searches the passed on WPMs for information that is
+	 * of interest for creating the context entities.
 	 * 
 	 * @since 13.10.2012 16:59:12
 	 * 
 	 * @param oWPMs
+	 *            one or more clsWorldPresentationMesh that shall be recursively
+	 *            searched for associations of interest.
 	 */
 	public void addWPMs(clsWordPresentationMesh... oWPMs) {
 		for (clsWordPresentationMesh wpm : oWPMs) {
@@ -101,12 +108,14 @@ public class clsConcept {
 		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
 			if (situation.contains(conceptEntity.a.moEntity)) {
 				String[] situationArray = situation.split(":");
-				situationArray[situationArray.length-1] = situationArray[situationArray.length-1].replace(";", "");
-				conceptEntity.b.setAction(situationArray[situationArray.length-1]);
+				situationArray[situationArray.length - 1] = situationArray[situationArray.length - 1]
+						.replace(";", "");
+				conceptEntity.b
+						.setAction(situationArray[situationArray.length - 1]);
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 * DOCUMENT (havlicek) - Method to integrate clsWordPresentationMesh into
@@ -288,7 +297,7 @@ public class clsConcept {
 	}
 
 	/**
-	 * DOCUMENT (ende) - internal helper method to extract the String
+	 * DOCUMENT (havlicek) - internal helper method to extract the String
 	 * representing the Content from different extensions of the
 	 * clsDataStructurePA.
 	 * 
@@ -372,18 +381,6 @@ public class clsConcept {
 	@Override
 	public String toString() {
 		String text = "";
-//		text += moConceptMesh.toString();
-//		if (null != moConceptMesh.moInternalAssociatedContent) {
-//			text += "[internal: "
-//					+ moConceptMesh.moInternalAssociatedContent.toString()
-//					+ "]";
-//		}
-//		if (null != moConceptMesh.moExternalAssociatedContent) {
-//			text += "[external: "
-//					+ moConceptMesh.moInternalAssociatedContent.toString()
-//					+ "]";
-//		}
-//		text += "\n";
 		text += moConceptEntities.toString();
 		return text;
 	}

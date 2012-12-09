@@ -26,9 +26,9 @@ import pa._v38.tools.planningHelpers.eDistance;
 import du.enums.eEntityType;
 
 /**
- * DOCUMENT (ende) - insert description
+ * DOCUMENT (havlicek) - insert description
  * 
- * @author ende 03.08.2012, 15:59:02
+ * @author havlicek 03.08.2012, 15:59:02
  * 
  */
 public class clsConceptTest {
@@ -36,7 +36,7 @@ public class clsConceptTest {
 	private clsConcept _concept;
 
 	/**
-	 * DOCUMENT (ende) - insert description
+	 * DOCUMENT (havlicek) - insert description
 	 * 
 	 * @since 03.08.2012 15:59:02
 	 * 
