@@ -58,7 +58,6 @@ public class clsMain extends SimState{
 		super.start();
 		
 		//creating and registering objects...
-		
 		String oFilename = argumentForKey("-config", moArgs, 0);
 		
 		if (oFilename != null) {
@@ -98,6 +97,7 @@ public class clsMain extends SimState{
 		//different path
 		
 		String oPath = argumentForKey("-path", moArgs, 0);
+		String oScenarioPath = clsGetARSPath.getScenarioPath();
 		if (oPath == null) {
 			oPath = clsGetARSPath.getConfigPath();
 		}
@@ -106,7 +106,7 @@ public class clsMain extends SimState{
 	
 		// read BW properties
 		
-		clsProperties oProp = clsProperties.readProperties(oPath, oFilename);
+		clsProperties oProp = clsProperties.readProperties(oScenarioPath, oFilename);
 		
 		if (oImplementationStagesFile != null) {
 			//read implementation stages file

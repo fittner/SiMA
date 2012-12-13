@@ -7,11 +7,15 @@
  */
 package bw.entities;
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
+
 import config.clsProperties;
 import du.enums.eEntityType;
 
 import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
+import bw.utils.enums.eShapeType;
 
 /**
  * Mason representative (physics+renderOnScreen) for a stone. 
@@ -44,12 +48,8 @@ public class clsStone extends clsInanimate {
 
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
 
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
 		
-		/* the old hardcoded properties: now they are in stone.default.properties
-		 * oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
+		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, "0");
 		
@@ -76,7 +76,7 @@ public class clsStone extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/rock4.png");
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());				
-	*/   			
+	   			
 		return oProp;
 	}	
 	
@@ -135,6 +135,8 @@ public class clsStone extends clsInanimate {
 		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
+
+
 
 
 

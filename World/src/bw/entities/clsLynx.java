@@ -13,6 +13,7 @@ import java.awt.Color;
 import config.clsProperties;
 
 import sim.physics2D.shape.Shape;
+
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
@@ -214,4 +215,6 @@ public class clsLynx extends clsAnimal {
 		}
 		updateShape();
 	}	
+	
+	
 }

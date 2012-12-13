@@ -13,7 +13,6 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 
@@ -411,7 +410,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
  * 16.06.2011, 13:11:00
  */
 private void FillScenarioList(){
-       String oConfigFilePath = clsGetARSPath.getConfigPath();
+       String oConfigFilePath = clsGetARSPath.getScenarioPath();
 
        java.io.File oDir = new java.io.File(oConfigFilePath);
     
@@ -428,7 +427,7 @@ private void FillScenarioList(){
        
            //java.util.ArrayList<String> oFilenames = new  java.util.ArrayList();
     	   
-    	  ArrayList<String> oTmpFiles = new ArrayList<String>();
+ /*   	  ArrayList<String> oTmpFiles = new ArrayList<String>();
     	   
            for (int i=0; i<oFiles.length; i++) {
 	           if(oFiles[i].getName().startsWith("pa.implementationstate.") ||
@@ -445,8 +444,12 @@ private void FillScenarioList(){
            for (int n=0; n<oTmpFiles.size(); n++) {
                oScenarios[n] = new ScenarioEntry(oTmpFiles.get(n));
            }
-           
-           lstScenarioList.setListData(oScenarios);
+           */
+    	   ScenarioEntry[] oScenarios= new ScenarioEntry[oFiles.length];
+    	   for(int i=0; i<oFiles.length; i++){
+    		   oScenarios[i] = new ScenarioEntry(oFiles[i].getName());
+           }
+    	   lstScenarioList.setListData(oScenarios);
        }
    }
     /**
@@ -507,7 +510,7 @@ class ScenarioEntry {
 	  public ScenarioEntry(String poFilename) {
 	    this.moFilename = poFilename;
 	    
-	    String oPath = clsGetARSPath.getConfigPath();
+	    String oPath = clsGetARSPath.getScenarioPath();
         clsProperties oProp = clsProperties.readProperties(oPath, moFilename); 	   
         try {
 	        moName = oProp.getPropertyString("title");

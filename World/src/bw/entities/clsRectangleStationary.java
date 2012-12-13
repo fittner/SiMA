@@ -8,7 +8,17 @@
  */
 package bw.entities;
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
+
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
+import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorBasic;
 
 import config.clsProperties;
 import du.enums.eEntityType;
@@ -33,19 +43,15 @@ public class clsRectangleStationary extends clsStationary {
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
-		
-/*	the old hardcoded properties : now they are in rectange_stationary.default.properties	
- * 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+	
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.RECTANGLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, 30);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_LENGTH, 30);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.YELLOW);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
-*/	
+
 	
 		return oProp;
 	}		
@@ -63,5 +69,18 @@ public class clsRectangleStationary extends clsStationary {
 	@Override
 	protected void setEntityType() {
 		meEntityType = eEntityType.RECTANGLE_STATIONARY;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:52 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Rectange Stationary");		
 	}
 }

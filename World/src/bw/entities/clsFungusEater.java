@@ -8,8 +8,15 @@
 package bw.entities;
 
 import java.awt.Color;
+
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
+
 import config.clsProperties;
 import du.enums.eEntityType;
+import bw.utils.enums.eShapeType;
 import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
 import bw.body.itfGetExternalIO;
@@ -19,7 +26,8 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
-import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorFungusEater;
+
 
 //import tstBw.*;
 
@@ -31,6 +39,7 @@ import bw.utils.enums.eShapeType;
  */
 public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, itfGetRadiation {
 
+	
 	public clsFungusEater(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
 		super(poDU, poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
@@ -48,7 +57,7 @@ public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, it
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
-		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+  		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 10.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, new Color(0,200,0));
@@ -82,5 +91,19 @@ public class clsFungusEater extends clsAnimate implements itfGetSensorEngine, it
 	@Override
 	protected void setEntityType() {
 		meEntityType = eEntityType.FUNGUS_EATER;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:16:13 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorFungusEater(poSuperInspector, poWrapper, poState, (clsFungusEater)poEntity), "Fungus Eater");
+		
 	}
 }

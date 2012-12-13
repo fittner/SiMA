@@ -8,7 +8,11 @@
  */
 package bw.entities;
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
+import bw.utils.enums.eShapeType;
 
 import config.clsProperties;
 
@@ -22,7 +26,7 @@ import config.clsProperties;
  * 
  */
 public class clsWallVertical extends clsWallAxisAlign {
-	public static final String CONFIG_FILE_NAME ="wall_ver.default.properties";
+
 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
@@ -42,14 +46,10 @@ public class clsWallVertical extends clsWallAxisAlign {
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsWallAxisAlign.getDefaultProperties(pre) );
 		
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
 
 		
 		
-/* the old hardcoded properties; now they are in wall_ver.default.properties
- * 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.RECTANGLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, 6);
@@ -57,7 +57,7 @@ public class clsWallVertical extends clsWallAxisAlign {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.black);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/wall2.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-	*/	
+	
 		return oProp;
 	}		
 	

@@ -7,7 +7,8 @@
  */
 package bw.entities;
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -16,13 +17,18 @@ import config.clsProperties;
 import du.enums.eEntityType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
+import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
+import bw.utils.enums.eNutritions;
+import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 
@@ -34,7 +40,6 @@ import bw.body.io.actuators.actionProxies.*;
  * 
  */
 public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
-	private static final String CONFIG_FILE_NAME ="unreal_health.default.properties";
 	private boolean mnDestroyed = false;
 	
 	public clsUnrealHealth(String poPrefix, clsProperties poProp, int uid)
@@ -62,12 +67,9 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
+
 		
-/*	The old hardcoded properties; now they are in unreal_health.default.properties
- * 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -92,7 +94,7 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
- */		
+	
 		return oProp;
 	}
 	

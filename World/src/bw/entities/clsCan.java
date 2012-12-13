@@ -7,10 +7,15 @@
  */
 package bw.entities;
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
+
+
+import bw.entities.tools.clsShape2DCreator;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import bw.utils.enums.eShapeType;
 
 public class clsCan extends clsInanimate {
 	public static final String CONFIG_FILE_NAME = "can.default.properties";
@@ -31,20 +36,15 @@ public class clsCan extends clsInanimate {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
-		
-/* The old hardcoded properties: now they ar in can.default.properties
- * 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 80.0);
+				
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 80.0);
 
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 2);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.blue);
-	 */	
+	 
 		return oProp;
     }
     
@@ -97,4 +97,6 @@ public class clsCan extends clsInanimate {
 	public void updateInternalState() {
 		// nothing to do
 	}
+
+
 }

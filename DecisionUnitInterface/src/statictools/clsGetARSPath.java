@@ -14,10 +14,17 @@ public class clsGetARSPath {
 		return System.getProperty("file.separator");
 	}
 	
+
+	
 	public static String getConfigPath()
 	{
 		return getArsPath()+System.getProperty("file.separator")+"Sim"+System.getProperty("file.separator")+"config";
 	}
+	public static String getScenarioPath()
+	{
+		return getConfigPath()+System.getProperty("file.separator")+"scenarios";
+	}
+	
 	public static String getEntityConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"entity";
 	}

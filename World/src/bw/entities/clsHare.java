@@ -11,11 +11,16 @@ package bw.entities;
 import java.awt.Color;
 
 import config.clsProperties;
+import sim.display.GUIState;
 import sim.physics2D.shape.Shape;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
 import du.enums.eEntityType;
+import bw.utils.enums.eShapeType;
 import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
@@ -30,9 +35,10 @@ import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorSensor;
 import bw.utils.tools.clsFood;
 import bw.utils.tools.clsNutritionLevel;
+
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -76,7 +82,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.putAll( clsComplexBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.COMPLEX.toString());
 		
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1000.0);		
+		//oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1000.0);		
 		
 		//FIXME (deutsch) - .4. is not guaranteed - has to be changed!
 		oProp.setProperty(pre+"body.externalio.sensors.4.offset", 8);
@@ -86,8 +92,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 
 		//change stomach to desired values
 		String stomach_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_STOMACH+".";
+		//delete default stomach fro complex body; new stomach values load from property file
 		oProp.removeKeysStartingWith(stomach_pre);
 
+		
 		int i = 0;
 		
 		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.FAT.toString());
@@ -125,6 +133,7 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		
 		//change flesh to desired values
 		String flesh_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_FLESH+".";
+		//delete flesh properties from complex body; new flesh properties loaded from property file
 		oProp.removeKeysStartingWith(flesh_pre);		
 		
 		oProp.setProperty(flesh_pre+clsFlesh.P_WEIGHT, 5.0 );
@@ -140,8 +149,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 
 		oProp.setProperty(flesh_pre+"3."+clsFlesh.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
 		oProp.setProperty(flesh_pre+"3."+clsFlesh.P_NUTRITIONFRACTION, 1.0);
+
 		
-		//set shape
+		
+		//delete shape properties from clsEntity; new flesh properties loaded from property file
 		oProp.removeKeysStartingWith(pre+P_SHAPE);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPE_ALIVE);
@@ -164,6 +175,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_COLOR, Color.BLACK);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/hase.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEADANDEATEN+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		
+		
+
+		
 		
 		return oProp;
 	}
@@ -317,5 +332,10 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 	@Override
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
+	}
+	
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity){
+		poTarget.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,poEntity), "Hare");
 	}
 }

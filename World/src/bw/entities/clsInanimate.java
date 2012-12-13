@@ -8,7 +8,6 @@
 package bw.entities;
 
 
-import statictools.clsGetARSPath;
 import config.clsProperties;
 
 
@@ -22,7 +21,7 @@ import config.clsProperties;
  */
 public abstract class clsInanimate extends clsMobile {
  	
-	public static final String CONFIG_FILE_NAME 	= "inanimate.default.properties";
+	
 
  	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -49,9 +48,7 @@ public abstract class clsInanimate extends clsMobile {
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsMobile.getDefaultProperties(pre));
 		
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
+
 
 		return oProp;
 	}	

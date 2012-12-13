@@ -12,7 +12,11 @@ import java.util.ArrayList;
 
 import javax.media.j3d.TransformGroup;
 
+import sim.display.GUIState;
 import sim.physics2D.shape.Shape;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -38,6 +42,7 @@ import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.body.io.clsExternalIO;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
 
@@ -311,6 +316,19 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public ArrayList<clsInternalActionCommand> getInternalActions(){
 		
 		return ((clsComplexBody)moBody).getInternalActionProcessor().getCommandStack();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:14:00 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector,
+			LocationWrapper poWrapper, GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
+		
 	}
 
 }

@@ -8,10 +8,15 @@
 package bw.entities;
 
 
-import statictools.clsGetARSPath;
+import java.awt.Color;
+
+
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import bw.utils.enums.eShapeType;
 
 /**
  * An instance of the mobile object clsAnimate that can:
@@ -24,9 +29,7 @@ import du.enums.eEntityType;
  * 
  */
 public class clsPlant extends clsInanimate {
-	
-	public static final String CONFIG_FILE_NAME="plant.default.properties";
-	
+		
 	public clsPlant(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
@@ -41,13 +44,8 @@ public class clsPlant extends clsInanimate {
 		
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
-
-		clsProperties oPropFile = clsProperties.readProperties(clsGetARSPath.getEntityConfigPath(), CONFIG_FILE_NAME);
-		oPropFile.addPrefix(poPrefix);
-		oProp.putAll(oPropFile);
 		
-/*	The old hardcoded properties: now theay are in plan.default.properties	
- * oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
+		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -56,7 +54,7 @@ public class clsPlant extends clsInanimate {
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/plant01.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-	*/	
+		
 		return oProp;
 	}	
   	
@@ -110,4 +108,6 @@ public class clsPlant extends clsInanimate {
 	public void updateInternalState() {
 		// nothing to do
 	}
+
+
 }
