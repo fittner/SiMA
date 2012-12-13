@@ -305,15 +305,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// (by repressing the aggressive drive energy, anxiety is produced)
 
 		if (moSuperEgoStrength >= 0.8)
-			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.35)) {
+			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39)) {
 
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive))
 					moForbiddenDrives.add(oDrive);
 			}
-		/*-----------------------For Test the Replacement on DefenseMechnisms For Drive -----------------------------------------------*/
+		/*-----------------------For Test the DefenseMechnism For Drive -----------------------------------------------*/
 		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.25)) { //0.45
+			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.22)) { //0.45
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive))
 					moForbiddenDrives.add(oDrive);
@@ -492,7 +492,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	public void send_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions) {
-		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData,poForbiddenEmotions, poEmotions);
+		((I5_13_receive)moModuleList.get(6)).receive_I5_13(poForbiddenDrives, poData, poEmotions);
 		
 		putInterfaceData(I5_13_send.class, poForbiddenDrives, poData);
 	}

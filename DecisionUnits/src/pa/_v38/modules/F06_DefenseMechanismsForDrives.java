@@ -60,8 +60,8 @@ defend the forbidden drives or not.
  * The following defense mechanisms for drives are implemented:
  * - repression (Verdrängung)
  * - reaction formation< (Reaktionsbildung: new drive aim = opposite of old drive aim)
- * - displacement (Verschiebung: Drive object is changed) - TODO: muss noch fertig programmiert werden.
- * - sublimation (new drive aim is a social and cultural higher drive aim) - TODO: drive aims müssen noch definiert werden
+ * - displacement (Verschiebung: Drive object is changed) 
+ * - sublimation (new drive aim is a social and cultural higher drive aim) 
  * - intellectualization (new drive aim is an intellectual drive aim) - TODO: drive aims müssen noch definiert werden
  * 
  * @author gelbard
@@ -74,6 +74,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
+	private ArrayList<String> Defense_Done= new ArrayList<String>();
+	
 
 	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
@@ -88,7 +90,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private HashMap<String, String> oOppositeTP = new HashMap<String, String> ();
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	private ArrayList<clsEmotion> moEmotions_Output;
-	private ArrayList<eEmotionType>moForbiddenEmotions_Input;
+	
 
 	
 	private DT2_BlockedContentStorage moBlockedContentStorage; // storage for repressed drives and denied perceptions
@@ -128,14 +130,17 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		text += toText.valueToTEXT("moDriveList_Input", moDriveList_Input);
 		text += toText.valueToTEXT("moDriveList_Output", moDriveList_Output);
-		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);	
+		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);
 		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
+		text += toText.listToTEXT("Defense_Done", Defense_Done);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
 		text += toText.listToTEXT("moQuotasOfAffect_Output", moQuotasOfAffect_Output);
 		text += toText.valueToTEXT("moBlockedContentStorage", moBlockedContentStorage);
 		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
 		text += toText.listToTEXT("moEmotions_Output", moEmotions_Output);
-		text += toText.listToTEXT("moForbiddenEmotions_Input", moForbiddenEmotions_Input);
+		
+		
+		
 		
 		
 		return text;
@@ -200,12 +205,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	*/
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<eEmotionType> poForbiddenEmotions,ArrayList<clsEmotion> poEmotions) {
+	public void receive_I5_13(ArrayList<clsPair<eDriveComponent, eOrgan>> poForbiddenDrives, ArrayList<clsDriveMesh> poData,ArrayList<clsEmotion> poEmotions) {
 	
 		moDriveList_Input       = (ArrayList<clsDriveMesh>) deepCopy(poData);
 		moForbiddenDrives_Input = (ArrayList<clsPair<eDriveComponent, eOrgan>>) deepCopy(poForbiddenDrives);
 		moEmotions_Input             = clone(poEmotions);
-		moForbiddenEmotions_Input    = poForbiddenEmotions;
+		
 	}
 
 
@@ -314,29 +319,55 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 double oQoA = getQuotaOfAffect(moForbiddenDrives_Input);
 		 
 		 /*
-		  * The Defense Mechanism is dependent on "Emotions :ANGER,MOURNING,ANXIETY", the intensity of the Emotions and Quota of Affect
+		  *  @author Lotfi
+		  * 	12.12.2012, 17:30:00
+		  * The Defense Mechanism is dependent on "Emotions", the intensity of the Emotions and Quota of Affect
 		  */
-		if((oQoA < 0.2)&&((GetEmotionIntensity(eEmotionType.MOURNING) < 0.1)||(GetEmotionIntensity(eEmotionType.ANGER) < 0.1)||(GetEmotionIntensity(eEmotionType.ANXIETY) < 0.1))){
-			
-			 defenseMechanism_Sublimation(moForbiddenDrives_Input); 
-						
-		}else if ((oQoA > 0.2)&&((GetEmotionIntensity(eEmotionType.MOURNING) > 0.1)||(GetEmotionIntensity(eEmotionType.ANGER) > 0.1)||(GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1))){
-			
-			 defenseMechanism_Displacement(moForbiddenDrives_Input);
-			 
-		}else if ((oQoA > 0.3)&&((GetEmotionIntensity(eEmotionType.MOURNING) > 0.2)||(GetEmotionIntensity(eEmotionType.ANGER) > 0.2)||(GetEmotionIntensity(eEmotionType.ANXIETY) > 0.2))){
-			
-			defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
-						
-		}else if ((oQoA > 0.4)&&((GetEmotionIntensity(eEmotionType.MOURNING) > 0.2)||(GetEmotionIntensity(eEmotionType.ANGER) > 0.2)||(GetEmotionIntensity(eEmotionType.ANXIETY) > 0.2))){
-			
-			defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
-			
-			
-		}
 		
+		
+		if((oQoA < 0.3)&& (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.1)){
+			 
+			 defenseMechanism_Sublimation(moForbiddenDrives_Input);
+			 
+			 // Just to see on the Simulation which defense is done 
+			 Defense_Done.add("Sublimation");
+			 RemoveLastDefenseDone(Defense_Done);
+			 
+		 }else if((oQoA < 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.2)){
+			 
+			 defenseMechanism_Displacement(moForbiddenDrives_Input);
+			 Defense_Done.add("Displacement");
+			 RemoveLastDefenseDone(Defense_Done);
+						 
+		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.2) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.3)){
+			 
+			 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+			 Defense_Done.add("ReactionFormation");
+			 RemoveLastDefenseDone(Defense_Done);
+						
+		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.3)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=0.4)){
+			 
+			 defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
+			 Defense_Done.add("ReversalOfAffect");
+			 RemoveLastDefenseDone(Defense_Done);
 			
+		 }else if((oQoA > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4)){
+			 
+			 defenseMechanism_Repression(moForbiddenDrives_Input);
+			 Defense_Done.add("Rpression");
+			 RemoveLastDefenseDone(Defense_Done);
+			 
+		 }else {
+			// Just to see on the Simulation that no defense is done 
+			 Defense_Done.add("No Defense is done");
+			 RemoveLastDefenseDone(Defense_Done);
+			 			 
+		 }
+		
 	}
+	
+	
+	
 
 
 	// Search of the emotion types if they exist
@@ -350,28 +381,47 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	   	
 	   	return false;
 	}
-	
+
 	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
 	private double GetEmotionIntensity(eEmotionType moEmotionType){
 		double oEmotionIntensity =0.0;
 		for(clsEmotion oOneEmotion : moEmotions_Output) {
-			     if(oOneEmotion.getMoContent() == eEmotionType.MOURNING){
-				 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-				 }
-			     if(oOneEmotion.getMoContent() == eEmotionType.ANXIETY){
-					 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-			     }
-			     if (oOneEmotion.getMoContent() == eEmotionType.ANGER){
-			    	 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-			     }
-			    	 
+			
+				if(searchInEmotions (eEmotionType.MOURNING)){
+					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
+						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					}
+			    }
+				if(searchInEmotions (eEmotionType.ANXIETY)){
+					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
+						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					}
+				}
+			     
+			    if(searchInEmotions(eEmotionType.ANGER)){
+			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
+			    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+			    	}
+			    }
+	
 			
 		}
 		return oEmotionIntensity;
 	}
-
 	
-	
+	// Just For Simulation, to remove last defense Mechanism
+	private ArrayList<String> RemoveLastDefenseDone (ArrayList<String> Defense_Done){
+				
+		for (int i=0; i<Defense_Done.size();i++ ){
+		
+			if (i>0){
+				Defense_Done.remove(0);				
+			}
+			
+		}
+		
+		return Defense_Done;
+	}
 	
 	
 	/* (non-Javadoc)
@@ -461,6 +511,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				   // add new opposite drive mesh to list of outgoing drives
 				   moDriveList_Output.add(oNewDrive);
 			   }
+			   
 			   */
 			   
 		   }
@@ -550,8 +601,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	
 	/* (non-Javadoc)
 	*
-	* @author gelbard
-	* 28.03.2012, 17:30:00
+	* @author Lotfi
+	* 10.10.2012, 17:30:00
 	* 
 	* This method represents the defense mechanism "displacement"
 	* The defense mechanism displacement replaces the original drive object by a new drive object.
@@ -565,7 +616,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		HashMap<String, String> oDisplaceDriveObjectList = new HashMap<String, String> ();
 		
-		// Liste mit möglichen Trieben und dazugehöriges displaced drive object (und reserve drive object, falls displace drive object das original drive object ist.)
+		// List Of DriveObjekt and displaced DriveObject 
 		
 	
 		//ANIMATES
@@ -575,9 +626,11 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("HARE","LYNX");	
 		oDisplaceDriveObjectList.put("LYNX","HARE");	
 		oDisplaceDriveObjectList.put("PLANT","FUNGUS_EATER");
-		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");	
+		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
+		
 		
 		//INANIMATE
+		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
 		oDisplaceDriveObjectList.put("BASE","CAKE"); 
 		oDisplaceDriveObjectList.put("CAN","BASE");
 		oDisplaceDriveObjectList.put("CAKE","SCHNITZL");
@@ -617,6 +670,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("SNIPER_AMMO","ROCKET_AMMO");
 		oDisplaceDriveObjectList.put("SHOCKRIFLE_WEAPON","SHOCKRIFLE_AMMO");
 		oDisplaceDriveObjectList.put("SHOCKRIFLE_AMMO","SNIPER_AMMO");
+		
+		oDisplaceDriveObjectList.put("BODO","DODO");
+		
 		
 		
 		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getMoContent();
@@ -741,11 +797,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	}
 	
 	
-	/**
-	 * DOCUMENT (Lotfi) 
+	/*
+	 * (non-Javadoc)
 	 *
+	 * @author Lotfi
 	 *This method changes the DriveAim, if it exists in the List otherwise no change will happen
-	 * @since 08.10.2012 16:35:51
+	 * since 08.11.2012 16:35:51
 	 *
 	 */
 	
@@ -776,7 +833,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				
 				// Get the the new correspondent Drive Aim from the List --> The Key of HashMap is the old Drive Aim and the value of the key is the new one 
 				String oOppositeTPDriveAim = (String) oOppositeTP.get(oOriginalTPContent);	
-				//double oQoA = getQuotaOfAffect1(moForbiddenDrives_Input);
+				
 			
 				
 					clsThingPresentationMesh oOppositeDriveAim = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
