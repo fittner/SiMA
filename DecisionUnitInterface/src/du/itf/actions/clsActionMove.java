@@ -14,6 +14,7 @@ import du.enums.eActionMoveDirection;
 public class clsActionMove extends clsActionCommand {
 	private eActionMoveDirection meDirection;
 	private double mrSpeed;
+	private int mrStamina;
 
 	//Move forward at average speed
 	public clsActionMove() {
@@ -45,6 +46,17 @@ public class clsActionMove extends clsActionCommand {
 	@Override
 	public String getLog() {
 		return "<Move>" + meDirection.toString() + "@" + mrSpeed  + "</Move>"; 
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 14.12.2012 22:13:34
+	 *
+	 * @return
+	 */
+	public int getStaminaDemand() {
+		return mrStamina;
 	}
 	
 
