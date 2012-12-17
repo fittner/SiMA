@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 
@@ -19,6 +20,8 @@ import pa._v38.memorymgmt.datatypes.clsSituation;
  */
 public interface itfSituationLoader {
 
+	
+	
 	/**
 	 * DOCUMENT (havlicek) - set the clsConcept containing the context entities.
 	 * 
@@ -35,8 +38,10 @@ public interface itfSituationLoader {
 	 * 
 	 * @since 09.12.2012 08:34:06
 	 * 
+	 * @param poPrefix the prefix to be passed down to the knowledgehandler
+	 * @param poProps the properties to be passed down to the knowledgehandler
 	 * @return a clsSituation initialized with the data from the context
 	 *         entities.
 	 */
-	public clsSituation generate();
+	public clsSituation generate(String poPrefix, clsProperties poProps);
 }

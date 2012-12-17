@@ -377,6 +377,23 @@ public class clsConcept {
 	public String returnContentString() {
 		return moConceptMesh.moContent;
 	}
+	
+	/**
+	 * DOCUMENT (havlicek) - Determines if the concept holds any context entities. 
+	 *
+	 * @since 17.12.2012 17:42:49
+	 *
+	 * @return <code>true</code> if there are no context entities present yet, <code>false</code> otherwise.
+	 */
+	public boolean isEmpty() {
+		if (!moConceptEntities.isEmpty()) {
+			return false;
+		}
+		if (!moConceptMesh.isNullObject()) {
+			return false;
+		}
+		return true;
+	}
 
 	@Override
 	public String toString() {

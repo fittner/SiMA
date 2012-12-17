@@ -6,46 +6,64 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import config.clsProperties;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandlerFactory;
+import pa._v38.memorymgmt.itfKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
+import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
 
 /**
- * DOCUMENT (ende) - insert description 
+ * DOCUMENT (havlicek) - loader class to init a situation with data from the
+ * ontology
  * 
- * @author ende
- * 09.12.2012, 08:28:34
+ * @author havlicek 09.12.2012, 08:28:34
  * 
  */
 public class clsSituationLoader implements itfSituationLoader {
 
 	private clsConcept moConcept;
-	
-	/* (non-Javadoc)
-	 *
+
+	private itfKnowledgeBaseHandler moKnowledgeBase;
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @since 09.12.2012 08:36:27
 	 * 
-	 * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#setContextEntities(pa._v38.memorymgmt.datatypes.clsConcept)
+	 * @see
+	 * pa._v38.memorymgmt.situationloader.itfSituationLoader#setContextEntities
+	 * (pa._v38.memorymgmt.datatypes.clsConcept)
 	 */
 	@Override
 	public void setContextEntities(clsConcept oSituationConcept) {
 		moConcept = oSituationConcept;
-		//TODO havlicek - check the data for validity
+		// TODO havlicek - check the data for validity
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @since 09.12.2012 08:36:27
+	/*
+	 * (non-Javadoc)
 	 * 
-	 * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#generate()
+	 * @since 17.12.2012 17:41:02
+	 * 
+	 * @see
+	 * pa._v38.memorymgmt.situationloader.itfSituationLoader#generate(java.lang
+	 * .String, config.clsProperties)
 	 */
 	@Override
-	public clsSituation generate() {
+	public clsSituation generate(String poPrefix, clsProperties poProperties) {
 		clsSituation foundSituation = new clsSituation();
+		moKnowledgeBase = clsKnowledgeBaseHandlerFactory
+				.createInformationRepresentationManagement(
+						eInformationRepresentationManagementType.ARSI10_MGMT
+								.name(), poPrefix, poProperties);
+		
+		if (moConcept.isEmpty()) {
+			return foundSituation;
+		}
 		
 		
 		
-		// TODO (ende) - Auto-generated method stub
 		return foundSituation;
 	}
-
 }
