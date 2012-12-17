@@ -37,6 +37,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsTriple;
@@ -119,7 +120,8 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 
 		_f21 = new F21_ConversionToSecondaryProcessForPerception(poPrefix,
 				poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler,
-				poShortTermMemory, poTempLocalizationStorage, poTempLocalizationStorage);
+				poShortTermMemory, poTempLocalizationStorage, poTempLocalizationStorage, 
+				new DT3_PsychicEnergyStorage());
 	}
 
 	/**

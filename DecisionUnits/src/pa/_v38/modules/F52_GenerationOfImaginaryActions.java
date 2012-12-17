@@ -36,6 +36,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
@@ -106,6 +107,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private PlanningGraph plGraph;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	//private ArrayList<clsWordPresentationMesh> moPossibleInternalActionPlans;
 
 	/**
@@ -119,9 +122,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler) throws Exception {
+	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
+		DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
+		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		 
 		//Get STM
 		this.moShortTermMemory = poShortTermMemory;
 		
@@ -160,8 +167,6 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//TEST-Internal-Plans AW
 		//moPossibleInternalActionPlans = addNewDecisionTaskImages();
 		
-		
-
 	}
 
 	/***********************************************************************************************

@@ -33,6 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActTools;
@@ -75,7 +76,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 
 	private ArrayList<clsEmotion> moEmotions_Input;
-
+	
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/** TEMP A perceived image */
 	// private clsPrimaryDataStructureContainer moEnvironmentalPerception_IN;
 	/** TEMP Associated memories */
@@ -127,13 +130,17 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			clsKnowledgeBaseHandler poKnowledgeBaseHandler,
 			clsShortTermMemory poShortTermMemory,
 			clsShortTermMemory poConceptMemory,
-			clsEnvironmentalImageMemory poTempLocalizationStorage)
+			clsEnvironmentalImageMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData,
 				poKnowledgeBaseHandler);
 
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
 		applyProperties(poPrefix, poProp);
-
+        
 		this.moShortTermMemory = poShortTermMemory;
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
 		this.moConceptMemory = new clsShortTermMemory(1,1); // FIXME ISABELLA: Dont use the

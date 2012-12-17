@@ -23,6 +23,7 @@ import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
@@ -96,6 +97,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	
 	private clsCodeletHandler moCodeletHandler;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -109,11 +112,16 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		
+		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		 
 		applyProperties(poPrefix, poProp);	
 		
 		//Get short time memory
@@ -124,6 +132,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		moCodeletHandler = poCodeletHandler;
 		//Init with special variables from F51
 		moCodeletHandler.initF51(moReachableGoalList_IN);
+		
+
 	}
 
 	/* (non-Javadoc)

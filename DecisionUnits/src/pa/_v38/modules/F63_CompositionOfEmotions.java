@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -72,6 +73,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	// perceiving a drive object sould trigger less emotions than the bodily needs
 	private double mrPerceptionImpactFactor = 0.4;
 	
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	double mrRelativeSystemPleasure = 0.0; 
 	double mrRelativeSystemUnpleasure = 0.0;
@@ -81,10 +83,14 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage)
+			DT4_PleasureStorage poPleasureStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-
+		
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		
 		applyProperties(poPrefix, poProp);	
 		
 		moPleasureStorage = poPleasureStorage;

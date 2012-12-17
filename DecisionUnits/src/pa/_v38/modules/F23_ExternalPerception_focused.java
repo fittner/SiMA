@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsImportanceTools;
@@ -79,6 +80,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrAvailableFocusEnergy = 5;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -92,9 +94,14 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @throws Exception
 	 */
 	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
 		applyProperties(poPrefix, poProp);	
 		
 		//Get short time memory
