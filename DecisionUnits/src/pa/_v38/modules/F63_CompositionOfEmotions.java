@@ -73,6 +73,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	private double mrPerceptionImpactFactor = 0.4;
 	
 	
+	double mrRelativeSystemPleasure = 0.0; 
+	double mrRelativeSystemUnpleasure = 0.0;
+	
+	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
@@ -133,6 +137,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 		
+		text += toText.valueToTEXT("rRelativeSystemUnpleasure",  mrRelativeSystemUnpleasure);
+		text += toText.valueToTEXT("rRelativeSystemPleasure",  mrRelativeSystemPleasure);
+		
 		return text;
 	}
 
@@ -163,9 +170,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rDriveLibid = 0.0;
 		double rDriveAggr = 0.0;
 		
-			
-		double rRelativeSystemPleasure = 0.0; 
-		double rRelativeSystemUnpleasure = 0.0;
+		
 		double rRelativeSystemLibid = 0.0;
 		double rRelativeSystemAggr = 0.0;
 		
@@ -227,8 +232,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// Normalize to be able to decide which basic category prevails/dominates
 		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
 		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
-		rRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
-		rRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
+		mrRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
+		mrRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
 		rRelativeSystemLibid = rSystemLibid/rSumValuesLibidAggr;
 		rRelativeSystemAggr = rSystemAggr/rSumValuesLibidAggr;
 
@@ -245,7 +250,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		*/
 		
 		// just generate Unpleasure--based Emotions
-		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
+		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){
 			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure/rMaxQoASystem, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
@@ -259,7 +264,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			}
 		}
 		// just generate Pleasure-based Emotions
-		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
+		else if (mrRelativeSystemPleasure > mrRelativeThreshold) {
 			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
