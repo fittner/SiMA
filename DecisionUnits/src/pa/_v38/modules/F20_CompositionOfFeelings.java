@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
@@ -65,6 +66,7 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	//list of internal actions, fill it with what you want to be shown
 	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	/**
 	 * DOCUMENT (gelbard) - insert description 
 	 * 
@@ -77,10 +79,14 @@ public class F20_CompositionOfFeelings extends clsModuleBase implements
 	 * @throws Exception
 	 */
 	public F20_CompositionOfFeelings(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);
 
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
+		applyProperties(poPrefix, poProp);
 	}
 
 	/* (non-Javadoc)

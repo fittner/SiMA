@@ -72,7 +72,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private ArrayList<clsPair<eContentType, String>> moForbiddenPerceptions;
 	private ArrayList<eEmotionType>moForbiddenEmotions;
 	
-	private DT3_PsychicEnergyStorage moDT3_PsychicEnergyStorage;
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	private ArrayList<clsEmotion> moEmotions_Input;
 	
@@ -95,11 +95,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		
 		moForbiddenDrives = new ArrayList<clsPair<eDriveComponent, eOrgan>>();
 		moForbiddenPerceptions = new ArrayList<clsPair<eContentType,String>>();
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
-		
-		moDT3_PsychicEnergyStorage = poPsychicEnergyStorage;
 		
 		applyProperties(poPrefix, poProp); 
 	}
@@ -195,7 +196,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		
 		
-		double rReceivedPsychicEnergy = moDT3_PsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
 		// if there is enough psychic energy
 		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)

@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActionTools;
@@ -54,7 +55,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	private clsShortTermMemory moShortTermMemory;
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
-
+	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
     /**
      * DOCUMENT (perner) - insert description
      * 
@@ -66,12 +69,19 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @throws Exception
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+        
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
         applyProperties(poPrefix, poProp);
         
         this.moShortTermMemory = poShortTermMemory;
         this.moEnvironmentalImageStorage = poTempLocalizationStorage;
+        
+
     }
 
     /*

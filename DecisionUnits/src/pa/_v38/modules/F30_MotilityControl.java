@@ -17,6 +17,7 @@ import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
 //import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
@@ -43,6 +44,8 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * Constructor of the NeuroDeSymbolization
 	 * 
@@ -55,8 +58,13 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 * @throws Exception
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsWordPresentationMesh>(); 

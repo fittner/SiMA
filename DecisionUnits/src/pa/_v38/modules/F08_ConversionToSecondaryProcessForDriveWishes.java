@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import du.enums.eShapeType;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -54,6 +55,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output = new ArrayList<clsWordPresentationMesh>();
 	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
 	 * 
@@ -66,9 +69,13 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @throws Exception
 	 */
 	public F08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
 		
 		applyProperties(poPrefix, poProp);
 	}
@@ -159,6 +166,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
 	}
 	
 	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
