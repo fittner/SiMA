@@ -15,6 +15,7 @@ import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_12_send;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsDumper;
 
 /**
@@ -36,6 +37,8 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	//TODO Localization information storage and datatype?
 
 	
@@ -51,10 +54,16 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	 * @throws Exception
 	 */
 	public F61_Localization(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		applyProperties(poPrefix, poProp);		
+		
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		
+		applyProperties(poPrefix, poProp);	
+		
 	}
 
 	/* (non-Javadoc)

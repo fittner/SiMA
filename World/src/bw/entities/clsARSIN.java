@@ -176,6 +176,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void execution() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.execution();
 		}
@@ -190,6 +191,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void processing() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.processing();
 		}
@@ -206,6 +208,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void sensing() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.sensing();
 		}
@@ -221,6 +224,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	 */
 	@Override
 	public void updateInternalState() {
+		Thread.currentThread().setName("ARSIN #"+uid);
 		if (isAlive()) {
 			super.updateInternalState();
 		}

@@ -57,6 +57,7 @@ public class clsMemory implements
 		//oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_ANGLE, 1.99 * Math.PI );
 		
 		return oProp;
+		
     }
 	
 }

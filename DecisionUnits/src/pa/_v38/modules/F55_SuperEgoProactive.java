@@ -21,6 +21,7 @@ import pa._v38.interfaces.modules.I5_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
@@ -46,6 +47,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
 	
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
@@ -60,9 +63,14 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	 */
 	public F55_SuperEgoProactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		
 
 		applyProperties(poPrefix, poProp); 
 		
@@ -143,7 +151,7 @@ public class F55_SuperEgoProactive extends clsModuleBase
 		
 		// check drives and apply pro-active internalizes rules
 		//checkInternalizedRules();
-		
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 2, 10);
 		
 		//write chart Data
 		for (clsDriveMesh oDriveMeshEntry : moDrives_Output)

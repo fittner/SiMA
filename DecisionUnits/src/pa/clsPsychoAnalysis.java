@@ -112,6 +112,7 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 		String pre = clsProperties.addDot(poPrefix);
 	 
 		String oModelVersion = poProp.getProperty(P_MODELVERSION);
+		//double oSuperEgo_strength = poProp.getPropertyDouble(pre + "superego");
 		
 		if (oModelVersion.equals(eModelVersion.v19.name())) {	
 			moProcessor = new pa._v19.clsProcessor(pre+P_PROCESSOR, poProp);

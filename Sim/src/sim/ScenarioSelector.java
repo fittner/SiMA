@@ -57,7 +57,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
 			mUserName = System.getProperty("user.name");
 		}
 		catch(Exception e){
-			System.out.printf(e.toString());
+			System.out.printf(e.toString());						
 		}
 		
 
@@ -146,7 +146,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
         txaLongDescription.setEditable(false);
         txaLongDescription.setLineWrap(true);
         txaLongDescription.setRows(5);
-        txaLongDescription.setText("long description sadas sad sad asd as d asd as d asd asdasdas dsa d asd asd");
+        txaLongDescription.setText("long description");
         scrLongDescription.setViewportView(txaLongDescription);
 
         lblScreenshot.setBorder(javax.swing.BorderFactory.createEtchedBorder());
@@ -155,7 +155,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
         txaShortDescription.setColumns(20);
         txaShortDescription.setLineWrap(true);
         txaShortDescription.setRows(5);
-        txaShortDescription.setText("short description  asd asd asd as d asd as d assadasd   sad sadasdasdsad   asd asd as ddasdasd");
+        txaShortDescription.setText("short description");
         jScrollPane2.setViewportView(txaShortDescription);
 
         lblFieldSize.setText("Field Size:");

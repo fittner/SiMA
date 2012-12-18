@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -72,15 +73,24 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	// perceiving a drive object sould trigger less emotions than the bodily needs
 	private double mrPerceptionImpactFactor = 0.4;
 	
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	double mrRelativeSystemPleasure = 0.0; 
+	double mrRelativeSystemUnpleasure = 0.0;
+	
 	
 	public F63_CompositionOfEmotions(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage)
+			DT4_PleasureStorage poPleasureStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-
+		
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		
 		applyProperties(poPrefix, poProp);	
 		
 		moPleasureStorage = poPleasureStorage;
@@ -133,6 +143,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 		
+		text += toText.valueToTEXT("rRelativeSystemUnpleasure",  mrRelativeSystemUnpleasure);
+		text += toText.valueToTEXT("rRelativeSystemPleasure",  mrRelativeSystemPleasure);
+		
 		return text;
 	}
 
@@ -163,9 +176,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rDriveLibid = 0.0;
 		double rDriveAggr = 0.0;
 		
-			
-		double rRelativeSystemPleasure = 0.0; 
-		double rRelativeSystemUnpleasure = 0.0;
+		
 		double rRelativeSystemLibid = 0.0;
 		double rRelativeSystemAggr = 0.0;
 		
@@ -192,7 +203,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		}
 		
 		//get Pleasure
-		rDrivePleasure =  moPleasureStorage.send_D4_1()*35 ; //FOR ISIE *35 for the CHARTS, TODO react to new low pleasure values in here
+		rDrivePleasure =  moPleasureStorage.send_D4_1();
 		
 		// TEMPORARY
 		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
@@ -227,8 +238,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		// Normalize to be able to decide which basic category prevails/dominates
 		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
 		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
-		rRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
-		rRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
+		mrRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
+		mrRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
 		rRelativeSystemLibid = rSystemLibid/rSumValuesLibidAggr;
 		rRelativeSystemAggr = rSystemAggr/rSumValuesLibidAggr;
 
@@ -245,7 +256,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		*/
 		
 		// just generate Unpleasure--based Emotions
-		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
+		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){
 			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure/rMaxQoASystem, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
@@ -258,7 +269,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.MOURNING,  rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
-		else if (rRelativeSystemPleasure > mrRelativeThreshold) { // just generate Pleasure-based Emotions
+		// just generate Pleasure-based Emotions
+		else if (mrRelativeSystemPleasure > mrRelativeThreshold) {
 			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
@@ -270,8 +282,9 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
 				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
 			} 
-		}		
-		else {// generate both
+		}
+		// generate both
+		else {
 			// pleasure-based emotions
 			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
@@ -650,7 +663,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oAnger =new ArrayList<Double>();
 		Double oAngerQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANGER")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANGER)){
 				oAngerQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -662,7 +675,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oFear =new ArrayList<Double>();
 		Double oFearQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ANXIETY")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ANXIETY)){
 				oFearQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -673,7 +686,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oGrief =new ArrayList<Double>();
 		Double oGriefQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("MOURNING")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.MOURNING)){
 				oGriefQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -684,7 +697,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveSa =new ArrayList<Double>();
 		Double oLoveSaQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("SATURATION")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.SATURATION)){
 				oLoveSaQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -695,7 +708,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oLoveEx =new ArrayList<Double>();
 		Double oLoveExQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("ELATION")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.ELATION)){
 				oLoveExQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -706,7 +719,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		ArrayList<Double> oPleasure =new ArrayList<Double>();
 		Double oPleasureQoA= 0.0;
 		for(int i=0; i<moEmotions_OUT.size();i++){
-			if(moEmotions_OUT.get(i).getMoContent().toString().equals("GRIEF")){
+			if(moEmotions_OUT.get(i).getMoContent().equals(eEmotionType.JOY)){
 				oPleasureQoA = moEmotions_OUT.get(i).getMrEmotionIntensity();
 
 			}
@@ -745,16 +758,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	@Override
 	public ArrayList<String> getChartTitles() {
 		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.add("ANGER");
-		oResult.add("ANXIETY");
-		oResult.add("MOURNING");
+		oResult.add(eEmotionType.ANGER.toString());
+		oResult.add(eEmotionType.ANXIETY.toString());
+		oResult.add(eEmotionType.MOURNING.toString());
 		
-		oResult.add("SATURATION");
-		oResult.add("ELATION");
-		oResult.add("JOY");
+		oResult.add(eEmotionType.SATURATION.toString());
+		oResult.add(eEmotionType.ELATION.toString());
+		oResult.add(eEmotionType.JOY.toString());
 		
 		
-		oResult.add("DRIVE (SUM)");
+		oResult.add("DRIVE");
 		oResult.add("PERCEPTION");
 
 		return oResult;
@@ -774,32 +787,32 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		//ChartAnger
 		ArrayList<String> chartAnger = new ArrayList<String>();
-		chartAnger.add("Emotion ANGER");
+		chartAnger.add("Emotion "+eEmotionType.ANGER.toString());
 		oResult.add(chartAnger);
 		
 		//ChartFear
 		ArrayList<String> chartFear = new ArrayList<String>();
-		chartFear.add("Emotion ANXIETY");
+		chartFear.add("Emotion "+eEmotionType.ANXIETY.toString());
 		oResult.add(chartFear);
 		
 		//ChartGrief
 		ArrayList<String> chartGrief = new ArrayList<String>();
-		chartGrief.add("Emotion MOURNING");
+		chartGrief.add("Emotion "+eEmotionType.MOURNING.toString());
 		oResult.add(chartGrief);	
 		
 		//ChartLoveSaturation
 		ArrayList<String> chartLoveSaturation = new ArrayList<String>();
-		chartLoveSaturation.add("Emotion SATURATION)");
+		chartLoveSaturation.add("Emotion "+eEmotionType.SATURATION.toString());
 		oResult.add(chartLoveSaturation);
 		
 		//ChartLoveexhilaration
 		ArrayList<String> chartLoveExhilaration = new ArrayList<String>();
-		chartLoveExhilaration.add("Emotion ELATION");
+		chartLoveExhilaration.add("Emotion "+eEmotionType.ELATION.toString());
 		oResult.add(chartLoveExhilaration);	
 		
 		//ChartPleasure
 		ArrayList<String> chartPleasure= new ArrayList<String>();
-		chartPleasure.add("JOY");
+		chartPleasure.add("Emotion "+eEmotionType.JOY.toString());
 		oResult.add(chartPleasure);	
 		
 		

@@ -7,6 +7,7 @@ package inspectors.mind.pa._v38;
 
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.graph.clsGraphData;
 import inspectors.mind.pa._v38.graph.clsMeshKnowledgebase;
@@ -24,6 +25,8 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
+import pa._v38.interfaces.itfInspectorGenericTimeChart;
+import pa._v38.interfaces.itfInspectorStackedBarChart;
 import pa._v38.modules.clsPsychicApparatus;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
@@ -39,6 +42,10 @@ import sim.portrayal.inspector.TabbedInspector;
  */
 public class clsInspectorTab_Memory extends Inspector implements TreeSelectionListener {
 
+	private static final String soPSYCHIC_ENERGY_LABEL = "Psychic Energy Storage";
+	private static final String soPSYCHIC_ENERGY_OVER_TIME_LABEL = "Psychic Energy over Time";
+	
+	
 	/**
 	 * A inspector for the memory. it displays the memory information on a tab in the inspectors.
 	 * different filters etc to come
@@ -60,6 +67,8 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 	private LocationWrapper moWrapper;
 	private GUIState moGuiState;
 	
+	private DefaultMutableTreeNode moPsychicEnergyNode  = new DefaultMutableTreeNode(soPSYCHIC_ENERGY_LABEL);
+	
     public clsInspectorTab_Memory(Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
@@ -80,6 +89,10 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 		root.add(new DefaultMutableTreeNode("TP"));
 		root.add(new DefaultMutableTreeNode("Libido Storage"));
 		root.add(new DefaultMutableTreeNode("Blocked Content Storage"));
+		root.add(moPsychicEnergyNode);
+		for(itfInspectorGenericTimeChart oInspectorPsychicEnergyPerModule:((clsProcessor)moPA.getProcessor()).getPsychicApparatus().moPsychicEnergyStorage.getInspectorPsychicEnergyPerModule()) {
+			moPsychicEnergyNode.add(new DefaultMutableTreeNode(oInspectorPsychicEnergyPerModule.getTimeChartTitle()));
+		}
 		root.add(new DefaultMutableTreeNode("Environmental Image Memory"));
 		root.add(new DefaultMutableTreeNode("Short Time Memory"));
 		
@@ -175,7 +188,22 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 		else if (poModuleName.equals("Short Time Memory")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moShortTimeMemory), "State");
 			oRetVal.addInspector(new clsGraphData(moPA, moPA.moShortTimeMemory, true), "DataGraph");
-		}  
+		} else if(poModuleName.equals(soPSYCHIC_ENERGY_LABEL)) {
+			moPsychicEnergyNode.removeAllChildren();
+			for(itfInspectorGenericTimeChart oInspectorPsychicEnergyPerModule:moPA.moPsychicEnergyStorage.getInspectorPsychicEnergyPerModule()) {
+				moPsychicEnergyNode.add(new DefaultMutableTreeNode(oInspectorPsychicEnergyPerModule.getTimeChartTitle()));
+			}
+			oRetVal.addInspector(new cls_GenericTimeChartInspector((itfInspectorGenericTimeChart)moPA.moPsychicEnergyStorage, 800, 800, 400), "Energy");
+			oRetVal.addInspector(
+					new cls_StackedBarChartInspector((itfInspectorStackedBarChart) moPA.moPsychicEnergyStorage),	
+					"StackedBarChart");	
+		} else {
+			for(itfInspectorGenericTimeChart oInspectorPsychicEnergyPerModule:moPA.moPsychicEnergyStorage.getInspectorPsychicEnergyPerModule()) {
+				if(oInspectorPsychicEnergyPerModule.getTimeChartTitle().equals(poModuleName)) {
+					oRetVal.addInspector(new cls_GenericTimeChartInspector(oInspectorPsychicEnergyPerModule, 800, 800, 400), soPSYCHIC_ENERGY_OVER_TIME_LABEL);	
+				}
+			}	
+		}
 		
 		return oRetVal;
 	}	
