@@ -32,8 +32,17 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected double moExactDebugY;
 	protected double moExactDebugAngle;
 	protected double moDebugSensorArousal;
+	protected double moObjectBodyIntegrity;
 
 	
+	public double getObjectBodyIntegrity() {
+		return moObjectBodyIntegrity;
+	}
+
+	public void setObjectBodyIntegrity(double poObjectBodyIntegrity) {
+		this.moObjectBodyIntegrity = poObjectBodyIntegrity;
+	}
+
 	public double getExactDebugX() {
 		return moExactDebugX;
 	}

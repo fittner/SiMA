@@ -28,8 +28,11 @@ public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInter
 	public static final String P_ATTRIBUTES     = "attributes";
     protected clsAttributes  moAttributes;
     protected eBodyType meBodyType;
+    protected double moBodyIntegrity;
 	
 	
+	
+
 	public clsBaseBody(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		setBodyType();
 		applyProperties(poPrefix, poProp, poEntity);	
@@ -57,6 +60,21 @@ public abstract class clsBaseBody implements 	itfStepSensing, itfStepUpdateInter
 	
 	public eBodyType getBodyType() {
 		return meBodyType;
+	}
+	
+	/**
+	 * /Describes if the body is full/half there etc, 0.5 = 50%
+	 *
+	 * @since 29.11.2012 12:46:22
+	 *
+	 * @return
+	 */
+	public double getBodyIntegrity() {
+		return moBodyIntegrity;
+	}
+
+	public void setBodyIntegrity(double poBodyIntegrity) {
+		this.moBodyIntegrity = poBodyIntegrity;
 	}
 	
 	protected abstract void setBodyType();

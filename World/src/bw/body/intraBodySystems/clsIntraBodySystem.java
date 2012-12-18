@@ -26,6 +26,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	public static final String P_STOMACHDAMAGENUTRITION = "damagenutrition";	
 	public static final String P_STOMACHDAMAGETENSION = "damagetension";
 	public static final String P_STOMACHTOSLOWMESSENGER = "stomachtoslowmessenger";
+	public static final String P_EROGENOUSZONESSYSTEM = "erogenouszonessystem";
 	
     private clsBodyColor moColorSystem;
     private clsGrowth moGrowthSystem;
@@ -34,6 +35,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
     private clsStomachDamageNutrition moStomachDamageNutrition;
     private clsStomachPainTension moStomachDamageTension;
     private clsStomachToSlowMessenger moStomachToSlowMessenger;
+    private clsErogenousZonesSystem moErogenousZonesSystem;
     
     public clsIntraBodySystem(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
@@ -51,6 +53,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		oProp.putAll( clsStomachToSlowMessenger.getDefaultProperties(pre+P_STOMACHTOSLOWMESSENGER) );
 		oProp.putAll( clsDamageTemperature.getDefaultProperties(pre+P_DAMAGETEMPERATURE) );
 		oProp.putAll( clsFacialExpression.getDefaultProperties(pre+P_FACIALEXPRESSION) );
+		oProp.putAll( clsErogenousZonesSystem.getDefaultProperties(pre+P_EROGENOUSZONESSYSTEM) );
 				
 		return oProp;
 	}	
@@ -65,6 +68,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 		moStomachDamageTension 		= new clsStomachPainTension(pre+P_STOMACHDAMAGETENSION,	poProp, poInternalSystem.getStomachSystem(), poInternalSystem.getFastMessengerSystem());		
 		moStomachToSlowMessenger 	= new clsStomachToSlowMessenger(pre+P_STOMACHTOSLOWMESSENGER, poProp, poInternalSystem.getStomachSystem(), poInternalSystem.getSlowMessengerSystem());		
 		moDamageTemperature 		= new clsDamageTemperature(pre+P_DAMAGETEMPERATURE, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getTemperatureSystem(), poInternalSystem.getFastMessengerSystem());
+		moErogenousZonesSystem 		= new clsErogenousZonesSystem(pre+P_EROGENOUSZONESSYSTEM,	poProp, poEntity , poInternalSystem.getFastMessengerSystem());
 	}	
 	    
     /**
@@ -111,6 +115,10 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
 	public clsStomachToSlowMessenger getStomachToSlowMessenger() {
 		return moStomachToSlowMessenger;
 	}
+	
+	public clsErogenousZonesSystem getErogenousZonesSystem() {
+		return moErogenousZonesSystem;
+	}
 
 	/**
      * DOCUMENT (deutsch) - insert description
@@ -125,6 +133,7 @@ public class clsIntraBodySystem implements itfStepUpdateInternalState{
      	moStomachDamageTension.stepUpdateInternalState();
      	moStomachToSlowMessenger.stepUpdateInternalState();
     	moDamageTemperature.stepUpdateInternalState();
+    	moErogenousZonesSystem.stepUpdateInternalState();
     }
 }
 

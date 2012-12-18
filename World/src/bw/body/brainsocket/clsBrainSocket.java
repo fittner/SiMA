@@ -645,6 +645,12 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			
 			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;break;
 			
+			case INTER_ORIFICE_ORAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_ORAL_MUCOSA; break;
+			case INTER_ORIFICE_RECTAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_RECTAL_MUCOSA; break;
+			case INTER_ORIFICE_GENITAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_GENITAL_MUCOSA; break;
+			case INTER_ORIFICE_PHALLIC_MUCOSA: oSource=eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA; break;
+				
+			
 			default:throw new java.lang.NullPointerException("unkown fast messenger source: "+poEntry.getSource());
 		}
 		
@@ -924,6 +930,11 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
 					
 			oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
+			
+			if(oEntity.getBody() != null){
+				//sets if the body is full/half etc, 0.5 = 50%
+				oData.setObjectBodyIntegrity(oEntity.getBody().getBodyIntegrity());
+			}
 			
 			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
 			

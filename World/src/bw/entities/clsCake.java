@@ -134,6 +134,35 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 			clsRegisterEntity.unRegisterPhysicalObject2D(getMobileObject2D());
 		}
 	}
+	
+	private void updateShape() {
+		if (this.moBody.getBodyIntegrity() > 0.75) {
+			//100% TODO Pizza
+		}
+		else if (this.moBody.getBodyIntegrity() > 0.50) {
+		}
+		else if (this.moBody.getBodyIntegrity() > 0.25) {
+			
+		}
+		else if (this.moBody.getBodyIntegrity() > 0.50) {
+			
+		}
+		else{
+			
+		}
+//			// state has changed recently to no_food_left
+//			// update shape to the gray carrot
+//			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
+//			mnShapeUpdated = true;
+//			set2DShape(moDead2D, getTotalWeight());		
+//		} else if (!getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
+//			// state has changed recently to food_available
+//			// update shape to the orange carrot
+//			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
+//			mnShapeUpdated = true;
+//			set2DShape(moFresh2D, getTotalWeight());
+//		}		
+	}
 
 	/* (non-Javadoc)
 	 *

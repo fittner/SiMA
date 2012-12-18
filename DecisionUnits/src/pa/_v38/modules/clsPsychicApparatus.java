@@ -177,7 +177,7 @@ public class clsPsychicApparatus {
 		
 		// --- Set logger properties --- //
 		clsLogger.jlog.removeAllAppenders();
-		clsLogger.jlog.setLevel(Level.DEBUG);
+		clsLogger.jlog.setLevel(Level.OFF);
 		//clsLogger.jlog.setLevel(Level.INFO);
 		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
 		Layout layout = new PatternLayout("%t: (%F:%L) - %m%n");

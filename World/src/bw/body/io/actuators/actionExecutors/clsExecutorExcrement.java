@@ -117,6 +117,10 @@ public class clsExecutorExcrement extends clsActionExecutor{
 		clsRegisterEntity.registerEntity(oEx);
 		oEx.setRegistered(true);
 		
+		// the stimulation of the erogenous zone
+        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateRectalMucosa(0.5); //TODO 0.5 frei gewählt
+        //eigentlich realistischer: reizung durch die anwesenheit der Kotstange im rrectum, bis zur Schmerzgrenze, dann nochmal reizung bei Ausscheidung
+		
 		//reset the wait till digestion starts again
 		oBody.getInternalSystem().getStomachSystem().ResetRectumWaitCounter();
 		
