@@ -205,6 +205,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 	 
+		clsThingPresentationMesh oCandidateTPM_DM = null;
+		clsDriveMesh oMemorizedDriveMesh = null;
 		
 		PrepareSensorInformatinForInspector(moEnvironmentalData);
 		
@@ -299,7 +301,24 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
+		for(clsThingPresentationMesh oCandidateTPM : moCompleteThingPresentationMeshList){
+			//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
+			for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
+				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
+
+					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
+					oCandidateTPM_DM = oMemorizedDriveMesh.getActualDriveObject();
+					
+					// is it the same TPM?
+					if(oCandidateTPM_DM.getMoDS_ID() == oCandidateTPM.getMoDS_ID()){
+						oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+					}
+					
+				}
+			}
+		}
 		
+			
 	}
 	
 	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){

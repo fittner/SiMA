@@ -17,8 +17,9 @@ import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.tools.clsDumper;
+//import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
 import config.clsProperties;
 
@@ -43,6 +44,8 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	
 	private clsShortTermMemory moEnvironmentalImageStorage;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * Constructor of the NeuroDeSymbolization
 	 * 
@@ -55,8 +58,13 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 * @throws Exception
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		
+        this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
 		applyProperties(poPrefix, poProp);	
 		
 		moActionCommands_Output = new ArrayList<clsWordPresentationMesh>(); 
@@ -80,22 +88,22 @@ public class F30_MotilityControl extends clsModuleBaseKB
 				                            "eDataType:AFFECT",
 				                            "eDataType:ASSOCIATIONTEMP"};
 		// simple toString output
-		//text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
+		text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
 		// complex clsDumper output
-		text += "moActionCommands_Input:" + clsDumper.dump(moActionCommands_Input,3,0,ignoreList) + "\n";		
+		//text += "moActionCommands_Input:" + clsDumper.dump(moActionCommands_Input,3,0,ignoreList) + "\n";		
 
 		if(moEnvironmentalPerception_IN == null)
 			text += toText.valueToTEXT("moEnvironmentalPerception_IN", "null");
 		else {
 			// simple toString output
-			//text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN.toString());
+			text += toText.valueToTEXT("moEnvironmentalPerception_IN", moEnvironmentalPerception_IN.toString());
 			// complex clsDumper output
-			text += "moEnvironmentalPerception_IN:" + clsDumper.dump(moEnvironmentalPerception_IN,3,0,ignoreList) + "\n";
+			//text += "moEnvironmentalPerception_IN:" + clsDumper.dump(moEnvironmentalPerception_IN,3,0,ignoreList) + "\n";
 		}
 		// simple toString output
-		//text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
+		text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
 		// complex clsDumper output
-		text += "moActionCommands_Output:" + clsDumper.dump(moActionCommands_Output,3,0,ignoreList) + "\n";
+		//text += "moActionCommands_Output:" + clsDumper.dump(moActionCommands_Output,3,0,ignoreList) + "\n";
 		return text;
 	}	
 	
