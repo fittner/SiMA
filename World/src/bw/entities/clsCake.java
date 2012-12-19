@@ -31,6 +31,7 @@ import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
+import sim.physics2D.shape.Shape;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -42,6 +43,14 @@ import bw.body.io.actuators.actionProxies.*;
 public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
 	private boolean mnDestroyed = false;
 	
+	public static final String P_SHAPE_75 		= "shape_75";
+	public static final String P_SHAPE_50 		= "shape_50";
+	public static final String P_SHAPE_25 		= "shape_25";
+	
+	private Shape moShape75;
+	private Shape moShape50;
+	private Shape moShape25;
+	
 	public clsCake(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
@@ -50,6 +59,10 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
 //		String pre = clsProperties.addDot(poPrefix);
+		
+		moShape75 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_75, poProp);
+		moShape50 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_50, poProp);
+		moShape25 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_25, poProp);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
@@ -74,7 +87,25 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 8.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.pink);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl.png");
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_RADIUS, 8.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl75.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_RADIUS, 8.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl50.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
+		
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_RADIUS, 8.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_COLOR, Color.pink);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl25.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 150.0 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 8 );
@@ -120,6 +151,9 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	 */
 	@Override
 	public void updateInternalState() {
+		
+		updateShape();
+		
 		if (getFlesh().getTotallyConsumed() && !mnDestroyed) {
 			mnDestroyed = true;
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
@@ -130,19 +164,25 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	}
 	
 	private void updateShape() {
-		if (this.moBody.getBodyIntegrity() > 0.75) {
-			//100% TODO Pizza
+		
+		
+		if (this.moBody.getBodyIntegrity() < 0.25) {
+			//do nothing, will be eaten soon
 		}
-		else if (this.moBody.getBodyIntegrity() > 0.50) {
+		else if (this.moBody.getBodyIntegrity() < 0.50) {
+			//25%
+			set2DShape(moShape25, getTotalWeight());	
 		}
-		else if (this.moBody.getBodyIntegrity() > 0.25) {
-			
+		else if (this.moBody.getBodyIntegrity() < 0.75) {
+			//50%
+			set2DShape(moShape50, getTotalWeight());	
 		}
-		else if (this.moBody.getBodyIntegrity() > 0.50) {
-			
+		else if (this.moBody.getBodyIntegrity() < 1.0) {
+			//100-75%
+			set2DShape(moShape75, getTotalWeight());	
 		}
 		else{
-			
+			// = 100% do nothing
 		}
 //			// state has changed recently to no_food_left
 //			// update shape to the gray carrot

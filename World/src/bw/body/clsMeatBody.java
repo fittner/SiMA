@@ -82,7 +82,7 @@ public class clsMeatBody extends clsBaseBody {
 	
 	@Override
 	public double getBodyIntegrity() {
-		return mrMaxWeight / moFlesh.getWeight();
+		return moFlesh.getWeight() / mrMaxWeight;
 	}
 
 	/* (non-Javadoc)
