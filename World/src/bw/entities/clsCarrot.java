@@ -153,7 +153,6 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	@Override
 	protected void setEntityType() {
 		meEntityType =  eEntityType.CARROT;
-		
 	}
 
 	/* (non-Javadoc)
