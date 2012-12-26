@@ -29,6 +29,7 @@ public enum eDataType {
 	ASSOCIATIONSEC			(0x000000),
 	ASSOCIATIONEMOTION		(0x000000),
 	CONCEPT				    (0x000000),
+	DOMAIN					(0x000000),
 	DRIVEDEMAND				(0x000000),
 	DM						(0x000010),
 	TI						(0x000100),

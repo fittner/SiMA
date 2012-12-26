@@ -7,7 +7,11 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
@@ -16,7 +20,7 @@ import pa._v38.tools.planningHelpers.PlanningNode;
  * @author hinterleitner 19.05.2012, 16:28:04
  * 
  */
-public class clsDomain{
+public class clsDomain {
 
 	protected ArrayList<PlanningNode> myDomain;
 
@@ -28,6 +32,20 @@ public class clsDomain{
 	 */
 	public clsDomain() {
 		myDomain = new ArrayList<PlanningNode>();
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 * 
+	 * @since 22.12.2012 15:46:05
+	 * 
+	 * @param clsTriple
+	 * @param arrayList
+	 * @param oElVal
+	 */
+	public clsDomain(clsTriple<Integer, eDataType, eContentType> clsTriple,
+			ArrayList<clsSecondaryDataStructure> arrayList, String oElVal) {
+		// TODO (hinterleitner) - Auto-generated constructor stub
 	}
 
 	public void pushPlanFragment(PlanningNode conceptFragment) {
@@ -50,9 +68,45 @@ public class clsDomain{
 		}
 		return content;
 	}
-	
+
 	public ArrayList<PlanningNode> returnContent() {
 		return myDomain;
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 * 
+	 * @since 22.12.2012 15:48:13
+	 * 
+	 * @return
+	 */
+	public String getMoContent() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 * 
+	 * @since 22.12.2012 15:48:19
+	 * 
+	 * @return
+	 */
+	public Collection<?> getMoAssociatedContent() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return null;
+	}
+
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 * 
+	 * @since 22.12.2012 15:48:26
+	 * 
+	 * @param string
+	 */
+	public void setMoContent(String string) {
+		// TODO (hinterleitner) - Auto-generated method stub
+
 	}
 
 }
