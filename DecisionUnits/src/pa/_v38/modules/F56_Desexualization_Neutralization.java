@@ -41,7 +41,7 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	private ArrayList<clsDriveMesh> moDrives_OUT;
 	
 	/** Reference to the storage for freed psychic energy, to distribute it to other modules.; @since 12.10.2011 19:28:27 */
-	private DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
 	private double mrEnergyReductionRateSexual = 0.7;
@@ -79,7 +79,8 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
-		moPsychicEnergyStorage = poPsychicEnergyStorage;
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		
 		applyProperties(poPrefix, poProp); 
 		
 		moChartInputData = new HashMap<String,Double>();

@@ -16,6 +16,7 @@ import bw.body.clsMeatBody;
 import bw.body.itfGetBrain;
 import bw.body.itfGetExternalIO;
 import bw.body.io.sensors.external.clsSensorEngine;
+import bw.factories.clsRegisterEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
 import bw.utils.enums.eBodyType;
 
@@ -38,8 +39,13 @@ public abstract class clsAnimate extends clsMobile {
 
 		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsMobile.getDefaultProperties(pre) );
+		//remove simple body from clsEntity
+		oProp.removeKeysStartingWith(pre+clsAnimate.P_BODY);
+		
+		//and right body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		return oProp;
 	}	
 	
@@ -54,7 +60,10 @@ public abstract class clsAnimate extends clsMobile {
 			((itfGetBrain)moBody).getBrain().setDecisionUnit(poDecisionUnit);
 		}
 	}
-	
+	@Override
+	public void registerEntity(){
+		clsRegisterEntity.registerEntity(this);
+	}
 	/* (non-Javadoc)
 	 *
 	 * @since 03.05.2012 15:47:28

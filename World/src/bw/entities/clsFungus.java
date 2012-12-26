@@ -9,6 +9,10 @@ package bw.entities;
 
 import java.awt.Color;
 
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -26,6 +30,7 @@ import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.itfAPEatable;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -210,5 +215,19 @@ public class clsFungus extends clsInanimate implements itfGetFlesh, itfAPEatable
 	@Override
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:18:05 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorFungus(poSuperInspector, poWrapper, poState, (clsFungus)poEntity), "Fungus");
+		
 	}	
 }

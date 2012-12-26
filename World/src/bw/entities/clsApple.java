@@ -7,28 +7,37 @@
  */
 package bw.entities;
 
+
 import java.awt.Color;
 
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
 
 import config.clsProperties;
 import du.enums.eEntityType;
+import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
 import bw.body.clsMeatBody;
+
 import bw.body.attributes.clsAttributes;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.itfget.itfGetBody;
 import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
+
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
-import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorBasic;
+
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 
@@ -40,6 +49,7 @@ import bw.body.io.actuators.actionProxies.*;
  * 
  */
 public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+	
 	private boolean mnDestroyed = false;
 	
 	public clsApple(String poPrefix, clsProperties poProp, int uid)
@@ -66,6 +76,9 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+				
+
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		
@@ -91,7 +104,7 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
-		
+	
 		return oProp;
 	}
 	
@@ -227,6 +240,20 @@ public class clsApple extends clsInanimate implements itfGetFlesh, itfAPEatable,
 	@Override
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:26 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Apple");
+		
 	}
 	
 }

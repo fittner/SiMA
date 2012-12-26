@@ -22,9 +22,14 @@ import bw.utils.enums.eBodyType;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
+import sim.display.GUIState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.cls3DUniverse;
+
 import statictools.clsSimState;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
@@ -57,6 +62,7 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsEntity implements itfGetBody {
+	
 	public static final String P_ID = "id";
 	public static final String P_STRUCTURALWEIGHT = "weight_structural";
 	//public static final String P_ENTITY_COLOR_RGB = "color_rgb"; // TD - moved to clsShape2DCreator. if a differentiation between the color of the shape and the color of the agent is necessary - reactivate this property
@@ -85,6 +91,8 @@ public abstract class clsEntity implements itfGetBody {
 	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
 	private BranchGroup shapes3D; 
+	public abstract void registerEntity();
+	public abstract void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity);
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
@@ -118,6 +126,12 @@ public abstract class clsEntity implements itfGetBody {
 		String pre = clsProperties.addDot(poPrefix);
 
 		clsProperties oProp = new clsProperties();
+
+		
+
+		oProp.putAll( clsSimpleBody.getDefaultProperties(pre+P_BODY) );
+		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.SIMPLE.toString());
+		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		oProp.setProperty(pre+P_ID, -1);
@@ -163,6 +177,8 @@ public abstract class clsEntity implements itfGetBody {
 		
 		return oRetVal;	
 	}
+	
+
 	
 
 	/* (non-Javadoc)

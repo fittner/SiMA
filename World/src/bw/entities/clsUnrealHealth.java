@@ -49,7 +49,7 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
     } 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
-//		String pre = clsProperties.addDot(poPrefix);
+		String pre = clsProperties.addDot(poPrefix);
 		
 		setVariableWeight(getFlesh().getWeight());
 	}	
@@ -67,7 +67,10 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
 		
+
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
+
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -91,7 +94,7 @@ public class clsUnrealHealth extends clsInanimate implements itfGetFlesh, itfAPE
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_MAXWEIGHT, 150);
 		oProp.setProperty(pre+P_BODY+"."+clsMeatBody.P_REGROWRATE, 0);		
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_BODY+"."+clsBaseBody.P_ATTRIBUTES) );
-		
+	
 		return oProp;
 	}
 	

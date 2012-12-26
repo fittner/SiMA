@@ -7,13 +7,15 @@
  */
 package bw.entities;
 
-import java.awt.Color;
 
-import config.clsProperties;
-import du.enums.eEntityType;
+
+import java.awt.Color;
 
 import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eShapeType;
+
+import config.clsProperties;
+import du.enums.eEntityType;
 
 
 /**
@@ -25,7 +27,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsWallAxisAlign extends clsStationary  {	
-    public clsWallAxisAlign(String poPrefix, clsProperties poProp, int uid) {
+	public clsWallAxisAlign(String poPrefix, clsProperties poProp, int uid) {
     	super(poPrefix, poProp, uid);
     	
     	applyProperties(poPrefix, poProp);
@@ -36,12 +38,15 @@ public class clsWallAxisAlign extends clsStationary  {
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
 		
+		
+		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.RECTANGLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_WIDTH, 10);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_LENGTH, 10);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.black);
-			
+ 			
 		return oProp;
 	}	
 		

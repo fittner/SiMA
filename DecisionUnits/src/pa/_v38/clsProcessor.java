@@ -106,10 +106,26 @@ public class clsProcessor implements itfProcessor  {
 	@Override
 	public void applySensorData(clsSensorData poData) {
 		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_1( mrLibidostream );
-		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_2( 0.0 );
+		moPsyApp.moF39_SeekingSystem_LibidoSource.receive_I0_2( separateFASTMESSENGERData(poData) );
 		moPsyApp.moF01_SensorsMetabolism.receive_I0_3( separateHomeostaticData(poData) );
 		moPsyApp.moF12_SensorsBody.receive_I0_5( separateBodyData(poData) );
 		moPsyApp.moF10_SensorsEnvironment.receive_I0_4( separateEnvironmentalData(poData) );
+	}
+	
+	/**
+	 * get the fast messenger sensor information, where the erogenous zone sensor information is comming from
+	 *
+	 * @since 26.11.2012 14:53:36
+	 *
+	 * @param poData
+	 * @return
+	 */
+	private HashMap<eSensorIntType, clsDataBase> separateFASTMESSENGERData(clsSensorData poData) {
+		HashMap<eSensorIntType, clsDataBase> oResult = new HashMap<eSensorIntType, clsDataBase>();
+		
+		oResult.put(eSensorIntType.FASTMESSENGER, poData.getSensorInt(eSensorIntType.FASTMESSENGER));
+
+		return oResult;
 	}
 
 	/**

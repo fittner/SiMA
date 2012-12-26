@@ -13,8 +13,15 @@ import config.clsProperties;
 import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
+import bw.factories.clsRegisterEntity;
+import bw.utils.inspectors.entity.clsInspectorBasic;
+import sim.display.GUIState;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
+
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -25,6 +32,8 @@ import ARSsim.physics2D.util.clsPose;
  * 
  */
 public abstract class clsMobile extends clsEntity {
+	
+	
 	public static final String P_START_VELOCITY_X = "start_velocity_x";
 	public static final String P_START_VELOCITY_Y = "start_velocity_y";
 
@@ -52,6 +61,10 @@ public abstract class clsMobile extends clsEntity {
 		mnHolders = 0;
 	}
 
+	@Override
+	public void registerEntity(){
+		clsRegisterEntity.registerEntity(this);
+	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
@@ -59,6 +72,7 @@ public abstract class clsMobile extends clsEntity {
 		clsProperties oProp = new clsProperties();
 
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
+		
 		
 		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
@@ -98,7 +112,13 @@ public abstract class clsMobile extends clsEntity {
 		
 		setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}
-
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity),meEntityType.name());		
+	}
+	
 	/*
 	 * Override to configure inventory-size
 	 */

@@ -9,10 +9,12 @@ package bw.entities;
 
 import java.awt.Color;
 
+
 import config.clsProperties;
 import du.enums.eEntityType;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eShapeType;
+
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
@@ -28,7 +30,6 @@ import bw.entities.tools.eImagePositioning;
  * 
  */
 public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
-	
 	public static final String P_RADIATION_INTENSITY = "radiation_intensity";
 	
 	public double mrRadiationIntensity;
@@ -48,7 +49,10 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
-		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5.0);
+		
+
+		
+ 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 5.0);
 		oProp.setProperty(pre+P_RADIATION_INTENSITY, 1.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -122,6 +126,7 @@ public class clsUraniumOre extends clsInanimate implements itfAPCarryable {
 	public void setCarriedBindingState(eBindingState pBindingState) {
 		//handle binding-state implications 
 	}
+
 
 }
 

@@ -9,7 +9,6 @@ import java.awt.Color;
 
 import com.sun.j3d.utils.geometry.Box;
 import com.sun.j3d.utils.universe.SimpleUniverse;
-import java.util.List;
 
 import javax.media.j3d.AmbientLight;
 import javax.media.j3d.Appearance;
@@ -38,30 +37,15 @@ import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
+
 import bw.entities.clsAnimate;
-import bw.entities.clsApple;
-import bw.entities.clsBase;
-import bw.entities.clsARSIN;
-import bw.entities.clsFungusEater;
-import bw.entities.clsCake;
-import bw.entities.clsCan;
-import bw.entities.clsCarrot;
 import bw.entities.clsEntity;
-import bw.entities.clsFungus;
-import bw.entities.clsHare;
-import bw.entities.clsLynx;
-import bw.entities.clsPlant;
-import bw.entities.clsRectangleStationary;
-import bw.entities.clsRemoteBot;
-import bw.entities.clsStone;
-import bw.entities.clsToilet;
-import bw.entities.clsTomato;
-import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
+import bw.factories.clsEntityFactory;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonProperties;
@@ -141,7 +125,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 		{
 			setup3Dworld();
 		}
+		
     }
+
 	
 	private Box getFloorPane() {
 		Color3f c3f = new Color3f(Color.white);
@@ -204,50 +190,14 @@ public class clsSimplePropertyLoader extends clsLoader {
     	if (usedefaults) {
     		clsProperties oP = new clsProperties();
 
-    		oP.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
+    		oP.putAll( clsEntityFactory.getEntityDefaults(pre+P_DEFAULTSENTITY) );
     		oP.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
 	    	oP.putAll(poProp);
 
 	    	poProp.clear();
 	    	poProp.putAll(oP);
     	}	
-	}	
-	
-	
-    /**
-     * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
-     *
-     * @since 06.07.2011 13:01:59
-     *
-     * @param poPrefix
-     * @return
-     */
-    private static clsProperties getEntityDefaults(String poPrefix) {
-		String pre = clsProperties.addDot(poPrefix);
-		
-		clsProperties oProp = new clsProperties();
-		
-		oProp.putAll( clsARSIN.getDefaultProperties		(pre+eEntityType.ARSIN.name()) );
-		oProp.putAll( clsFungusEater.getDefaultProperties	(pre+eEntityType.FUNGUS_EATER.name()) );
-		oProp.putAll( clsRemoteBot.getDefaultProperties		(pre+eEntityType.REMOTEBOT.name()) );
-		oProp.putAll( clsPlant.getDefaultProperties			(pre+eEntityType.PLANT.name()) );
-		oProp.putAll( clsHare.getDefaultProperties			(pre+eEntityType.HARE.name()) );		
-		oProp.putAll( clsLynx.getDefaultProperties			(pre+eEntityType.LYNX.name()) );
-		oProp.putAll( clsBase.getDefaultProperties			(pre+eEntityType.BASE.name()) );
-		oProp.putAll( clsCan.getDefaultProperties			(pre+eEntityType.CAN.name()) );
-		oProp.putAll( clsCake.getDefaultProperties			(pre+eEntityType.CAKE.name()) );
-		oProp.putAll( clsApple.getDefaultProperties			(pre+eEntityType.APPLE.name()) );
-		oProp.putAll( clsTomato.getDefaultProperties		(pre+eEntityType.TOMATO.name()) );
-		oProp.putAll( clsStone.getDefaultProperties			(pre+eEntityType.STONE.name()) );
-		oProp.putAll( clsFungus.getDefaultProperties		(pre+eEntityType.FUNGUS.name()) );
-		oProp.putAll( clsUraniumOre.getDefaultProperties	(pre+eEntityType.URANIUM.name()) );
-		oProp.putAll( clsCarrot.getDefaultProperties		(pre+eEntityType.CARROT.name()) );
-		oProp.putAll( clsToilet.getDefaultProperties			(pre+eEntityType.TOILET.name()) );
-		oProp.putAll( clsRectangleStationary.getDefaultProperties			(pre+eEntityType.RECTANGLE_STATIONARY.name()) );
-		
-		return oProp;
-    }
-    
+	}	 
 	
     /**
      * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
@@ -297,7 +247,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.setProperty(pre+P_USEDEFAULTS, true);
 		
 		if (pnAddDefaultEntities) {
-			oProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
+			oProp.putAll( clsEntityFactory.getEntityDefaults(pre+P_DEFAULTSENTITY) );
 		}	
 		if (pnAddDefaultDecisionUnits) {
 			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
@@ -503,83 +453,8 @@ public class clsSimplePropertyLoader extends clsLoader {
     	if (pnDecisionType != eDecisionType.NONE) {
     			oDU = clsDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
     	}
-    	
-    	clsEntity oEntity = null;
-    	
-    	switch(pnEntityType) {
-    		case ARSIN:
-    			oEntity = new clsARSIN(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsARSIN)oEntity);		
-    			break;
-    		case FUNGUS_EATER:
-    			oEntity = new clsFungusEater(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsFungusEater)oEntity);		
-    			break;
-    		case REMOTEBOT:
-    			oEntity = new clsRemoteBot(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsRemoteBot)oEntity);		
-    			break;
-    		case PLANT:
-    			oEntity = new clsPlant(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsPlant)oEntity);		
-    			break;
-    		case HARE:
-    			oEntity = new clsHare(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsHare)oEntity);		
-    			break;
-    		case LYNX:
-    			oEntity = new clsLynx(oDU, pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsLynx)oEntity);		
-    			break;
-    		case BASE:
-    			oEntity = new clsBase(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsBase)oEntity);		
-    			break;
-    		case CAN:
-    			oEntity = new clsCan(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsCan)oEntity);		
-    			break;
-    		case CAKE:
-    			oEntity = new clsCake(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsCake)oEntity);		
-    			break;
-    		case STONE:
-    			oEntity = new clsStone(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsStone)oEntity);		
-    			break;
-    		case FUNGUS:
-    			oEntity = new clsFungus(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsFungus)oEntity);		
-    			break;
-    		case URANIUM:
-    			oEntity = new clsUraniumOre(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsUraniumOre)oEntity);		
-    			break;    			
-    		case CARROT:
-    			oEntity = new clsCarrot(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsCarrot)oEntity);		
-    			break; 
-    		case TOILET:
-    			oEntity = new clsToilet(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsToilet)oEntity);		
-    			break;
-    		case RECTANGLE_STATIONARY:
-    			oEntity = new clsRectangleStationary(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsRectangleStationary)oEntity);		
-    			break;
-    		case APPLE:
-    			oEntity = new clsApple(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsApple)oEntity);		
-    			break;
-    		case TOMATO:
-    			oEntity = new clsTomato(pre, poPropEntity, uid);
-    			clsRegisterEntity.registerEntity((clsTomato)oEntity);		
-    			break;
-			default:
-				throw new java.lang.IllegalArgumentException("eEntityType."+pnEntityType.toString());    	
-    	}
-    	
-		
+       	
+    	clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
     }
     
     /**
@@ -611,21 +486,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     	clsProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
     	clsProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);
 
-    	//get list for remove specified entity subtrees
-    	List<String> oRemoveEntityDefaults = null;
-    	try {
-    		oRemoveEntityDefaults = poProp.getPropertyList(pre+P_REMOVEENTITYDEFAULTS);
-    	} catch (java.lang.NullPointerException e) {
-    		// do nothing
-    	}
-
-    	//get list for remove specified decisionunit subtrees
-    	List<String> oRemoveDecisionUnitDefaults = null;
-    	try {
-    		oRemoveDecisionUnitDefaults = poProp.getPropertyList(pre+P_REMOVEDECISIONUNITDEFAULTS);
-    	} catch (java.lang.NullPointerException e) {
-    		// do nothing
-    	}
+    	clsProperties oRemoveEntityDefaults = poProp.getSubset(pre+P_REMOVEENTITYDEFAULTS);
+    	
+    	clsProperties oRemoveDecisionUnitDefaults = poProp.getSubset(pre + P_REMOVEDECISIONUNITDEFAULTS);
     	
     	//merge default values with overwrite values and remove selected values for each entity in this entity group.
     	int num = poProp.getPropertyInt(pre+P_NUMENTITES);
@@ -639,11 +502,12 @@ public class clsSimplePropertyLoader extends clsLoader {
     		clsProperties oEntityProperties = getEntityProperties(nEntityType);
     		oEntityProperties.put( clsEntity.P_ID, nEntityType.name()+"_"+nDecisionType.name()+"_"+i+" (#"+uid+")" );    		
     		//remove entity keys
-    		if (oRemoveEntityDefaults != null) {
-	    		for (String oRemoveKey:oRemoveEntityDefaults) {
-	    			oEntityProperties.removeKeysStartingWith(oRemoveKey);
+    		if (oRemoveEntityDefaults.size() != 0) {
+	    		for (Object oRemoveKey:oRemoveEntityDefaults.keySet()) {
+	    			oEntityProperties.removeKeysStartingWith(oRemoveKey.toString());
 	    		}
-    		}	
+    		}
+
     		//overwrite entity values
     		oEntityProperties.putAll( oOverwriteEntityDefaults );
     		oEntityProperties.putAll( getPosition(pre, poProp, "", i) );    		
@@ -651,11 +515,11 @@ public class clsSimplePropertyLoader extends clsLoader {
     		//get default decision unit properties (if existing)
     		clsProperties oDecisionUnitProperties = getDecisionUnitProperties(nDecisionType);
     		//remove decision unit keys
-    		if (oRemoveDecisionUnitDefaults != null) {
-	    		for (String oRemoveKey:oRemoveDecisionUnitDefaults) {
-	    			oDecisionUnitProperties.removeKeysStartingWith(oRemoveKey);
+    		if (oRemoveDecisionUnitDefaults.size()!=0) {
+	    		for (Object oRemoveKey:oRemoveDecisionUnitDefaults.keySet()) {
+	    			oDecisionUnitProperties.removeKeysStartingWith(oRemoveKey.toString());
 	    		}
-    		}    		    		
+    		}
     		//overwrite decision unit values
     		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
     		

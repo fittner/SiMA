@@ -9,6 +9,7 @@ package bw.entities;
 
 import java.awt.Color;
 
+
 import config.clsProperties;
 import du.enums.eEntityType;
 
@@ -25,6 +26,7 @@ import bw.utils.enums.eShapeType;
  */
 public class clsStone extends clsInanimate {
 	public static final String P_RADIUS_TO_MASS_CONVERSION = "conversion";
+	public static final String CONFIG_FILE_NAME="stone.default.properties";
 		
 	public clsStone(String poPrefix, clsProperties poProp, int uid)
     {
@@ -45,6 +47,8 @@ public class clsStone extends clsInanimate {
 		clsProperties oProp = new clsProperties();
 
 		oProp.putAll(clsInanimate.getDefaultProperties(pre) );
+
+		
 		oProp.setProperty(pre+P_RADIUS_TO_MASS_CONVERSION , 500.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, "0");
@@ -131,6 +135,8 @@ public class clsStone extends clsInanimate {
 		// TODO (muchitsch) - Auto-generated method stub
 		
 	}
+
+
 
 
 

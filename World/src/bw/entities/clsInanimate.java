@@ -20,8 +20,10 @@ import config.clsProperties;
  * 
  */
 public abstract class clsInanimate extends clsMobile {
+ 	
+	
 
-	/**
+ 	/**
 	 * DOCUMENT (deutsch) - insert description 
 	 * 
 	 * @author deutsch
@@ -45,6 +47,9 @@ public abstract class clsInanimate extends clsMobile {
 		
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsMobile.getDefaultProperties(pre));
+		
+
+
 		return oProp;
 	}	
 		

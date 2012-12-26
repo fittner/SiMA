@@ -7,6 +7,8 @@
  */
 package bw.entities;
 
+
+
 import java.awt.Color;
 
 import config.clsProperties;
@@ -56,6 +58,8 @@ public class clsToilet extends clsStationary {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
+		
+
 /*
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 25.0 );
@@ -64,7 +68,8 @@ public class clsToilet extends clsStationary {
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_Y , 0.0 );
 	*/
 
-		String tmp_pre = pre+P_SENSOR+".";
+	String tmp_pre = pre+P_SENSOR+".";
+
 		
 		oProp.putAll( clsSensorEngine.getDefaultProperties(tmp_pre+clsExternalIO.P_SENSORENGINE) );
 		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORRANGE, 0.0); // Default - changed later on
@@ -81,7 +86,7 @@ public class clsToilet extends clsStationary {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.white);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/toilet.jpg");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-		
+	
 		return oProp;
 	}	
 

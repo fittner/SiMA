@@ -9,6 +9,10 @@ package bw.entities;
 
 import java.awt.Color;
 
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -29,6 +33,7 @@ import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorBasic;
 import bw.utils.tools.clsFood;
 import bw.body.io.actuators.actionProxies.*;
 
@@ -66,6 +71,7 @@ public class clsSchnitzl extends clsInanimate implements itfGetFlesh, itfAPEatab
 		//add correct body
 		oProp.putAll( clsMeatBody.getDefaultProperties(pre+P_BODY) );
 		oProp.setProperty(pre+P_BODY_TYPE, eBodyType.MEAT.toString());
+		
 		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 1.0);
 		
@@ -227,6 +233,19 @@ public class clsSchnitzl extends clsInanimate implements itfGetFlesh, itfAPEatab
 	@Override
 	public boolean isConsumable() {
 		return getFlesh().getTotallyConsumed();
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:23:10 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Schnitzel");		
 	}
 	
 }

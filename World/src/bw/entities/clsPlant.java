@@ -7,12 +7,15 @@
  */
 package bw.entities;
 
+
 import java.awt.Color;
+
+
+import bw.entities.tools.clsShape2DCreator;
+import bw.entities.tools.eImagePositioning;
 
 import config.clsProperties;
 import du.enums.eEntityType;
-import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eShapeType;
 
 /**
@@ -26,8 +29,7 @@ import bw.utils.enums.eShapeType;
  * 
  */
 public class clsPlant extends clsInanimate {
-
-	
+		
 	public clsPlant(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		applyProperties(poPrefix, poProp);
@@ -42,7 +44,7 @@ public class clsPlant extends clsInanimate {
 		
 		clsProperties oProp = new clsProperties();
 		oProp.putAll(clsAnimate.getDefaultProperties(poPrefix) );
-
+		
 		oProp.setProperty(pre+P_STRUCTURALWEIGHT, 300.0);
 		
 		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
@@ -106,4 +108,6 @@ public class clsPlant extends clsInanimate {
 	public void updateInternalState() {
 		// nothing to do
 	}
+
+
 }

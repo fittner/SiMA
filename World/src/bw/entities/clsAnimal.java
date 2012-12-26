@@ -9,6 +9,10 @@ package bw.entities;
 
 import java.awt.Color;
 
+import sim.display.GUIState;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -20,6 +24,7 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfGetRadiation;
 import bw.entities.tools.clsShape2DCreator;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorBasic;
 
 /**
  * Preliminary simple moving entities with the 'ability' to be eaten.
@@ -34,7 +39,6 @@ import bw.utils.enums.eShapeType;
  */
 
 public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSensorEngine, itfIsAlive {
-
 	private boolean mnAlive;
 	
 	public clsAnimal(itfDecisionUnit poDU, String poPrefix, clsProperties poProp, int uid) {
@@ -54,8 +58,11 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 
 		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsAnimate.getDefaultProperties(pre) );
+		
 
-		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+
+  		oProp.setProperty(pre+P_SHAPE+"."+clsShape2DCreator.P_DEFAULT_SHAPE, P_SHAPENAME);
+
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, "10.0");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, Color.blue);
@@ -153,6 +160,20 @@ public class clsAnimal extends clsAnimate implements itfGetRadiation, itfGetSens
 		if (isAlive()) {
 			super.updateInternalState();
 		}
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:13 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector( new clsInspectorBasic(poSuperInspector, poWrapper, poState, poEntity), "Animal");
+		
 	}
 	
 

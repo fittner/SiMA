@@ -16,21 +16,9 @@ import bw.body.itfget.itfGetBody;
 
 
 import bw.entities.clsARSIN;
-import bw.entities.clsFungusEater;
-import bw.entities.clsBase;
-import bw.entities.clsCake;
-import bw.entities.clsCan;
-import bw.entities.clsCarrot;
+
 import bw.entities.clsEntity;
-import bw.entities.clsFungus;
-import bw.entities.clsHare;
-import bw.entities.clsLynx;
-import bw.entities.clsMobile;
-import bw.entities.clsPlant;
-import bw.entities.clsRemoteBot;
-import bw.entities.clsStone;
-import bw.entities.clsUraniumOre;
-import bw.entities.clsStationary;
+
 import bw.utils.inspectors.body.clsInspectorFastMessengers;
 import bw.utils.inspectors.body.clsInspectorFillLevel;
 import bw.utils.inspectors.body.clsInspectorAttributes;
@@ -40,14 +28,8 @@ import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorARSinDebugActions;
-import bw.utils.inspectors.entity.clsInspectorFungusEater;
-import bw.utils.inspectors.entity.clsInspectorBasic;
-import bw.utils.inspectors.entity.clsInspectorFungus;
 import bw.utils.inspectors.entity.clsInspectorPositionLogChart;
 import bw.utils.inspectors.entity.clsInspectorPositionLoggerCSV;
-import bw.utils.inspectors.entity.clsInspectorRemoteBot;
-import bw.utils.inspectors.entity.clsInspectorFungusBase;
-import bw.utils.inspectors.entity.clsInspectorSensor;
 import sim.display.GUIState;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
@@ -84,7 +66,9 @@ public class clsInspectorMappingEntity {
 	{
     	TabbedInspector oRetVal = new TabbedInspector();
     	//change the default inspector to the one you created for the entity if you want more inspected
-    	if( poEntity instanceof clsMobile )
+    	poEntity.addEntityInspector(oRetVal, poSuperInspector, poWrapper, poState, poEntity);
+/*    	functionality moved to the entity classes
+ * 		if( poEntity instanceof clsMobile )
     	{
 	    	if( poEntity instanceof clsARSIN) {
 	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
@@ -132,7 +116,7 @@ public class clsInspectorMappingEntity {
 	    		oRetVal.addInspector(new clsInspectorFungusBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "FungusBase default");
 	    	}
     	}
-    	
+ */   	
     	//add position logger inspector
     	oRetVal.addInspector( new clsInspectorPositionLoggerCSV(poEntity.getPositionLogger()), "Pos.CSV");
     	oRetVal.addInspector( new clsInspectorPositionLogChart(poEntity.getPositionLogger()), "Pos.Chart");

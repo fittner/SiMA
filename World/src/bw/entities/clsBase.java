@@ -12,8 +12,14 @@ import java.awt.Color;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eSensorExtType;
+import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorFungusBase;
+import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.physics2D.physicalObject.PhysicalObject2D;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
@@ -23,7 +29,7 @@ import bw.body.io.sensors.external.clsSensorEngine;
 import bw.body.io.sensors.external.clsSensorVision;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
-import bw.utils.enums.eShapeType;
+import bw.factories.clsRegisterEntity;
 
 /**
  * 
@@ -64,7 +70,9 @@ public class clsBase extends clsStationary {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.putAll(clsStationary.getDefaultProperties(pre) );
-/*
+
+		
+		/*
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, 2 * Math.PI );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MAX_DISTANCE, 25.0 );
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0.0 );
@@ -72,7 +80,8 @@ public class clsBase extends clsStationary {
 		oProp.setProperty(pre+P_SENSOR+"."+clsSensorVision.P_SENSOR_OFFSET_Y , 0.0 );
 	*/
 
-		String tmp_pre = pre+P_SENSOR+".";
+
+  		String tmp_pre = pre+P_SENSOR+".";
 		
 		oProp.putAll( clsSensorEngine.getDefaultProperties(tmp_pre+clsExternalIO.P_SENSORENGINE) );
 		oProp.setProperty(tmp_pre+clsExternalIO.P_SENSORRANGE, 0.0); // Default - changed later on
@@ -92,7 +101,10 @@ public class clsBase extends clsStationary {
 		
 		return oProp;
 	}	
-
+	@Override
+	public void registerEntity(){
+		clsRegisterEntity.registerEntity(this);
+	}
 			
 	/* (non-Javadoc)
 	 * @see bw.clsEntity#setEntityType()
@@ -177,6 +189,21 @@ public class clsBase extends clsStationary {
 	
 	public int getMnStoredOre() {
 		return mnStoredOre;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:38 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector(new clsInspectorFungusBase(poSuperInspector, poWrapper, poState, (clsBase)poEntity), "FungusBase default");
+		
 	}
 	
 }

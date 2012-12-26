@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
@@ -109,6 +110,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	
 	private int mnAvoidIntensity = -1;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
 	/**
 	 * DOCUMENT (kohlhauser) - insert description 
 	 * 
@@ -121,13 +124,19 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+
+		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+        this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
 		applyProperties(poPrefix, poProp);	
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;
+		
 	}
 	
 	/* (non-Javadoc)

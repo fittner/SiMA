@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I6_10_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.storage.DT3_PsychicEnergyStorage;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -27,6 +28,8 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I6_9_receive, I6_10_send {
 	
 	public static final String P_MODULENUMBER = "53";
+	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
@@ -45,9 +48,13 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler,
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		// TODO (zeilinger) - Auto-generated constructor stub
+		
+		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
+		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
 	}
 	
 	/* (non-Javadoc)

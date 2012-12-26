@@ -141,6 +141,7 @@ public final class clsRegisterEntity {
 
 		poEntity.setRegistered(true);
 	}
+
 	
 	
 	/**

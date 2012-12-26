@@ -110,8 +110,13 @@ public class clsExecutorEat extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		
+		//Executing Eat has 3 parts: 
+		//1) the bodily part of getting a piece of food from the eaten entity and presenting this to the stomach
+		//2) the stimulation of the erogenous zone (the mouth, the orifice where food is passed and which leads to the stomach)
+		//3) activation of the memorytrace of the action eat which was planned and now executed
 		
 		
+		//1) take food from Object and put it in stomach
 		//Is something in range
 		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
 		
@@ -145,6 +150,14 @@ public class clsExecutorEat extends clsActionExecutor{
         if(oReturnedFood.getWeight() <= 0){
         	oEatenEntity.setRegistered(false);
         }
+        
+        //2) the stimulation of the erogenous zone
+        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralMucosa(0.5); //TODO 0.5 frei gewählt
+        
+        
+		//3) activation of the memorytrace of the action eat @self
+        
+        
 		
 		return true;
 	}	

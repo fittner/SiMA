@@ -15,6 +15,8 @@ import bw.physicalObjects.bodyparts.clsBotHands;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorRemoteBot;
+import bw.utils.inspectors.entity.clsInspectorSensor;
 import bw.body.clsComplexBody;
 import bw.body.itfGetBrain;
 import bw.body.attributes.clsAttributeAntenna;
@@ -29,8 +31,13 @@ import bw.body.itfget.itfGetRadiation;
 import bw.body.itfget.itfGetSensorEngine;
 import bw.body.itfget.itfIsConsumeable;
 import bw.entities.tools.clsShape2DCreator;
+import bw.factories.clsRegisterEntity;
+import sim.display.GUIState;
 import sim.display.clsKeyListener;
 import sim.physics2D.util.Angle;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 
 /**
  * Sample implementation of a clsAnimate, having sensors and actuators 
@@ -120,9 +127,11 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 		
 		return oProp;
 	}
-	
 
-	
+	@Override
+	public void registerEntity(){
+		clsRegisterEntity.registerEntity(this);
+	}
 	private clsBotHands addHand(double offsetX, double offsetY, double radius, Color poColor) {
         double x = getPosition().x;
         double y = getPosition().y;
@@ -198,5 +207,20 @@ public class clsRemoteBot extends clsAnimate implements itfGetSensorEngine, itfG
 	@Override
 	public boolean isConsumable() {
 		return true;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:21:05 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		poTarget.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,(clsRemoteBot)poEntity), "RemoteBot Sensors");
+		poTarget.addInspector( new clsInspectorRemoteBot(poSuperInspector, poWrapper, poState, (clsRemoteBot)poEntity), "RemoteBot");
+		
 	}	
 }

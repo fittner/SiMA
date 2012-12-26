@@ -10,10 +10,15 @@ package bw.entities;
 import javax.media.j3d.TransformGroup;
 
 import config.clsProperties;
+import sim.display.GUIState;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
+import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+import sim.portrayal.inspector.TabbedInspector;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
+import bw.factories.clsRegisterEntity;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -40,7 +45,9 @@ public abstract class clsStationary extends clsEntity {
 
 		clsProperties oProp = new clsProperties();
 		oProp.putAll( clsEntity.getDefaultProperties(pre) );
-		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
+		
+		
+ 		oProp.setProperty(pre+clsPose.P_POS_X, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_Y, 0.0);
 		oProp.setProperty(pre+clsPose.P_POS_ANGLE, 0.0);
 				
@@ -69,6 +76,11 @@ public abstract class clsStationary extends clsEntity {
 		
 		setBody( createBody(pre, poProp) ); // has to be called AFTER the shape has been created. thus, moved to clsMobile and clsStationary.
 	}	
+	@Override
+	public void registerEntity(){
+		clsRegisterEntity.registerEntity(this);
+	}
+	
 	
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
@@ -134,5 +146,18 @@ public abstract class clsStationary extends clsEntity {
 		// TODO (zeilinger) - Auto-generated method stub
 		
 	}	
+	
+	/* (non-Javadoc)
+	 *
+	 * @since Dec 11, 2012 4:22:38 PM
+	 * 
+	 * @see bw.entities.clsEntity#addEntityInspector(sim.portrayal.inspector.TabbedInspector, sim.portrayal.Inspector, sim.portrayal.LocationWrapper, sim.display.GUIState, bw.entities.clsEntity)
+	 */
+	@Override
+	public void addEntityInspector(TabbedInspector poTarget,
+			Inspector poSuperInspector, LocationWrapper poWrapper,
+			GUIState poState, clsEntity poEntity) {
+		//no entity inspector
+	}
 	
 }
