@@ -60,7 +60,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	
 	// threshold to determine in which case domination of a emotion occurs
-	private double mrRelativeThreshold = 0.667;
+	private double mrRelativeThreshold = 0.567;
+	private double mrThresholdRange = 0.1;
 	
 	DT4_PleasureStorage moPleasureStorage;
 	
@@ -70,13 +71,16 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	// values from drive-track . to get a better output in the inspectors a hashmap is used instead of separate variables
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
 
-	// perceiving a drive object sould trigger less emotions than the bodily needs
-	private double mrPerceptionImpactFactor = 0.4;
+	// personality parameter, perceiving a drive object sould trigger less emotions than the bodily needs
+	private double mrPerceptionPleasureImpactFactor = 0.1;
+	private double mrPerceptionUnpleasureImpactFactor = 0.1;
+	
+	double mrGrade = 0;
+	
 	
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
-	double mrRelativeSystemPleasure = 0.0; 
-	double mrRelativeSystemUnpleasure = 0.0;
+	
 	
 	
 	public F63_CompositionOfEmotions(String poPrefix,
@@ -124,27 +128,22 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);
-		text += toText.valueToTEXT("rDriveUnpleasure", oDrivesExtractedValues.get("rDriveUnpleasure"));
-
+		text += toText.valueToTEXT("mrGrade", mrGrade);
 		text += toText.valueToTEXT("rDriveLibid", oDrivesExtractedValues.get("rDriveLibid"));
 		text += toText.valueToTEXT("rDriveAggr", oDrivesExtractedValues.get("rDriveAggr"));
-		
 		text += toText.valueToTEXT("rDrivePleasure",  oDrivesExtractedValues.get("rDrivePleasure"));
-		
-		
+		text += toText.valueToTEXT("rDriveUnpleasure", oDrivesExtractedValues.get("rDriveUnpleasure"));
+				
 		text += toText.valueToTEXT("rPerceptionUnpleasure", oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-		
+		text += toText.valueToTEXT("rPerceptionPleasure", oPerceptionExtractedValues.get("rPerceptionPleasure"));
 		text += toText.valueToTEXT("rPerceptionLibid", oPerceptionExtractedValues.get("rPerceptionLibid"));
-		
 		text += toText.valueToTEXT("rPerceptionAggr", oPerceptionExtractedValues.get("rPerceptionAggr"));
+		
+		text += toText.listToTEXT("moEmotions_OUT", moEmotions_OUT);
 		
 		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getExternalMoAssociatedContent());
 		
-		text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
-		
-		text += toText.valueToTEXT("rRelativeSystemUnpleasure",  mrRelativeSystemUnpleasure);
-		text += toText.valueToTEXT("rRelativeSystemPleasure",  mrRelativeSystemPleasure);
+		//text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 		
 		return text;
 	}
@@ -162,8 +161,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		clsThingPresentationMesh x = moPerceptions_IN;
 		moEmotions_OUT = new ArrayList<clsEmotion>() ;
 		
-		// rSystemXY = values from whole system (ARSIN), drives = values from drive track, perception = values from perception track
-
+		
 		// four basic categories ("Grundkategorien", see document "Compositions of Emotions")
 		double rSystemPleasure = 0.0; 
 		double rSystemUnpleasure = 0.0;
@@ -172,33 +170,25 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// values from drive-track
 		double rDrivePleasure = 0.0; 
-		double rDriveUnpleasure = 0.0;
 		double rDriveLibid = 0.0;
 		double rDriveAggr = 0.0;
 		
+		double rRelativeSystemPleasure = 0.0; 
+		double rRelativeSystemUnpleasure = 0.0;
 		
 		double rRelativeSystemLibid = 0.0;
 		double rRelativeSystemAggr = 0.0;
+
 		
-		// since a drive may have a QoA between 0 and 1, the number of drives reflect the maximal score of aggregated driveQoA
-		// this value is needed to calculate the emotion's intensity (which is relative to the (global) maximal possible score of emotion-intensity)
-		double rMaxQoADrives = moDrives_IN.size();
-		double rMaxQoADrivesAggr = 0;
-		double rMaxQoADrivesLibid = 0;
-		
-		double rMaxQoASystem = 0;
-		double rMaxQoASystemAggr = 0;
-		double rMaxQoASystemLibid = 0;
 		
 		//1. Get Unpleasure from all drives, and the aggr. and libid parts
 		for (clsDriveMesh oDM: moDrives_IN) {
-			rDriveUnpleasure += oDM.getQuotaOfAffect();
 			if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-				rDriveLibid += oDM.getQuotaOfAffect();
-				rMaxQoADrivesLibid++;
+				rDriveLibid = nonProportionalAggregation(rDriveLibid, oDM.getQuotaOfAffect());  
+				
 			} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-				rDriveAggr += oDM.getQuotaOfAffect();
-				rMaxQoADrivesAggr++;
+				rDriveAggr = nonProportionalAggregation(rDriveAggr, oDM.getQuotaOfAffect());
+				
 			}
 		}
 		
@@ -207,41 +197,35 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		// TEMPORARY
 		oDrivesExtractedValues.put("rDrivePleasure", rDrivePleasure);
-		oDrivesExtractedValues.put("rDriveUnpleasure", rDriveUnpleasure);
+		oDrivesExtractedValues.put("rDriveUnpleasure", rDriveLibid+rDriveAggr);
 		oDrivesExtractedValues.put("rDriveLibid", rDriveLibid);
 		oDrivesExtractedValues.put("rDriveAggr", rDriveAggr);
-		oDrivesExtractedValues.put("rMaxQoADrives", rMaxQoADrives);
-		oDrivesExtractedValues.put("rMaxQoADrivesAggr", rMaxQoADrivesAggr);
-		oDrivesExtractedValues.put("rMaxQoADrivesLibid", rMaxQoADrivesLibid);
 		
 		/* emotions triggered by perception (from memory) influence emotion-generation
 		 * how does the triggered emotions influence the generated emotion? KD: save basic-categories in emotion and use them (unpleasure etc the emtion is based on) to influence the emotion generation in F63
 		 * hence, the basic info of the triggered emotion is "mixed" with the categories form the drive track and the emotions are generated based on these mixed information
 		 * 
 		 */
-		
 		oPerceptionExtractedValues = getEmotionValuesFromPerception();
 				
 		
 		// aggregate values from drive- and perception track
 		// normalize grundkategorien
 		// (if agent sees many objects the perception has more influence, otherwise drives have more influence on emotions)
-		rSystemUnpleasure = rDriveUnpleasure + oPerceptionExtractedValues.get("rPerceptionUnpleasure");
-		rSystemPleasure = rDrivePleasure + oPerceptionExtractedValues.get("rPerceptionPleasure");
-		rSystemLibid = rDriveLibid +oPerceptionExtractedValues.get("rPerceptionLibid");
-		rSystemAggr = rDriveAggr + oPerceptionExtractedValues.get("rPerceptionAggr");
+		rSystemUnpleasure = nonProportionalAggregation(rDriveLibid+rDriveAggr, oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
+		rSystemPleasure = nonProportionalAggregation(rDrivePleasure, oPerceptionExtractedValues.get("rPerceptionPleasure"));
+		rSystemLibid = nonProportionalAggregation(rDriveLibid, oPerceptionExtractedValues.get("rPerceptionLibid"));
+		rSystemAggr = nonProportionalAggregation(rDriveAggr, oPerceptionExtractedValues.get("rPerceptionAggr"));
 		
-		rMaxQoASystem = rMaxQoADrives + oPerceptionExtractedValues.get("rMaxQoAPerception");
-		rMaxQoASystemLibid = rMaxQoADrivesLibid + oPerceptionExtractedValues.get("rMaxQoAPerceptionLibid");
-		rMaxQoASystemAggr = rMaxQoADrivesAggr + oPerceptionExtractedValues.get("rMaxQoAPerceptionAggr");
 		
 		// Normalize to be able to decide which basic category prevails/dominates
 		double rSumValuesPlUnPl = rSystemUnpleasure + rSystemPleasure;
 		double rSumValuesLibidAggr =  rSystemAggr +rSystemLibid;		
-		mrRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
-		mrRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
+		rRelativeSystemPleasure = rSystemPleasure/rSumValuesPlUnPl; 
+		rRelativeSystemUnpleasure = rSystemUnpleasure/rSumValuesPlUnPl;
 		rRelativeSystemLibid = rSystemLibid/rSumValuesLibidAggr;
 		rRelativeSystemAggr = rSystemAggr/rSumValuesLibidAggr;
+		
 
 		/*
 		 * Generate Emotions
@@ -253,68 +237,94 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		 * 
 		 * Aggr and libid components/categories are just another form of unpleasure. This is considered in the further
 		 * procedure to avoid duplicating the ground truth(=the values emotions are based on).
+		 * 
+		 * variable "rGrade": To avoid "leaps" in emotion-intensity, a threshold-range is considered and a gradual change of intensity (e.g. if the domination of pleasure changes very fast (e.g. in every step), the intensity of the according emotions should not "jump" up and down   
 		*/
 		
+		
 		// just generate Unpleasure--based Emotions
-		if(mrRelativeSystemUnpleasure > mrRelativeThreshold){
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure/rMaxQoASystem, 0, rSystemUnpleasure, 0, 0);
+		if(rRelativeSystemUnpleasure > mrRelativeThreshold){
+			
+			mrGrade = (rRelativeSystemUnpleasure-mrRelativeThreshold) / mrThresholdRange; 
+			if(mrGrade > 1) mrGrade = 1;
+					
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure*(1-mrGrade), rSystemPleasure, 0, 0, 0);
+			
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		// just generate Pleasure-based Emotions
-		else if (mrRelativeSystemPleasure > mrRelativeThreshold) {
-			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
+		else if (rRelativeSystemPleasure > mrRelativeThreshold) {
+			
+			mrGrade = (rRelativeSystemPleasure-mrRelativeThreshold) / mrThresholdRange; 
+			if(mrGrade > 1) mrGrade = 1;
+			
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*(1-mrGrade), 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			} 
 		}
 		// generate both
 		else {
 			// pleasure-based emotions
-			generateEmotion(eEmotionType.JOY, rSystemPleasure/rMaxQoASystem, rSystemPleasure, 0, 0, 0);
+			generateEmotion(eEmotionType.JOY, rSystemPleasure*mrGrade, rSystemPleasure, 0, 0, 0);
 			if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
 			}
 			else if (rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			else {
-				generateEmotion(eEmotionType.SATURATION,  rSystemLibid/rMaxQoASystemLibid, rSystemPleasure, 0, rSystemLibid, 0);
-				generateEmotion(eEmotionType.ELATION, rSystemAggr/rMaxQoASystemAggr, rSystemPleasure, 0, 0, rSystemAggr);
+				generateEmotion(eEmotionType.SATURATION,  rSystemLibid*mrGrade, rSystemPleasure, 0, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ELATION, rSystemAggr*mrGrade, rSystemPleasure, 0, 0, rSystemAggr);
 			}
 			
 			//unpleasure-based emotions
-			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure/rMaxQoASystem, 0, rSystemUnpleasure, 0, 0);
+			generateEmotion(eEmotionType.ANXIETY, rSystemUnpleasure*mrGrade, 0, rSystemUnpleasure, 0, 0);
 			if(rRelativeSystemAggr > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
 			}
 			else if (rRelativeSystemLibid > mrRelativeThreshold) {
-				generateEmotion(eEmotionType.MOURNING, rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.MOURNING, rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 			else {
-				generateEmotion(eEmotionType.ANGER, rSystemAggr/rMaxQoASystemAggr, 0, rSystemUnpleasure, 0, rSystemAggr);
-				generateEmotion(eEmotionType.MOURNING,  rSystemLibid/rMaxQoASystemLibid, 0, rSystemUnpleasure, rSystemLibid, 0);
+				generateEmotion(eEmotionType.ANGER, rSystemAggr*mrGrade, 0, rSystemUnpleasure, 0, rSystemAggr);
+				generateEmotion(eEmotionType.MOURNING,  rSystemLibid*mrGrade, 0, rSystemUnpleasure, rSystemLibid, 0);
 			}
 		}
 		
 	
 		
 	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @author schaat
+	 * 18.12.2012, 15:48:45
+	 * 
+	 */
+	private double nonProportionalAggregation (double rBaseValue, double rAddValue) {
+		return rBaseValue + (1 - rBaseValue) * rAddValue;
+	}
+	
 	
 	
 	/* (non-Javadoc)
@@ -333,16 +343,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		double rPerceptionLibid = 0.0;
 		double rPerceptionAggr = 0.0;
 				
-		double rMaxQoAPerception = 0;
-		double rMaxQoAPerceptionAggr = 0;
-		double rMaxQoAPerceptionLibid = 0;
+		double rMaxQoAPerception = 1;
+		double rMaxQoAPerceptionAggr = 1;
+		double rMaxQoAPerceptionLibid = 1;
+		
+		double rInfluencePerception = 0;
+		double rAssociationWeight = 0;
 		
 		clsEmotion oEmotionFromPerception = null;
 		clsDriveMesh oDM = null;
 		clsThingPresentationMesh oRI = null;
 		
 		// use  assoc. emotions from PI's RIs for emotion-generation		
-		/*for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
+		for (clsAssociation oPIExtAss : moPerceptions_IN.getExternalMoAssociatedContent()){
 			
 			if(oPIExtAss.getMoContentType() == eContentType.PIASSOCIATION){
 				if(oPIExtAss.getMoAssociationElementB().getMoContentType() == eContentType.RI) {
@@ -351,20 +364,19 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 					for (clsAssociation oRIAss: oRI.getExternalMoAssociatedContent()) {
 						if (oRIAss.getMoContentType() == eContentType.ASSOCIATIONEMOTION) {
 							oEmotionFromPerception = (clsEmotion) oRIAss.getMoAssociationElementA();
-							rPerceptionPleasure += oEmotionFromPerception.getMrSourcePleasure(); 
-							rPerceptionUnpleasure += oEmotionFromPerception.getMrSourceUnpleasure();
-							rPerceptionLibid += oEmotionFromPerception.getMrSourceLibid();
-							rPerceptionAggr += oEmotionFromPerception.getMrSourceAggr();
-							
-							rMaxQoAPerception += rPerceptionUnpleasure;
-							rMaxQoAPerceptionAggr += rPerceptionAggr;
-							rMaxQoAPerceptionLibid += rPerceptionLibid;
+							// the more similar the memorized image is, the more influence the associated emotion has on emotion-generation
+							rAssociationWeight = oPIExtAss.getMrWeight();
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourcePleasure()); 
+							rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceUnpleasure());
+							rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceLibid());
+							rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rAssociationWeight*oEmotionFromPerception.getMrSourceAggr());
+				
 						}
 					}
 				}
 			}
 			
-		}*/
+		}
 		
 		
 		// use QoA of the PI's entities  for emotion-generation
@@ -378,41 +390,44 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 						oDM = (clsDriveMesh)oEntityAss.getMoAssociationElementA();
 						
 						if(oDM.getMoContentType() == eContentType.LIBIDO) {
-							rPerceptionPleasure += oDM.getQuotaOfAffect();
+							rPerceptionPleasure += mrPerceptionPleasureImpactFactor*oDM.getQuotaOfAffect();
 							
 						}
 						else {
-							rPerceptionUnpleasure += oDM.getQuotaOfAffect();
-							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
-								rPerceptionLibid += oDM.getQuotaOfAffect();
-								rMaxQoAPerceptionLibid++;
-							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
-								rPerceptionAggr += oDM.getQuotaOfAffect();
-								rMaxQoAPerceptionAggr++;
+							
+							// influence of perceived objects is dependent on agent's actual drives. e.g. if the agent is hungry and it perceives a schnitzel, 
+							// the perception influences emotion-generation more than in the case of an agent without hunger  
+							for (clsDriveMesh oActualDM: moDrives_IN) {
+								if (oDM.compareTo(oActualDM) >= 0.75) {
+									rInfluencePerception = oDM.getQuotaOfAffect()/oActualDM.getQuotaOfAffect();
+									if(rInfluencePerception>1) rInfluencePerception = 1;
+								}
 							}
-							rMaxQoAPerception++;
+							
+							//rPerceptionUnpleasure = nonProportionalAggregation(rPerceptionUnpleasure, oDM.getQuotaOfAffect());
+							if(oDM.getDriveComponent() == eDriveComponent.LIBIDINOUS) {
+								rPerceptionLibid = nonProportionalAggregation(rPerceptionLibid, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+							} else if (oDM.getDriveComponent() == eDriveComponent.AGGRESSIVE){
+								rPerceptionAggr = nonProportionalAggregation(rPerceptionAggr, mrPerceptionUnpleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+							}
+							
+							rPerceptionPleasure = nonProportionalAggregation(rPerceptionPleasure, mrPerceptionPleasureImpactFactor*rInfluencePerception*oDM.getQuotaOfAffect());
+							
 						}
 						
-						
-						// TODO: A cake is associated with multiple DMs of the same kind. this should not be the case. delete "break", after this problem is solved
-						//break;
 					}
 				}
-			}
-			
+			}		
 			
 			
 	}
 		
-		// TODO perception trigger to much emotion
+		 
 		HashMap<String, Double> oPerceptionExtractedValues = new HashMap<String, Double>();
-		oPerceptionExtractedValues.put("rPerceptionPleasure", mrPerceptionImpactFactor*rPerceptionPleasure);
-		oPerceptionExtractedValues.put("rPerceptionUnpleasure", mrPerceptionImpactFactor*rPerceptionUnpleasure);
-		oPerceptionExtractedValues.put("rPerceptionLibid", mrPerceptionImpactFactor*rPerceptionLibid);
-		oPerceptionExtractedValues.put("rPerceptionAggr", mrPerceptionImpactFactor*rPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerception", mrPerceptionImpactFactor*rMaxQoAPerception);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionAggr", mrPerceptionImpactFactor*rMaxQoAPerceptionAggr);
-		oPerceptionExtractedValues.put("rMaxQoAPerceptionLibid", mrPerceptionImpactFactor*rMaxQoAPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionPleasure", rPerceptionPleasure);
+		oPerceptionExtractedValues.put("rPerceptionUnpleasure", (rPerceptionLibid+rPerceptionAggr));
+		oPerceptionExtractedValues.put("rPerceptionLibid", rPerceptionLibid);
+		oPerceptionExtractedValues.put("rPerceptionAggr", rPerceptionAggr);
 		
 		return oPerceptionExtractedValues;
 	}
@@ -732,6 +747,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oDrive.add(oDrivesExtractedValues.get("rDriveAggr"));
 		oDrive.add(oDrivesExtractedValues.get("rDriveLibid"));
 		oDrive.add(oDrivesExtractedValues.get("rDriveUnpleasure"));
+		oDrive.add(oDrivesExtractedValues.get("rDrivePleasure"));
 		oResult.add(oDrive);
 		
 			
@@ -740,7 +756,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionAggr"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionLibid"));
 		oPerception.add(oPerceptionExtractedValues.get("rPerceptionUnpleasure"));
-	
+		oPerception.add(oPerceptionExtractedValues.get("rPerceptionPleasure"));
 	
 		oResult.add(oPerception);
 		
@@ -767,7 +783,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		oResult.add(eEmotionType.JOY.toString());
 		
 		
-		oResult.add("DRIVE");
+		oResult.add("DRIVES");
 		oResult.add("PERCEPTION");
 
 		return oResult;
@@ -821,7 +837,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		chartDrive.add("Aggr");
 		chartDrive.add("Libid");
 		chartDrive.add("Unpleasure");
-
+		chartDrive.add("Pleasure");
 		oResult.add(chartDrive);
 		
 		
@@ -830,6 +846,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		chartPerception.add("Aggr");
 		chartPerception.add("Libid");
 		chartPerception.add("Unpleasure");
+		chartPerception.add("Pleasure");
 		oResult.add(chartPerception);
 		
 		

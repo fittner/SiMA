@@ -1,4 +1,4 @@
-; Wed Nov 14 16:47:00 CET 2012
+; Wed Dec 19 15:11:23 CET 2012
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -837,7 +837,7 @@
 
 	(element
 		[EMOTION%3AANGER%3ACARL_CAKE]
-		[TPM%3AIMAGE%3ACARL_CAKE_L01_I02_MEDIUM])
+		[TPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR])
 	(weight 1.0 1.0))
 
 ([AFFECT%3AHIGHNEGATIVE] of  AFFECT
@@ -1975,7 +1975,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3ABITE]
 		[AD%3AAIM%3ABODO%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2065,7 +2065,7 @@
 		[AD%3ADRIVEOBJECT%3ABODO%3AEAT]
 		[AD%3AAIM%3ABODO%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.8)
+	(quotaOfAffect 0.1)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2230,11 +2230,11 @@
 
 ([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
 
-	(emotionIntensity 0.4)
-	(sourceAggr 1.5)
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
 	(sourceLibid 0.0)
-	(sourcePleasure 0.0)
-	(sourceUnpleasure 1.5)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
 	(value "ANGER")
 	(value_type "BASICEMOTION"))
 
