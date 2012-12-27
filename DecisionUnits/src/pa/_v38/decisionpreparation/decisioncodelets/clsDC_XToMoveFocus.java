@@ -90,4 +90,16 @@ public class clsDC_XToMoveFocus extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:16:28
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "All focus is set, trigger to perform an external action.";
+		
+	}
+
 }

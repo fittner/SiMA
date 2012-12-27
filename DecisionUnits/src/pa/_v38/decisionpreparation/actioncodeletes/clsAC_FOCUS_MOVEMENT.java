@@ -127,4 +127,17 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:05:33
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "If an external movement shall be executed, then this codelet first sets the focus of attention on the are" +
+				"defined by the movement.";
+		
+	}
+
 }

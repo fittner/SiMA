@@ -175,4 +175,16 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:19:46
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Default initial anaylsis of all new goals.";
+		
+	}
+
 }

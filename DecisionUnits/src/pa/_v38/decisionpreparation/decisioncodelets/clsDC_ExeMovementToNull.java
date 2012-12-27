@@ -91,4 +91,16 @@ public class clsDC_ExeMovementToNull extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:13:39
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "An external movement is executed and new conditions are set to start a new movement.";
+		
+	}
+
 }

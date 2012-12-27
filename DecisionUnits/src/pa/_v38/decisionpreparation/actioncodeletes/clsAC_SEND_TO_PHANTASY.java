@@ -152,4 +152,16 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:07:56
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Send an image to the phantasy by passing it to module F47.";
+		
+	}
+
 }

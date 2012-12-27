@@ -84,4 +84,16 @@ public class clsDC_SetIntInfoToActAnalysis extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:15:48
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Go to basic act analysis after relevant images have been received from phantasy.";
+		
+	}
+
 }

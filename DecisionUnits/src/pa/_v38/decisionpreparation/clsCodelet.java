@@ -28,6 +28,7 @@ public abstract class clsCodelet {
 	protected clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
 	protected String moCodeletName = "";
+	protected String moCodeletDescription = "";
 	
 	protected ArrayList<clsConditionGroup> moPreconditionGroupList = new ArrayList<clsConditionGroup>();
 	protected ArrayList<clsConditionGroup> moPostConditionGroupList = new ArrayList<clsConditionGroup>();
@@ -46,6 +47,7 @@ public abstract class clsCodelet {
 		this.setPreconditions();
 		this.setPostConditions();
 		this.moCodeletName = this.getClass().getSimpleName();
+		this.setDescription();
 		
 		//Register this codelet in the list
 		this.register();
@@ -63,6 +65,8 @@ public abstract class clsCodelet {
 	protected abstract void setPreconditions();
 	
 	protected abstract void setPostConditions();
+	
+	protected abstract void setDescription();
 	
 	protected abstract void removeTriggerCondition();
 	
@@ -121,6 +125,39 @@ public abstract class clsCodelet {
 			oResult+="; Goal: " + this.moGoal.toString();
 		}
 		
+		
+		return oResult;
+	}
+	
+	/**
+	 * This is an extended description of a codelet
+	 * 
+	 * (wendt)
+	 *
+	 * @since 27.12.2012 12:03:07
+	 *
+	 * @return
+	 */
+	public String toStringExtended() {
+		String oResult = "";
+		
+		oResult += "==================================================\n";
+		
+		oResult+="Name: " + this.moCodeletName + "\n";
+		oResult+="Description: " + this.moCodeletDescription + "\n";
+		oResult+="Preconditions: \n";
+		for (clsConditionGroup oC :moPreconditionGroupList) {
+			oResult += oC.toString() + "\n";
+		}
+		
+		//if (moPostConditionGroupList.isEmpty()==false) {
+			oResult+= "Postconditions: \n";
+			for (clsConditionGroup oC :moPostConditionGroupList) {
+				oResult += oC.toString() + "\n";
+			}
+		//}
+		
+		oResult+="CodeletType: " + this.getClass().getSuperclass().getSimpleName().toString() + "\n";
 		
 		return oResult;
 	}

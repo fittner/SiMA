@@ -84,4 +84,16 @@ public class clsDC_ActAnalysisToRecAction extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:12:53
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Go to recommended action from basic act analysis.";
+		
+	}
+
 }

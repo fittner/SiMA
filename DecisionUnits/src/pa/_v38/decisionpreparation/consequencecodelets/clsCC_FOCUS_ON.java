@@ -74,7 +74,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		// TODO (wendt) - Auto-generated method stub
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_FOCUS_ON));
 		
 	}
 
@@ -88,6 +88,18 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_ON);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:10:44
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Executes the consequence of the action FOCUS ON, i. e. set condition SET_FOCUS_ON.";
 		
 	}
 

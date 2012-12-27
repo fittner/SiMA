@@ -108,4 +108,16 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:11:43
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Performs basic act analysis";
+		
+	}
+
 }

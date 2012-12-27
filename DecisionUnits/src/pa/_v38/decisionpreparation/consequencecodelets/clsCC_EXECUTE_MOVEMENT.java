@@ -116,4 +116,16 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:08:30
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Executes the consequence of the action EXECUTE_MOVEMENT.";
+		
+	}
+
 }

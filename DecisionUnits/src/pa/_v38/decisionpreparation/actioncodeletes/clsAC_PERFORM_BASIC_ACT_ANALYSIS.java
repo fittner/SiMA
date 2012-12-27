@@ -90,4 +90,16 @@ public class clsAC_PERFORM_BASIC_ACT_ANALYSIS extends clsActionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:06:54
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Perform the internal action to trigger basic act analysis in F51.";
+		
+	}
+
 }

@@ -109,4 +109,16 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:03:43
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Executes an external action with the action planner.";
+		
+	}
+
 }

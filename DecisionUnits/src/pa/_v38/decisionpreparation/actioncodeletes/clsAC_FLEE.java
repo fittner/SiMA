@@ -92,4 +92,16 @@ public class clsAC_FLEE extends clsActionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:05:05
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Automatically executes the action FLEE.";
+		
+	}
+
 }

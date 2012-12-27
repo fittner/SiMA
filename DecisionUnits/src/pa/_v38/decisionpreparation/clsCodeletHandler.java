@@ -210,7 +210,7 @@ public class clsCodeletHandler {
 			oList = "Init";
 		}
 		
-		clsLogger.jlog.debug(oList + " codelet registered: " + poCodelet.toString());
+		clsLogger.jlog.info(oList + " codelet registered: " + poCodelet.toStringExtended());
 		
 	}
 	

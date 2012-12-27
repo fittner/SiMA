@@ -71,7 +71,7 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		// TODO (wendt) - Auto-generated method stub
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.SET_FOCUS_MOVEMENT));
 		
 	}
 
@@ -88,6 +88,18 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_LEFT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_RIGHT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_SEARCH1);
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:09:09
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Executes the consequence of the action FOCUS MOVEMENT, i. e. set condition SET_FOCUS_MOVEMENT.";
 		
 	}
 

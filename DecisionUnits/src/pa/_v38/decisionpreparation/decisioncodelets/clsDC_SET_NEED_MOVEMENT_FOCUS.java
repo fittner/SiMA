@@ -83,4 +83,16 @@ public class clsDC_SET_NEED_MOVEMENT_FOCUS extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:15:25
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Trigger the action to set movement focus.";
+		
+	}
+
 }

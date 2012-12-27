@@ -115,4 +115,16 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:19:12
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Check if focus on is still set on an entity in the environment.";
+		
+	}
+
 }

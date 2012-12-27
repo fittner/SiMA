@@ -90,4 +90,16 @@ public class clsDCComposed_Goto extends clsDecisionCodelet {
 		
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 27.12.2012 12:17:05
+	 * 
+	 * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
+	 */
+	@Override
+	protected void setDescription() {
+		this.moCodeletDescription = "Composed codelet: goto a goal in the perception.";
+		
+	}
+
 }
