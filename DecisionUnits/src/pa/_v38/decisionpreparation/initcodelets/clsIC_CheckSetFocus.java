@@ -99,7 +99,8 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.SET_FOCUS_ON));
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_GOAL_FOCUS));
 	}
 
 

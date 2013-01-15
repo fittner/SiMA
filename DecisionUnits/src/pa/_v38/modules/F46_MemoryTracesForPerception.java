@@ -10,7 +10,6 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsEntityTools;
@@ -182,7 +181,11 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
 		
 		if (clsTester.getTester().isActivated()) {
-			clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+			} catch (Exception e) {
+				clsLogger.jlog.error(e.getMessage().toString());
+			}
 		}
 		
 		clsLogger.jlog.debug("PI: " + oPerceivedImage.toString());

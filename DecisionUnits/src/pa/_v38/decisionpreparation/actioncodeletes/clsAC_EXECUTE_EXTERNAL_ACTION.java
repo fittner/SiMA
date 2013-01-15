@@ -92,7 +92,12 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		// TODO (wendt) - Auto-generated method stub
+		//Drives
+				this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.SET_FOCUS_MOVEMENT, eCondition.SET_INTERNAL_INFO));
+				//Perception
+				this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.SET_FOCUS_ON, eCondition.SET_FOCUS_MOVEMENT));
+				//Memory
+				this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.SET_FOCUS_MOVEMENT));
 		
 	}
 
@@ -106,6 +111,8 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
 		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_MOVEMENT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
 		
 	}
 

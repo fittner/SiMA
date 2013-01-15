@@ -571,7 +571,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
 			
 			//Get actions from codelets
-			moCodeletHandler.executeMatchingCodelets(oCurrentGoal, eCodeletType.ACTION, 1);
+			moCodeletHandler.executeMatchingCodelets(this, oCurrentGoal, eCodeletType.ACTION, 1);
 			
 			//Extract action from goal
 			

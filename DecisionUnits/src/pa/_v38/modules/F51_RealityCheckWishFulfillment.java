@@ -279,7 +279,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
 		
 		
-		// --- SET NEW PRECONDITIONS FOR ACTIONS --- //
+		// --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
 		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
 		
 		
@@ -355,7 +355,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		
 		//Process the codelets once again with new continued stati
-		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
+		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
 		clsLogger.jlog.debug("Append consequence, goal:" + poContinuedGoal.toString());
 		
 	}
@@ -373,7 +373,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private void proveContinousConditions(clsWordPresentationMesh poContinuedGoal) {
 		
 		//Execute all codelets, which are using IS_NEW_CONTINUED_GOAL
-		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.INIT, -1);
+		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.INIT, -1);
 			
 		//Remove conditions for continuous preprocessing
 		//clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
@@ -385,7 +385,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
 		
 		//Execute codelets, which decide what the next action in F52 will be
-		this.moCodeletHandler.executeMatchingCodelets(poContinuedGoal, eCodeletType.DECISION, 1);
+		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.DECISION, 1);
 		
 		clsLogger.jlog.debug("New decision, goal:" + poContinuedGoal.toString());
 		

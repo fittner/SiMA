@@ -21,7 +21,7 @@ import pa._v38.memorymgmt.enums.eCondition;
  */
 public class clsDCComposed_Goto extends clsDecisionCodelet {
 
-	private clsCodeletHandler moInternalCodeletHandler;
+	//private clsCodeletHandler moInternalCodeletHandler;
 	/**
 	 * DOCUMENT (wendt) - insert description 
 	 *
@@ -32,13 +32,13 @@ public class clsDCComposed_Goto extends clsDecisionCodelet {
 	public clsDCComposed_Goto(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 
-		moInternalCodeletHandler = new clsCodeletHandler(poCodeletHandler.getMoEnvironmentalImageMemory(), poCodeletHandler.getShortTermMemory());
+		//moInternalCodeletHandler = new clsCodeletHandler(poCodeletHandler.getMoEnvironmentalImageMemory(), poCodeletHandler.getShortTermMemory());
 		
 		//Register codelets in the new codelethandler
-		clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moInternalCodeletHandler);
-		clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moInternalCodeletHandler);
-		clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moInternalCodeletHandler);
-		clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moInternalCodeletHandler);
+		//clsDC_InitAction oDCTrans_InitAction = new clsDC_InitAction(moInternalCodeletHandler);
+		//clsDC_SET_NEED_MOVEMENT_FOCUS oDCTrans_SET_NEED_FOCUS = new clsDC_SET_NEED_MOVEMENT_FOCUS(moInternalCodeletHandler);
+		//clsDC_ExeMovementToNull oDCTrans_ExeMovementToNull = new clsDC_ExeMovementToNull(moInternalCodeletHandler);
+		//clsDC_XToMoveFocus oDCTrans_FocusToMove = new clsDC_XToMoveFocus(moInternalCodeletHandler);
 		
 	}
 
@@ -50,7 +50,8 @@ public class clsDCComposed_Goto extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		this.moInternalCodeletHandler.executeMatchingCodelets(moGoal, eCodeletType.DECISION, -1);
+		this.moCodeletHandler.executeMatchingCodelets(this, moGoal, eCodeletType.DECISION, 1);
+		//this.moInternalCodeletHandler.executeMatchingCodelets(moGoal, eCodeletType.DECISION, 1);
 		
 	}
 

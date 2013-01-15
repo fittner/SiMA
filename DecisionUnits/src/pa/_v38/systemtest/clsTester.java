@@ -51,7 +51,7 @@ public class clsTester {
 		this.mbActivated = mbActivated;
 	}
 	
-	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) {
+	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
 		clsUnitTestTools.debugFindAllErroneousLinksInImage(poImage);
 	}
 	

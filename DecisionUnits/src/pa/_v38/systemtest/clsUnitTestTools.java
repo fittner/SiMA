@@ -25,7 +25,7 @@ import pa._v38.tools.clsMeshTools;
 public class clsUnitTestTools {
 	
 	
-	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) {
+	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
@@ -33,12 +33,15 @@ public class clsUnitTestTools {
 			
 			if (oDS==null) {
 				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				try {
-					throw new Exception(oErrorMessage);
-				} catch (Exception e) {
-					clsLogger.jlog.error(e.getMessage());
-					bResult=true;
-				}
+				//try {
+				bResult=true;
+				throw new Exception(oErrorMessage);
+					
+				//} 
+				//catch (Exception e) {
+				//	//clsLogger.jlog.error(e.getMessage());
+				//	bResult=true;
+				//}
 			}
 		}
 		
@@ -47,12 +50,15 @@ public class clsUnitTestTools {
 			
 			if (oDS==null) {
 				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous INTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				try {
-					throw new Exception(oErrorMessage);
-				} catch (Exception e) {
-					clsLogger.jlog.error(e.getMessage());
-					bResult=true;
-				}
+				//try {
+				bResult=true;
+				throw new Exception(oErrorMessage);
+					
+				//} 
+				//catch (Exception e) {
+				//	clsLogger.jlog.error(e.getMessage());
+				//	bResult=true;
+				//}
 			}
 		}
 		
@@ -60,7 +66,7 @@ public class clsUnitTestTools {
 	}
 	
 	
-	public static boolean debugFindErroneousLinks(clsWordPresentationMesh poTPM) {
+	public static boolean debugFindErroneousLinks(clsWordPresentationMesh poTPM) throws Exception {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
@@ -68,12 +74,13 @@ public class clsUnitTestTools {
 			
 			if (oDS==null) {
 				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
-				try {
-					throw new Exception(oErrorMessage);
-				} catch (Exception e) {
-					clsLogger.jlog.error(e.getMessage());
-					bResult=true;
-				}
+				//try {
+				bResult=true;
+				throw new Exception(oErrorMessage);
+				//} catch (Exception e) {
+				//	clsLogger.jlog.error(e.getMessage());
+					
+				//}
 			}
 		}
 		
@@ -94,7 +101,7 @@ public class clsUnitTestTools {
 		return bResult;
 	}
 	
-	public static void debugFindAllErroneousLinksInImage(clsThingPresentationMesh poImage) {
+	public static void debugFindAllErroneousLinksInImage(clsThingPresentationMesh poImage) throws Exception {
 		
 		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(poImage, 4);
 		

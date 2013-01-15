@@ -222,46 +222,46 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public ArrayList<clsCodelet> getMatchingActionCodelets(clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingActionCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
-		ArrayList<clsActionCodelet> oPrelResult = sortAndFilterRatedStructures(this.moActionCodeletList, poGoal);
+		ArrayList<clsActionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moActionCodeletList, poGoal);
 		oResult.addAll(oPrelResult);
 		
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingDecisionCodelets(clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingDecisionCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
-		ArrayList<clsDecisionCodelet> oPrelResult = sortAndFilterRatedStructures(this.moDecisionCodeletList, poGoal);
-		oResult.addAll(oPrelResult);
-		
-		
-		return oResult;
-	}
-	
-	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(clsWordPresentationMesh poGoal) {
-		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
-		
-		ArrayList<clsConsequenceCodelet> oPrelResult = sortAndFilterRatedStructures(this.moConsequenceCodeletList, poGoal);
+		ArrayList<clsDecisionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moDecisionCodeletList, poGoal);
 		oResult.addAll(oPrelResult);
 		
 		
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingInitCodelets(clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
-		ArrayList<clsInitCodelet> oPrelResult = sortAndFilterRatedStructures(this.moInitCodeletList, poGoal);
+		ArrayList<clsConsequenceCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moConsequenceCodeletList, poGoal);
 		oResult.addAll(oPrelResult);
 		
 		
 		return oResult;
 	}
 	
-	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(ArrayList<E> poInput, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingInitCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
+		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
+		
+		ArrayList<clsInitCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moInitCodeletList, poGoal);
+		oResult.addAll(oPrelResult);
+		
+		
+		return oResult;
+	}
+	
+	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(Object poTheExecutingObject, ArrayList<E> poInput, clsWordPresentationMesh poGoal) {
 		ArrayList<E> oResult = new ArrayList<E>();
 		
 		ArrayList<clsPair<Double, E>> oUnsortList = new ArrayList<clsPair<Double, E>>();
@@ -269,8 +269,7 @@ public class clsCodeletHandler {
 		
 		for (E oCodelet : poInput) {
 			double rMatch = oCodelet.checkMatchingPreconditions(poGoal);
-			if (oCodelet.checkMatchingPreconditions(poGoal)>=1.0) {
-				
+			if (oCodelet.checkMatchingPreconditions(poGoal)>=1.0 && (oCodelet != poTheExecutingObject)) {	//Exclude the executing object if a codelet executes another codelet in the list
 				oUnsortList.add(new clsPair<Double, E>(rMatch, oCodelet));
 			}
 		}
@@ -313,29 +312,43 @@ public class clsCodeletHandler {
 			
 			oCodelet.assignGoal(poGoal);
 			oCodelet.startCodelet();
-			//clsLogger.jlog.debug("Codelet "  + oCodelet.toString() + " executed");
+			clsLogger.jlog.debug("Executed codelet "  + oCodelet.toString());
 			oCodelet.clearGoal();
 			
 			nInit++;
 		}
 	}
 	
-	public void executeMatchingCodelets(clsWordPresentationMesh poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
+	/**
+	 * Execute matching codelets
+	 * 
+	 * A codelet can execute other codelets within the same codelet handler. Therefore the this pointer of the executing object is passed poTheExecutingObject
+	 * 
+	 * (wendt)
+	 *
+	 * @since 30.12.2012 21:02:49
+	 *
+	 * @param poTheExecutingObject: always this pointer
+	 * @param poGoal
+	 * @param poCodeletType
+	 * @param pnNumberOfExecutions
+	 */
+	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
 		
 		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
 		String oTypeString = "";
 		
 		if (poCodeletType.equals(eCodeletType.ACTION)) {
-			oCList = this.getMatchingActionCodelets(poGoal);
+			oCList = this.getMatchingActionCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute action codelets: ";
 		} else if (poCodeletType.equals(eCodeletType.DECISION)) {
-			oCList = this.getMatchingDecisionCodelets(poGoal);
+			oCList = this.getMatchingDecisionCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute decision codelets: ";
 		} else if (poCodeletType.equals(eCodeletType.CONSEQUENCE)) {
-			oCList = this.getMatchingConsequenceCodelets(poGoal);
+			oCList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute conseqeunce codelets: ";
 		} else if (poCodeletType.equals(eCodeletType.INIT)) {
-			oCList = this.getMatchingInitCodelets(poGoal);
+			oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute init codelets: ";
 		}
 		

@@ -165,7 +165,10 @@ public class SimulatorMain extends GUIState {
 		//clsPropertiesInspector oMagnumPI = new clsPropertiesInspector();
 		//clsSingletonMasonGetter.getConsole().getTabPane().addTab("PropertyInspector", oMagnumPI);
 		//oMagnumPI.setPropertyObjecttoShowHere(oProp);
-		System.out.println(clsSingletonSimState.getSimState().schedule.getSteps());
+		if (clsSingletonSimState.getSimState()!=null) {
+			System.out.println(clsSingletonSimState.getSimState().schedule.getSteps());
+		}
+		
 	}
 
 	
