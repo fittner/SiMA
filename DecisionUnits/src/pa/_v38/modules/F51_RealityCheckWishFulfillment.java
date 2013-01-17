@@ -42,8 +42,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
-	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
-	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 	/** Perception OUT */
 	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
@@ -218,7 +216,6 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAssociatedMemoriesSecondary);
 		
 		moReachableGoalList_IN = poReachableGoalList;
-		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 	}
 	
 	/* (non-Javadoc)

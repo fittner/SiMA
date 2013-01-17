@@ -33,8 +33,6 @@ public class clsPsychoAnalysis extends clsBaseDecisionUnit {
 	
 	private itfProcessor moProcessor;
 	
-	
-	
 	/**
 	 * Creates an instance of the class with the provided properties and the uid.
 	 *
