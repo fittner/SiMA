@@ -50,7 +50,7 @@ public class GetDefaultConfig {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default";
+		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default_not_in_use";
 		String oEntityDir = oBaseDir+System.getProperty("file.separator")+"entity";
 		String oDecisionUnitDir = oBaseDir+System.getProperty("file.separator")+"du";
 		

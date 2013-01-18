@@ -10,6 +10,8 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsEntityTools;
@@ -58,6 +60,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 					I2_6_receive, I5_19_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
 	
+	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
 	private ArrayList<clsThingPresentationMesh> moReturnedPhantasy_IN; 
@@ -74,7 +77,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	//private clsThingPresentationMesh moEnhancedPerception;
 	
 	/** Threshold for matching for associated images */
-	private double mrMatchThreshold = 0.1;
+	private double mrMatchThreshold;
 	
 	/** (wendt) Localitzation of things for the primary process. With the localization, memories can be triggered; @since 15.11.2011 16:23:43 */
 	private clsEnvironmentalImageMemory moTempLocalizationStorage;
@@ -95,10 +98,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsEnvironmentalImageMemory poTempLocalizationStorage) throws Exception {
+								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		applyProperties(poPrefix, poProp);
+		
+		mrMatchThreshold= poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MATCH_THRESHOLD).getParameterDouble();
+		
 		moTempLocalizationStorage = poTempLocalizationStorage;
 		
 		moReturnedPhantasy_IN = new ArrayList<clsThingPresentationMesh>();		//Set Input!=null

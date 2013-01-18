@@ -16,6 +16,7 @@ import pa._v38.interfaces.modules.I5_4_receive;
 import pa._v38.interfaces.modules.I5_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -34,6 +35,9 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 
 	public static final String P_MODULENUMBER = "56";
 
+	public static final String P_ENERGY_REDUCTION_RATE_SEXUAL = "ENERGY_REDUCTION_RATE_SEXUAL";
+	public static final String P_ENERGY_REDUCTION_RATE_SELF_PRESERV = "ENERGY_REDUCTION_RATE_SELF_PRESERV";
+	
 	/*
 	 * Input/Output of module
 	 */
@@ -44,17 +48,15 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	/** Personality parameter, determines how much drive energy is reduced.; @since 12.10.2011 19:18:39 */
-	private double mrEnergyReductionRateSexual = 0.7;
-	private double mrEnergyReductionRateSelfPreserv = 0.3;
+	private double mrEnergyReductionRateSexual;
+	private double mrEnergyReductionRateSelfPreserv;
 
 	/**
 	 * property key where the selected implementation stage is stored.
 	 * @since 12.07.2011 14:54:42
 	 * */
 	public static String P_PROCESS_IMPLEMENTATION_STAGE = "IMP_STAGE"; 
-	public static final String P_SPLITFACTORLABEL = "label";
-	public static final String P_SPLITFACTORVALUE = "value";
-	public static final String P_NUM_SPLIFACTOR = "num";
+
 	
 	private HashMap<String,Double> moChartInputData;
 	private HashMap<String,Double> moChartOutputData;
@@ -75,14 +77,16 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
 		
 		applyProperties(poPrefix, poProp); 
-		
+		mrEnergyReductionRateSexual=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ENERGY_REDUCTION_RATE_SEXUAL).getParameterDouble();
+		mrEnergyReductionRateSelfPreserv=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ENERGY_REDUCTION_RATE_SELF_PRESERV).getParameterDouble();
+
 		moChartInputData = new HashMap<String,Double>();
 		moChartOutputData = new HashMap<String,Double>();
 		
@@ -198,34 +202,6 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 
-		// see PhD Deutsch2011 p82 for what this is used for		
-		int i=0;
-
-		//Konfigurationsparameter
-		//Definieren und Auslesen von den Properties
-		//applyproperties aus dem 
-
-
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "BITE");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "RELAX");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "DEPOSIT");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "REPRESS");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "SLEEP");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-
-		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
 
 		return oProp;
 	}	

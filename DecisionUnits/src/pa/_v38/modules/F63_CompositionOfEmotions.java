@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsTriple;
@@ -53,6 +54,11 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	//Statics for the module
 	public static final String P_MODULENUMBER = "63";
 
+	public static final String P_REALATIV_THRESHOLD = "REALATIV_THRESHOLD";
+	public static final String P_THRESHOLD_RANGE = "THRESHOLD_RANGE";
+	public static final String P_PERCEPTION_PLEASURE_IMPACT_FACTOR = "PERCEPTION_PLEASURE_IMPACT_FACTOR";
+	public static final String P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR = "PERCEPTION_UNPLEASURE_IMPACT_FACTOR";
+	
 	//Private members for send and recieve
 	private ArrayList<clsEmotion> moEmotions_OUT; 
 	private ArrayList<clsDriveMesh> moDrives_IN;
@@ -60,8 +66,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	
 	// threshold to determine in which case domination of a emotion occurs
-	private double mrRelativeThreshold = 0.567;
-	private double mrThresholdRange = 0.1;
+	private double mrRelativeThreshold;
+	private double mrThresholdRange;
 	
 	DT4_PleasureStorage moPleasureStorage;
 	
@@ -72,8 +78,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	HashMap<String, Double> oDrivesExtractedValues = new HashMap<String, Double>();
 
 	// personality parameter, perceiving a drive object sould trigger less emotions than the bodily needs
-	private double mrPerceptionPleasureImpactFactor = 0.1;
-	private double mrPerceptionUnpleasureImpactFactor = 0.1;
+	private double mrPerceptionPleasureImpactFactor;
+	private double mrPerceptionUnpleasureImpactFactor;
 	
 	double mrGrade = 0;
 	
@@ -88,7 +94,7 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT4_PleasureStorage poPleasureStorage,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
@@ -97,6 +103,10 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 		
 		applyProperties(poPrefix, poProp);	
 		
+		mrRelativeThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_REALATIV_THRESHOLD).getParameterDouble();
+		mrThresholdRange = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_RANGE).getParameterDouble();
+		mrPerceptionPleasureImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_PLEASURE_IMPACT_FACTOR).getParameterDouble();
+		mrPerceptionUnpleasureImpactFactor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_UNPLEASURE_IMPACT_FACTOR).getParameterDouble();
 		moPleasureStorage = poPleasureStorage;
 		
 	

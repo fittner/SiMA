@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 import config.clsProperties;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
@@ -53,6 +54,10 @@ import pa._v38.memorymgmt.enums.eCondition;
 public class F26_DecisionMaking extends clsModuleBaseKB implements 
 			 I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
+	
+	public static final String P_GOAL_PASS = "NUMBER_OF_GOALS_TO_PASS";
+	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
+	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
 	
 	/** Perception IN */
 	//private clsWordPresentationMesh moPerceptionalMesh_IN;
@@ -102,13 +107,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	private static String _Delimiter03 = "|";
 	
 	/** Number of goals to pass */
-	private int mnNumberOfGoalsToPass = 1;
+	private int mnNumberOfGoalsToPass;
 	
 	/** Threshold for letting through drive goals */
-	private int mnAffectThresold = 1;	//Everything with an affect >= MEDIUM is passed through
+	private int mnAffectThresold;	//Everything with an affect >= MEDIUM is passed through
 	
 	
-	private int mnAvoidIntensity = -1;
+	private int mnAvoidIntensity;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -124,8 +129,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
@@ -133,6 +137,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
         
 		applyProperties(poPrefix, poProp);	
+		
+		mnNumberOfGoalsToPass=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
+		mnAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterInt();
+		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
+
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;

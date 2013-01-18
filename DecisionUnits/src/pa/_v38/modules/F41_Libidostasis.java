@@ -18,6 +18,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -40,14 +41,18 @@ import du.enums.pa.ePartialDrive;
 public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_1_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "41";
 	
+	public static final String P_LIBIDO_STARTING_OFFSET = "LIBIDO_STARTING_OFFSET";
+	public static final String P_PERSONALITY_CONTENT_FACTOR = "PERSONALITY_CONTENT_FACTOR";
+
+	
 	private DT1_LibidoBuffer moLibidoBuffer;
 	private double mrIncomingLibido;
 	private double mrTotalLibido;
-	private static final double mrLibitoStartingOffset = 0.2;
+	private static double mrLibitoStartingOffset;
 	
 	//holds the sexual drives A-> agr / B-> lib parts
 	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moSexualDriveCandidates_OUT;
-	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+	private double Personality_Content_Factor; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
 	/**
 	 * basic constructor, sets Libido to 0
@@ -62,14 +67,19 @@ public class F41_Libidostasis extends clsModuleBase implements I2_1_receive, I3_
 	 */
 	public F41_Libidostasis(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			DT1_LibidoBuffer poLibidoBuffer) throws Exception {
+			DT1_LibidoBuffer poLibidoBuffer, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		applyProperties(poPrefix, poProp);
+		
+		mrLibitoStartingOffset=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LIBIDO_STARTING_OFFSET).getParameterDouble();
+		Personality_Content_Factor=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_CONTENT_FACTOR).getParameterDouble();
+
 		
 		moLibidoBuffer = poLibidoBuffer;
 		mrIncomingLibido = 0;
 		mrTotalLibido = mrLibitoStartingOffset;
 		
-		applyProperties(poPrefix, poProp);	
+		
 	}
 	
 		
