@@ -11,7 +11,7 @@ entitygroups.0.positions.0.pos_angle=4.71
 entitygroups.0.positions.0.pos_x=100
 entitygroups.0.positions.0.pos_y=150
 entitygroups.0.positions.positiontype=LIST
-entitygroups.0.overwritedecisionunitdefaults.processor.psychicapparatus.personality.parameter.file=luhe.personality.properties
+entitygroups.0.overwritedecisionunitdefaults.processor.psychicapparatus.personality.parameter.file=tutorial.properties
 
 entitygroups.1.groupentitytype=APPLE
 entitygroups.1.numentities=1
