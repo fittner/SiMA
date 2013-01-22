@@ -78,7 +78,11 @@ public class clsEntityFactory {
 		
 	}
 	
-	private static clsProperties getEntityDefaultProperties(Class poEntity, String poPrefix){
+	public static HashMap<eEntityType,Class> getEntities(){
+		if(moEntities==null) clsEntityFactory.fillEntityMap();
+		return moEntities;
+	}
+	public static clsProperties getEntityDefaultProperties(Class poEntity, String poPrefix){
 		String oPrefix= clsProperties.addDot(poPrefix);
 		clsProperties oProp= new clsProperties();
 		Method[] oMethodes = poEntity.getMethods();

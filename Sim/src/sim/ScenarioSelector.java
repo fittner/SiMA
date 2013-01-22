@@ -119,6 +119,10 @@ public class ScenarioSelector extends javax.swing.JFrame {
                 } 
              }
         });
+        
+        
+     
+        
         jScrollPane1.setViewportView(lstScenarioList);
 
         javax.swing.GroupLayout pnlScenariosLayout = new javax.swing.GroupLayout(pnlScenarios);
