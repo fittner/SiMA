@@ -5,9 +5,14 @@
  */
 package sim;
 
+import java.util.Iterator;
+
 import config.clsProperties;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
+
 import statictools.clsGetARSPath;
+/*
+import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import bw.entities.clsAnimal;
 import bw.entities.clsAnimate;
 import bw.entities.clsBase;
@@ -30,6 +35,8 @@ import bw.entities.clsUraniumOre;
 import bw.entities.clsWallAxisAlign;
 import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
+*/
+import bw.factories.clsEntityFactory;
 
 /**
  * extracts the default properties for all different kind of classes and writes them to files. All entities of project BW and the different decision units from project DecisionUnits are processed.
@@ -50,15 +57,21 @@ public class GetDefaultConfig {
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default";
+		String oBaseDir = clsGetARSPath.getConfigPath()+System.getProperty("file.separator")+"default_not_in_use";
 		String oEntityDir = oBaseDir+System.getProperty("file.separator")+"entity";
 		String oDecisionUnitDir = oBaseDir+System.getProperty("file.separator")+"du";
+
 		
 		String oSubExt = ".default.properties";
 		String oMainExt = ".main.properties";
 		String oSystemFile = "system.default.properties";
 		
-		clsProperties.writeProperties(clsAnimal.getDefaultProperties(""), oEntityDir, "animal"+oSubExt, "");
+		Iterator<Class> it = clsEntityFactory.getEntities().values().iterator();
+		while(it.hasNext()){
+			Class x = it.next();
+			clsProperties.writeProperties(clsEntityFactory.getEntityDefaultProperties(x, ""), oEntityDir, x.getName()+oSubExt, "");
+		}
+		/*clsProperties.writeProperties(clsAnimal.getDefaultProperties(""), oEntityDir, "animal"+oSubExt, "");
 		clsProperties.writeProperties(clsAnimate.getDefaultProperties(""), oEntityDir, "animate"+oSubExt, "");
 		clsProperties.writeProperties(clsBase.getDefaultProperties(""), oEntityDir, "base"+oSubExt, "");
 		clsProperties.writeProperties(clsARSIN.getDefaultProperties(""), oEntityDir, "arsin"+oSubExt, "");
@@ -80,7 +93,7 @@ public class GetDefaultConfig {
 		clsProperties.writeProperties(clsWallAxisAlign.getDefaultProperties(""), oEntityDir, "wall_axis"+oSubExt, "");
 		clsProperties.writeProperties(clsWallHorizontal.getDefaultProperties(""), oEntityDir, "wall_hor"+oSubExt, "");
 		clsProperties.writeProperties(clsWallVertical.getDefaultProperties(""), oEntityDir, "wall_ver"+oSubExt, "");
-
+		*/
 		clsProperties.writeProperties(simple.dumbmind.clsDumbMindA.getDefaultProperties(""), oDecisionUnitDir, "dumbminda"+oSubExt, "");
 		clsProperties.writeProperties(simple.reactive.clsReactive.getDefaultProperties(""), oDecisionUnitDir, "reactive"+oSubExt, "");
 		clsProperties.writeProperties(simple.remotecontrol.clsRemoteControl.getDefaultProperties(""), oDecisionUnitDir, "remotecontrol"+oSubExt, "");
@@ -93,11 +106,12 @@ public class GetDefaultConfig {
 		clsProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
 		clsProperties.writeProperties(testbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");
 		
-		clsProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), clsGetARSPath.getConfigPath(), "simplePropertyLoader"+oMainExt, "");
+		clsProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), oBaseDir, "simplePropertyLoader"+oMainExt, "");
 		
-		clsProperties.writeProperties(SimulatorMain.getDefaultProperties(""),  clsGetARSPath.getConfigPath(), oSystemFile, "");
+		clsProperties.writeProperties(SimulatorMain.getDefaultProperties(""),  oBaseDir, oSystemFile, "");
 		
 		System.out.println("done ...");
+		System.out.println("Default porperties written to Sim/config/default_not_in_use.");
 	}
 
 }
