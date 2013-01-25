@@ -23,7 +23,6 @@ public class clsPersonalityParameter {
 	public final String P_DESCRIPTION ="description";
 	public final String P_VALUE ="value";
 	
-	private ePersonalityParameterType mType;
 	private String moDescription;
 	private String moValue;
 	private String moName;
@@ -35,7 +34,7 @@ public class clsPersonalityParameter {
 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 		
 		Set<Object> keys =poProp.keySet();
 		for(Object o : keys){
@@ -69,14 +68,34 @@ public class clsPersonalityParameter {
 		
 	}
 	
+	/** 
+	 * Returns the value of the parameter parsed to double
+	 *
+	 * @since 25.01.2013 08:34:18
+	 *
+	 * @return
+	 */
 	public Double getParameterDouble(){
 		return Double.parseDouble(moValue);
 	}
-	
+	/** 
+	 * Returns the value of the parameter parsed to integer
+	 *
+	 * @since 25.01.2013 08:34:18
+	 *
+	 * @return
+	 */
 	public int getParameterInt(){
 		return Integer.parseInt(moValue);
 	}
 	
+	/** 
+	 * Returns the value of the parameter parsed to boolean
+	 *
+	 * @since 25.01.2013 08:34:18
+	 *
+	 * @return
+	 */
 	public boolean getParameterBoolean(){
 		return Boolean.parseBoolean(moValue);
 	}

@@ -18,7 +18,7 @@ import statictools.clsGetARSPath;
 import config.clsProperties;
 
 /**
- * DOCUMENT (LuHe) - insert description 
+ * Container to hold all personality parameter
  * 
  * @author LuHe
  * 30.11.2012, 08:34:07
@@ -38,7 +38,7 @@ public class clsPersonalityParameterContainer {
 	}
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 		moFilename= poProp.getProperty(poPrefix);
 		clsProperties iProp = clsProperties.readProperties(clsGetARSPath.getPeronalityParameterConfigPath(), P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 		
@@ -77,6 +77,15 @@ public class clsPersonalityParameterContainer {
 		return moFilename;
 	}
 
+	/**
+	 * 
+	 * Returns the name of the deafult personality parameter file as a property
+	 *
+	 * @since 25.01.2013 08:30:45
+	 *
+	 * @param poPrefix
+	 * @return
+	 */
 	public static clsProperties getDefaultProperties(String poPrefix) {
 
 		clsProperties oProp = new clsProperties();
@@ -86,10 +95,20 @@ public class clsPersonalityParameterContainer {
 		return oProp;
 	}
 	
-	public clsPersonalityParameter getPersonalityParameter(String poModule, String poType){
+	/**
+	 * 
+	 * Returns the personality Parameter for the specified module (poModule) and the name (poName)
+	 *
+	 * @since 25.01.2013 08:32:20
+	 *
+	 * @param poModule
+	 * @param poName
+	 * @return
+	 */
+	public clsPersonalityParameter getPersonalityParameter(String poModule, String poName){
 		for(clsPersonalityParameterModule iModule: moModules){
 			if(iModule.getMoModuleNumber().equals(poModule)){
-				return iModule.getParameter(poType);
+				return iModule.getParameter(poName);
 			}
 /*			if(iModule.getParameter(poType)!=null){
 				return iModule.getParameter(poType);

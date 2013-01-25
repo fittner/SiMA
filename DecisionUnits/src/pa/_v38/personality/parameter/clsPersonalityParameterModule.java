@@ -33,7 +33,7 @@ public class clsPersonalityParameterModule  implements Comparable<clsPersonality
 	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){
-		String pre = clsProperties.addDot(poPrefix);
+		//String pre = clsProperties.addDot(poPrefix);
 		
 		ArrayList<String> parameters = new ArrayList<String>();
 		
