@@ -33,6 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -649,7 +650,10 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 		//Create the drive string from Drive component, orifice and organ
 		String poGoalName = oDriveComponent.toString() + oOrgan.toString();
 		
-		eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
+		//eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
+		
+		// Consider influence of multiple drive-satisfaction on decision making (via affect-level)
+		eAffectLevel oAffectContent = eAffectLevel.convertActivationAndQoAToAffectLevel(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
 		
 		//Construct WP
 		String oWPContent = poGoalName + ":" + oAffectContent.toString();

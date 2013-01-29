@@ -362,6 +362,21 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	public void setQuotaOfAffect(double mrQuotaOfAffect) {
 		this.mrQuotaOfAffect = mrQuotaOfAffect;
 	}
+	
+	/**
+	 * @since 28.01.2013 14:10:00
+	 * 
+	 * @param mrQuotaOfAffect the mrQuotaOfAffect to set
+	 * 
+	 * "besetzen des triebobjekts"
+	 */
+	public void cathexis() {
+		 if (this.getActualDriveObject() != null) {
+			 this.getActualDriveObject().cathexisAndCondensation(this.mrQuotaOfAffect);
+		 }
+	}
+	
+	
 
 	/**
 	 * @since 11.07.2012 14:10:00
@@ -454,6 +469,40 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 			}
 		return oRetVal; 
 	}
+	
+	
+	/* (non-Javadoc)
+	 *
+	 * @since Jul 10, 2012 1:21:47 PM
+	 * 
+	 * @see pa._v38.memorymgmt.datatypes.itfComparable#compareTo(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+	 * 
+	 * how good would this drive's driveobject  would satisfy poDriveCandidate?
+	 */
+
+	public double compareToDriveCandidate(clsDriveMesh poDriveCandidate) {
+		// TODO (schaat) - Auto-generated method stub
+		double oRetVal = 0.0; 
+		
+				
+				if(this.moDriveComponent == poDriveCandidate.moDriveComponent){
+					if(this.moPartialDrive == poDriveCandidate.moPartialDrive){
+						if(this.getActualDriveSourceAsENUM() == poDriveCandidate.getActualDriveSourceAsENUM()){
+							
+							
+							oRetVal = (this.mrQuotaOfAffect/poDriveCandidate.getQuotaOfAffect());
+							
+							if(oRetVal>1){
+								oRetVal =1;
+							}
+						}
+					}
+					
+				}
+			
+		return oRetVal; 
+	}
+	
 
 	/* (non-Javadoc)
 	 *

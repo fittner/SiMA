@@ -304,6 +304,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		for(clsThingPresentationMesh oCandidateTPM : moCompleteThingPresentationMeshList){
 			//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged
 			for (clsDriveMesh oSimulatorDrive : moDrives_IN) {
+				
+				// actual drive objects
+				oCandidateTPM_DM = oSimulatorDrive.getActualDriveObject();
+				
+				if(oCandidateTPM_DM.getMoDS_ID() == oCandidateTPM.getMoDS_ID()) {
+					oCandidateTPM.takeActivationsFromTPM(oCandidateTPM_DM);
+				}
+				
+				// potential drive objects (external associations)
 				for(clsAssociation oAssSimilarDrivesAss : oSimulatorDrive.getExternalMoAssociatedContent() ) {
 
 					oMemorizedDriveMesh = (clsDriveMesh)oAssSimilarDrivesAss.getMoAssociationElementB();
@@ -318,6 +327,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			}
 		}
 		
+	
 			
 	}
 	

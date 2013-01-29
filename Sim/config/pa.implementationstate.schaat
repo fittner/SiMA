@@ -1,7 +1,7 @@
 #change values to BASIC, DRAFT, FINAL to define which of the three process implementation 
 #should be executed in each module.
 #Mon Jul 12 14:49:33 CEST 2010
-processor.psychicapparatus.01.IMP_STAGE=BASCI
+processor.psychicapparatus.01.IMP_STAGE=BASIC
 processor.psychicapparatus.02.IMP_STAGE=BASIC
 processor.psychicapparatus.03.IMP_STAGE=BASIC
 processor.psychicapparatus.04.IMP_STAGE=BASIC

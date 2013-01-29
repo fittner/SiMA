@@ -41,6 +41,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private HashMap<eActivationType, Double> moActivations = new HashMap<eActivationType, Double>();
 	private HashMap<eActivationType, Double> moCriterionWeights = new HashMap<eActivationType, Double>();
 	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
+	private double mrCathexis;
 	
 	/**
 	 * @author zeilinger
@@ -79,6 +80,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
 		mrAggregatedActivationValue = 0;
+		mrCathexis = 0;
 	}
 	
 	/**
@@ -397,14 +399,14 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		
 
 		// diff between QoA of associated DM an actual DM --> how good would this memory DM satisfy the according actual DM
-		double rMatchDMs = 0;;
+		double rMatchDMs = 0;
 		double rSatisfactionOfActualDM = 0;
 		double rTotSatisfactionOfActualDMs = 0;
 		double rCriterionActivation = 0;
 		
 		if(moActivations.containsKey(eActivationType.EMBODIMENT_ACTIVATION)) {
 			// exemplar has already this criterion activation
-			//double rPreviousActivation = moActivations.get(eActivationType.EMBODIMENT_ACTIVATION);
+			double rPreviousActivation = moActivations.get(eActivationType.EMBODIMENT_ACTIVATION);
 		}
 		else {
 					
@@ -414,7 +416,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
 					if (oExtAss instanceof clsAssociationDriveMesh) {
 						// if a drive is the same (has the same aim, object and source) and has the same QoA -> the matchingfactor is 1. hence the driveobject with this drive would satisfy the actual drive in the best possible way
-						rMatchDMs = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).compareTo(oActualDM);
+						rMatchDMs = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).compareToDriveCandidate(oActualDM);
 						// take the best match
 						if(rMatchDMs>rSatisfactionOfActualDM) {
 							rSatisfactionOfActualDM = rMatchDMs;
@@ -447,7 +449,11 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * @param poActivationKind
 	 */
 	public double getCriterionActivationValue(eActivationType poActivationKind) {
-			double rActivationLevel = moActivations.get(poActivationKind);
+			double rActivationLevel = 0;
+			if(moActivations.get(poActivationKind) != null) {
+				rActivationLevel = moActivations.get(poActivationKind);
+			}
+					
 			
 			return rActivationLevel;
 	}
@@ -503,9 +509,9 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	 * @param poActivation
 	 */
 	public void setCriterionActivationValue(eActivationType poActivationKind, double poActivationLevel) {
-		if(moActivations.containsKey(poActivationKind)) {
+		/*if(moActivations.containsKey(poActivationKind)) {
 			System.out.println(poActivationKind + " already exist");
-		}
+		}*/
 		moActivations.put(poActivationKind, poActivationLevel);
 	}
 	
@@ -529,43 +535,26 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		}
 		
 	}
+	
+	
 //	/**
 //	 * DOCUMENT (schaat) - insert description
 //	 *
 //	 * @author schaat
-//	 * 28.08.2012, 12:10:28
+//	 * 28.01.2013, 17:10:28
+//   * condensation of cathexis: if a drive object is associated to multiple drives, condensation of cathexis occur
 //	 *
 //	 */
-//	public void embodimentCriterionWeighting() {
-//		// a TPM uses the highest possible activation
-//		// but consider synergies, i.e. if a object gets  multiple actications --> increase activation
-//		// always use the highest activation for the basis-activation. the other activations are only considered as rest-activation. 
-//		// That is, the rest until the max activation is considered as the maximal possible activation for the rest activation. E.g. if the basic activation is
-//		// 0.7, then the max rest activation is 0.3. Next, the concerned activation is normed with respect to the maximal possible 
-//		// value, i.e. the max rest activation. E.g. if the basic activation is 0.7 and another activation  is 0,4, then 
-//		// the total activation of the TPM is 0.7+0.3*0.4
-//		
-//		//pleasure potential
-//		double rQoA = 0;
-//		
-//		for (clsAssociation oExtAss : this.moExternalAssociatedContent) {
-//			if (oExtAss instanceof clsAssociationDriveMesh) {
-//				
-//				rQoA = ((clsDriveMesh)oExtAss.getMoAssociationElementA()).getQuotaOfAffect();
-//		
-//				if(this.mrPleasurePotential != 0) {					
-//					mrPleasurePotential += (1-mrPleasurePotential)*rQoA;
-//				}
-//				else {
-//					mrPleasurePotential = rQoA;
-//				}
-//			}
-//			
-//		}
-//	
-//	}
-	
-	
+	public void cathexisAndCondensation(double prCathexis) {
+		if (mrCathexis == 0) {
+			mrCathexis = prCathexis;
+		}
+		else {
+			// non-propertional aggregation
+			mrCathexis = mrCathexis + (1-mrCathexis)*prCathexis;
+		}
+	}
+		
 	
 	
 	/**

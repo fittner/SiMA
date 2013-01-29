@@ -89,6 +89,18 @@ public enum eAffectLevel {
 	}
 	
 	/**
+	 * 
+	 * (schaat)
+	 *
+	 * @since 20.01.2013 21:19:16
+	 *
+	 * @param poQoA
+	 * @return
+	 */
+	public static eAffectLevel convertActivationAndQoAToAffectLevel(double prQoA, double prEmbodimentActivation) {
+		return convertQuotaOfAffectToAffectLevel (prQoA + ( (1-prQoA) * prEmbodimentActivation) );
+	}
+	/**
 	 * Convert the quota of affect as double to an affect level
 	 * 
 	 * (wendt)

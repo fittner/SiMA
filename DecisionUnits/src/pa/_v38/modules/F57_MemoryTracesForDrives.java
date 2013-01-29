@@ -219,6 +219,9 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		double rSatisfactionOfActualDM = 0;
 		
 		double rTotSatisfactionOfActualDMs = 0;
+		
+		double rSumSimilarDMsQoA = 0;
+		double rQoA = 0;
 
 		
 		// for each simulator-DM (should be 16 for now)
@@ -244,7 +247,16 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;
 				rCurrentDecisionFactor= 0.0;
+				rSumSimilarDMsQoA = 0.0;
 					
+				// get rSumSimilarDMsQoA to calculate cathexis
+				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+					// for results of similar memory-DMs (should be various similar DMs)
+					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+						rSumSimilarDMsQoA += ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getQuotaOfAffect();
+					}
+				}
+				
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
@@ -274,16 +286,18 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 								
 								// add similar memory-DMs to simulator-DM (via primaryDM-Assoc) 
 								// weighting of asscoiation-weight with QoA
+								
 								oAssSimilarDMs.add(clsDataStructureGenerator.generateASSOCIATIONPRIDM(eContentType.ASSOCIATIONPRIDM, oSimulatorDM, oMemoryDM, rCurrentMatchFactor));
-								
-								
-								
+																
 								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy actual DM?)
 								if(oMemoryDM.getActualDriveObject() != null) {
 									oDriveObjectActivated = oMemoryDM.getActualDriveObject();
 									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
 									//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
 									
+									// cathexis of potential drive object
+									oMemoryDM.setQuotaOfAffect(oSimulatorDM.getQuotaOfAffect() * (oMemoryDM.getQuotaOfAffect()/rSumSimilarDMsQoA));								
+									oMemoryDM.cathexis();
 								}
 															
 								// take  drive object+drive aim of best match 
@@ -293,6 +307,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 									oDriveObject = oMemoryDM.getActualDriveObject();
 									rSatisfactionOfActualDM = rCurrentDecisionFactor;
 								}
+								 
+								
 							}
 						}
 					}
@@ -324,6 +340,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				
 				
 		}
+
+				
 		
 		return oRetVal;
 		

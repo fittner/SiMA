@@ -40,7 +40,7 @@ public class clsImportanceTools {
 	//Added by AW, in order to be able to add drive goals from perception and memories
 	/** The list of possible drives, sorted regarding importance */
 	//AGGRESSIVESTOMACH, LIBIDINOUSSTOMACH, AGGRESSIVESTAMINA, LIBIDINOUSSTAMINA, AGGRESSIVERECTUM, LIBIDINOUSRECTUM, LIBIDINOUSLIBIDO]
-	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
+	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM", "LIBIDINOUSLIBIDO"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
 	/** A list of possible affects sorted in the order of importance */
 	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(
 			eAffectLevel.NEGATIVE100.mnAffectLevel,
