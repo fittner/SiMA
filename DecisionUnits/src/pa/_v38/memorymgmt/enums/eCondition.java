@@ -20,6 +20,7 @@ public enum eCondition {
 	
 	// --- Precondition intentions --- //
 	START_WITH_FIRST_IMAGE,
+	OBSTACLE_SOLVING,
 	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
