@@ -89,7 +89,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Search for entities.
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59
@@ -200,7 +200,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public void searchMesh(clsDataStructurePA poPattern, ArrayList<clsPair<Double, clsDataStructurePA>> poSearchResult, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 
-		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
 			
 			//FIXME AW: Make a better solution than renaming the content types at the search
@@ -214,11 +213,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			
 			//Set the old content type again...this is hack dirty bastard shit
 			poPattern.setMoContentType(oInputContentType);
-			
-			//Set IDs
-			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
-			//	clsDataStructureTools.createInstanceFromType(oPair.b);
-			//}
 			
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();

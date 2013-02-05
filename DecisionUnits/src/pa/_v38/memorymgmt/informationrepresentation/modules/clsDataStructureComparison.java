@@ -215,7 +215,7 @@ public abstract class clsDataStructureComparison {
 						continue;
 					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 					int i = 0;
-					while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
+					while ((i < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
 						i++;
 					}
 					
