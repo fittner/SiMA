@@ -290,6 +290,12 @@ public class clsDecisionPreparationTools {
 			case FOCUS_SEARCH1:
 				oActionCondition = eCondition.EXECUTED_FOCUS_SEARCH1;
 				break;
+			case STRAFE_LEFT:
+				oActionCondition = eCondition.EXECUTED_STRAFE_LEFT;
+				break;
+			case STRAFE_RIGHT:
+				oActionCondition = eCondition.EXECUTED_STRAFE_RIGHT;
+				break;
 			case NULLOBJECT:
 				oActionCondition = eCondition.NULLOBJECT;
 				break;

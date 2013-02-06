@@ -9,6 +9,9 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import du.enums.eShapeType;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
@@ -43,6 +46,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
                  I5_18_receive, I6_3_send, I6_5_send {
 	
 	public static final String P_MODULENUMBER = "08";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
@@ -163,7 +169,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 

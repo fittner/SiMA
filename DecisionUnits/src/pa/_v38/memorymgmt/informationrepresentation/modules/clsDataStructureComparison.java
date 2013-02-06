@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -201,6 +203,16 @@ public abstract class clsDataStructureComparison {
 						// TODO (wendt) - Auto-generated catch block
 						e.printStackTrace();
 					}
+					
+					//=== Perform system tests ===//
+					if (clsTester.getTester().isActivated()) {
+						try {
+							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+						} catch (Exception e) {
+							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison, clonedCompareElement", e);
+						}
+					}
+					
 					//INFO: In the image function, the inverse associations are also created.
 					try {
 						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
@@ -235,6 +247,16 @@ public abstract class clsDataStructureComparison {
 		
 		//3. Sort the list
 		//TODO AW: Sort the output list
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oRetVal);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison", e);
+			}
+		}
+		
 		return oRetVal;
 	}
 	

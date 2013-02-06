@@ -29,7 +29,6 @@ import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -189,19 +188,17 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
 		
+		log.debug("PI: " + oPerceivedImage.toString());
+		moPerceptionalMesh_OUT = oPerceivedImage;
+		
+		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
 			} catch (Exception e) {
-				clsLogger.jlog.error(e.getMessage().toString());
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
-		
-		clsLogger.jlog.debug("PI: " + oPerceivedImage.toString());
-		moPerceptionalMesh_OUT = oPerceivedImage;
-		
-		log.trace("TESTING TRACE MESSAGES");
-		
 	}
 	
 	/**

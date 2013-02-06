@@ -6,7 +6,13 @@
  */
 package pa._v38.systemtest;
 
+import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -52,7 +58,19 @@ public class clsTester {
 	}
 	
 	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
-		clsUnitTestTools.debugFindAllErroneousLinksInImage(poImage);
+		clsTestDataStructures.debugFindAllErroneousLinksInImage(poImage);
+	}
+	
+	public void exeTestAssociationAssignment(clsDataStructurePA poImage) throws Exception {
+		clsTestDataStructures.debugFindAllErroneousLinksInDataStructure(poImage);
+	}
+	
+	public void exeTestAssociationAssignment(ArrayList<clsPair<Double, clsDataStructurePA>> poImage) throws Exception {
+		clsTestDataStructures.debugFindAllErroneousLinksInDataStructure(poImage);
+	}
+	
+	public void exeTestAction(ArrayList<clsWordPresentationMesh> poCurrentActionList, eAction poTestAction) {
+		clsTestActions.replaceAction(poCurrentActionList, poTestAction);
 	}
 	
 }

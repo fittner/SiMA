@@ -9,6 +9,9 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import pa._v38.interfaces.modules.I5_14_receive;
 import pa._v38.interfaces.modules.I5_15_receive;
@@ -31,6 +34,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -56,6 +60,9 @@ import pa._v38.tools.toText;
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send{
 	public static final String P_MODULENUMBER = "19";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	//AW 20110522: New inputs
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;
@@ -263,6 +270,15 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 		
 		detect_conflict_and_activate_defense_machanisms();
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(moPerceptionalMesh_OUT);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 		
 	}
 	

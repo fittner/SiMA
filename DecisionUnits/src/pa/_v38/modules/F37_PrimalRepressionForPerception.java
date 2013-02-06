@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
@@ -26,6 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -42,6 +45,9 @@ import du.enums.pa.ePartialDrive;
 public class F37_PrimalRepressionForPerception extends clsModuleBase 
 implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	public static final String P_ACTIVATION_THRESHOLD = "ACTIVATION_THRESHOLD";
 	public static final String P_ACTIVATION_LIMIT = "ACTIVATION_LIMIT";
@@ -192,6 +198,14 @@ implements I5_6_receive, I5_7_send  {
 
 		evaluatePerception(moPerceptionalMesh_OUT);
 		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(moPerceptionalMesh_OUT);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 	}
 
 	/**

@@ -15,6 +15,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
@@ -37,6 +38,7 @@ import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -216,6 +218,15 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		}
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poSearchResult);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
 		}
 			
 	}

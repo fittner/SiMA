@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -22,7 +23,7 @@ import pa._v38.tools.clsMeshTools;
  * 25.10.2012, 12:03:58
  * 
  */
-public class clsUnitTestTools {
+public class clsTestDataStructures {
 	
 	
 	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
@@ -66,14 +67,14 @@ public class clsUnitTestTools {
 	}
 	
 	
-	public static boolean debugFindErroneousLinks(clsWordPresentationMesh poTPM) throws Exception {
+	public static boolean debugFindErroneousLinks(clsWordPresentationMesh poWPM) throws Exception {
 		boolean bResult = false;
 		
-		for (clsAssociation oAss : poTPM.getExternalAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
+		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
+			clsDataStructurePA oDS = oAss.getTheOtherElement(poWPM);
 			
 			if (oDS==null) {
-				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
+				String oErrorMessage = "Error: " + poWPM.toString() + " has an erroneous EXTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
 				//try {
 				bResult=true;
 				throw new Exception(oErrorMessage);
@@ -84,11 +85,11 @@ public class clsUnitTestTools {
 			}
 		}
 		
-		for (clsAssociation oAss : poTPM.getMoInternalAssociatedContent()) {
-			clsDataStructurePA oDS = oAss.getTheOtherElement(poTPM);
+		for (clsAssociation oAss : poWPM.getMoInternalAssociatedContent()) {
+			clsDataStructurePA oDS = oAss.getTheOtherElement(poWPM);
 			
 			if (oDS==null) {
-				String oErrorMessage = "Error: " + poTPM.toString() + " has an erroneous INTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
+				String oErrorMessage = "Error: " + poWPM.toString() + " has an erroneous INTERNAL ASSOCIATION: " + oAss.toString() + ". None of the elements is the origin structure";
 				try {
 					throw new Exception(oErrorMessage);
 				} catch (Exception e) {
@@ -106,9 +107,36 @@ public class clsUnitTestTools {
 		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(poImage, 4);
 		
 		for (clsThingPresentationMesh oTPM : oTPMList) {
-			clsUnitTestTools.debugFindErroneousLinks(oTPM);
+			clsTestDataStructures.debugFindErroneousLinks(oTPM);
 		}
 		
 	}
+	
+	public static void debugFindAllErroneousLinksInImage(clsWordPresentationMesh poImage) throws Exception {
+		
+		ArrayList<clsWordPresentationMesh> oTPMList = clsMeshTools.getAllWPMObjects(poImage, 4);
+		
+		for (clsWordPresentationMesh oTPM : oTPMList) {
+			clsTestDataStructures.debugFindErroneousLinks(oTPM);
+		}
+		
+	}
+	
+	public static void debugFindAllErroneousLinksInDataStructure(clsDataStructurePA poDS) throws Exception {
+		
+		if (poDS instanceof clsThingPresentationMesh) {
+			debugFindAllErroneousLinksInImage((clsThingPresentationMesh) poDS);
+		} else if (poDS instanceof clsWordPresentationMesh) {
+			debugFindAllErroneousLinksInImage((clsWordPresentationMesh)poDS);
+		}
+	}
+	
+	public static void debugFindAllErroneousLinksInDataStructure(ArrayList<clsPair<Double, clsDataStructurePA>> poStructure) throws Exception {
+		for (clsPair<Double, clsDataStructurePA> oDS : poStructure) {
+			debugFindAllErroneousLinksInDataStructure(oDS.b);
+		}
+	}
+	
+	
 	
 }

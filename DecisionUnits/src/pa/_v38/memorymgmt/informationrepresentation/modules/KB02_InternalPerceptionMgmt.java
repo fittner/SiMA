@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -134,6 +135,15 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 		//2b. Set the Content type of oDS	
 		oMatchedDataStructures = compareElementsMesh(poDataStructureUnknown, prThreshold, pnLevel);	//Get a List of all matching structures in the memory
 	
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oMatchedDataStructures);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
+		
 		return oMatchedDataStructures;
 	}
 	
