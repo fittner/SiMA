@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
@@ -27,7 +30,6 @@ import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -54,6 +56,9 @@ import pa._v38.memorymgmt.enums.eCondition;
 public class F26_DecisionMaking extends clsModuleBaseKB implements 
 			 I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	public static final String P_GOAL_PASS = "NUMBER_OF_GOALS_TO_PASS";
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
@@ -132,7 +137,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
-
+		
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
         
@@ -246,12 +251,12 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
-			clsLogger.jlog.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + clsGoalTools.getSupportiveDataStructure(moDecidedGoalList_OUT.get(0)).toString());
+			log.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + clsGoalTools.getSupportiveDataStructure(moDecidedGoalList_OUT.get(0)).toString());
 			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
 			//System.out.println(moTEMPDecisionString);
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
-			clsLogger.jlog.info("Decided goal: No goal ");
+			log.info("Decided goal: No goal ");
 		}
 		
 		
@@ -468,7 +473,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 				if (clsGoalTools.getGoalContentIdentifier(oGoal).equals(clsGoalTools.getGoalContentIdentifier(oRemoveGoal))==true) {
 					//if yes, remove this goal		
 					Iter.remove();
-					clsLogger.jlog.debug("Non reachable goal removed: " + oGoal.toString());
+					log.debug("Non reachable goal removed: " + oGoal.toString());
 				}
 			}
 			

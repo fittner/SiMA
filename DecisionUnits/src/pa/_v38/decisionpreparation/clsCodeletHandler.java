@@ -8,7 +8,8 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.logger.clsLogger;
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
@@ -23,6 +24,8 @@ import pa._v38.tools.clsPair;
  * 
  */
 public class clsCodeletHandler {
+	
+	private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	
 	private clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	
@@ -210,7 +213,7 @@ public class clsCodeletHandler {
 			oList = "Init";
 		}
 		
-		clsLogger.jlog.info(oList + " codelet registered: " + poCodelet.toStringExtended());
+		log.info(oList + " codelet registered: " + poCodelet.toStringExtended());
 		
 	}
 	
@@ -312,7 +315,7 @@ public class clsCodeletHandler {
 			
 			oCodelet.assignGoal(poGoal);
 			oCodelet.startCodelet();
-			clsLogger.jlog.debug("Executed codelet "  + oCodelet.toString());
+			log.debug("Executed codelet "  + oCodelet.toString());
 			oCodelet.clearGoal();
 			
 			nInit++;
@@ -352,7 +355,7 @@ public class clsCodeletHandler {
 			oTypeString = "Execute init codelets: ";
 		}
 		
-		clsLogger.jlog.debug(oTypeString + oCList.toString());
+		log.debug(oTypeString + oCList.toString());
 		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
 	

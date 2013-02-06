@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.interfaces.modules.I5_15_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -56,6 +57,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		clsModuleBaseKB implements I5_15_receive, I6_1_send, I6_4_send {
 
 	public static final String P_MODULENUMBER = "21";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 
 	/** Perception IN */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -256,7 +260,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	 */
 	@Override
 	protected void process_basic() {
-		clsLogger.jlog.debug("\n\n\n===START OF SECONDARY PROCESS===");
+		log.debug("\n\n\n===START OF SECONDARY PROCESS===");
 
 		// --- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
@@ -275,7 +279,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 
-		clsLogger.jlog.debug("Perceived Image: " + oWPMConstruct.a);
+		log.debug("Perceived Image: " + oWPMConstruct.a);
 
 		// Take the created WPMs and build a clsConcept out of them.
 		moConcept = new clsConcept();

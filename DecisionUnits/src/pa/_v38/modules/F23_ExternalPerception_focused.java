@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -50,6 +52,9 @@ import pa._v38.tools.toText;
  */
 public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
@@ -225,7 +230,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(extractPossibleGoalsFromActs(moAssociatedMemories_IN));
 		
-		clsLogger.jlog.debug("Extracted goals : " + moReachableGoalList_OUT.toString());
+		log.debug("Extracted goals : " + moReachableGoalList_OUT.toString());
 		
 		//--- Select Goals for Perception ---//
 		ArrayList<clsPair<Integer,clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Integer,clsWordPresentationMesh>>();
@@ -254,7 +259,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Remove all non focused objects
 		focusPerception(moPerceptionalMesh_OUT, oFocusOnGoalList, nNumberOfAllowedObjects);
 		
-		clsLogger.jlog.debug("List to focus on: " + oFocusOnGoalList.toString());
+		log.debug("List to focus on: " + oFocusOnGoalList.toString());
 		//System.out.println("====================================\nF23: Focused perception:" + moPerceptionalMesh_OUT  + "\n==============================================");
 		//System.out.println("Focuslist : " + oFocusOnGoalList.toString());
 		

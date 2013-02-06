@@ -8,7 +8,8 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.logger.clsLogger;
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.storage.clsShortTermMemory;
@@ -33,6 +34,8 @@ public class clsActPreparationTools {
 	private static final double mrActConfidenceThreshold = 0.5;
 	private static final int mnMovementTimeoutStartValue = 15;
 	private static final int mnMovementTimeoutEstalishValue = 5;
+	
+	private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
@@ -48,7 +51,7 @@ public class clsActPreparationTools {
 	public static ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsShortTermMemory poSTM) {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
-		clsLogger.jlog.debug("Perform basic act analysis on " + poAct.toString());
+		log.debug("Perform basic act analysis on " + poAct.toString());
 		
 		//Get previous act
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
@@ -59,7 +62,7 @@ public class clsActPreparationTools {
 		
 		//Current found moment
 		clsWordPresentationMesh oCurrentMoment = clsActDataStructureTools.getMoment(poAct);
-		clsLogger.jlog.debug("Extracted moment: " + oCurrentMoment.toString());
+		log.debug("Extracted moment: " + oCurrentMoment.toString());
 		
 		//Process the found moment
 		boolean bMomentIsLastImage = clsActTools.isLastImage(oCurrentMoment);
@@ -70,7 +73,7 @@ public class clsActPreparationTools {
 		}
 		
 		clsWordPresentationMesh oCurrentExpectation = clsActDataStructureTools.getExpectation(poAct);
-		clsLogger.jlog.debug("Extracted expectation: " + oCurrentExpectation.toString() + "\n");
+		log.debug("Extracted expectation: " + oCurrentExpectation.toString() + "\n");
 		
 		//Current Intention
 		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poAct);

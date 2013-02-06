@@ -177,7 +177,7 @@ public class clsPsychicApparatus {
 		this.uid = uid;
 		
 		// --- Set logger properties --- //
-		clsLogger.initLogger(Level.INFO);	//Init root logger level
+		clsLogger.initLogger(Level.ERROR);	//Init root logger level
 //		clsLogger.jlog.removeAllAppenders();
 //		clsLogger.jlog.setLevel(Level.DEBUG);
 //		//clsLogger.jlog.setLevel(Level.INFO);

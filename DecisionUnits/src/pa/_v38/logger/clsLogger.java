@@ -36,6 +36,13 @@ public class clsLogger {
 	private static void specifyLoggers() {
 		//Set the levels of specific loggers
 		Logger.getLogger(pa._v38.modules.F46_MemoryTracesForPerception.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F21_ConversionToSecondaryProcessForPerception.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F23_ExternalPerception_focused.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F51_RealityCheckWishFulfillment.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F29_EvaluationOfImaginaryActions.class).setLevel(Level.TRACE);
+		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.INFO);
 	}
 	
 }
