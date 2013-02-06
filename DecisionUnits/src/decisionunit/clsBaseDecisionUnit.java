@@ -8,7 +8,6 @@ package decisionunit;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa._v30.logger.clsActionLogger;
 import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
@@ -33,8 +32,8 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	private itfInternalActionProcessor moInternalActionProcessor;
 	/** which decision unit type. @see eDecisionType; @since 06.07.2011 12:46:45 */
 	protected eDecisionType meDecisionType;
-	/** history of selected and executed actions.; @since 06.07.2011 12:47:05 */
-	public clsActionLogger moActionLogger;
+	///** history of selected and executed actions.; @since 06.07.2011 12:47:05 */
+	//public clsActionLogger moActionLogger;
 	
 	protected HashMap<String, ArrayList<clsInspectorPerceptionItem>> moPerceptionInspectorData;
 
@@ -50,7 +49,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	public clsBaseDecisionUnit(String poPrefix, clsProperties poProp, int uid) {
 		setDecisionUnitType();
 		applyProperties(poPrefix, poProp);
-		moActionLogger = new clsActionLogger(uid);
+		//moActionLogger = new clsActionLogger(uid);
 	}
 	
 	/**
@@ -139,7 +138,7 @@ public abstract class clsBaseDecisionUnit implements itfDecisionUnit {
 	 */
 	@Override
 	public void updateActionLogger() {
-		moActionLogger.add(moActionProcessor.logText());
+		//moActionLogger.add(moActionProcessor.logText());
 	}
 	
 	@Override

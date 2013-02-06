@@ -8,14 +8,14 @@
  */
 package pa._v38.symbolization;
 
-import java.util.ArrayList;
-import java.util.Vector;
+//import java.util.ArrayList;
+//import java.util.Vector;
 
-import pa._v19.bfg.symbolization.brainimages.clsContainerAbstractImages;
-import pa._v19.bfg.symbolization.brainimages.clsIdentity;
-import pa._v19.bfg.symbolization.brainimages.clsImageAbstract;
-import pa._v19.bfg.symbolization.ruletree.clsRuleCompareResult;
-import pa._v19.bfg.tools.xmltools.clsXMLConfiguration;
+//import pa._v19.bfg.symbolization.brainimages.clsContainerAbstractImages;
+//import pa._v19.bfg.symbolization.brainimages.clsIdentity;
+//import pa._v19.bfg.symbolization.brainimages.clsImageAbstract;
+//import pa._v19.bfg.symbolization.ruletree.clsRuleCompareResult;
+//import pa._v19.bfg.tools.xmltools.clsXMLConfiguration;
 
 
 import du.itf.sensors.clsSensorData;
@@ -30,9 +30,9 @@ import du.itf.sensors.clsSensorData;
  */
 public class clsImageSymbolization extends clsSymbolization {
 
-	@SuppressWarnings("unused")
-	private clsImageAbstract moTestImage;
-	private clsContainerAbstractImages moTestImages;
+//	@SuppressWarnings("unused")
+//	private clsImageAbstract moTestImage;
+//	private clsContainerAbstractImages moTestImages;
 	
 	/**
 	 * DOCUMENT (langr) - insert description 
@@ -43,18 +43,18 @@ public class clsImageSymbolization extends clsSymbolization {
 	 */
 	public clsImageSymbolization() {
 		
-		moTestImage = new clsImageAbstract(1, "TEAM_PSY10", "Description");
-		clsXMLConfiguration.moConfigurationPath = "S:\\ARS\\PA\\BFG\\xml";
-		
-		Vector<String> oFilePaths = new Vector<String>(); 
-		oFilePaths.add("PSY_10");
-		moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
+//		moTestImage = new clsImageAbstract(1, "TEAM_PSY10", "Description");
+//		clsXMLConfiguration.moConfigurationPath = "S:\\ARS\\PA\\BFG\\xml";
+//		
+//		Vector<String> oFilePaths = new Vector<String>(); 
+//		oFilePaths.add("PSY_10");
+//		moTestImages = clsImageAbstract.createImageAbstractList(oFilePaths, 1);
 	}
 
 	public void generateSymbols(clsSensorData poSensorData)
 	{
-		@SuppressWarnings("unused")
-		ArrayList<clsRuleCompareResult> oMatch = moTestImages.associate(poSensorData, new clsIdentity() );
+//		@SuppressWarnings("unused")
+//		ArrayList<clsRuleCompareResult> oMatch = moTestImages.associate(poSensorData, new clsIdentity() );
 	}
 	
 }

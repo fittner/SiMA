@@ -418,6 +418,7 @@ public class clsPsychicApparatus {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	private void registerCodelets() {
 		//Decision codelets
 		clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
