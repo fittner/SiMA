@@ -12,10 +12,7 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.log4j.ConsoleAppender;
-import org.apache.log4j.Layout;
 import org.apache.log4j.Level;
-import org.apache.log4j.PatternLayout;
 
 import config.clsProperties;
 import pa._v38.tools.clsPair;
@@ -180,12 +177,13 @@ public class clsPsychicApparatus {
 		this.uid = uid;
 		
 		// --- Set logger properties --- //
-		clsLogger.jlog.removeAllAppenders();
-		clsLogger.jlog.setLevel(Level.DEBUG);
-		//clsLogger.jlog.setLevel(Level.INFO);
-		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
-		Layout layout = new PatternLayout("%t: (%F:%L) - %m%n");
-		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
+		clsLogger.initLogger(Level.INFO);	//Init root logger level
+//		clsLogger.jlog.removeAllAppenders();
+//		clsLogger.jlog.setLevel(Level.DEBUG);
+//		//clsLogger.jlog.setLevel(Level.INFO);
+//		//Layout layout = new PatternLayout("%p [%t] %c (%F:%L) - %m%n");
+//		Layout layout = new PatternLayout("%t: (%F:%L) - %m%n");
+//		clsLogger.jlog.addAppender(new ConsoleAppender(layout, ConsoleAppender.SYSTEM_OUT));
 		
 		
 		moModules = new HashMap<Integer, clsModuleBase>();

@@ -254,6 +254,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			clsLogger.jlog.info("Decided goal: No goal ");
 		}
 		
+		
+		
 	}
 	
 	private String setDecisionString(clsWordPresentationMesh poDecidedGoal) {

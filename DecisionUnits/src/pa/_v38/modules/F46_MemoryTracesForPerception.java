@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.systemtest.clsTester;
@@ -56,10 +58,9 @@ import config.clsProperties;
  * 07.05.2012, 16:16:45
  * 
  */ 
-public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
-					I2_6_receive, I5_19_receive, I5_6_send, itfGraphInterface {
+public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2_6_receive, I5_19_receive, I5_6_send, itfGraphInterface {
 	public static final String P_MODULENUMBER = "46";
-	
+
 	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
 	/* Inputs */
 	/** Here the associated memory from the planning is put on the input to this module */
@@ -84,6 +85,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 
 	/* Module-Parameters */
 	
+	
+	private static Logger log = Logger.getLogger(pa._v38.modules.F46_MemoryTracesForPerception.class);
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
@@ -196,6 +199,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements
 		
 		clsLogger.jlog.debug("PI: " + oPerceivedImage.toString());
 		moPerceptionalMesh_OUT = oPerceivedImage;
+		
+		log.trace("TESTING TRACE MESSAGES");
 		
 	}
 	
