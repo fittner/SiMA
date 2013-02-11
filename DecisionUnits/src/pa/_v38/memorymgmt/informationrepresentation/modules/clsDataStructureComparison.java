@@ -204,15 +204,6 @@ public abstract class clsDataStructureComparison {
 						e.printStackTrace();
 					}
 					
-					//=== Perform system tests ===//
-					if (clsTester.getTester().isActivated()) {
-						try {
-							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
-						} catch (Exception e) {
-							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison, clonedCompareElement", e);
-						}
-					}
-					
 					//INFO: In the image function, the inverse associations are also created.
 					try {
 						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
@@ -221,8 +212,26 @@ public abstract class clsDataStructureComparison {
 						e.printStackTrace();
 					}
 					
+					//=== Perform system tests ===//
+					if (clsTester.getTester().isActivated()) {
+						try {
+							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+						} catch (Exception e) {
+							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getCompleteMesh, clonedCompareElement", e);
+						}
+					}
+					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
-							
+					
+					//=== Perform system tests ===//
+					if (clsTester.getTester().isActivated()) {
+						try {
+							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+						} catch (Exception e) {
+							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
+						}
+					}
+					
 					if (oMatch < prThreshold)
 						continue;
 					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
