@@ -205,7 +205,7 @@ public class clsPsychicApparatus {
 		this.registerCodelets();
 		
 		//Set testmode
-		clsTester.getTester().setActivated(true);
+		clsTester.getTester().setActivated(false);
 		
 		applyProperties(poPrefix, poProp);
 		

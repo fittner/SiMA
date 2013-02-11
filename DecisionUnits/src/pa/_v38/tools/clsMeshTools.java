@@ -9,6 +9,7 @@ package pa._v38.tools;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -724,7 +725,7 @@ public class clsMeshTools {
 					throw new Exception("The other element " + poThisDataStructure + " of the association " + oAss + " is not the source of the other element");
 				} catch (Exception e) {
 					// TODO (wendt) - Auto-generated catch block
-					e.printStackTrace();
+					clsLogger.jlog.error("Error: ", e);
 					continue;
 				}
 				
@@ -2982,6 +2983,16 @@ public class clsMeshTools {
 		}
 		
 		//Now the object is not connected with anything more and can be seen as deleted from the meshes, which it was connected. It does not matter in which mesh it belongs, everything is deleted
+	}
+	
+	public static String toString(ArrayList<clsThingPresentationMesh> poList) {
+		String oResult = "";
+		
+		for (clsThingPresentationMesh oMesh : poList) {
+			oResult += oMesh.getMoContent() + ", ";
+		}
+		
+		return oResult;
 	}
 	
 	

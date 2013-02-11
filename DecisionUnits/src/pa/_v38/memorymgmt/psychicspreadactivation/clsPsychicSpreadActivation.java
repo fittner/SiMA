@@ -7,6 +7,9 @@
 package pa._v38.memorymgmt.psychicspreadactivation;
 
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -15,6 +18,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivationNode;
 import pa._v38.modules.clsModuleBaseKB;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -29,6 +33,7 @@ import pa._v38.tools.clsPair;
 public class clsPsychicSpreadActivation {
 	
 	clsModuleBaseKB moModuleBase;
+	Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
 	
 	public clsPsychicSpreadActivation(clsModuleBaseKB poModuleBase) {
 		moModuleBase = poModuleBase;
@@ -38,13 +43,18 @@ public class clsPsychicSpreadActivation {
 	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
+		log.trace("Start spread activation.");
+		log.trace("Inputs: Psychic Energy In=" + prPsychicEnergyIn + ", Available psychic energy=" + rAvailablePsychicEnergy + ", InputImage=" + poImage.getMoContent());
+		log.trace("Already activated images: " + clsMeshTools.toString(poAlreadyActivatedImages));
 		
 		
 		//1. Get level 1 of the image associations
 		if (poImage.getMoContentType().equals(eContentType.RI)==true) {
+			log.trace("RI: get indirect associations");
 			getAssociatedImagesMemory(poImage);
 		} else if (poImage.getMoContentType().equals(eContentType.PI)==true || poImage.getMoContentType().equals(eContentType.PHI)==true) {
-			getAssociatedImagesPerception(poImage);
+			log.trace("PI: get direct associations");
+			getAssociatedImagesPerception(poImage, 0.1);
 		}
 		
 		//2. Consolidate mesh
@@ -76,15 +86,26 @@ public class clsPsychicSpreadActivation {
 	 * @return 
 	 * @return
 	 */
-	public void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage) {
+	public void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
-		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, 0.1, 1);
+		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
 
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poOriginImage);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
+		
+		log.trace("Create direct associations between " + poOriginImage.getMoContent() + " and ");
 		if (poOriginImage.getMoContentType().equals(eContentType.PI) || poOriginImage.getMoContentType().equals(eContentType.PHI)) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
 				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI
+				log.trace(((clsThingPresentationMesh)oPair.b).getMoContent() + ", value " + oPair.a + ", ");
 			}
 		}
 	}
@@ -100,6 +121,14 @@ public class clsPsychicSpreadActivation {
 	 */
 	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
 		poOriginImage = (clsThingPresentationMesh) moModuleBase.searchCompleteMesh(poOriginImage, 2);
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poOriginImage);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 	}
 	
 	/**
@@ -118,12 +147,15 @@ public class clsPsychicSpreadActivation {
 	 */
 	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
+		log.trace("Calculate activation for " + poEnhancedOriginImage.getMoContent());
 		
 		//1. Get all unprocessed images. Only they will be used in the calculation
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oAssociatedUnprocessedImages = getUnprocessedImages(poEnhancedOriginImage, poAlreadyActivatedImages);
+		log.trace("Get unprocessed images" + oAssociatedUnprocessedImages.toString());
 		
 		ArrayList<clsPsychicSpreadActivationNode> oNodeTable = new ArrayList<clsPsychicSpreadActivationNode>();
 		
+		log.trace("Start activation of nodes");
 		//2. go through each of them
 		for (clsPair<clsThingPresentationMesh, Double> oPair : oAssociatedUnprocessedImages) {
 			//Get weight
@@ -169,9 +201,11 @@ public class clsPsychicSpreadActivation {
 			
 			//Check if P >=  accumulated sum
 			if (oNode.getMrP() >= rAccumulatedSum) {
+				log.trace(oNode.toString() + " activated");
 				//oNode.setMbActivateable(true);
 				nBreakIndex++;
 			} else {
+				log.trace(oNode.toString() + " not activated");
 				break;
 			}
 		}
@@ -218,6 +252,7 @@ public class clsPsychicSpreadActivation {
 			//Delete all associations where no psychic energy is assigned
 			if (oPair.b==0.0) {
 				clsMeshTools.deleteAssociationInObject(poOriginImage, oPair.a);
+				log.trace("Delete association " + oPair.a);
 			} else {
 				oRetVal.add(oPair);
 			}
@@ -281,10 +316,18 @@ public class clsPsychicSpreadActivation {
 				//Get the other image, i. e. the leaf image of all association primary
 				clsThingPresentationMesh oLeafImage = (clsThingPresentationMesh) oAss.getTheOtherElement(poEnhancedOriginImage);
 				
-				//Check if the association is not already activated
-				if (poAlreadyActivatedImages.contains(oLeafImage)==false) {
+				boolean bFound = false;
+				//Check if the association is not already activated, check only the IDs
+				for (clsThingPresentationMesh oAlreadyActivatedImages : poAlreadyActivatedImages) {
+					if (oAlreadyActivatedImages.getMoDS_ID()==oLeafImage.getMoDS_ID()) {
+						bFound=true;
+						break;
+
+					}
+				}
+				
+				if (bFound==false) {
 					double rAssociationWeight = oAss.getMrWeight();
-					
 					oRetVal.add(new clsPair<clsThingPresentationMesh, Double>(oLeafImage, rAssociationWeight));
 				}
 			}
