@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import du.enums.eDistance;
 import du.itf.sensors.clsInspectorPerceptionItem;
@@ -49,6 +52,7 @@ import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
 import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
 import pa._v38.symbolization.representationsymbol.itfIsContainer;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -93,7 +97,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 
-	
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	/**
 	 * Constructor of F14, nothing unusual
@@ -259,30 +263,39 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
-		clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
-		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSelfDataStructure,new ArrayList<clsAssociation>());
+		
+		
+		clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity(eContent.SELF.toString(), "CIRCLE", "FFFFBF");
+		
+		//clsMeshTools.createAssociationAttribute(oSELF, poStructureB, prWeight, pnAddMode)
+		
+		//clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
+		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSELF,new ArrayList<clsAssociation>());
 		//Add Position to SELF
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
-		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSelfDataStructure, oPos);
-		oSelfContainer.addMoAssociatedDataStructure(oPosAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oPosAss);
+		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSELF, oPos);
+		//oSelfContainer.addMoAssociatedDataStructure(oPosAss);
+		oSELF.addExternalAssociation(oPosAss);
+		//((clsThingPresentationMesh)oSELF).assignDataStructure(oPosAss);
 				
 		//Add Distance to SELF
 		clsThingPresentation oDist = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.DISTANCE, eRadius.NODISTANCE.toString()));
-		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSelfDataStructure, oDist);
-		oSelfContainer.addMoAssociatedDataStructure(oDistAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oDistAss);
+		clsAssociationAttribute oDistAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.DISTANCEASSOCIATION), oSELF, oDist);
+		oSELF.addExternalAssociation(oDistAss);
+		//oSelfContainer.addMoAssociatedDataStructure(oDistAss);
+		//((clsThingPresentationMesh)oSELF).assignDataStructure(oDistAss);
+//		
+//		//Add color and shape
+//		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
+//		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
+//		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
+//		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
 		
-		//Add color and shape
-		clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.Color, new Color(255, 255, 191)));
-		clsAssociationAttribute oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oColor);
-		oSelfContainer.addMoAssociatedDataStructure(oColorAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oColorAss);
+		//clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
+		//clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
 		
-		clsThingPresentation oShape = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ShapeType, "CIRCLE"));
-		clsAssociationAttribute oShapeAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONATTRIBUTE), oSelfDataStructure, oShape);
-		oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
-		((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
+		//oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
+		//((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 		
 		moEnvironmentalTP.add(oSelfContainer);		
 		
@@ -297,7 +310,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalTP);	
-		
+			
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
 		
@@ -315,6 +328,15 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					}
 					
 				}
+			}
+		}
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignmentTPMArray(moCompleteThingPresentationMeshList);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		
@@ -686,39 +708,37 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
 		
 		// SSCH: separate internal from external associations. for search just internal associations are relevant
-				for(clsPrimaryDataStructureContainer oEnvTPM :oPerceivedImage_IN) {
-									
-						if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
-										
-							clsThingPresentationMesh oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
-													
-							ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
-							// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
-							for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
-								if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
-									// remove Assoc from internal and put it in external assoc
-									oRemoveAss.add(oIntAss);
-								}
-											
-							}
-										
-							for(clsAssociation oAss: oRemoveAss){
-								oUnknownTPM.removeInternalAssociation(oAss);
-								oUnknownTPM.addExternalAssociation(oAss);
-							}
-							
-							poSearchPattern.add(oUnknownTPM);			
-										
-						}
+		for(clsPrimaryDataStructureContainer oEnvTPM :oPerceivedImage_IN) {
+			if (oEnvTPM.getMoDataStructure().getMoContentType() == eContentType.ENTITY) {
+				
+				clsThingPresentationMesh oUnknownTPM = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();				
+				
+				ArrayList<clsAssociation> oRemoveAss = new ArrayList<clsAssociation>();
+				// 	separate internal attributes (which identify the entity) from external attributes (which are additional information)
+				for (clsAssociation oIntAss: oUnknownTPM.getMoInternalAssociatedContent()) {
+					if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+						// remove Assoc from internal and put it in external assoc
+						oRemoveAss.add(oIntAss);
+					}				
 				}
+
+				for(clsAssociation oAss: oRemoveAss){
+					oUnknownTPM.removeInternalAssociation(oAss);
+					oUnknownTPM.addExternalAssociation(oAss);
+				}
+				poSearchPattern.add(oUnknownTPM);				
+			}
+		}
 				
 		//Assign TP to the identified object in PerceivedImage_IN
 		search(eDataType.TP, poSearchPattern, oSearchResult); 
 		//Take the best match for object
 		oRetVal = createImage(oSearchResult);
 		
-		//Assign drive meshes to each found image		
-		assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they have the same nBinaryValue as DM
+		//Assign drive meshes to each found image
+		
+		
+		//assignDriveMeshes(oRetVal); // associated emotions are also fetched, because they have the same nBinaryValue as DM
 		//INFO AW: Why are the external TPs necessary? No. It was only thought for the self to load default values.
 		//These values are now added in F14
 		//assignExternalTPAssociations(oRetVal);
@@ -734,7 +754,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		for (clsPrimaryDataStructureContainer oContainer : oPerceivedImage_IN) {
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
-				oTPM.setMoExternalAssociatedContent(oContainer.getMoAssociatedDataStructures());
+				oTPM.getExternalMoAssociatedContent().addAll(oContainer.getMoAssociatedDataStructures());
 				oRetVal.add(oTPM);
 			}
 		}
@@ -794,6 +814,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
 			if (oSearchPair.size()>0) {
 				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+				
+				
 			}
 			
 		}

@@ -102,6 +102,19 @@ public class clsTestDataStructures {
 		return bResult;
 	}
 	
+	public static void debugFindAllErroneousLinksInImage(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
+		
+		for (clsThingPresentationMesh oTPM : poImageList) {
+			ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(oTPM, 4);
+			
+			for (clsThingPresentationMesh oTPM2 : oTPMList) {
+				clsTestDataStructures.debugFindErroneousLinks(oTPM2);
+			}
+		}
+		
+		
+	}
+	
 	public static void debugFindAllErroneousLinksInImage(clsThingPresentationMesh poImage) throws Exception {
 		
 		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(poImage, 4);

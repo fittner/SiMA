@@ -85,7 +85,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/* Module-Parameters */
 	
 	
-	private static Logger log = Logger.getLogger(pa._v38.modules.F46_MemoryTracesForPerception.class);
+	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
@@ -170,7 +170,16 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 			
 		clsThingPresentationMesh oPerceivedImage = clsMeshTools.createTPMImage(moEnvironmentalPerception_IN, eContentType.PI, eContent.PI.toString());
-				
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
+		
 		// Deprecated, MERGED WITH SPREADACT. Compare PI with similar Images from Memory(RIs). Result = PI associated with similar TIs
 		// lsThingPresentationMesh oPIWithAssociatedRIs =  compareRIsWithPI(oPerceivedImage);
 				
@@ -179,6 +188,14 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		ArrayList<clsThingPresentationMesh> oEmptySpaceList = createEmptySpaceObjects(oPerceivedImage);
 		//Add those to the PI
 		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 		
 		//--- Activation of associated memories ---//
 		
@@ -544,13 +561,30 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			}
 		}
 		
-		
 		if (bUsePerception==true) {	//Activate with perception
 			
 			//--- Enhance perception with environmental image ---//
 			enhancePerceptionWithEnhancedEnvironmentalImage(poPerceivedImage, moTempLocalizationStorage);
 			
-			executePsychicSpreadActivation(poPerceivedImage, 5.0);		
+			//=== Perform system tests ===//
+			if (clsTester.getTester().isActivated()) {
+				try {
+					clsTester.getTester().exeTestAssociationAssignment(poPerceivedImage);
+				} catch (Exception e) {
+					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+				}
+			}
+			
+			executePsychicSpreadActivation(poPerceivedImage, 5.0);
+			
+			//=== Perform system tests ===//
+			if (clsTester.getTester().isActivated()) {
+				try {
+					clsTester.getTester().exeTestAssociationAssignment(poPerceivedImage);
+				} catch (Exception e) {
+					log.error("Systemtester has an error in activateMemories in" + this.getClass().getSimpleName(), e);
+				}
+			}
 			
 			//--- Remove enhanced perception from PI as these were only there to activate memories
 			removeEnhancedEnvironmentalImageFromPerception(poPerceivedImage);
@@ -574,48 +608,6 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			clsMeshTools.createAssociationPrimary(poPerceivedImage, poReturnedPhantasyImage, 1.0);
 		}
 				
-//		//Associated memories
-//		//Decide which image will be the input for spread activation
-//		//FIXME AW: calculateAbsoluteAffect shall contain a list of DMs, which is a filter for that function
-//		if (oReturnedMemory!=null) {
-//			
-//			//FIXME AW: This is an empty list for the spread activation. This list should be replaced with the input from 
-//			//F48
-//			ArrayList<clsDriveMesh> oDMList = new ArrayList<clsDriveMesh>();
-//			
-//			if (clsAffectTools.calculateAverageImageAffect(oPerceptionInput, oDMList) < clsAffectTools.calculateAverageImageAffect(oReturnedMemory, oDMList)) {
-//				blUsePerception = false;
-//			}
-//		}
-//		
-//		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
-//		if (blUsePerception==true) {
-//			//Use perceived image as input of spread activation
-//			//TODO AW: Only the first
-//			//Search for matches
-//			//Positions: 1: PI, 2: Resultstructure, 3: ContentType=RI, 4: Matchthreshold, 5: Associationactivationdepth
-//			searchMesh(oPerceptionInput, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
-//		
-//			//TODO AW: All activated matches are added to the list. Here, spread activation shall be used
-//		} else {
-//			//Use action-plan image as input of spread activation
-//			//TODO: This is only the first basic implementation of activation of phantsies
-//			
-//			searchMesh(oReturnedMemory, oSearchResultMesh, eContentType.RI.toString(), mrMatchThreshold, 2);
-//		}
-//		
-//		//Create associations between the PI and those matches
-//		
-//		for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
-//			clsDataStructureTools.createAssociationPrimary(oPerceptionInput, (clsThingPresentationMesh) oPair.b, oPair.a);
-//			//Now all matched images are linked with the PI
-//		}
-//		
-//		//for (clsPair<Double,clsDataStructureContainer> oAss : oSearchResultContainer) {
-//		//	oRetVal.add((clsPrimaryDataStructureContainer)oAss.b);
-//		//}
-//		
-//		//return oRetVal;
 	}
 	
 	
@@ -722,7 +714,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		clsPrimaryDataStructureContainer oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
 		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
 		oEmptySpaceContainerList.add(oEmptySpaceContainer);
-		assignDriveMeshes(oEmptySpaceContainerList);
+		//assignDriveMeshes(oEmptySpaceContainerList);
 		
 		//for each position, fill it with a container
 		clsThingPresentationMesh oEmptySpaceTPM;

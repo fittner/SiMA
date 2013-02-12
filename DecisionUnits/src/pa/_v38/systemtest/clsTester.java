@@ -61,6 +61,10 @@ public class clsTester {
 		clsTestDataStructures.debugFindAllErroneousLinksInImage(poImage);
 	}
 	
+	public void exeTestAssociationAssignmentTPMArray(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
+		clsTestDataStructures.debugFindAllErroneousLinksInImage(poImageList);
+	} 
+	
 	public void exeTestAssociationAssignment(clsDataStructurePA poImage) throws Exception {
 		clsTestDataStructures.debugFindAllErroneousLinksInDataStructure(poImage);
 	}

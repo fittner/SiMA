@@ -7,6 +7,8 @@
 package pa._v38.tools;
 
 import java.util.ArrayList;
+
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
@@ -17,6 +19,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.systemtest.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -45,31 +48,36 @@ public class clsPrimarySpatialTools {
 		double rRetVal = 0;
 		//Create position array for the PI. These positions can also be null, if the PI is a RI, which is somehow generalized, e. g. if memories are searched for in the LIBIDO discharge
 		//Only references in the array
+		
+		
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPIPositionArray = getImageEntityPositions(poPI);
 		
-		//for (clsTriple<clsDataStructurePA, eXPosition, eYPosition> oP : oPIPositionArray) {
-			//if (oP.b==null||oP.c==null) {
-			//	try {
-			//		throw new Exception("Error: null value oP: " + oP.toString());
-			//	} catch (Exception e) {
-			//		// TODO (wendt) - Auto-generated catch block
-			//		e.printStackTrace();
-			//	}
-			//}
-		//}
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oPISortedPositionArray  = sortPositionArray(oPIPositionArray);
 		
 		//Create position array for the RI
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRIPositionArray = getImageEntityPositions(poRI);
+		
 		//Sort the RI array for generalization, the least generalized first
 		ArrayList<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>> oRISortedPositionArray  = sortPositionArray(oRIPositionArray);
+		
 		//Create new modified position array for the RI with the values of the PI, Object from RI, positionX from PI, positionY from PI, distance between them
 		//Compare the RI-Array with the PA-Array and search for the closest matches between them
 		//In RI and in PI position elements with null are allowed to occur
 		ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> oRIPIMatchList = findMatchingEntities(oPISortedPositionArray, oRISortedPositionArray);
+		
 		//Add matching associations to the objects in the RI
 		//Add distanceassociations
-		addRIAssociations(oRIPIMatchList);
+		
+		//addRIAssociations(oRIPIMatchList);
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poRI);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
+			}
+		}
 		//Calculate the image match
 		rRetVal = calculateImageMatch(oRIPIMatchList, oRISortedPositionArray);
 		
@@ -264,12 +272,12 @@ public class clsPrimarySpatialTools {
 	
 	/**
 	 * With a data structure of the match between PI and RI, convert this data structure to an association, which is added to the RI container. With this function, each match is added as an
-	 * associationTime to an object
+	 * associationTime to an object. 
 	 * (wendt)
 	 *
 	 * @since 07.11.2011 12:25:54
 	 *
-	 * @param popoRIPIMatchList
+	 * @param popoRIPIMatchList=The first element is the PI Entity with positions and the second element is the element of the RI with the match
 	 * @param poRI
 	 */
 	private static void addRIAssociations(ArrayList<clsPair<clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius>, clsPair<clsThingPresentationMesh, Double>>> poRIPIMatchList) {
