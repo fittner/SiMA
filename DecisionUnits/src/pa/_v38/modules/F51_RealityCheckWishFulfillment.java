@@ -395,6 +395,14 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		log.debug("Prove previous, goal:" + poContinuedGoal.toString());
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:37
+	 *
+	 * @param poContinuedGoal
+	 * @param poGoalList
+	 */
 	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
 		//Set default actions for all not continued goals
 		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
@@ -406,6 +414,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:40
+	 *
+	 * @param poGoalList
+	 */
 	private void applyEffortOfGoal(ArrayList<clsWordPresentationMesh> poGoalList) {
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//Get the penalty for the effort
@@ -418,6 +433,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:42
+	 *
+	 * @param poGoalList
+	 */
 	private void addNonReachableGoalsToSTM(ArrayList<clsWordPresentationMesh> poGoalList) {
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			if (clsGoalTools.checkIfConditionExists(oGoal, eCondition.GOAL_NOT_REACHABLE)==true) {

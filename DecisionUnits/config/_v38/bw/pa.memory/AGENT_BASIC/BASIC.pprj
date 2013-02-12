@@ -1,4 +1,4 @@
-; Mon Feb 11 14:56:03 GMT 2013
+; Tue Feb 12 10:43:38 GMT 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,64 +45,64 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_ProjectKB_Class40] of  String
+([BASIC_ProjectKB_Class10046] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_ProjectKB_Class41] of  String
+([BASIC_ProjectKB_Class10047] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_ProjectKB_Class42] of  String
+([BASIC_ProjectKB_Class10048] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_ProjectKB_Class43] of  String
+([BASIC_ProjectKB_Class10049] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_ProjectKB_Class44] of  Map_Entry
+([BASIC_ProjectKB_Class10050] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class45] of  Map_Entry
+([BASIC_ProjectKB_Class10051] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class46] of  Map_Entry
+([BASIC_ProjectKB_Class10052] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class47] of  Map
+([BASIC_ProjectKB_Class10053] of  Map
 )
 
-([BASIC_ProjectKB_Class48] of  Map_Entry
+([BASIC_ProjectKB_Class10054] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_ProjectKB_Class47")
+	(value "BASIC_ProjectKB_Class10053")
 	(value_class "java.util.Map"))
 
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_ProjectKB_Class40]
-		[BASIC_ProjectKB_Class41]
-		[BASIC_ProjectKB_Class42]
-		[BASIC_ProjectKB_Class43]))
+		[BASIC_ProjectKB_Class10046]
+		[BASIC_ProjectKB_Class10047]
+		[BASIC_ProjectKB_Class10048]
+		[BASIC_ProjectKB_Class10049]))
 
 ([CLSES_TAB] of  Widget
 
@@ -147,6 +147,9 @@
 	(is_hidden FALSE)
 	(widget_class_name "edu.stanford.smi.protege.widget.InstancesTab"))
 
+([KB_304142_Class5] of  Map
+)
+
 ([KB_610615_Class0] of  String
 
 	(name "factory_class_name")
@@ -155,11 +158,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_ProjectKB_Class44]
-		[BASIC_ProjectKB_Class45]
-		[BASIC_ProjectKB_Class46]
-		[BASIC_ProjectKB_Class48])
-	(referenced_maps [BASIC_ProjectKB_Class47]))
+		[BASIC_ProjectKB_Class10050]
+		[BASIC_ProjectKB_Class10051]
+		[BASIC_ProjectKB_Class10052]
+		[BASIC_ProjectKB_Class10054])
+	(referenced_maps [BASIC_ProjectKB_Class10053]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -611,9 +614,6 @@
 )
 
 ([KB_610615_Class99] of  Property_List
-)
-
-([KB_845244_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
