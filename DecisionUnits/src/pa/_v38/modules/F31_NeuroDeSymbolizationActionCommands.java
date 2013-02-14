@@ -285,12 +285,12 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 360.0));
 				} else if(oAction.equals("STRAFE_LEFT")){
 					if (mnCounter%35==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence() );
+						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence(1) );
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("STRAFE_RIGHT")){
 					if (mnCounter%35==0) {
-						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence() );
+						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence(1) );
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("EAT")) {
