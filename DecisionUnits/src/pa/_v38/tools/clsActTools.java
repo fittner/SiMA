@@ -739,6 +739,28 @@ public class clsActTools {
 	}
 	
 	/**
+	 * Get the default movement timeout value for this moment
+	 * 
+	 * (wendt)
+	 *
+	 * @since 14.02.2013 15:15:18
+	 *
+	 * @param poMoment
+	 * @return
+	 */
+	public static int getIndividualMovementTimeoutValue(clsWordPresentationMesh poMoment) {
+		int nResult = 0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASINDIVIDUALMOVEMENTTIMEOUT);
+		
+		if (oWP!=null) {
+			nResult = Integer.valueOf(oWP.getMoContent());
+		}
+		
+		return nResult;
+	}
+	
+	/**
 	 * Set task status or replace if it already exists
 	 * 
 	 * (wendt)

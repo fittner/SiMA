@@ -85,7 +85,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/* Module-Parameters */
 	
 	
-	private Logger log = Logger.getLogger(this.getClass().getSimpleName());
+	private Logger log = Logger.getLogger(this.getClass().getName());
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 
@@ -211,6 +211,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
+				clsTester.getTester().exeTestNullPointer(oPerceivedImage);
 				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
 			} catch (Exception e) {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);

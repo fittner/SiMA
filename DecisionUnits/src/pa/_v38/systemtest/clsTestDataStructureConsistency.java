@@ -23,7 +23,7 @@ import pa._v38.tools.clsPair;
  * 25.10.2012, 12:03:58
  * 
  */
-public class clsTestDataStructures {
+public class clsTestDataStructureConsistency {
 	
 	
 	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
@@ -108,7 +108,7 @@ public class clsTestDataStructures {
 			ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(oTPM, 4);
 			
 			for (clsThingPresentationMesh oTPM2 : oTPMList) {
-				clsTestDataStructures.debugFindErroneousLinks(oTPM2);
+				clsTestDataStructureConsistency.debugFindErroneousLinks(oTPM2);
 			}
 		}
 		
@@ -120,7 +120,7 @@ public class clsTestDataStructures {
 		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(poImage, 4);
 		
 		for (clsThingPresentationMesh oTPM : oTPMList) {
-			clsTestDataStructures.debugFindErroneousLinks(oTPM);
+			clsTestDataStructureConsistency.debugFindErroneousLinks(oTPM);
 		}
 		
 	}
@@ -130,7 +130,7 @@ public class clsTestDataStructures {
 		ArrayList<clsWordPresentationMesh> oTPMList = clsMeshTools.getAllWPMObjects(poImage, 4);
 		
 		for (clsWordPresentationMesh oTPM : oTPMList) {
-			clsTestDataStructures.debugFindErroneousLinks(oTPM);
+			clsTestDataStructureConsistency.debugFindErroneousLinks(oTPM);
 		}
 		
 	}

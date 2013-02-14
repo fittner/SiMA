@@ -701,7 +701,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	
 	
 	@Override
-	public String toString(){
+	public String toString() {
 		//Add by AW
 		String oResult = "";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
@@ -710,7 +710,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			
 			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
-				oResult += oEntry.getLeafElement().toString() + ","; 
+				if (oEntry.getLeafElement()!=null) {
+					oResult += oEntry.getLeafElement().toString() + ","; 
+				} else {
+					oResult += "ERRONEOUS ASSOCIATION: " + oEntry;
+				}
+				
 			}
 			
 			oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";

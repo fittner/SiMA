@@ -58,23 +58,27 @@ public class clsTester {
 	}
 	
 	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
-		clsTestDataStructures.debugFindAllErroneousLinksInImage(poImage);
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImage);
 	}
 	
 	public void exeTestAssociationAssignmentTPMArray(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
-		clsTestDataStructures.debugFindAllErroneousLinksInImage(poImageList);
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImageList);
 	} 
 	
 	public void exeTestAssociationAssignment(clsDataStructurePA poImage) throws Exception {
-		clsTestDataStructures.debugFindAllErroneousLinksInDataStructure(poImage);
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInDataStructure(poImage);
 	}
 	
 	public void exeTestAssociationAssignment(ArrayList<clsPair<Double, clsDataStructurePA>> poImage) throws Exception {
-		clsTestDataStructures.debugFindAllErroneousLinksInDataStructure(poImage);
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInDataStructure(poImage);
 	}
 	
 	public void exeTestAction(ArrayList<clsWordPresentationMesh> poCurrentActionList, eAction poTestAction) {
 		clsTestActions.replaceAction(poCurrentActionList, poTestAction);
+	}
+	
+	public void exeTestNullPointer(clsThingPresentationMesh poMesh) throws Exception {
+		clsTestDataStructureNullPointers.findNullPointerAssociationsInImage(poMesh);
 	}
 	
 }

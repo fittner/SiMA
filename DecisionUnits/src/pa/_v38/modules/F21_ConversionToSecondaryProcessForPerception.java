@@ -280,7 +280,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 
 		log.debug("Perceived Image: " + oWPMConstruct.a);
-
+		log.info("Found Acts:" + oWPMConstruct.b);
+		
 		// Take the created WPMs and build a clsConcept out of them.
 		moConcept = new clsConcept();
 		moConcept.addWPMs(oWPMConstruct.a);
@@ -291,6 +292,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
+		
 
 		// debug
 		// if (moAssociatedMemories_OUT.isEmpty()==false) {
