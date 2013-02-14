@@ -284,13 +284,15 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("LOOK_AROUND")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 360.0));
 				} else if(oAction.equals("STRAFE_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 90.0));
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,10.0) );
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+					if (mnCounter%35==0) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeLeftSequence() );
+						mnCounter = 0;
+					} 					
 				} else if(oAction.equals("STRAFE_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
-					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,10.0) );
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 90.0));
+					if (mnCounter%35==0) {
+						moActionCommandList_Output.add( clsActionSequenceFactory.getStrafeRightSequence() );
+						mnCounter = 0;
+					} 					
 				} else if(oAction.equals("EAT")) {
 					moActionCommandList_Output.add( new clsActionEat() );
 				//} else if(oAction.equals("BITE")) {
