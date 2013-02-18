@@ -708,7 +708,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 			//"::"+this.moDataStructureType+"::";  
 			oResult += this.moContentType + ":" + this.moContent;
 			
-			oResult += "\nINTERNAL ASSOCIATED CONTENT\n";
+			oResult += "\nINT ASS: ";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
 				if (oEntry.getLeafElement()!=null) {
 					oResult += oEntry.getLeafElement().toString() + ","; 
@@ -718,7 +718,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				
 			}
 			
-			oResult += "\nEXTERNAL ASSOCIATED CONTENT\n";
+			oResult += "\nEXT ASS:";
 			for (clsAssociation oEntry : moExternalAssociatedContent) {
 				clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
 				if (oDS == null) {

@@ -24,13 +24,11 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
-import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
@@ -289,16 +287,16 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }
         
         
-        //=== TEST ONLY ONE ACTION === //
-		if (clsTester.getTester().isActivated()) {
-			try {
-				eAction poReplaceAction = eAction.STRAFE_LEFT;
-				clsTester.getTester().exeTestAction(moActionCommands_Output, poReplaceAction);
-				log.warn("In test mode the action " + moActionCommands_Output + " was changed to " + poReplaceAction);
-			} catch (Exception e) {
-				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
-			}
-		}
+//        //=== TEST ONLY ONE ACTION === //
+//		if (clsTester.getTester().isActivated()) {
+//			try {
+//				eAction poReplaceAction = eAction.STRAFE_LEFT;
+//				clsTester.getTester().exeTestAction(moActionCommands_Output, poReplaceAction);
+//				log.warn("In test mode the action " + moActionCommands_Output + " was changed to " + poReplaceAction);
+//			} catch (Exception e) {
+//				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//			}
+//		}
         
 
     }

@@ -1373,7 +1373,7 @@ public class clsMeshTools {
 	 * @param prWeight
 	 */
 	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
-		eContentType oContentType = eContentType.PIASSOCIATION;
+		eContentType oContentType = eContentType.ASSOCIATIONPRI;
 		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
 		poStructureA.getExternalMoAssociatedContent().add(oAssPri);
 		poStructureB.getExternalMoAssociatedContent().add(oAssPri);

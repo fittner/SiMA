@@ -81,4 +81,8 @@ public class clsTester {
 		clsTestDataStructureNullPointers.findNullPointerAssociationsInImage(poMesh);
 	}
 	
+	public void exeTestCheckPIMatch(ArrayList<clsWordPresentationMesh> poImage) throws Exception {
+		clsTestDataStructureActs.checkIfPIMatchingCorrectnessMeshArray(poImage);
+	}
+	
 }
