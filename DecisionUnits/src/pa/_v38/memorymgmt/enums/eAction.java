@@ -56,7 +56,9 @@ public enum eAction {
 	
 	//Composed actions
 	SEARCH1,
-	FLEE;
+	FLEE,
+	STRAFE_RIGHT,
+	STRAFE_LEFT;
 	
 	public static eAction getAction(String poAction) {
 		return eAction.valueOf(poAction);

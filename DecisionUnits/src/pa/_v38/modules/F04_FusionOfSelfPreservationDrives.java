@@ -21,6 +21,7 @@ import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
@@ -34,8 +35,9 @@ import du.enums.pa.ePartialDrive;
  */
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "04";
+	public static final String P_PERSONALITY_FACTOR ="PERSONALITY_CONTENT_FACTOR";
 	
-	private double Personality_Content_Factor = 0; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+	private double Personality_Content_Factor; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
 	//
 	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
@@ -58,9 +60,12 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	 * @throws Exception 
 	 */
 	public F04_FusionOfSelfPreservationDrives(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
+		Personality_Content_Factor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_FACTOR).getParameterDouble();
+
+		
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 //		fillOppositePairs();
 	}

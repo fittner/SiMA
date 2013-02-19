@@ -12,6 +12,8 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_7_send;
@@ -24,7 +26,9 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -41,6 +45,12 @@ import du.enums.pa.ePartialDrive;
 public class F37_PrimalRepressionForPerception extends clsModuleBase 
 implements I5_6_receive, I5_7_send  {
 	public static final String P_MODULENUMBER = "37";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
+	
+	public static final String P_ACTIVATION_THRESHOLD = "ACTIVATION_THRESHOLD";
+	public static final String P_ACTIVATION_LIMIT = "ACTIVATION_LIMIT";
 
 		/** Input perceived image (type template image) */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -62,7 +72,7 @@ implements I5_6_receive, I5_7_send  {
 	 * @author Marcus Zottl (e0226304)
 	 * @since 19.09.2011 18:20:22
 	 * */
-	private double mrActivationThreshold = 0.5;
+	private double mrActivationThreshold;
 	
 	/**
 	 * Personality parameter:
@@ -72,7 +82,7 @@ implements I5_6_receive, I5_7_send  {
 	 * @author Marcus Zottl (e0226304)
 	 * @since 19.09.2011 18:21:02
 	 * */
-	private int mnActivationLimit = 3;
+	private int mnActivationLimit;
 
 
 	/**
@@ -88,10 +98,14 @@ implements I5_6_receive, I5_7_send  {
 	 */
 	public F37_PrimalRepressionForPerception(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, 
-			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage)
+			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage , clsPersonalityParameterContainer poPersonalityParameterContainer)
 	throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
+		mrActivationThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ACTIVATION_THRESHOLD).getParameterDouble();
+		mnActivationLimit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_ACTIVATION_LIMIT).getParameterInt();
+
+		
 		moPrimalRepressionMemory = new ArrayList<clsDriveMesh>();
 		fillPrimalRepressionMemory();
 	}
@@ -184,6 +198,14 @@ implements I5_6_receive, I5_7_send  {
 
 		evaluatePerception(moPerceptionalMesh_OUT);
 		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(moPerceptionalMesh_OUT);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 	}
 
 	/**

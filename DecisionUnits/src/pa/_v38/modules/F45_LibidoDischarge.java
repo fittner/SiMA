@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
@@ -47,6 +48,11 @@ import config.clsProperties;
 public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspectorGenericTimeChart, I5_8_receive, I5_9_send {
 	public static final String P_MODULENUMBER = "45";
 	
+	public static final String P_MATCH_THRESHOLD = "MATCH_THRESHOLD";
+	public static final String P_PERCEPTION_REDUCE_FACTOR = "PERCEPTION_REDUCE_FACTOR";
+	public static final String P_MEMORY_REDUCE_FACTOR = "MEMORY_REDUCE_FACTOR";
+	public static final String P_FANTASY_REDUCE_FACTOR = "FANTASY_REDUCE_FACTOR";
+	
 	/** Perceived Image in; @since 14.07.2011 14:02:10 */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	/** Associated memories in; @since 14.07.2011 14:02:10 */
@@ -61,16 +67,16 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	
 	/* Module parameters */
 	/** Threshold for the matching process of images */
-	private double mrMatchThreshold = 0.7;
+	private double mrMatchThreshold;
 	/** The perceived image is compared to stored images in the libido-image storage in protege. For each found object, the attached
 	 * libido DM is copied to the perceived image. With this factor, the attached libido DM of an image is multiplicated. The 
 	 * resulting libido in the DM (mrPleasure) reduces the libido storage. Perception generally reduces more libido than 
 	 * memories */
-	private double mrPerceptionReduceFactor = 0.1;
+	private double mrPerceptionReduceFactor;
 	/** With this factor, the attached libido DM of a memory is multiplicated. */
-	private double mrMemoryReduceFactor = 0.05;
+	private double mrMemoryReduceFactor;
 	
-	private double mrPhantasyReduceFactor = 0.01;
+	private double mrPhantasyReduceFactor;
 	
 	// Other variables
 	//private double mrDischargePiece = 0.2; //amount of the sotred libido which is going to be withtracted max. (see formula below)
@@ -97,12 +103,18 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			DT1_LibidoBuffer poLibidoBuffer,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		
-		applyProperties(poPrefix, poProp);	
+		applyProperties(poPrefix, poProp);
+		mrMatchThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MATCH_THRESHOLD).getParameterDouble();
+		mrPerceptionReduceFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERCEPTION_REDUCE_FACTOR).getParameterDouble();
+		mrMemoryReduceFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MEMORY_REDUCE_FACTOR).getParameterDouble();
+		mrPhantasyReduceFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_FANTASY_REDUCE_FACTOR).getParameterDouble();
+		
+		
 		//fillLibidioDischargeCandidates();
 	}
 	

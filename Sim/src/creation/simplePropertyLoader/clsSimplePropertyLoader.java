@@ -22,9 +22,8 @@ import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
 import pa.clsPsychoAnalysis;
-import pa._v30.clsProcessor;
-import pa._v30.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v30.modules.clsPsychicApparatus;
+import pa._v38.clsProcessor;
+import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.eLoader;
@@ -275,9 +274,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
-				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/DecisionUnits/config/_v30/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
-		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
-				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
+				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
+		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+".", false);
 		
 		i++;
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_GROUPENTITYTYPE, eEntityType.REMOTEBOT.name());

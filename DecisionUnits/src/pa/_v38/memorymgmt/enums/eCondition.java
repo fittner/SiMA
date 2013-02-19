@@ -20,6 +20,7 @@ public enum eCondition {
 	
 	// --- Precondition intentions --- //
 	START_WITH_FIRST_IMAGE,
+	OBSTACLE_SOLVING,
 	
 	// --- Goaltype conditions --- //
 	IS_DRIVE_SOURCE,
@@ -56,6 +57,8 @@ public enum eCondition {
 	EXECUTED_FOCUS_TURN_RIGHT,
 	EXECUTED_FOCUS_TURN_LEFT,
 	EXECUTED_FOCUS_SEARCH1,
+	EXECUTED_STRAFE_LEFT,
+	EXECUTED_STRAFE_RIGHT,
 	//Actions - System
 	EXECUTED_NONE,
 	

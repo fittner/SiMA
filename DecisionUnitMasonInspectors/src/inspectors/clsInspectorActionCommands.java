@@ -30,7 +30,7 @@ public class clsInspectorActionCommands  extends Inspector {
 	private String getContent() {
         String contentData = "";
         
-        contentData += moDU.moActionLogger.toText();
+        //contentData += moDU.moActionLogger.;
         
         return contentData;
 	}

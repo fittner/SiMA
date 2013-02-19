@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -53,8 +54,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface{
 
 	public static final String P_MODULENUMBER = "7";
-	private static final int threshold_psychicEnergy = 10;
-	private static final int msPriorityPsychicEnergy = 10;
+	
+	public static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
+	public static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
+	public static final String P_PSYCHIC_ENERGY_PRIORITY = "PSYCHIC_ENERGY_PRIORITY";
+	
+	private static int threshold_psychicEnergy;
+	private static int msPriorityPsychicEnergy;
 	private double moSuperEgoStrength; // personality parameter to adjust the strength of Super-Ego
 	
 	@SuppressWarnings("unused")
@@ -92,7 +98,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	public F07_SuperEgoReactive(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
@@ -103,6 +109,11 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		moForbiddenEmotions = new ArrayList<eEmotionType>();
 		
 		applyProperties(poPrefix, poProp); 
+		
+		threshold_psychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
+		msPriorityPsychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_PRIORITY).getParameterInt();
+		moSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_SUPER_EGO_STRENGTH).getParameterDouble();
+
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -110,14 +121,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-		oProp.setProperty(pre+"superego", 0.5);	// this parameter adjusts the strength of the Super-Ego
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 	
-		moSuperEgoStrength = poProp.getPropertyDouble(pre + "superego");
 	}
 
 	/* (non-Javadoc)

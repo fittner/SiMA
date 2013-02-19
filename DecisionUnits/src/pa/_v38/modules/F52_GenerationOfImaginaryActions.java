@@ -12,6 +12,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
@@ -21,7 +23,6 @@ import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
@@ -71,6 +72,10 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public static final String newline = System.getProperty("line.separator");
 
 	public static final String P_MODULENUMBER = "52";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
+	
 	private static final boolean m_bUseDraftPlanning = false;
 	private static final boolean m_bPrintDebugOutput = false;
 
@@ -210,7 +215,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				moPlans_Output = processGoals_AW(moGoalList_IN);
 				
 				//--- System printout of all important action dates ---//
-				clsLogger.jlog.debug("Decided Action" + moPlans_Output.toString());
+				log.debug("Decided Action" + moPlans_Output.toString());
 				//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
 				//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				

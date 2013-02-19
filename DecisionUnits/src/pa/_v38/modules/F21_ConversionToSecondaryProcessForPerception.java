@@ -10,13 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.interfaces.modules.I5_15_receive;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -56,6 +57,9 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		clsModuleBaseKB implements I5_15_receive, I6_1_send, I6_4_send {
 
 	public static final String P_MODULENUMBER = "21";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 
 	/** Perception IN */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -256,7 +260,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	 */
 	@Override
 	protected void process_basic() {
-		clsLogger.jlog.debug("\n\n\n===START OF SECONDARY PROCESS===");
+		log.debug("\n\n\n===START OF SECONDARY PROCESS===");
 
 		// --- Update short term memory ---//
 		this.moShortTermMemory.updateTimeSteps();
@@ -275,18 +279,20 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// already done. Each image except the PI
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oWPMConstruct = getWordPresentationsForImages(moPerceptionalMesh_IN);
 
-		clsLogger.jlog.debug("Perceived Image: " + oWPMConstruct.a);
-
+		log.debug("Perceived Image: " + oWPMConstruct.a);
+		log.info("Found Acts:" + oWPMConstruct.b);
+		
 		// Take the created WPMs and build a clsConcept out of them.
-		moConcept = new clsConcept();
-		moConcept.addWPMs(oWPMConstruct.a);
-		moConcept.addWPMs(oWPMConstruct.b);
-		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
-		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
+//		moConcept = new clsConcept();
+//		moConcept.addWPMs(oWPMConstruct.a);
+//		moConcept.addWPMs(oWPMConstruct.b);
+//		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
+//		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
 
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
+		
 
 		// debug
 		// if (moAssociatedMemories_OUT.isEmpty()==false) {
@@ -309,12 +315,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	 * @param poPerceivedImage
 	 * @return
 	 */
-	private clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> getWordPresentationsForImages(
-			clsThingPresentationMesh poPerceivedImage) {
+	private clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> getWordPresentationsForImages(clsThingPresentationMesh poPerceivedImage) {
 		clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>> oRetVal = null;
 		// The input image is the perceived image (defined from the position).
 		// Therefore, this image is taken to get the secondary process image
 		clsWordPresentationMesh oPIWPM = convertCompleteTPMtoWPMRoot(poPerceivedImage);
+		log.debug("converted PI toWPM. \n>Perceived image WPM Part:\n" + oPIWPM.toString() + "\n>Perceived Image TPM part:\n" + poPerceivedImage.toString());
 		// Search for all images from the primary process in the memory
 
 		// Input: TPM
@@ -327,6 +333,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		for (clsThingPresentationMesh oRITPM : oRITPMList) {
 			// Convert the complete image to WPM
 			clsWordPresentationMesh oRIWPM = convertCompleteTPMtoWPMRoot(oRITPM);
+			log.debug("converted PI toWPM. \n>Remembered image WPM Part:\n" + oRIWPM.toString() + "\n>Remembered image TPM part:\n" + oRITPM.toString());
+			
 			// 3. Search for WPM for all internal objects in the WPM if they are
 			// available
 			oRIWPMList.add(oRIWPM);
@@ -365,6 +373,15 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		// Create a List of all loaded acts and other memories
 		ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
+		
+//		//=== Perform system tests ===//
+//		if (clsTester.getTester().isActivated()) {
+//			try {
+//				clsTester.getTester().exeTestCheckPIMatch(oCategorizedRIWPMList);
+//			} catch (Exception e) {
+//				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//			}
+//		}
 
 		// Output: ArrayList<WPM> for each TPM-Image. The WPM are already
 		// assigned their acts here
@@ -404,15 +421,12 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		if (oWPforObject != null) {
 			try {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-					oRetVal = (clsWordPresentationMesh) oWPforObject
-							.getLeafElement();
+					oRetVal = (clsWordPresentationMesh) oWPforObject.getLeafElement();
 
 					// Add the external association as it is correctly assigned.
 					oRetVal.getExternalAssociatedContent().add(oWPforObject);
 				} else {
-					throw new Exception(
-							"No clsWordPresentation is allowed to be associated here. The following type was recieved: "
-									+ oWPforObject.getLeafElement().toString());
+					throw new Exception("No clsWordPresentation is allowed to be associated here. The following type was recieved: " + oWPforObject.getLeafElement().toString());
 				}
 
 			} catch (Exception e) {
@@ -422,8 +436,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		} else {
 			// It may be the PI, then create a new image with for the PI or from
 			// the repressed content
-			oRetVal = new clsWordPresentationMesh(
-					new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
+			oRetVal = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, poTPM.getMoContentType()), new ArrayList<clsAssociation>(), poTPM.getMoContent());
 			clsAssociationWordPresentation oWPAss = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONWP, eContentType.ASSOCIATIONWP), oRetVal, poTPM);
 			oRetVal.getExternalAssociatedContent().add(oWPAss);
 		}
@@ -437,8 +450,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			// clsAttribute and clsDriveMesh
 			// DOCUMENT Important note: clsAssociationPrimary is not considered
 			// for the secondary process
-			for (clsAssociation oTPMExternalAss : poTPM
-					.getExternalMoAssociatedContent()) {
+			for (clsAssociation oTPMExternalAss : poTPM.getExternalMoAssociatedContent()) {
 
 				// Case AssociationAttribute
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
@@ -450,9 +462,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 							oAttributeWP = (clsWordPresentation) oWPforTPAttribute
 									.getLeafElement();
 						} catch (Exception e) {
-							System.out.println(oWPforTPAttribute.getLeafElement().toString());
-							System.out.println(oWPforTPAttribute.getRootElement().toString());
-							e.printStackTrace();
+							log.error(oWPforTPAttribute.getLeafElement().toString(), e);
+							log.error(oWPforTPAttribute.getRootElement().toString(), e);
 						}
 
 						if (oAttributeWP.getMoContentType() == eContentType.DISTANCE) {
@@ -487,15 +498,16 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 					// Create an association between the both structures and add
 					// the association to the external associationlist of the
 					// RetVal-Structure (WPM)
-					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP,
-							0, 1.0, eContentType.ASSOCIATIONSECONDARY,
-							ePredicate.HASAFFECT, false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
 				}
+				
+				
 				// //Case association primary
 				// } else if (oTPMExternalAss instanceof clsAssociationPrimary)
 				// {
 				// //In case of an association primary, only the strength of the
 				// PI-Match is interesting
+				//THIS IS DONE IN  PROCESSING MEMORIES
 				// //Extract the PI match and add it as a WP to the image
 				// if
 				// (oTPMExternalAss.getMoContentType().equals(eContentType.PIASSOCIATION))
@@ -520,24 +532,21 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 				// converted to WP
 				// Only one internal level is converted, i. e. no images in
 				// images are checked
-				if (oTPMInternalAss instanceof clsAssociationTime
-						&& poProcessedList
-								.contains(((clsAssociationTime) oTPMInternalAss)
-										.getLeafElement()) == false) {
+				if (oTPMInternalAss instanceof clsAssociationTime && poProcessedList.contains(((clsAssociationTime) oTPMInternalAss).getLeafElement()) == false) {
 
-					clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss)
-							.getLeafElement();
+					clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss).getLeafElement();
 					// Convert the complete structure to a WPM
-					clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(
-							oSubTPM, poProcessedList, pnLevel - 1);
+					clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(oSubTPM, poProcessedList, pnLevel - 1);
 
 					// Add the subWPM to the WPM structure
-					clsMeshTools.createAssociationSecondary(oRetVal, 1,
-							oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY,
-							ePredicate.HASPART, false);
+					clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);
 				}
 			}
 		}
+		
+		//Convert the PIMatch to the secondary process WPM
+		//double rPIMatchPri = clsActTools.getPrimaryMatchValueToPI(poTPM);
+		//clsActTools.setPIMatchToWPM(oRetVal);
 
 		return oRetVal;
 	}

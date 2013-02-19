@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -42,6 +44,9 @@ import config.clsProperties;
 public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send,
         itfInspectorGenericActivityTimeChart {
     public static final String P_MODULENUMBER = "29";
+    
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 
     private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
     private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
@@ -280,6 +285,19 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         if (moActionCommands_Output.isEmpty()==false) {
         	addActionToMentalSituation(moActionCommands_Output.get(0));
         }
+        
+        
+//        //=== TEST ONLY ONE ACTION === //
+//		if (clsTester.getTester().isActivated()) {
+//			try {
+//				eAction poReplaceAction = eAction.STRAFE_LEFT;
+//				clsTester.getTester().exeTestAction(moActionCommands_Output, poReplaceAction);
+//				log.warn("In test mode the action " + moActionCommands_Output + " was changed to " + poReplaceAction);
+//			} catch (Exception e) {
+//				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//			}
+//		}
+        
 
     }
     

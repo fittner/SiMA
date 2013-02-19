@@ -23,6 +23,7 @@ import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I4_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -39,11 +40,14 @@ import du.enums.pa.ePartialDrive;
  */
 public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase 
 					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart,itfInspectorStackedBarChart, itfInspectorCombinedTimeChart {
-
 	public static final String P_MODULENUMBER = "48";
-	public static final String P_SPLITFACTORLABEL = "label";
-	public static final String P_SPLITFACTORVALUE = "value";
-	public static final String P_NUM_SPLIFACTOR = "num";
+	
+	public static final String P_SPLITFACTOR_NOURISH = "SPLITFACTOR_NOURISH";
+	public static final String P_SPLITFACTOR_BITE = "SPLITFACTOR_BITE";
+	public static final String P_SPLITFACTOR_RELAX = "SPLITFACTOR_RELAX";
+	public static final String P_SPLITFACTOR_DEPOSIT = "SPLITFACTOR_DEPOSIT";
+	public static final String P_SPLITFACTOR_REPRESS = "SPLITFACTOR_REPRESS";
+	public static final String P_SPLITFACTOR_SLEEP = "SPLITFACTOR_DEPOSIT";
 	private HashMap<String, Double> moSplitterFactor;	
 
 	private DT4_PleasureStorage moPleasureStorage;
@@ -75,13 +79,22 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage)
+			DT4_PleasureStorage poPleasureStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moPleasureStorage = poPleasureStorage;
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 		applyProperties(poPrefix, poProp);	
+		
+		moSplitterFactor = new HashMap<String, Double>();
+		moSplitterFactor.put("NOURISH", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_NOURISH).getParameterDouble());
+		moSplitterFactor.put("BITE", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_BITE).getParameterDouble());
+		moSplitterFactor.put("RELAX", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_RELAX).getParameterDouble());
+		moSplitterFactor.put("DEPOSIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_DEPOSIT).getParameterDouble());
+		moSplitterFactor.put("REPRESS", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_REPRESS).getParameterDouble());
+		moSplitterFactor.put("SLEEP", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_SLEEP).getParameterDouble());
+
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -90,43 +103,11 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
-		// see PhD Deutsch2011 p82 for what this is used for		
-		int i=0;
-		
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "NOURISH");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "BITE");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "RELAX");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "DEPOSIT");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "REPRESS");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORLABEL, "SLEEP");
-		oProp.setProperty(pre+i+"."+P_SPLITFACTORVALUE, 0.5);
-		i++;
-
-		oProp.setProperty(pre+P_NUM_SPLIFACTOR, i);
-		
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-		moSplitterFactor = new HashMap<String, Double>();
-		
-		int num = poProp.getPropertyInt(pre+P_NUM_SPLIFACTOR);
-		for (int i=0; i<num; i++) {
-			String oKey = poProp.getProperty(pre+i+"."+P_SPLITFACTORLABEL);
-			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_SPLITFACTORVALUE);
-			moSplitterFactor.put(oKey, oValue);
-		}		
 	}
 
 	/* (non-Javadoc)

@@ -84,7 +84,8 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_LEFT));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_TURN_RIGHT));
 		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_SEARCH1));
-		
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_LEFT));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.EXECUTED_STRAFE_RIGHT));
 	}
 
 	/* (non-Javadoc)
@@ -113,6 +114,8 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_LEFT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_RIGHT);
 		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_SEARCH1);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_STRAFE_LEFT);
+		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_STRAFE_RIGHT);
 		
 	}
 

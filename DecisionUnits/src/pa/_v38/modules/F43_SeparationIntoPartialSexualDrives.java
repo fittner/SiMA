@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -40,10 +41,11 @@ import du.enums.pa.ePartialDrive;
 public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase implements I3_1_receive, I3_3_send {
 	public static final String P_MODULENUMBER = "43";
 	
-	public static final String P_PARTIAL_ORAL = "oral";
-	public static final String P_PARTIAL_ANAL = "anal";
-	public static final String P_PARTIAL_PHALLIC = "phallic";
-	public static final String P_PARTIAL_GENITAL = "genital";
+	public static final String P_DRIVE_IMPACT_FACTOR_ORAL = "DRIVE_IMPACT_FACTOR_ORAL";
+	public static final String P_DRIVE_IMPACT_FACTOR_ANAL = "DRIVE_IMPACT_FACTOR_ANAL";
+	public static final String P_DRIVE_IMPACT_FACTOR_PHALLIC = "DRIVE_IMPACT_FACTOR_PHALLIC";
+	public static final String P_DRIVE_IMPACT_FACTOR_GENITAL = "DRIVE_IMPACT_FACTOR_GENITAL";
+
 	
 
 	private ArrayList< clsPair<ePartialDrive,Double> > moPartialSexualDrivesFactors;
@@ -66,10 +68,16 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	 * @throws Exception
 	 */
 	public F43_SeparationIntoPartialSexualDrives(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData , clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
+		
+		moSexualDrivesImpactFactors.put(ePartialDrive.ORAL, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_ORAL).getParameterDouble());
+		moSexualDrivesImpactFactors.put(ePartialDrive.ANAL, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_ANAL).getParameterDouble());
+		moSexualDrivesImpactFactors.put(ePartialDrive.PHALLIC, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_PHALLIC).getParameterDouble());
+		moSexualDrivesImpactFactors.put(ePartialDrive.GENITAL, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_GENITAL).getParameterDouble());
+
 	}
 	
 	/* (non-Javadoc)
@@ -100,21 +108,12 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
 		
-		oProp.setProperty(pre+P_PARTIAL_ORAL, 0.1);
-		oProp.setProperty(pre+P_PARTIAL_ANAL, 0.05);
-		oProp.setProperty(pre+P_PARTIAL_PHALLIC, 0.2);
-		oProp.setProperty(pre+P_PARTIAL_GENITAL, 0.6);
 		
 		return oProp;
 	}
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-
-		moSexualDrivesImpactFactors.put(ePartialDrive.ORAL, poProp.getPropertyDouble(pre+P_PARTIAL_ORAL));
-		moSexualDrivesImpactFactors.put(ePartialDrive.ANAL, poProp.getPropertyDouble(pre+P_PARTIAL_ANAL));
-		moSexualDrivesImpactFactors.put(ePartialDrive.PHALLIC, poProp.getPropertyDouble(pre+P_PARTIAL_PHALLIC));
-		moSexualDrivesImpactFactors.put(ePartialDrive.GENITAL, poProp.getPropertyDouble(pre+P_PARTIAL_GENITAL));
 	}	
 	
 	@Override

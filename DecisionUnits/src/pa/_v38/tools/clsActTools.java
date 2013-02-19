@@ -39,7 +39,7 @@ public class clsActTools {
 			//Tasks in the memory processing
 			
 			//1. Add all PI-Matches as WP to each image
-			clsActTools.setPIMatchToWPM(oImage);	//This is already done
+			clsActTools.setPIMatchToWPM(oImage); //The adding is done hier at the first place as in this module only images are processed and not entities.
 			
 			//2. Delete all primary process external connections
 			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
@@ -187,20 +187,20 @@ public class clsActTools {
 	}
 	
 	/**
-	 * Get association of a primary data structure container with PI
-	 * DOCUMENT (wendt) - insert description
+	 * Get association of a primary data structure container with PI. If the answer is 0.0, then no association to the PI was found
+	 * (wendt)
 	 *
 	 * @since 04.08.2011 13:59:56
 	 *
 	 * @param poImageContainer
-	 * @return
+	 * @return 
 	 */
 	public static double getPrimaryMatchValueToPI(clsThingPresentationMesh poImage) {
 		double rRetVal = 0.0;
 		
 		for (clsAssociation oAss : poImage.getExternalMoAssociatedContent()) {
 			if (oAss instanceof clsAssociationPrimary) {
-				if (oAss.getMoContentType().equals(eContentType.PIASSOCIATION) && oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI)) {
+				if (oAss.getTheOtherElement(poImage).getMoContentType().equals(eContentType.PI)) {
 					rRetVal = oAss.getMrWeight();
 					break;
 				}	
@@ -219,14 +219,14 @@ public class clsActTools {
 	 *
 	 * @param poImage
 	 */
-	private static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
+	public static void setPIMatchToWPM(clsWordPresentationMesh poImage) {
 		//Get the PI-match
 		double rPIMatchValue = getSecondaryMatchValueToPIFromPrimaryPart(poImage);
 		
-		//if (rPIMatchValue>0.0) {
+		if (rPIMatchValue>0.0) {
 			//Add new WP to image
 			clsMeshTools.setUniquePredicateWP(poImage, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPIMATCH, eContentType.PIMATCH, String.valueOf(rPIMatchValue), false);
-		//}
+		}
 	}
 	
 	/**
@@ -730,6 +730,28 @@ public class clsActTools {
 		int nResult = 0;
 		
 		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASMOVEMENTTIMEOUT);
+		
+		if (oWP!=null) {
+			nResult = Integer.valueOf(oWP.getMoContent());
+		}
+		
+		return nResult;
+	}
+	
+	/**
+	 * Get the default movement timeout value for this moment
+	 * 
+	 * (wendt)
+	 *
+	 * @since 14.02.2013 15:15:18
+	 *
+	 * @param poMoment
+	 * @return
+	 */
+	public static int getIndividualMovementTimeoutValue(clsWordPresentationMesh poMoment) {
+		int nResult = 0;
+		
+		clsWordPresentation oWP = clsMeshTools.getUniquePredicateWP(poMoment, ePredicate.HASINDIVIDUALMOVEMENTTIMEOUT);
 		
 		if (oWP!=null) {
 			nResult = Integer.valueOf(oWP.getMoContent());

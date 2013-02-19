@@ -86,6 +86,29 @@ public class clsActionSequenceFactory {
 		return oSeq;
 	}
 
+	
+	public static clsActionSequence getStrafeLeftSequence(int piDistance) {
+		
+		clsActionSequence oSeq = new clsActionSequence();
+		
+		oSeq.add(10, new clsActionTurn(eActionTurnDirection.TURN_LEFT, 20),9); // 90 deg left turn
+		oSeq.add(20, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, 1),piDistance);
+		oSeq.add(30, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20),9); // 90 deg right turn
+		
+		return oSeq;
+	}
+
+	public static clsActionSequence getStrafeRightSequence(int piDistance) {
+		
+		clsActionSequence oSeq = new clsActionSequence();
+		
+		oSeq.add(10, new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20),9); // 90 deg right turn
+		oSeq.add(20, new clsActionMove(eActionMoveDirection.MOVE_FORWARD, 1),piDistance);
+		oSeq.add(30, new clsActionTurn(eActionTurnDirection.TURN_LEFT, 20),9); // 90 deg left turn
+		
+		return oSeq;
+	}
+	
 	public static clsActionSequence getFleeSequence(float turnAngel, int fleeDistance) {
 		clsActionSequence oSeq = new clsActionSequence();
 		

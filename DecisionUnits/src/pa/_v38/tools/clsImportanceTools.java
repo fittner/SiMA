@@ -642,6 +642,8 @@ public class clsImportanceTools {
 			nResult+=-100;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
 			nResult+=-200;
+		} else if (poCondition.equals(eCondition.OBSTACLE_SOLVING)) {
+			nResult+=20;
 		}
 		
 		return nResult;

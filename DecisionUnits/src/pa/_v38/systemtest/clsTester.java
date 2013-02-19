@@ -6,7 +6,13 @@
  */
 package pa._v38.systemtest;
 
+import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -52,7 +58,31 @@ public class clsTester {
 	}
 	
 	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
-		clsUnitTestTools.debugFindAllErroneousLinksInImage(poImage);
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImage);
+	}
+	
+	public void exeTestAssociationAssignmentTPMArray(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImageList);
+	} 
+	
+	public void exeTestAssociationAssignment(clsDataStructurePA poImage) throws Exception {
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInDataStructure(poImage);
+	}
+	
+	public void exeTestAssociationAssignment(ArrayList<clsPair<Double, clsDataStructurePA>> poImage) throws Exception {
+		clsTestDataStructureConsistency.debugFindAllErroneousLinksInDataStructure(poImage);
+	}
+	
+	public void exeTestAction(ArrayList<clsWordPresentationMesh> poCurrentActionList, eAction poTestAction) {
+		clsTestActions.replaceAction(poCurrentActionList, poTestAction);
+	}
+	
+	public void exeTestNullPointer(clsThingPresentationMesh poMesh) throws Exception {
+		clsTestDataStructureNullPointers.findNullPointerAssociationsInImage(poMesh);
+	}
+	
+	public void exeTestCheckPIMatch(ArrayList<clsWordPresentationMesh> poImage) throws Exception {
+		clsTestDataStructureActs.checkIfPIMatchingCorrectnessMeshArray(poImage);
 	}
 	
 }

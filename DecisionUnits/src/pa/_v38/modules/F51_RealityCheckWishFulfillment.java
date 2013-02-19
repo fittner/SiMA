@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
@@ -19,10 +21,10 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
@@ -39,6 +41,15 @@ import pa._v38.tools.toText;
  */
 public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements I6_6_receive, I6_7_send, I6_3_receive {
 	public static final String P_MODULENUMBER = "51";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
+	
+	public static final String P_MOMENT_ACTIVATION_THRESHOLD = "MOMENT_ACTIVATION_THRESHOLD";
+	public static final String P_MOMENT_MIN_RELEVANCE_THRESHOLD = "MOMENT_MIN_RELEVANCE_THRESHOLD";
+	public static final String P_CONFIRMATION_PARTS = "CONFIRMATION_PARTS";
+	public static final String P_REDUCEFACTOR_FOR_DRIVES = "REDUCEFACTOR_FOR_DRIVES";
+	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
@@ -71,17 +82,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 //	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
 	
 	/** A threshold for images, which are only set moment if the match factor is higher or equal this value */
-	private double mrMomentActivationThreshold = 1.0;
+	private double mrMomentActivationThreshold;
 	/** DOCUMENT (wendt) - insert description; @since 10.09.2011 16:40:06 */
-	private double mrMomentMinRelevanceThreshold = 0.2;
+	private double mrMomentMinRelevanceThreshold;
 	
 	/** If a third of an act is gone though, it is considered as confirmed */
-	private int mnConfirmationParts = 3;
+	private int mnConfirmationParts;
 	
 	/** This factor detemines how much the drive can be reduced in an intention. If the value is 0.5, this is the minimum value of the drive, which can be reduced */
-	private double mrReduceFactorForDrives = 1.0;
+	private double mrReduceFactorForDrives;
 	
-	private int mnAffectThresold = -3;
+	private int mnAffectThresold;
 	
 	
 	/** Short time memory */
@@ -111,7 +122,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
-			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
+			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
@@ -121,6 +132,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
 		 
 		applyProperties(poPrefix, poProp);	
+		
+		mrMomentActivationThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MOMENT_ACTIVATION_THRESHOLD).getParameterDouble();
+		mrMomentMinRelevanceThreshold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_MOMENT_MIN_RELEVANCE_THRESHOLD).getParameterDouble();
+		mnConfirmationParts = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_CONFIRMATION_PARTS).getParameterInt();
+		mrReduceFactorForDrives = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_REDUCEFACTOR_FOR_DRIVES).getParameterDouble();
+		mnAffectThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterInt();
+
 		
 		//Get short time memory
 		moShortTimeMemory = poShortTimeMemory;
@@ -249,7 +267,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Add perception to the environmental image
 		this.moEnvironmentalImageStorage.addNewImage(moPerceptionalMesh_IN);
-		clsLogger.jlog.debug("Environmental Storage: " + moEnvironmentalImageStorage.toString());
+		log.debug("Environmental Storage: " + moEnvironmentalImageStorage.toString());
 
 		
 		//From now, only the environmental image is used
@@ -353,7 +371,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		//Process the codelets once again with new continued stati
 		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
-		clsLogger.jlog.debug("Append consequence, goal:" + poContinuedGoal.toString());
+		log.debug("Append consequence, goal:" + poContinuedGoal.toString());
 		
 	}
 	
@@ -374,9 +392,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			
 		//Remove conditions for continuous preprocessing
 		//clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
-		clsLogger.jlog.debug("Prove previous, goal:" + poContinuedGoal.toString());
+		log.debug("Prove previous, goal:" + poContinuedGoal.toString());
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:37
+	 *
+	 * @param poContinuedGoal
+	 * @param poGoalList
+	 */
 	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
 		//Set default actions for all not continued goals
 		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
@@ -384,10 +410,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Execute codelets, which decide what the next action in F52 will be
 		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.DECISION, 1);
 		
-		clsLogger.jlog.debug("New decision, goal:" + poContinuedGoal.toString());
+		log.debug("New decision, goal:" + poContinuedGoal.toString());
 		
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:40
+	 *
+	 * @param poGoalList
+	 */
 	private void applyEffortOfGoal(ArrayList<clsWordPresentationMesh> poGoalList) {
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			//Get the penalty for the effort
@@ -396,17 +429,24 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 			clsGoalTools.setEffortLevel(oGoal, oImportanceValue);
 		}
 		
-		clsLogger.jlog.debug("Corrected goals:" + poGoalList.toString());
+		log.debug("Corrected goals:" + poGoalList.toString());
 		
 	}
 	
+	/**
+	 * DOCUMENT (wendt) - insert description
+	 *
+	 * @since 12.02.2013 11:41:42
+	 *
+	 * @param poGoalList
+	 */
 	private void addNonReachableGoalsToSTM(ArrayList<clsWordPresentationMesh> poGoalList) {
 		for (clsWordPresentationMesh oGoal : poGoalList) {
 			if (clsGoalTools.checkIfConditionExists(oGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
 				clsWordPresentationMesh oMentalSituation = this.moShortTimeMemory.findCurrentSingleMemory();
 				clsMentalSituationTools.setExcludedGoal(oMentalSituation, oGoal);
 				
-				clsLogger.jlog.debug("Added non reachable goal to STM : " + oGoal.toString());
+				log.debug("Added non reachable goal to STM : " + oGoal.toString());
 			}
 		}
 	}

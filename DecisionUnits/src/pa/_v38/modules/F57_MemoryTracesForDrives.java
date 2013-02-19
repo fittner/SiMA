@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 import config.clsProperties;
@@ -40,14 +41,18 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 		implements I4_1_receive,  I5_1_send, itfInspectorGenericDynamicTimeChart, itfGraphCompareInterfaces{
 
 	public static final String P_MODULENUMBER = "57";
+	
+	public static final String P_THRESHOLD_MATCH_FACTOR = "THRESHOLD_MATCH_FACTOR";
+	public static final String P_THRESHOLD_PLEASURE_FACTOR = "THRESHOLD_PLEASURE_FACTOR";
+	
 	//private clsThingPresentationMesh moPerceptionalMesh_IN;	//AW 20110521: New containerstructure. Use clsDataStructureConverter.TPMtoTI to convert to old structure
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_IN;	//AW 20110621: Associated Memories
 	private ArrayList<clsDriveMesh> moDriveCandidates_IN;
 
 	private  ArrayList<clsDriveMesh> moDrivesAndTraces_OUT;
 	
-	private double mrThresholdMatchFactor = 0.0;
-	private double mrThresholdPleasure = 0.2;
+	private double mrThresholdMatchFactor;
+	private double mrThresholdPleasure;
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moTimeChartData;
@@ -68,10 +73,15 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 
 		applyProperties(poPrefix, poProp); 
+		
+		mrThresholdMatchFactor= poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_MATCH_FACTOR).getParameterDouble();
+		mrThresholdPleasure=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_THRESHOLD_PLEASURE_FACTOR).getParameterDouble();
+
+		
 		moDrivesAndTraces_OUT = new  ArrayList<clsDriveMesh>();	//If no drive candidate is there, then it is initialized
 		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
 	}

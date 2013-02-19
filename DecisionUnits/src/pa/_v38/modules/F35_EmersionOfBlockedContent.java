@@ -9,6 +9,9 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import config.clsProperties;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.D2_1_send;
@@ -21,6 +24,7 @@ import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.systemtest.clsTester;
 
 /**
  * Emersion of blocked content. The inputs of the perception and associated memories are compared with
@@ -33,6 +37,9 @@ import pa._v38.storage.DT2_BlockedContentStorage;
  */
 public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_7_receive, I5_8_send, D2_1_send, D2_2_receive {
 	public static final String P_MODULENUMBER = "35";
+	
+	/** Specialized Logger for this class */
+	private Logger log = Logger.getLogger(this.getClass());
 	
 	/** The blocked content storage, which is an Arraylist for data structures */
 	private DT2_BlockedContentStorage moBlockedContentStorage;
@@ -133,6 +140,15 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		 * manner.
 		 */
 		enrichWithBlockedContent(moPerceptionalMesh_OUT);
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(moPerceptionalMesh_OUT);
+			} catch (Exception e) {
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
+		}
 	}
 	
 //	private ArrayList<clsPrimaryDataStructureContainer> initialFillRepressedContent() {
@@ -280,14 +296,8 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I5_7(clsThingPresentationMesh poPerceptionalMesh) {
-		try {
-			//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.cloneGraph();
-			moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		} //(clsPrimaryDataStructureContainer)poEnvironmentalTP.clone();
-		//moAssociatedMemories_IN = null; //(ArrayList<clsPrimaryDataStructureContainer>)deepCopy(poAssociatedMemories);
+		//moPerceptionalMesh_IN = (clsThingPresentationMesh) poPerceptionalMesh.clone();
+		moPerceptionalMesh_IN = poPerceptionalMesh;
 	}
 	/* (non-Javadoc)
 	 *

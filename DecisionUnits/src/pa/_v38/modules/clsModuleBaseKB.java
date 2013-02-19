@@ -15,6 +15,7 @@ import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
@@ -38,6 +39,7 @@ import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -90,7 +92,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	}
 
 	/**
-	 * DOCUMENT (zeilinger) - insert description
+	 * Search for entities.
 	 *
 	 * @author zeilinger
 	 * 19.03.2011, 08:36:59
@@ -201,7 +203,6 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 	 */
 	public void searchMesh(clsDataStructurePA poPattern, ArrayList<clsPair<Double, clsDataStructurePA>> poSearchResult, eContentType poSearchContentType, double prThreshold, int pnLevel) {
 
-		//createSearchPattern(poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
 		if (poPattern!=null)  {
 			
 			//FIXME AW: Make a better solution than renaming the content types at the search
@@ -216,13 +217,17 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 			//Set the old content type again...this is hack dirty bastard shit
 			poPattern.setMoContentType(oInputContentType);
 			
-			//Set IDs
-			//for (clsPair<Double, clsDataStructureContainer> oPair : poSearchResult) {
-			//	clsDataStructureTools.createInstanceFromType(oPair.b);
-			//}
-			
 		} else {
 			poSearchResult = new ArrayList<clsPair<Double, clsDataStructurePA>>();
+		}
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(poSearchResult);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+			}
 		}
 			
 	}

@@ -64,25 +64,27 @@ public class clsInspectorMappingDecision {
         	
         } else if (poDU instanceof clsPsychoAnalysis ) {
         	
-        	if(clsPsychoAnalysis.getModelVersion().equals("v19")) {
-           		oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
-            	oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
-         	} 
-        	else if (clsPsychoAnalysis.getModelVersion().equals("v30")){
-        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
-            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
-        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
-        		
-        		//TODO CM these two should also work in V38, but I get a exeption, DEBUG! 28.06.2011
-                oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
-                oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");
-        	}
-        	else if (clsPsychoAnalysis.getModelVersion().equals("v38")){
+//        	if(clsPsychoAnalysis.getModelVersion().equals("v19")) {
+//           		//oRetVal.addInspector( new inspectors.mind.pa._v19.clsPsychoAnalysisInspector(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Decision");
+//            	//oRetVal.addInspector( new inspectors.mind.pa._v19.clsMemoryInspectorTab(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory 2.0"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+//         	} 
+//        	else if (clsPsychoAnalysis.getModelVersion().equals("v30")){
+//        		//oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
+//            	oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
+//        		oRetVal.addInspector( new inspectors.mind.pa._v30.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
+//        		
+//        		//TODO CM these two should also work in V38, but I get a exeption, DEBUG! 28.06.2011
+//                oRetVal.addInspector( new clsInspectorSensorData(poDU), "Sensors");
+//                oRetVal.addInspector( new clsInspectorActionCommands(poDU), "Actions");
+//        	}
+//        	else 
+        	if (clsPsychoAnalysis.getModelVersion().equals("v38")){
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Modules((clsPsychoAnalysis) poDU), "PA-Modules");
             	oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_Memory(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "PA-Memory"); //shows a tab with the memory inspector, mapping for the tree etc see clsInspectorMappingPA
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_DataLogger((clsPsychoAnalysis) poDU), "Data Logger");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_ARSinOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "ARSin Overview");
         		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PlanningOverview(poSuperInspector, poWrapper, poState, (clsPsychoAnalysis) poDU), "Planning Overview");
+        		oRetVal.addInspector( new inspectors.mind.pa._v38.clsInspectorTab_PersonalityParameter((clsPsychoAnalysis) poDU), "Personality Parameters");
         	}
         	else {
         		//FIXME (muchitsch) - activate inspectors

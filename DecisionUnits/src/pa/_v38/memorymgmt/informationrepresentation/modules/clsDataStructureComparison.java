@@ -10,10 +10,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -201,6 +203,7 @@ public abstract class clsDataStructureComparison {
 						// TODO (wendt) - Auto-generated catch block
 						e.printStackTrace();
 					}
+					
 					//INFO: In the image function, the inverse associations are also created.
 					try {
 						getCompleteMesh(oClonedCompareElement, poSearchSpaceHandler, pnLevel);
@@ -209,13 +212,31 @@ public abstract class clsDataStructureComparison {
 						e.printStackTrace();
 					}
 					
+					//=== Perform system tests ===//
+					if (clsTester.getTester().isActivated()) {
+						try {
+							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+						} catch (Exception e) {
+							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getCompleteMesh, clonedCompareElement", e);
+						}
+					}
+					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
-							
+					
+					//=== Perform system tests ===//
+					if (clsTester.getTester().isActivated()) {
+						try {
+							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
+						} catch (Exception e) {
+							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
+						}
+					}
+					
 					if (oMatch < prThreshold)
 						continue;
 					// ensure that the list of results is sorted by the matchValues, with the highest matchValues on top of the list.
 					int i = 0;
-					while ((i + 1 < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
+					while ((i < oPreliminaryRetVal.size()) && oMatch < oPreliminaryRetVal.get(i).a) {
 						i++;
 					}
 					
@@ -235,6 +256,16 @@ public abstract class clsDataStructureComparison {
 		
 		//3. Sort the list
 		//TODO AW: Sort the output list
+		
+		//=== Perform system tests ===//
+		if (clsTester.getTester().isActivated()) {
+			try {
+				clsTester.getTester().exeTestAssociationAssignment(oRetVal);
+			} catch (Exception e) {
+				clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison", e);
+			}
+		}
+		
 		return oRetVal;
 	}
 	

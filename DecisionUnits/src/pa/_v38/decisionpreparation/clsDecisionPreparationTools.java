@@ -8,7 +8,8 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.logger.clsLogger;
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -35,6 +36,8 @@ import pa._v38.tools.clsTriple;
  */
 public class clsDecisionPreparationTools {
 
+	private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+	
 	private static final double mrActMatchActivationThreshold = 1.0; 
 	
 	/**
@@ -55,14 +58,14 @@ public class clsDecisionPreparationTools {
 		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
 		//Get the previous goal
 		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
-		clsLogger.jlog.debug("Previous goal: " + oPreviousGoal);
+		log.debug("Previous goal: " + oPreviousGoal);
 		
 		
 		// --- GET AND INIT THE CONTINUED GOAL --- //
 		//Set condition for continuous preprocessing
 		clsWordPresentationMesh oResult = clsDecisionPreparationTools.initContinuedGoal(oPreviousGoal, poGoalList);
 		clsGoalTools.setCondition(oResult, eCondition.IS_NEW_CONTINUED_GOAL);
-		clsLogger.jlog.debug("Continued goal:" + oResult.toString());
+		log.debug("Continued goal:" + oResult.toString());
 		
 		return oResult;
 	}
@@ -224,7 +227,7 @@ public class clsDecisionPreparationTools {
 
 		//Get the previous action
 		clsWordPresentationMesh oPreviousActionMesh = clsMentalSituationTools.getAction(oPreviousMentalSituation);
-		clsLogger.jlog.debug("Previous action " + oPreviousActionMesh);
+		log.debug("Previous action " + oPreviousActionMesh);
 		
 		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh));
 		
@@ -287,6 +290,12 @@ public class clsDecisionPreparationTools {
 			case FOCUS_SEARCH1:
 				oActionCondition = eCondition.EXECUTED_FOCUS_SEARCH1;
 				break;
+			case STRAFE_LEFT:
+				oActionCondition = eCondition.EXECUTED_STRAFE_LEFT;
+				break;
+			case STRAFE_RIGHT:
+				oActionCondition = eCondition.EXECUTED_STRAFE_RIGHT;
+				break;
 			case NULLOBJECT:
 				oActionCondition = eCondition.NULLOBJECT;
 				break;
@@ -304,7 +313,7 @@ public class clsDecisionPreparationTools {
 			clsGoalTools.setCondition(poContinuedGoal, oActionCondition);
 		}
 		
-		clsLogger.jlog.debug("Append previous action, goal:" + poContinuedGoal.toString());
+		log.debug("Append previous action, goal:" + poContinuedGoal.toString());
 		
 	}
 	

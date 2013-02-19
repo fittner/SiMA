@@ -9,6 +9,7 @@ package pa._v38.tools;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
+import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -721,10 +722,10 @@ public class clsMeshTools {
 			clsDataStructurePA oDS = oAss.getTheOtherElement(poThisDataStructure);
 			if (oDS==null) {
 				try {
-					throw new Exception("The other element of the association " + oAss + " is not the source of the other element");
+					throw new Exception("The other element " + poThisDataStructure + " of the association " + oAss + " is not the source of the other element");
 				} catch (Exception e) {
 					// TODO (wendt) - Auto-generated catch block
-					e.printStackTrace();
+					clsLogger.jlog.error("Error: ", e);
 					continue;
 				}
 				
@@ -1372,7 +1373,7 @@ public class clsMeshTools {
 	 * @param prWeight
 	 */
 	public static void createAssociationPrimary(clsThingPresentationMesh poStructureA, clsThingPresentationMesh poStructureB, double prWeight) {
-		eContentType oContentType = eContentType.PIASSOCIATION;
+		eContentType oContentType = eContentType.ASSOCIATIONPRI;
 		clsAssociationPrimary oAssPri = (clsAssociationPrimary)clsDataStructureGenerator.generateASSOCIATIONPRI(oContentType, poStructureA, poStructureB, prWeight);
 		poStructureA.getExternalMoAssociatedContent().add(oAssPri);
 		poStructureB.getExternalMoAssociatedContent().add(oAssPri);
@@ -2288,6 +2289,33 @@ public class clsMeshTools {
 	}
 	
 	/**
+	 * Get all images in a WPM mesh, i. e. contentType = RI
+	 * 
+	 * (wendt)
+	 *
+	 * @since 28.12.2011 10:30:25
+	 *
+	 * @param poPerceptionalMesh
+	 * @param pnLevel
+	 * @return
+	 */
+	public static ArrayList<clsWordPresentationMesh> getAllWPMObjects(clsWordPresentationMesh poMesh, int pnLevel) {
+		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		
+		//Add all RI. 
+		ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+		oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.NOTHING, ""));
+		oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
+		
+		for (clsDataStructurePA oWPM : oFoundImages) {
+			oRetVal.add((clsWordPresentationMesh) oWPM);
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
 	 * Get all action WPMs in a mesh
 	 * 
 	 * (wendt)
@@ -2955,6 +2983,16 @@ public class clsMeshTools {
 		}
 		
 		//Now the object is not connected with anything more and can be seen as deleted from the meshes, which it was connected. It does not matter in which mesh it belongs, everything is deleted
+	}
+	
+	public static String toString(ArrayList<clsThingPresentationMesh> poList) {
+		String oResult = "";
+		
+		for (clsThingPresentationMesh oMesh : poList) {
+			oResult += oMesh.getMoContent() + ", ";
+		}
+		
+		return oResult;
 	}
 	
 	

@@ -6,6 +6,8 @@
  */
 package pa._v38.memorymgmt.psychicspreadactivation;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 
 /**
@@ -28,6 +30,8 @@ public class clsPsychicSpreadActivationNode {
 	//private double mrConsumptionValue = 0.0;
 	private double mrEnergyQuote = 0.0;
 	private double mrAssignedPsychicEnergy = 0.0;
+	
+	Logger logger = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
 
 	/**
 	 * @since 30.03.2012 21:52:56
@@ -142,6 +146,15 @@ public class clsPsychicSpreadActivationNode {
 	 */
 	public double getMrEnergyQuote() {
 		return mrEnergyQuote;
+	}
+	
+	@Override
+	public String toString() {
+		String oResult = "";
+		
+		oResult += this.moBaseImage.getMoContent() + ", ass pe=" + this.mrAssignedPsychicEnergy + ", psy pot=" + this.mrPsychicPotential + ", ";
+		
+		return oResult;
 	}
 	
 }

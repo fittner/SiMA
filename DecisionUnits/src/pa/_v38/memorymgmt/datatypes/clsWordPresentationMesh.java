@@ -264,9 +264,6 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 	@Override
 	public String toString(){
 			String oResult = "";
-
-			
-			
 			
 			//Add by AW
 			if (this.moContentType.equals(eContentType.RI)) {
@@ -297,14 +294,14 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				} else {  
 					oResult += this.moContentType + ":" + this.moContent;
 					if (this.moInternalAssociatedContent.isEmpty()==false) {
-						oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+						oResult += "\nINT ASS: ";
 						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
 							oResult += oEntry.getLeafElement().toString() + ";";
 						}
 					}
 					
 					if (moExternalAssociatedContent.isEmpty()==false) {
-						oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
+						oResult += "\nEXT ASS: ";
 						for (clsAssociation oEntry : moExternalAssociatedContent) {
 							clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
 							if (oDS == null) {
@@ -322,14 +319,14 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContentType + ":" + this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
-					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+					oResult += "\nINT ASS: ";
 					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
 						oResult += oEntry.getLeafElement().toString() + ";";
 					}
 				}
 				
 				if (moExternalAssociatedContent.isEmpty()==false) {
-					oResult += "\nEXTERNAL ASSOCIATED CONTENT: ";
+					oResult += "\nEXT ASS: ";
 					for (clsAssociation oEntry : moExternalAssociatedContent) {
 						clsDataStructurePA oDS = oEntry.getTheOtherElement(this);
 						if (oDS instanceof clsWordPresentationMesh) {
@@ -361,7 +358,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 				//oResult += "::"+this.moDataStructureType+"::";  
 				oResult += this.moContent;
 				if (this.moInternalAssociatedContent.isEmpty()==false) {
-					oResult += "\nINTERNAL ASSOCIATED CONTENT: ";
+					oResult += "\nINT ASS: ";
 					for (clsAssociation oEntry : this.moInternalAssociatedContent) {
 						oResult += oEntry.getLeafElement().toString() + ";";
 					}

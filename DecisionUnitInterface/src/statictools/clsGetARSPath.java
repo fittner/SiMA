@@ -28,7 +28,9 @@ public class clsGetARSPath {
 	public static String getEntityConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"entity";
 	}
-	
+	public static String getPeronalityParameterConfigPath(){
+		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters";
+	}
 	public static String getDuConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"du";
 	}	

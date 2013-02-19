@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import config.clsProperties;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -46,9 +47,9 @@ import du.enums.pa.ePartialDrive;
  */
 public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB implements I2_2_receive, I3_2_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "03";
-	public static final String P_HOMEOSTASISLABEL = "label";
-	public static final String P_HOMEOSTASISFACTOR = "factor";
-	public static final String P_NUM_HOMEOSTASIS = "num";
+	public static final String P_HOMEOSTASIS_STOMACH = "HOMEOSTASIS_IMPACT_FACTOR_STOMACH";
+	public static final String P_HOMEOSTASIS_RECTUM = "HOMEOSTASIS_IMPACT_FACTOR_RECTUM";
+	public static final String P_HOMEOSTASIS_STAMINA = "HOMEOSTASIS_IMPACT_FACTOR_STAMINA";
 	public static String moDriveObjectType = "DriveObject";
 	
 	/** <source, tension> list of all symbols from the body */
@@ -78,11 +79,14 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public F03_GenerationOfSelfPreservationDrives(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
+			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
 		applyProperties(poPrefix, poProp);
 		fillOrificeMapping();
-		
+		moHomeostaisImpactFactors = new HashMap<String, Double>();
+		moHomeostaisImpactFactors.put("STOMACH",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STOMACH).getParameterDouble());
+		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
+		moHomeostaisImpactFactors.put("STAMINA",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STAMINA).getParameterDouble());
 		moTimeChartData =  new HashMap<String, Double>(); //initialize charts
 	}
 	
@@ -101,35 +105,12 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
-		int i=0;
-		
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STOMACH");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
-		i++;
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "RECTUM");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 0.5);
-		i++;
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISLABEL, "STAMINA");
-		oProp.setProperty(pre+i+"."+P_HOMEOSTASISFACTOR, 1.0);
-		i++;
-		
-		oProp.setProperty(pre+P_NUM_HOMEOSTASIS, i);
-		
+						
 		return oProp;
 	}	
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-		
-		moHomeostaisImpactFactors = new HashMap<String, Double>();
-		
-		int num = poProp.getPropertyInt(pre+P_NUM_HOMEOSTASIS);
-		for (int i=0; i<num; i++) {
-			String oKey = poProp.getProperty(pre+i+"."+P_HOMEOSTASISLABEL);
-			Double oValue = poProp.getPropertyDouble(pre+i+"."+P_HOMEOSTASISFACTOR);
-			moHomeostaisImpactFactors.put(oKey, oValue);
-		}
 	}
 	
 	/* (non-Javadoc)
