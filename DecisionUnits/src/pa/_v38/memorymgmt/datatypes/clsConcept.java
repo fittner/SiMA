@@ -76,13 +76,13 @@ public class clsConcept {
 	 * 
 	 * @since 13.10.2012 16:59:05
 	 * 
-	 * @param oWPMs
+	 * @param poWPMs
 	 *            a list of clsWorldPresentationMesh that shall be recursively
 	 *            searched for associations of interest.
 	 */
-	public void addWPMs(List<clsWordPresentationMesh> oWPMs) {
-		for (clsWordPresentationMesh wpm : oWPMs) {
-			checkDataStructure(wpm);
+	public void addWPMs(List<clsWordPresentationMesh> poWPMs) {
+		for (clsWordPresentationMesh oWPM : poWPMs) {
+			checkDataStructure(oWPM);
 		}
 	}
 
@@ -93,25 +93,25 @@ public class clsConcept {
 	 * 
 	 * @since 13.10.2012 16:59:12
 	 * 
-	 * @param oWPMs
+	 * @param poWPMs
 	 *            one or more clsWorldPresentationMesh that shall be recursively
 	 *            searched for associations of interest.
 	 */
-	public void addWPMs(clsWordPresentationMesh... oWPMs) {
-		for (clsWordPresentationMesh wpm : oWPMs) {
-			checkDataStructure(wpm);
+	public void addWPMs(clsWordPresentationMesh... poWPMs) {
+		for (clsWordPresentationMesh oWPM : poWPMs) {
+			checkDataStructure(oWPM);
 		}
 	}
 
-	public void addMentalSituation(clsWordPresentationMesh oMentalSituation) {
-		String situation = oMentalSituation.toString();
-		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
-			if (situation.contains(conceptEntity.a.moEntity)) {
-				String[] situationArray = situation.split(":");
-				situationArray[situationArray.length - 1] = situationArray[situationArray.length - 1]
+	public void addMentalSituation(clsWordPresentationMesh poSituation) {
+		String oSituation = poSituation.toString();
+		for (clsQuadruppel<Entity, Action, Emotion, Distance> oConceptEntity : moConceptEntities) {
+			if (oSituation.contains(oConceptEntity.a.moEntity)) {
+				String[] oSituationArray = oSituation.split(":");
+				oSituationArray[oSituationArray.length - 1] = oSituationArray[oSituationArray.length - 1]
 						.replace(";", "");
-				conceptEntity.b
-						.setAction(situationArray[situationArray.length - 1]);
+				oConceptEntity.b
+						.setAction(oSituationArray[oSituationArray.length - 1]);
 			}
 		}
 	}
@@ -127,47 +127,47 @@ public class clsConcept {
 	 * @param in
 	 *            the wpms to be checked for interesting wpms
 	 */
-	public void checkDataStructure(clsDataStructurePA moDataStructurePA) {
+	public void checkDataStructure(clsDataStructurePA poDataStructurePA) {
 
-		if (null == moDataStructurePA
-				|| moVisitedWPMs.contains(moDataStructurePA.hashCode())) {
+		if (null == poDataStructurePA
+				|| moVisitedWPMs.contains(poDataStructurePA.hashCode())) {
 
 		} else {
 			// clsLogger.jlog.debug("checking " + moDataStructurePA);
-			moVisitedWPMs.add(moDataStructurePA.hashCode());
-			if (eDataType.EMOTION.equals(moDataStructurePA.moDataStructureType)) {
-				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+			moVisitedWPMs.add(poDataStructurePA.hashCode());
+			if (eDataType.EMOTION.equals(poDataStructurePA.moDataStructureType)) {
+				integrateDataStructure(poDataStructurePA, moEmotionTriple);
 			} else if (eContentType.EMOTION
-					.equals(moDataStructurePA.moContentType)) {
-				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+					.equals(poDataStructurePA.moContentType)) {
+				integrateDataStructure(poDataStructurePA, moEmotionTriple);
 			} else if (eContentType.BASICEMOTION
-					.equals(moDataStructurePA.moContentType)) {
-				integrateDataStructure(moDataStructurePA, moEmotionTriple);
+					.equals(poDataStructurePA.moContentType)) {
+				integrateDataStructure(poDataStructurePA, moEmotionTriple);
 			} else if (eContentType.ENTITY
-					.equals(moDataStructurePA.moContentType)) {
-				integrateDataStructure(moDataStructurePA, moEntityTriple);
+					.equals(poDataStructurePA.moContentType)) {
+				integrateDataStructure(poDataStructurePA, moEntityTriple);
 			} else if (eContentType.ACTION
-					.equals(moDataStructurePA.moContentType)) {
-				integrateDataStructure(moDataStructurePA, moActionTriple);
+					.equals(poDataStructurePA.moContentType)) {
+				integrateDataStructure(poDataStructurePA, moActionTriple);
 			} else if (eContentType.DISTANCE
-					.equals(moDataStructurePA.moContentType)) {
-				integrateDataStructure(moDataStructurePA, moDistanceTriple);
+					.equals(poDataStructurePA.moContentType)) {
+				integrateDataStructure(poDataStructurePA, moDistanceTriple);
 			}
-			if (moDataStructurePA instanceof clsWordPresentationMesh) {
-				clsWordPresentationMesh mesh = (clsWordPresentationMesh) moDataStructurePA;
-				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
+			if (poDataStructurePA instanceof clsWordPresentationMesh) {
+				clsWordPresentationMesh oMesh = (clsWordPresentationMesh) poDataStructurePA;
+				for (clsAssociation externalAssociation : oMesh.moExternalAssociatedContent) {
 					checkAssociation(externalAssociation);
 				}
-				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
+				for (clsAssociation internalAssociation : oMesh.moInternalAssociatedContent) {
 					checkAssociation(internalAssociation);
 				}
 			}
-			if (moDataStructurePA instanceof clsThingPresentationMesh) {
-				clsThingPresentationMesh mesh = (clsThingPresentationMesh) moDataStructurePA;
-				for (clsAssociation externalAssociation : mesh.moExternalAssociatedContent) {
+			if (poDataStructurePA instanceof clsThingPresentationMesh) {
+				clsThingPresentationMesh oMesh = (clsThingPresentationMesh) poDataStructurePA;
+				for (clsAssociation externalAssociation : oMesh.moExternalAssociatedContent) {
 					checkAssociation(externalAssociation);
 				}
-				for (clsAssociation internalAssociation : mesh.moInternalAssociatedContent) {
+				for (clsAssociation internalAssociation : oMesh.moInternalAssociatedContent) {
 					checkAssociation(internalAssociation);
 				}
 			}
@@ -185,21 +185,21 @@ public class clsConcept {
 	 * 
 	 * @param mesh
 	 *            the WPM to be integrated.
-	 * @param identifier
+	 * @param poIdentifier
 	 *            the clsTriple to be used for identifying the WPM
 	 */
-	private void integrateDataStructure(clsDataStructurePA moDataStructurePA,
-			clsTriple<Integer, eDataType, eContentType> identifier) {
+	private void integrateDataStructure(clsDataStructurePA poDataStructurePA,
+			clsTriple<Integer, eDataType, eContentType> poIdentifier) {
 
 		clsWordPresentationMesh newMesh = new clsWordPresentationMesh(
 				new clsTriple<Integer, eDataType, eContentType>(
-						moDataStructurePA.moDS_ID,
-						moDataStructurePA.moDataStructureType,
-						moDataStructurePA.moContentType),
+						poDataStructurePA.moDS_ID,
+						poDataStructurePA.moDataStructureType,
+						poDataStructurePA.moContentType),
 				new ArrayList<clsAssociation>(), " ");
-		newMesh.moDS_ID = 0 + moDataStructurePA.moDS_ID;
+		newMesh.moDS_ID = 0 + poDataStructurePA.moDS_ID;
 		// TODO select fitting ePredicate
-		clsAssociation association = new clsAssociationSecondary(identifier,
+		clsAssociation association = new clsAssociationSecondary(poIdentifier,
 				moConceptMesh, newMesh, ePredicate.NONE);
 
 		if (moConceptMesh.moInternalAssociatedContent.contains(association)) {
@@ -274,23 +274,23 @@ public class clsConcept {
 	 * 
 	 * @since 13.10.2012 17:24:28
 	 * 
-	 * @param oDS_ID
+	 * @param pnDS_ID
 	 *            the ID of the Entity
-	 * @param oEntityContent
+	 * @param poEntityContent
 	 *            the Name of the Entity
-	 * @param oPositionContent
+	 * @param poPositionContent
 	 *            the String representation of the Position of the specified
 	 *            Entity
 	 */
-	private void integratePosition(Integer oDS_ID, String oEntityContent,
-			String oPositionContent) {
-		integrateEntity(oDS_ID, oEntityContent);
+	private void integratePosition(Integer pnDS_ID, String poEntityContent,
+			String poPositionContent) {
+		integrateEntity(pnDS_ID, poEntityContent);
 
 		for (clsQuadruppel<Entity, Action, Emotion, Distance> conceptEntity : moConceptEntities) {
-			if (conceptEntity.a.moDS_ID == oDS_ID) {
+			if (conceptEntity.a.moDS_ID == pnDS_ID) {
 				// clsLogger.jlog.info("Concept: found Position " +
 				// oPositionContent);
-				conceptEntity.d.setPosition((String) oPositionContent);
+				conceptEntity.d.setPosition((String) poPositionContent);
 				return;
 			}
 		}
