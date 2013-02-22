@@ -10,5 +10,12 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 public interface itfContextEntitySearchAlgorithm {
 
+    /**
+     * DOCUMENT (havlicek) - insert description
+     *
+     * @since 21.02.2013 21:18:43
+     *
+     * @param poWPMs
+     */
     void addWPMs(clsWordPresentationMesh... poWPMs);
 }

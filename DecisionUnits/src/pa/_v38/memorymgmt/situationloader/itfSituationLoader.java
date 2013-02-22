@@ -20,45 +20,17 @@ import config.clsProperties;
 public interface itfSituationLoader {
 
     /**
-     * DOCUMENT (havlicek) - set the clsConcept containing the context entities. Must be called before {@link generate()}.
-     * 
-     * @since 09.12.2012 08:32:05
-     * 
-     * @param poSituationConcept
-     *            the filled clsConcept
-     */
-    void setContextEntities(clsConcept poSituationConcept);
-
-    /**
-     * DOCUMENT (havlicek) -
-     * 
-     * @since 10.02.2013 15:30:30
-     * 
-     * @param poProps
-     *            Properties to be used by the situation loader and the associated algorithms.
-     */
-    void setProperties(clsProperties poProps);
-
-    /**
-     * DOCUMENT (havlicek) - insert description
-     * 
-     * @since 10.02.2013 15:30:44
-     * 
-     * @param poPrefix
-     */
-    void setPrefix(String poPrefix);
-
-    /**
-     * 
      * DOCUMENT (havlicek) - fetch the fully initialized situation.
      * 
      * @since 09.12.2012 08:34:06
      * 
      * @param poPrefix
-     *            the prefix to be passed down to the knowledgehandler
+     *            the prefix to be used for the generated clsSituations data structures.
+     * @param poConcept
+     *            the clsCocnept holding the context entities the search will be based on.
      * @param poProps
-     *            the properties to be passed down to the knowledgehandler
+     *            the properties passed on to the knowledge base handler and the search algorithms.
      * @return a clsSituation initialized with the data from the context entities.
      */
-    clsSituation generate();
+    clsSituation generate(String poPrefix, clsConcept poConcept, clsProperties poProps);
 }

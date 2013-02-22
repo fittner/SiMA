@@ -6,11 +6,9 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
-import pa._v38.memorymgmt.clsKnowledgeBaseHandlerFactory;
 import pa._v38.memorymgmt.itfKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
-import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
 import config.clsProperties;
 
 /**
@@ -21,23 +19,38 @@ import config.clsProperties;
  */
 public class clsSituationLoader implements itfSituationLoader {
 
+    /** Stored instance of a {@link clsConcept} passed on during creation. */
     private clsConcept moConcept;
+    /** The prefix to be used for the generated situations underlying data structure. */
     private String moPrefix;
+    /**
+     * The properties used to specify the search and other parameters: NOTE: add list of used properties here!
+     * 
+     * */
     private clsProperties moProperties;
 
+    /** The handler to be used for accessing the knowledge base. */
     private itfKnowledgeBaseHandler moKnowledgeBase;
 
-    /*
-     * (non-Javadoc)
+    /**
+     * DOCUMENT (havlicek) - insert description
      * 
-     * @since 09.12.2012 08:36:27
+     * @since 19.02.2013 20:38:19
      * 
-     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#setContextEntities (pa._v38.memorymgmt.datatypes.clsConcept)
+     * @param poConcept
+     * @param poPrefix
+     * @param poProperties
+     * @param poKnowledgeBase
      */
-    @Override
-    public final void setContextEntities(final clsConcept poSituationConcept) {
-        moConcept = poSituationConcept;
-        // TODO havlicek - check the data for validity
+    public clsSituationLoader(clsConcept poConcept, String poPrefix, clsProperties poProperties, itfKnowledgeBaseHandler poKnowledgeBase) {
+        super();
+        moConcept = poConcept;
+        moPrefix = poPrefix;
+        moProperties = poProperties;
+
+        // clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement(
+        // eInformationRepresentationManagementType.ARSI10_MGMT.name(), moPrefix, moProperties);
+        moKnowledgeBase = poKnowledgeBase;
     }
 
     /*
@@ -45,44 +58,18 @@ public class clsSituationLoader implements itfSituationLoader {
      * 
      * @since 17.12.2012 17:41:02
      * 
-     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#generate(java.lang .String, config.clsProperties)
+     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#generate(java.lang.String, pa._v38.memorymgmt.datatypes.clsConcept,
+     * config.clsProperties)
      */
     @Override
-    public final clsSituation generate() {
-        // TODO havlicek - not yet null save here!
+    public clsSituation generate(String poPrefix, clsConcept poConcept, clsProperties poProps) {
         clsSituation oFoundSituation = new clsSituation();
-        moKnowledgeBase = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement(
-                eInformationRepresentationManagementType.ARSI10_MGMT.name(), moPrefix, moProperties);
 
         if (moConcept.isEmpty()) {
             return oFoundSituation;
         }
 
         return oFoundSituation;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @since 10.02.2013 16:46:15
-     * 
-     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#setProperties(config .clsProperties)
-     */
-    @Override
-    public final void setProperties(final clsProperties poProps) {
-        moProperties = poProps;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @since 10.02.2013 16:46:15
-     * 
-     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#setPrefix(java. lang.String)
-     */
-    @Override
-    public final void setPrefix(final String poPrefix) {
-        moPrefix = poPrefix;
     }
 
 }

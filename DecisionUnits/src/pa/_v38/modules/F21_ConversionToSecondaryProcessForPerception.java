@@ -283,11 +283,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		log.info("Found Acts:" + oWPMConstruct.b);
 		
 		// Take the created WPMs and build a clsConcept out of them.
-//		moConcept = new clsConcept();
-//		moConcept.addWPMs(oWPMConstruct.a);
-//		moConcept.addWPMs(oWPMConstruct.b);
-//		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
-//		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
+		//TODO (havlicek) add new clsSituationLoader
 
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;

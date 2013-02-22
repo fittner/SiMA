@@ -18,6 +18,6 @@ import pa._v38.decisionpreparation.clsActionCodelet;
  */
 public class clsSituation {
 
-	private List<clsActionCodelet> moAssociatedActions;
+    private List<clsActionCodelet> moAssociatedActions;
 
 }

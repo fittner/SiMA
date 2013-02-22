@@ -19,5 +19,12 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
         }
     }
 
+    /**
+     * DOCUMENT (havlicek) - insert description
+     *
+     * @since 21.02.2013 21:18:59
+     *
+     * @param poDataStructurePA
+     */
     protected abstract void checkDataStructure(clsDataStructurePA poDataStructurePA);
 }
