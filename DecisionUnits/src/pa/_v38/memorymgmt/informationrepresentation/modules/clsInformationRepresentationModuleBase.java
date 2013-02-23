@@ -15,7 +15,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-
 import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 
@@ -91,27 +90,27 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	/**
-	 * Start the list search for a container as input
-	 *
-	 * @since 14.07.2011 16:12:29
-	 *
-	 * @param poReturnType
-	 * @param poDataContainerUnknown
-	 * @return
-	 */
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold){
-		//Use Listsearch for containers
-		
-		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown, prThreshold);}
-		
-		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
-	}
-	
-	public clsDataStructureContainer getContainer(clsDataStructurePA poInput) {
-		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
-	}
-	
+//	/**
+//	 * Start the list search for a container as input
+//	 *
+//	 * @since 14.07.2011 16:12:29
+//	 *
+//	 * @param poReturnType
+//	 * @param poDataContainerUnknown
+//	 * @return
+//	 */
+//	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold){
+//		//Use Listsearch for containers
+//		
+//		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown, prThreshold);}
+//		
+//		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
+//	}
+//	
+//	public clsDataStructureContainer getContainer(clsDataStructurePA poInput) {
+//		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+//	}
+//	
 	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
 		try {
 			clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
