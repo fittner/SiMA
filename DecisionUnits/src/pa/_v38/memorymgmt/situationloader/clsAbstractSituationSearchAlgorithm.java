@@ -7,19 +7,20 @@
 package pa._v38.memorymgmt.situationloader;
 
 import pa._v38.memorymgmt.datatypes.clsConcept;
+import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - insert description
+ * DOCUMENT (havlicek) - abstract implementation of the search algorithms interface for the situation search.
  * 
  * @author havlicek 10.02.2013, 15:06:56
  * 
  */
 public abstract class clsAbstractSituationSearchAlgorithm implements itfSituationSearchAlgorithm {
 
-    /**
-     * The basic concept
-     */
+    /** The basic concept */
     protected clsConcept moConcept;
+    /** The properties used to manipulate the search */
+    protected clsProperties moProperties;
 
     /*
      * (non-Javadoc)
@@ -29,8 +30,9 @@ public abstract class clsAbstractSituationSearchAlgorithm implements itfSituatio
      * @see pa._v38.memorymgmt.situationloader.itfSituationSearchAlgorithm#init()
      */
     @Override
-    public final void init(final clsConcept poConcept) {
+    public final void init(final clsConcept poConcept, final clsProperties poProperties) {
         moConcept = poConcept;
+        moProperties = poProperties;
     }
 
 }

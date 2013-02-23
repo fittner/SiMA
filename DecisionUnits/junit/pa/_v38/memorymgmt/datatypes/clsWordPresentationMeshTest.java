@@ -1,7 +1,7 @@
 /**
  * CHANGELOG
  *
- * 03.08.2012 ende - File created
+ * 03.08.2012 havlicek - File created
  *
  */
 package pa._v38.memorymgmt.datatypes;
@@ -19,9 +19,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (ende) - insert description
+ * DOCUMENT (havlicek) - insert description
  * 
- * @author ende 03.08.2012, 20:38:45
+ * @author havlicek 03.08.2012, 20:38:45
  * 
  */
 public class clsWordPresentationMeshTest {

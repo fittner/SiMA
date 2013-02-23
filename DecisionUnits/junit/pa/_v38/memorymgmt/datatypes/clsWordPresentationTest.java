@@ -1,7 +1,7 @@
 /**
  * CHANGELOG
  *
- * 03.08.2012 ende - File created
+ * 03.08.2012 havlicek - File created
  *
  */
 package pa._v38.memorymgmt.datatypes;
@@ -18,9 +18,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsTriple;
 
 /**
- * DOCUMENT (ende) - unit test for clsWorldPresentation
+ * DOCUMENT (havlicek) - unit test for clsWorldPresentation
  * 
- * @author ende 03.08.2012, 20:39:21
+ * @author havlicek 03.08.2012, 20:39:21
  * 
  */
 public class clsWordPresentationTest {
@@ -35,7 +35,7 @@ public class clsWordPresentationTest {
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - Test method for
+	 * DOCUMENT (havlicek) - Test method for
 	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#clsWordPresentation(clsTriple, Object)
 	 * (pa._v38.memorymgmt.datatypes.clsDataStructurePA)}
 	 * 
@@ -57,7 +57,7 @@ public class clsWordPresentationTest {
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - Test method for
+	 * DOCUMENT (havlicek) - Test method for
 	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#compareTo(pa._v38.memorymgmt.datatypes.clsDataStructurePA)}
 	 * 
 	 * @since 12.08.2012 09:07:09
@@ -79,7 +79,7 @@ public class clsWordPresentationTest {
 
 	/**
 	 * 
-	 * DOCUMENT (ende) - Test method for
+	 * DOCUMENT (havlicek) - Test method for
 	 * {@link pa._v38.memorymgmt.datatypes.clsWordPresentation#clone()
 	 * (pa._v38.memorymgmt.datatypes.clsDataStructurePA)}.
 	 * 

@@ -1,7 +1,7 @@
 /**
  * CHANGELOG
  *
- * 03.08.2012 ende - File created
+ * 03.08.2012 havlicek - File created
  *
  */
 package pa._v38.memorymgmt.datatypes;
@@ -17,25 +17,18 @@ import org.junit.Test;
 import pa._v38.tools.planningHelpers.PlanningNode;
 
 /**
- * DOCUMENT (ende) - insert description
+ * DOCUMENT (havlicek) - insert description
  * 
- * @author ende 03.08.2012, 15:58:48
+ * @author havlicek 03.08.2012, 15:58:48
  * 
  */
 public class clsDomainTest {
 
-	private clsDomain _domain;
+	private clsDomain moDomain;
 
-	/**
-	 * DOCUMENT (ende) - insert description
-	 * 
-	 * @since 03.08.2012 15:58:48
-	 * 
-	 * @throws java.lang.Exception
-	 */
 	@Before
 	public void setUp() throws Exception {
-		_domain = new clsDomain();
+		moDomain = new clsDomain();
 	}
 
 	/**
@@ -44,8 +37,8 @@ public class clsDomainTest {
 	 */
 	@Test
 	public final void constructorTest() {
-		assertEquals(clsDomain.class, _domain.getClass());
-		assertEquals(new ArrayList<PlanningNode>(), _domain.returnContent());
+		assertEquals(clsDomain.class, moDomain.getClass());
+		assertEquals(new ArrayList<PlanningNode>(), moDomain.returnContent());
 	}
 
 	/**
@@ -59,9 +52,9 @@ public class clsDomainTest {
 	@Test
 	public final void planFragmentTest() {
 		clsPlanFragment planFragment = mock(clsPlanFragment.class);
-		_domain.pushPlanFragment(planFragment);
-		assertEquals(planFragment, _domain.getPlanAtPos(0));
-		assertEquals(planFragment, _domain.returnContent().get(0));
+		moDomain.pushPlanFragment(planFragment);
+		assertEquals(planFragment, moDomain.getPlanAtPos(0));
+		assertEquals(planFragment, moDomain.returnContent().get(0));
 	}
 
 	/**
@@ -70,10 +63,10 @@ public class clsDomainTest {
 	@Test
 	public final void getSizeTest() {
 		// 0 element check
-		assertEquals(0, _domain.getSize());
+		assertEquals(0, moDomain.getSize());
 		clsPlanFragment planFragment = mock(clsPlanFragment.class);
-		_domain.pushPlanFragment(planFragment);
-		assertEquals(1, _domain.getSize());
+		moDomain.pushPlanFragment(planFragment);
+		assertEquals(1, moDomain.getSize());
 	}
 
 	/**
@@ -83,7 +76,7 @@ public class clsDomainTest {
 	@Test
 	public final void toStringTest() {
 		// 0 element check
-		assertEquals("", _domain.toString());
+		assertEquals("", moDomain.toString());
 		// TODO increase size
 	}
 

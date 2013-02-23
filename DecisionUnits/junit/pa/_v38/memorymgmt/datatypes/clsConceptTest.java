@@ -14,7 +14,6 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
 import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
@@ -32,11 +31,6 @@ import pa._v38.tools.clsQuadruppel;
 public class clsConceptTest {
 
     private clsConcept moConcept;
-
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     /**
      * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
@@ -60,14 +54,15 @@ public class clsConceptTest {
     /**
      * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyOnlyInitTest() {
-        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> quadListMock = mock(List.class);
-        when(quadListMock.isEmpty()).thenReturn(true);
+        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> oQuadListMock = mock(List.class);
+        when(oQuadListMock.isEmpty()).thenReturn(true);
 
         moConcept = new clsConcept();
 
-        moConcept.setConceptEntities(quadListMock);
+        moConcept.setConceptEntities(oQuadListMock);
 
         assertEquals("Empty List and nothing else should be empty.", true, moConcept.isEmpty());
     }
@@ -75,14 +70,15 @@ public class clsConceptTest {
     /**
      * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyWithConceptEntitiesTest() {
-        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> quadListMock = mock(List.class);
-        when(quadListMock.isEmpty()).thenReturn(false);
+        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> oQuadListMock = mock(List.class);
+        when(oQuadListMock.isEmpty()).thenReturn(false);
 
         moConcept = new clsConcept();
 
-        moConcept.setConceptEntities(quadListMock);
+        moConcept.setConceptEntities(oQuadListMock);
 
         assertEquals("Set of results present so not empty.", false, moConcept.isEmpty());
     }
@@ -90,16 +86,17 @@ public class clsConceptTest {
     /**
      * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyWithEmptyMeshTest() {
-        clsWordPresentationMesh wpmMock = mock(clsWordPresentationMesh.class);
+        clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(wpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(true);
 
         moConcept = new clsConcept();
 
-        moConcept.moConceptMesh = wpmMock;
+        moConcept.moConceptMesh = oWpmMock;
 
         assertEquals("Empty List and nothing else should be empty.", true, moConcept.isEmpty());
     }
@@ -107,17 +104,46 @@ public class clsConceptTest {
     /**
      * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
      */
+    @SuppressWarnings("unchecked")
     @Test
     public final void isEmptyWithInitMeshTest() {
-        clsWordPresentationMesh wpmMock = mock(clsWordPresentationMesh.class);
+        clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
         List<clsAssociation> associationListMock = mock(ArrayList.class);
-        when(wpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
         when(associationListMock.isEmpty()).thenReturn(false);
 
         moConcept = new clsConcept();
 
-        moConcept.moConceptMesh = wpmMock;
+        moConcept.moConceptMesh = oWpmMock;
 
         assertEquals("Set of results present so not empty.", false, moConcept.isEmpty());
     }
+
+    @Test
+    public final void equalsHashReflexivityWithEmptyTest() {
+        moConcept = new clsConcept();
+
+        assertEquals("The same object must be equal. <Reflexivity>", true, moConcept.equals(moConcept));
+        assertEquals("The same object must have the same hash. <Reflexivity>", moConcept.hashCode(), moConcept.hashCode());
+    }
+
+    @Test
+    public final void equalsHashSymmetryNewEmptyTest() {
+        moConcept = new clsConcept();
+        final clsConcept oConcept = new clsConcept();
+
+        assertEquals("Two new concepts are equal.", true, moConcept.equals(oConcept));
+        assertEquals("Two new concepts are equal. <Symmetry>", true, moConcept.equals(oConcept));
+        assertEquals("Two new empty concepts have the same hash. <Symmetry>", oConcept.hashCode(), moConcept.hashCode());
+    }
+
+    // @Test
+    // public final void equlasHashEmptyFilledNotSameTest() {
+    // moConcept = new clsConcept();
+    // final clsConcept oConcept =
+    // clsConceptTestFactory.create().withConceptEntity(new clsEntity(), new clsAction(), new clsEmotion(), new clsDistance()).getObject();
+    // }
+    //
+    //
+    //
 }

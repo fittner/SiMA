@@ -27,12 +27,19 @@ public class clsConceptTestFactory extends clsAbstractDatatypesFactory<clsConcep
         moObject = new clsConcept();
     }
 
-    public clsConceptTestFactory create() {
+    public static clsConceptTestFactory create() {
         return new clsConceptTestFactory();
     }
 
     public clsConceptTestFactory withConceptEntities(List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> poConceptEntities) {
         moObject.setConceptEntities(poConceptEntities);
+        return this;
+    }
+
+    public clsConceptTestFactory withConceptEntity(clsEntity poEntity, clsAction poAction, clsEmotion poEmotion, clsDistance poDistance) {
+        clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> oQuad = new clsQuadruppel<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance>(
+                poEntity, poAction, poEmotion, poDistance);
+        moObject.getConceptEntities().add(oQuad);
         return this;
     }
 

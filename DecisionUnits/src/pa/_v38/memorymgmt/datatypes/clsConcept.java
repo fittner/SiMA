@@ -146,6 +146,13 @@ public class clsConcept {
             return false;
         }
         clsConcept other = (clsConcept) poObj;
+        if (moConceptEntities == null) {
+            if (other.moConceptEntities != null) {
+                return false;
+            }
+        } else if (!moConceptEntities.equals(other.moConceptEntities)) {
+            return false;
+        }
         if (moConceptMesh == null) {
             if (other.moConceptMesh != null) {
                 return false;
