@@ -4,7 +4,7 @@
  * @author zeilinger
  * 30.05.2010, 11:33:35
  */
-package pa._v38.memorymgmt.informationrepresentation;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
@@ -23,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
-import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -31,8 +30,9 @@ import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepre
  * @author zeilinger
  * 30.05.2010, 11:33:35
  * 
+ * @deprecated
  */
-public class clsInformationRepresentationManagement extends clsKnowledgeBaseHandler{
+public class clsInformationRepresentationManagement extends clsKnowledgeBaseHandler {
 		
 	public String moDatabaseSource; 
 	public String moSearchMethod; 
@@ -50,9 +50,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsInformationRepresentationManagement(String poPrefix,
-			clsProperties poProp) {
-
+	public clsInformationRepresentationManagement(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp); 	
 		applyProperties(poPrefix, poProp);
 		

@@ -4,10 +4,10 @@
  * @author zeilinger
  * 23.05.2010, 21:37:54
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 import pa._v38.tools.toText;
 
 /**
@@ -15,7 +15,7 @@ import pa._v38.tools.toText;
  * 
  * @author zeilinger
  * 23.05.2010, 21:37:54
- * 
+ * @deprecated
  */
 public class M02_PrimaryInformationMgmt extends clsInformationRepresentationModuleContainer  implements itfInspectorInternalState {
 	

@@ -4,7 +4,7 @@
  * @author zeilinger
  * 02.07.2010, 07:20:48
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.informationrepresentation.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -37,9 +37,9 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -48,7 +48,7 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBa
  * 02.07.2010, 07:20:48
  * 
  */
-public abstract class clsDataStructureComparison {
+public abstract class clsDataStructureComparisonTools {
 	
 	/** Weight for the matching for the content */
 	private static double mrMatchValContentFactor = 0.2; //Max 1.0

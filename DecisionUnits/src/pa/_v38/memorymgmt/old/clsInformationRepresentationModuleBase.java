@@ -4,7 +4,7 @@
  * @author zeilinger
  * 23.05.2010, 21:36:06
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 
@@ -15,8 +15,9 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -24,6 +25,7 @@ import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
  * @author zeilinger
  * 23.05.2010, 21:36:06
  * 
+ * @deprecated
  */
 public abstract class clsInformationRepresentationModuleBase implements itfInspectorInternalState {
 	protected String moSearchMethod; 
@@ -113,7 +115,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 //	
 	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
 		try {
-			clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+			clsDataStructureComparisonTools.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -122,7 +124,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public clsWordPresentationMesh getMesh(clsWordPresentationMesh poInput, int pnLevel) {
-		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+		return clsDataStructureComparisonTools.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 	}
 	
 	

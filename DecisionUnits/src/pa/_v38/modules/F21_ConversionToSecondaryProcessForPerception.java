@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.I6_1_send;
 import pa._v38.interfaces.modules.I6_4_receive;
 import pa._v38.interfaces.modules.I6_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -38,6 +38,7 @@ import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -131,14 +132,14 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	public F21_ConversionToSecondaryProcessForPerception(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler,
+			itfModuleMemoryAccess poLongTermMemory,
 			clsShortTermMemory poShortTermMemory,
 			clsShortTermMemory poConceptMemory,
 			clsEnvironmentalImageMemory poTempLocalizationStorage,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData,
-				poKnowledgeBaseHandler);
+				poLongTermMemory);
 
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
@@ -174,8 +175,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 				moAssociatedMemories_OUT);
 		// text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		// text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
-		text += toText.valueToTEXT("moKnowledgeBaseHandler",
-				moKnowledgeBaseHandler);
+//		text += toText.valueToTEXT("moKnowledgeBaseHandler",
+//				moKnowledgeBaseHandler);
 		text += toText.valueToTEXT("moConcept", moConcept);
 		text += toText.valueToTEXT("moConceptMemory", moConceptMemory.toString());
 		return text;
@@ -351,7 +352,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 			// level 2. Input is a WPM, therefore, only WPM is returned
 			// FIXME AW: As the intention is loaded, all other connected
 			// containers are loaded here. This is too specialized
-			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) searchCompleteMesh(oRIWPM, 2);
+			clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) this.getLongTermMemory().searchCompleteMesh(oRIWPM, 2);
 			// Add the enhanced WPM to a new list, as the enhanced WPM are
 			// complete and the former RI are not.
 			oEnhancedRIWPMList.add(oEnhancedWPM);
@@ -416,7 +417,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		poProcessedList.add(poTPM);
 
 		// Get the WPM for the thing presentation itself
-		clsAssociationWordPresentation oWPforObject = getWPMesh(poTPM, 1.0);
+		clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getSecondaryDataStructure(poTPM, 1.0);
 		// Copy object
 		if (oWPforObject != null) {
 			try {
@@ -455,7 +456,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 				// Case AssociationAttribute
 				if (oTPMExternalAss instanceof clsAssociationAttribute) {
 					// Get the location templates
-					clsAssociationWordPresentation oWPforTPAttribute = getWPMesh((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
+					clsAssociationWordPresentation oWPforTPAttribute = this.getLongTermMemory().getSecondaryDataStructure((clsPrimaryDataStructure) oTPMExternalAss.getLeafElement(), 1.0);
 					if (oWPforTPAttribute != null) {
 						clsWordPresentation oAttributeWP = null;
 						try {
@@ -493,7 +494,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 					// Get the DriveMesh
 					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss
 							.getLeafElement();
-					clsWordPresentation oDMWP = convertDriveMeshToWP(oDM);
+					clsWordPresentation oDMWP = clsGoalTools.convertDriveMeshToWP(oDM);
 
 					// Create an association between the both structures and add
 					// the association to the external associationlist of the

@@ -27,7 +27,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsConcept;
@@ -62,7 +63,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	@Mock
 	private SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData;
 	@Mock
-	private clsKnowledgeBaseHandler poKnowledgeBaseHandler;
+	private itfModuleMemoryAccess moLongTermMemory;
 	@Mock
 	private clsShortTermMemory poShortTermMemory;
 	@Mock
@@ -112,14 +113,14 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 													// ArrayList<Object>>)
 													// mock(anyMapOf(eInterfaces.class,
 													// anyListOf(Object.class).getClass()).getClass());
-		poKnowledgeBaseHandler = mock(clsKnowledgeBaseHandler.class);
+		moLongTermMemory = mock(clsLongTermMemoryHandler.class);
 		poShortTermMemory = mock(clsShortTermMemory.class);
 		poTempLocalizationStorage = mock(clsEnvironmentalImageMemory.class);
 
 		when(poProp.getPropertyString(anyString())).thenReturn("BASIC");
 
 		_f21 = new F21_ConversionToSecondaryProcessForPerception(poPrefix,
-				poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler,
+				poProp, poModuleList, poInterfaceData, moLongTermMemory,
 				poShortTermMemory, poTempLocalizationStorage, poTempLocalizationStorage, 
 				new DT3_PsychicEnergyStorage());
 	}

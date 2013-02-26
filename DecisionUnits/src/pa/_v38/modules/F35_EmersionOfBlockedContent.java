@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I5_7_receive;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.I5_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.storage.DT2_BlockedContentStorage;
@@ -69,9 +69,9 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	 */
 	public F35_EmersionOfBlockedContent(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, DT2_BlockedContentStorage poBlockedContentStorage)
+			itfModuleMemoryAccess poLongTermMemory, DT2_BlockedContentStorage poBlockedContentStorage)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		moBlockedContentStorage = poBlockedContentStorage;
 
@@ -94,7 +94,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 		//text += toText.valueToTEXT("moAssociatedMemories_IN", moAssociatedMemories_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moAssociatedMemories_OUT", moAssociatedMemories_OUT);
-		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		//text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
 		return text;
 	}	

@@ -19,8 +19,11 @@ import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
+import pa._v38.memorymgmt.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.clsSearchSpaceManager;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 import pa._v38.modules.clsPsychicApparatus;
 
 
@@ -46,7 +49,9 @@ public class clsProcessor implements itfProcessor  {
 	/** the private instance of the psychic apparatus; @since 12.07.2011 11:00:15 */
 	private clsPsychicApparatus moPsyApp;
 	/** the private instance of the knowledgebasehandeler/memory; @since 12.07.2011 11:00:30 */
-	private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	//private clsKnowledgeBaseHandler moKnowledgeBaseHandler;
+	private itfModuleMemoryAccess moMemory;
+	private itfSearchSpaceAccess moSearchSpace;
 	/** the rate of the constantly produced libido; @since 12.07.2011 11:00:52 */
 	private double mrLibidostream;
 		
@@ -96,9 +101,16 @@ public class clsProcessor implements itfProcessor  {
 	 */
 	private void applyProperties(String poPrefix, clsProperties poProp, int uid) {
 		String pre = clsProperties.addDot(poPrefix);
-	
-		moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
-		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);
+		
+		//Create knowledgebase
+		//moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
+		
+		moSearchSpace = new clsSearchSpaceManager(pre + P_KNOWLEDGEABASE, poProp);
+		moMemory = new clsLongTermMemoryHandler(moSearchSpace);
+		
+		//Create psychic apparatus
+		//moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);
+		moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moMemory, uid);
 
 		mrLibidostream = poProp.getPropertyDouble(pre+P_LIBIDOSTREAM);
 	}

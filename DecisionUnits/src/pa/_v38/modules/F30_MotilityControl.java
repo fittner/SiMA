@@ -15,7 +15,7 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.clsShortTermMemory;
@@ -58,9 +58,9 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 * @throws Exception
 	 */
 	public F30_MotilityControl(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsShortTermMemory poTempLocalizationStorage,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);

@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
 import pa._v38.modules.clsModuleBase;
 import pa._v38.storage.clsEnvironmentalImageMemory;
 import pa._v38.storage.clsShortTermMemory;

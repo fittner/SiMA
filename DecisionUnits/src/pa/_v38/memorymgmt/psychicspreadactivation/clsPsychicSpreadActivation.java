@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -17,7 +18,6 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 
 import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivationNode;
-import pa._v38.modules.clsModuleBaseKB;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
@@ -32,10 +32,12 @@ import pa._v38.tools.clsPair;
  */
 public class clsPsychicSpreadActivation {
 	
-	clsModuleBaseKB moModuleBase;
-	Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
+	private static final double moDefaultConsumeValue = 0.2;
 	
-	public clsPsychicSpreadActivation(clsModuleBaseKB poModuleBase) {
+	private itfSearchSpaceAccess moModuleBase;
+	private Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
+	
+	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase) {
 		moModuleBase = poModuleBase;
 	}
 
@@ -89,7 +91,8 @@ public class clsPsychicSpreadActivation {
 	public void getAssociatedImagesPerception(clsThingPresentationMesh poOriginImage, double prThreshold) {
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultMesh = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
-		moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
+		//moModuleBase.searchMesh(poOriginImage, oSearchResultMesh, eContentType.RI, prThreshold, 1);
+		oSearchResultMesh = moModuleBase.searchMesh(poOriginImage, eContentType.RI, prThreshold, 1);
 
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
@@ -120,7 +123,8 @@ public class clsPsychicSpreadActivation {
 	 * @param poOriginImage
 	 */
 	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
-		poOriginImage = (clsThingPresentationMesh) moModuleBase.searchCompleteMesh(poOriginImage, 2);
+		poOriginImage = (clsThingPresentationMesh) moModuleBase.getMesh(poOriginImage, 2);
+		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
@@ -289,7 +293,8 @@ public class clsPsychicSpreadActivation {
 	 * @return
 	 */
 	private double getEnergyConsumptionValue(clsThingPresentationMesh poEnhancedOriginImage) {
-		return 0.2;
+		//TODO: This is a parameterizable value and not constant
+		return moDefaultConsumeValue;
 	}
 	
 	/**

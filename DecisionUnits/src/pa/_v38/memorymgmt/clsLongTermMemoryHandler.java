@@ -1,0 +1,190 @@
+/**
+ * CHANGELOG
+ *
+ * 25.02.2013 wendt - File created
+ *
+ */
+package pa._v38.memorymgmt;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+import org.apache.log4j.Logger;
+
+import pa._v38.memorymgmt.datatypes.clsAffect;
+import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
+import pa._v38.tools.clsDebugTools;
+import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.clsPair;
+
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 25.02.2013, 14:40:42
+ * 
+ */
+public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
+	
+	private itfSearchSpaceAccess moSearchSpaceMethods;
+	private clsPsychicSpreadActivation moSpreadActivationHandler;
+	
+	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
+	
+	public clsLongTermMemoryHandler(itfSearchSpaceAccess poSearchSpaceMethods) {
+		moSearchSpaceMethods = poSearchSpaceMethods;
+		moSpreadActivationHandler = new clsPsychicSpreadActivation(moSearchSpaceMethods);
+		log.info("Initialize " + this.getClass().getName());
+	}
+	
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 14:59:22
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#search(pa._v38.memorymgmt.enums.eDataType, java.util.ArrayList, java.util.ArrayList)
+	 */
+	@Override
+	public <E> ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> searchEntity(eDataType poDataType, ArrayList<E> poPattern) {
+		ArrayList<clsPair<Integer, clsDataStructurePA>> oSearchPattern = new ArrayList<clsPair<Integer,clsDataStructurePA>>(); 
+
+		createSearchPattern(poDataType, poPattern, oSearchPattern);	//Create a pattern, search for type, poDataType 4096=TP, Input-Container
+		ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult = moSearchSpaceMethods.searchEntity(oSearchPattern);
+		
+		return poSearchResult;
+		//accessKnowledgeBase(poSearchResult, oSearchPattern); 
+		//log.debug("Search for pattern: " + oSearchPattern.toString() + ". Result: " + poSearchResult.toString());
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 14:59:22
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#executePsychicSpreadActivation(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh, double)
+	 */
+	@Override
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn) {
+		//Add the activated image to the already processed list
+		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
+		oAlreadyActivatedImages.add(poInput);
+		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages);
+		log.debug("Psychic Spread Activation output: " + poInput);
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 14:59:22
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#getSecondaryDataStructure(pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure, double)
+	 */
+	@Override
+	public clsAssociationWordPresentation getSecondaryDataStructure(clsPrimaryDataStructure poDataStructure, double prThreshold) {
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+		clsAssociationWordPresentation oRetVal = null; 
+		
+		//If the input is a TPM, then search for a WPM
+		if (poDataStructure instanceof clsThingPresentationMesh) {
+			oSearchResult = searchEntity(eDataType.WPM, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)));
+			//If the input is a TP or DM, then search for the WP
+		} else if (poDataStructure instanceof clsAffect || poDataStructure instanceof clsThingPresentation) {
+			oSearchResult = searchEntity(eDataType.WP, new ArrayList<clsDataStructurePA>(Arrays.asList(poDataStructure)));
+		}
+		
+		//If something was found
+		if(oSearchResult.isEmpty() == false && oSearchResult.get(0).size() > 0 && oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().size() > 0){
+			//Get the best match if higher than the threshold
+			if (oSearchResult.get(0).get(0).a >= prThreshold) {
+				oRetVal = (clsAssociationWordPresentation)oSearchResult.get(0).get(0).b.getMoAssociatedDataStructures().get(0);
+				if (poDataStructure.getMoDS_ID()==oRetVal.getRootElement().getMoDS_ID()) {
+					oRetVal.setRootElement(poDataStructure);
+				}
+			}	
+		}
+		
+		return oRetVal;
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description
+	 *
+	 * @since 13.07.2011 13:47:03
+	 *
+	 * @param <E>
+	 * @param poDataType
+	 * @param poList
+	 * @param poSearchPattern
+	 */
+	public <E> void createSearchPattern(eDataType poDataType, ArrayList<E> poList, ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPattern) {
+		
+		for (E oEntry : poList){
+			if(oEntry instanceof clsDataStructurePA){
+				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, (clsDataStructurePA)oEntry));
+			}
+			else if (oEntry instanceof clsPrimaryDataStructureContainer){
+				poSearchPattern.add(new clsPair<Integer, clsDataStructurePA>(poDataType.nBinaryValue, ((clsPrimaryDataStructureContainer)oEntry).getMoDataStructure()));
+			}
+		}
+	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 17:35:38
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#searchCompleteMesh(pa._v38.memorymgmt.datatypes.clsDataStructurePA, int)
+	 */
+	@Override
+	public clsDataStructurePA searchCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
+		clsDataStructurePA oRetVal = null;
+		
+		oRetVal = moSearchSpaceMethods.getMesh(poInput, pnLevel); 
+		//moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
+		
+		if (oRetVal==null) {
+			try {
+				throw new Exception("Error in searchMesh: the returned function for " + poInput + " is null. This always occurs if images of TPM does not have any WPM");
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		
+		//Move all associations from the found structure to the original structure of the input. This is used in Spreadactivation where the mesh is "growing"
+		if (poInput instanceof clsWordPresentationMesh) {
+			clsDebugTools.correctErronerusAssociations((clsWordPresentationMesh) oRetVal);
+			clsMeshTools.moveAllAssociations((clsWordPresentationMesh)poInput, (clsWordPresentationMesh)oRetVal);
+			
+		} else if (poInput instanceof clsThingPresentationMesh) {
+			clsMeshTools.moveAllAssociations((clsThingPresentationMesh)poInput, (clsThingPresentationMesh)oRetVal);
+		}
+		
+		return poInput;
+	}
+
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 17:27:34
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#searchMesh(pa._v38.memorymgmt.clsDataStructurePA, pa._v38.memorymgmt.eContentType, double, int)
+	 */
+	@Override
+	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel) {
+		return this.moSearchSpaceMethods.searchMesh(poPattern, poSearchContentType, prThreshold, pnLevel);
+	}
+
+	
+}

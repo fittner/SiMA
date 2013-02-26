@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
@@ -73,8 +73,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	public F57_MemoryTracesForDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-			super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			itfModuleMemoryAccess poLongTermMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
 		applyProperties(poPrefix, poProp); 
 		
@@ -252,7 +252,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				poSearchPattern.add(oSimulatorDM);
 				
 				// search for similar DMs in memory (similar to drive candidate) and return the associated TPMs
-				search(eDataType.TPM, poSearchPattern, oSearchResult);
+				oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, poSearchPattern);
 				
 				rMaxDecisionfactor = 0.0;
 				rCurrentMatchFactor = 0.0;

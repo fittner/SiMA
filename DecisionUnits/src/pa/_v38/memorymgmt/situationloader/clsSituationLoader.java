@@ -7,11 +7,11 @@
 package pa._v38.memorymgmt.situationloader;
 
 import config.clsProperties;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandlerFactory;
-import pa._v38.memorymgmt.itfKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
+import pa._v38.memorymgmt.old.clsKnowledgeBaseHandlerFactory;
+import pa._v38.memorymgmt.old.itfKnowledgeBaseHandler;
 
 /**
  * DOCUMENT (havlicek) - loader class to init a situation with data from the
