@@ -46,7 +46,7 @@ import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.informationrepresentation.enums.eDataStructureMatch;
+import pa._v38.memorymgmt.old.eDataStructureMatch;
 
 /**
  * DOCUMENT (zeilinger) - insert description
