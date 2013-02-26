@@ -4,9 +4,11 @@
  * @author zeilinger
  * 23.05.2010, 18:21:01
  */
-package pa._v38.memorymgmt.informationrepresentation;
+package pa._v38.memorymgmt.informationrepresentation.searchspace;
 
 import java.util.ArrayList;
+
+import org.apache.log4j.Logger;
 
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -17,8 +19,6 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceBase;
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCreator;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -29,6 +29,7 @@ import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceCr
  */
 public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	private clsSearchSpaceBase moSearchSpace; 
+	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
 	
 	public clsSearchSpaceBase getSearchSpace() {
 		return moSearchSpace;
@@ -52,9 +53,15 @@ public class clsSearchSpaceHandler implements itfInspectorInternalState {
 	}
 	
 	private void createSearchSpace(String poDatabaseSource, String poSourceName){
-		if(poDatabaseSource.equals(eDataSources.MAINMEMORY.name())){moSearchSpace = clsSearchSpaceCreator.createSearchSpace(poSourceName);}
-		else if(poDatabaseSource.equals(eDataSources.DATABASE.name())){/*TODO define database creator access */ ;}
-		else {throw new NullPointerException("database source not found " + poDatabaseSource);}
+		log.info("Init searchspace for " + poDatabaseSource + ", " + poSourceName);
+		if(poDatabaseSource.equals(eDataSources.MAINMEMORY.name())){ 
+			moSearchSpace = clsSearchSpaceCreator.createSearchSpace(poSourceName);
+			log.trace("Search space from " + poSourceName + " was created");
+		} else if(poDatabaseSource.equals(eDataSources.DATABASE.name())){ 
+			/*TODO define database creator access */ 
+		} else { 
+			throw new NullPointerException("database source not found " + poDatabaseSource);
+		}
 	}
 	
 	public clsSearchSpaceBase returnSearchSpace(){

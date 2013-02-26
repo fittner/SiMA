@@ -14,7 +14,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_10_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 
@@ -48,9 +48,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler,
+			itfModuleMemoryAccess poLongTermMemory,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
 		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;

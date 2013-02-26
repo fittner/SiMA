@@ -10,8 +10,6 @@ import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StackedBarChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_StateInspector;
 import inspectors.mind.pa._v38.graph.clsGraphData;
-import inspectors.mind.pa._v38.graph.clsMeshKnowledgebase;
-
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 
@@ -166,11 +164,11 @@ public class clsInspectorTab_Memory extends Inspector implements TreeSelectionLi
 
 		//special memory tree...
 		if (poModuleName.equals("KB")) {
-			oRetVal.addInspector(new cls_StateInspector(moPA.moKnowledgeBaseHandler), "State");
+			//oRetVal.addInspector(new cls_StateInspector(moPA.moKnowledgeBaseHandler), "State");
 		} else if (poModuleName.equals("TPM")) {
 			
 		} else if (poModuleName.equals("TP")) {
-			oRetVal.addInspector(new clsMeshKnowledgebase(moPA.moKnowledgeBaseHandler), "KB:TP");
+			//oRetVal.addInspector(new clsMeshKnowledgebase(moPA.moKnowledgeBaseHandler), "KB:TP");
 			
 		} else if (poModuleName.equals("Libido Storage")) {
 			oRetVal.addInspector(new cls_StateInspector(moPA.moLibidoBuffer), "State");

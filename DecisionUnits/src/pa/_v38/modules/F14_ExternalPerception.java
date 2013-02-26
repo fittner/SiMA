@@ -26,7 +26,7 @@ import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I2_6_send;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandler.clsActivationComperator;
 import pa._v38.memorymgmt.datahandler.clsDataStructureConverter;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
@@ -111,8 +111,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F14_ExternalPerception(String poPrefix, clsProperties poProp,
-			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		moPerceptionSymbolsForInspectors = new ArrayList<clsInspectorPerceptionItem>();
 		applyProperties(poPrefix, poProp);
 	}
@@ -265,7 +265,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//TODO @CM: Please adapt the SELF for your needs. 
 		
 		
-		clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity(eContent.SELF.toString(), "CIRCLE", "FFFFBF");
+		clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
 		
 		//clsMeshTools.createAssociationAttribute(oSELF, poStructureB, prWeight, pnAddMode)
 		
@@ -554,7 +554,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			ArrayList<clsDataStructurePA> oAssociatedElements = new ArrayList<clsDataStructurePA>();
 			ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
 			extractStimulusUnknownFeatures(oAssociatedElements, oInputTPM, oOutputTPM);
-			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult2); 
+			oSearchResult2 = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, oAssociatedElements); 
 			addStimulusAttributeAssociations(oSearchResult2, oOutputTPM); 
 			
 			
@@ -731,7 +731,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		}
 				
 		//Assign TP to the identified object in PerceivedImage_IN
-		search(eDataType.TP, poSearchPattern, oSearchResult); 
+		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TP, poSearchPattern); 
 		//Take the best match for object
 		oRetVal = createImage(oSearchResult);
 		
@@ -777,7 +777,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	
 		//oSearchResult = search(eDataType.DM, poPerception);
 		
-		search(eDataType.DM, poPerception, oSearchResult);
+		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.DM, poPerception);
 		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
 		addAssociations(oSearchResult, poPerception);
 		//}
@@ -877,7 +877,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			&& poPerceptionEntry.getMoDataStructure() instanceof clsThingPresentationMesh){
 
 			extractUnknownData(oAssociatedElements, poPerceptionEntry, poNewImage); 
-			search(eDataType.UNDEFINED, oAssociatedElements, oSearchResult); 
+			oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, oAssociatedElements); 
 		 	addAttributeAssociations(oSearchResult, poNewImage); 
 		 }
 	}
@@ -1095,7 +1095,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 						
 				}
 								
-				search(eDataType.DM, poSearchPattern, oSearchResults);	
+				oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DM, poSearchPattern);	
 				
 				//TODO: embed this code in search function
 				for(ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchResult :oSearchResults) {

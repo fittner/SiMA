@@ -4,7 +4,7 @@
  * @author zeilinger
  * 12.08.2010, 20:45:36
  */
-package pa._v38.interfaces.knowledgebase;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 

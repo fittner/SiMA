@@ -21,7 +21,7 @@ import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
@@ -121,12 +121,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
 		//super(poPrefix, poProp, poModuleList, poInterfaceData);
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
 		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);

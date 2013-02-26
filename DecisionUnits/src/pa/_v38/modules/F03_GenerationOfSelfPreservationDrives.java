@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.I2_2_receive;
 import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
@@ -79,8 +79,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	public F03_GenerationOfSelfPreservationDrives(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			itfModuleMemoryAccess poMemory, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		applyProperties(poPrefix, poProp);
 		fillOrificeMapping();
 		moHomeostaisImpactFactors = new HashMap<String, Double>();

@@ -8,13 +8,18 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
+import du.enums.eOrgan;
+import du.enums.pa.eDriveComponent;
+
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
+import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -1013,6 +1018,58 @@ public class clsGoalTools {
 		}
 		
 		return oResult;
+	}
+	
+	/**
+	 * Convert a DM into an Affect, which is then converted into a word presentation affect
+	 * (wendt)
+	 *
+	 * @since 30.01.2012 16:30:20
+	 *
+	 * @param poDM
+	 * @return
+	 */
+	public static clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
+		clsWordPresentation oRetVal = null;
+		
+		//Generate the instance of the class affect
+		//clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getQuotaOfAffect()));
+		//Search for the WP of the affect
+		//clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
+		
+		//Get drive Content String
+		//FIXME AW: Corrent this getdebuginfo
+		//String oX[] = poDM.getDebugInfo().split("\\:");
+		//String oDriveContent = oX[0] + oX[1] + oX[2];
+		//Get the content of the affect strength
+		//the word presentation in an associationWP is ALWAYS the leaf element
+		
+		//Get the Drive component
+		eDriveComponent oDriveComponent = poDM.getDriveComponent();
+		
+		//Get partial drive
+		
+		//Get the bodily part
+		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
+		eOrgan oOrgan = poDM.getActualDriveSourceAsENUM();
+		
+		//Create the drive string from Drive component, orifice and organ
+		String poGoalName = oDriveComponent.toString() + oOrgan.toString();
+		
+		//eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
+		
+		// Consider influence of multiple drive-satisfaction on decision making (via affect-level)
+		eAffectLevel oAffectContent = eAffectLevel.convertActivationAndQoAToAffectLevel(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+		
+		//Construct WP
+		String oWPContent = poGoalName + ":" + oAffectContent.toString();
+		
+		//Create the new WP for that drive
+		clsWordPresentation oResWP = (clsWordPresentation)clsDataStructureGenerator.generateDataStructure(eDataType.WP, new clsPair<eContentType, Object>(eContentType.AFFECT, oWPContent));
+		
+		oRetVal = oResWP;
+		
+		return oRetVal;
 	}
 	
 

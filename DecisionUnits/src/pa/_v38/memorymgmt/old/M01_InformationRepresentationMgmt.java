@@ -4,17 +4,17 @@
  * @author zeilinger
  * 19.05.2010, 07:45:54
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 import pa._v38.tools.toText;
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 19.05.2010, 07:45:54
- * 
+ * @deprecated
  */
 public class M01_InformationRepresentationMgmt extends clsInformationRepresentationModuleContainer implements itfInspectorInternalState {
 	public KB01_SecondaryDataStructureMgmt moKB01SecondaryDataStructureMgmt; 

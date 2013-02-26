@@ -4,7 +4,7 @@
  * @author zeilinger
  * 14.08.2010, 12:39:26
  */
-package pa._v38.memorymgmt.exceptions;
+package pa._v38.memorymgmt.old;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -12,6 +12,7 @@ package pa._v38.memorymgmt.exceptions;
  * @author zeilinger
  * 14.08.2010, 12:39:26
  * 
+ * @deprecated
  */
 public class EmptyListException extends Exception{
 

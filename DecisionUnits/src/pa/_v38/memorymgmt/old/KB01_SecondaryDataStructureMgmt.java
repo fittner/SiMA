@@ -1,10 +1,10 @@
 /**
- * KB03_ExternalPerceptionMgmt.java: DecisionUnits - pa.informationrepresentation
+ * clsSecondaryDataStructureMgmt.java: DecisionUnits - pa.informationrepresentation
  * 
  * @author zeilinger
- * 19.05.2010, 07:50:02
+ * 19.05.2010, 07:47:02
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 
@@ -12,31 +12,33 @@ import pa._v38.tools.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
- * 19.05.2010, 07:50:02
+ * 19.05.2010, 07:47:02
  * 
+ * @deprecated
  */
-public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationModuleBase{
+public class KB01_SecondaryDataStructureMgmt extends clsInformationRepresentationModuleBase {
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 
 	 * @author zeilinger
-	 * 23.05.2010, 22:59:07
+	 * 23.05.2010, 22:47:52
 	 *
 	 * @param poInformationRepresentationModulesContainer
 	 * @param poSearchSpaceHandler 
 	 */
-	public KB03_ExternalPerceptionMgmt(
+	public KB01_SecondaryDataStructureMgmt(
 			clsInformationRepresentationModuleContainer poInformationRepresentationModulesContainer, 
-											clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
+												clsSearchSpaceHandler poSearchSpaceHandler, String poSearchMethod) {
 		super(poInformationRepresentationModulesContainer, poSearchSpaceHandler, poSearchMethod);
 		// TODO (zeilinger) - Auto-generated constructor stub
 	}
@@ -44,21 +46,22 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	/* (non-Javadoc)
 	 *
 	 * @author zeilinger
-	 * 31.05.2010, 16:08:29
+	 * 31.05.2010, 16:06:40
 	 * 
 	 * @see pa.informationrepresentation.ARSi10.modules.clsInformationRepresentationModuleBase#listSearch(java.lang.String, pa.informationrepresentation.datatypes.clsDataStructureContainer)
 	 */
 	@Override
 	public ArrayList<clsPair<Double,clsDataStructureContainer>> listSearch(int poReturnType,
 			clsDataStructurePA poDataStructureUnknown) {
-		ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
-		ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareElements(poDataStructureUnknown); 
-	
-		for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
-			clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsHomeostaticRepresentation)oPatternElement.b);
-			oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
-		}
-		return oDataStructureContainerList;
+		
+			ArrayList<clsPair<Double,clsDataStructureContainer>> oDataStructureContainerList = new ArrayList<clsPair<Double,clsDataStructureContainer>>(); 
+			ArrayList<clsPair<Double,clsDataStructurePA>> oMatchedDataStructures = compareElements(poDataStructureUnknown); 
+			
+			for(clsPair<Double, clsDataStructurePA> oPatternElement : oMatchedDataStructures){
+				clsDataStructureContainer oDataStructureContainer = getDataContainer(poReturnType, (clsSecondaryDataStructure)oPatternElement.b);
+				oDataStructureContainerList.add(new clsPair<Double, clsDataStructureContainer>(oPatternElement.a, oDataStructureContainer));
+			}
+			return oDataStructureContainerList;
 	}
 	
 	/**
@@ -71,15 +74,15 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param oPatternElement
 	 * @return
 	 */
-	private clsDataStructureContainer getDataContainer(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+	private clsDataStructureContainer getDataContainer(int poReturnType, clsSecondaryDataStructure poDataStructure) {
 		
-		clsPrimaryDataStructureContainer oDataStructureContainer = new clsPrimaryDataStructureContainer(null, null);
-		oDataStructureContainer.setMoDataStructure(poDataStructure); 
-		oDataStructureContainer.setMoAssociatedDataStructures(readOutSearchSpace(poReturnType, poDataStructure)); 
-				
+			clsSecondaryDataStructureContainer oDataStructureContainer = new clsSecondaryDataStructureContainer("", "");
+			oDataStructureContainer.setMoDataStructure(poDataStructure); 
+			oDataStructureContainer.setMoAssociatedDataStructures(readOutSearchSpace(poReturnType, poDataStructure)); 
+			
 		return oDataStructureContainer;
 	}
-
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *
@@ -90,7 +93,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @param poDataStructure
 	 * @return
 	 */
-	private ArrayList<clsAssociation> readOutSearchSpace(int poReturnType, clsHomeostaticRepresentation poDataStructure) {
+	private ArrayList<clsAssociation> readOutSearchSpace(int poReturnType, clsSecondaryDataStructure poDataStructure) {
 		return moSearchSpaceHandler.readOutSearchSpace(poReturnType, poDataStructure);
 	}
 
@@ -104,9 +107,15 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @return
 	 */
 	private ArrayList<clsPair<Double,clsDataStructurePA>> compareElements(clsDataStructurePA poDataStructureUnknown) {
-		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
+		return clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 05.12.2011 16:35:18
+	 * 
+	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchContainer(int, pa._v38.memorymgmt.datatypes.clsDataStructureContainer, double)
+	 */
 	@Override
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> listSearchContainer(int poReturnType,clsDataStructureContainer poDataStructureUnknown, double prThreshold) {
 		//TODO: AW Add something here, or else the function will not be used
@@ -115,7 +124,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 
 	/* (non-Javadoc)
 	 *
-	 * @since 05.12.2011 16:37:46
+	 * @since 05.12.2011 16:34:58
 	 * 
 	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#listSearchMesh(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA, double, int)
 	 */
@@ -127,7 +136,7 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 
 	/* (non-Javadoc)
 	 *
-	 * @since Aug 9, 2012 1:25:22 PM
+	 * @since Aug 9, 2012 12:57:10 PM
 	 * 
 	 * @see pa._v38.memorymgmt.informationrepresentation.modules.clsInformationRepresentationModuleBase#graphSearch(int, pa._v38.memorymgmt.datatypes.clsDataStructurePA)
 	 */
@@ -135,8 +144,8 @@ public class KB03_ExternalPerceptionMgmt extends clsInformationRepresentationMod
 	public ArrayList<clsPair<Double, clsDataStructureContainer>> associativeSearch(
 			int poReturnType, clsDataStructurePA poDataStructureUnknown) {
 		// TODO (schaat) - Auto-generated method stub
-		
-		return listSearch(poReturnType, poDataStructureUnknown); 
-
+		return null;
 	}
+	
+	
 }

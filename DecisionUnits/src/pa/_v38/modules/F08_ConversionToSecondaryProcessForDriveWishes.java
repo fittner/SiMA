@@ -25,7 +25,7 @@ import pa._v38.interfaces.modules.I6_3_send;
 import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -75,10 +75,10 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @throws Exception
 	 */
 	public F08_ConversionToSecondaryProcessForDriveWishes(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler,
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poMemory,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
@@ -99,7 +99,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 		text += toText.listToTEXT("moDriveList_Input", moDriveList_Input);
 		text += toText.listToTEXT("moDriveList_Output", moDriveList_Output);		
-		text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
+		//text += toText.valueToTEXT("moKnowledgeBaseHandler", moKnowledgeBaseHandler);
 		
 		return text;
 	}
@@ -185,7 +185,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
 						
-						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						clsThingPresentationMesh oTPM = this.getLongTermMemory().searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
 						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
 						
 						
@@ -247,7 +247,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			}
 			
 			//Convert drive to affect
-			clsWordPresentation oAffect = convertDriveMeshToWP(oPair);
+			clsWordPresentation oAffect = clsGoalTools.convertDriveMeshToWP(oPair);
 			
 			//Get the drive content
 			String oDriveContent = clsImportanceTools.getDriveType(oAffect.getMoContent());
@@ -267,7 +267,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			
 			//Convert the object to a WPM
 			clsWordPresentationMesh oDriveObject = null;
-			clsAssociationWordPresentation oWPforObject = getWPMesh(oPair.getActualDriveObject(), 1.0);
+			clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getSecondaryDataStructure(oPair.getActualDriveObject(), 1.0);
 			if (oWPforObject!=null) {
 				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
 					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();

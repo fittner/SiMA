@@ -4,14 +4,14 @@
  * @author zeilinger
  * 15.07.2010, 13:09:32
  */
-package pa._v38.memorymgmt.informationrepresentation.enums;
+package pa._v38.memorymgmt.old;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
  * 
  * @author zeilinger
  * 15.07.2010, 13:09:32
- * 
+ * @deprecated
  */
 public enum eDataStructureMatch {
 	MANDATORYMATCH(1.0),

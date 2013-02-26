@@ -4,7 +4,7 @@
  * @author zeilinger
  * 19.05.2010, 07:49:28
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -22,7 +22,8 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
 
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
  * @author zeilinger
  * 19.05.2010, 07:49:28
  * 
+ * @deprecated
  */
 public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationModuleBase{
 
@@ -195,7 +197,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	 * @return
 	 */
 	private ArrayList<clsPair<Double,clsDataStructurePA>> compareElements(clsDataStructurePA poDataStructureUnknown) {
-		return clsDataStructureComparison.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
+		return clsDataStructureComparisonTools.compareDataStructures(poDataStructureUnknown, moSearchSpaceHandler.returnSearchSpace());
 	}
 	
 	/**
@@ -209,7 +211,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	private ArrayList<clsPair<Double, clsDataStructureContainer>> compareElementsContainer(clsDataStructureContainer poContainerUnknown, double prThreshold) {
 		ArrayList<clsPair<Double, clsDataStructureContainer>> oRetVal = new ArrayList<clsPair<Double, clsDataStructureContainer>>();
 		
-		oRetVal = clsDataStructureComparison.compareDataStructuresContainer(moSearchSpaceHandler, poContainerUnknown, prThreshold);	
+		oRetVal = clsDataStructureComparisonTools.compareDataStructuresContainer(moSearchSpaceHandler, poContainerUnknown, prThreshold);	
 		
 		return oRetVal;
 	}
@@ -225,7 +227,7 @@ public class KB02_InternalPerceptionMgmt extends clsInformationRepresentationMod
 	private ArrayList<clsPair<Double, clsDataStructurePA>> compareElementsMesh(clsDataStructurePA poUnknown, double prThreshold, int pnLevel) {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
-		oRetVal = clsDataStructureComparison.compareDataStructuresMesh(moSearchSpaceHandler, poUnknown, prThreshold, pnLevel);	
+		oRetVal = clsDataStructureComparisonTools.compareDataStructuresMesh(moSearchSpaceHandler, poUnknown, prThreshold, pnLevel);	
 		
 		return oRetVal;
 	}

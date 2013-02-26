@@ -23,7 +23,7 @@ import javax.vecmath.Vector3d;
 
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.eLoader;

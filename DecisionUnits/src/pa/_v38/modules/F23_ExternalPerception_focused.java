@@ -14,7 +14,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import config.clsProperties;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.interfaces.modules.I6_12_receive;
@@ -99,10 +99,10 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @throws Exception
 	 */
 	public F23_ExternalPerception_focused(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);

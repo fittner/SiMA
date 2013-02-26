@@ -4,7 +4,7 @@
  * @author zeilinger
  * 23.05.2010, 21:36:06
  */
-package pa._v38.memorymgmt.informationrepresentation.modules;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 
@@ -15,9 +15,9 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-
-import pa._v38.memorymgmt.informationrepresentation.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
  * @author zeilinger
  * 23.05.2010, 21:36:06
  * 
+ * @deprecated
  */
 public abstract class clsInformationRepresentationModuleBase implements itfInspectorInternalState {
 	protected String moSearchMethod; 
@@ -91,30 +92,30 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
 	}
 	
-	/**
-	 * Start the list search for a container as input
-	 *
-	 * @since 14.07.2011 16:12:29
-	 *
-	 * @param poReturnType
-	 * @param poDataContainerUnknown
-	 * @return
-	 */
-	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold){
-		//Use Listsearch for containers
-		
-		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown, prThreshold);}
-		
-		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
-	}
-	
-	public clsDataStructureContainer getContainer(clsDataStructurePA poInput) {
-		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
-	}
-	
+//	/**
+//	 * Start the list search for a container as input
+//	 *
+//	 * @since 14.07.2011 16:12:29
+//	 *
+//	 * @param poReturnType
+//	 * @param poDataContainerUnknown
+//	 * @return
+//	 */
+//	public ArrayList<clsPair<Double, clsDataStructureContainer>> searchDataContainer(int poReturnType, clsDataStructureContainer poDataContainerUnknown, double prThreshold){
+//		//Use Listsearch for containers
+//		
+//		if(moSearchMethod.equals(eSearchMethod.LISTSEARCH.name())){ return listSearchContainer(poReturnType, poDataContainerUnknown, prThreshold);}
+//		
+//		throw new IllegalArgumentException(" defined search method unknown " + moSearchMethod);
+//	}
+//	
+//	public clsDataStructureContainer getContainer(clsDataStructurePA poInput) {
+//		return clsDataStructureComparison.getCompleteContainer(poInput, moSearchSpaceHandler);
+//	}
+//	
 	public clsThingPresentationMesh getMesh(clsThingPresentationMesh poInput, int pnLevel) {
 		try {
-			clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+			clsDataStructureComparisonTools.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 		} catch (Exception e) {
 			// TODO (wendt) - Auto-generated catch block
 			e.printStackTrace();
@@ -123,7 +124,7 @@ public abstract class clsInformationRepresentationModuleBase implements itfInspe
 	}
 	
 	public clsWordPresentationMesh getMesh(clsWordPresentationMesh poInput, int pnLevel) {
-		return clsDataStructureComparison.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
+		return clsDataStructureComparisonTools.getCompleteMesh(poInput, moSearchSpaceHandler, pnLevel);
 	}
 	
 	

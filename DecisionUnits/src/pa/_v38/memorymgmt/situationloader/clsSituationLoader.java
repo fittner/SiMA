@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import config.clsProperties;
 import java.util.List;
 import java.util.Random;
 
@@ -15,6 +16,8 @@ import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
 import pa._v38.memorymgmt.situationloader.algorithm.clsGreedySearch;
 import config.clsProperties;
+import pa._v38.memorymgmt.old.clsKnowledgeBaseHandlerFactory;
+import pa._v38.memorymgmt.old.itfKnowledgeBaseHandler;
 
 /**
  * DOCUMENT (havlicek) - loader class to init a situation with data from the ontology

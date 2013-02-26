@@ -19,7 +19,7 @@ import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
@@ -74,9 +74,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @throws Exception
      */
     public F29_EvaluationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage,
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
-        super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+        super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
         
         this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);

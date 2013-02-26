@@ -29,7 +29,7 @@ import pa._v38.interfaces.modules.I5_6_send;
 import pa._v38.interfaces.modules.I2_6_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -100,8 +100,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 * @throws Exception
 	 */
 	public F46_MemoryTracesForPerception(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-								clsKnowledgeBaseHandler poKnowledgeBaseHandler, clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			itfModuleMemoryAccess poLongTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -248,7 +248,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		poSearchPattern.add(oPerceivedImage);
 		
 		// search for similar Images in memory (similar to PI) 
-		search(eDataType.UNDEFINED, poSearchPattern, oSearchResult);
+		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, poSearchPattern);
 		
 		// for every found similar RI
 		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
@@ -397,48 +397,48 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	
 	
 	
-	/**
-	 * Add associations 
-	 * wendt
-	 *
-	 * @since 18.08.2011 11:22:36
-	 *
-	 * @param poPerception
-	 */
-	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//	/**
+//	 * Add associations 
+//	 * wendt
+//	 *
+//	 * @since 18.08.2011 11:22:36
+//	 *
+//	 * @param poPerception
+//	 */
+//	private void assignDriveMeshes(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+//		
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//	
+//		//oSearchResult = search(eDataType.DM, poPerception);
+//		
+//		this.getMemory().searchEntity(eDataType.DM, poPerception, oSearchResult);
+//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+//		addAssociations(oSearchResult, poPerception);
+//		//}
+//		//addAssociations(oSearchResult, poPerception);
+//	}
 	
-		//oSearchResult = search(eDataType.DM, poPerception);
-		
-		search(eDataType.DM, poPerception, oSearchResult);
-		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-		addAssociations(oSearchResult, poPerception);
-		//}
-		//addAssociations(oSearchResult, poPerception);
-	}
-	
-	/**
-	 * Add associations 
-	 * schaat
-	 *
-	 * @since 6.07.2012 11:22:36
-	 *
-	 * @param poPerception
-	 */
-	private void assignEmotions(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-	
-		
-		search(eDataType.EMOTION, poPerception, oSearchResult);
-		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
-		addAssociations(oSearchResult, poPerception);
-		//}
-		//addAssociations(oSearchResult, poPerception);
-	}
+//	/**
+//	 * Add associations 
+//	 * schaat
+//	 *
+//	 * @since 6.07.2012 11:22:36
+//	 *
+//	 * @param poPerception
+//	 */
+//	private void assignEmotions(ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+//		
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+//			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//	
+//		
+//		this.getMemory().searchEntity(eDataType.EMOTION, poPerception, oSearchResult);
+//		//for (ArrayList<clsPair<Double,clsDataStructureContainer>> oRes : oSearchResult) {
+//		addAssociations(oSearchResult, poPerception);
+//		//}
+//		//addAssociations(oSearchResult, poPerception);
+//	}
 	
 //	/**
 //	 * Add default TP-associations 
@@ -576,7 +576,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				}
 			}
 			
-			executePsychicSpreadActivation(poPerceivedImage, 5.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, 5.0);
 			
 			//=== Perform system tests ===//
 			if (clsTester.getTester().isActivated()) {
@@ -594,13 +594,13 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
-				clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity("SELF", "", "");
+				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "", "");
 				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
 				oSELFList.add(oSELF);
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
 			}
 			
-			executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0);
 		}
 		
 		
@@ -706,7 +706,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
 			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 		
-		search(eDataType.TPM, oSearchStructure, oSearchResult); 
+		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TPM, oSearchStructure); 
 		//If nothing is found, cancel
 		if (oSearchResult.get(0).isEmpty()==true) {
 			return oRetVal;

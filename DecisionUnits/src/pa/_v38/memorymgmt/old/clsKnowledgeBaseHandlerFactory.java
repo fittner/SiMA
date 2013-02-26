@@ -4,10 +4,9 @@
  * @author zeilinger
  * 30.05.2010, 12:44:07
  */
-package pa._v38.memorymgmt;
+package pa._v38.memorymgmt.old;
 
 import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
-import pa._v38.memorymgmt.informationrepresentation.clsInformationRepresentationManagement;
 import config.clsProperties;
 
 /**
@@ -15,7 +14,7 @@ import config.clsProperties;
  * 
  * @author zeilinger
  * 30.05.2010, 12:44:07
- * 
+ * @deprecated
  */
 public class clsKnowledgeBaseHandlerFactory {
 

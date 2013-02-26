@@ -22,7 +22,7 @@ import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_9_send;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.informationrepresentation.modules.clsDataStructureComparison;
+import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 import config.clsProperties;
 
@@ -103,8 +103,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
 			DT1_LibidoBuffer poLibidoBuffer,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+			itfModuleMemoryAccess poLongTermMemory , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		moLibidoBuffer = poLibidoBuffer;
 		
@@ -292,7 +292,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		ArrayList<clsPair<Double,clsDataStructurePA>> oSearchResultContainer = new ArrayList<clsPair<Double,clsDataStructurePA>>();
 		
 		//Find matching images for the input image
-		searchMesh(poInput, oSearchResultContainer, eContentType.RILIBIDO, mrMatchThreshold, 2);	//About "2" = search only one level except the current one, i. e. direct matches
+		oSearchResultContainer = this.getLongTermMemory().searchMesh(poInput, eContentType.RILIBIDO, mrMatchThreshold, 2);	//About "2" = search only one level except the current one, i. e. direct matches
 		
 		// Here, spread activation for Libido shall be placed.
 		//searchContainer(oPerceptionInput, oSearchResultContainer);
@@ -304,7 +304,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Only TPMs are searched for if meshes are searched
 		clsThingPresentationMesh oBestCompareImage = (clsThingPresentationMesh) getBestMatch(oSearchResultContainer);
 		//Get a list of corresponding objects for the libido DMs in the input image
-		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureComparison.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, eContentType.LIBIDO);
+		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureComparisonTools.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, eContentType.LIBIDO);
 		
 		rReducedValue = addDriveMeshes(new clsPair<clsThingPresentationMesh, ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>>>(poInput, oLibidoDM), prLibidoReduceRate, prAvailableLibido);
 		

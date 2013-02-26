@@ -4,7 +4,7 @@
  * @author zeilinger
  * 19.05.2010, 07:56:25
  */
-package pa._v38.memorymgmt;
+package pa._v38.memorymgmt.old;
 
 import pa._v38.interfaces.itfInspectorInternalState;
 import config.clsProperties;
@@ -14,7 +14,7 @@ import config.clsProperties;
  * 
  * @author zeilinger
  * 19.05.2010, 07:56:25
- * 
+ * @deprecated
  */
 public abstract class clsKnowledgeBaseHandler implements itfKnowledgeBaseHandler, itfInspectorInternalState {
 	public static final String P_DATABASE_SOURCE = "database_source";

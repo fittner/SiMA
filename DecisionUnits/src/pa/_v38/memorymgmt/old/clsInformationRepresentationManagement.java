@@ -4,7 +4,7 @@
  * @author zeilinger
  * 30.05.2010, 11:33:35
  */
-package pa._v38.memorymgmt.informationrepresentation;
+package pa._v38.memorymgmt.old;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -12,20 +12,17 @@ import java.util.NoSuchElementException;
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsHomeostaticRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
-import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepresentationMgmt;
+import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -33,8 +30,9 @@ import pa._v38.memorymgmt.informationrepresentation.modules.M01_InformationRepre
  * @author zeilinger
  * 30.05.2010, 11:33:35
  * 
+ * @deprecated
  */
-public class clsInformationRepresentationManagement extends clsKnowledgeBaseHandler{
+public class clsInformationRepresentationManagement extends clsKnowledgeBaseHandler {
 		
 	public String moDatabaseSource; 
 	public String moSearchMethod; 
@@ -52,9 +50,7 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsInformationRepresentationManagement(String poPrefix,
-			clsProperties poProp) {
-
+	public clsInformationRepresentationManagement(String poPrefix, clsProperties poProp) {
 		super(poPrefix, poProp); 	
 		applyProperties(poPrefix, poProp);
 		
@@ -157,36 +153,36 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 		}
 		
 		
-		/**
-		 * Init memeory search for searching in memories with one single complete container as input
-		 *
-		 * @since 29.06.2011 15:03:32
-		 *
-		 * @param poSearchPatternList
-		 * @return
-		 *  
-		 */
-		@Override
-		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold){
-			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
-			
-			//Search for all template images in the store
-			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b, prThreshold);
-			moSearchResult.add(oSearchPatternMatch);
-			
-			if(moSearchResult.size() != 1){
-				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
-			}
-			
-			try {
-				return (ArrayList<clsPair<Double,clsDataStructureContainer>>)oSearchPatternMatch.clone();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			return oSearchPatternMatch;
-		}
+//		/**
+//		 * Init memeory search for searching in memories with one single complete container as input
+//		 *
+//		 * @since 29.06.2011 15:03:32
+//		 *
+//		 * @param poSearchPatternList
+//		 * @return
+//		 *  
+//		 */
+//		@Override
+//		public ArrayList<clsPair<Double,clsDataStructureContainer>> initMemorySearchContainer(clsPair<Integer, clsDataStructureContainer> poSearchPattern, double prThreshold){
+//			moSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+//			ArrayList<clsPair<Double,clsDataStructureContainer>> oSearchPatternMatch = new ArrayList<clsPair<Double,clsDataStructureContainer>>();
+//			
+//			//Search for all template images in the store
+//			oSearchPatternMatch = triggerModuleSearchContainer((int)poSearchPattern.a, poSearchPattern.b, prThreshold);
+//			moSearchResult.add(oSearchPatternMatch);
+//			
+//			if(moSearchResult.size() != 1){
+//				throw new NullPointerException("Missing search result: search pattern and search result not from the same size"); 
+//			}
+//			
+//			try {
+//				return (ArrayList<clsPair<Double,clsDataStructureContainer>>)oSearchPatternMatch.clone();
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			
+//			return oSearchPatternMatch;
+//		}
 		
 
 		/* (non-Javadoc)
@@ -221,24 +217,24 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			return oSearchPatternMatch;
 		}
 		
-	@Override
-	public clsDataStructureContainer initContainerRetrieval(clsDataStructurePA poInput) {
-		clsDataStructureContainer oRetVal = null; 
-		
-		if(poInput instanceof clsSecondaryDataStructure){
-			oRetVal = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.getContainer(poInput);
-		}
-		else if(poInput instanceof clsPhysicalRepresentation){
-			oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.getContainer(poInput);
-		}
-		else if(poInput instanceof clsHomeostaticRepresentation){
-			//oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
-		}
-		
-		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
-		
-		return oRetVal;
-	}
+//	@Override
+//	public clsDataStructureContainer initContainerRetrieval(clsDataStructurePA poInput) {
+//		clsDataStructureContainer oRetVal = null; 
+//		
+//		if(poInput instanceof clsSecondaryDataStructure){
+//			oRetVal = moM01InformationRepresentationMgmt.moKB01SecondaryDataStructureMgmt.getContainer(poInput);
+//		}
+//		else if(poInput instanceof clsPhysicalRepresentation){
+//			oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.getContainer(poInput);
+//		}
+//		else if(poInput instanceof clsHomeostaticRepresentation){
+//			//oRetVal = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer);
+//		}
+//		
+//		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+//		
+//		return oRetVal;
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -292,31 +288,31 @@ public class clsInformationRepresentationManagement extends clsKnowledgeBaseHand
 			return oSearchResult;
 	}
 	
-	/**
-	 * For each type of Information representation management, start the search.
-	 *
-	 * @since 30.06.2011 22:36:54
-	 *
-	 * @param poReturnType
-	 * @param poDataStructure
-	 * @return
-	 * 
-	 */
-	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearchContainer(Integer poReturnType, clsDataStructureContainer poDataContainer, double prThreshold) {
-		
-		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
-		
-		if(poDataContainer instanceof clsSecondaryDataStructureContainer){
-			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
-		}
-		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
-			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer, prThreshold);
-		}
-		
-		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
-		
-		return oSearchResult;
-	}
+//	/**
+//	 * For each type of Information representation management, start the search.
+//	 *
+//	 * @since 30.06.2011 22:36:54
+//	 *
+//	 * @param poReturnType
+//	 * @param poDataStructure
+//	 * @return
+//	 * 
+//	 */
+//	private ArrayList<clsPair<Double,clsDataStructureContainer>> triggerModuleSearchContainer(Integer poReturnType, clsDataStructureContainer poDataContainer, double prThreshold) {
+//		
+//		ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchResult = new ArrayList<clsPair<Double, clsDataStructureContainer>>(); 
+//		
+//		if(poDataContainer instanceof clsSecondaryDataStructureContainer){
+//			//TODO: AW If a secondaryinformationmanagement is used, it shall be placed here for the containercomparison
+//		}
+//		else if(poDataContainer instanceof clsPrimaryDataStructureContainer){
+//			oSearchResult = moM01InformationRepresentationMgmt.moM02PrimaryInformationMgmt.moKB02InternalPerceptionMgmt.searchDataContainer(poReturnType, poDataContainer, prThreshold);
+//		}
+//		
+//		else{ throw new IllegalArgumentException("DataStructureContainerUnknown unknown ");}
+//		
+//		return oSearchResult;
+//	}
 	
 	/**
 	 * For each type of Information representation management, start the search.

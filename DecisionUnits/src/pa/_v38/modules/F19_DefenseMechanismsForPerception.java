@@ -20,7 +20,7 @@ import pa._v38.interfaces.modules.I5_11_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I5_16_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -108,9 +108,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public F19_DefenseMechanismsForPerception(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces,
 			ArrayList<Object>> poInterfaceData, DT2_BlockedContentStorage poBlockedContentStorage,
-			clsKnowledgeBaseHandler poKnowledgeBaseHandler)
+			itfModuleMemoryAccess poMemory)
 			throws Exception {
-		super(poPrefix, poProp, poModuleList, poInterfaceData, poKnowledgeBaseHandler);
+		super(poPrefix, poProp, poModuleList, poInterfaceData, poMemory);
 		applyProperties(poPrefix, poProp);	
  		
  		//Get Blocked content storage
@@ -544,7 +544,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		clsThingPresentationMesh newTPMImage = new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.TPM, moBlockedContentType), new ArrayList<clsAssociation>(), "EMPTY");
 		//clsPrimaryDataStructureContainer oPattern = new clsPrimaryDataStructureContainer(newTI, new ArrayList<clsAssociation>());
 		
-		searchMesh(newTPMImage, oSearchResult, moBlockedContentType, 0.0, 2);	//Set pnLevel=2, in order to add direct matches
+		oSearchResult = this.getLongTermMemory().searchMesh(newTPMImage, moBlockedContentType, 0.0, 2);	//Set pnLevel=2, in order to add direct matches
 		
 		for (clsPair<Double, clsDataStructurePA> oPair : oSearchResult) {
 			oRetVal.add((clsThingPresentationMesh) oPair.b);
