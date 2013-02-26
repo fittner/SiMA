@@ -24,7 +24,6 @@ import pa._v38.memorymgmt.informationrepresentation.enums.eDataSources;
 import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
 import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
-import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import config.clsProperties;
@@ -79,7 +78,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	public static clsProperties getDefaultProperties(String poPrefix) {
 	   	String pre = clsProperties.addDot(poPrefix);
 	   	clsProperties oProp = new clsProperties();
-	   	oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
+	   	//oProp.putAll(clsKnowledgeBaseHandler.getDefaultProperties(pre) );
 	   	oProp.setProperty(pre+P_DATABASE_SOURCE, eDataSources.MAINMEMORY.toString());
 	   	oProp.setProperty(pre+P_SEARCH_METHOD, eSearchMethod.LISTSEARCH.toString());
 	   	//TODO HZ: Make the project file-path configurable
@@ -189,12 +188,13 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 		//Search for all template images in the store
 		oSearchPatternMatch = listSearchMesh((int)poSearchPattern.a, poSearchPattern.b, prThreshold, pnLevel);
 		
-		try {
-			//This part must be cloned, in order not to interfer with the memory
-			oResult = (ArrayList<clsPair<Double,clsDataStructurePA>>)oSearchPatternMatch.clone();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+//		try {
+//			//This part must be cloned, in order not to interfer with the memory
+//			oResult = (ArrayList<clsPair<Double,clsDataStructurePA>>)oSearchPatternMatch.clone();
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+		oResult = oSearchPatternMatch;
 		
 		return oResult;
 	}
