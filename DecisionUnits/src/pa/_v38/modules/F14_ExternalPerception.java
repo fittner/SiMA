@@ -265,7 +265,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//TODO @CM: Please adapt the SELF for your needs. 
 		
 		
-		clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
+		clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
 		
 		//clsMeshTools.createAssociationAttribute(oSELF, poStructureB, prWeight, pnAddMode)
 		

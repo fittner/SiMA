@@ -594,7 +594,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
-				clsThingPresentationMesh oSELF = this.debugGetThingPresentationMeshEntity("SELF", "", "");
+				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "", "");
 				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
 				oSELFList.add(oSELF);
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);

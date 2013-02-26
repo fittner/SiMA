@@ -24,5 +24,5 @@ public interface itfSearchSpaceAccess {
 	public ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> searchEntity(ArrayList<clsPair<Integer, clsDataStructurePA>> poSearchPatternList);
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsPair<Integer, clsDataStructurePA> poSearchPattern, double prThreshold, int pnLevel);
 	public ArrayList<clsPair<Double, clsDataStructurePA>> searchMesh(clsDataStructurePA poPattern, eContentType poSearchContentType, double prThreshold, int pnLevel);
-	public clsDataStructurePA getMesh(clsDataStructurePA poInput, int pnLevel);
+	public clsDataStructurePA getCompleteMesh(clsDataStructurePA poInput, int pnLevel);
 }

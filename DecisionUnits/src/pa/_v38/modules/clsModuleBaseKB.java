@@ -12,16 +12,6 @@ import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.memorymgmt.datatypes.clsThingPresentation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 
 
 /**
@@ -678,91 +668,7 @@ public abstract class clsModuleBaseKB extends clsModuleBase {
 //	
 //	}
 //	
-	protected clsThingPresentationMesh debugGetThingPresentationMeshEntity(String poContent, String poShape, String poColor) {
-		clsThingPresentationMesh oRetVal = null;
-		
-		ArrayList<clsThingPresentation> oPropertyList = new ArrayList<clsThingPresentation>();
-		//Shape
-		if (poShape!="") {
-			clsThingPresentation oShapeTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ShapeType, poShape));
-			oPropertyList.add(oShapeTP);
-		}
-		
-		//Color
-		if (poColor!="") {
-			clsThingPresentation oColorTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.COLOR, poColor));
-			oPropertyList.add(oColorTP);
-		}
-		
-		
-		//Create the TPM
-		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>
-			(eContentType.ENTITY, oPropertyList, poContent));
-				
-		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
-		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));
-				
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-				
-		oSearchResult = this.moMemoryAccess.searchEntity(eDataType.TPM, oSearchStructure); 
-				//If nothing is found, cancel
-		clsPrimaryDataStructureContainer oEmptySpaceContainer=null;
-		for (ArrayList<clsPair<Double,clsDataStructureContainer>> oE : oSearchResult) {
-			for (clsPair<Double,clsDataStructureContainer> oE2 : oE) {
-				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getMoContent().equals(poContent)==true) {
-					oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oE2.b;
-				}
-			}
-		}
-		
-		if (oSearchResult.get(0).isEmpty()==true) {
-			
-			return oRetVal;
-		}
-		//Create "Nothing"-objects for each position
-		//oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
-		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
-		oEmptySpaceContainerList.add(oEmptySpaceContainer);
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = 
-			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
-			
-		oSearchResult2 = this.moMemoryAccess.searchEntity(eDataType.DM, oEmptySpaceContainerList);
 
-
-		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
-		if (oSearchResult2.size()!=oEmptySpaceContainerList.size()) {
-			try {
-				throw new Exception("F46: addAssociations, Error, different Sizes");
-			} catch (Exception e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-			
-		for (int i=0;i<oSearchResult2.size();i++) {
-			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = oSearchResult2.get(i);
-			clsPrimaryDataStructureContainer oPC = oEmptySpaceContainerList.get(i);
-			if (oSearchPair.size()>0) {
-				oEmptySpaceContainerList.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
-			}
-				
-		}
-		
-		
-		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
-		clsThingPresentationMesh oEmptySpaceTPM = null;
-		try {
-			oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		oRetVal = oEmptySpaceTPM;
-		
-		return oRetVal;
-	}
 }
 
 

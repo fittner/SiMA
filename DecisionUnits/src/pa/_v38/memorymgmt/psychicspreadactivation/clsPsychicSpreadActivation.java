@@ -123,7 +123,7 @@ public class clsPsychicSpreadActivation {
 	 * @param poOriginImage
 	 */
 	public void getAssociatedImagesMemory(clsThingPresentationMesh poOriginImage) {
-		poOriginImage = (clsThingPresentationMesh) moModuleBase.getMesh(poOriginImage, 2);
+		poOriginImage = (clsThingPresentationMesh) moModuleBase.getCompleteMesh(poOriginImage, 2);
 		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {

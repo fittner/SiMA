@@ -185,7 +185,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
 						
-						clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+						clsThingPresentationMesh oTPM = this.getLongTermMemory().searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
 						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
 						
 						

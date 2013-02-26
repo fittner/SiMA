@@ -11,7 +11,9 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
+import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -26,6 +28,7 @@ import pa._v38.memorymgmt.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsDebugTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -66,6 +69,99 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 		//accessKnowledgeBase(poSearchResult, oSearchPattern); 
 		//log.debug("Search for pattern: " + oSearchPattern.toString() + ". Result: " + poSearchResult.toString());
 		
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 26.02.2013 11:25:29
+	 * 
+	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#searchExactEntityFromInternalAttributes(java.lang.String, java.lang.String, java.lang.String)
+	 */
+	@Override
+	public clsThingPresentationMesh searchExactEntityFromInternalAttributes(String poContent, String poShape, String poColor) {
+		clsThingPresentationMesh oRetVal = null;
+		
+		ArrayList<clsThingPresentation> oPropertyList = new ArrayList<clsThingPresentation>();
+		//Shape
+		if (poShape!="") {
+			clsThingPresentation oShapeTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.ShapeType, poShape));
+			oPropertyList.add(oShapeTP);
+		}
+		
+		//Color
+		if (poColor!="") {
+			clsThingPresentation oColorTP = clsDataStructureGenerator.generateTP(new clsPair<eContentType,Object>(eContentType.COLOR, poColor));
+			oPropertyList.add(oColorTP);
+		}
+		
+		
+		//Create the TPM
+		clsThingPresentationMesh oGeneratedTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>
+			(eContentType.ENTITY, oPropertyList, poContent));
+				
+		ArrayList<clsPrimaryDataStructureContainer> oSearchStructure = new ArrayList<clsPrimaryDataStructureContainer>();
+		oSearchStructure.add(new clsPrimaryDataStructureContainer(oGeneratedTPM, new ArrayList<clsAssociation>()));
+				
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+				
+		oSearchResult = searchEntity(eDataType.TPM, oSearchStructure); 
+				//If nothing is found, cancel
+		clsPrimaryDataStructureContainer oEmptySpaceContainer=null;
+		for (ArrayList<clsPair<Double,clsDataStructureContainer>> oE : oSearchResult) {
+			for (clsPair<Double,clsDataStructureContainer> oE2 : oE) {
+				if (((clsThingPresentationMesh)oE2.b.getMoDataStructure()).getMoContent().equals(poContent)==true) {
+					oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oE2.b;
+				}
+			}
+		}
+		
+		if (oSearchResult.get(0).isEmpty()==true) {
+			
+			return oRetVal;
+		}
+		//Create "Nothing"-objects for each position
+		//oEmptySpaceContainer = (clsPrimaryDataStructureContainer) oSearchResult.get(0).get(0).b;
+		ArrayList<clsPrimaryDataStructureContainer> oEmptySpaceContainerList = new ArrayList<clsPrimaryDataStructureContainer>();
+		oEmptySpaceContainerList.add(oEmptySpaceContainer);
+		
+		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult2 = 
+			new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
+			
+		oSearchResult2 = searchEntity(eDataType.DM, oEmptySpaceContainerList);
+
+
+		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
+		if (oSearchResult2.size()!=oEmptySpaceContainerList.size()) {
+			try {
+				throw new Exception("F46: addAssociations, Error, different Sizes");
+			} catch (Exception e) {
+				// TODO (wendt) - Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+			
+		for (int i=0;i<oSearchResult2.size();i++) {
+			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = oSearchResult2.get(i);
+			clsPrimaryDataStructureContainer oPC = oEmptySpaceContainerList.get(i);
+			if (oSearchPair.size()>0) {
+				oEmptySpaceContainerList.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+			}
+				
+		}
+		
+		
+		((clsThingPresentationMesh)oEmptySpaceContainer.getMoDataStructure()).setMoExternalAssociatedContent(oEmptySpaceContainer.getMoAssociatedDataStructures());
+		clsThingPresentationMesh oEmptySpaceTPM = null;
+		try {
+			oEmptySpaceTPM = (clsThingPresentationMesh) ((clsThingPresentationMesh) oEmptySpaceContainer.getMoDataStructure()).clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO (wendt) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		oRetVal = oEmptySpaceTPM;
+		
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)
@@ -150,7 +246,7 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	public clsDataStructurePA searchCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
 		clsDataStructurePA oRetVal = null;
 		
-		oRetVal = moSearchSpaceMethods.getMesh(poInput, pnLevel); 
+		oRetVal = moSearchSpaceMethods.getCompleteMesh(poInput, pnLevel); 
 		//moKnowledgeBaseHandler.initMeshRetrieval(poInput, pnLevel);
 		
 		if (oRetVal==null) {

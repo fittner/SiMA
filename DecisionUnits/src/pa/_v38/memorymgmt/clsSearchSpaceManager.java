@@ -302,7 +302,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	 * @see pa._v38.memorymgmt.itfSearchSpaceAccess#getMesh(pa._v38.memorymgmt.datatypes.clsDataStructurePA, int)
 	 */
 	@Override
-	public clsDataStructurePA getMesh(clsDataStructurePA poInput, int pnLevel) {
+	public clsDataStructurePA getCompleteMesh(clsDataStructurePA poInput, int pnLevel) {
 		clsDataStructurePA oRetVal = null; 
 		
 		if(poInput instanceof clsWordPresentationMesh){
