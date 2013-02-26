@@ -9,10 +9,10 @@ package inspectors.mind.pa._v38.graph;
 //import java.util.HashMap;
 
 import java.util.ArrayList;
-import pa._v38.memorymgmt.clsKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
 import pa._v38.tools.clsPair;
 
 /**
