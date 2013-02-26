@@ -178,7 +178,7 @@
 		<!-- See http://checkstyle.sf.net/config_misc.html -->
 		<module name="ArrayTypeStyle" />
 		<module name="FinalParameters">
-			<property name="severity" value="warning" />		
+			<property name="severity" value="info" />		
 		</module>
 		<module name="TodoComment" />
 		<module name="UpperEll" />

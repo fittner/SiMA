@@ -6,10 +6,6 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import java.util.List;
-
-import pa._v38.decisionpreparation.clsActionCodelet;
-
 /**
  * DOCUMENT (havlicek) - a specific situation
  * 
@@ -17,7 +13,5 @@ import pa._v38.decisionpreparation.clsActionCodelet;
  * 
  */
 public class clsSituation {
-
-    private List<clsActionCodelet> moAssociatedActions;
 
 }

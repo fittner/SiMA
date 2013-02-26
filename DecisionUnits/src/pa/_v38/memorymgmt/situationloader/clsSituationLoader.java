@@ -6,9 +6,14 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
+import java.util.List;
+import java.util.Random;
+
 import pa._v38.memorymgmt.itfKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
+import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
+import pa._v38.memorymgmt.situationloader.algorithm.clsGreedySearch;
 import config.clsProperties;
 
 /**
@@ -68,7 +73,14 @@ public class clsSituationLoader implements itfSituationLoader {
         if (moConcept.isEmpty()) {
             return oFoundSituation;
         }
-
+        itfSituationSearchAlgorithm algorithm = new clsDepthFirstSearch();
+        
+        algorithm.init(poConcept, poProps);
+        
+        List<clsSituation> oResultList = algorithm.process();
+        if (!oResultList.isEmpty()) {
+            return oResultList.get(new Random().nextInt(oResultList.size()));
+        }
         return oFoundSituation;
     }
 
