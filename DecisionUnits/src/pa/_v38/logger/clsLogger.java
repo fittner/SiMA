@@ -43,7 +43,7 @@ public class clsLogger {
 		Logger.getLogger(pa._v38.modules.F21_ConversionToSecondaryProcessForPerception.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F23_ExternalPerception_focused.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F51_RealityCheckWishFulfillment.class).setLevel(Level.OFF);
-		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.OFF);
+		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.DEBUG);
 		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F29_EvaluationOfImaginaryActions.class).setLevel(Level.OFF);
 		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.OFF);
