@@ -1,4 +1,4 @@
-; Mon Feb 18 18:08:15 GMT 2013
+; Thu Feb 28 10:18:03 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2633,6 +2633,56 @@
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.7)
 	(value "ANGER")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AANXIETY] of  EMOTION
+
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
+	(value "ANXIETY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AELATION] of  EMOTION
+
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
+	(value "ELATION")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AJOY] of  EMOTION
+
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
+	(value "JOY")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3AMOURNING] of  EMOTION
+
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
+	(value "MOURNING")
+	(value_type "BASICEMOTION"))
+
+([EMOTION%3ASATURATION] of  EMOTION
+
+	(emotionIntensity 0.8)
+	(sourceAggr 0.7)
+	(sourceLibid 0.0)
+	(sourcePleasure 0.1)
+	(sourceUnpleasure 0.7)
+	(value "SATURATION")
 	(value_type "BASICEMOTION"))
 
 ([HANDS] of  %3ASTANDARD-CLASS

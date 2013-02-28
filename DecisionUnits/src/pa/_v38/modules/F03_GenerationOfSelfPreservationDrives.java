@@ -10,6 +10,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.SortedMap;
+
+import org.apache.log4j.Logger;
+
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
@@ -64,6 +67,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moTimeChartData; 
+	
+	private Logger log = Logger.getLogger(this.getClass().getName());
 	
 	/**
 	 * basic constructor 
@@ -214,7 +219,7 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 					if(oEntry.getKey() == "ADREANLIN" || oEntry.getKey() == "HEALTH")
 					{}
 					else{
-						System.out.printf("WARNING: Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?\n");
+						log.error("Error in "  + this.getClass().getSimpleName() + ": Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?", e);
 					}
 					
 				}
@@ -392,7 +397,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 					double rImpactFactor = moHomeostaisImpactFactors.get(oEntry.getKey());
 					rEntryTension = rEntryTension * rImpactFactor;
 				} catch (java.lang.Exception e) {
-					System.out.print(e);
+					log.error("Error in "  + this.getClass().getSimpleName() , e);
+
 				}
 			}
 			
