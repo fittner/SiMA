@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -87,7 +88,7 @@ public interface itfModuleMemoryAccess {
 	 * @param poInput
 	 * @param prPsychicEnergyIn
 	 */
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn);
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn);
 	/**
 	 * Get the secondary process data structure from a primary process data structure
 	 * 

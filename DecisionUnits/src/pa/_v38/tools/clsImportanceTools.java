@@ -40,9 +40,9 @@ public class clsImportanceTools {
 	//Added by AW, in order to be able to add drive goals from perception and memories
 	/** The list of possible drives, sorted regarding importance */
 	//AGGRESSIVESTOMACH, LIBIDINOUSSTOMACH, AGGRESSIVESTAMINA, LIBIDINOUSSTAMINA, AGGRESSIVERECTUM, LIBIDINOUSRECTUM, LIBIDINOUSLIBIDO]
-	private static ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM", "LIBIDINOUSLIBIDO"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
+	private static final ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM", "LIBIDINOUSLIBIDO"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
 	/** A list of possible affects sorted in the order of importance */
-	private static ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(
+	private static final ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(
 			eAffectLevel.NEGATIVE100.mnAffectLevel,
 			eAffectLevel.POSITIVE100.mnAffectLevel,
 			eAffectLevel.NEGATIVE90.mnAffectLevel,
@@ -64,9 +64,11 @@ public class clsImportanceTools {
 			eAffectLevel.NEGATIVE10.mnAffectLevel,
 			eAffectLevel.NEGATIVE10.mnAffectLevel,
 			eAffectLevel.INSIGNIFICANT.mnAffectLevel));	//FIXME AW: Possibly use another solution for sorting
-	private static String _Delimiter01 = ":"; 
-	private static String _Delimiter02 = "||";
-	private static String _Delimiter03 = "|";
+	private static final String _Delimiter01 = ":"; 
+	private static final String _Delimiter02 = "||";
+	private static final String _Delimiter03 = "|";
+	
+	private static final double rDriveEmotionValueRelation = 0.5;
 	
 //	private static int[] mnConversionArray[] = {{-3, -700}, 
 //											{-2, -500},
@@ -78,7 +80,31 @@ public class clsImportanceTools {
 //										   };
 
 	/**
-	 * Calculate the average emotion for an image. No filtering used
+	 * Calculate the importance of an image based on its emotions, the current drive state and the drive representations contained
+	 * in the image.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.03.2013 08:53:36
+	 *
+	 * @param poImage
+	 * @param poDrivesForFilteringList
+	 * @return
+	 */
+	public static double calculateImageImportance(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDrivesForFilteringList) {
+		double rTotalAffect = 0;
+		
+		double rDriveAffect = calculateAverageImageDriveImportance(poImage, poDrivesForFilteringList);
+		double rEmotionAffect = calculateAverageImageEmotionalImportance(poImage); 
+		
+		rTotalAffect = rDriveEmotionValueRelation * rDriveAffect + (1-rDriveEmotionValueRelation) * rEmotionAffect; 
+		
+		return rTotalAffect;
+		
+	}
+	
+	/**
+	 * Calculate the average emotional component and the drive component for an image. Drives filtering used
 	 * 
 	 * (wendt)
 	 *
@@ -87,7 +113,7 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageEmotionalImportance(clsThingPresentationMesh poImage) {
+	private static double calculateAverageImageEmotionalImportance(clsThingPresentationMesh poImage) {
 		double rTotalAffect = 0;
 		
 		ArrayList<clsAssociationEmotion> oEmotionList = clsMeshTools.getAllEmotionsInImage(poImage);
@@ -115,22 +141,65 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	public static double calculateAverageImageAffect(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMFilterList) {
+	private static double calculateAverageImageDriveImportance(clsThingPresentationMesh poImage, ArrayList<clsDriveMesh> poDMFilterList) {
+		double rResult = 0;
 		double rTotalAffect = 0;
 		
 		ArrayList<eContentType> oDMContentType = new ArrayList<eContentType>();
 		//Get all contenttypes from the DM
-		for (clsDriveMesh oDM : poDMFilterList) {
-			oDMContentType.add(oDM.getMoContentType());
-		}
+		//for (clsDriveMesh oDM : poDMFilterList) {
+		//	if (oDMContentType.contains(oDM.getMoContentType())==false) {
+		//oDMContentType.add();
+				
+		//	}
+		//}
 		
 		ArrayList<clsAssociationDriveMesh> oDMList = clsMeshTools.getSelectedDMInImage(poImage, oDMContentType);
+		int nCount= 0;
 		
 		for (clsAssociationDriveMesh oAssDMList : oDMList) {
-			rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getQuotaOfAffect());
+			
+			//Calculate weighted drives
+			clsDriveMesh oDM = containsDriveMeshType(poDMFilterList, oAssDMList.getDM());
+			if (oDM!=null) {
+				double oDriveAffectLevel = oDM.getQuotaOfAffect();
+				rTotalAffect += java.lang.Math.abs(((clsDriveMesh)oAssDMList.getLeafElement()).getQuotaOfAffect() * oDriveAffectLevel);
+				nCount++;
+			}
+			
 		}
 		
-		return rTotalAffect/oDMList.size();
+		if (nCount==0) {
+			rResult = 0;
+		} else {
+			rResult = rTotalAffect/nCount;
+		}
+		
+		return rResult;
+	}
+	
+	/**
+	 * Check if a list of drive meshes contain a certain drive mesh type
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.03.2013 10:38:35
+	 *
+	 * @param poFindInList
+	 * @param poDMCheckIfExist
+	 * @return
+	 */
+	private static clsDriveMesh containsDriveMeshType(ArrayList<clsDriveMesh> poFindInList, clsDriveMesh poDMCheckIfExist) {
+		clsDriveMesh oResult = null;
+		
+		for (clsDriveMesh oDM : poFindInList) {
+			if (poDMCheckIfExist.getDriveIdentifier().equals(oDM.getDriveIdentifier())==true) {
+				oResult = oDM;
+				break;
+			}
+		}
+		
+		return oResult;
 	}
 	
 //	/**

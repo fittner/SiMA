@@ -670,6 +670,31 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		// TODO (schaat) - Auto-generated method stub
 		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
+	
+	/**
+	 * This is a function to create a string that identifies the drive mesh, equivalent to bite and nourish. 
+	 * Es war mir zu deppart jedes mal den Drive-String zu konstruieren, wenn man es eh holen kann. 
+	 *
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.03.2013 10:17:07
+	 *
+	 * @return
+	 */
+	public String getDriveIdentifier() {
+		//Get the Drive component
+		eDriveComponent oDriveComponent = this.getDriveComponent();
+		
+		//Get partial drive
+		
+		//Get the bodily part
+		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
+		eOrgan oOrgan = this.getActualDriveSourceAsENUM();
+		
+		//Create the drive string from Drive component, orifice and organ
+		return oDriveComponent.toString() + oOrgan.toString();
+	}
 
 }
 

@@ -37,30 +37,30 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 public abstract class clsAssociation extends clsDataStructurePA{
 	//private static final long mrMaxStackDepth = 5000;
 	
-	protected double mrImperativeFactor; 
+	//protected double mrImperativeFactor; 
 	protected double mrWeight; 
 	protected clsDataStructurePA moAssociationElementA;
 	protected clsDataStructurePA moAssociationElementB;
 
-	/**
-	 * @author zeilinger
-	 * 17.03.2011, 00:48:52
-	 * 
-	 * @return the mrImperativeFactor
-	 */
-	public double getMrImperativeFactor() {
-		return mrImperativeFactor;
-	}
-
-	/**
-	 * @author zeilinger
-	 * 17.03.2011, 00:48:52
-	 * 
-	 * @param mrImperativeFactor the mrImperativeFactor to set
-	 */
-	public void setMrImperativeFactor(double mrImperativeFactor) {
-		this.mrImperativeFactor = mrImperativeFactor;
-	}
+//	/**
+//	 * @author zeilinger
+//	 * 17.03.2011, 00:48:52
+//	 * 
+//	 * @return the mrImperativeFactor
+//	 */
+//	public double getMrImperativeFactor() {
+//		return mrImperativeFactor;
+//	}
+//
+//	/**
+//	 * @author zeilinger
+//	 * 17.03.2011, 00:48:52
+//	 * 
+//	 * @param mrImperativeFactor the mrImperativeFactor to set
+//	 */
+//	public void setMrImperativeFactor(double mrImperativeFactor) {
+//		this.mrImperativeFactor = mrImperativeFactor;
+//	}
 
 	/**
 	 * @author zeilinger
@@ -131,8 +131,23 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	 */
 	public clsAssociation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB) {
 		super(poDataStructureIdentifier);
-		mrImperativeFactor = 1.0; 
-		mrWeight = 1.0;	//TODO HZ: The weight shall be possible to set in the constructor 
+		//mrImperativeFactor = 1.0; 
+		mrWeight = 1.0;
+		moAssociationElementA = poAssociationElementA; 
+		moAssociationElementB = poAssociationElementB; 
+	}
+	
+	/**
+	 * DOCUMENT (zeilinger) - insert description 
+	 * 
+	 * @author zeilinger
+	 * 24.05.2010, 15:50:41
+	 *
+	 */
+	public clsAssociation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, clsDataStructurePA poAssociationElementA, clsDataStructurePA poAssociationElementB, double prAssociationWeight) {
+		super(poDataStructureIdentifier);
+		//mrImperativeFactor = 1.0; 
+		mrWeight = prAssociationWeight;
 		moAssociationElementA = poAssociationElementA; 
 		moAssociationElementB = poAssociationElementB; 
 	}

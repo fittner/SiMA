@@ -85,4 +85,8 @@ public class clsTester {
 		clsTestDataStructureActs.checkIfPIMatchingCorrectnessMeshArray(poImage);
 	}
 	
+	public void exeTestDMReference(clsThingPresentationMesh poInput) throws Exception {
+		clsTestDataStructureConsistency.debugCheckDMQoAGrowing(poInput);
+	}
+	
 }

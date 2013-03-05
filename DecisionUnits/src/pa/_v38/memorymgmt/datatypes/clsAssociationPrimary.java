@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 23.05.2010, 21:52:50
  * 
  */
-public class clsAssociationPrimary extends clsAssociation{
+public class clsAssociationPrimary extends clsAssociation {
 	//AW 20110602: This type of association will connect TI with each other
 	//This association only has connection A, connection B and an association weight
 
@@ -32,12 +32,9 @@ public class clsAssociationPrimary extends clsAssociation{
 	 * @param poAssociationID
 	 * @param poAssociationType
 	 */
-	public clsAssociationPrimary(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
-			clsThingPresentationMesh poAssociationElementA,
-			clsThingPresentationMesh poAssociationElementB) {
+	public clsAssociationPrimary(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, clsThingPresentationMesh poAssociationElementA, clsThingPresentationMesh poAssociationElementB, double prAssociationWeight) {
 		
-		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB);
-		// TODO (zeilinger) - Auto-generated constructor stub
+		super(poDataStructureIdentifier, poAssociationElementA, poAssociationElementB, prAssociationWeight);
 	}
 
 	/* (non-Javadoc)

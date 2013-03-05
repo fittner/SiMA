@@ -67,6 +67,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/** Input from perception */
 	private ArrayList<clsThingPresentationMesh> moEnvironmentalPerception_IN;
 
+	private ArrayList<clsDriveMesh> moDrives_IN;
 	
 	/* Output */
 	/** A Perceived image incl. DMs */
@@ -213,6 +214,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 			try {
 				clsTester.getTester().exeTestNullPointer(oPerceivedImage);
 				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
+				clsTester.getTester().exeTestDMReference(oPerceivedImage);
 			} catch (Exception e) {
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
@@ -576,7 +578,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				}
 			}
 			
-			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, 5.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poPerceivedImage, moDrives_IN, 5.0);
 			
 			//=== Perform system tests ===//
 			if (clsTester.getTester().isActivated()) {
@@ -600,7 +602,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);
 			}
 			
-			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, 2.0);
+			this.getLongTermMemory().executePsychicSpreadActivation(poReturnedPhantasyImage, moDrives_IN, 2.0);
 		}
 		
 		
@@ -887,10 +889,10 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I2_6(
-			ArrayList<clsThingPresentationMesh> poEnvironmentalPerception) {
+	public void receive_I2_6(ArrayList<clsThingPresentationMesh> poEnvironmentalPerception, ArrayList<clsDriveMesh> poDrives_IN) {
 		
 		moEnvironmentalPerception_IN = (ArrayList<clsThingPresentationMesh>)deepCopy(poEnvironmentalPerception); 
+		moDrives_IN = poDrives_IN;
 	}
 	
 	/* (non-Javadoc)
