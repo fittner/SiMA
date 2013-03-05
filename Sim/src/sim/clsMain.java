@@ -103,7 +103,7 @@ public class clsMain extends SimState{
 		}
 		
 		
-	
+
 		// read BW properties
 		
 		clsProperties oProp = clsProperties.readProperties(oScenarioPath, oFilename);

@@ -127,6 +127,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_HARDNESS, 0.6 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 5);
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.name());
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 10.0);

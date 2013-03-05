@@ -144,7 +144,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 				Double rIntensity = oFastMessenger.getIntensity();
 				
 				//wenn quelle X, dann Einfluß auf libido im Umfang von...
-				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_MUCOSA) {
+				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA) {
 
 					//TODO: calculate influence zones-> libido
 					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
@@ -152,6 +152,10 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
 					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
 
+				}
+				else if(oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
+					//TODO: calculate influence zones-> libido
+					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
 				}
 				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
 					//TODO: calculate influence zones-> libido

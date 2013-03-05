@@ -140,6 +140,8 @@ public enum eContentType {
 	AntennaPositionRight,
 	IsAlive,
 	IsConsumeable,
+	ORIFICE_ORAL_LIBIDINOUS_MUCOSA,
+	ORIFICE_ORAL_AGGRESSIV_MUCOSA,
 	
 	//DM
 	BITE,

@@ -33,10 +33,13 @@ public class clsFood {
 	public static final String P_NUMNUTRITIONS = "numnutritions";
 	public static final String P_NUTRITIONTYPE = "type";
 	public static final String P_NUTRITIONFRACTION = "fraction";
+	public static final String P_HARDNESS = "hardness";
 	
 	private HashMap<eNutritions, clsMutableDouble> moComposition;
 	private double mrWeight;
+	private double mrHardness;
 	private boolean mnFinalized;
+	
 	
 	/**
 	 * 
@@ -44,6 +47,7 @@ public class clsFood {
 	public clsFood() {
 		moComposition = new HashMap<eNutritions, clsMutableDouble>();
 		mrWeight = 0.0f;
+		mrHardness = 0.0f;
 		mnFinalized = false;
 	}
 	
@@ -51,9 +55,25 @@ public class clsFood {
 	public clsFood(String poPrefix, clsProperties poProp) {
 		moComposition = new HashMap<eNutritions, clsMutableDouble>();
 		mrWeight = 0.0f;
+		mrHardness = 0.0f;
 		mnFinalized = false;
 		
 		applyProperties(poPrefix, poProp);
+	}
+	
+	public clsFood(clsFood poFood) {
+		mrWeight = poFood.mrWeight;
+		mnFinalized = poFood.mnFinalized;
+		mrHardness = poFood.mrHardness;
+		moComposition = new HashMap<eNutritions, clsMutableDouble>(); //Added by BD
+		
+		Iterator<eNutritions> i = poFood.moComposition.keySet().iterator();
+		
+		while (i.hasNext()) {
+			eNutritions oKey = i.next();
+			clsMutableDouble oValue = new clsMutableDouble(poFood.moComposition.get(oKey));
+			moComposition.put(oKey, oValue);
+		}
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -62,6 +82,8 @@ public class clsFood {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_HARDNESS, 0.5);
+		
 		oProp.setProperty(pre+P_NUMNUTRITIONS, 6 );
 		oProp.setProperty(pre+"0."+P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
 		oProp.setProperty(pre+"0."+P_NUTRITIONFRACTION, 0.1);
@@ -88,6 +110,7 @@ public class clsFood {
 		String pre = clsProperties.addDot(poPrefix);
 
 		mrWeight = poProp.getPropertyDouble(pre+P_WEIGHT);
+		mrHardness = poProp.getPropertyDouble(pre + P_HARDNESS);
 		
 		int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
 		for (int i=0; i<num; i++) {
@@ -108,19 +131,7 @@ public class clsFood {
 		}
 	}	
 	
-	public clsFood(clsFood poFood) {
-		mrWeight = poFood.mrWeight;
-		mnFinalized = poFood.mnFinalized;
-		moComposition = new HashMap<eNutritions, clsMutableDouble>(); //Added by BD
-		
-		Iterator<eNutritions> i = poFood.moComposition.keySet().iterator();
-		
-		while (i.hasNext()) {
-			eNutritions oKey = i.next();
-			clsMutableDouble oValue = new clsMutableDouble(poFood.moComposition.get(oKey));
-			moComposition.put(oKey, oValue);
-		}
-	}
+
 	
 	/**
 	 * set the weight of the food piece (0.0 <= x < FLOATMAX).
@@ -145,6 +156,15 @@ public class clsFood {
 	 */
 	public double getWeight() {
 		return mrWeight;
+	}
+	
+	/**
+	 * returns the hardness of the food piece
+	 *
+	 * @return the mrWeight
+	 */
+	public double getHardness() {
+		return mrHardness;
 	}
 	
 	/**

@@ -18,11 +18,17 @@ import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import config.clsProperties;
+import du.enums.eFastMessengerSources;
+import du.enums.eOrgan;
+import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -39,9 +45,12 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	
 	private double Personality_Content_Factor; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
 	
-	//
 	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
 	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moHomeostaticDriveComponents_OUT;
+	
+	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moHomeostaticDriveComponents_lastStep;
+	
+	private HashMap<String, Double> moCandidatePartitionFactor;
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData; 
@@ -65,7 +74,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		applyProperties(poPrefix, poProp);
 		Personality_Content_Factor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_FACTOR).getParameterDouble();
 
-		
+		moCandidatePartitionFactor = new HashMap<String, Double>();
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 //		fillOppositePairs();
 	}
@@ -139,6 +148,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		moHomeostaticDriveCandidates_IN = (ArrayList<clsDriveMesh>) deepCopy(poHomeostaticDriveCandidates); 
 	}
 
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -160,10 +170,23 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			double rAgrTension = 0;
 			double rLibTension = 0;
 			
+			
 			//calculate the tension for both parts from personality split 50/50
 			rAgrTension = oEntry.getQuotaOfAffect()/2; 
-			rLibTension = oEntry.getQuotaOfAffect()/2; 
+			rLibTension = oEntry.getQuotaOfAffect()/2;
 			
+
+			if(oEntry.getActualDriveSource().getMoContent().equals(eOrgan.STOMACH.toString()) && moHomeostaticDriveComponents_lastStep != null){
+				ArrayList<Double> oDevisioFactorsStomach = generateDivisionFactorsStomach(oEntry);
+				rAgrTension = oDevisioFactorsStomach.get(0);
+				rLibTension = oDevisioFactorsStomach.get(1);
+			}
+			else if (oEntry.getActualDriveSource().getMoContent().equals(eOrgan.RECTUM.toString()) && moHomeostaticDriveComponents_lastStep != null){
+				ArrayList<Double> oDevisioFactorsRectum = generateDivisionFactorsRectum(oEntry);
+				rAgrTension = oDevisioFactorsRectum.get(0);
+				rLibTension = oDevisioFactorsRectum.get(1);
+			}
+
 			//change the agressive/lib content due to personality
 			if(Personality_Content_Factor != 0){
 				//oEntry = changeContentByFactor(oEntry);
@@ -183,6 +206,12 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 			oTempPair = new clsPair<clsDriveMesh, clsDriveMesh>(agressiveDM, libidoneusDM); 
 			moHomeostaticDriveComponents_OUT.add(oTempPair);
 			
+			moHomeostaticDriveComponents_lastStep = new ArrayList<clsPair<clsDriveMesh, clsDriveMesh>>();
+			
+			//save drives for next step
+			for(clsPair<clsDriveMesh,clsDriveMesh> oMesh : moHomeostaticDriveComponents_OUT){
+				moHomeostaticDriveComponents_lastStep.add(oMesh);
+			}
 			
 			//add some time chart data
 			String oaKey = agressiveDM.getChartShortString();
@@ -275,6 +304,165 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		// TODO (deutsch) - Auto-generated method stub
 		throw new java.lang.NoSuchMethodError();
 	}
+	/**
+	 * 
+	 * DOCUMENT (herret) - Methode to calculate the QoA of the aggressiv and libidinous parts of the Stomach drive
+	 * if QoA of hole stomach drive is rising: rise the aggressiv and libidinous 50/50
+	 * if QoA of hole stomach drive is falling: rise the aggressiv and libidinous parts corresponding to the oral erogenous zone
+	 * if QoA of hole stomach drive isn't rising or falling: aggressiv and libidinous parts stay constant
+	 *
+	 * @since Feb 14, 2013 1:20:08 PM
+	 *
+	 * @param oEntry
+	 * @return
+	 */
+	
+	private ArrayList<Double> generateDivisionFactorsStomach(clsDriveMesh oEntry){
+		double rAgrTensionOld = 0.0;
+		double rLibTensionOld = 0.0;
+		double rAgrTension = 0.0;
+		double rLibTension = 0.0;
+		//get External associated Content
+		
+		double rLibFactor = 0.5;
+		double rAgrFactor = 0.5;
+		
+
+		for (clsAssociation oAssoc : oEntry.getMoInternalAssociatedContent()){
+			clsDataStructurePA oDataTPM = null;
+			if(oAssoc.getMoAssociationElementA().equals(oEntry)) oDataTPM= oAssoc.getMoAssociationElementB();
+			else if(oAssoc.getMoAssociationElementB().equals(oEntry))oDataTPM = oAssoc.getMoAssociationElementA();
+			if(oDataTPM instanceof clsThingPresentationMesh){
+				if(((clsThingPresentationMesh)oDataTPM).getMoContent().equals(eOrifice.ORAL_MUCOSA.toString())){
+					for( clsAssociation oAssocIntern : ((clsThingPresentationMesh) oDataTPM).getMoInternalAssociatedContent()){
+						clsDataStructurePA oData = null;
+						if(oAssocIntern.getMoAssociationElementA().equals(oDataTPM)) oData= oAssocIntern.getMoAssociationElementB();
+						else if(oAssocIntern.getMoAssociationElementB().equals(oDataTPM)) oData = oAssocIntern.getMoAssociationElementA();
+						if(oData!=null){
+							if(oData instanceof clsThingPresentation){
+								if(((clsThingPresentation)oData).getMoContentType().toString().equals(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
+									rLibFactor = (Double)((clsThingPresentation)oData).getMoContent();
+								}
+								else if(((clsThingPresentation)oData).getMoContentType().toString().equals(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
+									rAgrFactor = (Double)((clsThingPresentation)oData).getMoContent();
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+
+		for(clsPair<clsDriveMesh,clsDriveMesh> oMesh: moHomeostaticDriveComponents_lastStep){
+			if(oMesh.a.getActualDriveSource().getMoContent().equals(oEntry.getActualDriveSource().getMoContent())){
+				rAgrTensionOld = oMesh.a.getQuotaOfAffect();
+				rLibTensionOld = oMesh.b.getQuotaOfAffect();
+			}
+		}
+		double rTensionChange = (rAgrTensionOld+rLibTensionOld)-oEntry.getQuotaOfAffect();
+		if(rTensionChange > 0){
+			double rRelativAgrFactor=0.0;
+			if(rLibFactor != 0.0 || rAgrFactor != 0.0){
+				rRelativAgrFactor=rAgrFactor/(rLibFactor + rAgrFactor);
+				moCandidatePartitionFactor.put("STOMACH", rRelativAgrFactor);
+			}
+			else{
+				if(moCandidatePartitionFactor.containsKey("STOMACH"))rRelativAgrFactor= moCandidatePartitionFactor.get("STOMACH");
+				else rRelativAgrFactor=0.5;
+			}
+			
+			//falling stomach tension
+			rAgrTension = rAgrTensionOld - rTensionChange * (rRelativAgrFactor);
+			//rLibTension = rLibTensionOld - rTensionChange *(0.7);
+			
+			if(rAgrTension < 0 ) rAgrTension = 0;
+			
+			if(rAgrTension > oEntry.getQuotaOfAffect()) rAgrTension = oEntry.getQuotaOfAffect();
+			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
+		}
+		else if (rTensionChange < 0){
+			//rising stomach tension
+			rAgrTension = (rAgrTensionOld - (rTensionChange / 2)) ;
+			
+			if(rAgrTension > oEntry.getQuotaOfAffect()) rAgrTension = oEntry.getQuotaOfAffect();
+			rLibTension = oEntry.getQuotaOfAffect() - rAgrTension; 
+		}
+		else {
+			//Stomach Tension doesn't change
+			rAgrTension = rAgrTensionOld;
+			rLibTension = rLibTensionOld;
+		}
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
+		oRetVal.add(rAgrTension);
+		oRetVal.add(rLibTension);
+		
+		return oRetVal;
+	}
+	
+	ArrayList<Double> generateDivisionFactorsRectum(clsDriveMesh oEntry){
+		
+		//TODO: Change Methode to calculate aggr and lib value
+		double rAgrTensionOld = 0.0;
+		double rLibTensionOld = 0.0;
+		double rAgrTension = 0.0;
+		double rLibTension = 0.0;
+		//get External associated Content
+		double rRectumPartitionFactor;
+		
+		if(moCandidatePartitionFactor.containsKey("RECTUM")){
+			rRectumPartitionFactor= moCandidatePartitionFactor.get("RECTUM");
+		}
+		else{
+			//if not exists initialize
+			rRectumPartitionFactor = 0.5;
+			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
+		}
+		
+		for(clsPair<clsDriveMesh,clsDriveMesh> oMesh: moHomeostaticDriveComponents_lastStep){
+			if(oMesh.a.getActualDriveSource().getMoContent().equals(oEntry.getActualDriveSource().getMoContent())){
+				rAgrTensionOld = oMesh.a.getQuotaOfAffect();
+				rLibTensionOld = oMesh.b.getQuotaOfAffect();
+			}
+		}
+		double rTensionChange = (rAgrTensionOld+rLibTensionOld)-oEntry.getQuotaOfAffect();
+		// if falling rectum tension
+		if(rTensionChange > 0){
+			double rRelativAgrFactor;
+			
+			//TODO: change hardcoded value
+			rRectumPartitionFactor -= 0.001;
+			if(rRectumPartitionFactor < 0) rRectumPartitionFactor = 0;
+			rRelativAgrFactor = rRectumPartitionFactor;
+			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
+			rAgrTension = oEntry.getQuotaOfAffect()*rRelativAgrFactor;
+		
+			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
+		}
+		// if rising rectum tension
+		else if (rTensionChange < 0){
+			double rRelativAgrFactor;
+			//TODO: change hardcoded value
+			rRectumPartitionFactor += 0.001;
+			if(rRectumPartitionFactor > 1) rRectumPartitionFactor = 1;
+			rRelativAgrFactor = rRectumPartitionFactor;
+			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
+			rAgrTension = oEntry.getQuotaOfAffect()*rRelativAgrFactor;
+		
+			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
+		}
+		//Rectum Tension doesn't change
+		else {
+			rAgrTension = oEntry.getQuotaOfAffect()*rRectumPartitionFactor;
+		
+			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
+		}
+		ArrayList<Double> oRetVal = new ArrayList<Double>();
+		oRetVal.add(rAgrTension);
+		oRetVal.add(rLibTension);
+		
+		return oRetVal;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -298,6 +486,9 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	public void setDescription() {
 		moDescription = "F04: The libidinous and aggressive drives are combined to pair of opposites. For each bodily need, such a pair exists.";
 	}
+	
+	
+	
 
 	/*************************************************************/
 	/***                   TIME CHART METHODS                  ***/

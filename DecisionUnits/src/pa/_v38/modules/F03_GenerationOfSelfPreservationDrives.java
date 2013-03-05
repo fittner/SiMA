@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.SortedMap;
 
+import pa._v38.tools.clsPair;
 import org.apache.log4j.Logger;
 
 import pa._v38.tools.clsTriple;
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import config.clsProperties;
+import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.eSensorIntType;
@@ -59,6 +61,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 	private HashMap<String, Double> moHomeostasisSymbols_IN; 
 	
 	private HashMap<eOrgan, eOrifice> moOrificeMap;
+	
+
 	
 	private ArrayList <clsDriveMesh> moDriveCandidates_OUT;
 
@@ -199,7 +203,9 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 			{
 				//bloodsugar is special, make it to a stomach drive
 				try {
-					moDriveCandidates_OUT.add( CreateDriveCandidate(eOrgan.STOMACH, oEntry.getValue()) );
+					clsDriveMesh oMesh = CreateDriveCandidateStomach(eOrgan.STOMACH, oEntry.getValue(), oNormalizedHomeostatsisSymbols);
+					moDriveCandidates_OUT.add( oMesh );
+					
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -217,6 +223,8 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 				} catch (Exception e) {
 					createDrive = false;
 					if(oEntry.getKey() == "ADREANLIN" || oEntry.getKey() == "HEALTH")
+					{}
+					else if (oEntry.getKey() == eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString() || oEntry.getKey() == eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())
 					{}
 					else{
 						log.error("Error in "  + this.getClass().getSimpleName() + ": Homeostatic value " + oEntry.getKey() + " not found in eOrgan, something missing?", e);
@@ -248,6 +256,63 @@ public class F03_GenerationOfSelfPreservationDrives extends clsModuleBaseKB impl
 		
 	}
 	
+
+
+	/**
+	 * DOCUMENT (herret) - insert description
+	 * @param oNormalizedHomeostatsisSymbols 
+	 *
+	 * @since Jan 30, 2013 2:18:39 PM
+	 *
+	 * @param stomach
+	 * @param value
+	 * @return
+	 */
+	private clsDriveMesh CreateDriveCandidateStomach(eOrgan poOrgan, double rTension, HashMap<String,Double> oNormalizedHomeostatsisSymbols) throws Exception  {
+		clsDriveMesh oDriveCandidate  = null;
+		eOrifice oOrifice = moOrificeMap.get(poOrgan);
+		
+		//create a TPM for the organ
+		clsThingPresentationMesh oOrganTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), poOrgan.toString()) );
+		
+		//create a TPM for the orifice
+		clsThingPresentationMesh oOrificeTPM = 
+			(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+					eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice.toString()) );
+		
+		//if available create TP for libidinous oral mucosa and add to TPM orifice
+		if(oNormalizedHomeostatsisSymbols.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
+			clsThingPresentation oOralLibidinousMucosaTP = 
+					(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+							eDataType.TP, new clsPair<eContentType,Object>(eContentType.ORIFICE_ORAL_LIBIDINOUS_MUCOSA, oNormalizedHomeostatsisSymbols.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())) );
+			oOrificeTPM.assignDataStructure(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE_ORAL_LIBIDINOUS_MUCOSA, oOrificeTPM, oOralLibidinousMucosaTP, 1.0));
+		}
+		//if available create TP for aggressiv oral mucosa and add to TPM orifice
+		if(oNormalizedHomeostatsisSymbols.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
+			clsThingPresentation oOralLibidinousMucosaTP = 
+					(clsThingPresentation)clsDataStructureGenerator.generateDataStructure( 
+							eDataType.TP, new clsPair<eContentType,Object>(eContentType.ORIFICE_ORAL_AGGRESSIV_MUCOSA, oNormalizedHomeostatsisSymbols.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())) );
+			oOrificeTPM.assignDataStructure(clsDataStructureGenerator.generateASSOCIATIONATTRIBUTE(eContentType.ORIFICE_ORAL_AGGRESSIV_MUCOSA, oOrificeTPM, oOralLibidinousMucosaTP, 1.0));
+		}	
+		
+		
+		
+		
+		//create the DM
+		oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
+				,eDriveComponent.UNDEFINED, ePartialDrive.UNDEFINED );
+		
+		//supplement the information
+		oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
+		
+		oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
+		
+		oDriveCandidate.setQuotaOfAffect(rTension);
+		
+		return oDriveCandidate;
+	}
 
 
 	/* (non-Javadoc)

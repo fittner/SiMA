@@ -354,7 +354,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 	@Override
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oResult = new ArrayList<Double>();
-
+		int x=0;
 		for (String oKey:moChartColumnsCaptions) {
 			double rValue = 0;
 			

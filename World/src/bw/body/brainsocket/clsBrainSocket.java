@@ -645,7 +645,8 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 			
 			case ACTIONEX_EAT:oSource=eFastMessengerSources.EATABLE_AREA;break;
 			
-			case INTER_ORIFICE_ORAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_ORAL_MUCOSA; break;
+			case INTER_ORIFICE_ORAL_AGGRESSIV_MUCOSA: oSource=eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA; break;
+			case INTER_ORIFICE_ORAL_LIBIDINOUS_MUCOSA: oSource=eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA; break;
 			case INTER_ORIFICE_RECTAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_RECTAL_MUCOSA; break;
 			case INTER_ORIFICE_GENITAL_MUCOSA: oSource=eFastMessengerSources.ORIFICE_GENITAL_MUCOSA; break;
 			case INTER_ORIFICE_PHALLIC_MUCOSA: oSource=eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA; break;

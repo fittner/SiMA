@@ -114,6 +114,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 150.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_HARDNESS, 0.4 );
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 8 );
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.FAT.name());
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONFRACTION, 500.0);

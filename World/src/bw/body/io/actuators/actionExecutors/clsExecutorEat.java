@@ -39,11 +39,17 @@ public class clsExecutorEat extends clsActionExecutor{
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 	private double mrBiteSize;
+	private double mrBiteSizeMax;
+	private double mrLibidinousEatFactor;
+	private double mrAggressivEatFactor;
 	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
 
 	public static final String P_RANGESENSOR = "rangesensor";
-	public static final String P_BIZESIZE = "bitesize";
+	public static final String P_BITESIZE_MAX = "bitesizemax";
+	public static final String P_LIBIDINOUS_EAT_FACTOR = "libidinouseatfactor";
+	public static final String P_AGGRESSIV_EAT_FACTOR = "aggressiveatfactor";
+	
 
 	public clsExecutorEat(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
@@ -60,7 +66,11 @@ public class clsExecutorEat extends clsActionExecutor{
 		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_BIZESIZE, 1f); //0.3f
+		oProp.setProperty(pre+P_BITESIZE_MAX, 1f); //0.3f
+		//how strong the libidinous oral mucosa is stimulated by the action eat
+		oProp.setProperty(pre+P_LIBIDINOUS_EAT_FACTOR, 1f);
+		//how strong the aggressiv oral mucosa is stimulated by the action eat
+		oProp.setProperty(pre+P_AGGRESSIV_EAT_FACTOR, 1f);
 		
 		return oProp;
 	}
@@ -68,7 +78,11 @@ public class clsExecutorEat extends clsActionExecutor{
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
-		mrBiteSize=poProp.getPropertyFloat(pre+P_BIZESIZE);
+		mrBiteSizeMax=poProp.getPropertyFloat(pre+P_BITESIZE_MAX);
+		mrLibidinousEatFactor=poProp.getPropertyFloat(pre+P_LIBIDINOUS_EAT_FACTOR);
+		mrAggressivEatFactor=poProp.getPropertyFloat(pre+P_AGGRESSIV_EAT_FACTOR);
+	
+		mrBiteSize = mrBiteSizeMax;
 	}
 	
 	/*
@@ -152,8 +166,21 @@ public class clsExecutorEat extends clsActionExecutor{
         }
         
         //2) the stimulation of the erogenous zone
-        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralMucosa(0.5); //TODO 0.5 frei gewählt
         
+        //normalize weight to 0...1 referencing on bit size max
+        double rNormalizedWeight = oReturnedFood.getWeight()/mrBiteSizeMax;
+       
+        double rAgressivStimulus;
+        double rLibidinousStimulus;
+        rAgressivStimulus = oReturnedFood.getHardness()*rNormalizedWeight*mrAggressivEatFactor;
+        
+      	rLibidinousStimulus = (1-oReturnedFood.getHardness())*rNormalizedWeight*mrLibidinousEatFactor;
+
+
+
+
+        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralAggressivMucosa(rAgressivStimulus);
+        oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralLibidinousMucosa(rLibidinousStimulus);
         
 		//3) activation of the memorytrace of the action eat @self
         
