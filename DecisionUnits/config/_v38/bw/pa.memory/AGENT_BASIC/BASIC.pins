@@ -1,4 +1,4 @@
-; Thu Feb 28 10:18:03 CET 2013
+; Wed Mar 06 12:17:44 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2628,7 +2628,7 @@
 ([EMOTION%3AANGER%3ACARL_CAKE] of  EMOTION
 
 	(emotionIntensity 0.8)
-	(sourceAggr 0.7)
+	(sourceAggr 0.6)
 	(sourceLibid 0.0)
 	(sourcePleasure 0.1)
 	(sourceUnpleasure 0.7)
