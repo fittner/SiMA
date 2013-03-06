@@ -46,7 +46,6 @@ import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.memorymgmt.old.eDataStructureMatch;
 
 /**
  * DOCUMENT (zeilinger) - insert description
@@ -1040,7 +1039,7 @@ public class clsOntologyLoader {
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),
 					(clsThingPresentationMesh) poElementA,
-					(clsThingPresentationMesh) poElementB);
+					(clsThingPresentationMesh) poElementB, 1.0);
 
 		case ASSOCIATIONWP:
 			if ((poElementA instanceof clsWordPresentationMesh)
@@ -1139,9 +1138,7 @@ public class clsOntologyLoader {
 			// association while color is defined as instance association. Here,
 			// the instance associations are defined => moAssociationImperative
 			// is set to false => optional.
-			oAssociation
-					.setMrImperativeFactor(eDataStructureMatch.OPTIONALMATCH
-							.getMatchFactor());
+			//oAssociation.setMrImperativeFactor(eDataStructureMatch.OPTIONALMATCH.getMatchFactor());
 			oAssociationList.add(oAssociation);
 
 		}
@@ -1221,9 +1218,7 @@ public class clsOntologyLoader {
 			// association while color is defined as instance association. Here,
 			// the class associations are defined => moAssociationImperative is
 			// set to true => mandatory.
-			oAssociation
-					.setMrImperativeFactor(eDataStructureMatch.MANDATORYMATCH
-							.getMatchFactor());
+			//oAssociation.setMrImperativeFactor(eDataStructureMatch.MANDATORYMATCH.getMatchFactor());
 			oAssociationList.add(oAssociation);
 		}
 		return oAssociationList;

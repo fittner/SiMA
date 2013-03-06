@@ -122,4 +122,21 @@ public class clsAssociationDriveMesh extends clsAssociation{
 		//Element A is always the Drive Mesh 
 		return (clsDriveMesh)moAssociationElementA; 
 	}
+	
+	@Override
+	public String toString() {
+		String oResult = "::"+this.moDataStructureType+"|";  
+		//oResult +=  this.moContentType + "|";
+		
+		if (this.getRootElement() instanceof clsThingPresentationMesh) {
+			oResult += ":" + ((clsThingPresentationMesh)this.getRootElement()).getMoContent();
+		} else {
+			oResult += ":" + moAssociationElementA;
+		}
+		
+		//oResult += ":"; 
+		oResult += ":" + this.getDM().getDriveIdentifier() + ", " + this.getDM().getQuotaOfAffect();
+		
+		return oResult;
+	}
 }

@@ -17,6 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
@@ -44,9 +45,13 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	
 	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
 	
+	private static final double moConsumeValue = 0.2;
+	private static final double mrActivationThreshold = 0.1;
+	private static final int mnMaximumDirectActivationValue = 20;
+	
 	public clsLongTermMemoryHandler(itfSearchSpaceAccess poSearchSpaceMethods) {
 		moSearchSpaceMethods = poSearchSpaceMethods;
-		moSpreadActivationHandler = new clsPsychicSpreadActivation(moSearchSpaceMethods);
+		moSpreadActivationHandler = new clsPsychicSpreadActivation(moSearchSpaceMethods, moConsumeValue, mrActivationThreshold);
 		log.info("Initialize " + this.getClass().getName());
 	}
 	
@@ -171,12 +176,12 @@ public class clsLongTermMemoryHandler implements itfModuleMemoryAccess {
 	 * @see pa._v38.memorymgmt.itfModuleMemoryAccess#executePsychicSpreadActivation(pa._v38.memorymgmt.datatypes.clsThingPresentationMesh, double)
 	 */
 	@Override
-	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, double prPsychicEnergyIn) {
+	public void executePsychicSpreadActivation(clsThingPresentationMesh poInput, ArrayList<clsDriveMesh> poDriveMeshFilterList, double prPsychicEnergyIn) {
 		//Add the activated image to the already processed list
 		ArrayList<clsThingPresentationMesh> oAlreadyActivatedImages = new ArrayList<clsThingPresentationMesh>();
 		oAlreadyActivatedImages.add(poInput);
 		log.debug("Psychic Spread Activation input: " + poInput + "; Psychic Energy=" + prPsychicEnergyIn);
-		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, oAlreadyActivatedImages);
+		moSpreadActivationHandler.startSpreadActivation(poInput, prPsychicEnergyIn, mnMaximumDirectActivationValue, poDriveMeshFilterList, oAlreadyActivatedImages);
 		log.debug("Psychic Spread Activation output: " + poInput);
 	}
 

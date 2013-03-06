@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 
@@ -32,17 +33,20 @@ import pa._v38.tools.clsPair;
  */
 public class clsPsychicSpreadActivation {
 	
-	private static final double moDefaultConsumeValue = 0.2;
+	private double moDefaultConsumeValue = 0.2;
+	private double mrActivationThreshold = 0.1;
 	
 	private itfSearchSpaceAccess moModuleBase;
 	private Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
 	
-	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase) {
+	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
+		moDefaultConsumeValue = prConsumeValue;
+		mrActivationThreshold=prActivationThreshold;
 		moModuleBase = poModuleBase;
 	}
 
 
-	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public void startSpreadActivation(clsThingPresentationMesh poImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		//Activate this mesh, i. e. consume this energy
 		double rAvailablePsychicEnergy = prPsychicEnergyIn - getEnergyConsumptionValue(poImage);
 		log.trace("Start spread activation.");
@@ -52,24 +56,25 @@ public class clsPsychicSpreadActivation {
 		
 		//1. Get level 1 of the image associations
 		if (poImage.getMoContentType().equals(eContentType.RI)==true) {
-			log.trace("RI: get indirect associations");
+			log.trace("RI: Get INDIRECT associations");
 			getAssociatedImagesMemory(poImage);
 		} else if (poImage.getMoContentType().equals(eContentType.PI)==true || poImage.getMoContentType().equals(eContentType.PHI)==true) {
-			log.trace("PI: get direct associations");
-			getAssociatedImagesPerception(poImage, 0.1);
+			log.trace("PI: Get DIRECT associations");
+			getAssociatedImagesPerception(poImage, mrActivationThreshold);
 		}
 		
 		//2. Consolidate mesh
 		
 		//3. Calculate activation
-		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, poAlreadyActivatedImages);
+		ArrayList<clsPair<clsThingPresentationMesh, Double>> oPossibleActivationList = activateAssociatedImages(poImage, rAvailablePsychicEnergy, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
 		
 		//4. Delete non activated images		
 		ArrayList<clsPair<clsThingPresentationMesh,Double>> oActivatedImageList = deleteInactivatedAssociations(poImage, oPossibleActivationList);
+		log.trace("Activated images: " + oActivatedImageList.toString());
 		
 		//5. Go through each of the previously activated images
 		for (clsPair<clsThingPresentationMesh,Double> oPair : oActivatedImageList) {
-			startSpreadActivation(oPair.a, oPair.b, poAlreadyActivatedImages);
+			startSpreadActivation(oPair.a, oPair.b, pnMaximumDirectActivationValue, poDrivesForFilteringList, poAlreadyActivatedImages);
 		}
 	}
 	
@@ -149,7 +154,7 @@ public class clsPsychicSpreadActivation {
 	 * @param poAlreadyActivatedImages
 	 * @return
 	 */
-	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
+	public ArrayList<clsPair<clsThingPresentationMesh, Double>> activateAssociatedImages(clsThingPresentationMesh poEnhancedOriginImage, double prPsychicEnergyIn, int pnMaximumDirectActivationValue, ArrayList<clsDriveMesh> poDrivesForFilteringList,  ArrayList<clsThingPresentationMesh> poAlreadyActivatedImages) {
 		ArrayList<clsPair<clsThingPresentationMesh, Double>> oRetVal = new ArrayList<clsPair<clsThingPresentationMesh, Double>>();
 		log.trace("Calculate activation for " + poEnhancedOriginImage.getMoContent());
 		
@@ -167,7 +172,11 @@ public class clsPsychicSpreadActivation {
 			//Get the Image itself
 			clsThingPresentationMesh oImage = oPair.a;
 			//Get the average affect of the image
-			double oAffect = clsImportanceTools.calculateAverageImageEmotionalImportance(oImage);
+			double oAffect = clsImportanceTools.calculateImageImportance(oImage, poDrivesForFilteringList);
+			if (oAffect==0) {
+				log.warn("WARN: An image has no importance: " + oImage.getMoContent() +  "QoA=" + oAffect);
+			}
+			
 			//Calculate the psychic potential 
 			double rPsychicPotential = calculatePsychicPotential(oAssWeight, oAffect);
 			//Get consume value
@@ -191,6 +200,8 @@ public class clsPsychicSpreadActivation {
 				i++;
 			}
 			oNodeTable.add(i, oNode);
+			
+			log.trace("Node: " + oPair.a.getMoContent() + "; Ass wght=" + oAssWeight + "; importance=" + oAffect + "; PsyPot=" + rPsychicPotential + "; consumption=" + rConsumption + "; tablepos=" + i);
 		}
 		
 		//Go through the list a second time and activate
@@ -204,12 +215,12 @@ public class clsPsychicSpreadActivation {
 			//oNode.setMrAccumulatedSum(rAccumulatedSum);
 			
 			//Check if P >=  accumulated sum
-			if (oNode.getMrP() >= rAccumulatedSum) {
+			if (oNode.getMrP() >= rAccumulatedSum && i < pnMaximumDirectActivationValue) {
 				log.trace(oNode.toString() + " activated");
 				//oNode.setMbActivateable(true);
 				nBreakIndex++;
 			} else {
-				log.trace(oNode.toString() + " not activated");
+				log.trace("Stop activation");
 				break;
 			}
 		}
@@ -218,7 +229,7 @@ public class clsPsychicSpreadActivation {
 		for (int i=0;i<oNodeTable.size();i++) {
 			clsPsychicSpreadActivationNode oNode = oNodeTable.get(i);
 		
-			if (i<=nBreakIndex) {
+			if (i<nBreakIndex) {
 				//Calculate how much energy the activated images shall get
 				double rEnergyQuote = oNode.getMrPsychicPotential()/rAccumulatedSum;
 				oNode.setMrEnergyQuote(rEnergyQuote);

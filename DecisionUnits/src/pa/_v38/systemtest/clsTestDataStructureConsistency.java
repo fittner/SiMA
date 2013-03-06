@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -150,6 +151,22 @@ public class clsTestDataStructureConsistency {
 		}
 	}
 	
+	public static void debugCheckDMQoAGrowing(clsThingPresentationMesh poTPM) throws Exception {
+		
+		
+		for (clsThingPresentationMesh oTPM : clsMeshTools.getAllTPMObjects(poTPM, 5)) {
+			ArrayList<clsAssociationDriveMesh> oDMList = new ArrayList<clsAssociationDriveMesh>();
+			oDMList.addAll(clsMeshTools.getAllDMInMesh(oTPM));
+			for (clsAssociationDriveMesh oDM : oDMList) {
+				if (oDM.getDM().getQuotaOfAffect()>1.0) {
+					throw new Exception("Error in " + oTPM.getMoContent() + " in Drive mesh " + oDM.getRootElement() + ". QoA=" + oDM.getDM().getQuotaOfAffect() + " which is higher than allowed, i. e. the reference of the DM is bad");
+				}
+			}
+		}
+		
+		
+		
+	}
 	
 	
 }
