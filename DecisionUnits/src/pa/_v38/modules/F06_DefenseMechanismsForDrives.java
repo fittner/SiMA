@@ -40,7 +40,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;

@@ -21,7 +21,7 @@ import pa._v38.interfaces.modules.I5_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.pa.eDriveComponent;

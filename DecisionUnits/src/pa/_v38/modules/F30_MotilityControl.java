@@ -18,7 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 //import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
 import config.clsProperties;

@@ -36,7 +36,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;

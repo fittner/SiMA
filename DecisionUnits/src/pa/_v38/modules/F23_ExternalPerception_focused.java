@@ -30,7 +30,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;

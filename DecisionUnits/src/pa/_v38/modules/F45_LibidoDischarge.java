@@ -12,7 +12,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -32,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 
 import config.clsProperties;
 

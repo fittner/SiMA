@@ -33,7 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;

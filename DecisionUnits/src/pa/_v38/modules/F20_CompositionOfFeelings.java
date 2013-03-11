@@ -29,7 +29,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 

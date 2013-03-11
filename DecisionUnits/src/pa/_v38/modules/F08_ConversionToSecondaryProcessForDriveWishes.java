@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import du.enums.eShapeType;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -34,6 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  

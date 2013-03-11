@@ -44,11 +44,11 @@ import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.storage.DT2_BlockedContentStorage;
-import pa._v38.storage.DT1_LibidoBuffer;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.storage.DT4_PleasureStorage;
 import pa._v38.systemtest.clsTester;
 
 /**
