@@ -833,10 +833,7 @@ public class clsOntologyLoader {
 	 * @param poFrameKB
 	 * @param poDataStructurePA
 	 */
-	private static void createAssociation(
-			Instance poRootElement,
-			Instance poAssociation,
-			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
+	private static void createAssociation(Instance poRootElement, Instance poAssociation, clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 
 		// HZ Checks if the tree depth does not exceed a certain limit => avoids
 		// endless loops
@@ -847,12 +844,13 @@ public class clsOntologyLoader {
 		eDataType eAssociationType = getElementDataType(poAssociation);
 
 		eContentType eAssContentType = getElementContentType(poAssociation);
+		
+		//Extract association weight
+		double rAssociationWeight =  Double.valueOf((Float) getSlotValues("weight", poAssociation).toArray()[0]);
 
 		if (poRootElement == null) {
-			Instance oIns_a = (Instance) getSlotValues("element", poAssociation)
-					.toArray()[0];
-			Instance oIns_b = (Instance) getSlotValues("element", poAssociation)
-					.toArray()[1];
+			Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
+			Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
 
 			initDataStructure(null, oIns_a, poDataContainer);
 			initDataStructure(null, oIns_b, poDataContainer);
@@ -860,22 +858,17 @@ public class clsOntologyLoader {
 					poDataContainer.b);
 			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
 					poDataContainer.b);
-			oDataStructure = getNewAssociation(eAssContentType,
-					eAssociationType, poAssociation, oDS_a, oDS_b);
+			oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
 		} else {
 			for (Object oElement : getSlotValues("element", poAssociation)) {
 				String oRootName = poRootElement.getName();
 				String oElementName = ((Instance) oElement).getName();
 
 				if (!(oElementName.equals(oRootName))) {
-					initDataStructure(poRootElement, (Instance) oElement,
-							poDataContainer);
-					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName,
-							poDataContainer.b);
-					clsDataStructurePA oDS_b = retrieveDataStructure(
-							oElementName, poDataContainer.b);
-					oDataStructure = getNewAssociation(eAssContentType,
-							eAssociationType, poAssociation, oDS_a, oDS_b);
+					initDataStructure(poRootElement, (Instance) oElement, poDataContainer); 
+					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
+					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
+					oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight);
 				}
 			}
 		}
@@ -896,10 +889,7 @@ public class clsOntologyLoader {
 	 * @param poAssociation
 	 * @param poDataContainer
 	 */
-	private static void createAssociationSec(
-			Instance poRootElement,
-			Instance poAssociation,
-			clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
+	private static void createAssociationSec(Instance poRootElement, Instance poAssociation, clsPair<KnowledgeBase, HashMap<String, clsDataStructurePA>> poDataContainer) {
 
 		// HZ Checks if the tree depth does not exceed a certain limit => avoids
 		// endless loops
@@ -909,16 +899,16 @@ public class clsOntologyLoader {
 		String oAssName = poAssociation.getName();
 		eDataType eAssociationType = getElementDataType(poAssociation);
 		eContentType eAssContentType = getElementContentType(poAssociation);
+		
+		//Extract association weight
+		double rAssociationWeight =  Double.valueOf((Float) getSlotValues("weight", poAssociation).toArray()[0]);
 
 		if (poRootElement == null) {
-			Instance oIns_a = (Instance) getSlotValues("element", poAssociation)
-					.toArray()[0];
-			Instance oIns_b = (Instance) getSlotValues("element", poAssociation)
-					.toArray()[1];
+			Instance oIns_a = (Instance) getSlotValues("element", poAssociation).toArray()[0];
+			Instance oIns_b = (Instance) getSlotValues("element", poAssociation).toArray()[1];
 
 			// Extract predicate
-			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue(
-					"predicate", poAssociation));
+			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue("predicate", poAssociation));
 
 			initDataStructure(null, oIns_a, poDataContainer);
 			initDataStructure(null, oIns_b, poDataContainer);
@@ -926,8 +916,7 @@ public class clsOntologyLoader {
 					poDataContainer.b);
 			clsDataStructurePA oDS_b = retrieveDataStructure(oIns_b.getName(),
 					poDataContainer.b);
-			oDataStructure = getNewAssociation(eAssContentType,
-					eAssociationType, poAssociation, oDS_a, oDS_b, oPredicate);
+			oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight, oPredicate);
 		} else {
 			// Extract predicate
 			ePredicate oPredicate = ePredicate.valueOf((String) getSlotValue(
@@ -937,15 +926,10 @@ public class clsOntologyLoader {
 				String oElementName = ((Instance) oElement).getName();
 
 				if (!(oElementName.equals(oRootName))) {
-					initDataStructure(poRootElement, (Instance) oElement,
-							poDataContainer);
-					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName,
-							poDataContainer.b);
-					clsDataStructurePA oDS_b = retrieveDataStructure(
-							oElementName, poDataContainer.b);
-					oDataStructure = getNewAssociation(eAssContentType,
-							eAssociationType, poAssociation, oDS_a, oDS_b,
-							oPredicate);
+					initDataStructure(poRootElement, (Instance) oElement, poDataContainer);
+					clsDataStructurePA oDS_a = retrieveDataStructure(oRootName, poDataContainer.b);
+					clsDataStructurePA oDS_b = retrieveDataStructure(oElementName, poDataContainer.b);
+					oDataStructure = getNewAssociation(eAssContentType, eAssociationType, poAssociation, oDS_a, oDS_b, rAssociationWeight, oPredicate);
 				}
 			}
 		}
@@ -975,13 +959,10 @@ public class clsOntologyLoader {
 	 * @param poElementB
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eContentType peContentType,
-			eDataType peElementType, Instance poAssociation,
-			clsDataStructurePA poElementA, clsDataStructurePA poElementB) {
+	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, double prAssWeight) {
 		// Specialize the create association function, by not applying an
 		// attribute
-		return getNewAssociation(peContentType, peElementType, poAssociation,
-				poElementA, poElementB, ePredicate.NONE);
+		return getNewAssociation(peContentType, peElementType, poAssociation, poElementA, poElementB, prAssWeight, ePredicate.NONE);
 	}
 
 	/**
@@ -993,10 +974,7 @@ public class clsOntologyLoader {
 	 * @param poDataElements
 	 * @return
 	 */
-	private static clsAssociation getNewAssociation(eContentType peContentType,
-			eDataType peElementType, Instance poAssociation,
-			clsDataStructurePA poElementA, clsDataStructurePA poElementB,
-			ePredicate oPredicate) {
+	private static clsAssociation getNewAssociation(eContentType peContentType, eDataType peElementType, Instance poAssociation, clsDataStructurePA poElementA, clsDataStructurePA poElementB, double prAssWeight, ePredicate oPredicate) {
 
 		// Use oPredicate if an AssociationSecondary is used, else the predicate
 		// is not used in the function.
@@ -1039,7 +1017,7 @@ public class clsOntologyLoader {
 					new clsTriple<Integer, eDataType, eContentType>(oID,
 							peElementType, peContentType),
 					(clsThingPresentationMesh) poElementA,
-					(clsThingPresentationMesh) poElementB, 1.0);
+					(clsThingPresentationMesh) poElementB, prAssWeight);
 
 		case ASSOCIATIONWP:
 			if ((poElementA instanceof clsWordPresentationMesh)
