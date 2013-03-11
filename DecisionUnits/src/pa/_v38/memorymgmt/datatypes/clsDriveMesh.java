@@ -14,7 +14,7 @@ import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.tools.clsPair;

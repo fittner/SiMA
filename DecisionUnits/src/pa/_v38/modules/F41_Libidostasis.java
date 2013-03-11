@@ -14,7 +14,7 @@ import pa._v38.interfaces.modules.I3_1_receive;
 import pa._v38.interfaces.modules.I3_1_send;
 import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;

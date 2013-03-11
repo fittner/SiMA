@@ -17,7 +17,7 @@ import pa._v38.interfaces.modules.I3_2_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I3_4_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;

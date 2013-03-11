@@ -7,7 +7,7 @@
 package pa._v38.memorymgmt.old;
 
 import pa._v38.interfaces.itfInspectorInternalState;
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.tools.toText;
 
 /**

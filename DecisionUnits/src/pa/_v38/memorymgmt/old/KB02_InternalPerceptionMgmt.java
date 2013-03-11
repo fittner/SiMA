@@ -21,8 +21,8 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 
 
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**

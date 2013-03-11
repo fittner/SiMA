@@ -14,7 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
 
 /**

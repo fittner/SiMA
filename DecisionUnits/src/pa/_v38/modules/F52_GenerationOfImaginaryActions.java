@@ -24,7 +24,7 @@ import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsImage;
