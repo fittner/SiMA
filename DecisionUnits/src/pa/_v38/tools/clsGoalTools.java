@@ -23,7 +23,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 

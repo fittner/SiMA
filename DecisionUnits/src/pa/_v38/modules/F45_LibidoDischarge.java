@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
+import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 
 import config.clsProperties;
 

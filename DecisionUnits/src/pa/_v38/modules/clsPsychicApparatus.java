@@ -42,13 +42,13 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.storage.DT2_BlockedContentStorage;
 import pa._v38.storage.DT1_LibidoBuffer;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.storage.DT4_PleasureStorage;
-import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.systemtest.clsTester;
 
 /**

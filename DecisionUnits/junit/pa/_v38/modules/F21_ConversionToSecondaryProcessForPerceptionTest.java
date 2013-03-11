@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -38,9 +37,10 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsTriple;
 import config.clsProperties;
 
@@ -138,7 +138,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 
 	/**
 	 * Test method for
-	 * {@link pa._v38.modules.F21_ConversionToSecondaryProcessForPerception#F21_ConversionToSecondaryProcessForPerception(java.lang.String, config.clsProperties, java.util.HashMap, java.util.SortedMap, pa._v38.memorymgmt.clsKnowledgeBaseHandler, pa._v38.storage.clsShortTermMemory, pa._v38.storage.clsEnvironmentalImageMemory)}
+	 * {@link pa._v38.modules.F21_ConversionToSecondaryProcessForPerception#F21_ConversionToSecondaryProcessForPerception(java.lang.String, config.clsProperties, java.util.HashMap, java.util.SortedMap, pa._v38.memorymgmt.clsKnowledgeBaseHandler, pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory, pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory)}
 	 * .
 	 */
 	@Test
