@@ -4,7 +4,7 @@
  * @author zeilinger
  * 02.07.2010, 07:20:48
  */
-package pa._v38.memorymgmt.informationrepresentation.tools;
+package pa._v38.memorymgmt.framessearchspace.tools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
