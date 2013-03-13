@@ -28,6 +28,7 @@ public enum eEntity {
 	SELF,
 	HEALTH,
 	WALL,
-	SMARTEXCREMENT
+	SMARTEXCREMENT,
+	TOILET;
 
 }

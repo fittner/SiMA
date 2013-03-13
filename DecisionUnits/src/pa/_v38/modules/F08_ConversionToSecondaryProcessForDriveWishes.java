@@ -52,14 +52,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
-
-	// TODO: change after adaption to new DM
-	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY = new ArrayList<clsDriveMesh>();
-	
-	//private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
-	
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output = new ArrayList<clsWordPresentationMesh>();
-	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -169,8 +162,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
-		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
