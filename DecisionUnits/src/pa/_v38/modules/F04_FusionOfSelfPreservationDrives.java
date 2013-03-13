@@ -42,8 +42,10 @@ import du.enums.pa.ePartialDrive;
 public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements I3_2_receive, I3_4_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "04";
 	public static final String P_PERSONALITY_FACTOR ="PERSONALITY_CONTENT_FACTOR";
+	public static final String P_RECTUM_PAIN_LIMIT ="RECTUM_PAIN_LIMIT";
 	
 	private double Personality_Content_Factor; //neg = shove it to agressive, pos value = shove it to libidoneus, value is in percent (0.1 = +10%)
+	private double rectum_pain_limit; //is rectum tension reaches this limit the aggressiv part gets 100% of rectum tension
 	
 	private ArrayList<clsDriveMesh> moHomeostaticDriveCandidates_IN;
 	private ArrayList <clsPair<clsDriveMesh,clsDriveMesh>> moHomeostaticDriveComponents_OUT;
@@ -73,7 +75,7 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);
 		Personality_Content_Factor =poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_FACTOR).getParameterDouble();
-
+		rectum_pain_limit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_RECTUM_PAIN_LIMIT).getParameterDouble();
 		moCandidatePartitionFactor = new HashMap<String, Double>();
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 //		fillOppositePairs();
@@ -403,60 +405,22 @@ public class F04_FusionOfSelfPreservationDrives extends clsModuleBase implements
 	ArrayList<Double> generateDivisionFactorsRectum(clsDriveMesh oEntry){
 		
 		//TODO: Change Methode to calculate aggr and lib value
-		double rAgrTensionOld = 0.0;
-		double rLibTensionOld = 0.0;
 		double rAgrTension = 0.0;
 		double rLibTension = 0.0;
 		//get External associated Content
 		double rRectumPartitionFactor;
 		
-		if(moCandidatePartitionFactor.containsKey("RECTUM")){
-			rRectumPartitionFactor= moCandidatePartitionFactor.get("RECTUM");
-		}
-		else{
-			//if not exists initialize
-			rRectumPartitionFactor = 0.5;
-			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
-		}
+		double rRectumTension = oEntry.getQuotaOfAffect();
+		rRectumPartitionFactor =rRectumTension*(1/rectum_pain_limit);
 		
-		for(clsPair<clsDriveMesh,clsDriveMesh> oMesh: moHomeostaticDriveComponents_lastStep){
-			if(oMesh.a.getActualDriveSource().getMoContent().equals(oEntry.getActualDriveSource().getMoContent())){
-				rAgrTensionOld = oMesh.a.getQuotaOfAffect();
-				rLibTensionOld = oMesh.b.getQuotaOfAffect();
-			}
-		}
-		double rTensionChange = (rAgrTensionOld+rLibTensionOld)-oEntry.getQuotaOfAffect();
-		// if falling rectum tension
-		if(rTensionChange > 0){
-			double rRelativAgrFactor;
-			
-			//TODO: change hardcoded value
-			rRectumPartitionFactor -= 0.001;
-			if(rRectumPartitionFactor < 0) rRectumPartitionFactor = 0;
-			rRelativAgrFactor = rRectumPartitionFactor;
-			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
-			rAgrTension = oEntry.getQuotaOfAffect()*rRelativAgrFactor;
+		if(rRectumPartitionFactor > 1.0) rRectumPartitionFactor = 1.0;
+		if(rRectumPartitionFactor < 0.0) rRectumPartitionFactor = 0.0;
 		
-			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
-		}
-		// if rising rectum tension
-		else if (rTensionChange < 0){
-			double rRelativAgrFactor;
-			//TODO: change hardcoded value
-			rRectumPartitionFactor += 0.001;
-			if(rRectumPartitionFactor > 1) rRectumPartitionFactor = 1;
-			rRelativAgrFactor = rRectumPartitionFactor;
-			moCandidatePartitionFactor.put("RECTUM", rRectumPartitionFactor);
-			rAgrTension = oEntry.getQuotaOfAffect()*rRelativAgrFactor;
 		
-			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
-		}
-		//Rectum Tension doesn't change
-		else {
-			rAgrTension = oEntry.getQuotaOfAffect()*rRectumPartitionFactor;
 		
-			rLibTension = oEntry.getQuotaOfAffect()-rAgrTension;
-		}
+		rAgrTension = rRectumTension*rRectumPartitionFactor;
+		rLibTension = rRectumTension-rAgrTension;
+
 		ArrayList<Double> oRetVal = new ArrayList<Double>();
 		oRetVal.add(rAgrTension);
 		oRetVal.add(rLibTension);
