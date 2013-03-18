@@ -10,6 +10,7 @@ import inspectors.mind.pa._v38.autocreated.clsE_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.clsI_SimpleInterfaceDataInspector;
 import inspectors.mind.pa._v38.autocreated.cls_AreaChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_BarChartInspector;
+import inspectors.mind.pa._v38.autocreated.cls_BarChartInspectorF06;
 import inspectors.mind.pa._v38.autocreated.cls_CombinedTimeChart;
 import inspectors.mind.pa._v38.autocreated.cls_DescriptionInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericActivityTimeChartInspector;
@@ -31,6 +32,7 @@ import pa._v38.clsProcessor;
 import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.itfInspectorAreaChart;
 import pa._v38.interfaces.itfInspectorBarChart;
+import pa._v38.interfaces.itfInspectorBarChartF06;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
@@ -305,6 +307,13 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 						new cls_StackedBarChartInspector((itfInspectorStackedBarChart) oModule),	
 						"StackedBarChart");				
 			}
+			/*-------------------------BarChart For F06------------------------*/
+			if (oModule instanceof itfInspectorBarChartF06) {
+				poTI.addInspector(
+						new cls_BarChartInspectorF06((itfInspectorBarChartF06) oModule),	
+						"BarChartF06");				
+			}
+			/*------------------------------------------------------------------*/
 			if (oModule instanceof itfInspectorCombinedTimeChart) {
 				poTI.addInspector(
 						new cls_CombinedTimeChart((itfInspectorCombinedTimeChart) oModule),	
