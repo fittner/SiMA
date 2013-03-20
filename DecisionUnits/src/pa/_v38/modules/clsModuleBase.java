@@ -92,6 +92,7 @@ public abstract class clsModuleBase implements
 		
 		applyProperties(poPrefix, poProp);		
 	}	
+	
 
 	/**
 	 * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface. 
