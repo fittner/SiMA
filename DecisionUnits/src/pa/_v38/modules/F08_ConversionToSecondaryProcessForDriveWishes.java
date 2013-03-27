@@ -168,10 +168,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	protected void process_basic() {
 
-		//Fixme: Remove this hack
+		//Fixme: AW Remove this hack
 		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
 		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
-		
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
 
@@ -338,8 +337,11 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+		
+			moDriveList_Output = getWPAssociations(moDriveList_Input); 
+
+			double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
+
 	}
 
 	/* (non-Javadoc)
