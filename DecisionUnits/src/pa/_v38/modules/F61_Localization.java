@@ -11,11 +11,11 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_12_send;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsDumper;
 
 /**

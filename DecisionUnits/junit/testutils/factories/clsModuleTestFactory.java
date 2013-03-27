@@ -12,9 +12,9 @@ import java.util.SortedMap;
 
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.modules.clsModuleBase;
-import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
 
 /**
  * DOCUMENT (ende) - insert description 

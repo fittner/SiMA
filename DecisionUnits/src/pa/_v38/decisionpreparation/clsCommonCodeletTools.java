@@ -7,7 +7,7 @@
 package pa._v38.decisionpreparation;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.clsMentalSituationTools;
 
 /**

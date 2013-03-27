@@ -1,4 +1,4 @@
-; Thu Mar 07 11:27:48 CET 2013
+; Wed Mar 06 12:17:44 CET 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2384,7 +2384,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3ABITE]
 		[AD%3AAIM%3ACAKE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.6)
+	(quotaOfAffect 0.9)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2396,7 +2396,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
 		[AD%3AAIM%3ACARROT%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.8)
+	(quotaOfAffect 0.5)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2474,7 +2474,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3AEAT]
 		[AD%3AAIM%3ACAKE%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.9)
+	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2486,7 +2486,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT]
 		[AD%3AAIM%3ACARROT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.1)
+	(quotaOfAffect 0.3)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
