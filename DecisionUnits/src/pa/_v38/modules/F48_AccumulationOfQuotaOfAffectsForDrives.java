@@ -11,8 +11,6 @@ import java.util.HashMap;
 
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
-import pa._v38.tools.clsDriveValueSplitter;
-import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorStackedBarChart;
@@ -24,7 +22,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
+import pa._v38.tools.clsDriveValueSplitter;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eOrgan;
@@ -145,7 +145,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 	
 		//first calculate the tensions for homoestatic drives
-		ProcessHomeostaticDriveCandidates();
+		ProcessHomeostaticDriveCandidatesSimple();
 		
 		//second calculate the tensions for sexual drives
 		ProcessSexualDriveCandidates();
@@ -229,7 +229,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		}
 		
 	}
-
+	private void ProcessHomeostaticDriveCandidatesSimple() {
+		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
+			moAllDriveComponents_OUT.add(oHomeostaticDMPairEntry.a);
+			moAllDriveComponents_OUT.add(oHomeostaticDMPairEntry.b);
+		}
+		return;
+	}
+	
 	/**
 	 * Calculate the new values of the homeostatic drive pairs according to the Deutsch-curves see p82
 	 *
@@ -238,7 +245,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 */
 	private void ProcessHomeostaticDriveCandidates() {
 
-		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
+ 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
+			
 			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
 				try {
 					
@@ -279,6 +287,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
 			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
 		}
+		
 	}
 	
 	
