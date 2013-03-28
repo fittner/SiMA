@@ -276,7 +276,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		// sample rule for denial of perceptions
 		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
-		if (moSuperEgoStrength >= 0.8)
+		if (moSuperEgoStrength >= 0.5) //0.8
 			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE"))
@@ -289,7 +289,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
 				if (!moForbiddenPerceptions.contains(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE")))
 					moForbiddenPerceptions.add(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"));
-		
+			
 		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
 		if (moSuperEgoStrength >= 0.5)
 			if (searchInEmotions (eEmotionType.ANGER))

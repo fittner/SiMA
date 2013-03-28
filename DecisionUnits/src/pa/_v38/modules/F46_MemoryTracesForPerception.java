@@ -221,55 +221,55 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		}
 	}
 	
-	/**
-	 * DOCUMENT (schaat) - insert description
-	 *
-	 * @since May 3, 2012 11:28:30 AM
-	 *
-	 * @param oPerceivedImage
-	 * @return
-	 * 
-	 * Compare Image with  Images from Memory. Result = PI associated with similar TIs
-	 * Just compare if similar Entities of PI exist in RIs 
-	 * 
-	 * TODO: check imperativeFactor of Associations (see TPM.compareTo). MathcingFactor is decreased by imperativeFactor - check dynamic change of impFact  
-	 * 
-	 */
-	private clsThingPresentationMesh compareRIsWithPI(
-			clsThingPresentationMesh oPerceivedImage) {
-		// TODO (schaat) - Auto-generated method stub
-		
-		double rThreshold = 0.0;
-		clsDataStructurePA oRI = null;
-		ArrayList<clsAssociation> oAssociatedRIs = new ArrayList<clsAssociation>();
-		
-		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
-				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
-		
-		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
-		poSearchPattern.add(oPerceivedImage);
-		
-		// search for similar Images in memory (similar to PI) 
-		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, poSearchPattern);
-		
-		// for every found similar RI
-		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
-			for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-								
-				if( oSearchPair.a > rThreshold) {
-					oRI = oSearchPair.b.getMoDataStructure();
-					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.RI, oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
-				}
-				
-			}
-		
-		}
-		
-		// associate similar RI with PI. weight = matchFactor
-		oPerceivedImage.setMoExternalAssociatedContent(oAssociatedRIs);
-		
-		return oPerceivedImage;
-	}
+//	/**
+//	 * DOCUMENT (schaat) - insert description
+//	 *
+//	 * @since May 3, 2012 11:28:30 AM
+//	 *
+//	 * @param oPerceivedImage
+//	 * @return
+//	 * 
+//	 * Compare Image with  Images from Memory. Result = PI associated with similar TIs
+//	 * Just compare if similar Entities of PI exist in RIs 
+//	 * 
+//	 * TODO: check imperativeFactor of Associations (see TPM.compareTo). MathcingFactor is decreased by imperativeFactor - check dynamic change of impFact  
+//	 * 
+//	 */
+//	private clsThingPresentationMesh compareRIsWithPI(
+//			clsThingPresentationMesh oPerceivedImage) {
+//		// TODO (schaat) - Auto-generated method stub
+//		
+//		double rThreshold = 0.0;
+//		clsDataStructurePA oRI = null;
+//		ArrayList<clsAssociation> oAssociatedRIs = new ArrayList<clsAssociation>();
+//		
+//		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+//				new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+//		
+//		ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+//		poSearchPattern.add(oPerceivedImage);
+//		
+//		// search for similar Images in memory (similar to PI) 
+//		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.UNDEFINED, poSearchPattern);
+//		
+//		// for every found similar RI
+//		for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
+//			for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
+//								
+//				if( oSearchPair.a > rThreshold) {
+//					oRI = oSearchPair.b.getMoDataStructure();
+//					oAssociatedRIs.add(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.RI, oPerceivedImage, (clsThingPresentationMesh)oRI, oSearchPair.a));
+//				}
+//				
+//			}
+//		
+//		}
+//		
+//		// associate similar RI with PI. weight = matchFactor
+//		oPerceivedImage.setMoExternalAssociatedContent(oAssociatedRIs);
+//		
+//		return oPerceivedImage;
+//	}
 
 	/* (non-Javadoc)
 	 *
@@ -494,49 +494,49 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		return oSearchPattern;
 	}
 	
-	/**
-	 * This method adds the associated items from the search result to the
-	 * associatedDataStructures of the (perception) container.
-	 *
-	 * @author Marcus Zottl (e0226304)
-	 * 22.06.2011, 18:29:38
-	 *
-	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
-	 * @param poPerception		- the perception to which the items in the search
-	 * result should be added.
-	 */
-	private void addAssociations(
-			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
-			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
-
-		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
-		if (poSearchResult.size()!=poPerception.size()) {
-			try {
-				throw new Exception("F46: addAssociations, Error, different Sizes");
-			} catch (Exception e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
-		
-		for (int i=0;i<poSearchResult.size();i++) {
-			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
-			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
-			if (oSearchPair.size()>0) {
-				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
-			}
-			
-		}
-		
-		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
-			if(oEntry.size() > 0){
-				//get associated DM from a the object e. g. CAKE
-				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
-				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
-				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
-			}
-		}*/
-	}	
+//	/**
+//	 * This method adds the associated items from the search result to the
+//	 * associatedDataStructures of the (perception) container.
+//	 *
+//	 * @author Marcus Zottl (e0226304)
+//	 * 22.06.2011, 18:29:38
+//	 *
+//	 * @param poSearchResult	- the result of a MemorySearch in the KnowledgeBase 
+//	 * @param poPerception		- the perception to which the items in the search
+//	 * result should be added.
+//	 */
+//	private void addAssociations(
+//			ArrayList<ArrayList<clsPair<Double, clsDataStructureContainer>>> poSearchResult,
+//			ArrayList<clsPrimaryDataStructureContainer> poPerception) {
+//
+//		//oEntry: Data structure with a double association weight and an object e. g. CAKE with its associated DM.
+//		if (poSearchResult.size()!=poPerception.size()) {
+//			try {
+//				throw new Exception("F46: addAssociations, Error, different Sizes");
+//			} catch (Exception e) {
+//				// TODO (wendt) - Auto-generated catch block
+//				e.printStackTrace();
+//			}
+//		}
+//		
+//		for (int i=0;i<poSearchResult.size();i++) {
+//			ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchPair = poSearchResult.get(i);
+//			clsPrimaryDataStructureContainer oPC = poPerception.get(i);
+//			if (oSearchPair.size()>0) {
+//				poPerception.get(i).getMoAssociatedDataStructures().addAll(oSearchPair.get(0).b.getMoAssociatedDataStructures());
+//			}
+//			
+//		}
+//		
+//		/*for(ArrayList<clsPair<Double, clsDataStructureContainer>> oEntry : poSearchResult) {
+//			if(oEntry.size() > 0){
+//				//get associated DM from a the object e. g. CAKE
+//				ArrayList<clsAssociation> oAssociationList = oEntry.get(0).b.getMoAssociatedDataStructures();
+//				//Add associated DM to the input list. Now the list moAssociatedDataStructures contains DM and ATTRIBUTES
+//				poPerception.getMoAssociatedDataStructures().addAll(oAssociationList);
+//			}
+//		}*/
+//	}	
 	
 	/**
 	 * Either the perceived image or the input image from the secondary process are put on the input for searching for experiences (type IMAGE)
@@ -756,38 +756,38 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		return oRetVal;
 	}
 	
-	/**
-	 * Extract the n first drives from a list of drive meshes and drive objects
-	 * (wendt)
-	 *
-	 * @since 10.05.2012 11:07:00
-	 *
-	 * @param poDriveList
-	 * @param pnNumberOfDriveMeshes
-	 * @return
-	 */
-	private ArrayList<clsDriveMesh> extractDriveMeshes(ArrayList<clsDriveMesh> poDriveList, int pnNumberOfDriveMeshes) {
-		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
-		
-		int nCounter = 0;
-		if (poDriveList.isEmpty()==false) {
-			for (int i=0; i<poDriveList.size();i++) {
-				clsDriveMesh oDM = poDriveList.get(i);
-				oRetVal.add(oDM);
-				
-				if (nCounter>=pnNumberOfDriveMeshes-1) {
-					break;
-				}
-				
-				nCounter++;
-					
-			}
-		}
-		
-		
-		
-		return oRetVal;
-	}
+//	/**
+//	 * Extract the n first drives from a list of drive meshes and drive objects
+//	 * (wendt)
+//	 *
+//	 * @since 10.05.2012 11:07:00
+//	 *
+//	 * @param poDriveList
+//	 * @param pnNumberOfDriveMeshes
+//	 * @return
+//	 */
+//	private ArrayList<clsDriveMesh> extractDriveMeshes(ArrayList<clsDriveMesh> poDriveList, int pnNumberOfDriveMeshes) {
+//		ArrayList<clsDriveMesh> oRetVal = new ArrayList<clsDriveMesh>();
+//		
+//		int nCounter = 0;
+//		if (poDriveList.isEmpty()==false) {
+//			for (int i=0; i<poDriveList.size();i++) {
+//				clsDriveMesh oDM = poDriveList.get(i);
+//				oRetVal.add(oDM);
+//				
+//				if (nCounter>=pnNumberOfDriveMeshes-1) {
+//					break;
+//				}
+//				
+//				nCounter++;
+//					
+//			}
+//		}
+//		
+//		
+//		
+//		return oRetVal;
+//	}
 	
 
 	
