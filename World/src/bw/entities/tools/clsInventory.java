@@ -141,5 +141,17 @@ public class clsInventory {
 		
 		return oEntity;
 	}
+	
+	public String toText () {
+		String oInventory = "";
+		
+		oInventory = "MaxItems: " + getMaxItems() + "\nMaxMass: " + getMaxMass() + "\n";
+		
+		for (clsMobile oItem : moInventory) {
+			oInventory += oItem.toString() + "+" + oItem.getId() + "\n";		
+		}
+						
+		return oInventory;
+	}
 
 }
