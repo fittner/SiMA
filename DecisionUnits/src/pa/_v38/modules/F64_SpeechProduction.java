@@ -5,7 +5,12 @@
  */
 package pa._v38.modules;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+
+import pa._v38.interfaces.modules.I6_1_receive;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 import config.clsProperties;
 
@@ -15,12 +20,15 @@ import config.clsProperties;
  * 
  * @author hinterleitner
  */
-public class F64_SpeechProduction extends clsModuleBase {
+public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive {
 
 	//Statics for the module
 	public static final String P_MODULENUMBER = "64";
 	
-	
+	private clsThingPresentationMesh moPerceptionalMesh_IN;
+	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+
+
 	
 	public F64_SpeechProduction(String poPrefix,clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
 			throws Exception {
@@ -39,6 +47,7 @@ public class F64_SpeechProduction extends clsModuleBase {
 		return oProp;
 	}	
 	
+	@SuppressWarnings("unused")
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
 	
@@ -85,10 +94,16 @@ public class F64_SpeechProduction extends clsModuleBase {
 	}
 
 	
-	@Override
-	protected void send() {
+
 	
+	@SuppressWarnings("unchecked")
+	public void send_I6_13() {
+	
+		//AW 20110602 Added Associtated memories
+		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(moAssociatedMemories_IN);
 	}
+
+	
 
 	
 	@Override
@@ -112,6 +127,31 @@ public class F64_SpeechProduction extends clsModuleBase {
 	@Override
 	public void setDescription() {
 		moDescription = "F64: F64 Generation of Inner and Outer Speech for Speech and Language Production. ";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.03.2013 20:06:09
+	 * 
+	 * @see pa._v38.modules.clsModuleBase#send()
+	 */
+	@Override
+	protected void send() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 26.03.2013 19:00:11
+	 * 
+	 * @see pa._v38.interfaces.modules.I6_1_receive#receive_I6_1(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+	 */
+	@Override
+	public void receive_I6_1(clsWordPresentationMesh poPerception,
+			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
 	}
 
 	
