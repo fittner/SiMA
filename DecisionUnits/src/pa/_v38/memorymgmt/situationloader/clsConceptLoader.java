@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import config.clsProperties;
+
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsConcept;
@@ -50,7 +52,7 @@ public class clsConceptLoader implements itfConceptLoader {
             eContentType.EMOTION);
 
     @Override
-    public final clsConcept generate(final clsDataStructurePA... poDataStructures) {
+    public final clsConcept generate(final clsProperties poProperties, final clsDataStructurePA... poDataStructures) {
         moConcept = new clsConcept();
         for (clsDataStructurePA oDS : poDataStructures) {
             checkInputData(oDS);
@@ -59,7 +61,7 @@ public class clsConceptLoader implements itfConceptLoader {
     }
 
     @Override
-    public final clsConcept extend(final clsConcept poConcept, final clsDataStructurePA... poDataStructures) {
+    public final clsConcept extend(final clsConcept poConcept, final clsProperties poProperties, final clsDataStructurePA... poDataStructures) {
         moConcept = poConcept;
         for (clsDataStructurePA oDS : poDataStructures) {
             checkInputData(oDS);

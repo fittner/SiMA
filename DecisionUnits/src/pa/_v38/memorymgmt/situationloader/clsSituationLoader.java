@@ -22,14 +22,7 @@ import config.clsProperties;
  */
 public class clsSituationLoader implements itfSituationLoader {
 
-    /** Stored instance of a {@link clsConcept} passed on during creation. */
-    private clsConcept moConcept;
-    /** The prefix to be used for the generated situations underlying data structure. */
-    private String moPrefix;
-    /**
-     * The properties used to specify the search and other parameters: NOTE: add list of used properties here!
-     * 
-     * */
+    /** The properties used to specify the search and other parameters: NOTE: add list of used properties here! */
     private clsProperties moProperties;
 
     /** The handler to be used for accessing the knowledge base. */
@@ -45,10 +38,7 @@ public class clsSituationLoader implements itfSituationLoader {
      * @param poProperties
      * @param poKnowledgeBase
      */
-    public clsSituationLoader(clsConcept poConcept, String poPrefix, clsProperties poProperties) {
-        super();
-        moConcept = poConcept;
-        moPrefix = poPrefix;
+    public clsSituationLoader(clsProperties poProperties) {
         moProperties = poProperties;
 
         // clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement(
@@ -67,7 +57,7 @@ public class clsSituationLoader implements itfSituationLoader {
     public clsSituation generate(String poPrefix, clsConcept poConcept, clsProperties poProps) {
         clsSituation oFoundSituation = new clsSituation();
 
-        if (moConcept.isEmpty()) {
+        if (poConcept.isEmpty()) {
             return oFoundSituation;
         }
         itfSituationSearchAlgorithm oAlgorithm = new clsDepthFirstSearch();

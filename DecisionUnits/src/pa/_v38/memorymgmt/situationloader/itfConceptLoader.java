@@ -2,6 +2,7 @@ package pa._v38.memorymgmt.situationloader;
 
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import config.clsProperties;
 
 /**
  * DOCUMENT (havlicek) - This interface specifies the methods for a Concept Loader. Such a loader will take an array of {@code clsDataStructurePA}s
@@ -18,11 +19,12 @@ public interface itfConceptLoader {
      * 
      * @since 21.02.2013 21:18:25
      * 
+     * @param poProperties
      * @param poDataStructures
      *            the meshes with their associations.
      * @return a filled clsConcept
      */
-    clsConcept generate(clsDataStructurePA... poDataStructures);
+    clsConcept generate(clsProperties poProperties, clsDataStructurePA... poDataStructures);
 
     /**
      * DOCUMENT (havlicek) - merges additional information from a new search into an already filled clsConcept.
@@ -31,9 +33,10 @@ public interface itfConceptLoader {
      * 
      * @param poConcept
      *            a clsConcept already containing some context entities.
+     * @param poProperties
      * @param poDataStructures
      *            additional meshes with their associations that where not considered in the first run for example.
      * @return the merged clsConcept from the clsConcept given on input and the search results.
      */
-    clsConcept extend(clsConcept poConcept, clsDataStructurePA... poDataStructures);
+    clsConcept extend(clsConcept poConcept, clsProperties poProperties, clsDataStructurePA... poDataStructures);
 }
