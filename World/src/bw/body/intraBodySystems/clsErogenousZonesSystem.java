@@ -58,11 +58,24 @@ public class clsErogenousZonesSystem implements itfStepUpdateInternalState  {
 	}			
 
 
-	public void StimulateOralMucosa(double prStimulusIntensity) {
+	public void StimulateOralLibidinousMucosa(double prStimulusIntensity) {
 		//generate a stimulation message for the orifice
 		if (prStimulusIntensity < mrPainThresholdOralMucosa) {
 			if (moFastMessengerSystem != null) {
-				moFastMessengerSystem.addMessage(eBodyParts.INTER_ORIFICE_ORAL_MUCOSA, eBodyParts.BRAIN, prStimulusIntensity);
+				moFastMessengerSystem.addMessage(eBodyParts.INTER_ORIFICE_ORAL_LIBIDINOUS_MUCOSA, eBodyParts.BRAIN, prStimulusIntensity);
+			}
+		}
+		else{
+			//TODO if intensity is higher then threshhold -> generate pain
+			//TODO if stimuli/s is to high -> make numb -> less intensity
+		}
+	}
+	
+	public void StimulateOralAggressivMucosa(double prStimulusIntensity) {
+		//generate a stimulation message for the orifice
+		if (prStimulusIntensity < mrPainThresholdOralMucosa) {
+			if (moFastMessengerSystem != null) {
+				moFastMessengerSystem.addMessage(eBodyParts.INTER_ORIFICE_ORAL_AGGRESSIV_MUCOSA, eBodyParts.BRAIN, prStimulusIntensity);
 			}
 		}
 		else{

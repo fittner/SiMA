@@ -23,7 +23,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.systemtest.clsTester;
 
 /**

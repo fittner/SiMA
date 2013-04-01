@@ -18,6 +18,7 @@ public interface itfAPEatable {
 	 */
 	double tryEat();
 	
+	
 	/*
 	 * Inform the entity it has been eaten and get food as a result. 
 	 * Will only be executed if tryEat returns 0 as result

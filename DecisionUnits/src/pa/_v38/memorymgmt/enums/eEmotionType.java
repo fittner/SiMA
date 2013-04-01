@@ -14,12 +14,24 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eEmotionType {
+	
+	// Basic Emotions	
 	ANGER,
 	MOURNING,
 	ANXIETY,
 	JOY,
 	SATURATION,
 	ELATION,
+	
+	// Complex Emotions	
+	GUILT,
+	MELANCHOLIA,
+	SHAME,
+	PITY,
+	DISGUST,
+	HATE,
+	LOVE,
+	ENVY,	
 	
 	//Emotions from FG through F20 -- Replace these emotions someday with the ones above
 	CONFLICT,

@@ -114,10 +114,27 @@ public class clsThingPresentation extends clsPhysicalRepresentation{
 				else if(this.moContent instanceof String && oDataStructure.moContent instanceof String) {
 					oRetVal = compare((String)this.moContent, (String)oDataStructure.moContent);
 				}
+				else if(this.moContent instanceof Double && oDataStructure.moContent instanceof Double) {
+					oRetVal = compare((Double)this.moContent, (Double)oDataStructure.moContent);
+				}
 		}
 		return oRetVal;
 	}
 	
+	/**
+	 * DOCUMENT (herret) - insert description
+	 *
+	 * @since Jan 30, 2013 1:56:38 PM
+	 *
+	 * @param moContent2
+	 * @param moContent3
+	 * @return
+	 */
+	private double compare(Double moContent2, Double moContent3) {
+		if(moContent2 == moContent3) return 1.0;
+		else return 0.0;
+
+	}
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

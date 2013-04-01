@@ -8,10 +8,7 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
-import du.enums.eOrgan;
-import du.enums.pa.eDriveComponent;
-
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -26,7 +23,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -1045,16 +1042,16 @@ public class clsGoalTools {
 		//the word presentation in an associationWP is ALWAYS the leaf element
 		
 		//Get the Drive component
-		eDriveComponent oDriveComponent = poDM.getDriveComponent();
+		//eDriveComponent oDriveComponent = poDM.getDriveComponent();
 		
 		//Get partial drive
 		
 		//Get the bodily part
 		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
-		eOrgan oOrgan = poDM.getActualDriveSourceAsENUM();
+		//eOrgan oOrgan = poDM.getActualDriveSourceAsENUM();
 		
 		//Create the drive string from Drive component, orifice and organ
-		String poGoalName = oDriveComponent.toString() + oOrgan.toString();
+		String poGoalName = poDM.getDriveIdentifier(); //oDriveComponent.toString() + oOrgan.toString();
 		
 		//eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
 		

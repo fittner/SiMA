@@ -34,9 +34,9 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -284,7 +284,11 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		log.info("Found Acts:" + oWPMConstruct.b);
 		
 		// Take the created WPMs and build a clsConcept out of them.
-		//TODO (havlicek) add new clsSituationLoader
+//		moConcept = new clsConcept();
+//		moConcept.addWPMs(oWPMConstruct.a);
+//		moConcept.addWPMs(oWPMConstruct.b);
+//		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
+//		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
 
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;

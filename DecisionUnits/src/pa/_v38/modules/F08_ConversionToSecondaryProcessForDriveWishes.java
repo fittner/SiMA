@@ -14,7 +14,6 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import du.enums.eShapeType;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
@@ -34,6 +33,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
@@ -52,14 +52,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
-
-	// TODO: change after adaption to new DM
-	private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY = new ArrayList<clsDriveMesh>();
-	
-	//private ArrayList<clsDriveMesh> moDriveList_InputTEMPORARY;
-	
 	private ArrayList<clsWordPresentationMesh> moDriveList_Output = new ArrayList<clsWordPresentationMesh>();
-	//private ArrayList<clsTriple<String, eAffectLevel, clsWordPresentationMesh>> moDriveList_Output; 
 
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -169,8 +162,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
-		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
 		moDriveList_Output = getWPAssociations(moDriveList_Input); 
@@ -339,7 +332,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	protected void process_draft() {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
-		throw new java.lang.NoSuchMethodError();
+		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+
+		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
 	}
 
 	/* (non-Javadoc)

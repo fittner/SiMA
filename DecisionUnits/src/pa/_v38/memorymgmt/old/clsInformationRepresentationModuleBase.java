@@ -15,9 +15,9 @@ import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.informationrepresentation.enums.eSearchMethod;
-import pa._v38.memorymgmt.informationrepresentation.searchspace.clsSearchSpaceHandler;
-import pa._v38.memorymgmt.informationrepresentation.tools.clsDataStructureComparisonTools;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
+import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
+import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

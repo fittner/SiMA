@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import org.apache.log4j.Level;
 
+
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.decisionpreparation.clsCodeletHandler;
@@ -41,13 +42,13 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.storage.DT2_BlockedContentStorage;
-import pa._v38.storage.DT1_LibidoBuffer;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.storage.DT4_PleasureStorage;
-import pa._v38.storage.clsEnvironmentalImageMemory;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.systemtest.clsTester;
 
 /**
@@ -71,6 +72,7 @@ import pa._v38.systemtest.clsTester;
 public class clsPsychicApparatus {
 	/** Propertykeyprefix for all entries that are relevant for the knowledgebase; @since 13.07.2011 17:47:23 */
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
+	public static final String P_DEBUG_LEVEL = "debuglevel";
 	
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
@@ -161,6 +163,8 @@ public class clsPsychicApparatus {
 	
 	/** Unique identifier. The same for the body and the decision unit. Eases debugging and logging.; @since 13.07.2011 17:55:28 */
 	private int uid;
+	
+	private String moDebugLevel;
 
 	/**
 	 * Creates an instance of this class with the provided properties and parameters. Further, the list of the incoming and outgoing
@@ -209,6 +213,7 @@ public class clsPsychicApparatus {
 		clsTester.getTester().setActivated(false);
 		
 		applyProperties(poPrefix, poProp);
+	
 		
 		moDataLogger = new clsDataLogger(moModules, this.uid);
 		fillInterfaceMesh();
@@ -230,7 +235,9 @@ public class clsPsychicApparatus {
 
 		oProp.putAll(clsPersonalityParameterContainer.getDefaultProperties(pre + clsPersonalityParameterContainer.P_PERSONALITY_PARAMETER));
 		
-		oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
+		oProp.setProperty(pre+P_DEBUG_LEVEL, "DEBUG");
+		
+oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( F02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
 		oProp.putAll( F03_GenerationOfSelfPreservationDrives.getDefaultProperties( pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER ));
 		oProp.putAll( F04_FusionOfSelfPreservationDrives.getDefaultProperties( pre + F04_FusionOfSelfPreservationDrives.P_MODULENUMBER ));
@@ -340,6 +347,8 @@ public class clsPsychicApparatus {
 			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer);
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			
+			
+			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 		} catch (Exception e) {
 			
 			e.printStackTrace();

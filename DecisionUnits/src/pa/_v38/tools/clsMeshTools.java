@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.ListIterator;
 
 import pa._v38.logger.clsLogger;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -453,7 +453,7 @@ public class clsMeshTools {
 		for (clsAssociation oAss: poAssList) {
 			//Check if attribute
 			if (oAss instanceof clsAssociationDriveMesh) {
-				if (poContentType.equals(((clsAssociationAttribute)oAss).getLeafElement().getMoContentType())==true) {
+				if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
 					oRetVal.add((clsAssociationDriveMesh) oAss);
 					if (pbStopAtFirstMatch==true) {
 						break;
@@ -824,6 +824,25 @@ public class clsMeshTools {
 	}
 	
 
+	/**
+	 * Create a string with the images in a mesh
+	 * 
+	 * (wendt)
+	 *
+	 * @since 04.03.2013 11:18:08
+	 *
+	 * @param poImage
+	 * @return
+	 */
+	public static String printImagesInMesh(clsThingPresentationMesh poImage) {
+		String oResult = "";
+		ArrayList<clsThingPresentationMesh> oList = clsMeshTools.getAllTPMImages(poImage, 5);
+		for (clsThingPresentationMesh oTPM : oList) {
+			oResult += oTPM.getMoContent() + ", ";
+		}
+		
+		return oResult;
+	}
 	
 	
 	//=== SEARCH DATA STRUCTURES IN TPM GENERAL --- END ===//

@@ -19,10 +19,10 @@ import du.itf.sensors.clsInspectorPerceptionItem;
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
-import pa._v38.memorymgmt.clsLongTermMemoryHandler;
-import pa._v38.memorymgmt.clsSearchSpaceManager;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceManager;
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.longtermmemory.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 import pa._v38.modules.clsPsychicApparatus;
 

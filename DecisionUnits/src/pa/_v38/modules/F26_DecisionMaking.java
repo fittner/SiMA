@@ -15,8 +15,6 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.storage.DT3_PsychicEnergyStorage;
-import pa._v38.storage.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
@@ -38,6 +36,8 @@ import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 

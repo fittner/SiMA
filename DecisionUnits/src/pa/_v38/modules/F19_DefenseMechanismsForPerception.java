@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import config.clsProperties;
+import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.modules.I5_14_receive;
 import pa._v38.interfaces.modules.I5_15_receive;
 import pa._v38.interfaces.modules.I5_15_send;
@@ -21,21 +22,23 @@ import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I5_16_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.datahandler.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
+import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
+//import pa._v38.memorymgmt.datatypes.clsPhysicalRepresentation;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.storage.DT2_BlockedContentStorage;
+import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsMeshTools;
+//import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -58,7 +61,7 @@ import pa._v38.tools.toText;
  * 
  */
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
-			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send{
+			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart{
 	public static final String P_MODULENUMBER = "19";
 	
 	/** Specialized Logger for this class */
@@ -94,6 +97,23 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private ArrayList<clsEmotion> moEmotions_Input; 
 	private ArrayList<clsEmotion> moEmotions_Output;
 	
+	ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
+	
+	ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
+	ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects = new ArrayList<clsThingPresentationMesh>();
+	ArrayList<clsAssociation> oInternalAssociationsPositiveOrNegativeObject = new ArrayList<clsAssociation>();
+	ArrayList<String> Test= new ArrayList<String>();
+	ArrayList<String> Test3= new ArrayList<String>();
+	
+	// For TimeChart
+	HashMap<String, Double>  moTimeChartData = new HashMap<String, Double>();
+	double denial=0.0;
+	double idealization=0.0;
+	double depreciation =0.0;
+	double reversalOfAffect =0.0;
+	double NoEmotionDefense=0.0;
+	double NoPerceptionDefense=0.0;
+	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
 	 * 
@@ -118,6 +138,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		
 		//Fill the blocked content storage with initial data from protege
 		moBlockedContentStorage.addAll(initialFillRepressedContent());
+		moTimeChartData =  new HashMap<String, Double>(); 
 	}
 
 	/* (non-Javadoc)
@@ -135,6 +156,10 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		//text += toText.valueToTEXT("moAssociatedMemories_Input", moAssociatedMemories_Input);
 		//text += toText.valueToTEXT("moAssociatedMemories_Output", moAssociatedMemories_Output);
+		// To test the Idealization Or Depreciation
+		text += toText.valueToTEXT("/*********************Before IdealizationOrDepreciation*********************/", Test3);
+		text += toText.valueToTEXT("/*********************After IdealizationOrDepreciation*********************/", Test);
+			 				
 		text += toText.listToTEXT("moForbiddenPerceptions_Input", moForbiddenPerceptions_Input);
 		text += toText.listToTEXT("moForbiddenEmotions_Input", moForbiddenEmotions_Input);
 		text += toText.listToTEXT("moDeniedThingPresentations", moDeniedThingPresentations);
@@ -270,7 +295,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 		
 		detect_conflict_and_activate_defense_machanisms();
-		
+		moTimeInputChartData();
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {
@@ -279,6 +304,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
+		
 		
 	}
 	
@@ -296,8 +322,17 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 */
 	private void detect_conflict_and_activate_defense_machanisms() {
 		
+		
+		 moTimeInputChartData();
+		
 		 // empty the list from last step otherwise list only grows
 		 moQuotasOfAffect_Output.clear();
+		 if (moForbiddenPerceptions_Input.isEmpty()){
+			 ResetTimeChartForbidenPerceptionData(); 
+		 }
+		 if (moForbiddenEmotions_Input.isEmpty()){
+			 ResetTimeChartForbidenEmotionData(); 
+		 }
 		
 		 // check for a psychoanalytic conflict
 		 // defense mechanisms are delayed by one cycle to produce a situation where conflict exists and no action plans are executed
@@ -307,7 +342,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			  moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eDataType, Object>(eDataType.AFFECT, 999.9)); 
+			  moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 999.9)); 
 			  moQuotasOfAffect_Output.add(moAffect);
 			 
 			 return;
@@ -321,23 +356,126 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		 }
 		 // Defense mechanisms start to work.
 		 
+		 /* (non-Javadoc)
+		 *
+		 * @author Lotfi
+		 * 15.03.2013, 13:30:00
+		 * 
+		 * Ego decides now which defense mechanisms to apply (depending on the Intensity of Emotion ANXIETY)
+		 * In F19 ForbidenEmotions and ForbidenPerceptions should be defended 
+		 * 		 
+		 */ 
 		 
-		 // Super-Ego requests to defend the drives moForbiddenDrives_Input
-		 // Ego decides now which defense mechanisms to apply (depending on the quota of affect of the forbidden drive)
-		 
-		 // get quota of affect of forbidden drive (for now only one forbidden drive is possible)
-		 // TODO: FG many forbidden drives possible
-		 // TODO: FG implement the function getQuotaOfAffect(moForbiddenPerceptions_Input); 
-		 //double oQoA = getQuotaOfAffect(moForbiddenPerceptions_Input);
-		 
-		 // select defense mechanism
-		 //if (oQoA <= 0.9)
-		 defenseMechanism_Denial (moForbiddenPerceptions_Input);
-		 moEmotions_Output = defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
+		if (!moForbiddenPerceptions_Input.isEmpty()){ 
+			
+						
+			if(GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.4){
+				 
+				 defenseMechanism_Idealization(moForbiddenPerceptions_Input);
+				 
+				 
+				 				 
+			}else if ((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+			 		
+				defenseMechanism_Depreciation(moForbiddenPerceptions_Input);
+				
+				
+				
+			}else if(GetEmotionIntensity(eEmotionType.ANXIETY) > 1.5) {
+				
+				defenseMechanism_Denial(moForbiddenPerceptions_Input);
+				
+				
 
-		 // -> if the quota of affect of the forbidden drive is greater than 0.9, the drive can pass the defense (no defense mechanisms is activated)
+			}else{
+				
+				// For TimeChart
+				
+				ResetTimeChartDefenseForbidenPerceptionData();
+				
+				
+			}
+			
+		// If no ForbidenPerception Y-Axis of TimeCharts have to be inactive 
+		
+		}
+		
+		if(!moForbiddenEmotions_Input.isEmpty()){
+		
+			
+			if((GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+				
+				defenseMechanism_ReversalOfAffect (moForbiddenEmotions_Input, moEmotions_Output);
+				
+								
+			}else{
+				
+				ResetTimeChartDefenseForbidenEmotionData();
+								
+			}
+		}
+			
+		// If no ForbidenEmotion Y-Axis of TimeCharts are inactive
+		
+		  			 
+	 
+		moTimeInputChartData();
+
+		 
+	}
+	
+	
+	
+	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
+	private double GetEmotionIntensity(eEmotionType moEmotionType){
+			double oEmotionIntensity =0.0;
+			for(clsEmotion oOneEmotion : moEmotions_Output) {
+				
+					if(searchInEmotions (eEmotionType.MOURNING)){
+						if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
+							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+						}
+				    }
+					if(searchInEmotions (eEmotionType.ANXIETY)){
+						if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
+							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+						}
+					}
+				     
+				    if(searchInEmotions(eEmotionType.ANGER)){
+				    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
+				    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+				    	}
+				    }
+		
+				
+			}
+			return oEmotionIntensity;
+	}
+	// Search of the emotion types if they exist
+	private boolean searchInEmotions (eEmotionType oEmotionType) {	
+			
+		   	for(clsEmotion oOneEmotion : moEmotions_Output) {
+		   		if(oOneEmotion.getMoContent() == oEmotionType) {
+		   			return true;
+		   		}
+		   	}
+		   	
+		   	return false;
 	}
 
+	// HashMap for TimeChart
+	private HashMap<String, Double>  moTimeInputChartData(){
+		moTimeChartData.put("NoEmotionDefense", NoEmotionDefense);
+		moTimeChartData.put("NoPerceptionDefense", NoPerceptionDefense);
+		moTimeChartData.put("Denial", denial);
+		moTimeChartData.put("Idealization", idealization);
+		moTimeChartData.put("Depreciation", depreciation );
+		moTimeChartData.put("ReversalOfAffect", reversalOfAffect);
+		
+		return moTimeChartData;
+		
+	}
 	
 		
 	/* (non-Javadoc)
@@ -374,6 +512,298 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		}
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @author lotfi
+	 * 10.03.2013, 18:26:49
+	 * 
+	 * Create positive and negative parameters of the forbidden perception
+	 * The call of defense mechanism Idealization delete the negative parameters of the forbidden perception
+	 * AND 
+	 * The call of defense mechanism Depreciation delete the positive parameters of the forbidden perception  
+	 * 
+	 */
+	private ArrayList<clsThingPresentationMesh> CreateListWithPositiveObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+		
+		ArrayList<clsAssociation> oListWithPositiveAssociations = new ArrayList<clsAssociation>();
+
+		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			
+			eContentType oContentType = oOneForbiddenPerception.a;
+			String oContent     = oOneForbiddenPerception.b;
+			
+		
+						
+					clsThingPresentationMesh oObjectDataStructure= 	(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure
+																	(eDataType.TPM, new clsTriple<eContentType, Object, Object>
+																	(oContentType,new ArrayList<clsThingPresentation>(), oContent)); 
+					
+					
+					clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "GREEN"));
+					clsThingPresentation oForm = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "FLAT"));
+					clsThingPresentation oRace = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "DESERT"));
+					clsThingPresentation oTaste = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "SWEET"));
+					
+					
+					clsAssociation oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																		  (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oColor);
+	
+					oListWithPositiveAssociations.add(oColorAss);
+									
+					
+					clsAssociation oFormAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																		 (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oForm);
+					oListWithPositiveAssociations.add(oFormAss);
+					
+					clsAssociation oRaceAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																		 (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oRace);
+					oListWithPositiveAssociations.add(oRaceAss);
+					clsAssociation oTasteAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																		  (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oTaste);
+					oListWithPositiveAssociations.add(oTasteAss);
+					
+					oObjectDataStructure= new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1,eDataType.TPM, eContentType.TPM), oListWithPositiveAssociations, oContent); 
+					
+					
+					
+					oListWithPositiveObjects.add(oObjectDataStructure);
+					//Double pi = oObjectDataStructure.getNumbInternalAssociations();
+					//Double pi1 = oObjectDataStructure.getNumbExternalAssociations();
+					//Test3.add(String.valueOf(pi));
+					//Test3.add(String.valueOf(pi1));
+					// Just to test the Root
+		/*
+					clsDataStructurePA pop = oColorAss.getRootElement();
+					clsDataStructurePA pop1 = oFormAss.getRootElement();
+					clsDataStructurePA pop2 = oRaceAss.getRootElement();
+					clsDataStructurePA pop3 = oTasteAss.getRootElement();
+						
+					Test2.add(pop);
+					Test2.add(pop1);
+					Test2.add(pop2);
+					Test2.add(pop3);
+					
+					
+					// Just to test the LeafElements
+					Test3.add(oColorAss.toString());
+					Test3.add(oFormAss.toString());
+					Test3.add(oRaceAss.toString());
+					Test3.add(oTaste.toString());
+					Test3.add("!!"+ oObjectDataStructure.toString());
+					
+		*/		
+			
+					
+		
+		}	
+		
+				
+		return oListWithPositiveObjects;
+	}
+	// Create list with negative associations
+	
+	private  ArrayList<clsThingPresentationMesh> CreateListWithNegativeObjects (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions){
+		
+		ArrayList<clsAssociation> oListWithNegativeAssociations = new ArrayList<clsAssociation>();
+
+		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			
+			eContentType oContentType = oOneForbiddenPerception.a;
+			String oContent     = oOneForbiddenPerception.b;
+			
+		
+				clsThingPresentationMesh oObjectDataStructure= 	(clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure
+																(eDataType.TPM, new clsTriple<eContentType, Object, Object>
+																(oContentType,new ArrayList<clsThingPresentation>(), oContent)); 
+				
+				
+				clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "Red"));
+				clsThingPresentation oForm = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "ROUND"));
+				clsThingPresentation oRace = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "MUCHCALORIEs"));
+				clsThingPresentation oTaste = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "BAD"));
+				
+				
+				clsAssociation oColorAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																	  (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oColor);
+
+				oListWithNegativeAssociations.add(oColorAss);
+								
+				
+				clsAssociation oFormAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																	 (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oForm);
+				oListWithNegativeAssociations.add(oFormAss);
+				
+				clsAssociation oRaceAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																	 (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oRace);
+				oListWithNegativeAssociations.add(oRaceAss);
+				clsAssociation oTasteAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>
+																	  (-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.ASSOCIATIONTEMP), oObjectDataStructure, oTaste);
+				oListWithNegativeAssociations.add(oTasteAss);
+				
+				oObjectDataStructure= new clsThingPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1,eDataType.TPM, eContentType.TPM), oListWithNegativeAssociations, oContent); 
+				
+				
+				
+				//oObjectDataStructure.assignDataStructure(oColorAss);
+//				ArrayList<clsAssociation> pop= oObjectDataStructure.getMoInternalAssociatedContent();
+//				Test1 = deepCopy(pop);
+				oListWithNegativeObjects.add(oObjectDataStructure);
+				//Double pi = oObjectDataStructure.getNumbInternalAssociations();
+				//Double pi1 = oObjectDataStructure.getNumbExternalAssociations();
+				//Test3.add(String.valueOf(pi));
+				//Test3.add(String.valueOf(pi1));
+				// Just to test the Root
+	/*
+				clsDataStructurePA pop = oColorAss.getRootElement();
+				clsDataStructurePA pop1 = oFormAss.getRootElement();
+				clsDataStructurePA pop2 = oRaceAss.getRootElement();
+				clsDataStructurePA pop3 = oTasteAss.getRootElement();
+					
+				Test2.add(pop);
+				Test2.add(pop1);
+				Test2.add(pop2);
+				Test2.add(pop3);
+				
+				
+				// Just to test the LeafElements
+				Test3.add(oColorAss.toString());
+				Test3.add(oFormAss.toString());
+				Test3.add(oRaceAss.toString());
+				Test3.add(oTaste.toString());
+				Test3.add("!!"+ oObjectDataStructure.toString());
+				
+	*/		
+				//clsDataStructurePA pop = oColorAss.getLeafElement();
+				//Test3.add(pop.toString());
+			
+			
+		}
+		
+		
+				
+		return oListWithNegativeObjects;
+	}
+	// For Test on Simulation -->State
+	private void RemoveLast(ArrayList<String> Test){
+		for (int i=0;i<Test.size();i++){
+			if (i>0){
+				Test.remove(0);
+			}
+			
+		}
+	}
+	
+	
+	private void defenseMechanism_Idealization (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+		
+		idealization = 1.0;
+		denial=0.0;
+		depreciation =0.0;
+		NoPerceptionDefense=0.0;
+
+		
+		// has to be Called to create the negative Associations 
+		CreateListWithNegativeObjects (oForbiddenPerceptions); 
+		
+		//Just for Test --> State on The Simulator
+		for(clsThingPresentationMesh oNegativeObject : CreateListWithNegativeObjects (oForbiddenPerceptions)) {
+		Test3.add(" Before Idealization:"+"\n"+oNegativeObject.getMoInternalAssociatedContent().toString());
+		RemoveLast(Test3);
+		}
+		
+		// has to be Called to delete the negative Association
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithNegativeObjects);
+		
+		//Just for Test --> State on The Simulator
+		Test.add(" After Idealization:"+"\n"+oInternalAssociationsPositiveOrNegativeObject.toString());
+		RemoveLast(Test);
+		
+	}
+	
+	private void defenseMechanism_Depreciation (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+		
+		depreciation= 1.0;
+		denial=0.0;
+		idealization=0.0;
+		NoPerceptionDefense=0.0;
+		
+		// has to be Called to create the positive Associations
+		CreateListWithPositiveObjects (oForbiddenPerceptions);
+		
+		//Just for Test --> State on The Simulator
+		for(clsThingPresentationMesh oPositiveObject : CreateListWithPositiveObjects (oForbiddenPerceptions)) {
+			Test3.add(" Before Depreciation:"+"\n"+oPositiveObject.getMoInternalAssociatedContent().toString());
+			RemoveLast(Test3);
+			}
+
+		// has to be Called to delete the positive Association
+		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithPositiveObjects);
+		
+		//Just for Test --> State on The Simulator
+		Test.add(" After Depreciation:"+"\n"+oInternalAssociationsPositiveOrNegativeObject.toString());
+		RemoveLast(Test);
+	
+	}
+		
+		
+	private void deleteAssociationsFromPerception (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
+		
+		
+		boolean found = false;
+		clsAssociation oPosiveorNegativeAssociation = null;
+//		ArrayList<clsAssociation> oInternalAssociationsPositiveOrNegativeObject = new ArrayList<clsAssociation>();
+			
+
+	   	if (oForbiddenPerceptions == null) return;
+
+		// check list of forbidden perceptions
+		for(clsPair<eContentType, String> oOneForbiddenPerception : oForbiddenPerceptions) {	    	
+			eContentType oContentType = oOneForbiddenPerception.a;
+			String oContent     = oOneForbiddenPerception.b;
+			
+			ArrayList<clsAssociation> oInternalAssociations = ((clsThingPresentationMesh) moPerceptionalMesh_OUT).getMoInternalAssociatedContent();
+			//Search in perception
+			for(clsAssociation oAssociation : oInternalAssociations){
+
+				if (oAssociation.getMoAssociationElementB() instanceof clsThingPresentationMesh) 
+						
+					if( ((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContentType().equals(oContentType) &&
+						((clsThingPresentationMesh)oAssociation.getMoAssociationElementB()).getMoContent().equals(oContent)){
+						
+						
+						
+						for(clsThingPresentationMesh oPositiveOrNegativeObject : oListWithPositiveOrNegativeObjects) {
+						
+														
+							oInternalAssociationsPositiveOrNegativeObject = ((clsThingPresentationMesh)oPositiveOrNegativeObject).getMoInternalAssociatedContent();
+														
+						}
+						
+					}
+			}				
+			// Delete Associations with positive or negative Properities			
+			while(!oInternalAssociationsPositiveOrNegativeObject.isEmpty()){
+			
+				for(clsAssociation oAssociation1 : oInternalAssociationsPositiveOrNegativeObject){
+										
+					found = true;
+					oPosiveorNegativeAssociation = oAssociation1 ;
+					
+					break;
+				}
+				if (found){
+							
+					oInternalAssociationsPositiveOrNegativeObject.remove(oPosiveorNegativeAssociation );
+				}
+								
+			}
+						
+		}
+		
+		
+	}
+	
+	
 	
 	/* (non-Javadoc)
 	 *
@@ -382,7 +812,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 * Defense mechanism idealization (perceives only the good properties of an object and denies the negative properties)
 	 * 
-	 */
+	 
 	private void defenseMechanism_Idealization (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
 		ArrayList<clsThingPresentationMesh> oListWithNegativeObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oNegativeObject;
@@ -397,14 +827,14 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithNegativeObjects);
 	}
 	
-	/* (non-Javadoc)
+	 (non-Javadoc)
 	 *
 	 * @author gelbard
 	 * 06.07.2012, 13:23:49
 	 * 
 	 * Defense mechanism depreciation (perceives only the bad properties of an object and denies the positive properties)
 	 * 
-	 */
+	 
 	private void defenseMechanism_Depreciation (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
 		ArrayList<clsThingPresentationMesh> oListWithPositiveObjects = new ArrayList<clsThingPresentationMesh>();
 		clsThingPresentationMesh oPositiveObject;
@@ -418,7 +848,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		deleteAssociationsFromPerception (oForbiddenPerceptions, oListWithPositiveObjects);
 	}
 	
-	/* (non-Javadoc)
+	 (non-Javadoc)
 	 *
 	 * @author gelbard
 	 * 06.07.2012, 12:23:49
@@ -426,7 +856,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * deletes all positive (or all negative) associations in a TPM
 	 * is needed for defense mechanism idealization/depreciation
 	 * 
-	 */
+	 
 	private void deleteAssociationsFromPerception (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions, ArrayList<clsThingPresentationMesh> oListWithPositiveOrNegativeObjects) {
 		
 	   	// If no perception in list to defend return immediately (otherwise NullPointerException)
@@ -469,9 +899,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			
 		}
 	}
-	
+	*/
 	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
+		reversalOfAffect =1.0;
+		NoEmotionDefense=0.0;
 	   	if (oForbiddenEmotions_Input == null) return oEmotions_Output;
 		
 	   	// Is the emotion FEAR already in the list moEmotions_Output?
@@ -642,5 +1074,146 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	@Override
 	public void setDescription() {
 		moDescription = "Analogous to {E6}, {E19} evaluates incoming perceptions if they are allowed to become (pre-)conscious contents. Here, focus is on whether this ``thought'' is allowed or not. This is in opposition to defense mechanisms for drives where the focus is on the acceptability of satisfying a drive demand with a certain object. The same set of mechanisms can be used for {E6} and {E19}. They differ by the available data. {E6} has drive demands, internalized rules, and knowledge about its drives at hand; {E19} has only internalized rules and the perception.";
+	}
+	
+	private void ResetTimeChartDefenseForbidenPerceptionData(){
+		
+		NoPerceptionDefense=1.0; // to see for how long no defenses are applied to the forbidden perceptions    
+		denial=0.0;
+		idealization=0.0;
+		depreciation =0.0;
+		
+	}
+	private void ResetTimeChartForbidenPerceptionData(){
+		
+		NoPerceptionDefense=0.0; // to see for how long no defenses are applied to the forbidden perceptions    
+		denial=0.0;
+		idealization=0.0;
+		depreciation =0.0;
+		
+	}
+	private void ResetTimeChartDefenseForbidenEmotionData(){
+		NoEmotionDefense=1.0;
+		reversalOfAffect =0.0;
+	
+	}
+	private void ResetTimeChartForbidenEmotionData(){
+		NoEmotionDefense=0.0;
+		reversalOfAffect =0.0;
+	
+	}
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 20:23:54
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartAxis()
+	 */
+	@Override
+	public String getCombinedTimeChartAxis() {
+		// TODO (Lotfi) - Auto-generated method stub
+		return "0 to 1";
+	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 20:23:54
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getCombinedTimeChartData()
+	 */
+	@Override
+	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
+		// TODO (Lotfi) - Auto-generated method stub
+		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
+		//GetCombinedTimeDefenseData();
+			
+		ArrayList<Double> oDenial =new ArrayList<Double>();
+		oDenial.add(moTimeChartData.get("Denial"));
+		oResult.add(oDenial);
+		
+		ArrayList<Double> oIdealization =new ArrayList<Double>();
+		oIdealization.add(moTimeChartData.get("Idealization"));
+		oResult.add(oIdealization);
+		
+		ArrayList<Double> oDepreciation  =new ArrayList<Double>();
+		oDepreciation.add(moTimeChartData.get("Depreciation"));
+		oResult.add(oDepreciation);
+		
+		ArrayList<Double> oReversalOfAffect =new ArrayList<Double>();
+		oReversalOfAffect.add(moTimeChartData.get("ReversalOfAffect"));
+		oResult.add(oReversalOfAffect);
+				
+		ArrayList<Double> oNoEmotionDefense =new ArrayList<Double>();
+		oNoEmotionDefense.add(moTimeChartData.get("NoEmotionDefense"));
+		oResult.add(oNoEmotionDefense);
+		
+		ArrayList<Double> oNoPerceptionDefense =new ArrayList<Double>();
+		oNoPerceptionDefense.add(moTimeChartData.get("NoPerceptionDefense"));
+		oResult.add(oNoPerceptionDefense);
+			
+		return oResult;
+	}
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 20:23:54
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
+	 */
+	@Override
+	public ArrayList<String> getChartTitles() {
+		// TODO (Lotfi) - Auto-generated method stub
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.add("Denial");
+		oResult.add("Idealization");
+		oResult.add("Depreciation");
+		oResult.add("ReversalOfAffect");
+		oResult.add("NoEmotionDefense");
+		oResult.add("NoPerceptionDefense");
+		
+		
+		return oResult;
+	}
+	
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.02.2013 20:23:54
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
+	 */
+	@Override
+	public ArrayList<ArrayList<String>> getValueCaptions() {
+		// TODO (Lotfi) - Auto-generated method stub
+		ArrayList<ArrayList<String>> oResult = new ArrayList<ArrayList<String>>();
+		
+		
+		ArrayList<String> oDenial = new ArrayList<String>();
+		oDenial.add("Denial");
+		oResult.add(oDenial);
+		
+		ArrayList<String> oIdealization = new ArrayList<String>();
+		oIdealization.add("Idealization");
+		oResult.add(oIdealization);
+		
+		ArrayList<String> oDepreciation = new ArrayList<String>();
+		oDepreciation.add("Depreciation");
+		oResult.add(oDepreciation);
+		
+		ArrayList<String> oReversalOfAffect = new ArrayList<String>();
+		oReversalOfAffect.add("ReversalOfAffect");
+		oResult.add(oReversalOfAffect);
+
+		ArrayList<String> oNoEmotionDefense = new ArrayList<String>();
+		oNoEmotionDefense.add("NoEmotionDefense");
+		oResult.add(oNoEmotionDefense);
+		
+		ArrayList<String> oNoPerceptionDefense = new ArrayList<String>();
+		oNoPerceptionDefense.add("NoPerceptionDefense");
+		oResult.add(oNoPerceptionDefense);
+		
+		
+		return oResult;
 	}
 }

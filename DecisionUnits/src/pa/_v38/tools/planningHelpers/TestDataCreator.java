@@ -66,7 +66,7 @@ public class TestDataCreator {
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.MIDDLE_RIGHT, oEntity),
 		    new clsImage(eDirection.CENTER, oEntity)));
 
-		// EAT REMOTEBOT
+		// EAT CARROT
 		oEntity = eEntity.CARROT;
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.FAR, eDirection.CENTER, oEntity),
 		    new clsImage(eDistance.MEDIUM, eDirection.CENTER, oEntity)));
@@ -150,6 +150,32 @@ public class TestDataCreator {
 
 		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.MIDDLE_RIGHT, eEntity.STONE),
 		    new clsImage(eDirection.CENTER, eEntity.STONE)));
+		
+		// DEPOSIT TOILET
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.FAR, eDirection.CENTER,
+		    eEntity.TOILET), new clsImage(eDistance.MEDIUM, eDirection.CENTER, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.MOVE_FORWARD), new clsImage(eDistance.MEDIUM, eDirection.CENTER,
+				eEntity.TOILET), new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.TOILET)));
+		
+		moAvailablePlanFragments
+		    .add(new clsPlanFragment(new clsAct(eAction.DEPOSIT), new clsImage(eDistance.NEAR, eDirection.CENTER, eEntity.TOILET), new clsImage(
+		        eDistance.MEDIUM, eDirection.CENTER, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.DEPOSIT), new clsImage(eDistance.NEAR, eDirection.MIDDLE_LEFT,
+				eEntity.TOILET), new clsImage(eDistance.NEAR, eDirection.MIDDLE_LEFT, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_LEFT), new clsImage(eDirection.LEFT, eEntity.TOILET), new clsImage(
+		    eDirection.MIDDLE_LEFT, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_LEFT), new clsImage(eDirection.MIDDLE_LEFT, eEntity.TOILET),
+		    new clsImage(eDirection.CENTER, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.RIGHT, eEntity.TOILET), new clsImage(
+		    eDirection.MIDDLE_RIGHT, eEntity.TOILET)));
+
+		moAvailablePlanFragments.add(new clsPlanFragment(new clsAct(eAction.TURN_RIGHT), new clsImage(eDirection.MIDDLE_RIGHT, eEntity.TOILET),
+		    new clsImage(eDirection.CENTER, eEntity.TOILET)));
 
 		// SLEEP
 		oEntity = eEntity.EMPTYSPACE;

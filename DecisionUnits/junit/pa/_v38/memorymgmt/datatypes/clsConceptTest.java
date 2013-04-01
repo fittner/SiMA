@@ -16,12 +16,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
-import pa._v38.memorymgmt.datatypes.clsConcept.clsDistance;
-import pa._v38.memorymgmt.datatypes.clsConcept.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
-import pa._v38.tools.clsQuadruppel;
-
 /**
  * DOCUMENT (havlicek) - Test cases for {@link clsConcept}
  * 
@@ -49,38 +43,6 @@ public class clsConceptTest {
     public final void isEmptyNullTest() {
         moConcept = new clsConcept();
         assertEquals("New Concept should be empty.", true, moConcept.isEmpty());
-    }
-
-    /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public final void isEmptyOnlyInitTest() {
-        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> oQuadListMock = mock(List.class);
-        when(oQuadListMock.isEmpty()).thenReturn(true);
-
-        moConcept = new clsConcept();
-
-        moConcept.setConceptEntities(oQuadListMock);
-
-        assertEquals("Empty List and nothing else should be empty.", true, moConcept.isEmpty());
-    }
-
-    /**
-     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
-     */
-    @SuppressWarnings("unchecked")
-    @Test
-    public final void isEmptyWithConceptEntitiesTest() {
-        List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> oQuadListMock = mock(List.class);
-        when(oQuadListMock.isEmpty()).thenReturn(false);
-
-        moConcept = new clsConcept();
-
-        moConcept.setConceptEntities(oQuadListMock);
-
-        assertEquals("Set of results present so not empty.", false, moConcept.isEmpty());
     }
 
     /**

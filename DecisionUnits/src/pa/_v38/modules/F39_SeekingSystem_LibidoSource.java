@@ -16,7 +16,7 @@ import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eFastMessengerSources;
@@ -144,7 +144,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 				Double rIntensity = oFastMessenger.getIntensity();
 				
 				//wenn quelle X, dann Einfluß auf libido im Umfang von...
-				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_MUCOSA) {
+				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA) {
 
 					//TODO: calculate influence zones-> libido
 					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
@@ -152,6 +152,10 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
 					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
 
+				}
+				else if(oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
+					//TODO: calculate influence zones-> libido
+					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
 				}
 				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
 					//TODO: calculate influence zones-> libido

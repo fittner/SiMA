@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -26,6 +27,9 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	
 	/**Add external associations to other WPM; @since 29.11.2011 11:29:16 */
 	protected ArrayList<clsAssociation> moExternalAssociatedContent;
+	
+	/**Simplified access to associated content; @since 28.02.2013 10:44:20 */
+	protected HashMap<eContentType, Object> moAssociationMapping;
 	
 	/**
 	 * Get all external associations
