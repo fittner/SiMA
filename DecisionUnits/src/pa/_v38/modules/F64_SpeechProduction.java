@@ -9,12 +9,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import pa._v38.interfaces.modules.I6_1_receive;
+import pa._v38.memorymgmt.datatypes.clsConcept;
+import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.tools.toText;
 
 import config.clsProperties;
-
-
 
 /**
  * 
@@ -28,14 +30,21 @@ public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive 
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 
+	/** @author havlicek; Memory of the generated concepts. */
+    private clsShortTermMemory moConceptMemory;
+    /** @author havlicek; Currently generated concept. */
+    private final clsConcept moConcept;
+    /** @author havlicek; Currently identified situation. */
+    private final clsSituation moSituation;
 
 	
 	public F64_SpeechProduction(String poPrefix,clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, null);
 		
-	
-		
+		// Prepare finals to ensure null safety.
+		moConcept = new clsConcept();
+		moSituation = new clsSituation();
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -50,7 +59,8 @@ public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive 
 	@SuppressWarnings("unused")
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
-	
+	    
+	    //TODO (havlicek) fetch properties for clsSituationLoader
 	}
 
 	/* (non-Javadoc)
@@ -66,6 +76,10 @@ public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive 
 	
 		//text += toText.listToTEXT("moPerceptions_IN", moPerceptions_IN.getMoInternalAssociatedContent());
 		
+		text += toText.h3("Concept and Situation");
+		text += toText.valueToTEXT("moConcept", moConcept.toString());
+		text += toText.valueToTEXT("moSituation", moSituation.toString());
+		
 		return text;
 	}
 
@@ -78,7 +92,7 @@ public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive 
 	 */
 	@Override
 	protected void process_basic() {
-		
+			        
 	}
 		
 	@Override
