@@ -12,6 +12,7 @@ import java.util.SortedMap;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I3_1_receive;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_3_send;
@@ -38,7 +39,7 @@ import du.enums.pa.ePartialDrive;
  * 07.05.2012, 15:19:56
  * 
  */
-public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase implements I3_1_receive, I3_3_send {
+public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase implements I3_1_receive, I3_3_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "43";
 	
 	public static final String P_DRIVE_IMPACT_FACTOR_ORAL = "DRIVE_IMPACT_FACTOR_ORAL";
@@ -55,6 +56,10 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_OUT;
 	
 	private HashMap<ePartialDrive, Double> moSexualDrivesImpactFactors = new HashMap<ePartialDrive, Double>();
+
+	private boolean mnChartColumnsChanged = true;
+
+	private HashMap<String, Double> moDriveChartData;
 	
 	/**
 	 * basic constructor
@@ -78,6 +83,8 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 		moSexualDrivesImpactFactors.put(ePartialDrive.PHALLIC, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_PHALLIC).getParameterDouble());
 		moSexualDrivesImpactFactors.put(ePartialDrive.GENITAL, poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_DRIVE_IMPACT_FACTOR_GENITAL).getParameterDouble());
 
+		
+		moDriveChartData = new HashMap<String,Double>();
 	}
 	
 	/* (non-Javadoc)
@@ -146,6 +153,18 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 			
 			//create A,O,P,G for the libidoneus component
 			CreateLibidoneusDriveRepresentations((clsDriveMesh)oEntry.b);
+		}
+		
+		//add chart data for all drives:
+		for (clsDriveMesh oDriveMeshEntry : moSexualDriveRepresentations_OUT )
+		{
+			//add some time chart data
+			String oaKey = oDriveMeshEntry.getChartShortString();
+			if ( !moDriveChartData .containsKey(oaKey) ) {
+				mnChartColumnsChanged = true;
+			}
+			moDriveChartData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
+			
 		}
 		
 	}
@@ -364,5 +383,98 @@ public class F43_SeparationIntoPartialSexualDrives extends clsModuleBase impleme
 	@Override
 	public void setDescription() {
 		moDescription = "Each sexual drive is split apart into four drives representing the four partial drives. Module {E43} takes the aggressive and libidinous drives transmitted from {E41} and splits them according to predefined but individual templates. The result are eight sexual drives.  ";
-	}	
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:19 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:19 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:20 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:20 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Sexual Drives";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:20 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moDriveChartData.values());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:20 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moDriveChartData.keySet());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since Mar 14, 2013 3:07:20 PM
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;	
+		
+	}
 }
