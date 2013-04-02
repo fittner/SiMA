@@ -17,8 +17,9 @@ import pa._v38.interfaces.modules.D1_1_receive;
 import pa._v38.interfaces.modules.D1_2_send;
 import pa._v38.interfaces.modules.D1_3_receive;
 import pa._v38.interfaces.modules.D1_4_send;
+import pa._v38.interfaces.modules.D1_5_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
+import pa._v38.memorymgmt.enums.eSexualDrives;
 
 import pa._v38.tools.toText;
 
@@ -29,17 +30,17 @@ import pa._v38.tools.toText;
  * 09.03.2011, 17:04:55
  * 
  */
-public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
+public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive, D1_5_receive {
 	private double mrBufferedLibido;
-	private HashMap<eLibidoBufferTypes,Double> moLibidoBuffers;
+	private HashMap<eSexualDrives,Double> moLibidoBuffers;
 	
 	public DT1_LibidoBuffer() {
 		mrBufferedLibido = 0;
-		moLibidoBuffers = new HashMap<eLibidoBufferTypes,Double>();
-		moLibidoBuffers.put(eLibidoBufferTypes.ANAL, 0.0);
-		moLibidoBuffers.put(eLibidoBufferTypes.ORAL, 0.0);
-		moLibidoBuffers.put(eLibidoBufferTypes.GENITAL, 0.0);
-		moLibidoBuffers.put(eLibidoBufferTypes.PHALLIC, 0.0);
+		moLibidoBuffers = new HashMap<eSexualDrives,Double>();
+		moLibidoBuffers.put(eSexualDrives.ANAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.ORAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.GENITAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.PHALLIC, 0.0);
 		
 	}
 
@@ -55,7 +56,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 
 		//all partial libido storages get reduced by the same amount
 		double rReduceValue = prValue / moLibidoBuffers.size();
-		for(eLibidoBufferTypes eType: moLibidoBuffers.keySet()){
+		for(eSexualDrives eType: moLibidoBuffers.keySet()){
 			moLibidoBuffers.put(eType , moLibidoBuffers.get(eType)-rReduceValue);
 			
 		}		
@@ -64,7 +65,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	
 	private void normalizeBuffers() {
 		//Max value = 1, min value = 0.
-		for(eLibidoBufferTypes eType: moLibidoBuffers.keySet()){
+		for(eSexualDrives eType: moLibidoBuffers.keySet()){
 			if (moLibidoBuffers.get(eType) > 1) {
 				moLibidoBuffers.put(eType , 1.0);
 			} else if (moLibidoBuffers.get(eType) < 0) {
@@ -81,7 +82,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * @see pa.interfaces.receive._v38.D1_1_receive#receive_D1_1(double)
 	 */
 	@Override
-	public void receive_D1_1(eLibidoBufferTypes peType, double prValue) {
+	public void receive_D1_1(eSexualDrives peType, double prValue) {
 		
 		double rBufferValue;
 		if(moLibidoBuffers.containsKey(peType)){
@@ -101,6 +102,19 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 		moLibidoBuffers.put(peType, rBufferValue);
 		
 		normalizeBuffers();
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since Apr 2, 2013 4:05:05 PM
+	 * 
+	 * @see pa._v38.interfaces.modules.D1_5_receive#receive_D1_5(pa._v38.memorymgmt.enums.eSexualDrives)
+	 */
+	@Override
+	public void receive_D1_5(double prValue, eSexualDrives peType) {
+		moLibidoBuffers.put(peType , moLibidoBuffers.get(peType)-prValue);
+		normalizeBuffers();
+		
 	}
 
 	/* (non-Javadoc)
@@ -128,16 +142,16 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * @see pa.interfaces.send._v38.D1_2_send#send_D1_2()
 	 */
 	@Override
-	public double send_D1_2(eLibidoBufferTypes peType) {
+	public double send_D1_2(eSexualDrives peType) {
 		return moLibidoBuffers.get(peType);
 	}
 
 	@Override
 	public String toString() {
-		String oRetVal ="ORAL: "+moLibidoBuffers.get(eLibidoBufferTypes.ORAL) + "\n"
-		+ "ANAL: "+moLibidoBuffers.get(eLibidoBufferTypes.ANAL) + "\n"
-		+ "PHALLIC: "+moLibidoBuffers.get(eLibidoBufferTypes.PHALLIC) + "\n"
-		+ "GENITAL: "+moLibidoBuffers.get(eLibidoBufferTypes.GENITAL);
+		String oRetVal ="ORAL: "+moLibidoBuffers.get(eSexualDrives.ORAL) + "\n"
+		+ "ANAL: "+moLibidoBuffers.get(eSexualDrives.ANAL) + "\n"
+		+ "PHALLIC: "+moLibidoBuffers.get(eSexualDrives.PHALLIC) + "\n"
+		+ "GENITAL: "+moLibidoBuffers.get(eSexualDrives.GENITAL);
 		return oRetVal;
 	}
 
@@ -270,5 +284,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D1_2, eInterfaces.D1_4) );
-	}	
+	}
+
+	
 }

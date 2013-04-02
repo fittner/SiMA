@@ -40,11 +40,14 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	private DT1_LibidoBuffer moLibidoBuffer;
 
 	private double mrIncomingLibido_I0_1;
-	private double mrIncomingLibido_I0_2;
+	//private double mrIncomingLibido_I0_2;
 	private double mrOutgoingLibido;
 	
-	private HashMap<String, Double> moErogenousZoneStimuliList;
+
 	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_IN;
+	
+	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_OUT;
+	
 	
 	/**
 	 * basic constructor
@@ -62,7 +65,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
-		moErogenousZoneStimuliList = new HashMap<String, Double>();
+		
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -79,7 +82,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		
 		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
 		text += toText.valueToTEXT("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
-		text += toText.valueToTEXT("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
 		text += toText.valueToTEXT("mrOutgoingLibido", mrOutgoingLibido);		
 		
 		return text;
@@ -99,9 +101,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		//nothing to do
 	}	
 	
-	private void updateTempLibido() {
-		mrOutgoingLibido = mrIncomingLibido_I0_1 + mrIncomingLibido_I0_2;
-	}
+//	private void updateTempLibido() {
+//		mrOutgoingLibido = mrIncomingLibido_I0_1 + mrIncomingLibido_I0_2;
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -114,14 +116,17 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	protected void process_basic() {
 		
 		//calculate libido
-		 updateTempLibido();
+	//	 updateTempLibido();
 		 
 		//clear the old list
-		moErogenousZoneStimuliList.clear();
+	//	moErogenousZoneStimuliList.clear();
 		
 		//collect all zones together
-		CollectErogenousZoneStimuliAndReduceLibido();
+	//	CollectErogenousZoneStimuliAndReduceLibido();
 
+		
+		mrOutgoingLibido = mrIncomingLibido_I0_1;
+		moSensorSystems_OUT =moSensorSystems_IN;
 
 	}
 
@@ -187,8 +192,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		 updateTempLibido();		
-
+	
 	}
 
 	/* (non-Javadoc)
@@ -200,7 +204,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		 updateTempLibido();		
+		
 	}
 
 	/* (non-Javadoc)
@@ -212,7 +216,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I1_1(mrOutgoingLibido);
+		send_I1_1(mrOutgoingLibido, moSensorSystems_OUT);
 	}
 
 	@Override
@@ -231,8 +235,8 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @see pa.interfaces.send._v38.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_1(double prData) {
-		((I1_1_receive)moModuleList.get(40)).receive_I1_1(prData);
+	public void send_I1_1(double prData, HashMap<eSensorIntType, clsDataBase> poData) {
+		((I1_1_receive)moModuleList.get(40)).receive_I1_1(prData,poData);
 		putInterfaceData(I1_1_send.class, prData);
 	}
 
@@ -287,7 +291,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
 		oValues.add(mrIncomingLibido_I0_1);
-		oValues.add(mrIncomingLibido_I0_2);
 		oValues.add(mrOutgoingLibido);
 		
 		return oValues;
@@ -305,7 +308,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		
 		oCaptions.add(eInterfaces.I0_1.toString());
-		oCaptions.add(eInterfaces.I0_2.toString());
 		oCaptions.add(eInterfaces.I1_1.toString());
 		
 		return oCaptions;

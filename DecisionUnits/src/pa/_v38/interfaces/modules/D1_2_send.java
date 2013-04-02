@@ -7,7 +7,7 @@
 package pa._v38.interfaces.modules;
 
 
-import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
+import pa._v38.memorymgmt.enums.eSexualDrives;
 
 
 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
  * 
  */
 public interface D1_2_send {
-	double send_D1_2(eLibidoBufferTypes peType);
+	double send_D1_2(eSexualDrives peType);
 }

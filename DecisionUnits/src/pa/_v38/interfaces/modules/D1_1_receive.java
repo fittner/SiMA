@@ -6,7 +6,7 @@
  */
 package pa._v38.interfaces.modules;
 
-import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
+import pa._v38.memorymgmt.enums.eSexualDrives;
 
 
 
@@ -19,5 +19,5 @@ import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
  */
 public interface D1_1_receive {
 
-	public void receive_D1_1(eLibidoBufferTypes peType, double prValue);
+	public void receive_D1_1(eSexualDrives peType, double prValue);
 }
