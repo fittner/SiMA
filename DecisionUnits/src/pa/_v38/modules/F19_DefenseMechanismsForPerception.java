@@ -342,7 +342,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 			 defense_active = true;
 			 
 			 // send quota of affect 999.9 via I5.17 to produce a "CONFLICT"-signal in F20
-			  moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eDataType, Object>(eDataType.AFFECT, 999.9)); 
+			  moAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, 999.9)); 
 			  moQuotasOfAffect_Output.add(moAffect);
 			 
 			 return;
