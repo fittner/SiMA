@@ -11,33 +11,19 @@ import static org.junit.Assert.assertNotNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import pa._v38.memorymgmt.itfKnowledgeBaseHandler;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - insert description
+ * DOCUMENT (havlicek) - test cases for the implementation of the itfSituationLoader
  * 
  * @author havlicek 22.02.2013, 17:57:24
  * 
  */
 public class clsSituationLoaderTest {
-
-    /**
-     * DOCUMENT (havlicek) - insert description
-     * 
-     * @since 22.02.2013 17:57:24
-     * 
-     * @throws java.lang.Exception
-     */
-    @Before
-    public void setUp() throws Exception {
-
-    }
 
     /**
      * Test method for
@@ -48,12 +34,12 @@ public class clsSituationLoaderTest {
     public final void constructorTest() {
         clsConcept oConceptMock = mock(clsConcept.class);
         clsProperties oPropertiesMock = mock(clsProperties.class);
-        itfKnowledgeBaseHandler oKBHMock = mock(itfKnowledgeBaseHandler.class);
+        // itfKnowledgeBaseHandler oKBHMock = mock(itfKnowledgeBaseHandler.class);
         final String oPrefix = "nothing";
 
         when(oConceptMock.isEmpty()).thenReturn(true);
 
-        clsSituationLoader loader = new clsSituationLoader(oConceptMock, oPrefix, oPropertiesMock, oKBHMock);
+        clsSituationLoader loader = new clsSituationLoader();
 
         assertNotNull(loader);
         assertNotNull(loader.hashCode());
@@ -67,12 +53,12 @@ public class clsSituationLoaderTest {
     public final void generateEmptyTest() {
         clsConcept oConceptMock = mock(clsConcept.class);
         clsProperties oPropertiesMock = mock(clsProperties.class);
-        itfKnowledgeBaseHandler oKBHMock = mock(itfKnowledgeBaseHandler.class);
+        // itfKnowledgeBaseHandler oKBHMock = mock(itfKnowledgeBaseHandler.class);
         final String oPrefix = "nothing";
 
         when(oConceptMock.isEmpty()).thenReturn(true);
 
-        clsSituationLoader loader = new clsSituationLoader(oConceptMock, oPrefix, oPropertiesMock, oKBHMock);
+        clsSituationLoader loader = new clsSituationLoader();
 
         final clsSituation result = loader.generate(oPrefix, oConceptMock, oPropertiesMock);
 

@@ -29,17 +29,11 @@ public class clsSituationLoader implements itfSituationLoader {
     // private itfKnowledgeBaseHandler moKnowledgeBase;
 
     /**
-     * DOCUMENT (havlicek) - insert description
-     * 
-     * @since 19.02.2013 20:38:19
-     * 
-     * @param poConcept
-     * @param poPrefix
-     * @param poProperties
-     * @param poKnowledgeBase
+     * DOCUMENT (havlicek) - the default constructor for the clsSituationLaoder 
+     *
+     * @since 17.12.2012 17:35:21     *
      */
-    public clsSituationLoader(clsProperties poProperties) {
-        moProperties = poProperties;
+    public clsSituationLoader() {
 
         // clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement(
         // eInformationRepresentationManagementType.ARSI10_MGMT.name(), moPrefix, moProperties);

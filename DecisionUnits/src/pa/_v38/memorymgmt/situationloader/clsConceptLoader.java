@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import config.clsProperties;
-
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsConcept;
@@ -23,9 +21,10 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
+import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - insert description
+ * DOCUMENT (havlicek) - the concept loader class holds the functionality for the implemented {@link itfConceptLoader}
  * 
  * @author havlicek 15.02.2013, 20:08:52
  * 
@@ -135,9 +134,7 @@ public class clsConceptLoader implements itfConceptLoader {
      */
     private void checkDataStructure(clsDataStructurePA poDataStructurePA) {
 
-        if (null == poDataStructurePA || moVisitedDataStructures.contains(poDataStructurePA.hashCode())) {
-
-        } else {
+        if (null != poDataStructurePA && !moVisitedDataStructures.contains(poDataStructurePA.hashCode())) {
             // clsLogger.jlog.debug("checking " + moDataStructurePA);
             moVisitedDataStructures.add(poDataStructurePA.hashCode());
             if (eDataType.EMOTION.equals(poDataStructurePA.getMoDataStructureType())) {
@@ -195,9 +192,7 @@ public class clsConceptLoader implements itfConceptLoader {
         // TODO select fitting ePredicate
         clsAssociation oAssociation = new clsAssociationSecondary(poIdentifier, moConcept.returnContent(), newMesh, ePredicate.NONE);
 
-        if (moConcept.returnContent().getMoInternalAssociatedContent().contains(oAssociation)) {
-
-        } else {
+        if (!moConcept.returnContent().getMoInternalAssociatedContent().contains(oAssociation)) {
             ArrayList<clsAssociation> oAssociations = new ArrayList<clsAssociation>();
             oAssociations.add(oAssociation);
             moConcept.returnContent().addInternalAssociations(oAssociations);

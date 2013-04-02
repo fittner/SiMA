@@ -11,7 +11,7 @@ import static org.junit.Assert.fail;
 import org.junit.Test;
 
 /**
- * DOCUMENT (havlicek) - insert description
+ * DOCUMENT (havlicek) - unit tests for the itfConceptLoader
  * 
  * @author havlicek 23.02.2013, 11:23:32
  * 
