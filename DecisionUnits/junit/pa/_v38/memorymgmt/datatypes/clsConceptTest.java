@@ -7,166 +7,105 @@
 package pa._v38.memorymgmt.datatypes;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
 
-import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eEmotionType;
-import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.planningHelpers.eDistance;
-import du.enums.eEntityType;
-
 /**
- * DOCUMENT (havlicek) - insert description
+ * DOCUMENT (havlicek) - Test cases for {@link clsConcept}
  * 
  * @author havlicek 03.08.2012, 15:59:02
  * 
  */
 public class clsConceptTest {
 
-	private clsConcept _concept;
+    private clsConcept moConcept;
 
-	/**
-	 * DOCUMENT (havlicek) - insert description
-	 * 
-	 * @since 03.08.2012 15:59:02
-	 * 
-	 * @throws java.lang.Exception
-	 */
-	@Before
-	public void setUp() throws Exception {
-		_concept = new clsConcept();
-	}
+    /**
+     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
+     */
+    @Test
+    public final void constructorTest() {
+        moConcept = new clsConcept();
+        assertEquals(clsConcept.class, moConcept.getClass());
+        assertNotNull(moConcept);
+    }
 
-	/**
-	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsConcept#clsConcept()}.
-	 */
-	@Test
-	public final void constructorTest() {
-		assertEquals(clsConcept.class, _concept.getClass());
+    /**
+     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     */
+    @Test
+    public final void isEmptyNullTest() {
+        moConcept = new clsConcept();
+        assertEquals("New Concept should be empty.", true, moConcept.isEmpty());
+    }
 
-	}
+    /**
+     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public final void isEmptyWithEmptyMeshTest() {
+        clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
+        List<clsAssociation> associationListMock = mock(ArrayList.class);
+        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(associationListMock.isEmpty()).thenReturn(true);
 
-	@Test
-	public final void convertSingleWPMTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.ENTITY, "cake");
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
+        moConcept = new clsConcept();
 
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
+        moConcept.moConceptMesh = oWpmMock;
 
-	@Test
-	public final void addEntityWPMTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.ENTITY, "cake");
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
+        assertEquals("Empty List and nothing else should be empty.", true, moConcept.isEmpty());
+    }
 
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
+    /**
+     * Test method for {@link pa._v38.memorymgmt.datatypes.clsConcept#isEmpty()}.
+     */
+    @SuppressWarnings("unchecked")
+    @Test
+    public final void isEmptyWithInitMeshTest() {
+        clsWordPresentationMesh oWpmMock = mock(clsWordPresentationMesh.class);
+        List<clsAssociation> associationListMock = mock(ArrayList.class);
+        when(oWpmMock.getExternalMoAssociatedContent()).thenReturn((ArrayList<clsAssociation>) associationListMock);
+        when(associationListMock.isEmpty()).thenReturn(false);
 
-	@Test
-	public final void addDistanceWPMTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.DISTANCE, eDistance.MEDIUM.name());
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
+        moConcept = new clsConcept();
 
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
+        moConcept.moConceptMesh = oWpmMock;
 
-	@Test
-	public final void addActionWPMTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.ACTION, eAction.EAT.name());
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
+        assertEquals("Set of results present so not empty.", false, moConcept.isEmpty());
+    }
 
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
+    @Test
+    public final void equalsHashReflexivityWithEmptyTest() {
+        moConcept = new clsConcept();
 
-	@Test
-	public final void addEmotionWPMTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.EMOTION, eEmotionType.JOY.name());
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
+        assertEquals("The same object must be equal. <Reflexivity>", true, moConcept.equals(moConcept));
+        assertEquals("The same object must have the same hash. <Reflexivity>", moConcept.hashCode(), moConcept.hashCode());
+    }
 
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
+    @Test
+    public final void equalsHashSymmetryNewEmptyTest() {
+        moConcept = new clsConcept();
+        final clsConcept oConcept = new clsConcept();
 
-	@Test
-	public final void addWPMwithSelfLoopTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.EMOTION, eEmotionType.JOY.name());
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		clsAssociation loop = new clsAssociationSecondary(
-				new clsTriple<Integer, eDataType, eContentType>(1,
-						eDataType.EMOTION, eContentType.EMOTION), wpm, wpm,
-				ePredicate.HASDISTANCE);
-		wpm.moInternalAssociatedContent.add(loop);
-		_concept.addWPMs(wpm);
-		assertEquals(1,
-				_concept.returnContent().moInternalAssociatedContent.size());
-	}
-	
-	@Test
-	public final void addWPMwithAssociationsTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.GOAL, eGoalType.DRIVESOURCE.name());
-		clsPair<eContentType, Object> entityPair = new clsPair<eContentType, Object>(eContentType.ENTITY, eEntityType.CAKE.name());
-		clsPair<eContentType, Object> actionPair = new clsPair<eContentType, Object>(eContentType.ACTION, eAction.EAT.name());
-		
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		clsWordPresentationMesh wpmEntity = clsDataStructureGenerator.generateWPM(
-				entityPair, new ArrayList<clsAssociation>());
-		clsWordPresentationMesh wpmAction = clsDataStructureGenerator.generateWPM(
-				actionPair, new ArrayList<clsAssociation>());
-		
-		clsAssociation association = new clsAssociationSecondary(new clsTriple<Integer, eDataType, eContentType>(1,
-						eDataType.ACT, eContentType.ACTIONTYPE), wpmEntity, wpmAction, ePredicate.HASACTION);
-		wpm.moInternalAssociatedContent.add(association);
-		
-		_concept.addWPMs(wpm);
-		
-		assertEquals(2, _concept.returnContent().moInternalAssociatedContent.size());
-	}
+        assertEquals("Two new concepts are equal.", true, moConcept.equals(oConcept));
+        assertEquals("Two new concepts are equal. <Symmetry>", true, moConcept.equals(oConcept));
+        assertEquals("Two new empty concepts have the same hash. <Symmetry>", oConcept.hashCode(), moConcept.hashCode());
+    }
 
-	@Test
-	public final void addNotValidTest() {
-		clsPair<eContentType, Object> basicPair = new clsPair<eContentType, Object>(
-				eContentType.GOAL, eEmotionType.JOY.name());
-		clsWordPresentationMesh wpm = clsDataStructureGenerator.generateWPM(
-				basicPair, new ArrayList<clsAssociation>());
-		_concept.addWPMs(wpm);
-		assertEquals(0,
-				_concept.returnContent().moInternalAssociatedContent.size());
-		assertEquals(0,
-				_concept.returnContent().moExternalAssociatedContent.size());
-	}
-
+    // @Test
+    // public final void equlasHashEmptyFilledNotSameTest() {
+    // moConcept = new clsConcept();
+    // final clsConcept oConcept =
+    // clsConceptTestFactory.create().withConceptEntity(new clsEntity(), new clsAction(), new clsEmotion(), new clsDistance()).getObject();
+    // }
+    //
+    //
+    //
 }
