@@ -263,8 +263,10 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
 		
 		//Libido generation
-		moPsyApp.moF41_Libidostasis.step();
-		moPsyApp.moF43_SeparationIntoPartialSexualDrives.step();
+//		moPsyApp.moF41_Libidostasis.step();
+//		moPsyApp.moF43_SeparationIntoPartialSexualDrives.step();
+
+		moPsyApp.moF64_PartialSexualDrives.step();
 		
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfQuotaOfAffectsForDrives.step(); 

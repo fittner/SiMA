@@ -7,6 +7,9 @@
 package pa._v38.interfaces.modules;
 
 
+import pa._v38.memorymgmt.enums.eLibidoBufferTypes;
+
+
 
 /**
  * Read access to libido storage (from F41).
@@ -16,5 +19,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface D1_2_send {
-	public double send_D1_2();
+	double send_D1_2(eLibidoBufferTypes peType);
 }

@@ -62,9 +62,9 @@ public class clsGenerateFunctionalModel {
 	private static void beautify(HashMap<Integer, clsNode> oNodes) {
 		((clsNode)(oNodes.get(39))).setCoords(0, 0);		
 		((clsNode)(oNodes.get(40))).setCoords(1, 0);
-		((clsNode)(oNodes.get(41))).setCoords(2, 0);
-		((clsNode)(oNodes.get(43))).setCoords(3, 0); 
-		
+		//((clsNode)(oNodes.get(41))).setCoords(2, 0);
+		//((clsNode)(oNodes.get(43))).setCoords(3, 0); 
+		((clsNode)(oNodes.get(64))).setCoords(3, 0);
 		
 		((clsNode)(oNodes.get(1))).setCoords(0, 2);
 		((clsNode)(oNodes.get(2))).setCoords(1, 2);

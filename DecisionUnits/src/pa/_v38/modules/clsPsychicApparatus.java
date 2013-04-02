@@ -102,8 +102,6 @@ public class clsPsychicApparatus {
 	public F37_PrimalRepressionForPerception moF37_PrimalRepressionForPerception;
 	public F39_SeekingSystem_LibidoSource moF39_SeekingSystem_LibidoSource;
 	public F40_NeurosymbolizationOfLibido moF40_NeurosymbolizationOfLibido;
-	public F41_Libidostasis moF41_Libidostasis;
-	public F43_SeparationIntoPartialSexualDrives moF43_SeparationIntoPartialSexualDrives;
 	public F48_AccumulationOfQuotaOfAffectsForDrives moF48_AccumulationOfQuotaOfAffectsForDrives;
 	public F57_MemoryTracesForDrives moF57_MemoryTracesForDrives;
 	public F49_PrimalRepressionForDrives moF49_PrimalRepressionForDrives;
@@ -117,6 +115,7 @@ public class clsPsychicApparatus {
 	public F47_ConversionToPrimaryProcess moF47_ConversionToPrimaryProcess;
 	public F63_CompositionOfEmotions moF63_CompositionOfEmotions;
 	public F61_Localization moF61_Localization;
+	public F64_PartialSexualDrives moF64_PartialSexualDrives;
 	
 	/** Container for personality parameters ; @since 18.01.2013 15:09:03 */
 	public clsPersonalityParameterContainer moPersonalityParameterContainer;
@@ -265,8 +264,6 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 		oProp.putAll( F37_PrimalRepressionForPerception.getDefaultProperties( pre + F37_PrimalRepressionForPerception.P_MODULENUMBER ));
 		oProp.putAll( F39_SeekingSystem_LibidoSource.getDefaultProperties( pre + F39_SeekingSystem_LibidoSource.P_MODULENUMBER ));
 		oProp.putAll( F40_NeurosymbolizationOfLibido.getDefaultProperties( pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER ));
-		oProp.putAll( F41_Libidostasis.getDefaultProperties( pre + F41_Libidostasis.P_MODULENUMBER ));
-		oProp.putAll( F43_SeparationIntoPartialSexualDrives.getDefaultProperties( pre + F43_SeparationIntoPartialSexualDrives.P_MODULENUMBER ));
 		oProp.putAll( F48_AccumulationOfQuotaOfAffectsForDrives.getDefaultProperties( pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F57_MemoryTracesForDrives.getDefaultProperties( pre + F57_MemoryTracesForDrives.P_MODULENUMBER ));
 		oProp.putAll( F49_PrimalRepressionForDrives.getDefaultProperties( pre + F49_PrimalRepressionForDrives.P_MODULENUMBER ));
@@ -280,6 +277,8 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 		oProp.putAll( F47_ConversionToPrimaryProcess.getDefaultProperties( pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER ));
 		oProp.putAll( F61_Localization.getDefaultProperties( pre + F61_Localization.P_MODULENUMBER ));
 		oProp.putAll( F63_CompositionOfEmotions.getDefaultProperties( pre + F63_CompositionOfEmotions.P_MODULENUMBER ));
+		oProp.putAll( F64_PartialSexualDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
+		
 
 		return oProp;
 	}	
@@ -331,8 +330,6 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 			moF37_PrimalRepressionForPerception = new F37_PrimalRepressionForPerception(pre + F37_PrimalRepressionForPerception.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage, moPersonalityParameterContainer);
 			moF39_SeekingSystem_LibidoSource = new F39_SeekingSystem_LibidoSource(pre + F39_SeekingSystem_LibidoSource.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer);
 			moF40_NeurosymbolizationOfLibido = new F40_NeurosymbolizationOfLibido(pre + F40_NeurosymbolizationOfLibido.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF41_Libidostasis = new F41_Libidostasis(pre + F41_Libidostasis.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer);
-			moF43_SeparationIntoPartialSexualDrives = new F43_SeparationIntoPartialSexualDrives(pre + F43_SeparationIntoPartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer);
 			moF48_AccumulationOfQuotaOfAffectsForDrives = new F48_AccumulationOfQuotaOfAffectsForDrives(pre + F48_AccumulationOfQuotaOfAffectsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPersonalityParameterContainer);
 			moF57_MemoryTracesForDrives = new F57_MemoryTracesForDrives(pre + F57_MemoryTracesForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer);
 			moF49_PrimalRepressionForDrives = new F49_PrimalRepressionForDrives(pre + F49_PrimalRepressionForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer);
@@ -346,7 +343,7 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 			moF47_ConversionToPrimaryProcess = new F47_ConversionToPrimaryProcess(pre + F47_ConversionToPrimaryProcess.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer);
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
-			
+			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer);
 			
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 		} catch (Exception e) {

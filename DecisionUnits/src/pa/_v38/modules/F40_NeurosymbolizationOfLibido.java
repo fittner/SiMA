@@ -142,7 +142,7 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	 */
 	@Override
 	public void send_I2_1(Double poLibidoSymbol) {
-		((I2_1_receive)moModuleList.get(41)).receive_I2_1(poLibidoSymbol);
+		((I2_1_receive)moModuleList.get(64)).receive_I2_1(poLibidoSymbol);
 		putInterfaceData(I2_1_send.class, poLibidoSymbol);
 		
 	}
