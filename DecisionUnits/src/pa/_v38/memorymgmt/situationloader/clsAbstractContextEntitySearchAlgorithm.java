@@ -1,7 +1,13 @@
 package pa._v38.memorymgmt.situationloader;
 
+import java.util.List;
+
+import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (havlicek) - insert description 
@@ -12,6 +18,25 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 public abstract class clsAbstractContextEntitySearchAlgorithm implements itfContextEntitySearchAlgorithm {
 
+    protected clsConcept moConcept;
+    
+    /** */
+    protected final clsTriple<Integer, eDataType, eContentType> moActionTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
+            eContentType.ACTION);
+    /** */
+    protected final clsTriple<Integer, eDataType, eContentType> moEntityTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
+            eContentType.ENTITY);
+    /** */
+    protected final clsTriple<Integer, eDataType, eContentType> moDistanceTriple = new clsTriple<Integer, eDataType, eContentType>(1,
+            eDataType.CONCEPT, eContentType.DISTANCE);
+    /** */
+    protected final clsTriple<Integer, eDataType, eContentType> moEmotionTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
+            eContentType.EMOTION);
+    
+    public clsAbstractContextEntitySearchAlgorithm() {
+        moConcept = new clsConcept();
+    }
+    
     @Override
     public final void addWPMs(final clsWordPresentationMesh... poWPMs) {
         for (clsWordPresentationMesh oWPM : poWPMs) {
@@ -26,5 +51,9 @@ public abstract class clsAbstractContextEntitySearchAlgorithm implements itfCont
      *
      * @param poDataStructurePA
      */
-    protected abstract void checkDataStructure(clsDataStructurePA poDataStructurePA);
+    protected void checkDataStructure(clsDataStructurePA poDataStructurePA) {
+        
+    }
+
+    
 }

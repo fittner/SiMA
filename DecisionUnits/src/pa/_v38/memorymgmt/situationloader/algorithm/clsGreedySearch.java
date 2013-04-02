@@ -6,28 +6,30 @@
  */
 package pa._v38.memorymgmt.situationloader.algorithm;
 
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorithm;
+import java.util.ArrayList;
+import java.util.List;
+
+import pa._v38.memorymgmt.datatypes.clsSituation;
+import pa._v38.memorymgmt.situationloader.clsAbstractSituationSearchAlgorithm;
 
 /**
  * DOCUMENT (havlicek) - insert description
  * 
  * @author havlicek 10.02.2013, 16:05:47
  */
-public class clsGreedySearch extends clsAbstractContextEntitySearchAlgorithm {
+public class clsGreedySearch extends clsAbstractSituationSearchAlgorithm {
 
     /*
      * (non-Javadoc)
      * 
-     * @since 15.02.2013 20:12:07
+     * @since 02.04.2013 21:29:31
      * 
-     * @see
-     * pa._v38.memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorithm#checkDataStructure(pa._v38.memorymgmt.datatypes.clsDataStructurePA)
+     * @see pa._v38.memorymgmt.situationloader.itfContextEntitySearchAlgorithm#process()
      */
     @Override
-    protected void checkDataStructure(clsDataStructurePA poDataStructurePA) {
+    public List<clsSituation> process() {
         // TODO (havlicek) - Auto-generated method stub
-
+        return new ArrayList<clsSituation>();
     }
 
 }

@@ -5,9 +5,9 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - This interface specifies the methods for a Concept Loader. Such a loader will take an array of {@code clsDataStructurePA}s
- * and will generate a the context entities from them. The result will be returned as {@code clsConcept} containing the result of the search over the
- * given input.
+ * DOCUMENT (havlicek) - This interface specifies the methods for a Concept Loader. Such a loader will take an 
+ * array of {@code clsDataStructurePA}s and will generate a the context entities from them. The result will be 
+ * returned as {@code clsConcept} containing the result of the search over the given input.
  * 
  * @author havlicek 15.02.2013, 20:09:06
  * 

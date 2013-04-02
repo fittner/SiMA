@@ -11,7 +11,8 @@ import java.util.Random;
 
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
-import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
+import pa._v38.memorymgmt.situationloader.itfSituationSearchAlgorithm.ALGORITHMS;
+import pa._v38.memorymgmt.situationloader.algorithm.clsGreedySearch;
 import config.clsProperties;
 
 /**
@@ -29,9 +30,9 @@ public class clsSituationLoader implements itfSituationLoader {
     // private itfKnowledgeBaseHandler moKnowledgeBase;
 
     /**
-     * DOCUMENT (havlicek) - the default constructor for the clsSituationLaoder 
-     *
-     * @since 17.12.2012 17:35:21     *
+     * DOCUMENT (havlicek) - the default constructor for the clsSituationLaoder
+     * 
+     * @since 17.12.2012 17:35:21 *
      */
     public clsSituationLoader() {
 
@@ -54,7 +55,18 @@ public class clsSituationLoader implements itfSituationLoader {
         if (poConcept.isEmpty()) {
             return oFoundSituation;
         }
-        itfSituationSearchAlgorithm oAlgorithm = new clsDepthFirstSearch();
+        itfSituationSearchAlgorithm oAlgorithm = null;
+
+        String adsasd = poProps.getProperty(poPrefix + "_ALGORITHM", ALGORITHMS.GREEDY.name());
+        ALGORITHMS selection = ALGORITHMS.valueOf(adsasd);
+        switch (selection) {
+        case GREEDY:
+            oAlgorithm = new clsGreedySearch();
+            break;
+        default:
+            oAlgorithm = new clsGreedySearch();
+            break;
+        }
 
         oAlgorithm.init(poConcept, poProps);
 

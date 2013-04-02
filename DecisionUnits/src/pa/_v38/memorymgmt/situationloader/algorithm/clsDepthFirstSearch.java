@@ -1,9 +1,7 @@
 package pa._v38.memorymgmt.situationloader.algorithm;
 
-import java.util.List;
-
-import pa._v38.memorymgmt.datatypes.clsSituation;
-import pa._v38.memorymgmt.situationloader.clsAbstractSituationSearchAlgorithm;
+import pa._v38.memorymgmt.datatypes.clsConcept;
+import pa._v38.memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorithm;
 
 /**
  * DOCUMENT (havlicek) - insert description
@@ -11,11 +9,11 @@ import pa._v38.memorymgmt.situationloader.clsAbstractSituationSearchAlgorithm;
  * @author havlicek 15.02.2013, 20:09:27
  * 
  */
-public class clsDepthFirstSearch extends clsAbstractSituationSearchAlgorithm {
+public class clsDepthFirstSearch extends clsAbstractContextEntitySearchAlgorithm {
 
     @Override
-    public final List<clsSituation> process() {
+    public final clsConcept process() {
         // TODO (havlicek) implement process method
-        return null;
+        return new clsConcept();
     }
 }
