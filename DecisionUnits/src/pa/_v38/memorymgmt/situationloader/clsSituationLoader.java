@@ -6,64 +6,63 @@
  */
 package pa._v38.memorymgmt.situationloader;
 
-import config.clsProperties;
+import java.util.List;
+import java.util.Random;
+
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
-import pa._v38.memorymgmt.enums.eInformationRepresentationManagementType;
-import pa._v38.memorymgmt.old.clsKnowledgeBaseHandlerFactory;
-import pa._v38.memorymgmt.old.itfKnowledgeBaseHandler;
+import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
+import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - loader class to init a situation with data from the
- * ontology
+ * DOCUMENT (havlicek) - loader class to init a situation with data from the ontology
  * 
  * @author havlicek 09.12.2012, 08:28:34
  * 
  */
 public class clsSituationLoader implements itfSituationLoader {
 
-	private clsConcept moConcept;
+    /** The properties used to specify the search and other parameters: NOTE: add list of used properties here! */
+    private clsProperties moProperties;
 
-	private itfKnowledgeBaseHandler moKnowledgeBase;
+    /** The handler to be used for accessing the knowledge base. */
+    // private itfKnowledgeBaseHandler moKnowledgeBase;
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @since 09.12.2012 08:36:27
-	 * 
-	 * @see
-	 * pa._v38.memorymgmt.situationloader.itfSituationLoader#setContextEntities
-	 * (pa._v38.memorymgmt.datatypes.clsConcept)
-	 */
-	@Override
-	public void setContextEntities(clsConcept oSituationConcept) {
-		moConcept = oSituationConcept;
-		// TODO havlicek - check the data for validity
-	}
+    /**
+     * DOCUMENT (havlicek) - the default constructor for the clsSituationLaoder 
+     *
+     * @since 17.12.2012 17:35:21     *
+     */
+    public clsSituationLoader() {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @since 17.12.2012 17:41:02
-	 * 
-	 * @see
-	 * pa._v38.memorymgmt.situationloader.itfSituationLoader#generate(java.lang
-	 * .String, config.clsProperties)
-	 */
-	@Override
-	public clsSituation generate(String poPrefix, clsProperties poProperties) {
-		clsSituation foundSituation = new clsSituation();
-		moKnowledgeBase = clsKnowledgeBaseHandlerFactory
-				.createInformationRepresentationManagement(
-						eInformationRepresentationManagementType.ARSI10_MGMT
-								.name(), poPrefix, poProperties);
-		
-		if (moConcept.isEmpty()) {
-			return foundSituation;
-		}
-		
-		
-		
-		return foundSituation;
-	}
+        // clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement(
+        // eInformationRepresentationManagementType.ARSI10_MGMT.name(), moPrefix, moProperties);
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
+     * @since 17.12.2012 17:41:02
+     * 
+     * @see pa._v38.memorymgmt.situationloader.itfSituationLoader#generate(java.lang.String, pa._v38.memorymgmt.datatypes.clsConcept,
+     * config.clsProperties)
+     */
+    @Override
+    public clsSituation generate(String poPrefix, clsConcept poConcept, clsProperties poProps) {
+        clsSituation oFoundSituation = new clsSituation();
+
+        if (poConcept.isEmpty()) {
+            return oFoundSituation;
+        }
+        itfSituationSearchAlgorithm oAlgorithm = new clsDepthFirstSearch();
+
+        oAlgorithm.init(poConcept, poProps);
+
+        List<clsSituation> oResultList = oAlgorithm.process();
+        if (!oResultList.isEmpty()) {
+            return oResultList.get(new Random().nextInt(oResultList.size()));
+        }
+        return oFoundSituation;
+    }
+
 }
