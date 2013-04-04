@@ -33,9 +33,11 @@ import pa._v38.memorymgmt.enums.eSexualDrives;
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * From F40 comes the newly formed libido and signals of the erogenous zones in form of neuro-symbols are. The newly formed libido is divided (on the basis of personality parameters) on the libido memory the partial drives. With the aid of signals from the erogenous zones, the libido of the partial drive storage is dissipated.
+ *   The sexual drives are generated from the store of libido instincts.
  * 
  * @author herret
  * Apr 2, 2013, 9:51:18 AM
@@ -128,8 +130,12 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (herret) - Auto-generated method stub
-		return null;
+
+		String text="";
+		text += "Libido Input: " + moLibidoInput + "\n";
+		text += toText.mapToTEXT("Erogenous Zones Input", moErogenousZones_IN);
+		text += toText.listToTEXT("Drives_OUT", moOutput);
+		return text;
 	}
 
 	/* (non-Javadoc)
@@ -347,7 +353,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 
 	@Override
 	public void setDescription() {
-		// TODO (herret) - Auto-generated method stub
+	    moDescription = "From F40 comes the newly formed libido and signals of the erogenous zones in form of neuro-symbols are. The newly formed libido is divided (on the basis of personality parameters) on the libido memory the partial drives. With the aid of signals from the erogenous zones, the libido of the partial drive storage is dissipated. The sexual drives are generated from the store of libido instincts.";
 
 	}
 	

@@ -14,7 +14,7 @@ import du.enums.eFastMessengerSources;
 
 
 /**
- * Neurosymbols representing libido are transmitted from F40 to F64.
+ * Neurosymbols representing libido an the signals from the erogenous zones are transmitted from F40 to F64.
  * 
  * @author deutsch
  * 03.03.2011, 15:32:33

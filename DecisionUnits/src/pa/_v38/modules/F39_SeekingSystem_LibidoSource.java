@@ -19,11 +19,9 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsProperties;
-import du.enums.eFastMessengerSources;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
-import du.itf.sensors.clsFastMessenger;
-import du.itf.sensors.clsFastMessengerEntry;
+
 
 /**
  * The seeking system is the basic motivational system. {E39} is collecting information on libido 
@@ -128,59 +126,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		mrOutgoingLibido = mrIncomingLibido_I0_1;
 		moSensorSystems_OUT =moSensorSystems_IN;
 
-	}
-
-	/**
-	 * collects all the stimuli from the erogenous zones and combines them into one list for later reactin of libido
-	 *
-	 * @since 26.11.2012 14:17:32
-	 *
-	 */
-	private void CollectErogenousZoneStimuliAndReduceLibido() {
-
-		//FASTMESSENGER, the only sensor source we get to F39!
-		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moSensorSystems_IN.get(eSensorIntType.FASTMESSENGER);
-		if(oFastMessengerSystem!=null)
-		{
-			//loop through the fast messagers
-			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-				
-				eFastMessengerSources oFMSource = oFastMessenger.getSource();
-				Double rIntensity = oFastMessenger.getIntensity();
-				
-				//wenn quelle X, dann Einfluß auf libido im Umfang von...
-				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA) {
-
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-					
-					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
-					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
-
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
-					//phallic aka Schautrieb geht eigentlich über F45 auf die Libido, dazu gibt es keine erogene Zone (bisher! CM 27.11.2012)
-				}
-			}//end for
-			
-			//cannot be below zero
-			if(mrOutgoingLibido < 0)
-				mrOutgoingLibido=0;
-			
-		}//end null check
-		
 	}
 
 	/* (non-Javadoc)

@@ -11,9 +11,7 @@ import java.util.HashMap;
 
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
-import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
-import pa._v38.interfaces.itfInspectorStackedBarChart;
 import pa._v38.interfaces.modules.I3_3_receive;
 import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I4_1_receive;
@@ -22,9 +20,6 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.tools.clsDriveValueSplitter;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.eDriveValueSplitter;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eOrgan;
@@ -39,24 +34,16 @@ import du.enums.pa.ePartialDrive;
  * 07.05.2012, 15:47:11
  */
 public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase 
-					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart,itfInspectorStackedBarChart, itfInspectorCombinedTimeChart {
+					implements I3_3_receive, I3_4_receive, I4_1_send, itfInspectorGenericDynamicTimeChart {
 	public static final String P_MODULENUMBER = "48";
-	
-	public static final String P_SPLITFACTOR_NOURISH = "SPLITFACTOR_NOURISH";
-	public static final String P_SPLITFACTOR_BITE = "SPLITFACTOR_BITE";
-	public static final String P_SPLITFACTOR_RELAX = "SPLITFACTOR_RELAX";
-	public static final String P_SPLITFACTOR_DEPOSIT = "SPLITFACTOR_DEPOSIT";
-	public static final String P_SPLITFACTOR_REPRESS = "SPLITFACTOR_REPRESS";
-	public static final String P_SPLITFACTOR_SLEEP = "SPLITFACTOR_DEPOSIT";
-	private HashMap<String, Double> moSplitterFactor;	
+
 
 	private DT4_PleasureStorage moPleasureStorage;
 	private double mnCurrentPleasure = 0.0;
 	
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
-	//holds the homoestatic drive pairs, A is agressive
-	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponentsPair_IN;
+
 	private ArrayList<clsDriveMesh> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
 	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
@@ -87,15 +74,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		moPleasureStorage = poPleasureStorage;
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
 		applyProperties(poPrefix, poProp);	
-		
-		moSplitterFactor = new HashMap<String, Double>();
-		moSplitterFactor.put("NOURISH", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_NOURISH).getParameterDouble());
-		moSplitterFactor.put("BITE", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_BITE).getParameterDouble());
-		moSplitterFactor.put("RELAX", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_RELAX).getParameterDouble());
-		moSplitterFactor.put("DEPOSIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_DEPOSIT).getParameterDouble());
-		moSplitterFactor.put("REPRESS", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_REPRESS).getParameterDouble());
-		moSplitterFactor.put("SLEEP", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_SLEEP).getParameterDouble());
-
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -146,10 +124,14 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 	
 		//first calculate the tensions for homoestatic drives
-		ProcessHomeostaticDriveCandidatesSimple();
+	    for( clsDriveMesh oHeastaticDMPairEntry : moHomoestasisDriveComponents_IN){
+	          moAllDriveComponents_OUT.add(oHeastaticDMPairEntry);
+	    }
 		
 		//second calculate the tensions for sexual drives
-		ProcessSexualDriveCandidates();
+	    for( clsDriveMesh oSexualDMPairEntry : moSexualDriveRepresentations_IN){
+	          moAllDriveComponents_OUT.add(oSexualDMPairEntry);
+	    }
 		
 		//calculate the pleasure gain from reduced tensions for DT4
 		ProcessPleasureCalculation();
@@ -218,77 +200,6 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		mnCurrentPleasure = moPleasureStorage.send_D4_1();
 	}
 
-	/**
-	 * DOCUMENT (muchitsch) - insert description
-	 *
-	 * @since 18.07.2012 12:26:24
-	 *
-	 */
-	private void ProcessSexualDriveCandidates() {
-		for( clsDriveMesh oSexualDMPairEntry : moSexualDriveRepresentations_IN){
-			moAllDriveComponents_OUT.add(oSexualDMPairEntry);
-		}
-		
-	}
-	private void ProcessHomeostaticDriveCandidatesSimple() {
-		for( clsDriveMesh oHeastaticDMPairEntry : moHomoestasisDriveComponents_IN){
-			moAllDriveComponents_OUT.add(oHeastaticDMPairEntry);
-		}
-		return;
-	}
-	
-	/**
-	 * Calculate the new values of the homeostatic drive pairs according to the Deutsch-curves see p82
-	 *
-	 * @since 18.07.2012 12:26:19
-	 *
-	 */
-	private void ProcessHomeostaticDriveCandidates() {
-
- 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponentsPair_IN){
-			
-			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
-				try {
-					
-					//get the slope factor from the table/aka properties
-					eOrgan oOrgan = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSourceAsENUM();
-					if(moSplitterFactor.containsKey( oOrgan ))
-					{
-						rSlopeFactor = moSplitterFactor.get(oOrgan);
-					}
-					else
-					{
-					 //no slope factor found, use default
-					}
-				} catch (java.lang.Exception e) {
-					System.out.print(e);
-			}			
-
-			//Calculate the tension values of the pairs, see Deutsch2011 p82 for details
-			
-			double oOldAgressiveQoA  = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getQuotaOfAffect();
-			double oOldLibidoneusQoA = ((clsDriveMesh)oHomeostaticDMPairEntry.b).getQuotaOfAffect();
-			
-			//calculate the tensions according to Deutsch's curves
-			clsPair<Double, Double> oSplitResult = 
-				clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
-											oOldLibidoneusQoA, 
-											eDriveValueSplitter.ADVANCED, 
-											rSlopeFactor); 
-			
-			//set the calculated affects into the entry set of the loop, actually pleasure is not right here, this value is quota of affect not pleasure
-			double oNewAgressiveQoA  = oSplitResult.a;
-			double oNewLibidoneusQoA = oSplitResult.b;
-			
-			((clsDriveMesh)oHomeostaticDMPairEntry.a).setQuotaOfAffect(oNewAgressiveQoA); //set the new agr tension to pair A
-			((clsDriveMesh)oHomeostaticDMPairEntry.b).setQuotaOfAffect(oNewLibidoneusQoA); //set the new lib tension to pair B
-						
-			//and add it to the outgoing list as two separate entries for lib/agr
-			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
-			moAllDriveComponents_OUT.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
-		}
-		
-	}
 	
 	
 	/**
@@ -561,133 +472,5 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	public void chartColumnsUpdated() {
 		mnChartColumnsChanged = false;	
 		
-	}
-
-
-	@Override
-	public String getCombinedTimeChartAxis() {
-		return "1 to 0";
-	}
-
-
-
-	@Override
-	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
-		ArrayList<ArrayList<Double>> oResult =new ArrayList<ArrayList<Double>>();
-		if(moHomoestasisDriveComponentsPair_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
-				ArrayList<Double> iSeries = new ArrayList<Double>();
-				iSeries.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getQuotaOfAffect());
-				oResult.add(iSeries);
-			}
-		}
-		ArrayList<Double> iSeries = new ArrayList<Double>();
-		iSeries.add(moPleasureStorage.send_D4_1());
-		oResult.add(iSeries);
-		
-		return oResult;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Sep 27, 2012 2:57:48 PM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getChartTitles()
-	 */
-	@Override
-	public ArrayList<String> getChartTitles() {
-		ArrayList<String> oResult = new ArrayList<String>();
-		for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
-			oResult.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getChartShortString().substring(2));
-		}
-		oResult.add("pleasure");
-		return oResult;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Sep 27, 2012 2:57:48 PM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorCombinedTimeChart#getValueCaptions()
-	 */
-	@Override
-	public ArrayList<ArrayList<String>> getValueCaptions() {
-		ArrayList<ArrayList<String>> oResult =new ArrayList<ArrayList<String>>();
-		for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
-			ArrayList<String> iSeries = new ArrayList<String>();
-			iSeries.add("aggr");
-			iSeries.add("lib");
-			oResult.add(iSeries);
-		}
-		ArrayList<String> iSeries = new ArrayList<String>();
-		iSeries.add("pleasure");
-		oResult.add(iSeries);
-		return oResult;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Oct 11, 2012 9:53:04 AM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartTitle()
-	 */
-	@Override
-	public String getStackedBarChartTitle() {
-		return "Drives Chart";
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Oct 11, 2012 9:53:04 AM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartData()
-	 */
-	@Override
-	public ArrayList<ArrayList<Double>> getStackedBarChartData() {
-//		ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> imoHomoestasisDriveComponents_IN;
-		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
-		ArrayList<Double> aggr = new ArrayList<Double>();
-		ArrayList<Double> lib = new ArrayList<Double>();
-		if(moHomoestasisDriveComponentsPair_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
-				aggr.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getQuotaOfAffect());
-				lib.add(moHomoestasisDriveComponentsPair_IN.get(i).b.getQuotaOfAffect());
-			}
-		}
-		
-		oResult.add(aggr);
-		oResult.add(lib);
-		return oResult;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Oct 11, 2012 9:53:04 AM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartCategoryCaptions()
-	 */
-	@Override
-	public ArrayList<String> getStackedBarChartCategoryCaptions() {
-		ArrayList<String> oResult = new ArrayList<String>();
-		oResult.add("aggr");
-		oResult.add("lib");
-		return oResult;
-	}
-
-	/* (non-Javadoc)
-	 *
-	 * @since Oct 11, 2012 9:53:04 AM
-	 * 
-	 * @see pa._v38.interfaces.itfInspectorStackedBarChart#getStackedBarChartColumnCaptions()
-	 */
-	@Override
-	public ArrayList<String> getStackedBarChartColumnCaptions() {
-		ArrayList<String> oResult = new ArrayList<String>();
-		if(moHomoestasisDriveComponentsPair_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
-				oResult.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getChartShortString().substring(2));
-			}
-		}
-		return oResult;
 	}
 }

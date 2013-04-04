@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
@@ -38,7 +39,7 @@ import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
 /**
- * DOCUMENT (herret) - insert description 
+ * F65 receives the neuro-symbolic homeostatic values from F2 and generates the corresponding drives.
  * 
  * @author herret
  * Apr 2, 2013, 1:56:16 PM
@@ -131,8 +132,10 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	 */
 	@Override
 	public String stateToTEXT() {
-		// TODO (herret) - Auto-generated method stub
-		return null;
+		String text ="";
+		text += toText.mapToTEXT("Homeostatic symbols_IN", moHomeostasisSymbols_IN);
+		text += toText.listToTEXT("Homeostatic drives_OUT", moHomeostaticDriveComponents_OUT);
+		return text;
 	}
 
 	/* (non-Javadoc)
@@ -455,7 +458,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	 */
 	@Override
 	public void setDescription() {
-		// TODO (herret) - Auto-generated method stub
+	    moDescription ="F65 receives the neuro-symbolic homeostatic values from F2 and generates the corresponding drives.";
 
 	}
 
