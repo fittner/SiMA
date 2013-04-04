@@ -169,16 +169,9 @@ public class clsExecutorEat extends clsActionExecutor{
         if (oEatenEntity instanceof clsMobile && moEntity instanceof clsMobile ) {
         	
         	try {
-        		        		
-        		//wenn er in das if hineinkommt, steckt er zuerst etwas weg und versucht das selbe Ding als 
-        		//carried Entity zu behandeln, es ist aber weg (im Inventory), also exception
-        		if (((clsMobile)moEntity).getInventory().getCarriedEntity() != null ) {        		
-        			((clsMobile)moEntity).getInventory().moveCarriedToInventory();   		
-        			((clsMobile)moEntity).getInventory().setCarriedEntity((clsMobile) oEatenEntity);
-        		}
-        		else {
-        			((clsMobile)moEntity).getInventory().setCarriedEntity((clsMobile) oEatenEntity);
-        		}
+        		((clsMobile)moEntity).getInventory().setCarriedEntity((clsMobile) oEatenEntity);
+        		((clsMobile)moEntity).getInventory().moveCarriedToInventory();   		
+        		
         		
         	} catch (exInventoryFull e) {
         		System.out.println ("Inventory is too full");
