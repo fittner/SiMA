@@ -145,10 +145,12 @@ public class clsInventory {
 	public String toText () {
 		String oInventory = "";
 		
-		oInventory = "MaxItems: " + getMaxItems() + "\nMaxMass: " + getMaxMass() + "\n";
+		oInventory = "MaxItems: " + moInventory.size() + " von " + getMaxItems() + 
+				"\nMaxMass: " + getMass () + " von " + getMaxMass() + "\n";
+		if (moCarriedEntity != null) oInventory += "aktuelles Objekt: " + moCarriedEntity.getId() + "Gewicht: " + moCarriedEntity.getTotalWeight() + "\n";
 		
 		for (clsMobile oItem : moInventory) {
-			oInventory += oItem.toString() + "+" + oItem.getId() + "\n";		
+			oInventory += oItem.getId() + " Gewicht: " + oItem.getTotalWeight() + "\n";		
 		}
 						
 		return oInventory;
