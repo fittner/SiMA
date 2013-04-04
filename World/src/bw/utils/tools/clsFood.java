@@ -33,11 +33,13 @@ public class clsFood {
 	public static final String P_NUMNUTRITIONS = "numnutritions";
 	public static final String P_NUTRITIONTYPE = "type";
 	public static final String P_NUTRITIONFRACTION = "fraction";
-	public static final String P_HARDNESS = "hardness";
+	public static final String P_LIBIDINOUS_STIMULATION = "libidinous_stimulation";
+	public static final String P_AGGRESSIV_STIMULATION = "aggressiv_stimulation";
 	
 	private HashMap<eNutritions, clsMutableDouble> moComposition;
 	private double mrWeight;
-	private double mrHardness;
+	private double mrLibidinousStimulationFactor;
+	private double mrAggressivStimulationFactor;
 	private boolean mnFinalized;
 	
 	
@@ -47,7 +49,8 @@ public class clsFood {
 	public clsFood() {
 		moComposition = new HashMap<eNutritions, clsMutableDouble>();
 		mrWeight = 0.0f;
-		mrHardness = 0.0f;
+		mrLibidinousStimulationFactor = 0.0f;
+		mrAggressivStimulationFactor = 0.0f;
 		mnFinalized = false;
 	}
 	
@@ -55,7 +58,8 @@ public class clsFood {
 	public clsFood(String poPrefix, clsProperties poProp) {
 		moComposition = new HashMap<eNutritions, clsMutableDouble>();
 		mrWeight = 0.0f;
-		mrHardness = 0.0f;
+		mrLibidinousStimulationFactor = 0.0f;
+		mrAggressivStimulationFactor = 0.0f;
 		mnFinalized = false;
 		
 		applyProperties(poPrefix, poProp);
@@ -63,8 +67,10 @@ public class clsFood {
 	
 	public clsFood(clsFood poFood) {
 		mrWeight = poFood.mrWeight;
-		mnFinalized = poFood.mnFinalized;
-		mrHardness = poFood.mrHardness;
+		mnFinalized = poFood.mnFinalized;;
+		
+		mrLibidinousStimulationFactor = poFood.mrLibidinousStimulationFactor;
+		mrAggressivStimulationFactor = poFood.mrAggressivStimulationFactor;
 		moComposition = new HashMap<eNutritions, clsMutableDouble>(); //Added by BD
 		
 		Iterator<eNutritions> i = poFood.moComposition.keySet().iterator();
@@ -82,7 +88,8 @@ public class clsFood {
 		clsProperties oProp = new clsProperties();
 		
 		oProp.setProperty(pre+P_WEIGHT, 5.0 );
-		oProp.setProperty(pre+P_HARDNESS, 0.5);
+		oProp.setProperty(pre+P_LIBIDINOUS_STIMULATION, 0.05);
+		oProp.setProperty(pre+P_AGGRESSIV_STIMULATION, 0.05);
 		
 		oProp.setProperty(pre+P_NUMNUTRITIONS, 6 );
 		oProp.setProperty(pre+"0."+P_NUTRITIONTYPE, eNutritions.PROTEIN.name());
@@ -110,7 +117,9 @@ public class clsFood {
 		String pre = clsProperties.addDot(poPrefix);
 
 		mrWeight = poProp.getPropertyDouble(pre+P_WEIGHT);
-		mrHardness = poProp.getPropertyDouble(pre + P_HARDNESS);
+
+		mrLibidinousStimulationFactor = poProp.getPropertyDouble(pre + P_LIBIDINOUS_STIMULATION);
+		mrAggressivStimulationFactor = poProp.getPropertyDouble(pre + P_AGGRESSIV_STIMULATION);
 		
 		int num = poProp.getPropertyInt(pre+P_NUMNUTRITIONS);
 		for (int i=0; i<num; i++) {
@@ -158,15 +167,28 @@ public class clsFood {
 		return mrWeight;
 	}
 	
-	/**
-	 * returns the hardness of the food piece
-	 *
-	 * @return the mrWeight
-	 */
-	public double getHardness() {
-		return mrHardness;
-	}
+
 	
+	/**
+	 * @since Apr 4, 2013 12:27:39 PM
+	 * 
+	 * @return the mrLibidinousStimulationFactor
+	 */
+	public double getMrLibidinousStimulationFactor() {
+		return mrLibidinousStimulationFactor;
+	}
+
+
+	/**
+	 * @since Apr 4, 2013 12:27:39 PM
+	 * 
+	 * @return the mrAggressivStimulationFactor
+	 */
+	public double getMrAggressivStimulationFactor() {
+		return mrAggressivStimulationFactor;
+	}
+
+
 	/**
 	 * Returns the total weight of a certain nutrition within this piece of food.
 	 * 
@@ -309,6 +331,8 @@ public class clsFood {
 		String oR = "";
 		
 		oR += "weight:"+mrWeight+" | ";
+		oR += "libidinous impact factor:"+mrLibidinousStimulationFactor+" | ";
+		oR += "aggressiv impact factor:"+mrAggressivStimulationFactor+" | ";
 		for (Map.Entry<eNutritions, clsMutableDouble> entry: moComposition.entrySet()) {
 			oR+=entry.getKey().name()+":"+entry.getValue()+", ";
 		}

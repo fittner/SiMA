@@ -56,7 +56,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData;
 	//holds the homoestatic drive pairs, A is agressive
-	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponents_IN;
+	private ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> moHomoestasisDriveComponentsPair_IN;
+	private ArrayList<clsDriveMesh> moHomoestasisDriveComponents_IN;
 	//holds the list of all sexual and homeoststic drives
 	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
 
@@ -230,9 +231,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 	}
 	private void ProcessHomeostaticDriveCandidatesSimple() {
-		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
-			moAllDriveComponents_OUT.add(oHomeostaticDMPairEntry.a);
-			moAllDriveComponents_OUT.add(oHomeostaticDMPairEntry.b);
+		for( clsDriveMesh oHeastaticDMPairEntry : moHomoestasisDriveComponents_IN){
+			moAllDriveComponents_OUT.add(oHeastaticDMPairEntry);
 		}
 		return;
 	}
@@ -245,7 +245,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	 */
 	private void ProcessHomeostaticDriveCandidates() {
 
- 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponents_IN){
+ 		for( clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry : moHomoestasisDriveComponentsPair_IN){
 			
 			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
 				try {
@@ -447,8 +447,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I3_4(
-			ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> poDriveComponents) {
-		moHomoestasisDriveComponents_IN = (ArrayList<clsPair<clsDriveMesh,clsDriveMesh>>) deepCopy(poDriveComponents);
+			ArrayList<clsDriveMesh> poDriveComponents) {
+		moHomoestasisDriveComponents_IN = (ArrayList<clsDriveMesh>) deepCopy(poDriveComponents);
 	}
 
 	/* (non-Javadoc)
@@ -574,11 +574,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@Override
 	public ArrayList<ArrayList<Double>> getCombinedTimeChartData() {
 		ArrayList<ArrayList<Double>> oResult =new ArrayList<ArrayList<Double>>();
-		if(moHomoestasisDriveComponents_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+		if(moHomoestasisDriveComponentsPair_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
 				ArrayList<Double> iSeries = new ArrayList<Double>();
-				iSeries.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
-				iSeries.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
+				iSeries.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getQuotaOfAffect());
 				oResult.add(iSeries);
 			}
 		}
@@ -598,8 +597,8 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@Override
 	public ArrayList<String> getChartTitles() {
 		ArrayList<String> oResult = new ArrayList<String>();
-		for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
-			oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
+		for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
+			oResult.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getChartShortString().substring(2));
 		}
 		oResult.add("pleasure");
 		return oResult;
@@ -614,7 +613,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@Override
 	public ArrayList<ArrayList<String>> getValueCaptions() {
 		ArrayList<ArrayList<String>> oResult =new ArrayList<ArrayList<String>>();
-		for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
+		for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
 			ArrayList<String> iSeries = new ArrayList<String>();
 			iSeries.add("aggr");
 			iSeries.add("lib");
@@ -649,10 +648,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		ArrayList<ArrayList<Double>> oResult = new ArrayList<ArrayList<Double>>();
 		ArrayList<Double> aggr = new ArrayList<Double>();
 		ArrayList<Double> lib = new ArrayList<Double>();
-		if(moHomoestasisDriveComponents_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
-				aggr.add(moHomoestasisDriveComponents_IN.get(i).a.getQuotaOfAffect());
-				lib.add(moHomoestasisDriveComponents_IN.get(i).b.getQuotaOfAffect());
+		if(moHomoestasisDriveComponentsPair_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
+				aggr.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getQuotaOfAffect());
+				lib.add(moHomoestasisDriveComponentsPair_IN.get(i).b.getQuotaOfAffect());
 			}
 		}
 		
@@ -684,9 +683,9 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	@Override
 	public ArrayList<String> getStackedBarChartColumnCaptions() {
 		ArrayList<String> oResult = new ArrayList<String>();
-		if(moHomoestasisDriveComponents_IN!=null){
-			for(int i=0; i<moHomoestasisDriveComponents_IN.size();i++){
-				oResult.add(moHomoestasisDriveComponents_IN.get(i).a.getChartShortString().substring(2));
+		if(moHomoestasisDriveComponentsPair_IN!=null){
+			for(int i=0; i<moHomoestasisDriveComponentsPair_IN.size();i++){
+				oResult.add(moHomoestasisDriveComponentsPair_IN.get(i).a.getChartShortString().substring(2));
 			}
 		}
 		return oResult;

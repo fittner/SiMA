@@ -259,13 +259,11 @@ public class clsProcessor implements itfProcessor  {
 
 		//PRIMARY PROCESSES -------------------------------
 		//Self-PreservationDrive generation
-		moPsyApp.moF03_GenerationOfSelfPreservationDrives.step();
-		moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
+		moPsyApp.moF65_PartialSelfPreservationDrives.step();
+		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step();
+		//moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
 		
 		//Libido generation
-//		moPsyApp.moF41_Libidostasis.step();
-//		moPsyApp.moF43_SeparationIntoPartialSexualDrives.step();
-
 		moPsyApp.moF64_PartialSexualDrives.step();
 		
 		//Accumulation of affects and drives
@@ -332,7 +330,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF32_Actuators.step();
 		
 		//UPDATE DataLogger Entries
-		moPsyApp.moDataLogger.step();
+		//moPsyApp.moDataLogger.step();
 	}
 
 	/**

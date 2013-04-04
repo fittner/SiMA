@@ -76,8 +76,8 @@ public class clsPsychicApparatus {
 	
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
-	public F03_GenerationOfSelfPreservationDrives moF03_GenerationOfSelfPreservationDrives;
-	public F04_FusionOfSelfPreservationDrives moF04_FusionOfSelfPreservationDrives;
+	//public F03_GenerationOfSelfPreservationDrives moF03_GenerationOfSelfPreservationDrives;
+	//public F04_FusionOfSelfPreservationDrives moF04_FusionOfSelfPreservationDrives;
 	public F06_DefenseMechanismsForDrives moF06_DefenseMechanismsForDrives;
 	public F08_ConversionToSecondaryProcessForDriveWishes moF08_ConversionToSecondaryProcessForDriveWishes;
 	public F10_SensorsEnvironment moF10_SensorsEnvironment;
@@ -116,6 +116,7 @@ public class clsPsychicApparatus {
 	public F63_CompositionOfEmotions moF63_CompositionOfEmotions;
 	public F61_Localization moF61_Localization;
 	public F64_PartialSexualDrives moF64_PartialSexualDrives;
+	public F65_PartialSelfPreservationDrives moF65_PartialSelfPreservationDrives;
 	
 	/** Container for personality parameters ; @since 18.01.2013 15:09:03 */
 	public clsPersonalityParameterContainer moPersonalityParameterContainer;
@@ -238,8 +239,6 @@ public class clsPsychicApparatus {
 		
 oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( F02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
-		oProp.putAll( F03_GenerationOfSelfPreservationDrives.getDefaultProperties( pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER ));
-		oProp.putAll( F04_FusionOfSelfPreservationDrives.getDefaultProperties( pre + F04_FusionOfSelfPreservationDrives.P_MODULENUMBER ));
 		oProp.putAll( F06_DefenseMechanismsForDrives.getDefaultProperties( pre + F06_DefenseMechanismsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F08_ConversionToSecondaryProcessForDriveWishes.getDefaultProperties( pre + F08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER ));
 		oProp.putAll( F10_SensorsEnvironment.getDefaultProperties( pre + F10_SensorsEnvironment.P_MODULENUMBER ));
@@ -278,7 +277,7 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 		oProp.putAll( F61_Localization.getDefaultProperties( pre + F61_Localization.P_MODULENUMBER ));
 		oProp.putAll( F63_CompositionOfEmotions.getDefaultProperties( pre + F63_CompositionOfEmotions.P_MODULENUMBER ));
 		oProp.putAll( F64_PartialSexualDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
-		
+		oProp.putAll( F65_PartialSelfPreservationDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
 
 		return oProp;
 	}	
@@ -305,8 +304,8 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 			
 			moF01_SensorsMetabolism = new F01_SensorsMetabolism(pre + F01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);
 			moF02_NeurosymbolizationOfNeeds = new F02_NeurosymbolizationOfNeeds(pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER, poProp, moModules, moInterfaceData);
-			moF03_GenerationOfSelfPreservationDrives = new F03_GenerationOfSelfPreservationDrives(pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer);
-			moF04_FusionOfSelfPreservationDrives = new F04_FusionOfSelfPreservationDrives(pre + F04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer);
+			//moF03_GenerationOfSelfPreservationDrives = new F03_GenerationOfSelfPreservationDrives(pre + F03_GenerationOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPersonalityParameterContainer);
+			//moF04_FusionOfSelfPreservationDrives = new F04_FusionOfSelfPreservationDrives(pre + F04_FusionOfSelfPreservationDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer);
 			moF06_DefenseMechanismsForDrives = new F06_DefenseMechanismsForDrives(pre + F06_DefenseMechanismsForDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moBlockedContentStorage);
 			moF08_ConversionToSecondaryProcessForDriveWishes = new F08_ConversionToSecondaryProcessForDriveWishes(pre + F08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLongTermMemory, moPsychicEnergyStorage);
 			moF10_SensorsEnvironment = new F10_SensorsEnvironment(pre + F10_SensorsEnvironment.P_MODULENUMBER, poProp, moModules, moInterfaceData, uid);
@@ -344,6 +343,7 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 			moF63_CompositionOfEmotions = new F63_CompositionOfEmotions(pre + F63_CompositionOfEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPleasureStorage, moPsychicEnergyStorage, moPersonalityParameterContainer);
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer);
+			moF65_PartialSelfPreservationDrives = new F65_PartialSelfPreservationDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer);
 			
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 		} catch (Exception e) {

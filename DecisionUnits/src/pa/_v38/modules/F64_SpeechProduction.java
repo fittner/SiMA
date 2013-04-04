@@ -13,7 +13,6 @@ import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.situationloader.clsConceptLoader;
 import pa._v38.memorymgmt.situationloader.clsSituationLoader;
 import pa._v38.memorymgmt.situationloader.itfConceptLoader;
