@@ -1,7 +1,7 @@
 /**
  * CHANGELOG
  *
- * 03.08.2012 ende - File created
+ * 03.08.2012 havlicek - File created
  *
  */
 package pa._v38.modules;
@@ -45,9 +45,9 @@ import pa._v38.tools.clsTriple;
 import config.clsProperties;
 
 /**
- * DOCUMENT (ende) - insert description
+ * DOCUMENT (havlicek) - insert description
  * 
- * @author ende 03.08.2012, 15:59:38
+ * @author havlicek 03.08.2012, 15:59:38
  * 
  */
 public class F21_ConversionToSecondaryProcessForPerceptionTest {
@@ -70,7 +70,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	private clsEnvironmentalImageMemory poTempLocalizationStorage;
 
 	/**
-	 * DOCUMENT (ende) - insert description
+	 * DOCUMENT (havlicek) - insert description
 	 * 
 	 * @since 03.08.2012 15:59:38
 	 * 
@@ -82,7 +82,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	}
 
 	/**
-	 * DOCUMENT (ende) - insert description
+	 * DOCUMENT (havlicek) - insert description
 	 * 
 	 * @since 03.08.2012 15:59:38
 	 * 
@@ -93,7 +93,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	}
 
 	/**
-	 * DOCUMENT (ende) - insert description
+	 * DOCUMENT (havlicek) - insert description
 	 * 
 	 * @since 03.08.2012 15:59:38
 	 * 
@@ -126,7 +126,7 @@ public class F21_ConversionToSecondaryProcessForPerceptionTest {
 	}
 
 	/**
-	 * DOCUMENT (ende) - insert description
+	 * DOCUMENT (havlicek) - insert description
 	 * 
 	 * @since 03.08.2012 15:59:38
 	 * 
