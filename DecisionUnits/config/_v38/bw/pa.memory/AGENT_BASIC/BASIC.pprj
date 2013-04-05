@@ -1,4 +1,4 @@
-; Thu Apr 04 12:52:34 CEST 2013
+; Fri Apr 05 15:02:28 CEST 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -45,51 +45,51 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_ProjectKB_Class209] of  String
+([BASIC_ProjectKB_Class246] of  String
 
 	(name "ANTENNA_LEFT")
 	(string_value "instance_association"))
 
-([BASIC_ProjectKB_Class210] of  String
+([BASIC_ProjectKB_Class247] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_ProjectKB_Class211] of  String
+([BASIC_ProjectKB_Class248] of  String
 
 	(name ":PAL-CONSTRAINT")
 	(string_value "%3APAL-NAME"))
 
-([BASIC_ProjectKB_Class212] of  String
+([BASIC_ProjectKB_Class249] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_ProjectKB_Class213] of  Map_Entry
+([BASIC_ProjectKB_Class250] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class214] of  Map_Entry
+([BASIC_ProjectKB_Class251] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class215] of  Map
+([BASIC_ProjectKB_Class252] of  Map
 )
 
-([BASIC_ProjectKB_Class216] of  Map_Entry
+([BASIC_ProjectKB_Class253] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_ProjectKB_Class215")
+	(value "BASIC_ProjectKB_Class252")
 	(value_class "java.util.Map"))
 
-([BASIC_ProjectKB_Class217] of  Map_Entry
+([BASIC_ProjectKB_Class254] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
@@ -99,10 +99,10 @@
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_ProjectKB_Class209]
-		[BASIC_ProjectKB_Class210]
-		[BASIC_ProjectKB_Class211]
-		[BASIC_ProjectKB_Class212]))
+		[BASIC_ProjectKB_Class246]
+		[BASIC_ProjectKB_Class247]
+		[BASIC_ProjectKB_Class248]
+		[BASIC_ProjectKB_Class249]))
 
 ([CLSES_TAB] of  Widget
 
@@ -155,11 +155,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_ProjectKB_Class213]
-		[BASIC_ProjectKB_Class214]
-		[BASIC_ProjectKB_Class216]
-		[BASIC_ProjectKB_Class217])
-	(referenced_maps [BASIC_ProjectKB_Class215]))
+		[BASIC_ProjectKB_Class250]
+		[BASIC_ProjectKB_Class251]
+		[BASIC_ProjectKB_Class253]
+		[BASIC_ProjectKB_Class254])
+	(referenced_maps [BASIC_ProjectKB_Class252]))
 
 ([KB_610615_Class10] of  Property_List
 )

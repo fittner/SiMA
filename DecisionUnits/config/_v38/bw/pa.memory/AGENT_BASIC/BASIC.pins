@@ -1,4 +1,4 @@
-; Thu Apr 04 12:52:34 CEST 2013
+; Fri Apr 05 15:02:27 CEST 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2391,7 +2391,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3ABITE]
 		[AD%3AAIM%3ACAKE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.2)
+	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 

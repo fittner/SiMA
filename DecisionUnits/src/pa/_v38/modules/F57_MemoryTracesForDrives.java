@@ -258,12 +258,17 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 				rCurrentMatchFactor = 0.0;
 				rCurrentDecisionFactor= 0.0;
 				rSumSimilarDMsQoA = 0.0;
+				
+				clsDriveMesh oMemoryDM = null;
 					
-				// get rSumSimilarDMsQoA to calculate cathexis
+				// get rSumSimilarDMsQoA to calculate cathexis (see below)
 				for (ArrayList<clsPair<Double, clsDataStructureContainer>> oSearchList : oSearchResult){
 					// for results of similar memory-DMs (should be various similar DMs)
 					for (clsPair<Double, clsDataStructureContainer> oSearchPair: oSearchList) {
-						rSumSimilarDMsQoA += ((clsDriveMesh)oSearchPair.b.getMoDataStructure()).getQuotaOfAffect();
+					    oMemoryDM = ((clsDriveMesh)oSearchPair.b.getMoDataStructure());
+					    if (oMemoryDM.getMoContentType().equals(eContentType.MEMORIZEDDRIVEREPRESENTATION)){
+					        rSumSimilarDMsQoA += oMemoryDM.getQuotaOfAffect();
+					    }
 					}
 				}
 				
@@ -273,7 +278,7 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 						// take matchfactor for associating simulator-dm with memory-dm. pleasureValue is implicitly included in matchfactor
 						
 						// get similar memory-dm
-						clsDriveMesh oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
+						oMemoryDM = (clsDriveMesh)oSearchPair.b.getMoDataStructure();
 						
 						//Add by AW: In order to use drive meshes for images, only the ones, which are in the "semantic" memory can be used. The drive meshes in the "episodic" part
 						//of the memory cannot be used for this purpose
@@ -302,12 +307,13 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 								// embodiment activation: source activation function: memory- drive object gets activation (how good would this drive object satisfy actual DM?)
 								if(oMemoryDM.getActualDriveObject() != null) {
 									oDriveObjectActivated = oMemoryDM.getActualDriveObject();
+									
+									//TODO: CATHEXIS STATT embodimentActivation?? test mit perception
 									oDriveObjectActivated.applyEmbodimentActivation(poDriveCandidates);
 									//oDriveObjectActivated.applySourceActivation(eActivationType.EMBODIMENT_ACTIVATION, rCurrentMatchFactor, oSimulatorDM.getQuotaOfAffect());
 									
-									// cathexis of potential drive object
-									oMemoryDM.setQuotaOfAffect(oSimulatorDM.getQuotaOfAffect() * (oMemoryDM.getQuotaOfAffect()/rSumSimilarDMsQoA));								
-									oMemoryDM.cathexis();
+									// cathexis of potential drive object												
+									oMemoryDM.cathexis(oSimulatorDM.getQuotaOfAffect() * (oMemoryDM.getQuotaOfAffect()/rSumSimilarDMsQoA));
 								}
 															
 								// take  drive object+drive aim of best match 
