@@ -123,7 +123,7 @@ public abstract class clsMobile extends clsEntity {
 	 * Override to configure inventory-size
 	 */
 	protected void setEntityInventory() {
-		moInventory= new clsInventory(this,10,100);
+		moInventory= new clsInventory(this,10,10000); //Ivy this,10,100 auf this,10,10000 geändert :>
 	}
 	public clsInventory getInventory() {
 		return moInventory;
