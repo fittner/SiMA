@@ -6,7 +6,9 @@
  */
 package bw.utils.inspectors.entity;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
 
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -28,24 +30,30 @@ public class clsInspectorInventory extends Inspector {
 	
 	//private static final TextOutputPanel TextOutputPanel () = null;
 	private clsInventory moInventory;
-	private TextOutputPanel moText, moText2;
+	private TextOutputPanel moText, moText2, moText3;
 	private DefaultPieDataset moPieDataset;
 	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
 	
 	public clsInspectorInventory (clsInventory poInventory)	{
+		JPanel oContent = new JPanel ();
+		
 		moInventory = poInventory;
-		moText = new TextOutputPanel ();
-		moText2 = new TextOutputPanel ();
-		setLayout (new BorderLayout());
+		moText = new TextOutputPanel();
+		moText2 = new TextOutputPanel();
+		moText3 = new TextOutputPanel();
+		setLayout (new GridLayout(2,1));
+		oContent.setLayout(new GridLayout(1,2));
 		
 		moPieDataset = new DefaultPieDataset ();
 		moInspectorPie = new clsInspectorPieChart (moPieDataset);
 		mnItemsCount = moInventory.getItemCount();
 		
 		try {
-			add (moText, BorderLayout.WEST);
-			add (moText2, BorderLayout.EAST);
+			oContent.add (moText);
+			oContent.add (moText2);
+			add (oContent);
+			add (moText3);
 		} catch (Exception e) { 
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -94,6 +102,7 @@ public class clsInspectorInventory extends Inspector {
 			if (isVisible()) {
 				moText.setText(moInventory.toText());
 				moText2.setText("hihi HAHA MÄCHTIG!!!!");
+				moText3.setText("ober");
 				inventoryItemsToChart ();
 			}
 		} catch (Exception e) {
