@@ -60,43 +60,41 @@ public class clsInspectorInventory extends Inspector {
 		} catch (Exception e) { 
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
+		buildDataset (); //to inizialize the empty Dataset
 		
 	}
 	
 	// hier kommt ein Kommentar auf english :D
 	
 	public void inventoryItemsToChart () {
+				
+		if (mnItemsCount != moInventory.getItemCount()) {
+			buildDataset ();
+		}
+		
+	}
+	
+	private void buildDataset () {
 		
 		clsMobile oItem;
 		int i;
 		double rRemainingWeight = 0;
 		
-		//in der späteren Version anchgucken ob sich etwas verändert hat und es dann übernehmen, für jetzt wird die schleife immer aufgerufen
-		if (mnItemsCount != moInventory.getItemCount()) {
-			mnItemsCount = moInventory.getItemCount();
-			rRemainingWeight = moInventory.getMaxMass();
-			
-			try {
-				for (i = 0; i < mnItemsCount; i++) { //gucken was an der letzten Stelle ist bzw an der ersten = 0ten
-					oItem = moInventory.getInventoryItem (i);
-					moPieDataset.insertValue(i, oItem.getId(), oItem.getTotalWeight());
-					rRemainingWeight -= oItem.getTotalWeight();
-				}
-				moPieDataset.insertValue(i, "Empty", rRemainingWeight);
-			} catch (IndexOutOfBoundsException e) {
-				System.out.println("InventoryItems: Index out of bound");
-			}
-				
-		}
+		mnItemsCount = moInventory.getItemCount();
+		rRemainingWeight = moInventory.getMaxMass();
 		
+		try {
+			for (i = 0; i < mnItemsCount; i++) {
+				oItem = moInventory.getInventoryItem (i);
+				moPieDataset.insertValue(i, oItem.getId(), oItem.getTotalWeight());
+				rRemainingWeight -= oItem.getTotalWeight();
+			}
+			moPieDataset.insertValue(i, "Empty", rRemainingWeight);
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("InventoryItems: Index out of bound");
+		}
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @since 29.03.2013 16:06:02
-	 * 
-	 * @see sim.portrayal.Inspector#updateInspector()
-	 */
 	@Override
 	public void updateInspector() {
 		// TODO (Jordakieva) - Auto-generated method stub

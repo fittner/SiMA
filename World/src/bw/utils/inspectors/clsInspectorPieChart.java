@@ -44,8 +44,7 @@ public class clsInspectorPieChart extends Inspector {
 
 	@Override
 	public void updateInspector() {
-		
-		moChart.repaint();
+
 	}
 
 }
