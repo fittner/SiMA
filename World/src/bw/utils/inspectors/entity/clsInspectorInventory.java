@@ -10,11 +10,18 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import org.jfree.chart.ChartFactory;
+import org.jfree.chart.ChartPanel;
+import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.general.DefaultPieDataset;
+import org.jfree.data.xy.XYSeries;
+import org.jfree.data.xy.XYSeriesCollection;
 
 import panels.TextOutputPanel;
 import bw.entities.clsMobile;
 import bw.entities.tools.clsInventory;
+import bw.factories.clsSingletonMasonGetter;
 import bw.utils.inspectors.clsInspectorPieChart;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
@@ -34,6 +41,9 @@ public class clsInspectorInventory extends Inspector {
 	private DefaultPieDataset moPieDataset;
 	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
+	private ChartPanel moChartOfDeath;
+	//private XYSeriesCollection moXYCollection1;
+	private XYSeries moXYSeriesWeight, moXYSeriesMaxWeight, moXYSeriesStamina;
 	
 	public clsInspectorInventory (clsInventory poInventory)	{
 
@@ -41,11 +51,19 @@ public class clsInspectorInventory extends Inspector {
 		moPieDataset = new DefaultPieDataset ();
 		moInspectorPie = new clsInspectorPieChart (moPieDataset);
 		mnItemsCount = moInventory.getItemCount();
-		
+				
 		//Initializing and setting up the Layout
 		JPanel oContent = new JPanel (); //Layout in Layout
 		moText = new TextOutputPanel();
 		moText3 = new TextOutputPanel();
+		
+		moXYSeriesWeight = new XYSeries ("Weight");
+		moXYSeriesMaxWeight = new XYSeries ("max Weight");
+		moXYSeriesStamina = new XYSeries ("Stamina");
+		
+		moChartOfDeath = new ChartPanel(createXYChart());
+		
+		
 		
 		//set the layoutmanager to two lines and one row
 		setLayout (new GridLayout(2,1));
@@ -56,7 +74,7 @@ public class clsInspectorInventory extends Inspector {
 			oContent.add (moText);
 			oContent.add (moInspectorPie);
 			add (oContent);
-			add (moText3);
+			add (moChartOfDeath);
 		} catch (Exception e) { 
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
@@ -64,10 +82,29 @@ public class clsInspectorInventory extends Inspector {
 		
 	}
 	
+	private JFreeChart createXYChart () {
+		
+		XYSeriesCollection oXYCollection1; //das beinhaltet mehrere Serials. Serials beinhalten mehrere Wert-Paare
+											// da wir verschiedene LineCharts haben werden, bräuchten wir später zwei Collections mit je einer Serials drinnen
+		
+		oXYCollection1 = new XYSeriesCollection ();
+		oXYCollection1.addSeries(moXYSeriesWeight);
+		oXYCollection1.addSeries(moXYSeriesMaxWeight);
+		
+		JFreeChart oXYChart = ChartFactory.createXYLineChart("Stamina Behaviour to Weight" , "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
+		
+		return oXYChart;
+	}
+	
 	// hier kommt ein Kommentar auf english :D
 	
 	public void inventoryItemsToChart () {
 				
+		long nCurrentTime = clsSingletonMasonGetter.getSimState().schedule.getSteps();
+		
+		moXYSeriesWeight.add(nCurrentTime, moInventory.getMass());
+		moXYSeriesMaxWeight.add(nCurrentTime, moInventory.getMaxMass());
+		
 		if (mnItemsCount != moInventory.getItemCount()) {
 			buildDataset ();
 		}
@@ -85,7 +122,7 @@ public class clsInspectorInventory extends Inspector {
 		
 		try {
 			for (i = 0; i < mnItemsCount; i++) {
-				oItem = moInventory.getInventoryItem (i);
+				oItem = moInventory.getInventoryItem (i); //zu oft ausgelesen vom oItem
 				moPieDataset.insertValue(i, oItem.getId(), oItem.getTotalWeight());
 				rRemainingWeight -= oItem.getTotalWeight();
 			}
