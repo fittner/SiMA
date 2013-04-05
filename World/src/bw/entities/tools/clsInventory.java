@@ -147,7 +147,7 @@ public class clsInventory {
 		
 		oInventory = "MaxItems: " + moInventory.size() + " von " + getMaxItems() + 
 				"\nMaxMass: " + getMass () + " von " + getMaxMass() + "\n";
-		if (moCarriedEntity != null) oInventory += "aktuelles Objekt: " + moCarriedEntity.getId() + "Gewicht: " + moCarriedEntity.getTotalWeight() + "\n";
+		if (moCarriedEntity != null) oInventory += "aktuelles Objekt: " + moCarriedEntity.getId() + "Gewicht: " + moCarriedEntity.getStructuralWeight() + "\n";
 		
 		for (clsMobile oItem : moInventory) {
 			oInventory += oItem.getId() + " Gewicht: " + oItem.getTotalWeight() + "\n";		
