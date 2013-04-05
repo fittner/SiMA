@@ -30,28 +30,31 @@ public class clsInspectorInventory extends Inspector {
 	
 	//private static final TextOutputPanel TextOutputPanel () = null;
 	private clsInventory moInventory;
-	private TextOutputPanel moText, moText2, moText3;
+	private TextOutputPanel moText, moText3;
 	private DefaultPieDataset moPieDataset;
 	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
 	
 	public clsInspectorInventory (clsInventory poInventory)	{
-		JPanel oContent = new JPanel ();
-		
+
 		moInventory = poInventory;
-		moText = new TextOutputPanel();
-		moText2 = new TextOutputPanel();
-		moText3 = new TextOutputPanel();
-		setLayout (new GridLayout(2,1));
-		oContent.setLayout(new GridLayout(1,2));
-		
 		moPieDataset = new DefaultPieDataset ();
 		moInspectorPie = new clsInspectorPieChart (moPieDataset);
 		mnItemsCount = moInventory.getItemCount();
 		
+		//Initializing and setting up the Layout
+		JPanel oContent = new JPanel (); //Layout in Layout
+		moText = new TextOutputPanel();
+		moText3 = new TextOutputPanel();
+		
+		//set the layoutmanager to two lines and one row
+		setLayout (new GridLayout(2,1));
+		//inner-layoutmanager one line and two rows
+		oContent.setLayout(new GridLayout(1,2));
+		
 		try {
 			oContent.add (moText);
-			oContent.add (moText2);
+			oContent.add (moInspectorPie);
 			add (oContent);
 			add (moText3);
 		} catch (Exception e) { 
@@ -74,7 +77,7 @@ public class clsInspectorInventory extends Inspector {
 			rRemainingWeight = moInventory.getMaxMass();
 			
 			try {
-				for (i = 0; i <= mnItemsCount; i++) { //gucken was an der letzten Stelle ist bzw an der ersten = 0ten
+				for (i = 0; i < mnItemsCount; i++) { //gucken was an der letzten Stelle ist bzw an der ersten = 0ten
 					oItem = moInventory.getInventoryItem (i);
 					moPieDataset.insertValue(i, oItem.getId(), oItem.getTotalWeight());
 					rRemainingWeight -= oItem.getTotalWeight();
@@ -101,7 +104,6 @@ public class clsInspectorInventory extends Inspector {
 		try {
 			if (isVisible()) {
 				moText.setText(moInventory.toText());
-				moText2.setText("hihi HAHA MÄCHTIG!!!!");
 				moText3.setText("ober");
 				inventoryItemsToChart ();
 			}
