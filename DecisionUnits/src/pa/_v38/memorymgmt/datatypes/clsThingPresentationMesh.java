@@ -548,10 +548,12 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	public void cathexisAndCondensation(double prCathexis) {
 		if (mrCathexis == 0) {
 			mrCathexis = prCathexis;
+			//moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, mrCathexis );
 		}
 		else {
 			// non-propertional aggregation
 			mrCathexis = mrCathexis + (1-mrCathexis)*prCathexis;
+			//moActivations.put(eActivationType.EMBODIMENT_ACTIVATION, mrCathexis );
 		}
 	}
 		

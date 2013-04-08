@@ -1,4 +1,4 @@
-; Wed Mar 06 12:17:44 CET 2013
+; Fri Apr 05 15:02:27 CEST 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -725,6 +725,13 @@
 
 	(element
 		[DM%3AEAT%3ACARROT]
+		[TPM%3AACTION%3AL1_EAT])
+	(weight 1.0 1.0))
+
+([AD%3AAIM%3ACARROT%3AEAT_AGGR] of  ASSOCIATIONDM
+
+	(element
+		[DM%3ABITE%3ACARROT]
 		[TPM%3AACTION%3AL1_EAT])
 	(weight 1.0 1.0))
 
@@ -2384,7 +2391,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKEBASIC%3ABITE]
 		[AD%3AAIM%3ACAKE%3ABITE])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.9)
+	(quotaOfAffect 0.6)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2394,9 +2401,9 @@
 	(drive_component "AGGRESSIVE")
 	(instance_association
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3ABITE]
-		[AD%3AAIM%3ACARROT%3ABITE])
+		[AD%3AAIM%3ACARROT%3AEAT_AGGR])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.5)
+	(quotaOfAffect 0.8)
 	(value "DM:STOMACH:AGGRESSIVE")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2486,7 +2493,7 @@
 		[AD%3ADRIVEOBJECT%3ACARROTBASIC%3AEAT]
 		[AD%3AAIM%3ACARROT%3AEAT])
 	(partial_drive "UNDEFINED")
-	(quotaOfAffect 0.3)
+	(quotaOfAffect 0.2)
 	(value "DM:STOMACH:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
@@ -2621,7 +2628,7 @@
 		[AD%3ADRIVEOBJECT%3ACAKE%3ASUCK]
 		[AD%3AAIM%3ACAKE%3ASUCK])
 	(partial_drive "ORAL")
-	(quotaOfAffect 0.3)
+	(quotaOfAffect 0.2)
 	(value "DM:ORAL:LIBIDINOUS")
 	(value_type "MEMORIZEDDRIVEREPRESENTATION"))
 
