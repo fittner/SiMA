@@ -26,7 +26,6 @@ import bw.entities.clsARSIN;
 import bw.entities.clsMobile;
 import bw.entities.tools.clsInventory;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.inspectors.clsInspectorPieChart;
 import bw.utils.tools.clsContentColumn;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
@@ -44,11 +43,11 @@ public class clsInspectorInventory extends Inspector {
 	private clsInventory moInventory;
 	private TextOutputPanel moText, moText3;
 	private DefaultPieDataset moPieDataset;
-	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
 	private ChartPanel moChartOfDeath;
 	private clsARSIN moArsin;
 	private clsContentColumn moStaminaContent;
+	private ChartPanel moCakeChart;
 	//private XYSeriesCollection moXYCollection1;
 	private XYSeries moXYSeriesWeight, moXYSeriesMaxWeight, moXYSeriesStamina;
 	
@@ -59,7 +58,8 @@ public class clsInspectorInventory extends Inspector {
 		moStaminaContent = ((clsComplexBody)moArsin.getBody()).getInternalSystem().getStaminaSystem().getStamina();
 				
 		moPieDataset = new DefaultPieDataset ();
-		moInspectorPie = new clsInspectorPieChart (moPieDataset);
+		moCakeChart = new ChartPanel (createPieChart());
+			
 		mnItemsCount = moInventory.getItemCount();
 				
 		//Initializing and setting up the Layout
@@ -73,8 +73,6 @@ public class clsInspectorInventory extends Inspector {
 		
 		moChartOfDeath = new ChartPanel(createXYChart());
 		
-		
-		
 		//set the layoutmanager to two lines and one row
 		setLayout (new GridLayout(2,1));
 		//inner-layoutmanager one line and two rows
@@ -82,7 +80,8 @@ public class clsInspectorInventory extends Inspector {
 		
 		try {
 			oContent.add (moText);
-			oContent.add (moInspectorPie);
+			oContent.add (moCakeChart);
+			//oContent.add (moInspectorPie);
 			add (oContent);
 			add (moChartOfDeath);
 		} catch (Exception e) { 
@@ -117,6 +116,13 @@ public class clsInspectorInventory extends Inspector {
 		}
 				
 		return oXYChart;
+	}
+	
+	private JFreeChart createPieChart () {
+		
+		JFreeChart oChart = ChartFactory.createPieChart("Inventory Weight Capacity", moPieDataset, true, false, false);
+		
+		return oChart;
 	}
 	
 	// hier kommt ein Kommentar auf english :D
