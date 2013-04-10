@@ -16,7 +16,6 @@ import bw.body.itfget.itfGetBody;
 
 
 import bw.entities.clsARSIN;
-import bw.entities.clsMobile;
 
 import bw.entities.clsEntity;
 
@@ -184,7 +183,7 @@ public class clsInspectorMappingEntity {
 	    		//add all information you want to add to the overview inspector here...
 	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
 	    			    		
-	    		oRetVal.addInspector(new clsInspectorInventory(((clsMobile)poEntity).getInventory()), "Inventory");
+	    		oRetVal.addInspector(new clsInspectorInventory((clsARSIN) poEntity), "Inventory");
 	    			    		
 	    	}
 	    	else{
