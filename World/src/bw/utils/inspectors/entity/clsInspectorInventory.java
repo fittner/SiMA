@@ -19,10 +19,13 @@ import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 
 import panels.TextOutputPanel;
+import bw.body.clsComplexBody;
+import bw.entities.clsARSIN;
 import bw.entities.clsMobile;
 import bw.entities.tools.clsInventory;
 import bw.factories.clsSingletonMasonGetter;
 import bw.utils.inspectors.clsInspectorPieChart;
+import bw.utils.tools.clsContentColumn;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
 
@@ -42,12 +45,18 @@ public class clsInspectorInventory extends Inspector {
 	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
 	private ChartPanel moChartOfDeath;
+	private clsARSIN moArsin;
+	private clsContentColumn moStaminaContent;
 	//private XYSeriesCollection moXYCollection1;
 	private XYSeries moXYSeriesWeight, moXYSeriesMaxWeight, moXYSeriesStamina;
 	
-	public clsInspectorInventory (clsInventory poInventory)	{
+	//public clsInspectorInventory (clsInventory poInventory)	{
+	public clsInspectorInventory (clsARSIN poArsin)	{
 
-		moInventory = poInventory;
+		moInventory = poArsin.getInventory();
+		moArsin = poArsin;
+		moStaminaContent = ((clsComplexBody)moArsin.getBody()).getInternalSystem().getStaminaSystem().getStamina();
+				
 		moPieDataset = new DefaultPieDataset ();
 		moInspectorPie = new clsInspectorPieChart (moPieDataset);
 		mnItemsCount = moInventory.getItemCount();
@@ -90,8 +99,11 @@ public class clsInspectorInventory extends Inspector {
 		oXYCollection1 = new XYSeriesCollection ();
 		oXYCollection1.addSeries(moXYSeriesWeight);
 		oXYCollection1.addSeries(moXYSeriesMaxWeight);
+		oXYCollection1.addSeries(moXYSeriesStamina);
+				
+		//JFreeChart oXYChart = ChartFactory.createXYLineChart("Stamina Behaviour to Weight" , "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
+		JFreeChart oXYChart = ChartFactory.createXYStepChart("Stamina Behaviour to Weight", "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
 		
-		JFreeChart oXYChart = ChartFactory.createXYLineChart("Stamina Behaviour to Weight" , "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
 		
 		return oXYChart;
 	}
@@ -101,9 +113,11 @@ public class clsInspectorInventory extends Inspector {
 	public void inventoryItemsToChart () {
 				
 		long nCurrentTime = clsSingletonMasonGetter.getSimState().schedule.getSteps();
+		double rStamina = moStaminaContent.getContent() / moStaminaContent.getMaxContent() * moInventory.getMaxMass();
 		
 		moXYSeriesWeight.add(nCurrentTime, moInventory.getMass());
 		moXYSeriesMaxWeight.add(nCurrentTime, moInventory.getMaxMass());
+		moXYSeriesStamina.add(nCurrentTime, rStamina);
 		
 		if (mnItemsCount != moInventory.getItemCount()) {
 			buildDataset ();
