@@ -26,7 +26,6 @@ import bw.entities.clsARSIN;
 import bw.entities.clsMobile;
 import bw.entities.tools.clsInventory;
 import bw.factories.clsSingletonMasonGetter;
-import bw.utils.inspectors.clsInspectorPieChart;
 import bw.utils.tools.clsContentColumn;
 import sim.portrayal.Inspector;
 import statictools.clsExceptionUtils;
@@ -40,16 +39,14 @@ import statictools.clsExceptionUtils;
  */
 public class clsInspectorInventory extends Inspector {
 	
-	//private static final TextOutputPanel TextOutputPanel () = null;
 	private clsInventory moInventory;
-	private TextOutputPanel moText, moText3;
+	private TextOutputPanel moText;
 	private DefaultPieDataset moPieDataset;
-	private clsInspectorPieChart moInspectorPie;
 	private int mnItemsCount;
 	private ChartPanel moChartOfDeath;
 	private clsARSIN moArsin;
 	private clsContentColumn moStaminaContent;
-	//private XYSeriesCollection moXYCollection1;
+	private ChartPanel moCakeChart;
 	private XYSeries moXYSeriesWeight, moXYSeriesMaxWeight, moXYSeriesStamina;
 	
 	public clsInspectorInventory (clsARSIN poArsin)	{
@@ -59,21 +56,19 @@ public class clsInspectorInventory extends Inspector {
 		moStaminaContent = ((clsComplexBody)moArsin.getBody()).getInternalSystem().getStaminaSystem().getStamina();
 				
 		moPieDataset = new DefaultPieDataset ();
-		moInspectorPie = new clsInspectorPieChart (moPieDataset);
-		mnItemsCount = moInventory.getItemCount();
+		moCakeChart = new ChartPanel (createPieChart());
+			
+		mnItemsCount = -1;
 				
 		//Initializing and setting up the Layout
 		JPanel oContent = new JPanel (); //Layout in Layout
 		moText = new TextOutputPanel();
-		moText3 = new TextOutputPanel();
 		
 		moXYSeriesWeight = new XYSeries ("Weight");
 		moXYSeriesMaxWeight = new XYSeries ("max Weight");
 		moXYSeriesStamina = new XYSeries ("Stamina");
 		
 		moChartOfDeath = new ChartPanel(createXYChart());
-		
-		
 		
 		//set the layoutmanager to two lines and one row
 		setLayout (new GridLayout(2,1));
@@ -82,13 +77,13 @@ public class clsInspectorInventory extends Inspector {
 		
 		try {
 			oContent.add (moText);
-			oContent.add (moInspectorPie);
+			oContent.add (moCakeChart);
+			//oContent.add (moInspectorPie);
 			add (oContent);
 			add (moChartOfDeath);
 		} catch (Exception e) { 
 			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
 		}
-		buildDataset (); //to inizialize the empty Dataset
 		
 	}
 	
@@ -119,9 +114,16 @@ public class clsInspectorInventory extends Inspector {
 		return oXYChart;
 	}
 	
+	private JFreeChart createPieChart () {
+		
+		JFreeChart oChart = ChartFactory.createPieChart("Inventory Weight Capacity", moPieDataset, true, false, false);
+		
+		return oChart;
+	}
+	
 	// hier kommt ein Kommentar auf english :D
 	
-	public void inventoryItemsToChart () {
+	public void fillChartOfDeath () {
 				
 		long nCurrentTime = clsSingletonMasonGetter.getSimState().schedule.getSteps();
 		double rStamina = moStaminaContent.getContent() / moStaminaContent.getMaxContent() * moInventory.getMaxMass();
@@ -129,46 +131,48 @@ public class clsInspectorInventory extends Inspector {
 		moXYSeriesWeight.add(nCurrentTime, moInventory.getMass());
 		moXYSeriesMaxWeight.add(nCurrentTime, moInventory.getMaxMass());
 		moXYSeriesStamina.add(nCurrentTime, rStamina);
-		
-		if (mnItemsCount != moInventory.getItemCount()) {
-			buildDataset ();
-		}
-		
-	}
-	
-	private void buildDataset () {
-		
-		clsMobile oItem;
-		int i;
-		double rRemainingWeight = 0;
-		
-		mnItemsCount = moInventory.getItemCount();
-		rRemainingWeight = moInventory.getMaxMass();
-		
-		try {
-			for (i = 0; i < mnItemsCount; i++) {
-				oItem = moInventory.getInventoryItem (i); //zu oft ausgelesen vom oItem
-				moPieDataset.insertValue(i, oItem.getId(), oItem.getTotalWeight());
-				rRemainingWeight -= oItem.getTotalWeight();
-			}
-			moPieDataset.insertValue(i, "Empty", rRemainingWeight);
-		} catch (IndexOutOfBoundsException e) {
-			System.out.println("InventoryItems: Index out of bound");
-		}
+				
 	}
 
 	@Override
 	public void updateInspector() {
-		// TODO (Jordakieva) - Auto-generated method stub
 		
-		try {
-			if (isVisible()) {
-				moText.setText(moInventory.toText());
-				moText3.setText("ober");
-				inventoryItemsToChart ();
+		String oInventory;
+		int i;
+		clsMobile oItem;
+		double rRemainingWeight = 0;
+		
+		fillChartOfDeath ();
+		
+		if (isVisible() && (mnItemsCount != moInventory.getItemCount())) {
+			
+			rRemainingWeight = moInventory.getMaxMass();
+			oInventory = "MaxItems: " + moInventory.getItemCount() + " of " + moInventory.getMaxItems() + 
+						"\nMaxMass: " + moInventory.getMass () + " of " + moInventory.getMaxMass() + "\n";
+			
+			if (moInventory.getCarriedEntity() != null) {
+				oInventory += "Currently Carried Object: " + moInventory.getCarriedEntity().getId() + "Weight: " + 
+						moInventory.getCarriedEntity().getStructuralWeight() + "\n";
+			} else {
+				oInventory += "currently carried Object: none\n";
 			}
-		} catch (Exception e) {
-			System.out.println(clsExceptionUtils.getCustomStackTrace(e));
+				
+			mnItemsCount = moInventory.getItemCount();
+			oInventory += "Inventory: \n";
+			moPieDataset.insertValue(0, "Empty", rRemainingWeight); //damit die leere immer die selbe Farbe hat
+			try {
+				for (i = 0; i < mnItemsCount; i++) {
+					oItem = moInventory.getInventoryItem (i); // weil zu oft ausgelesen vom oItem
+					oInventory += "\t" + oItem.getId() + " Weight: " + oItem.getTotalWeight() + "\n";
+												
+					moPieDataset.insertValue(i+1, oItem.getId(), oItem.getTotalWeight());
+					rRemainingWeight -= oItem.getTotalWeight();
+				}
+				moPieDataset.insertValue(0, "Empty", rRemainingWeight);
+			} catch (IndexOutOfBoundsException e) {
+				System.out.println("InventoryItems: Index out of bound");
+			}
+			moText.setText(oInventory);
 		}
 
 	}
