@@ -28,8 +28,11 @@ public class clsGetARSPath {
 	public static String getEntityConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"entity";
 	}
-	public static String getPeronalityParameterConfigPath(){
-		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters";
+	public static String getDecisionUnitPeronalityParameterConfigPath(){
+		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters"+System.getProperty("file.separator")+"decision_unit";
+	}
+	public static String getBodyPeronalityParameterConfigPath(){
+		return getConfigPath()+System.getProperty("file.separator")+"personality_parameters"+System.getProperty("file.separator")+"body";
 	}
 	public static String getDuConfigPath(){
 		return getConfigPath()+System.getProperty("file.separator")+"default"+System.getProperty("file.separator")+"du";

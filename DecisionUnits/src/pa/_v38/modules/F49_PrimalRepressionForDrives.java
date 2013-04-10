@@ -304,7 +304,14 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			double oOldLibidoneusQoA = ((clsDriveMesh)oHomeostaticDMPairEntry.b).getQuotaOfAffect();
 			
 			//calculate the tensions using a linear function
-			clsPair<Double, Double> oSplitResult = splitQoA(oOldAgressiveQoA+oOldLibidoneusQoA, rSlopeFactor);
+			//if != 0
+			clsPair<Double, Double> oSplitResult;
+			if(oOldAgressiveQoA + oOldLibidoneusQoA > 0){
+			    oSplitResult = shiftQoA(new clsPair<Double,Double>(oOldAgressiveQoA,oOldLibidoneusQoA), rSlopeFactor);
+			}
+			else{
+			    oSplitResult = new clsPair<Double,Double>(0.0,0.0);
+			}
 			
 			/* old version
 			 *clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
@@ -325,10 +332,23 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			moOutput.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
 	}
 	
-	private clsPair<Double, Double> splitQoA(double prSumQoA, double prRatio) {
-	  
-	    return new clsPair<Double, Double> (prSumQoA*prRatio, prSumQoA*(1-prRatio));
-	       
+	
+	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
+	    double rSum = prValues.a + prValues.b;
+	    double rAggrFactor = prValues.a/rSum;
+	    double d= 0.0;
+	    double k = 0.0;
+	    if(prRatio>=0.5){
+	        k=(1-prRatio)/0.5;
+	        d=1-k;
+	    }
+	    else{
+	        k=prRatio/0.5;
+	        d=0.0;
+	    }
+	    rAggrFactor = rAggrFactor*k + d;
+	    
+	    return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
 	}
 	        
 	

@@ -40,10 +40,10 @@ public class clsPersonalityParameterContainer {
 	private void applyProperties(String poPrefix, clsProperties poProp){
 		//String pre = clsProperties.addDot(poPrefix);
 		moFilename= poProp.getProperty(poPrefix);
-		clsProperties iProp = clsProperties.readProperties(clsGetARSPath.getPeronalityParameterConfigPath(), P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+		clsProperties iProp = clsProperties.readProperties(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(), P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 		
 		if(!moFilename.equals(P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME)){
-			iProp.putAll(clsProperties.readProperties(clsGetARSPath.getPeronalityParameterConfigPath(), moFilename));
+			iProp.putAll(clsProperties.readProperties(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(), moFilename));
 		}
 		
 		ArrayList<String> modules = new ArrayList<String>();

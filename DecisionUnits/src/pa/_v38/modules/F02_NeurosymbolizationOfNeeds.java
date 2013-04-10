@@ -77,6 +77,13 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		applyProperties(poPrefix, poProp);	
 		moChartColumnsCaptions = new ArrayList<String>();
+		//add data that should be displayed
+		moChartColumnsCaptions.add(eSensorIntType.STAMINA.toString());
+		moChartColumnsCaptions.add(eSensorIntType.STOMACH.toString());
+		moChartColumnsCaptions.add("RECTUM");
+		moChartColumnsCaptions.add("ADRENALIN");
+		moChartColumnsCaptions.add("BLOODSUGAR");
+		Collections.sort(moChartColumnsCaptions);
 	}
 
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -171,7 +178,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 		CollectBodilyDemandsInOneList();
 		
 		//create some chart of them
-		for (String oKey:moHomeostaticSymbol_OUT.keySet()) {
+/*		for (String oKey:moHomeostaticSymbol_OUT.keySet()) {
 			if(oKey != eSensorIntType.HEALTH.toString()){ //health can be very large, dotn add it to chart
 				if (!moChartColumnsCaptions.contains(oKey)) {
 					mnChartColumnsChanged = true;
@@ -181,6 +188,7 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 				}
 			}
 		}
+		*/
 	}
 
 	/**
@@ -360,11 +368,12 @@ public class F02_NeurosymbolizationOfNeeds extends clsModuleBase
 			
 			try {
 				rValue = moHomeostaticSymbol_OUT.get(oKey);
+				
 			} catch (java.lang.Exception e)  {
 				//do nothing
 			}
-			
 			oResult.add(rValue);
+			
 		}
 		
 		return oResult;
