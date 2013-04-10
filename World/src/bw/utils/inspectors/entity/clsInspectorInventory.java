@@ -14,6 +14,8 @@ import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
+import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
@@ -50,7 +52,6 @@ public class clsInspectorInventory extends Inspector {
 	//private XYSeriesCollection moXYCollection1;
 	private XYSeries moXYSeriesWeight, moXYSeriesMaxWeight, moXYSeriesStamina;
 	
-	//public clsInspectorInventory (clsInventory poInventory)	{
 	public clsInspectorInventory (clsARSIN poArsin)	{
 
 		moInventory = poArsin.getInventory();
@@ -93,18 +94,28 @@ public class clsInspectorInventory extends Inspector {
 	
 	private JFreeChart createXYChart () {
 		
-		XYSeriesCollection oXYCollection1; //das beinhaltet mehrere Serials. Serials beinhalten mehrere Wert-Paare
+		XYSeriesCollection oXYCollection1, oXYCollectionStamina; //das beinhaltet mehrere Serials. Serials beinhalten mehrere Wert-Paare
 											// da wir verschiedene LineCharts haben werden, bräuchten wir später zwei Collections mit je einer Serials drinnen
 		
+		
 		oXYCollection1 = new XYSeriesCollection ();
-		oXYCollection1.addSeries(moXYSeriesWeight);
 		oXYCollection1.addSeries(moXYSeriesMaxWeight);
-		oXYCollection1.addSeries(moXYSeriesStamina);
+		oXYCollection1.addSeries(moXYSeriesWeight);		
+		
+		oXYCollectionStamina = new XYSeriesCollection ();
+		oXYCollectionStamina.addSeries(moXYSeriesStamina);
 				
 		//JFreeChart oXYChart = ChartFactory.createXYLineChart("Stamina Behaviour to Weight" , "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
 		JFreeChart oXYChart = ChartFactory.createXYStepChart("Stamina Behaviour to Weight", "Time", "Value", oXYCollection1, PlotOrientation.VERTICAL, true, false, false);
 		
+		XYPlot oPlot = (XYPlot) oXYChart.getPlot();
 		
+		{
+			XYLineAndShapeRenderer oRenderer = new XYLineAndShapeRenderer(true, false);
+			oPlot.setDataset(1, oXYCollectionStamina);
+			oPlot.setRenderer(1, oRenderer);
+		}
+				
 		return oXYChart;
 	}
 	
