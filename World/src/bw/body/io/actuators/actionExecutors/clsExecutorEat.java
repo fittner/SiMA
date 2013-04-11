@@ -14,8 +14,6 @@ import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
-import bw.entities.clsMobile;
-import bw.exceptions.exInventoryFull;
 import bw.factories.eImages;
 import bw.utils.enums.eBodyParts;
 import bw.utils.tools.clsFood;
@@ -163,19 +161,8 @@ public class clsExecutorEat extends clsActionExecutor{
         }
         
         //FIXME (horvath) - "unregister" eaten entity
-        /* if(oReturnedFood.getWeight() <= 0){
+        if(oReturnedFood.getWeight() <= 0){
         	oEatenEntity.setRegistered(false);
-        } */
-        if (oEatenEntity instanceof clsMobile && moEntity instanceof clsMobile ) {
-        	
-        	try {
-        		((clsMobile)moEntity).getInventory().setCarriedEntity((clsMobile) oEatenEntity);
-        		((clsMobile)moEntity).getInventory().moveCarriedToInventory();   		
-        		
-        		
-        	} catch (exInventoryFull e) {
-        		System.out.println ("Inventory is too full");
-        	}
         }
         
         //2) the stimulation of the erogenous zone

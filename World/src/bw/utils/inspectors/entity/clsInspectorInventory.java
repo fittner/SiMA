@@ -144,19 +144,19 @@ public class clsInspectorInventory extends Inspector {
 		
 		fillChartOfDeath ();
 		
+		if (moInventory.getCarriedEntity() != null) {
+			oInventory = "Currently carried object: " + moInventory.getCarriedEntity().getId() + "Weight: " + 
+					moInventory.getCarriedEntity().getTotalWeight() + "\n";
+		} else {
+			oInventory = "Currently carried Object: none\n";
+		}
+		
+		rRemainingWeight = moInventory.getMaxMass();
+		oInventory += "\nMaxItems: " + moInventory.getItemCount() + " of " + moInventory.getMaxItems() + 
+					"\nMaxMass: " + moInventory.getMass () + " of " + moInventory.getMaxMass() + "\n";
+		
 		if (isVisible() && (mnItemsCount != moInventory.getItemCount())) {
 			
-			rRemainingWeight = moInventory.getMaxMass();
-			oInventory = "MaxItems: " + moInventory.getItemCount() + " of " + moInventory.getMaxItems() + 
-						"\nMaxMass: " + moInventory.getMass () + " of " + moInventory.getMaxMass() + "\n";
-			
-			if (moInventory.getCarriedEntity() != null) {
-				oInventory += "Currently Carried Object: " + moInventory.getCarriedEntity().getId() + "Weight: " + 
-						moInventory.getCarriedEntity().getStructuralWeight() + "\n";
-			} else {
-				oInventory += "currently carried Object: none\n";
-			}
-				
 			mnItemsCount = moInventory.getItemCount();
 			oInventory += "Inventory: \n";
 			moPieDataset.insertValue(0, "Empty", rRemainingWeight); //damit die leere immer die selbe Farbe hat
@@ -172,8 +172,10 @@ public class clsInspectorInventory extends Inspector {
 			} catch (IndexOutOfBoundsException e) {
 				System.out.println("InventoryItems: Index out of bound");
 			}
-			moText.setText(oInventory);
+			
 		}
+		
+		moText.setText(oInventory);
 
 	}
 
