@@ -312,9 +312,6 @@ public class clsActionProcessor implements itfActionProcessor {
 				double rStaminaDemand = oExRes.getExecutor().getStaminaDemand(oExRes.getCommand());
 				double rStaminaAvailable = oBody.getInternalSystem().getStaminaSystem().getStamina().getContent();
 				
-				//TODO: Kivy hack: we did not change the stamina demand of pickup, for testing we do this ...
-				if(rStaminaDemand > 1.0) rStaminaDemand = 0.001;
-				
 				//If not enough stamina then consume what's left, reduce energy but no execution
 				if (rStaminaAvailable<rStaminaDemand && rStaminaDemand!=0) {
 					rEnergyDemand = rEnergyDemand * rStaminaAvailable/rStaminaDemand;

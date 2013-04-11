@@ -130,6 +130,10 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 			oEntity.getCarryableEntity().incHolders();
 
 			oMEntity.getInventory().setCarriedEntity(oEntity.getCarryableEntity());
+			oMEntity.getInventory().moveCarriedToInventory(); //hack: für inventory
+			
+			oEntity.setCarriedBindingState(eBindingState.INVENTORY); //hack: für inventory 
+			
 		} catch(Throwable e) {
 			return false;			
 		}

@@ -123,7 +123,7 @@ public abstract class clsMobile extends clsEntity {
 	 * Override to configure inventory-size
 	 */
 	protected void setEntityInventory() {
-		moInventory= new clsInventory(this,10,10000); //Ivy this,10,100 auf this,10,10000 geändert :>
+		moInventory= new clsInventory(this,10,1); // KIvy hack: check maxweight is ok for all situation
 	}
 	public clsInventory getInventory() {
 		return moInventory;

@@ -155,7 +155,9 @@ public class clsInspectorInventory extends Inspector {
 		oInventory += "\nMaxItems: " + moInventory.getItemCount() + " of " + moInventory.getMaxItems() + 
 					"\nMaxMass: " + moInventory.getMass () + " of " + moInventory.getMaxMass() + "\n";
 		
-		if (isVisible() && (mnItemsCount != moInventory.getItemCount())) {
+		/* if (isVisible() && (mnItemsCount != moInventory.getItemCount())) { 
+		 * TODO: Kivy performance verbessern 
+		 * */
 			
 			mnItemsCount = moInventory.getItemCount();
 			oInventory += "Inventory: \n";
@@ -173,7 +175,7 @@ public class clsInspectorInventory extends Inspector {
 				System.out.println("InventoryItems: Index out of bound");
 			}
 			
-		}
+		//}
 		
 		moText.setText(oInventory);
 
