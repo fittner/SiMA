@@ -183,7 +183,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-		oValues.add(mrBufferedLibido);
+	      for(double driveVal : moLibidoBuffers.values()){
+	          oValues.add(driveVal);
+	        }
 		
 		return oValues;
 	}
@@ -198,7 +200,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
-		oCaptions.add("Total Libido");
+		for(eSexualDrives drive : moLibidoBuffers.keySet()){
+		    oCaptions.add(drive.toString());
+		}
 		return oCaptions;
 	}
 
