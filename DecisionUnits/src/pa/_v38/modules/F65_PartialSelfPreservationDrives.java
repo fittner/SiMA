@@ -166,20 +166,19 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
     			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
     			{
     				//bloodsugar is special, make it to a stomach drive
-    			        double rStomachPainLimit =1.0;
-    					clsPair<Double,Double> oStomachFactors = generateDivisionFactors(oEntry.getValue(),rStomachPainLimit);
+    			        double rStomachPainLimit = 1.0;
+    					clsPair<Double,Double> oStomachFactors = generateDivisionFactors(oEntry.getValue(),rStomachPainLimit, 0.5);
     					
     					//shift the division factor corresponding to the responses from the oral errogenous zones
     					oStomachFactors = shiftDevivionFactorsStomach(oStomachFactors);
-    					System.out.println("###########################################Gesamt: "+ oStomachFactors.a/(oStomachFactors.a+oStomachFactors.b));
-    			        moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.a,eDriveComponent.AGGRESSIVE));
+    					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.a,eDriveComponent.AGGRESSIVE));
     					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.b,eDriveComponent.LIBIDINOUS));
     					
     					
     
     			}
                 else if (oEntry.getKey().toString() == "RECTUM"){
-                    clsPair<Double,Double> oRectumFactors = generateDivisionFactors(oEntry.getValue(),rectum_pain_limit);
+                    clsPair<Double,Double> oRectumFactors = generateDivisionFactors(oEntry.getValue(),rectum_pain_limit,1.0);
                     moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()), oRectumFactors.a,eDriveComponent.AGGRESSIVE));
                     moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()), oRectumFactors.b,eDriveComponent.LIBIDINOUS));
                 }
@@ -187,7 +186,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
                 else if(oEntry.getKey().toString() == (eOrgan.STAMINA.name()))
                 {   
                     double rStaminaPainLimit = 0.3;
-                    clsPair<Double,Double> oStaminaFactors = generateDivisionFactors(oEntry.getValue(),rStaminaPainLimit);
+                    clsPair<Double,Double> oStaminaFactors = generateDivisionFactors(oEntry.getValue(),rStaminaPainLimit,1.0);
                     moHomeostaticDriveComponents_OUT.add( CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()),oStaminaFactors.a,eDriveComponent.AGGRESSIVE) );
                     moHomeostaticDriveComponents_OUT.add( CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()),oStaminaFactors.b,eDriveComponent.LIBIDINOUS) );
                 }
@@ -245,7 +244,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	        double rTensionChange = (rAgrTensionLastStep+rLibTensionLastStep)-rStomachTension;
 	      //falling stomach tension
 	        if(rTensionChange > 0){
-	            shiftFactor += ((1-rAgrFactor)-0.5)*rTensionChange*2;
+	            shiftFactor += ((1-rAgrFactor)-0.5)*rTensionChange;//*2;
 	            if(shiftFactor>1)shiftFactor =1;
 	            else if (shiftFactor <0) shiftFactor =0;
 	            
@@ -257,7 +256,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	        else {
 	            if(shiftFactor > 0.5){
 	                shiftFactor -= 0.005;
-	                if(shiftFactor < 0.5)shiftFactor =0.5;
+	                if(shiftFactor < 0.5)shiftFactor = 0.5;
 	            }
 	            else if (shiftFactor <0.5){ 
 	                shiftFactor += 0.02;
@@ -266,9 +265,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	            
 	        }
 	        
-	        System.out.println("###########################################ShiftFactor: "+ shiftFactor);
-	        
-	        shiftFactorLastStep.put("STOMACH",shiftFactor);
+            shiftFactorLastStep.put("STOMACH",shiftFactor);
 	        clsPair<Double,Double> oRetVal =shiftQoA(prDivisionFactorsOld, shiftFactor);
 	        oQoA_LastStep.put("STOMACH",oRetVal);
 	        return oRetVal;
@@ -371,15 +368,17 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         return new clsPair<Double,Double>(rAgrTension,rLibTension);
     }
     
-    private clsPair<Double,Double> generateDivisionFactors(double prTension, double prPainFactor){
+    private clsPair<Double,Double> generateDivisionFactors(double prTension, double prPainFactor, double scalingFactor){
         
         double rAgrTension = 0.0;
         double rLibTension = 0.0;
         //get External associated Content
         double rPartitionFactor;
         
+       
         rPartitionFactor =prTension*(1/prPainFactor);
-        rPartitionFactor -= (rPartitionFactor-0.5)*0.5;
+        // scales the distance of partial drives to each other
+        rPartitionFactor -= (rPartitionFactor-0.5)*scalingFactor;
         
         
         if(rPartitionFactor > 1.0) rPartitionFactor = 1.0;

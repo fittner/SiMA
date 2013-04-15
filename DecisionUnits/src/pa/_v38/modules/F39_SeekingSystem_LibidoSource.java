@@ -16,7 +16,7 @@ import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eSensorIntType;
@@ -34,12 +34,12 @@ import du.itf.sensors.clsDataBase;
 public class F39_SeekingSystem_LibidoSource extends clsModuleBase 
 			implements I0_1_receive, I0_2_receive, I1_1_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "39";
+	   public static final String P_LIBIDO_IMPACT_FACTOR = "LIBIDO_IMPACT_FACTOR";
 	
-	private DT1_LibidoBuffer moLibidoBuffer;
-
 	private double mrIncomingLibido_I0_1;
 	//private double mrIncomingLibido_I0_2;
 	private double mrOutgoingLibido;
+	private double libidoImpactFactor;
 	
 
 	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_IN;
@@ -59,10 +59,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F39_SeekingSystem_LibidoSource(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT1_LibidoBuffer poLibidoBuffer) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
-		
-		moLibidoBuffer = poLibidoBuffer;
+		libidoImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LIBIDO_IMPACT_FACTOR).getParameterDouble();
 		
 		applyProperties(poPrefix, poProp);	
 	}
@@ -78,7 +77,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
 		text += toText.valueToTEXT("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
 		text += toText.valueToTEXT("mrOutgoingLibido", mrOutgoingLibido);		
 		
@@ -123,7 +121,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	//	CollectErogenousZoneStimuliAndReduceLibido();
 
 		
-		mrOutgoingLibido = mrIncomingLibido_I0_1;
+		mrOutgoingLibido = mrIncomingLibido_I0_1*libidoImpactFactor;
 		moSensorSystems_OUT =moSensorSystems_IN;
 
 	}
