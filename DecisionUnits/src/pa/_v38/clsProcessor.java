@@ -245,6 +245,9 @@ public class clsProcessor implements itfProcessor  {
 	public void step() {
 		//BODY --------------------------------------------- 
 		//data preprocessing
+	    //Resets the pleasure value to 0
+	    moPsyApp.moPleasureStorage.resetPleasure();
+	    
 		moPsyApp.moF01_SensorsMetabolism.step();
 		moPsyApp.moF02_NeurosymbolizationOfNeeds.step();
 
@@ -268,6 +271,10 @@ public class clsProcessor implements itfProcessor  {
 		
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfQuotaOfAffectsForDrives.step(); 
+		
+		//calculate the dynamic portion of pleasure depending on the gradiant
+		moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
+		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
 				
 		//perception to memory and repression

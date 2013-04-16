@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eSexualDrives;
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -54,13 +55,21 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	public static final String P_SPLITFACTOR_GENITAL = "SPLITFACTOR_GENITAL";
 	public static final String P_SPLITFACTOR_PHALLIC = "SPLITFACTOR_PHALLIC";
 	
+	public static final String P_IMPACT_FACTOR_ORAL = "IMPACT_FACTOR_ORAL";
+	public static final String P_IMPACT_FACTOR_ANAL = "IMPACT_FACTOR_ANAL";
+	public static final String P_IMPACT_FACTOR_PHALLIC = "IMPACT_FACTOR_PHALLIC";
+	public static final String P_IMPACT_FACTOR_GENITAL = "IMPACT_FACTOR_GENITAL";
+	
 	private HashMap<String, Double> moSplitterFactors;
+	private HashMap<String, Double> moImpactFactors;
 	
 	private Double moLibidoInput;
 	private ArrayList<clsDriveMesh> moOutput;
 	
 	/** instance of libidobuffer */
 	private DT1_LibidoBuffer moLibidoBuffer;
+	
+	private DT4_PleasureStorage moPleasureStorage;
 	
 	private HashMap<eFastMessengerSources, Double> moErogenousZones_IN;
 
@@ -83,11 +92,13 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			DT1_LibidoBuffer poLibidoBuffer,
-			clsPersonalityParameterContainer poPersonalityParameterContainer)
+			clsPersonalityParameterContainer poPersonalityParameterContainer,
+			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		
 		moLibidoBuffer = poLibidoBuffer;
+		moPleasureStorage = poPleasureStorage;
 		
 		moLibidoInput=0.0;
 		moErogenousZones_IN = new HashMap<eFastMessengerSources, Double>();
@@ -97,6 +108,12 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		moSplitterFactors.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_GENITAL).getParameterDouble());
 		moSplitterFactors.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_PHALLIC).getParameterDouble());
 		
+		moImpactFactors = new HashMap<String, Double>();
+		moImpactFactors.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_ORAL).getParameterDouble());
+		moImpactFactors.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_ANAL).getParameterDouble());
+		moImpactFactors.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_GENITAL).getParameterDouble());
+		moImpactFactors.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_PHALLIC).getParameterDouble());
+
 		moDriveChartData = new HashMap<String,Double>();
 	}
 	
@@ -183,26 +200,31 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		moLibidoBuffer.receive_D1_1(eSexualDrives.PHALLIC, moLibidoInput * moSplitterFactors.get("PHALLIC"));
 		
 		//decrease libodo buffer if erogenous zone gets stimulated
-		
+		double before = moLibidoBuffer.send_D1_4();
 		for (eFastMessengerSources eType: moErogenousZones_IN.keySet()){
 			if(eType == eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType), eSexualDrives.ORAL);
+			    moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"), eSexualDrives.ORAL);
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType), eSexualDrives.ORAL);
+			    moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"), eSexualDrives.ORAL);
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType), eSexualDrives.PHALLIC);
+				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ANAL"), eSexualDrives.PHALLIC);
+
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType), eSexualDrives.ANAL);
+				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("GENITAL"), eSexualDrives.ANAL);
+
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType), eSexualDrives.GENITAL);
+				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("PHALLIC"), eSexualDrives.GENITAL);
+
+                
 				
 			}
 		}
-		
+		double after = moLibidoBuffer.send_D1_4();
+		moPleasureStorage.D4_2receive(before - after);
 		
 		
 		moOutput = new ArrayList<clsDriveMesh>();

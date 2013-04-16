@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -61,6 +62,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	
 	private HashMap<String, Double> moCandidatePartitionFactor;
 	
+   private  DT4_PleasureStorage moPleasureStorage;
+	
     private HashMap<String,clsPair<Double,Double>> oQoA_LastStep;
     private HashMap<String,Double> shiftFactorLastStep;
 	
@@ -90,10 +93,13 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	public F65_PartialSelfPreservationDrives(String poPrefix,
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			clsPersonalityParameterContainer poPersonalityParameterContainer)
+			clsPersonalityParameterContainer poPersonalityParameterContainer,
+			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		rectum_pain_limit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_RECTUM_PAIN_LIMIT).getParameterDouble();
+		
+		moPleasureStorage= poPleasureStorage;
 		
 		moHomeostaisImpactFactors = new HashMap<String, Double>();
 		moHomeostaisImpactFactors.put("STOMACH",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STOMACH).getParameterDouble());
@@ -102,6 +108,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 
 		oQoA_LastStep = new HashMap<String,clsPair<Double,Double>>();
 		oQoA_LastStep.put("STOMACH", new clsPair<Double,Double>(0.0,0.0));
+		oQoA_LastStep.put("RECTUM", new clsPair<Double,Double>(0.0,0.0));
+		oQoA_LastStep.put("STAMINA", new clsPair<Double,Double>(0.0,0.0));
 		shiftFactorLastStep = new HashMap<String,Double>();
 		shiftFactorLastStep.put("STOMACH", 0.5);
 		fillOrificeMapping();
@@ -150,6 +158,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		//OVERVIEW: from the body-symbol-tension list, create a set of psychic datastructures that represent the demands+sources+tensions
 		HashMap<String, Double> oNormalizedHomeostatsisSymbols = null;
 		
+		
 		// 1- Normalization of bodily demands according to table
 		oNormalizedHomeostatsisSymbols = NormalizeHomeostaticSymbols(moHomeostasisSymbols_IN);
 		
@@ -166,11 +175,10 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
     			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
     			{
     				//bloodsugar is special, make it to a stomach drive
-    			        double rStomachPainLimit = 1.0;
-    					clsPair<Double,Double> oStomachFactors = generateDivisionFactors(oEntry.getValue(),rStomachPainLimit, 0.5);
+    					clsPair<Double,Double> oStomachFactors = generateDevisionFactorsStomach(oEntry.getValue());
     					
     					//shift the division factor corresponding to the responses from the oral errogenous zones
-    					oStomachFactors = shiftDevivionFactorsStomach(oStomachFactors);
+    					//oStomachFactors = shiftDevivionFactorsStomach(oStomachFactors);
     					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.a,eDriveComponent.AGGRESSIVE));
     					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.b,eDriveComponent.LIBIDINOUS));
     					
@@ -178,17 +186,27 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
     
     			}
                 else if (oEntry.getKey().toString() == "RECTUM"){
-                    clsPair<Double,Double> oRectumFactors = generateDivisionFactors(oEntry.getValue(),rectum_pain_limit,1.0);
+                    clsPair<Double,Double> oRectumFactors = generateDivisionFactors(oEntry.getValue(),rectum_pain_limit);
                     moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()), oRectumFactors.a,eDriveComponent.AGGRESSIVE));
                     moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()), oRectumFactors.b,eDriveComponent.LIBIDINOUS));
+                    
+                    //if one of the drives was fallen pleasure is generated and send to pleasure storage
+                    moPleasureStorage.D4_2receive(oQoA_LastStep.get("RECTUM").a - oRectumFactors.a);
+                    moPleasureStorage.D4_2receive(oQoA_LastStep.get("RECTUM").b - oRectumFactors.b);
+                    oQoA_LastStep.put("RECTUM", oRectumFactors);
                 }
     			
                 else if(oEntry.getKey().toString() == (eOrgan.STAMINA.name()))
                 {   
                     double rStaminaPainLimit = 0.3;
-                    clsPair<Double,Double> oStaminaFactors = generateDivisionFactors(oEntry.getValue(),rStaminaPainLimit,1.0);
+                    clsPair<Double,Double> oStaminaFactors = generateDivisionFactors(oEntry.getValue(),rStaminaPainLimit);
                     moHomeostaticDriveComponents_OUT.add( CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()),oStaminaFactors.a,eDriveComponent.AGGRESSIVE) );
                     moHomeostaticDriveComponents_OUT.add( CreateDriveCandidate(eOrgan.valueOf(oEntry.getKey()),oStaminaFactors.b,eDriveComponent.LIBIDINOUS) );
+                    
+                    //if one of the drives was fallen pleasure is generated and send to pleasure storage
+                    moPleasureStorage.D4_2receive(oQoA_LastStep.get("STAMINA").a - oStaminaFactors.a);
+                    moPleasureStorage.D4_2receive(oQoA_LastStep.get("STAMINA").b - oStaminaFactors.b);
+                    oQoA_LastStep.put("STAMINA", oStaminaFactors);
                 }
                 else{
                 // catch all other entries 
@@ -210,71 +228,6 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	
 		
 
-	}
-	
-	private clsPair<Double,Double> shiftDevivionFactorsStomach(clsPair<Double,Double> prDivisionFactorsOld){
-	        double rAgrTensionOld = prDivisionFactorsOld.a;
-	        double rLibTensionOld = prDivisionFactorsOld.b;
-	        double rStomachTension = rAgrTensionOld + rLibTensionOld;
-	        
-	        
-	        double rAgrTensionLastStep = oQoA_LastStep.get("STOMACH").a;
-	        double rLibTensionLastStep = oQoA_LastStep.get("STOMACH").b;
-	        double rAgrFactor;
-
-	        
-	        
-	        double rLibStimulation = 0.0;
-	        double rAgrStimulation = 0.0;
-	        if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
-	            rAgrStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString());
-	        }
-	        if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
-	            rLibStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString());
-	        }
-	        
-	        if(rAgrStimulation + rLibStimulation > 0){
-	            rAgrFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
-	        }
-	        else{
-	            rAgrFactor = 0.5;
-	        }
-	        
-	        double shiftFactor = shiftFactorLastStep.get("STOMACH");
-	        double rTensionChange = (rAgrTensionLastStep+rLibTensionLastStep)-rStomachTension;
-	      //falling stomach tension
-	        if(rTensionChange > 0){
-	            shiftFactor += ((1-rAgrFactor)-0.5)*rTensionChange;//*2;
-	            if(shiftFactor>1)shiftFactor =1;
-	            else if (shiftFactor <0) shiftFactor =0;
-	            
-	            
-	          // rAgrTension = rAgrTensionOld - rTensionChange * rAgrFactor;
-	          // rLibTension = rLibTensionOld - rTensionChange * rLibFactor;
-	        }
-	      //rising stomach tension
-	        else {
-	            if(shiftFactor > 0.5){
-	                shiftFactor -= 0.005;
-	                if(shiftFactor < 0.5)shiftFactor = 0.5;
-	            }
-	            else if (shiftFactor <0.5){ 
-	                shiftFactor += 0.02;
-	                if(shiftFactor > 0.5) shiftFactor = 0.5;
-	            }
-	            
-	        }
-	        
-            shiftFactorLastStep.put("STOMACH",shiftFactor);
-	        clsPair<Double,Double> oRetVal =shiftQoA(prDivisionFactorsOld, shiftFactor);
-	        oQoA_LastStep.put("STOMACH",oRetVal);
-	        return oRetVal;
-	        
-	       // return new clsPair<Double,Double>(rAgrTension,rLibTension);
-
-	    
-	    
-	    
 	}
 	
 	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
@@ -349,6 +302,9 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             
             if(rAgrTension > prStomachTension) rAgrTension = prStomachTension;
             rLibTension = prStomachTension-rAgrTension;
+            
+            // send the tension change to the pleasure buffer
+            moPleasureStorage.D4_2receive(rTensionChange);
         }
         else if (rTensionChange < 0){
             //rising stomach tension
@@ -365,10 +321,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         
         
         oQoA_LastStep.put("STOMACH", new clsPair<Double,Double>(rAgrTension,rLibTension));
-        return new clsPair<Double,Double>(rAgrTension,rLibTension);
+        // depending on the stomach tension the portion factor is shifted to aggressiv or libidinous
+        return shiftQoA(new clsPair<Double,Double>(rAgrTension,rLibTension),(prStomachTension-0.5)*0.5+0.5);
     }
     
-    private clsPair<Double,Double> generateDivisionFactors(double prTension, double prPainFactor, double scalingFactor){
+    private clsPair<Double,Double> generateDivisionFactors(double prTension, double prPainFactor){
         
         double rAgrTension = 0.0;
         double rLibTension = 0.0;
@@ -377,8 +334,6 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         
        
         rPartitionFactor =prTension*(1/prPainFactor);
-        // scales the distance of partial drives to each other
-        rPartitionFactor -= (rPartitionFactor-0.5)*scalingFactor;
         
         
         if(rPartitionFactor > 1.0) rPartitionFactor = 1.0;
@@ -389,6 +344,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         rAgrTension = prTension*rPartitionFactor;
         rLibTension = prTension-rAgrTension;
         
+
         return new clsPair<Double,Double>(rAgrTension,rLibTension);
     }
 
@@ -677,4 +633,71 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         mnChartColumnsChanged  = false;      
     }
 
+    /*  
+    private clsPair<Double,Double> shiftDevivionFactorsStomach(clsPair<Double,Double> prDivisionFactorsOld){
+            double rAgrTensionOld = prDivisionFactorsOld.a;
+            double rLibTensionOld = prDivisionFactorsOld.b;
+            double rStomachTension = rAgrTensionOld + rLibTensionOld;
+            
+            
+            double rAgrTensionLastStep = oQoA_LastStep.get("STOMACH").a;
+            double rLibTensionLastStep = oQoA_LastStep.get("STOMACH").b;
+            double rAgrFactor;
+
+            
+            
+            double rLibStimulation = 0.0;
+            double rAgrStimulation = 0.0;
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
+                rAgrStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString());
+            }
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
+                rLibStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString());
+            }
+            
+            if(rAgrStimulation + rLibStimulation > 0){
+                rAgrFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
+            }
+            else{
+                rAgrFactor = 0.5;
+            }
+            
+            double shiftFactor = shiftFactorLastStep.get("STOMACH");
+            double rTensionChange = (rAgrTensionLastStep+rLibTensionLastStep)-rStomachTension;
+          //falling stomach tension
+            if(rTensionChange > 0){
+                shiftFactor += ((1-rAgrFactor)-0.5)*rTensionChange;//*2;
+                if(shiftFactor>1)shiftFactor =1;
+                else if (shiftFactor <0) shiftFactor =0;
+                
+                
+              // rAgrTension = rAgrTensionOld - rTensionChange * rAgrFactor;
+              // rLibTension = rLibTensionOld - rTensionChange * rLibFactor;
+            }
+          //rising stomach tension
+            else {
+                if(shiftFactor > 0.5){
+                    shiftFactor -= 0.005;
+                    if(shiftFactor < 0.5)shiftFactor = 0.5;
+                }
+                else if (shiftFactor <0.5){ 
+                    shiftFactor += 0.02;
+                    if(shiftFactor > 0.5) shiftFactor = 0.5;
+                }
+                
+            }
+            
+            shiftFactorLastStep.put("STOMACH",shiftFactor);
+            clsPair<Double,Double> oRetVal =shiftQoA(prDivisionFactorsOld, shiftFactor);
+            oQoA_LastStep.put("STOMACH",oRetVal);
+            return oRetVal;
+            
+           // return new clsPair<Double,Double>(rAgrTension,rLibTension);
+
+        
+        
+        
+    }
+*/
+    
 }
