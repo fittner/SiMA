@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eFastMessengerSources;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
@@ -32,7 +33,6 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eSexualDrives;
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 

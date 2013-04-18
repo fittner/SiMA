@@ -8,6 +8,7 @@
 package bw.body.internalSystems;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import bw.body.itfStepUpdateInternalState;
 import bw.utils.datatypes.clsMutableDouble;
 import bw.utils.enums.eBodyParts;
@@ -39,9 +40,13 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStomachSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     
+	private clsPersonalityParameterContainer moPersonalityParameterContainer;
+
+    
     private double mrBaseEnergyConsumption;
     
-	public clsInternalSystem(String poPrefix, clsProperties poProp) {
+	public clsInternalSystem(String poPrefix, clsProperties poProp, clsPersonalityParameterContainer poPersonalityParameterContainer) {
+		moPersonalityParameterContainer=poPersonalityParameterContainer;
 		applyProperties(poPrefix, poProp);
 	}
 
@@ -73,7 +78,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moTemperatureSystem 	= new clsTemperatureSystem(pre+P_TEMPERATURE, poProp);
 		moHealthSystem 			= new clsHealthSystem(pre+P_HEALTH, poProp);
 		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
-		moStomachSystem 		= new clsStomachSystem(pre+P_STOMACH, poProp);
+		moStomachSystem 		= new clsStomachSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
    	    
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);

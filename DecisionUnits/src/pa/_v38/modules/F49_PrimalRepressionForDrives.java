@@ -21,13 +21,13 @@ import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 

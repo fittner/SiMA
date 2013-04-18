@@ -4,13 +4,11 @@
  * 30.11.2012 LuHe - File created
  *
  */
-package pa._v38.personality.parameter;
+package config.personality_parameter;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
-
-import statictools.clsGetARSPath;
 
 
 
@@ -26,26 +24,26 @@ import config.clsProperties;
  */
 public class clsPersonalityParameterContainer {
 
-	public static final String P_PERSONALITY_PARAMETER ="personality.parameter.file";
-	public static final String P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME="default.properties";
+
 	private ArrayList<clsPersonalityParameterModule> moModules;
 	private String moFilename;
 	
-	public clsPersonalityParameterContainer(String poPrefix, clsProperties poProp){
+	public clsPersonalityParameterContainer(String poFilePath, String poFilename, String poDefaultFileName){
 		moModules = new ArrayList<clsPersonalityParameterModule>();
-		applyProperties(poPrefix,poProp);
+		loadProperties(poFilePath, poFilename, poDefaultFileName);
 		
 	}
 	
-	private void applyProperties(String poPrefix, clsProperties poProp){
+	private void loadProperties(String poFilePath, String poFilename, String poDefaultFileName){
 		//String pre = clsProperties.addDot(poPrefix);
-		moFilename= poProp.getProperty(poPrefix);
-		clsProperties iProp = clsProperties.readProperties(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(), P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
-		
-		if(!moFilename.equals(P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME)){
-			iProp.putAll(clsProperties.readProperties(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(), moFilename));
+		//moFilename= poProp.getProperty(poPrefix);
+		clsProperties iProp = clsProperties.readProperties(poFilePath, poDefaultFileName);
+		moFilename = poDefaultFileName;
+		if(!poFilename.equals(poDefaultFileName)){
+			moFilename = poFilename;
+			iProp.putAll(clsProperties.readProperties(poFilePath, moFilename));
+			
 		}
-		
 		ArrayList<String> modules = new ArrayList<String>();
 		
 		//generate an arraylist of all modules
@@ -77,23 +75,6 @@ public class clsPersonalityParameterContainer {
 		return moFilename;
 	}
 
-	/**
-	 * 
-	 * Returns the name of the deafult personality parameter file as a property
-	 *
-	 * @since 25.01.2013 08:30:45
-	 *
-	 * @param poPrefix
-	 * @return
-	 */
-	public static clsProperties getDefaultProperties(String poPrefix) {
-
-		clsProperties oProp = new clsProperties();
-		//oProp.putAll(clsProperties.readProperties(clsGetARSPath.getPeronalityParameterConfigPath(), "default.personality.properties"));
-		//oProp.addPrefix(poPrefix);
-		oProp.setProperty(poPrefix, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
-		return oProp;
-	}
 	
 	/**
 	 * 

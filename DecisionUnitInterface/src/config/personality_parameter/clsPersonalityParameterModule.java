@@ -4,7 +4,7 @@
  * 30.11.2012 LuHe - File created
  *
  */
-package pa._v38.personality.parameter;
+package config.personality_parameter;
 
 import java.util.ArrayList;
 import java.util.Set;

@@ -17,12 +17,13 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
+import config.personality_parameter.clsPersonalityParameter;
+import config.personality_parameter.clsPersonalityParameterContainer;
+import config.personality_parameter.clsPersonalityParameterModule;
+
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
 import pa._v38.modules.clsPsychicApparatus;
-import pa._v38.personality.parameter.clsPersonalityParameter;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.personality.parameter.clsPersonalityParameterModule;
 import sim.portrayal.Inspector;
 
 /**

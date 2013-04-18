@@ -16,6 +16,7 @@ import org.apache.log4j.Level;
 
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
@@ -48,8 +49,8 @@ import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.systemtest.clsTester;
+import statictools.clsGetARSPath;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -73,6 +74,9 @@ public class clsPsychicApparatus {
 	/** Propertykeyprefix for all entries that are relevant for the knowledgebase; @since 13.07.2011 17:47:23 */
 	public static final String P_INFORMATIONREPRESENTATIONMGMT = "INF_REP_MGMT";
 	public static final String P_DEBUG_LEVEL = "debuglevel";
+	
+	public static final String P_PERSONALITY_PARAMETER ="personality.parameter.file";
+	public static final String P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME="default.properties";
 	
 	public F01_SensorsMetabolism moF01_SensorsMetabolism;
 	public F02_NeurosymbolizationOfNeeds moF02_NeurosymbolizationOfNeeds;
@@ -233,11 +237,11 @@ public class clsPsychicApparatus {
 		
 		clsProperties oProp = new clsProperties();
 
-		oProp.putAll(clsPersonalityParameterContainer.getDefaultProperties(pre + clsPersonalityParameterContainer.P_PERSONALITY_PARAMETER));
+		oProp.setProperty(pre +"."+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 		
 		oProp.setProperty(pre+P_DEBUG_LEVEL, "DEBUG");
 		
-oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
+		oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetabolism.P_MODULENUMBER ));
 		oProp.putAll( F02_NeurosymbolizationOfNeeds.getDefaultProperties( pre + F02_NeurosymbolizationOfNeeds.P_MODULENUMBER ));
 		oProp.putAll( F06_DefenseMechanismsForDrives.getDefaultProperties( pre + F06_DefenseMechanismsForDrives.P_MODULENUMBER ));
 		oProp.putAll( F08_ConversionToSecondaryProcessForDriveWishes.getDefaultProperties( pre + F08_ConversionToSecondaryProcessForDriveWishes.P_MODULENUMBER ));
@@ -298,8 +302,8 @@ oProp.putAll( F01_SensorsMetabolism.getDefaultProperties( pre + F01_SensorsMetab
 			//TODO HZ - Integrate to Properties
 			//FIXME (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
 			//moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
-			
-			moPersonalityParameterContainer= new clsPersonalityParameterContainer(pre + clsPersonalityParameterContainer.P_PERSONALITY_PARAMETER, poProp);
+		    String moFilename= poProp.getProperty(pre +"."+P_PERSONALITY_PARAMETER);
+			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
 			
 			moF01_SensorsMetabolism = new F01_SensorsMetabolism(pre + F01_SensorsMetabolism.P_MODULENUMBER, poProp, moModules, moInterfaceData);

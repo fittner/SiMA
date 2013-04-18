@@ -16,9 +16,9 @@ import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
 

@@ -14,7 +14,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import config.clsProperties;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
