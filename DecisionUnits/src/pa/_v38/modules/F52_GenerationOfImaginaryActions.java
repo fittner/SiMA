@@ -582,7 +582,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			
 			clsWordPresentationMesh oActionWPM = clsGoalTools.getAssociatedAction(oCurrentGoal);
 			
-			//TODO: Kivy hack: we replaced every EAT action with a PICKUP action - for testing 
+			//HACK: (Kivy) we replaced every EAT action with a PICKUP action - for testing 
 			if(oActionWPM.getMoContent() == "EAT")
 			{
 				oActionWPM.setMoContent("PICKUP");

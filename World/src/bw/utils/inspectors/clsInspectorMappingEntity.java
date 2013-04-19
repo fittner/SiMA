@@ -183,6 +183,7 @@ public class clsInspectorMappingEntity {
 	    		//add all information you want to add to the overview inspector here...
 	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
 	    			    		
+	    		//Inventory-Inspector
 	    		oRetVal.addInspector(new clsInspectorInventory((clsARSIN) poEntity), "Inventory");
 	    			    		
 	    	}
