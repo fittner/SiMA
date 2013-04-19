@@ -18,6 +18,7 @@ import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
+import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequence;
 import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionTurnVision;
@@ -359,6 +360,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					//Do nothing
 				} else if (oAction.equals(eAction.PERFORM_BASIC_ACT_ANALYSIS.toString())) {
 					
+				} else if (oAction.equals(eAction.PICKUP.toString())) {
+					moActionCommandList_Output.add( new clsActionPickUp() );
 				}
 				else {
 					throw new UnknownError("Action " + oAction + " not known");

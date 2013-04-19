@@ -45,6 +45,7 @@ public enum eCondition {
 	EXECUTED_SLEEP,
 	EXECUTED_RELAX,
 	EXECUTED_EAT,
+	EXECUTED_PICKUP,
 	EXECUTED_BITE,
 	EXECUTED_SUCK, 
 	//Actions - Unreal

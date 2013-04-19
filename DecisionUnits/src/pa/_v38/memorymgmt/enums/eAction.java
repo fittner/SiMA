@@ -31,6 +31,8 @@ public enum eAction {
 	BITE,
 	SUCK, 
 	REPRESS,
+	PICKUP,
+	DROP,
 	NONE,
 	
 	//Unreal actions
