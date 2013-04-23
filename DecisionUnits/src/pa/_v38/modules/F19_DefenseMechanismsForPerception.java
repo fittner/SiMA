@@ -799,6 +799,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 														
 						}
 						
+					}else{
+						
+						break;
 					}
 			}				
 			// Delete Associations with positive or negative Properities			

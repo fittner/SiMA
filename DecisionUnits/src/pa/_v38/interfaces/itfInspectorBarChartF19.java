@@ -13,7 +13,7 @@ import java.util.HashMap;
  * 
  * @author Lotfi
  * 12.04.2013, 14:54:02
- * 
+ * ChartBar for F19
  */
 public interface itfInspectorBarChartF19 {
 	public String getBarChartTitle();

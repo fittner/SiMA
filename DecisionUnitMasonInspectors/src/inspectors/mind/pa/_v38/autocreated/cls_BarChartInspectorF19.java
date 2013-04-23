@@ -108,9 +108,9 @@ public class cls_BarChartInspectorF19 extends cls_AbstractChartInspector {
 		 
 		 DefaultCategoryDataset dataF19 = new DefaultCategoryDataset();
 		 
-		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenEmotion"),"PassForbidenEmotions","PassForbidenEmotions");
+		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenEmotions"),"PassForbidenEmotions","PassForbidenEmotions");
 		 dataF19.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
-		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenPerception"),"PassForbidenPerceptions","PassForbidenPerceptions");
+		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenPerceptions"),"PassForbidenPerceptions","PassForbidenPerceptions");
 		 dataF19.setValue(moContainer.getBarChartData().get("Denial"),"Denial","Denial");
 		 dataF19.setValue(moContainer.getBarChartData().get("Idealization"),"Idealization","Idealization");
 		 dataF19.setValue(moContainer.getBarChartData().get("Depreciation"),"Depreciation","Depreciation");
@@ -126,13 +126,15 @@ public class cls_BarChartInspectorF19 extends cls_AbstractChartInspector {
 	 * @since 31.12.2012 19:00:42
 	 * 
 	 * @see inspectors.mind.pa._v38.autocreated.cls_AbstractChartInspector#updateDataset()
+	 * 
+	 * 
 	 */
 	@Override
 	protected void updateDataset() {
 		// TODO (Lotfi) - Auto-generated method stub
-		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenEmotion"),"PassForbidenEmotions","PassForbidenEmotions");
+		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenEmotions"),"PassForbidenEmotions","PassForbidenEmotions");
 		 moDataset.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");		 
-		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenPerception"),"PassForbidenPerceptions","PassForbidenPerceptions");
+		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenPerceptions"),"PassForbidenPerceptions","PassForbidenPerceptions");
 		 moDataset.setValue(moContainer.getBarChartData().get("Denial"),"Denial","Denial");
 		 moDataset.setValue(moContainer.getBarChartData().get("Idealization"),"Idealization","Idealization");
 		 moDataset.setValue(moContainer.getBarChartData().get("Depreciation"),"Depreciation","Depreciation");

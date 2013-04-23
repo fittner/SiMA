@@ -364,12 +364,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 defenseMechanism_Displacement(moForbiddenDrives_Input);
 			
 						 
-		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.8)){
+		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 			 
 			 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 			 
 			 						
-		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.8)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
+		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.9)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
 			 
 			 defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
 			 
