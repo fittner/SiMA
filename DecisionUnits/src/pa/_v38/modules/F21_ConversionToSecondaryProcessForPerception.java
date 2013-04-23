@@ -61,6 +61,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	
 	/** Specialized Logger for this class */
 	private Logger log = Logger.getLogger(this.getClass());
+	private ArrayList<String> Test = new ArrayList<String>();
 
 	/** Perception IN */
 	private clsThingPresentationMesh moPerceptionalMesh_IN;
@@ -167,6 +168,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	public String stateToTEXT() {
 		String text = "";
 		// text += toText.valueToTEXT("AdamPerspective:", moConcept);
+		text += toText.valueToTEXT("&&&&&&&&&&&&&&&&&&&Test&&&&&&&&&&&&&&&&&&&&&&&&&&",
+				Test);
 		text += toText.valueToTEXT("moPerceptionalMesh_IN",
 				moPerceptionalMesh_IN);
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT",
@@ -321,6 +324,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// The input image is the perceived image (defined from the position).
 		// Therefore, this image is taken to get the secondary process image
 		clsWordPresentationMesh oPIWPM = convertCompleteTPMtoWPMRoot(poPerceivedImage);
+		
 		log.debug("converted PI toWPM. \n>Perceived image WPM Part:\n" + oPIWPM.toString() + "\n>Perceived Image TPM part:\n" + poPerceivedImage.toString());
 		// Search for all images from the primary process in the memory
 
@@ -387,9 +391,20 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// Output: ArrayList<WPM> for each TPM-Image. The WPM are already
 		// assigned their acts here
 		oRetVal = new clsPair<clsWordPresentationMesh, ArrayList<clsWordPresentationMesh>>(oPIWPM, oCategorizedRIWPMList);
-
+		
 		return oRetVal;
 	}
+	private ArrayList<String> removeLast(ArrayList<String> Test){
+		
+		for(int i=0; i<Test.size();i++){
+			
+			if (i>0){
+				Test.remove(0);
+			}
+		}
+		return Test;
+	}
+
 
 	private clsWordPresentationMesh convertCompleteTPMtoWPMRoot(clsThingPresentationMesh poTPM) {
 		return convertCompleteTPMtoWPM(poTPM, new ArrayList<clsThingPresentationMesh>(), 1);

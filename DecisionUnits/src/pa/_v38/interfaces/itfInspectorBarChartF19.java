@@ -12,6 +12,7 @@ import java.util.HashMap;
  * DOCUMENT (Lotfi) - insert description 
  * 
  * @author Lotfi
+ * *
  * 12.04.2013, 14:54:02
  * ChartBar for F19
  */

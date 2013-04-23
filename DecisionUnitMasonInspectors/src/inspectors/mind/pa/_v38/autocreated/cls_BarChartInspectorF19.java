@@ -122,6 +122,7 @@ public class cls_BarChartInspectorF19 extends cls_AbstractChartInspector {
 	 }
 
 	/* (non-Javadoc)
+	 * *
 	 *
 	 * @since 31.12.2012 19:00:42
 	 * 

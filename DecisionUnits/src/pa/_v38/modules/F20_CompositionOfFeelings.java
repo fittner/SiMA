@@ -91,6 +91,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	//private enum affect {CONFLICT, ANXIETY, WORRIEDNESS, PRICKLE}; // These affects can be sent to secondary process by F20
 	private ArrayList<clsPrimaryDataStructure> moAffectOnlyList_Input;
 	//private ArrayList<clsAssociationDriveMesh> moDeniedAffects_Input;
+	//
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 	

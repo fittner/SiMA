@@ -60,7 +60,8 @@ import pa._v38.tools.toText;
  * @author gelbard
  * 07.05.2012, 14:35:08
  * 
- */
+ *
+ * **/
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
 			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";

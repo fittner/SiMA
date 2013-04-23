@@ -141,6 +141,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 *
 	 * @author zeilinger
 	 * 02.05.2011, 15:49:48
+	 * *
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToTEXT()
 	 */
