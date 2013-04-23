@@ -370,9 +370,9 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 	 * 
 	 * "besetzen des triebobjekts"
 	 */
-	public void cathexis() {
+	public void cathexis(double prCathexis) {
 		 if (this.getActualDriveObject() != null) {
-			 this.getActualDriveObject().cathexisAndCondensation(this.mrQuotaOfAffect);
+			 this.getActualDriveObject().cathexisAndCondensation(prCathexis);
 		 }
 	}
 	

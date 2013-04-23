@@ -9,7 +9,7 @@ package pa._v38.interfaces.modules;
 import java.util.HashMap;
 
 /**
- * This interface transports the neurosymbolized bodily needs from F2 to F3.
+ * This interface transports the neurosymbolized bodily needs from F2 to F65.
  * 
  * @author deutsch
  * 18.05.2010, 12:19:57

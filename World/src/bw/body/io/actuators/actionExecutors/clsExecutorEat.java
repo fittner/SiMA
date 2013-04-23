@@ -68,9 +68,9 @@ public class clsExecutorEat extends clsActionExecutor{
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
 		oProp.setProperty(pre+P_BITESIZE_MAX, 1f); //0.3f
 		//how strong the libidinous oral mucosa is stimulated by the action eat
-		oProp.setProperty(pre+P_LIBIDINOUS_EAT_FACTOR, 1f);
+		oProp.setProperty(pre+P_LIBIDINOUS_EAT_FACTOR, 0.2);
 		//how strong the aggressiv oral mucosa is stimulated by the action eat
-		oProp.setProperty(pre+P_AGGRESSIV_EAT_FACTOR, 1f);
+		oProp.setProperty(pre+P_AGGRESSIV_EAT_FACTOR, 0.2);
 		
 		return oProp;
 	}
@@ -172,9 +172,9 @@ public class clsExecutorEat extends clsActionExecutor{
        
         double rAgressivStimulus;
         double rLibidinousStimulus;
-        rAgressivStimulus = oReturnedFood.getHardness()*rNormalizedWeight*mrAggressivEatFactor;
+        rAgressivStimulus = oReturnedFood.getMrAggressivStimulationFactor()*rNormalizedWeight*mrAggressivEatFactor;
         
-      	rLibidinousStimulus = (1-oReturnedFood.getHardness())*rNormalizedWeight*mrLibidinousEatFactor;
+      	rLibidinousStimulus = oReturnedFood.getMrLibidinousStimulationFactor()*rNormalizedWeight*mrLibidinousEatFactor;
 
 
 

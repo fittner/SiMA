@@ -16,14 +16,12 @@ import pa._v38.interfaces.modules.I0_2_receive;
 import pa._v38.interfaces.modules.I1_1_receive;
 import pa._v38.interfaces.modules.I1_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.tools.toText;
 import config.clsProperties;
-import du.enums.eFastMessengerSources;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eSensorIntType;
 import du.itf.sensors.clsDataBase;
-import du.itf.sensors.clsFastMessenger;
-import du.itf.sensors.clsFastMessengerEntry;
+
 
 /**
  * The seeking system is the basic motivational system. {E39} is collecting information on libido 
@@ -36,15 +34,18 @@ import du.itf.sensors.clsFastMessengerEntry;
 public class F39_SeekingSystem_LibidoSource extends clsModuleBase 
 			implements I0_1_receive, I0_2_receive, I1_1_send, itfInspectorGenericTimeChart {
 	public static final String P_MODULENUMBER = "39";
+	   public static final String P_LIBIDO_IMPACT_FACTOR = "LIBIDO_IMPACT_FACTOR";
 	
-	private DT1_LibidoBuffer moLibidoBuffer;
-
 	private double mrIncomingLibido_I0_1;
-	private double mrIncomingLibido_I0_2;
+	//private double mrIncomingLibido_I0_2;
 	private double mrOutgoingLibido;
+	private double libidoImpactFactor;
 	
-	private HashMap<String, Double> moErogenousZoneStimuliList;
+
 	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_IN;
+	
+	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_OUT;
+	
 	
 	/**
 	 * basic constructor
@@ -58,11 +59,10 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @throws Exception 
 	 */
 	public F39_SeekingSystem_LibidoSource(String poPrefix,
-			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT1_LibidoBuffer poLibidoBuffer) throws Exception {
+			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
+		libidoImpactFactor = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_LIBIDO_IMPACT_FACTOR).getParameterDouble();
 		
-		moLibidoBuffer = poLibidoBuffer;
-		moErogenousZoneStimuliList = new HashMap<String, Double>();
 		applyProperties(poPrefix, poProp);	
 	}
 	
@@ -77,9 +77,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	public String stateToTEXT() {
 		String text ="";
 		
-		text += toText.valueToTEXT("moLibidoBuffer", moLibidoBuffer);
 		text += toText.valueToTEXT("mrIncomingLibido_I0_1", mrIncomingLibido_I0_1);		
-		text += toText.valueToTEXT("mrIncomingLibido_I0_2", mrIncomingLibido_I0_2);		
 		text += toText.valueToTEXT("mrOutgoingLibido", mrOutgoingLibido);		
 		
 		return text;
@@ -99,9 +97,9 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		//nothing to do
 	}	
 	
-	private void updateTempLibido() {
-		mrOutgoingLibido = mrIncomingLibido_I0_1 + mrIncomingLibido_I0_2;
-	}
+//	private void updateTempLibido() {
+//		mrOutgoingLibido = mrIncomingLibido_I0_1 + mrIncomingLibido_I0_2;
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -114,68 +112,18 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	protected void process_basic() {
 		
 		//calculate libido
-		 updateTempLibido();
+	//	 updateTempLibido();
 		 
 		//clear the old list
-		moErogenousZoneStimuliList.clear();
+	//	moErogenousZoneStimuliList.clear();
 		
 		//collect all zones together
-		CollectErogenousZoneStimuliAndReduceLibido();
+	//	CollectErogenousZoneStimuliAndReduceLibido();
 
-
-	}
-
-	/**
-	 * collects all the stimuli from the erogenous zones and combines them into one list for later reactin of libido
-	 *
-	 * @since 26.11.2012 14:17:32
-	 *
-	 */
-	private void CollectErogenousZoneStimuliAndReduceLibido() {
-
-		//FASTMESSENGER, the only sensor source we get to F39!
-		clsFastMessenger oFastMessengerSystem = (clsFastMessenger)moSensorSystems_IN.get(eSensorIntType.FASTMESSENGER);
-		if(oFastMessengerSystem!=null)
-		{
-			//loop through the fast messagers
-			for(  clsFastMessengerEntry oFastMessenger : oFastMessengerSystem.getEntries() ) {
-				
-				eFastMessengerSources oFMSource = oFastMessenger.getSource();
-				Double rIntensity = oFastMessenger.getIntensity();
-				
-				//wenn quelle X, dann Einfluß auf libido im Umfang von...
-				if (oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA) {
-
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-					
-					//Double stomachValue = moHomeostaticSymbol_OUT.get(eSensorIntType.STOMACH.name());
-					//moHomeostaticSymbol_OUT.put(eSensorIntType.STOMACH.name(), stomachValue-rValue);
-
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
-					//TODO: calculate influence zones-> libido
-					mrOutgoingLibido = mrOutgoingLibido - rIntensity;
-				}
-				else if(oFMSource ==  eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
-					//phallic aka Schautrieb geht eigentlich über F45 auf die Libido, dazu gibt es keine erogene Zone (bisher! CM 27.11.2012)
-				}
-			}//end for
-			
-			//cannot be below zero
-			if(mrOutgoingLibido < 0)
-				mrOutgoingLibido=0;
-			
-		}//end null check
 		
+		mrOutgoingLibido = mrIncomingLibido_I0_1*libidoImpactFactor;
+		moSensorSystems_OUT =moSensorSystems_IN;
+
 	}
 
 	/* (non-Javadoc)
@@ -187,8 +135,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		 updateTempLibido();		
-
+	
 	}
 
 	/* (non-Javadoc)
@@ -200,7 +147,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void process_final() {
-		 updateTempLibido();		
+		
 	}
 
 	/* (non-Javadoc)
@@ -212,7 +159,7 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 */
 	@Override
 	protected void send() {
-		send_I1_1(mrOutgoingLibido);
+		send_I1_1(mrOutgoingLibido, moSensorSystems_OUT);
 	}
 
 	@Override
@@ -231,8 +178,8 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	 * @see pa.interfaces.send._v38.I1_8_send#send_I1_8(java.util.HashMap)
 	 */
 	@Override
-	public void send_I1_1(double prData) {
-		((I1_1_receive)moModuleList.get(40)).receive_I1_1(prData);
+	public void send_I1_1(double prData, HashMap<eSensorIntType, clsDataBase> poData) {
+		((I1_1_receive)moModuleList.get(40)).receive_I1_1(prData,poData);
 		putInterfaceData(I1_1_send.class, prData);
 	}
 
@@ -287,7 +234,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
 		oValues.add(mrIncomingLibido_I0_1);
-		oValues.add(mrIncomingLibido_I0_2);
 		oValues.add(mrOutgoingLibido);
 		
 		return oValues;
@@ -305,7 +251,6 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		
 		oCaptions.add(eInterfaces.I0_1.toString());
-		oCaptions.add(eInterfaces.I0_2.toString());
 		oCaptions.add(eInterfaces.I1_1.toString());
 		
 		return oCaptions;

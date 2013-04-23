@@ -13,7 +13,6 @@ import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsMeshTools;
@@ -47,6 +46,7 @@ import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 

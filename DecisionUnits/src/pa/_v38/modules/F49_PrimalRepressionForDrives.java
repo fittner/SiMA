@@ -9,19 +9,27 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.SortedMap;
 
 import pa._v38.modules.ePsychicInstances;
 import pa._v38.interfaces.itfInspectorBarChart;
 import pa._v38.interfaces.itfGraphCompareInterfaces;
+import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.modules.I5_1_receive;
 import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
+import du.enums.eOrgan;
+import du.enums.pa.eDriveComponent;
 
 /**
  * Primal repressed content is associated to the remembered drive contents. If a assoc.
@@ -32,9 +40,19 @@ import config.clsProperties;
  * 
  */
 public class F49_PrimalRepressionForDrives extends clsModuleBase 
-			implements I5_1_receive, I5_2_send, itfInspectorBarChart, itfGraphCompareInterfaces{
+			implements I5_1_receive, I5_2_send,itfInspectorGenericDynamicTimeChart, itfInspectorBarChart, itfGraphCompareInterfaces{
 
 	public static final String P_MODULENUMBER = "49";
+	
+	public static final String P_SPLITFACTOR_STOMACH = "SPLITFACTOR_STOMACH";
+	public static final String P_SPLITFACTOR_RECTUM = "SPLITFACTOR_RECTUM";
+	public static final String P_SPLITFACTOR_STAMINA = "SPLITFACTOR_STAMINA";
+	public static final String P_SPLITFACTOR_ORAL = "SPLITFACTOR_ORAL";
+	public static final String P_SPLITFACTOR_ANAL = "SPLITFACTOR_ANAL";
+	public static final String P_SPLITFACTOR_GENITAL = "SPLITFACTOR_GENITAL";
+	public static final String P_SPLITFACTOR_PHALLIC = "SPLITFACTOR_PHALLIC";
+	private HashMap<String, Double> moSplitterFactor;	
+	
 
 	private ArrayList<clsDriveMesh> moInput;
 	private ArrayList<clsDriveMesh> moOutput;
@@ -45,6 +63,10 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	
 	/** DOCUMENT (muchitsch) - insert description; @since 19.07.2011 14:06:33 */
 	private ArrayList< clsTriple<String, String, ArrayList<Double> >> moPrimalRepressionMemory;
+
+	private boolean mnChartColumnsChanged =true;
+
+	private Hashtable<Object, Object> moDriveChartData;
 	/**
 	 * Constructor, and filles the primal repression memory
 	 * 
@@ -60,12 +82,23 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	public F49_PrimalRepressionForDrives(String poPrefix,
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData)
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
+			clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		applyProperties(poPrefix, poProp); 
 		fillPrimalRepressionMemory();
+		
+		moSplitterFactor = new HashMap<String, Double>();
+		moSplitterFactor.put("STOMACH", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STOMACH).getParameterDouble());
+		moSplitterFactor.put("RECTUM", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_RECTUM).getParameterDouble());
+		moSplitterFactor.put("STAMINA", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STAMINA).getParameterDouble());
+		moSplitterFactor.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ORAL).getParameterDouble());
+		moSplitterFactor.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ANAL).getParameterDouble());
+		moSplitterFactor.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_GENITAL).getParameterDouble());
+		moSplitterFactor.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_PHALLIC).getParameterDouble());
+
 		
 		moChartInputData = new HashMap<String,Double>();
 		moChartOutputData = new HashMap<String,Double>();
@@ -76,7 +109,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		
 		clsProperties oProp = new clsProperties();
 		oProp.setProperty(pre+P_PROCESS_IMPLEMENTATION_STAGE, eImplementationStage.BASIC.toString());
-				
+		
 		return oProp;
 	}	
 	
@@ -155,7 +188,11 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		moOutput =  deepCopy(moInput); 
+		//moOutput=  deepCopy(moInput);
+		moOutput = new ArrayList<clsDriveMesh>();
+		RedefineDevisionFactors(deepCopy(moInput));
+			
+		
 		
 		// TODO objekte einbeziehen, dafuer auf den clsPhysicalRepresentation die property isCandidateForRepression auf true setzen
 		//go to every drive mesh in the list and calculate the partial things
@@ -164,8 +201,8 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			categorizeDriveMesh(oDM);
 		}
 		*/
-	
 		
+
 		//chart data
 		for( clsDriveMesh oDriveMeshEntry:moOutput){
 			String oaKey = oDriveMeshEntry.getChartShortString();
@@ -175,8 +212,145 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			String oaKey = oDriveMeshEntry.getChartShortString();
 			moChartInputData.put(oaKey, oDriveMeshEntry.getQuotaOfAffect());	
 		}
+		
+		//mnChartColumnsChanged = false;
 
 	}
+	
+	private void RedefineDevisionFactors(ArrayList<clsDriveMesh> oDrives){
+		ArrayList<clsPair<clsDriveMesh,clsDriveMesh>> oDrivePairs = new ArrayList<clsPair<clsDriveMesh,clsDriveMesh>>();
+		
+		ArrayList<clsDriveMesh> used = new ArrayList<clsDriveMesh>();
+		for(clsDriveMesh oDrive: oDrives){
+			if(!used.contains(oDrive)){
+				clsDriveMesh oCorresponingDrive=null;
+				for(clsDriveMesh oSecDrive: oDrives){
+					if(!oSecDrive.equals(oDrive)){
+						if(oSecDrive.getActualBodyOrifice().toString().equals(oDrive.getActualBodyOrifice().toString()) && oSecDrive.getActualDriveSource().toString().equals(oDrive.getActualDriveSource().toString())){
+							oCorresponingDrive = oSecDrive;
+							break;
+						}
+					}
+				}
+				if(oCorresponingDrive != null){
+					if(oDrive.getDriveComponent().equals(eDriveComponent.AGGRESSIVE)){
+						oDrivePairs.add(new clsPair<clsDriveMesh,clsDriveMesh>(oDrive,oCorresponingDrive));
+					}
+					else{
+						oDrivePairs.add(new clsPair<clsDriveMesh,clsDriveMesh>(oCorresponingDrive,oDrive));
+					}
+					
+					used.add(oCorresponingDrive);
+				}
+				else{
+					//if there is no corresponding drive
+					moOutput.add(oDrive);
+				}
+				used.add(oDrive);
+				
+			}
+			
+		}
+		
+		for(clsPair<clsDriveMesh,clsDriveMesh> oDrivePair : oDrivePairs){
+	//		if(true){
+	//			ProcessSexualDriveCandidates(oDrivePair);
+	//		}
+	//		else{
+				ProcessHomeostaticDriveCandidates(oDrivePair);
+	//		}
+		}
+	}
+	
+	/**
+	 * DOCUMENT (muchitsch) - insert description
+	 *
+	 * @since 18.07.2012 12:26:24
+	 *
+	 */
+	private void ProcessSexualDriveCandidates(clsPair<clsDriveMesh,clsDriveMesh> oSexualDMEntry) {
+			moOutput.add(oSexualDMEntry.a);
+			moOutput.add(oSexualDMEntry.b);
+	}
+
+	/**
+	 * Calculate the new values of the homeostatic drive pairs
+	 *
+	 * @since 18.07.2012 12:26:19
+	 *
+	 */
+	private void ProcessHomeostaticDriveCandidates(clsPair<clsDriveMesh,clsDriveMesh> oHomeostaticDMPairEntry) {
+
+			double rSlopeFactor = 0.5; //default value, the real values are taken from the personality config in the next loop
+				try {
+					
+					//get the slope factor from the table/aka properties
+					eOrgan oOrgan = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getActualDriveSourceAsENUM();
+					if(moSplitterFactor.containsKey( oOrgan.toString() ))
+					{
+						rSlopeFactor = moSplitterFactor.get(oOrgan.toString());
+					}
+					else
+					{
+					 //no slope factor found, use default
+					}
+				} catch (java.lang.Exception e) {
+					System.out.print(e);
+			}			
+
+			//Calculate the tension values of the pairs, see Deutsch2011 p82 for details
+			
+			double oOldAgressiveQoA  = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getQuotaOfAffect();
+			double oOldLibidoneusQoA = ((clsDriveMesh)oHomeostaticDMPairEntry.b).getQuotaOfAffect();
+			
+			//calculate the tensions using a linear function
+			//if != 0
+			clsPair<Double, Double> oSplitResult;
+			if(oOldAgressiveQoA + oOldLibidoneusQoA > 0){
+			    oSplitResult = shiftQoA(new clsPair<Double,Double>(oOldAgressiveQoA,oOldLibidoneusQoA), rSlopeFactor);
+			}
+			else{
+			    oSplitResult = new clsPair<Double,Double>(0.0,0.0);
+			}
+			
+			/* old version
+			 *clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
+											oOldLibidoneusQoA, 
+											eDriveValueSplitter.ADVANCED, 
+											rSlopeFactor); 
+			*/
+			
+			//set the calculated affects into the entry set of the loop
+			double oNewAgressiveQoA  = oSplitResult.a;
+			double oNewLibidoneusQoA = oSplitResult.b;
+			
+			((clsDriveMesh)oHomeostaticDMPairEntry.a).setQuotaOfAffect(oNewAgressiveQoA); //set the new agr tension to pair A
+			((clsDriveMesh)oHomeostaticDMPairEntry.b).setQuotaOfAffect(oNewLibidoneusQoA); //set the new lib tension to pair B
+						
+			//and add it to the outgoing list as two separate entries for lib/agr
+			moOutput.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
+			moOutput.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
+	}
+	
+	
+	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
+	    double rSum = prValues.a + prValues.b;
+	    double rAggrFactor = prValues.a/rSum;
+	    double d= 0.0;
+	    double k = 0.0;
+	    if(prRatio>=0.5){
+	        k=(1-prRatio)/0.5;
+	        d=1-k;
+	    }
+	    else{
+	        k=prRatio/0.5;
+	        d=0.0;
+	    }
+	    rAggrFactor = rAggrFactor*k + d;
+	    
+	    return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
+	}
+	        
 	
 //	private void categorizeDriveMesh(clsDriveMesh poMD) {
 //		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {
@@ -297,7 +471,99 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		
 		putInterfaceData(I5_2_send.class, poData);
 	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartUpperLimit()
+	 */
+	@Override
+	public double getTimeChartUpperLimit() {
+		return 1.1;
+	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericTimeChart#getTimeChartLowerLimit()
+	 */
+	@Override
+	public double getTimeChartLowerLimit() {
+		return -0.1;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartAxis()
+	 */
+	@Override
+	public String getTimeChartAxis() {
+		return "0 to 1";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartTitle()
+	 */
+	@Override
+	public String getTimeChartTitle() {
+		return "Pleasure and Drives";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartData()
+	 */
+	@Override
+	public ArrayList<Double> getTimeChartData() {
+		ArrayList<Double> oResult = new ArrayList<Double>();
+		oResult.addAll(moChartOutputData.values());
+		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorTimeChartBase#getTimeChartCaptions()
+	 */
+	@Override
+	public ArrayList<String> getTimeChartCaptions() {
+		ArrayList<String> oResult = new ArrayList<String>();
+		oResult.addAll(moChartOutputData.keySet());
+		return oResult;
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsChanged()
+	 */
+	@Override
+	public boolean chartColumnsChanged() {
+		return mnChartColumnsChanged;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 28.08.2012 13:00:17
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorGenericDynamicTimeChart#chartColumnsUpdated()
+	 */
+	@Override
+	public void chartColumnsUpdated() {
+		mnChartColumnsChanged = false;	
+		
+	}
 	/* (non-Javadoc)
 	 *
 	 * @since Sep 5, 2012 11:38:56 AM
@@ -383,4 +649,6 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		
 		return getInterfacesSend();
 	}
+
+
 }

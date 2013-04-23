@@ -11,7 +11,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -34,6 +33,7 @@ import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTool
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
@@ -225,8 +225,10 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	@Override
 	protected void process_basic() {
 		//Get available amount of free libido 
-		mrAvailableLibido = moLibidoBuffer.send_D1_4();
-		mrLibidoReducedBy = 0;
+		
+
+		mrAvailableLibido=moLibidoBuffer.send_D1_4();
+		mrLibidoReducedBy = 0.0;
 		//Clone input structure and make modification directly on the output
 		try {
 			//moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.cloneGraph();

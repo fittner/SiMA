@@ -6,6 +6,11 @@
  */
 package pa._v38.interfaces.modules;
 
+import java.util.HashMap;
+
+import du.enums.eSensorIntType;
+import du.itf.sensors.clsDataBase;
+
 
 
 /**
@@ -16,5 +21,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface I1_1_receive  {
-	public void receive_I1_1(double prLibido);
+	public void receive_I1_1(double prLibido, HashMap<eSensorIntType, clsDataBase> poData);
 }

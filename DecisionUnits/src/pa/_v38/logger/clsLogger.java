@@ -35,7 +35,6 @@ public class clsLogger {
 	
 	private static void specifyLoggers() {
 		//Set the levels of specific loggers
-		Logger.getLogger(pa._v38.modules.F03_GenerationOfSelfPreservationDrives.class).setLevel(Level.ERROR);
 		Logger.getLogger(pa._v38.modules.F46_MemoryTracesForPerception.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F37_PrimalRepressionForPerception.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F35_EmersionOfBlockedContent.class).setLevel(Level.OFF);

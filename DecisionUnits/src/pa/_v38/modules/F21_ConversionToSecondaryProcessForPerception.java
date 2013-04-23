@@ -24,7 +24,6 @@ import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
@@ -73,11 +72,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 
 	private clsShortTermMemory moShortTermMemory;
-
-	/** @author havlicek; Memory of the generated concepts; @since 06.10.2012 */
-	private clsShortTermMemory moConceptMemory;
-	/** @author havlicek; Currently generated concept. */
-	private clsConcept moConcept;
 
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 
@@ -148,13 +142,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		applyProperties(poPrefix, poProp);
         
 		this.moShortTermMemory = poShortTermMemory;
-		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
-		this.moConceptMemory = new clsShortTermMemory(1,1); // FIXME ISABELLA: Dont use the
-												// environmental image storage
-												// to init your memory. It does
-												// not work properly
-												// then//poConceptMemory;
-
+		this.moEnvironmentalImageStorage = poTempLocalizationStorage;	
 	}
 
 	/*
@@ -179,9 +167,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// text += toText.listToTEXT("moOrderedResult", moOrderedResult);
 		// text += toText.mapToTEXT("moTemporaryDM", moTemporaryDM);
 //		text += toText.valueToTEXT("moKnowledgeBaseHandler",
-//				moKnowledgeBaseHandler);
-		text += toText.valueToTEXT("moConcept", moConcept);
-		text += toText.valueToTEXT("moConceptMemory", moConceptMemory.toString());
+//				moKnowledgeBaseHandler);	
 		return text;
 	}
 
@@ -286,13 +272,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		log.debug("Perceived Image: " + oWPMConstruct.a);
 		log.info("Found Acts:" + oWPMConstruct.b);
 		
-		// Take the created WPMs and build a clsConcept out of them.
-//		moConcept = new clsConcept();
-//		moConcept.addWPMs(oWPMConstruct.a);
-//		moConcept.addWPMs(oWPMConstruct.b);
-//		moConcept.addMentalSituation(moShortTermMemory.findPreviousSingleMemory());
-//		moConceptMemory.saveToShortTimeMemory(moConcept.returnContent());
-
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
@@ -566,32 +545,6 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 
 		return oRetVal;
 	}
-
-	// /**
-	// *
-	// * DOCUMENT (havlicek) - extract and build a clsConcept out of a given set
-	// * of {@link clsWordPresentationMesh}.
-	// *
-	// * IN WORK
-	// *
-	// * @since 03.08.2012 17:05:53
-	// *
-	// * @param poListWPM
-	// * give the list of <code>clsWordPresentationMesh</code>es of the
-	// * current context.
-	// * @return the constructed clsConcept based on the given WPMs
-	// */
-	// protected clsConcept generateConcept(clsWordPresentationMesh...
-	// poListWPM) {
-	// // TODO (havlicek) this mapping is in work
-	// clsConcept _concept = new clsConcept();
-	// for (clsWordPresentationMesh _wpm : poListWPM) {
-	// if (!_wpm.isNullObject()) {
-	// _concept.addWPMs(_wpm);
-	// }
-	// }
-	// return _concept;
-	// }
 
 	/*
 	 * (non-Javadoc)

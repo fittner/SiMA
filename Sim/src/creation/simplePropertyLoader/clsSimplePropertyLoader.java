@@ -480,7 +480,6 @@ public class clsSimplePropertyLoader extends clsLoader {
     		// do nothing
     	}
     		
-    	
     	//get overwritedefault subtrees from teh property file
     	clsProperties oOverwriteEntityDefaults = poProp.getSubset(pre+P_OVERWRITEENTITYDEFAULTS);
     	clsProperties oOverwriteDecisionUnitDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS);

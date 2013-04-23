@@ -8,6 +8,7 @@ package pa._v38.memorymgmt.storage;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
@@ -16,7 +17,9 @@ import pa._v38.interfaces.modules.D1_1_receive;
 import pa._v38.interfaces.modules.D1_2_send;
 import pa._v38.interfaces.modules.D1_3_receive;
 import pa._v38.interfaces.modules.D1_4_send;
+import pa._v38.interfaces.modules.D1_5_receive;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.enums.eSexualDrives;
 
 import pa._v38.tools.toText;
 
@@ -27,11 +30,18 @@ import pa._v38.tools.toText;
  * 09.03.2011, 17:04:55
  * 
  */
-public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive  {
+public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive, D1_5_receive {
 	private double mrBufferedLibido;
+	private HashMap<eSexualDrives,Double> moLibidoBuffers;
 	
 	public DT1_LibidoBuffer() {
 		mrBufferedLibido = 0;
+		moLibidoBuffers = new HashMap<eSexualDrives,Double>();
+		moLibidoBuffers.put(eSexualDrives.ANAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.ORAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.GENITAL, 0.0);
+		moLibidoBuffers.put(eSexualDrives.PHALLIC, 0.0);
+		
 	}
 
 	/* (non-Javadoc)
@@ -43,25 +53,27 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 */
 	@Override
 	public void receive_D1_3(double prValue) {
-		//Min value = 0. A bigger value causes = 0
-		if (mrBufferedLibido-prValue >= 0) { 
-			mrBufferedLibido -= prValue;
-		} else {
-			mrBufferedLibido = 0;
-		}
-		
-		normalizeBuffer();
+
+		//all partial libido storages get reduced by the same amount
+		double rReduceValue = prValue / moLibidoBuffers.size();
+		for(eSexualDrives eType: moLibidoBuffers.keySet()){
+			moLibidoBuffers.put(eType , moLibidoBuffers.get(eType)-rReduceValue);
+			
+		}		
+		normalizeBuffers();
 	}
 	
-	private void normalizeBuffer() {
+	private void normalizeBuffers() {
 		//Max value = 1, min value = 0.
-		if (mrBufferedLibido > 1) {
-			mrBufferedLibido = 1;
-		} else if (mrBufferedLibido < 0) {
-			mrBufferedLibido = 0;
+		for(eSexualDrives eType: moLibidoBuffers.keySet()){
+			if (moLibidoBuffers.get(eType) > 1) {
+				moLibidoBuffers.put(eType , 1.0);
+			} else if (moLibidoBuffers.get(eType) < 0) {
+				moLibidoBuffers.put(eType , 0.0);
+			}
 		}
 	}
-
+	
 	/* (non-Javadoc)
 	 *
 	 * @author deutsch
@@ -70,15 +82,39 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * @see pa.interfaces.receive._v38.D1_1_receive#receive_D1_1(double)
 	 */
 	@Override
-	public void receive_D1_1(double prValue) {
-		//Only values < are allowed. Total value > 1 is cut of
-		if (mrBufferedLibido+prValue <= 1) {
-			mrBufferedLibido += prValue;
-		} else {
-			mrBufferedLibido = 1;	
-		}		
+	public void receive_D1_1(eSexualDrives peType, double prValue) {
 		
-		normalizeBuffer();
+		double rBufferValue;
+		if(moLibidoBuffers.containsKey(peType)){
+			rBufferValue = moLibidoBuffers.get(peType);
+		}
+		else{
+			rBufferValue=0.0;
+		}
+		
+		//Only values < are allowed. Total value > 1 is cut of
+		if (rBufferValue+prValue <= 1) { 
+			rBufferValue += prValue;
+		} else {
+			rBufferValue = 1;
+		}
+		
+		moLibidoBuffers.put(peType, rBufferValue);
+		
+		normalizeBuffers();
+	}
+	
+	/* (non-Javadoc)
+	 *
+	 * @since Apr 2, 2013 4:05:05 PM
+	 * 
+	 * @see pa._v38.interfaces.modules.D1_5_receive#receive_D1_5(pa._v38.memorymgmt.enums.eSexualDrives)
+	 */
+	@Override
+	public void receive_D1_5(double prValue, eSexualDrives peType) {
+		moLibidoBuffers.put(peType , moLibidoBuffers.get(peType)-prValue);
+		normalizeBuffers();
+		
 	}
 
 	/* (non-Javadoc)
@@ -89,8 +125,13 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * @see pa.interfaces.send._v38.D1_4_send#send_D1_4()
 	 */
 	@Override
-	public double send_D1_4() {
-		return mrBufferedLibido;
+	public Double send_D1_4() {
+		Double rRetValue=0.0;
+		for(Double rValue : moLibidoBuffers.values()){
+			rRetValue += rValue;
+			
+		}
+		return rRetValue;
 	}
 
 	/* (non-Javadoc)
@@ -101,13 +142,17 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * @see pa.interfaces.send._v38.D1_2_send#send_D1_2()
 	 */
 	@Override
-	public double send_D1_2() {
-		return mrBufferedLibido;
+	public double send_D1_2(eSexualDrives peType) {
+		return moLibidoBuffers.get(peType);
 	}
 
 	@Override
 	public String toString() {
-		return "libido: "+mrBufferedLibido;
+		String oRetVal ="ORAL: "+moLibidoBuffers.get(eSexualDrives.ORAL) + "\n"
+		+ "ANAL: "+moLibidoBuffers.get(eSexualDrives.ANAL) + "\n"
+		+ "PHALLIC: "+moLibidoBuffers.get(eSexualDrives.PHALLIC) + "\n"
+		+ "GENITAL: "+moLibidoBuffers.get(eSexualDrives.GENITAL);
+		return oRetVal;
 	}
 
 	/* (non-Javadoc)
@@ -138,7 +183,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-		oValues.add(mrBufferedLibido);
+	      for(double driveVal : moLibidoBuffers.values()){
+	          oValues.add(driveVal);
+	        }
 		
 		return oValues;
 	}
@@ -153,7 +200,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
-		oCaptions.add("Total Libido");
+		for(eSexualDrives drive : moLibidoBuffers.keySet()){
+		    oCaptions.add(drive.toString());
+		}
 		return oCaptions;
 	}
 
@@ -239,5 +288,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public ArrayList<eInterfaces> getInterfacesSend() {
 		return new ArrayList<eInterfaces>( Arrays.asList(eInterfaces.D1_2, eInterfaces.D1_4) );
-	}	
+	}
+
+	
 }

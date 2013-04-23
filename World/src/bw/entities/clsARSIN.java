@@ -60,10 +60,12 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	public static final String P_ALIVE              = "alive";
 	public static final String P_IMMORTAL			= "immortal"; 
 	
+	
 	private Shape moAlive2D;
 	private Shape moDead2D;
 	private TransformGroup moAlive3D;
 	private TransformGroup moDead3D;
+	
 	
 	private boolean mnAlive;
 	private boolean mnImmortal;
@@ -129,7 +131,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		oProp.setProperty(att_pre+num+"."+clsAttributes.P_ATTRIBUTEACTIVE, true);
 		num++;
 		
-		oProp.setProperty(att_pre+clsAttributes.P_NUMATTRIBUTES, num);		
+		oProp.setProperty(att_pre+clsAttributes.P_NUMATTRIBUTES, num);	
 		
 		return oProp;
 	}
@@ -151,6 +153,10 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		}
 		
 		updateShape();
+
+
+		
+		
 	}
 	
 	// TODO: this code should be transferred to the entities inspector class - used only for inspectors
