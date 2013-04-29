@@ -19,6 +19,8 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
+import pa._v38.memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 import config.clsProperties;
@@ -67,6 +69,21 @@ public class clsConceptLoader implements itfConceptLoader {
         }
         return null;
     }
+    
+    
+    private itfContextEntitySearchAlgorithm fetchAlgorithm(clsProperties poProperties) {
+        String oPropValue = poProperties.getProperty(""+"_ContextSearchAlgoirthm", ALGORITHMS.DEPTH_FIRST.name());
+        ALGORITHMS oSelection = ALGORITHMS.valueOf(oPropValue);
+        
+        switch (oSelection) {
+        case DEPTH_FIRST:
+            return new clsDepthFirstSearch();
+        default:
+            return new clsDepthFirstSearch();            
+        }
+        
+    }
+    
 
     /**
      * DOCUMENT (havlicek) - insert description

@@ -18,7 +18,7 @@ import config.clsProperties;
  * 
  */
 public interface itfSituationLoader {
-
+    
     /**
      * DOCUMENT (havlicek) - fetch the fully initialized situation.
      * 

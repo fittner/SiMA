@@ -11,6 +11,10 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 public interface itfContextEntitySearchAlgorithm {
 
+    enum ALGORITHMS {
+        DEPTH_FIRST
+    }    
+    
     /**
      * DOCUMENT (havlicek) - insert description
      *
