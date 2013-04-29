@@ -297,6 +297,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
 		//((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 		
+		
 		moEnvironmentalTP.add(oSelfContainer);		
 		
 		
@@ -342,6 +343,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 			
 	}
+	
 	
 	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){
 		return moPerceptionSymbolsForInspectors;

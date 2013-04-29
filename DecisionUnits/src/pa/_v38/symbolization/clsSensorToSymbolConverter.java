@@ -57,7 +57,8 @@ public class clsSensorToSymbolConverter {
 					case VISION:oResult.put(eSymbolExtType.VISION, new clsSymbolVision((clsVision) oEntry.getValue()));break;
 					case VISION_FAR:oResult.put(eSymbolExtType.VISION_FAR, new clsSymbolVision((clsVision) oEntry.getValue()));break;	
 					case VISION_MEDIUM:oResult.put(eSymbolExtType.VISION_MEDIUM, new clsSymbolVision((clsVision) oEntry.getValue()));break;
-					case VISION_NEAR:oResult.put(eSymbolExtType.VISION_NEAR, new clsSymbolVision((clsVision) oEntry.getValue()));break;			
+					case VISION_NEAR:oResult.put(eSymbolExtType.VISION_NEAR, new clsSymbolVision((clsVision) oEntry.getValue()));break;		
+					case VISION_SELF:oResult.put(eSymbolExtType.VISION_SELF, new clsSymbolVision((clsVision) oEntry.getValue()));break;    
 					default: throw new java.lang.IllegalArgumentException("unknown key "+oEntry.getKey());
 				}
 			}

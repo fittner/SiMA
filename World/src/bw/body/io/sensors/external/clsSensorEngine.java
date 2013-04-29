@@ -22,6 +22,9 @@ import config.clsProperties;
 import du.enums.eSensorExtType;
 
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
+import ARSsim.physics2D.util.clsPolarcoordinate;
+
+import bfg.utils.enums.eSide;
 import bw.body.io.clsBaseIO;
 import bw.body.io.clsExternalIO;
 import bw.entities.clsEntity;
@@ -69,6 +72,9 @@ public class clsSensorEngine{
 		registerEngineEntity(); 
 	}
 	
+	public clsEntity getHostEntity(){
+		return moHostEntity;
+	}
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		
@@ -194,8 +200,10 @@ public class clsSensorEngine{
 	 * mnRange[0] => List of objects colliding with the entity itself
 	 * */
 	private void getSensorData(){
-		moDetectedObj.put(mnRange[0], ((clsMobile)moHostEntity).getMobileObject2D().moCollisionList);
-		
+		ArrayList<clsCollidingObject> oObjects = ((clsMobile)moHostEntity).getMobileObject2D().moCollisionList;
+		//add entity itsself to the Sensor Data
+		oObjects.add(new clsCollidingObject(moHostEntity.getPhsycalObject2D(),new clsPolarcoordinate(0,0),eSide.CENTER));
+		moDetectedObj.put(mnRange[0],oObjects);
 		for(int index=1; index < mnRange.length; index++){
 			moDetectedObj.put(mnRange[index],meEntities.get(mnRange[index]).requestDetectedObjList());
 		}
@@ -211,6 +219,7 @@ public class clsSensorEngine{
 	 * the search for the object's colliding points should not be difficult.   
 	 *
 	 */
+	
 	private void sortOutData(){
 				
 		sortOutDuplicatedObjects(); 
@@ -329,7 +338,8 @@ public class clsSensorEngine{
 			double nRange = oEntry.getKey(); 
 			
 			for(clsSensorExt oSensorExt : oEntry.getValue()){
-				oSensorExt.updateSensorData(nRange,new ArrayList<clsCollidingObject>(moDetectedObj.get(nRange)));
+				ArrayList<clsCollidingObject> a= new ArrayList<clsCollidingObject>(moDetectedObj.get(nRange));
+				oSensorExt.updateSensorData(nRange,a);
 			}
 		}
 	}

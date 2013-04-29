@@ -110,6 +110,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 	public void updateSensorData(Double pnAreaRange, 
 										ArrayList<clsCollidingObject> peDetectedObjInAreaList) {
 		
+
 		setDetectedObjectsList(pnAreaRange, peDetectedObjInAreaList);
 		computeDataDeliveredToDU(); 
     }
@@ -138,8 +139,14 @@ public class clsSensorRingSegment extends clsSensorExt {
 		for( Iterator<clsCollidingObject> it = peDetectedObjInAreaList.iterator(); it.hasNext(); ) {
 			clsCollidingObject oSensorEntry = it.next();
 			//get colliding objects position relative to THIS object
-			if(oSensorEntry.moCollider.getShape() instanceof Circle && (oSensorEntry.mrColPoint.mrLength < mrMinDistance || oSensorEntry.mrColPoint.mrLength >= mrMaxDistance) ) {
-				it.remove();
+			if(!oSensorEntry.moEntity.equals(moSensorEngine.getHostEntity())){
+				//self will be removed because mrLength == mrMaxDistance
+				if(oSensorEntry.moCollider.getShape() instanceof Circle && (oSensorEntry.mrColPoint.mrLength < mrMinDistance || oSensorEntry.mrColPoint.mrLength >= mrMaxDistance) ) {
+					it.remove();
+				}
+			}
+			else{
+				System.out.println(oSensorEntry);
 			}
 		}
 	}

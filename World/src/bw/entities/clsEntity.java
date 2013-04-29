@@ -361,6 +361,10 @@ public abstract class clsEntity implements itfGetBody {
 		return ((itfSetupFunctions)moPhysicalObject2D).getShape();
 	}
 	
+	public PhysicalObject2D getPhsycalObject2D(){
+		return moPhysicalObject2D;
+	}
+	
 	public void setOverlayImage(eImages poOverlay) {
 		mnLastSetOverlayCall = clsSimState.getSteps();
 		mnCurrentOverlay = poOverlay;
