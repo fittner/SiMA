@@ -93,7 +93,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	ArrayList<clsPrimaryDataStructureContainer> moEnvironmentalTP;
 	
 	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
-	
+	ArrayList<String> Test = new ArrayList<String>();
+	ArrayList<String> Test1 = new ArrayList<String>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 
@@ -128,7 +129,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public String stateToTEXT() {		
 		String text = "";
 		
-		text += toText.mapToTEXT("moEnvironmentalData", moEnvironmentalData);
+		text += toText.listToTEXT("§§§§§§§§§§§§§§Test", Test);
+		text += toText.listToTEXT("§§§§§§§§§§§§§§Test1", Test1);
+		text += toText.mapToTEXT("§§§§§§§§§§§§3333333333moEnvironmentalData", moEnvironmentalData);
 		text += toText.mapToTEXT("moBodyData", moBodyData);
 		text += toText.listToTEXT("moCompleteThingPresentationMeshList", moCompleteThingPresentationMeshList);
 
@@ -226,6 +229,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					//convert the symbol to a PDSC/TP
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
 					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					
 				}	
 			}
 		}
@@ -236,6 +240,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
 			if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
 				oRemoveDS.add(oCheckEntity);
+				
 			}
 		}		
 		for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
@@ -266,11 +271,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		
 		clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
-		
+		Test.add(oSELF.toString());
+		removeLast(Test);
 		//clsMeshTools.createAssociationAttribute(oSELF, poStructureB, prWeight, pnAddMode)
 		
 		//clsPrimaryDataStructure oSelfDataStructure = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM, new clsTriple<eContentType, Object, Object>(eContentType.ENTITY, new ArrayList<clsPhysicalRepresentation>(), eContent.SELF.toString())); 
 		clsPrimaryDataStructureContainer oSelfContainer = new clsPrimaryDataStructureContainer(oSELF,new ArrayList<clsAssociation>());
+		
 		//Add Position to SELF
 		clsThingPresentation oPos = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.POSITION, ePhiPosition.CENTER.toString()));
 		clsAssociationAttribute oPosAss = new clsAssociationAttribute(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.ASSOCIATIONATTRIBUTE, eContentType.POSITIONASSOCIATION), oSELF, oPos);
@@ -311,6 +318,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		/* Construction of perceived images*/
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalTP);	
+		
 			
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
@@ -358,6 +366,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 */
 	private void PrepareSensorInformatinForInspector( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
 
+		
 		moPerceptionSymbolsForInspectors.clear();
 		
 		for(itfSymbol oSymbol : moEnvironmentalData.values()){
@@ -702,6 +711,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	 *
 	 */
 	private ArrayList<clsPrimaryDataStructureContainer> retrieveImages(ArrayList<clsPrimaryDataStructureContainer> oPerceivedImage_IN) {
+		
 		ArrayList<clsPrimaryDataStructureContainer> oRetVal;
 		
 		ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
@@ -727,14 +737,19 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				for(clsAssociation oAss: oRemoveAss){
 					oUnknownTPM.removeInternalAssociation(oAss);
 					oUnknownTPM.addExternalAssociation(oAss);
+				
+
 				}
-				poSearchPattern.add(oUnknownTPM);				
+				poSearchPattern.add(oUnknownTPM);	
+				
 			}
 		}
 				
 		//Assign TP to the identified object in PerceivedImage_IN
 		oSearchResult = this.getLongTermMemory().searchEntity(eDataType.TP, poSearchPattern); 
 		//Take the best match for object
+		
+		
 		oRetVal = createImage(oSearchResult);
 		
 		//Assign drive meshes to each found image
@@ -746,7 +761,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//assignExternalTPAssociations(oRetVal);
 		
 		//assignEmotions(oRetVal);
-		
+		Test1.add(oRetVal.toString());
+		removeLast(Test1);
 		return oRetVal;
 	}	
 	
@@ -757,11 +773,22 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			if (oContainer.getMoDataStructure() instanceof clsThingPresentationMesh) {
 				clsThingPresentationMesh oTPM = (clsThingPresentationMesh) oContainer.getMoDataStructure();
 				oTPM.getExternalMoAssociatedContent().addAll(oContainer.getMoAssociatedDataStructures());
+				
 				oRetVal.add(oTPM);
 			}
 		}
 		
 		return oRetVal;
+	}
+	private ArrayList<String> removeLast(ArrayList<String> Test){
+		
+		for(int i=0; i<Test.size();i++){
+			
+			if (i>0){
+				Test.remove(0);
+			}
+		}
+		return Test;
 	}
 	
 	/**
@@ -857,7 +884,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					oRetVal.add(oNewImage);
 				}
 			}
+		
 		return oRetVal;
+		 
 	}
 	
 	/**

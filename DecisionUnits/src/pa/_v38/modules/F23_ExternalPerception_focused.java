@@ -42,7 +42,10 @@ import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
 /**
- * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check. 
+ * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered 
+ * according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. 
+ * The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis 
+ * forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check. 
  * 
  * TODO (kohlhauser) - consider free energy
  * 
