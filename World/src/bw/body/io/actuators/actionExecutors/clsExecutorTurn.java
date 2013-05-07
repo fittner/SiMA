@@ -12,6 +12,7 @@ import config.clsProperties;
 import java.util.ArrayList;
 
 import sim.physics2D.util.Angle;
+import bfg.utils.enums.ePercievedActionType;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -94,6 +95,10 @@ public class clsExecutorTurn extends clsActionExecutor{
     		//moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
     	}
+    	
+		//Attach action to entity
+        clsAction oAction = new clsAction(1,ePercievedActionType.TURN);
+        moEntity.addAction(oAction);
     	return true;
 	}	
 }

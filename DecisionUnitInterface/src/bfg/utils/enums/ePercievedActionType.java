@@ -17,5 +17,9 @@ public enum ePercievedActionType {
 
 	MOVE_FORWARD,
 	EAT,
-	MOVE_BACKWARD
+	MOVE_BACKWARD,
+	DROP,
+	EXCREMENT,
+	PICKUP,
+	TURN
 }

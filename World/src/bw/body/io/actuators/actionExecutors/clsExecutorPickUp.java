@@ -11,6 +11,7 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
@@ -140,6 +141,10 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		}
 		
         oEntity.setCarriedBindingState(eBindingState.CARRIED);
+        
+		//Attach action to entity
+        clsAction oAction = new clsAction(1,ePercievedActionType.PICKUP);
+        moEntity.addAction(oAction);
         
 		return true;
 	}
