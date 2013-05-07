@@ -129,8 +129,8 @@ public class clsDataStructureConverter {
 				{
 					//do nothing, as this is not wanted information in the psyApperatus
 				}
-				else if(oM.getName().equals("getPercievedAction")){
-				    oContentTypeTP = eContentType.PERCIEVEDACTION;
+				else if(oM.getName().equals("getPerceivedAction")){
+				    oContentTypeTP = eContentType.PERCEIVEDACTION;
 				    
 	                ArrayList<Object> oContents = new ArrayList<Object>();
 				    try {

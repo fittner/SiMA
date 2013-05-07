@@ -75,7 +75,7 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 	}
 	
 	@Override
-    public ArrayList<ePercievedActionType> getPercievedAction(){
+    public ArrayList<ePercievedActionType> getPerceivedAction(){
 	    return moActions;
 	}
 

@@ -281,11 +281,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			}
 		}
 		
-		// The self will be percepted via the VISION_SELF sensor
-/*		
+		// The self will be perceived via the VISION_SELF sensor
+		
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
-		
+/*		
 		
 		clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes(eContent.SELF.toString(), "CIRCLE", "#FFFFBF");
 		Test.add(oSELF.toString());
@@ -321,7 +321,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
 		//((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 		
-*/		
+	*/	
 			
 	//	moEnvironmentalTP.add(oSelfContainer);		
 		

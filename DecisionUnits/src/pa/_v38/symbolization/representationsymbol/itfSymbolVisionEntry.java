@@ -37,5 +37,5 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public double getExactDebugX();
 	public double getExactDebugY();
 	public double getDebugSensorArousal();
-	public ArrayList<ePercievedActionType> getPercievedAction();
+	public ArrayList<ePercievedActionType> getPerceivedAction();
 }

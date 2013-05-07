@@ -146,7 +146,7 @@ public class clsSensorRingSegment extends clsSensorExt {
 				}
 			}
 			else{
-				System.out.println(oSensorEntry);
+				//System.out.println(oSensorEntry);
 			}
 		}
 	}
