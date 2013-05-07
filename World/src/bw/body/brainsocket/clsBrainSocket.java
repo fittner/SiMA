@@ -55,7 +55,7 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
-import bfg.utils.enums.eActionType;
+import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import bw.body.itfStepProcessing;
@@ -959,8 +959,8 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 
-	private ArrayList<eActionType> convertActions(ArrayList<clsAction> poActions){
-	    ArrayList<eActionType> oRetVal = new ArrayList<eActionType>();
+	private ArrayList<ePercievedActionType> convertActions(ArrayList<clsAction> poActions){
+	    ArrayList<ePercievedActionType> oRetVal = new ArrayList<ePercievedActionType>();
 	    
 	    for( clsAction oAction : poActions){
 	        oRetVal.add(oAction.getActionType());

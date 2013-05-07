@@ -7,7 +7,7 @@
 package bw.body.io.actuators.actionExecutors;
 
 import du.enums.eEntityType;
-import bfg.utils.enums.eActionType;
+import bfg.utils.enums.ePercievedActionType;
 import bw.entities.clsEntity;
 /**
  * DOCUMENT (herret) - insert description 
@@ -20,7 +20,7 @@ public class clsAction{
 
 	
 	private int mnLiveTime;
-	private eActionType moActionType;
+	private ePercievedActionType moActionType;
 	private clsEntity moCorrespondingEntity;
 	/**
 	 * DOCUMENT (herret) - insert description 
@@ -30,7 +30,7 @@ public class clsAction{
 	 * @param poPrefix
 	 * @param poProp
 	 */
-	public clsAction(int pnLiveTime, eActionType poActionType) {
+	public clsAction(int pnLiveTime, ePercievedActionType poActionType) {
 
 		mnLiveTime = pnLiveTime;
 		moCorrespondingEntity=null;
@@ -62,7 +62,7 @@ public class clsAction{
 		return null;
 	}
 
-	public eActionType getActionType(){
+	public ePercievedActionType getActionType(){
 		return moActionType;
 	}
 

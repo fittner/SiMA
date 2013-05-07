@@ -11,7 +11,7 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
-import bfg.utils.enums.eActionType;
+import bfg.utils.enums.ePercievedActionType;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
@@ -104,12 +104,12 @@ public class clsExecutorMove extends clsActionExecutor{
     	case MOVE_FORWARD:
     		moEntity.setOverlayImage(eImages.Overlay_Action_MoveForward);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
-            moEntity.addAction(new clsAction(100,eActionType.MOVE_FORWARD));
+            moEntity.addAction(new clsAction(1,ePercievedActionType.MOVE_FORWARD));
     		
     		break;
     	case MOVE_BACKWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
-            moEntity.addAction(new clsAction(100,eActionType.MOVE_BACKWARD));
+            moEntity.addAction(new clsAction(1,ePercievedActionType.MOVE_BACKWARD));
     		break;
     	}
     	return true;

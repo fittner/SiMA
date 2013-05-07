@@ -13,7 +13,7 @@ package bfg.utils.enums;
  * Apr 30, 2013, 10:10:21 AM
  * 
  */
-public enum eActionType {
+public enum ePercievedActionType {
 
 	MOVE_FORWARD,
 	EAT,

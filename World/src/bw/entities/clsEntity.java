@@ -13,7 +13,6 @@ import java.util.Iterator;
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.TransformGroup;
 
-import bfg.utils.enums.eActionType;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
@@ -114,7 +113,6 @@ public abstract class clsEntity implements itfGetBody {
 		shapes3D = null;
 		
 		moExecutedActions= new ArrayList<clsAction>();
-		moExecutedActions.add(new clsAction(1000,eActionType.EAT));
 		
 		applyProperties(poPrefix, poProp);
 		

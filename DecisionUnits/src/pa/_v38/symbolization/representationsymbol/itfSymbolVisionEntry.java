@@ -15,7 +15,7 @@ import du.enums.eShapeType;
 
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
-import bfg.utils.enums.eActionType;
+import bfg.utils.enums.ePercievedActionType;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -37,5 +37,5 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	public double getExactDebugX();
 	public double getExactDebugY();
 	public double getDebugSensorArousal();
-	public ArrayList<eActionType> getPerceptedAction();
+	public ArrayList<ePercievedActionType> getPercievedAction();
 }

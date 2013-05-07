@@ -53,7 +53,7 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
-import bfg.utils.enums.eActionType;
+import bfg.utils.enums.ePercievedActionType;
 
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
@@ -1567,7 +1567,7 @@ public class clsGraph extends JGraph {
 		childs.add("Alive\n"+ poMemoryObject.getAlive());
 		
 		//add entity actions
-		for(eActionType oAction: poMemoryObject.getActions()){
+		for(ePercievedActionType oAction: poMemoryObject.getActions()){
 			childs.add("Action\n"+oAction.toString());
 		}
 		
