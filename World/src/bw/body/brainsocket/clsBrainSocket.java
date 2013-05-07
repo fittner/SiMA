@@ -42,6 +42,7 @@ import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
+
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
@@ -54,11 +55,13 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
+import bfg.utils.enums.eActionType;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import bw.body.itfStepProcessing;
 import bw.body.attributes.clsAttributeAlive;
 import bw.body.internalSystems.clsFastMessengerEntry;
+import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
@@ -912,12 +915,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsVisionEntry oData = new clsVisionEntry();
 		
-		if(oEntity != null){
+		if(oEntity != null){ 
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
 		   oData.setShapeType( getShapeType(collidingObj.moCollider));
 		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
-			
+
+		   oData.setAlive(oEntity.isAlive());
+		
+		   //set corresponding Actions
+		   oData.setActions(convertActions(oEntity.getExecutedActions()));
+		   
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
 		    
@@ -951,6 +959,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 
+	private ArrayList<eActionType> convertActions(ArrayList<clsAction> poActions){
+	    ArrayList<eActionType> oRetVal = new ArrayList<eActionType>();
+	    
+	    for( clsAction oAction : poActions){
+	        oRetVal.add(oAction.getActionType());
+	    }
+	    
+	    return oRetVal;
+	    
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

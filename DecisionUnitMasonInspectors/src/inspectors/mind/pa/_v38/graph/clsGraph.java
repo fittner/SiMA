@@ -53,6 +53,8 @@ import pa._v38.symbolization.representationsymbol.clsSymbolVision;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
+import bfg.utils.enums.eActionType;
+
 import com.jgraph.components.labels.RichTextBusinessObject;
 import com.jgraph.components.labels.RichTextGraphModel;
 import com.jgraph.components.labels.RichTextValue;
@@ -577,7 +579,7 @@ public class clsGraph extends JGraph {
 			oRootCell = generateGraphCell(poParent, (clsSymbolVision) oO);
 			
 		} else if (oO instanceof clsVisionEntry) {
-			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);	
+			oRootCell = generateGraphCell(poParent, (clsVisionEntry)oO);
 			
 		} else if (oO instanceof clsSensorIntern) {
 			oRootCell = generateGraphCell(poParent, (clsSensorIntern) oO); 
@@ -588,7 +590,9 @@ public class clsGraph extends JGraph {
 		} else if (oO instanceof clsActionCommand) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
  
-
+		} else if (oO instanceof String) {
+			oRootCell = generateGraphCell(poParent, oO.toString()); 
+ 
 
 		} else {
 			oRootCell = generateGraphCell(poParent, oO.toString());
@@ -1554,14 +1558,20 @@ public class clsGraph extends JGraph {
 		this.moCellList.add(oCell);
 		poMemoryObject.getClass().getFields();
 
-		ArrayList<String> childs = new ArrayList<String>();
+		ArrayList<Object> childs = new ArrayList<Object>();
+		//add entity prperties
 		childs.add("ShapeType\n"+poMemoryObject.getShapeType().toString());
 		String color = Integer.toHexString(poMemoryObject.getColor().getRGB());
 		color=color.replaceFirst("ff", "");
 		childs.add("Color\n"+"#"+color);
 		childs.add("Alive\n"+ poMemoryObject.getAlive());
 		
-		for (String oO:childs){
+		//add entity actions
+		for(eActionType oAction: poMemoryObject.getActions()){
+			childs.add("Action\n"+oAction.toString());
+		}
+		
+		for (Object oO:childs){
 
 			clsGraphCell oTargetCell = generateGraphCell(oCell, oO);
 			//add edge
@@ -1584,6 +1594,7 @@ public class clsGraph extends JGraph {
 	
 		return oCell;
 	}
+
 
 	
 	/** [Double]

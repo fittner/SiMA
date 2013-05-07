@@ -12,6 +12,7 @@ import java.util.Formatter;
 
 import du.enums.eAntennaPositions;
 
+import bfg.utils.enums.eActionType;
 import bfg.utils.enums.eSide;
 
 
@@ -33,7 +34,16 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected double moExactDebugAngle;
 	protected double moDebugSensorArousal;
 	protected double moObjectBodyIntegrity;
+	
+	protected ArrayList<eActionType> moActions = new ArrayList<eActionType>();
 
+	public void setActions(ArrayList<eActionType> poAction){
+		moActions = poAction;
+	}
+	
+	public ArrayList<eActionType> getActions(){
+		return moActions;
+	}
 	
 	public double getObjectBodyIntegrity() {
 		return moObjectBodyIntegrity;
@@ -157,6 +167,10 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 		oResult += this.getClass().getName()+": type "+mnEntityType+" | id "+moEntityId+" | direction "+moPolarcoordinate+ "| alive " + mnAlive;
 		if (moColor != null) {
 		  oResult += " | color "+moColor;
+		}
+		oResult += "Actions: ";
+		for (eActionType oAction : moActions){
+			oResult	+= oAction.toString() + "|";
 		}
 		return oResult;
 	}

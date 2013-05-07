@@ -263,6 +263,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		((clsComplexBody) this.getBody()).getInterBodyWorldSystem().getEffectKiss().kiss(null, rIntensity);
 	}
 	
+	@Override
 	public boolean isAlive() {
 		if (mnImmortal) {
 			mnAlive = true;

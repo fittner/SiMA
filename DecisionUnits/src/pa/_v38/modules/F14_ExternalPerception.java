@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
@@ -222,13 +223,27 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		
 		// 1. Convert Neurosymbols to TPs/TPMs
 		
-		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>(); 
-		for(itfSymbol oSymbol : moEnvironmentalData.values()){
+		moEnvironmentalTP = new ArrayList<clsPrimaryDataStructureContainer>();
+		clsPrimaryDataStructureContainer oSelf = null;
+		for(Map.Entry<eSymbolExtType, itfSymbol> oEntry : moEnvironmentalData.entrySet()){
+		    itfSymbol oSymbol = oEntry.getValue();
 			if(oSymbol!=null){
 				for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
 					//convert the symbol to a PDSC/TP
 					clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
-					moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					
+					if( oEntry.getKey()==eSymbolExtType.VISION_SELF){
+					    //self vision
+					    oSelf =new clsPrimaryDataStructureContainer(oDataStructure,null);
+					    moEnvironmentalTP.add(oSelf);
+					}
+					else{
+					    //environmental vision
+					    moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+					}
+	                
+
+					  
 					
 				}	
 			}
@@ -266,6 +281,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			}
 		}
 		
+		// The self will be percepted via the VISION_SELF sensor
+/*		
 		//AW 20120522: Add the SELF to the perception. Actually it should be added before and origin from the body
 		//TODO @CM: Please adapt the SELF for your needs. 
 		
@@ -304,8 +321,9 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		//oSelfContainer.addMoAssociatedDataStructure(oShapeAss);
 		//((clsThingPresentationMesh)oSelfDataStructure).assignDataStructure(oShapeAss);
 		
-		
-		moEnvironmentalTP.add(oSelfContainer);		
+*/		
+			
+	//	moEnvironmentalTP.add(oSelfContainer);		
 		
 		
 		//Variables
@@ -319,9 +337,11 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		/* Assign objects from storage to perception */
 		oContainerWithTypes = retrieveImages(moEnvironmentalTP);	
 		
-			
+
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
+		
+
 		
 		for(clsThingPresentationMesh oCandidateTPM : moCompleteThingPresentationMeshList){
 			//  get other activation values. due to cloning, the same objects are different java objects and hence they have to be merged

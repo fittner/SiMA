@@ -10,6 +10,8 @@ package bw.body.io.actuators.actionExecutors;
 
 import config.clsProperties;
 import java.util.ArrayList;
+
+import bfg.utils.enums.eActionType;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.io.actuators.clsActionExecutor;
@@ -182,9 +184,11 @@ public class clsExecutorEat extends clsActionExecutor{
         oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralAggressivMucosa(rAgressivStimulus);
         oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralLibidinousMucosa(rLibidinousStimulus);
         
-		//3) activation of the memorytrace of the action eat @self
+		//3) attach eat the self 
         
-        
+        clsAction oAction = new clsAction(1,eActionType.EAT);
+        oAction.attachEntity(oEatenEntity);
+        moEntity.addAction(oAction);
 		
 		return true;
 	}	

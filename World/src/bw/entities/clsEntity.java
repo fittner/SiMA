@@ -7,13 +7,19 @@
  */
 package bw.entities;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+
 import javax.media.j3d.BranchGroup;
 import javax.media.j3d.TransformGroup;
+
+import bfg.utils.enums.eActionType;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.clsSimpleBody;
 import bw.body.clsUnrealBody;
+import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.factories.clsSingletonProperties;
@@ -90,9 +96,14 @@ public abstract class clsEntity implements itfGetBody {
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
+
+	private ArrayList<clsAction> moExecutedActions;
+	
+	
 	private BranchGroup shapes3D; 
 	public abstract void registerEntity();
 	public abstract void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity);
+	
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
@@ -101,6 +112,9 @@ public abstract class clsEntity implements itfGetBody {
 		setEntityType();
 		moPhysicalObject2D = null;
 		shapes3D = null;
+		
+		moExecutedActions= new ArrayList<clsAction>();
+		moExecutedActions.add(new clsAction(1000,eActionType.EAT));
 		
 		applyProperties(poPrefix, poProp);
 		
@@ -120,6 +134,10 @@ public abstract class clsEntity implements itfGetBody {
 	
 	public clsPositionLogger getPositionLogger() {
 		return moPositionLogger;
+	}
+	
+	public boolean isAlive(){
+		return false;
 	}
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -206,6 +224,15 @@ public abstract class clsEntity implements itfGetBody {
 	public abstract void processing();
 	public abstract void execution();
 	
+	
+	public void exec(){
+		//delete all expired actions 
+		Iterator<clsAction> it = moExecutedActions.iterator();
+		while(it.hasNext()){
+			if(it.next().step() == false)it.remove();
+		}
+		execution();
+	}
 	/**
 	 * DOCUMENT (deutsch) - insert description
 	 *
@@ -261,6 +288,13 @@ public abstract class clsEntity implements itfGetBody {
 	 * @param peType
 	 * @return
 	 */
+	public void addAction(clsAction poAction){
+		moExecutedActions.add(poAction);
+	}
+	
+	public ArrayList<clsAction> getExecutedActions(){
+		return moExecutedActions;
+	}
 	public boolean isEntityType(eEntityType peType)
 	{
 		boolean retVal = false;

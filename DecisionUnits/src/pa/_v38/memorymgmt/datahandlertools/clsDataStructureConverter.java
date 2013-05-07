@@ -119,7 +119,6 @@ public class clsDataStructureConverter {
 				oContentTypeTP = eContentType.DISTANCE;
 			}
 			
-			
 		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
 	
@@ -130,7 +129,24 @@ public class clsDataStructureConverter {
 				{
 					//do nothing, as this is not wanted information in the psyApperatus
 				}
-				else
+				else if(oM.getName().equals("getPerceptedAction")){
+				    oContentTypeTP = eContentType.PERCEPTEDACTION;
+				    
+	                ArrayList<Object> oContents = new ArrayList<Object>();
+				    try {
+				        oContents = (ArrayList<Object>)oM.invoke(poSymbolObject,new Object[0]);
+                    } catch (IllegalArgumentException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    } catch (InvocationTargetException e) {
+                        e.printStackTrace();
+                    }
+                    for(Object oCont: oContents){
+                        oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oCont)); 
+                        oAssociatedContent.add(oTP);
+                    }
+				}
 				{
 					try {
 						oContentTP = oM.invoke(poSymbolObject,new Object[0]);

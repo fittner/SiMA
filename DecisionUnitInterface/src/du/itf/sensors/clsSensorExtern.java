@@ -12,9 +12,11 @@ import du.enums.eSensorExtType;
  */
 abstract public class clsSensorExtern extends clsDataBase implements Cloneable {
 	protected eSensorExtType moSensorType;
+	
 
 	public abstract ArrayList<clsSensorExtern> getDataObjects(); 
 	public abstract boolean setDataObjects(ArrayList<clsSensorExtern> poSymbolData); 
+
 
 	public eSensorExtType getSensorType() {
 		return moSensorType;

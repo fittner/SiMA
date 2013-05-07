@@ -11,11 +11,13 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import bfg.utils.enums.eActionType;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.clsEntity;
 import bw.entities.clsMobile;
 import bw.factories.eImages;
 import du.itf.actions.*;
+
 
 /**
  * Action Executor for movement
@@ -102,9 +104,12 @@ public class clsExecutorMove extends clsActionExecutor{
     	case MOVE_FORWARD:
     		moEntity.setOverlayImage(eImages.Overlay_Action_MoveForward);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
+            moEntity.addAction(new clsAction(100,eActionType.MOVE_FORWARD));
+    		
     		break;
     	case MOVE_BACKWARD:
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.backup();
+            moEntity.addAction(new clsAction(100,eActionType.MOVE_BACKWARD));
     		break;
     	}
     	return true;

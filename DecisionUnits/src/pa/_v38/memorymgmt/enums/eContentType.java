@@ -126,6 +126,8 @@ public enum eContentType {
 	ShapeType,
 	INTENSITY,
 	Alive,
+	PerceptedAction,
+	PERCEPTEDACTION,
 	TASTE,
 	CONSUMEABLE,
 	CONTENT,
