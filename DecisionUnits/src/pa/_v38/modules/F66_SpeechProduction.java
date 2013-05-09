@@ -24,7 +24,7 @@ import config.clsProperties;
  * 
  * @author hinterleitner
  */
-public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive {
+public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive {
 
     // Statics for the module
     public static final String P_MODULENUMBER = "64";
@@ -41,7 +41,7 @@ public class F64_SpeechProduction extends clsModuleBase implements I6_1_receive 
 
     private clsProperties moProperties;
 
-    public F64_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
+    public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
         super(poPrefix, poProp, poModuleList, null);
         moProperties = poProp;
         // Prepare finals to ensure null safety.
