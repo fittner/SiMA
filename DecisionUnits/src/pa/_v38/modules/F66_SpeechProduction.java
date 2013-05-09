@@ -8,7 +8,10 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import pa._v38.interfaces.modules.I6_13_send;
 import pa._v38.interfaces.modules.I6_1_receive;
+import pa._v38.interfaces.modules.I6_2_receive;
+import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -24,7 +27,7 @@ import config.clsProperties;
  * 
  * @author hinterleitner
  */
-public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive {
+public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive, I6_2_receive, I6_3_receive, I6_13_send {
 
     // Statics for the module
     public static final String P_MODULENUMBER = "64";
@@ -167,6 +170,42 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive 
     public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
         // TODO (hinterleitner) - Auto-generated method stub
 
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 09.05.2013 19:28:39
+     * 
+     * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 09.05.2013 19:28:39
+     * 
+     * @see pa._v38.interfaces.modules.I6_2_receive#receive_I6_2(java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_2(ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 09.05.2013 19:33:18
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_send#send_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+     */
+    @Override
+    public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
     }
 
 }
