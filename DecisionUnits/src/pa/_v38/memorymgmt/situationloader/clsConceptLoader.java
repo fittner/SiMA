@@ -23,7 +23,6 @@ import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
 import pa._v38.tools.clsPentagon;
 import pa._v38.memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
-import pa._v38.tools.clsQuadruppel;
 import pa._v38.tools.clsTriple;
 import config.clsProperties;
 
