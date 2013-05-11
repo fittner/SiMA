@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import config.clsProperties;
+import pa._v38.interfaces.itfInspectorBarChartF19;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.modules.I5_14_receive;
 import pa._v38.interfaces.modules.I5_15_receive;
@@ -59,9 +60,10 @@ import pa._v38.tools.toText;
  * @author gelbard
  * 07.05.2012, 14:35:08
  * 
- */
+ *
+ * **/
 public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implements 
-			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart{
+			I5_14_receive, I5_11_receive, I5_15_send, I5_16_send,itfInspectorCombinedTimeChart,itfInspectorBarChartF19{
 	public static final String P_MODULENUMBER = "19";
 	
 	/** Specialized Logger for this class */
@@ -105,14 +107,20 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	ArrayList<String> Test= new ArrayList<String>();
 	ArrayList<String> Test3= new ArrayList<String>();
 	
-	// For TimeChart
+	// For TimeChart and ChartBar
 	HashMap<String, Double>  moTimeChartData = new HashMap<String, Double>();
 	double denial=0.0;
 	double idealization=0.0;
 	double depreciation =0.0;
 	double reversalOfAffect =0.0;
-	double NoEmotionDefense=0.0;
-	double NoPerceptionDefense=0.0;
+	double PassForbidenEmotions=0.0;
+	double PassForbidenPerceptions=0.0;
+	double ChartBarDenial=0.0;
+	double ChartBarIdealization=0.0;
+	double ChartBarDepreciation=0.0;
+	double ChartBarReversalOfAffect=0.0;
+	double ChartBarPassForbidenEmotion=0.0;
+	double ChartBarPassForbidenPerception=0.0;
 	
 	/**
 	 * DOCUMENT (GELBARD) - insert description 
@@ -466,12 +474,22 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 
 	// HashMap for TimeChart
 	private HashMap<String, Double>  moTimeInputChartData(){
-		moTimeChartData.put("NoEmotionDefense", NoEmotionDefense);
-		moTimeChartData.put("NoPerceptionDefense", NoPerceptionDefense);
-		moTimeChartData.put("Denial", denial);
-		moTimeChartData.put("Idealization", idealization);
-		moTimeChartData.put("Depreciation", depreciation );
-		moTimeChartData.put("ReversalOfAffect", reversalOfAffect);
+		moTimeChartData.put("TimePassForbidenEmotion", PassForbidenEmotions);
+		moTimeChartData.put("TimePassForbidenPerception", PassForbidenPerceptions);
+		moTimeChartData.put("TimeDenial", denial);
+		moTimeChartData.put("TimeIdealization", idealization);
+		moTimeChartData.put("TimeDepreciation", depreciation );
+		moTimeChartData.put("TimeReversalOfAffect", reversalOfAffect);
+		moTimeChartData.put("PassForbidenEmotions", ChartBarPassForbidenEmotion);
+		moTimeChartData.put("PassForbidenPerceptions", ChartBarPassForbidenPerception);
+		moTimeChartData.put("Denial", ChartBarDenial);
+		moTimeChartData.put("Idealization", ChartBarIdealization);
+		moTimeChartData.put("Depreciation", ChartBarDepreciation);
+		moTimeChartData.put("ReversalOfAffect", ChartBarReversalOfAffect);
+		
+		
+		
+		
 		
 		return moTimeChartData;
 		
@@ -487,6 +505,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	 * 
 	 */
 	private void defenseMechanism_Denial (ArrayList<clsPair<eContentType, String>> oForbiddenPerceptions) {
+		ChartBarDenial ++;
 		
     	// If nothing to deny return immediately (otherwise NullPointerException)
     	if (oForbiddenPerceptions == null) return;
@@ -699,7 +718,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		idealization = 1.0;
 		denial=0.0;
 		depreciation =0.0;
-		NoPerceptionDefense=0.0;
+		PassForbidenPerceptions=0.0;
+		ChartBarIdealization++;
 
 		
 		// has to be Called to create the negative Associations 
@@ -725,7 +745,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		depreciation= 1.0;
 		denial=0.0;
 		idealization=0.0;
-		NoPerceptionDefense=0.0;
+		PassForbidenPerceptions=0.0;
+		ChartBarDepreciation++;
 		
 		// has to be Called to create the positive Associations
 		CreateListWithPositiveObjects (oForbiddenPerceptions);
@@ -779,6 +800,9 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 														
 						}
 						
+					}else{
+						
+						break;
 					}
 			}				
 			// Delete Associations with positive or negative Properities			
@@ -903,7 +927,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	private ArrayList<clsEmotion> defenseMechanism_ReversalOfAffect(ArrayList<eEmotionType> oForbiddenEmotions_Input, ArrayList<clsEmotion> oEmotions_Output) {
 	   	// If no emotion in list to defend return immediately (otherwise NullPointerException)
 		reversalOfAffect =1.0;
-		NoEmotionDefense=0.0;
+		PassForbidenEmotions=0.0;
+		ChartBarReversalOfAffect++;
 	   	if (oForbiddenEmotions_Input == null) return oEmotions_Output;
 		
 	   	// Is the emotion FEAR already in the list moEmotions_Output?
@@ -1078,27 +1103,29 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	
 	private void ResetTimeChartDefenseForbidenPerceptionData(){
 		
-		NoPerceptionDefense=1.0; // to see for how long no defenses are applied to the forbidden perceptions    
+		PassForbidenPerceptions=1.0; // to see for how long no defenses are applied to the forbidden perceptions    
 		denial=0.0;
 		idealization=0.0;
 		depreciation =0.0;
+		ChartBarPassForbidenPerception++;
 		
 	}
 	private void ResetTimeChartForbidenPerceptionData(){
 		
-		NoPerceptionDefense=0.0; // to see for how long no defenses are applied to the forbidden perceptions    
+		PassForbidenPerceptions=0.0; // to see for how long no defenses are applied to the forbidden perceptions    
 		denial=0.0;
 		idealization=0.0;
 		depreciation =0.0;
 		
 	}
 	private void ResetTimeChartDefenseForbidenEmotionData(){
-		NoEmotionDefense=1.0;
+		PassForbidenEmotions=1.0;
 		reversalOfAffect =0.0;
+		ChartBarPassForbidenEmotion++;
 	
 	}
 	private void ResetTimeChartForbidenEmotionData(){
-		NoEmotionDefense=0.0;
+		PassForbidenEmotions=0.0;
 		reversalOfAffect =0.0;
 	
 	}
@@ -1128,27 +1155,27 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		//GetCombinedTimeDefenseData();
 			
 		ArrayList<Double> oDenial =new ArrayList<Double>();
-		oDenial.add(moTimeChartData.get("Denial"));
+		oDenial.add(moTimeChartData.get("TimeDenial"));
 		oResult.add(oDenial);
 		
 		ArrayList<Double> oIdealization =new ArrayList<Double>();
-		oIdealization.add(moTimeChartData.get("Idealization"));
+		oIdealization.add(moTimeChartData.get("TimeIdealization"));
 		oResult.add(oIdealization);
 		
 		ArrayList<Double> oDepreciation  =new ArrayList<Double>();
-		oDepreciation.add(moTimeChartData.get("Depreciation"));
+		oDepreciation.add(moTimeChartData.get("TimeDepreciation"));
 		oResult.add(oDepreciation);
 		
 		ArrayList<Double> oReversalOfAffect =new ArrayList<Double>();
-		oReversalOfAffect.add(moTimeChartData.get("ReversalOfAffect"));
+		oReversalOfAffect.add(moTimeChartData.get("TimeReversalOfAffect"));
 		oResult.add(oReversalOfAffect);
 				
 		ArrayList<Double> oNoEmotionDefense =new ArrayList<Double>();
-		oNoEmotionDefense.add(moTimeChartData.get("NoEmotionDefense"));
+		oNoEmotionDefense.add(moTimeChartData.get("TimePassForbidenEmotion"));
 		oResult.add(oNoEmotionDefense);
 		
 		ArrayList<Double> oNoPerceptionDefense =new ArrayList<Double>();
-		oNoPerceptionDefense.add(moTimeChartData.get("NoPerceptionDefense"));
+		oNoPerceptionDefense.add(moTimeChartData.get("TimePassForbidenPerception"));
 		oResult.add(oNoPerceptionDefense);
 			
 		return oResult;
@@ -1169,8 +1196,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		oResult.add("Idealization");
 		oResult.add("Depreciation");
 		oResult.add("ReversalOfAffect");
-		oResult.add("NoEmotionDefense");
-		oResult.add("NoPerceptionDefense");
+		oResult.add("PassForbidenEmotions");
+		oResult.add("PassForbidenPerceptions");
 		
 		
 		return oResult;
@@ -1206,14 +1233,38 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		oResult.add(oReversalOfAffect);
 
 		ArrayList<String> oNoEmotionDefense = new ArrayList<String>();
-		oNoEmotionDefense.add("NoEmotionDefense");
+		oNoEmotionDefense.add("PassForbidenEmotions");
 		oResult.add(oNoEmotionDefense);
 		
 		ArrayList<String> oNoPerceptionDefense = new ArrayList<String>();
-		oNoPerceptionDefense.add("NoPerceptionDefense");
+		oNoPerceptionDefense.add("PassForbidenPerceptions");
 		oResult.add(oNoPerceptionDefense);
 		
 		
 		return oResult;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 12.04.2013 13:41:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChartF06#getBarChartTitle()
+	 */
+	@Override
+	public String getBarChartTitle() {
+		// TODO (Lotfi) - Auto-generated method stub
+		return "Defense Mechanisms";
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 12.04.2013 13:41:30
+	 * 
+	 * @see pa._v38.interfaces.itfInspectorBarChartF06#getBarChartData()
+	 */
+	@Override
+	public HashMap<String, Double> getBarChartData() {
+		// TODO (Lotfi) - Auto-generated method stub
+		return moTimeChartData;
 	}
 }

@@ -27,10 +27,12 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.clsQuadruppel;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 //import du.enums.pa.eContext;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
@@ -81,6 +83,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
 	private ArrayList<clsEmotion> moEmotions_Input;
+	private ArrayList<String> Test= new ArrayList<String>() ;
+	private ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>> moSuperEgoDrivesRules =
+			new ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>>();
+	
+	private ArrayList<clsPair<String,String>>  moSuperEgoEmotionsRules =new ArrayList<clsPair<String,String>> ();
+	private ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>> moSuperEgoPerceptionsRules =new ArrayList<clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>>();
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
@@ -133,6 +141,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 *
 	 * @author zeilinger
 	 * 02.05.2011, 15:49:48
+	 * *
 	 * 
 	 * @see pa._v38.interfaces.itfInspectorInternalState#stateToTEXT()
 	 */
@@ -144,6 +153,10 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		text += toText.valueToTEXT("moPerceptionalMesh_OUT", moPerceptionalMesh_OUT);
 		text += toText.valueToTEXT("moDrives", moDrives);
 		text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
+		text += toText.listToTEXT("--------------------------------moSuperEgoDrivesRules-----------------------------", moSuperEgoDrivesRules);
+		text += toText.listToTEXT("--------------------------------moSuperEgoEmotionsRules---------------------------", moSuperEgoEmotionsRules);
+		text += toText.listToTEXT("--------------------------------moSuperEgoPerceptionsRules------------------------", moSuperEgoPerceptionsRules);
+		text += toText.listToTEXT("Test", Test);
 		text += toText.valueToTEXT("moForbiddenDrives", moForbiddenDrives);		
 		text += toText.valueToTEXT("moForbiddenPerceptions", moForbiddenPerceptions);
 		text += toText.valueToTEXT("moForbiddenEmotions", moForbiddenEmotions);
@@ -207,9 +220,13 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, threshold_psychicEnergy, msPriorityPsychicEnergy);
 		// if there is enough psychic energy
+	
+		
+
 		if (rReceivedPsychicEnergy > threshold_psychicEnergy
 				/* for test purposes only: */ || true)
-			checkInternalizedRules();	 // check perceptions and drives, and apply internalized rules	
+			checkInternalizedRules();	// check perceptions and drives, and apply internalized rules
+
 	}
 
 	/* (non-Javadoc)
@@ -255,13 +272,32 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		moForbiddenDrives     .clear();
 		moForbiddenPerceptions.clear();
 		moForbiddenEmotions   .clear();
+		String oSuperEgoStrength= null;
 		
+		clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
+		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
+		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oPerceptionRules=null;
+		clsPair<String,String> oEmotionRules=null;
+		
+		
+		ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
+		ArrayList<String> oContentTypePerceptions= new ArrayList<String> (); 
 		// sample rule for repression of drives
 		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
 		if (moSuperEgoStrength >= 0.5)
+			
+			oSuperEgoStrength="SuperEgoStrength >= 0.5";
+			
 			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE")) {
+				
+				// To view the Rules for drives on the Simulator --> state  
+				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+" Hunger",eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0);
+				oContentTypeDrives.add("Entity = BODO");
+				oContentTypeDrives.add("CAKE");
+				oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,oContentTypeDrives);
+							
 				// If all the conditions above are true then Super-Ego can fire.
 				// That means, an internalized rule was detected to be true.
 				// So the Super-Ego conflicts now with Ego. And Super-Ego requests from Ego to activate defense.
@@ -272,6 +308,12 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
 				if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
 					moForbiddenDrives.add(oDrive);
+				
+				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
+					// add Rules for drives on the Simulator --> state 
+					moSuperEgoDrivesRules.add(oDriveRules);
+					}
+
 			}
 		
 		// sample rule for denial of perceptions
@@ -280,21 +322,44 @@ public class F07_SuperEgoReactive extends clsModuleBase
 			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
 				searchInTPM (eContentType.ENTITY, "CAKE"))
+				
+								
 				// If all the conditions above are true then Super-Ego can fire.
 				// That means, an internalized rule was detected to be true.
 				// So the Super-Ego conflicts now with Ego. And Super-Ego requests from Ego to activate defense.
-			
+				
+				
 				
 				// The following perception was found by Super-Ego as inappropriate or forbidden.
 				// Therefore the Super-Ego marks the perception as forbidden and sends the mark to the Ego.
-				if (!moForbiddenPerceptions.contains(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE")))
+				if (!moForbiddenPerceptions.contains(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"))){
 					moForbiddenPerceptions.add(new clsPair<eContentType, String> (eContentType.ENTITY, "CAKE"));
-			
+					
+					// To view the Rules for Perceptions on the Simulator --> state
+					oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+" Hunger",eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0);
+					oContentTypePerceptions.add("EntityOfPerception= CAKE");
+					oPerceptionRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,oContentTypePerceptions);
+				
+					
+					if(!moSuperEgoPerceptionsRules.contains(oPerceptionRules)){
+						// add Rules for Perceptions on the Simulator --> state
+						moSuperEgoPerceptionsRules.add(oPerceptionRules);
+						}
+				}
+
 		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
 		if (moSuperEgoStrength >= 0.5)
 			if (searchInEmotions (eEmotionType.ANGER))
+				// To view the Rules for Emotions on the Simulator --> state
+				oEmotionRules= new clsPair<String,String> ("moSuperEgoStrength >= 0.5","ANGER");
 				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
 					moForbiddenEmotions.add(eEmotionType.ANGER);
+				
+					
+				if(!moSuperEgoEmotionsRules.contains(oEmotionRules)){
+					// add Rules for Emotions on the Simulator --> state
+					moSuperEgoEmotionsRules.add(oEmotionRules);
+				}
 		
 		
 		// sample rule for conversion of emotion grief into emotion fear (reversal of affect)
@@ -314,21 +379,23 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH) means "BITE"
 		// (by repressing the aggressive drive energy, anxiety is produced)
 
-		if (moSuperEgoStrength >= 0.8)
+		if (moSuperEgoStrength >= 0.5) //0.8
 			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39)) {
 
+				
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.AGGRESSIVE, eOrgan.STOMACH);
+				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+"Hunger",eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39);
+				oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,null);
+					
 				if (!moForbiddenDrives.contains(oDrive))
 					moForbiddenDrives.add(oDrive);
+				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
+					moSuperEgoDrivesRules.add(oDriveRules);
+					}
+
 			}
-		/*-----------------------For Test the DefenseMechnism For Drive -----------------------------------------------*/
-		if (moSuperEgoStrength >= 0.5)
-			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.22)) { //0.45
-				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
-				if (!moForbiddenDrives.contains(oDrive))
-					moForbiddenDrives.add(oDrive);
-			}
-		/*-----------------------------------------------------------------------------------------------------------------------------------*/
+		
+	
 		
 		
 		// only for test purpose

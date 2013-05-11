@@ -175,6 +175,16 @@ public class clsExternalIO extends clsBaseIO {
 			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 40 );
 			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
 			numsensors++;
+			
+			//Vision Self
+			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORACTIVE, true);
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORTYPE, eSensorExtType.VISION_SELF.name());
+			oProp.setProperty(pre+numsensors+"."+clsExternalIO.P_SENSORRANGE, 0);
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_MIN_DISTANCE, 0 );
+			oProp.setProperty(pre+numsensors+"."+clsSensorVision.P_SENSOR_FIELD_OF_VIEW, Math.PI );
+			numsensors++;
+			
 		} else {
 			oProp.putAll( clsSensorVision.getDefaultProperties( pre+numsensors) );
 			oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
@@ -325,6 +335,8 @@ public class clsExternalIO extends clsBaseIO {
 					if(eType.name().equals(eSensorExtType.EATABLE_AREA.name()))sensorExt=new clsSensorEatableArea(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.MANIPULATE_AREA.name()))sensorExt=new clsSensorManipulateArea(tmp_pre, poProp, this); 
 					if(eType.name().equals(eSensorExtType.POSITIONCHANGE.name()))sensorExt=new clsSensorPositionChange(tmp_pre, poProp, this); 
+					
+					if(eType.name().equals(eSensorExtType.VISION_SELF.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					
 					
 					moSensorEngine.registerSensor(eType, sensorExt);

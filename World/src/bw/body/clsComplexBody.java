@@ -14,7 +14,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
+import statictools.clsGetARSPath;
+
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eBodyActionType;
 import du.enums.eFacialExpression;
 import du.itf.actions.clsInternalActionSweat;
@@ -62,6 +65,10 @@ public class clsComplexBody extends clsBaseBody implements
 	
 	public static final String P_INTERNALACTIONEX = "internalactionexecutor";
 	
+	public static final String P_PERSONALITY_PARAMETER ="personality.parameter.file";
+	public static final String P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME="default.properties";
+
+	
 	protected clsBrainSocket moBrain;
     protected clsExternalIO  moExternalIO;
     protected clsInternalIO  moInternalIO;
@@ -76,6 +83,7 @@ public class clsComplexBody extends clsBaseBody implements
     private clsInternalActionProcessor moInternalActionProcessor; 
     private clsEntity moEntity;
        
+	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 
 
 
@@ -91,7 +99,11 @@ public class clsComplexBody extends clsBaseBody implements
 	private void applyProperties(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		String pre = clsProperties.addDot(poPrefix);
 
-		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp);
+	    String moFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
+		moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getBodyPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+
+		
+		moInternalSystem 		= new clsInternalSystem(pre+P_INTERNAL, poProp, moPersonalityParameterContainer);
 		moIntraBodySystem 		= new clsIntraBodySystem(pre+P_INTRABODY, poProp, moInternalSystem, poEntity);
 		moInterBodyWorldSystem 	= new clsInterBodyWorldSystem(pre+P_BODYWORLD, poProp, moInternalSystem, poEntity);
 		
@@ -103,6 +115,8 @@ public class clsComplexBody extends clsBaseBody implements
 		moFacialExpression = eFacialExpression.NONE;
 		
 		applyInternalActionProperties(poPrefix, poProp);
+		
+
 	}
 	
 	private void applyInternalActionProperties(String poPrefix, clsProperties poProp) {
@@ -165,6 +179,8 @@ public class clsComplexBody extends clsBaseBody implements
 
 		oProp.putAll( clsExecutorInternalSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
 				
+		oProp.setProperty(pre+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+
 		return oProp;
 	}	
 

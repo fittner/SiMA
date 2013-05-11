@@ -41,6 +41,8 @@ public abstract class clsMobile extends clsEntity {
 	public static final String P_DEF_STATIC_FRICTION = "def_static_friction";
 	public static final String P_DEF_RESTITUTION = "def_restitution";
 	
+	public static final String P_INVENTORY_MAX_MASS = "inventory_max_mass";
+	public static final String P_INVENTORY_MAX_ITEMS = "inventory_max_items";
 
 	
 	private int mnHolders; // number of bubles which picked-up and carry this mobile entity 
@@ -50,13 +52,14 @@ public abstract class clsMobile extends clsEntity {
 
 	protected clsInventory moInventory;
 	
+	private int mnMaxItems, mnMaxMass; //maxMass and MaxItem for the inventory
+	
 
 	public clsMobile(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid);
 		
-		setEntityInventory();
-		
 		applyProperties(poPrefix, poProp);
+		setEntityInventory();
 		
 		mnHolders = 0;
 	}
@@ -84,6 +87,9 @@ public abstract class clsMobile extends clsEntity {
 		oProp.setProperty(pre+P_DEF_STATIC_FRICTION , 0.2);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 0.3);
 		
+		oProp.setProperty(pre+P_INVENTORY_MAX_MASS, 10000);
+		oProp.setProperty(pre+P_INVENTORY_MAX_ITEMS, 10);
+		
 		return oProp;
 	}	
 
@@ -93,6 +99,9 @@ public abstract class clsMobile extends clsEntity {
 		mrDefaultCoeffFriction = poProp.getPropertyDouble(pre+P_DEF_COEFF_FRICTION);
 		mrDefaultStaticFriction = poProp.getPropertyDouble(pre+P_DEF_STATIC_FRICTION);
 		mrDefaultRestitution = poProp.getPropertyDouble(pre+P_DEF_RESTITUTION);
+		
+		mnMaxItems = poProp.getPropertyInt(pre+P_INVENTORY_MAX_ITEMS);
+		mnMaxMass = poProp.getPropertyInt(pre+P_INVENTORY_MAX_MASS);
 		
 		double oPosX = poProp.getPropertyDouble(pre+clsPose.P_POS_X);
 		double oPosY = poProp.getPropertyDouble(pre+clsPose.P_POS_Y);
@@ -123,7 +132,7 @@ public abstract class clsMobile extends clsEntity {
 	 * Override to configure inventory-size
 	 */
 	protected void setEntityInventory() {
-		moInventory= new clsInventory(this,10,100);
+		moInventory= new clsInventory(this, mnMaxItems, mnMaxMass);
 	}
 	public clsInventory getInventory() {
 		return moInventory;

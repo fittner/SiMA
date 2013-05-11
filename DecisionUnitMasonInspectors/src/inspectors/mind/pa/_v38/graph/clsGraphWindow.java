@@ -293,6 +293,7 @@ public abstract class clsGraphWindow extends Inspector {
     	poTaskGroup.add(addLegendItem( "Vision Entry", clsGraph.moColorVisionEntry, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "Sensor Intern", clsGraph.moColorSensorIntern, "/World/src/resources/images/view.png") );
     	poTaskGroup.add(addLegendItem( "Sensor Extern", clsGraph.moColorSensorExtern, "/World/src/resources/images/view.png") );
+
     	return poTaskGroup;
     }
     

@@ -59,7 +59,7 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 	        JFreeChart chart = ChartFactory.createBarChart(
 	        		moContainer.getBarChartTitle(), 
 	        		"Defense", 
-	        		"Vorbiden Drives", 
+	        		"Forbidden Drives", 
 	        		dataset, 
 	        		PlotOrientation.VERTICAL, 
 	        		true, 
@@ -97,16 +97,29 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 	       
 
 	    	return oChartPanel;
+	    	
 		}
+	/*
+	 * moTimeChartData.put("PassForbidenEmotion", ChartBarPassForbidenEmotion);
+		moTimeChartData.put("PassForbidenPerception", ChartBarPassForbidenPerception);
+		moTimeChartData.put("Denial", ChartBarDenial);
+		moTimeChartData.put("Idealization", ChartBarIdealization);
+		moTimeChartData.put("Depreciation", ChartBarDepreciation);
+		moTimeChartData.put("ReversalOfAffect", ChartBarReversalOfAffect);
+	 * 
+	 * 
+	 * 
+	 */
 	 private DefaultCategoryDataset createDataset() {
 		 
 		 DefaultCategoryDataset dataF06 = new DefaultCategoryDataset();
 		 dataF06.setValue(moContainer.getBarChartData().get("Displacement"), "Displacement", "Displacement");
 		 dataF06.setValue(moContainer.getBarChartData().get("Repression"),"Repression","Repression");
 		 dataF06.setValue(moContainer.getBarChartData().get("Sublimation"),"Sublimation","Sublimation");
-		 dataF06.setValue(moContainer.getBarChartData().get("No Defense is done"),"No Defense is done","No Defense is done");
+		 dataF06.setValue(moContainer.getBarChartData().get("PassForbiddenDrives"),"PassForbiddenDrives","PassForbiddenDrives");
 		 dataF06.setValue(moContainer.getBarChartData().get("ReactionFormation"),"ReactionFormation","ReactionFormation");
 		 dataF06.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
+		
 		 
 		 
 		 
@@ -125,7 +138,7 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 		moDataset.setValue(moContainer.getBarChartData().get("Displacement"),"Displacement","Displacement");
 		moDataset.setValue(moContainer.getBarChartData().get("Repression"),"Repression","Repression");
 		moDataset.setValue(moContainer.getBarChartData().get("Sublimation"),"Sublimation","Sublimation");
-		moDataset.setValue(moContainer.getBarChartData().get("No Defense is done"),"No Defense is done","No Defense is done");
+		moDataset.setValue(moContainer.getBarChartData().get("PassForbiddenDrives"),"PassForbiddenDrives","PassForbiddenDrives");
 		moDataset.setValue(moContainer.getBarChartData().get("ReactionFormation"),"ReactionFormation","ReactionFormation");
 		moDataset.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
 		

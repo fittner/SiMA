@@ -28,6 +28,7 @@ import bw.utils.inspectors.body.clsInspectorInternalSystems;
 import bw.utils.inspectors.body.clsInspectorSlowMessengers;
 import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.utils.inspectors.entity.clsInspectorARSinDebugActions;
+import bw.utils.inspectors.entity.clsInspectorInventory;
 import bw.utils.inspectors.entity.clsInspectorPositionLogChart;
 import bw.utils.inspectors.entity.clsInspectorPositionLoggerCSV;
 import sim.display.GUIState;
@@ -181,8 +182,10 @@ public class clsInspectorMappingEntity {
 	        	
 	    		//add all information you want to add to the overview inspector here...
 	    		oRetVal.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
-	    		
-	    		
+	    			    		
+	    		//Inventory-Inspector
+	    		oRetVal.addInspector(new clsInspectorInventory((clsARSIN) poEntity), "Inventory");
+	    			    		
 	    	}
 	    	else{
 	    	

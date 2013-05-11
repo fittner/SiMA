@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 
 /**
- * This interface transports the neurosymbolized bodily needs from F2 to F3.
+ * This interface transports the neurosymbolized bodily needs from F2 to F65.
  * 
  * @author deutsch
  * 11.08.2009, 12:19:57

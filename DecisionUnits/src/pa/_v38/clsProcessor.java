@@ -193,6 +193,7 @@ public class clsProcessor implements itfProcessor  {
 		oResult.put(eSensorExtType.VISION_FAR, poData.getSensorExt(eSensorExtType.VISION_FAR));
 		oResult.put(eSensorExtType.POSITIONCHANGE, poData.getSensorExt(eSensorExtType.POSITIONCHANGE));
 		oResult.put(eSensorExtType.RADIATION, poData.getSensorExt(eSensorExtType.RADIATION));
+		oResult.put(eSensorExtType.VISION_SELF, poData.getSensorExt(eSensorExtType.VISION_SELF));
 		
 		return oResult;
 	}
@@ -245,6 +246,9 @@ public class clsProcessor implements itfProcessor  {
 	public void step() {
 		//BODY --------------------------------------------- 
 		//data preprocessing
+	    //Resets the pleasure value to 0
+	    moPsyApp.moPleasureStorage.resetPleasure();
+	    
 		moPsyApp.moF01_SensorsMetabolism.step();
 		moPsyApp.moF02_NeurosymbolizationOfNeeds.step();
 
@@ -259,15 +263,19 @@ public class clsProcessor implements itfProcessor  {
 
 		//PRIMARY PROCESSES -------------------------------
 		//Self-PreservationDrive generation
-		moPsyApp.moF03_GenerationOfSelfPreservationDrives.step();
-		moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
+		moPsyApp.moF65_PartialSelfPreservationDrives.step();
+		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step();
+		//moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
 		
 		//Libido generation
-		moPsyApp.moF41_Libidostasis.step();
-		moPsyApp.moF43_SeparationIntoPartialSexualDrives.step();
-		
+		moPsyApp.moF64_PartialSexualDrives.step();
+        
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfQuotaOfAffectsForDrives.step(); 
+		
+		//calculate the dynamic portion of pleasure depending on the gradiant
+		moPsyApp.moPleasureStorage.calculateDynamicPortionOfPleasure();
+		
 		moPsyApp.moF57_MemoryTracesForDrives.step(); 
 				
 		//perception to memory and repression
@@ -305,6 +313,9 @@ public class clsProcessor implements itfProcessor  {
 
 		//SECONDARY PROCESSES ----------------------------
 		
+		//Spech generation
+        moPsyApp.moF66_SpeechProduction.step();
+		
 		//localization
 		moPsyApp.moF61_Localization.step();
 		
@@ -330,7 +341,7 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF32_Actuators.step();
 		
 		//UPDATE DataLogger Entries
-		moPsyApp.moDataLogger.step();
+		//moPsyApp.moDataLogger.step();
 	}
 
 	/**

@@ -167,6 +167,9 @@ public abstract class clsMeshBase extends clsGraphBase {
 			clsDataStructureContainer oNextMemoryObject = (clsDataStructureContainer)oO;
 			oRootCell = generateGraphCell(poParent, oNextMemoryObject);
 			
+
+			
+
 		} else if (oO == null) {
 			oRootCell = generateNULLGraphCell(poParent);
 			
@@ -175,7 +178,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 			
 		} else if (oO instanceof Integer) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //mit mir nicht, Integer gibts keine!
-			
+		
 		} else if (oO instanceof clsSymbolVision) {
 			oRootCell = generateGraphCell(poParent, oO.toString()); //TODO MUCHITSCH generate specialized functions to display this datatype
 			
@@ -866,6 +869,7 @@ public abstract class clsMeshBase extends clsGraphBase {
 		
 		return oCell;
 	}
+
 	
 }
 

@@ -11,6 +11,7 @@ package bw.body.io.actuators.actionExecutors;
 import config.clsProperties;
 import java.util.ArrayList;
 
+import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.*;
@@ -130,11 +131,20 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 			oEntity.getCarryableEntity().incHolders();
 
 			oMEntity.getInventory().setCarriedEntity(oEntity.getCarryableEntity());
+			oMEntity.getInventory().moveCarriedToInventory(); //hacked by Kivy (putting the carried object in the inventory): for inventory inspector
+																//He tries to pickup objects in range again even if he already holds them.
+																//so he loops in picking up and dropping the same object			
+			oEntity.setCarriedBindingState(eBindingState.INVENTORY); //hacked by Kivy: copied from clsExecutorToInventory
+			
 		} catch(Throwable e) {
 			return false;			
 		}
 		
         oEntity.setCarriedBindingState(eBindingState.CARRIED);
+        
+		//Attach action to entity
+        clsAction oAction = new clsAction(1,ePercievedActionType.PICKUP);
+        moEntity.addAction(oAction);
         
 		return true;
 	}

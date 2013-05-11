@@ -19,5 +19,15 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 
 public interface I6_13_send {
-	public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+	
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 11.05.2013 15:59:00
+     *
+     * @param poPerception
+     * @param poAssociatedMemoriesSecondary
+     */
+    void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
 }

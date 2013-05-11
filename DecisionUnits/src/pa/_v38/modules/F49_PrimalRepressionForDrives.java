@@ -21,13 +21,13 @@ import pa._v38.interfaces.modules.I5_2_receive;
 import pa._v38.interfaces.modules.I5_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
-import pa._v38.tools.clsDriveValueSplitter;
+
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
-import pa._v38.tools.eDriveValueSplitter;
+
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
 import du.enums.pa.eDriveComponent;
 
@@ -274,7 +274,7 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	}
 
 	/**
-	 * Calculate the new values of the homeostatic drive pairs according to the Deutsch-curves see p82
+	 * Calculate the new values of the homeostatic drive pairs
 	 *
 	 * @since 18.07.2012 12:26:19
 	 *
@@ -303,14 +303,24 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			double oOldAgressiveQoA  = ((clsDriveMesh)oHomeostaticDMPairEntry.a).getQuotaOfAffect();
 			double oOldLibidoneusQoA = ((clsDriveMesh)oHomeostaticDMPairEntry.b).getQuotaOfAffect();
 			
-			//calculate the tensions according to Deutsch's curves
-			clsPair<Double, Double> oSplitResult = 
-				clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
+			//calculate the tensions using a linear function
+			//if != 0
+			clsPair<Double, Double> oSplitResult;
+			if(oOldAgressiveQoA + oOldLibidoneusQoA > 0){
+			    oSplitResult = shiftQoA(new clsPair<Double,Double>(oOldAgressiveQoA,oOldLibidoneusQoA), rSlopeFactor);
+			}
+			else{
+			    oSplitResult = new clsPair<Double,Double>(0.0,0.0);
+			}
+			
+			/* old version
+			 *clsPair<Double, Double> oSplitResult = clsDriveValueSplitter.calc(	oOldAgressiveQoA, 
 											oOldLibidoneusQoA, 
 											eDriveValueSplitter.ADVANCED, 
 											rSlopeFactor); 
+			*/
 			
-			//set the calculated affects into the entry set of the loop, actually pleasure is not right here, this value is quota of affect not pleasure
+			//set the calculated affects into the entry set of the loop
 			double oNewAgressiveQoA  = oSplitResult.a;
 			double oNewLibidoneusQoA = oSplitResult.b;
 			
@@ -321,6 +331,26 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 			moOutput.add((clsDriveMesh)oHomeostaticDMPairEntry.a);
 			moOutput.add((clsDriveMesh)oHomeostaticDMPairEntry.b);
 	}
+	
+	
+	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
+	    double rSum = prValues.a + prValues.b;
+	    double rAggrFactor = prValues.a/rSum;
+	    double d= 0.0;
+	    double k = 0.0;
+	    if(prRatio>=0.5){
+	        k=(1-prRatio)/0.5;
+	        d=1-k;
+	    }
+	    else{
+	        k=prRatio/0.5;
+	        d=0.0;
+	    }
+	    rAggrFactor = rAggrFactor*k + d;
+	    
+	    return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
+	}
+	        
 	
 //	private void categorizeDriveMesh(clsDriveMesh poMD) {
 //		for (clsTriple<String,String,ArrayList<Double>> oPRM:moPrimalRepressionMemory) {

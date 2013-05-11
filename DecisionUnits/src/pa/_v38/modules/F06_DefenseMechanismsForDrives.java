@@ -103,8 +103,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	Double Repression=0.0;
 	Double Sublimation=0.0;
 	Double TimeSublimation=0.0;
-	Double NoDefense=0.0;
-	Double TimeNoDefense=0.0;
+	Double PassForbiddenDrives=0.0;
+	Double TimePassForbiddenDrives=0.0;
 	/************************************************/
 	
 
@@ -175,7 +175,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		//String pre = clsProperties.addDot(poPrefix);
 		
-		//NoDefense to do
+		//PassForbiddenDrives to do
 	}
 	/* (non-Javadoc)
 	*
@@ -307,7 +307,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		GetCombinedTimeDefenseYaxisData();	
 
 		
-		 // If NoDefense to defend return immediately (otherwise NullPointerException)
+		 // If no Defense to defend return immediately (otherwise NullPointerException)
 		
 	   	 if (moForbiddenDrives_Input == null ) return;
 		
@@ -364,12 +364,12 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 defenseMechanism_Displacement(moForbiddenDrives_Input);
 			
 						 
-		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.8)){
+		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
 			 
 			 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
 			 
 			 						
-		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.8)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
+		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.9)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
 			 
 			 defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
 			 
@@ -384,7 +384,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 else {
 			 // Just to see on the Simulation that no defense is done 
 			
-			 NoDefense();
+			 NoDefenseIsDone();
 		 	
 		}
 	   // for Bar Chart and Time Chart
@@ -395,9 +395,9 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	
 	
 	
-	private void NoDefense(){
-		TimeNoDefense =1.0;
-		NoDefense++;
+	private void NoDefenseIsDone(){
+		TimePassForbiddenDrives =1.0;
+		PassForbiddenDrives++;
 
 		
 	}
@@ -456,7 +456,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 * 
 	 * This is a function that represents the defense mechanism "reversal of affect" for drives.
 	 * Reversal of affect shifts parts of the quota of affect from the AFFECTIVE drive to the LIBIDILOUS drive (or vice versa).
-	 * (The opposite drive must exist. Otherwise NoDefense is changed.)
+	 * (The opposite drive must exist. Otherwise no Defense is changed.)
 	 * @param oShiftQuotaOfAffect: oShiftQuotaOfAffect is the amount which is shifted from the quota of affect to the opposite drive
 	 *
 	 */
@@ -713,7 +713,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		String oOriginalDOContent = poOriginalDM.getActualDriveObject().getMoContent();
 		
-		// if the Drive-Object-List doesn't contain the receiving Object, it should NoDefense Happens 
+		// if the Drive-Object-List doesn't contain the receiving Object, it should no Defense Happens 
 		if(!(oDisplaceDriveObjectList.containsKey(oOriginalDOContent))){
 			
 			clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
@@ -747,14 +747,16 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		return poOriginalDM;
 	}
+	// For TimeChart And BarChart
+	//
 	private HashMap<String, Double>  moTimeInputChartData(){
-		moTimeChartData.put("TimeNoDefense", TimeNoDefense); 
+		moTimeChartData.put("TimePassForbiddenDrives", TimePassForbiddenDrives); 
 		moTimeChartData.put("TimeSublimation", TimeSublimation);
 		moTimeChartData.put("TimeDisplacement", TimeDisplacement);
 		moTimeChartData.put("TimeReactionFormation", TimeReactionFormation);
 		moTimeChartData.put("TimeRepression", TimeRepression );
 		moTimeChartData.put("TimeReversalOfAffect", TimeReversalOfAffect);
-		moTimeChartData.put("No Defense is done", NoDefense);
+		moTimeChartData.put("PassForbiddenDrives", PassForbiddenDrives);
 		moTimeChartData.put("Displacement", Displacement);
 		moTimeChartData.put("Sublimation", Sublimation);
 		moTimeChartData.put("ReactionFormation", ReactionFormation);
@@ -1005,7 +1007,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	  
 	  
 	/*	   
-		// If NoDefense to repress return immediately (otherwise NullPointerException)
+		// If PassForbiddenDrives to repress return immediately (otherwise NullPointerException)
 		if (oForbiddenDrives_Input == null) return 0.0;
 		
 		// Iterate over all forbidden drives
@@ -1216,51 +1218,51 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	}
 	private void GetCombinedTimeDefenseYaxisData(){
 		
-		if((TimeRepression==1.0)&&((TimeNoDefense == 1.0)||(TimeSublimation == 1.0)||
+		if((TimeRepression==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
 			(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
-		  TimeNoDefense =0.0;
+		  TimePassForbiddenDrives =0.0;
 		  TimeSublimation=0.0;
 		  TimeDisplacement=0.0;
 		  TimeReversalOfAffect=0.0;
 		  TimeReactionFormation=0.0;
-		}else if((TimeNoDefense==1.0)&&((TimeRepression == 1.0)||(TimeSublimation == 1.0)||
+		}else if((TimePassForbiddenDrives==1.0)&&((TimeRepression == 1.0)||(TimeSublimation == 1.0)||
 				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
 			TimeSublimation =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
-		}else if((TimeDisplacement==1.0)&&((TimeNoDefense == 1.0)||(TimeSublimation == 1.0)||
+		}else if((TimeDisplacement==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
 				(TimeRepression==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
-			TimeNoDefense =0.0;
+			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeSublimation=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
-		}else if((TimeReversalOfAffect==1.0)&&((TimeNoDefense == 1.0)||(TimeSublimation == 1.0)||
+		}else if((TimeReversalOfAffect==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
 				(TimeDisplacement==1.0)||(TimeRepression==1.0)||(TimeReactionFormation == 1.0))){
-			TimeNoDefense =0.0;
+			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeSublimation=0.0;
 			TimeReactionFormation=0.0;
-		}else if ((TimeReactionFormation==1.0)&&((TimeNoDefense == 1.0)||(TimeSublimation == 1.0)||
+		}else if ((TimeReactionFormation==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
 				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeRepression == 1.0))){
-			TimeNoDefense =0.0;
+			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeSublimation=0.0;
-		}else if((TimeSublimation==1.0)&&((TimeNoDefense == 1.0)||(TimeRepression == 1.0)||
+		}else if((TimeSublimation==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeRepression == 1.0)||
 				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
-			TimeNoDefense =0.0;
+			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
 			
 		}else{
-			TimeNoDefense =0.0;
+			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
@@ -1320,7 +1322,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oResult.add(oReversalOfAffect);
 		
 		ArrayList<Double> oNoDefense =new ArrayList<Double>();
-		oNoDefense.add(moTimeChartData.get("TimeNoDefense"));
+		oNoDefense.add(moTimeChartData.get("TimePassForbiddenDrives"));
 		oResult.add(oNoDefense);
 		
 
@@ -1346,7 +1348,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oResult.add("ReactionFormation");
 		oResult.add("Repression");
 		oResult.add("ReversalOfAffect");
-		oResult.add("NoDefense");
+		oResult.add("PassForbiddenDrives");
 		
 		
 		return oResult;
@@ -1386,7 +1388,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oResult.add(oReversalOfAffect);
 		
 		ArrayList<String> oNoDefense = new ArrayList<String>();
-		oNoDefense.add("NoDefense");
+		oNoDefense.add("PassForbiddenDrives");
 		oResult.add(oNoDefense);
 		
 

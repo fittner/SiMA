@@ -42,6 +42,7 @@ import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
+
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
@@ -54,11 +55,13 @@ import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPolarcoordinate;
+import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import bw.body.itfStepProcessing;
 import bw.body.attributes.clsAttributeAlive;
 import bw.body.internalSystems.clsFastMessengerEntry;
+import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorExt;
@@ -172,6 +175,8 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_NEAR, convertVisionSensor(eSensorExtType.VISION_NEAR) );
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
+		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
+		
 		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
 		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
@@ -910,12 +915,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsVisionEntry oData = new clsVisionEntry();
 		
-		if(oEntity != null){
+		if(oEntity != null){ 
 		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
 		   oData.setShapeType( getShapeType(collidingObj.moCollider));
 		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
-			
+
+		   oData.setAlive(oEntity.isAlive());
+		
+		   //set corresponding Actions
+		   oData.setActions(convertActions(oEntity.getExecutedActions()));
+		   
 		   oData.setObjectPosition( collidingObj.meColPos);  
 		   oData.setSensorType(poSensorType);
 		    
@@ -949,6 +959,17 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 
+	private ArrayList<ePercievedActionType> convertActions(ArrayList<clsAction> poActions){
+	    ArrayList<ePercievedActionType> oRetVal = new ArrayList<ePercievedActionType>();
+	    
+	    for( clsAction oAction : poActions){
+	        oRetVal.add(oAction.getActionType());
+	    }
+	    
+	    return oRetVal;
+	    
+	}
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

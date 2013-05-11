@@ -97,7 +97,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		moEntity.sensing();
 		moEntity.updateInternalState();
 		moEntity.processing();
-		moEntity.execution();
+		moEntity.exec();
 	}
 	
 	public Steppable getSteppableSensing() {

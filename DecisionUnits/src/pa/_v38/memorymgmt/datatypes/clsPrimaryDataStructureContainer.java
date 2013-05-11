@@ -94,7 +94,7 @@ public class clsPrimaryDataStructureContainer extends clsDataStructureContainer 
 //				}
 //			} else if (poInput instanceof clsThingPresentationMesh) {
 //				for (clsAssociation oAss : ((clsTemplateImage)this.moDataStructure).moAssociatedContent) {
-//					if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
+//  				if (oAss.getLeafElement().moDS_ID == poInput.moDS_ID) {
 //						oRetVal = oAss.getLeafElement();
 //						break;
 //					}

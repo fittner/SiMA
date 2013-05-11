@@ -9,6 +9,8 @@ package pa._v38.symbolization.representationsymbol;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
+import bfg.utils.enums.ePercievedActionType;
+
 import du.enums.eDistance;
 import du.enums.eSensorExtType;
 
@@ -40,6 +42,10 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		moExactDebugX = poSensor.getExactDebugX();
 		moExactDebugY = poSensor.getExactDebugY();
 		moExactDebugAngle = poSensor.getExactDebugAngle();
+		
+		moActions = poSensor.getActions();
+		
+		
 	}
 	/* (non-Javadoc)
 	 *
@@ -66,6 +72,11 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 	@Override
 	public Method[] getDataAccessMethods() {
 		return itfSymbolVisionEntry.class.getMethods();
+	}
+	
+	@Override
+    public ArrayList<ePercievedActionType> getPerceivedAction(){
+	    return moActions;
 	}
 
 	/* (non-Javadoc)
@@ -112,7 +123,10 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		} 
 		else if(moSensorType == eSensorExtType.VISION_NEAR) {
 			oRetVal = eDistance.NEAR;
-		}		
+		}
+		else if(moSensorType == eSensorExtType.VISION_SELF){
+		    oRetVal = eDistance.NODISTANCE;
+		}
 		return oRetVal;
 	}
 }

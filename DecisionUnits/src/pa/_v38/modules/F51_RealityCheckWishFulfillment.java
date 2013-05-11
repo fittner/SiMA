@@ -13,6 +13,7 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
 import pa._v38.decisionpreparation.eCodeletType;
@@ -27,7 +28,6 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.personality.parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.toText;

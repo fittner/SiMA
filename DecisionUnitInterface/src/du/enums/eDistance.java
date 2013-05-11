@@ -20,5 +20,6 @@ public enum eDistance {
 	MANIPULATEABLE,
 	NEAR,
 	MEDIUM,
-	FAR
+	FAR, 
+	NODISTANCE
 }

@@ -16,5 +16,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface D1_4_receive {
-	public void receive_D1_4(double prValue);
+	public double receive_D1_4();
 }

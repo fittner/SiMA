@@ -8,6 +8,7 @@ package pa._v38.interfaces.modules;
 
 
 
+
 /**
  * Write access to libido storage (from F39).
  * 
@@ -16,5 +17,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface D1_3_receive {
-	public void receive_D1_3(double prValue);
+	void receive_D1_3(double prValue);
 }

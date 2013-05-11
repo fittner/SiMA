@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 import bw.body.itfStepUpdateInternalState;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
@@ -31,6 +32,8 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	public static final String P_NUTRITIONEFFICIENCY = "efficiency";
 	public static final String P_NUTRITIONMETABOLISMFACTOR = "metabolismfactor";
 	
+	public static final String P_MODULE_NAME ="STOMACHSYSTEM";
+	
 	private HashMap<eNutritions, clsNutritionLevel> moNutritions;
 	private HashMap<eNutritions, Double> moEnergyMetabolismFactor;
 	private HashMap<eNutritions, Double> moEnergyEfficiency;
@@ -42,7 +45,11 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	
 	int moRectumWaitStepCounter = 0;
 	
-	public clsStomachSystem(String poPrefix, clsProperties poProp) {
+	private clsPersonalityParameterContainer moPersonalityParameterContainer;
+	
+	public clsStomachSystem(String poPrefix, clsProperties poProp, 	clsPersonalityParameterContainer poPersonalityParameterContainer) {
+		moPersonalityParameterContainer = poPersonalityParameterContainer;
+		
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();
 		moEnergyEfficiency = new HashMap<eNutritions, Double>();
 		moEnergyMetabolismFactor = new HashMap<eNutritions, Double>();
@@ -51,10 +58,65 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 		
 		EmptyRectum();
 		
+		fillRectumWithDefinedStartingValue();
+		fillStomachWithDefinedStartinGValue();
+		
 		updateEnergy();
 	}
 
 	
+	/**
+	 * @since Apr 17, 2013 1:46:44 PM
+	 *
+	 */
+	private void fillStomachWithDefinedStartinGValue() {
+		//for startup
+
+		double startingValue = moPersonalityParameterContainer.getPersonalityParameter(P_MODULE_NAME, "STARTLEVEL_STOMACH").getParameterDouble();
+
+		try{
+			this.getNutritionLevel(eNutritions.FAT).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.PROTEIN).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.VITAMIN).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.CARBOHYDRATE).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.WATER).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.MINERAL).setContent(startingValue/7);
+			this.getNutritionLevel(eNutritions.TRACEELEMENT).setContent(startingValue/7);
+			
+		} catch (exContentColumnMaxContentExceeded e) {
+			// TODO (herret) - Auto-generated catch block
+			e.printStackTrace();
+		} catch (exContentColumnMinContentUnderrun e) {
+			// TODO (herret) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
+	/**
+	 * @since Apr 17, 2013 1:46:38 PM
+	 *
+	 */
+	private void fillRectumWithDefinedStartingValue() {
+		//for startup
+
+		double startingValue = moPersonalityParameterContainer.getPersonalityParameter(P_MODULE_NAME, "STARTLEVEL_RECTUM").getParameterDouble();
+
+		clsNutritionLevel oExcrement = this.getNutritionLevel(eNutritions.EXCREMENT);
+		try {
+			oExcrement.setContent(startingValue);
+		} catch (exContentColumnMaxContentExceeded e) {
+			// TODO (herret) - Auto-generated catch block
+			e.printStackTrace();
+		} catch (exContentColumnMinContentUnderrun e) {
+			// TODO (herret) - Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+	}
+
+
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		

@@ -10,8 +10,10 @@ package bw.body.io.sensors.external;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 
 import config.clsProperties;
+import du.enums.eSensorExtType;
 
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.util.Double2D;
@@ -130,7 +132,14 @@ public abstract class clsSensorExt extends clsSensorActuatorBaseExt implements i
 		while(itr.hasNext()){
 			clsCollidingObject oCollidingObject = itr.next(); 
 			//TODO ()
-	     	if(!evaluateIfObjInFieldOfView(oCollidingObject)){ 
+			eSensorExtType oSensorType =null;
+			for (Map.Entry<eSensorExtType, clsSensorExt> oEntry :moSensorEngine.getMeRegisteredSensors().entrySet()){
+				if(oEntry.getValue().equals(this)){
+					oSensorType = oEntry.getKey();
+				}
+				
+			}
+			if(!evaluateIfObjInFieldOfView(oCollidingObject) && !(oSensorType == eSensorExtType.VISION_SELF)){ 
 	       		itr.remove(); 
 	     	}
 		}
