@@ -7,21 +7,28 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SortedMap;
 
+import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_13_send;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
+import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWording;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.situationloader.clsConceptLoader;
 import pa._v38.memorymgmt.situationloader.clsSituationLoader;
 import pa._v38.memorymgmt.situationloader.itfConceptLoader;
 import pa._v38.memorymgmt.situationloader.itfSituationLoader;
+import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import config.clsProperties;
+import config.personality_parameter.clsPersonalityParameterContainer;
 
 /**
  * 
@@ -32,25 +39,41 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     // Statics for the module
     public static final String P_MODULENUMBER = "66";
 
+    //public static final String SPEECH_THRESHOLD = "SPEECH_THRESHOLD";
+    
+
     @SuppressWarnings("unused")
     private clsThingPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
-
     /** @author havlicek; Memory of the generated concepts. */
     //private clsShortTermMemory moConceptMemory;
     /** @author havlicek; Currently generated concept. */
     private final clsConcept moConcept;
     /** @author havlicek; Currently identified situation. */
     private final clsSituation moSituation;
-
     private clsProperties moProperties;
-
-    public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList) throws Exception {
-        super(poPrefix, poProp, poModuleList, null);
+    private String moWording;
+    private float mnSpeechThresold;
+    DT3_PsychicEnergyStorage poPsychicEnergyStorage;
+    clsPersonalityParameterContainer poPersonalityParameterContainer;
+    private clsShortTermMemory moShortTermMemory;
+    
+    public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
+        super(poPrefix, poProp, poModuleList, poInterfaceData);
+        
+        
         moProperties = poProp;
         // Prepare finals to ensure null safety.
         moConcept = new clsConcept();
         moSituation = new clsSituation();
+       
+        applyProperties(poPrefix, poProp);
+        this.moShortTermMemory = poShortTermMemory;
+      
+
+        moWording = new clsWording().getWording();
+       // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
+
     }
 
     public static clsProperties getDefaultProperties(String poPrefix) {
@@ -62,7 +85,6 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         return oProp;
     }
 
-    @SuppressWarnings("unused")
     private void applyProperties(String poPrefix, clsProperties poProp) {
         // String pre = clsProperties.addDot(poPrefix);
 
@@ -86,7 +108,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         text += toText.h3("Concept and Situation");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
         text += toText.valueToTEXT("moSituation", moSituation.toString());
-
+        text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory);
         return text;
     }
 
@@ -100,14 +122,15 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     @Override
     protected void process_basic() {
 
+        this.moShortTermMemory.updateTimeSteps();
         // TODO (havlicek) generation of the situation and the concept.
         itfConceptLoader oConceptLoader = new clsConceptLoader();
         itfSituationLoader oSituationLoader = new clsSituationLoader();
 
-        clsConcept oConcept = oConceptLoader.generate(moProperties,
-                moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
-        @SuppressWarnings("unused")
-        clsSituation oSituation = oSituationLoader.generate("TODO the prefix for situations?", oConcept, moProperties);
+       // clsConcept oConcept = oConceptLoader.generate(moProperties,
+       //         moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+      //  @SuppressWarnings("unused")
+      //  clsSituation oSituation = oSituationLoader.generate("TODO the prefix for situations?", oConcept, moProperties);
     }
 
     @Override
@@ -157,7 +180,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-        // TODO (hinterleitner) - Auto-generated method stub
+        send_I6_13();
 
     }
 
@@ -206,8 +229,12 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        // TODO (hinterleitner) - Auto-generated method stub
+        ((I6_13_receive) moModuleList.get(61)).receive_I6_13(poPerception, poAssociatedMemoriesSecondary);
+        putInterfaceData(I6_13_send.class, poPerception, poAssociatedMemoriesSecondary);
         
     }
+    
+    
+  
 
 }
