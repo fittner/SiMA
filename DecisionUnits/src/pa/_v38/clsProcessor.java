@@ -269,7 +269,7 @@ public class clsProcessor implements itfProcessor  {
 		
 		//Libido generation
 		moPsyApp.moF64_PartialSexualDrives.step();
-		
+        
 		//Accumulation of affects and drives
 		moPsyApp.moF48_AccumulationOfQuotaOfAffectsForDrives.step(); 
 		
@@ -312,6 +312,9 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF20_CompositionOfFeelings.step();
 
 		//SECONDARY PROCESSES ----------------------------
+		
+		//Spech generation
+        moPsyApp.moF66_SpeechProduction.step();
 		
 		//localization
 		moPsyApp.moF61_Localization.step();
