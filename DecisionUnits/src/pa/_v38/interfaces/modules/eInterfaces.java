@@ -86,7 +86,8 @@ public enum eInterfaces {
 	I6_9("The various imaginated action plans are distributed from F52 to F47, F29, and F53."),
 	I6_10("Reality checked action plans are passed on from F53 to F29."),
 	I6_11("The final action plan is transported from F29 to F30."),
-	I6_12("The perception contents consisting of word presentations, thing presentations, and affects are sent from F61 to F23.");
+	I6_12("The perception contents consisting of word presentations, thing presentations, and affects are sent from F61 to F23."),
+	I6_13("The speech production contents consisting of word presentations, thing presentations, and affects are sent from F66 to F21.");
 	
 	/** Description of the purpose of the interface; @since 12.07.2011 13:16:00 */
 	private String moDescription;
