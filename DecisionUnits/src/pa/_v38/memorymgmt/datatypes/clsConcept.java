@@ -11,7 +11,7 @@ import java.util.List;
 
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsQuadruppel;
+import pa._v38.tools.clsPentagon;
 import pa._v38.tools.clsTriple;
 
 /**
@@ -23,12 +23,23 @@ import pa._v38.tools.clsTriple;
 public class clsConcept {
 
     /**
+     * DOCUMENT (hinterleitner) - insert description 
+     * 
+     * @author hinterleitner
+     * 11.05.2013, 12:24:10
+     * 
+     */
+    public class clsDrive {
+
+    }
+
+    /**
      * The Concept stored as a {@link clsWordPresentationMesh} to enable integration into the memory.
      */
     protected clsWordPresentationMesh moConceptMesh;
 
     /** The String representations of the ConceptEntities */
-    private List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> moConceptEntities;
+    private List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> moConceptEntities;
 
     /**
      * DOCUMENT (havlicek) - Basic Constructor for a new Concept. Holds an empty list of situation specific context entities.
@@ -39,7 +50,7 @@ public class clsConcept {
     public clsConcept() {
         moConceptMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
                 new ArrayList<clsAssociation>(), "");
-        moConceptEntities = new ArrayList<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>>();
+        moConceptEntities = new ArrayList<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>>();
     }
 
     /**
@@ -91,7 +102,7 @@ public class clsConcept {
      * 
      * @return the moConceptEntities
      */
-    public List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> getConceptEntities() {
+    public List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> getConceptEntities() {
         return moConceptEntities;
     }
 
@@ -101,7 +112,7 @@ public class clsConcept {
      * @param poConceptEntities
      *            the moConceptEntities to set
      */
-    public void setConceptEntities(final List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> poConceptEntities) {
+    public void setConceptEntities(final List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> poConceptEntities) {
         moConceptEntities = poConceptEntities;
     }
 

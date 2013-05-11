@@ -11,6 +11,7 @@ import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsDistance;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
+import pa._v38.memorymgmt.datatypes.clsConcept.clsDrive;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -19,7 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsQuadruppel;
+import pa._v38.tools.clsPentagon;
 import pa._v38.tools.clsTriple;
 import config.clsProperties;
 
@@ -49,6 +50,10 @@ public class clsConceptLoader implements itfConceptLoader {
     /** */
     private final clsTriple<Integer, eDataType, eContentType> moEmotionTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
             eContentType.EMOTION);
+    
+    /** */
+    private final clsTriple<Integer, eDataType, eContentType> moDriveTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
+            eContentType.DM);
 
     @Override
     public final clsConcept generate(final clsProperties poProperties, final clsDataStructurePA... poDataStructures) {
@@ -113,7 +118,7 @@ public class clsConceptLoader implements itfConceptLoader {
 
     private void addMentalSituation(clsWordPresentationMesh poSituation) {
         String oSituation = poSituation.toString();
-        for (clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> oConceptEntity : moConcept.getConceptEntities()) {
+        for (clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive> oConceptEntity : moConcept.getConceptEntities()) {
             if (oSituation.contains(oConceptEntity.a.getMoEntity())) {
                 String[] oSituationArray = oSituation.split(":");
                 oSituationArray[oSituationArray.length - 1] = oSituationArray[oSituationArray.length - 1].replace(";", "");
@@ -150,6 +155,10 @@ public class clsConceptLoader implements itfConceptLoader {
             } else if (eContentType.DISTANCE.equals(poDataStructurePA.getMoContentType())) {
                 integrateDataStructure(poDataStructurePA, moDistanceTriple);
             }
+              else if (eContentType.DM.equals(poDataStructurePA.getMoContentType())) {
+            integrateDataStructure(poDataStructurePA, moDistanceTriple);
+            }
+            
             if (poDataStructurePA instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh oMesh = (clsWordPresentationMesh) poDataStructurePA;
                 for (clsAssociation externalAssociation : oMesh.getExternalAssociatedContent()) {
@@ -213,7 +222,7 @@ public class clsConceptLoader implements itfConceptLoader {
         clsEntity entity = moConcept.new clsEntity();
         entity.setEntity(pnDS_ID, poContent);
         boolean entityKnown = false;
-        for (clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> conceptEntity : moConcept.getConceptEntities()) {
+        for (clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive> conceptEntity : moConcept.getConceptEntities()) {
             if (conceptEntity.a.equals(entity)) {
                 entityKnown = true;
             }
@@ -222,8 +231,8 @@ public class clsConceptLoader implements itfConceptLoader {
             // clsLogger.jlog.debug("Concept: found Entity " +
             // entity.toString());
             moConcept.getConceptEntities().add(
-                    new clsQuadruppel<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance>(entity,
-                            moConcept.new clsAction(), moConcept.new clsEmotion(), moConcept.new clsDistance()));
+                    new clsPentagon<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance, clsConcept.clsDrive>(entity,
+                            moConcept.new clsAction(), moConcept.new clsEmotion(), moConcept.new clsDistance(), moConcept.new clsDrive()));
         }
     }
 
@@ -242,7 +251,7 @@ public class clsConceptLoader implements itfConceptLoader {
      */
     private void integrateDistance(Integer pnDS_ID, String poEntityContent, String poDistanceContent) {
         integrateEntity(pnDS_ID, poEntityContent);
-        for (clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> conceptEntity : moConcept.getConceptEntities()) {
+        for (clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive> conceptEntity : moConcept.getConceptEntities()) {
             if (conceptEntity.a.getMoDS_ID() == pnDS_ID) {
                 // clsLogger.jlog.info("Concept: found Distance " +
                 // oDistanceContent);
@@ -267,7 +276,7 @@ public class clsConceptLoader implements itfConceptLoader {
     private void integratePosition(Integer pnDS_ID, String poEntityContent, String poPositionContent) {
         integrateEntity(pnDS_ID, poEntityContent);
 
-        for (clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> conceptEntity : moConcept.getConceptEntities()) {
+        for (clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive> conceptEntity : moConcept.getConceptEntities()) {
             if (conceptEntity.a.getMoDS_ID() == pnDS_ID) {
                 // clsLogger.jlog.info("Concept: found Position " +
                 // oPositionContent);

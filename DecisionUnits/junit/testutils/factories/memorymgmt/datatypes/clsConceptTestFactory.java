@@ -11,9 +11,10 @@ import java.util.List;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsDistance;
+import pa._v38.memorymgmt.datatypes.clsConcept.clsDrive;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
-import pa._v38.tools.clsQuadruppel;
+import pa._v38.tools.clsPentagon;
 
 /**
  * DOCUMENT (havlicek) - insert description
@@ -31,14 +32,14 @@ public class clsConceptTestFactory extends clsAbstractDatatypesFactory<clsConcep
         return new clsConceptTestFactory();
     }
 
-    public clsConceptTestFactory withConceptEntities(List<clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance>> poConceptEntities) {
+    public clsConceptTestFactory withConceptEntities(List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> poConceptEntities) {
         moObject.setConceptEntities(poConceptEntities);
         return this;
     }
 
-    public clsConceptTestFactory withConceptEntity(clsEntity poEntity, clsAction poAction, clsEmotion poEmotion, clsDistance poDistance) {
-        clsQuadruppel<clsEntity, clsAction, clsEmotion, clsDistance> oQuad = new clsQuadruppel<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance>(
-                poEntity, poAction, poEmotion, poDistance);
+    public clsConceptTestFactory withConceptEntity(clsEntity poEntity, clsAction poAction, clsEmotion poEmotion, clsDistance poDistance, clsDrive poDrive) {
+        clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive> oQuad = new clsPentagon<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance, clsConcept.clsDrive>(
+                poEntity, poAction, poEmotion, poDistance, poDrive);
         moObject.getConceptEntities().add(oQuad);
         return this;
     }

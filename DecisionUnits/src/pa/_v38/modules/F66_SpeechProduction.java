@@ -32,6 +32,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     // Statics for the module
     public static final String P_MODULENUMBER = "66";
 
+    @SuppressWarnings("unused")
     private clsThingPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
 
@@ -105,6 +106,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         clsConcept oConcept = oConceptLoader.generate(moProperties,
                 moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+        @SuppressWarnings("unused")
         clsSituation oSituation = oSituationLoader.generate("TODO the prefix for situations?", oConcept, moProperties);
     }
 

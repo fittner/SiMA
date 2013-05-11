@@ -30,7 +30,8 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
  */
 public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	
-	private double mrQuotaOfAffect = 0.0;				//0-1
+	public static final String moContent = null;
+    private double mrQuotaOfAffect = 0.0;				//0-1
 	private eDriveComponent moDriveComponent ;			//Triebkomponente (agressiv/libidonoes)
 	private ePartialDrive moPartialDrive  ;				//Partialtriebe (A/O/P/G)
 	
@@ -695,6 +696,32 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		//Create the drive string from Drive component, orifice and organ
 		return oDriveComponent.toString() + oOrgan.toString();
 	}
+
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 11.05.2013 12:16:19
+     *
+     * @return
+     */
+    public boolean isNullObject() {
+        // TODO (hinterleitner) - Auto-generated method stub
+        return false;
+    }
+
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 11.05.2013 12:19:47
+     *
+     * @return
+     */
+    public clsDrive getExternalAssociatedContent() {
+        // TODO (hinterleitner) - Auto-generated method stub
+        return null;
+    }
 
 }
 
