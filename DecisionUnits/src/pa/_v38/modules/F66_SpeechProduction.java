@@ -30,7 +30,7 @@ import config.clsProperties;
 public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive, I6_2_receive, I6_3_receive, I6_13_send {
 
     // Statics for the module
-    public static final String P_MODULENUMBER = "64";
+    public static final String P_MODULENUMBER = "66";
 
     private clsThingPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
@@ -143,7 +143,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
     @Override
     public void setDescription() {
-        moDescription = "F64: F64 Generation of Inner and Outer Speech for Speech and Language Production. ";
+        moDescription = "F66: F66 Generation of Inner and Outer Speech for Speech and Language Production. ";
     }
 
     /*
