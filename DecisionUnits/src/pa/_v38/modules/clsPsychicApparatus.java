@@ -354,7 +354,7 @@ public class clsPsychicApparatus {
 			moF61_Localization = new F61_Localization(pre + F61_Localization.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage);
 			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer, moPleasureStorage);
 			moF65_PartialSelfPreservationDrives = new F65_PartialSelfPreservationDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, moPleasureStorage);
-			moF66_SpeechProduction = new F66_SpeechProduction(pre + F66_SpeechProduction.P_MODULENUMBER, poProp, moModules);
+			moF66_SpeechProduction = new F66_SpeechProduction(pre + F66_SpeechProduction.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, moConceptMemory);
             
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 		} catch (Exception e) {
