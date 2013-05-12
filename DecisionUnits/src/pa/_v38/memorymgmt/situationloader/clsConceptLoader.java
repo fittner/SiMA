@@ -9,9 +9,9 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsDistance;
+import pa._v38.memorymgmt.datatypes.clsConcept.clsDrive;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
-import pa._v38.memorymgmt.datatypes.clsConcept.clsDrive;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -20,9 +20,9 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 import pa._v38.memorymgmt.situationloader.algorithm.clsDepthFirstSearch;
 import pa._v38.tools.clsPentagon;
-import pa._v38.memorymgmt.situationloader.itfContextEntitySearchAlgorithm.ALGORITHMS;
 import pa._v38.tools.clsTriple;
 import config.clsProperties;
 
@@ -52,7 +52,7 @@ public class clsConceptLoader implements itfConceptLoader {
     /** */
     private final clsTriple<Integer, eDataType, eContentType> moEmotionTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
             eContentType.EMOTION);
-    
+
     /** */
     private final clsTriple<Integer, eDataType, eContentType> moDriveTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
             eContentType.DM);
@@ -63,7 +63,7 @@ public class clsConceptLoader implements itfConceptLoader {
         for (clsDataStructurePA oDS : poDataStructures) {
             checkInputData(oDS);
         }
-        return null;
+        return moConcept;
     }
 
     @Override
@@ -72,23 +72,21 @@ public class clsConceptLoader implements itfConceptLoader {
         for (clsDataStructurePA oDS : poDataStructures) {
             checkInputData(oDS);
         }
-        return null;
+        return moConcept;
     }
-    
-    
+
     private itfContextEntitySearchAlgorithm fetchAlgorithm(clsProperties poProperties) {
-        String oPropValue = poProperties.getProperty(""+"_ContextSearchAlgoirthm", ALGORITHMS.DEPTH_FIRST.name());
+        String oPropValue = poProperties.getProperty("" + "_ContextSearchAlgoirthm", ALGORITHMS.DEPTH_FIRST.name());
         ALGORITHMS oSelection = ALGORITHMS.valueOf(oPropValue);
-        
+
         switch (oSelection) {
         case DEPTH_FIRST:
             return new clsDepthFirstSearch();
         default:
-            return new clsDepthFirstSearch();            
+            return new clsDepthFirstSearch();
         }
-        
+
     }
-    
 
     /**
      * DOCUMENT (havlicek) - insert description
@@ -171,11 +169,10 @@ public class clsConceptLoader implements itfConceptLoader {
                 integrateDataStructure(poDataStructurePA, moActionTriple);
             } else if (eContentType.DISTANCE.equals(poDataStructurePA.getMoContentType())) {
                 integrateDataStructure(poDataStructurePA, moDistanceTriple);
+            } else if (eContentType.DM.equals(poDataStructurePA.getMoContentType())) {
+                integrateDataStructure(poDataStructurePA, moDistanceTriple);
             }
-              else if (eContentType.DM.equals(poDataStructurePA.getMoContentType())) {
-            integrateDataStructure(poDataStructurePA, moDistanceTriple);
-            }
-            
+
             if (poDataStructurePA instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh oMesh = (clsWordPresentationMesh) poDataStructurePA;
                 for (clsAssociation externalAssociation : oMesh.getExternalAssociatedContent()) {
@@ -248,8 +245,8 @@ public class clsConceptLoader implements itfConceptLoader {
             // clsLogger.jlog.debug("Concept: found Entity " +
             // entity.toString());
             moConcept.getConceptEntities().add(
-                    new clsPentagon<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance, clsConcept.clsDrive>(entity,
-                            moConcept.new clsAction(), moConcept.new clsEmotion(), moConcept.new clsDistance(), moConcept.new clsDrive()));
+                    new clsPentagon<clsConcept.clsEntity, clsConcept.clsAction, clsConcept.clsEmotion, clsConcept.clsDistance, clsConcept.clsDrive>(
+                            entity, moConcept.new clsAction(), moConcept.new clsEmotion(), moConcept.new clsDistance(), moConcept.new clsDrive()));
         }
     }
 

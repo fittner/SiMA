@@ -577,6 +577,8 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// poAssociatedMemories);
 		((I6_1_receive) moModuleList.get(61)).receive_I6_1(poPerception,
 				poAssociatedMemories);
+		((I6_1_receive) moModuleList.get(66)).receive_I6_1(poPerception,
+                poAssociatedMemories);
 
 		putInterfaceData(I6_1_send.class, poPerception, poAssociatedMemories);
 

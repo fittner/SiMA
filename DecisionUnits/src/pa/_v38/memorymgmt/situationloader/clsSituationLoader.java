@@ -57,8 +57,8 @@ public class clsSituationLoader implements itfSituationLoader {
         }
         itfSituationSearchAlgorithm oAlgorithm = null;
 
-        String adsasd = poProps.getProperty(poPrefix + "_ALGORITHM", ALGORITHMS.GREEDY.name());
-        ALGORITHMS selection = ALGORITHMS.valueOf(adsasd);
+        String oAlgorithmSelection = poProps.getProperty(poPrefix + "_ALGORITHM", ALGORITHMS.GREEDY.name());
+        ALGORITHMS selection = ALGORITHMS.valueOf(oAlgorithmSelection);
         switch (selection) {
         case GREEDY:
             oAlgorithm = new clsGreedySearch();

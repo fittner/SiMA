@@ -23,17 +23,6 @@ import pa._v38.tools.clsTriple;
 public class clsConcept {
 
     /**
-     * DOCUMENT (hinterleitner) - insert description 
-     * 
-     * @author hinterleitner
-     * 11.05.2013, 12:24:10
-     * 
-     */
-    public class clsDrive {
-
-    }
-
-    /**
      * The Concept stored as a {@link clsWordPresentationMesh} to enable integration into the memory.
      */
     protected clsWordPresentationMesh moConceptMesh;
@@ -596,4 +585,17 @@ public class clsConcept {
         }
 
     }
+    
+    /**
+     * DOCUMENT (hinterleitner) - insert description 
+     * 
+     * @author hinterleitner
+     * 11.05.2013, 12:24:10
+     * 
+     */
+    public class clsDrive {
+
+    }
+
+
 }
