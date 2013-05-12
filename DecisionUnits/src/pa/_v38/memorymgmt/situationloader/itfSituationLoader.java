@@ -11,14 +11,14 @@ import pa._v38.memorymgmt.datatypes.clsSituation;
 import config.clsProperties;
 
 /**
- * DOCUMENT (havlicek) - the SituationLoader takes as input pregenerated context entities and tries to provide a fitting situation from the stored
- * knowledge base.
+ * DOCUMENT (havlicek) - the SituationLoader takes as input pregenerated context entities and 
+ * tries to provide a fitting situation from the stored knowledge base.
  * 
  * @author havlicek 09.12.2012, 08:29:06
  * 
  */
 public interface itfSituationLoader {
-
+    
     /**
      * DOCUMENT (havlicek) - fetch the fully initialized situation.
      * 

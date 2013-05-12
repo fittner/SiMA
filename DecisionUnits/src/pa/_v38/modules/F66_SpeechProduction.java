@@ -17,7 +17,6 @@ import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -42,15 +41,14 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     //public static final String SPEECH_THRESHOLD = "SPEECH_THRESHOLD";
     
 
-    @SuppressWarnings("unused")
-    private clsThingPresentationMesh moPerceptionalMesh_IN;
+    private clsWordPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
     /** @author havlicek; Memory of the generated concepts. */
     //private clsShortTermMemory moConceptMemory;
     /** @author havlicek; Currently generated concept. */
-    private final clsConcept moConcept;
+    private clsConcept moConcept;
     /** @author havlicek; Currently identified situation. */
-    private final clsSituation moSituation;
+    private clsSituation moSituation;
     private clsProperties moProperties;
     private String moWording;
     private float mnSpeechThresold;
@@ -108,7 +106,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         text += toText.h3("Concept and Situation");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
         text += toText.valueToTEXT("moSituation", moSituation.toString());
-        text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory);
+        text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory.stateToTEXT());
         return text;
     }
 
@@ -123,14 +121,14 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     protected void process_basic() {
 
         this.moShortTermMemory.updateTimeSteps();
-        // TODO (havlicek) generation of the situation and the concept.
+        // generation of the situation and the concept.
         itfConceptLoader oConceptLoader = new clsConceptLoader();
         itfSituationLoader oSituationLoader = new clsSituationLoader();
 
-       // clsConcept oConcept = oConceptLoader.generate(moProperties,
-       //         moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
-      //  @SuppressWarnings("unused")
-      //  clsSituation oSituation = oSituationLoader.generate("TODO the prefix for situations?", oConcept, moProperties);
+        moConcept = oConceptLoader.generate(moProperties, moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+        moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
+        
+        this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
     }
 
     @Override
@@ -148,7 +146,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     public void send_I6_13() {
 
         // AW 20110602 Added Associtated memories
-        moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
+        //moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
     }
 
     @Override
@@ -180,7 +178,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-        send_I6_13();
+        //send_I6_13();
 
     }
 
@@ -193,8 +191,13 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        // TODO (hinterleitner) - Auto-generated method stub
-
+        try {
+            moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        //AW 20110602 Added Associtated memories
+        moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
     }
 
     /* (non-Javadoc)
