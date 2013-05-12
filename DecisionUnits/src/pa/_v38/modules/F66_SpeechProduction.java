@@ -46,9 +46,9 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     /** @author havlicek; Memory of the generated concepts. */
     //private clsShortTermMemory moConceptMemory;
     /** @author havlicek; Currently generated concept. */
-    private final clsConcept moConcept;
+    private clsConcept moConcept;
     /** @author havlicek; Currently identified situation. */
-    private final clsSituation moSituation;
+    private clsSituation moSituation;
     private clsProperties moProperties;
     private String moWording;
     private float mnSpeechThresold;
@@ -106,7 +106,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         text += toText.h3("Concept and Situation");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
         text += toText.valueToTEXT("moSituation", moSituation.toString());
-        text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory);
+        text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory.stateToTEXT());
         return text;
     }
 
@@ -125,8 +125,10 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         itfConceptLoader oConceptLoader = new clsConceptLoader();
         itfSituationLoader oSituationLoader = new clsSituationLoader();
 
-        clsConcept oConcept = oConceptLoader.generate(moProperties, moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
-        clsSituation oSituation = oSituationLoader.generate("TODO the prefix for situations?", oConcept, moProperties);
+        moConcept = oConceptLoader.generate(moProperties, moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+        moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
+        
+        this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
     }
 
     @Override

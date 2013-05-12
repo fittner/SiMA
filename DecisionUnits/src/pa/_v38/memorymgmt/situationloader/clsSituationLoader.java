@@ -56,16 +56,19 @@ public class clsSituationLoader implements itfSituationLoader {
             return oFoundSituation;
         }
         itfSituationSearchAlgorithm oAlgorithm = null;
-
-        String oAlgorithmSelection = poProps.getProperty(poPrefix + "_ALGORITHM", ALGORITHMS.GREEDY.name());
-        ALGORITHMS selection = ALGORITHMS.valueOf(oAlgorithmSelection);
-        switch (selection) {
-        case GREEDY:
-            oAlgorithm = new clsGreedySearch();
-            break;
-        default:
-            oAlgorithm = new clsGreedySearch();
-            break;
+        if (poProps.containsKey(poPrefix)) {
+            String oAlgorithmSelection = poProps.getProperty(poPrefix + "_ALGORITHM", ALGORITHMS.GREEDY.name());
+            ALGORITHMS selection = ALGORITHMS.valueOf(oAlgorithmSelection);
+            switch (selection) {
+            case GREEDY:
+                oAlgorithm = new clsGreedySearch();
+                break;
+            default:
+                oAlgorithm = getDefaultAlgorithm();
+                break;
+            }
+        } else {
+            oAlgorithm = getDefaultAlgorithm();
         }
 
         oAlgorithm.init(poConcept, poProps);
@@ -75,6 +78,10 @@ public class clsSituationLoader implements itfSituationLoader {
             return oResultList.get(new Random().nextInt(oResultList.size()));
         }
         return oFoundSituation;
+    }
+
+    private itfSituationSearchAlgorithm getDefaultAlgorithm() {
+        return new clsGreedySearch();
     }
 
 }

@@ -49,7 +49,7 @@ public class clsConcept {
      * 
      * @return The clsWorldPresentationMesh of the current concept.
      */
-    public clsWordPresentationMesh returnContent() {
+    public clsWordPresentationMesh returnContent() {        
         return moConceptMesh;
     }
 

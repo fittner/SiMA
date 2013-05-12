@@ -1,6 +1,7 @@
 package pa._v38.memorymgmt.situationloader;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -38,7 +39,7 @@ public class clsConceptLoader implements itfConceptLoader {
     private clsConcept moConcept;
 
     /** Internal Helper for the generation. */
-    private Set<Integer> moVisitedDataStructures;
+    private Set<Integer> moVisitedDataStructures = new HashSet<Integer>();
 
     /** */
     private clsTriple<Integer, eDataType, eContentType> moActionTriple = new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT,
@@ -62,6 +63,7 @@ public class clsConceptLoader implements itfConceptLoader {
         moConcept = new clsConcept();
         for (clsDataStructurePA oDS : poDataStructures) {
             checkInputData(oDS);
+            
         }
         return moConcept;
     }
@@ -98,7 +100,7 @@ public class clsConceptLoader implements itfConceptLoader {
     private void checkInputData(final clsDataStructurePA poDataStructure) {
         if (poDataStructure instanceof clsWordPresentationMesh) {
             clsWordPresentationMesh oWPM = (clsWordPresentationMesh) poDataStructure;
-
+            addWPMs(oWPM);
         }
     }
 
