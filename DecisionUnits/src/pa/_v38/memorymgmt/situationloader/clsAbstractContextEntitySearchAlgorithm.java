@@ -1,7 +1,5 @@
 package pa._v38.memorymgmt.situationloader;
 
-import java.util.List;
-
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
