@@ -37,10 +37,30 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
             ArrayList<clsAssociation> poAssociatedStructures, Object poContent) {
         super(poDataStructureIdentifier, poAssociatedStructures, poContent);
         // TODO (wendt) - Auto-generated constructor stub
+        
+        this.moAssociationMapping.put(eContentType.AFFECTLEVEL, new ArrayList<clsSecondaryDataStructure>());
     }
     
     public eAffectLevel getAffect() {
-        return eAffectLevel.valueOf(clsMeshTools.getUniquePredicateWP(this, ePredicate.HASAFFECTLEVEL).getMoContent().toString());
+        eAffectLevel oResult = null;
+        
+        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(eContentType.AFFECTLEVEL);
+        
+        if (oS.isEmpty()==false) {
+            oResult = eAffectLevel.valueOf(((clsWordPresentation)oS.get(0)).getMoContent().toString());
+        }
+        
+        return oResult;
+    }
+    
+    public void setAffect(eAffectLevel poAffectLevel) {
+        clsMeshTools.setUniquePredicateWP(this, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString(), false);
+        
+        //Get all of them
+        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(eContentType.AFFECTLEVEL);
+        oS.add(clsMeshTools.getUniquePredicateWP(this, ePredicate.HASAFFECTLEVEL));
+        
+        this.moAssociationMapping.put(eContentType.AFFECTLEVEL, oS);
     }
 
 }
