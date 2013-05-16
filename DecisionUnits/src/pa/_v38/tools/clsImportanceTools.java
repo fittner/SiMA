@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -270,7 +271,7 @@ public class clsImportanceTools {
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
 
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
@@ -315,6 +316,9 @@ public class clsImportanceTools {
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
 		
+		//Get feelings from WPM
+		ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalTools.getFeelings(poImage);
+		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
@@ -328,7 +332,7 @@ public class clsImportanceTools {
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, oGoalObject, poSupportiveDataStructure);
+			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, oFeelingsList, oGoalObject, poSupportiveDataStructure);
 
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {

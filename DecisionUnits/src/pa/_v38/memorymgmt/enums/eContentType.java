@@ -112,6 +112,7 @@ public enum eContentType {
 	EMOTION, 
 	LIBIDO,
 	CONTEXT,
+	FEELING,
 	
 	//Subdatatype
 	ACT,

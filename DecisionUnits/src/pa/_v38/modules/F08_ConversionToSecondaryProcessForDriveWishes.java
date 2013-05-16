@@ -30,6 +30,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -271,7 +272,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
 				//If these values exist, create a new container with the word presentation
 				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, oDriveObject, clsMeshTools.getNullObjectWPM()));
+				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, new ArrayList<clsWordPresentationMeshFeeling>(), oDriveObject, clsMeshTools.getNullObjectWPM()));
 			}
 		}
 		

@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -30,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -486,14 +488,18 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 				} else if (oTPMExternalAss instanceof clsAssociationDriveMesh) {
 					// Get the affect templates
 					// Get the DriveMesh
-					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss
-							.getLeafElement();
+					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
 					clsWordPresentation oDMWP = clsGoalTools.convertDriveMeshToWP(oDM);
 
 					// Create an association between the both structures and add
 					// the association to the external associationlist of the
 					// RetVal-Structure (WPM)
 					clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
+				} else if (oTPMExternalAss instanceof clsAssociationEmotion) {
+				    clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
+                    clsWordPresentationMeshFeeling oFeeling = clsGoalTools.convertEmotionToFeeling(oEmotion);
+                    
+                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
 				}
 				
 				

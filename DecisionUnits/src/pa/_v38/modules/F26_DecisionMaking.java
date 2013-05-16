@@ -31,6 +31,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
@@ -428,7 +429,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		if (poFeelingList.isEmpty()==false) {
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE100, eAction.FLEE, clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE100, eAction.FLEE, new ArrayList<clsWordPresentationMeshFeeling>(), clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
 				clsGoalTools.setCondition(oResult, eCondition.PANIC);
 			}	
 		}

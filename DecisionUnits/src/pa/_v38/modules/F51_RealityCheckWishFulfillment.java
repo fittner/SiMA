@@ -24,11 +24,13 @@ import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.toText;
 
@@ -297,6 +299,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		// --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
 		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
 		
+		// --- ADD IMPORTANCE OF FEELINGS --- //
+		applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
 		
 		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
 		applyEffortOfGoal(moReachableGoalList_IN);
@@ -304,6 +308,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- ADD NON REACHABLE GOALS TO THE STM --- //
 		addNonReachableGoalsToSTM(moReachableGoalList_IN);
+		
+		
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		
@@ -355,6 +361,29 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
+	/**
+	 * Add the intensity of the feelings to the goals.
+	 * 
+	 * (wendt)
+	 *
+	 * @since 16.05.2013 18:57:40
+	 *
+	 * @param poGoalList
+	 */
+	private void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
+	    for (clsWordPresentationMesh oGoal : poGoalList) {
+	        //Get Feeling affect
+	        ArrayList<clsWordPresentationMeshFeeling> oFeelingList = clsGoalTools.getFeelings(oGoal);
+	        
+	        for (clsWordPresentationMeshFeeling oF : oFeelingList) {
+	            int nAffectFromFeeling = clsImportanceTools.getDriveIntensityAsInt(oF.getAffect());
+	            
+	            //Add affect to goal
+	            int nOldAffectLevel = clsGoalTools.getAffectLevel(oGoal);
+	            clsGoalTools.setAffectLevel(oGoal, nOldAffectLevel + nAffectFromFeeling);
+	        }
+	    }
+	}
 	
 	/**
 	 * Process the selected goal, which is continued from the last step. This method executes all codelets, which apply conseqeunces of an executed action (internal or external)

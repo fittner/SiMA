@@ -233,7 +233,7 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 							double mrNewPleasure = setNewQuotaOfAffectValue(oFirstDM.getQuotaOfAffect(), oSecondDM.getQuotaOfAffect());
 							
 							//SSCH 20121002 decommented due to a bug ( continous QoA-increase). if needed, take care to not accumulate the QoA
-							//oFirstDM.setQuotaOfAffect(mrNewPleasure);
+							oFirstDM.setQuotaOfAffect(mrNewPleasure);
 							//Set second DM as used (true)
 							oSecondAssPair.b = true;
 							//2. Add Unpleasure from second to first DM

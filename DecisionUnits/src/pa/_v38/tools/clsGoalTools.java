@@ -12,15 +12,18 @@ import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -61,7 +64,7 @@ public class clsGoalTools {
 	 * @param poSupportiveDataStructure
 	 * @return
 	 */
-	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, eAction poPreferredAction, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
+	public static clsWordPresentationMesh createGoal(String poGoalContent, eGoalType poGoalType, eAffectLevel poAffectLevel, eAction poPreferredAction, ArrayList<clsWordPresentationMeshFeeling> oFeelingsList, clsWordPresentationMesh poGoalObject, clsWordPresentationMesh poSupportiveDataStructure) {
 		
 		//Generate goalidentifier
 		String oGoalID = clsGoalTools.generateGoalContentIdentifier(poGoalContent, poGoalObject, poGoalType);
@@ -78,6 +81,8 @@ public class clsGoalTools {
 		//--- Create Goal object ---//
 		//Add Goalobject to the mesh
 		clsMeshTools.createAssociationSecondary(oRetVal, 1, poGoalObject, 0, 1.0, eContentType.DRIVEOBJECTASSOCIATION, ePredicate.HASDRIVEOBJECT, false);	
+		
+		clsGoalTools.addFeelings(oRetVal, oFeelingsList);
 		
 		//Add Supportive Data Structure to goal if it is not null
 		if (poSupportiveDataStructure == null) {
@@ -180,6 +185,38 @@ public class clsGoalTools {
 		
 		return oRetVal;
 	}
+	
+	   /**
+     * Get the Feelings from a goal
+     * 
+     * (wendt)
+     *
+     * @since 26.03.2012 21:25:11
+     *
+     * @param poGoal
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshFeeling> getFeelings(clsWordPresentationMesh poGoal) {
+        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
+    
+        ArrayList<clsWordPresentationMesh> oFeelings = clsMeshTools.getNonUniquePredicateWPM(poGoal, ePredicate.HASFEELING);
+        
+        for (clsWordPresentationMesh oF : oFeelings) {
+            oRetVal.add((clsWordPresentationMeshFeeling) oF);
+        }
+    
+        return oRetVal;
+    }
+    
+    public static void addFeeling(clsWordPresentationMesh poGoal, clsWordPresentationMeshFeeling poFeeling) {
+        clsMeshTools.setNonUniquePredicateWPM(poGoal, ePredicate.HASFEELING, poFeeling, true);
+    }
+    
+    public static void addFeelings(clsWordPresentationMesh poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
+        for (clsWordPresentationMeshFeeling oF : poFeeling) {
+            addFeeling(poGoal, oF);
+        }
+    }
 	
 	/**
 	 * Get the affectlevel from a goal
@@ -1029,31 +1066,8 @@ public class clsGoalTools {
 	public static clsWordPresentation convertDriveMeshToWP(clsDriveMesh poDM) {
 		clsWordPresentation oRetVal = null;
 		
-		//Generate the instance of the class affect
-		//clsAffect oAffect = (clsAffect) clsDataStructureGenerator.generateDataStructure(eDataType.AFFECT, new clsPair<eContentType, Object>(eContentType.AFFECT, poDM.getQuotaOfAffect()));
-		//Search for the WP of the affect
-		//clsAssociationWordPresentation oWPAss = getWPMesh(oAffect, 1.0);
-		
-		//Get drive Content String
-		//FIXME AW: Corrent this getdebuginfo
-		//String oX[] = poDM.getDebugInfo().split("\\:");
-		//String oDriveContent = oX[0] + oX[1] + oX[2];
-		//Get the content of the affect strength
-		//the word presentation in an associationWP is ALWAYS the leaf element
-		
-		//Get the Drive component
-		//eDriveComponent oDriveComponent = poDM.getDriveComponent();
-		
-		//Get partial drive
-		
-		//Get the bodily part
-		//eOrifice oOrifice = poDM.getActualBodyOrificeAsENUM();
-		//eOrgan oOrgan = poDM.getActualDriveSourceAsENUM();
-		
 		//Create the drive string from Drive component, orifice and organ
 		String poGoalName = poDM.getDriveIdentifier(); //oDriveComponent.toString() + oOrgan.toString();
-		
-		//eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poDM.getQuotaOfAffect());
 		
 		// Consider influence of multiple drive-satisfaction on decision making (via affect-level)
 		eAffectLevel oAffectContent = eAffectLevel.convertActivationAndQoAToAffectLevel(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
@@ -1068,6 +1082,23 @@ public class clsGoalTools {
 		
 		return oRetVal;
 	}
+	
+	public static clsWordPresentationMeshFeeling convertEmotionToFeeling(clsEmotion poEmotion) {
+	    //clsWordPresentationMeshFeeling oResult = (clsWordPresentationMeshFeeling) clsMeshTools.getNullObjectWPM();
+	    
+	    eAffectLevel oAffectContent = eAffectLevel.convertQuotaOfAffectToAffectLevel(poEmotion.getMrEmotionIntensity());
+	    eEmotionType oFeelingContent = poEmotion.getMoContent();
+	    
+	    //Generate feeling
+	    clsWordPresentationMeshFeeling oResult = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), oFeelingContent.toString());
+	    
+	    //Set Affect
+	    clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
+	    
+	    return oResult;
+	}
+	
+	
 	
 
 }
