@@ -32,6 +32,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -489,7 +490,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 					// Get the affect templates
 					// Get the DriveMesh
 					clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
-					clsWordPresentation oDMWP = clsGoalTools.convertDriveMeshToWP(oDM);
+					clsWordPresentationMeshGoal oDMWP = clsGoalTools.convertDriveMeshPerceptionToGoal(oDM); //clsGoalTools.convertDriveMeshToWP(oDM);
 
 					// Create an association between the both structures and add
 					// the association to the external associationlist of the

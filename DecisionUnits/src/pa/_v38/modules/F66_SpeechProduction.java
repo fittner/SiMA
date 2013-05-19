@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.situationloader.clsConceptLoader;
@@ -207,7 +208,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+    public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
         // TODO (hinterleitner) - Auto-generated method stub
         
     }

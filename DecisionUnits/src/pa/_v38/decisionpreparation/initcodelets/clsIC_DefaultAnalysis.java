@@ -13,6 +13,7 @@ import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
@@ -49,56 +50,56 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
 		
 		//Transfer previous stati in general
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_INTERNAL_INFO)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.SET_INTERNAL_INFO);
+		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
+		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
 		}
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_FOCUS_MOVEMENT)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
+		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+		    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
 		}
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+		if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
+		    this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
 		}
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.SET_BASIC_ACT_ANALYSIS);
+		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
+		    this.moGoal.setCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
 		}
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_FOLLOW_ACT)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOLLOW_ACT);
+		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
+		    this.moGoal.setCondition(eCondition.SET_FOLLOW_ACT);
 		}
 		
 		
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.GOAL_NOT_REACHABLE)==false) {
+		if (this.moGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==false) {
 			//Transfer previous stati in special
-			if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+			if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true) {
 				
 				
 				
-			} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+			} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 				
 				//Check if any of the goals in the STM has a "GOAL_COMPLETED". If it has and is the same goal as here, then this goal shall receive
 				//goal not reachable
-				ArrayList<clsWordPresentationMesh> oSameGoalList = clsGoalTools.getAllSameGoalsFromSTM(this.moGoal, this.moShortTermMemory);
-				for (clsWordPresentationMesh oSameGoal : oSameGoalList) {
-					if (clsGoalTools.checkIfConditionExists(oSameGoal, eCondition.GOAL_COMPLETED)==true) {
-						clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+				ArrayList<clsWordPresentationMeshGoal> oSameGoalList = clsGoalTools.getAllSameGoalsFromSTM(this.moGoal, this.moShortTermMemory);
+				for (clsWordPresentationMeshGoal oSameGoal : oSameGoalList) {
+					if (oSameGoal.checkIfConditionExists(eCondition.GOAL_COMPLETED)==true) {
+					    this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
 					}
 				}
 				
 				//Get the act from the continued goal
-				clsWordPresentationMesh poNewAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+				clsWordPresentationMesh poNewAct = this.moGoal.getSupportiveDataStructure();
 				
 				//Get the act of the previous goal
-				clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
+				clsWordPresentationMesh oPreviousAct = oPreviousGoal.getSupportiveDataStructure();
 				
 				//Set the Act of the previous goal as the new act of the continued goal
 				if (oPreviousAct.isNullObject()==false) {
 					try {
 						clsWordPresentationMesh oClonedPreviousAct = (clsWordPresentationMesh) oPreviousAct.clone();
 						//Set the cloned act as this act
-						clsGoalTools.setSupportiveDataStructure(this.moGoal, oClonedPreviousAct);
+						this.moGoal.setSupportiveDataStructure(oClonedPreviousAct);
 						
 					} catch (CloneNotSupportedException e) {
 						// TODO (wendt) - Auto-generated catch block
@@ -107,7 +108,7 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 				}
 				
 				//Remove all PI-matches from the images in this goal
-				clsWordPresentationMesh oContinuedSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+				clsWordPresentationMesh oContinuedSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 				clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oContinuedSupportiveDataStructure);
 				clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
 				
@@ -120,20 +121,20 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 				//If yes, set goal completed, in order to lower the pleasure value of the goal.
 				clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oContinuedSupportiveDataStructure);
 				if (oMoment.isNullObject()==false && clsActTools.isLastImage(oMoment)==true) {
-					clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_COMPLETED);
+				    this.moGoal.setCondition(eCondition.GOAL_COMPLETED);
 				} else if (oMoment.isNullObject()==false && clsActTools.getMovementTimeoutValue(oMoment)<=0) {
-					clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
+				    this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
 				}
 				
 				
 
-			} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+			} else if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 
-				if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.COMPOSED_CODELET)==true) {
-					clsGoalTools.setCondition(this.moGoal, eCondition.COMPOSED_CODELET);
+				if (oPreviousGoal.checkIfConditionExists(eCondition.COMPOSED_CODELET)==true) {
+				    this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
 				}
-				if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
-					clsGoalTools.setCondition(this.moGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
+				if (oPreviousGoal.checkIfConditionExists(eCondition.GOTO_GOAL_IN_PERCEPTION)==true) {
+				    this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
 				}
 			}
 		}

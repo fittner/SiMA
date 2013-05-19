@@ -13,8 +13,8 @@ import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 
 /**
@@ -50,26 +50,26 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	@Override
 	protected void processGoal() {
 		
-		clsWordPresentationMesh oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
 		
-		if (clsGoalTools.checkIfConditionExists(oPreviousGoal, eCondition.SET_FOCUS_ON)) {
+		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_ON)) {
 			//If focus was set the last time, check if focus is still there in the STM
 			//Find the supportive structure in the STM
 			
 			ArrayList<clsWordPresentationMesh> oEntityList = clsMeshTools.getAllSubWPMInWPMImage(moEnvironmentalImage);
 			boolean bEntityInFocus = false;
 			for (clsWordPresentationMesh oExistingEntity : oEntityList) {
-				if (oExistingEntity.getMoDS_ID()==clsGoalTools.getGoalObject(oPreviousGoal).getMoDS_ID()) {
+				if (oExistingEntity.getMoDS_ID()==oPreviousGoal.getGoalObject().getMoDS_ID()) {
 					//If the goal object was found in the image, no matter of where it is, then the focus is still set.
 					//In this case, in F23 ALL goal objects are set in the image, therefore it does not matter which instance of the entity is found
-					clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_ON);
+				    this.moGoal.setCondition(eCondition.SET_FOCUS_ON);
 					bEntityInFocus = true;
 					break;
 				}
 			}
 			
 			if (bEntityInFocus==false) {
-				clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+			    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
 			}
 		}
 		

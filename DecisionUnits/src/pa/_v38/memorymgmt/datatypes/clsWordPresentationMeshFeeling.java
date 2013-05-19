@@ -8,11 +8,9 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
 
 /**
@@ -38,29 +36,41 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         super(poDataStructureIdentifier, poAssociatedStructures, poContent);
         // TODO (wendt) - Auto-generated constructor stub
         
-        this.moAssociationMapping.put(eContentType.AFFECTLEVEL, new ArrayList<clsSecondaryDataStructure>());
+        this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
     }
     
-    public eAffectLevel getAffect() {
-        eAffectLevel oResult = null;
+    /**
+     * Get Importance
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 15:03:11
+     *
+     * @return
+     */
+    public double getImportance() {
+        double nResult = 0;
         
-        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(eContentType.AFFECTLEVEL);
+        String oImportance = this.getUniqueProperty(eContentType.IMPORTANCE);
         
-        if (oS.isEmpty()==false) {
-            oResult = eAffectLevel.valueOf(((clsWordPresentation)oS.get(0)).getMoContent().toString());
+        if (oImportance.isEmpty()==false) {
+            nResult = Double.valueOf(oImportance);
         }
         
-        return oResult;
+        return nResult;
     }
     
-    public void setAffect(eAffectLevel poAffectLevel) {
-        clsMeshTools.setUniquePredicateWP(this, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, poAffectLevel.toString(), false);
-        
-        //Get all of them
-        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(eContentType.AFFECTLEVEL);
-        oS.add(clsMeshTools.getUniquePredicateWP(this, ePredicate.HASAFFECTLEVEL));
-        
-        this.moAssociationMapping.put(eContentType.AFFECTLEVEL, oS);
+    /**
+     * Set importance/intensity of the feeling
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 15:06:18
+     *
+     * @param poImportance
+     */
+    public void setImportance(double poImportance) {
+        this.setUniqueProperty(String.valueOf(poImportance), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true); 
     }
-
+ 
 }

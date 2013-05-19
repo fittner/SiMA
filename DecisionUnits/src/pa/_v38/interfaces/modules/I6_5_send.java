@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 
 /**
  * Drive wishes are transported from F8 to F20. The contents are in the form of word presentations, thing presentations, and affects.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_5_send {
-	public void send_I6_5(ArrayList<clsWordPresentationMesh> poDriveList);
+	public void send_I6_5(ArrayList<clsWordPresentationMeshGoal> poDriveList);
 }

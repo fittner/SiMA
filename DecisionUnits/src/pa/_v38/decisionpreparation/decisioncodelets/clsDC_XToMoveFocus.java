@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,12 +43,12 @@ public class clsDC_XToMoveFocus extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_MOVEMENT);
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+		    this.moGoal.setCondition(eCondition.NEED_MOVEMENT);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
+		    this.moGoal.setCondition(eCondition.NEED_SEARCH_INFO);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+		    this.moGoal.setCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		}
 
 	}

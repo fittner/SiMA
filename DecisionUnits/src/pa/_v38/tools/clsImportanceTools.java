@@ -15,18 +15,18 @@ import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
+import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
 
 /**
@@ -239,6 +239,21 @@ public class clsImportanceTools {
 //	}
 	
 	/**
+	 * Convert the Quota of Affect together with the emobodiment activation to importance, which is used in the secondary process
+	 * 
+	 * (wendt)
+	 *
+	 * @since 18.05.2013 20:58:25
+	 *
+	 * @param prQoA
+	 * @param prEmbodimentActivation
+	 * @return
+	 */
+	public static double convertDMIntensityToImportance(double prQoA, double prEmbodimentActivation) {
+	    return prQoA + ( (1-prQoA) * prEmbodimentActivation);
+	}
+	
+	/**
 	 * Extract possible drive goals from a word presentation mesh. If the option keep duplicates is activates, duplicate goals
 	 * with different instance ids of the objects are kept.
 	 * 
@@ -253,8 +268,8 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMesh> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	public static ArrayList<clsWordPresentationMeshGoal> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
 		
@@ -263,23 +278,24 @@ public class clsImportanceTools {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
 			
 			//Get the drive
-			String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			String oDriveContent = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getGoalContentIdentifier(); //.clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the intensity
-			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			double oImportance = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getImportance();
+			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
+			clsWordPresentationMeshGoal oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oImportance, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
 
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
-				for (clsWordPresentationMesh oGoalTriple : oRetVal) {
-					if (clsGoalTools.getGoalName(oGoal) == clsGoalTools.getGoalName(oGoalTriple) && 
-							clsGoalTools.getAffectLevel(oGoal) == clsGoalTools.getAffectLevel(oGoalTriple) && 
-							clsGoalTools.getGoalObject(oGoal).getMoContent().equals(clsGoalTools.getGoalObject(oGoalTriple).getMoContent())) {
+				for (clsWordPresentationMeshGoal oGoalTriple : oRetVal) {
+					if (oGoal.getGoalName() == oGoalTriple.getGoalName() && 
+					        oGoal.getImportance() == oGoalTriple.getImportance() && 
+					        oGoal.getGoalObject().getMoContent().equals(oGoalTriple.getGoalObject().getMoContent())) {
 						bFound = true;
 						break;
 					}
@@ -311,36 +327,41 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMesh> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	public static ArrayList<clsWordPresentationMeshGoal> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
 		
 		//Get feelings from WPM
-		ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalTools.getFeelings(poImage);
+		ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalTools.getFeelingsFromImage(poImage);
 		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
 			
+			String oDriveContent = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getGoalContentIdentifier(); //.clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+            
+            //Get the intensity
+            double oImportance = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getImportance();
+			
 			//Get the drive
-			String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			//String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the intensity
-			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
+			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
 			
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			clsWordPresentationMesh oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oAffectLevel, eAction.NULLOBJECT, oFeelingsList, oGoalObject, poSupportiveDataStructure);
+			clsWordPresentationMeshGoal oGoal = clsGoalTools.createGoal(oDriveContent, poGoalType, oImportance, eAction.NULLOBJECT, oFeelingsList, oGoalObject, poSupportiveDataStructure);
 
 			//Check if the drive and the intensity already exists in the list
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
-				for (clsWordPresentationMesh oGoalTriple : oRetVal) {
-					if (clsGoalTools.getGoalName(oGoal) == clsGoalTools.getGoalName(oGoalTriple) && 
-							clsGoalTools.getAffectLevel(oGoal) == clsGoalTools.getAffectLevel(oGoalTriple) && 
-							clsGoalTools.getGoalObject(oGoal).getMoContent().equals(clsGoalTools.getGoalObject(oGoalTriple).getMoContent())) {
+				for (clsWordPresentationMeshGoal oGoalTriple : oRetVal) {
+					if (oGoal.getGoalName() == oGoalTriple.getGoalName() && 
+					        oGoal.getImportance() == oGoalTriple.getImportance() && 
+							oGoal.getGoalObject().getMoContent().equals(oGoalTriple.getGoalObject().getMoContent())) {
 						bFound = true;
 						break;
 					}
@@ -372,7 +393,14 @@ public class clsImportanceTools {
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
-		oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WP, oContentTypeAndContent, false, 1);
+		//Get all WPMs
+		ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, 2);
+		for (clsWordPresentationMesh oWPM : oAllWPM) {
+		    oPrelResult.addAll(clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false));
+		}
+		
+		
+		//oPrelResult = clsMeshTools.getDataStructureInWPM(poImage, eDataType.WPM, oContentTypeAndContent, false, 3);
 		
 		return oPrelResult;
 	}
@@ -386,8 +414,8 @@ public class clsImportanceTools {
 	 *
 	 * @param poDriveDemandsList
 	 */
-	public static ArrayList<clsWordPresentationMesh> sortGoals(ArrayList<clsWordPresentationMesh> poDriveDemandsList) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	public static ArrayList<clsWordPresentationMeshGoal> sortGoals(ArrayList<clsWordPresentationMeshGoal> poDriveDemandsList) {
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
 		//If the list is empty return
 		if (poDriveDemandsList.isEmpty()) {
@@ -400,12 +428,12 @@ public class clsImportanceTools {
 		
 		//TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>> oSortedList = new TreeMap<Double, ArrayList<clsSecondaryDataStructureContainer>>();
 		
-		ArrayList<clsTriple<Integer, Integer, clsWordPresentationMesh>> oNewList = new ArrayList<clsTriple<Integer, Integer, clsWordPresentationMesh>>();
+		ArrayList<clsTriple<Double, Double, clsWordPresentationMeshGoal>> oNewList = new ArrayList<clsTriple<Double, Double, clsWordPresentationMeshGoal>>();
 		
 		//Go through the original list
 		for (int i=0; i<poDriveDemandsList.size();i++) {	//Go through each element in the list
 			//The the content of each drive
-			clsWordPresentationMesh oDriveGoal = poDriveDemandsList.get(i);
+			clsWordPresentationMeshGoal oDriveGoal = poDriveDemandsList.get(i);
 			//Get the content of the datatype in the container
 			//String oContent = ((clsWordPresentation)oContainer.getMoDataStructure()).getMoContent();
 			
@@ -413,26 +441,26 @@ public class clsImportanceTools {
 			//convert to drive demand
 			
 			//Sort first for affect
-			int nAffectLevel = clsGoalTools.getAffectLevel(oDriveGoal);
+			double rAffectLevel = oDriveGoal.getImportance();
 			//int nEffortLevel = clsGoalTools.getEffortLevel(oGoal); //getDriveIntensityAsInt(oContent);
-			int nTotalAffectValue = nAffectLevel;
+			double rTotalAffectValue = rAffectLevel;
 			//Sort the affects for priority according to the order in the list in this class
-			int nAffectSortOrder = Math.abs(nTotalAffectValue)*10; //Just set the absolute affect as the worst one//(moAffectSortOrder.size() -1 - moAffectSortOrder.indexOf(nTotalAffectValue)) * 10;
+			double rAffectSortOrder = Math.abs(rTotalAffectValue)*10; //Just set the absolute affect as the worst one//(moAffectSortOrder.size() -1 - moAffectSortOrder.indexOf(nTotalAffectValue)) * 10;
 			//Important note: Sorting is made by setting the most significant value (*10), adding them and after that to sort.
 			//Sort then for drive according to the order in the list 
-			String oDriveType = clsGoalTools.getGoalName(oDriveGoal); //getDriveType(oContent);
+			String oDriveType = oDriveGoal.getGoalName(); //getDriveType(oContent);
 			
-			int nDriveIndex = moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1;	//The higher the better
+			double rDriveIndex = (moPossibleDriveGoals.size() - moPossibleDriveGoals.indexOf(oDriveType)-1)/100;	//The higher the better
 			
 			int nIndex = 0;
 			//Increase index if the list is not empty
 			while((oNewList.isEmpty()==false) && 
 					(nIndex<oNewList.size()) &&
-					(oNewList.get(nIndex).a + oNewList.get(nIndex).b > nAffectSortOrder + nDriveIndex)) {
+					(oNewList.get(nIndex).a + oNewList.get(nIndex).b > rAffectSortOrder + rDriveIndex)) {
 				nIndex++;
 			}
 			
-			oNewList.add(nIndex, new clsTriple<Integer, Integer, clsWordPresentationMesh>(nAffectSortOrder, nDriveIndex, oDriveGoal));
+			oNewList.add(nIndex, new clsTriple<Double, Double, clsWordPresentationMeshGoal>(rAffectSortOrder, rDriveIndex, oDriveGoal));
 		}
 		
 		//Add results to the new list
@@ -524,21 +552,21 @@ public class clsImportanceTools {
 		return oRetVal;
 	}
 	
-	/**
-	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content
-	 * (wendt) - insert description
-	 *
-	 * @since 05.08.2011 22:33:54
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	public static String getDriveType(String poDriveContent) {
-		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
-		String oDriveType = oDrive.split(_Delimiter01)[0];
-
-		return oDriveType;
-	}
+//	/**
+//	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content
+//	 * (wendt) - insert description
+//	 *
+//	 * @since 05.08.2011 22:33:54
+//	 *
+//	 * @param poDriveContent
+//	 * @return
+//	 */
+//	public static String getDriveType(String poDriveContent) {
+//		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
+//		String oDriveType = oDrive.split(_Delimiter01)[0];
+//
+//		return oDriveType;
+//	}
 	
 //	/**
 //	 * DOCUMENT (wendt) - insert description
@@ -578,9 +606,9 @@ public class clsImportanceTools {
 //		clsGoalTools.setAffectLevel(poGoal, nNewAffectLevel);
 //	}
 	
-	public static int getImportance(clsWordPresentation poImportanceWP) {
-		return Integer.valueOf(poImportanceWP.getMoContent());
-	}
+//	public static int getImportance(clsWordPresentation poImportanceWP) {
+//		return Integer.valueOf(poImportanceWP.getMoContent());
+//	}
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -644,10 +672,10 @@ public class clsImportanceTools {
 	 * @param poInput
 	 * @return
 	 */
-	public static <E extends Object> ArrayList<clsPair<Integer, E>> sortAndFilterRatedStructures(ArrayList<clsPair<Integer, E>> poInput, int pnNumberOfAllowedObjects) {
-		ArrayList<clsPair<Integer, E>>oResult = new ArrayList<clsPair<Integer, E>>();
+	public static <E extends Object> ArrayList<clsPair<Double, E>> sortAndFilterRatedStructures(ArrayList<clsPair<Double, E>> poInput, int pnNumberOfAllowedObjects) {
+		ArrayList<clsPair<Double, E>>oResult = new ArrayList<clsPair<Double, E>>();
 		
-		for (clsPair<Integer, E> oP : poInput) {
+		for (clsPair<Double, E> oP : poInput) {
 			int nIndex = 0;
 			//Increase index if the list is not empty
 			while((oResult.isEmpty()==false) && 
@@ -702,21 +730,21 @@ public class clsImportanceTools {
 		int nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-30;
+			nResult+=-0.30;
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
-			nResult+= -10;
+			nResult+= -0.10;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
-			nResult+=-200;
+			nResult+=-2.00;
 		} else if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
-			nResult+=5;
+			nResult+=0.5;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
-			nResult+=-100;
+			nResult+=-1.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
-			nResult+=-200;
+			nResult+=-2.00;
 		} else if (poCondition.equals(eCondition.OBSTACLE_SOLVING)) {
-			nResult+=20;
+			nResult+=0.20;
 		}
 		
 		return nResult;
@@ -728,17 +756,17 @@ public class clsImportanceTools {
 		if (poRadius.equals(eRadius.NEAR)) {
 			nResult += 0;
 		} else if (poRadius.equals(eRadius.MEDIUM)) {
-			nResult += -2;
+			nResult += -0.02;
 		} else if (poRadius.equals(eRadius.FAR)) {
-			nResult += -7;
+			nResult += -0.07;
 		}
 		
 		if (poPosition.equals(ePhiPosition.CENTER)) {
 			nResult += 0;
 		} else if (poPosition.equals(ePhiPosition.MIDDLE_LEFT) || poPosition.equals(ePhiPosition.MIDDLE_RIGHT)) {
-			nResult += -1;
+			nResult += -0.01;
 		} else if (poPosition.equals(ePhiPosition.RIGHT) || poPosition.equals(ePhiPosition.LEFT)) {
-			nResult += -2;
+			nResult += -0.02;
 		}
 		
 		return nResult;
@@ -752,9 +780,9 @@ public class clsImportanceTools {
 		if (rActConfidence==1.0) {
 			nResult += 0;
 		} else if (rActConfidence<1.0 && rActConfidence>=0.5) {
-			nResult += -2;
+			nResult += -0.02;
 		} else if (rActConfidence<0.5) {
-			nResult += -10;
+			nResult += -0.10;
 		}
 		
 		

@@ -14,7 +14,6 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -50,9 +49,9 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 		
 		ArrayList<clsWordPresentationMesh> oExternalPlans = new ArrayList<clsWordPresentationMesh>();
 		
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true || clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true || this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 			oExternalPlans.addAll(this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal));
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
 		}
 		
@@ -122,8 +121,14 @@ public class clsAC_FOCUS_MOVEMENT extends clsActionCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_FOCUS_MOVEMENT);
+	    try {
+            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+            this.moGoal.removeCondition(eCondition.NEED_FOCUS_MOVEMENT);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
+	    
 		
 	}
 

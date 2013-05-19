@@ -51,7 +51,9 @@ public enum eContentType {
 	CONDITION,
 	GOALTYPE,
 	GOALNAME,
+	GOALOBJECT,
 	PREFERREDACTION,
+	IMPORTANCE,
 	
 	//--- Actions ---//
 	PRECONDITION,

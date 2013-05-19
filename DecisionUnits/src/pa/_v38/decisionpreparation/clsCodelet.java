@@ -9,10 +9,10 @@ package pa._v38.decisionpreparation;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -22,7 +22,7 @@ import pa._v38.tools.clsMeshTools;
  * 
  */
 public abstract class clsCodelet {
-	protected clsWordPresentationMesh moGoal;	//Goal to be processed
+	protected clsWordPresentationMeshGoal moGoal;	//Goal to be processed
 	protected clsEnvironmentalImageMemory moEnvironmentalImageMemory;
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	protected clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
@@ -42,7 +42,7 @@ public abstract class clsCodelet {
 		moEnvironmentalImage=moCodeletHandler.getEnvironmentalImage();
 		moShortTermMemory=moCodeletHandler.getShortTermMemory();
 		
-		moGoal=clsMeshTools.getNullObjectWPM();
+		moGoal=clsGoalTools.getNullObjectWPM();
 		
 		this.setPreconditions();
 		this.setPostConditions();
@@ -87,18 +87,18 @@ public abstract class clsCodelet {
 		return rBestMatch;
 	}
 	
-	public double checkMatchingPreconditions(clsWordPresentationMesh poGoal) {
-		clsConditionGroup oGroupFromGoal = new clsConditionGroup(clsGoalTools.getCondition(poGoal));
+	public double checkMatchingPreconditions(clsWordPresentationMeshGoal poGoal) {
+		clsConditionGroup oGroupFromGoal = new clsConditionGroup(poGoal.getCondition());
 		
 		return checkMatchingPreconditions(oGroupFromGoal);
 	}
 	
-	public void assignGoal(clsWordPresentationMesh poGoal) {
+	public void assignGoal(clsWordPresentationMeshGoal poGoal) {
 		this.moGoal=poGoal;
 	}
 	
 	public void clearGoal() {
-		this.moGoal=clsMeshTools.getNullObjectWPM();
+		this.moGoal=clsGoalTools.getNullObjectWPM();
 	}
 	
 	public void register() {

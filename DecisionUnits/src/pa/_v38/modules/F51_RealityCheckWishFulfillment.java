@@ -25,12 +25,11 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.toText;
 
@@ -60,9 +59,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
-	private ArrayList<clsWordPresentationMesh> moReachableGoalList_IN;
+	private ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_IN;
 	
-	private ArrayList<clsWordPresentationMesh> moReachableGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_OUT;
 	/** List of drive goals OUT; @since 07.05.2012 19:10:20 */
 	//private ArrayList<clsWordPresentationMesh> moGoalList_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
@@ -222,7 +221,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	public void receive_I6_6(clsWordPresentationMesh poPerception, 
-			ArrayList<clsWordPresentationMesh> poReachableGoalList, 
+			ArrayList<clsWordPresentationMeshGoal> poReachableGoalList, 
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		
 		moPerceptionalMesh_IN = poPerception;
@@ -246,7 +245,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
 	@Override
-	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
 		//moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
 	}
 
@@ -280,7 +279,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- INIT GOALS --- //
 		//Preprocess all new goals and assign one goal as continued goal
-		clsWordPresentationMesh oContinuedGoal = clsDecisionPreparationTools.initGoals(moShortTimeMemory, moReachableGoalList_IN);
+		clsWordPresentationMeshGoal oContinuedGoal = clsDecisionPreparationTools.initGoals(moShortTimeMemory, moReachableGoalList_IN);
 		
 		
 		// --- PROVE CONTINUOUS CONDITIONS --- //
@@ -370,17 +369,17 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poGoalList
 	 */
-	private void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
-	    for (clsWordPresentationMesh oGoal : poGoalList) {
+	private void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+	    for (clsWordPresentationMeshGoal oGoal : poGoalList) {
 	        //Get Feeling affect
-	        ArrayList<clsWordPresentationMeshFeeling> oFeelingList = clsGoalTools.getFeelings(oGoal);
+	        ArrayList<clsWordPresentationMeshFeeling> oFeelingList = oGoal.getFeelings();
 	        
 	        for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-	            int nAffectFromFeeling = clsImportanceTools.getDriveIntensityAsInt(oF.getAffect());
+	            double nAffectFromFeeling = oF.getImportance();
 	            
 	            //Add affect to goal
-	            int nOldAffectLevel = clsGoalTools.getAffectLevel(oGoal);
-	            clsGoalTools.setAffectLevel(oGoal, nOldAffectLevel + nAffectFromFeeling);
+	            double nOldAffectLevel = oGoal.getImportance();
+	            oGoal.setImportance(nOldAffectLevel + nAffectFromFeeling);
 	        }
 	    }
 	}
@@ -394,7 +393,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void applyConsequencesOfActionsOnContinuedGoal(ArrayList<clsWordPresentationMesh> poGoalList, clsWordPresentationMesh poContinuedGoal) {
+	private void applyConsequencesOfActionsOnContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poContinuedGoal) {
 		//Add importance as the goal was found as it is focused on and should not be replaced too fast
 		
 		
@@ -414,7 +413,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poContinuedGoal
 	 */
-	private void proveContinousConditions(clsWordPresentationMesh poContinuedGoal) {
+	private void proveContinousConditions(clsWordPresentationMeshGoal poContinuedGoal) {
 		
 		//Execute all codelets, which are using IS_NEW_CONTINUED_GOAL
 		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.INIT, -1);
@@ -432,7 +431,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @param poContinuedGoal
 	 * @param poGoalList
 	 */
-	private void setNewActionPreconditions(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
+	private void setNewActionPreconditions(clsWordPresentationMeshGoal poContinuedGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
 		//Set default actions for all not continued goals
 		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
 		
@@ -450,12 +449,12 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poGoalList
 	 */
-	private void applyEffortOfGoal(ArrayList<clsWordPresentationMesh> poGoalList) {
-		for (clsWordPresentationMesh oGoal : poGoalList) {
+	private void applyEffortOfGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
 			//Get the penalty for the effort
-			int oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
+			double oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
 			
-			clsGoalTools.setEffortLevel(oGoal, oImportanceValue);
+			oGoal.setEffortLevel(oImportanceValue);
 		}
 		
 		log.debug("Corrected goals:" + poGoalList.toString());
@@ -469,9 +468,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 *
 	 * @param poGoalList
 	 */
-	private void addNonReachableGoalsToSTM(ArrayList<clsWordPresentationMesh> poGoalList) {
-		for (clsWordPresentationMesh oGoal : poGoalList) {
-			if (clsGoalTools.checkIfConditionExists(oGoal, eCondition.GOAL_NOT_REACHABLE)==true) {
+	private void addNonReachableGoalsToSTM(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
+			if (oGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
 				clsWordPresentationMesh oMentalSituation = this.moShortTimeMemory.findCurrentSingleMemory();
 				clsMentalSituationTools.setExcludedGoal(oMentalSituation, oGoal);
 				
@@ -1402,7 +1401,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @see pa.interfaces.send.I2_13_send#send_I2_13(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_7(ArrayList<clsWordPresentationMesh> poReachableGoalList)
+	public void send_I6_7(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList)
 			{
 		((I6_7_receive)moModuleList.get(26)).receive_I6_7(poReachableGoalList);
 		

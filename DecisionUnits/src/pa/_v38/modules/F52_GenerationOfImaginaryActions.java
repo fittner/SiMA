@@ -31,6 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlan;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -42,7 +43,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
@@ -80,7 +80,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private static final boolean m_bPrintDebugOutput = false;
 
 	// HZ Not used up to now 16.03.2011
-	private ArrayList<clsWordPresentationMesh> moGoalList_IN;
+	private ArrayList<clsWordPresentationMeshGoal> moGoalList_IN;
 	private ArrayList<ArrayList<clsAct>> moPlanInput;
 
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
@@ -202,8 +202,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//FIXME AW: This is a hack as deepcopy destroys the hashcode. Therefore, everything is saved in the storage and loaded on demand. In this case, getGoal is taken
 			
 			clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
-			clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
-			this.moGoalList_IN = new ArrayList<clsWordPresentationMesh>();
+			clsWordPresentationMeshGoal oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
+			this.moGoalList_IN = new ArrayList<clsWordPresentationMeshGoal>();
 			if (oGoal.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
 				this.moGoalList_IN.add(oGoal);
 			}
@@ -412,7 +412,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList) {
+	public void receive_I6_8(ArrayList<clsWordPresentationMeshGoal> poDecidedGoalList) {
 		//moGoalList_IN = (ArrayList<clsWordPresentationMesh>) deepCopy(poDecidedGoalList);
 		moGoalList_IN = poDecidedGoalList;
 	}
@@ -493,7 +493,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> generatePlans_AP(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMesh> poGoalList) {
+	private ArrayList<clsWordPresentationMesh> generatePlans_AP(clsWordPresentationMesh poEnvironmentalPerception, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
 
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -503,20 +503,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 
 		// TODO: If plans shall be generated for more than one goals, this part
 		// shall be changed
-		ArrayList<clsWordPresentationMesh> poReducedGoalList = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsWordPresentationMeshGoal> poReducedGoalList = new ArrayList<clsWordPresentationMeshGoal>();
 		if (poGoalList.isEmpty() == false) {
 			poReducedGoalList.add(poGoalList.get(0));
 		}
 
 		/** iterate over goals */
-		for (clsWordPresentationMesh oGoal : poReducedGoalList) {
+		for (clsWordPresentationMeshGoal oGoal : poReducedGoalList) {
 			ArrayList<clsWordPresentationMesh> oActionContainer = new ArrayList<clsWordPresentationMesh>();
 
 			// If no plans could be generated for this goal, it is set false,
 			// else true
 			boolean bActionPlanOK = false;
 
-			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
+			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(oGoal.getGoalObject());
 			if (oTopImage == null) {
 
 				/** go to next goal */
@@ -569,18 +569,18 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	}
 
 	
-	private ArrayList<clsWordPresentationMesh> processGoals_AW(ArrayList<clsWordPresentationMesh> poGoalList) throws Exception {
+	private ArrayList<clsWordPresentationMesh> processGoals_AW(ArrayList<clsWordPresentationMeshGoal> poGoalList) throws Exception {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
 		if (poGoalList.isEmpty()==false) {
-			clsWordPresentationMesh oCurrentGoal = poGoalList.get(0);
+			clsWordPresentationMeshGoal oCurrentGoal = poGoalList.get(0);
 			
 			//Get actions from codelets
 			moCodeletHandler.executeMatchingCodelets(this, oCurrentGoal, eCodeletType.ACTION, 1);
 			
 			//Extract action from goal
 			
-			clsWordPresentationMesh oActionWPM = clsGoalTools.getAssociatedAction(oCurrentGoal);
+			clsWordPresentationMesh oActionWPM = oCurrentGoal.getAssociatedAction();
 			
 			// HACK (Kivy): we replaced every EAT action with a PICKUP action to the test inventory
 			/*if(oActionWPM.getMoContent() == "EAT")
@@ -618,25 +618,25 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMesh> sortMostSpecializedAction(ArrayList<clsWordPresentationMesh> poActionList, ArrayList<eCondition> poPreconditionStatusList) {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oOpenToSortList = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oOpenToSortList = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
 		
 		//Go through all actions and get the number of successful preconditions 
 		for (clsWordPresentationMesh poAction : poActionList) {
 			ArrayList<eCondition> oPreconditionForActionList = clsActionTools.getPreconditions(poAction);
-			int nScore = 0;
+			double nScore = 0;
 			
 			for (eCondition oPreconditionForAction : oPreconditionForActionList) {
 				if (poPreconditionStatusList.contains(oPreconditionForAction)==true) {
-					nScore++;
+					nScore+=1;
 				}
 			}
 			
-			oOpenToSortList.add(new clsPair<Integer, clsWordPresentationMesh>(nScore, poAction));			
+			oOpenToSortList.add(new clsPair<Double, clsWordPresentationMesh>(nScore, poAction));			
 		}
 		
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSortedActionList =  clsImportanceTools.sortAndFilterRatedStructures(oOpenToSortList, -1);
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oSortedActionList =  clsImportanceTools.sortAndFilterRatedStructures(oOpenToSortList, -1);
 		
-		for (clsPair<Integer, clsWordPresentationMesh> oAction : oSortedActionList) {
+		for (clsPair<Double, clsWordPresentationMesh> oAction : oSortedActionList) {
 			oResult.add(oAction.b);
 		}
 		
@@ -652,7 +652,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> planFromPerception_AP(ArrayList<clsImage> poPIImageStructure, clsWordPresentationMesh poGoal) {
+	private ArrayList<clsWordPresentationMesh> planFromPerception_AP(ArrayList<clsImage> poPIImageStructure, clsWordPresentationMeshGoal poGoal) {
 
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -786,11 +786,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @param poCurrentImageAllObjects
 	 * @return
 	 */
-	private ArrayList<clsImage> filterForDecisionMakingGoal(clsWordPresentationMesh poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
+	private ArrayList<clsImage> filterForDecisionMakingGoal(clsWordPresentationMeshGoal poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
 		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
 
 		for (clsImage oImage : poCurrentImageAllObjects) {
-			if (clsGoalTools.getGoalObject(poGoal).getMoContent().equals(oImage.m_eObj.toString())) {
+			if (poGoal.getGoalObject().getMoContent().equals(oImage.m_eObj.toString())) {
 				currentImageSorted.add(oImage);
 			}
 		}

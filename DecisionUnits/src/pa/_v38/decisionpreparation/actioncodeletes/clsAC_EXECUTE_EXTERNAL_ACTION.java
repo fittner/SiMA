@@ -14,7 +14,6 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -49,9 +48,9 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	protected void processGoal() {
 		ArrayList<clsWordPresentationMesh> oExternalPlans = new ArrayList<clsWordPresentationMesh>();
 		
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true || clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true || this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 			oExternalPlans.addAll(this.moExternalActionPlanner.generatePlans_AW(this.moEnvironmentalImage, this.moGoal));
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 			oExternalPlans.addAll(this.moExternalActionPlanner.extractRecommendedActionsFromAct(this.moGoal));
 		}
 		
@@ -110,9 +109,15 @@ public class clsAC_EXECUTE_EXTERNAL_ACTION extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_MOVEMENT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_SEARCH_INFO);
+	    try {
+            this.moGoal.removeCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+            this.moGoal.removeCondition(eCondition.NEED_MOVEMENT);
+            this.moGoal.removeCondition(eCondition.NEED_SEARCH_INFO);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
+	    
 		
 	}
 

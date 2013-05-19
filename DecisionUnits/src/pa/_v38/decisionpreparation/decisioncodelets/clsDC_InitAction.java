@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -41,14 +40,14 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true) {
 			
-			if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.SET_INTERNAL_INFO)==false &&
-					clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
-				clsGoalTools.setCondition(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+			if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false &&
+			        this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+			    this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
 			}
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+		    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
 		}
 			
 		

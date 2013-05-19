@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -45,7 +44,7 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 		//This is the consequence of the movement
-		clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);	//Set first focus
+	    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);	//Set first focus
 	}
 
 	/* (non-Javadoc)
@@ -84,10 +83,15 @@ public class clsCC_FOCUS_MOVEMENT extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_MOVE_FORWARD);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_LEFT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_TURN_RIGHT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_SEARCH1);
+	    try {
+            this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_MOVE_FORWARD);
+            this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_TURN_LEFT);
+            this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_TURN_RIGHT);
+            this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_SEARCH1);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

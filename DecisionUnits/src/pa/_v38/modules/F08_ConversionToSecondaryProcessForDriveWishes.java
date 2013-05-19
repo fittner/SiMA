@@ -14,9 +14,7 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import du.enums.eShapeType;
-import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -25,15 +23,9 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eAffectLevel;
-import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 
 /**
@@ -53,7 +45,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
-	private ArrayList<clsWordPresentationMesh> moDriveList_Output = new ArrayList<clsWordPresentationMesh>();
+	private ArrayList<clsWordPresentationMeshGoal> moDriveList_Output = new ArrayList<clsWordPresentationMeshGoal>();
 
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -167,7 +159,11 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
-		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+		try {
+            moDriveList_Output = clsGoalTools.createGoalFromDriveMesh(moDriveList_Input, this);
+        } catch (Exception e) {
+            this.log.error(e);
+        } 
 
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
 	}
@@ -223,61 +219,62 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 				//moDriveList_Input.add(oOnlyDriveMesh);
 	}
 	
-	/**
-	 * DOCUMENT (kohlhauser) - insert description
-	 *
-	 * @author kohlhauser
-	 * 19.03.2011, 09:17:07
-	 *
-	 * @return
-	 */
-	private ArrayList<clsWordPresentationMesh> getWPAssociations(ArrayList<clsDriveMesh> poDriveList_Input) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
-		
-		for (clsDriveMesh oPair : poDriveList_Input) {			
-			if (oPair.getDriveComponent()==null) {
-				//Break as there is an error
-				break;
-			}
-			
-			//Convert drive to affect
-			clsWordPresentation oAffect = clsGoalTools.convertDriveMeshToWP(oPair);
-			
-			//Get the drive content
-			String oDriveContent = clsImportanceTools.getDriveType(oAffect.getMoContent());
-			
-			//Get the affect level
-			eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
-			
-			//Get the preferred action name
-			String oActionString = oPair.getActualDriveAim().getMoContent();
-			eAction oAction = eAction.NULLOBJECT;
-			try {
-				oAction =  eAction.getAction(oActionString);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
-			//Convert the object to a WPM
-			clsWordPresentationMesh oDriveObject = null;
-			clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getSecondaryDataStructure(oPair.getActualDriveObject(), 1.0);
-			if (oWPforObject!=null) {
-				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-					oDriveObject.getExternalAssociatedContent().add(oWPforObject);
-				}
-			}
-			
-			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
-				//If these values exist, create a new container with the word presentation
-				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, new ArrayList<clsWordPresentationMeshFeeling>(), oDriveObject, clsMeshTools.getNullObjectWPM()));
-			}
-		}
-		
-		return oRetVal;
-	}
+//	/**
+//	 * DOCUMENT (kohlhauser) - insert description
+//	 *
+//	 * @author kohlhauser
+//	 * 19.03.2011, 09:17:07
+//	 *
+//	 * @return
+//	 */
+//	private ArrayList<clsWordPresentationMeshGoal> getWPAssociations(ArrayList<clsDriveMesh> poDriveList_Input) {
+//		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
+//		
+//		for (clsDriveMesh oPair : poDriveList_Input) {			
+//			if (oPair.getDriveComponent()==null) {
+//				//Break as there is an error
+//				break;
+//			}
+//			
+//			//Convert drive to affect
+////			clsWordPresentation oAffect = clsGoalTools.convertDriveMeshToWP(oPair);
+//			
+//			//Get the drive content
+//			String oDriveContent = oPair.getDriveIdentifier(); //clsImportanceTools.getDriveType(oAffect.getMoContent());
+//			
+//			//Get the affect level
+//			double rImportance = oPair.getQuotaOfAffect();
+//			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
+//			
+//			//Get the preferred action name
+//			String oActionString = oPair.getActualDriveAim().getMoContent();
+//			eAction oAction = eAction.NULLOBJECT;
+//			try {
+//				oAction =  eAction.getAction(oActionString);
+//
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//			
+//			//Convert the object to a WPM
+//			clsWordPresentationMesh oDriveObject = null;
+//			clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getSecondaryDataStructure(oPair.getActualDriveObject(), 1.0);
+//			if (oWPforObject!=null) {
+//				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
+//					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();
+//					oDriveObject.getExternalAssociatedContent().add(oWPforObject);
+//				}
+//			}
+//			
+//			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
+//				//If these values exist, create a new container with the word presentation
+//				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
+//				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, new ArrayList<clsWordPresentationMeshFeeling>(), oDriveObject, clsMeshTools.getNullObjectWPM()));
+//			}
+//		}
+//		
+//		return oRetVal;
+//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -301,7 +298,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
+	public void send_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
 		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
@@ -317,7 +314,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_5(ArrayList<clsWordPresentationMesh> poDriveList) {
+	public void send_I6_5(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
 		((I6_5_receive)moModuleList.get(20)).receive_I6_5(poDriveList);	
 		
 		putInterfaceData(I6_5_send.class, poDriveList);		
@@ -333,7 +330,12 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	protected void process_draft() {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
-		moDriveList_Output = getWPAssociations(moDriveList_Input); 
+		try {
+            moDriveList_Output = clsGoalTools.createGoalFromDriveMesh(moDriveList_Input, this);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        } 
 
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
 	}

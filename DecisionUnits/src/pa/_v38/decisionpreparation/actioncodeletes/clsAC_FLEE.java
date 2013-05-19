@@ -11,7 +11,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -48,7 +47,12 @@ public class clsAC_FLEE extends clsActionCodelet {
 		this.generateAction(eAction.FLEE);
 		
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeCondition(this.moGoal, eCondition.PANIC);
+		try {
+            this.moGoal.removeCondition(eCondition.PANIC);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 		//Associate the action with the goal
 		setActionAssociationInGoal();

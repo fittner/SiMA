@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,13 +43,13 @@ public class clsDC_ExeMovementToNull extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+		    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			//Remove FOCUS_MOVEMENTACTION_SET if set
 
-			clsGoalTools.setCondition(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
+		    this.moGoal.setCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);	//As in this step a movement will take place, order a new act analysis for the next step.
 		}
 		
 	}

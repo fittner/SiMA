@@ -8,7 +8,7 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -19,7 +19,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  */
 public abstract class clsConsequenceCodelet extends clsCodelet {
 
-	protected ArrayList<clsWordPresentationMesh> moReachableGoalList;
+	protected ArrayList<clsWordPresentationMeshGoal> moReachableGoalList;
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 

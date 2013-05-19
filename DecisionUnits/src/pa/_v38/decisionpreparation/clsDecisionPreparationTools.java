@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -24,7 +25,6 @@ import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
 
 /**
@@ -52,19 +52,19 @@ public class clsDecisionPreparationTools {
 	 * @param poGoalList
 	 * @return
 	 */
-	public static clsWordPresentationMesh initGoals(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMesh> poGoalList) {
+	public static clsWordPresentationMeshGoal initGoals(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
 		
 		//--- GET PREVIOUS MENTAL SITUATION ---//
 		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
 		//Get the previous goal
-		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
+		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
 		log.debug("Previous goal: " + oPreviousGoal);
 		
 		
 		// --- GET AND INIT THE CONTINUED GOAL --- //
 		//Set condition for continuous preprocessing
-		clsWordPresentationMesh oResult = clsDecisionPreparationTools.initContinuedGoal(oPreviousGoal, poGoalList);
-		clsGoalTools.setCondition(oResult, eCondition.IS_NEW_CONTINUED_GOAL);
+		clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.initContinuedGoal(oPreviousGoal, poGoalList);
+		oResult.setCondition(eCondition.IS_NEW_CONTINUED_GOAL);
 		log.debug("Continued goal:" + oResult.toString());
 		
 		return oResult;
@@ -81,19 +81,19 @@ public class clsDecisionPreparationTools {
 	 * @param poGoalList
 	 * @return
 	 */
-	private static clsWordPresentationMesh initContinuedGoal(clsWordPresentationMesh poPreviousGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+	private static clsWordPresentationMeshGoal initContinuedGoal(clsWordPresentationMeshGoal poPreviousGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		//Check if goal exists in the goal list
-		ArrayList<clsWordPresentationMesh> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
+		ArrayList<clsWordPresentationMeshGoal> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
 		
 		//If the goal could not be found
 		if (oEquivalentGoalList.isEmpty()==true) {
 			
 			//--- Remove the temporal data from the last turn ---//
-			if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.MEMORYDRIVE)==true) { 
+			if (poPreviousGoal.getGoalType().equals(eGoalType.MEMORYDRIVE)==true) { 
 				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+				clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				
 				//Add to goallist
 				if (poGoalList.contains(oNewGoalFromPrevious)==false) {
@@ -101,29 +101,29 @@ public class clsDecisionPreparationTools {
 				}
 				oResult = oNewGoalFromPrevious;	
 				
-				clsGoalTools.setCondition(oResult, eCondition.IS_MEMORY_SOURCE);	//FIXME: This operation should not be necessary here
+				oResult.setCondition(eCondition.IS_MEMORY_SOURCE);	//FIXME: This operation should not be necessary here
 				
-			} else if (clsGoalTools.getGoalType(poPreviousGoal).equals(eGoalType.DRIVESOURCE)==true) {
+			} else if (poPreviousGoal.getGoalType().equals(eGoalType.DRIVESOURCE)==true) {
 				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMesh oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+				clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
 				
 				//Add to goallist
 				poGoalList.add(oNewGoalFromPrevious);
 				oResult = oNewGoalFromPrevious;	
 				
-				clsGoalTools.setCondition(oResult, eCondition.IS_DRIVE_SOURCE);
+				oResult.setCondition(eCondition.IS_DRIVE_SOURCE);
 			}
 
 		} else {
 			//Assign the right spatially nearest goal from the previous goal if the goal is from the perception
-			eGoalType oPreviousGoalType = clsGoalTools.getGoalType(poPreviousGoal);
+			eGoalType oPreviousGoalType = poPreviousGoal.getGoalType();
 			
 			if (oPreviousGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==true) {
 				oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
-				clsGoalTools.setCondition(oResult, eCondition.IS_PERCEPTIONAL_SOURCE);
+				oResult.setCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
 			} else if (oPreviousGoalType.equals(eGoalType.MEMORYDRIVE)==true) {
 				oResult = oEquivalentGoalList.get(0);	//drive or memory is always present
-				clsGoalTools.setCondition(oResult, eCondition.IS_MEMORY_SOURCE);
+				oResult.setCondition(eCondition.IS_MEMORY_SOURCE);
 			} else {
 				oResult = oEquivalentGoalList.get(0);	//drive or memory is always present
 			}
@@ -150,9 +150,9 @@ public class clsDecisionPreparationTools {
 	 * @param poContinuedGoal
 	 * @param poGoalList
 	 */
-	public static void setDefaultConditionForGoalList(clsWordPresentationMesh poContinuedGoal, ArrayList<clsWordPresentationMesh> poGoalList) {
+	public static void setDefaultConditionForGoalList(clsWordPresentationMeshGoal poContinuedGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
 		
-		for (clsWordPresentationMesh oGoal : poGoalList) {
+		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
 			if (poContinuedGoal!=oGoal) {
 				setDefaultGoalCondition(oGoal, poContinuedGoal);
 			}
@@ -169,27 +169,27 @@ public class clsDecisionPreparationTools {
 	 *
 	 * @param poGoal
 	 */
-	private static void setDefaultGoalCondition(clsWordPresentationMesh poGoal, clsWordPresentationMesh poContinuedGoal) {
+	private static void setDefaultGoalCondition(clsWordPresentationMeshGoal poGoal, clsWordPresentationMeshGoal poContinuedGoal) {
 		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
-		if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALDRIVE) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.PERCEPTIONALEMOTION)) {
+		if (poGoal.getGoalType().equals(eGoalType.PERCEPTIONALDRIVE) || poGoal.getGoalType().equals(eGoalType.PERCEPTIONALEMOTION)) {
 			//Set the NEED_FOCUS for all focus images
 			//clsGoalTools.setTaskStatus(poGoal, eCondition.NEED_GOAL_FOCUS);
 			//clsGoalTools.setTaskStatus(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
-			clsGoalTools.setCondition(poGoal, eCondition.COMPOSED_CODELET);
-			clsGoalTools.setCondition(poGoal, eCondition.GOTO_GOAL_IN_PERCEPTION);
-			clsGoalTools.setCondition(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE);
+		    poGoal.setCondition(eCondition.COMPOSED_CODELET);
+		    poGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
+		    poGoal.setCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
 			
-		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.DRIVESOURCE)) {
+		} else if (poGoal.getGoalType().equals(eGoalType.DRIVESOURCE)) {
 			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
-			clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
-			clsGoalTools.setCondition(poGoal, eCondition.IS_DRIVE_SOURCE);
-		} else if (clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYEMOTION) || clsGoalTools.getGoalType(poGoal).equals(eGoalType.MEMORYDRIVE)) {
-			clsGoalTools.setCondition(poGoal, eCondition.IS_MEMORY_SOURCE);
+		    poGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+		    poGoal.setCondition(eCondition.IS_DRIVE_SOURCE);
+		} else if (poGoal.getGoalType().equals(eGoalType.MEMORYEMOTION) || poGoal.getGoalType().equals(eGoalType.MEMORYDRIVE)) {
+		    poGoal.setCondition(eCondition.IS_MEMORY_SOURCE);
 			
 			// --- Check the conditions in the intention --- //
 			
 			//Get the intention
-			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poGoal));
+			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure());
 			
 			//Check if the previous act is the same as this one
 			boolean bSameAct = clsActPreparationTools.checkIfPreviousActIsEqualToCurrentAct(poContinuedGoal, poGoal);
@@ -211,15 +211,15 @@ public class clsDecisionPreparationTools {
 			}
 			
 			if (bSameAct==true && rCurrentImageMatch < mrActMatchActivationThreshold) {
-				clsGoalTools.setCondition(poGoal, eCondition.ACT_MATCH_TOO_LOW);
+			    poGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
 			} else {
 				//Set the need to perform a basic act recognition analysis
-				clsGoalTools.setCondition(poGoal, eCondition.NEED_INTERNAL_INFO);
+			    poGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
 			}
 		}
 	}
 	
-	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMesh poContinuedGoal, clsShortTermMemory poSTM) {
+	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoal, clsShortTermMemory poSTM) {
 		eCondition oActionCondition = eCondition.EXECUTED_NONE;
 		
 		//--- GET PREVIOUS MENTAL SITUATION ---//
@@ -313,7 +313,7 @@ public class clsDecisionPreparationTools {
 		}
 		
 		if (oActionCondition.equals(eCondition.NULLOBJECT)==false && oActionCondition.equals(eCondition.EXECUTED_NONE)==false) {
-			clsGoalTools.setCondition(poContinuedGoal, oActionCondition);
+		    poContinuedGoal.setCondition(oActionCondition);
 		}
 		
 		log.debug("Append previous action, goal:" + poContinuedGoal.toString());
@@ -330,24 +330,24 @@ public class clsDecisionPreparationTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static int calculateEffortPenalty(clsWordPresentationMesh poGoal) {
+	public static int calculateEffortPenalty(clsWordPresentationMeshGoal poGoal) {
 		int nResult = 0;
 		
-		ArrayList<eCondition> oGoalConditionList = clsGoalTools.getCondition(poGoal);
+		ArrayList<eCondition> oGoalConditionList = poGoal.getCondition();
 		
 		for (eCondition oC: oGoalConditionList) {
 			nResult += clsImportanceTools.getEffortValueOfCondition(oC);
 		}
 		
-		if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+		if (poGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			//Check how far away the goal is
-			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(clsGoalTools.getGoalObject(poGoal));
+			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oPosition = clsEntityTools.getPosition(poGoal.getGoalObject());
 			nResult += clsImportanceTools.getEffortValueOfDistance(oPosition.b, oPosition.c);
 
-		} else if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.IS_MEMORY_SOURCE)) {
-			if (clsGoalTools.checkIfConditionExists(poGoal, eCondition.SET_BASIC_ACT_ANALYSIS)) {
+		} else if (poGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+			if (poGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)) {
 				//There are only the acts: Check the act confidence. If it is low, then lower the pleasure value
-				nResult = clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poGoal)));
+				nResult = clsImportanceTools.getEffortValueOfActConfidence(clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure()));
 			}
 			
 		}

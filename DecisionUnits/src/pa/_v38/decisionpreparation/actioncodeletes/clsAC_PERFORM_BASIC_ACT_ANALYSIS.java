@@ -11,7 +11,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -86,7 +85,12 @@ public class clsAC_PERFORM_BASIC_ACT_ANALYSIS extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_BASIC_ACT_ANALYSIS);
+	    try {
+            this.moGoal.removeCondition(eCondition.NEED_BASIC_ACT_ANALYSIS);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

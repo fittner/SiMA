@@ -17,13 +17,13 @@ import config.clsProperties;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -68,7 +68,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
-	private ArrayList<clsWordPresentationMesh> moReachableGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_OUT;
 	
 	
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
@@ -77,7 +77,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:37 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_IN;
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:39 */
-	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN; 
+	private ArrayList<clsWordPresentationMeshGoal> moDriveGoalList_IN; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:40 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_OUT; 
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
@@ -89,6 +89,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	private double mrAvailableFocusEnergy = 5;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private static final double P_STRONGEST_GOAL_THRESHOLD = 0.8;
 	
 	/**
 	 * DOCUMENT (KOHLHAUSER) - insert description 
@@ -210,8 +211,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
-		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
+	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
+		moDriveGoalList_IN = (ArrayList<clsWordPresentationMeshGoal>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)
@@ -225,7 +226,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	protected void process_basic() {
 		
 		//=== Extract all goals from perception and memories ===//
-		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMesh>(); 
+		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshGoal>(); 
 		
 		//Extract all possible goals in the perception
 		moReachableGoalList_OUT.addAll(clsGoalTools.extractPossibleGoalsFromPerception(moPerceptionalMesh_IN));
@@ -235,16 +236,18 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		
 		log.debug("Extracted goals : " + moReachableGoalList_OUT.toString());
 		
+		
+		
 		//--- Select Goals for Perception ---//
-		ArrayList<clsPair<Integer,clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Integer,clsWordPresentationMesh>>();
+		ArrayList<clsPair<Double,clsWordPresentationMesh>> oFocusOnGoalList = new ArrayList<clsPair<Double,clsWordPresentationMesh>>();
 		
 		//Extract the goals with the strongest emotions from the perceptions
-		oFocusOnGoalList.addAll(extractStrongestPerceptiveGoals(moReachableGoalList_OUT));
+		//oFocusOnGoalList.addAll(extractStrongestPerceptiveGoals(moReachableGoalList_OUT));
 		
 		//--- Process actions ---//
 		clsWordPresentationMesh oAction = extractPlannedActionFromSTM();
 		
-		//Extract the goal from the planning
+		//Extract the goal entity from the planning
 		oFocusOnGoalList.addAll(extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction));
 		
 		//System.out.println(moPerceptionalMesh_IN);
@@ -293,16 +296,16 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @param poReachableGoalList
 	 * @return
 	 */
-	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractStrongestPerceptiveGoals(ArrayList<clsWordPresentationMesh> poReachableGoalList) {
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRetVal = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+	private ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> extractStrongestPerceptiveGoals(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
+		ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oRetVal = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
 		
-		for (clsWordPresentationMesh oReachableGoal : poReachableGoalList) {
+		for (clsWordPresentationMeshGoal oReachableGoal : poReachableGoalList) {
 			
 			//React on goals in the perception, which are emotion and are HIGH NEGATIVE
-			if (clsGoalTools.getSupportiveDataStructureType(oReachableGoal) == eContentType.PI && 
-					clsGoalTools.getGoalType(oReachableGoal) == eGoalType.PERCEPTIONALEMOTION &&
-					clsGoalTools.getAffectLevel(oReachableGoal) == eAffectLevel.NEGATIVE80.mnAffectLevel) {
-				oRetVal.add(new clsPair<Integer, clsWordPresentationMesh>(clsGoalTools.getAffectLevel(oReachableGoal), oReachableGoal));
+			if (oReachableGoal.getSupportiveDataStructureType() == eContentType.PI && 
+			        oReachableGoal.getGoalType() == eGoalType.PERCEPTIONALEMOTION &&
+			        oReachableGoal.getImportance() == P_STRONGEST_GOAL_THRESHOLD) {
+				oRetVal.add(new clsPair<Double, clsWordPresentationMeshGoal>(oReachableGoal.getImportance(), oReachableGoal));
 			}
 		}
 		
@@ -330,8 +333,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		return oRetVal;
 	}
 	
-	private ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+	private ArrayList<clsPair<Double, clsWordPresentationMesh>> extractFilterEntitiesFromAction(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poActionWPM) {
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oResult  = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
 		
 		if (poActionWPM.isNullObject()==false) {
 			//Extract action
@@ -387,9 +390,9 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		return oResult;
 	}
 	
-	private static ArrayList<clsPair<Integer, clsWordPresentationMesh>> getPerceivedImageEntitiesFromImage(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poSupportiveImage, int pnImportance) {
+	private static ArrayList<clsPair<Double, clsWordPresentationMesh>> getPerceivedImageEntitiesFromImage(clsWordPresentationMesh poPerceivedImage, clsWordPresentationMesh poSupportiveImage, double pnImportance) {
 		//The instances from the perception are added
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
 		
 		//Get all positions from the supportive image
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oSupportiveImageEntityList = clsSecondarySpatialTools.getEntityPositionsInImage(poSupportiveImage);
@@ -412,7 +415,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 					//Only if the focused entities are found, they are added to the list
 					if (rDistance==0.0) {
 						//Add to result list
-						oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oPerceivedEntity.a));
+						oResult.add(new clsPair<Double, clsWordPresentationMesh>(pnImportance, oPerceivedEntity.a));
 						
 						//Delete from this list
 						oPerceivedImageIterator.remove();
@@ -434,11 +437,11 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> extractEmergentGoalsFromEmotions(ArrayList<clsWordPresentationMesh> poGoalList) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	private ArrayList<clsWordPresentationMeshGoal> extractEmergentGoalsFromEmotions(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
-		for (clsWordPresentationMesh oGoal : poGoalList) {
-			if (clsGoalTools.getGoalName(oGoal).equals(eContent.UNKNOWN_GOAL.toString())) {
+		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
+			if (oGoal.getGoalName().equals(eContent.UNKNOWN_GOAL.toString())) {
 				oRetVal.add(oGoal);
 			}
 		}
@@ -456,8 +459,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @param moActList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> extractPossibleGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+	private ArrayList<clsWordPresentationMeshGoal> extractPossibleGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 	
 		for (clsWordPresentationMesh oAct : moActList) {
 			oRetVal.addAll(clsGoalTools.extractPossibleGoalsFromAct(oAct));
@@ -477,7 +480,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @param poPerceptionSeondary
 	 * @return
 	 */
-	private void focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsPair<Integer, clsWordPresentationMesh>> poPrioritizedGoalList, int  pnNumberOfAllowedObjects) {
+	private void focusPerception(clsWordPresentationMesh poPerception, ArrayList<clsPair<Double, clsWordPresentationMesh>> poPrioritizedGoalList, int  pnNumberOfAllowedObjects) {
 		
 //		//If there is no consciously selected goal or a very strong emotional component on an entity, then focus on the strongest reachable goals.
 //		if (poPrioritizedGoalList.isEmpty()) {
@@ -491,7 +494,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 //		}
 		
 		//Sort incoming special goals
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oPrioritizedGoalListSorted = clsImportanceTools.sortAndFilterRatedStructures(poPrioritizedGoalList, pnNumberOfAllowedObjects);
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oPrioritizedGoalListSorted = clsImportanceTools.sortAndFilterRatedStructures(poPrioritizedGoalList, pnNumberOfAllowedObjects);
 		
 		//Focus only the select
 		filterImageElementsBasedOnPrioritizedGoals(poPerception, oPrioritizedGoalListSorted);
@@ -513,13 +516,13 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * @param poGoalList  - All objects, which shall be kept in the perceived image, are put here. 
 	 * @return
 	 */
-	private void filterImageElementsBasedOnPrioritizedGoals(clsWordPresentationMesh poImage, ArrayList<clsPair<Integer, clsWordPresentationMesh>> poEntityList) {
+	private void filterImageElementsBasedOnPrioritizedGoals(clsWordPresentationMesh poImage, ArrayList<clsPair<Double, clsWordPresentationMesh>> poEntityList) {
 		//clsWordPresentationMesh oRetVal = clsDataStructureGenerator.generateWPM(new clsPair<String, Object>(poImage.getMoContentType(), poImage.getMoContent()), new ArrayList<clsAssociation>());
 		
 		ArrayList<clsWordPresentationMesh> oEntitiesToKeepInPI = new ArrayList<clsWordPresentationMesh>();
 		
 		//2 cases: entities from PI, entities from complete images
-		for (clsPair<Integer, clsWordPresentationMesh> oEntity : poEntityList) {
+		for (clsPair<Double, clsWordPresentationMesh> oEntity : poEntityList) {
 			//Check if the entity already exists and add it if not
 			if (oEntitiesToKeepInPI.contains(oEntity.b)==false) {		
 				oEntitiesToKeepInPI.add(oEntity.b);
@@ -673,7 +676,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	@Override
 	public void send_I6_6(clsWordPresentationMesh poFocusedPerception,
-			ArrayList<clsWordPresentationMesh> poReachableGoalList,
+			ArrayList<clsWordPresentationMeshGoal> poReachableGoalList,
 			   				ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary_OUT) {
 		((I6_6_receive)moModuleList.get(51)).receive_I6_6(poFocusedPerception, poReachableGoalList, poAssociatedMemoriesSecondary_OUT);
 		

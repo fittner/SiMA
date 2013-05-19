@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -49,7 +48,7 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 		
 		
 		//Set consequence
-		clsGoalTools.setCondition(this.moGoal, eCondition.SET_FOCUS_ON);
+	    this.moGoal.setCondition(eCondition.SET_FOCUS_ON);
 		//clsGoalTools.setTaskStatus(this.moGoal, eCondition.GOAL_REACHABLE_IN_PERCEPTION);
 		
 	}
@@ -87,7 +86,12 @@ public class clsCC_FOCUS_ON extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_FOCUS_ON);
+	    try {
+            this.moGoal.removeCondition(eCondition.EXECUTED_FOCUS_ON);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

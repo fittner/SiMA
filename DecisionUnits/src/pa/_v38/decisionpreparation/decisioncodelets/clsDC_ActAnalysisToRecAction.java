@@ -10,7 +10,6 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsDecisionCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,7 +43,7 @@ public class clsDC_ActAnalysisToRecAction extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		clsGoalTools.setCondition(this.moGoal, eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
+	    this.moGoal.setCondition(eCondition.NEED_PERFORM_RECOMMENDED_ACTION);
 		
 	}
 

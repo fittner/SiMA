@@ -11,11 +11,11 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsMeshTools;
 
@@ -54,8 +54,8 @@ public class clsActPreparationTools {
 		log.debug("Perform basic act analysis on " + poAct.toString());
 		
 		//Get previous act
-		clsWordPresentationMesh oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
-		clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
+		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
+		clsWordPresentationMesh oPreviousAct = oPreviousGoal.getSupportiveDataStructure();
 		
 		//Find the moment in the act
 		analyzeMomentInAct(poAct, oPreviousAct);
@@ -78,7 +78,7 @@ public class clsActPreparationTools {
 		//Current Intention
 		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poAct);
 		
-		analyzeIntentionInAct(clsGoalTools.getSupportiveDataStructure(oPreviousGoal), oCurrentMoment, oCurrentIntention);
+		analyzeIntentionInAct(oPreviousGoal.getSupportiveDataStructure(), oCurrentMoment, oCurrentIntention);
 		
 //		//Set all Progress settings to the act
 //		//If the act is new, then new progress settings shall be added, else, they shall be updated
@@ -530,11 +530,11 @@ public class clsActPreparationTools {
 	 * @param poCurrentGoal
 	 * @return
 	 */
-	public static boolean checkIfPreviousActIsEqualToCurrentAct(clsWordPresentationMesh poPreviousGoal, clsWordPresentationMesh poCurrentGoal) {
+	public static boolean checkIfPreviousActIsEqualToCurrentAct(clsWordPresentationMeshGoal poPreviousGoal, clsWordPresentationMesh poCurrentGoal) {
 		boolean bResult = false;
 		
-		clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poPreviousGoal));
-		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(clsGoalTools.getSupportiveDataStructure(poCurrentGoal));
+		clsWordPresentationMesh oPreviousIntention = clsActDataStructureTools.getIntention(poPreviousGoal.getSupportiveDataStructure());
+		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poPreviousGoal.getSupportiveDataStructure());
 		
 		
 //		double rCurrentFirstImageMatch = clsActTools.getPIMatch(clsActTools.getFirstImageFromIntention(poIntention));

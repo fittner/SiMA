@@ -198,8 +198,8 @@ public class clsSecondarySpatialTools {
 	 * @param pnImportance
 	 * @return
 	 */
-	public static ArrayList<clsPair<Integer, clsWordPresentationMesh>> extractEntitiesInArea(clsWordPresentationMesh poPerceivedImage, eRadius poDistance, ePhiPosition poPosition, int pnImportance) {
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+	public static ArrayList<clsPair<Double, clsWordPresentationMesh>> extractEntitiesInArea(clsWordPresentationMesh poPerceivedImage, eRadius poDistance, ePhiPosition poPosition, double pnImportance) {
+		ArrayList<clsPair<Double, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Double, clsWordPresentationMesh>>();
 		
 		//Get all positions of all entities in the image
 		ArrayList<clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius>> oEntityPositions = clsSecondarySpatialTools.getEntityPositionsInImage(poPerceivedImage);
@@ -214,7 +214,7 @@ public class clsSecondarySpatialTools {
 			}
 			
 			if (oEntity.b.equals(poPosition) && oEntity.c.equals(poDistance)) {
-				oResult.add(new clsPair<Integer, clsWordPresentationMesh>(pnImportance, oEntity.a));	//Adds the entity from the perceived image together with importance
+				oResult.add(new clsPair<Double, clsWordPresentationMesh>(pnImportance, oEntity.a));	//Adds the entity from the perceived image together with importance
 			}
 		}
 		

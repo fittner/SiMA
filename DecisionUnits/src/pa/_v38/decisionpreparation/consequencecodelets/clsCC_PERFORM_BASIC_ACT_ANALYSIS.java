@@ -14,7 +14,6 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -53,7 +52,7 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		//clsWordPresentationMesh oPreviousAction = clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory());
 		
 		//Perform basic act analysis as the act is complete
-		clsWordPresentationMesh oCurrentAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		clsWordPresentationMesh oCurrentAct = this.moGoal.getSupportiveDataStructure();
 		//clsWordPresentationMesh oPreviousAct = clsGoalTools.getSupportiveDataStructure(oPreviousGoal);
 		
 		//This function shall extract the current moment and the expectation
@@ -61,12 +60,12 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 		
 		//Check if act analysis failed and remove all status if this is the case
 		if (oTaskStatusList.contains(eCondition.GOAL_NOT_REACHABLE)==true) {
-			clsGoalTools.removeAllConditions(this.moGoal);
-			clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);
-			clsGoalTools.setCondition(this.moGoal, eCondition.IS_MEMORY_SOURCE);
+		    this.moGoal.removeAllConditions();
+		    this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+		    this.moGoal.setCondition(eCondition.IS_MEMORY_SOURCE);
 		} else {
 			for (eCondition oTaskStatus : oTaskStatusList) {
-				clsGoalTools.setCondition(this.moGoal, oTaskStatus);
+			    this.moGoal.setCondition(oTaskStatus);
 			}
 		}
 		
@@ -105,7 +104,12 @@ public class clsCC_PERFORM_BASIC_ACT_ANALYSIS extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
+	    try {
+            this.moGoal.removeCondition(eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 	}
 
 	/* (non-Javadoc)

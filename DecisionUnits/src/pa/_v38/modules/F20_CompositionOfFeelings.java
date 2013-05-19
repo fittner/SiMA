@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 //import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 //import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 //import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -231,9 +232,9 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * @see pa.interfaces.I5_3#receive_I5_3(int)
 	 */
 	@Override
-	public void receive_I6_5(ArrayList<clsWordPresentationMesh> poDriveList) {
+	public void receive_I6_5(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
 		//moDriveList_Input_old = (ArrayList<clsSecondaryInformation>)this.deepCopy(poDriveList_old);
-		//moDriveList_Input = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);		
+		//moDriveList_Input = (ArrayList<clsSecondaryDataStructureContainer>)this.deepCopy(poDriveList);
 	}
 
 	/* (non-Javadoc)

@@ -16,7 +16,6 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPhantasyTools;
 
@@ -57,22 +56,27 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 
 		
 		//Set supportive datastructure from the goal
-		if (clsGoalTools.getSupportiveDataStructure(this.moGoal).isNullObject()==true) {
+		if (this.moGoal.getSupportiveDataStructure().isNullObject()==true) {
 			//Create a supportive data structure
-			clsGoalTools.createSupportiveDataStructureFromGoalObject(this.moGoal, eContentType.PHI);
+		    try {
+                this.moGoal.createSupportiveDataStructureFromGoalObject(eContentType.PHI);
+            } catch (Exception e) {
+                // TODO (wendt) - Auto-generated catch block
+                e.printStackTrace();
+            }
 		}
 		
 		//Check if drive or goal
-		if (clsGoalTools.checkIfConditionExists(moGoal, eCondition.IS_DRIVE_SOURCE)==true) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true) {
 			//Get the supportive data structure
-			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 			
 			//Associate this structure with the action
 			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
 			
-		} else if (clsGoalTools.checkIfConditionExists(moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
 			//Get the supportive data structure
-			clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oAct = this.moGoal.getSupportiveDataStructure();
 			
 			//Check if the intention already has a PP-Image
 			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oAct);
@@ -92,7 +96,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			}
 		} else {
 			//Get the supportive data structure
-			clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+			clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 			
 			//Associate this structure with the action
 			clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
@@ -148,7 +152,12 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_INTERNAL_INFO);
+	    try {
+            this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

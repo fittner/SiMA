@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsImage;
 import pa._v38.memorymgmt.datatypes.clsPlanFragment;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -24,7 +25,6 @@ import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -89,7 +89,7 @@ public class clsTEMPPlannerAW {
 
 	
 	
-	public ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsWordPresentationMesh> generatePlans_AW(clsWordPresentationMesh poEnvironmentalPerception, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsWordPresentationMesh> oResult =  new ArrayList<clsWordPresentationMesh>();
 		
 		//ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
@@ -104,13 +104,13 @@ public class clsTEMPPlannerAW {
 		// Take only the first goal
 		// TODO: If plans shall be generated for more than one goals, this part
 		// shall be changed
-		ArrayList<clsWordPresentationMesh> poReducedGoalList = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsWordPresentationMeshGoal> poReducedGoalList = new ArrayList<clsWordPresentationMeshGoal>();
 		if (poGoal.isNullObject() == false) {
 			poReducedGoalList.add(poGoal);
 		}
 
 		// Go through each goal
-		for (clsWordPresentationMesh oGoal : poReducedGoalList) {
+		for (clsWordPresentationMeshGoal oGoal : poReducedGoalList) {
 			ArrayList<clsWordPresentationMesh> oActionContainer = new ArrayList<clsWordPresentationMesh>();
 
 			// If no plans could be generated for this goal, it is set false,
@@ -118,7 +118,7 @@ public class clsTEMPPlannerAW {
 			boolean bActionPlanOK = false;
 
 			//Get goal type
-			eGoalType oGoalType = clsGoalTools.getGoalType(oGoal);
+			eGoalType oGoalType = oGoal.getGoalType();
 			
 //			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 //			if (oTopImage == null) {
@@ -212,10 +212,10 @@ public class clsTEMPPlannerAW {
 	 * @param poGoal
 	 * @return
 	 */
-	public ArrayList<clsWordPresentationMesh> extractRecommendedActionsFromAct(clsWordPresentationMesh poGoal) {
+	public ArrayList<clsWordPresentationMesh> extractRecommendedActionsFromAct(clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
 		
-		clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(clsGoalTools.getSupportiveDataStructure(poGoal));
+		clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(poGoal.getSupportiveDataStructure());
 		
 		if (oMoment.isNullObject()==false) {
 			eAction oAction = clsActTools.getRecommendedAction(oMoment);
@@ -258,7 +258,7 @@ public class clsTEMPPlannerAW {
 	 * @param poGoalList
 	 * @return
 	 */
-	private ArrayList<clsWordPresentationMesh> planFromPerception_AW(ArrayList<clsImage> poPIImageStructure, clsWordPresentationMesh poGoal) {
+	private ArrayList<clsWordPresentationMesh> planFromPerception_AW(ArrayList<clsImage> poPIImageStructure, clsWordPresentationMeshGoal poGoal) {
 
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 
@@ -367,11 +367,11 @@ public class clsTEMPPlannerAW {
 	 * @param poCurrentImageAllObjects
 	 * @return
 	 */
-	private ArrayList<clsImage> filterForDecisionMakingGoal(clsWordPresentationMesh poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
+	private ArrayList<clsImage> filterForDecisionMakingGoal(clsWordPresentationMeshGoal poGoal, ArrayList<clsImage> poCurrentImageAllObjects) {
 		ArrayList<clsImage> currentImageSorted = new ArrayList<clsImage>();
 
 		for (clsImage oImage : poCurrentImageAllObjects) {
-			clsWordPresentationMesh oGoalEntity = clsGoalTools.getGoalObject(poGoal);
+			clsWordPresentationMesh oGoalEntity = poGoal.getGoalObject();
 			clsTriple<clsWordPresentationMesh, ePhiPosition, eRadius> oGoalPosition = clsEntityTools.getPosition(oGoalEntity);
 			
 			

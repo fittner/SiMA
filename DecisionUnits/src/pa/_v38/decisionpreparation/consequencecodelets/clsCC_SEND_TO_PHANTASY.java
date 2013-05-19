@@ -11,7 +11,6 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,18 +43,18 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	@Override
 	protected void processGoal() {
 
-		clsGoalTools.setCondition(this.moGoal, eCondition.SET_INTERNAL_INFO);	//Do not send this goal to phantasy twice
+	    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);	//Do not send this goal to phantasy twice
 		
 		//Perform dec
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_DRIVE_SOURCE)) {
+		if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
 			
 			//clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
 			
 			//Set the focus structure for phantasy
-			clsActionTools.setSupportiveDataStructure(this.moGoal, clsGoalTools.getSupportiveDataStructure(this.moGoal));
+			clsActionTools.setSupportiveDataStructure(this.moGoal, this.moGoal.getSupportiveDataStructure());
 		
 			
-		} else if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)) {
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			//Replace the supportive data structure with the one from the act
 			//Find a goal in the list, which has the same act inside of it
 //			ArrayList<clsWordPresentationMesh> oGoalWithSameAct = clsGoalTools.getOtherGoalsWithSameSupportiveDataStructure(this.moReachableGoalList, this.moGoal, true);
@@ -105,7 +104,12 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 	 */
 	@Override
 	protected void removeTriggerCondition() {
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_SEND_TO_PHANTASY);
+	    try {
+            this.moGoal.removeCondition(eCondition.EXECUTED_SEND_TO_PHANTASY);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

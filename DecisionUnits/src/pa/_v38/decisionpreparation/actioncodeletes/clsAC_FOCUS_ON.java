@@ -13,7 +13,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -49,7 +48,7 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 		this.generateAction(eAction.FOCUS_ON);
 
 		//Get the supportive data structure
-		clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
+		clsWordPresentationMesh oSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
 		
 		//Associate this structure with the action
 		clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
@@ -93,7 +92,12 @@ public class clsAC_FOCUS_ON extends clsActionCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Update goal status - remove the conditions to execute this codelet
-		clsGoalTools.removeCondition(this.moGoal, eCondition.NEED_GOAL_FOCUS);
+	    try {
+            this.moGoal.removeCondition(eCondition.NEED_GOAL_FOCUS);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
 	}
 

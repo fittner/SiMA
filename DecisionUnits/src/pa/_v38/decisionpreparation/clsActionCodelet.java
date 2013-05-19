@@ -10,7 +10,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.planning.clsTEMPPlannerAW;
 import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -44,7 +43,7 @@ public abstract class clsActionCodelet extends clsCodelet {
 	}
 	
 	protected void setActionAssociationInGoal() {
-		clsGoalTools.setAssociatedAction(this.moGoal, this.moAction);
+	    this.moGoal.setAssociatedAction(this.moAction);
 		
 		//Get the supportive data structure
 		//clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);

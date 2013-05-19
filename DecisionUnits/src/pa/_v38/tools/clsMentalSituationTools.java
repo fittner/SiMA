@@ -12,6 +12,7 @@ import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
@@ -60,16 +61,16 @@ public class clsMentalSituationTools {
 		return oRetVal;
 	}
 	
-	public static void setGoal(clsWordPresentationMesh poMentalSituation, clsWordPresentationMesh poDataStructure) {
-		clsWordPresentationMesh oExistingDataStructure = getGoal(poMentalSituation);
+	public static void setGoal(clsWordPresentationMesh poMentalSituation, clsWordPresentationMeshGoal poDataStructure) {
+		clsWordPresentationMeshGoal oExistingDataStructure = getGoal(poMentalSituation);
 		clsWordPresentationMesh oExistingDataSupportiveStructure = null;
 		
 		if (oExistingDataStructure.getMoContentType().equals(eContentType.NULLOBJECT)==true) {
 			clsMeshTools.createAssociationSecondary(poMentalSituation, 1, poDataStructure, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOAL, false);
-			oExistingDataSupportiveStructure = clsGoalTools.getSupportiveDataStructure(poDataStructure);
+			oExistingDataSupportiveStructure = poDataStructure.getSupportiveDataStructure();
 		} else {
 			oExistingDataStructure = poDataStructure;
-			oExistingDataSupportiveStructure = clsGoalTools.getSupportiveDataStructure(oExistingDataStructure);
+			oExistingDataSupportiveStructure = oExistingDataStructure.getSupportiveDataStructure();
 		}
 		
 		if (oExistingDataSupportiveStructure.getMoContentType().equals(eContentType.NULLOBJECT)==false) {
@@ -80,14 +81,14 @@ public class clsMentalSituationTools {
 		
 	}
 	
-	public static clsWordPresentationMesh getGoal(clsWordPresentationMesh poMentalSituation) {
-		clsWordPresentationMesh oRetVal = getNullObjectWPM();
+	public static clsWordPresentationMeshGoal getGoal(clsWordPresentationMesh poMentalSituation) {
+		clsWordPresentationMeshGoal oRetVal = clsGoalTools.getNullObjectWPM();
 		
 		ArrayList<clsSecondaryDataStructure> oFoundStructures = poMentalSituation.findDataStructure(ePredicate.HASGOAL, true);
 		
 		if (oFoundStructures.isEmpty()==false) {
 			//The drive object is always a WPM
-			oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
+			oRetVal = (clsWordPresentationMeshGoal) oFoundStructures.get(0);
 		}
 		
 		return oRetVal;

@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
@@ -17,7 +17,7 @@ import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 
@@ -364,20 +364,20 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					}
 				}
 				
-			} else if (this.moContentType.equals(eContentType.GOAL)) {
-				//oResult += "::"+this.moDataStructureType+"::";  
-				oResult += this.moContent;
-				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
-				oResult += ":" + nTotalAffectLevel;
-				
-				oResult += ":" + clsGoalTools.getGoalObject(this);
-				
-				oResult += ":" + clsGoalTools.getSupportiveDataStructure(this).getMoContent();
-				
-				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
-				if (oConditionList.isEmpty()==false) {
-					oResult += " " + oConditionList.toString();
-				}
+//			} else if (this.moContentType.equals(eContentType.GOAL)) {
+//				//oResult += "::"+this.moDataStructureType+"::";  
+//				oResult += this.moContent;
+//				int nTotalAffectLevel = clsGoalTools.getAffectLevel(this) + clsGoalTools.getEffortLevel(this);
+//				oResult += ":" + nTotalAffectLevel;
+//				
+//				oResult += ":" + clsGoalTools.getGoalObject(this);
+//				
+//				oResult += ":" + clsGoalTools.getSupportiveDataStructure(this).getMoContent();
+//				
+//				ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(this);
+//				if (oConditionList.isEmpty()==false) {
+//					oResult += " " + oConditionList.toString();
+//				}
 				
 			} else if (this.moContentType.equals(eContentType.ENTITY)) {
 				oResult += this.moContent;
@@ -459,5 +459,605 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		// TODO (schaat) - Auto-generated method stub
 		this.moExternalAssociatedContent.add(poAssociatedDataStructure);
 	}
+	
+	   /**
+     * Create a new association secondary between 2 existing objects and add the association to the objects association lists (depending on add state)
+     * 
+     * (wendt)
+     *
+     * @since 25.01.2012 16:09:04
+     *
+     * @param <E> WPM or WP
+     * @param poElementOrigin Always a WPM
+     * @param nOriginAddAssociationState 0: Do not add, 1: Add to internal associations, 2: Add to external associations
+     * @param poElementTarget WPM or WP
+     * @param nTargetAddAssociationState 0: Do not add, 1: Add to internal associations, 2: Add to external associations
+     * @param prWeight
+     * @param poContenType
+     * @param poPredicate
+     * @param pbSwapDirectionAB
+     */
+    public <E extends clsSecondaryDataStructure> clsAssociationSecondary createAssociationSecondary(int nOriginAddAssociationState, E poElementTarget, int nTargetAddAssociationState, double prWeight, eContentType poContentType, ePredicate poPredicate, boolean pbSwapDirectionAB) {
+        clsAssociationSecondary oResult = null;
+        
+        //Create association
+        clsAssociationSecondary oNewAss;
+        if (pbSwapDirectionAB==false) {
+            oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, this, poElementTarget, poPredicate, prWeight);
+        } else {
+            oNewAss = (clsAssociationSecondary) clsDataStructureGenerator.generateASSOCIATIONSEC(poContentType, poElementTarget, this, poPredicate, prWeight);
+        }
+        
+        //Process the original Element 
+        if (nOriginAddAssociationState==1) {
+            this.getMoInternalAssociatedContent().add(oNewAss);
+        } else if (nOriginAddAssociationState==2) {
+            this.getExternalAssociatedContent().add(oNewAss);
+        }
+        //If Associationstate=0, then do nothing
+        
+        //Add association to the target structure if it is a WPM
+        if ((poElementTarget instanceof clsWordPresentationMesh) && (nOriginAddAssociationState!=0)) {
+            if (nTargetAddAssociationState==1) {
+                ((clsWordPresentationMesh)poElementTarget).getMoInternalAssociatedContent().add(oNewAss);
+            } else if (nTargetAddAssociationState==2) {
+                ((clsWordPresentationMesh)poElementTarget).getExternalAssociatedContent().add(oNewAss);
+            }
+        }
+        
+        oResult = oNewAss;
+        
+        return oResult;
+    }
+	
+	
+	   /**
+     * Set any word presentation to a certain WPM
+     * 
+     * (wendt)
+     *
+     * @since 23.05.2012 17:04:04
+     *
+     * @param poWPM
+     * @param poAssContentType
+     * @param poAssPredicate
+     * @param poWPContentType
+     * @param poWPContent
+     */
+    private void setUniquePredicateWP(eContentType poAssContentType, ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent, boolean pbAddToInternalAssociations) {
+        //Get association if exists
+        clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(this, poAssPredicate, 0, true);
+        
+        if (oAss==null) {
+            //Create new WP
+            clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(poWPContentType, poWPContent));
+            
+            //Create and add association
+            if (pbAddToInternalAssociations==false) {
+                createAssociationSecondary(2, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
+            } else {
+                createAssociationSecondary(1, oNewPresentation, 0, 1.0, poAssContentType, poAssPredicate, false);
+            }
+            
+            
+        } else {
+            ((clsSecondaryDataStructure)oAss.getTheOtherElement(this)).setMoContent(poWPContent);
+        }
+        
+    }
+    
+    /**
+     * Set any word presentation to a certain WPM
+     * 
+     * Non unique = one predicate can have several content
+     * 
+     * (wendt)
+     *
+     * @since 17.07.2012 22:11:51
+     *
+     * @param poWPM
+     * @param poAssContentType
+     * @param poAssPredicate
+     * @param poWPContentType
+     * @param poWPContent
+     */
+    private void setNonUniquePredicateWP(ePredicate poAssPredicate, eContentType poWPContentType, String poWPContent, boolean pbAddToInternalAssociations) {
+        //Get association if exists
+        ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poAssPredicate, 0, true, false);
+        
+        boolean bWPFound = false;
+        
+        for (clsDataStructurePA oAss : oAssList) {
+            //Get WP
+            clsWordPresentation oWP = (clsWordPresentation) ((clsAssociation)oAss).getLeafElement();
+            if (oWP.getMoContent().equals(poWPContent) && oWP.getMoContentType().equals(poWPContentType)) {
+                bWPFound = true;    //Do nothing as it is already set
+                break;
+            }
+        }
+        
+        if (bWPFound==false) {
+            //Create new WP
+            clsWordPresentation oNewPresentation = clsDataStructureGenerator.generateWP(new clsPair<eContentType, Object>(poWPContentType, poWPContent));
+            
+            //Create and add association
+            if (pbAddToInternalAssociations==false) {
+                createAssociationSecondary(2, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            } else {
+                createAssociationSecondary(1, oNewPresentation, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            }
+            
+            
+        }
+    }
+    
+    /**
+     * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:31:58
+     *
+     * @param poOriginWPM
+     * @param poAssPredicate
+     * @param poAddWPM
+     * @param pbAddToInternalAssociations
+     */
+    private void setNonUniquePredicateWPM(ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+        //Get association if exists
+        ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poAssPredicate, 0, true, false);
+        
+        boolean bWPFound = false;
+        
+        for (clsDataStructurePA oAss : oAssList) {
+            clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+            if (oDS instanceof clsWordPresentationMesh) {
+                clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+                
+                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+                    bWPFound = true;    //Do nothing as it is already set
+                    break;
+                }
+            }
+        }
+        
+        if (bWPFound==false) {
+            
+            //Create and add association
+            if (pbAddToInternalAssociations==false) {
+                createAssociationSecondary(2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            } else {
+                createAssociationSecondary(1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            }
+        }
+    }
+    
+    /**
+     * Add a new WPM with predicate asspredicate to a certain other wpm. This is used to add an action to a goal.
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:31:58
+     *
+     * @param poOriginWPM
+     * @param poAssPredicate
+     * @param poAddWPM
+     * @param pbAddToInternalAssociations
+     */
+    private void setUniquePredicateWPM(ePredicate poAssPredicate, clsWordPresentationMesh poAddWPM, boolean pbAddToInternalAssociations) {
+        //Get association if exists
+        ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poAssPredicate, 0, true, false);
+        
+        boolean bWPFound = false;
+        clsAssociation oFoundAss = null;
+        
+        for (clsDataStructurePA oAss : oAssList) {
+            clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+            if (oDS instanceof clsWordPresentationMesh) {
+                clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+                
+                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+                    bWPFound = true;    //Do nothing as it is already set
+                    oFoundAss = (clsAssociation) oAss;
+                    break;
+                }
+            }
+        }
+        
+        if (bWPFound==false) {
+            
+            //Create and add association
+            if (pbAddToInternalAssociations==false) {
+                createAssociationSecondary(2, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            } else {
+                createAssociationSecondary(1, poAddWPM, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, poAssPredicate, false);
+            }
+        } else {
+            //Replace
+            oFoundAss.setLeafElement(poAddWPM);
+        }
+    }
+    
+    /**
+     * Get the first WP for a certain predicate in a certian mesh
+     * 
+     * (wendt)
+     *
+     * @since 12.07.2012 17:26:47
+     *
+     * @param poWPM
+     * @param poAssPredicate
+     * @return
+     */
+    private clsWordPresentation getUniquePredicateWP(ePredicate poAssPredicate) {
+        //clsWordPresentation oResult = null;
+        
+        //clsAssociation oAss = (clsAssociation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(poWPM, poAssPredicate, 0, true);
+        clsWordPresentation oResult = (clsWordPresentation) clsMeshTools.searchFirstDataStructureOverAssociationWPM(this, poAssPredicate, 0, false);
+//      if (oAss!=null) {
+//          oResult = (clsWordPresentation)oAss.getTheOtherElement(poWPM);
+//      }
+        
+        return oResult;
+    }
+    
+    /**
+     * Get a unique predicate from the association list
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:41:28
+     *
+     * @param poAssPredicate
+     * @return
+     */
+    private clsWordPresentationMesh getUniquePredicateWPM(ePredicate poAssPredicate) {
+        clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+        
+        clsDataStructurePA oResultPrel = clsMeshTools.searchFirstDataStructureOverAssociationWPM(this, poAssPredicate, 0, false);
+        
+        if (oResultPrel instanceof clsWordPresentationMesh) {
+            oResult = (clsWordPresentationMesh) oResultPrel;
+        }
+        
+        return oResult;
+    }
+    
+    /**
+     * Get all WP of a certain predicate
+     * 
+     * (wendt)
+     *
+     * @since 16.07.2012 20:56:24
+     *
+     * @param poWPM
+     * @param poAssPredicate
+     * @return
+     */
+    private ArrayList<clsSecondaryDataStructure> getNonUniquePredicateSecondaryDataStructure(ePredicate poAssPredicate) {
+        ArrayList<clsSecondaryDataStructure> oResult = new ArrayList<clsSecondaryDataStructure>();
+            
+        ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(this, poAssPredicate, 0, false, false);
+
+        for (clsDataStructurePA oDS : oDSList) {
+            if (oDS instanceof clsSecondaryDataStructure) {
+                oResult.add((clsSecondaryDataStructure) oDS);
+            }
+        }
+            
+        return oResult;
+    }
+    
+    /**
+     * Get all WP of a certain predicate
+     * 
+     * (wendt)
+     *
+     * @since 16.07.2012 20:56:24
+     *
+     * @param poWPM
+     * @param poAssPredicate
+     * @return
+     */
+    private ArrayList<clsWordPresentation> getNonUniquePredicateWP(ePredicate poAssPredicate) {
+        ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
+        
+        ArrayList<clsSecondaryDataStructure> oSecondaryList = getNonUniquePredicateSecondaryDataStructure(poAssPredicate);
+        
+        //ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+        for (clsSecondaryDataStructure oDS : oSecondaryList) {
+            if (oDS instanceof clsWordPresentation)
+            oResult.add((clsWordPresentation) oDS);
+        }
+            
+        return oResult;
+    }
+    
+    /**
+     * Get all WP of a certain predicate
+     * 
+     * (wendt)
+     *
+     * @since 16.07.2012 20:56:24
+     *
+     * @param poWPM
+     * @param poAssPredicate
+     * @return
+     */
+    private ArrayList<clsWordPresentationMesh> getNonUniquePredicateWPM(ePredicate poAssPredicate) {
+        ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+        
+        ArrayList<clsSecondaryDataStructure> oSecondaryList = getNonUniquePredicateSecondaryDataStructure(poAssPredicate);
+        
+        //ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
+
+        for (clsSecondaryDataStructure oDS : oSecondaryList) {
+            if (oDS instanceof clsWordPresentationMesh)
+            oResult.add((clsWordPresentationMesh) oDS);
+        }
+            
+        return oResult;
+    }
+    
+    /**
+     * Add or replace the assciation shortcut mapping in the hastable of this structure
+     * 
+     * (wendt) - insert description
+     *
+     * @since 17.05.2013 10:29:08
+     *
+     * @param oContentType
+     * @param oPredicate
+     * @param pbUniqueProperty
+     */
+    private void addToAssociationMapping(eContentType oContentType, ePredicate oPredicate, boolean pbUniqueProperty, eDataType poDataType) {
+        ArrayList<clsSecondaryDataStructure> oAddStructureList = new ArrayList<clsSecondaryDataStructure>();
+        if (pbUniqueProperty==true) {
+            
+            if (poDataType.equals(eDataType.WPM)) {
+                clsWordPresentationMesh oUniqueWPM = getUniquePredicateWPM(oPredicate);
+                if (((clsWordPresentationMesh)oUniqueWPM).isNullObject()==false) {
+                    oAddStructureList.add(oUniqueWPM);
+                    this.moAssociationMapping.put(oContentType, oAddStructureList);
+                }
+            } else if (poDataType.equals(eDataType.WP)) {
+                clsWordPresentation oUniqueWP = this.getUniquePredicateWP(oPredicate);
+                if (oUniqueWP!=null) {
+                    oAddStructureList.add(oUniqueWP);
+                    this.moAssociationMapping.put(oContentType, oAddStructureList);
+                }
+            }
+           
+        } else {
+            //Get all of them
+            //ArrayList<clsSecondaryDataStructure> oNonUniqueStructure = this.moAssociationMapping.get(oContentType);
+            if (poDataType.equals(eDataType.WPM)) {
+                ArrayList<clsWordPresentationMesh> oUniqueWPMList = getNonUniquePredicateWPM(oPredicate);
+                oAddStructureList.addAll(oUniqueWPMList);
+                //oNonUniqueStructure.addAll(this.getNonUniquePredicateWPM(oPredicate));
+                this.moAssociationMapping.put(oContentType, oAddStructureList);
+            } else if (poDataType.equals(eDataType.WP)) {
+                ArrayList<clsWordPresentation> oUniqueWPList = getNonUniquePredicateWP(oPredicate);
+                oAddStructureList.addAll(oUniqueWPList);
+                //oNonUniqueStructure.addAll(this.getNonUniquePredicateWPM(oPredicate));
+                this.moAssociationMapping.put(oContentType, oAddStructureList);
+            }
+        }
+    }
+    
+    /**
+     * (wendt)
+     *
+     * @since 17.05.2013 11:48:11
+     *
+     * @param oContentType
+     * @param poRemoveStructure
+     * @return
+     * @throws Exception 
+     */
+    private void removeAssociationMapping(eContentType oContentType, clsSecondaryDataStructure poRemoveStructure) throws Exception{
+        boolean bSuccessfulRemoval = this.moAssociationMapping.get(oContentType).remove(poRemoveStructure);
+        
+        if (bSuccessfulRemoval==false) {
+            throw new Exception("The target structure " + poRemoveStructure + " was not found in the list " + this.moAssociationMapping.get(oContentType));
+        }
+        
+    }
+    
+    /**
+     * Set unique property of a WPM, which is a WPM
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:29:53
+     *
+     * @param poProperty
+     * @param oContentType
+     * @param oPredicate
+     */
+    protected void setUniqueProperty(clsWordPresentationMesh poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
+        setNonUniquePredicateWPM(oPredicate, (clsWordPresentationMesh)poProperty, pbInternalAssociations);
+        addToAssociationMapping(oContentType, oPredicate, true, eDataType.WPM);
+    }
+    
+    /**
+     * Add a non unique property, which is a WPM to the WPM
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:15:10
+     *
+     * @param poProperty
+     * @param oContentType
+     * @param oPredicate
+     * @param pbInternalAssociations
+     */
+    protected void addReplaceNonUniqueProperty(clsWordPresentationMesh poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
+        setNonUniquePredicateWPM(oPredicate, poProperty, pbInternalAssociations);
+        addToAssociationMapping(oContentType, oPredicate, false, eDataType.WPM);
+    }
+    
+    /**
+     * Create a new WP and connect it to a WPM for a property. Add the new structure to the hashmap
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:30:21
+     *
+     * @param poProperty
+     * @param oContentType
+     * @param oPredicate
+     */
+    protected void setUniqueProperty(String poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
+        setUniquePredicateWP(eContentType.ASSOCIATIONSECONDARY, oPredicate, oContentType, poProperty, pbInternalAssociations);
+        addToAssociationMapping(oContentType, oPredicate, true, eDataType.WP);
+    }
+    
+    /**
+     * Set a non unique property, which is a string. WPs are created and added/replaced in the WPM 
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:17:23
+     *
+     * @param poProperty
+     * @param oContentType
+     * @param oPredicate
+     * @param pbInternalAssociations
+     */
+    protected void addReplaceNonUniqueProperty(String poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
+        setNonUniquePredicateWP(oPredicate, oContentType, poProperty, pbInternalAssociations);
+        addToAssociationMapping(oContentType, oPredicate, false, eDataType.WP);
+    }
+    
+    /**
+     * Get unique property, which is a WPM
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:35:00
+     *
+     * @param oContentType
+     * @return
+     */
+    protected clsWordPresentationMesh getUniquePropertyWPM(eContentType oContentType) {
+        clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
+        
+        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(oContentType);
+        
+        if (oS.isEmpty()==false) {
+            oRetVal = (clsWordPresentationMesh) oS.get(0);
+        }
+        
+        return oRetVal;
+    }
+    
+    /**
+     * Get all non unique properties, which are of type WPM
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:20:20
+     *
+     * @param oContentType
+     * @return
+     */
+    protected ArrayList<clsWordPresentationMeshFeeling> getNonUniquePropertyWPM(eContentType oContentType) {
+        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
+    
+        ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oContentType);
+        
+        for (clsSecondaryDataStructure oF : oDS) {
+            oRetVal.add((clsWordPresentationMeshFeeling) oF);
+        }
+    
+        return oRetVal;
+    }
+    
+    /**
+     * DOCUMENT (wendt)
+     *
+     * @since 17.05.2013 11:24:13
+     *
+     * @param oContentType
+     * @return
+     */
+    protected String getUniqueProperty(eContentType oContentType) {
+        //TODO AW: Create a nullobject for WPs too
+        String oRetVal = "";
+    
+        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oContentType);
+        
+        if (oWP.isEmpty()==false) {
+            oRetVal = ((clsWordPresentation) oWP.get(0)).getMoContent();
+        }
+    
+        return oRetVal;
+    }
+    
+    /**
+     * Get non unique properties
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:24:13
+     *
+     * @param oContentType
+     * @return
+     */
+    protected ArrayList<String> getNonUniqueProperty(eContentType oContentType) {
+        //TODO AW: Create a nullobject for WPs too
+        ArrayList<String> oRetVal = new ArrayList<String>();
+    
+        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oContentType);
+        
+        for (clsSecondaryDataStructure oC : oWP) {
+            oRetVal.add(oC.getMoContent());
+        }
+    
+        return oRetVal;
+    }
+    
+    /**
+     * Remove a property
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:55:05
+     *
+     * @param poRemoveStructure
+     * @param oContentType
+     * @param oPredicate
+     * @throws Exception 
+     */
+    protected void removeProperty(String poRemoveContent, eContentType oContentType, ePredicate oPredicate) throws Exception {
+        ArrayList<clsWordPresentation> oFoundStructureList = this.getNonUniquePredicateWP(oPredicate);
+        
+        for (clsWordPresentation oListElement : oFoundStructureList) {
+            if (oListElement.getMoContent().equals(poRemoveContent)) {
+                clsMeshTools.removeAssociationInObject(this, oListElement);
+                this.removeAssociationMapping(oContentType, oListElement);
+                break;
+            }
+        }
+    }
+    
+    /**
+     * Remove all properties of a certain type
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 12:01:36
+     *
+     * @param oContentType
+     * @param oPredicate
+     */
+    protected void removeAllProperties(eContentType oContentType, ePredicate oPredicate) {
+        clsMeshTools.removeAssociationInObject(this, oPredicate);
+        this.moAssociationMapping.put(oContentType, new ArrayList<clsSecondaryDataStructure>());
+    }
+    
+
 
 }

@@ -13,7 +13,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -51,25 +50,31 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 		this.moEnvironmentalImageMemory.clearEnvironmentalImage();
 		
 		//Remove conditions for the movement
-		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_MOVEMENT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOCUS_ON);
+		try {
+            this.moGoal.removeCondition(eCondition.SET_FOCUS_MOVEMENT);
+            this.moGoal.removeCondition(eCondition.SET_FOCUS_ON);
+            
+            if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
+                this.moGoal.removeCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
+                this.moGoal.removeCondition(eCondition.SET_FOLLOW_ACT);
+                
+                clsWordPresentationMesh oAct = this.moGoal.getSupportiveDataStructure();
+                clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
+                
+                if (oMoment.isNullObject()==false) {
+                    int nTimeOutValue = clsActTools.getMovementTimeoutValue(oMoment);
+                    
+                    if (nTimeOutValue>0) {
+                        nTimeOutValue--;
+                        clsActTools.setMovementTimeoutValue(oMoment, nTimeOutValue);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
 		
-		if (clsGoalTools.checkIfConditionExists(this.moGoal, eCondition.IS_MEMORY_SOURCE)==true) {
-			clsGoalTools.removeCondition(this.moGoal, eCondition.SET_BASIC_ACT_ANALYSIS);
-			clsGoalTools.removeCondition(this.moGoal, eCondition.SET_FOLLOW_ACT);
-			
-			clsWordPresentationMesh oAct = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-			clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oAct);
-			
-			if (oMoment.isNullObject()==false) {
-				int nTimeOutValue = clsActTools.getMovementTimeoutValue(oMoment);
-				
-				if (nTimeOutValue>0) {
-					nTimeOutValue--;
-					clsActTools.setMovementTimeoutValue(oMoment, nTimeOutValue);
-				}
-			}
-		}
 	}
 
 	/* (non-Javadoc)
@@ -110,12 +115,18 @@ public class clsCC_EXECUTE_MOVEMENT extends clsConsequenceCodelet {
 	@Override
 	protected void removeTriggerCondition() {
 		//Remove the focus movement as a movement has happened
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_MOVE_FORWARD);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_LEFT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_TURN_RIGHT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_SEARCH1);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_STRAFE_LEFT);
-		clsGoalTools.removeCondition(this.moGoal, eCondition.EXECUTED_STRAFE_RIGHT);
+	    try {
+            this.moGoal.removeCondition(eCondition.EXECUTED_MOVE_FORWARD);
+            this.moGoal.removeCondition(eCondition.EXECUTED_TURN_LEFT);
+            this.moGoal.removeCondition(eCondition.EXECUTED_TURN_RIGHT);
+            this.moGoal.removeCondition(eCondition.EXECUTED_SEARCH1);
+            this.moGoal.removeCondition(eCondition.EXECUTED_STRAFE_LEFT);
+            this.moGoal.removeCondition(eCondition.EXECUTED_STRAFE_RIGHT);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
+	    
 		
 	}
 

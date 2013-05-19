@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.clsImportanceTools;
@@ -35,7 +36,7 @@ public class clsCodeletHandler {
 
 	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 
-	private ArrayList<clsWordPresentationMesh> moGoalListFromF51 = new ArrayList<clsWordPresentationMesh>();
+	private ArrayList<clsWordPresentationMeshGoal> moGoalListFromF51 = new ArrayList<clsWordPresentationMeshGoal>();
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemoriesFromF51 = new ArrayList<clsWordPresentationMesh>();
 
 	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
@@ -149,7 +150,7 @@ public class clsCodeletHandler {
 	 * 
 	 * @return the moGoalListFromF51
 	 */
-	public ArrayList<clsWordPresentationMesh> getGoalListFromF51() {
+	public ArrayList<clsWordPresentationMeshGoal> getGoalListFromF51() {
 		return moGoalListFromF51;
 	}
 
@@ -159,7 +160,7 @@ public class clsCodeletHandler {
 	 * 
 	 * @param moGoalListFromF51 the moGoalListFromF51 to set
 	 */
-	public void setGoalListFromF51(ArrayList<clsWordPresentationMesh> moGoalListFromF51) {
+	public void setGoalListFromF51(ArrayList<clsWordPresentationMeshGoal> moGoalListFromF51) {
 		this.moGoalListFromF51 = moGoalListFromF51;
 	}
 
@@ -217,7 +218,7 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public void initF51(ArrayList<clsWordPresentationMesh> poGoalListFromF51) {
+	public void initF51(ArrayList<clsWordPresentationMeshGoal> poGoalListFromF51) {
 		moGoalListFromF51 = poGoalListFromF51;
 	}
 	
@@ -225,7 +226,7 @@ public class clsCodeletHandler {
 		
 	}
 	
-	public ArrayList<clsCodelet> getMatchingActionCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingActionCodelets(Object poTheExecutingObject, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsActionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moActionCodeletList, poGoal);
@@ -234,7 +235,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingDecisionCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingDecisionCodelets(Object poTheExecutingObject, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsDecisionCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moDecisionCodeletList, poGoal);
@@ -244,7 +245,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingConsequenceCodelets(Object poTheExecutingObject, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsConsequenceCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moConsequenceCodeletList, poGoal);
@@ -254,7 +255,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	public ArrayList<clsCodelet> getMatchingInitCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal) {
+	public ArrayList<clsCodelet> getMatchingInitCodelets(Object poTheExecutingObject, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<clsCodelet> oResult = new ArrayList<clsCodelet>();
 		
 		ArrayList<clsInitCodelet> oPrelResult = sortAndFilterRatedStructures(poTheExecutingObject, this.moInitCodeletList, poGoal);
@@ -264,7 +265,7 @@ public class clsCodeletHandler {
 		return oResult;
 	}
 	
-	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(Object poTheExecutingObject, ArrayList<E> poInput, clsWordPresentationMesh poGoal) {
+	private static <E extends clsCodelet> ArrayList<E> sortAndFilterRatedStructures(Object poTheExecutingObject, ArrayList<E> poInput, clsWordPresentationMeshGoal poGoal) {
 		ArrayList<E> oResult = new ArrayList<E>();
 		
 		ArrayList<clsPair<Double, E>> oUnsortList = new ArrayList<clsPair<Double, E>>();
@@ -301,7 +302,7 @@ public class clsCodeletHandler {
 	 * @param poGoal
 	 * @param pnNumberOfExecutions
 	 */
-	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMesh poGoal, int pnNumberOfExecutions) {
+	public void executeCodeletListOnGoal(ArrayList<clsCodelet> oCodeletList, clsWordPresentationMeshGoal poGoal, int pnNumberOfExecutions) {
 		int nInit=0;
 		int nMax = oCodeletList.size();
 		if (pnNumberOfExecutions >= 0) {
@@ -336,7 +337,7 @@ public class clsCodeletHandler {
 	 * @param poCodeletType
 	 * @param pnNumberOfExecutions
 	 */
-	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMesh poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
+	public void executeMatchingCodelets(Object poTheExecutingObject, clsWordPresentationMeshGoal poGoal, eCodeletType poCodeletType, int pnNumberOfExecutions) {
 		
 		ArrayList<clsCodelet> oCList = new ArrayList<clsCodelet>();
 		String oTypeString = "";

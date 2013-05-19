@@ -32,8 +32,8 @@ import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -74,11 +74,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsWordPresentationMesh> moReachableGoalList_IN;
+	private ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
-	private ArrayList<clsWordPresentationMesh> moDecidedGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshGoal> moDecidedGoalList_OUT;
 	
-	private ArrayList<clsWordPresentationMesh> moDriveGoalList_IN;
+	private ArrayList<clsWordPresentationMeshGoal> moDriveGoalList_IN;
 	
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
@@ -116,7 +116,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	private int mnNumberOfGoalsToPass;
 	
 	/** Threshold for letting through drive goals */
-	private int mnAffectThresold;	//Everything with an affect >= MEDIUM is passed through
+	private double mrAffectThresold;	//Everything with an affect >= MEDIUM is passed through
 	
 	
 	private int mnAvoidIntensity;
@@ -145,7 +145,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		applyProperties(poPrefix, poProp);	
 		
 		mnNumberOfGoalsToPass=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_GOAL_PASS).getParameterInt();
-		mnAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterInt();
+		mrAffectThresold=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AFFECT_THRESHOLD).getParameterDouble();
 		mnAvoidIntensity=poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_AVOIC_INTENSITY).getParameterInt();
 
 		
@@ -241,7 +241,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
 		
 		//Sort incoming drives
-		ArrayList<clsWordPresentationMesh> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
+		ArrayList<clsWordPresentationMeshGoal> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		
 		
 		//From the list of drives, match them with the list of potential goals
@@ -252,7 +252,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
-			log.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + clsGoalTools.getSupportiveDataStructure(moDecidedGoalList_OUT.get(0)).toString());
+			log.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString());
 			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
 			//System.out.println(moTEMPDecisionString);
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
@@ -264,43 +264,43 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 	}
 	
-	private String setDecisionString(clsWordPresentationMesh poDecidedGoal) {
+	private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
 		String oResult = "";
 		
 		//Get the Goal String
-		String oGoalString = clsGoalTools.getGoalName(poDecidedGoal);
+		String oGoalString = poDecidedGoal.getGoalName();
 		
 		//Get the goal object
-		String oGoalObjectString = clsGoalTools.getGoalObject(poDecidedGoal).toString();
+		String oGoalObjectString = poDecidedGoal.getGoalObject().toString();
 		
 		//Get the Goal source
 		String oGoalSource = "NONE"; 
-		if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_DRIVE_SOURCE)) {
+		if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
 			oGoalSource = "DRIVES (Drive goal not found in perception or acts)";
-		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_MEMORY_SOURCE)) {
+		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
 			oGoalSource = "ACT";
-		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
+		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			oGoalSource = "PERCEPTION";
 		}
 		
 		//Get the AffectLevel
-		String oAffectLevel = eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
+		String oAffectLevel = String.valueOf(poDecidedGoal.getImportance()); //eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
 		
 		//Get Conditions
 		String oGoalConditions = "";
-		ArrayList<eCondition> oConditionList = clsGoalTools.getCondition(poDecidedGoal);
+		ArrayList<eCondition> oConditionList = poDecidedGoal.getCondition();
 		for (eCondition oC : oConditionList) {
 			oGoalConditions += oC.toString() + "; ";
 		}				
 		
 		//Get the Supportive DataStructure
 		String oSupportiveDataStructureString = "";
-		if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_DRIVE_SOURCE)) {
-			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();
-		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_MEMORY_SOURCE)) {
-			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();	
-		} else if (clsGoalTools.checkIfConditionExists(poDecidedGoal, eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			oSupportiveDataStructureString = clsGoalTools.getSupportiveDataStructure(poDecidedGoal).toString();
+		if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
+			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
+		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();	
+		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
 		}
 		
 		//Set the current decision string
@@ -330,7 +330,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsWordPresentationMesh> poReachableGoalList) {
+	public void receive_I6_7(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
 		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
 		moReachableGoalList_IN = poReachableGoalList; 
 	}
@@ -360,11 +360,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_3(ArrayList<clsWordPresentationMesh> poDriveList) {
-		moDriveGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poDriveList);
+	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
+		moDriveGoalList_IN = (ArrayList<clsWordPresentationMeshGoal>)this.deepCopy(poDriveList);
 	}
 	
-	private void addGoalToMentalSituation(clsWordPresentationMesh poGoal) {
+	private void addGoalToMentalSituation(clsWordPresentationMeshGoal poGoal) {
 		//get the ref of the current mental situation
 		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
 		
@@ -373,16 +373,16 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 
 	
 	
-	private ArrayList<clsWordPresentationMesh> processGoals(
-			ArrayList<clsWordPresentationMesh> poPossibleGoalInputs, 
-			ArrayList<clsWordPresentationMesh> poDriveList, 
+	private ArrayList<clsWordPresentationMeshGoal> processGoals(
+			ArrayList<clsWordPresentationMeshGoal> poPossibleGoalInputs, 
+			ArrayList<clsWordPresentationMeshGoal> poDriveList, 
 			ArrayList<clsAct> poRuleList, boolean bActivateEmotionalInfluence) {
-		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
 		int nAddedGoals = 0;
 		
 		//Process emotions
-		clsWordPresentationMesh oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
+		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
 		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
 			oRetVal.add(oPanicGoal);
 		} else {
@@ -395,10 +395,10 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			removeNonReachableGoals(poPossibleGoalInputs);
 			
 			//=== Sort and evaluate them === //
-			ArrayList<clsWordPresentationMesh> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, mnAffectThresold);
+			ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, mrAffectThresold);
 			
 			//Add all goals to this list
-			for (clsWordPresentationMesh oReachableGoal : oSortedReachableGoalList) {
+			for (clsWordPresentationMeshGoal oReachableGoal : oSortedReachableGoalList) {
 				if (nAddedGoals<mnNumberOfGoalsToPass) {
 					oRetVal.add(oReachableGoal);
 					nAddedGoals++;
@@ -423,14 +423,14 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @param poPotentialGoalList
 	 * @return
 	 */
-	private clsWordPresentationMesh generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMesh> poFeelingList) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+	private clsWordPresentationMeshGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMesh> poFeelingList) {
+		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		if (poFeelingList.isEmpty()==false) {
 			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
 					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, eAffectLevel.NEGATIVE100, eAction.FLEE, new ArrayList<clsWordPresentationMeshFeeling>(), clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
-				clsGoalTools.setCondition(oResult, eCondition.PANIC);
+				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, -1, eAction.FLEE, new ArrayList<clsWordPresentationMeshFeeling>(), clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
+				oResult.setCondition(eCondition.PANIC);
 			}	
 		}
 		
@@ -446,16 +446,22 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 *
 	 * @param poGoalList
 	 */
-	private void removeNonReachableGoals(ArrayList<clsWordPresentationMesh> poGoalList) {
-		ListIterator<clsWordPresentationMesh> Iter = poGoalList.listIterator();
+	private void removeNonReachableGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+		ListIterator<clsWordPresentationMeshGoal> Iter = poGoalList.listIterator();
 		
-		ArrayList<clsWordPresentationMesh> oRemoveList = new ArrayList<clsWordPresentationMesh>();
+		ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
 		
 		//Get all goals from STM
 		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
 		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
 			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-			ArrayList<clsWordPresentationMesh> oExcludedGoalList = clsMentalSituationTools.getExcludedGoal(oSTM.b);
+		    ArrayList<clsWordPresentationMesh> oTEMPLIST = clsMentalSituationTools.getExcludedGoal(oSTM.b);
+		    ArrayList<clsWordPresentationMeshGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshGoal>();
+		    for (clsWordPresentationMesh oWPM : oTEMPLIST) {
+		        oExcludedGoalList.add((clsWordPresentationMeshGoal) oWPM);
+		    }
+		    
+		     
 			oRemoveList.addAll(oExcludedGoalList);
 //			for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
 //				if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
@@ -467,11 +473,11 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 						
 		//Find all unreachable goals from STMList
 		while (Iter.hasNext()) {
-			clsWordPresentationMesh oGoal = Iter.next();
+			clsWordPresentationMeshGoal oGoal = Iter.next();
 			
 			//Check if this is one of the STM goals, which shall be removed
-			for (clsWordPresentationMesh oRemoveGoal : oRemoveList) {
-				if (clsGoalTools.getGoalContentIdentifier(oGoal).equals(clsGoalTools.getGoalContentIdentifier(oRemoveGoal))==true) {
+			for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
+				if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
 					//if yes, remove this goal		
 					Iter.remove();
 					log.debug("Non reachable goal removed: " + oGoal.toString());
@@ -531,7 +537,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsWordPresentationMesh> poDecidedGoalList_OUT) {
+	public void send_I6_8(ArrayList<clsWordPresentationMeshGoal> poDecidedGoalList_OUT) {
 		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT);
 		
 		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT);
