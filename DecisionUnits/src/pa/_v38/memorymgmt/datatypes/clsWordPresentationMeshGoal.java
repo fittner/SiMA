@@ -6,6 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.enums.eCondition;
@@ -567,9 +568,10 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     @Override
     public String toString() {
         String oResult = "";  
-        oResult += this.getGoalName();
+        oResult += this.getGoalContentIdentifier();
         double nTotalAffectLevel = getImportance() + getEffortLevel();
-        oResult += ":" + nTotalAffectLevel;
+        
+        oResult += ":" + new DecimalFormat("0.00").format(nTotalAffectLevel);
         oResult += ":" + this.getFeelings().toString();
         oResult += ":" + this.getGoalObject();
         oResult += ":" + getSupportiveDataStructure().getMoContent();

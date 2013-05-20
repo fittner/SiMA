@@ -330,8 +330,8 @@ public class clsDecisionPreparationTools {
 	 * @param poGoal
 	 * @return
 	 */
-	public static int calculateEffortPenalty(clsWordPresentationMeshGoal poGoal) {
-		int nResult = 0;
+	public static double calculateEffortPenalty(clsWordPresentationMeshGoal poGoal) {
+		double nResult = 0;
 		
 		ArrayList<eCondition> oGoalConditionList = poGoal.getCondition();
 		

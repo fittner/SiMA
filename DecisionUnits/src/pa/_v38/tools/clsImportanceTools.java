@@ -16,7 +16,6 @@ import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
@@ -271,7 +270,7 @@ public class clsImportanceTools {
 	public static ArrayList<clsWordPresentationMeshGoal> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
 		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
-		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
+		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
 		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {
@@ -330,7 +329,7 @@ public class clsImportanceTools {
 	public static ArrayList<clsWordPresentationMeshGoal> getDriveGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) {
 		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
 		
-		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage);
+		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
 		
 		//Get feelings from WPM
 		ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalTools.getFeelingsFromImage(poImage);
@@ -388,13 +387,13 @@ public class clsImportanceTools {
 	 * @param poImage
 	 * @return
 	 */
-	private static ArrayList<clsDataStructurePA> getAllDriveWishAssociationsInImage(clsWordPresentationMesh poImage) {
+	private static ArrayList<clsDataStructurePA> getAllDriveWishAssociationsInImage(clsWordPresentationMesh poImage, int pnLevel) {
 		ArrayList<clsDataStructurePA> oPrelResult = new ArrayList<clsDataStructurePA>();
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
 		//Get all WPMs
-		ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, 2);
+		ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, pnLevel);
 		for (clsWordPresentationMesh oWPM : oAllWPM) {
 		    oPrelResult.addAll(clsMeshTools.searchDataStructureOverAssociation(oWPM, ePredicate.HASAFFECT, 0, true, false));
 		}
@@ -610,52 +609,52 @@ public class clsImportanceTools {
 //		return Integer.valueOf(poImportanceWP.getMoContent());
 //	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 21.09.2012 21:05:30
-	 *
-	 * @param poImportanceWP
-	 * @return
-	 */
-	public static int getAbsoluteImportanceFromAffectLevel(clsWordPresentation poImportanceWP) {
-		return Math.abs(convertAffectLevelToImportance(getAffectLevel(poImportanceWP)));
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 21.09.2012 21:05:30
+//	 *
+//	 * @param poImportanceWP
+//	 * @return
+//	 */
+//	public static int getAbsoluteImportanceFromAffectLevel(clsWordPresentation poImportanceWP) {
+//		return Math.abs(convertAffectLevelToImportance(getAffectLevel(poImportanceWP)));
+//	}
+//	
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 21.09.2012 21:05:28
+//	 *
+//	 * @param poWP
+//	 * @return
+//	 */
+//	public static eAffectLevel getAffectLevel(clsWordPresentation poWP) {
+//		return eAffectLevel.valueOf(poWP.getMoContent());
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 21.09.2012 21:05:28
-	 *
-	 * @param poWP
-	 * @return
-	 */
-	public static eAffectLevel getAffectLevel(clsWordPresentation poWP) {
-		return eAffectLevel.valueOf(poWP.getMoContent());
-	}
-	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 21.09.2012 21:05:26
-	 *
-	 * @param poAffectLevel
-	 * @return
-	 */
-	public static int convertAffectLevelToImportance(eAffectLevel poAffectLevel) {
-		int nResult = 0;
-		
-		nResult = poAffectLevel.mnAffectLevel;
-//		for (int i=0;i<mnConversionArray.length;i++) {
-//			if (poAffectLevel.mnAffectLevel==mnConversionArray[i][0]) {
-//				
-//				nResult = mnConversionArray[i][1];
-//				break;
-//			}
-//		}
-		
-		return nResult;
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 21.09.2012 21:05:26
+//	 *
+//	 * @param poAffectLevel
+//	 * @return
+//	 */
+//	public static int convertAffectLevelToImportance(eAffectLevel poAffectLevel) {
+//		int nResult = 0;
+//		
+//		nResult = poAffectLevel.mnAffectLevel;
+////		for (int i=0;i<mnConversionArray.length;i++) {
+////			if (poAffectLevel.mnAffectLevel==mnConversionArray[i][0]) {
+////				
+////				nResult = mnConversionArray[i][1];
+////				break;
+////			}
+////		}
+//		
+//		return nResult;
+//	}
 	
 	
 	
@@ -726,8 +725,8 @@ public class clsImportanceTools {
 	 * @param poCondition
 	 * @return
 	 */
-	public static int getEffortValueOfCondition(eCondition poCondition) {
-		int nResult = 0;
+	public static double getEffortValueOfCondition(eCondition poCondition) {
+		double nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
 			nResult+=-0.30;
@@ -750,8 +749,8 @@ public class clsImportanceTools {
 		return nResult;
 	}
 	
-	public static int getEffortValueOfDistance(ePhiPosition poPosition, eRadius poRadius) {
-		int nResult = 0;
+	public static double getEffortValueOfDistance(ePhiPosition poPosition, eRadius poRadius) {
+		double nResult = 0;
 		
 		if (poRadius.equals(eRadius.NEAR)) {
 			nResult += 0;
@@ -772,8 +771,8 @@ public class clsImportanceTools {
 		return nResult;
 	}
 	
-	public static int getEffortValueOfActConfidence(clsWordPresentationMesh poIntention) {
-		int nResult = 0;
+	public static double getEffortValueOfActConfidence(clsWordPresentationMesh poIntention) {
+		double nResult = 0;
 		
 		double rActConfidence = clsActTools.getActConfidenceLevel(poIntention);
 		

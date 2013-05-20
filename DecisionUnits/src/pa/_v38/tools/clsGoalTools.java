@@ -739,11 +739,12 @@ public class clsGoalTools {
 			double pnAffectLevelThreshold) {
 		
 		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
-		ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminarySortList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
+		
 		
 		
 		//1. Go through the list of drives, which are used as filter
 		for (int i=0; i<poSortedFilterList.size();i++) {
+		    ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminarySortList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
 			clsWordPresentationMeshGoal oDriveGoal = poSortedFilterList.get(i);
 			
 			ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminaryGoalList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
@@ -774,7 +775,7 @@ public class clsGoalTools {
 			}
 			
 			for (clsPair<Double, clsWordPresentationMeshGoal> oPair : oPreliminarySortList) {
-				oRetVal.add(oPair.b);
+			    oRetVal.add(oPair.b);
 			}
 		}	
 		
@@ -912,7 +913,7 @@ public class clsGoalTools {
 	 * @return
 	 */
 	public static clsWordPresentationMeshGoal getSpatiallyNearestGoalFromPerception(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poCompareGoal) {
-		clsWordPresentationMeshGoal oResult = (clsWordPresentationMeshGoal) clsMeshTools.getNullObjectWPM();
+		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		eGoalType oCompareGoalType = poCompareGoal.getGoalType();
 		
@@ -952,7 +953,7 @@ public class clsGoalTools {
 	
 	private static ArrayList<clsWordPresentationMeshGoal> sortSpatiallyGoalList(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poCompareGoal) {
 		ArrayList<clsWordPresentationMeshGoal> oResultList = new ArrayList<clsWordPresentationMeshGoal>();
-		clsWordPresentationMeshGoal oResult = (clsWordPresentationMeshGoal) clsMeshTools.getNullObjectWPM();
+		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		double rBestDistance = -1;
 		

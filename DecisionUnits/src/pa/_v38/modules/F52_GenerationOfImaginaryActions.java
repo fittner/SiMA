@@ -579,8 +579,13 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			moCodeletHandler.executeMatchingCodelets(this, oCurrentGoal, eCodeletType.ACTION, 1);
 			
 			//Extract action from goal
+			clsWordPresentationMesh oActionWPM = null;
+			//if (oCurrentGoal.checkIfConditionExists(eCondition.IS_NEW_CONTINUED_GOAL)) {
+			    oActionWPM = oCurrentGoal.getAssociatedAction();
+			//} else {
+			    //oActionWPM = clsMeshTools.getNullObjectWPM();
+			//}
 			
-			clsWordPresentationMesh oActionWPM = oCurrentGoal.getAssociatedAction();
 			
 			// HACK (Kivy): we replaced every EAT action with a PICKUP action to the test inventory
 			/*if(oActionWPM.getMoContent() == "EAT")
