@@ -262,8 +262,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 	      //=== Perform system tests ===//
         //if (clsTester.getTester().isActivated()) {
-	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
-	    moReachableGoalList_IN = temp;
+//	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
+//	    moReachableGoalList_IN = temp;
 //	    try {
 //                clsTester.getTester().exeTestReduceGoalList(moReachableGoalList_IN);
 //            } catch (Exception e) {
@@ -402,13 +402,13 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	        for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
 	            eGoalType oGoalType = oG.getGoalType();
 	            
-	            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
 	                oReplaceList.add(oG);
 	                bPerceivedFound=true;
-	            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
 	                oReplaceList.add(oG);
 	                bActFound=true;
-	            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
 	                oReplaceList.add(oG);
 	                bDriveFound=true;
 	            }
