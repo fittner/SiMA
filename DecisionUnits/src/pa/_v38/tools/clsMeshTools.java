@@ -463,47 +463,6 @@ public class clsMeshTools {
 		}
 			
 			
-//			boolean bBreakAssLoop = false;
-//			//Go through all pairs of contents and content types
-//			//for (clsPair<String, String> oCTC : poContentTypeAndContent) {
-//				//Check if dm has the corrent content and content type
-//				if (oAss instanceof clsAssociationDriveMesh) {
-//					if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==false) {
-//						if ((poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) &&
-//								(poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true)) {
-//							oRetVal.add((clsAssociationDriveMesh) oAss);
-//							if (pbStopAtFirstMatch==true) {
-//								bBreakAssLoop=true;
-//							}
-//							break;
-//						}
-//					} else if (poContentType.equals(eContentType.NULLOBJECT)==false && poContent.equals("")==true) {
-//						if (poContentType.equals(((clsAssociationDriveMesh)oAss).getLeafElement().getMoContentType())==true) {
-//							oRetVal.add((clsAssociationDriveMesh) oAss);
-//							if (pbStopAtFirstMatch==true) {
-//								bBreakAssLoop=true;
-//							}
-//						}
-//					} else if (poContentType.equals(eContentType.NULLOBJECT)==true && poContent.equals("")==false) {
-//						if (poContent.equals(((clsDriveMeshOLD)oAss.getLeafElement()).getMoContent().toString())==true) {
-//							oRetVal.add((clsAssociationDriveMesh) oAss);
-//							if (pbStopAtFirstMatch==true) {
-//								bBreakAssLoop=true;
-//							}
-//						}
-//					} else {
-//						oRetVal.add((clsAssociationDriveMesh) oAss);
-//						if (pbStopAtFirstMatch==true) {
-//							break;
-//						}
-//					}
-//				//}
-//			}
-//			
-//			if (bBreakAssLoop==true) {
-//				break;
-//			}
-//		}
 		
 		return oRetVal;
 	}
