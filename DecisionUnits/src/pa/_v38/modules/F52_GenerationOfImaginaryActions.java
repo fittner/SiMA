@@ -14,7 +14,7 @@ import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.decisionpreparation.clsCodeletHandler;
+import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I2_5_receive;
@@ -91,7 +91,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	
 	private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
 	
-	private clsCodeletHandler moCodeletHandler;
+	//private clsCodeletHandler moCodeletHandler;
+	private clsDecisionEngine moDecisionEngine;
 	
 	private ArrayList<clsWordPresentationMesh> moMotilityActions_IN;
 	private ArrayList<clsWordPresentationMesh> moImaginaryActions_IN;
@@ -127,7 +128,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F52_GenerationOfImaginaryActions(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
+	    SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTermMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine,
 		DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 
@@ -140,7 +141,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		//Get Perceived image
 		this.moEnvironmentalImageStorage = poTempLocalizationStorage;
 		
-		this.moCodeletHandler = poCodeletHandler;
+		//this.moCodeletHandler = poCodeletHandler;
+		moDecisionEngine = poDecisionEngine;
 		
 		moAvailablePlanFragments = new ArrayList<clsPlanFragment>();
 
@@ -576,7 +578,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			clsWordPresentationMeshGoal oCurrentGoal = poGoalList.get(0);
 			
 			//Get actions from codelets
-			moCodeletHandler.executeMatchingCodelets(this, oCurrentGoal, eCodeletType.ACTION, 1);
+			//FIXME TEMP this method should be within the decision engine in a 2 stage decision making
+			this.moDecisionEngine.getCodeletHandler().executeMatchingCodelets(this, oCurrentGoal, eCodeletType.ACTION, 1);
 			
 			//Extract action from goal
 			clsWordPresentationMesh oActionWPM = null;
@@ -594,7 +597,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}*/
 			// END HACK (Kivy)
 			
-			if (oActionWPM.isNullObject()==false) {
+			if (oActionWPM.isNullObject()==false && oCurrentGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)) {
 				oResult.add(oActionWPM);
 			} else {
 				oResult.add(clsActionTools.createAction(eAction.NONE));

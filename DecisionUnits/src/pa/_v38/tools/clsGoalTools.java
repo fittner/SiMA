@@ -112,13 +112,15 @@ public class clsGoalTools {
 		//--- Add goal type to mesh ---//
 		oRetVal.setGoalType(poGoalType);
 		//clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.GOALTYPEASSOCIATION, ePredicate.HASGOALTYPE, eContentType.GOALTYPE, poGoalType.toString(), true);
-				
+		
+		
 		//--- Add goal name to mesh ---//
 		oRetVal.setGoalName(poGoalContent);
 		//clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poGoalContent, true);
 		
 		return oRetVal;
 	}
+	
 	
 	/**
 	 * Copy a goal without task status
@@ -756,7 +758,13 @@ public class clsGoalTools {
 			if (oPreliminaryGoalList.isEmpty()==true && oDriveGoal.getImportance()>=P_GOALTHRESHOLD) {
 				//There is no current affect level
 				//This sort order shall have the last priority
-				
+			    
+			    //Add as a continous goal
+			    //FIXME put this somewhere else
+			    //oDriveGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+			    //oDriveGoal.setCondition(eCondition.IS_DRIVE_SOURCE);
+			    //oDriveGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
+			    
 				double rCurrentPISortOrder = 0;
 				double rTotalCurrentAffectLevel = Math.abs(0 * 10 + rCurrentPISortOrder);
 				oPreliminaryGoalList.add(new clsPair<Double, clsWordPresentationMeshGoal>(rTotalCurrentAffectLevel, oDriveGoal));

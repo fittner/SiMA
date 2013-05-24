@@ -36,7 +36,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         super(poDataStructureIdentifier, poAssociatedStructures, poContent);
         // TODO (wendt) - Auto-generated constructor stub
         
-        this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
     }
     
     /**
@@ -51,7 +51,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     public double getImportance() {
         double nResult = 0;
         
-        String oImportance = this.getUniqueProperty(eContentType.IMPORTANCE);
+        String oImportance = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
         
         if (oImportance.isEmpty()==false) {
             nResult = Double.valueOf(oImportance);

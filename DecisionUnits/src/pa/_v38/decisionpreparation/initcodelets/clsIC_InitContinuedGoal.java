@@ -27,7 +27,7 @@ import pa._v38.tools.clsMeshTools;
  * 23.09.2012, 12:34:31
  * 
  */
-public class clsIC_DefaultAnalysis extends clsInitCodelet {
+public class clsIC_InitContinuedGoal extends clsInitCodelet {
 
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -38,7 +38,7 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 	 * @param poShortTermMemory
 	 * @param poCodeletHandler
 	 */
-	public clsIC_DefaultAnalysis(clsCodeletHandler poCodeletHandler) {
+	public clsIC_InitContinuedGoal(clsCodeletHandler poCodeletHandler) {
 		super(poCodeletHandler);
 	}
 
@@ -74,7 +74,10 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 		if (this.moGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==false) {
 			//Transfer previous stati in special
 			if (this.moGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)==true) {
-				
+//			    if (moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false) {
+//			        moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+//			    }
+			    
 				
 				
 			} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
@@ -148,7 +151,7 @@ public class clsIC_DefaultAnalysis extends clsInitCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_NEW_CONTINUED_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL));
 	}
 
 	/* (non-Javadoc)

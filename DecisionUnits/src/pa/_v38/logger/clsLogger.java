@@ -39,9 +39,9 @@ public class clsLogger {
 		Logger.getLogger(pa._v38.modules.F37_PrimalRepressionForPerception.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F35_EmersionOfBlockedContent.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F19_DefenseMechanismsForPerception.class).setLevel(Level.OFF);
-		Logger.getLogger(pa._v38.modules.F08_ConversionToSecondaryProcessForDriveWishes.class).setLevel(Level.TRACE);
-		Logger.getLogger(pa._v38.modules.F21_ConversionToSecondaryProcessForPerception.class).setLevel(Level.TRACE);
-		Logger.getLogger(pa._v38.modules.F23_ExternalPerception_focused.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F08_ConversionToSecondaryProcessForDriveWishes.class).setLevel(Level.OFF);
+		Logger.getLogger(pa._v38.modules.F21_ConversionToSecondaryProcessForPerception.class).setLevel(Level.OFF);
+		Logger.getLogger(pa._v38.modules.F23_ExternalPerception_focused.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F51_RealityCheckWishFulfillment.class).setLevel(Level.TRACE);
 		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.TRACE);
 		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.TRACE);

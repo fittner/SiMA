@@ -7,6 +7,7 @@
 package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -225,6 +226,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			oClone = (clsWordPresentationMesh)super.clone();
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
+			
+			oClone.moAssociationMapping = new HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>>();
+			
 			//Add this structure and the new clone to the list of cloned structures
 			poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
 			
@@ -235,6 +239,20 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					
+    					
+    					clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+    					if (dupl instanceof clsAssociationSecondary) {
+    					    ePredicate oCT = ((clsAssociationSecondary)dupl).getMoPredicate();
+                            
+                            ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                            if (oS==null) {
+                                oS = new ArrayList<clsSecondaryDataStructure>();
+                            }
+                            oS.add((clsSecondaryDataStructure) oOtherElement);
+                            oClone.moAssociationMapping.put(oCT, oS);
+    					}
+    					
     				} catch (Exception e) {
     					return e;
     				}
@@ -248,6 +266,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         			try { 
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
+    					
+                        clsDataStructurePA oOtherElement = ((clsAssociation)dupl).getTheOtherElement(oClone);
+                        if (dupl instanceof clsAssociationSecondary) {
+                            ePredicate oCT = ((clsAssociationSecondary)dupl).getMoPredicate();
+                            
+                            ArrayList<clsSecondaryDataStructure> oS = oClone.moAssociationMapping.get(oCT);
+                            if (oS==null) {
+                                oS = new ArrayList<clsSecondaryDataStructure>();
+                            }
+                            oS.add((clsSecondaryDataStructure) oOtherElement);
+                            oClone.moAssociationMapping.put(oCT, oS);
+                        }
     				} catch (Exception e) {
     					return e;
     				}
@@ -649,20 +679,24 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         ArrayList<clsDataStructurePA> oAssList = clsMeshTools.searchDataStructureOverAssociation(this, poAssPredicate, 0, true, false);
         
         boolean bWPFound = false;
-        clsAssociation oFoundAss = null;
+        //clsAssociation oFoundAss = null;
         
-        for (clsDataStructurePA oAss : oAssList) {
-            clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
-            if (oDS instanceof clsWordPresentationMesh) {
-                clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
-                
-                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
-                    bWPFound = true;    //Do nothing as it is already set
-                    oFoundAss = (clsAssociation) oAss;
-                    break;
-                }
-            }
+        if (oAssList.isEmpty()==false) {
+            bWPFound = true;
         }
+        
+//        for (clsDataStructurePA oAss : oAssList) {
+//            clsDataStructurePA oDS = ((clsAssociation)oAss).getLeafElement();
+//            if (oDS instanceof clsWordPresentationMesh) {
+//                clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
+//                
+//                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+//                    bWPFound = true;    //Do nothing as it is already set
+//                    oFoundAss = (clsAssociation) oAss;
+//                    break;
+//                }
+//            }
+//        }
         
         if (bWPFound==false) {
             
@@ -674,7 +708,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
             }
         } else {
             //Replace
-            oFoundAss.setLeafElement(poAddWPM);
+            ((clsAssociation)oAssList.get(0)).setLeafElement(poAddWPM);
         }
     }
     
@@ -791,11 +825,13 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         ArrayList<clsSecondaryDataStructure> oSecondaryList = getNonUniquePredicateSecondaryDataStructure(poAssPredicate);
         
         //ArrayList<clsDataStructurePA> oDSList = clsMeshTools.searchDataStructureOverAssociation(poWPM, poAssPredicate, 0, false, false);
-
-        for (clsSecondaryDataStructure oDS : oSecondaryList) {
-            if (oDS instanceof clsWordPresentationMesh)
-            oResult.add((clsWordPresentationMesh) oDS);
-        }
+        //if (oSecondaryList!=null) {
+            for (clsSecondaryDataStructure oDS : oSecondaryList) {
+                if (oDS instanceof clsWordPresentationMesh)
+                oResult.add((clsWordPresentationMesh) oDS);
+            }
+        //}
+        
             
         return oResult;
     }
@@ -811,7 +847,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oPredicate
      * @param pbUniqueProperty
      */
-    private void addToAssociationMapping(eContentType oContentType, ePredicate oPredicate, boolean pbUniqueProperty, eDataType poDataType) {
+    private void addToAssociationMapping(ePredicate oPredicate, boolean pbUniqueProperty, eDataType poDataType) {
         ArrayList<clsSecondaryDataStructure> oAddStructureList = new ArrayList<clsSecondaryDataStructure>();
         if (pbUniqueProperty==true) {
             
@@ -819,13 +855,13 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
                 clsWordPresentationMesh oUniqueWPM = getUniquePredicateWPM(oPredicate);
                 if (((clsWordPresentationMesh)oUniqueWPM).isNullObject()==false) {
                     oAddStructureList.add(oUniqueWPM);
-                    this.moAssociationMapping.put(oContentType, oAddStructureList);
+                    this.moAssociationMapping.put(oPredicate, oAddStructureList);
                 }
             } else if (poDataType.equals(eDataType.WP)) {
                 clsWordPresentation oUniqueWP = this.getUniquePredicateWP(oPredicate);
                 if (oUniqueWP!=null) {
                     oAddStructureList.add(oUniqueWP);
-                    this.moAssociationMapping.put(oContentType, oAddStructureList);
+                    this.moAssociationMapping.put(oPredicate, oAddStructureList);
                 }
             }
            
@@ -836,12 +872,12 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
                 ArrayList<clsWordPresentationMesh> oUniqueWPMList = getNonUniquePredicateWPM(oPredicate);
                 oAddStructureList.addAll(oUniqueWPMList);
                 //oNonUniqueStructure.addAll(this.getNonUniquePredicateWPM(oPredicate));
-                this.moAssociationMapping.put(oContentType, oAddStructureList);
+                this.moAssociationMapping.put(oPredicate, oAddStructureList);
             } else if (poDataType.equals(eDataType.WP)) {
                 ArrayList<clsWordPresentation> oUniqueWPList = getNonUniquePredicateWP(oPredicate);
                 oAddStructureList.addAll(oUniqueWPList);
                 //oNonUniqueStructure.addAll(this.getNonUniquePredicateWPM(oPredicate));
-                this.moAssociationMapping.put(oContentType, oAddStructureList);
+                this.moAssociationMapping.put(oPredicate, oAddStructureList);
             }
         }
     }
@@ -856,11 +892,16 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @return
      * @throws Exception 
      */
-    private void removeAssociationMapping(eContentType oContentType, clsSecondaryDataStructure poRemoveStructure) throws Exception{
-        boolean bSuccessfulRemoval = this.moAssociationMapping.get(oContentType).remove(poRemoveStructure);
+    private void removeAssociationMapping(ePredicate oPredicate, clsSecondaryDataStructure poRemoveStructure) throws Exception{
+        boolean bSuccessfulRemoval = false;
+        ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oPredicate);
+        if (oDS!=null) {
+            bSuccessfulRemoval = oDS.remove(poRemoveStructure);
+        }
+        
         
         if (bSuccessfulRemoval==false) {
-            throw new Exception("The target structure " + poRemoveStructure + " was not found in the list " + this.moAssociationMapping.get(oContentType));
+            throw new Exception("The target structure " + poRemoveStructure + " was not found in the list " + this.moAssociationMapping.get(oPredicate));
         }
         
     }
@@ -876,9 +917,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @param oPredicate
      */
-    protected void setUniqueProperty(clsWordPresentationMesh poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
-        setNonUniquePredicateWPM(oPredicate, (clsWordPresentationMesh)poProperty, pbInternalAssociations);
-        addToAssociationMapping(oContentType, oPredicate, true, eDataType.WPM);
+    protected void setUniqueProperty(clsWordPresentationMesh poProperty, ePredicate oPredicate, boolean pbInternalAssociations) {
+        setUniquePredicateWPM(oPredicate, (clsWordPresentationMesh)poProperty, pbInternalAssociations);
+        addToAssociationMapping(oPredicate, true, eDataType.WPM);
     }
     
     /**
@@ -893,9 +934,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oPredicate
      * @param pbInternalAssociations
      */
-    protected void addReplaceNonUniqueProperty(clsWordPresentationMesh poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
+    protected void addReplaceNonUniqueProperty(clsWordPresentationMesh poProperty, ePredicate oPredicate, boolean pbInternalAssociations) {
         setNonUniquePredicateWPM(oPredicate, poProperty, pbInternalAssociations);
-        addToAssociationMapping(oContentType, oPredicate, false, eDataType.WPM);
+        addToAssociationMapping(oPredicate, false, eDataType.WPM);
     }
     
     /**
@@ -911,7 +952,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      */
     protected void setUniqueProperty(String poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
         setUniquePredicateWP(eContentType.ASSOCIATIONSECONDARY, oPredicate, oContentType, poProperty, pbInternalAssociations);
-        addToAssociationMapping(oContentType, oPredicate, true, eDataType.WP);
+        addToAssociationMapping(oPredicate, true, eDataType.WP);
     }
     
     /**
@@ -928,7 +969,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      */
     protected void addReplaceNonUniqueProperty(String poProperty, eContentType oContentType, ePredicate oPredicate, boolean pbInternalAssociations) {
         setNonUniquePredicateWP(oPredicate, oContentType, poProperty, pbInternalAssociations);
-        addToAssociationMapping(oContentType, oPredicate, false, eDataType.WP);
+        addToAssociationMapping(oPredicate, false, eDataType.WP);
     }
     
     /**
@@ -941,12 +982,12 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected clsWordPresentationMesh getUniquePropertyWPM(eContentType oContentType) {
+    protected clsWordPresentationMesh getUniquePropertyWPM(ePredicate oPredicate) {
         clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
         
-        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(oContentType);
+        ArrayList<clsSecondaryDataStructure> oS = this.moAssociationMapping.get(oPredicate);
         
-        if (oS.isEmpty()==false) {
+        if (oS!=null && oS.isEmpty()==false) {
             oRetVal = (clsWordPresentationMesh) oS.get(0);
         }
         
@@ -963,14 +1004,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected ArrayList<clsWordPresentationMeshFeeling> getNonUniquePropertyWPM(eContentType oContentType) {
+    protected ArrayList<clsWordPresentationMeshFeeling> getNonUniquePropertyWPM(ePredicate oPredicate) {
         ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
     
-        ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oContentType);
+        ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oPredicate);
         
-        for (clsSecondaryDataStructure oF : oDS) {
-            oRetVal.add((clsWordPresentationMeshFeeling) oF);
+        if (oDS!=null) {
+            for (clsSecondaryDataStructure oF : oDS) {
+                oRetVal.add((clsWordPresentationMeshFeeling) oF);
+            }
         }
+        
     
         return oRetVal;
     }
@@ -983,13 +1027,13 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected String getUniqueProperty(eContentType oContentType) {
+    protected String getUniqueProperty(ePredicate oPredicate) {
         //TODO AW: Create a nullobject for WPs too
         String oRetVal = "";
     
-        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oContentType);
+        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oPredicate);
         
-        if (oWP.isEmpty()==false) {
+        if (oWP!=null && oWP.isEmpty()==false) {
             oRetVal = ((clsWordPresentation) oWP.get(0)).getMoContent();
         }
     
@@ -1006,16 +1050,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected ArrayList<String> getNonUniqueProperty(eContentType oContentType) {
+    protected ArrayList<String> getNonUniqueProperty(ePredicate oPredicate) {
         //TODO AW: Create a nullobject for WPs too
         ArrayList<String> oRetVal = new ArrayList<String>();
     
-        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oContentType);
+        ArrayList<clsSecondaryDataStructure> oWP = this.moAssociationMapping.get(oPredicate);
         
-        for (clsSecondaryDataStructure oC : oWP) {
-            oRetVal.add(oC.getMoContent());
+        if (oWP!=null) {
+            for (clsSecondaryDataStructure oC : oWP) {
+                oRetVal.add(oC.getMoContent());
+            }
         }
-    
+
         return oRetVal;
     }
     
@@ -1031,13 +1077,13 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oPredicate
      * @throws Exception 
      */
-    protected void removeProperty(String poRemoveContent, eContentType oContentType, ePredicate oPredicate) throws Exception {
+    protected void removeProperty(String poRemoveContent, ePredicate oPredicate) throws Exception {
         ArrayList<clsWordPresentation> oFoundStructureList = this.getNonUniquePredicateWP(oPredicate);
         
         for (clsWordPresentation oListElement : oFoundStructureList) {
             if (oListElement.getMoContent().equals(poRemoveContent)) {
                 clsMeshTools.removeAssociationInObject(this, oListElement);
-                this.removeAssociationMapping(oContentType, oListElement);
+                this.removeAssociationMapping(oPredicate, oListElement);
                 break;
             }
         }
@@ -1055,7 +1101,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      */
     protected void removeAllProperties(eContentType oContentType, ePredicate oPredicate) {
         clsMeshTools.removeAssociationInObject(this, oPredicate);
-        this.moAssociationMapping.put(oContentType, new ArrayList<clsSecondaryDataStructure>());
+        this.moAssociationMapping.remove(oContentType);
     }
     
 

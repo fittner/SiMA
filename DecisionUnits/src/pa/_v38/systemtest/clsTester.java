@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.tools.clsPair;
 
@@ -87,6 +88,10 @@ public class clsTester {
 	
 	public void exeTestDMReference(clsThingPresentationMesh poInput) throws Exception {
 		clsTestDataStructureConsistency.debugCheckDMQoAGrowing(poInput);
+	}
+	
+	public void exeTestReduceGoalList(ArrayList<clsWordPresentationMeshGoal> yoReachableGoalList_IN) {
+	    yoReachableGoalList_IN = clsTestDataStructureActs.exeTestReduceGoalList(yoReachableGoalList_IN);
 	}
 	
 }

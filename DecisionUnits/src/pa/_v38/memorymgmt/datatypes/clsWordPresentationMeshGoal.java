@@ -41,16 +41,16 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
         // TODO (wendt) - Auto-generated constructor stub
         
         //Init hashmap
-        this.moAssociationMapping.put(eContentType.GOALOBJECT, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.FEELING, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.EFFORTLEVEL, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.CONDITION, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.GOALNAME, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.SUPPORTIVEDATASTRUCTURE, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
-        this.moAssociationMapping.put(eContentType.ACTION, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.GOALOBJECT, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.FEELING, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.EFFORTLEVEL, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.CONDITION, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.GOALNAME, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.SUPPORTIVEDATASTRUCTURE, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
+        //this.moAssociationMapping.put(eContentType.ACTION, new ArrayList<clsSecondaryDataStructure>());
         
         
     }
@@ -68,7 +68,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @return
      */
     public clsWordPresentationMesh getGoalObject() {
-        return this.getUniquePropertyWPM(eContentType.GOALOBJECT);
+        return this.getUniquePropertyWPM(ePredicate.HASGOALOBJECT);
     }
     
     /**
@@ -81,7 +81,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poGoalObject
      */
     public void setGoalObject(clsWordPresentationMesh poGoalObject) {
-        this.setUniqueProperty(poGoalObject, eContentType.GOALOBJECT, ePredicate.HASGOALOBJECT, true);
+        this.setUniqueProperty(poGoalObject, ePredicate.HASGOALOBJECT, true);
     }
     
        /**
@@ -97,11 +97,11 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
         ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
     
-        ArrayList<clsSecondaryDataStructure> oFeelings = this.moAssociationMapping.get(eContentType.FEELING);
+        oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);
         
-        for (clsSecondaryDataStructure oF : oFeelings) {
-            oRetVal.add((clsWordPresentationMeshFeeling) oF);
-        }
+//        for (clsSecondaryDataStructure oF : oFeelings) {
+//            oRetVal.add((clsWordPresentationMeshFeeling) oF);
+//        }
     
         return oRetVal;
     }
@@ -116,7 +116,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poFeeling
      */
     public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
-        this.addReplaceNonUniqueProperty(poFeeling, eContentType.FEELING, ePredicate.HASFEELING, true);
+        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
     }
     
     /**
@@ -147,7 +147,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public double getImportance() {
         double oRetVal = 0;
         
-        String oAffectLevel = this.getUniqueProperty(eContentType.IMPORTANCE);
+        String oAffectLevel = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
         if (oAffectLevel.isEmpty()==false) {
             oRetVal = Double.valueOf(oAffectLevel);
         }
@@ -182,7 +182,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public double getEffortLevel() {
         double rResult = 0;
         
-        String oEffort = this.getUniqueProperty(eContentType.EFFORTLEVEL);
+        String oEffort = this.getUniqueProperty(ePredicate.HASEFFORTLEVEL);
         
         if (oEffort.isEmpty()==false) {
             rResult = Double.valueOf(oEffort);
@@ -246,7 +246,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public ArrayList<eCondition> getCondition() {
         ArrayList<eCondition> oResult = new ArrayList<eCondition>();
         
-        ArrayList<String> oFoundTaskStatusList = this.getNonUniqueProperty(eContentType.CONDITION);
+        ArrayList<String> oFoundTaskStatusList = this.getNonUniqueProperty(ePredicate.HASCONDITION);
         
         for (String oTaskStatus : oFoundTaskStatusList) {
             oResult.add(eCondition.valueOf(oTaskStatus));
@@ -289,7 +289,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @throws Exception 
      */
     public void removeCondition(eCondition poTask) throws Exception {
-        this.removeProperty(poTask.toString(), eContentType.CONDITION, ePredicate.HASCONDITION);
+        this.removeProperty(poTask.toString(), ePredicate.HASCONDITION);
 //        
 //        ArrayList<clsWordPresentation> oFoundStructureList = getConditionDataStructure();
 //        
@@ -365,7 +365,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @return
      */
     public String getGoalName() {
-        return this.getUniqueProperty(eContentType.GOALNAME);
+        return this.getUniqueProperty(ePredicate.HASGOALNAME);
     } 
     
     /**
@@ -379,7 +379,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @return
      */
     public clsWordPresentationMesh getSupportiveDataStructure() {
-        return this.getUniquePropertyWPM(eContentType.SUPPORTIVEDATASTRUCTURE);
+        return this.getUniquePropertyWPM(ePredicate.HASSUPPORTIVEDATASTRUCTURE);
 //        
 //        clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
 //        
@@ -404,7 +404,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poDataStructure
      */
     public void setSupportiveDataStructure(clsWordPresentationMesh poDataStructure) {
-        this.setUniqueProperty(poDataStructure, eContentType.SUPPORTIVEDATASTRUCTURE, ePredicate.HASSUPPORTIVEDATASTRUCTURE, true);
+        this.setUniqueProperty(poDataStructure, ePredicate.HASSUPPORTIVEDATASTRUCTURE, true);
     }
     
     /**
@@ -483,7 +483,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public eGoalType getGoalType() {
         eGoalType oRetVal = eGoalType.NULLOBJECT;
         
-        String oGoalType = this.getUniqueProperty(eContentType.GOALTYPE);
+        String oGoalType = this.getUniqueProperty(ePredicate.HASGOALTYPE);
         if (oGoalType.equals("")==false) {
             oRetVal = eGoalType.valueOf(oGoalType);
         }
@@ -514,7 +514,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @return
      */
     public clsWordPresentationMesh getAssociatedAction() {
-        return this.getUniquePropertyWPM(eContentType.ACTION);
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDACTION);
     } 
     
     /**
@@ -528,7 +528,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poAssociatedAction
      */
     public void setAssociatedAction(clsWordPresentationMesh poAssociatedAction) {
-        this.setUniqueProperty(poAssociatedAction, eContentType.ACTION, ePredicate.HASASSOCIATEDACTION, true);
+        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDACTION, true);
     }
     
     /**

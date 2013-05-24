@@ -182,5 +182,80 @@ public enum eContentType {
 	//Debug Values for Inspectors only, dont use or delete or Rename them - CM 25.09.2012
 	ExactDebugX,
 	ExactDebugY,
-	DebugSensorArousal;
+	DebugSensorArousal,
+	
+	//PREDICATES
+	//General
+    NONE,
+    HASASSOCIATION,
+    
+    //Hierarchical
+    ISA,
+    PARTOF,
+    HASSUPER,
+    HASPART,
+    
+    //Acts
+    HASMOMENTCONFIDENCE,
+    HASACTCONFIDENCE,
+    HASMOVEMENTTIMEOUT,
+    HASINDIVIDUALMOVEMENTTIMEOUT,
+    
+    //Goals and motivations
+    HASREALITYAFFECT,
+    HASDRIVEOBJECT,
+    HASSUPPORTIVEDATASTRUCTURE,
+    HASSUPPORTIVEDATASTRUCTUREFORACTION,
+    HASIMPORTANCE,
+    HASAFFECT,
+    HASAFFECTLEVEL,
+    HASEFFORTLEVEL,
+    HASGOALTYPE,
+    HASGOAL,
+    HASGOALOBJECT,
+    HASACTION,
+    HASCONDITION,
+    HASGOALNAME,
+    HASPREFERREDACTION,
+    HASASSOCIATEDACTION,
+    HASEXCLUDEDGOAL,
+    
+    //Action
+    HASPRECONDITION,
+    HASPOSTCONDITION,
+    HASACTIONTYPE,
+    
+    //PI and RI
+    HASNEXT,
+    HASINTENTION,
+    HASMOMENT,
+    HASEXPECTATION,
+    HASPIMATCH,
+    HASDISTANCE,
+    HASPOSITION,
+    HASCONTEXT,
+    HASFEELING,
+    HASTEMPORALCONTEXT,
+    HASSPATIALCONTEXT,
+    
+    //Relations
+    GENERAL, 
+    LEFTBEHINDOF,
+    LEFTOF,
+    LEFTINFRONTOF,
+    INFRONTOF,
+    RIGHTINFRONTOF,
+    RIGHTOF,
+    RIGHTBEHINDOF,
+    BEHINDOF,   
+    ONPOSITION,
+    NEAROF,
+    MEDIUMOF,
+    FAROF,
+    OUT_OF_SIGHT_OF,
+    
+    
+    //Control
+    HASPHANTASYFLAG;
+	
 }

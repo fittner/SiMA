@@ -12,6 +12,7 @@ import java.util.HashMap;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.ePredicate;
 
 
 /**
@@ -29,7 +30,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 	protected ArrayList<clsAssociation> moExternalAssociatedContent;
 	
 	/**Simplified access to associated content; @since 28.02.2013 10:44:20 */
-	protected HashMap<eContentType, ArrayList<clsSecondaryDataStructure>> moAssociationMapping;
+	protected HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>> moAssociationMapping;
 	
 	/**
 	 * Get all external associations
@@ -100,7 +101,7 @@ public abstract class clsLogicalStructureComposition extends clsSecondaryDataStr
 		super(poDataStructureIdentifier);
 		moInternalAssociatedContent = new ArrayList<clsAssociation>(); 
 		moExternalAssociatedContent = new ArrayList<clsAssociation>(); 
-		this.moAssociationMapping = new HashMap<eContentType, ArrayList<clsSecondaryDataStructure>>();
+		this.moAssociationMapping = new HashMap<ePredicate, ArrayList<clsSecondaryDataStructure>>();
 	}
 	
 	/**

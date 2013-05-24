@@ -22,6 +22,7 @@ import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
+import pa._v38.decisionpreparation.clsDecisionPreparationTools;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
@@ -240,7 +241,25 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		//ArrayList<clsWordPresentationMesh> moExtendedDriveList = moGoalList_IN;
 		//moExtendedDriveList.addAll(getAvoidDrives(oPotentialGoals));		//THIS PART IS DONE BY THE EMOTIONS NOW
 		
-		//Sort incoming drives
+		
+		
+		
+		
+		
+		//TEMP Add influence of feelings to goal
+		clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
+		this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
+		
+		//TEMP Apply effort on goal
+        applyEffortOfGoal(moReachableGoalList_IN);
+		
+
+        
+        
+        
+        
+        
+        //Sort incoming drives
 		ArrayList<clsWordPresentationMeshGoal> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		
 		
@@ -263,6 +282,25 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		
 	}
+	
+	   /**
+     * DOCUMENT (wendt) - insert description
+     *
+     * @since 12.02.2013 11:41:40
+     *
+     * @param poGoalList
+     */
+    private void applyEffortOfGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+        for (clsWordPresentationMeshGoal oGoal : poGoalList) {
+            //Get the penalty for the effort
+            double oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
+            
+            oGoal.setEffortLevel(oImportanceValue);
+        }
+        
+        log.debug("Applied effort to goals:" + poGoalList.toString());
+        
+    }
 	
 	private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
 		String oResult = "";

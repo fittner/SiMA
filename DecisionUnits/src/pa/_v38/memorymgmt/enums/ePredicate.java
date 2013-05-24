@@ -13,7 +13,9 @@ package pa._v38.memorymgmt.enums;
  * 
  * @author wendt
  * 12.09.2011, 09:28:44
+ * @deprecated
  * 
+ * CONTENT TYPE SHOULD BE USED INSTEAD OF PREDICATE - for all new functions, try to avoid predicates
  */
 public enum ePredicate {
 	//General

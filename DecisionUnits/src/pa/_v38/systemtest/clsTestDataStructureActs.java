@@ -9,6 +9,8 @@ package pa._v38.systemtest;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsMeshTools;
 
@@ -40,10 +42,35 @@ public class clsTestDataStructureActs {
 				checkIfPIMatchingCorrectnessOneImage(oWPM);
 			}
 		}
-		
-		
-		
-		
+	}
+	
+	public static ArrayList<clsWordPresentationMeshGoal> exeTestReduceGoalList(ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_IN) {
+	    //Keep only Libidonous stomach with cake
+	    boolean bPerceivedFound = false;
+	    boolean bActFound = false;
+	    boolean bDriveFound = false;
+	    
+	    ArrayList<clsWordPresentationMeshGoal> oReplaceList = new ArrayList<clsWordPresentationMeshGoal>();
+	    
+	    for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
+	        eGoalType oGoalType = oG.getGoalType();
+	        
+	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+	            oReplaceList.add(oG);
+	            bPerceivedFound=true;
+	        } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+                oReplaceList.add(oG);
+                bActFound=true;
+            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
+                oReplaceList.add(oG);
+                bDriveFound=true;
+            }
+
+	    }
+	    
+	    //moReachableGoalList_IN = oReplaceList;
+	    return oReplaceList;
+	    
 	}
 }
 
