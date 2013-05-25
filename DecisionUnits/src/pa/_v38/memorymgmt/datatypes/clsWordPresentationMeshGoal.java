@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
 
@@ -569,7 +570,8 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public String toString() {
         String oResult = "";  
         oResult += this.getGoalContentIdentifier();
-        double nTotalAffectLevel = getImportance() + getEffortLevel();
+        double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this);
+        double nTotalAffectLevel = getImportance() + getEffortLevel() + rImportanceOfFeelings;
         
         oResult += ":" + new DecimalFormat("0.00").format(nTotalAffectLevel);
         oResult += ":" + this.getFeelings().toString();

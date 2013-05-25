@@ -247,8 +247,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		
 		//TEMP Add influence of feelings to goal
-		clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
-		this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
+		//clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
+		//this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
 		
 		//TEMP Apply effort on goal
         applyEffortOfGoal(moReachableGoalList_IN);
@@ -423,6 +423,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
 		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
 			oRetVal.add(oPanicGoal);
+			log.trace("Added panic goal" + oPanicGoal);
 		} else {
 			//1. Process goals with Superego???
 

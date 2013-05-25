@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -64,6 +63,7 @@ public class clsDecisionPreparationTools {
 		// --- GET AND INIT THE CONTINUED GOAL --- //
 		//Set condition for continuous preprocessing
 		clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(oPreviousGoal, poGoalList);
+		log.trace("Continued goal: " + oResult);
 		
 		return oResult;
 	}
@@ -199,43 +199,6 @@ public class clsDecisionPreparationTools {
         poGoal.removeCondition(eCondition.IS_MEMORY_SOURCE);
         poGoal.removeCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
         poGoal.setCondition(oCondition);
-    }
-    
-    /**
-     * DOCUMENT (wendt) - insert description
-     *
-     * @since 23.05.2013 13:30:24
-     *
-     * @param poGoal
-     */
-    private static void applyConsequencesOfFeelingsOnGoal(clsWordPresentationMeshGoal poGoal, clsWordPresentationMeshFeeling poIncomingFeeling) {
-        
-            //Get Feeling affect
-            ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
-            
-            for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-                double nAffectFromFeeling = oF.getImportance();
-                
-                //Add affect to goal
-                double nOldAffectLevel = poGoal.getImportance();
-                poGoal.setImportance(nOldAffectLevel + nAffectFromFeeling);
-            }
-    }
-    
-    /**
-     * Add the intensity of the feelings to the goals.
-     * 
-     * (wendt)
-     *
-     * @since 16.05.2013 18:57:40
-     *
-     * @param poGoalList
-     */
-    public static void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshFeeling poIncomingFeeling) {
-        for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-            applyConsequencesOfFeelingsOnGoal(oGoal, poIncomingFeeling);
-        }
-        //log.debug("Append feelings, goal:" + poGoalList.toString());
     }
 	
 	
@@ -426,7 +389,7 @@ public class clsDecisionPreparationTools {
 		    poContinuedGoal.setCondition(oActionCondition);
 		}
 		
-		log.debug("Append previous action, goal:" + poContinuedGoal.toString());
+		log.debug("Append previous action, goal: Action: " + oActionCondition + ", goal: " + poContinuedGoal.toString());
 		
 	}
 	

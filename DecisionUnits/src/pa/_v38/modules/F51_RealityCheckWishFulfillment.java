@@ -262,8 +262,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 	      //=== Perform system tests ===//
         //if (clsTester.getTester().isActivated()) {
-//	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
-//	    moReachableGoalList_IN = temp;
+	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
+	    moReachableGoalList_IN = temp;
 //	    try {
 //                clsTester.getTester().exeTestReduceGoalList(moReachableGoalList_IN);
 //            } catch (Exception e) {
@@ -290,7 +290,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- INIT INCOMING GOALS --- //
 		try {
+		    log.trace("Incoming goals: " + moReachableGoalList_IN);
             this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
+            log.trace("Incoming goals after init: " + moReachableGoalList_IN);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();
@@ -298,6 +300,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 		// --- INIT CONTINUED GOAL --- //
 		clsWordPresentationMeshGoal oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
+		log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
+		log.trace("Continued goal: " + oContinuedGoal);
 		
 		
 		// --- INIT GOALS --- //

@@ -8,6 +8,8 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
@@ -36,6 +38,7 @@ public class clsGoalTools {
 
 	private final static clsWordPresentationMeshGoal moNullObjectWPM=null;// new clsWordPresentationMesh(new clsTriple<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	private final static double P_GOALTHRESHOLD = 0.1;
+	private static Logger log = Logger.getLogger("pa._v38.tools.clsGoalTools");
 	
 	/**
 	 * @since 05.07.2012 22:04:13
@@ -753,6 +756,7 @@ public class clsGoalTools {
 			
 			//Extract all remembered goals from the image, which match the drive goal
 			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
+			log.trace("for drivegoal " + oDriveGoal.getGoalContentIdentifier() + " the following reachable goals were extracted: " + oPreliminaryGoalList);
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
 			if (oPreliminaryGoalList.isEmpty()==true && oDriveGoal.getImportance()>=P_GOALTHRESHOLD) {
@@ -823,7 +827,8 @@ public class clsGoalTools {
 		for (clsWordPresentationMeshGoal oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
-			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortLevel();
+		    double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(oPossibleGoal);
+			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortLevel() + rImportanceOfFeelings;
 			
 			if (rCurrentAffectLevel>=prAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time

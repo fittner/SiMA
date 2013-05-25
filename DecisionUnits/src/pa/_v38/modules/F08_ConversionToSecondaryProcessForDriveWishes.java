@@ -155,8 +155,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
-		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
 		try {
@@ -170,7 +170,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
 		//FIXME AW .::::::: FAKE Prepare Drive input
-				//ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
+				ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
 				for (clsDriveMesh oDM : moDriveList_Input) {
 					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
 						//Change to cake
@@ -183,7 +183,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 							if (oDM.getDebugInfo().equals("nourish")) {
 								oDM.setActualDriveObject(oTPM, 1.0);
 								oDM.setQuotaOfAffect(1.0);
-							}
+								
+								oOnlyDriveMesh.add(oDM);
+							} 
 							
 						} catch (Exception e) {
 							// TODO (wendt) - Auto-generated catch block
@@ -217,6 +219,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 				
 				//moDriveList_Input.clear();
 				//moDriveList_Input.add(oOnlyDriveMesh);
+				moDriveList_Input = oOnlyDriveMesh;
 	}
 	
 //	/**

@@ -47,6 +47,7 @@ public class clsLogger {
 		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.TRACE);
 		Logger.getLogger(pa._v38.modules.F29_EvaluationOfImaginaryActions.class).setLevel(Level.OFF);
 		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.TRACE);
+		Logger.getLogger("pa._v38.tools.clsGoalTools").setLevel(Level.TRACE);
 		Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation").setLevel(Level.OFF);
 		Logger.getLogger("pa._v38.memorymgmt").setLevel(Level.OFF);
 	}
