@@ -13,7 +13,11 @@ package pa._v38.memorymgmt.enums;
  * Apr 2, 2013, 10:02:44 AM
  * 
  */
-public enum eSexualDrives {
+public enum eDrive {
+    STOMACH,
+    RECTUM,
+    STAMINA,
+    
 	ORAL,
 	ANAL,
 	PHALLIC,

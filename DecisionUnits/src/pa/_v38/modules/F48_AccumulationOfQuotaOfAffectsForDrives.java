@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import java.util.SortedMap;
 import pa._v38.modules.eImplementationStage;
@@ -17,12 +18,22 @@ import pa._v38.interfaces.modules.I3_4_receive;
 import pa._v38.interfaces.modules.I4_1_receive;
 import pa._v38.interfaces.modules.I4_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
+import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
+import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDrive;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
+import pa._v38.tools.clsPair;
+import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eOrgan;
+import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 
@@ -39,6 +50,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 
 	private DT4_PleasureStorage moPleasureStorage;
+	private DT1_LibidoBuffer moLibidoBuffer;
 	private double mnCurrentPleasure = 0.0;
 	
 	private boolean mnChartColumnsChanged = true;
@@ -49,6 +61,10 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	private ArrayList<clsDriveMesh> moAllDriveComponents_OUT;
 
 	private ArrayList<clsDriveMesh> moSexualDriveRepresentations_IN;
+	
+	private HashMap<eDrive, eOrifice> moOrificeMap;
+	private HashMap<eDrive, eOrgan> moOrganMap;
+	private HashMap<eDrive, ePartialDrive> moPartialDriveMapping;
 	
 	/**
 	 *F48 combines Libido and homeostatic drive candidates, calculates the first quota of effect based 
@@ -67,14 +83,53 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT4_PleasureStorage poPleasureStorage, DT1_LibidoBuffer poLibidoBuffer, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 
 		moPleasureStorage = poPleasureStorage;
+		moLibidoBuffer = poLibidoBuffer;
 		moDriveChartData =  new HashMap<String, Double>(); //initialize charts
+		
+		fillOrificeMapping();
+		fillOrganMapping();
+		fillPartialDriveMapping();
+		
 		applyProperties(poPrefix, poProp);	
 	}
+	   private void fillOrificeMapping() {
+	        //this mapping is fixed for the PA body, no changes! (cm 18.07.2012)
+	        moOrificeMap = new HashMap<eDrive, eOrifice>();
+	        moOrificeMap.put(eDrive.RECTUM, eOrifice.RECTAL_MUCOSA);
+	        moOrificeMap.put(eDrive.STAMINA, eOrifice.TRACHEA);
+	        moOrificeMap.put(eDrive.STOMACH, eOrifice.ORAL_MUCOSA);
+	        moOrificeMap.put(eDrive.ANAL, eOrifice.RECTAL_MUCOSA);
+	        moOrificeMap.put(eDrive.ORAL, eOrifice.ORAL_MUCOSA);
+	        moOrificeMap.put(eDrive.PHALLIC, eOrifice.PHALLUS);
+	        moOrificeMap.put(eDrive.GENITAL, eOrifice.MALE_GENITAL);
+	    }
+       private void fillOrganMapping() {
+           moOrganMap = new HashMap<eDrive, eOrgan>();
+           moOrganMap.put(eDrive.STOMACH, eOrgan.STOMACH);
+           moOrganMap.put(eDrive.RECTUM, eOrgan.RECTUM);
+           moOrganMap.put(eDrive.STAMINA, eOrgan.STAMINA);
+           moOrganMap.put(eDrive.ANAL, eOrgan.LIBIDO);
+           moOrganMap.put(eDrive.ORAL, eOrgan.LIBIDO);
+           moOrganMap.put(eDrive.PHALLIC, eOrgan.LIBIDO);
+           moOrganMap.put(eDrive.GENITAL, eOrgan.LIBIDO);
+
+       }
+       private void fillPartialDriveMapping() {
+           moPartialDriveMapping = new HashMap<eDrive, ePartialDrive>();
+           moPartialDriveMapping.put(eDrive.STOMACH, ePartialDrive.UNDEFINED);
+           moPartialDriveMapping.put(eDrive.RECTUM, ePartialDrive.UNDEFINED);
+           moPartialDriveMapping.put(eDrive.STAMINA, ePartialDrive.UNDEFINED);
+           moPartialDriveMapping.put(eDrive.ANAL, ePartialDrive.ANAL);
+           moPartialDriveMapping.put(eDrive.ORAL, ePartialDrive.ORAL);
+           moPartialDriveMapping.put(eDrive.PHALLIC, ePartialDrive.PHALLIC);
+           moPartialDriveMapping.put(eDrive.GENITAL, ePartialDrive.GENITAL);
+
+       }
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
@@ -122,15 +177,16 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 		
 		moAllDriveComponents_OUT = new ArrayList<clsDriveMesh>();
 		
-	
+		generateAllDrives();
+		
 		//first calculate the tensions for homoestatic drives
 	    for( clsDriveMesh oHeastaticDMPairEntry : moHomoestasisDriveComponents_IN){
-	          moAllDriveComponents_OUT.add(oHeastaticDMPairEntry);
+	          //moAllDriveComponents_OUT.add(oHeastaticDMPairEntry);
 	    }
 		
 		//second calculate the tensions for sexual drives
 	    for( clsDriveMesh oSexualDMPairEntry : moSexualDriveRepresentations_IN){
-	          moAllDriveComponents_OUT.add(oSexualDMPairEntry);
+	         // moAllDriveComponents_OUT.add(oSexualDMPairEntry);
 	    }
 		
 		//calculate the pleasure gain from reduced tensions for DT4
@@ -163,6 +219,69 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 	}
 	
 	/**
+     * DOCUMENT (herret) - insert description
+     *
+     * @since 23.05.2013 15:46:49
+     *
+     */
+    private void generateAllDrives() {
+        HashMap<eDrive,clsPair<Double,Double>> moDriveBuffer = moLibidoBuffer.send_D1_5();
+        for(Map.Entry<eDrive,clsPair<Double,Double>> oEntry : moDriveBuffer.entrySet()){
+            try{
+                moAllDriveComponents_OUT.add(CreateDriveCandidate(oEntry.getKey(), oEntry.getValue().a,eDriveComponent.AGGRESSIVE));
+                moAllDriveComponents_OUT.add(CreateDriveCandidate(oEntry.getKey(), oEntry.getValue().b,eDriveComponent.LIBIDINOUS));
+            }
+            catch(Exception e){
+                
+            }
+
+            
+        }
+        
+        
+    }
+
+    
+    /**
+     * Creates a DM out of the entry, and adds necessary information, source, etc
+     * @throws Exception 
+     *
+     * @since 16.07.2012 15:20:26
+     *
+     */
+    private clsDriveMesh CreateDriveCandidate(eDrive poDrive, double rTension, eDriveComponent peComponent) throws Exception {
+        clsDriveMesh oDriveCandidate  = null;
+        
+        eOrgan oOrgan = moOrganMap.get(poDrive);
+        eOrifice oOrifice = moOrificeMap.get(poDrive);
+       
+        
+        //create a TPM for the organ
+        clsThingPresentationMesh oOrganTPM = 
+            (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+                    eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOrgan.toString()) );
+        
+        //create a TPM for the orifice
+        clsThingPresentationMesh oOrificeTPM = 
+            (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure( 
+                    eDataType.TPM, new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.ORIFICE, new ArrayList<clsThingPresentation>(), oOrifice.toString()) );
+        
+        //create the DM
+        oDriveCandidate = (clsDriveMesh)clsDataStructureGenerator.generateDM(new clsTriple<eContentType, ArrayList<clsThingPresentationMesh>, Object>(eContentType.DRIVECANDIDATE, new ArrayList<clsThingPresentationMesh>(), "") 
+                ,peComponent, ePartialDrive.UNDEFINED );
+        
+        //supplement the information
+        oDriveCandidate.setActualDriveSource(oOrganTPM, 1.0);
+        
+        oDriveCandidate.setActualBodyOrifice(oOrificeTPM, 1.0);
+        
+        oDriveCandidate.setQuotaOfAffect(rTension);
+        
+        oDriveCandidate.setPartialDrive(moPartialDriveMapping.get(poDrive));
+        
+        return oDriveCandidate;
+    }
+    /**
 	 * Guarantees that the provided scalar value r is within the range -1<r<1.
 	 *
 	 * @since 14.07.2011 11:53:36

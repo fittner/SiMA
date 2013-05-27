@@ -9,100 +9,246 @@ package pa._v38.memorymgmt.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Map;
 
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
 import pa._v38.interfaces.modules.D1_1_receive;
-import pa._v38.interfaces.modules.D1_2_send;
+import pa._v38.interfaces.modules.D1_2_receive;
 import pa._v38.interfaces.modules.D1_3_receive;
 import pa._v38.interfaces.modules.D1_4_send;
-import pa._v38.interfaces.modules.D1_5_receive;
+import pa._v38.interfaces.modules.D1_5_send;
+import pa._v38.interfaces.modules.D1_6_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.enums.eSexualDrives;
+import pa._v38.memorymgmt.enums.eDrive;
 
+import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**
- * DOCUMENT (deutsch) - insert description 
+ * Buffer for all drives
  * 
  * @author deutsch
  * 09.03.2011, 17:04:55
  * 
  */
-public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_2_send, D1_4_send, D1_1_receive, D1_3_receive, D1_5_receive {
+public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive {
 	private double mrBufferedLibido;
-	private HashMap<eSexualDrives,Double> moLibidoBuffers;
+	private HashMap<eDrive,clsPair<Double,Double>> moLibidoBuffers;
 	
 	public DT1_LibidoBuffer() {
 		mrBufferedLibido = 0;
-		moLibidoBuffers = new HashMap<eSexualDrives,Double>();
-		moLibidoBuffers.put(eSexualDrives.ANAL, 0.0);
-		moLibidoBuffers.put(eSexualDrives.ORAL, 0.0);
-		moLibidoBuffers.put(eSexualDrives.GENITAL, 0.0);
-		moLibidoBuffers.put(eSexualDrives.PHALLIC, 0.0);
-		
+		moLibidoBuffers = initBuffers();
+
+	}
+	private HashMap<eDrive,clsPair<Double,Double>> initBuffers(){
+	    HashMap<eDrive,clsPair<Double,Double>> oRetVal = new HashMap<eDrive,clsPair<Double,Double>>();
+	    oRetVal.put(eDrive.STOMACH, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.RECTUM, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.STAMINA, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.ORAL, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.ANAL, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.GENITAL, new clsPair<Double,Double>(0.0,0.0));
+	    oRetVal.put(eDrive.PHALLIC, new clsPair<Double,Double>(0.0,0.0));
+	    
+	    return oRetVal;
 	}
 
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 09.03.2011, 17:16:00
-	 * 
-	 * @see pa.interfaces.receive._v38.D1_3_receive#receive_D1_3(double)
-	 */
-	@Override
-	public void receive_D1_3(double prValue) {
-
-		//all partial libido storages get reduced by the same amount
-		double rReduceValue = prValue / moLibidoBuffers.size();
-		for(eSexualDrives eType: moLibidoBuffers.keySet()){
-			moLibidoBuffers.put(eType , moLibidoBuffers.get(eType)-rReduceValue);
-			
-		}		
-		normalizeBuffers();
-	}
 	
+
 	private void normalizeBuffers() {
 		//Max value = 1, min value = 0.
-		for(eSexualDrives eType: moLibidoBuffers.keySet()){
-			if (moLibidoBuffers.get(eType) > 1) {
-				moLibidoBuffers.put(eType , 1.0);
-			} else if (moLibidoBuffers.get(eType) < 0) {
-				moLibidoBuffers.put(eType , 0.0);
+		for(Map.Entry<eDrive,clsPair<Double,Double>> oDrive: moLibidoBuffers.entrySet()){
+			
+			if(oDrive.getValue().a > 1.0){
+			    oDrive.getValue().a = 1.0;
+			    //if it is not possible to add it to the aggressive part add it to the libidinous
+			    oDrive.getValue().b += oDrive.getValue().a -1.0;
 			}
+			else if(oDrive.getValue().a < 0.0) oDrive.getValue().a = 0.0;
+			
+	        if(oDrive.getValue().b > 1.0) oDrive.getValue().b = 1.0;
+	        else if(oDrive.getValue().b < 0.0) oDrive.getValue().b = 0.0;
+	        
+	        double rSum =oDrive.getValue().a + oDrive.getValue().b;
+	        if(rSum > 1.0){
+	            oDrive.getValue().a -= (rSum - 1.0)/2;
+	            oDrive.getValue().b -= (rSum - 1.0)/2;
+	        }
 		}
 	}
 	
-	/* (non-Javadoc)
-	 *
-	 * @author deutsch
-	 * 09.03.2011, 17:16:00
-	 * 
-	 * @see pa.interfaces.receive._v38.D1_1_receive#receive_D1_1(double)
-	 */
-	@Override
-	public void receive_D1_1(eSexualDrives peType, double prValue) {
-		
-		double rBufferValue;
-		if(moLibidoBuffers.containsKey(peType)){
-			rBufferValue = moLibidoBuffers.get(peType);
-		}
-		else{
-			rBufferValue=0.0;
-		}
-		
-		//Only values < are allowed. Total value > 1 is cut of
-		if (rBufferValue+prValue <= 1) { 
-			rBufferValue += prValue;
-		} else {
-			rBufferValue = 1;
-		}
-		
-		moLibidoBuffers.put(peType, rBufferValue);
-		
-		normalizeBuffers();
-	}
+	
+	 /** check if buffer available 
+     * if not initialize new buffer
+     */
+    private boolean checkBuffer(eDrive peType){
+        if(moLibidoBuffers.containsKey(peType)){
+            return true;
+        }
+        else{
+            moLibidoBuffers.put(peType, new clsPair<Double,Double>(0.0,0.0));
+            return false;
+        }
+    }
+    private clsPair<Double,Double> shiftQoA (clsPair<Double,Double> prValues, double prRatio){
+        double rSum = prValues.a + prValues.b;
+        double rAggrFactor = prValues.a/rSum;
+        double d = 0.0;
+        double k = 0.0;
+        if(prRatio>=0.5){
+            k=(1-prRatio)/0.5;
+            d=1-k;
+        }
+        else{
+            k=prRatio/0.5;
+            d=0.0;
+        }
+        rAggrFactor = rAggrFactor*k + d;
+        
+        return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
+    }
+	
+    /**
+     * Write access to libido storage
+     * Sets both drive components
+     * 1. aggressiv
+     * 2. libidinous
+     * 
+     * @author herret
+     * 15.5.2013
+     * 
+     */
+   @Override
+   public void receive_D1_1(eDrive peType, clsPair<Double,Double> oValues) {
+       
+       
+       checkBuffer(peType);
+       
+       moLibidoBuffers.put(peType, oValues);
+
+       normalizeBuffers();
+   }
+	
+   
+   /**
+    * Write access to libido storage
+    * increases both drive components
+    * 1. aggressiv
+    * 2. libidinous
+    * 
+    * @author herret
+    * 15.5.2013
+    * 
+    */
+  @Override
+  public void receive_D1_2(eDrive peType, clsPair<Double,Double> oValues) {
+      
+      
+      checkBuffer(peType);
+      
+      clsPair<Double,Double> oDriveValues = moLibidoBuffers.get(peType);
+      oDriveValues.a += oValues.a;
+      if(oDriveValues.a > 1.0) oDriveValues.b += oDriveValues.a-1.0;
+      oDriveValues.b += oValues.b;
+      if(oDriveValues.b > 1.0) oDriveValues.a += oDriveValues.b-1.0;
+      moLibidoBuffers.put(peType, oDriveValues);
+
+      normalizeBuffers();
+  }
+  
+  /**
+   * Write access to libido storage
+   * decreases both drive components
+   * 1. aggressiv
+   * 2. libidinous
+   * 
+   * @author herret
+   * 15.5.2013
+   * 
+   */
+ @Override
+ public void receive_D1_3(eDrive peType, clsPair<Double,Double> oValues) {
+     
+     
+     checkBuffer(peType);
+     
+     clsPair<Double,Double> oDriveValues = moLibidoBuffers.get(peType);
+     oDriveValues.a -= oValues.a;
+     if(oDriveValues.a < 0.0) oDriveValues.b += oDriveValues.a;
+     oDriveValues.b -= oValues.b;
+     if(oDriveValues.b < 0.0) oDriveValues.a += oDriveValues.b;
+     moLibidoBuffers.put(peType, oDriveValues);
+
+     normalizeBuffers();
+ }
+
+ /**
+  * returns drive
+  * 1. aggressiv
+  * 2. libidinous
+  * 
+  * @author herret
+  * 15.5.2013
+  * 
+  */
+ @Override
+ public clsPair<Double,Double> send_D1_4(eDrive peType) {
+     return moLibidoBuffers.get(peType);
+ }
+
+
+/**
+ * returns drive
+ * 1. aggressiv
+ * 2. libidinous
+ * 
+ * @author herret
+ * 15.5.2013
+ * 
+ */
+@Override
+public HashMap<eDrive,clsPair<Double,Double>> send_D1_5() {
+    return moLibidoBuffers;
+}
+
+
+/**
+ * shift drive components 
+ * 
+ * @author herret
+ * 15.5.2013
+ * 
+ */
+@Override
+public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
+    clsPair<Double,Double> newValues =shiftQoA(moLibidoBuffers.get(oDrive),oShiftFactor);
+    moLibidoBuffers.put(oDrive, newValues);
+    
+    return;
+}
+
+   
+   /* (non-Javadoc)
+   *
+   * @author deutsch
+   * 09.03.2011, 17:16:00
+   * 
+   * @see pa.interfaces.receive._v38.D1_3_receive#receive_D1_3(double)
+   */
+/*  @Override
+  public void receive_D1_3(double prValue) {
+
+      //all storages are reduced by the same amount
+      double rReduceValue = prValue / getNumberOfBuffers();
+      for(Map.Entry<eDrive,HashMap<eDriveComponent,Double>> oDrive: moLibidoBuffers.entrySet()){
+          for(Map.Entry<eDriveComponent, Double> oDriveComponent : oDrive.getValue().entrySet()){
+                  oDriveComponent.setValue(oDriveComponent.getValue() - rReduceValue);
+          }
+      }
+      normalizeBuffers();
+  }
 	
 	/* (non-Javadoc)
 	 *
@@ -110,8 +256,8 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * 
 	 * @see pa._v38.interfaces.modules.D1_5_receive#receive_D1_5(pa._v38.memorymgmt.enums.eSexualDrives)
 	 */
-	@Override
-	public void receive_D1_5(double prValue, eSexualDrives peType) {
+//	@Override
+/*	public void receive_D1_5(double prValue, eDrive peType) {
 		moLibidoBuffers.put(peType , moLibidoBuffers.get(peType)-prValue);
 		normalizeBuffers();
 		
@@ -124,7 +270,7 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * 
 	 * @see pa.interfaces.send._v38.D1_4_send#send_D1_4()
 	 */
-	@Override
+/*	@Override
 	public Double send_D1_4() {
 		Double rRetValue=0.0;
 		for(Double rValue : moLibidoBuffers.values()){
@@ -141,17 +287,17 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	 * 
 	 * @see pa.interfaces.send._v38.D1_2_send#send_D1_2()
 	 */
-	@Override
-	public double send_D1_2(eSexualDrives peType) {
+/*	@Override
+	public double send_D1_2(eDrive peType) {
 		return moLibidoBuffers.get(peType);
 	}
-
+*/
 	@Override
 	public String toString() {
-		String oRetVal ="ORAL: "+moLibidoBuffers.get(eSexualDrives.ORAL) + "\n"
-		+ "ANAL: "+moLibidoBuffers.get(eSexualDrives.ANAL) + "\n"
-		+ "PHALLIC: "+moLibidoBuffers.get(eSexualDrives.PHALLIC) + "\n"
-		+ "GENITAL: "+moLibidoBuffers.get(eSexualDrives.GENITAL);
+		String oRetVal ="ORAL: "+moLibidoBuffers.get(eDrive.ORAL) + "\n"
+		+ "ANAL: "+moLibidoBuffers.get(eDrive.ANAL) + "\n"
+		+ "PHALLIC: "+moLibidoBuffers.get(eDrive.PHALLIC) + "\n"
+		+ "GENITAL: "+moLibidoBuffers.get(eDrive.GENITAL);
 		return oRetVal;
 	}
 
@@ -183,8 +329,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-	      for(double driveVal : moLibidoBuffers.values()){
-	          oValues.add(driveVal);
+	      for(clsPair<Double,Double> driveVal : moLibidoBuffers.values()){
+	          oValues.add(driveVal.a);
+	          oValues.add(driveVal.b);
 	        }
 		
 		return oValues;
@@ -200,8 +347,9 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
 	@Override
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
-		for(eSexualDrives drive : moLibidoBuffers.keySet()){
-		    oCaptions.add(drive.toString());
+		for(eDrive drive : moLibidoBuffers.keySet()){
+		    oCaptions.add(drive.toString()+"Agressiv");
+		    oCaptions.add(drive.toString()+"Libidinous");
 		}
 		return oCaptions;
 	}

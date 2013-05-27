@@ -30,9 +30,10 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.memorymgmt.enums.eSexualDrives;
+import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
+import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
 
@@ -191,39 +192,49 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		//partition of the incoming libido value to all partial drives corresponding to the fixation values (moSplitterFactors)
 		
 		//ORAL
-		moLibidoBuffer.receive_D1_1(eSexualDrives.ORAL, moLibidoInput * moSplitterFactors.get("ORAL"));
+		send_D1_2(eDrive.ORAL,new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ORAL")/2,moLibidoInput * moSplitterFactors.get("ORAL")/2));
 		//ANAL
-		moLibidoBuffer.receive_D1_1(eSexualDrives.ANAL, moLibidoInput * moSplitterFactors.get("ANAL"));
+		send_D1_2(eDrive.ANAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ANAL")/2,moLibidoInput * moSplitterFactors.get("ANAL")/2));
 		//GENITAL
-		moLibidoBuffer.receive_D1_1(eSexualDrives.GENITAL, moLibidoInput * moSplitterFactors.get("GENITAL"));
+		send_D1_2(eDrive.GENITAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("GENITAL")/2,moLibidoInput * moSplitterFactors.get("GENITAL")/2));
 		//PHALLIC
-		moLibidoBuffer.receive_D1_1(eSexualDrives.PHALLIC, moLibidoInput * moSplitterFactors.get("PHALLIC"));
+		send_D1_2(eDrive.PHALLIC, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("PHALLIC")/2,moLibidoInput * moSplitterFactors.get("PHALLIC")/2));
 		
 		//decrease libodo buffer if erogenous zone gets stimulated
-		double before = moLibidoBuffer.send_D1_4();
+		double before=0.0;
+		for(clsPair<Double,Double> oDriveValues: receive_D1_5().values()){
+		    before += oDriveValues.a;
+		    before += oDriveValues.b;
+		}
 		for (eFastMessengerSources eType: moErogenousZones_IN.keySet()){
 			if(eType == eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA){
-			    moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"), eSexualDrives.ORAL);
+			    send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"),0.0));
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA){
-			    moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL"), eSexualDrives.ORAL);
+			    send_D1_3(eDrive.ORAL,new clsPair<Double,Double>(0.0,moErogenousZones_IN.get(eType)*moImpactFactors.get("ORAL")));
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_PHALLIC_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("ANAL"), eSexualDrives.PHALLIC);
+			    double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("PHALLIC");
+			    send_D1_3(eDrive.PHALLIC,new clsPair<Double,Double>(rVal/2,rVal/2));
 
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_RECTAL_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("GENITAL"), eSexualDrives.ANAL);
+	             double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("ANAL");
+	             send_D1_3(eDrive.ANAL,new clsPair<Double,Double>(rVal/2,rVal/2));
+
 
 			}
 			else if(eType == eFastMessengerSources.ORIFICE_GENITAL_MUCOSA){
-				moLibidoBuffer.receive_D1_5(moErogenousZones_IN.get(eType)*moImpactFactors.get("PHALLIC"), eSexualDrives.GENITAL);
-
-                
-				
+	             double rVal = moErogenousZones_IN.get(eType)*moImpactFactors.get("GENITAL");
+	             send_D1_3(eDrive.GENITAL,new clsPair<Double,Double>(rVal/2,rVal/2));
 			}
 		}
-		double after = moLibidoBuffer.send_D1_4();
+		//TODO: handle pleasure calculation
+	    double after=0.0;
+	    for(clsPair<Double,Double> oDriveValues: receive_D1_5().values()){
+	       before += oDriveValues.a;
+	       before += oDriveValues.b;
+	    }
 		moPleasureStorage.D4_2receive(before - after);
 		
 		
@@ -234,34 +245,34 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		
 		//generation of the drives corresponding to the libido buffer types
 		clsDriveMesh oAADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.AGGRESSIVE, ePartialDrive.ANAL);
-		oAADM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.ANAL)/2);
+		oAADM.setQuotaOfAffect( receive_D1_4(eDrive.ANAL).a);
 		moOutput.add(oAADM);
 		clsDriveMesh oLADM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.RECTAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ANAL);
-		oLADM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.ANAL)/2);
+		oLADM.setQuotaOfAffect( receive_D1_4(eDrive.ANAL).b);
 		moOutput.add(oLADM);
 		
 		clsDriveMesh oAODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.AGGRESSIVE, ePartialDrive.ORAL);
-		oAODM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.ORAL)/2);
+		oAODM.setQuotaOfAffect( receive_D1_4(eDrive.ORAL).a);
 		moOutput.add(oAODM);
 		clsDriveMesh oLODM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.ORAL_MUCOSA, eDriveComponent.LIBIDINOUS, ePartialDrive.ORAL);
-		oLODM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.ORAL)/2);
+		oLODM.setQuotaOfAffect( receive_D1_4(eDrive.ORAL).b);
 		moOutput.add(oLODM);
 
 
 		clsDriveMesh oAPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.AGGRESSIVE, ePartialDrive.PHALLIC);
-		oAPDM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.PHALLIC)/2);
+		oAPDM.setQuotaOfAffect( receive_D1_4(eDrive.PHALLIC).a);
 		moOutput.add(oAPDM);
 		clsDriveMesh oLPDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.PHALLUS, eDriveComponent.LIBIDINOUS, ePartialDrive.PHALLIC);
-		oLPDM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.PHALLIC)/2);
+		oLPDM.setQuotaOfAffect( receive_D1_4(eDrive.PHALLIC).b);
 		moOutput.add(oLPDM);
 
 
 		
 		clsDriveMesh oAGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.AGGRESSIVE, ePartialDrive.GENITAL);
-		oAGDM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.GENITAL)/2);
+		oAGDM.setQuotaOfAffect( receive_D1_4(eDrive.GENITAL).a);
 		moOutput.add(oAGDM);
 		clsDriveMesh oLGDM = CreateDriveRepresentations(eOrgan.LIBIDO, eOrifice.MALE_GENITAL, eDriveComponent.LIBIDINOUS, ePartialDrive.GENITAL);
-		oLGDM.setQuotaOfAffect( moLibidoBuffer.send_D1_2(eSexualDrives.GENITAL)/2);
+		oLGDM.setQuotaOfAffect( receive_D1_4(eDrive.GENITAL).b);
 		moOutput.add(oLGDM);
 
 
@@ -471,5 +482,45 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		mnChartColumnsChanged = false;	
 		
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 15.05.2013 13:48:55
+     * 
+     * @see pa._v38.interfaces.modules.D1_2_send#send_D1_2(pa._v38.memorymgmt.enums.eDrive, pa._v38.tools.clsPair)
+     */
+
+    public void send_D1_2(eDrive peType, clsPair<Double, Double> oValues) {
+        moLibidoBuffer.receive_D1_2(peType, oValues);
+        
+    }
+    
+
+    public void send_D1_3(eDrive peType, clsPair<Double, Double> oValues) {
+        moLibidoBuffer.receive_D1_3(peType, oValues);
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 16.05.2013 11:41:36
+     * 
+     * @see pa._v38.interfaces.modules.D1_5_receive#receive_D1_5()
+     */
+
+    public HashMap<eDrive, clsPair<Double, Double>> receive_D1_5() {
+        return moLibidoBuffer.send_D1_5();
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 16.05.2013 11:54:37
+     * 
+     * @see pa._v38.interfaces.modules.D1_4_receive#receive_D1_4(pa._v38.memorymgmt.enums.eDrive)
+     */
+
+    public clsPair<Double, Double> receive_D1_4(eDrive oDrive) {
+        return moLibidoBuffer.send_D1_4(oDrive);
+    }
 
 }

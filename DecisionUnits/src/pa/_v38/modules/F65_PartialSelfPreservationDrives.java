@@ -8,6 +8,7 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import java.util.SortedMap;
 import java.util.Map.Entry;
@@ -25,6 +26,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDrive;
+import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -59,17 +62,21 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	private HashMap<String, Double> moHomeostasisSymbols_IN;
 	private double rectum_pain_limit;
 	
+	private DT1_LibidoBuffer moLibidoBuffer;
 	
 	private HashMap<String, Double> moCandidatePartitionFactor;
 	
-   private  DT4_PleasureStorage moPleasureStorage;
+    private  DT4_PleasureStorage moPleasureStorage;
 	
     private HashMap<String,clsPair<Double,Double>> oQoA_LastStep;
+    private HashMap<String,Double> o_LastStep;
     private HashMap<String,Double> shiftFactorLastStep;
 	
 	private Logger log = Logger.getLogger(this.getClass().getName());
 	
 	private HashMap<eOrgan, eOrifice> moOrificeMap;
+	
+	private HashMap<eDrive, eOrgan> moOrganMap;
 	
 	//einfluess auf die normalisierung von body -> psyche
 	private HashMap<String, Double> moHomeostaisImpactFactors;
@@ -94,13 +101,14 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
+			DT1_LibidoBuffer poLibidoBuffer,
 			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 		rectum_pain_limit = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_RECTUM_PAIN_LIMIT).getParameterDouble();
 		
 		moPleasureStorage= poPleasureStorage;
-		
+		moLibidoBuffer = poLibidoBuffer;
 		moHomeostaisImpactFactors = new HashMap<String, Double>();
 		moHomeostaisImpactFactors.put("STOMACH",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STOMACH).getParameterDouble());
 		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
@@ -110,9 +118,16 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		oQoA_LastStep.put("STOMACH", new clsPair<Double,Double>(0.0,0.0));
 		oQoA_LastStep.put("RECTUM", new clsPair<Double,Double>(0.0,0.0));
 		oQoA_LastStep.put("STAMINA", new clsPair<Double,Double>(0.0,0.0));
+		
+		o_LastStep = new HashMap<String,Double>();
+		o_LastStep.put("STOMACH", 0.0);
+		o_LastStep.put("RECTUM", 0.0);
+		o_LastStep.put("STAMINA", 0.0);
+		
 		shiftFactorLastStep = new HashMap<String,Double>();
 		shiftFactorLastStep.put("STOMACH", 0.5);
 		fillOrificeMapping();
+		fillOrganMapping();
 		
 		moDriveChartData = new HashMap<String,Double>();
 	}
@@ -124,6 +139,12 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moOrificeMap.put(eOrgan.STAMINA, eOrifice.TRACHEA);
 		moOrificeMap.put(eOrgan.BLADDER, eOrifice.URETHRAL_MUCOSA);
 		moOrificeMap.put(eOrgan.STOMACH, eOrifice.ORAL_MUCOSA);
+	}
+	   private void fillOrganMapping() {
+	    moOrganMap = new HashMap<eDrive, eOrgan>();
+	    moOrganMap.put(eDrive.STOMACH, eOrgan.STOMACH);
+	    moOrganMap.put(eDrive.RECTUM, eOrgan.RECTUM);
+	    moOrganMap.put(eDrive.STAMINA, eOrgan.STAMINA);
 	}
 
 	@Override
@@ -175,14 +196,15 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
     			if(oEntry.getKey().toString() == eSlowMessenger.BLOODSUGAR.name())
     			{
     				//bloodsugar is special, make it to a stomach drive
-    					clsPair<Double,Double> oStomachFactors = generateDevisionFactorsStomach(oEntry.getValue());
-    					
+    					updateDevisionFactorsStomach(oEntry.getValue());
+    					//clsPair<Double,Double> oStomachF =generateDevisionFactorsStomach(oEntry.getValue());
     					//shift the division factor corresponding to the responses from the oral errogenous zones
     					//oStomachFactors = shiftDevivionFactorsStomach(oStomachFactors);
-    					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.a,eDriveComponent.AGGRESSIVE));
-    					moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomachFactors.b,eDriveComponent.LIBIDINOUS));
+    					clsPair<Double,Double> oStomach = moLibidoBuffer.send_D1_4(eDrive.STOMACH);
+    					//moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomach.a,eDriveComponent.AGGRESSIVE));
+    					//moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(eOrgan.STOMACH, oStomach.b,eDriveComponent.LIBIDINOUS));
     					
-    					
+    					o_LastStep.put("STOMACH", oEntry.getValue());
     
     			}
                 else if (oEntry.getKey().toString() == "RECTUM"){
@@ -220,14 +242,27 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
                    e.printStackTrace();
             }
     	}
-		
+		try{
+		    createDrives();
+		}
+		catch(Exception e){
+		    
+		}
 		//fill charts 
 		for (clsDriveMesh oMesh :moHomeostaticDriveComponents_OUT){
 		    moDriveChartData.put(oMesh.getChartShortString(), oMesh.getQuotaOfAffect());
 		}
-	
-		
 
+	}
+	
+	private void createDrives() throws Exception{
+	    HashMap<eDrive,clsPair<Double,Double>> moDriveBuffer = moLibidoBuffer.send_D1_5();
+	    for(Map.Entry<eDrive,clsPair<Double,Double>> oEntry : moDriveBuffer.entrySet()){
+	        moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(moOrganMap.get(oEntry.getKey()), oEntry.getValue().a,eDriveComponent.AGGRESSIVE));
+            moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(moOrganMap.get(oEntry.getKey()), oEntry.getValue().b,eDriveComponent.AGGRESSIVE));
+
+	        
+	    }
 	}
 	
 	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
@@ -248,6 +283,74 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
     }
 	
+	private void updateDevisionFactorsStomach(double prStomachTension) {
+        clsPair<Double,Double> oOldStomachValues = moLibidoBuffer.send_D1_4(eDrive.STOMACH);
+        
+	    double rChange = prStomachTension - (oOldStomachValues.a + oOldStomachValues.b);
+	    double rStomachTensionFactor = prStomachTension;
+	        
+	    double rPersonalityFactor = 0.7;
+	    double rChangeFactor = rStomachTensionFactor * 0.8 + rPersonalityFactor * 0.2;
+	    
+	    double rErrogenousZonesFactor =0.5;
+	    if(rChange <0 ){
+            double rAgrStimulation =0.0;
+            double rLibStimulation =0.0;
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
+                rAgrStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString());
+            }
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
+                rLibStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString());
+            }
+            if(rAgrStimulation + rLibStimulation > 0){
+                rErrogenousZonesFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
+            }
+            rChangeFactor = rErrogenousZonesFactor * 0.5 + rStomachTensionFactor * 0.4 + rPersonalityFactor * 0.1;
+	    }
+	    
+	    moLibidoBuffer.receive_D1_2(eDrive.STOMACH, new clsPair<Double,Double>(rChange*rChangeFactor, rChange*(1-rChangeFactor)));
+        
+        //TODO: fixme
+/*        double rTensionFactor = prStomachTension;
+        
+        if(rChange > 0){ // Stomach tension is rising 
+            moLibidoBuffer.receive_D1_2(eDrive.STOMACH, shiftValues(new clsPair<Double,Double>(rChange/2,rChange/2),rTensionFactor));
+        }
+        else if (rChange < 0 ) {// Stomach tension is falling 
+            double rAgrStimulation =0.0;
+            double rLibStimulation =0.0;
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString())){
+                rAgrStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_AGGRESSIV_MUCOSA.toString());
+            }
+            if(moHomeostasisSymbols_IN.containsKey(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString())){
+                rLibStimulation = moHomeostasisSymbols_IN.get(eFastMessengerSources.ORIFICE_ORAL_LIBIDINOUS_MUCOSA.toString());
+            }
+            double rAgrFactor = 0.5;
+            double rLibFactor = 0.5;
+            if(rAgrStimulation + rLibStimulation > 0){
+                rAgrFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
+                rLibFactor = rLibStimulation / (rAgrStimulation + rLibStimulation);
+            }
+            moLibidoBuffer.receive_D1_3(eDrive.STOMACH, shiftValues(new clsPair<Double,Double>(-rChange*rAgrFactor,-rChange*rLibFactor),rTensionFactor));
+            
+        }
+        else{// Stomach tension is equal 
+            //nothing happens
+        }
+        */
+        /* depending on the stomach tension the portion factor is shifted */
+       // moLibidoBuffer.receive_D1_6(eDrive.STOMACH, (prStomachTension-0.5)*0.5+0.5);
+	}
+	
+	private clsPair<Double,Double> shiftValues(clsPair<Double,Double> poInput, double prShiftFactor){
+	    double rSum =poInput.a+poInput.b;
+	    double rFactorOld = poInput.a/rSum;
+	    double rFactorNew = rFactorOld/0.5*prShiftFactor;
+	    
+	    return new clsPair<Double,Double>(rSum*rFactorNew,rSum*(1-rFactorNew));
+	    
+	}
+	
     /**
      * Method to calculate the QoA of the aggressiv and libidinous parts of the Stomach drive
      * if QoA of hole stomach drive is rising: rise the aggressiv and libidinous 50/50
@@ -264,7 +367,6 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         double rLibTension = 0.0;
         double rAgrFactor;
         double rLibFactor;
-        
         
         double rLibStimulation = 0.0;
         double rAgrStimulation = 0.0;
@@ -296,7 +398,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             
             //falling stomach tension
             rAgrTension = rAgrTensionOld - rTensionChange * (rRelativAgrFactor);
-            //rLibTension = rLibTensionOld - rTensionChange *(0.7);
+            //rLibTension = rLibTensionOld - rTensionChange * (0.7);
             
             if(rAgrTension < 0 ) rAgrTension = 0;
             
