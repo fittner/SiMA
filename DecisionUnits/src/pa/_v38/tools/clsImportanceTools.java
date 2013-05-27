@@ -729,17 +729,17 @@ public class clsImportanceTools {
 		double nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-0.30;
+			nResult+=-1.0;
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
 			nResult+= -0.10;
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
-			nResult+=-2.00;
-		} else if (poCondition.equals(eCondition.IS_NEW_CONTINUED_GOAL)) {
+			nResult+=-10.00;
+		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
 			nResult+=0.5;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
-			nResult+=-1.00;
+			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
 			nResult+=-2.00;
 		} else if (poCondition.equals(eCondition.OBSTACLE_SOLVING)) {
@@ -787,6 +787,27 @@ public class clsImportanceTools {
 		
 		return nResult;
 	}
+	
+    /**
+     * DOCUMENT (wendt) - insert description
+     *
+     * @since 23.05.2013 13:30:24
+     *
+     * @param poGoal
+     */
+    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshGoal poGoal) {
+        double rResult = 0;
+        //Get Feeling affect
+        ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
+            
+        for (clsWordPresentationMeshFeeling oF : oFeelingList) {
+            double nAffectFromFeeling = oF.getImportance();
+                
+            rResult += nAffectFromFeeling;
+        }
+        
+        return rResult;
+    }
 
 }
 

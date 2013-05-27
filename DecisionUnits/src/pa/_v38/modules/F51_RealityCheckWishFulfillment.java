@@ -14,9 +14,7 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import pa._v38.decisionpreparation.clsCodeletHandler;
-import pa._v38.decisionpreparation.clsDecisionPreparationTools;
-import pa._v38.decisionpreparation.eCodeletType;
+import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -24,9 +22,9 @@ import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
@@ -105,7 +103,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
-	private clsCodeletHandler moCodeletHandler;
+	//private clsCodeletHandler moCodeletHandler;
+	private clsDecisionEngine moDecisionEngine;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -122,7 +121,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 * @throws Exception
 	 */
 	public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsCodeletHandler poCodeletHandler,
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsEnvironmentalImageMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 	//public F51_RealityCheckWishFulfillment(String poPrefix, clsProperties poProp,
 	//		HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData) throws Exception {
@@ -146,9 +145,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//moGoalMemory = poGoalMemory;
 		moEnvironmentalImageStorage = poTempLocalizationStorage;
 		
-		moCodeletHandler = poCodeletHandler;
+		moDecisionEngine = poDecisionEngine;
 		//Init with special variables from F51
-		moCodeletHandler.initF51(moReachableGoalList_IN);
+		moDecisionEngine.getCodeletHandler().initF51(moReachableGoalList_IN);
 		
 
 	}
@@ -261,8 +260,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//Get previous memory
 		//clsWordPresentationMesh oPreviousMentalSituation = moShortTimeMemory.findPreviousSingleMemory();
 		
+	      //=== Perform system tests ===//
+        //if (clsTester.getTester().isActivated()) {
+	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
+	    moReachableGoalList_IN = temp;
+//	    try {
+//                clsTester.getTester().exeTestReduceGoalList(moReachableGoalList_IN);
+//            } catch (Exception e) {
+//                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+//            }
+//        //}
 		
-		//=== Create the mental image ===
+	    
+	    //=== Create the mental image ===
 		//Test AW: Relational Meshes
 		//clsSecondarySpatialTools.createRelationalObjectMesh(moPerceptionalMesh_IN);
 		
@@ -277,32 +287,57 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//	clsSecondarySpatialTools.createRelationalObjectMesh(moAssociatedMemories_IN.get(0));
 		//}
 		
+		
+		// --- INIT INCOMING GOALS --- //
+		try {
+		    log.trace("Incoming goals: " + moReachableGoalList_IN);
+            this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
+            log.trace("Incoming goals after init: " + moReachableGoalList_IN);
+        } catch (Exception e) {
+            // TODO (wendt) - Auto-generated catch block
+            e.printStackTrace();
+        }
+		
+		// --- INIT CONTINUED GOAL --- //
+		clsWordPresentationMeshGoal oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
+		log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
+		log.trace("Continued goal: " + oContinuedGoal);
+		
+		
 		// --- INIT GOALS --- //
 		//Preprocess all new goals and assign one goal as continued goal
-		clsWordPresentationMeshGoal oContinuedGoal = clsDecisionPreparationTools.initGoals(moShortTimeMemory, moReachableGoalList_IN);
+//		clsWordPresentationMeshGoal oContinuedGoal = clsDecisionPreparationTools.getContinuedGoal(moShortTimeMemory, moReachableGoalList_IN);
+//		if (oResult.isNullObject()==false) {
+//            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
+//        }
+//        log.debug("Continued goal:" + oResult.toString());
 		
 		
 		// --- PROVE CONTINUOUS CONDITIONS --- //
 		//Start codelets for new continuous goals 
-		proveContinousConditions(oContinuedGoal);
+		//proveContinousConditions(oContinuedGoal);
 		
 		
 		// --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
-		clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
+		//clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, moShortTimeMemory);
 		
 		
 		// --- APPLY ACTION CONSEQUENCES ON THE CONTINUED GOAL --- //
-		applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
+		//applyConsequencesOfActionsOnContinuedGoal(moReachableGoalList_IN, oContinuedGoal);
+		this.moDecisionEngine.analyzeContinuedGoal(oContinuedGoal);
 		
 		
 		// --- SET NEW PRECONDITIONS FOR ACTIONS AS WELL AS DEFAULT CONDITIONS FOR NEW GOALS --- //
-		setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
+		//setNewActionPreconditions(oContinuedGoal, moReachableGoalList_IN);
+		//FIXME Put in F52 instead
+		this.moDecisionEngine.generatePlan(oContinuedGoal);
 		
 		// --- ADD IMPORTANCE OF FEELINGS --- //
-		applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
+		//applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
+		//applyConsequencesOfFeelingsOnGoal(oContinuedGoal);
 		
-		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
-		applyEffortOfGoal(moReachableGoalList_IN);
+//		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+//		applyEffortOfGoal(moReachableGoalList_IN);
 		
 		
 		// --- ADD NON REACHABLE GOALS TO THE STM --- //
@@ -360,106 +395,111 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//printImageText(moExtractedPrediction_OUT);*/
 	}
 	
-	/**
-	 * Add the intensity of the feelings to the goals.
-	 * 
-	 * (wendt)
-	 *
-	 * @since 16.05.2013 18:57:40
-	 *
-	 * @param poGoalList
-	 */
-	private void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-	    for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-	        //Get Feeling affect
-	        ArrayList<clsWordPresentationMeshFeeling> oFeelingList = oGoal.getFeelings();
+	   private ArrayList<clsWordPresentationMeshGoal> JACKBAUERHACKReduceGoalList(ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_IN) {
+	        //Keep only Libidonous stomach with cake
+	        boolean bPerceivedFound = false;
+	        boolean bActFound = false;
+	        boolean bDriveFound = false;
 	        
-	        for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-	            double nAffectFromFeeling = oF.getImportance();
+	        ArrayList<clsWordPresentationMeshGoal> oReplaceList = new ArrayList<clsWordPresentationMeshGoal>();
+	        
+	        for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
+	            eGoalType oGoalType = oG.getGoalType();
 	            
-	            //Add affect to goal
-	            double nOldAffectLevel = oGoal.getImportance();
-	            oGoal.setImportance(nOldAffectLevel + nAffectFromFeeling);
+	            if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+	                oReplaceList.add(oG);
+	                bPerceivedFound=true;
+	            } else if (bActFound==false && oGoalType.equals(eGoalType.MEMORYDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+	                oReplaceList.add(oG);
+	                bActFound=true;
+	            } else if (bDriveFound==false && oGoalType.equals(eGoalType.DRIVESOURCE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
+	                oReplaceList.add(oG);
+	                bDriveFound=true;
+	            }
+
 	        }
+	        
+	        //moReachableGoalList_IN = oReplaceList;
+	        return oReplaceList;
+	        
 	    }
-	}
 	
-	/**
-	 * Process the selected goal, which is continued from the last step. This method executes all codelets, which apply conseqeunces of an executed action (internal or external)
-	 * 
-	 * (wendt)
-	 *
-	 * @since 18.07.2012 21:47:22
-	 *
-	 * @param poContinuedGoal
-	 */
-	private void applyConsequencesOfActionsOnContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poContinuedGoal) {
-		//Add importance as the goal was found as it is focused on and should not be replaced too fast
-		
-		
-		//Process the codelets once again with new continued stati
-		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
-		log.debug("Append consequence, goal:" + poContinuedGoal.toString());
-		
-	}
+//	/**
+//	 * Add the intensity of the feelings to the goals.
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 16.05.2013 18:57:40
+//	 *
+//	 * @param poGoalList
+//	 */
+//	private void applyConsequencesOfFeelingsOnGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+//	    for (clsWordPresentationMeshGoal oGoal : poGoalList) {
+//	        applyConsequencesOfFeelingsOnGoal(oGoal);
+//	    }
+//	    log.debug("Append feelings, goal:" + poGoalList.toString());
+//	}
 	
-	/**
-	 * Execute matching codelets for the continuous goal. The condition IS_NEW_CONTINUED_GOAL is set prior and after the execution of
-	 * those codelets
-	 * 
-	 * (wendt)
-	 *
-	 * @since 01.10.2012 15:43:40
-	 *
-	 * @param poContinuedGoal
-	 */
-	private void proveContinousConditions(clsWordPresentationMeshGoal poContinuedGoal) {
-		
-		//Execute all codelets, which are using IS_NEW_CONTINUED_GOAL
-		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.INIT, -1);
-			
-		//Remove conditions for continuous preprocessing
-		//clsGoalTools.removeTaskStatus(poContinuedGoal, eCondition.IS_NEW_CONTINUED_GOAL);
-		log.debug("Prove previous, goal:" + poContinuedGoal.toString());
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 23.05.2013 13:30:24
+//	 *
+//	 * @param poGoal
+//	 */
+//	private void applyConsequencesOfFeelingsOnGoal(clsWordPresentationMeshGoal poGoal) {
+//	    
+//            //Get Feeling affect
+//            ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
+//            
+//            for (clsWordPresentationMeshFeeling oF : oFeelingList) {
+//                double nAffectFromFeeling = oF.getImportance();
+//                
+//                //Add affect to goal
+//                double nOldAffectLevel = poGoal.getImportance();
+//                poGoal.setImportance(nOldAffectLevel + nAffectFromFeeling);
+//            }
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 12.02.2013 11:41:37
-	 *
-	 * @param poContinuedGoal
-	 * @param poGoalList
-	 */
-	private void setNewActionPreconditions(clsWordPresentationMeshGoal poContinuedGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-		//Set default actions for all not continued goals
-		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
-		
-		//Execute codelets, which decide what the next action in F52 will be
-		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.DECISION, 1);
-		
-		log.debug("New decision, goal:" + poContinuedGoal.toString());
-		
-	}
+//	/**
+//	 * Process the selected goal, which is continued from the last step. This method executes all codelets, which apply conseqeunces of an executed action (internal or external)
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 18.07.2012 21:47:22
+//	 *
+//	 * @param poContinuedGoal
+//	 */
+//	private void applyConsequencesOfActionsOnContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poContinuedGoal) {
+//		//Add importance as the goal was found as it is focused on and should not be replaced too fast
+//		
+//		
+//		//Process the codelets once again with new continued stati
+//		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
+//		log.debug("Append consequence, goal:" + poContinuedGoal.toString());
+//		
+//	}
 	
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 12.02.2013 11:41:40
-	 *
-	 * @param poGoalList
-	 */
-	private void applyEffortOfGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-			//Get the penalty for the effort
-			double oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
-			
-			oGoal.setEffortLevel(oImportanceValue);
-		}
-		
-		log.debug("Corrected goals:" + poGoalList.toString());
-		
-	}
+//	/**
+//	 * DOCUMENT (wendt) - insert description
+//	 *
+//	 * @since 12.02.2013 11:41:37
+//	 *
+//	 * @param poContinuedGoal
+//	 * @param poGoalList
+//	 */
+//	private void setNewActionPreconditions(clsWordPresentationMeshGoal poContinuedGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+//		//Set default actions for all not continued goals
+//		clsDecisionPreparationTools.setDefaultConditionForGoalList(poContinuedGoal, poGoalList);
+//		
+//		//Execute codelets, which decide what the next action in F52 will be
+//		this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.DECISION, 1);
+//		
+//		log.debug("New decision, goal:" + poContinuedGoal.toString());
+//		
+//	}
+	
+
 	
 	/**
 	 * DOCUMENT (wendt) - insert description

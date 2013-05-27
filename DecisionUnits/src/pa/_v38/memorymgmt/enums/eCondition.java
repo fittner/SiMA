@@ -28,7 +28,8 @@ public enum eCondition {
 	IS_MEMORY_SOURCE,
 
 	// --- Decision codelets preprocessing --- //
-	IS_NEW_CONTINUED_GOAL,
+	IS_CONTINUED_GOAL,
+	IS_UNPROCESSED_GOAL,
 	
 	// --- Executed actions as preconditions --- //
 	//Actions - Movement single

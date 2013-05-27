@@ -87,7 +87,7 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	@Override
 	protected void setPreconditions() {
 		//1. Perception
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_CONTINUED_GOAL));
 		
 	}
 
@@ -99,8 +99,8 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	 */
 	@Override
 	protected void setPostConditions() {
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.SET_FOCUS_ON));
-		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_CONTINUED_GOAL, eCondition.NEED_GOAL_FOCUS));
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_CONTINUED_GOAL, eCondition.SET_FOCUS_ON));
+		this.moPostConditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_CONTINUED_GOAL, eCondition.NEED_GOAL_FOCUS));
 	}
 
 
