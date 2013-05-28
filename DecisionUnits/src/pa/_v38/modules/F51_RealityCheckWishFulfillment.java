@@ -263,8 +263,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		
 	      //=== Perform system tests ===//
         //if (clsTester.getTester().isActivated()) {
-	    ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
-	    moReachableGoalList_IN = temp;
+	    //ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
+	    //moReachableGoalList_IN = temp;
 //	    try {
 //                clsTester.getTester().exeTestReduceGoalList(moReachableGoalList_IN);
 //            } catch (Exception e) {
