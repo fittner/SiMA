@@ -107,7 +107,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_OUT;
 	
 	// Anxiety from F20
-	private ArrayList<clsWordPresentationMesh> moAnxiety_Input;
+	private ArrayList<clsWordPresentationMesh> moFeeling_IN;
 	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
@@ -173,7 +173,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		text += toText.listToTEXT("moDriveGoalList_IN", moDriveGoalList_IN);
 		//text += toText.listToTEXT("moExtractedPrediction_OUT", moExtractedPrediction_OUT);
 		
-		text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
+		text += toText.listToTEXT("moAnxiety_Input", moFeeling_IN);
 		
 		text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
 		
@@ -258,7 +258,6 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
         
         
         
-        
         //Sort incoming drives
 		ArrayList<clsWordPresentationMeshGoal> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		
@@ -271,7 +270,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
-			log.info("Decided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString());
+			log.info("\n=======================\nDecided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString() + "\n==============================");
 			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
 			//System.out.println(moTEMPDecisionString);
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
@@ -386,7 +385,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	@SuppressWarnings("unchecked")
 	@Override
 	public void receive_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
-		moAnxiety_Input = (ArrayList<clsWordPresentationMesh>)deepCopy(poAnxiety_Input);	
+		moFeeling_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAnxiety_Input);	
 		//TODO
 		
 	}
@@ -420,7 +419,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		int nAddedGoals = 0;
 		
 		//Process emotions
-		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moAnxiety_Input);
+		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moFeeling_IN);
 		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
 			oRetVal.add(oPanicGoal);
 			log.trace("Added panic goal" + oPanicGoal);

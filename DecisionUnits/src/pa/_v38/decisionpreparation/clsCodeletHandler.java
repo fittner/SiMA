@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsPair;
 
@@ -315,7 +316,11 @@ public class clsCodeletHandler {
 			}
 			
 			oCodelet.assignGoal(poGoal);
-			oCodelet.startCodelet();
+			try {
+                oCodelet.startCodelet();
+            } catch (ElementNotFoundException e) {
+                log.error(e.getMessage());
+            }
 			log.debug("Executed codelet "  + oCodelet.toString());
 			oCodelet.clearGoal();
 			

@@ -29,7 +29,7 @@ import pa._v38.decisionpreparation.decisioncodelets.clsDC_SET_NEED_MOVEMENT_FOCU
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_XToMoveFocus;
 import pa._v38.decisionpreparation.initcodelets.clsIC_CheckSetFocus;
-import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoal;
+import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoalAct;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedAct;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedDrive;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedPerception;
@@ -37,6 +37,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -92,7 +93,7 @@ public class clsDecisionEngine {
         
     }
     
-    public clsWordPresentationMeshGoal initContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsShortTermMemory poSTM) {
+    public clsWordPresentationMeshGoal initContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsShortTermMemory poSTM) throws ElementNotFoundException {
         //clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
         
         clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(poSTM, poGoalList);
@@ -148,7 +149,7 @@ public class clsDecisionEngine {
     private void registerCodelets() {
         //Decision codelets
         clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
-        clsIC_InitContinuedGoal oContinousAnalysis = new clsIC_InitContinuedGoal(moCodeletHandler);
+        clsIC_InitContinuedGoalAct oContinousAnalysis = new clsIC_InitContinuedGoalAct(moCodeletHandler);
         clsIC_InitUnprocessedAct oInitUnprocessedAct = new clsIC_InitUnprocessedAct(moCodeletHandler);
         clsIC_InitUnprocessedDrive oInitUnprocessedDrive = new clsIC_InitUnprocessedDrive(moCodeletHandler);
         clsIC_InitUnprocessedPerception oInitUnprocessedPerception = new clsIC_InitUnprocessedPerception(moCodeletHandler);

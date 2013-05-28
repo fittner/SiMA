@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.toText;
 
@@ -299,9 +300,15 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         }
 		
 		// --- INIT CONTINUED GOAL --- //
-		clsWordPresentationMeshGoal oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
-		log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
-		log.trace("Continued goal: " + oContinuedGoal);
+		clsWordPresentationMeshGoal oContinuedGoal = clsGoalTools.getNullObjectWPM();
+        try {
+            oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
+            log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
+            log.trace("Continued goal: " + oContinuedGoal);
+        } catch (Exception e) {
+            this.log.error(e.getMessage());
+        }
+		
 		
 		
 		// --- INIT GOALS --- //

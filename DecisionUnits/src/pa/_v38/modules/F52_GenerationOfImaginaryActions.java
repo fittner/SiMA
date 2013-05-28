@@ -597,7 +597,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			}*/
 			// END HACK (Kivy)
 			
-			if (oActionWPM.isNullObject()==false && oCurrentGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)) {
+			if (oActionWPM.isNullObject()==false) { //&& oCurrentGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)) {
 				oResult.add(oActionWPM);
 			} else {
 				oResult.add(clsActionTools.createAction(eAction.NONE));

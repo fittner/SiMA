@@ -62,7 +62,7 @@ public class clsDecisionPreparationTools {
 		
 		// --- GET AND INIT THE CONTINUED GOAL --- //
 		//Set condition for continuous preprocessing
-		clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(oPreviousGoal, poGoalList);
+		clsWordPresentationMeshGoal oResult = getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
 		log.trace("Continued goal: " + oResult);
 		
 		return oResult;
@@ -99,7 +99,7 @@ public class clsDecisionPreparationTools {
 	 * @param poGoalList
 	 * @return
 	 */
-	private static clsWordPresentationMeshGoal getContinuedGoal(clsWordPresentationMeshGoal poPreviousGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+	private static clsWordPresentationMeshGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshGoal poPreviousGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
 		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		//Check if goal exists in the goal list
@@ -107,52 +107,35 @@ public class clsDecisionPreparationTools {
 		
 		//If the goal could not be found
 		if (oEquivalentGoalList.isEmpty()==true) {
+		    //--- COPY PREVIOUS GOAL ---//
+		    clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+		    
+		    //Add the goal to the incoming goallist. In this way all goals are handled equally in F26
+		    if (poGoalList.contains(oNewGoalFromPrevious)==false) {
+                poGoalList.add(oNewGoalFromPrevious);
+            }
 			
-			//--- Remove the temporal data from the last turn ---//
-			if (poPreviousGoal.getGoalType().equals(eGoalType.MEMORYDRIVE)==true) { 
-				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
-				
-				//Add to goallist
-				if (poGoalList.contains(oNewGoalFromPrevious)==false) {
-					poGoalList.add(oNewGoalFromPrevious);
-				}
-				oResult = oNewGoalFromPrevious;	
-				
-				oResult.setCondition(eCondition.IS_MEMORY_SOURCE);	//FIXME: This operation should not be necessary here
-				
-			} else if (poPreviousGoal.getGoalType().equals(eGoalType.DRIVESOURCE)==true) {
-				//--- COPY PREVIOUS GOAL ---//
-				clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
-				
-				//Add to goallist
-				poGoalList.add(oNewGoalFromPrevious);
-				oResult = oNewGoalFromPrevious;	
-				
-				oResult.setCondition(eCondition.IS_DRIVE_SOURCE);
-			}
+			oResult = oNewGoalFromPrevious;  
 
 		} else {
 			//Assign the right spatially nearest goal from the previous goal if the goal is from the perception
-			eGoalType oPreviousGoalType = poPreviousGoal.getGoalType();
+			//eCondition oPreviousGoalType = poPreviousGoal.getc.getGoalType();
 			
-			if (oPreviousGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==true) {
+			if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
 				oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
-				oResult.setCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
-			} else if (oPreviousGoalType.equals(eGoalType.MEMORYDRIVE)==true) {
-				oResult = oEquivalentGoalList.get(0);	//drive or memory is always present
-				oResult.setCondition(eCondition.IS_MEMORY_SOURCE);
 			} else {
 				oResult = oEquivalentGoalList.get(0);	//drive or memory is always present
-			}
-			
-			
+			} 
 			
 		}
 		
-//		//Set default precondition for all continued goals
-//		
-//		clsGoalTools.setTaskStatus(oResult, eCondition.NEED_CONTINUOS_ANALYSIS);
+		//This method sets the condition for the goal type from reading the goal.
+		try {
+            clsDecisionPreparationTools.setConditionFromGoalType(oResult);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
 		
 		return oResult;
 	}
@@ -200,89 +183,89 @@ public class clsDecisionPreparationTools {
         poGoal.removeCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
         poGoal.setCondition(oCondition);
     }
-	
-	
-//	/**
-//	 * Set the default conditions for all goals in the list except the continued goal.
-//	 * 
-//	 * (wendt)
-//	 *
-//	 * @since 27.09.2012 10:22:03
-//	 *
-//	 * @param poContinuedGoal
-//	 * @param poGoalList
-//	 */
-//	public static void setDefaultConditionForGoalList(clsWordPresentationMeshGoal poContinuedGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-//		
-//		for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-//			if (poContinuedGoal!=oGoal) {
-//				setDefaultGoalCondition(oGoal, poContinuedGoal);
-//			}
-//		}
-//	}
-	
+    
+    private static eCondition getPreconditionFromAction(eAction poPreviousAction) throws Exception {
+        eCondition oActionCondition = eCondition.EXECUTED_NONE;
+        
+        switch (poPreviousAction) {
+        case BITE:
+            oActionCondition = eCondition.EXECUTED_BITE;
+            break;
+        case EAT:
+            oActionCondition = eCondition.EXECUTED_EAT;
+            break;
+        case PICKUP:
+            oActionCondition = eCondition.EXECUTED_PICKUP;
+            break;
+        case EXCREMENT:
+            oActionCondition = eCondition.EXECUTED_EXCREMENT;
+            break;
+        case REPRESS:
+            oActionCondition = eCondition.EXECUTED_REPRESS;
+            break;
+        case SLEEP:
+            oActionCondition = eCondition.EXECUTED_SLEEP;
+            break;
+        case RELAX:
+            oActionCondition = eCondition.EXECUTED_RELAX;
+            break;
+        case MOVE_FORWARD:
+            oActionCondition = eCondition.EXECUTED_MOVE_FORWARD;
+            break;
+        case MOVE_BACKWARD:
+            oActionCondition = eCondition.EXECUTED_MOVE_BACKWARD;
+            break;
+        case TURN_LEFT:
+            oActionCondition = eCondition.EXECUTED_TURN_LEFT;
+            break;
+        case TURN_RIGHT:
+            oActionCondition = eCondition.EXECUTED_TURN_RIGHT;
+            break;
+        case NONE:
+            oActionCondition = eCondition.EXECUTED_NONE;
+            break;
+        case SEARCH1:
+            oActionCondition = eCondition.EXECUTED_SEARCH1;
+            break;
+        case SEND_TO_PHANTASY:
+            oActionCondition = eCondition.EXECUTED_SEND_TO_PHANTASY;
+            break;
+        case PERFORM_BASIC_ACT_ANALYSIS:
+            oActionCondition = eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS;
+            break;
+        case FOCUS_ON:
+            oActionCondition = eCondition.EXECUTED_FOCUS_ON;
+            break;
+        case FOCUS_MOVE_FORWARD:
+            oActionCondition = eCondition.EXECUTED_FOCUS_MOVE_FORWARD;
+            break;
+        case FOCUS_TURN_LEFT:
+            oActionCondition = eCondition.EXECUTED_FOCUS_TURN_LEFT;
+            break;
+        case FOCUS_TURN_RIGHT:
+            oActionCondition = eCondition.EXECUTED_FOCUS_TURN_RIGHT;
+            break;
+        case FOCUS_SEARCH1:
+            oActionCondition = eCondition.EXECUTED_FOCUS_SEARCH1;
+            break;
+        case STRAFE_LEFT:
+            oActionCondition = eCondition.EXECUTED_STRAFE_LEFT;
+            break;
+        case STRAFE_RIGHT:
+            oActionCondition = eCondition.EXECUTED_STRAFE_RIGHT;
+            break;
+        case NULLOBJECT:
+            oActionCondition = eCondition.NULLOBJECT;
+            break;
+            
+        default: 
+            throw new Exception("This action " + poPreviousAction.toString() + " has no correspondance in the conditions. Add action to eCondition");
+        }
+        
+        
+        return oActionCondition;
+    }
 
-//	/**
-//	 * For a certain goal, depending on the goal type, default start conditions are added. It means that if some continued goal erroneously gets here, the conditions below are added
-//	 * 
-//	 * (wendt)
-//	 *
-//	 * @since 27.09.2012 10:20:38
-//	 *
-//	 * @param poGoal
-//	 */
-//	private static void setDefaultGoalCondition(clsWordPresentationMeshGoal poGoal, clsWordPresentationMeshGoal poContinuedGoal) {
-//		//All other goals will have a "NEED_FOCUS" or "NEED_INTERNAL_INFO" status
-//		if (poGoal.getGoalType().equals(eGoalType.PERCEPTIONALDRIVE) || poGoal.getGoalType().equals(eGoalType.PERCEPTIONALEMOTION)) {
-//			//Set the NEED_FOCUS for all focus images
-//		    poGoal.setCondition(eCondition.COMPOSED_CODELET);
-//		    poGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
-//		    poGoal.setCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
-//			
-//		    
-//		    
-//		} else if (poGoal.getGoalType().equals(eGoalType.DRIVESOURCE)) {
-//			//Set the NEED_INTERNAL_INFO, in order to trigger phantasy to activate memories
-//		    poGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-//		    poGoal.setCondition(eCondition.IS_DRIVE_SOURCE);
-//		    
-//		    
-//		    
-//		} else if (poGoal.getGoalType().equals(eGoalType.MEMORYEMOTION) || poGoal.getGoalType().equals(eGoalType.MEMORYDRIVE)) {
-//		    poGoal.setCondition(eCondition.IS_MEMORY_SOURCE);
-//			
-//			// --- Check the conditions in the intention --- //
-//			//Get the intention
-//			clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poGoal.getSupportiveDataStructure());
-//			
-//			//Check if the previous act is the same as this one
-//			boolean bSameAct = clsActPreparationTools.checkIfPreviousActIsEqualToCurrentAct(poContinuedGoal, poGoal);
-//			double rCurrentImageMatch = 0.0;
-//			
-//			//If the act has to start with the first image:
-//			if (clsActTools.checkIfConditionExists(oIntention, eCondition.START_WITH_FIRST_IMAGE)==true) {
-//				//Cases:
-//				//1. If the first image has match 1.0 and there is no first act ||
-//				//2. If the this act is the same as from the previous goal -> start this act as normal
-//				//else set GOAL_CONDITION_BAD
-//				clsWordPresentationMesh oFirstImage = clsActTools.getFirstImageFromIntention(oIntention);
-//				rCurrentImageMatch = clsActTools.getPIMatch(oFirstImage);
-//				
-//			} else {
-//				//Get best match from an intention
-//				clsWordPresentationMesh oBestMatchEvent = clsActTools.getHighestPIMatchFromSubImages(oIntention);
-//				rCurrentImageMatch = clsActTools.getPIMatch(oBestMatchEvent);
-//			}
-//			
-//			//if (bSameAct==true && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
-//            if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
-//                poGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
-//			} else {
-//				//Set the need to perform a basic act recognition analysis
-//			    poGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-//			}
-//		}
-//	}
 	
 	/**
 	 * DOCUMENT (wendt) - insert description
@@ -293,7 +276,7 @@ public class clsDecisionPreparationTools {
 	 * @param poSTM
 	 */
 	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoal, clsShortTermMemory poSTM) {
-		eCondition oActionCondition = eCondition.EXECUTED_NONE;
+		//eCondition oActionCondition = eCondition.EXECUTED_NONE;
 		
 		//--- GET PREVIOUS MENTAL SITUATION ---//
 		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
@@ -304,86 +287,13 @@ public class clsDecisionPreparationTools {
 		
 		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh));
 		
+		eCondition oActionCondition=null;
+        try {
+            oActionCondition = getPreconditionFromAction(oPreviousAction);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
 		
-		switch (oPreviousAction) {
-			case BITE:
-				oActionCondition = eCondition.EXECUTED_BITE;
-				break;
-			case EAT:
-				oActionCondition = eCondition.EXECUTED_EAT;
-				break;
-			case PICKUP:
-				oActionCondition = eCondition.EXECUTED_PICKUP;
-				break;
-			case EXCREMENT:
-				oActionCondition = eCondition.EXECUTED_EXCREMENT;
-				break;
-			case REPRESS:
-				oActionCondition = eCondition.EXECUTED_REPRESS;
-				break;
-			case SLEEP:
-				oActionCondition = eCondition.EXECUTED_SLEEP;
-				break;
-			case RELAX:
-				oActionCondition = eCondition.EXECUTED_RELAX;
-				break;
-			case MOVE_FORWARD:
-				oActionCondition = eCondition.EXECUTED_MOVE_FORWARD;
-				break;
-			case MOVE_BACKWARD:
-				oActionCondition = eCondition.EXECUTED_MOVE_BACKWARD;
-				break;
-			case TURN_LEFT:
-				oActionCondition = eCondition.EXECUTED_TURN_LEFT;
-				break;
-			case TURN_RIGHT:
-				oActionCondition = eCondition.EXECUTED_TURN_RIGHT;
-				break;
-			case NONE:
-				oActionCondition = eCondition.EXECUTED_NONE;
-				break;
-			case SEARCH1:
-				oActionCondition = eCondition.EXECUTED_SEARCH1;
-				break;
-			case SEND_TO_PHANTASY:
-				oActionCondition = eCondition.EXECUTED_SEND_TO_PHANTASY;
-				break;
-			case PERFORM_BASIC_ACT_ANALYSIS:
-				oActionCondition = eCondition.EXECUTED_PERFORM_BASIC_ACT_ANALYSIS;
-				break;
-			case FOCUS_ON:
-				oActionCondition = eCondition.EXECUTED_FOCUS_ON;
-				break;
-			case FOCUS_MOVE_FORWARD:
-				oActionCondition = eCondition.EXECUTED_FOCUS_MOVE_FORWARD;
-				break;
-			case FOCUS_TURN_LEFT:
-				oActionCondition = eCondition.EXECUTED_FOCUS_TURN_LEFT;
-				break;
-			case FOCUS_TURN_RIGHT:
-				oActionCondition = eCondition.EXECUTED_FOCUS_TURN_RIGHT;
-				break;
-			case FOCUS_SEARCH1:
-				oActionCondition = eCondition.EXECUTED_FOCUS_SEARCH1;
-				break;
-			case STRAFE_LEFT:
-				oActionCondition = eCondition.EXECUTED_STRAFE_LEFT;
-				break;
-			case STRAFE_RIGHT:
-				oActionCondition = eCondition.EXECUTED_STRAFE_RIGHT;
-				break;
-			case NULLOBJECT:
-				oActionCondition = eCondition.NULLOBJECT;
-				break;
-				
-			default: 
-			try {
-				throw new Exception("This action " + oPreviousAction.toString() + " has no correspondance in the conditions. Add action to eCondition");
-			} catch (Exception e) {
-				// TODO (wendt) - Auto-generated catch block
-				e.printStackTrace();
-			}
-		}
 		
 		if (oActionCondition.equals(eCondition.NULLOBJECT)==false && oActionCondition.equals(eCondition.EXECUTED_NONE)==false) {
 		    poContinuedGoal.setCondition(oActionCondition);

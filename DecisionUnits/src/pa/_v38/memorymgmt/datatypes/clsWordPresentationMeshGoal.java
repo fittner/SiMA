@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
@@ -289,7 +290,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poTask
      * @throws Exception 
      */
-    public void removeCondition(eCondition poTask) throws Exception {
+    public void removeCondition(eCondition poTask) throws ElementNotFoundException {
         this.removeProperty(poTask.toString(), ePredicate.HASCONDITION);
 //        
 //        ArrayList<clsWordPresentation> oFoundStructureList = getConditionDataStructure();

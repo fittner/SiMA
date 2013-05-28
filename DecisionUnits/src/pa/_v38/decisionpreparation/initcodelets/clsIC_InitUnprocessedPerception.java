@@ -10,6 +10,7 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -86,8 +87,8 @@ public class clsIC_InitUnprocessedPerception extends clsInitCodelet {
      * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
      */
     @Override
-    protected void removeTriggerCondition() {
-        // TODO (wendt) - Auto-generated method stub
+    protected void removeTriggerCondition() throws ElementNotFoundException {
+        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 

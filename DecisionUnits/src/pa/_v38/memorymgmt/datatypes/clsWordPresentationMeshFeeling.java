@@ -48,7 +48,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
      *
      * @return
      */
-    public double getImportance() {
+    public double getIntensity() {
         double nResult = 0;
         
         String oImportance = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
@@ -67,10 +67,10 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
      *
      * @since 17.05.2013 15:06:18
      *
-     * @param poImportance
+     * @param poIntensity
      */
-    public void setImportance(double poImportance) {
-        this.setUniqueProperty(String.valueOf(poImportance), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true); 
+    public void setIntensity(double poIntensity) {
+        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true); 
     }
  
 }
