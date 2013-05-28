@@ -22,6 +22,7 @@ import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
+import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -86,6 +87,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	
 	private clsShortTermMemory moShortTermMemory;
 	
+	private final clsDecisionEngine moDecisionEngine;
+	
 	private String moTEMPDecisionString = "";
 //	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
@@ -136,12 +139,13 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @throws Exception
 	 */
 	public F26_DecisionMaking(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
-			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage,DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
+			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, itfModuleMemoryAccess poLongTermMemory, clsShortTermMemory poShortTimeMemory, clsShortTermMemory poTempLocalizationStorage, clsDecisionEngine poDecisionEngine, DT3_PsychicEnergyStorage poPsychicEnergyStorage, clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
 		this.moPsychicEnergyStorage = poPsychicEnergyStorage;
         this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+        
         
 		applyProperties(poPrefix, poProp);	
 		
@@ -152,6 +156,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		//Get short time memory
 		moShortTermMemory = poShortTimeMemory;
+		
+		moDecisionEngine = poDecisionEngine;
 		
 	}
 	
@@ -267,6 +273,17 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
+		    //If it is a newly created goal, it has to be initiated, in order to be processed
+            if (moDecidedGoalList_OUT.get(0).getGoalType().equals(eGoalType.DRIVESOURCE) && moDecidedGoalList_OUT.get(0).checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
+                try {
+                    this.moDecisionEngine.initIncomingGoal(moDecidedGoalList_OUT.get(0));
+                } catch (Exception e) {
+                    log.error(e.getMessage());
+                }
+            }
+		    
+		    //Set continued goal condition
+		    this.moDecisionEngine.declareGoalAsContinued(moDecidedGoalList_OUT.get(0));
 			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();

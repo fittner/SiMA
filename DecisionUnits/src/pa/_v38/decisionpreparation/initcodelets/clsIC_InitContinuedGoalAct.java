@@ -15,6 +15,7 @@ import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsGoalTools;
@@ -128,7 +129,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_MEMORY_SOURCE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_MEMORY_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
 	}
 
 	/* (non-Javadoc)
@@ -151,8 +152,8 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void removeTriggerCondition() {
-		//Special case, do not remove the condition
+	protected void removeTriggerCondition() throws ElementNotFoundException {
+	    this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
 		
 	}
 

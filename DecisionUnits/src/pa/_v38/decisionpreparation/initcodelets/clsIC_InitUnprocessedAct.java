@@ -73,7 +73,8 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
         }
         
         //if (bSameAct==true && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
-        if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+        //if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+        if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
             moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
         } else {
             //Set the need to perform a basic act recognition analysis

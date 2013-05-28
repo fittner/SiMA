@@ -12,6 +12,7 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -64,7 +65,7 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      */
     @Override
     protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_DRIVE_SOURCE));
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_DRIVE_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
         
     }
 
@@ -99,8 +100,8 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
      */
     @Override
-    protected void removeTriggerCondition() {
-        // TODO (wendt) - Auto-generated method stub
+    protected void removeTriggerCondition() throws ElementNotFoundException {
+        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 

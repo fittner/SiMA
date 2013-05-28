@@ -29,15 +29,20 @@ import pa._v38.decisionpreparation.decisioncodelets.clsDC_SET_NEED_MOVEMENT_FOCU
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_SetIntInfoToActAnalysis;
 import pa._v38.decisionpreparation.decisioncodelets.clsDC_XToMoveFocus;
 import pa._v38.decisionpreparation.initcodelets.clsIC_CheckSetFocus;
+import pa._v38.decisionpreparation.initcodelets.clsIC_GetContinuedGoal;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoalAct;
+import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoalDrive;
+import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoalPerception;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedAct;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedDrive;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedPerception;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
+import pa._v38.tools.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -73,69 +78,116 @@ public class clsDecisionEngine {
     public void initIncomingGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) throws Exception {
         
         for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-            //Set the correct goal type as condition
-            try {
-                clsDecisionPreparationTools.setConditionFromGoalType(oGoal);
-            } catch (Exception e) {
-                throw new Exception(e.getMessage());
-            }
-            
-            //Add condition that they are new incoming goals
-            oGoal.setCondition(eCondition.IS_UNPROCESSED_GOAL);
-            
-            //Execute matching codelets
-            this.moCodeletHandler.executeMatchingCodelets(this, oGoal, eCodeletType.INIT, -1);
-            
-            
+            initIncomingGoal(oGoal);
         }
-         
+    }
+    
+    public void initIncomingGoal(clsWordPresentationMeshGoal poGoal) throws Exception {
+        //Set the correct goal type as condition
+        try {
+            clsDecisionPreparationTools.setConditionFromGoalType(poGoal);
+        } catch (Exception e) {
+            throw new Exception(e.getMessage());
+        }
         
+        //Add condition that they are new incoming goals
+        poGoal.setCondition(eCondition.IS_UNPROCESSED_GOAL);
         
+        //Execute matching codelets
+        this.moCodeletHandler.executeMatchingCodelets(this, poGoal, eCodeletType.INIT, -1);
     }
     
     public clsWordPresentationMeshGoal initContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsShortTermMemory poSTM) throws ElementNotFoundException {
-        //clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
         
-        clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(poSTM, poGoalList);
-        if (oResult.isNullObject()==false) {
-            //Set new continued goal
-            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
-        }
+        //--- GET PREVIOUS MENTAL SITUATION ---//
+        clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
+        //Get the previous goal
+        clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
+        log.debug("Previous goal from STM: " + oPreviousGoal);
+        
+        clsWordPresentationMeshGoal oContinuedGoal = oPreviousGoal;
+        
+        //Get the new continued goal
+        this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
+        
+
+        
+//        //Get the current incoming goal, which correpsonds to the last goal
+//        clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(poSTM, poGoalList);
+//        if (oResult.isNullObject()==false) {
+//            
+//            //Set new continued goal
+//            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
+//        }
         
         
         //Apply init codelets on the continued goal
-        this.moCodeletHandler.executeMatchingCodelets(this, oResult, eCodeletType.INIT, -1);
+        this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
         
         // --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
-        clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oResult, poSTM);
+        clsDecisionPreparationTools.appendPreviousActionsAsPreconditions(oContinuedGoal, poSTM);
         
-        log.debug("Continued goal:" + oResult.toString());
+        log.debug("Continued goal:" + oContinuedGoal.toString());
         
-        return oResult;
+        return oContinuedGoal;
         
     }
     
-//    public void addEffectOfFeelings(clsWordPresentationMeshGoal poGoal) {
-//        
-//    }
+    /**
+     * This method is used to declare a continued goal. This is the goal, which is decided to be followed. With this condition
+     * in the next step it is clear what is the old continued goal.
+     * 
+     * (wendt)
+     *
+     * @since 28.05.2013 23:30:56
+     *
+     * @param poGoal
+     */
+    public void declareGoalAsContinued(clsWordPresentationMeshGoal poGoal) {
+        //Set new continued goal
+        poGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
+    }
     
-//    public void addEffectOfFeelings(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-//        
-//    }
-//    
-//    public void addEffort(clsWordPresentationMeshGoal poGoal) {
-//        
-//    }
-//    
-//    public void addEffort(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-//        
-//    }
+    /**
+     * Add the continued goal to the reachable goals if not already added
+     * 
+     * (wendt)
+     *
+     * @since 29.05.2013 00:09:43
+     *
+     * @param poGoalList
+     * @param poContinuedGoal
+     */
+    public void addContinuedGoalToGoalList(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsWordPresentationMeshGoal poContinuedGoal) {
+        //Add the goal to the incoming goallist. In this way all goals are handled equally in F26
+        if (poGoalList.contains(poContinuedGoal)==false && poContinuedGoal.isNullObject()==false) {
+            poGoalList.add(poContinuedGoal);
+        }
+    }
     
+    /**
+     * Execute consequence codelets
+     * 
+     * (wendt)
+     *
+     * @since 29.05.2013 00:10:20
+     *
+     * @param poContinuedGoal
+     */
     public void analyzeContinuedGoal(clsWordPresentationMeshGoal poContinuedGoal) {
         this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.CONSEQUENCE, 1);
         log.debug("Append consequence, goal:" + poContinuedGoal.toString());
     }
     
+    /**
+     * Execute Decisioncodelets
+     * 
+     * (wendt)
+     *
+     * @since 29.05.2013 00:10:35
+     *
+     * @param poContinuedGoal
+     */
     public void generatePlan(clsWordPresentationMeshGoal poContinuedGoal) {
         //Execute codelets, which decide what the next action in F52 will be
         this.moCodeletHandler.executeMatchingCodelets(this, poContinuedGoal, eCodeletType.DECISION, 1);
@@ -146,13 +198,24 @@ public class clsDecisionEngine {
         log.debug("New decision, goal:" + poContinuedGoal.toString());
     }
     
+    /**
+     * Register all codelets of the system to the decision engine
+     * 
+     * (wendt)
+     *
+     * @since 29.05.2013 00:11:03
+     *
+     */
     private void registerCodelets() {
         //Decision codelets
         clsIC_CheckSetFocus oCheckFocus = new clsIC_CheckSetFocus(moCodeletHandler);
         clsIC_InitContinuedGoalAct oContinousAnalysis = new clsIC_InitContinuedGoalAct(moCodeletHandler);
+        clsIC_InitContinuedGoalDrive oContinousAnalysisDrive = new clsIC_InitContinuedGoalDrive(moCodeletHandler);
+        clsIC_InitContinuedGoalPerception oContinousAnalysisPerception = new clsIC_InitContinuedGoalPerception(moCodeletHandler);
         clsIC_InitUnprocessedAct oInitUnprocessedAct = new clsIC_InitUnprocessedAct(moCodeletHandler);
         clsIC_InitUnprocessedDrive oInitUnprocessedDrive = new clsIC_InitUnprocessedDrive(moCodeletHandler);
         clsIC_InitUnprocessedPerception oInitUnprocessedPerception = new clsIC_InitUnprocessedPerception(moCodeletHandler);
+        clsIC_GetContinuedGoal oGetContinuedGoal = new clsIC_GetContinuedGoal(moCodeletHandler);
         
         
         clsCC_EXECUTE_MOVEMENT oDCActionMovement = new clsCC_EXECUTE_MOVEMENT(moCodeletHandler);

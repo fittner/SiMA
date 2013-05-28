@@ -534,6 +534,34 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     }
     
     /**
+     * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:17:57
+     *
+     * @param poGoal
+     * @return
+     */
+    public clsWordPresentationMesh getAssociatedAimAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDAIMACTION);
+    } 
+    
+    /**
+     * Set associated aim action
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:20:16
+     *
+     * @param poGoal
+     * @param poAssociatedAction
+     */
+    public void setAssociatedAimAction(clsWordPresentationMesh poAssociatedAction) {
+        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDAIMACTION, true);
+    }
+    
+    /**
      * Remove the associated action
      * 
      * (wendt)

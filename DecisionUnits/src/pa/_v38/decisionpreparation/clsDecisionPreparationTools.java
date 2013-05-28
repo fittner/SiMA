@@ -21,7 +21,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsTriple;
@@ -39,34 +38,34 @@ public class clsDecisionPreparationTools {
 	
 	//private static final double P_ACTMATCHACTIVATIONTHRESHOLD = 1.0; 
 	
-	/**
-	 * This method prepoesses goal in F51. There are 2 types of goals: One goal, which is continued and many goals, which are processed for the first time. These goals get default preconditions 
-	 * and the continued goal is mapped to one of the new goals
-	 * 
-	 * (wendt)
-	 *
-	 * @since 01.10.2012 14:50:37
-	 *
-	 * @param poSTM
-	 * @param poGoalList
-	 * @return
-	 */
-	public static clsWordPresentationMeshGoal getContinuedGoal(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-		
-		//--- GET PREVIOUS MENTAL SITUATION ---//
-		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
-		//Get the previous goal
-		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
-		log.debug("Previous goal: " + oPreviousGoal);
-		
-		
-		// --- GET AND INIT THE CONTINUED GOAL --- //
-		//Set condition for continuous preprocessing
-		clsWordPresentationMeshGoal oResult = getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
-		log.trace("Continued goal: " + oResult);
-		
-		return oResult;
-	}
+//	/**
+//	 * This method prepoesses goal in F51. There are 2 types of goals: One goal, which is continued and many goals, which are processed for the first time. These goals get default preconditions 
+//	 * and the continued goal is mapped to one of the new goals
+//	 * 
+//	 * (wendt)
+//	 *
+//	 * @since 01.10.2012 14:50:37
+//	 *
+//	 * @param poSTM
+//	 * @param poGoalList
+//	 * @return
+//	 */
+//	public static clsWordPresentationMeshGoal getContinuedGoal(clsShortTermMemory poSTM, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+//		
+//		//--- GET PREVIOUS MENTAL SITUATION ---//
+//		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
+//		//Get the previous goal
+//		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
+//		log.debug("Previous goal: " + oPreviousGoal);
+//		
+//		
+//		// --- GET AND INIT THE CONTINUED GOAL --- //
+//		//Set condition for continuous preprocessing
+//		clsWordPresentationMeshGoal oResult = getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
+//		log.trace("Continued goal: " + oResult);
+//		
+//		return oResult;
+//	}
 	
 //	   /**
 //     * Execute matching codelets for the continuous goal. The condition IS_NEW_CONTINUED_GOAL is set prior and after the execution of
@@ -88,57 +87,7 @@ public class clsDecisionPreparationTools {
 //        log.debug("Prove previous, goal:" + poContinuedGoal.toString());
 //    }
 	
-	/**
-	 * Map the previous goal with a new goal from the goal list. The new goal is used, but enhanced with info from the previous step. 
-	 * 
-	 * (wendt)
-	 *
-	 * @since 27.09.2012 10:22:34
-	 *
-	 * @param poPreviousGoal
-	 * @param poGoalList
-	 * @return
-	 */
-	private static clsWordPresentationMeshGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshGoal poPreviousGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
-		
-		//Check if goal exists in the goal list
-		ArrayList<clsWordPresentationMeshGoal> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
-		
-		//If the goal could not be found
-		if (oEquivalentGoalList.isEmpty()==true) {
-		    //--- COPY PREVIOUS GOAL ---//
-		    clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
-		    
-		    //Add the goal to the incoming goallist. In this way all goals are handled equally in F26
-		    if (poGoalList.contains(oNewGoalFromPrevious)==false) {
-                poGoalList.add(oNewGoalFromPrevious);
-            }
-			
-			oResult = oNewGoalFromPrevious;  
 
-		} else {
-			//Assign the right spatially nearest goal from the previous goal if the goal is from the perception
-			//eCondition oPreviousGoalType = poPreviousGoal.getc.getGoalType();
-			
-			if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
-				oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
-			} else {
-				oResult = oEquivalentGoalList.get(0);	//drive or memory is always present
-			} 
-			
-		}
-		
-		//This method sets the condition for the goal type from reading the goal.
-		try {
-            clsDecisionPreparationTools.setConditionFromGoalType(oResult);
-        } catch (Exception e) {
-            log.error(e.getMessage());
-        }
-
-		
-		return oResult;
-	}
 	
 	   /**
      * Get the goal condition from the goal and set it
