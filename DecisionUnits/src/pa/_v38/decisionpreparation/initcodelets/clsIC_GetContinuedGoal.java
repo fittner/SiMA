@@ -46,13 +46,15 @@ public class clsIC_GetContinuedGoal extends clsInitCodelet{
      */
     @Override
     protected void processGoal() {
+        
         //Get Goallist from F51
         //this.moReachableGoalList;
         
         //Continued goal comes from the STM
+
         
         //Get the current incoming goal, which correpsonds to the last goal
-        clsWordPresentationMeshGoal oResult = getContinuedGoalFromPreviousGoal(this.moGoal, this.moReachableGoalList);
+        clsWordPresentationMeshGoal oResult = getContinuedGoalFromPreviousGoal(this.moGoal, this.moCodeletHandler.getGoalListFromF51());
         if (oResult.isNullObject()==false) {
             //Goal type is the only condition set
             

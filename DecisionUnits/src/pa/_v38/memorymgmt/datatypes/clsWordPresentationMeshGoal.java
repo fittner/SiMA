@@ -312,7 +312,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poGoal
      */
     public void removeAllConditions() {
-        this.removeAllProperties(eContentType.CONDITION, ePredicate.HASCONDITION);
+        this.removeAllProperties(ePredicate.HASCONDITION);
     }
     
 //    /**
@@ -570,7 +570,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      *
      */
     public void removeAllAssociatedAction() {
-        this.removeAllProperties(eContentType.ACTION, ePredicate.HASASSOCIATEDACTION);
+        this.removeAllProperties(ePredicate.HASASSOCIATEDACTION);
     }
     
     /**

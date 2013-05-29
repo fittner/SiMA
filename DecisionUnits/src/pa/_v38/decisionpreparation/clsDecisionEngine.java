@@ -42,6 +42,7 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
+import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsMentalSituationTools;
 
 /**
@@ -99,16 +100,37 @@ public class clsDecisionEngine {
     
     public clsWordPresentationMeshGoal initContinuedGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList, clsShortTermMemory poSTM) throws ElementNotFoundException {
         
+        clsWordPresentationMeshGoal oContinuedGoal = clsGoalTools.getNullObjectWPM();
+        
         //--- GET PREVIOUS MENTAL SITUATION ---//
         clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
         //Get the previous goal
         clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
         log.debug("Previous goal from STM: " + oPreviousGoal);
         
-        clsWordPresentationMeshGoal oContinuedGoal = oPreviousGoal;
+//        try {
+//            oContinuedGoal = (clsWordPresentationMeshGoal) oPreviousGoal.clone();
+//        } catch (CloneNotSupportedException e) {
+//            // TODO (wendt) - Auto-generated catch block
+//            e.printStackTrace();
+//        }
         
         //Get the new continued goal
-        this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
+        //this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
+        
+        if (oPreviousGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
+            oContinuedGoal = getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
+            if (oContinuedGoal.isNullObject()==false) {
+                //Goal type is the only condition set
+                
+                //Set new continued goal
+                oContinuedGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
+                
+                //Set condition is unprocessed, in order to process the continued goal
+                oContinuedGoal.setCondition(eCondition.IS_UNPROCESSED_GOAL);
+            }
+        }
+        
         
 
         
@@ -120,6 +142,7 @@ public class clsDecisionEngine {
 //            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
 //        }
         
+        log.trace("Continued goal: " + oContinuedGoal);
         
         //Apply init codelets on the continued goal
         this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
@@ -131,6 +154,58 @@ public class clsDecisionEngine {
         
         return oContinuedGoal;
         
+    }
+    
+    /**
+     * Map the previous goal with a new goal from the goal list. The new goal is used, but enhanced with info from the previous step. 
+     * 
+     * (wendt)
+     *
+     * @since 27.09.2012 10:22:34
+     *
+     * @param poPreviousGoal
+     * @param poGoalList
+     * @return the previous continued goal or the continued goal from the incoming goallist
+     */
+    private clsWordPresentationMeshGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshGoal poPreviousGoal, ArrayList<clsWordPresentationMeshGoal> poGoalList) {
+        clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
+        
+        //Check if goal exists in the goal list
+        ArrayList<clsWordPresentationMeshGoal> oEquivalentGoalList = clsGoalTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
+        
+        //If the goal could not be found
+        if (oEquivalentGoalList.isEmpty()==true) {
+            //--- COPY PREVIOUS GOAL ---//
+            if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==false) {
+                clsWordPresentationMeshGoal oNewGoalFromPrevious = clsGoalTools.copyGoalWithoutTaskStatusAndAction(poPreviousGoal);
+                
+                oResult = oNewGoalFromPrevious;  
+            }
+
+        } else {
+            //Assign the right spatially nearest goal from the previous goal if the goal is from the perception
+            //eCondition oPreviousGoalType = poPreviousGoal.getc.getGoalType();
+            
+            if (poPreviousGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+                oResult = clsGoalTools.getSpatiallyNearestGoalFromPerception(oEquivalentGoalList, poPreviousGoal);
+            } else {
+                oResult = oEquivalentGoalList.get(0);   //drive or memory is always present
+            }
+            
+            //Remove all conditions, in order not to use the init conditions on continued goals
+            oResult.removeAllConditions();
+            
+        }
+        
+        //This method sets the condition for the goal type from reading the goal.
+        try {
+            clsDecisionPreparationTools.setConditionFromGoalType(oResult);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+        }
+
+        
+        return oResult;
     }
     
     /**

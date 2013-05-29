@@ -1100,9 +1100,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @param oPredicate
      */
-    protected void removeAllProperties(eContentType oContentType, ePredicate oPredicate) {
+    protected void removeAllProperties(ePredicate oPredicate) {
         clsMeshTools.removeAssociationInObject(this, oPredicate);
-        this.moAssociationMapping.remove(oContentType);
+        this.moAssociationMapping.remove(oPredicate);
     }
     
 
