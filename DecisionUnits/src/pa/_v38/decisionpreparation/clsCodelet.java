@@ -8,10 +8,13 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsGoalTools;
 
 /**
@@ -29,6 +32,8 @@ public abstract class clsCodelet {
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
 	protected String moCodeletName = "";
 	protected String moCodeletDescription = "";
+	
+	protected static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
 	
 	protected ArrayList<clsConditionGroup> moPreconditionGroupList = new ArrayList<clsConditionGroup>();
 	protected ArrayList<clsConditionGroup> moPostConditionGroupList = new ArrayList<clsConditionGroup>();
@@ -53,7 +58,7 @@ public abstract class clsCodelet {
 		this.register();
 	}
 	
-	public void startCodelet() {
+	public void startCodelet() throws ElementNotFoundException {
 		removeTriggerCondition();
 		this.processGoal();
 		
@@ -68,7 +73,7 @@ public abstract class clsCodelet {
 	
 	protected abstract void setDescription();
 	
-	protected abstract void removeTriggerCondition();
+	protected abstract void removeTriggerCondition() throws ElementNotFoundException;
 	
 	private double checkMatchingPreconditions(clsConditionGroup poForeignConditionGroup) {
 		//double rResult = 0.0;

@@ -107,7 +107,7 @@ public class clsGoalTools {
 		
 		//--- Add preferred action to the goal --- //
 		if (poPreferredAction.equals(eAction.NULLOBJECT)==false) {
-			oRetVal.setAssociatedAction(clsActionTools.createAction(poPreferredAction));
+			oRetVal.setAssociatedAimAction(clsActionTools.createAction(poPreferredAction));
 		    //clsWordPresentationMesh oPreferredActionMesh = clsActionTools.createAction(poPreferredAction);
 			//clsMeshTools.createAssociationSecondary(oRetVal, 1, oPreferredActionMesh, 0, 1.0, eContentType.PREFERREDACTION, ePredicate.HASPREFERREDACTION, false);
 		}
@@ -1226,7 +1226,7 @@ public class clsGoalTools {
 	    clsWordPresentationMeshFeeling oResult = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), oFeelingContent.toString());
 	    
 	    //Set Affect
-	    oResult.setImportance(oAffectContent);
+	    oResult.setIntensity(oAffectContent);
 	    //clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
 	    
 	    return oResult;

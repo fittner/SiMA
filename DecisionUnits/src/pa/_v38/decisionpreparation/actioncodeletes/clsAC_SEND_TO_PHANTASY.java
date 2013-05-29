@@ -60,6 +60,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 			//Create a supportive data structure
 		    try {
                 this.moGoal.createSupportiveDataStructureFromGoalObject(eContentType.PHI);
+                log.trace("Supportive data structure created for phantasy: " + this.moGoal.getSupportiveDataStructure().toString());
             } catch (Exception e) {
                 // TODO (wendt) - Auto-generated catch block
                 e.printStackTrace();

@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
@@ -289,7 +290,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poTask
      * @throws Exception 
      */
-    public void removeCondition(eCondition poTask) throws Exception {
+    public void removeCondition(eCondition poTask) throws ElementNotFoundException {
         this.removeProperty(poTask.toString(), ePredicate.HASCONDITION);
 //        
 //        ArrayList<clsWordPresentation> oFoundStructureList = getConditionDataStructure();
@@ -311,7 +312,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poGoal
      */
     public void removeAllConditions() {
-        this.removeAllProperties(eContentType.CONDITION, ePredicate.HASCONDITION);
+        this.removeAllProperties(ePredicate.HASCONDITION);
     }
     
 //    /**
@@ -533,6 +534,34 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     }
     
     /**
+     * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:17:57
+     *
+     * @param poGoal
+     * @return
+     */
+    public clsWordPresentationMesh getAssociatedAimAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDAIMACTION);
+    } 
+    
+    /**
+     * Set associated aim action
+     * 
+     * (wendt)
+     *
+     * @since 26.09.2012 12:20:16
+     *
+     * @param poGoal
+     * @param poAssociatedAction
+     */
+    public void setAssociatedAimAction(clsWordPresentationMesh poAssociatedAction) {
+        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDAIMACTION, true);
+    }
+    
+    /**
      * Remove the associated action
      * 
      * (wendt)
@@ -541,7 +570,7 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      *
      */
     public void removeAllAssociatedAction() {
-        this.removeAllProperties(eContentType.ACTION, ePredicate.HASASSOCIATEDACTION);
+        this.removeAllProperties(ePredicate.HASASSOCIATEDACTION);
     }
     
     /**

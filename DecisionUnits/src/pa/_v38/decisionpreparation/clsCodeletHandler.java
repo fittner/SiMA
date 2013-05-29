@@ -14,6 +14,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsImportanceTools;
 import pa._v38.tools.clsPair;
 
@@ -36,7 +37,7 @@ public class clsCodeletHandler {
 
 	private clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
 
-	private ArrayList<clsWordPresentationMeshGoal> moGoalListFromF51 = new ArrayList<clsWordPresentationMeshGoal>();
+	private ArrayList<clsWordPresentationMeshGoal> moGoalListFromF51; //= new ArrayList<clsWordPresentationMeshGoal>();
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemoriesFromF51 = new ArrayList<clsWordPresentationMesh>();
 
 	private ArrayList<clsActionCodelet> moActionCodeletList = new ArrayList<clsActionCodelet>();
@@ -315,7 +316,11 @@ public class clsCodeletHandler {
 			}
 			
 			oCodelet.assignGoal(poGoal);
-			oCodelet.startCodelet();
+			try {
+                oCodelet.startCodelet();
+            } catch (ElementNotFoundException e) {
+                log.error(e.getMessage());
+            }
 			log.debug("Executed codelet "  + oCodelet.toString());
 			oCodelet.clearGoal();
 			
@@ -356,7 +361,7 @@ public class clsCodeletHandler {
 			oTypeString = "Execute init codelets: ";
 		}
 		
-		log.debug(oTypeString + oCList.toString());
+		//log.debug(oTypeString + oCList.toString());
 		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
 	

@@ -729,7 +729,7 @@ public class clsImportanceTools {
 		double nResult = 0;
 		
 		if (poCondition.equals(eCondition.IS_DRIVE_SOURCE)) {
-			nResult+=-1.0;
+			nResult+=-0.40;
 		} else if (poCondition.equals(eCondition.IS_PERCEPTIONAL_SOURCE)) {
 			nResult+= 0;
 		} else if (poCondition.equals(eCondition.IS_MEMORY_SOURCE)) {
@@ -737,7 +737,7 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+=0.5;
+			nResult+=0.1;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {
@@ -801,7 +801,7 @@ public class clsImportanceTools {
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
             
         for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-            double nAffectFromFeeling = oF.getImportance();
+            double nAffectFromFeeling = oF.getIntensity();
                 
             rResult += nAffectFromFeeling;
         }

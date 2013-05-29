@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
 import pa._v38.tools.clsEntityTools;
@@ -892,7 +893,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @return
      * @throws Exception 
      */
-    private void removeAssociationMapping(ePredicate oPredicate, clsSecondaryDataStructure poRemoveStructure) throws Exception{
+    private void removeAssociationMapping(ePredicate oPredicate, clsSecondaryDataStructure poRemoveStructure) throws ElementNotFoundException{
         boolean bSuccessfulRemoval = false;
         ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oPredicate);
         if (oDS!=null) {
@@ -901,7 +902,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         
         
         if (bSuccessfulRemoval==false) {
-            throw new Exception("The target structure " + poRemoveStructure + " was not found in the list " + this.moAssociationMapping.get(oPredicate));
+            throw new ElementNotFoundException("The target structure " + poRemoveStructure + " was not found in the list " + this.moAssociationMapping.get(oPredicate));
         }
         
     }
@@ -1077,7 +1078,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oPredicate
      * @throws Exception 
      */
-    protected void removeProperty(String poRemoveContent, ePredicate oPredicate) throws Exception {
+    protected void removeProperty(String poRemoveContent, ePredicate oPredicate) throws ElementNotFoundException {
         ArrayList<clsWordPresentation> oFoundStructureList = this.getNonUniquePredicateWP(oPredicate);
         
         for (clsWordPresentation oListElement : oFoundStructureList) {
@@ -1099,9 +1100,9 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @param oPredicate
      */
-    protected void removeAllProperties(eContentType oContentType, ePredicate oPredicate) {
+    protected void removeAllProperties(ePredicate oPredicate) {
         clsMeshTools.removeAssociationInObject(this, oPredicate);
-        this.moAssociationMapping.remove(oContentType);
+        this.moAssociationMapping.remove(oPredicate);
     }
     
 

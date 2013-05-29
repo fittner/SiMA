@@ -1,14 +1,16 @@
 /**
  * CHANGELOG
  *
- * 23.05.2013 wendt - File created
+ * 28.05.2013 wendt - File created
  *
  */
 package pa._v38.decisionpreparation.initcodelets;
 
 import pa._v38.decisionpreparation.clsCodeletHandler;
+import pa._v38.decisionpreparation.clsCommonCodeletTools;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.ElementNotFoundException;
 
@@ -16,48 +18,60 @@ import pa._v38.tools.ElementNotFoundException;
  * DOCUMENT (wendt) - insert description 
  * 
  * @author wendt
- * 23.05.2013, 22:38:24
+ * 28.05.2013, 12:49:58
  * 
  */
-public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
+public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
 
     /**
      * DOCUMENT (wendt) - insert description 
      *
-     * @since 23.05.2013 22:40:14
+     * @since 28.05.2013 12:50:24
      *
      * @param poCodeletHandler
      */
-    public clsIC_InitUnprocessedDrive(clsCodeletHandler poCodeletHandler) {
+    public clsIC_InitContinuedGoalDrive(clsCodeletHandler poCodeletHandler) {
         super(poCodeletHandler);
     }
 
     /* (non-Javadoc)
      *
-     * @since 23.05.2013 22:40:17
+     * @since 28.05.2013 12:50:34
      * 
      * @see pa._v38.decisionpreparation.clsCodelet#processGoal()
      */
     @Override
     protected void processGoal() {
-        moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-    }
-
-    /* (non-Javadoc)
-     *
-     * @since 23.05.2013 22:40:17
-     * 
-     * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
-     */
-    @Override
-    protected void setPreconditions() {
-        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_UNPROCESSED_GOAL, eCondition.IS_DRIVE_SOURCE));
+        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+        
+        //Transfer previous stati in general
+        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
+            this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
+        }
+        if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+            this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
+        }
+        if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
+            this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
+        }
         
     }
 
     /* (non-Javadoc)
      *
-     * @since 23.05.2013 22:40:17
+     * @since 28.05.2013 12:50:34
+     * 
+     * @see pa._v38.decisionpreparation.clsCodelet#setPreconditions()
+     */
+    @Override
+    protected void setPreconditions() {
+        this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_CONTINUED_GOAL, eCondition.IS_DRIVE_SOURCE, eCondition.IS_UNPROCESSED_GOAL));
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 28.05.2013 12:50:34
      * 
      * @see pa._v38.decisionpreparation.clsCodelet#setPostConditions()
      */
@@ -69,19 +83,19 @@ public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
 
     /* (non-Javadoc)
      *
-     * @since 23.05.2013 22:40:17
+     * @since 28.05.2013 12:50:34
      * 
      * @see pa._v38.decisionpreparation.clsCodelet#setDescription()
      */
     @Override
     protected void setDescription() {
-        // TODO (wendt) - Auto-generated method stub
+        this.moCodeletDescription = "Default initial anaylsis of continued goal from the last turn if it is a drive goal.";
         
     }
 
     /* (non-Javadoc)
      *
-     * @since 23.05.2013 22:40:17
+     * @since 28.05.2013 12:50:34
      * 
      * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
      */

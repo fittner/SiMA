@@ -10,9 +10,13 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsInitCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsActDataStructureTools;
 import pa._v38.tools.clsActTools;
+import pa._v38.tools.clsActionTools;
+import pa._v38.tools.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -48,8 +52,9 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
         //Get the intention
         clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(moGoal.getSupportiveDataStructure());
         
-        //Check if the previous act is the same as this one
+        //Check if the previous act is the same as this one. Only then, the act match can be too low
         //boolean bSameAct = clsActPreparationTools.checkIfPreviousActIsEqualToCurrentAct(poContinuedGoal, poGoal);
+        eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory())));
         double rCurrentImageMatch = 0.0;
         
         //If the act has to start with the first image:
@@ -68,6 +73,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
         }
         
         //if (bSameAct==true && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
+        //if (oPreviousAction.equals(eAction.SEND_TO_PHANTASY)==false && rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
         if (rCurrentImageMatch < P_ACTMATCHACTIVATIONTHRESHOLD) {
             moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
         } else {
@@ -120,8 +126,8 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
      * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
      */
     @Override
-    protected void removeTriggerCondition() {
-        // TODO (wendt) - Auto-generated method stub
+    protected void removeTriggerCondition() throws ElementNotFoundException {
+        this.moGoal.removeCondition(eCondition.IS_UNPROCESSED_GOAL);
         
     }
 
