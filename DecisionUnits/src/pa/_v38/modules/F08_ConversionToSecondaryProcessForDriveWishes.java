@@ -155,8 +155,8 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
-		log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
+		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
 		try {
