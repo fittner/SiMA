@@ -401,7 +401,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
+	public void receive_I6_2(ArrayList<clsWordPresentationMeshFeeling> poAnxiety_Input) {
 		moFeeling_IN = (ArrayList<clsWordPresentationMeshFeeling>)deepCopy(poAnxiety_Input);	
 		//TODO
 		

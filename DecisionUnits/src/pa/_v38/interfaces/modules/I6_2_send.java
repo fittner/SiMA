@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 
 /**
  * Differentiated experienced moods (anxiety, worriedness, prickle) are transported from F20 to F26, F52, and F29.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_2_send {
-	public void send_I6_2(ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output);
+	public void send_I6_2(ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_Output);
 }
