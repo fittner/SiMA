@@ -40,37 +40,110 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     }
     
     /**
-     * Get Importance
-     * 
-     * (wendt)
+     * Gets the given "type" of feeling parameter's current value.
+     * The currently valid types are: INTENSITY, AGGRESSION, LIBIDO, PLEASURE, UNPLEASURE.
+     * Throws an IllegalArgumentException in case of an invalid type.
+     * This method is not case sensitive. 
+     * (mahmody)
      *
-     * @since 17.05.2013 15:03:11
+     * @since 10.06.2013 13:09:52
      *
+     * @param type
      * @return
+     * @throws IllegalArgumentException
      */
-    public double getIntensity() {
+    public double getFeelingParam(String type) throws IllegalArgumentException{
+        
+        ePredicate pred = null;
+        
+        FeelingParams ftype = FeelingParams.valueOf(type.toUpperCase());
+        
+        switch(ftype){
+            case INTENSITY:
+                pred = ePredicate.HASIMPORTANCE;
+                break;
+            case AGGRESSION:
+                pred = ePredicate.HASAGGRESSION;
+                break;
+            case LIBIDO:
+                pred = ePredicate.HASLIBIDO;
+                break;
+            case PLEASURE:
+                pred = ePredicate.HASPLEASURE;
+                break;
+            case UNPLEASURE:
+                pred = ePredicate.HASUNPLEASURE;
+                break;
+            default:
+                throw new IllegalArgumentException(("The type "+ type +" does not exist"));
+        }
+        
         double nResult = 0;
         
-        String oImportance = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
+        String oFeelingParameter = this.getUniqueProperty(pred);
         
-        if (oImportance.isEmpty()==false) {
-            nResult = Double.valueOf(oImportance);
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
         }
         
         return nResult;
     }
     
     /**
-     * Set importance/intensity of the feeling
+     * Sets the given "type" of feeling parameter to the given "paramValue".
+     * The currently valid types are: INTENSITY, AGGRESSION, LIBIDO, PLEASURE, UNPLEASURE.
+     * Throws an IllegalArgumentException in case of an invalid type.
+     * This method is not case sensitive. 
      * 
-     * (wendt)
+     * 
+     * (mahmody)
      *
-     * @since 17.05.2013 15:06:18
+     * @since 10.06.2013 13:02:14
      *
-     * @param poIntensity
+     * @param type
+     * @param paramValue
+     * @throws IllegalArgumentException 
      */
-    public void setIntensity(double poIntensity) {
-        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true); 
+    public void setFeelingParam(String type, double paramValue) throws IllegalArgumentException{
+        
+        eContentType cType = null;
+        ePredicate pred = null;
+        
+        FeelingParams ftype = FeelingParams.valueOf(type.toUpperCase());
+        
+        switch(ftype){
+            case INTENSITY:
+                cType = eContentType.IMPORTANCE;
+                pred = ePredicate.HASIMPORTANCE;
+                break;
+            case AGGRESSION:
+                cType = eContentType.FEELAGGRESSION;
+                pred = ePredicate.HASAGGRESSION;
+                break;
+            case LIBIDO:
+                cType = eContentType.FEELLIBIDO;
+                pred = ePredicate.HASLIBIDO;
+                break;
+            case PLEASURE:
+                cType = eContentType.FEELPLEASURE;
+                pred = ePredicate.HASPLEASURE;
+                break;
+            case UNPLEASURE:
+                cType = eContentType.FEELUNPLEASURE;
+                pred = ePredicate.HASUNPLEASURE;
+                break;
+            default:
+                throw new IllegalArgumentException(("The type "+ type +" does not exist"));
+        }
+        
+        this.setUniqueProperty(String.valueOf(paramValue), cType, pred, true);
     }
  
+    public enum FeelingParams{
+        INTENSITY,
+        AGGRESSION,
+        LIBIDO,
+        PLEASURE,
+        UNPLEASURE
+    }
 }
