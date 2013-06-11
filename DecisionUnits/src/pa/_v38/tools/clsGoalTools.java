@@ -1226,7 +1226,7 @@ public class clsGoalTools {
 	    clsWordPresentationMeshFeeling oResult = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.FEELING), new ArrayList<clsAssociation>(), oFeelingContent.toString());
 	    
 	    //Set Affect
-	    oResult.setIntensity(oAffectContent);
+	    oResult.setFeelingParam("INTENSITY", oAffectContent);
 	    //clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
 	    
 	    return oResult;
