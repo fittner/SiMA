@@ -188,9 +188,9 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		//moOutput=  deepCopy(moInput);
-		moOutput = new ArrayList<clsDriveMesh>();
-		RedefineDevisionFactors(deepCopy(moInput));
+		moOutput=  deepCopy(moInput);
+		//moOutput = new ArrayList<clsDriveMesh>();
+		//RedefineDevisionFactors(deepCopy(moInput));
 			
 		
 		

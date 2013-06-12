@@ -109,6 +109,16 @@ public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterface
         
         return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
     }
+    
+    public clsPair<Double,Double> shiftQoA_V2 (clsPair<Double,Double> prValues, double prRatio){
+        double rSum = prValues.a + prValues.b;
+        double rAggrFactor = prValues.a/rSum;
+        double rFactorChange = prRatio -0.5;
+        
+        double rAggrfactorNew =rAggrFactor+  prRatio;
+        
+        return new clsPair<Double,Double>(rSum*rAggrfactorNew,rSum*(1-rAggrfactorNew));
+    }
 	
     /**
      * Write access to libido storage
@@ -223,7 +233,7 @@ public HashMap<eDrive,clsPair<Double,Double>> send_D1_5() {
  */
 @Override
 public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
-    clsPair<Double,Double> newValues =shiftQoA(moLibidoBuffers.get(oDrive),oShiftFactor);
+    clsPair<Double,Double> newValues =shiftQoA_V2(moLibidoBuffers.get(oDrive),oShiftFactor);
     moLibidoBuffers.put(oDrive, newValues);
     
     return;

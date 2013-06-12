@@ -54,7 +54,7 @@ public class clsPlant extends clsInanimate {
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/plant01.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
-		
+
 		return oProp;
 	}	
   	
