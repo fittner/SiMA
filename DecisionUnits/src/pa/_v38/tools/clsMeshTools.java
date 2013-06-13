@@ -25,6 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -2573,9 +2574,14 @@ public class clsMeshTools {
 						oExtMoveFromAss.setRootElement(poMoveToMesh);
 						poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
 						//Remove the association as the association is 
-						//oRemoveExtAssList.add(oExtMoveFromAss);
 						
-					} else {
+					} else if (oExtMoveFromAss.getLeafElement() instanceof clsWordPresentationMeshFeeling) {
+                        //Set the root element
+                        oExtMoveFromAss.setRootElement(poMoveToMesh);
+                        poMoveToMesh.getExternalAssociatedContent().add(oExtMoveFromAss);
+                        //Remove the association as the association is 
+                        
+                    } else {
 						//Search the other element in the sourcemesh. If it exists, then change the association, if it does not exist, do nothing
 						//as the association to the new element is added by the new element
 						
@@ -2595,14 +2601,13 @@ public class clsMeshTools {
 									oMeshElementWPM.getExternalAssociatedContent().add(oExtMoveFromAss);
 								}
 								//Remove the old association as it is handled once again if found
-								//oRemoveExtAssList.add(oExtMoveFromAss);
 								//Remove the association from the found unknown element
 								((clsWordPresentationMesh) oOtherUnknownElement).getExternalAssociatedContent().remove(oExtMoveFromAss);
 								
 								//clsLogger.jlog.debug("WPM " + oMeshElementWPM + " in " + oExtMoveFromAss + " moved from " + poMoveFromMesh + " \n to " + poMoveToMesh);
 							} else {
-								//Do nothing			
-								
+								//Do Nothing
+							    
 							}
 							
 						} else {
@@ -2620,14 +2625,9 @@ public class clsMeshTools {
 				//Check if the structure already have one. If not move it.
 				if (clsMeshTools.getPrimaryDataStructureOfWPM(poMoveToMesh).isNullObject()==true) {
 					clsMeshTools.moveAssociation(poMoveToMesh, poMoveFromMesh, oExtMoveFromAss, false);
-					//oRemoveExtAssList.add(oExtMoveFromAss);
 				}
 			}
 		}
-		
-//		for (clsAssociation oRemoveExtAss : oRemoveExtAssList) {
-//			poMoveFromMesh.getExternalAssociatedContent().remove(oRemoveExtAss);
-//		}
 		
 		//Delete all assoications
 		poMoveFromMesh.getExternalAssociatedContent().clear();
