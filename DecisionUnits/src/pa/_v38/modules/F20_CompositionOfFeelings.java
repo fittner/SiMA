@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 //import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 //import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -96,11 +97,11 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	//private ArrayList<clsSecondaryDataStructureContainer> moPerception; 
 	//private ArrayList<clsSecondaryDataStructureContainer> moDriveList_Input;
 	
-	private ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output = new ArrayList<clsWordPresentationMesh>();
+	private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_Output = new ArrayList<clsWordPresentationMeshFeeling>();
 
 	private ArrayList<clsEmotion> moEmotions_Input;
 	private ArrayList<clsEmotion> moEmotions_Output;
-	private ArrayList<clsWordPresentationMesh> moFeelings = new ArrayList<clsWordPresentationMesh> ();
+	private ArrayList<clsWordPresentationMeshFeeling> moFeelings = new ArrayList<clsWordPresentationMeshFeeling> ();
 	
 	//list of internal actions, fill it with what you want to be shown
 	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
@@ -287,7 +288,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 			//in the secondary process by increasing the intensity of Anxiety
 			moSecondaryDataStructureContainer_Output = calculateAffect(poAverageQuotaOfAffect_Input, moEmotions_Output);
 			// This function is called to show on the Simulator the WPM's and their WP's with association parameters 
-			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociassions(moFeelings);
+			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociations(moFeelings);
 			
 		}else{
 			
@@ -295,7 +296,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 			moSecondaryDataStructureContainer_Output = CreateWPMForEmotions(moEmotions_Input);
 			
 			// This function is called to show on the Simulator the WPM's and their WP's with association parameters 
-			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociassions(moFeelings);
+			moFeelingsAssociatedMemories_OUT = WPMFeelingsAssociations(moFeelings);
 		}
 		
 		
@@ -330,10 +331,10 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * 
 	 *   
 	 */
-	private ArrayList<clsWordPresentationMesh> CreateWPMForEmotions(ArrayList<clsEmotion> poEmotions){
+	private ArrayList<clsWordPresentationMeshFeeling> CreateWPMForEmotions(ArrayList<clsEmotion> poEmotions){
 		
 		
-		clsWordPresentationMesh oFeeling = null;
+		clsWordPresentationMeshFeeling oFeeling = null;
 		clsWordPresentation oWPIntensity = null;
 		clsWordPresentation oWPSourcePleasure = null;
 		clsWordPresentation oWPSourceUnpleasure = null;
@@ -348,7 +349,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 			
 				// Relate the Emotion to the Feeling which have Data Structure clsWordPresentationMesh, each Emotion has own Feeling
 			
-				oFeeling = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>
+				oFeeling = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>
 						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),oWPAssEmotionList, oEmotion.getMoContent().toString());
 				
 				// Create Association WordPresentaion from clsEmotion
@@ -411,7 +412,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 */
 	
 	
-	private ArrayList<clsPair<clsWordPresentationMesh,ArrayList<clsWordPresentation>>> WPMFeelingsAssociassions(ArrayList<clsWordPresentationMesh> poFeelings){
+	private ArrayList<clsPair<clsWordPresentationMesh,ArrayList<clsWordPresentation>>> WPMFeelingsAssociations(ArrayList<clsWordPresentationMeshFeeling> poFeelings){
 		
 		ArrayList<clsPair<clsWordPresentationMesh,ArrayList<clsWordPresentation>>> poFeelingsAssociatedMemories_OUT = new ArrayList<clsPair<clsWordPresentationMesh,ArrayList<clsWordPresentation>>> ();
 		clsWordPresentationMesh oWPMforFeeling = null;
@@ -485,7 +486,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * in the secondary process by increasing the intensity of Anxiety
 	 * 
 	 */
-	private ArrayList<clsWordPresentationMesh> calculateAffect(double oAverageQuotaOfAffect,ArrayList<clsEmotion> poEmotions) {
+	private ArrayList<clsWordPresentationMeshFeeling> calculateAffect(double oAverageQuotaOfAffect,ArrayList<clsEmotion> poEmotions) {
 		ArrayList <clsEmotion> oEmotions = new ArrayList <clsEmotion>(); 
 		double oIntensityOfAnxiety = 0.0;
 		
@@ -516,42 +517,42 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		
 	}
 	// Search of the emotion types if they exist
-		private boolean searchInEmotions (eEmotionType oEmotionType) {	
-			
-		   	for(clsEmotion oOneEmotion : moEmotions_Output) {
-		   		if(oOneEmotion.getMoContent() == oEmotionType) {
-		   			return true;
-		   		}
-		   	}
-		   	
-		   	return false;
-		}
-	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
-		private double GetEmotionIntensity(eEmotionType moEmotionType){
-			double oEmotionIntensity =0.0;
-			for(clsEmotion oOneEmotion : moEmotions_Output) {
-				
-					if(searchInEmotions (eEmotionType.MOURNING)){
-						if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
-							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-						}
-				    }
-					if(searchInEmotions (eEmotionType.ANXIETY)){
-						if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
-							oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-						}
-					}
-				     
-				    if(searchInEmotions(eEmotionType.ANGER)){
-				    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
-				    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
-				    	}
-				    }
+	private boolean searchInEmotions (eEmotionType oEmotionType) {	
 		
-				
-			}
-			return oEmotionIntensity;
+	   	for(clsEmotion oOneEmotion : moEmotions_Output) {
+	   		if(oOneEmotion.getMoContent() == oEmotionType) {
+	   			return true;
+	   		}
+	   	}
+	   	
+	   	return false;
+	}
+	// get the intensity of the emotions MOURNING, ANXIETY and ANGER 
+	private double GetEmotionIntensity(eEmotionType moEmotionType){
+		double oEmotionIntensity =0.0;
+		for(clsEmotion oOneEmotion : moEmotions_Output) {
+			
+				if(searchInEmotions (eEmotionType.MOURNING)){
+					if ((moEmotionType == eEmotionType.MOURNING) && (oOneEmotion.getMoContent() == eEmotionType.MOURNING)){
+						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					}
+			    }
+				if(searchInEmotions (eEmotionType.ANXIETY)){
+					if ((moEmotionType == eEmotionType.ANXIETY)&&(oOneEmotion.getMoContent() == eEmotionType.ANXIETY)){
+						oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+					}
+				}
+			     
+			    if(searchInEmotions(eEmotionType.ANGER)){
+			    	if ((moEmotionType == eEmotionType.ANGER)&&(oOneEmotion.getMoContent() == eEmotionType.ANGER)){
+			    		 oEmotionIntensity = oOneEmotion.getMrEmotionIntensity();
+			    	}
+			    }
+	
+			
 		}
+		return oEmotionIntensity;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -574,7 +575,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	 * @see pa.interfaces.send.I5_5_send#send_I5_5(int)
 	 */
 	@Override
-	public void send_I6_2(ArrayList<clsWordPresentationMesh> moSecondaryDataStructureContainer_Output) {
+	public void send_I6_2(ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_Output) {
 		((I6_2_receive)moModuleList.get(29)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		((I6_2_receive)moModuleList.get(26)).receive_I6_2(moSecondaryDataStructureContainer_Output);
 		

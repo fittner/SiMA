@@ -39,38 +39,88 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
     }
     
-    /**
-     * Get Importance
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 15:03:11
-     *
-     * @return
-     */
-    public double getIntensity() {
+    public double getIntensity(){
+        
         double nResult = 0;
         
-        String oImportance = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
         
-        if (oImportance.isEmpty()==false) {
-            nResult = Double.valueOf(oImportance);
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
         }
         
         return nResult;
     }
     
-    /**
-     * Set importance/intensity of the feeling
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 15:06:18
-     *
-     * @param poIntensity
-     */
-    public void setIntensity(double poIntensity) {
-        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true); 
+    public void setIntensity(double poIntensity){
+        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true);
     }
- 
+    
+    public double getLibido(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASLIBIDO);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setLibido(double poLibido){
+        this.setUniqueProperty(String.valueOf(poLibido), eContentType.FEELLIBIDO, ePredicate.HASLIBIDO, true);
+    }
+    
+    public double getAggression(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASAGGRESSION);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setAggression(double poAggression){
+        this.setUniqueProperty(String.valueOf(poAggression), eContentType.FEELAGGRESSION, ePredicate.HASAGGRESSION, true);
+    }
+    
+    public double getPleasure(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASPLEASURE);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setPleasure(double poPleasure){
+        this.setUniqueProperty(String.valueOf(poPleasure), eContentType.FEELPLEASURE, ePredicate.HASPLEASURE, true);
+    }
+    
+    public double getUnpleasure(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASUNPLEASURE);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setUnpleasure(double poUnpleasure){
+        this.setUniqueProperty(String.valueOf(poUnpleasure), eContentType.FEELUNPLEASURE, ePredicate.HASUNPLEASURE, true);
+    }
 }

@@ -19,6 +19,7 @@ public enum eEntity {
 	BODO,
 	CAKE,
 	CAN,
+	CARL,
 	CARROT,
 	EMPTYSPACE,
 	PLANT,

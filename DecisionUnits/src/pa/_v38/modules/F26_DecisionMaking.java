@@ -110,7 +110,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_OUT;
 	
 	// Anxiety from F20
-	private ArrayList<clsWordPresentationMesh> moFeeling_IN;
+	private ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
 	
 	private static String _Delimiter01 = ":"; 
 	private static String _Delimiter02 = "||";
@@ -401,8 +401,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
-		moFeeling_IN = (ArrayList<clsWordPresentationMesh>)deepCopy(poAnxiety_Input);	
+	public void receive_I6_2(ArrayList<clsWordPresentationMeshFeeling> poAnxiety_Input) {
+		moFeeling_IN = (ArrayList<clsWordPresentationMeshFeeling>)deepCopy(poAnxiety_Input);	
 		//TODO
 		
 	}
@@ -478,7 +478,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 * @param poPotentialGoalList
 	 * @return
 	 */
-	private clsWordPresentationMeshGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMesh> poFeelingList) {
+	private clsWordPresentationMeshGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMeshFeeling> poFeelingList) {
 		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
 		
 		if (poFeelingList.isEmpty()==false) {
