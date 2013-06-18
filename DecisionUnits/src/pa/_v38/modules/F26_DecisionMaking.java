@@ -237,6 +237,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	 */
 	@Override
 	protected void process_basic() {
+	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
 		boolean bActivatePanicInfluence = false;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
 		//verified if a clsSecondaryDataStructureContainer is required.
@@ -311,7 +312,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
             //Get the penalty for the effort
             double oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
             
-            oGoal.setEffortLevel(oImportanceValue);
+            oGoal.setEffortImpact(oImportanceValue);
         }
         
         log.debug("Applied effort to goals:" + poGoalList.toString());
@@ -436,7 +437,9 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		int nAddedGoals = 0;
 		
 		//Process emotions
+		//TODO SM: Remove this function. Panic goals are generated from an act (BODO-act)
 		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moFeeling_IN);
+		//TODO SM: Remove Panicgoal 
 		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
 			oRetVal.add(oPanicGoal);
 			log.trace("Added panic goal" + oPanicGoal);
@@ -450,7 +453,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			removeNonReachableGoals(poPossibleGoalInputs);
 			
 			//=== Sort and evaluate them === //
-			ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, mrAffectThresold);
+			//TODO SM: Extend clsWordPresentationMeshGoal with Unique Property HASFEELINGIMPACT, which is eqivalent to HASIMPORTANCE and HASEFFORTLEVEL
+			ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, moFeeling_IN, mrAffectThresold);
 			
 			//Add all goals to this list
 			for (clsWordPresentationMeshGoal oReachableGoal : oSortedReachableGoalList) {

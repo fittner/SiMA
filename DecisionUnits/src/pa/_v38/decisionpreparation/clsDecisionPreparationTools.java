@@ -102,7 +102,7 @@ public class clsDecisionPreparationTools {
     private static eCondition getConditionFromGoalType(eGoalType poGoalType) {
         eCondition oResult = null;
         
-        if (poGoalType.equals(eGoalType.MEMORYEMOTION)) {
+        if (poGoalType.equals(eGoalType.MEMORYFEELING)) {
             oResult = eCondition.IS_MEMORY_SOURCE;
         } else if (poGoalType.equals(eGoalType.MEMORYDRIVE)) {
             oResult = eCondition.IS_MEMORY_SOURCE;

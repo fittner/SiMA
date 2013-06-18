@@ -343,12 +343,6 @@ public class clsImportanceTools {
             //Get the intensity
             double oImportance = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getImportance();
 			
-			//Get the drive
-			//String oDriveContent = clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
-			//Get the intensity
-			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
-			
 			//Get the drive object
 			clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
@@ -376,6 +370,49 @@ public class clsImportanceTools {
 		
 		return oRetVal;
 	}
+	
+	   /**
+     * Extract possible feeling goals from an act.
+     * 
+     * The supportive data structure has to be provided here
+     * 
+     * (wendt)
+     *
+     * @since 29.07.2011 14:16:29
+     *
+     * @param poWPInput
+     * @param poContainer
+     * @return
+     * @throws Exception 
+     */
+    public static ArrayList<clsWordPresentationMeshGoal> getFeelingGoalsFromWPM(clsWordPresentationMesh poIntention, clsWordPresentationMesh poSupportiveDataStructureAsAct) {
+        ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
+        
+        //ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
+        
+        //Get feelings from WPM
+        ArrayList<clsWordPresentationMeshFeeling> oFeelingsList = clsGoalTools.getFeelingsFromImage(poIntention);
+        
+        for (clsWordPresentationMeshFeeling oFeeling : oFeelingsList) {
+            //Goal content
+            String oFeelingcontent = oFeeling.getMoContent();
+            
+            //Goal Importance
+            //TODO AW: Check if this is correct. Intensity is here not used at all. 
+            double oImportance = Math.abs(oFeeling.getPleasure() + oFeeling.getUnpleasure());
+            
+            eGoalType oGoalType = eGoalType.MEMORYFEELING;
+            
+            clsWordPresentationMesh oGoalObject = poIntention;
+            
+            clsWordPresentationMeshGoal oGoal = clsGoalTools.createGoal(oFeelingcontent, oGoalType, oImportance, eAction.NULLOBJECT, oFeelingsList, oGoalObject, poSupportiveDataStructureAsAct);
+            
+            oRetVal.add(oGoal);
+            
+        }
+        
+        return oRetVal;
+    }
 	
 	/**
 	 * Get all Drivewishes from an image in the SP
@@ -795,7 +832,7 @@ public class clsImportanceTools {
      *
      * @param poGoal
      */
-    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshGoal poGoal) {
+    public static double getConsequencesOfFeelingsOnGoalAsImportance(clsWordPresentationMeshGoal poGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList) {
         double rResult = 0;
         //Get Feeling affect
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();

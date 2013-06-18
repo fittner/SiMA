@@ -715,6 +715,10 @@ public class clsGoalTools {
 		//Get all possibly reachable drivegoals from the intention
 		oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
 		
+		//Get all possible feelinggoals from the act
+		oRetVal.addAll(clsImportanceTools.getFeelingGoalsFromWPM(oIntention, poAct));  //Only in one image
+		
+		
 		//Get from all subimages too
 //		for (clsWordPresentationMesh oSubImage : clsActTools.getAllSubImages(oIntention)) {
 //			oRetVal.addAll(clsImportanceTools.getDriveGoalsFromWPM(oSubImage, eGoalType.MEMORYDRIVE, poAct, true));	//Only in one image
@@ -737,9 +741,10 @@ public class clsGoalTools {
 	 * @param pnNumberOfGoalsToPass
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMeshGoal> sortAndEnhanceGoals(
+	public static ArrayList<clsWordPresentationMeshGoal> sortAndEnhanceGoals (
 			ArrayList<clsWordPresentationMeshGoal> poSortedPossibleGoalList,
-			ArrayList<clsWordPresentationMeshGoal> poSortedFilterList, 
+			ArrayList<clsWordPresentationMeshGoal> poSortedDriveGoalList, 
+			ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList,
 			//int pnNumberOfGoalsToPass,
 			double pnAffectLevelThreshold) {
 		
@@ -748,14 +753,15 @@ public class clsGoalTools {
 		
 		
 		//1. Go through the list of drives, which are used as filter
-		for (int i=0; i<poSortedFilterList.size();i++) {
+		for (int i=0; i<poSortedDriveGoalList.size();i++) {
 		    ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminarySortList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
-			clsWordPresentationMeshGoal oDriveGoal = poSortedFilterList.get(i);
+		    //Get drive goal
+			clsWordPresentationMeshGoal oDriveGoal = poSortedDriveGoalList.get(i);
 			
 			ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminaryGoalList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
 			
 			//Extract all remembered goals from the image, which match the drive goal
-			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poSortedPossibleGoalList, pnAffectLevelThreshold));
+			oPreliminaryGoalList.addAll(clsGoalTools.filterDriveGoalsFromImageGoals(oDriveGoal, poFeltFeelingList, poSortedPossibleGoalList, pnAffectLevelThreshold));
 			log.trace("for drivegoal " + oDriveGoal.getGoalContentIdentifier() + " the following reachable goals were extracted: " + oPreliminaryGoalList);
 			
 			//Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
@@ -763,17 +769,12 @@ public class clsGoalTools {
 				//There is no current affect level
 				//This sort order shall have the last priority
 			    
-			    //Add as a continous goal
-			    //FIXME put this somewhere else
-			    //oDriveGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
-			    //oDriveGoal.setCondition(eCondition.IS_DRIVE_SOURCE);
-			    //oDriveGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
-			    
 				double rCurrentPISortOrder = 0;
 				double rTotalCurrentAffectLevel = Math.abs(0 * 10 + rCurrentPISortOrder);
 				oPreliminaryGoalList.add(new clsPair<Double, clsWordPresentationMeshGoal>(rTotalCurrentAffectLevel, oDriveGoal));
 			}
 			
+			//Sort reachable goals for each drive goal
 			for (clsPair<Double, clsWordPresentationMeshGoal> oPair : oPreliminaryGoalList) {
 				int nIndex = 0;
 				//Increase index if the list is not empty
@@ -818,7 +819,7 @@ public class clsGoalTools {
 	 * @param pnAffectLevelThreshold
 	 * @return
 	 */
-	private static ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> filterDriveGoalsFromImageGoals(clsWordPresentationMeshGoal poDriveGoal, ArrayList<clsWordPresentationMeshGoal> poSortedPossibleGoalList, double prAffectLevelThreshold) {
+	private static ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> filterDriveGoalsFromImageGoals(clsWordPresentationMeshGoal poDriveGoal, ArrayList<clsWordPresentationMeshFeeling> poFeltFeelingList, ArrayList<clsWordPresentationMeshGoal> poSortedPossibleGoalList, double prAffectLevelThreshold) {
 		ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oRetVal = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
 		
 		//boolean bGoalObjectFound = false;
@@ -827,8 +828,10 @@ public class clsGoalTools {
 		for (clsWordPresentationMeshGoal oPossibleGoal : poSortedPossibleGoalList) {
 			
 			//Get the level of affect for the object in the image of the potential goals
-		    double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(oPossibleGoal);
-			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortLevel() + rImportanceOfFeelings;
+		    //TODO SM: Implement logic from task setting
+		    double rImpactOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(oPossibleGoal, poFeltFeelingList);
+		    //TODO SM: Set IMPACTOFFEELING on this goal
+			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortImpact() + rImpactOfFeelings;
 			
 			if (rCurrentAffectLevel>=prAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time
@@ -1227,6 +1230,10 @@ public class clsGoalTools {
 	    
 	    //Set Affect
 	    oResult.setIntensity(oAffectContent);
+	    oResult.setAggression(poEmotion.getMrSourceAggr());
+	    oResult.setLibido(poEmotion.getMrSourceLibid());
+	    oResult.setPleasure(poEmotion.getMrSourcePleasure());
+	    oResult.setUnpleasure(poEmotion.getMrSourceUnpleasure());
 	    //clsMeshTools.setUniquePredicateWP(oResult, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECTLEVEL, eContentType.AFFECTLEVEL, oAffectContent.toString(), false);
 	    
 	    return oResult;

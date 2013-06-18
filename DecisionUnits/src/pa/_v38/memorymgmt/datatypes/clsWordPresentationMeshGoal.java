@@ -181,10 +181,10 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      *
      * @return
      */
-    public double getEffortLevel() {
+    public double getEffortImpact() {
         double rResult = 0;
         
-        String oEffort = this.getUniqueProperty(ePredicate.HASEFFORTLEVEL);
+        String oEffort = this.getUniqueProperty(ePredicate.HASEFFORTIMPACT);
         
         if (oEffort.isEmpty()==false) {
             rResult = Double.valueOf(oEffort);
@@ -202,8 +202,8 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      *
      * @param pnImportance
      */
-    public void setEffortLevel(double pnImportance) {
-        this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTLEVEL, ePredicate.HASEFFORTLEVEL, true);
+    public void setEffortImpact(double pnImportance) {
+        this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTIMPACT, ePredicate.HASEFFORTIMPACT, true);
     }
     
     /**
@@ -599,8 +599,9 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public String toString() {
         String oResult = "";  
         oResult += this.getGoalContentIdentifier();
-        double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this);
-        double nTotalAffectLevel = getImportance() + getEffortLevel() + rImportanceOfFeelings;
+        //TODO SM: Goal, Tostring adaption to application of feelings together with the getter and setter
+        double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this, this.getFeelings());
+        double nTotalAffectLevel = getImportance() + getEffortImpact() + rImportanceOfFeelings;
         
         oResult += ":" + new DecimalFormat("0.00").format(nTotalAffectLevel);
         oResult += ":" + this.getFeelings().toString();
