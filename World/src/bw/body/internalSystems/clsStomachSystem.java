@@ -510,7 +510,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	private void CreateExcrementFromUndigestable() {
 		
 		double digestionAmountperStep = moPersonalityParameterContainer.getPersonalityParameter(P_MODULE_NAME, "DIGEST_SPEED").getParameterDouble();
-		int oWaitForSteps = 0; // wie viele steps verzoegerung zwischen essen und start der Verdauung
+		int oWaitForSteps = 40; // wie viele steps verzoegerung zwischen essen und start der Verdauung
 		
 
 		clsNutritionLevel oUndigestable = this.getNutritionLevel(eNutritions.UNDIGESTABLE);
