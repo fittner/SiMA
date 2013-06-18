@@ -22,9 +22,10 @@ public enum eAction {
 	MOVE_BACKWARD,	//Is this still used???
 	TURN_LEFT,
 	TURN_RIGHT,
+	TURN_RIGHT90,
+	TURN_LEFT90,
 	
-	DEPOSIT,
-	EXCREMENT, 
+	DEPOSIT, 
 	SLEEP,
 	RELAX,
 	EAT,

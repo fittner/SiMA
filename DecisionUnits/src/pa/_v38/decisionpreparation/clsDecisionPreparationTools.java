@@ -146,8 +146,8 @@ public class clsDecisionPreparationTools {
         case PICKUP:
             oActionCondition = eCondition.EXECUTED_PICKUP;
             break;
-        case EXCREMENT:
-            oActionCondition = eCondition.EXECUTED_EXCREMENT;
+        case DEPOSIT:
+            oActionCondition = eCondition.EXECUTED_DEPOSIT;
             break;
         case REPRESS:
             oActionCondition = eCondition.EXECUTED_REPRESS;

@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -52,7 +53,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
 
     // Anxiety from F20
-    private ArrayList<clsWordPresentationMesh> moAnxiety_Input;
+    private ArrayList<clsWordPresentationMeshFeeling> moAnxiety_Input;
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     //private clsWordPresentationMesh moPerceptionalMesh_OUT;
@@ -155,8 +156,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @SuppressWarnings("unchecked")
     @Override
-    public void receive_I6_2(ArrayList<clsWordPresentationMesh> poAnxiety_Input) {
-        moAnxiety_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poAnxiety_Input);
+    public void receive_I6_2(ArrayList<clsWordPresentationMeshFeeling> poAnxiety_Input) {
+        moAnxiety_Input = (ArrayList<clsWordPresentationMeshFeeling>) deepCopy(poAnxiety_Input);
 
     }
 
