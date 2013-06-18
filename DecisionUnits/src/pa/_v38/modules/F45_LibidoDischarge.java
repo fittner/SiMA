@@ -227,7 +227,8 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Get available amount of free libido 
 		
 
-		mrAvailableLibido=moLibidoBuffer.send_D1_4();
+//		mrAvailableLibido=moLibidoBuffer.send_D1_4();
+		mrAvailableLibido=0.8;
 		mrLibidoReducedBy = 0.0;
 		//Clone input structure and make modification directly on the output
 		try {
@@ -273,7 +274,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//	mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
 		//}
 		
-		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
+//		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 
 	}
@@ -515,7 +516,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	public ArrayList<Double> getTimeChartData() {
 		ArrayList<Double> oValues = new ArrayList<Double>();
 		
-		oValues.add(moLibidoBuffer.send_D1_4());
+	//	oValues.add(moLibidoBuffer.send_D1_4());
 		oValues.add(mrLibidoReducedBy);
 		
 		return oValues;

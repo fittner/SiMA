@@ -128,8 +128,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
 		
-		oProp.setProperty(pre+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.03);
-		oProp.setProperty(pre+clsFlesh.P_AGGRESSIV_STIMULATION, 0.07);
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.03);
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_AGGRESSIV_STIMULATION, 0.07);
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_NUMNUTRITIONS, 5);
 		oProp.setProperty(pre+P_BODY+"."+"0."+clsFlesh.P_NUTRITIONTYPE, eNutritions.CARBOHYDRATE.name());

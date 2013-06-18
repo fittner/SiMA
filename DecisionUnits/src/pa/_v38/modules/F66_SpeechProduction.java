@@ -144,7 +144,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         throw new java.lang.NoSuchMethodError();
     }
 
-    @SuppressWarnings("unchecked")
+
     public void send_I6_13() {
 
         // AW 20110602 Added Associtated memories
@@ -180,7 +180,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-        //send_I6_13();
+       // send_I6_13();
 
     }
 

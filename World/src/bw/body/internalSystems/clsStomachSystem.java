@@ -32,6 +32,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	public static final String P_NUTRITIONEFFICIENCY = "efficiency";
 	public static final String P_NUTRITIONMETABOLISMFACTOR = "metabolismfactor";
 	
+	
 	public static final String P_MODULE_NAME ="STOMACHSYSTEM";
 	
 	private HashMap<eNutritions, clsNutritionLevel> moNutritions;
@@ -508,7 +509,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	 */
 	private void CreateExcrementFromUndigestable() {
 		
-		double digestionAmountperStep = 0.005; // frei erfundener wert, mit 0.01 dauert es so ca 50 steps bis er vollen rectum trieb hat
+		double digestionAmountperStep = moPersonalityParameterContainer.getPersonalityParameter(P_MODULE_NAME, "DIGEST_SPEED").getParameterDouble();
 		int oWaitForSteps = 40; // wie viele steps verzoegerung zwischen essen und start der Verdauung
 		
 

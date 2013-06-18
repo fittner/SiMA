@@ -6,18 +6,22 @@
  */
 package pa._v38.interfaces.modules;
 
-import pa._v38.memorymgmt.enums.eSexualDrives;
+import pa._v38.memorymgmt.enums.eDrive;
+import pa._v38.tools.clsPair;
 
 
 
 /**
- * Write access to libido storage (from F41).
+ * Write access to libido storage
+ * Sets both drive components
+ * 1. aggressiv
+ * 2. libidinous
  * 
- * @author deutsch
- * 09.03.2011, 17:06:30
+ * @author herret
+ * 15.5.2013
  * 
  */
 public interface D1_1_receive {
 
-	public void receive_D1_1(eSexualDrives peType, double prValue);
+	public void receive_D1_1(eDrive peType, clsPair<Double,Double> oValues);
 }

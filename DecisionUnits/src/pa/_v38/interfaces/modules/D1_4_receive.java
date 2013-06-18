@@ -6,15 +6,18 @@
  */
 package pa._v38.interfaces.modules;
 
+import pa._v38.memorymgmt.enums.eDrive;
+import pa._v38.tools.clsPair;
+
 
 
 /**
- * Read access to libido storage (from F39).
+ * Read access to libido storage 
  * 
  * @author deutsch
  * 09.03.2011, 17:06:30
  * 
  */
 public interface D1_4_receive {
-	public double receive_D1_4();
+	public clsPair<Double,Double> receive_D1_4(eDrive oDrive);
 }
