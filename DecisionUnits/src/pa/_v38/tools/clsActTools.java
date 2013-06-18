@@ -76,12 +76,8 @@ public class clsActTools {
 	
 			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
 			if (oExistentPrediction.isNullObject()==false) {
-				//if (oSuperStructure.getMoDS_ID()==clsActDataStructureTools.getIntention(oExistentPrediction).getMoDS_ID()) {
-					//Merge meshes
-					clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
-				//}
-
-				
+				//Merge meshes
+			    clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
 			} else {
 				//Create prediction
 				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);
