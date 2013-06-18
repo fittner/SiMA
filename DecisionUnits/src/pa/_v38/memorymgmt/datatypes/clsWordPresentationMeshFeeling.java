@@ -39,48 +39,11 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
     }
     
-    /**
-     * Gets the given "type" of feeling parameter's current value.
-     * The currently valid types are: INTENSITY, AGGRESSION, LIBIDO, PLEASURE, UNPLEASURE.
-     * Throws an IllegalArgumentException in case of an invalid type.
-     * This method is not case sensitive. 
-     * (mahmody)
-     *
-     * @since 10.06.2013 13:09:52
-     *
-     * @param type
-     * @return
-     * @throws IllegalArgumentException
-     */
-    public double getFeelingParam(String type) throws IllegalArgumentException{
-        
-        ePredicate pred = null;
-        
-        FeelingParams ftype = FeelingParams.valueOf(type.toUpperCase());
-        
-        switch(ftype){
-            case INTENSITY:
-                pred = ePredicate.HASIMPORTANCE;
-                break;
-            case AGGRESSION:
-                pred = ePredicate.HASAGGRESSION;
-                break;
-            case LIBIDO:
-                pred = ePredicate.HASLIBIDO;
-                break;
-            case PLEASURE:
-                pred = ePredicate.HASPLEASURE;
-                break;
-            case UNPLEASURE:
-                pred = ePredicate.HASUNPLEASURE;
-                break;
-            default:
-                throw new IllegalArgumentException(("The type "+ type +" does not exist"));
-        }
+    public double getIntensity(){
         
         double nResult = 0;
         
-        String oFeelingParameter = this.getUniqueProperty(pred);
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
         
         if (oFeelingParameter.isEmpty()==false) {
             nResult = Double.valueOf(oFeelingParameter);
@@ -89,61 +52,75 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         return nResult;
     }
     
-    /**
-     * Sets the given "type" of feeling parameter to the given "paramValue".
-     * The currently valid types are: INTENSITY, AGGRESSION, LIBIDO, PLEASURE, UNPLEASURE.
-     * Throws an IllegalArgumentException in case of an invalid type.
-     * This method is not case sensitive. 
-     * 
-     * 
-     * (mahmody)
-     *
-     * @since 10.06.2013 13:02:14
-     *
-     * @param type
-     * @param paramValue
-     * @throws IllegalArgumentException 
-     */
-    public void setFeelingParam(String type, double paramValue) throws IllegalArgumentException{
+    public void setIntensity(double poIntensity){
+        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true);
+    }
+    
+    public double getLibido(){
         
-        eContentType cType = null;
-        ePredicate pred = null;
+        double nResult = 0;
         
-        FeelingParams ftype = FeelingParams.valueOf(type.toUpperCase());
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASLIBIDO);
         
-        switch(ftype){
-            case INTENSITY:
-                cType = eContentType.IMPORTANCE;
-                pred = ePredicate.HASIMPORTANCE;
-                break;
-            case AGGRESSION:
-                cType = eContentType.FEELAGGRESSION;
-                pred = ePredicate.HASAGGRESSION;
-                break;
-            case LIBIDO:
-                cType = eContentType.FEELLIBIDO;
-                pred = ePredicate.HASLIBIDO;
-                break;
-            case PLEASURE:
-                cType = eContentType.FEELPLEASURE;
-                pred = ePredicate.HASPLEASURE;
-                break;
-            case UNPLEASURE:
-                cType = eContentType.FEELUNPLEASURE;
-                pred = ePredicate.HASUNPLEASURE;
-                break;
-            default:
-                throw new IllegalArgumentException(("The type "+ type +" does not exist"));
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
         }
         
-        this.setUniqueProperty(String.valueOf(paramValue), cType, pred, true);
+        return nResult;
     }
- 
-    public enum FeelingParams{
-        INTENSITY,
-        AGGRESSION,
-        LIBIDO,
-        PLEASURE,
-        UNPLEASURE
+    
+    public void setLibido(double poLibido){
+        this.setUniqueProperty(String.valueOf(poLibido), eContentType.FEELLIBIDO, ePredicate.HASLIBIDO, true);
+    }
+    
+    public double getAggression(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASAGGRESSION);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setAggression(double poAggression){
+        this.setUniqueProperty(String.valueOf(poAggression), eContentType.FEELAGGRESSION, ePredicate.HASAGGRESSION, true);
+    }
+    
+    public double getPleasure(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASPLEASURE);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setPleasure(double poPleasure){
+        this.setUniqueProperty(String.valueOf(poPleasure), eContentType.FEELPLEASURE, ePredicate.HASPLEASURE, true);
+    }
+    
+    public double getUnpleasure(){
+        
+        double nResult = 0;
+        
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASUNPLEASURE);
+        
+        if (oFeelingParameter.isEmpty()==false) {
+            nResult = Double.valueOf(oFeelingParameter);
+        }
+        
+        return nResult;
+    }
+    
+    public void setUnpleasure(double poUnpleasure){
+        this.setUniqueProperty(String.valueOf(poUnpleasure), eContentType.FEELUNPLEASURE, ePredicate.HASUNPLEASURE, true);
     }
 }

@@ -801,7 +801,7 @@ public class clsImportanceTools {
         ArrayList<clsWordPresentationMeshFeeling> oFeelingList = poGoal.getFeelings();
             
         for (clsWordPresentationMeshFeeling oF : oFeelingList) {
-            double nAffectFromFeeling = oF.getFeelingParam("INTENSITY");
+            double nAffectFromFeeling = oF.getIntensity();
                 
             rResult += nAffectFromFeeling;
         }
