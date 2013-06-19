@@ -13,7 +13,7 @@ import java.util.Iterator;
 
 import config.clsProperties;
 
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.exceptions.exFoodNotFinalized;
 import bw.exceptions.exNoSuchNutritionType;
 import bw.utils.datatypes.clsMutableDouble;
@@ -30,10 +30,10 @@ public class clsConsumeFood {
 	public static final String P_GARBAGENUTRITIONTYPE = "garbagenutritiontype";
 	
 	private eNutritions mnGarbageNutritionType;
-	private clsStomachSystem moStomachSystem; // reference to existing stomach
+	private clsDigestiveSystem moStomachSystem; // reference to existing stomach
 
 
-	public clsConsumeFood(String poPrefix, clsProperties poProp, clsStomachSystem poStomach) {
+	public clsConsumeFood(String poPrefix, clsProperties poProp, clsDigestiveSystem poStomach) {
 		moStomachSystem = poStomach;
 		
 		applyProperties(poPrefix, poProp);

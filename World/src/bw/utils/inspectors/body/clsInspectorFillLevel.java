@@ -29,7 +29,7 @@ import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.chart.renderer.category.LevelRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
 
@@ -54,7 +54,7 @@ public class clsInspectorFillLevel extends Inspector{
 	private static final long serialVersionUID = 2381501531626669313L;
 	
 	public sim.portrayal.Inspector moOriginalInspector;
-	private clsStomachSystem moStomachSystem;
+	private clsDigestiveSystem moStomachSystem;
 	
 	private ChartPanel moChartPanel;
 	private DefaultCategoryDataset moDataset;
@@ -65,7 +65,7 @@ public class clsInspectorFillLevel extends Inspector{
     public clsInspectorFillLevel(sim.portrayal.Inspector originalInspector,
             LocationWrapper wrapper,
             GUIState guiState,
-            clsStomachSystem poStomachSystem)
+            clsDigestiveSystem poStomachSystem)
     {
     	super();
     	moOriginalInspector = originalInspector;
