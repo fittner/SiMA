@@ -69,7 +69,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	
     private  DT4_PleasureStorage moPleasureStorage;
 	
-    private HashMap<String,clsPair<Double,Double>> oQoA_LastStep;
+    private HashMap<eDrive,Double> oQoA_LastStep;
     private HashMap<eDrive,Double> o_LastStep;
     private HashMap<String,Double> shiftFactorLastStep;
 	
@@ -119,10 +119,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
 		moHomeostaisImpactFactors.put("STAMINA",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STAMINA).getParameterDouble());
 
-		oQoA_LastStep = new HashMap<String,clsPair<Double,Double>>();
-		oQoA_LastStep.put("STOMACH", new clsPair<Double,Double>(0.0,0.0));
-		oQoA_LastStep.put("RECTUM", new clsPair<Double,Double>(0.0,0.0));
-		oQoA_LastStep.put("STAMINA", new clsPair<Double,Double>(0.0,0.0));
+		oQoA_LastStep = new HashMap<eDrive,Double>();
 		
 		o_LastStep = new HashMap<eDrive,Double>();
 		o_LastStep.put(eDrive.STOMACH, 0.0);
@@ -349,7 +346,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
      * @since 28.05.2013 09:04:33
      *
      */
-    private void shiftPartialValues(Double prShift, eDrive oDrive) {
+/*    private void shiftPartialValues(Double prShift, eDrive oDrive) {
         clsPair<Double,Double> oOldValues = moLibidoBuffer.send_D1_4(oDrive);
         double shiftLastStep =o_LastStep.get(oDrive);
         
@@ -365,7 +362,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         }
         
     }
-
+*/
     private void changeDriveBuffer(HashMap<eDriveProperty, Object> poProperties, double prTension){
         
         String drive = (String) poProperties.get(eDriveProperty.ORGAN);
@@ -409,7 +406,11 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             rLibFactor = 0.5;
             rErogenousZonesImpactFactor=0.0;
         }
-
+        double rOldValue = 0.0;
+        if(oQoA_LastStep.containsKey(oDrive)){
+            rOldValue = oQoA_LastStep.get(oDrive);
+        }
+        oQoA_LastStep.put(oDrive, prTension);
         double rTensionChange = (oOldValues.a + oOldValues.b)-prTension;
         if(rTensionChange > 0){
             //Mittelwert der Einflussfaktoren beim Fallen 
@@ -602,7 +603,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
        // moLibidoBuffer.receive_D1_6(eDrive.STOMACH, (prStomachTension-0.5)*0.5+0.5);
 	}
 	
-	private clsPair<Double,Double> shiftValues(clsPair<Double,Double> poInput, double prShiftFactor){
+/*	private clsPair<Double,Double> shiftValues(clsPair<Double,Double> poInput, double prShiftFactor){
 	    double rSum =poInput.a+poInput.b;
 	    double rFactorOld = poInput.a/rSum;
 	    double rFactorNew = rFactorOld/0.5*prShiftFactor;
@@ -610,7 +611,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	    return new clsPair<Double,Double>(rSum*rFactorNew,rSum*(1-rFactorNew));
 	    
 	}
-	
+*/	
     /**
      * Method to calculate the QoA of the aggressiv and libidinous parts of the Stomach drive
      * if QoA of hole stomach drive is rising: rise the aggressiv and libidinous 50/50
@@ -620,7 +621,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
      * @since Apr 4, 2013 11:04:42 AM
      *
      */
-    private clsPair<Double,Double> generateDevisionFactorsStomach(double prStomachTension) {
+/*    private clsPair<Double,Double> generateDevisionFactorsStomach(double prStomachTension) {
         double rAgrTensionOld = 0.0;
         double rLibTensionOld = 0.0;
         double rAgrTension = 0.0;
@@ -709,7 +710,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 
         return new clsPair<Double,Double>(rAgrTension,rLibTension);
     }
-
+*/
     /**
 	 * Take the normalization map and produces values ready for translation to psy
 	 *
