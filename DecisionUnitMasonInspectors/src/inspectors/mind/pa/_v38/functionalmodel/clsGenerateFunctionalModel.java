@@ -66,13 +66,7 @@ public class clsGenerateFunctionalModel {
 		//((clsNode)(oNodes.get(43))).setCoords(3, 0); 
 		((clsNode)(oNodes.get(64))).setCoords(3, 0);
 		
-		((clsNode)(oNodes.get(1))).setCoords(0, 2);
-		((clsNode)(oNodes.get(2))).setCoords(1, 2);
-	//	((clsNode)(oNodes.get(3))).setCoords(2, 2);
-	//	((clsNode)(oNodes.get(4))).setCoords(3, 2);
-		((clsNode)(oNodes.get(65))).setCoords(3, 2);
-		((clsNode)(oNodes.get(55))).setCoords(9, 2);
-		
+
 
 		((clsNode)(oNodes.get(48))).setCoords(4, 1);
 		((clsNode)(oNodes.get(57))).setCoords(5, 1);
@@ -80,6 +74,14 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(54))).setCoords(7, 1);
 		((clsNode)(oNodes.get(56))).setCoords(8, 1);
 		((clsNode)(oNodes.get(6))).setCoords(10, 1);
+		
+		((clsNode)(oNodes.get(1))).setCoords(0, 2);
+		((clsNode)(oNodes.get(2))).setCoords(1, 2);
+	//	((clsNode)(oNodes.get(3))).setCoords(2, 2);
+	//	((clsNode)(oNodes.get(4))).setCoords(3, 2);
+		((clsNode)(oNodes.get(65))).setCoords(3, 2);
+		((clsNode)(oNodes.get(55))).setCoords(9, 2);
+		((clsNode)(oNodes.get(63))).setCoords(8, 2);
 		
 		((clsNode)(oNodes.get(10))).setCoords(0, 3);
 		((clsNode)(oNodes.get(11))).setCoords(1, 3);
@@ -101,19 +103,21 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(20))).setCoords(9, 6);
 		((clsNode)(oNodes.get(8))).setCoords(10, 6);
 		
-		((clsNode)(oNodes.get(32))).setCoords(0, 7);
-		((clsNode)(oNodes.get(31))).setCoords(1, 7);
-		((clsNode)(oNodes.get(30))).setCoords(3, 7);
-		((clsNode)(oNodes.get(29))).setCoords(4, 7);
-		((clsNode)(oNodes.get(52))).setCoords(5, 7);
-		((clsNode)(oNodes.get(26))).setCoords(6, 7);
+		((clsNode)(oNodes.get(32))).setCoords(0, 8);
+		((clsNode)(oNodes.get(31))).setCoords(1, 8);
+		((clsNode)(oNodes.get(30))).setCoords(3, 8);
+		((clsNode)(oNodes.get(29))).setCoords(4, 8);
+		((clsNode)(oNodes.get(52))).setCoords(5, 8);
+		((clsNode)(oNodes.get(26))).setCoords(6, 8);
+		((clsNode)(oNodes.get(51))).setCoords(7, 8);
+		((clsNode)(oNodes.get(61))).setCoords(8, 8);
+		((clsNode)(oNodes.get(66))).setCoords(9, 8);
 		
-		((clsNode)(oNodes.get(53))).setCoords(4, 8);
-		((clsNode)(oNodes.get(51))).setCoords(6, 8);
-		((clsNode)(oNodes.get(23))).setCoords(7, 8);
+		((clsNode)(oNodes.get(53))).setCoords(4, 9);
+		((clsNode)(oNodes.get(23))).setCoords(7, 9);
 		
-		((clsNode)(oNodes.get(61))).setCoords(8, 7);
-		((clsNode)(oNodes.get(63))).setCoords(8, 2);
+		
+
 		
 		//TODO CM dummy position for now, reposition me
 		
