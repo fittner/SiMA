@@ -117,6 +117,7 @@ public class clsOntologyLoader {
 				eDataType.WP, 
 				eDataType.WPM,
 				eDataType.EMOTION, 
+				eDataType.DOMAIN,
 				eDataType.ASSOCIATIONTEMP 
 			};
 
