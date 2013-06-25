@@ -41,6 +41,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 	private HashMap<eActivationType, Double> moActivations = new HashMap<eActivationType, Double>();
 	private HashMap<eActivationType, Double> moCriterionWeights = new HashMap<eActivationType, Double>();
 	private HashMap<eActivationType, Double> moCriterionMaxValues = new HashMap<eActivationType, Double>();
+	private double mrCathexis;
 	
 	/**
 	 * @author zeilinger
@@ -79,6 +80,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		moInternalAssociatedContent = poAssociatedPhysicalRepresentations; 
 		setContent(poContent); 
 		mrAggregatedActivationValue = 0;
+		mrCathexis = 0;
 	}
 	
 	/**
