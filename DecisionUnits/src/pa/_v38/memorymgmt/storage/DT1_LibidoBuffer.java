@@ -358,8 +358,8 @@ public void receive_D1_6(eDrive oDrive, Double oShiftFactor) {
 	public ArrayList<String> getTimeChartCaptions() {
 		ArrayList<String> oCaptions = new ArrayList<String>();
 		for(eDrive drive : moLibidoBuffers.keySet()){
-		    oCaptions.add(drive.toString()+"Agressiv");
-		    oCaptions.add(drive.toString()+"Libidinous");
+		    oCaptions.add(drive.toString()+" Agressiv");
+		    oCaptions.add(drive.toString()+" Libidinous");
 		}
 		return oCaptions;
 	}

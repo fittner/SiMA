@@ -8,7 +8,6 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import java.util.SortedMap;
 import java.util.Map.Entry;
@@ -71,7 +70,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	
     private HashMap<eDrive,Double> oQoA_LastStep;
     private HashMap<eDrive,Double> o_LastStep;
-    private HashMap<String,Double> shiftFactorLastStep;
+    private HashMap<eDrive,Double> shiftFactorLastStep;
 	
 	private Logger log = Logger.getLogger(this.getClass().getName());
 	
@@ -125,8 +124,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		o_LastStep.put(eDrive.STOMACH, 0.0);
 
 		
-		shiftFactorLastStep = new HashMap<String,Double>();
-		shiftFactorLastStep.put("STOMACH", 0.5);
+		shiftFactorLastStep = new HashMap<eDrive,Double>();
 		moMapping = new HashMap<String,HashMap<eDriveProperty,Object>>();
 		
 		fillMapping(poPersonalityParameterContainer);
@@ -170,9 +168,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<String,Double> oRetVal = new HashMap<String,Double>();
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_RECTUM").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_RECTUM").getParameterDouble());
-        oRetVal.put("TENSION_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_IMPACT_RECTUM").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_RECTUM").getParameterDouble());
-        oRetVal.put("TENSION_FACTOR", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_FACTOR_RECTUM").getParameterDouble());
         
         return oRetVal;
     }
@@ -181,9 +177,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<String,Double> oRetVal = new HashMap<String,Double>();
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_STAMINA").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_STAMINA").getParameterDouble());
-        oRetVal.put("TENSION_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_IMPACT_STAMINA").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_STAMINA").getParameterDouble());
-        oRetVal.put("TENSION_FACTOR", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_FACTOR_STAMINA").getParameterDouble());
         
         return oRetVal;
     }
@@ -192,9 +186,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<String,Double> oRetVal = new HashMap<String,Double>();
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_STOMACH").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_STOMACH").getParameterDouble());
-        oRetVal.put("TENSION_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_IMPACT_STOMACH").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_STOMACH").getParameterDouble());
-        oRetVal.put("TENSION_FACTOR", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"TENSION_FACTOR_STOMACH").getParameterDouble());
         
         return oRetVal;
     }
@@ -372,12 +364,10 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<String,Double> oPP = (HashMap<String,Double>) poProperties.get(eDriveProperty.PERSONALITY_PARAMETERS);
         double rErogenousZonesImpactFactor = oPP.get("EROGENOUS_ZONES_IMPACT");
         double rPersonalitySplitImpactFactor = oPP.get("PERSONALITY_SPLIT_IMPACT");;
-        double rTensionImpactFactor = oPP.get("TENSION_IMPACT");
         String oLibErogenousZone =  (String) poProperties.get("LIBIDINOUS_ERROGENOUS_ZONE");
         String oAgrErogenousZone =  (String) poProperties.get("AGGRESSIV_ERROGENOUS_ZONE");
         
         double rPersonalitySplitFactor =oPP.get("PERSONALITY_SPLIT");
-        double rTensionFactorValue = oPP.get("TENSION_FACTOR");
         
         double rLibStimulation = 0.0;
         double rAgrStimulation = 0.0;
@@ -411,18 +401,18 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             rOldValue = oQoA_LastStep.get(oDrive);
         }
         oQoA_LastStep.put(oDrive, prTension);
-        double rTensionChange = (oOldValues.a + oOldValues.b)-prTension;
+        double rTensionChange = (rOldValue)-prTension;
         if(rTensionChange > 0){
             //Mittelwert der Einflussfaktoren beim Fallen 
-            double rAgrMid =(rAgrFactor*rErogenousZonesImpactFactor + rPersonalitySplitFactor*rPersonalitySplitImpactFactor + rTensionFactorValue*rTensionImpactFactor)/(rPersonalitySplitImpactFactor + rTensionImpactFactor +rErogenousZonesImpactFactor);
-            double rLibMid = ((1-rAgrFactor)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor + (1-rTensionFactorValue)*rTensionImpactFactor)/(rPersonalitySplitImpactFactor + rTensionImpactFactor +rErogenousZonesImpactFactor);
+            double rAgrMid =(rAgrFactor*rErogenousZonesImpactFactor + rPersonalitySplitFactor*rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
+            double rLibMid = ((1-rAgrFactor)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
             moLibidoBuffer.receive_D1_3(oDrive,new clsPair<Double,Double>(rTensionChange*rAgrMid, rTensionChange*rLibMid));
             // send the tension change to the pleasure buffer
             moPleasureStorage.D4_2receive(rTensionChange);
         }
         else if (rTensionChange <= 0){
-            double rAgrMid = (rPersonalitySplitFactor * rPersonalitySplitImpactFactor+ rTensionFactorValue* rTensionImpactFactor)/(rPersonalitySplitImpactFactor + rTensionImpactFactor);
-            double rLibMid = ((1-rPersonalitySplitFactor) * rPersonalitySplitImpactFactor + (1-rTensionFactorValue) * rTensionImpactFactor)/(rPersonalitySplitImpactFactor + rTensionImpactFactor);
+            double rAgrMid = (rPersonalitySplitFactor * rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor);
+            double rLibMid = ((1-rPersonalitySplitFactor) * rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor);
             moLibidoBuffer.receive_D1_2(oDrive,new clsPair<Double,Double>(-rTensionChange*rAgrMid, -rTensionChange*rLibMid));
             
             //delete the Erogenous Zones value because its not needed any more
@@ -433,7 +423,27 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         else {
             //Stomach Tension doesn't change
         }
+        
+        moLibidoBuffer.receive_D1_1(oDrive,shiftComponentsCorresponingToTension(oDrive,moLibidoBuffer.send_D1_4(oDrive)));
 
+    }
+    
+    private clsPair<Double,Double> shiftComponentsCorresponingToTension(eDrive poDrive, clsPair<Double,Double> poValues){
+        double rShiftFactor = poValues.a + poValues.b;
+        
+        if(shiftFactorLastStep.containsKey(poDrive)){
+            double rShiftFactorLastStep = shiftFactorLastStep.get(poDrive);
+            shiftFactorLastStep.put(poDrive, rShiftFactor);
+            double changeFactor = rShiftFactor-rShiftFactorLastStep;
+            
+            return shiftQoA(poValues,changeFactor);
+      
+        }
+        else{
+            shiftFactorLastStep.put(poDrive, rShiftFactor);
+            clsPair<Double,Double> oRetVal =shiftQoA_FirstStep(poValues,rShiftFactor);
+            return oRetVal;
+        }
     }
     
     /**
@@ -442,7 +452,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
      * @since 27.05.2013 12:25:08
      *
      */
-    private void addTensionChange(double prStomachTension, eDrive poDrive) {
+ /*   private void addTensionChange(double prStomachTension, eDrive poDrive) {
         double rLibStimulation = 0.0;
         double rAgrStimulation = 0.0;
         double rAgrFactor;
@@ -515,8 +525,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         
         
     }
-
-    private void createDrives() throws Exception{
+*/
+ /*   private void createDrives() throws Exception{
 	    HashMap<eDrive,clsPair<Double,Double>> moDriveBuffer = moLibidoBuffer.send_D1_5();
 	    for(Map.Entry<eDrive,clsPair<Double,Double>> oEntry : moDriveBuffer.entrySet()){
 	        moHomeostaticDriveComponents_OUT.add(CreateDriveCandidate(moOrganMap.get(oEntry.getKey()), oEntry.getValue().a,eDriveComponent.AGGRESSIVE));
@@ -525,8 +535,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	        
 	    }
 	}
-	
-	private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
+*/	
+/*	private clsPair<Double,Double>shiftQoA_alt(clsPair<Double,Double> prValues, double prRatio){
         double rSum = prValues.a + prValues.b;
         double rAggrFactor = prValues.a/rSum;
         double d= 0.0;
@@ -542,6 +552,32 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         rAggrFactor = rAggrFactor*k + d;
         
         return new clsPair<Double,Double>(rSum*rAggrFactor,rSum*(1-rAggrFactor));
+    }
+    */
+    private clsPair<Double,Double>shiftQoA_FirstStep(clsPair<Double,Double> prValues, double prRatio){
+        double rSum = prValues.a + prValues.b;
+        double rAggrFactorOld = prValues.a/rSum;
+        if(rSum == 0.0 ) rAggrFactorOld = 0.0;
+        double rAggrFactorNew = (rAggrFactorOld + prRatio)/2;
+        
+        clsPair<Double,Double> oRetVal = new clsPair<Double,Double>(rSum*rAggrFactorNew,rSum*(1-rAggrFactorNew));
+        return oRetVal;
+    }
+    private clsPair<Double,Double>shiftQoA(clsPair<Double,Double> prValues, double prRatio){
+        double rShift = prRatio;
+        if(rShift>=0){
+            prValues.a += prValues.b*rShift;
+            prValues.b -= prValues.b*rShift;
+        }
+        else if (rShift <0){
+            prValues.b += prValues.a*(-rShift);
+            prValues.a -= prValues.a*(-rShift);
+        }
+        else{
+            
+        }
+        
+        return prValues;
     }
 	
 	private void updateDevisionFactorsStomach(double prStomachTension) {
