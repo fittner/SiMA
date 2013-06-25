@@ -20,7 +20,6 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eAffectLevel;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -42,28 +41,6 @@ public class clsImportanceTools {
 	//AGGRESSIVESTOMACH, LIBIDINOUSSTOMACH, AGGRESSIVESTAMINA, LIBIDINOUSSTAMINA, AGGRESSIVERECTUM, LIBIDINOUSRECTUM, LIBIDINOUSLIBIDO]
 	private static final ArrayList<String> moPossibleDriveGoals = new ArrayList<String>(Arrays.asList("LIBIDINOUSSTAMINA", "AGGRESSIVESTAMINA", "LIBIDINOUSSTOMACH", "AGGRESSIVESTOMACH", "LIBIDINOUSRECTUM", "AGGRESSIVERECTUM", "LIBIDINOUSLIBIDO"));	//SLEEP first, as if there is no sleep, the agent cannot do anything
 	/** A list of possible affects sorted in the order of importance */
-	private static final ArrayList<Integer> moAffectSortOrder = new ArrayList<Integer>(Arrays.asList(
-			eAffectLevel.NEGATIVE100.mnAffectLevel,
-			eAffectLevel.POSITIVE100.mnAffectLevel,
-			eAffectLevel.NEGATIVE90.mnAffectLevel,
-			eAffectLevel.POSITIVE90.mnAffectLevel,
-			eAffectLevel.NEGATIVE80.mnAffectLevel,
-			eAffectLevel.POSITIVE80.mnAffectLevel,
-			eAffectLevel.NEGATIVE70.mnAffectLevel,
-			eAffectLevel.POSITIVE70.mnAffectLevel,
-			eAffectLevel.NEGATIVE60.mnAffectLevel,
-			eAffectLevel.POSITIVE60.mnAffectLevel,
-			eAffectLevel.NEGATIVE50.mnAffectLevel,
-			eAffectLevel.POSITIVE50.mnAffectLevel,
-			eAffectLevel.NEGATIVE40.mnAffectLevel,
-			eAffectLevel.NEGATIVE40.mnAffectLevel,
-			eAffectLevel.NEGATIVE30.mnAffectLevel,
-			eAffectLevel.NEGATIVE30.mnAffectLevel,
-			eAffectLevel.NEGATIVE20.mnAffectLevel,
-			eAffectLevel.NEGATIVE20.mnAffectLevel,
-			eAffectLevel.NEGATIVE10.mnAffectLevel,
-			eAffectLevel.NEGATIVE10.mnAffectLevel,
-			eAffectLevel.INSIGNIFICANT.mnAffectLevel));	//FIXME AW: Possibly use another solution for sorting
 	private static final String _Delimiter01 = ":"; 
 	private static final String _Delimiter02 = "||";
 	private static final String _Delimiter03 = "|";
@@ -507,86 +484,6 @@ public class clsImportanceTools {
 		return oRetVal;
 	}
 		
-	
-	/**
-	 * Get drive intensity or affect of a drive as an integer
-	 * (wendt)
-	 *
-	 * @since 05.08.2011 22:30:45
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	public static int getDriveIntensityAsInt(String poDriveContent) {
-		int nIntensity =  0;
-		
-		eAffectLevel oLevel = getDriveIntensityAsAffectLevel(poDriveContent);
-		
-		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
-		if (oLevel!=null) {
-			nIntensity = eAffectLevel.valueOf(oLevel.toString()).mnAffectLevel;
-		}
-		
-		return nIntensity;
-	}
-	
-	/**
-	 * Get drive intensity or affect of a drive as an integer
-	 * (wendt)
-	 *
-	 * @since 05.08.2011 22:30:45
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	public static int getDriveIntensityAsInt(eAffectLevel oAffectLevel) {
-		int nIntensity =  0;
-		
-		//eAffectLevel oLevel = getDriveIntensityAsAffectLevel(poDriveContent);
-		
-		//If it is a drive demand, oDriveIntensity != "", else search for the correct intensity in the string
-		if (oAffectLevel!=null) {
-			nIntensity = eAffectLevel.valueOf(oAffectLevel.toString()).mnAffectLevel;
-		}
-		
-		return nIntensity;
-	}
-	
-	/**
-	 * Get drive intensity or affect of a drive as an Affect level
-	 * (wendt)
-	 *
-	 * @since 13.09.2011 09:35:53
-	 *
-	 * @param poDriveContent
-	 * @return
-	 */
-	public static eAffectLevel getDriveIntensityAsAffectLevel(String poDriveContent) {
-		eAffectLevel oRetVal = null;
-		
-		String oDrive = poDriveContent.split("\\" + _Delimiter03)[0];
-		String[] oDriveSplit = oDrive.split(_Delimiter01);
-		String oDriveIntensity = "";
-		//If it is a drive demand, then this string is > 1
-		if (oDriveSplit.length > 1) {
-			oDriveIntensity = oDriveSplit[1];
-		} else {
-		//else it is a goal
-			//Find oDrive
-			String[] oSplitParts = poDriveContent.split("\\" + _Delimiter03);
-			for (String oE : oSplitParts) {
-				if (oE.contains(oDrive + _Delimiter01)) {
-					oDriveIntensity = oE.substring(oE.indexOf(_Delimiter01)+1);
-					break;
-				}
-			}
-			
-		}
-		
-		oRetVal = eAffectLevel.valueOf(oDriveIntensity);
-		
-		return oRetVal;
-	}
 	
 //	/**
 //	 * Extract the type of drive like NOURISH, BITE etc... from an input string of drive content

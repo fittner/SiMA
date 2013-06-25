@@ -290,7 +290,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
 			log.info("\n=======================\nDecided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString() + "\n==============================");
 			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
-			//System.out.println(moTEMPDecisionString);
+
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
 			log.info("Decided goal: No goal ");
