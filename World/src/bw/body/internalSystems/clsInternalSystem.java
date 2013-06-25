@@ -37,7 +37,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsTemperatureSystem moTemperatureSystem;
     private clsHealthSystem moHealthSystem;
     private clsStaminaSystem moStaminaSystem;
-    private clsStomachSystem moStomachSystem;
+    private clsDigestiveSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
     
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
@@ -61,7 +61,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsTemperatureSystem.getDefaultProperties(pre+P_TEMPERATURE) );
 		oProp.putAll( clsHealthSystem.getDefaultProperties(pre+P_HEALTH) );
 		oProp.putAll( clsStaminaSystem.getDefaultProperties(pre+P_STAMINA) );
-		oProp.putAll( clsStomachSystem.getDefaultProperties(pre+P_STOMACH) );
+		oProp.putAll( clsDigestiveSystem.getDefaultProperties(pre+P_STOMACH) );
 		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.02);
@@ -78,7 +78,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moTemperatureSystem 	= new clsTemperatureSystem(pre+P_TEMPERATURE, poProp);
 		moHealthSystem 			= new clsHealthSystem(pre+P_HEALTH, poProp);
 		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
-		moStomachSystem 		= new clsStomachSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
+		moStomachSystem 		= new clsDigestiveSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
    	    
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
@@ -135,7 +135,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	/**
 	 * @return the moStomachSystem
 	 */
-	public clsStomachSystem getStomachSystem() {
+	public clsDigestiveSystem getStomachSystem() {
 		return moStomachSystem;
 	}
 

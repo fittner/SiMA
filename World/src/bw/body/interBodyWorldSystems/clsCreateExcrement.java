@@ -13,7 +13,7 @@ import statictools.clsUniqueIdGenerator;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import ARSsim.physics2D.util.clsPose;
 
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.entities.clsEntity;
 import bw.entities.clsSmartExcrement;
 import bw.exceptions.exNoSuchNutritionType;
@@ -37,7 +37,7 @@ public class clsCreateExcrement {
 	public static final String P_WEIGHT = "weight";
 	
 	private eNutritions mnGarbageNutritionType;
-	private clsStomachSystem moStomachSystem; // reference to existing stomach
+	private clsDigestiveSystem moStomachSystem; // reference to existing stomach
 	private clsEntity moEntity; // reference to this entity. necessary to determine the position of the sh..t
 	private double mrWeight;
 	private double mrPlacementDirection;
@@ -47,7 +47,7 @@ public class clsCreateExcrement {
 	private clsProperties moSmartExcrementProps;
 
 
-	public clsCreateExcrement(String poPrefix, clsProperties poProp, clsStomachSystem poStomach, clsEntity poEntity) {
+	public clsCreateExcrement(String poPrefix, clsProperties poProp, clsDigestiveSystem poStomach, clsEntity poEntity) {
 		moStomachSystem = poStomach;
 		moEntity = poEntity;
 		

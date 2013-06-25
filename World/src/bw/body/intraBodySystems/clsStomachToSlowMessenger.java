@@ -12,7 +12,7 @@ import config.clsProperties;
 import du.enums.eSlowMessenger;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsSlowMessengerSystem;
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.exceptions.exContentColumnMaxContentExceeded;
 import bw.exceptions.exContentColumnMinContentUnderrun;
 import bw.exceptions.exSlowMessengerDoesNotExist;
@@ -28,10 +28,10 @@ import bw.utils.tools.clsNutritionLevel;
  * 
  */
 public class clsStomachToSlowMessenger implements itfStepUpdateInternalState  {
-	private clsStomachSystem moStomachSystem;
+	private clsDigestiveSystem moStomachSystem;
 	private clsSlowMessengerSystem moSlowMessengerSystem;
 	
-	public clsStomachToSlowMessenger(String poPrefix, clsProperties poProp, clsStomachSystem poStomachSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
+	public clsStomachToSlowMessenger(String poPrefix, clsProperties poProp, clsDigestiveSystem poStomachSystem, clsSlowMessengerSystem poSlowMessengerSystem) {
 		moStomachSystem = poStomachSystem;		
 		moSlowMessengerSystem = poSlowMessengerSystem;
 		

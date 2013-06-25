@@ -15,7 +15,7 @@ import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
 import bw.body.internalSystems.clsHealthSystem;
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.utils.enums.eBodyParts;
 import bw.utils.enums.eNutritions;
 import bw.utils.tools.clsNutritionLevel;
@@ -35,11 +35,11 @@ public class clsStomachDamageNutrition implements itfStepUpdateInternalState {
 	private double mrPainThreshold;
 	private double mrPainFactor;		
 
-	private clsStomachSystem moStomachSystem;
+	private clsDigestiveSystem moStomachSystem;
 	private clsHealthSystem moHealthSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 
-	public clsStomachDamageNutrition(String poPrefix, clsProperties poProp, clsHealthSystem poHealthSystem, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsStomachDamageNutrition(String poPrefix, clsProperties poProp, clsHealthSystem poHealthSystem, clsDigestiveSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moHealthSystem = poHealthSystem;
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;

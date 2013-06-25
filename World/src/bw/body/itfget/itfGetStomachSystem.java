@@ -8,7 +8,7 @@
  */
 package bw.body.itfget;
 
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -18,6 +18,6 @@ import bw.body.internalSystems.clsStomachSystem;
  * 
  */
 public interface itfGetStomachSystem {
-	public clsStomachSystem getStomachSystem();
+	public clsDigestiveSystem getStomachSystem();
 
 }

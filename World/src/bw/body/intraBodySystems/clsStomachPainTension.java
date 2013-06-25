@@ -9,7 +9,7 @@ package bw.body.intraBodySystems;
 import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
 import bw.body.internalSystems.clsFastMessengerSystem;
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.utils.enums.eBodyParts;
 
 /**
@@ -26,10 +26,10 @@ public class clsStomachPainTension implements itfStepUpdateInternalState  {
 	private double mrPainThreshold;
 	private double mrPainFactor;	
 	
-	private clsStomachSystem moStomachSystem;
+	private clsDigestiveSystem moStomachSystem;
 	private clsFastMessengerSystem moFastMessengerSystem;
 	
-	public clsStomachPainTension(String poPrefix, clsProperties poProp, clsStomachSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
+	public clsStomachPainTension(String poPrefix, clsProperties poProp, clsDigestiveSystem poStomachSystem, clsFastMessengerSystem poFastMessengerSystem) {
 		moStomachSystem = poStomachSystem;		
 		moFastMessengerSystem = poFastMessengerSystem;
 		

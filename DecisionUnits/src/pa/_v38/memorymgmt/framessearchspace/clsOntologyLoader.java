@@ -117,6 +117,7 @@ public class clsOntologyLoader {
 				eDataType.WP, 
 				eDataType.WPM,
 				eDataType.EMOTION, 
+				eDataType.DOMAIN,
 				eDataType.ASSOCIATIONTEMP 
 			};
 
@@ -477,6 +478,8 @@ public class clsOntologyLoader {
 		Collection<?> oPreCon = getSlotValues("precondition", poElement);
 		Collection<?> oAction = getSlotValues("action", poElement);
 		Collection<?> oConseq = getSlotValues("consequence", poElement);
+		Collection<?> oObject = getSlotValues("object", poElement);
+		
 		clsWordPresentation oDS = null;
 		clsDomain oAct = new clsDomain(
 				new clsTriple<Integer, eDataType, eContentType>(oID, oElType,
@@ -517,6 +520,17 @@ public class clsOntologyLoader {
 			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
 					+ ":" + oDS.getMoContent() + "|");
 		}
+		
+		oAct.setMoContent(oAct.getMoContent() + "|OBJECT|");
+
+        for (Object oElement : oObject) {
+            initDataStructure(null, (Instance) oElement, poDataContainer);
+            oDS = (clsWordPresentation) retrieveDataStructure(
+                    ((Instance) oElement).getName(), poDataContainer.b);
+            // oAct.getMoAssociatedContent().add(oDS);
+            oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
+                    + ":" + oDS.getMoContent() + "|");
+        }
 	}
 
 	/**

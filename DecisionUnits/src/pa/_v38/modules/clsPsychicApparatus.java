@@ -220,7 +220,7 @@ public class clsPsychicApparatus {
 		
 		clsProperties oProp = new clsProperties();
 
-		oProp.setProperty(pre +"."+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
+		oProp.setProperty(pre +P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 		
 		oProp.setProperty(pre+P_DEBUG_LEVEL, "DEBUG");
 		
@@ -286,7 +286,7 @@ public class clsPsychicApparatus {
 			//TODO HZ - Integrate to Properties
 			//FIXME (Zeilinger) - TD 2011/04/11 commented the (recreation) of moKnowledgeBaseHandler. see clsProcessor.applyProperties. knowlegebasehandler is created twice!
 			//moKnowledgeBaseHandler = clsKnowledgeBaseHandlerFactory.createInformationRepresentationManagement("ARSI10_MGMT", pre+P_INFORMATIONREPRESENTATIONMGMT, poProp);
-		    String moFilename= poProp.getProperty(pre +"."+P_PERSONALITY_PARAMETER);
+		    String moFilename= poProp.getProperty(pre +P_PERSONALITY_PARAMETER);
 			moPersonalityParameterContainer= new clsPersonalityParameterContainer(clsGetARSPath.getDecisionUnitPeronalityParameterConfigPath(),moFilename,P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
 			

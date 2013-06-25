@@ -26,7 +26,7 @@ import bw.utils.tools.clsNutritionLevel;
  * @author deutsch
  * 
  */
-public class clsStomachSystem implements itfStepUpdateInternalState {
+public class clsDigestiveSystem implements itfStepUpdateInternalState {
     public static final String P_NUMNUTRITIONS = "numnutritions";
 	public static final String P_NUTRITIONTYPE = "type";
 	public static final String P_NUTRITIONEFFICIENCY = "efficiency";
@@ -48,7 +48,7 @@ public class clsStomachSystem implements itfStepUpdateInternalState {
 	
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 	
-	public clsStomachSystem(String poPrefix, clsProperties poProp, 	clsPersonalityParameterContainer poPersonalityParameterContainer) {
+	public clsDigestiveSystem(String poPrefix, clsProperties poProp, 	clsPersonalityParameterContainer poPersonalityParameterContainer) {
 		moPersonalityParameterContainer = poPersonalityParameterContainer;
 		
 		moNutritions = new HashMap<eNutritions, clsNutritionLevel>();

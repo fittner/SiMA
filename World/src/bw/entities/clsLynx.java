@@ -19,7 +19,7 @@ import du.itf.itfDecisionUnit;
 import bw.body.clsComplexBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyType;
@@ -80,9 +80,9 @@ public class clsLynx extends clsAnimal {
 
 		int i = 0;
 		
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.FAT.toString());
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 2);
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONTYPE, eNutritions.FAT.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONEFFICIENCY, 2);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 10);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 10);
@@ -90,9 +90,9 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 5);		
 		i++;
 		
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 2);
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONTYPE, eNutritions.PROTEIN.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONEFFICIENCY, 2);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 10);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 10);
@@ -100,9 +100,9 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 5);
 		i++;		
 
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.WATER.toString());
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 0);
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONTYPE, eNutritions.WATER.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONMETABOLISMFACTOR, 1);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 10);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 10);
@@ -110,9 +110,9 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 5);
 		i++;
 		
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONEFFICIENCY, 0);
-		oProp.setProperty(stomach_pre+i+"."+clsStomachSystem.P_NUTRITIONMETABOLISMFACTOR, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONTYPE, eNutritions.UNDIGESTABLE.toString());
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONEFFICIENCY, 0);
+		oProp.setProperty(stomach_pre+i+"."+clsDigestiveSystem.P_NUTRITIONMETABOLISMFACTOR, 0);
 		oProp.putAll( clsNutritionLevel.getDefaultProperties(stomach_pre+i+".") );	
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_MAXCONTENT, 6);
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_UPPERBOUND, 5);
@@ -120,7 +120,7 @@ public class clsLynx extends clsAnimal {
 		oProp.setProperty(stomach_pre+i+"."+clsNutritionLevel.P_CONTENT, 0);
 		i++;
 		
-		oProp.setProperty(stomach_pre+clsStomachSystem.P_NUMNUTRITIONS, i);
+		oProp.setProperty(stomach_pre+clsDigestiveSystem.P_NUMNUTRITIONS, i);
 		
 		//change flesh to desired values
 		String flesh_pre = pre+clsAnimate.P_BODY+"."+clsComplexBody.P_INTERNAL+"."+clsInternalSystem.P_FLESH+".";

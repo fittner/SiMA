@@ -9,7 +9,7 @@ package bw.body.io.sensors.internal;
 import config.clsProperties;
 import bw.body.clsBaseBody;
 import bw.body.clsComplexBody;
-import bw.body.internalSystems.clsStomachSystem;
+import bw.body.internalSystems.clsDigestiveSystem;
 import bw.body.io.clsBaseIO;
 import bw.utils.enums.eBodyParts;
 
@@ -92,7 +92,7 @@ public class clsStomachTensionSensor  extends clsSensorInt {
 	public void updateSensorData() {
 
 		if ( moBody instanceof clsComplexBody) {
-			clsStomachSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
+			clsDigestiveSystem oStomachSystem = ((clsComplexBody)moBody).getInternalSystem().getStomachSystem();
 
 			try {
 				mrTension = oStomachSystem.getWeight() / oStomachSystem.getMaxWeight();
