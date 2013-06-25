@@ -650,7 +650,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 		
 		//CM: for testing now:
 		clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
-		//moInternalActions.add( test );
+		moInternalActions.add( test );
 		
 	}
 
