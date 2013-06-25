@@ -1108,7 +1108,9 @@ public class clsGoalTools {
         String oDriveContent = poDM.getDriveIdentifier(); //clsImportanceTools.getDriveType(oAffect.getMoContent());
         
         //Get the affect level
-        double rImportance = poDM.getQuotaOfAffect();
+        //double rImportance = poDM.getQuotaOfAffect();
+        double rImportance = clsImportanceTools.convertDMIntensityToImportance(poDM.getQuotaOfAffect(), poDM.getActualDriveObject().getCriterionActivationValue(eActivationType.EMBODIMENT_ACTIVATION));
+        
         //eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
         
         //Get the preferred action name

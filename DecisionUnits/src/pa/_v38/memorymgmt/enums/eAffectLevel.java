@@ -31,6 +31,7 @@ package pa._v38.memorymgmt.enums;
  * @author kohlhauser
  * 31.08.2010, 13:38:25
  * 
+ * @deprecated
  */
 public enum eAffectLevel {
 	NEGATIVE100 (-100),
