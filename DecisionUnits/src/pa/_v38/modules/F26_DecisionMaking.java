@@ -339,7 +339,8 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		}
 		
 		//Get the AffectLevel
-		String oAffectLevel = String.valueOf(poDecidedGoal.getImportance()); //eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
+		String oAffectLevel = String.valueOf(poDecidedGoal.getImportance()); 
+		//eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
 		
 		//Get Conditions
 		String oGoalConditions = "";
