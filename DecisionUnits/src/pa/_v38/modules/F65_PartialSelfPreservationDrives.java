@@ -169,7 +169,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_RECTUM").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_RECTUM").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_RECTUM").getParameterDouble());
-        
+        oRetVal.put("DRIFT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"DRIFT_IMPACT_RECTUM").getParameterDouble());
+
         return oRetVal;
     }
     
@@ -178,7 +179,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_STAMINA").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_STAMINA").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_STAMINA").getParameterDouble());
-        
+        oRetVal.put("DRIFT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"DRIFT_IMPACT_STAMINA").getParameterDouble());
+
         return oRetVal;
     }
     
@@ -187,7 +189,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         oRetVal.put("EROGENOUS_ZONES_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"EROGENOUS_ZONES_IMPACT_STOMACH").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_IMPACT_STOMACH").getParameterDouble());
         oRetVal.put("PERSONALITY_SPLIT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"PERSONALITY_SPLIT_STOMACH").getParameterDouble());
-        
+        oRetVal.put("DRIFT_IMPACT", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,"DRIFT_IMPACT_STOMACH").getParameterDouble());
+
         return oRetVal;
     }
 
@@ -424,12 +427,14 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
             //Stomach Tension doesn't change
         }
         
-        moLibidoBuffer.receive_D1_1(oDrive,shiftComponentsCorresponingToTension(oDrive,moLibidoBuffer.send_D1_4(oDrive)));
+        moLibidoBuffer.receive_D1_1(oDrive,shiftComponentsCorresponingToTension(oDrive,moLibidoBuffer.send_D1_4(oDrive),oPP.get("DRIFT_IMPACT")));
 
     }
     
-    private clsPair<Double,Double> shiftComponentsCorresponingToTension(eDrive poDrive, clsPair<Double,Double> poValues){
+    private clsPair<Double,Double> shiftComponentsCorresponingToTension(eDrive poDrive, clsPair<Double,Double> poValues, double poImpactFactor){
         double rShiftFactor = poValues.a + poValues.b;
+        double rVal = rShiftFactor-0.5;
+        rShiftFactor =0.5+rVal*poImpactFactor;
         
         if(shiftFactorLastStep.containsKey(poDrive)){
             double rShiftFactorLastStep = shiftFactorLastStep.get(poDrive);
