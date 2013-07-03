@@ -25,7 +25,8 @@ import bw.entities.clsLynx;
 import bw.entities.clsPlant;
 import bw.entities.clsRectangleStationary;
 import bw.entities.clsRemoteBot;
-import bw.entities.clsSchnitzl;
+import bw.entities.clsSchnitzel;
+
 import bw.entities.clsSmartExcrement;
 import bw.entities.clsStone;
 import bw.entities.clsToilet;
@@ -74,7 +75,7 @@ public class clsEntityFactory {
 		moEntities.put(eEntityType.RECTANGLE_STATIONARY, clsRectangleStationary.class);
 		moEntities.put(eEntityType.HEALTH, clsUnrealHealth.class);
 		moEntities.put(eEntityType.SMARTEXCREMENT, clsSmartExcrement.class);
-		moEntities.put(eEntityType.SCHNITZL, clsSchnitzl.class);
+		moEntities.put(eEntityType.SCHNITZL, clsSchnitzel.class);
 		
 	}
 	
