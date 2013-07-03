@@ -13,6 +13,7 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+
 import javax.swing.ImageIcon;
 
 
@@ -35,6 +36,11 @@ public class ScenarioSelector extends javax.swing.JFrame {
 	private static final long serialVersionUID = -1592720371723582306L;
 	private String mUserName = "";
 	private static final String IMP_STAGE_FILE_PREFIX = "pa.implementationstate.";
+	private static final String P_CONFIG_SAVE_FILE ="config.save";
+	private static final String P_SCENARIO ="scenario";
+	private static final String P_ADAPTOR="adapter";
+	private static final String P_IMPLEMENTATIONSTAGE="implementation_stage";
+	private static final String P_AUTOSTART="autostart";
 	
 	/** Creates new form clsBWScenarioSelectorUI and initializes the JFrame and 
 	 * the other components. it also fills the List with the scenarios (config files)*/
@@ -43,9 +49,40 @@ public class ScenarioSelector extends javax.swing.JFrame {
     	this.setTitle("ARS Scenario Selector - user: " + mUserName);
         initComponents();
         FillScenarioList();
+        loadSavedValues();
     }
 
     /**
+	 * DOCUMENT (herret) - insert description
+	 *
+	 * @since 03.07.2013 10:03:11
+	 *
+	 */
+	private void loadSavedValues() {
+		clsProperties oProp;
+	       try{
+	    	   oProp = clsProperties.readProperties(clsGetARSPath.getConfigPath(), P_CONFIG_SAVE_FILE);
+	       }
+	       catch (Exception Ex){
+	    	   return;
+	       }
+	       
+	       try{lstScenarioList.setSelectedIndex(Integer.parseInt(oProp.getProperty(P_SCENARIO)));}
+	       catch (Exception Ex){lstScenarioList.setSelectedIndex(0);}
+	       
+	       try{chkAutostart.setSelected((Boolean.parseBoolean(oProp.getProperty(P_AUTOSTART))));}
+	       catch (Exception Ex){}
+	       
+	       try{chkAdaptor.setSelected((Boolean.parseBoolean(oProp.getProperty(P_ADAPTOR))));}
+	       catch (Exception Ex){}
+	       
+	       try{chkImplementationStage.setSelected((Boolean.parseBoolean(oProp.getProperty(P_IMPLEMENTATIONSTAGE))));}
+	       catch (Exception Ex){}
+
+		
+	}
+
+	/**
 	 * DOCUMENT (muchitsch) - insert description
 	 *
 	 * @since 03.09.2012 15:05:46
@@ -71,7 +108,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
 
     // <editor-fold defaultstate="collapsed" desc="Generated Code">
     private void initComponents() {
-
+    	
         pnlScenarios = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstScenarioList = new javax.swing.JList();
@@ -323,16 +360,22 @@ public class ScenarioSelector extends javax.swing.JFrame {
     
     private void StartScenario(){
     	
+    	clsProperties oProp = new clsProperties();
     	//disable the buttons
     	DisableUserInput();
     	
     	int oSelectedScenarioIndex = lstScenarioList.getSelectedIndex();
     	String[] args = new String[8];
+    	
+    	oProp.setProperty(P_SCENARIO, oSelectedScenarioIndex);
+    	
 
     	//if there is a scenario selected do something
         if(oSelectedScenarioIndex != -1)
         {
         	ScenarioEntry oSelectedScenarioEntry = (ScenarioEntry) lstScenarioList.getModel().getElementAt(oSelectedScenarioIndex);
+        	
+        	
         	
         	String val = oSelectedScenarioEntry.getFileName();
         	args[0] = "-config";
@@ -342,30 +385,40 @@ public class ScenarioSelector extends javax.swing.JFrame {
         	{
 	        	args[2] = "-autostart";
 	        	args[3] = "true";
+	        	oProp.setProperty(P_AUTOSTART, true);
         	}
         	else
         	{
         		args[2] = "-autostart";
 	        	args[3] = "false";
+	        	oProp.setProperty(P_AUTOSTART, false);
         	}
         	
         	if(chkAdaptor.isSelected()) {
 	        	args[4] = "-adapter";
 	        	args[5] = "true";
+	        	oProp.setProperty(P_ADAPTOR, true);
         	}
         	else {
         		args[4] = "-adapter";
 	        	args[5] = "false";
+	        	oProp.setProperty(P_ADAPTOR, false);
+
         	}
         	
         	if(chkImplementationStage.isSelected()) {
 	        	args[6] = "-impstages";
 	        	args[7] = IMP_STAGE_FILE_PREFIX+mUserName;
+	        	oProp.setProperty(P_IMPLEMENTATIONSTAGE, true);
+
         	}
         	else {
         		args[6] = "-dummy1";
 	        	args[7] = "kann_leider_nicht_leer_sein";
         	}
+        	
+        	//save selected Properties into file
+        	clsProperties.writeProperties(oProp, clsGetARSPath.getConfigPath(), P_CONFIG_SAVE_FILE, "");
         	
         	//load the scenario
     		SimulatorMain.main(args);
@@ -375,7 +428,9 @@ public class ScenarioSelector extends javax.swing.JFrame {
         }
     }
 
-    private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
+
+
+	private void btnStartScenarioActionPerformed(java.awt.event.ActionEvent evt) {
     	int selectedIndex= lstScenarioList.getSelectedIndex();
     	if(selectedIndex != -1)
         {
@@ -427,6 +482,7 @@ private void FillScenarioList(){
        
        java.io.File[] oFiles = oDir.listFiles(fileFilter);
 
+       
        if (oFiles != null) {
        
            //java.util.ArrayList<String> oFilenames = new  java.util.ArrayList();
@@ -450,10 +506,12 @@ private void FillScenarioList(){
            }
            */
     	   ScenarioEntry[] oScenarios= new ScenarioEntry[oFiles.length];
+
     	   for(int i=0; i<oFiles.length; i++){
     		   oScenarios[i] = new ScenarioEntry(oFiles[i].getName());
            }
     	   lstScenarioList.setListData(oScenarios);
+
        }
    }
     /**

@@ -19,5 +19,6 @@
 /NAO/bin
 /NAOProxyClient_Java/bin
 /Sim/bin
+/Sim/config/config.save
 /TestApps/bin
 /DecisionUnits/bin
