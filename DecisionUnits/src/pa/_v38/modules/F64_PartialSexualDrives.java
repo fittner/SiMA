@@ -61,8 +61,14 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	public static final String P_IMPACT_FACTOR_PHALLIC = "IMPACT_FACTOR_PHALLIC";
 	public static final String P_IMPACT_FACTOR_GENITAL = "IMPACT_FACTOR_GENITAL";
 	
+	public static final String P_PERSONALITY_SPLIT_ORAL = "PERSONALITY_SPLIT_ORAL";
+	public static final String P_PERSONALITY_SPLIT_ANAL = "PERSONALITY_SPLIT_ANAL";
+	public static final String P_PERSONALITY_SPLIT_GENITAL = "PERSONALITY_SPLIT_GENITAL";
+	public static final String P_PERSONALITY_SPLIT_PHALLIC = "PERSONALITY_SPLIT_PHALLIC";
+
 	private HashMap<String, Double> moSplitterFactors;
 	private HashMap<String, Double> moImpactFactors;
+	private HashMap<String, Double> moPersonalitySplitFactors;
 	
 	private Double moLibidoInput;
 	private ArrayList<clsDriveMesh> moOutput;
@@ -115,6 +121,13 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		moImpactFactors.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_GENITAL).getParameterDouble());
 		moImpactFactors.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_IMPACT_FACTOR_PHALLIC).getParameterDouble());
 
+		
+		moPersonalitySplitFactors = new HashMap<String,Double>();
+		moPersonalitySplitFactors.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_SPLIT_ORAL).getParameterDouble());
+        moPersonalitySplitFactors.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_SPLIT_ANAL).getParameterDouble());
+        moPersonalitySplitFactors.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_SPLIT_GENITAL).getParameterDouble());
+        moPersonalitySplitFactors.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PERSONALITY_SPLIT_PHALLIC).getParameterDouble());
+        
 		moDriveChartData = new HashMap<String,Double>();
 	}
 	
@@ -192,13 +205,13 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 		//partition of the incoming libido value to all partial drives corresponding to the fixation values (moSplitterFactors)
 		
 		//ORAL
-		send_D1_2(eDrive.ORAL,new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ORAL")/2,moLibidoInput * moSplitterFactors.get("ORAL")/2));
+		send_D1_2(eDrive.ORAL,new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ORAL")*moPersonalitySplitFactors.get("ORAL"),moLibidoInput * moSplitterFactors.get("ORAL")*(1-moPersonalitySplitFactors.get("ORAL"))));
 		//ANAL
-		send_D1_2(eDrive.ANAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ANAL")/2,moLibidoInput * moSplitterFactors.get("ANAL")/2));
+		send_D1_2(eDrive.ANAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("ANAL")*moPersonalitySplitFactors.get("ANAL"),moLibidoInput * moSplitterFactors.get("ANAL")*(1-moPersonalitySplitFactors.get("ANAL"))));
 		//GENITAL
-		send_D1_2(eDrive.GENITAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("GENITAL")/2,moLibidoInput * moSplitterFactors.get("GENITAL")/2));
+		send_D1_2(eDrive.GENITAL, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("GENITAL")*moPersonalitySplitFactors.get("GENITAL"),moLibidoInput * moSplitterFactors.get("GENITAL")*(1-moPersonalitySplitFactors.get("GENITAL"))));
 		//PHALLIC
-		send_D1_2(eDrive.PHALLIC, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("PHALLIC")/2,moLibidoInput * moSplitterFactors.get("PHALLIC")/2));
+		send_D1_2(eDrive.PHALLIC, new clsPair<Double,Double>(moLibidoInput * moSplitterFactors.get("PHALLIC")*moPersonalitySplitFactors.get("PHALLIC"),moLibidoInput * moSplitterFactors.get("PHALLIC")*(1-moPersonalitySplitFactors.get("PHALLIC"))));
 		
 		//decrease libodo buffer if erogenous zone gets stimulated
 		double before=0.0;

@@ -97,13 +97,13 @@ public class clsPersonalityParameterModule  implements Comparable<clsPersonality
 	 */
 	@Override
 	public int compareTo(clsPersonalityParameterModule arg0) {
-			int arg = Integer.parseInt(arg0.getMoModuleNumber().substring(1));
+		/*	int arg = Integer.parseInt(arg0.getMoModuleNumber().substring(1));
 			int me = Integer.parseInt(this.getMoModuleNumber().substring(1));
 			if((arg0.getMoModuleNumber().equals(this.getMoModuleNumber()))) return 0;
 			else if(arg <me) return 1;
 			else if(arg > me) return -1;
-		
-		return 0;
+			*/
+		return this.getMoModuleNumber().compareTo(arg0.getMoModuleNumber());
 	}
 	
 }

@@ -30,6 +30,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	public static final String P_STOMACH = "stomach";
 	public static final String P_INTENERGYCONSUMPTION = "intenergyconsumption";
 	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
+	public static final String P_ENERGY_CONSUMPTION_FACTOR ="ENERGY_CONSUMPTION_FACTOR";
 	
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
@@ -42,6 +43,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 
+	private double mrEnergyConsumptionFactor;
     
     private double mrBaseEnergyConsumption;
     
@@ -66,6 +68,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.02);
 				
+
 		return oProp;
 	}	
 
@@ -84,6 +87,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
    	    
    	 	moInternalEnergyConsumption.setValue(eBodyParts.INTSYS, new clsMutableDouble(mrBaseEnergyConsumption));
+   	 	
+		mrEnergyConsumptionFactor = moPersonalityParameterContainer.getPersonalityParameter("INTERNAL_SYSTEM", P_ENERGY_CONSUMPTION_FACTOR).getParameterDouble();
 	}	
 		
 	/**
@@ -160,7 +165,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moSlowMessengerSystem.stepUpdateInternalState();
 		moFastMessengerSystem.stepUpdateInternalState();
 		
-		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum() );
+		
+		moStomachSystem.withdrawEnergy( moInternalEnergyConsumption.getSum()*mrEnergyConsumptionFactor);
 		
 		moInternalEnergyConsumption.step();
 	}
