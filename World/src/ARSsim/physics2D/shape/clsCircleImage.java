@@ -14,6 +14,13 @@ import bw.factories.clsSingletonImageFactory;
 import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
 import bw.factories.eStrings;
+import java.awt.Shape;
+import java.awt.Stroke;
+import java.awt.geom.AffineTransform;
+import java.awt.geom.Line2D;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import sim.physics2D.util.Angle;
 
 
 /**
@@ -34,6 +41,9 @@ public class clsCircleImage extends Circle
 	eStrings moOverlayString = eStrings.Nourish;
 	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
 	Paint moPaint = null;
+	AffineTransform transform = new AffineTransform(); 
+	boolean mbShowOrientation = false; //show orientation marker
+
 
 
 	/**
@@ -45,11 +55,12 @@ public class clsCircleImage extends Circle
 	 * @param poPaint
 	 * @param psImageFilePath
 	 */
-	public clsCircleImage(double prRadius, Paint poPaint , String psImageFilePath)
+	public clsCircleImage(double prRadius, Paint poPaint , String psImageFilePath,  boolean pbShowOrientation)
     {
 		super(prRadius, poPaint);
 		this.mrRadius = prRadius; 
 		this.moPaint = poPaint;
+		this.mbShowOrientation = pbShowOrientation;
       
     	File oFile = new File( psImageFilePath ); 
 
@@ -64,7 +75,24 @@ public class clsCircleImage extends Circle
 	   	
     }
 
-   
+
+	/**
+	 * @since 28.06.2013 16:00:48
+	 * 
+	 * @return the mbShowOrientation
+	 */
+	public boolean isShowOrientation() {
+		return mbShowOrientation;
+	}
+
+	/**
+	 * @since 28.06.2013 16:00:48
+	 * 
+	 * @param mbShowOrientation the mbShowOrientation to set
+	 */
+	public void setShowOrientation(boolean mbShowOrientation) {
+		this.mbShowOrientation = mbShowOrientation;
+	}
     
     /* (non-Javadoc)
 	 *
@@ -94,6 +122,37 @@ public class clsCircleImage extends Circle
         final int nwArc = (int)(fWidthArc);
         final int nhArc = (int)(fHeightArc);
 
+        
+        if(mbShowOrientation)
+        {
+	      //adding orientation marker
+	        Angle orient = getOrientation();
+	        orient=orient.add(new Angle(-1.571f)); //mason shapes are shifted 90deg, so correct it
+	        double theta = orient.radians;
+	        int scale = 9;
+	        int offset = 0;
+	        double length = (scale * (info.draw.width < info.draw.height ? 
+	                info.draw.width : info.draw.height)) + offset;  // fit in smallest dimension
+	        transform.setToTranslation(info.draw.x, info.draw.y);
+	        transform.rotate(theta);
+                                           
+	        Shape path = new Line2D.Double(0,0,0,length);
+	        
+		 	Stroke stroke = new BasicStroke(16f, BasicStroke.CAP_ROUND,BasicStroke.JOIN_BEVEL);
+		 	Color oldColor= graphics.getColor();
+		 	if(moOverlayImage == eImages.Overlay_Action_MoveForward)
+		 	{
+		 		graphics.setColor(Color.DARK_GRAY);
+		 	}
+	    	graphics.setStroke(stroke);
+	    	graphics.draw( transform.createTransformedShape(path) );
+	    	//set old values
+	    	stroke = new BasicStroke(); //set Stroke back to normal
+	    	graphics.setStroke(stroke);
+	    	graphics.setColor(oldColor);
+        }
+        
+        
         //displays the physical circle
         graphics.fillOval(nxArc, nyArc, nwArc, nhArc); //fillOval(x,y,w,h); //scale automatic by mason
         
@@ -112,7 +171,7 @@ public class clsCircleImage extends Circle
 			        graphics.drawImage(moImage, nxArc , nyArc, nScaledWidth, nScaledHeight, null );
 			        
 			        //display a overlay Icon
-			        if(moOverlayImage != eImages.NONE) {
+			        if((moOverlayImage != eImages.NONE) && (moOverlayImage != eImages.Overlay_Action_MoveForward)) {
 			        	
 			    	   	BufferedImage oImageOverlay = null;
 			    
@@ -124,7 +183,7 @@ public class clsCircleImage extends Circle
 			    	   	}
 			        	
 						oImageOverlay.getGraphics();
-						graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
+						graphics.drawImage(oImageOverlay, nxArc+35, nyArc-35, 25, 25, null ); 
 			        }
 			        
 			        
