@@ -13,6 +13,7 @@ import java.util.HashMap;
 import bw.entities.clsARSIN;
 import bw.entities.clsAnimal;
 import bw.entities.clsApple;
+import bw.entities.clsAppleGreen;
 import bw.entities.clsBase;
 import bw.entities.clsCake;
 import bw.entities.clsCan;
@@ -21,12 +22,14 @@ import bw.entities.clsEntity;
 import bw.entities.clsFungus;
 import bw.entities.clsFungusEater;
 import bw.entities.clsHare;
+import bw.entities.clsLamp;
 import bw.entities.clsLynx;
 import bw.entities.clsPlant;
 import bw.entities.clsRectangleStationary;
 import bw.entities.clsRemoteBot;
 import bw.entities.clsSchnitzl;
 import bw.entities.clsSmartExcrement;
+import bw.entities.clsSprout;
 import bw.entities.clsStone;
 import bw.entities.clsToilet;
 import bw.entities.clsTomato;
@@ -75,6 +78,9 @@ public class clsEntityFactory {
 		moEntities.put(eEntityType.HEALTH, clsUnrealHealth.class);
 		moEntities.put(eEntityType.SMARTEXCREMENT, clsSmartExcrement.class);
 		moEntities.put(eEntityType.SCHNITZL, clsSchnitzl.class);
+		moEntities.put(eEntityType.LAMP, clsLamp.class);
+		moEntities.put(eEntityType.APPLEGREEN, clsAppleGreen.class);
+		moEntities.put(eEntityType.SPROUT, clsSprout.class);
 		
 	}
 	
