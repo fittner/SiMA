@@ -91,13 +91,13 @@ public class F49_PrimalRepressionForDrives extends clsModuleBase
 		fillPrimalRepressionMemory();
 		
 		moSplitterFactor = new HashMap<String, Double>();
-		moSplitterFactor.put("STOMACH", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STOMACH).getParameterDouble());
-		moSplitterFactor.put("RECTUM", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_RECTUM).getParameterDouble());
-		moSplitterFactor.put("STAMINA", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STAMINA).getParameterDouble());
-		moSplitterFactor.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ORAL).getParameterDouble());
-		moSplitterFactor.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ANAL).getParameterDouble());
-		moSplitterFactor.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_GENITAL).getParameterDouble());
-		moSplitterFactor.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_PHALLIC).getParameterDouble());
+//		moSplitterFactor.put("STOMACH", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STOMACH).getParameterDouble());
+//		moSplitterFactor.put("RECTUM", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_RECTUM).getParameterDouble());
+//		moSplitterFactor.put("STAMINA", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_STAMINA).getParameterDouble());
+//		moSplitterFactor.put("ORAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ORAL).getParameterDouble());
+//		moSplitterFactor.put("ANAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_ANAL).getParameterDouble());
+//		moSplitterFactor.put("GENITAL", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_GENITAL).getParameterDouble());
+//		moSplitterFactor.put("PHALLIC", poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SPLITFACTOR_PHALLIC).getParameterDouble());
 
 		
 		moChartInputData = new HashMap<String,Double>();

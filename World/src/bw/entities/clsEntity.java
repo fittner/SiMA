@@ -103,6 +103,8 @@ public abstract class clsEntity implements itfGetBody {
 	public abstract void registerEntity();
 	public abstract void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity);
 	
+	//additional perception values
+	protected double mrVisionBrightness = 0.0;
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
@@ -524,5 +526,14 @@ public abstract class clsEntity implements itfGetBody {
 	 */
 	public int getUniqueId() {
 		return mnUniqueId;
+	}
+	
+
+	public double getVisionBrightness() {
+		return mrVisionBrightness;
+	}
+
+	public void setVisionBrightness(double mrVisionBrightness) {
+		this.mrVisionBrightness = mrVisionBrightness;
 	}
 }
