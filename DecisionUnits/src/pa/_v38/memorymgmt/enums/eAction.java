@@ -35,6 +35,7 @@ public enum eAction {
 	PICKUP,
 	DROP,
 	NONE,
+	BEAT,
 	
 	//Unreal actions
 	UNREAL_MOVE_TO,

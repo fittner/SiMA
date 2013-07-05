@@ -102,6 +102,7 @@ public class clsPsychicApparatus {
 	public F64_PartialSexualDrives moF64_PartialSexualDrives;
 	public F65_PartialSelfPreservationDrives moF65_PartialSelfPreservationDrives;
 	public F66_SpeechProduction moF66_SpeechProduction;
+	public F67_BodilyReactionsOnEmotions moF67_BodilyReactionOnEmotions;
 	
 	/** Container for personality parameters ; @since 18.01.2013 15:09:03 */
 	public clsPersonalityParameterContainer moPersonalityParameterContainer;
@@ -266,7 +267,8 @@ public class clsPsychicApparatus {
 		oProp.putAll( F64_PartialSexualDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
 		oProp.putAll( F65_PartialSelfPreservationDrives.getDefaultProperties( pre + F64_PartialSexualDrives.P_MODULENUMBER ));
 	    oProp.putAll( F66_SpeechProduction.getDefaultProperties( pre + F66_SpeechProduction.P_MODULENUMBER ));
-
+	    oProp.putAll( F67_BodilyReactionsOnEmotions.getDefaultProperties( pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER ));
+	    
 		return oProp;
 	}	
 	
@@ -337,6 +339,7 @@ public class clsPsychicApparatus {
 			moF64_PartialSexualDrives = new F64_PartialSexualDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moLibidoBuffer, moPersonalityParameterContainer, moPleasureStorage);
 			moF65_PartialSelfPreservationDrives = new F65_PartialSelfPreservationDrives(pre + F64_PartialSexualDrives.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPersonalityParameterContainer, moLibidoBuffer, moPleasureStorage);
 			moF66_SpeechProduction = new F66_SpeechProduction(pre + F66_SpeechProduction.P_MODULENUMBER, poProp, moModules, moInterfaceData, moPsychicEnergyStorage, moPersonalityParameterContainer, moConceptMemory);
+			moF67_BodilyReactionOnEmotions =  new F67_BodilyReactionsOnEmotions(pre + F67_BodilyReactionsOnEmotions.P_MODULENUMBER, poProp, moModules, moInterfaceData);
             
 			moDebugLevel = poProp.getPropertyString(pre+P_DEBUG_LEVEL);
 		} catch (Exception e) {
