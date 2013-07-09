@@ -347,7 +347,7 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 				// Relate the Emotion to the Feeling which have Data Structure clsWordPresentationMesh, each Emotion has own Feeling
 			
 				oFeeling = new clsWordPresentationMeshFeeling(new clsTriple<Integer, eDataType, eContentType>
-						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),oWPAssEmotionList, oEmotion.getMoContent().toString());
+						  (-1, eDataType.WPM, eContentType.ASSOCIATIONWP),new ArrayList<clsAssociation>(), oEmotion.getMoContent().toString());
 				
 				// Create Association WordPresentaion from clsEmotion
 				clsAssociationWordPresentation oWPAssEmotion = new clsAssociationWordPresentation(new clsTriple<Integer, eDataType, eContentType>

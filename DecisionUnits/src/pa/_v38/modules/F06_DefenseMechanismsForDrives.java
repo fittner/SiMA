@@ -35,6 +35,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructure;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eEmotionType;
@@ -61,9 +62,13 @@ defend the forbidden drives or not.
  * - displacement (Verschiebung: Drive object is changed) 
  * - sublimation (new drive aim is a social and cultural higher drive aim) 
  * - intellectualization (new drive aim is an intellectual drive aim) - TODO: drive aims müssen noch definiert werden
+ * - Turning against Self is defined that the new Drive Object is "Self"
+ * - Projection is defined that the new Drive Source is the old Drive Object and new Drive object is Self
+     Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
  * 
- * @author gelbard
+ * @author gelbard and Lotfi
  * 07.05.2012, 14:01:06
+ * 25.06.2013, 21
  * 
  */
 public class F06_DefenseMechanismsForDrives extends clsModuleBase implements 
@@ -72,11 +77,15 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	private ArrayList<clsDriveMesh> moDriveList_Output;
+
 	
 	
 	private ArrayList<clsPair<eDriveComponent, eOrgan>> moForbiddenDrives_Input;
 	private ArrayList<clsPrimaryDataStructureContainer> moRepressedRetry_Input;
 	private ArrayList<clsDriveMesh> moSexualDrives;
+//	private ArrayList<String>Test =new ArrayList<String>();
+//	private ArrayList<String>Test1 =new ArrayList<String>();
+	private String oOriginalDOContentForTurning_Against_Self= new String();
 	 
 	HashMap<String, Double>  moTimeChartData = new HashMap<String, Double>(); 
 
@@ -105,6 +114,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	Double TimeSublimation=0.0;
 	Double PassForbiddenDrives=0.0;
 	Double TimePassForbiddenDrives=0.0;
+	Double Turning_Against_Self=0.0;
+	Double TimeTurning_Against_Self=0.0;
+	Double TimeProjection=0.0;
+	Double Projection=0.0;
 	/************************************************/
 	
 
@@ -148,6 +161,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		text += toText.valueToTEXT("moDriveList_Input", moDriveList_Input);
 		text += toText.valueToTEXT("moDriveList_Output", moDriveList_Output);
+//		text += toText.valueToTEXT("Test1", Test1);
+//		text += toText.valueToTEXT("Test", Test);
+		
+		
 		text += toText.listToTEXT("moRepressedRetry_Input", moRepressedRetry_Input);
 		text += toText.listToTEXT("moForbiddenDrives_Input", moForbiddenDrives_Input);
 		text += toText.listToTEXT("moSexualDrives", moSexualDrives);
@@ -305,7 +322,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 		
 		GetCombinedTimeDefenseYaxisData();	
-
+		
+		
 		
 		 // If no Defense to defend return immediately (otherwise NullPointerException)
 		
@@ -327,6 +345,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			 
 			 return;
 		 }
+		 
 		 else if (moForbiddenDrives_Input.isEmpty())
 		 {
 			 // no conflicting events -> deactivate defense mechanisms
@@ -350,44 +369,77 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		 /*
 		  *  @author Lotfi
 		  * 	12.12.2012, 17:30:00
-		  * The Defense Mechanisms are depending on "Emotions "Anxiety" and Quota of Affect"
+		  * The Defense Mechanisms are depending on Emotion "Anxiety" and Quota of Affect"
 		  */
 		 
 				 
-		if((oQoA < 0.3)&& (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.4)){
+		if((oQoA < 0.1)&& (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.6)){
 			 
-			 defenseMechanism_Sublimation(moForbiddenDrives_Input);
+		          defenseMechanism_Sublimation(moForbiddenDrives_Input);
 			
 						 
-		 }else if((oQoA < 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.4) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.6)){
+		 }else if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.0)){
 			 
-			 defenseMechanism_Displacement(moForbiddenDrives_Input);
+		         defenseMechanism_Displacement(moForbiddenDrives_Input);
 			
 						 
-		 }else  if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.6) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 0.9)){
+		 }else  if((oQoA < 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.0) && (GetEmotionIntensity(eEmotionType.ANXIETY) <= 1.2)){
 			 
-			 defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
-			 
+		         defenseMechanism_ReactionFormation(moForbiddenDrives_Input);
+		     
 			 						
-		 }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.9)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
+		 }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.2)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.4)){
 			 
-			 defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
+		         defenseMechanism_ReversalOfAffect(moForbiddenDrives_Input, 0.2);
 			 
-			
-		 }else if((oQoA > 0.8) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.8)){
+		/*
+		 * Turning against Self is defined that the new Drive Object is "Self"
+		 * - Projection is defined that the new Drive Source is the old Drive Object and new Drive object is Self
+         *    Since Drive Source in ARS is Organ we use projection to protect ARSIN From  Turning against self if drive aim such as EAT and Bite
+		 * 
+		 * 
+		 * 
+		 */
+		         
+		         
+		 }else if((oQoA > 0.1) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 1.4)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.6)){
+		 
+		         defenseMechanism_Turning_Against_Self (moForbiddenDrives_Input); 
+             		        
+		         // ARSIN should not hurt him self
+		         
+		         ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(moForbiddenDrives_Input);
+		         
+		         for(clsDriveMesh Drive_After_Turning_Against_Self: oMatchingDrives){
+		             if(Drive_After_Turning_Against_Self.getActualDriveAim().getMoContent().equals("EAT")||Drive_After_Turning_Against_Self.getActualDriveAim().getMoContent().equals("BITE")){		            
+		                 Projection(Drive_After_Turning_Against_Self);
+		             }
+		        }
+	
+		        
+		         
+            
+//         }else if((oQoA > 0.3) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 0.8)&& (GetEmotionIntensity(eEmotionType.ANXIETY)<=1.0)){
+//             
+            // defenseMechanism_Projection (moForbiddenDrives_Input); 
+
+		 }else if((oQoA > 0.8) && (GetEmotionIntensity(eEmotionType.ANXIETY) > 2.0)){
 			 
-			 defenseMechanism_Repression(moForbiddenDrives_Input);
+			     defenseMechanism_Repression(moForbiddenDrives_Input);
 			 
 
 			 
 		 }
-		 else {
+		 else{
 			 // Just to see on the Simulation that no defense is done 
-			
+		     
 			 NoDefenseIsDone();
 		 	
 		}
-	   // for Bar Chart and Time Chart
+	 
+		
+//	
+//	   // for Bar Chart and Time Chart
 		moTimeInputChartData();
 		GetCombinedTimeDefenseYaxisData();
 	}
@@ -546,6 +598,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		
 
 	}
+	
 
 	
 	/* (non-Javadoc)
@@ -582,8 +635,155 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			// return null is no opposite drive was found
 			return null;
 	}
+	/* (non-Javadoc)
+    *
+    * @author Lotfi
+    * 15.05.2013, 17:30:00
+    * 
+    * This is a function that represents the defense mechanism "Turning_Against_Self".
+    * Turning_Against_Self ----Coming soon.
+    *
+    */
 	
+	protected void defenseMechanism_Turning_Against_Self (ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+	    Turning_Against_Self ++;
+	    TimeTurning_Against_Self=1.0;
+	    
+	    ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
+	    if (!oMatchingDrives.isEmpty())
+	           for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
+	                // remove the drive from output list
+	               
+	               moDriveList_Output.remove(oOneMatchingDrive);
+	                // insert displaced drive
+	               
+	               moDriveList_Output.add(Turning_Against_Self(oOneMatchingDrive));
+	                
+	                
+	           }
+	    
+	    
+	}
+protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
+
+        //Drive_After_Turning_Against_Self= poOriginalDM;
+        oOriginalDOContentForTurning_Against_Self = poOriginalDM.getActualDriveObject().getMoContent();
+       
+        //Test.add(poOriginalDM.getActualDriveSource().toString());
+        //Test.add(oOriginalDOContentForTurning_Against_Self);
+       // RemoveLast(Test);
+        
+           
+//        clsThingPresentationMesh oDisplacedDriveSource = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+//                eDataType.TPM,
+//                new clsTriple<eContentType, Object, Object> (eContentType.ORGAN, new ArrayList<clsThingPresentation>(), oOriginalDOContent));
+        
+        clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+                eDataType.TPM,
+                new clsTriple<eContentType, Object, Object> (eContentType.ENTITY, new ArrayList<clsThingPresentation>(), eContent.SELF.toString()));
+        
+        
+        try {
+            
+                    poOriginalDM.setActualDriveObject(oDisplacedDriveObject, 1.0);
+            
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+        
+//     Test1.add(poOriginalDM.getActualDriveObject().getMoContent().toString());
+//     Test1.add(poOriginalDM.getActualDriveSource().getMoContent().toString());
+//    
+//      RemoveLast(Test1);
+//        if(poOriginalDM.getActualDriveAim().getMoContent().equals("EAT")||poOriginalDM.getActualDriveAim().getMoContent().equals("BITE")){
+//            
+//            Projection(poOriginalDM);
+//            
+//        }
+//        Test1.add(oOriginalDOContentForTurning_Against_Self.toString());
+       // RemoveLast(Test1);
+        //clsDriveMesh Drive_After_Turning_Against_Self1= poOriginalDM;
+//        Test.add(Drive_After_Turning_Against_Self1.toString());
+//        RemoveLast(Test);
+
+        
+        return poOriginalDM;
+    }
+	protected void defenseMechanism_Projection(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input){
+//	    Projection ++;
+//        TimeProjection=1.0;
+
+	    ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
+        if (!oMatchingDrives.isEmpty())
+               for (clsDriveMesh oOneMatchingDrive : oMatchingDrives) {
+                    // remove the drive from output list
+                   
+                   moDriveList_Output.remove(oOneMatchingDrive);
+                    // insert displaced drive
+                   
+                   moDriveList_Output.add(Projection(oOneMatchingDrive));
+                    
+                    
+               }
+        
+        
+
+	}
+	protected clsDriveMesh Projection (clsDriveMesh poOriginalDM){
+	    
+	    Projection ++;
+	    TimeProjection =1.0;
+	   
+	    
+	   // String oOriginalDOContent = poOriginalDM.getActualDriveSource().getMoContent();
+//        Test.add(oOriginalDOContent);
+//        Test.add(poOriginalDM.getActualDriveSource().toString());
+        //RemoveLast(Test);
+        
+        // to do Not eContentType.ORGAN anything else
+        
+//	    Test1.add(oOriginalDOContentForTurning_Against_Self.toString());
+//        RemoveLast(Test1);
+	    String DOContetnForProjection= new String();
+	    DOContetnForProjection = oOriginalDOContentForTurning_Against_Self;
+	    clsThingPresentationMesh oDisplacedDriveObject = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+                eDataType.TPM,
+                new clsTriple<eContentType, Object, Object> (eContentType.ENTITY, new ArrayList<clsThingPresentation>(), DOContetnForProjection));
+        
+//        clsThingPresentationMesh oDisplacedDriveSource = (clsThingPresentationMesh) clsDataStructureGenerator.generateDataStructure(
+//                eDataType.TPM,
+        
+//                new clsTriple<eContentType, Object, Object> (eContentType.ORGAN, new ArrayList<clsThingPresentation>(), eContent.SELF.toString()));
+        
+        try {
+            //Since Drive Source in ARS is defined as Organ, Drive Source as Entity like SELF is not possible 
+            
+  //         poOriginalDM.setActualDriveSource(oDisplacedDriveSource,1.0);
+           poOriginalDM.setActualDriveObject(oDisplacedDriveObject, 1.0);
+
+            
+        } catch (Exception e) {
+        e.printStackTrace();
+        }
+        
+        
+//        Test1.add(DOContetnForProjection );
+//        RemoveLast(Test1);
+
+
+      
+	 return poOriginalDM;
+	}
 	
+//	 private void RemoveLast(ArrayList<String> Test){
+//	        for (int i=0;i<Test.size();i++){
+//	            if (i>4){
+//	                Test.remove(0);
+//	            }
+//	            
+//	        }
+//	    }
+//	
 	
 	
 	/* (non-Javadoc)
@@ -597,8 +797,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	 */
 	protected void defenseMechanism_Displacement(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
-	Displacement ++;
-	TimeDisplacement=1.0;
+	    Displacement ++;
+	    TimeDisplacement=1.0;
 	
 	   ArrayList<clsDriveMesh> oMatchingDrives = findInDriveList(oForbiddenDrives_Input);
 	
@@ -614,9 +814,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 				
 		   }
 	   
-	
-	
 	}
+	
 	protected void defense_done(ArrayList<clsPair<eDriveComponent, eOrgan>> oForbiddenDrives_Input) {
 		
 		
@@ -662,6 +861,7 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("HARE","LYNX");	
 		oDisplaceDriveObjectList.put("LYNX","HARE");	
 		oDisplaceDriveObjectList.put("PLANT","FUNGUS_EATER");
+		oDisplaceDriveObjectList.put("CAKE","SCHNIZL");
 		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
 		
 		
@@ -669,7 +869,6 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oDisplaceDriveObjectList.put("FUNGUS_EATER","ANIMAL");
 		oDisplaceDriveObjectList.put("BASE","CAKE"); 
 		oDisplaceDriveObjectList.put("CAN","BASE");
-		oDisplaceDriveObjectList.put("CAKE","SCHNITZL");
 		oDisplaceDriveObjectList.put("SCHNITZL","BASE");
 		oDisplaceDriveObjectList.put("STONE","WALL");
 		oDisplaceDriveObjectList.put("WALL","FOOD");
@@ -762,6 +961,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		moTimeChartData.put("ReactionFormation", ReactionFormation);
 		moTimeChartData.put("Repression", Repression );
 		moTimeChartData.put("ReversalOfAffect", ReversalOfAffect);
+		moTimeChartData.put("Turning_Against_Self", Turning_Against_Self);
+		moTimeChartData.put("TimeTurning_Against_Self", TimeTurning_Against_Self);
+		moTimeChartData.put("Projection", Projection);
+        moTimeChartData.put("TimeProjection", TimeProjection);
 		
 		return moTimeChartData;
 		
@@ -1219,48 +1422,80 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 	private void GetCombinedTimeDefenseYaxisData(){
 		
 		if((TimeRepression==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
-			(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
+			(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 		  TimePassForbiddenDrives =0.0;
 		  TimeSublimation=0.0;
 		  TimeDisplacement=0.0;
 		  TimeReversalOfAffect=0.0;
 		  TimeReactionFormation=0.0;
+		  TimeTurning_Against_Self=0.0;
+		  TimeProjection=0.0;
 		}else if((TimePassForbiddenDrives==1.0)&&((TimeRepression == 1.0)||(TimeSublimation == 1.0)||
-				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
+				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 			TimeSublimation =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 		}else if((TimeDisplacement==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
-				(TimeRepression==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
+				(TimeRepression==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeSublimation=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 		}else if((TimeReversalOfAffect==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
-				(TimeDisplacement==1.0)||(TimeRepression==1.0)||(TimeReactionFormation == 1.0))){
+				(TimeDisplacement==1.0)||(TimeRepression==1.0)||(TimeReactionFormation == 1.0)||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeSublimation=0.0;
 			TimeReactionFormation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 		}else if ((TimeReactionFormation==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeSublimation == 1.0)||
-				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeRepression == 1.0))){
+				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeRepression == 1.0) ||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeSublimation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 		}else if((TimeSublimation==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeRepression == 1.0)||
-				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0))){
+				(TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeTurning_Against_Self==1.0)||(TimeProjection==1.0))){
 			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
 			TimeDisplacement=0.0;
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 			
+		}else if((TimeTurning_Against_Self==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeRepression == 1.0)||
+                (TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeSublimation==1.0)||(TimeProjection==1.0))){
+            TimePassForbiddenDrives =0.0;
+            TimeRepression=0.0;
+            TimeDisplacement=0.0;
+            TimeReversalOfAffect=0.0;
+            TimeReactionFormation=0.0;
+            TimeSublimation=0.0;
+            TimeProjection=0.0;
+            
+		}else if((TimeProjection==1.0)&&((TimePassForbiddenDrives == 1.0)||(TimeRepression == 1.0)||
+                (TimeDisplacement==1.0)||(TimeReversalOfAffect==1.0)||(TimeReactionFormation == 1.0)||(TimeSublimation==1.0))||(TimeTurning_Against_Self==1.0)){
+            TimePassForbiddenDrives =0.0;
+            TimeRepression=0.0;
+            TimeDisplacement=0.0;
+            TimeReversalOfAffect=0.0;
+            TimeReactionFormation=0.0;
+            TimeSublimation=0.0;
+            TimeTurning_Against_Self=0.0;
+            
 		}else{
 			TimePassForbiddenDrives =0.0;
 			TimeRepression=0.0;
@@ -1268,6 +1503,8 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 			TimeReversalOfAffect=0.0;
 			TimeReactionFormation=0.0;
 			TimeSublimation=0.0;
+			TimeTurning_Against_Self=0.0;
+			TimeProjection=0.0;
 		}
 		
 	}
@@ -1321,6 +1558,14 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oReversalOfAffect.add(moTimeChartData.get("TimeReversalOfAffect"));
 		oResult.add(oReversalOfAffect);
 		
+		ArrayList<Double> oTurning_Against_Self =new ArrayList<Double>();
+		oTurning_Against_Self.add(moTimeChartData.get("TimeTurning_Against_Self"));
+		oResult.add(oTurning_Against_Self);
+        
+		 ArrayList<Double> oProjection =new ArrayList<Double>();
+		 oProjection.add(moTimeChartData.get("TimeProjection"));
+		 oResult.add(oProjection);
+		
 		ArrayList<Double> oNoDefense =new ArrayList<Double>();
 		oNoDefense.add(moTimeChartData.get("TimePassForbiddenDrives"));
 		oResult.add(oNoDefense);
@@ -1348,7 +1593,10 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		oResult.add("ReactionFormation");
 		oResult.add("Repression");
 		oResult.add("ReversalOfAffect");
+		oResult.add("Turning_Against_Self");
+		oResult.add("Projection");
 		oResult.add("PassForbiddenDrives");
+		
 		
 		
 		return oResult;
@@ -1386,6 +1634,14 @@ public class F06_DefenseMechanismsForDrives extends clsModuleBase implements
 		ArrayList<String> oReversalOfAffect = new ArrayList<String>();
 		oReversalOfAffect.add("ReversalOfAffect");
 		oResult.add(oReversalOfAffect);
+		
+		ArrayList<String> oTurning_Against_Self = new ArrayList<String>();
+		oTurning_Against_Self.add("Turning_Against_Self");
+        oResult.add(oTurning_Against_Self);
+        
+        ArrayList<String> oProjection = new ArrayList<String>();
+        oProjection.add("Projection");
+        oResult.add(oProjection);
 		
 		ArrayList<String> oNoDefense = new ArrayList<String>();
 		oNoDefense.add("PassForbiddenDrives");

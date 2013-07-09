@@ -108,9 +108,9 @@ public class cls_BarChartInspectorF19 extends cls_AbstractChartInspector {
 		 
 		 DefaultCategoryDataset dataF19 = new DefaultCategoryDataset();
 		 
-		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenEmotions"),"PassForbidenEmotions","PassForbidenEmotions");
+		 dataF19.setValue(moContainer.getBarChartData().get("PassForbiddenEmotions"),"PassForbiddenEmotions","PassForbiddenEmotions");
 		 dataF19.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
-		 dataF19.setValue(moContainer.getBarChartData().get("PassForbidenPerceptions"),"PassForbidenPerceptions","PassForbidenPerceptions");
+		 dataF19.setValue(moContainer.getBarChartData().get("PassForbiddenPerceptions"),"PassForbiddenPerceptions","PassForbiddenPerceptions");
 		 dataF19.setValue(moContainer.getBarChartData().get("Denial"),"Denial","Denial");
 		 dataF19.setValue(moContainer.getBarChartData().get("Idealization"),"Idealization","Idealization");
 		 dataF19.setValue(moContainer.getBarChartData().get("Depreciation"),"Depreciation","Depreciation");
@@ -133,9 +133,9 @@ public class cls_BarChartInspectorF19 extends cls_AbstractChartInspector {
 	@Override
 	protected void updateDataset() {
 		// TODO (Lotfi) - Auto-generated method stub
-		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenEmotions"),"PassForbidenEmotions","PassForbidenEmotions");
+		 moDataset.setValue(moContainer.getBarChartData().get("PassForbiddenEmotions"),"PassForbiddenEmotions","PassForbiddenEmotions");
 		 moDataset.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");		 
-		 moDataset.setValue(moContainer.getBarChartData().get("PassForbidenPerceptions"),"PassForbidenPerceptions","PassForbidenPerceptions");
+		 moDataset.setValue(moContainer.getBarChartData().get("PassForbiddenPerceptions"),"PassForbiddenPerceptions","PassForbiddenPerceptions");
 		 moDataset.setValue(moContainer.getBarChartData().get("Denial"),"Denial","Denial");
 		 moDataset.setValue(moContainer.getBarChartData().get("Idealization"),"Idealization","Idealization");
 		 moDataset.setValue(moContainer.getBarChartData().get("Depreciation"),"Depreciation","Depreciation");

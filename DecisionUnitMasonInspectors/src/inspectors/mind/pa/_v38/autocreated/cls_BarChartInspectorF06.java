@@ -32,6 +32,8 @@ import pa._v38.interfaces.itfInspectorBarChartF06;
  * 
  * @author Lotfi
  * 19.12.2012, 23:22:33
+ * 25.06.2013
+ * *
  * 
  */
 public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
@@ -110,6 +112,7 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 	 * 
 	 * 
 	 */
+	
 	 private DefaultCategoryDataset createDataset() {
 		 
 		 DefaultCategoryDataset dataF06 = new DefaultCategoryDataset();
@@ -119,6 +122,8 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 		 dataF06.setValue(moContainer.getBarChartData().get("PassForbiddenDrives"),"PassForbiddenDrives","PassForbiddenDrives");
 		 dataF06.setValue(moContainer.getBarChartData().get("ReactionFormation"),"ReactionFormation","ReactionFormation");
 		 dataF06.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
+		 dataF06.setValue(moContainer.getBarChartData().get("Turning_Against_Self"),"Turning_Against_Self","Turning_Against_Self");
+		 dataF06.setValue(moContainer.getBarChartData().get("Projection"),"Projection","Projection");
 		
 		 
 		 
@@ -141,6 +146,8 @@ public class cls_BarChartInspectorF06 extends cls_AbstractChartInspector {
 		moDataset.setValue(moContainer.getBarChartData().get("PassForbiddenDrives"),"PassForbiddenDrives","PassForbiddenDrives");
 		moDataset.setValue(moContainer.getBarChartData().get("ReactionFormation"),"ReactionFormation","ReactionFormation");
 		moDataset.setValue(moContainer.getBarChartData().get("ReversalOfAffect"),"ReversalOfAffect","ReversalOfAffect");
+		moDataset.setValue(moContainer.getBarChartData().get("Turning_Against_Self"),"Turning_Against_Self","Turning_Against_Self");
+		moDataset.setValue(moContainer.getBarChartData().get("Projection"),"Projection","Projection");
 		
 	}
 
