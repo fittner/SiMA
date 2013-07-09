@@ -359,15 +359,19 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
 		}
 		
+		StringBuilder sb = new StringBuilder();
+		
 		//Set the current decision string
-		oResult += "============================================================================================\n";
-		oResult += "[GOAL NAME]\n   " + oGoalString + "\n\n";
-		oResult += "[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n";
-		oResult += "[GOAL SOURCE]\n   " + oGoalSource + "\n\n";
-		oResult += "[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n";
-		oResult += "[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n";
-		oResult += "[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n";
-		oResult += "============================================================================================\n";
+		sb.append("============================================================================================\n");
+		sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
+		sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
+		sb.append("[GOAL SOURCE]\n   " + oGoalSource + "\n\n");
+		sb.append("[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n");
+		sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
+		sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
+		sb.append("============================================================================================\n");
+		
+		oResult = sb.toString();
 		
 		return oResult;
 	}
