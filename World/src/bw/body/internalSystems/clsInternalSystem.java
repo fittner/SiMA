@@ -31,6 +31,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	public static final String P_INTENERGYCONSUMPTION = "intenergyconsumption";
 	public static final String P_BASEENERGYCONSUMPTION = "baseenergyconsumption";
 	public static final String P_ENERGY_CONSUMPTION_FACTOR ="ENERGY_CONSUMPTION_FACTOR";
+	public static final String P_SPEECHSYSTEM = "speechsystem"; // MW 
 	
     private clsFlesh moFlesh;
     private clsSlowMessengerSystem moSlowMessengerSystem;
@@ -40,7 +41,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
     private clsStaminaSystem moStaminaSystem;
     private clsDigestiveSystem moStomachSystem;
     private clsInternalEnergyConsumption moInternalEnergyConsumption; // list of all the bodies energy consumers
-    
+    private clsSpeechSystem moSpeechSystem; // MW 
+   
 	private clsPersonalityParameterContainer moPersonalityParameterContainer;
 
 	private double mrEnergyConsumptionFactor;
@@ -65,6 +67,7 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsStaminaSystem.getDefaultProperties(pre+P_STAMINA) );
 		oProp.putAll( clsDigestiveSystem.getDefaultProperties(pre+P_STOMACH) );
 		oProp.putAll( clsInternalEnergyConsumption.getDefaultProperties(pre+P_INTENERGYCONSUMPTION) );
+		oProp.putAll( clsSpeechSystem.getDefaultProperties(pre+P_SPEECHSYSTEM) ); // MW 
 		
 		oProp.setProperty(pre+P_BASEENERGYCONSUMPTION, 0.02);
 				
@@ -83,7 +86,8 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 		moStaminaSystem			= new clsStaminaSystem(pre+P_STAMINA, poProp);
 		moStomachSystem 		= new clsDigestiveSystem(pre+P_STOMACH, poProp, moPersonalityParameterContainer);
    	    moInternalEnergyConsumption = new clsInternalEnergyConsumption(pre+P_INTENERGYCONSUMPTION, poProp);
-   	    
+   	 	moSpeechSystem 			= new clsSpeechSystem(pre+P_SPEECHSYSTEM, poProp); // MW 
+  	    
    	    mrBaseEnergyConsumption = poProp.getPropertyDouble(pre+P_BASEENERGYCONSUMPTION);
    	    
    	 	moInternalEnergyConsumption.setValue(eBodyParts.INTSYS, new clsMutableDouble(mrBaseEnergyConsumption));
@@ -151,6 +155,15 @@ public class clsInternalSystem implements itfStepUpdateInternalState {
 	public clsInternalEnergyConsumption getInternalEnergyConsumption() {
 		return moInternalEnergyConsumption;
 	}
+	
+	// ** MW
+	/**
+	 * @return the moSpeechSystem
+	 */
+	public clsSpeechSystem getSpeechSystem() {
+		return moSpeechSystem;
+	}
+	// MW **
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description

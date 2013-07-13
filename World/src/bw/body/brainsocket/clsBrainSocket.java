@@ -13,13 +13,53 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
-import config.clsProperties;
 import sim.field.grid.DoubleGrid2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
-import sim.physics2D.shape.*;
+import sim.physics2D.shape.Circle;
+import sim.physics2D.shape.Rectangle;
 import sim.physics2D.util.Angle;
 import sim.util.Double2D;
+import ARSsim.physics2D.physicalObject.clsCollidingObject;
+import ARSsim.physics2D.physicalObject.clsMobileObject2D;
+import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
+import ARSsim.physics2D.util.clsPolarcoordinate;
+import bfg.utils.enums.eCount;
+import bfg.utils.enums.ePercievedActionType;
+import bfg.utils.enums.eSide;
+import bw.body.itfStepProcessing;
+import bw.body.attributes.clsAttributeAlive;
+import bw.body.internalSystems.clsFastMessengerEntry;
+import bw.body.io.actuators.actionExecutors.clsAction;
+import bw.body.io.sensors.external.clsSensorAcoustic;
+import bw.body.io.sensors.external.clsSensorBump;
+import bw.body.io.sensors.external.clsSensorEatableArea;
+import bw.body.io.sensors.external.clsSensorExt;
+import bw.body.io.sensors.external.clsSensorManipulateArea;
+import bw.body.io.sensors.external.clsSensorPositionChange;
+import bw.body.io.sensors.external.clsSensorRadiation;
+import bw.body.io.sensors.external.clsSensorVision;
+import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
+import bw.body.io.sensors.internal.clsEnergySensor;
+import bw.body.io.sensors.internal.clsFastMessengerSensor;
+import bw.body.io.sensors.internal.clsHealthSensor;
+import bw.body.io.sensors.internal.clsIntestinePressureSensor;
+import bw.body.io.sensors.internal.clsSensorInt;
+import bw.body.io.sensors.internal.clsSlowMessengerSensor;
+import bw.body.io.sensors.internal.clsStaminaSensor;
+import bw.body.io.sensors.internal.clsStomachTensionSensor;
+import bw.body.io.sensors.internal.clsTemperatureSensor;
+import bw.entities.clsARSIN;
+import bw.entities.clsAnimal;
+import bw.entities.clsEntity;
+import bw.entities.clsRemoteBot;
+import bw.entities.clsSpeech;
+import bw.factories.clsSingletonMasonGetter;
+import bw.factories.clsSingletonProperties;
+import bw.utils.enums.eBodyAttributes;
+import bw.utils.sensors.clsSensorDataCalculation;
+import config.clsProperties;
 import du.enums.eAntennaPositions;
+import du.enums.eEntityType;
 import du.enums.eFastMessengerSources;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
@@ -28,6 +68,8 @@ import du.itf.itfDecisionUnit;
 import du.itf.itfProcessKeyPressed;
 import du.itf.actions.itfActionProcessor;
 import du.itf.actions.itfInternalActionProcessor;
+import du.itf.sensors.clsAcoustic;
+import du.itf.sensors.clsAcousticEntry;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsDataBase;
 import du.itf.sensors.clsEatableArea;
@@ -42,7 +84,6 @@ import du.itf.sensors.clsManipulateArea;
 import du.itf.sensors.clsManipulateAreaEntry;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
-
 import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSlowMessenger;
 import du.itf.sensors.clsStaminaSystem;
@@ -51,42 +92,7 @@ import du.itf.sensors.clsTemperatureSystem;
 import du.itf.sensors.clsUnrealSensorValueVision;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
-import ARSsim.physics2D.physicalObject.clsCollidingObject;
-import ARSsim.physics2D.physicalObject.clsMobileObject2D;
-import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
-import ARSsim.physics2D.util.clsPolarcoordinate;
-import bfg.utils.enums.ePercievedActionType;
-import bfg.utils.enums.eCount;
-import bfg.utils.enums.eSide;
-import bw.body.itfStepProcessing;
-import bw.body.attributes.clsAttributeAlive;
-import bw.body.internalSystems.clsFastMessengerEntry;
-import bw.body.io.actuators.actionExecutors.clsAction;
-import bw.body.io.sensors.external.clsSensorBump;
-import bw.body.io.sensors.external.clsSensorEatableArea;
-import bw.body.io.sensors.external.clsSensorExt;
-import bw.body.io.sensors.external.clsSensorManipulateArea;
-import bw.body.io.sensors.external.clsSensorPositionChange;
-import bw.body.io.sensors.external.clsSensorRadiation;
-import bw.body.io.sensors.external.clsSensorVision;
-import bw.body.io.sensors.internal.clsEnergyConsumptionSensor;
-import bw.body.io.sensors.internal.clsEnergySensor;
-import bw.body.io.sensors.internal.clsFastMessengerSensor;
-import bw.body.io.sensors.internal.clsHealthSensor;
-import bw.body.io.sensors.internal.clsIntestinePressureSensor;
-import bw.body.io.sensors.internal.clsSlowMessengerSensor;
-import bw.body.io.sensors.internal.clsStomachTensionSensor;
-import bw.body.io.sensors.internal.clsTemperatureSensor;
-import bw.body.io.sensors.internal.clsSensorInt;
-import bw.body.io.sensors.internal.clsStaminaSensor;
-import bw.entities.clsARSIN;
-import bw.entities.clsEntity;
-import bw.entities.clsAnimal;
-import bw.entities.clsRemoteBot;
-import bw.factories.clsSingletonMasonGetter;
-import bw.factories.clsSingletonProperties;
-import bw.utils.enums.eBodyAttributes;
-import bw.utils.sensors.clsSensorDataCalculation;
+import du.itf.tools.clsAbstractSpeech;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -176,6 +182,7 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
+		oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
 		
 		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
 		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
@@ -959,6 +966,28 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 
+	// ** MW 
+	private clsAcoustic convertAcousticSensor(eSensorExtType poSensorType) {
+		clsAcoustic oData = new clsAcoustic();
+		oData.setSensorType(poSensorType);
+		
+		clsSensorAcoustic oAcoustic = (clsSensorAcoustic)(moSensorsExt.get(poSensorType));
+		
+		if(oAcoustic != null){
+			ArrayList<clsCollidingObject> oDetectedObjectList = oAcoustic.getSensorData();
+			
+			for(clsCollidingObject oCollider : oDetectedObjectList){
+				if (oCollider.moEntity.getEntityType() == eEntityType.SPEECH){
+					clsAcousticEntry oEntry = convertAcousticEntry(oCollider, poSensorType);
+					oData.add(oEntry);
+				}
+			}
+		}
+		
+		return oData;
+	}
+	// MW **
+	
 	private ArrayList<ePercievedActionType> convertActions(ArrayList<clsAction> poActions){
 	    ArrayList<ePercievedActionType> oRetVal = new ArrayList<ePercievedActionType>();
 	    
@@ -991,6 +1020,38 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		}
 	}
 	
+	/**
+	 * DOCUMENT (MW) - insert description
+	 *
+	 * @since 27.02.2013 11:27:41
+	 *
+	 * @param oCollider
+	 * @param poSensorType
+	 */
+	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
+		clsEntity oEntity = getEntity(collidingObj.moCollider);
+		clsAcousticEntry oData = new clsAcousticEntry();
+
+		if(oEntity != null && oEntity.isEntityType(eEntityType.SPEECH)){
+			oData.setEntityType(getEntityType(collidingObj.moCollider));		
+			oData.setEntityId(oEntity.getId());
+			oData.setObjectPosition( collidingObj.meColPos); 
+			 
+			oData.setSensorType(poSensorType);
+		    
+			oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
+		   
+			//values from 0-1, this is for testing, should be set to the real arousal value
+			double sensorArousalValue = 1;
+			oData.setDebugSensorArousal(sensorArousalValue);
+						   
+			clsAbstractSpeech oAbstractSpeech = ((clsSpeech) oEntity).getAbstractSpeech();
+			oData.setEntry(oAbstractSpeech);
+		}
+		
+		return oData;
+	}
+
 	/**
 	 * DOCUMENT (zeilinger) - insert description
 	 *

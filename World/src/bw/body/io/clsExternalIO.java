@@ -26,10 +26,12 @@ import bw.body.io.actuators.actionExecutors.clsExecutorMove;
 import bw.body.io.actuators.actionExecutors.clsExecutorMoveToArea;
 import bw.body.io.actuators.actionExecutors.clsExecutorPickUp;
 import bw.body.io.actuators.actionExecutors.clsExecutorSleep;
+import bw.body.io.actuators.actionExecutors.clsExecutorSpeech;
 import bw.body.io.actuators.actionExecutors.clsExecutorToInventory;
 import bw.body.io.actuators.actionExecutors.clsExecutorTurn;
 import bw.body.io.actuators.actionProxies.itfAPSleep;
 import bw.body.io.sensors.external.clsSensorAcceleration;
+import bw.body.io.sensors.external.clsSensorAcoustic;
 import bw.body.io.sensors.external.clsSensorBump;
 import bw.body.io.sensors.external.clsSensorEatableArea;
 import bw.body.io.sensors.external.clsSensorEngine;
@@ -64,6 +66,7 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionMoveToEatableArea;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSleep;
+import du.itf.actions.clsActionSpeech;
 import du.itf.actions.clsActionToInventory;
 import du.itf.actions.clsActionTurn;
 
@@ -220,6 +223,15 @@ public class clsExternalIO extends clsBaseIO {
 												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
 		numsensors++;
 		
+		// ** MW 
+		oProp.putAll( clsSensorAcoustic.getDefaultProperties( pre+numsensors) );
+		oProp.setProperty(pre+numsensors+"."+P_SENSORACTIVE, true);
+		oProp.setProperty(pre+numsensors+"."+P_SENSORTYPE, eSensorExtType.ACOUSTIC.name());
+		oProp.setProperty(pre+numsensors+"."+P_SENSORRANGE, oProp.getPropertyDouble(pre+P_SENSORENGINE+"."+clsSensorEngine.P_MAX_RANGE)/
+												  oProp.getPropertyInt(pre+P_SENSORENGINE+"."+clsSensorEngine.P_RANGEDIVISION));
+		numsensors++;
+		// MW **
+		
 		oProp.setProperty(pre+P_NUMSENSORS, numsensors);
 		
 		return oProp;
@@ -274,6 +286,11 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,1);
 		oProp.putAll( clsExecutorExcrement.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT) );
 
+		// ** MW
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,1);
+		oProp.putAll( clsExecutorExcrement.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH) );
+		// MW **
+		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,1);
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED,1);
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORGREEN,1);
@@ -326,6 +343,7 @@ public class clsExternalIO extends clsBaseIO {
 					 * get rid of the Hashmap moSensorExternal
 					 * */
 					if(eType.name().equals(eSensorExtType.ACCELERATION.name())) sensorExt=new clsSensorAcceleration(tmp_pre, poProp, this); 
+					if(eType.name().equals(eSensorExtType.ACOUSTIC.name())) sensorExt=new clsSensorAcoustic(tmp_pre, poProp, this); // MW 
 					if(eType.name().equals(eSensorExtType.BUMP.name()))sensorExt=new clsSensorBump(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_NEAR.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
 					if(eType.name().equals(eSensorExtType.VISION_MEDIUM.name()))sensorExt=new clsSensorVision(tmp_pre, poProp, this);
@@ -374,6 +392,8 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_LEFTANT)==1) moProcessor.addCommand(clsActionFacialExLeftAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS + P_ACTIONEX_FEX_RIGHTANT)==1) moProcessor.addCommand(clsActionFacialExRightAntennaPosition.class, new clsExecutorFacialExpressions(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FACIALEXPRESSIONS,poProp,(clsMobile) moEntity));
 
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH)==1) moProcessor.addCommand(clsActionSpeech.class, new clsExecutorSpeech(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,poProp,(clsMobile) moEntity)); // MW 
+		
 		//TODO: Add itfAPSleep - objects to inform when sleeping!		
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SLEEP)==1) {
 			ArrayList<itfAPSleep> oNotifyListLight = new ArrayList<itfAPSleep>();
