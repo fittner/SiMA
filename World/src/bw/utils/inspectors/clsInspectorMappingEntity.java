@@ -19,6 +19,7 @@ import bw.entities.clsARSIN;
 
 import bw.entities.clsEntity;
 
+import bw.utils.inspectors.body.clsInspectorBodyParameter;
 import bw.utils.inspectors.body.clsInspectorFastMessengers;
 import bw.utils.inspectors.body.clsInspectorFillLevel;
 import bw.utils.inspectors.body.clsInspectorAttributes;
@@ -68,6 +69,7 @@ public class clsInspectorMappingEntity {
     	TabbedInspector oRetVal = new TabbedInspector();
     	//change the default inspector to the one you created for the entity if you want more inspected
     	poEntity.addEntityInspector(oRetVal, poSuperInspector, poWrapper, poState, poEntity);
+    	
 /*    	functionality moved to the entity classes
  * 		if( poEntity instanceof clsMobile )
     	{
@@ -121,6 +123,7 @@ public class clsInspectorMappingEntity {
     	//add position logger inspector
     	oRetVal.addInspector( new clsInspectorPositionLoggerCSV(poEntity.getPositionLogger()), "Pos.CSV");
     	oRetVal.addInspector( new clsInspectorPositionLogChart(poEntity.getPositionLogger()), "Pos.Chart");
+   
     	
     	
     	//add standard inspector if nothing happened
@@ -144,6 +147,7 @@ public class clsInspectorMappingEntity {
     		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Attributes");    		
     		oRetVal.addInspector( new clsInspectorFlesh(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalSystem().getFlesh()), "Flesh");    		
     		oRetVal.addInspector( new clsInspectorInternalEnergyConsumption(poSuperInspector, poWrapper, poState, ((clsComplexBody) poBody).getInternalEnergyConsumption()), "Int.Energy Cons.");
+    		oRetVal.addInspector( new clsInspectorBodyParameter((clsComplexBody)poBody), "Body Parameter");
     	} else if( poBody instanceof clsMeatBody ) {
     		oRetVal.addInspector( new clsInspectorAttributes(poSuperInspector, poWrapper, poState, poBody.getAttributes()), "Attributes");    		
     		oRetVal.addInspector( new clsInspectorFlesh(poSuperInspector, poWrapper, poState, ((clsMeatBody) poBody).getFlesh()), "Flesh");

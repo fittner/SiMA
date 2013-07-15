@@ -104,10 +104,11 @@ public abstract class clsParameterInspector extends Inspector {
 			if(cnt>=oVerticalPanels.size()-1)cnt=0;
 			else cnt ++;
 		}
-		
-		JScrollPane oScrollPane= new JScrollPane();
-		oScrollPane.getViewport().add(topPanel);
-		this.add(oScrollPane);
+
+		JScrollPane oScrollPane= new JScrollPane(topPanel);
+
+		this.setLayout(new BorderLayout());
+		this.add(oScrollPane, BorderLayout.CENTER);
 	}
 
 }

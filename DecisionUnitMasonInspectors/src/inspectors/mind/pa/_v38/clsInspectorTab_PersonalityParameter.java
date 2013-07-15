@@ -20,6 +20,8 @@ import pa._v38.modules.clsPsychicApparatus;
  */
 public class clsInspectorTab_PersonalityParameter extends clsParameterInspector{
 
+	/** DOCUMENT (herret) - insert description; @since 08.07.2013 10:29:02 */
+	private static final long serialVersionUID = 9067176975952664407L;
 	clsPsychicApparatus moPsyAp;
 	
 	public clsInspectorTab_PersonalityParameter(clsPsychoAnalysis poPA){

@@ -194,6 +194,9 @@ public class clsComplexBody extends clsBaseBody implements
 	}
 
 
+	public clsPersonalityParameterContainer getPersonalityParameter(){
+		return moPersonalityParameterContainer;
+	}
 
 	/**
 	 * @return the moIntraBodySystem

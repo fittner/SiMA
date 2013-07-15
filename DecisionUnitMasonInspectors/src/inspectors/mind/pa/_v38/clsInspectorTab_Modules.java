@@ -109,6 +109,7 @@ public class clsInspectorTab_Modules extends Inspector implements TreeSelectionL
 		moSplitPane.setDividerLocation(150);
 		
 		oBox1.add(moSplitPane);
+
 		
         setLayout(new BorderLayout());
         add(oBox1, BorderLayout.CENTER);
