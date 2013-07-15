@@ -57,8 +57,9 @@ import pa._v38.tools.toText;
  * Implemented defense mechanisms for emotions
  * - Reversal of affect: changes for example the emotion anger into the emotion fear
  * 
- * @author gelbard
+ * @author gelbard AND Lotfi
  * 07.05.2012, 14:35:08
+ * 10.02.2013, 17:47:03
  * 
  *
  * **/
@@ -638,7 +639,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 				
 				clsThingPresentation oColor = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "Red"));
 				clsThingPresentation oForm = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "ROUND"));
-				clsThingPresentation oRace = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "MUCHCALORIEs"));
+				clsThingPresentation oRace = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "MUCHCALORIES"));
 				clsThingPresentation oTaste = clsDataStructureGenerator.generateTP(new clsPair<eContentType, Object>(eContentType.ASSOCIATIONTEMP, "BAD"));
 				
 				
@@ -1196,8 +1197,8 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		oResult.add("Idealization");
 		oResult.add("Depreciation");
 		oResult.add("ReversalOfAffect");
-		oResult.add("PassForbidenEmotions");
-		oResult.add("PassForbidenPerceptions");
+		oResult.add("PassForbiddenEmotions");
+		oResult.add("PassForbiddenPerceptions");
 		
 		
 		return oResult;
@@ -1233,11 +1234,11 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 		oResult.add(oReversalOfAffect);
 
 		ArrayList<String> oNoEmotionDefense = new ArrayList<String>();
-		oNoEmotionDefense.add("PassForbidenEmotions");
+		oNoEmotionDefense.add("PassForbiddenEmotions");
 		oResult.add(oNoEmotionDefense);
 		
 		ArrayList<String> oNoPerceptionDefense = new ArrayList<String>();
-		oNoPerceptionDefense.add("PassForbidenPerceptions");
+		oNoPerceptionDefense.add("PassForbiddenPerceptions");
 		oResult.add(oNoPerceptionDefense);
 		
 		

@@ -238,7 +238,7 @@ public class clsProcessor implements itfProcessor  {
 	@Override
 	public void getInternalActionCommands(
 			itfInternalActionProcessor poInternalActionContainer) {
-		moPsyApp.moF20_CompositionOfFeelings.getBodilyReactions(poInternalActionContainer);
+		moPsyApp.moF67_BodilyReactionOnEmotions.getBodilyReactions(poInternalActionContainer);
 		
 	}
 	
@@ -310,6 +310,10 @@ public class clsProcessor implements itfProcessor  {
 		moPsyApp.moF08_ConversionToSecondaryProcessForDriveWishes.step();
 		moPsyApp.moF21_ConversionToSecondaryProcessForPerception.step();
 		moPsyApp.moF20_CompositionOfFeelings.step();
+		
+		
+		// BODILY REACTIONS ON EMOTIONS
+		moPsyApp.moF67_BodilyReactionOnEmotions.step();
 
 		//SECONDARY PROCESSES ----------------------------
 		

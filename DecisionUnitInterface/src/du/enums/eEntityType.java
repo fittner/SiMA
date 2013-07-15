@@ -57,6 +57,11 @@ public enum eEntityType {
 	SNIPER_WEAPON,
 	SNIPER_AMMO,
 	SHOCKRIFLE_WEAPON,
-	SHOCKRIFLE_AMMO;
+	SHOCKRIFLE_AMMO,
+
+	// ** MW
+	//PHYSICAL
+	SPEECH;
+	// MW **
 }
 

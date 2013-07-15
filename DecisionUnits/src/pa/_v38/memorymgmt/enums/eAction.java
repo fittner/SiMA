@@ -35,6 +35,8 @@ public enum eAction {
 	PICKUP,
 	DROP,
 	NONE,
+	BEAT,
+	SHARE_THE_FOOD_WITH_OTHERS,
 	
 	//Unreal actions
 	UNREAL_MOVE_TO,

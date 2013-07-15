@@ -24,12 +24,14 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	public static final String P_DAMAGELIGHTNING = "damagelightning";	
 	public static final String P_EFFECTKISS = "effectkiss";
 	public static final String P_CREATEEXCREMENT = "createexcrement";
+	public static final String P_CREATESPEECH = "createspeech"; // MW 
 	
 	private clsConsumeFood moConsumeFood;
 	private clsDamageBump moDamageBump;
 	private clsDamageLightning moDamageLightning;
 	private clsCreateExcrement moCreateExcrement;
 	private clsEffectKiss moEffectKiss;
+	private clsCreateSpeech moCreateSpeech; // MW 
     
 	public clsInterBodyWorldSystem(String poPrefix, clsProperties poProp, clsInternalSystem poInternalSystem, clsEntity poEntity) {
 		applyProperties(poPrefix, poProp, poInternalSystem, poEntity);
@@ -45,6 +47,7 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		oProp.putAll( clsDamageLightning.getDefaultProperties(pre+P_DAMAGELIGHTNING) );
 		oProp.putAll( clsCreateExcrement.getDefaultProperties(pre+P_CREATEEXCREMENT) );
 		oProp.putAll( clsEffectKiss.getDefaultProperties(pre+P_EFFECTKISS) );
+		oProp.putAll( clsCreateSpeech.getDefaultProperties(pre+P_CREATESPEECH) ); // MW 	
 				
 		return oProp;
 	}	
@@ -57,6 +60,7 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 		moDamageBump 		= new clsDamageBump(pre+P_DAMAGEBUMP, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem(), poInternalSystem.getSlowMessengerSystem());
 		moDamageLightning 	= new clsDamageLightning(pre+P_DAMAGELIGHTNING, poProp, poInternalSystem.getHealthSystem(), poInternalSystem.getFastMessengerSystem(), poInternalSystem.getSlowMessengerSystem());
 		moEffectKiss 		= new clsEffectKiss(pre+P_EFFECTKISS, poProp,  poInternalSystem.getFastMessengerSystem(),poInternalSystem.getSlowMessengerSystem());
+		moCreateSpeech 		= new clsCreateSpeech(pre+P_CREATESPEECH, poProp, poInternalSystem.getSpeechSystem(), poEntity); // MW 
 	}		
 		
 	public clsConsumeFood getConsumeFood() {
@@ -78,6 +82,12 @@ public class clsInterBodyWorldSystem implements itfStepUpdateInternalState {
 	public clsEffectKiss getEffectKiss() {
 		return moEffectKiss;
 	}
+	
+	// **  MW 
+	public clsCreateSpeech getCreateSpeech() {
+		return moCreateSpeech;
+	}
+	// MW **
 	
 	/* (non-Javadoc)
 	 * @see bw.body.itfStep#step()

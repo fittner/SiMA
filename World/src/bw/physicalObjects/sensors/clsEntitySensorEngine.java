@@ -174,5 +174,23 @@ import bw.factories.clsSingletonMasonGetter;
 			//TODO Clemens, hier geh�rt mehr rein als nur true!
 	    	return true; // (insert location algorithm and intersection here)
 	    }		
+
+		/** MW
+		 * @since 04.03.2013 10:57:53
+		 * 
+		 * @return the moShape
+		 */
+		public clsCircleBorder getMoShape() {
+			return moShape;
+		}
+
+		/** MW
+		 * @since 04.03.2013 10:57:53
+		 * 
+		 * @param moShape the moShape to set
+		 */
+		public void setMoShape(clsCircleBorder moShape) {
+			this.moShape = moShape;
+		}		
 }
 
