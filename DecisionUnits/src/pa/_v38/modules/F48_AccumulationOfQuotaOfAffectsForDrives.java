@@ -25,7 +25,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -50,7 +50,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 
 
 	private DT4_PleasureStorage moPleasureStorage;
-	private DT1_LibidoBuffer moLibidoBuffer;
+	private DT1_PsychicIntensityBuffer moLibidoBuffer;
 	private double mnCurrentPleasure = 0.0;
 	
 	private boolean mnChartColumnsChanged = true;
@@ -83,7 +83,7 @@ public class F48_AccumulationOfQuotaOfAffectsForDrives extends clsModuleBase
 			clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT4_PleasureStorage poPleasureStorage, DT1_LibidoBuffer poLibidoBuffer, clsPersonalityParameterContainer poPersonalityParameterContainer)
+			DT4_PleasureStorage poPleasureStorage, DT1_PsychicIntensityBuffer poLibidoBuffer, clsPersonalityParameterContainer poPersonalityParameterContainer)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);
 

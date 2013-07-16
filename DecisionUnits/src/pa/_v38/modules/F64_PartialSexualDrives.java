@@ -31,7 +31,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -74,7 +74,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	private ArrayList<clsDriveMesh> moOutput;
 	
 	/** instance of libidobuffer */
-	private DT1_LibidoBuffer moLibidoBuffer;
+	private DT1_PsychicIntensityBuffer moLibidoBuffer;
 	
 	private DT4_PleasureStorage moPleasureStorage;
 	
@@ -98,7 +98,7 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 	public F64_PartialSexualDrives(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
-			DT1_LibidoBuffer poLibidoBuffer,
+			DT1_PsychicIntensityBuffer poLibidoBuffer,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
 			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {

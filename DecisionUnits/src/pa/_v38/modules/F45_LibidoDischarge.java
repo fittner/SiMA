@@ -24,13 +24,16 @@ import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsThingPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
@@ -85,7 +88,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	/** The amount of libido, of which the libido buffer is reduced by */
 	private double mrLibidoReducedBy;
 	/** instance of libidobuffer */
-	private DT1_LibidoBuffer moLibidoBuffer;	
+	private DT1_PsychicIntensityBuffer moLibidoBuffer;	
 	
 	
 	/**
@@ -102,7 +105,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	public F45_LibidoDischarge(String poPrefix, clsProperties poProp,
 			HashMap<Integer, clsModuleBase> poModuleList, 
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, 
-			DT1_LibidoBuffer poLibidoBuffer,
+			DT1_PsychicIntensityBuffer poLibidoBuffer,
 			itfModuleMemoryAccess poLongTermMemory , clsPersonalityParameterContainer poPersonalityParameterContainer) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		
@@ -224,8 +227,14 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
-		//Get available amount of free libido 
-		
+ 
+	   clsThingPresentationMesh oPerceivedAction; 
+       clsThingPresentationMesh oSelfEntity; 
+       clsThingPresentationMesh oNearCenterEntity;
+
+       ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
+       ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
+               new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>(); 
 
 //		mrAvailableLibido=moLibidoBuffer.send_D1_4();
 		mrAvailableLibido=0.8;
@@ -239,18 +248,60 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			e.printStackTrace();
 		}
 		
-		//Perception and phantasy are treated equal, therefore, get all images in the mesh
+		// get all images in the mesh
 		ArrayList<clsThingPresentationMesh> oImageList = clsMeshTools.getAllTPMImages(moPerceptionalMesh_OUT, 2);
 		
 		// consider relative reduction (relative to currently available libido) --> the higher the libido, the higher the absolute reduction
 		mrPerceptionReduceFactor = mrPerceptionReduceFactor * mrAvailableLibido;
-		mrPerceptionReduceFactor = mrPhantasyReduceFactor * mrAvailableLibido;
-		mrPerceptionReduceFactor = mrMemoryReduceFactor * mrAvailableLibido;	
+		mrPhantasyReduceFactor = mrPhantasyReduceFactor * mrAvailableLibido;
+		mrMemoryReduceFactor = mrMemoryReduceFactor * mrAvailableLibido;	
 		
 		//Go through all images
 		for (clsThingPresentationMesh oImage : oImageList) {
 			if(oImage.getMoContentType() == eContentType.PI){
 				mrLibidoReducedBy += setImageLibido(oImage, mrPerceptionReduceFactor, mrAvailableLibido);
+				
+				
+				// reduce PI, if agent perceive action that has no feedback on body
+				oSelfEntity = getPerceivedSelf(oImage);
+				
+				if(oSelfEntity != null) {
+				    for(clsAssociation oAssPerceivedAction : oSelfEntity.getExternalMoAssociatedContent()) {
+				        clsThingPresentationMesh oTPM= (clsThingPresentationMesh) oAssPerceivedAction.getLeafElement();
+				        if( oTPM.getMoContentType() == eContentType.PERCEIVEDACTION) {
+				            oPerceivedAction = oTPM;
+				            
+				            // if agents perceive actions -> get the object teh agent uses
+				            
+			                for (clsAssociation oAss:  oImage.getMoInternalAssociatedContent()) {
+			                   
+			                    oNearCenterEntity = (clsThingPresentationMesh) oAss.getLeafElement();
+			                    
+			                    // if Entity is near and center -> it is the object the agent uses for the perceived action
+			                    int rNrMatch = 0;
+			                    for(clsAssociation oAssEntity : oNearCenterEntity.getExternalMoAssociatedContent()){
+			                        clsThingPresentation oTP = (clsThingPresentation) oAssEntity.getLeafElement();
+			                        if(oTP.getMoContent().equals("CENTER") || oTP.getMoContent().equals("NEAR") ) {
+			                            rNrMatch++;
+    			                    }
+			                    }
+			                    if(rNrMatch == 2) {
+			                        break;
+			                    }
+			                    
+			                }
+			                
+			                // get DMs associated with oNearCenterEntity
+			                //oNearCenterEntity
+			                //oPerceivedAction
+				       }
+				    }
+				}
+				
+				
+				
+		         
+
 			}
 			// temporarily deactivated, since perception of "emptyspace" always trigger an RI with a cake. hence there would always be libidodischarge 
 //			else if(oImage.getMoContentType() == eContentType.RI){
@@ -264,19 +315,35 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		
 		
+		moLibidoBuffer.receive_D1_3(eDrive.ANAL, new clsPair<Double,Double>(0.0,0.0) );
+		
 		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
 		//added to the image and in mrLibidoReducedBy is set as mrPerceptionReduceFactor * Quota of affect
 		//mrLibidoReducedBy = setImageLibido(moEnvironmentalPerception_OUT, mrPerceptionReduceFactor, mrAvailableLibido);
 		
-		//Go through all associated memories
-		//moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
-		//for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
-		//	mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
-		//}
+//		Go through all associated memories
+//		moAssociatedMemories_OUT = (ArrayList<clsPrimaryDataStructureContainer>)deepCopy(moAssociatedMemories_IN);
+//		for (clsPrimaryDataStructureContainer oContainer : moAssociatedMemories_OUT) {
+//			mrLibidoReducedBy += setImageLibido(oContainer, mrMemoryReduceFactor);
+//		}
 		
 //		moLibidoBuffer.receive_D1_3(mrLibidoReducedBy);
 
 
+	}
+	
+	
+	public clsThingPresentationMesh getPerceivedSelf(clsThingPresentationMesh poImage) {
+	    clsThingPresentationMesh oSelfEntity;
+	    
+        for (clsAssociation oAss:  poImage.getMoInternalAssociatedContent()) {
+            oSelfEntity = (clsThingPresentationMesh) oAss.getLeafElement();
+            
+            if(oSelfEntity.getMoContent().equals("SELF")) {
+                return oSelfEntity;
+            }
+        }
+	    return null;
 	}
 	
 	/**
