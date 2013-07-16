@@ -21,6 +21,7 @@ import pa._v38.interfaces.modules.I5_9_send;
 import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -32,11 +33,13 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
+import pa._v38.memorymgmt.enums.eDriveComponent;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import du.enums.pa.ePartialDrive;
 
 /**
  * F45 communicates with F41 via the libido buffer. Incoming perceptions are compared with memory to determine 
@@ -230,7 +233,9 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
  
 	   clsThingPresentationMesh oPerceivedAction; 
        clsThingPresentationMesh oSelfEntity; 
-       clsThingPresentationMesh oNearCenterEntity;
+       clsThingPresentationMesh oNearCenterEntity = null;
+       clsDriveMesh oDM;
+       clsThingPresentation oPerceivedActionTP = null;
 
        ArrayList<clsThingPresentationMesh> poSearchPattern = new ArrayList<clsThingPresentationMesh>();
        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResult = 
@@ -267,12 +272,17 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 				
 				if(oSelfEntity != null) {
 				    for(clsAssociation oAssPerceivedAction : oSelfEntity.getExternalMoAssociatedContent()) {
-				        clsThingPresentationMesh oTPM= (clsThingPresentationMesh) oAssPerceivedAction.getLeafElement();
-				        if( oTPM.getMoContentType() == eContentType.PERCEIVEDACTION) {
-				            oPerceivedAction = oTPM;
+				        try {
+				            oPerceivedActionTP= (clsThingPresentation) oAssPerceivedAction.getLeafElement();
+				        }
+				        catch (Exception E) {
 				            
-				            // if agents perceive actions -> get the object teh agent uses
+				        }
+				        if(oPerceivedActionTP != null && oPerceivedActionTP.getMoContentType() == eContentType.PERCEIVEDACTION) {
+				           // workaround: create TPM from TP. action should be a TPM, but comes from F14 as TP
+				            oPerceivedAction = clsDataStructureGenerator.generateTPM(new clsTriple <eContentType, ArrayList<clsThingPresentation>, Object> (oPerceivedActionTP.getMoContentType(), new ArrayList<clsThingPresentation>(), oPerceivedActionTP.getMoContent()) );
 				            
+				            // if agents perceive actions -> get the object teh agent uses				            
 			                for (clsAssociation oAss:  oImage.getMoInternalAssociatedContent()) {
 			                   
 			                    oNearCenterEntity = (clsThingPresentationMesh) oAss.getLeafElement();
@@ -280,20 +290,57 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 			                    // if Entity is near and center -> it is the object the agent uses for the perceived action
 			                    int rNrMatch = 0;
 			                    for(clsAssociation oAssEntity : oNearCenterEntity.getExternalMoAssociatedContent()){
-			                        clsThingPresentation oTP = (clsThingPresentation) oAssEntity.getLeafElement();
-			                        if(oTP.getMoContent().equals("CENTER") || oTP.getMoContent().equals("NEAR") ) {
-			                            rNrMatch++;
-    			                    }
+			                        try {
+			                            clsThingPresentation oTP = (clsThingPresentation) oAssEntity.getLeafElement();
+			                            if(oTP.getMoContent().equals("CENTER") || oTP.getMoContent().equals("NEAR") ) {
+	                                        rNrMatch++;
+	                                    }
+			                        }
+			                        catch (Exception E) {
+			                            
+			                        }
 			                    }
 			                    if(rNrMatch == 2) {
 			                        break;
 			                    }
+			                    else {
+			                        oNearCenterEntity = null;
+			                    }
 			                    
 			                }
 			                
-			                // get DMs associated with oNearCenterEntity
-			                //oNearCenterEntity
-			                //oPerceivedAction
+			                if(oNearCenterEntity != null) {
+    			                // get DMs associated with oNearCenterEntity
+    			                for (clsAssociation oAss : oNearCenterEntity.getExternalMoAssociatedContent()) {
+    			                    
+    			                    if(oAss.getMoContentType().equals(eContentType.ASSOCIATIONDM)) {
+    
+    			                        // if sexual drive --> discharge Psychic intensity(PI)
+    		                            // TODO: in future also self-preservation drives (with abstract drive goals, i.e. actions) may trigger discharge of PI
+    			                        oDM = (clsDriveMesh) oAss.getLeafElement();
+    		                            if(!oDM.getPartialDrive().equals(ePartialDrive.UNDEFINED)) {
+    		                                
+    		                                // if the perceived action is a drive goal of this DM -> discharge PI
+    		                                //oPerceivedAction
+    		                                if(oDM.getActualDriveAim().getMoContent().equals(oPerceivedAction.getMoContent())){
+    		                                    
+    		                                    if(oDM.getDriveComponent().equals(eDriveComponent.AGGRESSIV)) {
+    		                                        moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(oDM.getQuotaOfAffect(), 0.0) );
+    		                                    }
+    		                                    else {
+                                                    moLibidoBuffer.receive_D1_3(eDrive.valueOf(oDM.getPartialDrive().toString()), new clsPair<Double,Double>(0.0, oDM.getQuotaOfAffect()) );
+    		                                    }
+
+    		                                }
+    		                            }
+    			                    }
+    			                }
+			               
+				        }
+			               
+			                
+			                
+			                
 				       }
 				    }
 				}
@@ -315,7 +362,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		}
 		
 		
-		moLibidoBuffer.receive_D1_3(eDrive.ANAL, new clsPair<Double,Double>(0.0,0.0) );
 		
 		//This function searches the memory for LIBIDO-Images and if a match is found (> Threshold), then the drive meshes are
 		//added to the image and in mrLibidoReducedBy is set as mrPerceptionReduceFactor * Quota of affect

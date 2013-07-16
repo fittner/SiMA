@@ -242,7 +242,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 					    moEnvironmentalTP.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
 					}
 	                
-
 					  
 					
 				}	
