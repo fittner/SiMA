@@ -84,11 +84,13 @@ public class clsDataStructureConverter {
 	
 	private static clsDataStructurePA convertSymbolsToTPM(itfSymbol poSymbolObject){
 		Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
-		
+
 		clsThingPresentationMesh oTPM =  null; 
+
 		eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
 		String oContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
 		ArrayList<clsPhysicalRepresentation> oAssociatedContent = new ArrayList<clsPhysicalRepresentation>();
+		ArrayList<clsPhysicalRepresentation> oExternalAssociatedContent = new ArrayList<clsPhysicalRepresentation>();
 		
 		for(Method oM : oMethods){
 			if (oM.getName().equals("getSymbolObjects")) {
@@ -143,9 +145,12 @@ public class clsDataStructureConverter {
                         e.printStackTrace();
                     }
                     for(Object oCont: oContents){
+                        //clsThingPresentationMesh oExtTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(oContentType, new ArrayList<clsThingPresentation>(), oCont.toString()));
+                        //oExternalAssociatedContent.add(oExtTPM);
                         oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oCont)); 
-                        oAssociatedContent.add(oTP);
+                        oAssociatedContent.add(oTP); 
                     }
+                    continue;
 				}
 				{
 					try {
@@ -163,6 +168,10 @@ public class clsDataStructureConverter {
 				}
 		}
 		oTPM = (clsThingPresentationMesh)clsDataStructureGenerator.generateDataStructure(eDataType.TPM,	new clsTriple<eContentType, Object, Object>(oContentType, oAssociatedContent, oContent)); 
+		for(clsPhysicalRepresentation oVal: oExternalAssociatedContent){
+		    oTPM.addExternalAssociation(clsDataStructureGenerator.generateASSOCIATIONPRI(eContentType.TPM, oTPM, (clsThingPresentationMesh) oVal, 1.0));
+		    
+		}
 		return oTPM; 	
 	}
 	
