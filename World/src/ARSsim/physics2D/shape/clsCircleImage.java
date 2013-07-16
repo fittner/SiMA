@@ -129,7 +129,7 @@ public class clsCircleImage extends Circle
 	        Angle orient = getOrientation();
 	        orient=orient.add(new Angle(-1.571f)); //mason shapes are shifted 90deg, so correct it
 	        double theta = orient.radians;
-	        int scale = 9;
+	        int scale = 7;
 	        int offset = 0;
 	        double length = (scale * (info.draw.width < info.draw.height ? 
 	                info.draw.width : info.draw.height)) + offset;  // fit in smallest dimension
