@@ -145,8 +145,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<eDriveProperty, Object> moStomach = new HashMap<eDriveProperty,Object>();
         moStomach.put(eDriveProperty.ORGAN, "STOMACH");
         moStomach.put(eDriveProperty.ORIFICE, "ORAL_MUCOSA");
-        moStomach.put(eDriveProperty.LIBIDINOUS_ERROGENOUS_ZONE, "ORIFICE_ORAL_LIBIDINOUS_MUCOSA");
-        moStomach.put(eDriveProperty.AGGRESSIV_ERROGENOUS_ZONE, "ORIFICE_ORAL_AGGRESSIV_MUCOSA");
+        moStomach.put(eDriveProperty.LIBIDINOUS_EROGENOUS_ZONE, "ORIFICE_ORAL_LIBIDINOUS_MUCOSA");
+        moStomach.put(eDriveProperty.AGGRESSIV_EROGENOUS_ZONE, "ORIFICE_ORAL_AGGRESSIV_MUCOSA");
         moStomach.put(eDriveProperty.PERSONALITY_PARAMETERS, fillPersonalityStomach(poPersonalityParameterContainer));
         moMapping.put("BLOODSUGAR", moStomach);
         
@@ -367,14 +367,14 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         HashMap<String,Double> oPP = (HashMap<String,Double>) poProperties.get(eDriveProperty.PERSONALITY_PARAMETERS);
         double rErogenousZonesImpactFactor = oPP.get("EROGENOUS_ZONES_IMPACT");
         double rPersonalitySplitImpactFactor = oPP.get("PERSONALITY_SPLIT_IMPACT");;
-        String oLibErogenousZone =  (String) poProperties.get("LIBIDINOUS_ERROGENOUS_ZONE");
-        String oAgrErogenousZone =  (String) poProperties.get("AGGRESSIV_ERROGENOUS_ZONE");
+        String oLibErogenousZone =  (String) poProperties.get(eDriveProperty.LIBIDINOUS_EROGENOUS_ZONE);
+        String oAgrErogenousZone =  (String) poProperties.get(eDriveProperty.AGGRESSIV_EROGENOUS_ZONE);
         
         double rPersonalitySplitFactor =oPP.get("PERSONALITY_SPLIT");
         
         double rLibStimulation = 0.0;
         double rAgrStimulation = 0.0;
-        double rAgrFactor;
+        double rAgrFactorErogenousZones;
         double rLibFactor;
         
         clsPair<Double,Double> oOldValues = moLibidoBuffer.send_D1_4(oDrive);
@@ -387,15 +387,15 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         }
         
         if(rAgrStimulation + rLibStimulation > 0){
-            rAgrFactor = rAgrStimulation / (rAgrStimulation + rLibStimulation);
+            rAgrFactorErogenousZones = rAgrStimulation / (rAgrStimulation + rLibStimulation);
            // rLibFactor = rLibStimulation / (rAgrStimulation + rLibStimulation);
-            moErogenousZonesSave.put(oDrive, rAgrFactor);
+            moErogenousZonesSave.put(oDrive, rAgrFactorErogenousZones);
         }
         else if(moErogenousZonesSave.get(oDrive)>=0){
-            rAgrFactor = moErogenousZonesSave.get(oDrive);
+            rAgrFactorErogenousZones = moErogenousZonesSave.get(oDrive);
         }
         else{
-            rAgrFactor = 0.5;
+            rAgrFactorErogenousZones = 0.5;
             rLibFactor = 0.5;
             rErogenousZonesImpactFactor=0.0;
         }
@@ -407,8 +407,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
         double rTensionChange = (rOldValue)-prTension;
         if(rTensionChange > 0){
             //Mittelwert der Einflussfaktoren beim Fallen 
-            double rAgrMid =(rAgrFactor*rErogenousZonesImpactFactor + rPersonalitySplitFactor*rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
-            double rLibMid = ((1-rAgrFactor)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
+            double rAgrMid =(rAgrFactorErogenousZones*rErogenousZonesImpactFactor + rPersonalitySplitFactor*rPersonalitySplitImpactFactor)/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
+            double rLibMid = ((1-rAgrFactorErogenousZones)*rErogenousZonesImpactFactor + (1-rPersonalitySplitFactor)*rPersonalitySplitImpactFactor )/(rPersonalitySplitImpactFactor  +rErogenousZonesImpactFactor);
             moLibidoBuffer.receive_D1_3(oDrive,new clsPair<Double,Double>(rTensionChange*rAgrMid, rTensionChange*rLibMid));
             // send the tension change to the pleasure buffer
             moPleasureStorage.D4_2receive(rTensionChange);
