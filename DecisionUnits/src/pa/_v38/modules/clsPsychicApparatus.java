@@ -25,7 +25,7 @@ import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
@@ -111,7 +111,7 @@ public class clsPsychicApparatus {
 	//public clsKnowledgeBaseHandler moKnowledgeBaseHandler;
 	public itfModuleMemoryAccess moLongTermMemory;
 	/** Libido buffer storage. Necessary for DT1.; @since 13.07.2011 17:48:42 */
-	public DT1_LibidoBuffer moLibidoBuffer;
+	public DT1_PsychicIntensityBuffer moLibidoBuffer;
 	/** Blocked content storage. Necessary for DT2.; @since 13.07.2011 17:49:01 */
 	public DT2_BlockedContentStorage moBlockedContentStorage;
 	/** Free psychic energy storage. Necessary for DT3.; @since 12.10.2011 18:38:57 */
@@ -183,7 +183,7 @@ public class clsPsychicApparatus {
 		//moKnowledgeBaseHandler = poKnowledgeBaseHandler;
 		moLongTermMemory = poMemory;
 		
-		moLibidoBuffer = new DT1_LibidoBuffer();
+		moLibidoBuffer = new DT1_PsychicIntensityBuffer();
 		moBlockedContentStorage = new DT2_BlockedContentStorage();
 		moPsychicEnergyStorage = new DT3_PsychicEnergyStorage();
 		moPleasureStorage = new DT4_PleasureStorage();

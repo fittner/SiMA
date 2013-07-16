@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.enums.eDriveProperty;
-import pa._v38.memorymgmt.storage.DT1_LibidoBuffer;
+import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -62,7 +62,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	private HashMap<String, Double> moHomeostasisSymbols_IN;
 	private double rectum_pain_limit;
 	
-	private DT1_LibidoBuffer moLibidoBuffer;
+	private DT1_PsychicIntensityBuffer moLibidoBuffer;
 	
 	private HashMap<String, Double> moCandidatePartitionFactor;
 	
@@ -105,7 +105,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			clsPersonalityParameterContainer poPersonalityParameterContainer,
-			DT1_LibidoBuffer poLibidoBuffer,
+			DT1_PsychicIntensityBuffer poLibidoBuffer,
 			DT4_PleasureStorage poPleasureStorage)
 			throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData);

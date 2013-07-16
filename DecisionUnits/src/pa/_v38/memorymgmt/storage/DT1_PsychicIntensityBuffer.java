@@ -33,11 +33,11 @@ import pa._v38.tools.toText;
  * 09.03.2011, 17:04:55
  * 
  */
-public class DT1_LibidoBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive {
+public class DT1_PsychicIntensityBuffer implements itfInspectorInternalState, itfInterfaceDescription, itfInspectorGenericTimeChart, D1_4_send, D1_5_send, D1_6_receive, D1_1_receive, D1_2_receive, D1_3_receive {
 	private double mrBufferedLibido;
 	private HashMap<eDrive,clsPair<Double,Double>> moLibidoBuffers;
 	
-	public DT1_LibidoBuffer() {
+	public DT1_PsychicIntensityBuffer() {
 		mrBufferedLibido = 0;
 		moLibidoBuffers = initBuffers();
 
