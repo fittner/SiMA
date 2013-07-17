@@ -1,4 +1,4 @@
-; Fri Jul 05 13:33:45 CEST 2013
+; Wed Jul 17 10:38:08 CEST 2013
 ; 
 ;+ (version "3.4.4")
 ;+ (build "Build 579")
@@ -2621,7 +2621,9 @@
 
 	(class_association [TPM%3AORGANS%3ALIBIDO])
 	(drive_component "AGGRESSIVE")
-	(instance_association [AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC])
+	(instance_association
+		[AD%3ADRIVEOBJECT%3ABODO%3ABEAT%3APHALLIC]
+		[AD%3AAIM%3ABODO%3ABEAT%3APHALLIC])
 	(partial_drive "PHALLIC")
 	(quotaOfAffect 0.2)
 	(value "DM:PHALIC:AGGRESSIVE")
