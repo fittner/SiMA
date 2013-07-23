@@ -21,6 +21,7 @@ import bw.body.clsUnrealBody;
 import bw.body.io.actuators.actionExecutors.clsAction;
 import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
+import bw.factories.clsEntityFactory;
 import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
 import bw.utils.enums.eBodyType;
@@ -536,4 +537,23 @@ public abstract class clsEntity implements itfGetBody {
 	public void setVisionBrightness(double mrVisionBrightness) {
 		this.mrVisionBrightness = mrVisionBrightness;
 	}
+	
+	protected clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor){
+		clsEntity oNewEntity = clsEntityFactory.createEntity(poPrperties, this.getEntityType(), null, this.uid);
+		double x = this.getPose().getPosition().x;
+		double y = this.getPose().getPosition().y;
+		double angle = this.getPose().getAngle().radians;
+		double weight = this.getVariableWeight();
+		
+		//set position
+		oNewEntity.setPose(new clsPose(x-(poDistance/2), y, angle));
+		this.setPose(new clsPose(x+(poDistance/2), y, angle));
+		//set weight
+		oNewEntity.setVariableWeight(weight*poSplitFactor);
+		this.setVariableWeight(weight*(1-poSplitFactor));
+		
+		return oNewEntity;
+
+	}
+	
 }

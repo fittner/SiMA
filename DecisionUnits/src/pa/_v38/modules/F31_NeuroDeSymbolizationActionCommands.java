@@ -14,7 +14,9 @@ import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
+import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
+import du.itf.actions.clsActionDivide;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
@@ -176,6 +178,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_basic() {
 		moActionCommandList_Output.clear();
+		
+		//TODO: Just for test. Delete this line
+        moActionCommandList_Output.add(new clsActionDivide(0.5));
+        if (true) return;
 
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
@@ -298,6 +304,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					moActionCommandList_Output.add( new clsActionEat() );
 				//} else if(oAction.equals("BITE")) {
 				//		moActionCommandList_Output.add( new clsActionEat() );
+				} else if (oAction.equals("BEAT")) {
+				    moActionCommandList_Output.add(new clsActionBeat(1.0));
+				} else if (oAction.equals("DIVIDE")) {
+				    moActionCommandList_Output.add(new clsActionDivide(0.5));
 				} else if (oAction.equals("SLEEP")) {
 					moActionCommandList_Output.add( new clsActionSleep(eActionSleepIntensity.DEEP) );
 				} else if (oAction.equals("RELAX")) {
@@ -345,7 +355,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						} 
 					}
 				} else if (oAction.equals(eAction.FOCUS_ON.toString())) {
-					//Do nothing
+				    //Do nothing
 				} else if (oAction.equals(eAction.NONE.toString())) {
 					//Do nothing
 				} else if (oAction.equals(eAction.SEND_TO_PHANTASY.toString())) {

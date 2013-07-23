@@ -44,6 +44,7 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.body.io.clsExternalIO;
+import bw.body.io.actuators.actionProxies.itfAPBeatable;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
 
 //import tstBw.*;
@@ -54,7 +55,7 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  * @author langr
  * 
  */
-public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable {
+public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
@@ -336,6 +337,30 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 			LocationWrapper poWrapper, GUIState poState, clsEntity poEntity) {
 		poTarget.addInspector( new clsInspectorARSin(poSuperInspector, poWrapper, poState, (clsARSIN)poEntity), "ARSIN");
 		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 17.07.2013 12:01:17
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPBeatable#beat(double)
+	 */
+	@Override
+	public void beat(double pfForce) {
+		double rHurtFactor = 1;
+		double rBeatThreshold = 0.2;
+		
+		if(pfForce >= rBeatThreshold){
+			if(moBody instanceof clsComplexBody){
+				clsComplexBody oBody = (clsComplexBody) moBody;
+				oBody.getInternalSystem().getHealthSystem().hurt(pfForce * rHurtFactor);
+				
+				
+			}
+		}
+		else{
+			//nothing happens
+		}
 	}
 
 }

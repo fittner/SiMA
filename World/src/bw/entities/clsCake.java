@@ -26,6 +26,7 @@ import bw.body.itfget.itfIsConsumeable;
 import bw.body.itfget.itfGetFlesh;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
+import bw.exceptions.exFoodWeightBelowZero;
 import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 import bw.utils.enums.eBodyType;
@@ -41,7 +42,7 @@ import sim.physics2D.shape.Shape;
  * Jul 24, 2009, 10:15:27 PM
  * 
  */
-public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable {
+public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, itfAPCarryable, itfGetBody, itfIsConsumeable, itfAPDivideable {
 	public static final String CONFIG_FILE_NAME ="cake.default.properties";
 	
 	private boolean mnDestroyed = false;
@@ -54,10 +55,13 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	private Shape moShape50;
 	private Shape moShape25;
 	
+	private final clsProperties moCreationProperties;
+	
 	public clsCake(String poPrefix, clsProperties poProp, int uid)
     {
 		super(poPrefix, poProp, uid);		
 		applyProperties(poPrefix, poProp);
+		moCreationProperties=poProp;
     } 
 	
 	private void applyProperties(String poPrefix, clsProperties poProp){		
@@ -102,13 +106,13 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_75+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_RADIUS, 8.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_RADIUS, 6.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_COLOR, Color.pink);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl50.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_50+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_RADIUS, 8.0);
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_RADIUS, 6.0);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_COLOR, Color.pink);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_IMAGE_PATH, "/World/src/resources/images/schnitzl25.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_25+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
@@ -178,6 +182,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		
 		if (this.moBody.getBodyIntegrity() < 0.25) {
 			//do nothing, will be eaten soon
+			set2DShape(moShape25, getTotalWeight());
 		}
 		else if (this.moBody.getBodyIntegrity() < 0.50) {
 			//25%
@@ -314,6 +319,25 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		return getFlesh().getTotallyConsumed();
 	}
 
+	/* (non-Javadoc)
+	 *
+	 * @since 18.07.2013 16:09:12
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPDivideable#devide(double)
+	 */
+	@Override
+	public void devide(double pfSplitFactor){
+		clsCake oNewEntity= (clsCake)dublicate(moCreationProperties,10,pfSplitFactor);
+		double oActualWeight= getFlesh().getWeight();
+		try {
+			this.getFlesh().setWeight(oActualWeight*pfSplitFactor);
+			this.updateShape();
+			oNewEntity.getFlesh().setWeight(oActualWeight*(1-pfSplitFactor));
+			oNewEntity.updateShape();
+			
+		} catch (exFoodWeightBelowZero e) {
+			//should not be!
+		}
+	}
 
-	
 }

@@ -38,6 +38,7 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	public static final String P_ENERGYRELATION = "energyrelation";
 	
 	protected double srEnergyRelation;		//Relation energy to stamina
+
 	
 	/**
 	 * DOCUMENT (deutsch) - insert description 
@@ -107,7 +108,8 @@ public abstract class clsActionExecutor extends clsSensorActuatorBaseExt {
 	 * e.g. no injuries, enough stamina, etc. and then executes the command.
 	 * Returns true/false depending on if the action was successful.
 	 */
-	public abstract boolean execute(clsActionCommand poCommand); 
+	public abstract boolean execute(clsActionCommand poCommand);
+
 
 	/*
 	 * Support function for finding an entity in a given Range (Self-Referenced passed so entities own body can be ignored)

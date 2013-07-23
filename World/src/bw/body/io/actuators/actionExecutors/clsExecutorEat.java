@@ -44,8 +44,8 @@ public class clsExecutorEat extends clsActionExecutor{
 	private double mrBiteSizeMax;
 	private double mrLibidinousEatFactor;
 	private double mrAggressivEatFactor;
-	private clsEntity moEntity;
 	private eSensorExtType moRangeSensor;
+	private clsEntity moEntity;
 
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_BITESIZE_MAX = "bitesizemax";
@@ -184,7 +184,8 @@ public class clsExecutorEat extends clsActionExecutor{
         oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralAggressivMucosa(rAgressivStimulus);
         oBody.getIntraBodySystem().getErogenousZonesSystem().StimulateOralLibidinousMucosa(rLibidinousStimulus);
         
-		//3) attach eat the self 
+
+		//3) attach eat to the self 
         
         clsAction oAction = new clsAction(1,ePercievedActionType.EAT);
         oAction.attachEntity(oEatenEntity);
