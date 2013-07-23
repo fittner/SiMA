@@ -98,6 +98,7 @@ public class clsGenerateFunctionalModel {
 		((clsNode)(oNodes.get(12))).setCoords(0, 5);
 		((clsNode)(oNodes.get(13))).setCoords(1, 5);
 		
+		((clsNode)(oNodes.get(67))).setCoords(1, 6);
 		((clsNode)(oNodes.get(47))).setCoords(4, 6);
 		((clsNode)(oNodes.get(21))).setCoords(8, 6);
 		((clsNode)(oNodes.get(20))).setCoords(9, 6);
