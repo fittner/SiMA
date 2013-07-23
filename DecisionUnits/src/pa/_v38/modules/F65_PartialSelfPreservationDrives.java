@@ -53,7 +53,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 
 	
 	public static final String P_MODULENUMBER = "65";
-	public static final String P_HOMEOSTASIS_STOMACH = "HOMEOSTASIS_IMPACT_FACTOR_STOMACH";
+	public static final String P_HOMEOSTASIS_BLOODSUGAR = "HOMEOSTASIS_IMPACT_FACTOR_BLOODSUGAR";
 	public static final String P_HOMEOSTASIS_RECTUM = "HOMEOSTASIS_IMPACT_FACTOR_RECTUM";
 	public static final String P_HOMEOSTASIS_STAMINA = "HOMEOSTASIS_IMPACT_FACTOR_STAMINA";
 	public static final String P_RECTUM_PAIN_LIMIT = "RECTUM_PAIN_LIMIT";
@@ -114,7 +114,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 		moPleasureStorage= poPleasureStorage;
 		moLibidoBuffer = poLibidoBuffer;
 		moHomeostaisImpactFactors = new HashMap<String, Double>();
-		moHomeostaisImpactFactors.put("STOMACH",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STOMACH).getParameterDouble());
+		moHomeostaisImpactFactors.put("BLOODSUGAR",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_BLOODSUGAR).getParameterDouble());
 		moHomeostaisImpactFactors.put("RECTUM",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_RECTUM).getParameterDouble());
 		moHomeostaisImpactFactors.put("STAMINA",poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_HOMEOSTASIS_STAMINA).getParameterDouble());
 
@@ -800,7 +800,7 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 			
 			
 			
-			
+
 			//if we have a normalization factor, use it
 			if(moHomeostaisImpactFactors.containsKey( oEntry.getKey() ) )
 			{

@@ -177,11 +177,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	 */
 	@Override
 	protected void process_basic() {
-		moActionCommandList_Output.clear();
+	    moActionCommandList_Output.clear();
 		
-		//TODO: Just for test. Delete this line
-        moActionCommandList_Output.add(new clsActionDivide(0.5));
-        if (true) return;
+		//TODO: Just for test. Delete this 2 lines
+        //moActionCommandList_Output.add(new clsActionDivide(0.5));
+        //if (true) return;
 
 		if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
@@ -233,7 +233,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
 				         "UsedAction: " + oAction.toString() + ", " +
 				         "mnCounter: " + mnCounter);
-				
+			
 
 				// moActionBlockingTime contains number of remaining turns all new actions will be blocked 
 				// currently only the action "FLEE" sets the moActionBlockingTime
