@@ -44,11 +44,8 @@ public class clsShape2DCreator {
 	public static final String P_Y			= "y";
 	public static final String P_ANGLE      = "angle"; //rotate image and shape by this angle
 	
-	public static Shape createShape(String poPrefix, clsProperties poProp) {
-		return createShape( poPrefix,  poProp, false);
-	}
 
-	public static Shape createShape(String poPrefix, clsProperties poProp, boolean showOrientation) {
+	public static Shape createShape(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
 		Shape oShape = null; 
@@ -65,7 +62,7 @@ public class clsShape2DCreator {
 		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(pre +P_TYPE) );
 		
 		switch( oShapeType ) {
-			case CIRCLE:	oShape = createCircle(pre, poProp, showOrientation); break;
+			case CIRCLE:	oShape = createCircle(pre, poProp); break;
 			case RECTANGLE: oShape = createRectangle(pre, poProp); break;
 			case POLYGON: 	oShape = createPolygon(pre, poProp); break;
 			default: 		throw new java.lang.IllegalArgumentException();
@@ -74,7 +71,7 @@ public class clsShape2DCreator {
 		return oShape;
 	}
 	
-	private static Shape createCircle(String poPrefix, clsProperties poProp, boolean showOrientation) {
+	private static Shape createCircle(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		Shape oShape = null; 
 		String oImagePath = "";
@@ -97,8 +94,7 @@ public class clsShape2DCreator {
 			oShape = new ARSsim.physics2D.shape.clsCircleImage(
 					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
 					poProp.getPropertyColor(pre+P_COLOR),
-					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH),
-					showOrientation
+					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH)
 					);
 		}
 		
