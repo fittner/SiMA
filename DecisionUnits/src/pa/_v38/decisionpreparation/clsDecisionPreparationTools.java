@@ -143,6 +143,9 @@ public class clsDecisionPreparationTools {
         case EAT:
             oActionCondition = eCondition.EXECUTED_EAT;
             break;
+        case BEAT:
+            oActionCondition = eCondition.EXECUTED_BEAT;
+            break;
         case PICKUP:
             oActionCondition = eCondition.EXECUTED_PICKUP;
             break;
