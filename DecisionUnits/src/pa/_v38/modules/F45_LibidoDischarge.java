@@ -230,7 +230,6 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 	@SuppressWarnings("unchecked")
 	@Override
 	protected void process_basic() {
- 
 	   clsThingPresentationMesh oPerceivedAction; 
        clsThingPresentationMesh oSelfEntity; 
        clsThingPresentationMesh oNearCenterEntity = null;

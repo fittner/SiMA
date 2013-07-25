@@ -358,7 +358,6 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 				}
 			}
 		}
-		
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
 			try {

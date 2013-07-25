@@ -202,7 +202,6 @@ public class clsBrainSocket implements itfStepProcessing {
 			processUnrealVision(moUnrealVisionValues, oData);
 		
 		
-		
 		return oData;
 	}
 	
@@ -796,6 +795,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 	 * @return
 	 */
 	private clsVision convertVisionSensor(eSensorExtType poVisionType) {
+		
 		clsVision oData = new clsVision();
 		oData.setSensorType(poVisionType);
 		clsSensorVision oVision = (clsSensorVision)(moSensorsExt.get(poVisionType));
@@ -809,7 +809,6 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 				oData.add(oEntry);
 			}
 		}
-		
 		return oData;
 	}
 	

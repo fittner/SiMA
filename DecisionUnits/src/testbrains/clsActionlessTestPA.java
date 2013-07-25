@@ -40,8 +40,8 @@ public class clsActionlessTestPA extends clsPsychoAnalysis {
 	 */
 	@Override
 	public void process() {
-		getProcessor().applySensorData( getSensorData() );
-		getProcessor().step();
+		//getProcessor().applySensorData( getSensorData() );
+		//getProcessor().step();
 		//moProcessor.getActionCommands( getActionProcessor() ); //removed on pupose
 	}
 
