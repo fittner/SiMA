@@ -168,7 +168,10 @@ public class clsMain extends SimState{
     public void setShowFaciaExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowFacialExpressionOverlay(value);
     }
-    
+       
+    public void setShowCarriedItem(boolean value){
+    	clsSingletonProperties.setShowCarriedItem(value) ;
+    }
     public boolean getShowFaciaExpressionOverlay(){
     	return clsSingletonProperties.showFacialExpressionOverlay();
     }

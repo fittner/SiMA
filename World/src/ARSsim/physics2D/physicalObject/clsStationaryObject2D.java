@@ -3,6 +3,8 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import java.awt.image.BufferedImage;
+
 import du.enums.eFacialExpression;
 import sim.display.GUIState;
 import sim.engine.SimState;
@@ -210,6 +212,18 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	@Override
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
 		// TODO (muchitsch) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 24.07.2013 10:48:35
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setCarriedItem(bw.factories.eImages)
+	 */
+	@Override
+	public void setCarriedItem(BufferedImage poOverlay) {
+		// TODO (herret) - Auto-generated method stub
 		
 	}
 }

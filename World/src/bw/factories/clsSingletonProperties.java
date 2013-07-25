@@ -27,6 +27,7 @@ public class clsSingletonProperties {
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
+	private boolean mnShowCarriedItem;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -38,6 +39,7 @@ public class clsSingletonProperties {
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
+		mnShowCarriedItem=true;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -110,9 +112,17 @@ public class clsSingletonProperties {
 	static public boolean showFacialExpressionOverlay() {
 		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
 	}
+	static public boolean showCarriedItem() {
+		return (clsSingletonProperties.instance()).mnShowCarriedItem;
+	}
 	static public void setShowFacialExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
+	static public void setShowCarriedItem(boolean value) {
+		(clsSingletonProperties.instance()).mnShowCarriedItem = value;
+	}
+
+
 	
 	
 }

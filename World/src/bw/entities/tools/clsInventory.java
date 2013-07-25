@@ -11,10 +11,14 @@ package bw.entities.tools;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import ARSsim.physics2D.shape.clsCircleImage;
+import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.clsMobile;
 import bw.exceptions.exInventoryFull;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsRegisterEntity;
+import bw.utils.enums.eBindingState;
+
 import sim.physics2D.constraint.PinJoint;
 
 /**
@@ -80,10 +84,35 @@ public class clsInventory {
 	public clsMobile getCarriedEntity() {
 		return moCarriedEntity;
 	}
-	public void setCarriedEntity(clsMobile poEntity) {		
+
+		public void setCarriedEntity(clsMobile poEntity) {		
 		//Can I carry anything?
 		if (getMaxItems()<0) return;
 		
+		//drop anything we are currently carrying
+		if (moCarriedEntity!=null ) {
+			dropCarriedItem();
+		}
+		//If the item is from the inventory register in mason and remove from inventory
+		if (moInventory.contains(poEntity)) {
+			moInventory.remove(poEntity);
+			moCarriedEntity = poEntity;
+			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
+		}
+		//Pick up from environment
+		else{
+			moCarriedEntity = poEntity;
+			((clsMobile)moCarriedEntity).incHolders();
+
+			moEntity.setCarriedItem(((clsCircleImage)moCarriedEntity.getMobileObject2D().getShape()).getImage());
+			clsRegisterEntity.unRegisterPhysicalObject2D(moCarriedEntity.getMobileObject2D());
+			moCarriedEntity.setRegistered(false);
+			((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.CARRIED);
+
+		}
+
+
+		/*
 		//drop anything we are currently carrying
 		if (moCarriedEntity!=null ) {
 			clsSingletonMasonGetter.getPhysicsEngine2D().unRegister(moJoint);
@@ -103,11 +132,28 @@ public class clsInventory {
 		moCarriedEntity = poEntity;
 		moJoint= new PinJoint(poEntity.getPosition(), (moEntity).getMobileObject2D(), poEntity.getMobileObject2D());
         clsSingletonMasonGetter.getPhysicsEngine2D().register(moJoint);
+        
+        */
+	}
+		
+	public void dropCarriedItem(){
+	//	clsCake x = (clsCake)moCarriedEntity;
+	//	clsEntity neu = x.dublicate(x.moCreationProperties, 50, 0.5);
+		moCarriedEntity.registerEntity();
+		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
+		moCarriedEntity.setRegistered(true);
+		moCarriedEntity.decHolders();
+		((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.NONE);
+		moCarriedEntity=null;
+		moEntity.setCarriedItem(null);
+		
 	}
 	
 	/*
 	 * Changes the pinjoint of the carried object so it will be dragged to a given relative position
 	 */
+	// old inventory function
+	
 	public void moveCarriedEntity(sim.physics2D.util.Double2D poDestination) {
 		if (moJoint == null) return;
 

@@ -43,7 +43,8 @@ public enum eImages {
 	Overlay_FacialExpression_SADNESS("Expression_Sadness.png"),
 	Overlay_FacialExpression_SURPRISE("Expression_Surprise.png"),
 	Overlay_Action_Beat("Action_Beat.png"),
-	Overlay_Action_Divide("Action_Divide.png");
+	Overlay_Action_Divide("Action_Divide.png"),
+	Overlay_Action_PickUp("Action_PickUp.png");
 	
 	private String moFilename;
 	

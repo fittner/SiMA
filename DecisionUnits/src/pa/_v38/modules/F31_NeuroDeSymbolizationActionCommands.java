@@ -17,6 +17,7 @@ import du.enums.eActionTurnDirection;
 import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDivide;
+import du.itf.actions.clsActionDrop;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
 import du.itf.actions.clsActionMove;
@@ -60,6 +61,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> inputActionHistory;
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
+	
+	private int mnTestCounter =0;
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -179,11 +182,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	protected void process_basic() {
 	    moActionCommandList_Output.clear();
 		
-		//TODO: Just for test. Delete this 2 lines
-        //moActionCommandList_Output.add(new clsActionDivide(0.5));
-        //if (true) return;
 
-		if( moActionCommands_Input.size() > 0 ) {
+       // if(testSequence())  return;
+		
+        if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {
 			    
 				if (oActionWPM == null) 
@@ -589,7 +591,21 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 		
 		return oCaptions;
 	}		
-
+	
+	
+	private boolean testSequence(){
+	       //TODO: Just for test. Delete this 2 lines
+        //moActionCommandList_Output.add(new clsActionPickUp());
+        //if (true) return;
+       if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
+       else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
+       else if (mnTestCounter<=20){
+            moActionCommandList_Output.add( new clsActionDrop() );
+            mnTestCounter=0;
+        }
+        mnTestCounter++;
+	    return true;
+    }
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter

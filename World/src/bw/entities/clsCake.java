@@ -1,5 +1,4 @@
 /**
- * @author muchitsch
  * 
  * $Rev::                      $: Revision of last commit
  * $Author::                   $: Author of last commit
@@ -55,7 +54,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	private Shape moShape50;
 	private Shape moShape25;
 	
-	private final clsProperties moCreationProperties;
+	public final clsProperties moCreationProperties;
 	
 	public clsCake(String poPrefix, clsProperties poProp, int uid)
     {

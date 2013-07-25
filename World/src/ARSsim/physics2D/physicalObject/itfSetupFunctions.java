@@ -7,6 +7,8 @@
  */
 package ARSsim.physics2D.physicalObject;
 
+import java.awt.image.BufferedImage;
+
 import du.enums.eFacialExpression;
 import bw.factories.eImages;
 import ARSsim.physics2D.util.clsPose;
@@ -32,6 +34,7 @@ public interface itfSetupFunctions {
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
 	public void setOverlayImage(eImages poOverlay);
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay);
+	public void setCarriedItem(BufferedImage poOverlay);
 	
 	public clsPose getPose();
     public Shape getShape();

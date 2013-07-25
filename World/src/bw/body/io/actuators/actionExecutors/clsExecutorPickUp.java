@@ -18,7 +18,7 @@ import bw.body.io.actuators.actionProxies.*;
 import du.enums.eSensorExtType;
 import du.itf.actions.*;
 import bw.entities.clsMobile;
-import bw.utils.enums.eBindingState;
+import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 
 /**
@@ -60,7 +60,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.MANIPULATE_AREA.toString());
-		oProp.setProperty(pre+P_MASSSCALINGFACTOR, 0.01f);
+		oProp.setProperty(pre+P_MASSSCALINGFACTOR, 0.001f);
 		
 		return oProp;
 	}
@@ -122,25 +122,31 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
-		if (oEntity==null) return false;
-
+		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class);
+		
+		
+		if (oEntity==null){
+			return false;
+		}
+		//check
+		
 		//Try to pick it up
 		try {			
-			//increase entity holders
-			oEntity.getCarryableEntity().incHolders();
-
+			
+					
 			oMEntity.getInventory().setCarriedEntity(oEntity.getCarryableEntity());
-			oMEntity.getInventory().moveCarriedToInventory(); //hacked by Kivy (putting the carried object in the inventory): for inventory inspector
+			
+			//Issue solved with entity check
+			//oMEntity.getInventory().moveCarriedToInventory(); //hacked by Kivy (putting the carried object in the inventory): for inventory inspector
 																//He tries to pickup objects in range again even if he already holds them.
 																//so he loops in picking up and dropping the same object			
-			oEntity.setCarriedBindingState(eBindingState.INVENTORY); //hacked by Kivy: copied from clsExecutorToInventory
 			
 		} catch(Throwable e) {
 			return false;			
 		}
 		
-        oEntity.setCarriedBindingState(eBindingState.CARRIED);
+               
+        moEntity.setOverlayImage(eImages.Overlay_Action_PickUp);
         
 		//Attach action to entity
         clsAction oAction = new clsAction(1,ePercievedActionType.PICKUP);

@@ -14,10 +14,10 @@ import java.util.ArrayList;
 
 import bfg.utils.enums.ePercievedActionType;
 import bw.body.io.actuators.clsActionExecutor;
-import bw.body.io.actuators.actionProxies.*;
+
 import du.itf.actions.*;
 import bw.entities.clsMobile;
-import bw.utils.enums.eBindingState;
+
 
 /**
  * Action Executor for dropping objects
@@ -91,21 +91,14 @@ public class clsExecutorDrop  extends clsActionExecutor{
 		
 		if (oMEntity.getInventory().getCarriedEntity()==null) return false;
 		
-		itfAPCarryable oEntity;
-
 		//try to drop
 		try {
 			//decrease entity holders
-			oMEntity.getInventory().getCarriedEntity().decHolders();
-			
-			oEntity= (itfAPCarryable)oMEntity.getInventory().getCarriedEntity(); 
-			oMEntity.getInventory().setCarriedEntity(null);
+			oMEntity.getInventory().dropCarriedItem();
 		} catch(Throwable e) {
 			return false;			
 		}
 		
-		oEntity.setCarriedBindingState(eBindingState.NONE);
-		 
 		
 		//Attach action to entity
         clsAction oAction = new clsAction(1,ePercievedActionType.DROP);

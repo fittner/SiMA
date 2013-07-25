@@ -27,12 +27,14 @@ public class clsCircleImage extends Circle
 	    
 	double mrRadius; 
 	BufferedImage moImage = null;
+	eImages moImageName =eImages.NONE;
 	//BufferedImage moImageOverlay = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
 	eStrings moOverlayString = eStrings.Nourish;
 	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
+	BufferedImage moCarriedItem = null;
 	Paint moPaint = null;
 
 
@@ -56,6 +58,7 @@ public class clsCircleImage extends Circle
 	   	try
 	   	{
 	   		moImage = ImageIO.read( oFile );
+	   		moImageName = eImages.Cake;
 	   	} catch (IOException e)
 	   	{
 	   		e.printStackTrace();
@@ -64,7 +67,9 @@ public class clsCircleImage extends Circle
 	   	
     }
 
-   
+   public BufferedImage getImage(){
+	   return moImage;
+   }
     
     /* (non-Javadoc)
 	 *
@@ -147,6 +152,15 @@ public class clsCircleImage extends Circle
 							graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
 			        	}
 			        }
+			        
+				      //display carried Iteam
+			        if(clsSingletonProperties.showCarriedItem()) {
+			        	if(moCarriedItem != null){
+
+			        		moCarriedItem.getGraphics();
+							graphics.drawImage(moCarriedItem, nxArc-30, nyArc+55,30, 30, null ); 
+			        	}
+			        }
 			      		        
 			        
 			      //display a overlay String - new method
@@ -192,6 +206,9 @@ public class clsCircleImage extends Circle
 		this.moOverlayImage = moOverlay;
 	}
 	
+	public void setCarriedItem(BufferedImage moOverlay) {
+		this.moCarriedItem = moOverlay;
+	}
 	
 	public eFacialExpression getFacialExpressionOverlayImage() {
 		return moFacialExpressionOverlayImage;

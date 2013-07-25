@@ -7,6 +7,7 @@
  */
 package bw.entities;
 
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -106,10 +107,12 @@ public abstract class clsEntity implements itfGetBody {
 	
 	//additional perception values
 	protected double mrVisionBrightness = 0.0;
+	private BufferedImage mnCarriedItem;
 	
 	public clsEntity(String poPrefix, clsProperties poProp, int uid) {
 		this.uid = uid;
 		mnCurrentOverlay = eImages.NONE;
+		mnCarriedItem = null;
 		mnCurrentFacialExpressionOverlay = eFacialExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
@@ -405,8 +408,14 @@ public abstract class clsEntity implements itfGetBody {
 		mnCurrentOverlay = poOverlay;
 	}
 	
+	public void setCarriedItem(BufferedImage poOverlay) {
+		mnCarriedItem = poOverlay;
+	}
+	
 	private void updateOverlayImage() {
 		((itfSetupFunctions)moPhysicalObject2D).setFacialExpressionOverlayImage(mnCurrentFacialExpressionOverlay);
+		
+		((itfSetupFunctions)moPhysicalObject2D).setCarriedItem(mnCarriedItem);
 		
 		if (clsSimState.getSteps() > mnLastSetOverlayCall+10) /*10 is the time how long the overlay will be displayed*/ {
 			mnCurrentOverlay = eImages.NONE;
@@ -538,7 +547,7 @@ public abstract class clsEntity implements itfGetBody {
 		this.mrVisionBrightness = mrVisionBrightness;
 	}
 	
-	protected clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor){
+	public clsEntity dublicate(clsProperties poPrperties, double poDistance, double poSplitFactor){
 		clsEntity oNewEntity = clsEntityFactory.createEntity(poPrperties, this.getEntityType(), null, this.uid);
 		double x = this.getPose().getPosition().x;
 		double y = this.getPose().getPosition().y;
