@@ -12,7 +12,7 @@ import sim.field.continuous.Continuous2D;
 import statictools.clsGetARSPath;
 import statictools.clsSimState;
 import statictools.clsUniqueIdGenerator;
-import bw.entities.clsARSIN;
+import bw.ARSIN.clsARSIN;
 import bw.factories.clsSingletonMasonGetter;
 
 import config.clsProperties;

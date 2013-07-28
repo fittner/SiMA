@@ -243,19 +243,19 @@ public abstract class clsCompareGraphWindow extends Inspector {
     	poTaskGroup.setTitle("Legend");
     	poTaskGroup.setExpanded(false);
  
-    	poTaskGroup.add(addLegendItem( "TP", moColorTP, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "NULL", moColorNULL, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "String", moColorString, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Double", moColorDouble, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WP", moColorWP, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WPM", moColorWPMRoot, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DD", moColorDD, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "ACT", moColorACT, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Pair", moColorPair, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Tripple", moColorTripple, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "PDSC", moColorPrimaryDataStructureContainer, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "SDSC", moColorSecondaryDataStructureContainer, "/World/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DM root", moColorDMRoot, "/World/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "TP", moColorTP, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "NULL", moColorNULL, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "String", moColorString, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Double", moColorDouble, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WP", moColorWP, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "WPM", moColorWPMRoot, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DD", moColorDD, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "ACT", moColorACT, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Pair", moColorPair, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "Tripple", moColorTripple, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "PDSC", moColorPrimaryDataStructureContainer, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "SDSC", moColorSecondaryDataStructureContainer, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "DM root", moColorDMRoot, "/ARSIN/src/resources/images/view.png") );
      	
     	return poTaskGroup;
     }

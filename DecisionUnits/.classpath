@@ -9,5 +9,6 @@
 	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/protegeAPI.jar"/>
 	<classpathentry kind="lib" path="lib/mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="S:/ARSIN_V01/DecisionUnits/lib/log4j-1.2.16.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

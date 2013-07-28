@@ -10,6 +10,7 @@ import pa.clsPsychoAnalysis;
 import config.clsProperties;
 import du.enums.eDecisionType;
 
+
 /**
  * TESTBRAIN for Clemens Muchitsch. It is a specialization of pa.clsPsychoAnalysis. What it does, it resets the actionprocessor in each process step. Thus, this decision unit processes incommiung data and performs every step but has no impact on the world or on the body.  
  * 

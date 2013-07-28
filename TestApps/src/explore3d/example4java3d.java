@@ -34,7 +34,7 @@ public class example4java3d {
 		BufferedImage res = null;
 		
 		BufferedImage img = null;
-	    img = ImageIO.read(new File("S:\\ARSIN_V01\\World\\src\\resources\\images\\arsin_red.png"));
+	    img = ImageIO.read(new File("S:\\ARSIN_V01\\ARSIN\\src\\resources\\images\\arsin_red.png"));
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int[] RGB = img.getRGB(0, 0, width, height, null, 0, width);
@@ -82,7 +82,7 @@ public class example4java3d {
 	   // Create a ball to demonstrate textures
 	   int primflags = Primitive.GENERATE_NORMALS + Primitive.GENERATE_TEXTURE_COORDS;
 	
-	   Sphere s = new Sphere(size, primflags, getAppearance("S:\\ARSIN_V01\\World\\src\\resources\\images\\arsin_red.png", Color.blue));
+	   Sphere s = new Sphere(size, primflags, getAppearance("S:\\ARSIN_V01\\ARSIN\\src\\resources\\images\\arsin_red.png", Color.blue));
 	   return s;
 	}
 	
