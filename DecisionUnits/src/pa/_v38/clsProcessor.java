@@ -20,10 +20,10 @@ import du.itf.sensors.clsSensorData;
 import du.itf.sensors.clsSensorExtern;
 import pa.itfProcessor;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.longtermmemory.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
+//import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
-import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceManager;
+//import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import pa._v38.modules.clsPsychicApparatus;
 
 
@@ -64,7 +64,10 @@ public class clsProcessor implements itfProcessor  {
 	 * @param poProp The property file in form of an instance of clsProperties.
 	 * @param uid A unique identifier. It is the same for the decision unit and the body for one agent.
 	 */
-	public clsProcessor(String poPrefix, clsProperties poProp, int uid) {
+	public clsProcessor(String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+            itfModuleMemoryAccess poMemory) {
+	    moSearchSpace = poSearchSpace;
+	    moMemory = poMemory;
 		applyProperties(poPrefix, poProp, uid);
 		
 	}
@@ -105,8 +108,8 @@ public class clsProcessor implements itfProcessor  {
 		//Create knowledgebase
 		//moKnowledgeBaseHandler = new clsInformationRepresentationManagement(pre + P_KNOWLEDGEABASE, poProp);
 		
-		moSearchSpace = new clsSearchSpaceManager(pre + P_KNOWLEDGEABASE, poProp);
-		moMemory = new clsLongTermMemoryHandler(moSearchSpace);
+		//moSearchSpace = new clsSearchSpaceManager(pre + P_KNOWLEDGEABASE, poProp);
+		//moMemory = new clsLongTermMemoryHandler(moSearchSpace);
 		
 		//Create psychic apparatus
 		//moPsyApp = new clsPsychicApparatus(pre + P_PSYCHICAPPARATUS, poProp, moKnowledgeBaseHandler, uid);

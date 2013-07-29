@@ -13,5 +13,12 @@
 	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/vecmath.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Simulation"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
+	<classpathentry kind="src" path="junit"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/ARSMemory/lib/log4j-1.2.16.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/ARSMemory/lib/mockito-all-1.9.5-rc1.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/ARSMemory/lib/protegeAPI.jar"/>
+	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/jcommon-1.0.14.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

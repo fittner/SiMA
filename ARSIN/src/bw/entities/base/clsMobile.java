@@ -21,6 +21,7 @@ import sim.physics2D.util.Double2D;
 import ARSsim.physics2D.physicalObject.clsMobileObject2D;
 import ARSsim.physics2D.util.clsPose;
 
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 
@@ -184,4 +185,5 @@ public abstract class clsMobile extends clsEntity {
 	public int getHolders(){
 		return mnHolders;		
 	}
+
 }

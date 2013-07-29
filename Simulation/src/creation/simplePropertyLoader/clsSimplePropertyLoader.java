@@ -24,6 +24,10 @@ import javax.vecmath.Vector3d;
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
 import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.eLoader;
@@ -101,7 +105,9 @@ public class clsSimplePropertyLoader extends clsLoader {
 //	public static final String P_DECISIONUNIT = "decisionunit";
 	/** If usedefaults is set to true, the entity/decision unit defaults are used. otherwise ALL params have to be provided by overwritedecisionunitdefaults and overwriteentitydefaults. */
 	public static final String P_USEDEFAULTS = "usedefaults";
-
+	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
+	public static final String P_KNOWLEDGEBASE = "knowledgebase";
+	
 	private int numentitygroups;
 	
 	/** This is the version number of the simpleproperty loader. */
@@ -472,21 +478,23 @@ public class clsSimplePropertyLoader extends clsLoader {
     		
     		// distinguish between ARS and Alternative DecisionUnit
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
-    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
+    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + "processor." + P_KNOWLEDGEBASE, poPropDecisionUnit);
+    			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
+    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
     		}
     		else {
     			oDU = clsAlternativeDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
 
     		}
     	}
-       	
+       	clsEntity temp;
     	// select the appropriate factory
     	if(pnEntityType == eEntityType.ANIMAL || pnEntityType == eEntityType.ARSIN || pnEntityType == eEntityType.BASE || 
     			pnEntityType == eEntityType.REMOTEBOT || pnEntityType == eEntityType.SMARTEXCREMENT || pnEntityType == eEntityType.URANIUM){
-    	clsARSINFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
+    		temp = clsARSINFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
     	}
     	else{
-    		clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
+    		temp = clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
     	}
     }
     

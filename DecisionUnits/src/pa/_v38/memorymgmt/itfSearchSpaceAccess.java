@@ -4,7 +4,7 @@
  * 25.02.2013 wendt - File created
  *
  */
-package pa._v38.memorymgmt.longtermmemory;
+package pa._v38.memorymgmt;
 
 import java.util.ArrayList;
 

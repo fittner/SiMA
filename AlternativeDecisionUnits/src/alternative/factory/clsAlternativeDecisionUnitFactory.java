@@ -7,7 +7,7 @@ package alternative.factory;
 import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
-import du.itf.itfDecisionUnitFactory;
+//import du.itf.itfDecisionUnitFactory;
 import decisionunit.clsBaseDecisionUnit;
 
 /**
@@ -17,7 +17,7 @@ import decisionunit.clsBaseDecisionUnit;
  * 06.05.2010, 16:53:19
  * 
  */
-public class clsAlternativeDecisionUnitFactory implements itfDecisionUnitFactory {
+public class clsAlternativeDecisionUnitFactory {
 	/**
 	 * Create a decision unit according to the provided params.
 	 *
@@ -30,7 +30,7 @@ public class clsAlternativeDecisionUnitFactory implements itfDecisionUnitFactory
 	 * @return a fresh instance of the selected decision unit.
 	 * @throws java.lang.IllegalArgumentException
 	 */
-	@Override
+
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
 			String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException {
 		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);

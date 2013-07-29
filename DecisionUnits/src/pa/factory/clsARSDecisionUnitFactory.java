@@ -7,8 +7,11 @@ package pa.factory;
 import config.clsProperties;
 import du.enums.eDecisionType;
 import du.itf.itfDecisionUnit;
-import du.itf.itfDecisionUnitFactory;
+//import du.itf.itfDecisionUnitFactory;
 import decisionunit.clsBaseDecisionUnit;
+
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
 
 
 /**
@@ -18,7 +21,7 @@ import decisionunit.clsBaseDecisionUnit;
  * 06.05.2010, 16:53:19
  * 
  */
-public class clsARSDecisionUnitFactory implements itfDecisionUnitFactory{
+public class clsARSDecisionUnitFactory {
 	/**
 	 * Create a decision unit according to the provided params.
 	 *
@@ -31,10 +34,10 @@ public class clsARSDecisionUnitFactory implements itfDecisionUnitFactory{
 	 * @return a fresh instance of the selected decision unit.
 	 * @throws java.lang.IllegalArgumentException
 	 */
-    @Override
 	public itfDecisionUnit createDecisionUnit(eDecisionType nDecisionType,
-			String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException {
-		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid);
+			String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+            itfModuleMemoryAccess poMemory) throws java.lang.IllegalArgumentException {
+		return createDecisionUnit_static(nDecisionType, poPrefix, poProp, uid, poSearchSpace, poMemory);
 	}
 
 	/**
@@ -50,16 +53,17 @@ public class clsARSDecisionUnitFactory implements itfDecisionUnitFactory{
 	 * @throws java.lang.IllegalArgumentException
 	 */
 	public static itfDecisionUnit createDecisionUnit_static(eDecisionType nDecisionType,
-				String poPrefix, clsProperties poProp, int uid) throws java.lang.IllegalArgumentException {		
+				String poPrefix, clsProperties poProp, int uid, itfSearchSpaceAccess poSearchSpace,
+	            itfModuleMemoryAccess poMemory) throws java.lang.IllegalArgumentException {		
 		clsBaseDecisionUnit oDecisionUnit = null;
 		
 		//create the defined decision unit...
 		switch(nDecisionType) {
 			case PA:
-				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp, uid);
+				oDecisionUnit = new pa.clsPsychoAnalysis(poPrefix, poProp, uid, poSearchSpace, poMemory);
 				break;
 			case ActionlessTestPA:
-				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp, uid);
+				oDecisionUnit = new testbrains.clsActionlessTestPA(poPrefix, poProp, uid, poSearchSpace, poMemory);
 				break;
 			default:
 				throw new java.lang.IllegalArgumentException("eDecisionType."+nDecisionType.name());
