@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import du.enums.eFacialExpression;
 
 
+import sim.display.GUIState;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 
@@ -18,12 +19,12 @@ import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
-
-import sim.portrayal.LocationWrapper;
-import sim.display.GUIState;
 import sim.portrayal.Inspector;
+import sim.portrayal.LocationWrapper;
+
 
 import sim.portrayal.inspector.TabbedInspector;
+
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.shape.clsCircleImage;
 import ARSsim.physics2D.util.clsPose;
@@ -31,8 +32,9 @@ import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.eImages;
-import bw.utils.inspectors.entity.clsInspectorEntity;
 import bw.world.surface.clsSurfaceHandler;
+import bw.utils.inspectors.entity.clsInspectorEntity;
+
 
 /**
  * Our representative of the mason physics class
