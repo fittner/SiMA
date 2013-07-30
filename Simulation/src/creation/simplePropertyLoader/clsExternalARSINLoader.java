@@ -22,6 +22,11 @@ import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsEntity;
 import statictools.clsUniqueIdGenerator;
 
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
+import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
+
 /**
  * Loads the properties and and creates an ARSINI for external use. No dependencies to MASON or other simulation code.
  * This file is derived from  clsSimplePropertyLoader
@@ -38,6 +43,8 @@ public class clsExternalARSINLoader extends clsLoader {
 	public static final String P_DEFAULTSENTITY  = "defaultsentity";
 	/** Contains the defaults for the decision unit type, if not provided, the default values are extracted in runtime from the classes. */
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
+	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
+	public static final String P_KNOWLEDGEBASE = "knowledgebase";
 
 	/** This is the version number of the simpleproperty loader. */
 	public static final int mnVersion = 3;
@@ -204,7 +211,9 @@ public class clsExternalARSINLoader extends clsLoader {
     		
     		// distinguish between ARS and Alternative DecisionUnit
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
-    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
+    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + "processor." + P_KNOWLEDGEBASE, poPropDecisionUnit);
+    			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
+    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
     		}
     		else {
     			oDU = clsAlternativeDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);

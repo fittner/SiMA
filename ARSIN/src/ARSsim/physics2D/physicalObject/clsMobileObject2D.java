@@ -397,8 +397,17 @@ public class clsMobileObject2D extends
 			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
 		}
 
+/*		if (moMasonInspector == null) {
+			return super.getInspector(wrapper, state);
+		}*/
+		
 		return moMasonInspector;
 	}
+	
+/*	public void setInspector( TabbedInspector poMasonInspector) {
+		moMasonInspector = poMasonInspector;
+	}*/
+	
 	
     /** Calculates and adds the static and dynamic friction forces on the object
      * based on the coefficients of friction.

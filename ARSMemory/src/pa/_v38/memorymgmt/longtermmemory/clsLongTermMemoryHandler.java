@@ -12,6 +12,7 @@ import java.util.Arrays;
 import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;

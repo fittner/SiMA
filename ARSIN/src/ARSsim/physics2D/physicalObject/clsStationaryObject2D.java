@@ -161,9 +161,17 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 					wrapper, state), wrapper, state, moEntity);
 			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
 		}
-
+		
+		/*if (moMasonInspector == null) {
+			return super.getInspector(wrapper, state);
+		}
+*/
 		return moMasonInspector;
 	}
+	
+/*	public void setInspector( TabbedInspector poMasonInspector) {
+		moMasonInspector = poMasonInspector;
+	}*/
 
 	/* (non-Javadoc)
 	 *

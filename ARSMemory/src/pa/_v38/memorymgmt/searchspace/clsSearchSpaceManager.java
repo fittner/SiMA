@@ -4,7 +4,7 @@
  * 25.02.2013 wendt - File created
  *
  */
-package pa._v38.memorymgmt.framessearchspace;
+package pa._v38.memorymgmt.searchspace;
 
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
@@ -12,6 +12,7 @@ import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
 
 import pa._v38.logger.clsLogger;
+import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -20,10 +21,10 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
-import pa._v38.memorymgmt.longtermmemory.itfSearchSpaceAccess;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import config.clsProperties;
