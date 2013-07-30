@@ -22,6 +22,7 @@ import pa._v38.interfaces.modules.I5_8_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
+import pa._v38.memorymgmt.datahandlertools.clsDataStructureCompareTools;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -34,7 +35,6 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.enums.eDriveComponent;
-import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 
 import config.clsProperties;
@@ -419,7 +419,7 @@ public class F45_LibidoDischarge extends clsModuleBaseKB implements itfInspector
 		//Only TPMs are searched for if meshes are searched
 		clsThingPresentationMesh oBestCompareImage = (clsThingPresentationMesh) getBestMatch(oSearchResultContainer);
 		//Get a list of corresponding objects for the libido DMs in the input image
-		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureComparisonTools.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, eContentType.LIBIDO);
+		ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>> oLibidoDM = clsDataStructureCompareTools.getSpecificAssociatedContent(oBestCompareImage, poInput, eDataType.DM, eContentType.LIBIDO);
 		
 		rReducedValue = addDriveMeshes(new clsPair<clsThingPresentationMesh, ArrayList<clsPair<clsThingPresentationMesh, clsAssociation>>>(poInput, oLibidoDM), prLibidoReduceRate, prAvailableLibido);
 		

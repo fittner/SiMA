@@ -22,7 +22,7 @@ import pa.itfProcessor;
 import pa._v38.memorymgmt.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.itfSearchSpaceAccess;
 //import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
-import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
+//import pa._v38.memorymgmt.old.clsInformationRepresentationManagement;
 //import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import pa._v38.modules.clsPsychicApparatus;
 
@@ -85,7 +85,7 @@ public class clsProcessor implements itfProcessor  {
 		
 		clsProperties oProp = new clsProperties();
 		
-		oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
+		//oProp.putAll( clsInformationRepresentationManagement.getDefaultProperties(pre+P_KNOWLEDGEABASE) );
 		oProp.putAll( clsPsychicApparatus.getDefaultProperties(pre+P_PSYCHICAPPARATUS) );
 				
 		oProp.setProperty( pre+P_LIBIDOSTREAM, 0.01);

@@ -45,11 +45,12 @@ public class clsExternalARSINLoader extends clsLoader {
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
 	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
 	public static final String P_KNOWLEDGEBASE = "knowledgebase";
-
+	
 	/** This is the version number of the simpleproperty loader. */
 	public static final int mnVersion = 3;
 	/** This loader can handle old property files down to version number ... */
 	public static final int mnDownCompatibility = 3; // can read 3 and newer
+
 	
 	/**
 	 * Prepares the MASON simulation environment for the to be loaded entities. 
@@ -135,6 +136,16 @@ public class clsExternalARSINLoader extends clsLoader {
 		return oProp;
     }
     
+   
+    private static clsProperties getMemoryDefaults(String poPrefix) {
+		String pre = clsProperties.addDot(poPrefix);
+		
+		clsProperties oProp = new clsProperties();
+		
+		oProp.putAll( clsSearchSpaceManager.getDefaultProperties(pre));
+		
+		return oProp;
+    }
 	
     /**
      * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
@@ -162,7 +173,11 @@ public class clsExternalARSINLoader extends clsLoader {
 			oProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
 		}	
 		if (pnAddDefaultDecisionUnits) {
+			//get DecisioinUnit Defaults
 			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
+			
+			//get Memory Defaults
+			oProp.putAll (getMemoryDefaults(pre+P_KNOWLEDGEBASE));
 		}
 		
 		return oProp;
@@ -211,7 +226,7 @@ public class clsExternalARSINLoader extends clsLoader {
     		
     		// distinguish between ARS and Alternative DecisionUnit
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
-    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + "processor." + P_KNOWLEDGEBASE, poPropDecisionUnit);
+    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + P_KNOWLEDGEBASE, poPropDecisionUnit);
     			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
     			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
     		}

@@ -40,7 +40,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	public static final String P_DATABASE_SOURCE = "database_source";
 	public static final String P_SEARCH_METHOD = "database_search";
 	public static final String P_SOURCE_NAME = "source_name";
-	private static final String P_DB_URL = "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj";
+	private static final String P_DB_URL = "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj";
 	
 	public String moDatabaseSource; 
 	public String moSearchMethod; 

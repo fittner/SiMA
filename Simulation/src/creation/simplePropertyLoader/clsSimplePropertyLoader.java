@@ -200,6 +200,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		oP.putAll( clsEntityFactory.getEntityDefaults(pre+P_DEFAULTSENTITY) );
     		oP.putAll( clsARSINFactory.getEntityDefaults(pre+P_DEFAULTSENTITY));
     		oP.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
+    		oP.putAll( getMemoryDefaults(pre+P_KNOWLEDGEBASE) );
 	    	oP.putAll(poProp);
 
 	    	poProp.clear();
@@ -260,6 +261,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		}	
 		if (pnAddDefaultDecisionUnits) {
 			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
+			oProp.putAll(getMemoryDefaults(pre+P_KNOWLEDGEBASE));
 		}
 		
 
@@ -284,7 +286,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_LIBIDOSTREAM, 0.1);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+
 				clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_KNOWLEDGEABASE+"."+
-				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/DecisionUnits/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
+				clsKnowledgeBaseHandler.P_SOURCE_NAME, "/ARSMemory/config/_v38/bw/pa.memory/AGENT_BASIC/BASIC.pprj");
 		//oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+"."+clsPsychicApparatus.P_MINIMALMODEL, false);
 		oProp.setProperty(pre+P_ENTITYGROUPS+"."+i+"."+P_OVERWRITEDECISIONUNITDEFAULTS+"."+ clsPsychoAnalysis.P_PROCESSOR+"."+clsProcessor.P_PSYCHICAPPARATUS+".", false);
 		
@@ -423,6 +425,16 @@ public class clsSimplePropertyLoader extends clsLoader {
     	return oResult;
     }    
     
+    private static clsProperties getMemoryDefaults(String poPrefix) {
+		//String pre = clsProperties.addDot(poPrefix);
+		
+		clsProperties oProp = new clsProperties();
+		
+		oProp.putAll( clsSearchSpaceManager.getDefaultProperties(poPrefix));
+		
+		return oProp;
+    }
+    
     
     /**
      * Creates and sets the position in clsProperties style.
@@ -469,7 +481,7 @@ public class clsSimplePropertyLoader extends clsLoader {
      * @param pnDecisionType
      * @param uid
      */
-    private void createEntity(clsProperties poPropEntity, clsProperties poPropDecisionUnit, 
+    private void createEntity(clsProperties poPropEntity, clsProperties poPropDecisionUnit, clsProperties poPropMemory,
     		eEntityType pnEntityType, eDecisionType pnDecisionType, int uid) {
     	String pre = clsProperties.addDot("");
     	
@@ -478,7 +490,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		
     		// distinguish between ARS and Alternative DecisionUnit
     		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
-    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + "processor." + P_KNOWLEDGEBASE, poPropDecisionUnit);
+    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager("",poPropMemory);
     			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
     			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
     		}
@@ -511,6 +523,9 @@ public class clsSimplePropertyLoader extends clsLoader {
     private void createEntityGroup(String poPrefix, clsProperties poProp) {
     	String pre = clsProperties.addDot(poPrefix);
     	
+    	clsProperties oPropMemory = poProp.getSubset(P_KNOWLEDGEBASE);
+    	clsProperties oOverwriteMemoryDefaults = poProp.getSubset(pre+P_OVERWRITEDECISIONUNITDEFAULTS+"."+P_KNOWLEDGEBASE);
+    	oPropMemory.putAll(oOverwriteMemoryDefaults);
     	//get enttity type
     	eEntityType nEntityType = eEntityType.valueOf(poProp.getPropertyString(pre+P_GROUPENTITYTYPE));
     	
@@ -564,7 +579,7 @@ public class clsSimplePropertyLoader extends clsLoader {
     		oDecisionUnitProperties.putAll( oOverwriteDecisionUnitDefaults );
     		
     		//create entity wiht resulting configuration for entity and decision unit type
-    		createEntity(oEntityProperties, oDecisionUnitProperties, nEntityType, nDecisionType, uid);
+    		createEntity(oEntityProperties, oDecisionUnitProperties,oPropMemory, nEntityType, nDecisionType, uid);
     	}
     }
     
@@ -594,7 +609,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 			generateWorldBoundaries();
 		}
 		System.out.println(" done.");
-		//System.out.println("there is a glitch in the matrix ... happy coding and follow the white rabbit!"); //ein letzter gruﬂ ... :) TD
+		System.out.println("there is a glitch in the matrix ... happy coding and follow the white rabbit!"); //ein letzter gruﬂ ... :) TD
 	}
 
 	/**
