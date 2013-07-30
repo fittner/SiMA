@@ -10,6 +10,12 @@
 /javadoc/website/DecisionUnitMasonInspectors/package-list
 /javadoc/website/DecisionUnits/package-list
 /javadoc/website/Sim/package-list
+/BodyEntityMasonInspector/bin
+/ARSMemory/bin
+/ARSIN/bin
+/Entities/bin
+/ExtTools/bin
+/GeneralTools/bin
 /World/bin
 /DecisionUnitInterface/bin
 /DecisionUnitMasonInspectors/bin
@@ -18,7 +24,7 @@
 /MasonPhysics2D/bin
 /NAO/bin
 /NAOProxyClient_Java/bin
-/Sim/bin
-/Sim/config/config.save
+/Simulation/bin
+/Simulation/config/config.save
 /TestApps/bin
 /DecisionUnits/bin
