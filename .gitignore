@@ -26,5 +26,7 @@
 /NAOProxyClient_Java/bin
 /Simulation/bin
 /Simulation/config/config.save
+/Sim/bin
 /TestApps/bin
 /DecisionUnits/bin
+/Sim/config/config.save
