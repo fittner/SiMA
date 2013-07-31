@@ -183,7 +183,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    moActionCommandList_Output.clear();
 		
 
-       // if(testSequence())  return;
+        if(testSequence())  return;
 		
         if( moActionCommands_Input.size() > 0 ) {
 			for(clsWordPresentationMesh oActionWPM : moActionCommands_Input) {

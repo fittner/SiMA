@@ -139,6 +139,8 @@ public class clsInventory {
 	public void dropCarriedItem(){
 	//	clsCake x = (clsCake)moCarriedEntity;
 	//	clsEntity neu = x.dublicate(x.moCreationProperties, 50, 0.5);
+		
+		
 		moCarriedEntity.registerEntity();
 		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
 		moCarriedEntity.setRegistered(true);
