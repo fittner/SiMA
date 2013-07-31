@@ -9,6 +9,7 @@ import java.util.Iterator;
 
 import config.clsProperties;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
+import entities.factory.clsEntityFactory;
 
 import statictools.clsGetARSPath;
 /*
@@ -37,7 +38,6 @@ import bw.entities.clsWallHorizontal;
 import bw.entities.clsWallVertical;
 */
 import bw.ARSIN.factory.clsARSINFactory;
-import bw.entities.factory.clsEntityFactory;
 
 /**
  * extracts the default properties for all different kind of classes and writes them to files. All entities of project BW and the different decision units from project DecisionUnits are processed.

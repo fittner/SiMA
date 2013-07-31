@@ -12,7 +12,6 @@ import java.util.NoSuchElementException;
 import org.apache.log4j.Logger;
 
 import pa._v38.logger.clsLogger;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -25,6 +24,7 @@ import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import config.clsProperties;

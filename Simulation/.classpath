@@ -3,7 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/ARSIN"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/j3dcore.jar"/>
 	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/j3dutils.jar"/>
 	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/mason.jar"/>
@@ -18,5 +18,7 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/AlternativeDecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

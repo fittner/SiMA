@@ -24,6 +24,7 @@ import bw.body.itfget.itfGetBody;
 import bw.entities.logger.clsPositionLogger;
 import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
+import bw.inspector.interfaces.itfEntityInspectorFactory;
 import bw.utils.enums.eBodyType;
 import config.clsProperties;
 import du.enums.eEntityType;
@@ -93,9 +94,9 @@ public abstract class clsEntity implements itfGetBody {
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
-
-	private ArrayList<clsAction> moExecutedActions;
 	
+	private ArrayList<clsAction> moExecutedActions;
+		
 	
 	private BranchGroup shapes3D; 
 	public abstract void registerEntity();
@@ -127,6 +128,8 @@ public abstract class clsEntity implements itfGetBody {
 		}
 		moPositionLogger = new clsPositionLogger(this.uid);
 	}
+	
+	public abstract void setMasonInspectorFactory(itfEntityInspectorFactory poMasonInspector);
 	
 	public int uid() {
 		return uid;

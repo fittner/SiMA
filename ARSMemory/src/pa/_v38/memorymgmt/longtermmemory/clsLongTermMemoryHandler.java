@@ -11,8 +11,6 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -27,6 +25,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsDebugTools;
 import pa._v38.tools.clsMeshTools;

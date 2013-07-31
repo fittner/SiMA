@@ -22,8 +22,8 @@ import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsEntity;
 import statictools.clsUniqueIdGenerator;
 
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 

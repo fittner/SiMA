@@ -23,8 +23,6 @@ import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 
 
-import sim.portrayal.inspector.TabbedInspector;
-
 import ARSsim.motionplatform.clsMotionPlatform;
 import ARSsim.physics2D.shape.clsCircleImage;
 import ARSsim.physics2D.util.clsPose;
@@ -33,7 +31,7 @@ import bw.entities.base.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.eImages;
 import bw.world.surface.clsSurfaceHandler;
-import bw.utils.inspectors.entity.clsInspectorEntity;
+import bw.inspector.interfaces.itfEntityInspectorFactory;
 
 
 /**
@@ -65,7 +63,7 @@ public class clsMobileObject2D extends
 	/* Flag to disallow access to addForce and addTorque */
 	private boolean permitAccessToAddForce = true; 
 
-	private TabbedInspector moMasonInspector = null;
+	private itfEntityInspectorFactory moMasonInspectorFactory = null;
 
 	//added by SK: the following members are used for surfaces
 	//values identical to superclass but are declared private there 
@@ -390,23 +388,23 @@ public class clsMobileObject2D extends
 		// TODO: (langr) - testing purpose only! adapt tabs for selected entity
 		// clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
 
-		if (moMasonInspector == null) {
-			moMasonInspector = new TabbedInspector();
-			Inspector oInspector = new clsInspectorEntity(super.getInspector(
-					wrapper, state), wrapper, state, moEntity);
-			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
-		}
+//		if (moMasonInspector == null) {
+//			moMasonInspector = new TabbedInspector();
+//			Inspector oInspector = new clsInspectorEntity(super.getInspector(
+//					wrapper, state), wrapper, state, moEntity);
+//			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
+//		}
 
-/*		if (moMasonInspector == null) {
+		if (moMasonInspectorFactory == null) {
 			return super.getInspector(wrapper, state);
-		}*/
-		
-		return moMasonInspector;
+		}
+	
+		return moMasonInspectorFactory.getInspector(wrapper, state, super.getInspector(wrapper, state), moEntity);
 	}
 	
-/*	public void setInspector( TabbedInspector poMasonInspector) {
-		moMasonInspector = poMasonInspector;
-	}*/
+	public void setInspectorFactory( itfEntityInspectorFactory poMasonInspector) {
+		moMasonInspectorFactory = poMasonInspector;
+	}
 	
 	
     /** Calculates and adds the static and dynamic friction forces on the object

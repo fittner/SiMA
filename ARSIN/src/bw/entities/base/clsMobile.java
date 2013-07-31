@@ -14,6 +14,7 @@ import bw.entities.tools.clsInventory;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
 import bw.factories.clsRegisterEntity;
+import bw.inspector.interfaces.itfEntityInspectorFactory;
 //import bw.utils.inspectors.entity.clsInspectorBasic;
 import sim.physics2D.shape.Shape;
 import sim.physics2D.util.Double2D;
@@ -144,7 +145,12 @@ public abstract class clsMobile extends clsEntity {
 		set2DShape(poShape, prMass);
 		setCoefficients(mrDefaultCoeffFriction, mrDefaultStaticFriction, mrDefaultRestitution); //default coefficients
 	}
+	
 
+	@Override
+	public void setMasonInspectorFactory(itfEntityInspectorFactory poMasonInspector){
+		((clsMobileObject2D)moPhysicalObject2D).setInspectorFactory(poMasonInspector);
+	}
 	/**
 	 * @return the moMobile
 	 */

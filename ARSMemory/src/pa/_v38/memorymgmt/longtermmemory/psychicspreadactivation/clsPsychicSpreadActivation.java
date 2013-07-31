@@ -10,7 +10,6 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -18,6 +17,7 @@ import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsImportanceTools;

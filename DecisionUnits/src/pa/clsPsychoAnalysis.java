@@ -11,8 +11,8 @@ import config.clsProperties;
 import decisionunit.clsBaseDecisionUnit;
 import du.enums.eDecisionType;
 
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 
 
 /**

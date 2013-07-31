@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.SortedMap;
 import config.clsProperties;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 
 
 /**

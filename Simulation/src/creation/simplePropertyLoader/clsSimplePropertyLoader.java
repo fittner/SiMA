@@ -24,8 +24,8 @@ import javax.vecmath.Vector3d;
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
 import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 import config.clsProperties;
@@ -36,27 +36,28 @@ import alternative.factory.clsAlternativeDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
+import entities.clsWallAxisAlign;
+import entities.clsWallHorizontal;
+import entities.clsWallVertical;
+import entities.factory.clsEntityFactory;
 import ARSsim.physics2D.util.clsPose;
 import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
 
-import bw.entities.clsWallAxisAlign;
-import bw.entities.clsWallHorizontal;
-import bw.entities.clsWallVertical;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.ARSIN.factory.clsARSINFactory;
-import bw.entities.factory.clsEntityFactory;
 import bw.factories.clsRegisterEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
+import bw.utils.inspectors.entity.clsInspectorEntity;
 import sim.engine.SimState;
 import statictools.cls3DUniverse;
 import statictools.clsUniqueIdGenerator;
@@ -508,6 +509,14 @@ public class clsSimplePropertyLoader extends clsLoader {
     	else{
     		temp = clsEntityFactory.createEntity(poPropEntity, pnEntityType, oDU, uid);
     	}
+//    	if (moMasonInspector == null) {
+//			moMasonInspector = new TabbedInspector();
+//			Inspector oInspector = new clsInspectorEntity(super.getInspector(
+//					wrapper, state), wrapper, state, moEntity);
+//			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
+//		}
+    	temp.setMasonInspectorFactory(new clsInspectorEntity(null,null,null,temp));
+    	
     }
     
     /**

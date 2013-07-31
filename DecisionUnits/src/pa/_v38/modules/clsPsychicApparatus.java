@@ -22,7 +22,7 @@ import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
 import pa._v38.logger.clsLogger;
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;

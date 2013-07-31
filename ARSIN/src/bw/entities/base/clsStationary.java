@@ -15,6 +15,7 @@ import sim.physics2D.util.Double2D;
 import bw.entities.tools.clsShape2DCreator;
 import bw.entities.tools.clsShape3DCreator;
 import bw.factories.clsRegisterEntity;
+import bw.inspector.interfaces.itfEntityInspectorFactory;
 import ARSsim.physics2D.physicalObject.clsStationaryObject2D;
 import ARSsim.physics2D.util.clsPose;
 
@@ -81,10 +82,14 @@ public abstract class clsStationary extends clsEntity {
 	@Override
 	protected void initPhysicalObject2D(clsPose poPose, sim.physics2D.util.Double2D poStartingVelocity, Shape poShape, double prMass) {
 		moPhysicalObject2D = new clsStationaryObject2D(this);
-		
 		setPose(poPose);
 		set2DShape(poShape, prMass);
 		setCoefficients(Double.NaN, Double.NaN, mrDefaultRestitution);  // First two coeffs ignored for stationary objects, use NaN
+	}
+	
+	@Override
+	public void setMasonInspectorFactory(itfEntityInspectorFactory poMasonInspector){
+		((clsStationaryObject2D)moPhysicalObject2D).setInspectorFactory(poMasonInspector);
 	}
 	
 	public clsStationaryObject2D getStationaryObject2D() {

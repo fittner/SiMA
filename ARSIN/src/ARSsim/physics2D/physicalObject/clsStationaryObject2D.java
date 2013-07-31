@@ -10,7 +10,6 @@ import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;
 import sim.portrayal.DrawInfo2D;
-import sim.portrayal.inspector.TabbedInspector;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.display.GUIState;
@@ -18,7 +17,7 @@ import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.eImages;
-import bw.utils.inspectors.entity.clsInspectorEntity;
+import bw.inspector.interfaces.itfEntityInspectorFactory;
 
 /**
  * Our representative of the mason physics class
@@ -35,7 +34,7 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	
 	private clsEntity moEntity;
 	
-	private TabbedInspector moMasonInspector = null;
+	private itfEntityInspectorFactory moMasonInspectorFactory = null;
 	
 	public clsStationaryObject2D(clsEntity poEntity)
 	{
@@ -155,23 +154,23 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		// TODO: (langr) - testing purpose only! adapt tabs for selected entity
 		// clsSingletonMasonGetter.getConsole().setView(moEntity.getEntityType().hashCode());
 
-		if (moMasonInspector == null) {
+/*		if (moMasonInspector == null) {
 			moMasonInspector = new TabbedInspector();
 			Inspector oInspector = new clsInspectorEntity(super.getInspector(
 					wrapper, state), wrapper, state, moEntity);
 			moMasonInspector.addInspector(oInspector, "ARS Entity Inspector");
 		}
-		
-		/*if (moMasonInspector == null) {
+*/		
+		if (moMasonInspectorFactory == null) {
 			return super.getInspector(wrapper, state);
 		}
-*/
-		return moMasonInspector;
+	
+		return moMasonInspectorFactory.getInspector(wrapper, state, super.getInspector(wrapper, state), moEntity);
 	}
 	
-/*	public void setInspector( TabbedInspector poMasonInspector) {
-		moMasonInspector = poMasonInspector;
-	}*/
+	public void setInspectorFactory( itfEntityInspectorFactory poMasonInspector) {
+		moMasonInspectorFactory = poMasonInspector;
+	}
 
 	/* (non-Javadoc)
 	 *

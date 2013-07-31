@@ -10,8 +10,8 @@ import du.itf.itfDecisionUnit;
 //import du.itf.itfDecisionUnitFactory;
 import decisionunit.clsBaseDecisionUnit;
 
-import pa._v38.memorymgmt.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.itfSearchSpaceAccess;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 
 
 /**
