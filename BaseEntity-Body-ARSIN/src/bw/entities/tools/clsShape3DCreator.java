@@ -23,6 +23,7 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
+
 import bw.utils.enums.eShapeType;
 
 import com.sun.j3d.utils.geometry.Box;
@@ -44,7 +45,7 @@ public class clsShape3DCreator {
 		BufferedImage res = null;
 		
 		BufferedImage img = null;
-	    img = ImageIO.read(new File("S:\\ARSIN_V01\\ARSIN\\src\\resources\\images\\arsin_red.png"));
+	    img = ImageIO.read(new File("S:\\ARSIN_V01\\BaseEntity-Body-ARSIN\\src\\resources\\images\\arsin_red.png"));
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int[] RGB = img.getRGB(0, 0, width, height, null, 0, width);
@@ -79,7 +80,7 @@ public class clsShape3DCreator {
 
 		   // Set up the texture map
 		   try {
-			   TextureLoader loader = new TextureLoader( readTiledImage(url, 3, 3) );
+			   TextureLoader loader = new TextureLoader( readTiledImage(url , 3, 3) );
 			   Texture texture = loader.getTexture();
 			   texture.setBoundaryModeS(Texture.WRAP);
 			   texture.setBoundaryModeT(Texture.WRAP);

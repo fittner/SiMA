@@ -10,6 +10,7 @@ import java.awt.Color;
 import java.util.ArrayList;
 
 import sim.physics2D.shape.Shape;
+import statictools.clsGetARSPath;
 import ARSsim.physics2D.physicalObject.clsCollidingObject;
 import ARSsim.physics2D.util.clsPolarcoordinate;
 import ARSsim.physics2D.util.clsPose;
@@ -99,7 +100,7 @@ public class clsSpeech extends clsPhysical {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_RADIUS, 5);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_COLOR, new Color(255, 255, 255, 0));
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/notenschlüssel.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "notenschlüssel.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
@@ -107,13 +108,13 @@ public class clsSpeech extends clsPhysical {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_COLOR, new Color(255, 255, 255, 0));
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/ear1.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.1."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "ear1.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_RADIUS, 5);
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_COLOR, new Color(255, 255, 255, 0));
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());	
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/ear2.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPENAME+".recieve.2."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "ear2.png");
 
 		
 		return oProp;

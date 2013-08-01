@@ -275,24 +275,24 @@ public abstract class clsGraphWindow extends Inspector {
     	poTaskGroup.setTitle("Legend");
     	poTaskGroup.setExpanded(false);
  
-    	poTaskGroup.add(addLegendItem( "TP", clsGraph.moColorTP, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "NULL", clsGraph.moColorNULL, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "String", clsGraph.moColorString, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Double", clsGraph.moColorDouble, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WP", clsGraph.moColorWP, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "WPM", clsGraph.moColorWPMRoot, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DD", clsGraph.moColorDD, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "ACT", clsGraph.moColorACT, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Pair", clsGraph.moColorPair, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Tripple", clsGraph.moColorTripple, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "PDSC", clsGraph.moColorPrimaryDataStructureContainer, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "SDSC", clsGraph.moColorSecondaryDataStructureContainer, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "DM root", clsGraph.moColorDMRoot, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Emotion", clsGraph.moColorEmotion, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Symbol Vision", clsGraph.moColorSymbolVision, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Vision Entry", clsGraph.moColorVisionEntry, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Sensor Intern", clsGraph.moColorSensorIntern, "/ARSIN/src/resources/images/view.png") );
-    	poTaskGroup.add(addLegendItem( "Sensor Extern", clsGraph.moColorSensorExtern, "/ARSIN/src/resources/images/view.png") );
+    	poTaskGroup.add(addLegendItem( "TP", clsGraph.moColorTP, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "NULL", clsGraph.moColorNULL, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "String", clsGraph.moColorString, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Double", clsGraph.moColorDouble, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "WP", clsGraph.moColorWP, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "WPM", clsGraph.moColorWPMRoot, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "DD", clsGraph.moColorDD, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "ACT", clsGraph.moColorACT, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Pair", clsGraph.moColorPair, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Tripple", clsGraph.moColorTripple, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "PDSC", clsGraph.moColorPrimaryDataStructureContainer, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "SDSC", clsGraph.moColorSecondaryDataStructureContainer, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "DM root", clsGraph.moColorDMRoot, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Emotion", clsGraph.moColorEmotion, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Symbol Vision", clsGraph.moColorSymbolVision, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Vision Entry", clsGraph.moColorVisionEntry, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Sensor Intern", clsGraph.moColorSensorIntern, clsGetARSPath.getRelativImagePath() + "view.png") );
+    	poTaskGroup.add(addLegendItem( "Sensor Extern", clsGraph.moColorSensorExtern, clsGetARSPath.getRelativImagePath() + "view.png") );
 
     	return poTaskGroup;
     }

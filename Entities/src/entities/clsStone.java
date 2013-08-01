@@ -9,6 +9,8 @@ package entities;
 
 import java.awt.Color;
 
+import statictools.clsGetARSPath;
+
 
 import config.clsProperties;
 import du.enums.eEntityType;
@@ -61,25 +63,25 @@ public class clsStone extends clsInanimate {
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_RADIUS, "8.0");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/rock1.png");
+		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "rock1.png");
 		oProp.setProperty(pre+P_SHAPE+".0."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_RADIUS, "8.0");
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/rock2.png");
+		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "rock2.png");
 		oProp.setProperty(pre+P_SHAPE+".1."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_RADIUS, "8.0");
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/rock3.png");
+		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "rock3.png");
 		oProp.setProperty(pre+P_SHAPE+".2."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());		
 		
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_RADIUS, "8.0");
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_COLOR, Color.DARK_GRAY);
-		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/rock4.png");
+		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "rock4.png");
 		oProp.setProperty(pre+P_SHAPE+".3."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());				
 	   			
 		return oProp;

@@ -140,7 +140,7 @@ public abstract class clsLoader {
 		oProp.setProperty(pre+P_TITLE, "default title");
 		oProp.setProperty(pre+P_SHORTDESC, "loader which loads lots of entities");
 		oProp.setProperty(pre+P_DESCRIPTION, "Lorem ipsum dolor sit amet, consectetuer sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.");
-		oProp.setProperty(pre+P_IMAGE, "/ARSIN/src/resources/images/cake.gif");
+		oProp.setProperty(pre+P_IMAGE, clsGetARSPath.getRelativImagePath() + "cake.gif");
 		
 		oProp.setProperty(pre+P_FIELD_WIDTH, 200.0);
 		oProp.setProperty(pre+P_FIELD_HEIGHT, 200.0);

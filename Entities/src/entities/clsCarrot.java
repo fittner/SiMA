@@ -18,6 +18,7 @@ import bw.utils.enums.eShapeType;
 import sim.physics2D.shape.Shape;
 
 
+import statictools.clsGetARSPath;
 import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
@@ -124,12 +125,12 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_RADIUS, "5");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_COLOR, Color.orange);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/carrot_clipart.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "carrot_clipart.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_FRESH+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_RADIUS, "5");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_COLOR, Color.gray);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/carrot_grayscale.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "carrot_grayscale.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );

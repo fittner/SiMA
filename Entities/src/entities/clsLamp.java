@@ -15,6 +15,7 @@ import entities.factory.clsEntityFactory;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
 import sim.physics2D.shape.Shape;
+import statictools.clsGetARSPath;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
@@ -104,12 +105,12 @@ public class clsLamp extends clsInanimate implements  itfAPCarryable {
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_RADIUS, "8");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_COLOR, Color.YELLOW);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/lampOn.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "lampOn.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_ON+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_TYPE, eShapeType.CIRCLE.name());
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_RADIUS, "8");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_COLOR, Color.lightGray);
-		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_IMAGE_PATH, "/ARSIN/src/resources/images/lampOff.png");
+		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "lampOff.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_OFF+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
