@@ -11,10 +11,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;

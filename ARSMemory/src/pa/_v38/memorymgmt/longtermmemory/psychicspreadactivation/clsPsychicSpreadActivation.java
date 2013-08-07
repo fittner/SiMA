@@ -21,8 +21,8 @@ import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
