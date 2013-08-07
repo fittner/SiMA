@@ -28,9 +28,9 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsGoalTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
 
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 

@@ -16,8 +16,8 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.ElementNotFoundException;
 import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

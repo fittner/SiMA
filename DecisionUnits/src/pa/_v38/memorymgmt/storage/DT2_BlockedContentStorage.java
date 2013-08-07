@@ -9,11 +9,11 @@ package pa._v38.memorymgmt.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfGraphData;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;

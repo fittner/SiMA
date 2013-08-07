@@ -10,7 +10,7 @@ import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.tools.clsActionTools;
+import pa._v38.tools.datastructures.clsActionTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

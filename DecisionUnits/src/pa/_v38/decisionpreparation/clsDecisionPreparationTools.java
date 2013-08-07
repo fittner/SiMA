@@ -18,12 +18,12 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.tools.clsActDataStructureTools;
-import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsEntityTools;
 import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsMentalSituationTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.datastructures.clsActDataStructureTools;
+import pa._v38.tools.datastructures.clsActionTools;
+import pa._v38.tools.datastructures.clsEntityTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

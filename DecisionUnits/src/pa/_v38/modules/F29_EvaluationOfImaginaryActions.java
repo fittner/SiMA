@@ -30,10 +30,10 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsMentalSituationTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsActionTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 import config.clsProperties;
 
 /**

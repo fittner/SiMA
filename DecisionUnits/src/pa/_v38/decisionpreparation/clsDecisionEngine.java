@@ -42,8 +42,8 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMentalSituationTools;
+import pa._v38.tools.datastructures.clsGoalTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

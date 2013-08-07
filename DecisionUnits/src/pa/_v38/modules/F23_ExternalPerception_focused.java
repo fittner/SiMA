@@ -31,15 +31,15 @@ import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsActionTools;
 import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsMentalSituationTools;
-import pa._v38.tools.clsMeshTools;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsActionTools;
+import pa._v38.tools.datastructures.clsGoalTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered 

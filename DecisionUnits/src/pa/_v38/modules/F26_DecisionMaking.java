@@ -16,11 +16,11 @@ import org.apache.log4j.Logger;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMentalSituationTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsGoalTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;

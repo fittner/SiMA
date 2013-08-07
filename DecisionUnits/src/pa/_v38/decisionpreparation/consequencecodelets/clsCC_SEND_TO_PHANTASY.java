@@ -10,7 +10,7 @@ import pa._v38.decisionpreparation.clsCodeletHandler;
 import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsActionTools;
+import pa._v38.tools.datastructures.clsActionTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

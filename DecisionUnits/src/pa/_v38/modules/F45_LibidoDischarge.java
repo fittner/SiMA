@@ -11,10 +11,10 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_9_send;

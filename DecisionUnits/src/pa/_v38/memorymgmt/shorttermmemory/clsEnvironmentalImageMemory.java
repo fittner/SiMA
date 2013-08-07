@@ -18,11 +18,11 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
-import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsSecondarySpatialTools;
 import pa._v38.tools.clsTriple;
+import pa._v38.tools.datastructures.clsEntityTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

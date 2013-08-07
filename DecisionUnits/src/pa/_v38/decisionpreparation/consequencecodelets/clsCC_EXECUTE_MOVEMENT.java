@@ -11,8 +11,8 @@ import pa._v38.decisionpreparation.clsConditionGroup;
 import pa._v38.decisionpreparation.clsConsequenceCodelet;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.tools.clsActDataStructureTools;
-import pa._v38.tools.clsActTools;
+import pa._v38.tools.datastructures.clsActDataStructureTools;
+import pa._v38.tools.datastructures.clsActTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

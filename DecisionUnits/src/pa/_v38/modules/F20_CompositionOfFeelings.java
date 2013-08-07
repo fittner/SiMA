@@ -61,10 +61,10 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 //import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 //import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.

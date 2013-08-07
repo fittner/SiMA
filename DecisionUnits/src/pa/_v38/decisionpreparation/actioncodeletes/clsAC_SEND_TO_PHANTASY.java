@@ -13,11 +13,11 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.tools.clsActDataStructureTools;
-import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPhantasyTools;
+import pa._v38.tools.datastructures.clsActDataStructureTools;
+import pa._v38.tools.datastructures.clsActTools;
+import pa._v38.tools.datastructures.clsActionTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

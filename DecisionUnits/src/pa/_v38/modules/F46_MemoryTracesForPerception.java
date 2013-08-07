@@ -14,13 +14,13 @@ import java.util.SortedMap;
 import org.apache.log4j.Logger;
 
 import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsEntityTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPhantasyTools;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsEntityTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;

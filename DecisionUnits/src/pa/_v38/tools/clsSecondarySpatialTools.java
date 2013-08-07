@@ -16,6 +16,8 @@ import pa._v38.memorymgmt.enums.ePositionRelation;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.datastructures.clsEntityTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * This function creates relational relationships between all object pairs (m with n) in the image. Only

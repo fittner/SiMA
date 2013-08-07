@@ -15,6 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContent;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

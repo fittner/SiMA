@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eGoalType;
-import pa._v38.tools.clsActTools;
-import pa._v38.tools.clsMeshTools;
+import pa._v38.tools.datastructures.clsActTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

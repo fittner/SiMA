@@ -8,7 +8,7 @@ package pa._v38.decisionpreparation;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import pa._v38.tools.clsMentalSituationTools;
+import pa._v38.tools.datastructures.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

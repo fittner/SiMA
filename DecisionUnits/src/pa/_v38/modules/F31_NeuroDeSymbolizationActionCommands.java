@@ -37,9 +37,9 @@ import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
-import pa._v38.tools.clsActionTools;
-import pa._v38.tools.clsMeshTools;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsActionTools;
+import pa._v38.tools.datastructures.clsMeshTools;
 
 /**
  * Conversion of neuro-symbols into raw data. F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32.

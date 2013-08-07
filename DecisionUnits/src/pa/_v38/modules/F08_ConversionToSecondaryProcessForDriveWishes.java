@@ -14,8 +14,8 @@ import org.apache.log4j.Logger;
 
 import config.clsProperties;
 import du.enums.eShapeType;
-import pa._v38.tools.clsGoalTools;
 import pa._v38.tools.toText;
+import pa._v38.tools.datastructures.clsGoalTools;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_3_send;

@@ -15,7 +15,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsGoalTools;
+import pa._v38.tools.datastructures.clsGoalTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

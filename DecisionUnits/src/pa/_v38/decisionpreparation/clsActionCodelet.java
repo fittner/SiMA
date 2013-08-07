@@ -9,7 +9,7 @@ package pa._v38.decisionpreparation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.planning.clsTEMPPlannerAW;
-import pa._v38.tools.clsActionTools;
+import pa._v38.tools.datastructures.clsActionTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
