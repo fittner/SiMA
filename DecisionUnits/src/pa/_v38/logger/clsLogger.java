@@ -42,14 +42,19 @@ public class clsLogger {
 		Logger.getLogger(pa._v38.modules.F08_ConversionToSecondaryProcessForDriveWishes.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F21_ConversionToSecondaryProcessForPerception.class).setLevel(Level.OFF);
 		Logger.getLogger(pa._v38.modules.F23_ExternalPerception_focused.class).setLevel(Level.OFF);
-		Logger.getLogger(pa._v38.modules.F51_RealityCheckWishFulfillment.class).setLevel(Level.TRACE);
-		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.TRACE);
-		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.TRACE);
+		Logger.getLogger(pa._v38.modules.F51_RealityCheckWishFulfillment.class).setLevel(Level.OFF);
+		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.INFO);
+		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.INFO);
 		Logger.getLogger(pa._v38.modules.F29_EvaluationOfImaginaryActions.class).setLevel(Level.OFF);
-		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.TRACE);
-		Logger.getLogger("pa._v38.tools.clsGoalTools").setLevel(Level.TRACE);
+		
+		//package loggers
+		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.OFF);
+		Logger.getLogger("pa._v38.tools.clsGoalTools").setLevel(Level.OFF);
 		Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation").setLevel(Level.OFF);
 		Logger.getLogger("pa._v38.memorymgmt").setLevel(Level.OFF);
+		
+		//customized loggers
+		Logger.getLogger("act_handling").setLevel(Level.TRACE);
 	}
 	
 }

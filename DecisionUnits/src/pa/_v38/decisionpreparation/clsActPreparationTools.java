@@ -35,7 +35,8 @@ public class clsActPreparationTools {
 	private static final int mnMovementTimeoutStartValue = 15;
 	private static final int mnMovementTimeoutEstalishValue = 5;
 	
-	private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+	private static Logger log = Logger.getLogger("act_handling");
 
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention
@@ -51,7 +52,7 @@ public class clsActPreparationTools {
 	public static ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsShortTermMemory poSTM) {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
-		log.debug("Perform basic act analysis on " + poAct.toString());
+		log.debug("Perform basic act analysis on: " + poAct.toString());
 		
 		//Get previous act
 		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
@@ -77,7 +78,6 @@ public class clsActPreparationTools {
 		
 		//Current Intention
 		clsWordPresentationMesh oCurrentIntention = clsActDataStructureTools.getIntention(poAct);
-		
 		analyzeIntentionInAct(oPreviousGoal.getSupportiveDataStructure(), oCurrentMoment, oCurrentIntention);
 		
 //		//Set all Progress settings to the act
@@ -141,8 +141,9 @@ public class clsActPreparationTools {
 		
 		//Get the previous moment image
 		clsWordPresentationMesh oPreviousMoment = clsActDataStructureTools.getMoment(poPreviousAct);
+		//Get previous expectation
 		clsWordPresentationMesh oPreviousExpectation = clsActDataStructureTools.getExpectation(poPreviousAct);
-		
+				
 		enhanceListWithPreviousMoment(oCurrentMomentCandidateList, poCurrentAct, oPreviousMoment);
 		
 		clsWordPresentationMesh oCurrentMoment = calculateMoment(oCurrentMomentCandidateList, oPreviousMoment, oPreviousExpectation);
@@ -201,10 +202,14 @@ public class clsActPreparationTools {
 	private static clsWordPresentationMesh calculateMoment(ArrayList<clsWordPresentationMesh> oPossibleMomentList, clsWordPresentationMesh oPreviousMoment, clsWordPresentationMesh oPreviousExpectation) {
 		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
 		
+		log.debug("Calculate moment");
+		
 		//Check if there is only one image with the highest match
 		if (oPreviousMoment.isNullObject()==true) {
+		    log.trace("Previous moment does not exist");
 			//Check if there are more than one possible moment
 			if (oPossibleMomentList.size()>=1) {
+			    //log.trace("At least More than one moment is proposed");
 				int nBestImagePosition = clsActTools.getEventPositionInAct(oPossibleMomentList.get(0));
 				oResult = oPossibleMomentList.get(0);
 				
@@ -212,6 +217,8 @@ public class clsActPreparationTools {
 					double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
 					clsActTools.setMomentConfidenceLevel(oMoment, rMomentConfidence);
 					int nImagePosition = clsActTools.getEventPositionInAct(oMoment);
+					
+					log.trace("=== Momentcandidate: " + oMoment.getMoContent() + ", confidence: " + rMomentConfidence + "Image position: " + nImagePosition + "===");
 					
 					if (nBestImagePosition>nImagePosition) {
 						oResult = oMoment;
@@ -223,22 +230,28 @@ public class clsActPreparationTools {
 			}
 			
 			
-		} else {
-			//Previous moment exists
+		} else {  //Previous moment exists
+		    log.trace("Previous moment exists");
 			
 			//Check if there are more than one possible moment
 			if (oPossibleMomentList.size()>=1) {
+			    //log.trace("More than one moment is proposed");
 				double rBestConfidence = 0.0;
-				for (clsWordPresentationMesh oMoment : oPossibleMomentList) {
-					double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
+				log.trace("Analyze cases: ");
+				for (clsWordPresentationMesh oMoment : oPossibleMomentList) {	    
+				    //Get the confidence of this moment
+				    double rMomentConfidence = clsActTools.getPIMatch(oMoment) * 1/oPossibleMomentList.size();
+				    log.trace("=== Momentcandidate: " + oMoment.getMoContent() + ", confidence: " + rMomentConfidence + "===");
 					
 					//Add from confirmation of the acts or moments
 					double rAdditionalMomentConfidence = clsActPreparationTools.getAdditionalMomentConfidenceByPreviousAct(oMoment, oPreviousMoment, oPreviousExpectation);
 					
 					double rNewMomentConfidence = rMomentConfidence + rAdditionalMomentConfidence;
+					log.trace("New moment confidence: " + rNewMomentConfidence + "(addconfidence=" + rAdditionalMomentConfidence + ")");
 					if (rNewMomentConfidence>1.0) {
 						rNewMomentConfidence=1.0;
 					}
+					//log.trace("======");
 					//Set the new confidence
 					clsActTools.setMomentConfidenceLevel(oMoment, rNewMomentConfidence);
 					
@@ -343,7 +356,7 @@ public class clsActPreparationTools {
 		if (clsActTools.getPIMatch(oNextEvent)==1.0) {
 			bNextEventPIMatchEquals10 = true;
 		}
-		
+				
 		//7. The timeout of the previous moment is within the  
 		boolean bPreviousMomentTimeoutWithinEstablishZone = false;
 		int nPreviousMomentTimeoutValue = clsActTools.getMovementTimeoutValue(poPreviousMoment);
@@ -358,36 +371,52 @@ public class clsActPreparationTools {
 		if (bPossibleMomentIsPreviousPastMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==false) {
 			//Almost sure that the previous moment was an error
 			rReinforceFactor += 0.8;
+			log.debug("Case: Almost sure that the previous moment was an error");
 		} else if (bPossibleMomentIsPreviousPastMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==true) {
-			//Conflict: Both images have the highest PI-Match, prefer the previous moment
+			//Conflict: Both images have the highest PI-Match, prefer the expectation
 			rReinforceFactor += 0.2;
+			log.debug("Conflict: Both the possible moment and the next possible expectation have the highest PI-Match, prefer the possible expectation as new moment");
+	    } else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==true) {
+	        //The next image is the expectation and it has full match as well as this moment, but as the previous moment is with the establish zone, the previous moment is preferred
+	        rReinforceFactor += 0.5;
+	        log.debug("The next image is the expectation and it has full match as well as this moment, but as the previous moment is with the establish zone, the previous moment is preferred");
+	    } else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false && bNextEventPIMatchEquals10==true) {
+            //The next image is the expectation and it has full match as well as this moment, but as the previous moment is not with the establish zone, the possible expectation should be preferred
+            rReinforceFactor += -0.5;
+            log.debug("The next image is the expectation and it has full match as well as this moment, but as the previous moment is not with the establish zone, the possible expectation should be preferred");
 		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==false) {
 			//The expectation match is lower than the previous moment match
 			rReinforceFactor += 0.6;
-		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==true) {
-			//The next image is the expectation and it has full match as well as this moment, but as the previous moment is with the establish zone, the previous moment is preferred
-			rReinforceFactor += 0.5;
+			log.debug("The expectation match is lower than the previous moment match");
 		} else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==false && bPreviousMomentTimeoutWithinEstablishZone==true && bPreviousEventPIMatchEquals10==true) {
 			//The possible moment is here the expectation, but its PImatch is low and it is within the establish zone, i. e. it may be erroneously put as an expectation. Prefer the past moment as the new moment
 			rReinforceFactor += 0.3;
+			log.debug("The possible moment is here the expectation, but its PImatch is low and it is within the establish zone, i. e. it may be erroneously put as an expectation. Prefer the past moment as the new moment");
 		} else if (bPossibleMomentIsPreviousExpectation==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false) {
 			//This is a perfect match of the expectation outside of the establish zone of the previous moment. Change the moment to the expectation
 			rReinforceFactor += 1.0;
+			log.debug("This is a perfect match of the expectation outside of the establish zone of the previous moment. Change the moment to the expectation");
 		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false && bPreviousEventPIMatchEquals10==false) {
 			//This is a confirmation of the previous moment as there is no certain match of the expectation
 			rReinforceFactor += 1.0;
+			log.debug("This is a confirmation of the previous moment as there is no certain match of the expectation");
 		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==false && bPreviousMomentTimeoutWithinEstablishZone==true && bNextEventPIMatchEquals10==false) {
 			//This is a confirmation of the previous moment as there is no certain match of the expectation
 			rReinforceFactor += 0.8;
+			log.debug("This is a confirmation of the previous moment as there is no certain match of the expectation");
 		} else if (bPossibleMomentIsPreviousMoment==true && bPossibleMomentPIMatchEqual10==true && bPreviousMomentTimeoutWithinEstablishZone==false && bNextEventPIMatchEquals10==false) {
-				//This is a confirmation of the previous moment as there is no certain match of the expectation
-				rReinforceFactor += 0.3;
+			//This is a confirmation of the previous moment as there is no certain match of the expectation
+			rReinforceFactor += 0.3;
+			log.debug("This is a confirmation of the previous moment as there is no certain match of the expectation");
 		} else if (bPreviousMomentIsNullObject==false) {
 			//Reduce all other image in the act, which is not covered by the cases above
 			rReinforceFactor += -0.5;
+			log.debug("Reduce all other image in the act, which is not covered by the cases above");
 		}
 		
 		rResult = mrDefaultConfidenceIncreasement*rReinforceFactor;
+		
+		log.debug("Added reinforcementfactor=" + rResult + " (Reinforcementfactor from cases= " + rReinforceFactor + ", default reinforcementfactorincreasement= " + mrDefaultConfidenceIncreasement);
 		
 		
 		
