@@ -12,6 +12,7 @@ import java.util.Random;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.situationloader.itfSituationSearchAlgorithm.ALGORITHMS;
+import pa._v38.memorymgmt.situationloader.algorithm.clsConstraintDrivenSearch;
 import pa._v38.memorymgmt.situationloader.algorithm.clsGreedySearch;
 import config.clsProperties;
 
@@ -22,9 +23,6 @@ import config.clsProperties;
  * 
  */
 public class clsSituationLoader implements itfSituationLoader {
-
-    /** The properties used to specify the search and other parameters: NOTE: add list of used properties here! */
-    private clsProperties moProperties;
 
     /** The handler to be used for accessing the knowledge base. */
     // private itfKnowledgeBaseHandler moKnowledgeBase;
@@ -62,6 +60,9 @@ public class clsSituationLoader implements itfSituationLoader {
             switch (selection) {
             case GREEDY:
                 oAlgorithm = new clsGreedySearch();
+                break;
+            case CONSTRAIT_DRIVEN:
+                oAlgorithm = new clsConstraintDrivenSearch();
                 break;
             default:
                 oAlgorithm = getDefaultAlgorithm();

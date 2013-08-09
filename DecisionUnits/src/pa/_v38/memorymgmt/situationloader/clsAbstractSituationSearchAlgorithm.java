@@ -34,5 +34,5 @@ public abstract class clsAbstractSituationSearchAlgorithm implements itfSituatio
         moConcept = poConcept;
         moProperties = poProperties;
     }
-
+    
 }

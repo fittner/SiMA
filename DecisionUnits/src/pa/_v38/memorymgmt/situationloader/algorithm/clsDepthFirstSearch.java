@@ -12,8 +12,9 @@ import pa._v38.memorymgmt.situationloader.clsAbstractContextEntitySearchAlgorith
 public class clsDepthFirstSearch extends clsAbstractContextEntitySearchAlgorithm {
 
     @Override
-    public final clsConcept process() {
-        // TODO (havlicek) implement process method
-        return new clsConcept();
+    public final clsConcept process() {        
+        return moConcept;
     }
+    
+    
 }

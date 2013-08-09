@@ -20,8 +20,16 @@ import config.clsProperties;
  */
 public interface itfSituationSearchAlgorithm {
 
+    /**
+     * DOCUMENT (havlicek) - a list of the known algorithms. 
+     * 
+     * @author havlicek
+     * 03.06.2013, 12:45:58
+     *
+     */
     enum ALGORITHMS {
-        GREEDY
+        GREEDY,
+        CONSTRAIT_DRIVEN
     }
     
     /**

@@ -123,7 +123,7 @@ public class clsConcept {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((moConceptMesh == null) ? 0 : moConceptMesh.hashCode());
+        result = prime * result + ((moConceptEntities == null) ? 0 : moConceptEntities.hashCode());
         return result;
     }
 
@@ -157,7 +157,7 @@ public class clsConcept {
             if (other.moConceptMesh != null) {
                 return false;
             }
-        } else if (!moConceptMesh.equals(other.moConceptMesh)) {
+        } else if (!moConceptMesh.toString().equals(other.moConceptMesh.toString())) {
             return false;
         }
         return true;
@@ -238,7 +238,6 @@ public class clsConcept {
         public final int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + getOuterType().hashCode();
             result = prime * result + moDS_ID;
             result = prime * result + ((moEntity == null) ? 0 : moEntity.hashCode());
             return result;
@@ -332,7 +331,6 @@ public class clsConcept {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + getOuterType().hashCode();
             result = prime * result + ((moAction == null) ? 0 : moAction.hashCode());
             return result;
         }
@@ -422,7 +420,6 @@ public class clsConcept {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + getOuterType().hashCode();
             result = prime * result + ((moEmotion == null) ? 0 : moEmotion.hashCode());
             return result;
         }
@@ -535,7 +532,6 @@ public class clsConcept {
         public int hashCode() {
             final int prime = 31;
             int result = 1;
-            result = prime * result + getOuterType().hashCode();
             result = prime * result + ((moDistance == null) ? 0 : moDistance.hashCode());
             result = prime * result + ((moPosition == null) ? 0 : moPosition.hashCode());
             return result;
@@ -594,7 +590,83 @@ public class clsConcept {
      * 
      */
     public class clsDrive {
+        private String moDrive;
 
+        /**
+         * @since 03.08.2013 17:40:13
+         * 
+         * @return the moDrive
+         */
+        public String getDrive() {
+            return moDrive;
+        }
+
+        /**
+         * @since 03.08.2013 17:40:13
+         * 
+         * @param moDrive the moDrive to set
+         */
+        public void setDrive(String poDrive) {
+            this.moDrive = poDrive;
+        }
+        
+        private clsConcept getOuterType() {
+            return clsConcept.this;
+        }
+
+        /* (non-Javadoc)
+         *
+         * @since 03.08.2013 17:40:57
+         * 
+         * @see java.lang.Object#hashCode()
+         */
+        @Override
+        public int hashCode() {
+            final int prime = 31;
+            int result = 1;
+            result = prime * result + ((moDrive == null) ? 0 : moDrive.hashCode());
+            return result;
+        }
+
+        /* (non-Javadoc)
+         *
+         * @since 03.08.2013 17:40:57
+         * 
+         * @see java.lang.Object#equals(java.lang.Object)
+         */
+        @Override
+        public boolean equals(Object poObj) {
+            if (this == poObj) {
+                return true;
+            }
+            if (poObj == null) {
+                return false;
+            }
+            if (!(poObj instanceof clsDrive)) {
+                return false;
+            }
+            clsDrive other = (clsDrive) poObj;
+            if (!getOuterType().equals(other.getOuterType())) {
+                return false;
+            }
+            if (moDrive == null) {
+                if (other.moDrive != null) {
+                    return false;
+                }
+            } else if (!moDrive.equals(other.moDrive)) {
+                return false;
+            }
+            return true;
+        }
+        
+        @Override
+        public String toString() {
+            String text = "(";
+            text += moDrive;
+            text += ")";
+            return text;
+        }
+        
     }
 
 
