@@ -45,8 +45,8 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
-    /** @author havlicek; Memory of the generated concepts. */
-    //private clsShortTermMemory moConceptMemory;
+    private ArrayList<clsWordPresentationMeshGoal> moDriveList_IN;
+    private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_IN;
     /** @author havlicek; Currently generated concept. */
     private clsConcept moConcept;
     /** @author havlicek; Currently identified situation. */
@@ -127,7 +127,23 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         itfConceptLoader oConceptLoader = new clsConceptLoader();
         itfSituationLoader oSituationLoader = new clsSituationLoader();
 
-        moConcept = oConceptLoader.generate(moProperties, moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+        moConcept = new clsConcept();
+        if (null != moAssociatedMemories_IN) {
+            moConcept = oConceptLoader.generate(moProperties,
+                    moAssociatedMemories_IN.toArray(new clsWordPresentationMesh[moAssociatedMemories_IN.size()]));
+        }
+        if (null != moPerceptionalMesh_IN) {
+            moConcept = oConceptLoader.extend(moConcept, moProperties, moPerceptionalMesh_IN);
+        }
+        if (null != moSecondaryDataStructureContainer_IN) {
+            moConcept = oConceptLoader.extend(moConcept, moProperties,
+                    moSecondaryDataStructureContainer_IN.toArray(new clsWordPresentationMesh[moSecondaryDataStructureContainer_IN.size()]));
+        }
+        if (null != moDriveList_IN) {
+            moConcept = oConceptLoader.extend(moConcept, moProperties,
+                    moDriveList_IN.toArray(new clsWordPresentationMeshGoal[moDriveList_IN.size()]));
+        }
+
         moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
         
         this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
@@ -211,7 +227,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     @Override
     public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
         // TODO (hinterleitner) - Auto-generated method stub
-        
+        moDriveList_IN = poDriveList;
     }
 
     /* (non-Javadoc)
@@ -221,9 +237,9 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      * @see pa._v38.interfaces.modules.I6_2_receive#receive_I6_2(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_2(ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_Output) {
+    public void receive_I6_2(ArrayList<clsWordPresentationMeshFeeling> poSecondaryDataStructureContainer_Output) {
         // TODO (hinterleitner) - Auto-generated method stub
-        
+        moSecondaryDataStructureContainer_IN = poSecondaryDataStructureContainer_Output;
     }
 
     /* (non-Javadoc)
