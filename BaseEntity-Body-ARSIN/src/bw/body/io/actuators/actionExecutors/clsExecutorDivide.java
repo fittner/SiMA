@@ -6,18 +6,22 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
 
 import bfg.utils.enums.ePercievedActionType;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
-import bw.entities.base.clsEntity;
-import bw.factories.eImages;
-import bw.body.io.actuators.actionProxies.*;
+import bw.body.io.actuators.actionProxies.itfAPDivideable;
 import bw.body.itfget.itfGetBody;
+import bw.entities.base.clsEntity;
+import config.clsProperties;
 import du.enums.eSensorExtType;
-import du.itf.actions.*;
+import du.itf.actions.clsActionAttackLightning;
+import du.itf.actions.clsActionCommand;
+import du.itf.actions.clsActionCultivate;
+import du.itf.actions.clsActionDivide;
+import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionKiss;
 
 /**
  * Action Executor for divide 
@@ -121,7 +125,7 @@ public class clsExecutorDivide extends clsActionExecutor{
 			return false;
 		} 
 		//setting a overlay image, normal eating
-		moEntity.setOverlayImage(eImages.Overlay_Action_Divide);
+//		moEntity.setOverlayImage(eImages.Overlay_Action_Divide);
 		//devide
 		oDivideEntity.devide(oCommand.getSplitFactor());
 		

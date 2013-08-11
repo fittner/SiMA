@@ -12,8 +12,8 @@ import java.util.SortedMap;
 
 import config.clsProperties;
 import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsInternalActionCommand;
-import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.itfInternalActionProcessor;
 
 import pa._v38.interfaces.modules.I6_14_receive;
@@ -81,6 +81,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         
         String text ="";
         text += toText.listToTEXT("moEmotions_Input", moEmotions_Input);
+        text += toText.listToTEXT("moInternalActions", moInternalActions);
         return text;
            
     }
@@ -103,6 +104,7 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
      *
      * @param moEmotions_Input2
      */
+    @SuppressWarnings("unchecked")
     private void FillInternalActions(ArrayList<clsEmotion> poEmotions_Input) {
         //todo fill moInternalActions with the approriate poEmotions_Inputm see PSY document per mail for what, when, where
         
@@ -113,10 +115,13 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         //Blutdruckanstieg (Errötung), Muskelanspannung – passender Gesichtsausdruck
         
         //CM: for testing now:
-        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+      //  clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+       
+        //IH: for testing now:
+        clsActionSpeechInvited testnew = new clsActionSpeechInvited(eInternalActionIntensity.HEAVY);
         
-        moInternalActions.add( test );
-        
+    //    moInternalActions.add( test );
+        moInternalActions.add(testnew );
     }
     
     /**

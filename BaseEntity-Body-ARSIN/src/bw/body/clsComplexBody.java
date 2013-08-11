@@ -20,6 +20,8 @@ import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import du.enums.eBodyActionType;
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
+import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsInternalActionSweat;
 
 import bw.body.attributes.clsAttributes;
@@ -33,6 +35,7 @@ import bw.body.io.clsInternalIO;
 
 import bw.body.io.actuators.clsInternalActionProcessor;
 import bw.body.io.actuators.actionExecutors.clsExecutorInternalSweat;
+import bw.body.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 
 import bw.body.itfget.itfGetInternalEnergyConsumption;
 import bw.entities.base.clsEntity;
@@ -79,7 +82,7 @@ public class clsComplexBody extends clsBaseBody implements
     
     private HashMap<eBodyActionType, Integer> moBodyActionList;
     private eFacialExpression moFacialExpression = eFacialExpression.NONE;;
-    
+    private eSpeechExpression moSpeechExpression = eSpeechExpression.NONE;;
     private clsInternalActionProcessor moInternalActionProcessor; 
     private clsEntity moEntity;
        
@@ -113,6 +116,7 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		moBodyActionList = new HashMap<eBodyActionType, Integer>();
 		moFacialExpression = eFacialExpression.NONE;
+		moSpeechExpression = eSpeechExpression.NONE;
 		
 		applyInternalActionProperties(poPrefix, poProp);
 		
@@ -126,6 +130,9 @@ public class clsComplexBody extends clsBaseBody implements
 		
 		moInternalActionProcessor.addCommand(clsInternalActionSweat.class, 
 			new clsExecutorInternalSweat(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+		
+		moInternalActionProcessor.addCommand(clsActionSpeechInvited.class, 
+				new clsExecutorSpeechInvite(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 
 //		//Register actionexecutors
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
@@ -178,7 +185,8 @@ public class clsComplexBody extends clsBaseBody implements
 		oProp.putAll( clsAttributes.getDefaultProperties(pre+P_ATTRIBUTES) );
 
 		oProp.putAll( clsExecutorInternalSweat.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
-				
+		oProp.putAll( clsExecutorSpeechInvite.getDefaultProperties( pre+P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL) );
+		
 		oProp.setProperty(pre+P_PERSONALITY_PARAMETER, P_DEFAULT_PERSONALITY_PARAMETER_FILE_NAME);
 
 		return oProp;
@@ -365,11 +373,19 @@ public class clsComplexBody extends clsBaseBody implements
 	public eFacialExpression getFacialExpression() {
 		return moFacialExpression;
 	}
+	
 
 	public void setFacialExpression(eFacialExpression moFacialExpression) {
 		this.moFacialExpression = moFacialExpression;
 	}
 	
+	public eSpeechExpression getSpeechExpression() {
+		return moSpeechExpression;
+	}
+
+	public void setSpeechExpression(eSpeechExpression moSpeechExpression) {
+		this.moSpeechExpression = moSpeechExpression;
+	}
 	
 	
 	

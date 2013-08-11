@@ -13,19 +13,13 @@ package creation.simplePropertyLoader;
 import config.clsProperties;
 import creation.clsLoader;
 import creation.eLoader;
-import pa.factory.clsARSDecisionUnitFactory;
-import alternative.factory.clsAlternativeDecisionUnitFactory;
 import du.enums.eDecisionType;
 import du.enums.eEntityType;
 import du.itf.itfDecisionUnit;
-import bw.ARSIN.clsARSIN;
 import bw.entities.base.clsEntity;
+import pa.factory.clsARSDecisionUnitFactory;
+import bw.ARSIN.clsARSIN;
 import statictools.clsUniqueIdGenerator;
-
-import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
-import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
-import pa._v38.memorymgmt.searchspace.clsSearchSpaceManager;
 
 /**
  * Loads the properties and and creates an ARSINI for external use. No dependencies to MASON or other simulation code.
@@ -43,14 +37,11 @@ public class clsExternalARSINLoader extends clsLoader {
 	public static final String P_DEFAULTSENTITY  = "defaultsentity";
 	/** Contains the defaults for the decision unit type, if not provided, the default values are extracted in runtime from the classes. */
 	public static final String P_DEFAULTSDECISIONUNIT  = "defaultsdecisionunit";
-	/** prefix to the properties file for all entries related to the knowledgebase; @since 12.07.2011 10:58:32 */
-	public static final String P_KNOWLEDGEBASE = "knowledgebase";
-	
+
 	/** This is the version number of the simpleproperty loader. */
 	public static final int mnVersion = 3;
 	/** This loader can handle old property files down to version number ... */
 	public static final int mnDownCompatibility = 3; // can read 3 and newer
-
 	
 	/**
 	 * Prepares the MASON simulation environment for the to be loaded entities. 
@@ -132,20 +123,11 @@ public class clsExternalARSINLoader extends clsLoader {
 		oProp.putAll( students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(pre+eDecisionType.LYNX_IFTHENELSE.name()) );
 		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
 		oProp.putAll( testbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
-		
+		oProp.putAll( testbrains.clsSpeechlessTestPA.getDefaultProperties           (pre+eDecisionType.SpeechlessTestPA.name()) );
+		    
 		return oProp;
     }
     
-   
-    private static clsProperties getMemoryDefaults(String poPrefix) {
-		String pre = clsProperties.addDot(poPrefix);
-		
-		clsProperties oProp = new clsProperties();
-		
-		oProp.putAll( clsSearchSpaceManager.getDefaultProperties(pre));
-		
-		return oProp;
-    }
 	
     /**
      * Provides the default entries for this class. See config.clsProperties in project DecisionUnitInterface.
@@ -173,11 +155,7 @@ public class clsExternalARSINLoader extends clsLoader {
 			oProp.putAll( getEntityDefaults(pre+P_DEFAULTSENTITY) );
 		}	
 		if (pnAddDefaultDecisionUnits) {
-			//get DecisioinUnit Defaults
 			oProp.putAll( getDecisionUnitDefaults(pre+P_DEFAULTSDECISIONUNIT) );
-			
-			//get Memory Defaults
-			oProp.putAll (getMemoryDefaults(pre+P_KNOWLEDGEBASE));
 		}
 		
 		return oProp;
@@ -223,17 +201,7 @@ public class clsExternalARSINLoader extends clsLoader {
     	
     	itfDecisionUnit oDU = null;
     	if (pnDecisionType != eDecisionType.NONE) {
-    		
-    		// distinguish between ARS and Alternative DecisionUnit
-    		if(pnDecisionType == eDecisionType.PA || pnDecisionType == eDecisionType.ActionlessTestPA) {
-    			itfSearchSpaceAccess oSearchSpace = new clsSearchSpaceManager(pre + P_KNOWLEDGEBASE, poPropDecisionUnit);
-    			itfModuleMemoryAccess oMemory = new clsLongTermMemoryHandler(oSearchSpace);
-    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, oSearchSpace, oMemory);
-    		}
-    		else {
-    			oDU = clsAlternativeDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid);
-
-    		}
+    			oDU = clsARSDecisionUnitFactory.createDecisionUnit_static(pnDecisionType, pre, poPropDecisionUnit, uid, null, null);
     	}
     	
     	clsEntity oEntity = null;

@@ -27,7 +27,7 @@ public class clsSingletonProperties {
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
-	private boolean mnShowCarriedItem;
+	private boolean mnShowSpeechExpressionOverlay;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -39,7 +39,7 @@ public class clsSingletonProperties {
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
-		mnShowCarriedItem=true;
+		mnShowSpeechExpressionOverlay = false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -112,17 +112,29 @@ public class clsSingletonProperties {
 	static public boolean showFacialExpressionOverlay() {
 		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
 	}
-	static public boolean showCarriedItem() {
-		return (clsSingletonProperties.instance()).mnShowCarriedItem;
+	
+	static public boolean showSpeechExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
 	}
+	
 	static public void setShowFacialExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
-	static public void setShowCarriedItem(boolean value) {
-		(clsSingletonProperties.instance()).mnShowCarriedItem = value;
+	
+	static public void setShowSpeechExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
 	}
 
-
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 11.08.2013 14:53:02
+	 *
+	 * @param value
+	 */
+	public static void setShowCarriedItem(boolean value) {
+		
+	}
 	
 	
 }

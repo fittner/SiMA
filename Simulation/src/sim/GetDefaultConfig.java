@@ -7,37 +7,11 @@ package sim;
 
 import java.util.Iterator;
 
+import statictools.clsGetARSPath;
+import bw.ARSIN.factory.clsARSINFactory;
 import config.clsProperties;
 import creation.simplePropertyLoader.clsSimplePropertyLoader;
 import entities.factory.clsEntityFactory;
-
-import statictools.clsGetARSPath;
-/*
-import creation.simplePropertyLoader.clsSimplePropertyLoader;
-import bw.entities.clsAnimal;
-import bw.entities.clsAnimate;
-import bw.entities.clsBase;
-import bw.entities.clsARSIN;
-import bw.entities.clsFungusEater;
-import bw.entities.clsCake;
-import bw.entities.clsCan;
-import bw.entities.clsCarrot;
-import bw.entities.clsEntity;
-import bw.entities.clsFungus;
-import bw.entities.clsHare;
-import bw.entities.clsInanimate;
-import bw.entities.clsLynx;
-import bw.entities.clsMobile;
-import bw.entities.clsPlant;
-import bw.entities.clsRemoteBot;
-import bw.entities.clsStationary;
-import bw.entities.clsStone;
-import bw.entities.clsUraniumOre;
-import bw.entities.clsWallAxisAlign;
-import bw.entities.clsWallHorizontal;
-import bw.entities.clsWallVertical;
-*/
-import bw.ARSIN.factory.clsARSINFactory;
 
 /**
  * extracts the default properties for all different kind of classes and writes them to files. All entities of project BW and the different decision units from project DecisionUnits are processed.
@@ -111,7 +85,8 @@ public class GetDefaultConfig {
 		clsProperties.writeProperties(students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(""), oDecisionUnitDir, "itthenelse_lynx"+oSubExt, "");
 		clsProperties.writeProperties(pa.clsPsychoAnalysis.getDefaultProperties(""), oDecisionUnitDir, "psychoanalysis"+oSubExt, "");
 		clsProperties.writeProperties(testbrains.clsActionlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_actionlesstest"+oSubExt, "");
-		
+		clsProperties.writeProperties(testbrains.clsSpeechlessTestPA.getDefaultProperties(""), oDecisionUnitDir, "pa_speechlesstest"+oSubExt, "");
+	    
 		clsProperties.writeProperties(clsSimplePropertyLoader.getDefaultProperties("", true, true), oBaseDir, "simplePropertyLoader"+oMainExt, "");
 		
 		clsProperties.writeProperties(SimulatorMain.getDefaultProperties(""),  oBaseDir, oSystemFile, "");

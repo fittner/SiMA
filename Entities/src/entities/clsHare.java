@@ -340,6 +340,29 @@ public class clsHare extends clsAnimal implements itfGetFlesh, itfAPEatable, itf
 		return getFlesh().getTotallyConsumed();
 	}
 	
+	/* (non-Javadoc)
+	 *
+	 * @since 21.07.2013 13:16:51
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPSpeakable#trySpeak(double)
+	 */
+//	@Override
+//	public double trySpeak(double pfForce) {
+		// TODO (hinterleitner) - Auto-generated method stub
+//		return 0;
+//	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 21.07.2013 13:16:51
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPSpeakable#Speak(double)
+	 */
+//	@Override
+//	public void Speak(double pfForce) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+//	}
 /*	@Override
 	public void addEntityInspector(TabbedInspector poTarget, Inspector poSuperInspector, LocationWrapper poWrapper, GUIState poState, clsEntity poEntity){
 		poTarget.addInspector(new clsInspectorSensor(poSuperInspector, poWrapper,poState,poEntity), "Hare");

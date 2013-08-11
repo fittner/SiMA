@@ -1,5 +1,7 @@
 package du.itf.actions;
 
+import du.enums.eActionSpeechDirection;
+
 /**
  * Attack/Bite command
  * Parameters
@@ -13,19 +15,29 @@ public class clsActionInnerSpeech extends clsActionCommand {
 
 	private double Context;
 
-	public clsActionInnerSpeech(double prForce) {
-		Context=prForce;
+	public clsActionInnerSpeech(eActionSpeechDirection innerSpeech) {
+		Context=getDirection();
 	}
 	
+	/**
+	 * DOCUMENT (hinterleitner) - insert description 
+	 *
+	 * @since 21.07.2013 12:52:34
+	 *
+	 * @param innerSpeech
+	 */
+	
+
+
 	@Override
 	public String getLog() {
 		return "<Speak>" + Context + "</Speak>"; 
 	}
 
-	public double getForce() {
+	public double getDirection() {
 		return Context;
 	}
-	public void setForce(double prForce) {
-		Context=prForce;
+	public void setDirection(double prDirection) {
+		Context=prDirection;
 	}
 }

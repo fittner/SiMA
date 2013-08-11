@@ -8,6 +8,7 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 
 
 import sim.display.GUIState;
@@ -509,6 +510,18 @@ public class clsMobileObject2D extends
 		if(oShape instanceof clsCircleImage){
 			((clsCircleImage) oShape).setCarriedItem(poOverlay);
 		}
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 11.08.2013 12:46:19
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setSpeechExpressionOverlayImage(du.enums.eSpeechExpression)
+	 */
+	@Override
+	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
+		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
 }

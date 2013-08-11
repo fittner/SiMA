@@ -10,6 +10,7 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 import bw.factories.clsSingletonImageFactory;
 import bw.factories.clsSingletonProperties;
 import bw.factories.eImages;
@@ -27,14 +28,13 @@ public class clsCircleImage extends Circle
 	    
 	double mrRadius; 
 	BufferedImage moImage = null;
-	eImages moImageName =eImages.NONE;
 	//BufferedImage moImageOverlay = null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
 	eStrings moOverlayString = eStrings.Nourish;
 	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
-	BufferedImage moCarriedItem = null;
+	eSpeechExpression moSpeechExpressionOverlayImage = eSpeechExpression.NONE;
 	Paint moPaint = null;
 
 
@@ -58,7 +58,6 @@ public class clsCircleImage extends Circle
 	   	try
 	   	{
 	   		moImage = ImageIO.read( oFile );
-	   		moImageName = eImages.Cake;
 	   	} catch (IOException e)
 	   	{
 	   		e.printStackTrace();
@@ -67,9 +66,7 @@ public class clsCircleImage extends Circle
 	   	
     }
 
-   public BufferedImage getImage(){
-	   return moImage;
-   }
+   
     
     /* (non-Javadoc)
 	 *
@@ -153,31 +150,27 @@ public class clsCircleImage extends Circle
 			        	}
 			        }
 			        
-				      //display carried Iteam
-			        if(clsSingletonProperties.showCarriedItem()) {
-			        	if(moCarriedItem != null){
-
-			        		moCarriedItem.getGraphics();
-							graphics.drawImage(moCarriedItem, nxArc-30, nyArc+55,30, 30, null ); 
+			        
+			      //display a Speech expressionoverlay Icon
+			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
+			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
+			        		
+				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());
+				        	
+				    	   	BufferedImage oImageOverlay = null;
+				    
+				    	   	try {
+				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oSpeechExpressionImage);
+				    	   	} catch (IOException e) {
+				    	   		e.printStackTrace();
+				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+				    	   	}
+				        	
+							oImageOverlay.getGraphics();
+							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 
 			        	}
 			        }
 			      		        
-			        
-			      //display a overlay String - new method
-			        if(moOverlayString != eStrings.Nourish) {
-			        	
-			    	   	BufferedImage oStringOverlay = null;
-			    
-			    	   	try {
-			    	   		oStringOverlay = clsSingletonImageFactory.getString(moOverlayString);
-			    	   	} catch (IOException e) {
-			    	   		e.printStackTrace();
-			    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
-			    	   	}
-			        	
-			    	   	oStringOverlay.getGraphics();
-						graphics.drawImage(oStringOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
-			        }
 	
 	
 	        	}
@@ -206,14 +199,10 @@ public class clsCircleImage extends Circle
 		this.moOverlayImage = moOverlay;
 	}
 	
-	public void setCarriedItem(BufferedImage moOverlay) {
-		this.moCarriedItem = moOverlay;
-	}
 	
 	public eFacialExpression getFacialExpressionOverlayImage() {
 		return moFacialExpressionOverlayImage;
 	}
-
 
 
 	/**
@@ -224,6 +213,27 @@ public class clsCircleImage extends Circle
 	 */
 	public void setFacialExpressionOverlayImage(eFacialExpression moOverlay) {
 		this.moFacialExpressionOverlayImage = moOverlay;
+	}
+
+	/**
+	 * @author muchitsch
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
+	public void setSpeechExpressionOverlayImage(eSpeechExpression moOverlay) {
+		this.moSpeechExpressionOverlayImage = moOverlay;
+	}
+
+	
+	public BufferedImage getImage(){
+		   return moImage;
+	   }
+
+
+	public BufferedImage setCarriedItem(BufferedImage poOverlay) {
+		   return moImage;
+			  
 	}
    
     }

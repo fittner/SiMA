@@ -5,6 +5,7 @@
  * 25.02.2013, 14:02:37
  */
 package du.itf.actions;
+import du.enums.eInternalActionIntensity;
 import du.itf.tools.clsAbstractSpeech;
 
 
@@ -17,10 +18,11 @@ import du.itf.tools.clsAbstractSpeech;
  */
 public class clsActionSpeech extends clsActionCommand {
 
-	private clsAbstractSpeech moAbstractSpeech;
+	@SuppressWarnings("unused")
+	private eInternalActionIntensity moAbstractSpeech;
 
-	public clsActionSpeech(clsAbstractSpeech oAbstractSpeech) {
-		moAbstractSpeech=oAbstractSpeech;
+	public clsActionSpeech(eInternalActionIntensity heavy) {
+		moAbstractSpeech=heavy;
 	}
 	
 	@Override
@@ -30,14 +32,14 @@ public class clsActionSpeech extends clsActionCommand {
 	}
 
 	public clsAbstractSpeech getData() {
-		return moAbstractSpeech;
+		return null;
 	}
 	
-	public void setData(clsAbstractSpeech oAbstractSpeech) {
+	public void setData(eInternalActionIntensity oAbstractSpeech) {
 		moAbstractSpeech=oAbstractSpeech;
 	}
 	
-	public void addData(clsAbstractSpeech oAbstractSpeech) {
+	public void addData(eInternalActionIntensity oAbstractSpeech) {
 		moAbstractSpeech=oAbstractSpeech;
 	}
 }

@@ -6,6 +6,7 @@ package ARSsim.physics2D.physicalObject;
 import java.awt.image.BufferedImage;
 
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 import sim.engine.SimState;
 import sim.engine.Steppable;
 import sim.physics2D.shape.Shape;
@@ -231,6 +232,18 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 	@Override
 	public void setCarriedItem(BufferedImage poOverlay) {
 		// TODO (herret) - Auto-generated method stub
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 11.08.2013 12:48:06
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setSpeechExpressionOverlayImage(du.enums.eSpeechExpression)
+	 */
+	@Override
+	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
+		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
 }

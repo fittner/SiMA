@@ -110,5 +110,6 @@ public enum eBodyParts {
 	HAND_RIGHT,
 
 	//brain
-	BRAIN,
+	BRAIN, 
+	ACTIONEX_SPEECHEXPRESSIONS,
 }

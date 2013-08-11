@@ -29,6 +29,7 @@ import bw.utils.enums.eBodyType;
 import config.clsProperties;
 import du.enums.eEntityType;
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 import sim.physics2D.shape.Shape;
 import statictools.cls3DUniverse;
@@ -93,7 +94,7 @@ public abstract class clsEntity implements itfGetBody {
 	private eImages mnCurrentOverlay; //overlay to display currently executed actions and other attributes
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
-	
+	private eSpeechExpression mnCurrentSpeechExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
 	private ArrayList<clsAction> moExecutedActions;
 		
@@ -111,6 +112,7 @@ public abstract class clsEntity implements itfGetBody {
 		mnCurrentOverlay = eImages.NONE;
 		mnCarriedItem = null;
 		mnCurrentFacialExpressionOverlay = eFacialExpression.NONE;
+		mnCurrentSpeechExpressionOverlay = eSpeechExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		shapes3D = null;
@@ -414,6 +416,9 @@ public abstract class clsEntity implements itfGetBody {
 	private void updateOverlayImage() {
 		((itfSetupFunctions)moPhysicalObject2D).setFacialExpressionOverlayImage(mnCurrentFacialExpressionOverlay);
 		
+		//IH
+		((itfSetupFunctions)moPhysicalObject2D).setSpeechExpressionOverlayImage(mnCurrentSpeechExpressionOverlay);
+				
 		((itfSetupFunctions)moPhysicalObject2D).setCarriedItem(mnCarriedItem);
 		
 		if (clsSimState.getSteps() > mnLastSetOverlayCall+10) /*10 is the time how long the overlay will be displayed*/ {
@@ -422,6 +427,11 @@ public abstract class clsEntity implements itfGetBody {
 		((itfSetupFunctions)moPhysicalObject2D).setOverlayImage(mnCurrentOverlay);
 		
 	}
+	
+	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
+		mnCurrentSpeechExpressionOverlay = poOverlay;
+	}
+	
 	
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
 		mnCurrentFacialExpressionOverlay = poOverlay;

@@ -8,6 +8,7 @@ package bw.body.internalSystems;
 
 import config.clsProperties;
 import bw.body.itfStepUpdateInternalState;
+import bw.body.io.actuators.actionProxies.itfAPSpeakable;
 
 /**
  * DOCUMENT (MW) - insert description 
@@ -16,7 +17,7 @@ import bw.body.itfStepUpdateInternalState;
  * 25.02.2013, 13:30:54
  * 
  */
-public class clsSpeechSystem implements itfStepUpdateInternalState {
+public class clsSpeechSystem implements itfStepUpdateInternalState, itfAPSpeakable {
     
 	
 	public clsSpeechSystem(String poPrefix, clsProperties poProp) {
@@ -41,6 +42,30 @@ public class clsSpeechSystem implements itfStepUpdateInternalState {
 	@Override
 	public void stepUpdateInternalState() {
 		// TODO MW 
+		
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 21.07.2013 12:21:41
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPSpeakable#trySpeak(double)
+	 */
+	@Override
+	public double trySpeak(double pfForce) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return 0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 21.07.2013 12:21:41
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPSpeakable#Speak(double)
+	 */
+	@Override
+	public void Speak(double pfForce) {
+		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}		
 	

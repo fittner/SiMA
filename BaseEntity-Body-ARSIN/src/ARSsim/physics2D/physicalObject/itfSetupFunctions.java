@@ -10,6 +10,7 @@ package ARSsim.physics2D.physicalObject;
 import java.awt.image.BufferedImage;
 
 import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 import bw.factories.eImages;
 import ARSsim.physics2D.util.clsPose;
 import sim.physics2D.shape.Shape;
@@ -34,10 +35,13 @@ public interface itfSetupFunctions {
 	public void setCoefficients(double poFriction, double poStaticFriction, double poRestitution);
 	public void setOverlayImage(eImages poOverlay);
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay);
-	public void setCarriedItem(BufferedImage poOverlay);
+	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay);
+	public void setCarriedItem(BufferedImage mnCarriedItem);
 	
 	public clsPose getPose();
     public Shape getShape();
     public void setMass(double mass);
     public double getMass();
+	
+	
 }

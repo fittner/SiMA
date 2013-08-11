@@ -25,6 +25,7 @@ public enum eDecisionType {
 	PA,
 	
 	ActionlessTestPA,
+	SpeechlessTestPA,
 	
 	STUDENT_BORER,
 	

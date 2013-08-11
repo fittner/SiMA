@@ -13,6 +13,7 @@ public enum eStrings {
 	
 	Nourish("Nourish"),
 	Share("Share"), 
+	Welcome("Welcome"), 
     Cake("Cake"),
 	ARSINBodo("Bodo"),
 	ARSINAdam("Adam"),

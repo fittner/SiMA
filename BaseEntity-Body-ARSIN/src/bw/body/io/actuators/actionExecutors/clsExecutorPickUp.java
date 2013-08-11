@@ -18,7 +18,6 @@ import bw.body.io.actuators.actionProxies.*;
 import du.enums.eSensorExtType;
 import du.itf.actions.*;
 import bw.entities.base.clsMobile;
-import bw.factories.eImages;
 import bw.body.itfget.itfGetBody;
 
 /**
@@ -146,7 +145,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		}
 		
                
-        moEntity.setOverlayImage(eImages.Overlay_Action_PickUp);
+        //moEntity.setOverlayImage(eImages.Overlay_Action_PickUp);
         
 		//Attach action to entity
         clsAction oAction = new clsAction(1,ePercievedActionType.PICKUP);

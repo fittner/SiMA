@@ -61,7 +61,8 @@ public enum eEntityType {
 
 	// ** MW
 	//PHYSICAL
-	SPEECH;
+	SPEECH,
+	INNERSPEECH;
 	// MW **
 }
 

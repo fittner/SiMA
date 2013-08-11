@@ -32,19 +32,16 @@ public enum eImages {
 	Overlay_Action_TurnRight("Action_TurnRight.png"),
 	Overlay_Action_InnerSpeech_Nourish("Thought_Action_Nourish.png"),
 	Overlay_Action_InnerSpeech_Schnitzel("Thought_Action_Schnitzel.png"),
-	Overlay_Action_OuterSpeech_Share("Speech_Actrion_Share.png"),
-	Overlay_Action_OuterSpeech_Eat("Speech_Action_Eat.png"),
-	Overlay_Action_OuterSpeech_Invited("Speech_Action_Invited"),	
+	Overlay_Speech_SHARE("Expression_Share.png"),
+	Overlay_Speech_EAT("Expression_Eat.png"),
+	Overlay_Speech_INVITED("Expression_Invited.png"),	
 	Overlay_FacialExpression_ANGER("Expression_Anger.png"),
 	Overlay_FacialExpression_DISGUST("Expression_Disgust.png"),
 	Overlay_FacialExpression_FEAR("Expression_Fear.png"),
 	Overlay_FacialExpression_JOY("Expression_Joy.png"),
 	Overlay_FacialExpression_NEUTRAL("Expression_Neutral.png"),
 	Overlay_FacialExpression_SADNESS("Expression_Sadness.png"),
-	Overlay_FacialExpression_SURPRISE("Expression_Surprise.png"),
-	Overlay_Action_Beat("Action_Beat.png"),
-	Overlay_Action_Divide("Action_Divide.png"),
-	Overlay_Action_PickUp("Action_PickUp.png");
+	Overlay_FacialExpression_SURPRISE("Expression_Surprise.png");
 	
 	private String moFilename;
 	

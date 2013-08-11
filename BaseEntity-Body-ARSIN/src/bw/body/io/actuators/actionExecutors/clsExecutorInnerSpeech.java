@@ -82,7 +82,7 @@ public class clsExecutorInnerSpeech extends clsActionExecutor{
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionMove oCommand =(clsActionMove) poCommand; 
 		if (oCommand.getStaminaDemand()==1){
-    		moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
+    		moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeech_Schnitzel);
     	}
 		if (oCommand.getStaminaDemand()==1){
             moEntity.setOverlayImage(eImages.Overlay_Action_InnerSpeech_Nourish);
