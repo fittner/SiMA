@@ -54,6 +54,8 @@ import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
 import pa._v38.symbolization.representationsymbol.itfIsContainer;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.systemtest.clsTester;
+import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.itfInternalActionProcessor;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
@@ -96,6 +98,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	ArrayList<clsInspectorPerceptionItem> moPerceptionSymbolsForInspectors;
 	ArrayList<String> Test = new ArrayList<String>();
 	ArrayList<String> Test1 = new ArrayList<String>();
+	//list of internal actions, fill it with what you want to be shown
+	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
 
@@ -1337,6 +1341,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			}
 		}
 	}
+	
+	public void getBodilyReactions(    itfInternalActionProcessor poInternalActionContainer) {
+	       
+	       for( clsInternalActionCommand oCmd : moInternalActions ) {
+	           poInternalActionContainer.call(oCmd);
+	    }
+	  }
 	
 	////// DRAFT FUNCTIONS END
 	

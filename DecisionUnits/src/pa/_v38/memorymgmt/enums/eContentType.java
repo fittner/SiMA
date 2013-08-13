@@ -132,6 +132,7 @@ public enum eContentType {
 	Color,
 	ShapeType,
 	INTENSITY,
+	Brightness,
 	Alive,
 	PerceivedAction,
 	PERCEIVEDACTION,

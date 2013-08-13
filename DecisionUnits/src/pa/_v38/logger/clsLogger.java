@@ -46,6 +46,7 @@ public class clsLogger {
 		Logger.getLogger(pa._v38.modules.F26_DecisionMaking.class).setLevel(Level.INFO);
 		Logger.getLogger(pa._v38.modules.F52_GenerationOfImaginaryActions.class).setLevel(Level.INFO);
 		Logger.getLogger(pa._v38.modules.F29_EvaluationOfImaginaryActions.class).setLevel(Level.OFF);
+		Logger.getLogger(pa._v38.modules.F14_ExternalPerception.class).setLevel(Level.OFF);
 		
 		//package loggers
 		Logger.getLogger("pa._v38.decisionpreparation").setLevel(Level.OFF);

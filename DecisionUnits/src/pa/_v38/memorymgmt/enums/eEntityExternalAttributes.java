@@ -14,5 +14,5 @@ package pa._v38.memorymgmt.enums;
  * 
  */
 public enum eEntityExternalAttributes {
-	POSITION, DISTANCE, NumEntitiesPresent, AntennaPositionLeft, AntennaPositionRight, ExactDebugY, ExactDebugX, exactDebugAngle, DebugSensorArousal,PERCEIVEDACTION;
+	POSITION, DISTANCE, NumEntitiesPresent, AntennaPositionLeft, AntennaPositionRight, ExactDebugY, ExactDebugX, exactDebugAngle, DebugSensorArousal,PERCEIVEDACTION, Brightness;
 }

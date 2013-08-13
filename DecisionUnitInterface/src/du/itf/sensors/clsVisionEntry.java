@@ -14,6 +14,7 @@ import du.enums.eAntennaPositions;
 
 import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
+import du.enums.eSaliency;
 
 
 /**
@@ -26,6 +27,7 @@ import bfg.utils.enums.eSide;
 public class clsVisionEntry extends clsSensorRingSegmentEntry {
 	protected boolean mnAlive = false;
 	protected Color moColor = new Color(0,0,0);
+	protected eSaliency moBrightness = eSaliency.UNDEFINED;
 	protected eSide moObjectPosition = eSide.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
 	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
@@ -93,6 +95,13 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 		moColor = poColor;
 	}
 	
+	public eSaliency getBrightness() {
+		return moBrightness;
+	}
+	public void setBrightness(eSaliency poBrightness) {
+		moBrightness = poBrightness;
+	}
+	
 	public eSide getObjectPosition() {
 		return moObjectPosition;
 	}
@@ -126,6 +135,7 @@ public class clsVisionEntry extends clsSensorRingSegmentEntry {
 		logEntry += clsDataBase.addXMLTag("EntityType", mnEntityType.toString()); 
 		logEntry += clsDataBase.addXMLTag("EntityId", new Integer(moEntityId).toString());
 		logEntry += clsDataBase.addXMLTag("Alive", new Boolean(mnAlive).toString());
+		logEntry += clsDataBase.addXMLTag("Saliency", moBrightness.toString());
 		
 		if (moColor != null) {
 		  logEntry += clsDataBase.addXMLTag("Color", moColor.toString());

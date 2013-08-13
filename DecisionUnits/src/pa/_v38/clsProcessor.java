@@ -242,6 +242,7 @@ public class clsProcessor implements itfProcessor  {
 	public void getInternalActionCommands(
 			itfInternalActionProcessor poInternalActionContainer) {
 		moPsyApp.moF67_BodilyReactionOnEmotions.getBodilyReactions(poInternalActionContainer);
+		moPsyApp.moF14_ExternalPerception.getBodilyReactions(poInternalActionContainer);
 		
 	}
 	
@@ -267,8 +268,8 @@ public class clsProcessor implements itfProcessor  {
 		//PRIMARY PROCESSES -------------------------------
 		//Self-PreservationDrive generation
 		moPsyApp.moF65_PartialSelfPreservationDrives.step();
-		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step();
-		//moPsyApp.moF04_FusionOfSelfPreservationDrives.step();
+		//moPsyApp.moF03_GenerationOfSelfPreservationDrives.step(); //todo
+		//moPsyApp.moF04_FusionOfSelfPreservationDrives.step(); //todo
 		
 		//Libido generation
 		moPsyApp.moF64_PartialSexualDrives.step();

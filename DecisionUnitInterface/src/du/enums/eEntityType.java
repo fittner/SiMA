@@ -33,7 +33,7 @@ public enum eEntityType {
 	RECTANGLE_MOBILE,
 	LAMP,
 	APPLEGREEN,
-	SPROUT,
+	SPROUT, //actually a green sprout
 	
 	//SPECIAL
 	SELF,

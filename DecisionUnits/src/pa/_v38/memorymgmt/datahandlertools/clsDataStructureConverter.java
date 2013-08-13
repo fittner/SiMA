@@ -121,8 +121,18 @@ public class clsDataStructureConverter {
 				oContentTypeTP = eContentType.DISTANCE;
 			}
 			
+			//          if (oContentTypeTP.equals(eContentType.Brightness)) {
+			//             oContentTypeTP = eContentType.BRIGHTNESS;
+			//         }
+			
 		
 			//Method oTest = oM.getClass().getDeclaredMethod("", arg1)
+			
+			if (oM.getName().equals("getDebugSensorArousal")){
+//              oContentTypeTP = eContentType.Brightness;
+//              oTP = (clsThingPresentation) clsDataStructureGenerator.generateDataStructure(eDataType.TP, new clsPair <eContentType, Object>(oContentTypeTP, oContentTP)); 
+//              oAssociatedContent.add(oTP); 
+			}
 	
 			if ((oM.getName().equals("getExactDebugX")) || 
 				(oM.getName().equals("getExactDebugY")) || 
