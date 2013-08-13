@@ -16,6 +16,7 @@ import du.enums.eShapeType;
 import bfg.utils.enums.eCount;
 import bfg.utils.enums.eSide;
 import bfg.utils.enums.ePercievedActionType;
+import du.enums.eSaliency;
 
 /**
  * DOCUMENT (deutsch) - insert description 
@@ -30,6 +31,7 @@ public interface itfSymbolVisionEntry extends itfSymbol {
 	
 	public boolean getAlive();
 	public Color getColor();
+	public eSaliency getBrightness();
 	public eSide getObjectPosition(); 
 	public eAntennaPositions getAntennaPositionLeft();
 	public eAntennaPositions getAntennaPositionRight();

@@ -4,6 +4,7 @@ import sim.physics2D.shape.Circle;
 import sim.portrayal.DrawInfo2D;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -36,6 +37,9 @@ public class clsCircleImage extends Circle
 	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
 	eSpeechExpression moSpeechExpressionOverlayImage = eSpeechExpression.NONE;
 	Paint moPaint = null;
+	AffineTransform transform = new AffineTransform(); 
+	boolean mbShowOrientation = false; //show orientation marker if you want
+	
 
 
 	/**
@@ -230,5 +234,26 @@ public class clsCircleImage extends Circle
 		   return moImage;
 			  
 	}
+	
+	/**
+	 * @since 28.06.2013 16:00:48
+	 * 
+	 * @return the mbShowOrientation
+	 */
+	public boolean isShowOrientation() {
+		return mbShowOrientation;
+	}
+
+
+
+	/**
+	 * @since 28.06.2013 16:00:48
+	 * 
+	 * @param mbShowOrientation the mbShowOrientation to set
+	 */
+	public void setShowOrientation(boolean mbShowOrientation) {
+		this.mbShowOrientation = mbShowOrientation;
+	}
+
    
     }

@@ -4,9 +4,9 @@ import sim.physics2D.shape.Circle;
 import sim.portrayal.*;
 import java.awt.*;
 
-import bw.entities.base.clsEntity;
+//import bw.entities.base.clsEntity;
 //import bw.factories.clsSingletonDisplay2D;
-import bw.physicalObjects.sensors.clsEntitySensorEngine;;
+//import bw.physicalObjects.sensors.clsEntitySensorEngine;;
 
 /** The Circle class is used by a circular physical object to store the attributes
  * of its appearance and size
@@ -39,8 +39,8 @@ public class clsCircleBorder extends Circle
         final int w = (int)(width);
         final int h = (int)(height);
         
-        clsEntity oTempEntity = ((clsEntitySensorEngine)object).getEntity();
-        double currentAngle = oTempEntity.getPose().getAngle().radians;
+        //clsEntity oTempEntity = ((clsEntitySensorEngine)object).getEntity();
+        double currentAngle = getOrientation().radians; //use the shapes angle not the superclass!
  
         // recalculate the Bubble-Angle World to the Java Angle world by: JavaAngle = 360-BubbleAngle
         int start_arc = (int) Math.toDegrees(currentAngle);

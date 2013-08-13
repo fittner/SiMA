@@ -42,6 +42,8 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		moExactDebugX = poSensor.getExactDebugX();
 		moExactDebugY = poSensor.getExactDebugY();
 		moExactDebugAngle = poSensor.getExactDebugAngle();
+		moBrightness = poSensor.getBrightness();
+		moDebugSensorArousal = poSensor.getDebugSensorArousal();
 		
 		moActions = poSensor.getActions();
 		
