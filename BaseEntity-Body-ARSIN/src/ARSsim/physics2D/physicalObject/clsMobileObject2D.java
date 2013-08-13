@@ -521,7 +521,10 @@ public class clsMobileObject2D extends
 	 */
 	@Override
 	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
-		// TODO (hinterleitner) - Auto-generated method stub
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsCircleImage){
+			((clsCircleImage) oShape).setSpeechExpressionOverlayImage(poOverlay);
+		}
 		
 	}
 }

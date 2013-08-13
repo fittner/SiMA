@@ -215,12 +215,7 @@ public class clsCircleImage extends Circle
 		this.moFacialExpressionOverlayImage = moOverlay;
 	}
 
-	/**
-	 * @author muchitsch
-	 * 04.05.2011, 10:11:50
-	 * 
-	 * @param moOverlay the moOverlay to set
-	 */
+	
 	public void setSpeechExpressionOverlayImage(eSpeechExpression moOverlay) {
 		this.moSpeechExpressionOverlayImage = moOverlay;
 	}
