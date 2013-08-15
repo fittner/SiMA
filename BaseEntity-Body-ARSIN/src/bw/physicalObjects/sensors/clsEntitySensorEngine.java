@@ -16,6 +16,7 @@ import sim.engine.Steppable;
 import sim.physics2D.physicalObject.MobileObject2D;
 import sim.physics2D.physicalObject.PhysicalObject2D;
 //import sim.physics2D.util.Angle;
+import sim.physics2D.util.Angle;
 import sim.physics2D.util.Double2D;
 import sim.portrayal.DrawInfo2D;
 
@@ -105,7 +106,8 @@ import bw.factories.clsSingletonMasonGetter;
 			//System.out.println("setOrientationAndPosition: " + mnDeviationAngle);
 			
 			clsMobileObject2D oMobileObj = ((clsMobile)moHostEntity).getMobileObject2D();
-			this.setPose(oMobileObj.getPosition(), oMobileObj.getOrientation().add(mnDeviationAngle)); 
+			Angle updatedOrientation = oMobileObj.getOrientation().add(mnDeviationAngle);
+			this.setPose(oMobileObj.getPosition(), updatedOrientation); 
 			clsSingletonMasonGetter.getFieldEnvironment().setObjectLocation(this, 
 										new sim.util.Double2D(oMobileObj.getPosition().x,oMobileObj.getPosition().y));
 		}

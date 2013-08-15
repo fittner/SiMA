@@ -23,6 +23,7 @@ import du.enums.eFacialExpression;
 import du.enums.eSpeechExpression;
 import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsInternalActionSweat;
+import du.itf.actions.clsInternalActionTurnVision;
 
 import bw.body.attributes.clsAttributes;
 import bw.body.brainsocket.clsBrainSocket;
@@ -35,6 +36,7 @@ import bw.body.io.clsInternalIO;
 
 import bw.body.io.actuators.clsInternalActionProcessor;
 import bw.body.io.actuators.actionExecutors.clsExecutorInternalSweat;
+import bw.body.io.actuators.actionExecutors.clsExecutorInternalTurnVision;
 import bw.body.io.actuators.actionExecutors.clsExecutorSpeechInvite;
 
 import bw.body.itfget.itfGetInternalEnergyConsumption;
@@ -134,6 +136,10 @@ public class clsComplexBody extends clsBaseBody implements
 		moInternalActionProcessor.addCommand(clsActionSpeechInvited.class, 
 				new clsExecutorSpeechInvite(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
 
+		moInternalActionProcessor.addCommand(clsInternalActionTurnVision.class, 
+								new clsExecutorInternalTurnVision(poPrefix+"." + P_INTERNALACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INTERNAL,poProp, moEntity));
+				 
+		
 //		//Register actionexecutors
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
 //		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN)==1) moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,poProp,moEntity));

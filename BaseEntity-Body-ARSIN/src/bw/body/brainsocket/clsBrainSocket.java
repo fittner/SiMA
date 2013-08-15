@@ -61,6 +61,7 @@ import config.clsProperties;
 import du.enums.eAntennaPositions;
 import du.enums.eEntityType;
 import du.enums.eFastMessengerSources;
+import du.enums.eSaliency;
 import du.enums.eSensorExtType;
 import du.enums.eSensorIntType;
 import du.enums.eSlowMessenger;
@@ -926,6 +927,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		   oData.setShapeType( getShapeType(collidingObj.moCollider));
 		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
 		   oData.setEntityId(oEntity.getId());
+		   oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
 
 		   oData.setAlive(oEntity.isAlive());
 		
@@ -937,8 +939,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		    
 		   oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
 		   
-		   //values from 0-1, this is for testing, should be set to the real arousal value
-		   double sensorArousalValue = 1;
+		   double sensorArousalValue = oEntity.getVisionBrightness();
 		   oData.setDebugSensorArousal(sensorArousalValue);
 					
 			// FIXME: (horvath) - temporary polar coordinates calculation
@@ -1049,6 +1050,25 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		}
 		
 		return oData;
+	}
+	
+	//translate the Brightness Info to enum values
+	private  eSaliency getEntityBrightness(PhysicalObject2D poObject) {
+		clsEntity oEntity = getEntity(poObject);
+		du.enums.eSaliency retVal = du.enums.eSaliency.UNDEFINED;
+			if (oEntity != null) {
+			double oVisionBrightness = oEntity.getVisionBrightness();
+	        
+	        if(oVisionBrightness  >= 0 && oVisionBrightness < 0.25  )
+	        	retVal = du.enums.eSaliency.LOW;
+	       if(oVisionBrightness  >= 0.25 && oVisionBrightness <0.5)
+	       	retVal = du.enums.eSaliency.MEDIUM;
+	        if(oVisionBrightness   >= 0.5 && oVisionBrightness <0.75)
+	        	retVal = du.enums.eSaliency.HIGH;
+	        if(oVisionBrightness   >= 0.75 && oVisionBrightness <1)
+	        	retVal = du.enums.eSaliency.VERYHIGH;
+			}
+			return retVal;
 	}
 
 	/**

@@ -143,7 +143,7 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		
-		moAlive2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		moAlive2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp, true); 
 		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
 		moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		

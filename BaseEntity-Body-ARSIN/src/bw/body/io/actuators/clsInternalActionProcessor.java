@@ -181,7 +181,7 @@ public class clsInternalActionProcessor implements itfInternalActionProcessor {
 		ConsumeBindingEnergy();
 		
 		//4.	Check energy and stamina levels: Consume energy and stamina for all remaining actions in order of priority and calling. If the energy and stamina levels are not sufficient for all the remaining commands no command (except priority �update state�) will be executed but energy and stamina levels will still be reduced down to the total minimum.
-		ConsumeEnergy(oExecutionStack);
+		//ConsumeEnergy(oExecutionStack); Consuming energy at this point gives an exeption, todo
 		
 		//5.	Check for mutual exclusions
 		mutexCommands(oExecutionStack);

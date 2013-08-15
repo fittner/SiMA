@@ -29,6 +29,7 @@ import bw.body.io.actuators.actionExecutors.clsExecutorSleep;
 import bw.body.io.actuators.actionExecutors.clsExecutorSpeech;
 import bw.body.io.actuators.actionExecutors.clsExecutorToInventory;
 import bw.body.io.actuators.actionExecutors.clsExecutorTurn;
+import bw.body.io.actuators.actionExecutors.clsExecutorTurnVision;
 import bw.body.io.actuators.actionProxies.itfAPSleep;
 import bw.body.io.sensors.external.clsSensorAcceleration;
 import bw.body.io.sensors.external.clsSensorAcoustic;
@@ -75,6 +76,7 @@ import du.itf.actions.clsActionSpeechExRightAntennaPosition;
 import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsActionToInventory;
 import du.itf.actions.clsActionTurn;
+import du.itf.actions.clsActionTurnVision;
 
 /**
  * TODO (langr) - THIS CLASS NEEDS A REFACTORING - reason: not every
@@ -277,6 +279,9 @@ public class clsExternalIO extends clsBaseIO {
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,1);
 		oProp.putAll( clsExecutorTurn.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN) );
 		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION,1);
+		oProp.putAll( clsExecutorTurnVision.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION) );
+				
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE,1);
 		oProp.putAll( clsExecutorCultivate.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE) );
 		
@@ -394,6 +399,7 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY)==1) moProcessor.addCommand(clsActionFromInventory.class, new clsExecutorFromInventory(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_FROMINVENTORY,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY)==1) moProcessor.addCommand(clsActionToInventory.class, new clsExecutorToInventory(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TOINVENTORY,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE)==1) moProcessor.addCommand(clsActionCultivate.class, new clsExecutorCultivate(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_CULTIVATE,poProp,(clsMobile) moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION)==1) moProcessor.addCommand(clsActionTurnVision.class, new clsExecutorTurnVision(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURNVISION,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS)==1) moProcessor.addCommand(clsActionKiss.class, new clsExecutorKiss(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_KISS,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACKLIGHTNING)==1) moProcessor.addCommand(clsActionAttackLightning.class, new clsExecutorAttackLightning(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_ATTACKLIGHTNING,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA)==1) moProcessor.addCommand(clsActionMoveToEatableArea.class, new clsExecutorMoveToArea(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA,poProp,(clsMobile) moEntity));

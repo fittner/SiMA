@@ -12,12 +12,9 @@ import config.clsProperties;
 import java.util.ArrayList;
 import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
-import bw.body.io.sensors.external.clsSensorExt;
 import bw.entities.base.clsEntity;
 import bw.physicalObjects.sensors.clsEntitySensorEngine;
-//import bw.physicalObjects.sensors.clsEntitySensorEngine;
-//import bw.physicalObjects.sensors.clsEntitySensorEngine;
-import du.enums.eSensorExtType;
+import du.enums.eActionTurnDirection;
 import du.itf.actions.*;
 /**
  * Action Executor for turning
@@ -91,8 +88,14 @@ public class clsExecutorTurnVision extends clsActionExecutor{
 		clsComplexBody oCBody = (clsComplexBody) moEntity.getBody();
 		
 		
-		clsSensorExt oSensExt = oCBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(eSensorExtType.VISION_NEAR);
+		//clsSensorExt oSensExt = oCBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(eSensorExtType.VISION_NEAR);
 		
+		if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
+			mnAngle = (mnAngle/360*Math.PI*(-1.0));
+    	}
+    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
+    		mnAngle = (mnAngle/360*Math.PI);
+    	}
 				
 		//bug somwhere, its null
 		//Object testobj = oCBody.getExternalIO().moSensorEngine.getMeSensorAreas().get(0.0);
@@ -109,15 +112,7 @@ public class clsExecutorTurnVision extends clsActionExecutor{
 		//clsSensorRingSegment oRS = (clsSensorRingSegment)oSensExt;
 		
 		
-		
-//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_LEFT){
-//    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnLeft);
-//    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
-//    	}
-//    	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
-//    		moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
-//    		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
-//    	}
+
     	return true;
 	}	
 }
