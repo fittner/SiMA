@@ -1534,6 +1534,92 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	    }
 	  }
 	
+	private void CalculateSimilarityPerceptionMain()
+    {
+        
+        ArrayList<ArrayList<clsDataStructureContainer>> oRankedExemplarTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
+        ArrayList<clsThingPresentationMesh> oOutputTPMs = new ArrayList<clsThingPresentationMesh>();
+        ArrayList<clsPrimaryDataStructureContainer> oEnvPerceptionTPAL = new ArrayList<clsPrimaryDataStructureContainer>(); 
+        
+        ///Convert symbol features to associated TPs
+        //go through every symbol created by the different sensors and make associations
+        //done by invoking the symbols get methods
+        for(itfSymbol oSymbol : moEnvironmentalData.values()){
+            if(oSymbol!=null){
+                for(itfSymbol oSymbolObject : oSymbol.getSymbolObjects()) {
+                    //convert the symbol to a PDSC/TP
+                    clsPrimaryDataStructure oDataStructure = (clsPrimaryDataStructure)clsDataStructureConverter.convertExtSymbolsToPsychicDataStructures(oSymbolObject); 
+                    oEnvPerceptionTPAL.add(new clsPrimaryDataStructureContainer(oDataStructure,null));
+                }   
+            }
+        }
+        
+        // remove coccurence of non-entities in moEnvironmentalData
+        //preapares a list to remove double TPs
+        ArrayList<clsPrimaryDataStructureContainer> oRemoveDS = new ArrayList<clsPrimaryDataStructureContainer>();
+        for (clsPrimaryDataStructureContainer oEnvEntity : oEnvPerceptionTPAL) {
+            clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;
+            if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+                oRemoveDS.add(oCheckEntity);
+            }
+        }
+        //the actual remove
+        for(clsPrimaryDataStructureContainer oDS: oRemoveDS){
+            oEnvPerceptionTPAL.remove(oDS);         
+        }
+        
+        ///remove eatable area doubles?
+        
+        ///Appearance Recognition
+        clsThingPresentationMesh oCandidateTPM = null;
+        clsThingPresentationMesh oCandidateTPM_DM = null;
+        
+        clsDriveMesh oMemorizedDriveMesh = null;
+        
+        ArrayList<ArrayList<clsDataStructureContainer>> oRankedCandidateTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 
+    
+        ArrayList<clsAssociation> oRemoveAss = null;
+        ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>> oSearchResults = 
+                        new ArrayList<ArrayList<clsPair<Double,clsDataStructureContainer>>>();
+                    
+        ArrayList<clsThingPresentationMesh> oMemorySearchQuery = new ArrayList<clsThingPresentationMesh>();
+                        
+        clsThingPresentationMesh oTPMToSearch = null;
+        
+        //loop through every TPM of the environmental meshes
+        for(clsPrimaryDataStructureContainer oEnvTPM :oEnvPerceptionTPAL) {
+
+            
+            //before a seach through the data handler the external associations which are not used have to be removed
+            oRemoveAss = new ArrayList<clsAssociation>();
+            
+            oTPMToSearch = (clsThingPresentationMesh) oEnvTPM.getMoDataStructure();             
+                                            
+                    //  separate internal attributes (which identify the entity) from external attributes (which are additional information)
+                    for (clsAssociation oIntAss: oTPMToSearch.getMoInternalAssociatedContent()) {
+                        if (isInternalAttribute(oIntAss.getMoAssociationElementB().getMoContentType().toString()) == false) {
+                            // remove Assoc from internal and put it in external assoc
+                            oRemoveAss.add(oIntAss);
+                        }
+                                    
+                    }
+                                
+                    for(clsAssociation oAss: oRemoveAss){
+                        oTPMToSearch.removeInternalAssociation(oAss);
+                        oTPMToSearch.addExternalAssociation(oAss);
+                    }
+                    
+                    //add the searchable TPM to the list of search query
+                    oMemorySearchQuery.add(oTPMToSearch);           
+        }//end prepare internal associations
+        
+        //do the memory seach for 
+        oSearchResults = this.getLongTermMemory().searchEntity(eDataType.DM, oMemorySearchQuery);
+        
+        
+        
+    }//end method
+	
 	////// DRAFT FUNCTIONS END
 	
 	/* (non-Javadoc)
