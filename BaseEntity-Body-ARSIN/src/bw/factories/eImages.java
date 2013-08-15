@@ -30,6 +30,7 @@ public enum eImages {
 	Overlay_Action_Sleep("Action_Sleep.png"),
 	Overlay_Action_TurnLeft("Action_TurnLeft.png"),
 	Overlay_Action_TurnRight("Action_TurnRight.png"),
+	Overlay_Action_TurnVision("Action_TurnVision.png"),
 	Overlay_Action_InnerSpeech_Nourish("Thought_Action_Nourish.png"),
 	Overlay_Action_InnerSpeech_Schnitzel("Thought_Action_Schnitzel.png"),
 	Overlay_Speech_SHARE("Expression_Share.png"),

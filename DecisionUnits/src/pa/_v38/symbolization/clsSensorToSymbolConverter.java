@@ -12,6 +12,7 @@ import java.util.Map;
 import pa._v38.symbolization.representationsymbol.clsSymbolBump;
 import pa._v38.symbolization.representationsymbol.clsSymbolEatableArea;
 import pa._v38.symbolization.representationsymbol.clsSymbolManipulateArea;
+import pa._v38.symbolization.representationsymbol.clsSymbolOlfactoric;
 import pa._v38.symbolization.representationsymbol.clsSymbolPositionChange;
 import pa._v38.symbolization.representationsymbol.clsSymbolRadiation;
 import pa._v38.symbolization.representationsymbol.clsSymbolVision;
@@ -20,6 +21,7 @@ import du.enums.eSensorExtType;
 import du.itf.sensors.clsBump;
 import du.itf.sensors.clsEatableArea;
 import du.itf.sensors.clsManipulateArea;
+import du.itf.sensors.clsOlfactoric;
 import du.itf.sensors.clsPositionChange;
 import du.itf.sensors.clsRadiation;
 import du.itf.sensors.clsSensorExtern;
@@ -59,6 +61,7 @@ public class clsSensorToSymbolConverter {
 					case VISION_MEDIUM:oResult.put(eSymbolExtType.VISION_MEDIUM, new clsSymbolVision((clsVision) oEntry.getValue()));break;
 					case VISION_NEAR:oResult.put(eSymbolExtType.VISION_NEAR, new clsSymbolVision((clsVision) oEntry.getValue()));break;		
 					case VISION_SELF:oResult.put(eSymbolExtType.VISION_SELF, new clsSymbolVision((clsVision) oEntry.getValue()));break;
+					case OLFACTORIC:oResult.put(eSymbolExtType.OLFACTORIC, new clsSymbolOlfactoric((clsOlfactoric) oEntry.getValue()));break;
 					case ACOUSTIC:break;
 					default: throw new java.lang.IllegalArgumentException("unknown key "+oEntry.getKey());
 				}
