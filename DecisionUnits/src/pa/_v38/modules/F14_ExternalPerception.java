@@ -1534,7 +1534,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 	    }
 	  }
 	
-	private void CalculateSimilarityPerceptionMain()
+	private void CalculateSimilarityPerceptionMainTest()
     {
         
         ArrayList<ArrayList<clsDataStructureContainer>> oRankedExemplarTPMs = new ArrayList<ArrayList<clsDataStructureContainer>>(); 

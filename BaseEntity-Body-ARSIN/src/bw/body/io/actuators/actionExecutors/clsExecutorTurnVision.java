@@ -87,6 +87,7 @@ public class clsExecutorTurnVision extends clsActionExecutor{
 		
 		clsComplexBody oCBody = (clsComplexBody) moEntity.getBody();
 		
+		//moEntity.setOverlayImage(eImages.Overlay_Action_TurnVision);
 		
 		//clsSensorExt oSensExt = oCBody.getExternalIO().moSensorEngine.getMeRegisteredSensors().get(eSensorExtType.VISION_NEAR);
 		
