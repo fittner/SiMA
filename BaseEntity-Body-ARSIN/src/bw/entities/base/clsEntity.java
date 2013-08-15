@@ -479,6 +479,7 @@ public abstract class clsEntity implements itfGetBody {
 		}
 	}
 	
+	
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)
 		if (clsSingletonProperties.useLogger()){
 			updatePositionLogger();

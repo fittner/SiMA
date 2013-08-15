@@ -17,8 +17,12 @@ import java.util.SortedMap;
 
 import org.apache.log4j.Logger;
 
+import bfg.utils.enums.eSide;
+
 import config.clsProperties;
+import du.enums.eActionTurnDirection;
 import du.enums.eDistance;
+import du.enums.eSaliency;
 import du.itf.sensors.clsInspectorPerceptionItem;
 import pa._v38.interfaces.itfGraphCompareInterfaces;
 import pa._v38.interfaces.modules.I2_3_receive;
@@ -55,6 +59,7 @@ import pa._v38.symbolization.representationsymbol.itfIsContainer;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
 import pa._v38.systemtest.clsTester;
 import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionTurnVision;
 import du.itf.actions.itfInternalActionProcessor;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
@@ -102,6 +107,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private ArrayList<clsInternalActionCommand> moInternalActions = new ArrayList<clsInternalActionCommand>();
 	/** Input from Drive System */
 	private ArrayList<clsDriveMesh> moDrives_IN;
+	private boolean useAttentionMechanism = false;
 
 	private Logger log = Logger.getLogger(this.getClass());
 	
@@ -265,6 +271,18 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 			moEnvironmentalTP.remove(oDS);			
 		}
 		
+		//FocusAttentionF14
+		//where is the saliency? -> angle
+		if(useAttentionMechanism)
+		       PrepareSensorInformatinForAttention(moEnvironmentalData);
+		       
+		//     for (clsPrimaryDataStructureContainer oEnvEntity : moEnvironmentalTP) {
+		//         clsPrimaryDataStructureContainer oCheckEntity = oEnvEntity;  //alle entities
+		//         if(oCheckEntity.getMoDataStructure().getMoContentType() != eContentType.ENTITY) {
+		//             oRemoveDS.add(oCheckEntity);
+		//         }
+		//     }
+		
 		
 		//add the perception of the floor, as we dont have a sensor detecting the floor
 		
@@ -378,6 +396,172 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	public ArrayList<clsInspectorPerceptionItem> GetSensorDataForInspectors(){
 		return moPerceptionSymbolsForInspectors;
 	}
+	
+private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSymbol> poEnvironmentalData) {
+
+        
+        eSaliency moSaliencyObject = eSaliency.UNDEFINED;
+        eSide moPositionObject = eSide.UNDEFINED;
+        
+        for(itfSymbol oSymbol : moEnvironmentalData.values()){
+            if(oSymbol!=null){
+                for(itfSymbol poSymbolObject : oSymbol.getSymbolObjects()) {
+                    
+                    if(poSymbolObject instanceof itfIsContainer) {
+                    
+                    clsInspectorPerceptionItem oInspectorItem = new clsInspectorPerceptionItem();
+                    
+                    Method[] oMethods = ((itfGetDataAccessMethods)poSymbolObject).getDataAccessMethods();
+                    eContentType oContentType = eContentType.valueOf(((itfGetSymbolName)poSymbolObject).getSymbolType());
+                    oInspectorItem.moContentType = oContentType.toString();
+                    oInspectorItem.moContent = ((itfIsContainer)poSymbolObject).getSymbolMeshContent().toString();
+                    
+                    if (oContentType.equals(eContentType.POSITIONCHANGE)) {
+                        //do nothing, we dont want this sensor info
+                    }
+                    else
+                    {
+                    
+                        for(Method oM : oMethods){
+                            if (oM.getName().equals("getSymbolObjects")) {
+                                continue;
+                            }
+                            
+                            
+                            
+//                          if (oM.getName().equals("getExactDebugX")) {
+//                              try {
+//                                  oInspectorItem.moExactX = Double.parseDouble( (String) oM.invoke(poSymbolObject,new Object[0]).toString() );
+//                              } catch (IllegalArgumentException e) {
+//                                  e.printStackTrace();
+//                              } catch (IllegalAccessException e) {
+//                                  e.printStackTrace();
+//                              } catch (InvocationTargetException e) {
+//                                  e.printStackTrace();
+//                              }
+//                          }
+//                          
+//                          if (oM.getName().equals("getExactDebugY")) {
+//                              try {
+//                                  oInspectorItem.moExactY = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
+//                              } catch (IllegalArgumentException e) {
+//                                  e.printStackTrace();
+//                              } catch (IllegalAccessException e) {
+//                                  e.printStackTrace();
+//                              } catch (InvocationTargetException e) {
+//                                  e.printStackTrace();
+//                              }
+//                          }
+//                          
+//                          
+//                          if (oM.getName().equals("getDebugSensorArousal")) {
+//                              try {
+//                                  oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
+//                              } catch (IllegalArgumentException e) {
+//                                  e.printStackTrace();
+//                              } catch (IllegalAccessException e) {
+//                                  e.printStackTrace();
+//                              } catch (InvocationTargetException e) {
+//                                  e.printStackTrace();
+//                              }
+//                          }
+//                          
+                            eContentType oContentTypeTP = eContentType.DEFAULT; 
+                            Object oContentTP = "DEFAULT";
+                            
+                            oContentTypeTP = eContentType.valueOf(removePrefix(oM.getName())); 
+                                
+                            if (oContentTypeTP.equals(eContentType.Brightness)) {
+                                try {
+                                    moSaliencyObject = eSaliency.valueOf((oM.invoke(poSymbolObject,new Object[0]).toString()));
+                                    
+                                } catch (IllegalArgumentException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InvocationTargetException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+        
+                            if(oContentTypeTP.equals(eContentType.ObjectPosition)) {
+                                oContentTypeTP = eContentType.POSITION; 
+                                try {
+                                    
+                                    moPositionObject = eSide.valueOf(oM.invoke(poSymbolObject,new Object[0]).toString());
+                                } catch (IllegalArgumentException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InvocationTargetException e) {
+                                    e.printStackTrace();
+                                }
+                                
+                            }
+                            
+                            if (oContentTypeTP.equals(eContentType.Distance)) {
+                                oContentTypeTP = eContentType.DISTANCE;
+                                try {
+                                    oInspectorItem.moDistance = oM.invoke(poSymbolObject,new Object[0]).toString();
+                                } catch (IllegalArgumentException e) {
+                                    e.printStackTrace();
+                                } catch (IllegalAccessException e) {
+                                    e.printStackTrace();
+                                } catch (InvocationTargetException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+
+                        }
+                        
+                        //calculate angle
+                        if((moSaliencyObject == eSaliency.HIGH)||
+                            (moSaliencyObject == eSaliency.VERYHIGH))
+                            {
+                             if(moPositionObject != eSide.UNDEFINED){
+                                 double focusAngle = 0.0;
+                                 eActionTurnDirection focusDirection = eActionTurnDirection.TURN_LEFT;
+                                 if(moPositionObject == eSide.MIDDLE_LEFT){
+                                     focusAngle = 50;
+                                     focusDirection = eActionTurnDirection.TURN_LEFT;
+                                 }
+                                 else if(moPositionObject == eSide.LEFT){
+                                     focusAngle = 134;
+                                     focusDirection = eActionTurnDirection.TURN_LEFT;
+                                 }
+                                 else if(moPositionObject == eSide.MIDDLE_RIGHT){
+                                     focusAngle = 50;
+                                     focusDirection = eActionTurnDirection.TURN_RIGHT;
+                                 }
+                                 else if(moPositionObject == eSide.RIGHT){
+                                     focusAngle = 134;
+                                     focusDirection = eActionTurnDirection.TURN_RIGHT;
+                                 }
+                             
+                                clsInternalActionTurnVision focus = new clsInternalActionTurnVision(focusDirection, focusAngle);
+                                moInternalActions.add( focus );
+                             }
+                             else{
+                                 //return to normal
+                                 clsInternalActionTurnVision focus = new clsInternalActionTurnVision(eActionTurnDirection.TURN_LEFT, 0.0);
+                                    moInternalActions.add( focus );
+                             }
+                            }
+                        
+                        
+                        //moPerceptionSymbolsForInspectors.add(oInspectorItem); 
+                    }
+                        
+                        }
+                    else {
+                        //
+                        }               
+                    }
+                
+                }   
+            }
+        }
+    
 
 	/**
 	 * DOCUMENT (muchitsch) - insert description
@@ -445,12 +629,13 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 								try {
 									oInspectorItem.moSensorArousal = 1;
 									//oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
+									oInspectorItem.moSensorArousal = Double.parseDouble((String) oM.invoke(poSymbolObject,new Object[0]).toString());
 								} catch (IllegalArgumentException e) {
 									e.printStackTrace();
-//								} catch (IllegalAccessException e) {
-//									e.printStackTrace();
-//								} catch (InvocationTargetException e) {
-//									e.printStackTrace();
+								} catch (IllegalAccessException e) {
+									e.printStackTrace();
+								} catch (InvocationTargetException e) {
+									e.printStackTrace();
 								}
 							}
 							
