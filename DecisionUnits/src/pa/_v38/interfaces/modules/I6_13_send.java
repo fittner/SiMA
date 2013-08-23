@@ -1,8 +1,8 @@
 /**
- * CHANGELOG
- *
- * 25.03.2013 hinterleitner - File created
- *
+ * I2_12.java: DecisionUnits - pa.interfaces
+ * 
+ * @author hinterleitner
+ * 18.05.2010, 14:42:23
  */
 package pa._v38.interfaces.modules;
 
@@ -11,23 +11,12 @@ import java.util.ArrayList;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 /**
- * DOCUMENT (hinterleitner) - insert description 
  * 
- * @author hinterleitner
- * 25.03.2013, 20:02:21
+ * 
+ * @author deutsch
+ * 07.05.2012, 14:42:23
  * 
  */
-
 public interface I6_13_send {
-	
-
-    /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 11.05.2013 15:59:00
-     *
-     * @param poPerception
-     * @param poAssociatedMemoriesSecondary
-     */
-    void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+    public void send_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
 }

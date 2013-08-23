@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.interfaces.modules.I6_13_receive;
+import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_13_send;
 import pa._v38.interfaces.modules.I6_1_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
@@ -40,11 +40,12 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     // Statics for the module
     public static final String P_MODULENUMBER = "66";
 
-    //public static final String SPEECH_THRESHOLD = "SPEECH_THRESHOLD";
-    
+    // public static final String SPEECH_THRESHOLD = "SPEECH_THRESHOLD";
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+    private clsWordPresentationMesh moPerceptionalMesh_OUT;
+    private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
     private ArrayList<clsWordPresentationMeshGoal> moDriveList_IN;
     private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_IN;
     /** @author havlicek; Currently generated concept. */
@@ -57,22 +58,22 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     DT3_PsychicEnergyStorage poPsychicEnergyStorage;
     clsPersonalityParameterContainer poPersonalityParameterContainer;
     private clsShortTermMemory moShortTermMemory;
-    
-    public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList, SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage , clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
+
+    public F66_SpeechProduction(String poPrefix, clsProperties poProp, HashMap<Integer, clsModuleBase> poModuleList,
+            SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData, DT3_PsychicEnergyStorage poPsychicEnergyStorage,
+            clsPersonalityParameterContainer poPersonalityParameterContainer, clsShortTermMemory poShortTermMemory) throws Exception {
         super(poPrefix, poProp, poModuleList, poInterfaceData);
-        
-        
+
         moProperties = poProp;
         // Prepare finals to ensure null safety.
         moConcept = new clsConcept();
         moSituation = new clsSituation();
-       
+
         applyProperties(poPrefix, poProp);
         this.moShortTermMemory = poShortTermMemory;
-      
 
         moWording = new clsWording().getWording();
-       // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
+        // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
 
     }
 
@@ -140,13 +141,16 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
                     moSecondaryDataStructureContainer_IN.toArray(new clsWordPresentationMesh[moSecondaryDataStructureContainer_IN.size()]));
         }
         if (null != moDriveList_IN) {
-            moConcept = oConceptLoader.extend(moConcept, moProperties,
-                    moDriveList_IN.toArray(new clsWordPresentationMeshGoal[moDriveList_IN.size()]));
+            moConcept = oConceptLoader
+                    .extend(moConcept, moProperties, moDriveList_IN.toArray(new clsWordPresentationMeshGoal[moDriveList_IN.size()]));
         }
 
         moSituation = oSituationLoader.generate("TODO the prefix for situations?", moConcept, moProperties);
-        
+
         this.moShortTermMemory.saveToShortTimeMemory(moConcept.returnContent());
+        
+        moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
+        moAssociatedMemories_OUT = moAssociatedMemories_IN;
     }
 
     @Override
@@ -160,11 +164,10 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         throw new java.lang.NoSuchMethodError();
     }
 
-
     public void send_I6_13() {
 
         // AW 20110602 Added Associtated memories
-        //moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
+        // moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
     }
 
     @Override
@@ -196,8 +199,23 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-       // send_I6_13();
+            send_I6_13(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
+        }
 
+  
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 23.08.2013 20:01:05
+     *
+     * @param moPerceptionalMesh_OUT2
+     * @param moAssociatedMemories_OUT2
+     */
+    private void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        ((I6_12_receive)moModuleList.get(23)).receive_I6_12(poPerception, poAssociatedMemoriesSecondary);
+
+        putInterfaceData(I6_13_send.class, poPerception, poAssociatedMemoriesSecondary);
     }
 
     /*
@@ -214,12 +232,13 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
-        //AW 20110602 Added Associtated memories
-        moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+        // AW 20110602 Added Associtated memories
+        moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(poAssociatedMemoriesSecondary);
     }
 
-    /* (non-Javadoc)
-     *
+    /*
+     * (non-Javadoc)
+     * 
      * @since 09.05.2013 19:28:39
      * 
      * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
@@ -230,8 +249,9 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         moDriveList_IN = poDriveList;
     }
 
-    /* (non-Javadoc)
-     *
+    /*
+     * (non-Javadoc)
+     * 
      * @since 09.05.2013 19:28:39
      * 
      * @see pa._v38.interfaces.modules.I6_2_receive#receive_I6_2(java.util.ArrayList)
@@ -244,18 +264,15 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
     /* (non-Javadoc)
      *
-     * @since 09.05.2013 19:33:18
+     * @since 23.08.2013 20:02:57
      * 
-     * @see pa._v38.interfaces.modules.I6_13_send#send_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+     * @see pa._v38.interfaces.modules.I6_13_send#send_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
      */
     @Override
-    public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        ((I6_13_receive) moModuleList.get(61)).receive_I6_13(poPerception, poAssociatedMemoriesSecondary);
-        putInterfaceData(I6_13_send.class, poPerception, poAssociatedMemoriesSecondary);
+    public void send_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        // TODO (hinterleitner) - Auto-generated method stub
         
     }
-    
-    
-  
+
 
 }
