@@ -128,7 +128,7 @@ public class clsSymbolVisionEntry extends du.itf.sensors.clsVisionEntry implemen
 		}
 		else if(moSensorType == eSensorExtType.VISION_SELF){
 		    oRetVal = eDistance.NODISTANCE;
-		}
+		}      
 		return oRetVal;
 	}
 }
