@@ -297,15 +297,13 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 				case VISION_FAR:
 				case VISION_MEDIUM:
 				case VISION_NEAR:
-						double rValue = 1;
+						@SuppressWarnings("unused")
+                        double rValue = 1;
 						if (oKey == eSymbolExtType.VISION_FAR) {rValue = 0.33;}
 						else if (oKey == eSymbolExtType.VISION_MEDIUM) {rValue = 0.66;}
 				case ACOUSTIC_FAR:
                 case ACOUSTIC_NEAR:
-                        double rValue1 = 1;
-                        if (oKey == eSymbolExtType.ACOUSTIC_FAR) {rValue1 = 0.33;}
-                        else if (oKey == eSymbolExtType.ACOUSTIC_MEDIUM) {rValue1 = 0.66;}
-						
+                case ACOUSTIC_MEDIUM:      
 						ArrayList<itfSymbolVisionEntry> oEntries = ((clsSymbolVision)oValue).getEntries();
 						for (int j=0; j<oEntries.size(); j++) {
 							clsSymbolVisionEntry oE = (clsSymbolVisionEntry) oEntries.get(j);
@@ -323,8 +321,9 @@ public class F11_NeuroSymbolizationEnvironment extends clsModuleBase
 								
 							}
 							if (x>=0) {
-								oData.set(x, max(rValue1, oData.get(x)));
+								oData.set(x, max(rValue=1, oData.get(x)));
 							}
+							 
 						}
 					break;
 			}

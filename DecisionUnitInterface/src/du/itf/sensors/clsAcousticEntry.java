@@ -255,4 +255,59 @@ public class clsAcousticEntry extends clsSensorExtern {
 		// TODO (hinterleitner) - Auto-generated method stub
 		return null;
 	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:16
+	 *
+	 * @param entityBrightness
+	 */
+	public void setBrightness(eSaliency entityBrightness) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:25
+	 *
+	 * @param bodyIntegrity
+	 */
+	public void setObjectBodyIntegrity(double bodyIntegrity) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:34
+	 *
+	 * @param undefined
+	 */
+	public void setAntennaPositionLeft(eAntennaPositions undefined) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:48
+	 *
+	 * @param convertActions
+	 */
+	public void setActions(ArrayList<ePercievedActionType> convertActions) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:57
+	 *
+	 * @param undefined
+	 */
+	public void setAntennaPositionRight(eAntennaPositions undefined) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
 }

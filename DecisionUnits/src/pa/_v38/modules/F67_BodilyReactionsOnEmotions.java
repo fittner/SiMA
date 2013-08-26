@@ -14,6 +14,7 @@ import config.clsProperties;
 import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionSpeechInvited;
 import du.itf.actions.clsInternalActionCommand;
+import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.itfInternalActionProcessor;
 
 import pa._v38.interfaces.modules.I6_14_receive;
@@ -115,12 +116,12 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         //Blutdruckanstieg (Errötung), Muskelanspannung – passender Gesichtsausdruck
         
         //CM: for testing now:
-      //  clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
+        clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
        
         //IH: for testing now:
         clsActionSpeechInvited testnew = new clsActionSpeechInvited(eInternalActionIntensity.HEAVY);
         
-    //    moInternalActions.add( test );
+        moInternalActions.add( test );
         moInternalActions.add(testnew );
     }
     

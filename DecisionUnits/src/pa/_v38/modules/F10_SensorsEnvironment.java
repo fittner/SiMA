@@ -125,7 +125,7 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
     @Override
     protected void process_basic() {
         removeSelfVision();
-
+                
     }
 
     /**
@@ -158,6 +158,9 @@ public class F10_SensorsEnvironment extends clsModuleBase implements I0_4_receiv
             oDataObjects.remove((clsSensorExtern) oSRSE);
         }
     }
+
+    
+    
 
     /*
      * (non-Javadoc)

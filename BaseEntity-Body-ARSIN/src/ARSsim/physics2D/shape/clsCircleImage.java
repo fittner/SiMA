@@ -188,7 +188,8 @@ public class clsCircleImage extends Circle
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 	
+							//graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
 			        	}
 			        }
 			        
@@ -257,10 +258,16 @@ public class clsCircleImage extends Circle
 		this.moFacialExpressionOverlayImage = moOverlay;
 	}
 
-	
+	/**
+	 * @author hinterleitner
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
 	public void setSpeechExpressionOverlayImage(eSpeechExpression moOverlay) {
 		this.moSpeechExpressionOverlayImage = moOverlay;
 	}
+
 
 	
 	public BufferedImage getImage(){

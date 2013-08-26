@@ -52,14 +52,12 @@ import bw.body.io.sensors.internal.clsTemperatureSensor;
 import bw.entities.base.clsAnimal;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsRemoteBot;
-import bw.entities.base.clsSpeech;
 import bw.factories.clsSingletonMasonGetter;
 import bw.factories.clsSingletonProperties;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.sensors.clsSensorDataCalculation;
 import config.clsProperties;
 import du.enums.eAntennaPositions;
-import du.enums.eEntityType;
 import du.enums.eFastMessengerSources;
 import du.enums.eSaliency;
 import du.enums.eSensorExtType;
@@ -93,7 +91,6 @@ import du.itf.sensors.clsTemperatureSystem;
 import du.itf.sensors.clsUnrealSensorValueVision;
 import du.itf.sensors.clsVision;
 import du.itf.sensors.clsVisionEntry;
-import du.itf.tools.clsAbstractSpeech;
 
 /**
  * The brain is the container for the mind and has a direct connection to external and internal IO.
@@ -183,12 +180,14 @@ public class clsBrainSocket implements itfStepProcessing {
 		oData.addSensorExt(eSensorExtType.VISION_MEDIUM, convertVisionSensor(eSensorExtType.VISION_MEDIUM) );
 		oData.addSensorExt(eSensorExtType.VISION_FAR, convertVisionSensor(eSensorExtType.VISION_FAR) );
 		oData.addSensorExt(eSensorExtType.VISION_SELF, convertVisionSensor(eSensorExtType.VISION_SELF) );
-		oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
+		//oData.addSensorExt(eSensorExtType.ACOUSTIC, convertAcousticSensor(eSensorExtType.ACOUSTIC) ); // MW
+		oData.addSensorExt(eSensorExtType.ACOUSTIC_NEAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_NEAR) );
 		oData.addSensorExt(eSensorExtType.ACOUSTIC_MEDIUM, convertAcousticSensor(eSensorExtType.ACOUSTIC_MEDIUM) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_FAR, convertAcousticSensor(eSensorExtType.ACOUSTIC_FAR) );
         oData.addSensorExt(eSensorExtType.ACOUSTIC_SELF, convertAcousticSensor(eSensorExtType.ACOUSTIC_SELF) );
-		//oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
-		//oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
+        
+		oData.addSensorExt(eSensorExtType.EATABLE_AREA, convertEatAbleAreaSensor(eSensorExtType.EATABLE_AREA) );
+		oData.addSensorExt(eSensorExtType.MANIPULATE_AREA, convertManipulateSensor(eSensorExtType.MANIPULATE_AREA) );
 		//ad homeostasis sensor data
 		oData.addSensorInt(eSensorIntType.ENERGY_CONSUMPTION, convertEnergySystem() );
 		oData.addSensorInt(eSensorIntType.HEALTH, convertHealthSystem() );
@@ -908,7 +907,64 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		return oData;
 	}
 	
-	
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @author hi
+	 * 03.09.2010, 11:21:29
+	 *
+	 * @param collidingObj
+	 * @param poSensorType
+	 * @return
+	 */
+	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
+		clsEntity oEntity = getEntity(collidingObj.moCollider);
+		clsAcousticEntry oData = new clsAcousticEntry();
+		
+		if(oEntity != null){ 
+		   oData.setEntityType( getEntityType(collidingObj.moCollider));		
+		   oData.setShapeType( getShapeType(collidingObj.moCollider));
+		   oData.setColor( (Color) oEntity.get2DShape().getPaint());
+		   oData.setEntityId(oEntity.getId());
+		   oData.setBrightness( getEntityBrightness(collidingObj.moCollider));
+
+		   oData.setAlive(oEntity.isAlive());
+		
+		   //set corresponding Actions
+		   oData.setActions(convertActions(oEntity.getExecutedActions()));
+		   
+		   oData.setObjectPosition( collidingObj.meColPos);  
+		   oData.setSensorType(poSensorType);
+		    
+		   oData.setExactDebugPosition(oEntity.getPosition().getX(), oEntity.getPosition().getY(), oEntity.getPose().getAngle().radians);
+		   
+		   double sensorArousalValue = oEntity.getVisionBrightness();
+		   oData.setDebugSensorArousal(sensorArousalValue);
+					
+			// FIXME: (horvath) - temporary polar coordinates calculation
+			clsSensorPositionChange oSensor = (clsSensorPositionChange)(moSensorsExt.get(eSensorExtType.POSITIONCHANGE));
+			clsPolarcoordinate oRel = collidingObj.mrColPoint;
+			oRel.moAzimuth = new Angle(clsSensorDataCalculation.normalizeRadian(oRel.moAzimuth.radians - oSensor.getLastPosition().getAngle().radians));
+					
+			oData.setPolarcoordinate( new bfg.tools.shapes.clsPolarcoordinate(oRel.mrLength,oRel.moAzimuth.radians) );
+			
+			if(oEntity.getBody() != null){
+				//sets if the body is full/half etc, 0.5 = 50%
+				oData.setObjectBodyIntegrity(oEntity.getBody().getBodyIntegrity());
+			}
+			
+			if( oEntity instanceof clsAnimal ){ oData.setAlive( ((clsAnimal)oEntity).isAlive() ); }
+			
+			/*FIXME HZ actually the antenna positions are undefined*/
+			if (oEntity instanceof clsARSIN || oEntity instanceof  clsRemoteBot){
+				oData.setAntennaPositionLeft(eAntennaPositions.UNDEFINED); 
+				oData.setAntennaPositionRight(eAntennaPositions.UNDEFINED);
+			}
+		}
+		
+		return oData;
+	}
+
 
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -1022,14 +1078,14 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		}
 	}
 	
-	/**
+/*	*//**
 	 * DOCUMENT (MW) - insert description
 	 *
 	 * @since 27.02.2013 11:27:41
 	 *
 	 * @param oCollider
 	 * @param poSensorType
-	 */
+	 *//*
 	private clsAcousticEntry convertAcousticEntry(clsCollidingObject collidingObj, eSensorExtType poSensorType) {
 		clsEntity oEntity = getEntity(collidingObj.moCollider);
 		clsAcousticEntry oData = new clsAcousticEntry();
@@ -1052,7 +1108,7 @@ private clsVisionEntry convertUNREALVision2DUVision(clsUnrealSensorValueVision p
 		}
 		
 		return oData;
-	}
+	}*/
 	
 	//translate the Brightness Info to enum values
 	private  eSaliency getEntityBrightness(PhysicalObject2D poObject) {
