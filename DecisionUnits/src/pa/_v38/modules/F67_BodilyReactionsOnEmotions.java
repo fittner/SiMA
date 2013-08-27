@@ -12,7 +12,7 @@ import java.util.SortedMap;
 
 import config.clsProperties;
 import du.enums.eInternalActionIntensity;
-import du.itf.actions.clsActionSpeechInvited;
+import du.itf.actions.clsActionShare;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionSweat;
 import du.itf.actions.itfInternalActionProcessor;
@@ -119,10 +119,15 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
        
         //IH: for testing now:
-        clsActionSpeechInvited testnew = new clsActionSpeechInvited(eInternalActionIntensity.HEAVY);
+      //  clsActionSpeechInvited testnew = new clsActionSpeechInvited(eInternalActionIntensity.HEAVY);
+        
+        //IH: for testing now:
+        clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
+        
         
         moInternalActions.add( test );
-        moInternalActions.add(testnew );
+      //  moInternalActions.add(testnew );
+        moInternalActions.add(testnew1 );
     }
     
     /**

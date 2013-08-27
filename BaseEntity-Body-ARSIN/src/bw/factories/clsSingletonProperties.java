@@ -28,6 +28,7 @@ public class clsSingletonProperties {
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
 	private boolean mnShowSpeechExpressionOverlay;
+	private boolean mnShowThoughtExpressionOverlay;
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -117,6 +118,11 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
 	}
 	
+	static public boolean showThoughtExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
+	}
+	
+	
 	static public void setShowFacialExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
@@ -125,13 +131,12 @@ public class clsSingletonProperties {
 		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
 	}
 
-	/**
-	 * DOCUMENT (hinterleitner) - insert description
-	 *
-	 * @since 11.08.2013 14:53:02
-	 *
-	 * @param value
-	 */
+	static public void setShowThoughtExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay = value;
+	}
+	
+	
+
 	public static void setShowCarriedItem(boolean value) {
 		
 	}

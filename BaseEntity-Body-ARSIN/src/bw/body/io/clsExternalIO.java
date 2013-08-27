@@ -63,11 +63,11 @@ import du.itf.actions.clsActionFacialExLensShape;
 import du.itf.actions.clsActionFacialExLensSize;
 import du.itf.actions.clsActionFacialExRightAntennaPosition;
 import du.itf.actions.clsActionFromInventory;
-import du.itf.actions.clsActionInnerSpeech;
 import du.itf.actions.clsActionKiss;
 import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionMoveToEatableArea;
 import du.itf.actions.clsActionPickUp;
+import du.itf.actions.clsActionShare;
 import du.itf.actions.clsActionSleep;
 import du.itf.actions.clsActionSpeech;
 import du.itf.actions.clsActionSpeechExEyeSize;
@@ -393,7 +393,8 @@ public class clsExternalIO extends clsBaseIO {
 		String pre = clsProperties.addDot(poPrefix);
 
 		//Register actionexecutors
-		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH)==1) moProcessor.addCommand(clsActionInnerSpeech.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH,poProp,moEntity));
+		//if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH)==1) moProcessor.addCommand(clsActionInnerSpeech.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_INNERSPEECH,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS)==1) moProcessor.addCommand(clsActionShare.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS)==1) moProcessor.addCommand(clsActionSpeechInvited.class, new clsExecutorSpeechExpression(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_DROP)==1) moProcessor.addCommand(clsActionMove.class, new clsExecutorMove(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVE,poProp,moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN)==1) moProcessor.addCommand(clsActionTurn.class, new clsExecutorTurn(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_TURN,poProp,moEntity));

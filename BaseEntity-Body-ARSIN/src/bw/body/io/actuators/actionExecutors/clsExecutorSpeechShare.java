@@ -35,7 +35,6 @@ public class clsExecutorSpeechShare extends clsInternalActionExecutor{
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsEntity moEntity;
-	private double mranticFactor;
 	
 	public static final String P_ANTICIPATION_FACTOR = "anticipationfactor";
 	public static final String P_RANGESENSOR = "rangesensor";
@@ -65,7 +64,7 @@ public class clsExecutorSpeechShare extends clsInternalActionExecutor{
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		//mranticFactor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_ANTICIPATION_FACTOR));
-		mranticFactor=poProp.getPropertyFloat(pre+P_ANTICIPATION_FACTOR);
+		
 	}
 	
 	/*
@@ -106,7 +105,7 @@ public class clsExecutorSpeechShare extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setSpeechExpressionOverlayImage(eSpeechExpression.SHARE);
+		moEntity.setThoughtExpressionOverlayImage(eSpeechExpression.SCHNITZEL);
 		//setFacialExpressionOverlayImage
 		//oBody.setSpeechExpression(eSpeechExpression.INVITED);
 		

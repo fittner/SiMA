@@ -106,7 +106,7 @@ public class clsExecutorSpeechInvite extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setSpeechExpressionOverlayImage(eSpeechExpression.INVITED);
+		moEntity.setSpeechExpressionOverlayImage(eSpeechExpression.EAT);
 		//setFacialExpressionOverlayImage
 		//oBody.setSpeechExpression(eSpeechExpression.INVITED);
 		

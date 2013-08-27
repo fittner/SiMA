@@ -95,6 +95,7 @@ public abstract class clsEntity implements itfGetBody {
 	private long mnLastSetOverlayCall = -1; //sim step of the last call of setOverlay
 	private eFacialExpression mnCurrentFacialExpressionOverlay; //overlay to display currently executed actions and other attributes
 	private eSpeechExpression mnCurrentSpeechExpressionOverlay; //overlay to display currently executed actions and other attributes
+	private eSpeechExpression mnCurrentThoughtExpressionOverlay; //overlay to display currently executed actions and other attributes
 	
 	private ArrayList<clsAction> moExecutedActions;
 		
@@ -113,6 +114,7 @@ public abstract class clsEntity implements itfGetBody {
 		mnCarriedItem = null;
 		mnCurrentFacialExpressionOverlay = eFacialExpression.NONE;
 		mnCurrentSpeechExpressionOverlay = eSpeechExpression.NONE;
+		mnCurrentThoughtExpressionOverlay = eSpeechExpression.NONE;
 		setEntityType();
 		moPhysicalObject2D = null;
 		shapes3D = null;
@@ -418,6 +420,9 @@ public abstract class clsEntity implements itfGetBody {
 		
 		//IH
 		((itfSetupFunctions)moPhysicalObject2D).setSpeechExpressionOverlayImage(mnCurrentSpeechExpressionOverlay);
+		
+		//IH
+		((itfSetupFunctions)moPhysicalObject2D).setThoughtExpressionOverlayImage(mnCurrentThoughtExpressionOverlay);
 				
 		((itfSetupFunctions)moPhysicalObject2D).setCarriedItem(mnCarriedItem);
 		
@@ -432,6 +437,9 @@ public abstract class clsEntity implements itfGetBody {
 		mnCurrentSpeechExpressionOverlay = poOverlay;
 	}
 	
+	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay) {
+		mnCurrentThoughtExpressionOverlay = poOverlay;
+	}
 	
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay) {
 		mnCurrentFacialExpressionOverlay = poOverlay;
