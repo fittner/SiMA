@@ -15,8 +15,9 @@ public enum eFacialExpression {
 	JOY("Overlay_FacialExpression_JOY"),
 	NEUTRAL("Overlay_FacialExpression_NEUTRAL"),
 	SADNESS("Overlay_FacialExpression_SADNESS"),
-	SURPRISE("Overlay_FacialExpression_SURPRISE");
-
+	SURPRISE("Overlay_FacialExpression_SURPRISE"),
+	EAT("Overlay_Speech_EAT"),
+	YES("Overlay_Speech_YES");
 	private String moeImagesString;
 	
 	private eFacialExpression(String poeImagesString) {

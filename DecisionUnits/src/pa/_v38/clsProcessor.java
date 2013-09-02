@@ -194,9 +194,13 @@ public class clsProcessor implements itfProcessor  {
 		oResult.put(eSensorExtType.VISION_NEAR, poData.getSensorExt(eSensorExtType.VISION_NEAR));
 		oResult.put(eSensorExtType.VISION_MEDIUM, poData.getSensorExt(eSensorExtType.VISION_MEDIUM));
 		oResult.put(eSensorExtType.VISION_FAR, poData.getSensorExt(eSensorExtType.VISION_FAR));
+		oResult.put(eSensorExtType.ACOUSTIC_NEAR, poData.getSensorExt(eSensorExtType.ACOUSTIC_NEAR));
+        oResult.put(eSensorExtType.ACOUSTIC_MEDIUM, poData.getSensorExt(eSensorExtType.ACOUSTIC_MEDIUM));
+        oResult.put(eSensorExtType.ACOUSTIC_FAR, poData.getSensorExt(eSensorExtType.ACOUSTIC_FAR));
 		oResult.put(eSensorExtType.POSITIONCHANGE, poData.getSensorExt(eSensorExtType.POSITIONCHANGE));
 		oResult.put(eSensorExtType.RADIATION, poData.getSensorExt(eSensorExtType.RADIATION));
 		oResult.put(eSensorExtType.VISION_SELF, poData.getSensorExt(eSensorExtType.VISION_SELF));
+		//oResult.put(eSensorExtType.ACOUSTIC_SELF, poData.getSensorExt(eSensorExtType.ACOUSTIC_SELF));
 		
 		return oResult;
 	}

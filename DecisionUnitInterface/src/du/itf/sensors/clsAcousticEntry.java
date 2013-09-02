@@ -6,12 +6,17 @@
  */
 package du.itf.sensors;
 
+import java.awt.Color;
 import java.util.ArrayList;
 
 import bfg.tools.shapes.clsPolarcoordinate;
+import bfg.utils.enums.eCount;
+import bfg.utils.enums.ePercievedActionType;
 import bfg.utils.enums.eSide;
 
+import du.enums.eAntennaPositions;
 import du.enums.eEntityType;
+import du.enums.eSaliency;
 import du.enums.eShapeType;
 import du.itf.tools.clsAbstractSpeech;
 
@@ -23,18 +28,27 @@ import du.itf.tools.clsAbstractSpeech;
  * 
  */
 public class clsAcousticEntry extends clsSensorExtern {
+	public static Object oEntry;
+
 	protected clsAbstractSpeech moAbstractSpeech = null;
 	
 	protected clsPolarcoordinate moPolarcoordinate = new clsPolarcoordinate();
 	protected eEntityType mnEntityType = eEntityType.UNDEFINED;
 	protected eShapeType mnShapeType = eShapeType.UNDEFINED;
-	protected String moEntityId = "";
-	protected eSide moObjectPosition = eSide.UNDEFINED; 
-	
+	protected String moEntityId = "";	
 	protected double moExactDebugX;
 	protected double moExactDebugY;
 	protected double moDebugSensorArousal;
-	
+	protected boolean mnAlive = false;
+	protected Color moColor = new Color(0,0,0);
+	protected eSaliency moBrightness = eSaliency.UNDEFINED;
+	protected eSide moObjectPosition = eSide.UNDEFINED; 
+	protected eAntennaPositions moAntennaPositionLeft = eAntennaPositions.UNDEFINED; 
+	protected eAntennaPositions moAntennaPositionRight = eAntennaPositions.UNDEFINED;
+	protected double moExactDebugAngle;
+	protected double moObjectBodyIntegrity;
+	protected ArrayList<ePercievedActionType> moActions = new ArrayList<ePercievedActionType>();
+
 	public clsPolarcoordinate getPolarcoordinate() {
 		return moPolarcoordinate;
 	}
@@ -163,5 +177,137 @@ public class clsAcousticEntry extends clsSensorExtern {
 	public String logXML() {
 		// TODO (Owner) - Auto-generated method stub
 		return null;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 17.08.2013 22:47:30
+	 *
+	 * @return
+	 */
+	public eCount getNumEntitiesPresent() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return null;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 21.08.2013 21:29:20
+	 *
+	 * @param b
+	 */
+	public void setAlive(boolean b) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 21.08.2013 21:29:51
+	 *
+	 * @param color
+	 */
+	public void setColor(Color color) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 09:41:23
+	 *
+	 * @param setMeNumber
+	 */
+	public void setNumEntitiesPresent(eCount setMeNumber) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 10:13:50
+	 *
+	 * @return
+	 */
+	public ArrayList<ePercievedActionType> getActions() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return null;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 10:13:57
+	 *
+	 * @return
+	 */
+	public double getExactDebugAngle() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return 0;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 10:14:03
+	 *
+	 * @return
+	 */
+	public eSaliency getBrightness() {
+		// TODO (hinterleitner) - Auto-generated method stub
+		return null;
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:16
+	 *
+	 * @param entityBrightness
+	 */
+	public void setBrightness(eSaliency entityBrightness) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:25
+	 *
+	 * @param bodyIntegrity
+	 */
+	public void setObjectBodyIntegrity(double bodyIntegrity) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:34
+	 *
+	 * @param undefined
+	 */
+	public void setAntennaPositionLeft(eAntennaPositions undefined) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:48
+	 *
+	 * @param convertActions
+	 */
+	public void setActions(ArrayList<ePercievedActionType> convertActions) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+	/**
+	 * DOCUMENT (hinterleitner) - insert description
+	 *
+	 * @since 25.08.2013 19:15:57
+	 *
+	 * @param undefined
+	 */
+	public void setAntennaPositionRight(eAntennaPositions undefined) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
 	}
 }

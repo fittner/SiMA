@@ -504,6 +504,15 @@ public class clsMobileObject2D extends
 		
 	}
 
+	
+	@Override
+	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay) {
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsCircleImage){
+			((clsCircleImage) oShape).setThoughtExpressionOverlayImage(poOverlay);
+		}
+		
+	}
 	@Override
 	public void setCarriedItem(BufferedImage poOverlay) {
 		Shape oShape = this.getShape();

@@ -1,5 +1,5 @@
 /**
-# * @author Benny D�nz
+ * @author Benny D�nz
  * 13.05.2009, 21:44:44
  * 
  * $Rev::                      $: Revision of last commit
@@ -14,7 +14,7 @@ import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsInternalActionExecutor;
 import bw.entities.base.clsEntity;
 import bw.body.itfget.itfGetBody;
-import du.enums.eFacialExpression;
+import du.enums.eSpeechExpression;
 import du.itf.actions.*;
 
 /**
@@ -28,19 +28,19 @@ import du.itf.actions.*;
  * 15.04.2009, 16:31:13
  * 
  */
-public class clsExecutorInternalSweat extends clsInternalActionExecutor{
+public class clsExecutorSpeechShare extends clsInternalActionExecutor{
 
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
 
 	private clsEntity moEntity;
-
-
+	
+	public static final String P_ANTICIPATION_FACTOR = "anticipationfactor";
 	public static final String P_RANGESENSOR = "rangesensor";
 	public static final String P_BIZESIZE = "bitesize";
 
-	public clsExecutorInternalSweat(String poPrefix, clsProperties poProp, clsEntity poEntity) {
+	public clsExecutorSpeechShare(String poPrefix, clsProperties poProp, clsEntity poEntity) {
 		super(poPrefix, poProp);
 		
 		moEntity=poEntity;
@@ -54,6 +54,7 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	public static clsProperties getDefaultProperties(String poPrefix) {
 		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsInternalActionExecutor.getDefaultProperties(pre);
+		oProp.setProperty(pre+P_ANTICIPATION_FACTOR, 10f);
 		//oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
 		//oProp.setProperty(pre+P_BIZESIZE, 3f); //0.3f
 		
@@ -62,8 +63,8 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	
 	private void applyProperties(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
-		//moRangeSensor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_RANGESENSOR));
-		//mrBiteSize=poProp.getPropertyFloat(pre+P_BIZESIZE);
+		//mranticFactor=eSensorExtType.valueOf(poProp.getPropertyString(pre+P_ANTICIPATION_FACTOR));
+		
 	}
 	
 	/*
@@ -71,11 +72,11 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	 */
 	@Override
 	protected void setBodyPartId() {
-		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_EAT;
+		mePartId = bw.utils.enums.eBodyParts.ACTIONEX_SPEECHEXPRESSIONS;
 	}
 	@Override
 	protected void setName() {
-		moName="Eat executor";	
+		moName="Speech Inv executor";	
 	}
 
 	/*
@@ -104,9 +105,9 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setFacialExpressionOverlayImage(eFacialExpression.EAT);
+		moEntity.setThoughtExpressionOverlayImage(eSpeechExpression.SCHNITZEL);
 		//setFacialExpressionOverlayImage
-		//oBody.setFacialExpression(eFacialExpression.FEAR);
+		//oBody.setSpeechExpression(eSpeechExpression.INVITED);
 		
 		
 		

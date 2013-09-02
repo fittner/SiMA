@@ -11,7 +11,10 @@ public enum eSpeechExpression {
 	NONE("none.png"),
 	EAT("Overlay_Speech_EAT"),
 	INVITED("Overlay_Speech_INVITED"),
-	SHARE("Overlay_Speech_SHARE");
+	SHARE("Overlay_Speech_SHARE"),
+	YES("Overlay_Speech_YES"),
+	NOURISH("Overlay_Action_InnerSpeech_Nourish"),
+	SCHNITZEL("Overlay_Action_InnerSpeech_Schnitzel");
 
 	private String moeImagesString;
 	

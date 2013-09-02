@@ -15,6 +15,6 @@
 	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/jfreechart-1.0.11.jar"/>
 	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/jcommon-1.0.14.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/EntityBase-Body-ARSIN"/>
+	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/EntityBase-Body-ARSIN"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

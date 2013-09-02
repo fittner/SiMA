@@ -36,6 +36,7 @@ public interface itfSetupFunctions {
 	public void setOverlayImage(eImages poOverlay);
 	public void setFacialExpressionOverlayImage(eFacialExpression poOverlay);
 	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay);
+	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay);
 	public void setCarriedItem(BufferedImage mnCarriedItem);
 	
 	public clsPose getPose();

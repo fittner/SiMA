@@ -43,6 +43,7 @@ public class clsCircleImage extends Circle
 	eStrings moOverlayString = eStrings.Nourish;
 	eFacialExpression moFacialExpressionOverlayImage = eFacialExpression.NONE;
 	eSpeechExpression moSpeechExpressionOverlayImage = eSpeechExpression.NONE;
+	eSpeechExpression moThoughtExpressionOverlayImage = eSpeechExpression.NONE;
 	Paint moPaint = null;
 	AffineTransform transform = new AffineTransform(); 
 	boolean mbShowOrientation = false; //show orientation marker if you want
@@ -188,7 +189,8 @@ public class clsCircleImage extends Circle
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 	
+							//graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
 			        	}
 			        }
 			        
@@ -213,7 +215,25 @@ public class clsCircleImage extends Circle
 			        	}
 			        }
 			      		        
-	
+			        //display a Thought expressionoverlay Icon
+			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
+			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
+			        		
+				        	eImages oSpeechExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());
+				        	
+				    	   	BufferedImage oImageOverlay = null;
+				    
+				    	   	try {
+				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oSpeechExpressionImage);
+				    	   	} catch (IOException e) {
+				    	   		e.printStackTrace();
+				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+				    	   	}
+				        	
+							oImageOverlay.getGraphics();
+							graphics.drawImage(oImageOverlay, nxArc+55, nyArc+55, 60, 60, null ); 
+			        	}
+			        }
 	
 	        	}
 	        }
@@ -257,8 +277,23 @@ public class clsCircleImage extends Circle
 		this.moFacialExpressionOverlayImage = moOverlay;
 	}
 
-	
+	/**
+	 * @author hinterleitner
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
 	public void setSpeechExpressionOverlayImage(eSpeechExpression moOverlay) {
+		this.moSpeechExpressionOverlayImage = moOverlay;
+	}
+
+	/**
+	 * @author hinterleitner
+	 * 04.05.2011, 10:11:50
+	 * 
+	 * @param moOverlay the moOverlay to set
+	 */
+	public void setThoughtExpressionOverlayImage(eSpeechExpression moOverlay) {
 		this.moSpeechExpressionOverlayImage = moOverlay;
 	}
 

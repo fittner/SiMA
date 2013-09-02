@@ -246,4 +246,23 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 27.08.2013 19:39:46
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setThoughtExpressionOverlayImage(du.enums.eSpeechExpression)
+	 */
+	@Override
+	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay) {
+		// TODO (hinterleitner) - Auto-generated method stub
+		
+	}
+
+
+	
+
+
+
+
 }
