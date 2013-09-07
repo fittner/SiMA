@@ -541,7 +541,19 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	@Override
 	public void setDescription() {
 		moDescription = "The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}.";
-	}		
+	}
+
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 16:18:05
+     * 
+     * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_13(java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }		
 	
 }
 

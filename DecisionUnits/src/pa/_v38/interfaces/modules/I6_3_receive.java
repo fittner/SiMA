@@ -20,4 +20,13 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
  */
 public interface I6_3_receive {
 	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList);
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 06.09.2013 16:11:02
+     *
+     * @param poReachableGoalList
+     */
+    void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList);
 }

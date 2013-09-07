@@ -478,9 +478,11 @@ public class clsOntologyLoader {
 		Collection<?> oPreCon = getSlotValues("precondition", poElement);
 		Collection<?> oAction = getSlotValues("action", poElement);
 		Collection<?> oConseq = getSlotValues("consequence", poElement);
-		Collection<?> oObject = getSlotValues("object", poElement);
+		Collection<?> oObject = getSlotValues("emotion", poElement);
 		
 		clsWordPresentation oDS = null;
+		clsEmotion oDSEm = null;
+		clsWordPresentationMesh oDSWPM= null; 
 		clsDomain oAct = new clsDomain(
 				new clsTriple<Integer, eDataType, eContentType>(oID, oElType,
 						oElValType),
@@ -492,22 +494,22 @@ public class clsOntologyLoader {
 
 		for (Object oElement : oPreCon) {
 			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
+			oDSWPM = (clsWordPresentationMesh) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			// oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getMoContentType()
+					+ ":" + oDSWPM.getMoContent() + "|");
 		}
 
 		oAct.setMoContent(oAct.getMoContent() + "|ACTION|");
 
 		for (Object oElement : oAction) {
 			initDataStructure(null, (Instance) oElement, poDataContainer);
-			oDS = (clsWordPresentation) retrieveDataStructure(
+			oDSWPM = (clsWordPresentationMesh) retrieveDataStructure(
 					((Instance) oElement).getName(), poDataContainer.b);
 			// oAct.getMoAssociatedContent().add(oDS);
-			oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-					+ ":" + oDS.getMoContent() + "|");
+			oAct.setMoContent(oAct.getMoContent() + oDSWPM.getMoContentType()
+					+ ":" + oDSWPM.getMoContent() + "|");
 		}
 
 		oAct.setMoContent(oAct.getMoContent() + "|CONSEQUENCE|");
@@ -521,15 +523,15 @@ public class clsOntologyLoader {
 					+ ":" + oDS.getMoContent() + "|");
 		}
 		
-		oAct.setMoContent(oAct.getMoContent() + "|OBJECT|");
+		oAct.setMoContent(oAct.getMoContent() + "|EMOTION|");
 
         for (Object oElement : oObject) {
             initDataStructure(null, (Instance) oElement, poDataContainer);
-            oDS = (clsWordPresentation) retrieveDataStructure(
+            oDSEm = (clsEmotion) retrieveDataStructure(
                     ((Instance) oElement).getName(), poDataContainer.b);
             // oAct.getMoAssociatedContent().add(oDS);
-            oAct.setMoContent(oAct.getMoContent() + oDS.getMoContentType()
-                    + ":" + oDS.getMoContent() + "|");
+            oAct.setMoContent(oAct.getMoContent() + oDSEm.getMoContentType()
+                    + ":" + oDSEm.getMoContent() + "|");
         }
 	}
 

@@ -274,5 +274,17 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         
     }
 
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 16:16:53
+     * 
+     * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_13(java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
 
 }
