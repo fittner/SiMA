@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import ARSsim.physics2D.shape.clsCircleImage;
+import ARSsim.physics2D.util.clsPose;
 import bw.body.io.actuators.actionProxies.itfAPCarryable;
 import bw.entities.base.clsMobile;
 import bw.exceptions.exInventoryFull;
@@ -20,6 +21,7 @@ import bw.factories.clsRegisterEntity;
 import bw.utils.enums.eBindingState;
 
 import sim.physics2D.constraint.PinJoint;
+import sim.physics2D.util.Double2D;
 
 /**
  * Class for managing an entities inventory. 
@@ -141,8 +143,14 @@ public class clsInventory {
 	//	clsEntity neu = x.dublicate(x.moCreationProperties, 50, 0.5);
 		
 		
-		moCarriedEntity.registerEntity();
+		//moCarriedEntity.registerEntity();
 		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
+		clsRegisterEntity.addEntity(moCarriedEntity.getMobileObject2D());
+		//drop entity in front of arsin
+		clsPose oEntityPose = moEntity.getPose();
+		
+		moCarriedEntity.setPose(calculateNewPose(moEntity,moCarriedEntity));
+		moCarriedEntity.setVelocity(new Double2D(0.0,0.0));
 		moCarriedEntity.setRegistered(true);
 		moCarriedEntity.decHolders();
 		((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.NONE);
@@ -188,6 +196,71 @@ public class clsInventory {
 		oEntity.setRegistered(false);
 		
 		return oEntity;
+	}
+	
+	
+	public clsPose calculateNewPose(clsMobile poCarryEntity, clsMobile poDropEntity){
+		
+		double orientation = poCarryEntity.getPose().getAngle().radians;
+		
+		double posXCarry = poCarryEntity.getPose().getPosition().x;
+		double posYCarry = poCarryEntity.getPose().getPosition().y;
+		
+		double xMaxCarry = poCarryEntity.get2DShape().getMaxXDistanceFromCenter();
+		double yMaxCarry = poCarryEntity.get2DShape().getMaxYDistanceFromCenter();
+		double xMaxDrop = poDropEntity.get2DShape().getMaxXDistanceFromCenter();
+		double yMaxDrop = poDropEntity.get2DShape().getMaxYDistanceFromCenter();
+		double posX = 0.0;
+		double posY = 0.0;
+		
+		orientation = orientation % (2*Math.PI);
+		
+		//from 0.. pi/4
+		if((orientation > 0.0 && orientation<= Math.PI/4)){
+			posX = posXCarry + (xMaxCarry + xMaxDrop);
+			posY = posYCarry + (xMaxCarry + xMaxDrop) * Math.tan(orientation);
+		}
+		//from pi/4 .. pi/2
+		else if(orientation > Math.PI/4 && orientation <= Math.PI/2){
+			posX = posXCarry + (yMaxCarry + yMaxDrop) * Math.tan(Math.PI/2 - orientation);
+			posY = posYCarry + (yMaxCarry + yMaxDrop);
+
+		}
+		//from pi/2 .. 3pi/4
+		else if(orientation > Math.PI/2 && orientation<= 3*Math.PI/4){
+			posX = posXCarry - (yMaxCarry + yMaxDrop) * Math.tan(orientation - Math.PI/2);
+			posY = posYCarry + (yMaxCarry + yMaxDrop);
+
+		}
+		//from 3pi/4 .. pi
+		else if((orientation > 3*Math.PI/4 && orientation<= Math.PI)){
+			posX = posXCarry - (xMaxCarry + xMaxDrop);
+			posY = posYCarry + (xMaxCarry + xMaxDrop) * Math.tan(Math.PI - orientation);
+		}
+		//from pi .. 5pi/4
+		else if((orientation > Math.PI && orientation<= 5*Math.PI/4)){
+			posX = posXCarry - (xMaxCarry + xMaxDrop);
+			posY = posYCarry - (xMaxCarry + xMaxDrop) * Math.tan(orientation - Math.PI);
+		}
+		//from 5pi/4 .. 3pi/2
+		else if((orientation > 5*Math.PI/4 && orientation<= 3*Math.PI/2)){
+			posX = posXCarry - (yMaxCarry + yMaxDrop) * Math.tan(3*Math.PI/2 - orientation);
+			posY = posYCarry - (yMaxCarry + yMaxDrop);
+		}
+		//from 3pi/2 .. 7pi/4
+		else if((orientation > 3*Math.PI/2 && orientation<= 7*Math.PI/4)){
+			posX = posXCarry + (yMaxCarry + yMaxDrop) * Math.tan(orientation -3*Math.PI/2);
+			posY = posYCarry - (yMaxCarry + yMaxDrop);
+		}
+		//from 7pi/4 .. 2pi
+		else if((orientation > 7*Math.PI/4 && orientation<= 2*Math.PI)){
+			posX = posXCarry + (xMaxCarry + xMaxDrop);
+			posY = posYCarry - (xMaxCarry + xMaxDrop) * Math.tan(2*Math.PI - orientation);
+		}
+		System.out.println(posX+" - "+posX);
+		
+		
+		return new clsPose(posX,posY,poDropEntity.getPose().getAngle().radians);
 	}
 
 }

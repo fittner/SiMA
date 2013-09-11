@@ -69,7 +69,7 @@ public class clsMobileObject2D extends
 	//added by SK: the following members are used for surfaces
 	//values identical to superclass but are declared private there 
 	protected final double mrZeroVelocity = 0.01;
-	protected final double mrGravity = 0.1;
+	protected final double mrGravity = 0.1; 
 	protected double mrNormalForce = 80 * mrGravity; //assumes an arsin with 80kg and the given gravity resulting in N = 8
 	//other things used for friction
 	protected clsSurfaceHandler moSurfaceHandler = clsSurfaceHandler.getInstance();
