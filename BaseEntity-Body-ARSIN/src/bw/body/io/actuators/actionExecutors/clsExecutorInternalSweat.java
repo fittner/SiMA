@@ -1,5 +1,5 @@
 /**
-# * @author Benny D�nz
+ # * @author Benny D�nz
  * 13.05.2009, 21:44:44
  * 
  * $Rev::                      $: Revision of last commit
@@ -104,7 +104,7 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setFacialExpressionOverlayImage(eFacialExpression.EAT);
+		moEntity.setFacialExpressionOverlayImage(eFacialExpression.YES);
 		//setFacialExpressionOverlayImage
 		//oBody.setFacialExpression(eFacialExpression.FEAR);
 		

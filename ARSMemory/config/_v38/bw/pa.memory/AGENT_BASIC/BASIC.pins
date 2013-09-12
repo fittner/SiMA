@@ -1,7 +1,7 @@
-; Wed Aug 07 16:46:07 CEST 2013
+; Sat Sep 07 13:06:49 CEST 2013
 ; 
-;+ (version "3.4.4")
-;+ (build "Build 579")
+;+ (version "3.4.8")
+;+ (build "Build 629")
 
 ([AA%3AA01_GOAROUNDSTONE_L01_I01%3ACAKE%3APOSITION%3ACENTER] of  ASSOCIATIONATTRIBUTE
 
@@ -2668,6 +2668,17 @@
 		[TPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR])
 	(weight 1.0 1.0))
 
+([BASIC_Class1] of  DOMAIN
+
+	(action [WPM%3AACTION%3AL1_SPEAK])
+	(consequence [WP%3AACTION%3AFLEE])
+	(emotion [EMOTION%3AJOY])
+	(precondition
+		[WPM%3AENTITY%3ACAKE]
+		[WPM%3AENTITY%3AARSIN_ADAM]
+		[WPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR])
+	(value_type "EAT"))
+
 ([DM%3ABEAT%3ABODO%3AANAL] of  DM_anal
 
 	(class_association [TPM%3AORGANS%3ALIBIDO])
@@ -4358,6 +4369,11 @@
 
 	(value "SLEEP")
 	(value_type "ACTION"))
+
+([WPM%3AACTION%3AL1_SPEAK] of  WPM%3AACTION%3AL1
+
+	(value "SPEAK")
+	(value_type "SPEAK"))
 
 ([WPM%3AACTION%3AL1_SUCK] of  WPM%3AACTION%3AL1
 

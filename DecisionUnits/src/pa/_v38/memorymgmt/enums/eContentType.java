@@ -47,6 +47,11 @@ public enum eContentType {
 	SUPPORTIVEDATASTRUCTURE,
 	
 	
+	   //--- Speech Wording ---//
+    EAT,
+    SHARE,
+    SPEAK,
+    
 	//--- Goals ---//
 	CONDITION,
 	GOALTYPE,

@@ -24,6 +24,7 @@ import pa._v38.tools.datastructures.clsMeshTools;
 
 import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
+import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_2_receive;
@@ -34,6 +35,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
@@ -57,7 +59,7 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
  * 
  */
 public class F26_DecisionMaking extends clsModuleBaseKB implements 
-			 I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
+I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	/** Specialized Logger for this class */
@@ -81,6 +83,7 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	private ArrayList<clsWordPresentationMeshGoal> moDecidedGoalList_OUT;
 	
 	private ArrayList<clsWordPresentationMeshGoal> moDriveGoalList_IN;
+	private ArrayList<clsWordPresentationMeshGoal> moSpeechList_IN;
 	
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
@@ -395,6 +398,25 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 		moReachableGoalList_IN = poReachableGoalList; 
 	}
 	
+	
+	/* (non-Javadoc)
+    *
+    * @author hinterleitner
+    * 11.08.2009, 14:52:37
+    * 
+    * @see pa.interfaces.I2_13#receive_I2_13(int)
+    * 
+    * by this interface a set of reality information, filtered by E24 (reality check), is received
+    * fills moRealityPerception
+    * 
+    */
+   @SuppressWarnings("unchecked")
+   @Override
+   public void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
+       //moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
+       moSpeechList_IN = poReachableGoalList; 
+   }
+	
 	/* (non-Javadoc)
 	 *
 	 * @author kohlhauser
@@ -657,6 +679,33 @@ public class F26_DecisionMaking extends clsModuleBaseKB implements
 	public void setDescription() {
 		moDescription = "Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability.";
 	}
+
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 16:13:23
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
+     */
+    @Override
+    public void receive_I6_13(clsWording moWording) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 06.09.2013 16:13:23
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
+     */
+    @Override
+    public void receive_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+
+   
 
 
 
