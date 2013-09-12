@@ -95,7 +95,7 @@ public class clsInventory {
 		if (moCarriedEntity!=null ) {
 			dropCarriedItem();
 		}
-		//If the item is from the inventory register in mason and remove from inventory
+		//If the item is from the inventory register in mason and
 		if (moInventory.contains(poEntity)) {
 			moInventory.remove(poEntity);
 			moCarriedEntity = poEntity;
@@ -113,7 +113,7 @@ public class clsInventory {
 
 		}
 
-
+		//old carry
 		/*
 		//drop anything we are currently carrying
 		if (moCarriedEntity!=null ) {
@@ -147,10 +147,9 @@ public class clsInventory {
 		//clsRegisterEntity.registerMobileObject2D(moCarriedEntity.getMobileObject2D());
 		clsRegisterEntity.addEntity(moCarriedEntity.getMobileObject2D());
 		//drop entity in front of arsin
-		clsPose oEntityPose = moEntity.getPose();
-		
 		moCarriedEntity.setPose(calculateNewPose(moEntity,moCarriedEntity));
 		moCarriedEntity.setVelocity(new Double2D(0.0,0.0));
+
 		moCarriedEntity.setRegistered(true);
 		moCarriedEntity.decHolders();
 		((itfAPCarryable)moCarriedEntity).setCarriedBindingState(eBindingState.NONE);
