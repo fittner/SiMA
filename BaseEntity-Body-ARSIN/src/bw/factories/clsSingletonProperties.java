@@ -27,8 +27,8 @@ public class clsSingletonProperties {
 	private boolean mnShowArousalGridPortrayal;
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
-	private boolean mnShowSpeechExpressionOverlay;
 	private boolean mnShowThoughtExpressionOverlay;
+
 	
 	protected clsSingletonProperties() {
 		moProperties = new clsProperties();
@@ -40,7 +40,8 @@ public class clsSingletonProperties {
 		mnShowArousalGridPortrayal = false;
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
-		mnShowSpeechExpressionOverlay = false;
+		mnShowThoughtExpressionOverlay = false;
+		
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -114,28 +115,17 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
 	}
 	
-	static public boolean showSpeechExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
-	}
-	
 	static public boolean showThoughtExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
+		return (clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay;
 	}
-	
 	
 	static public void setShowFacialExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
 	
-	static public void setShowSpeechExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
-	}
-
 	static public void setShowThoughtExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay = value;
 	}
-	
-	
 
 	public static void setShowCarriedItem(boolean value) {
 		

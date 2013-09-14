@@ -9,16 +9,17 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
-import config.clsProperties;
-import pa._v38.interfaces.modules.I6_13_receive;
-import pa._v38.interfaces.modules.I6_9_receive;
+
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_10_send;
+import pa._v38.interfaces.modules.I6_13_receive;
+import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import config.clsProperties;
 
 /**
  * DOCUMENT (KOHLHAUSER) - insert description 
@@ -31,8 +32,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	public static final String P_MODULENUMBER = "53";
 	
-	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	private clsWordPresentationMesh moWording_IN;
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
 	 * 
@@ -219,8 +221,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
      * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
      */
     @Override
-    public void receive_I6_13(clsWording moWording) {
-        // TODO (hinterleitner) - Auto-generated method stub
+    public void receive_I6_13(clsWordPresentationMesh moWording) {
+        moWording_IN = moWording; 
         
     }
 
@@ -232,6 +234,18 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
      */
     @Override
     public void receive_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+        // TODO (hinterleitner) - Auto-generated method stub
+        
+    }
+
+    /* (non-Javadoc)
+     *
+     * @since 12.09.2013 22:25:09
+     * 
+     * @see pa._v38.interfaces.modules.I6_13_receive#receive_I6_13(pa._v38.memorymgmt.datatypes.clsWording)
+     */
+    @Override
+    public void receive_I6_13(clsWording moWording) {
         // TODO (hinterleitner) - Auto-generated method stub
         
     }	

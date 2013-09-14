@@ -196,7 +196,7 @@ public class clsCircleImage extends Circle
 			        
 			        
 			      //display a Speech expressionoverlay Icon
-			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
+			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
 			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());
@@ -211,30 +211,10 @@ public class clsCircleImage extends Circle
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc+40, nyArc-55, 60, 60, null ); 
 			        	}
 			        }
-			      		        
-			        //display a Thought expressionoverlay Icon
-			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
-			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
-			        		
-				        	eImages oSpeechExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());
-				        	
-				    	   	BufferedImage oImageOverlay = null;
-				    
-				    	   	try {
-				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oSpeechExpressionImage);
-				    	   	} catch (IOException e) {
-				    	   		e.printStackTrace();
-				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
-				    	   	}
-				        	
-							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+55, nyArc+55, 60, 60, null ); 
-			        	}
-			        }
-	
+			      		       
 	        	}
 	        }
         }

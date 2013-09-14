@@ -104,7 +104,7 @@ public class clsExecutorInternalSweat extends clsInternalActionExecutor{
 	@Override
 	public boolean execute(clsInternalActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		moEntity.setFacialExpressionOverlayImage(eFacialExpression.YES);
+		moEntity.setFacialExpressionOverlayImage(eFacialExpression.SURPRISE);
 		//setFacialExpressionOverlayImage
 		//oBody.setFacialExpression(eFacialExpression.FEAR);
 		

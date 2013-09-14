@@ -20,7 +20,6 @@ import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
-import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.situationloader.clsConceptLoader;
 import pa._v38.memorymgmt.situationloader.clsSituationLoader;
@@ -45,6 +44,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
     private clsWordPresentationMesh moPerceptionalMesh_OUT;
+    private clsWordPresentationMesh poWording;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
     private ArrayList<clsWordPresentationMeshGoal> moDriveList_IN;
     private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_IN;
@@ -53,7 +53,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     /** @author havlicek; Currently identified situation. */
     private clsSituation moSituation;
     private clsProperties moProperties;
-    private String moWording;
+//    private String moWording;
     private float mnSpeechThresold;
     DT3_PsychicEnergyStorage poPsychicEnergyStorage;
     clsPersonalityParameterContainer poPersonalityParameterContainer;
@@ -68,11 +68,12 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         // Prepare finals to ensure null safety.
         moConcept = new clsConcept();
         moSituation = new clsSituation();
-
+        poWording = new clsConcept().moWording;
+        
         applyProperties(poPrefix, poProp);
         this.moShortTermMemory = poShortTermMemory;
 
-        moWording = new clsWording().getWording();
+       // moWording = new clsWording().getWording();
         // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
 
     }
@@ -164,7 +165,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         throw new java.lang.NoSuchMethodError();
     }
 
-    public void send_I6_13() {
+    public void send_I6_13(clsWordPresentationMesh moPerceptionalMesh_OUT2, ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT2, clsConcept moConcept2) {
 
         // AW 20110602 Added Associtated memories
         // moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(moAssociatedMemories_IN);
@@ -199,7 +200,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-            send_I6_13(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
+            send_I6_13(poWording, moAssociatedMemories_OUT);
         }
 
   
@@ -212,7 +213,8 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      * @param moPerceptionalMesh_OUT2
      * @param moAssociatedMemories_OUT2
      */
-    private void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
+    @Override
+    public void send_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
         ((I6_12_receive)moModuleList.get(23)).receive_I6_12(poPerception, poAssociatedMemoriesSecondary);
 
         putInterfaceData(I6_13_send.class, poPerception, poAssociatedMemoriesSecondary);
@@ -262,29 +264,8 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         moSecondaryDataStructureContainer_IN = poSecondaryDataStructureContainer_Output;
     }
 
-    /* (non-Javadoc)
-     *
-     * @since 23.08.2013 20:02:57
-     * 
-     * @see pa._v38.interfaces.modules.I6_13_send#send_I6_12(pa._v38.memorymgmt.datatypes.clsWordPresentationMesh, java.util.ArrayList)
-     */
-    @Override
-    public void send_I6_12(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        // TODO (hinterleitner) - Auto-generated method stub
-        
-    }
 
-    /* (non-Javadoc)
-     *
-     * @since 06.09.2013 16:16:53
-     * 
-     * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_13(java.util.ArrayList)
-     */
-    @Override
-    public void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
-        // TODO (hinterleitner) - Auto-generated method stub
-        
-    }
+  
 
 
 }

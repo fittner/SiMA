@@ -91,7 +91,7 @@ public class clsExecutorTurn extends clsActionExecutor{
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI*(-1.0)));
     	}
     	if (oCommand.getDirection()==eActionTurnDirection.TURN_RIGHT){
-            moEntity.setOverlayImage(eImages.Overlay_Action_TurnRight);
+            moEntity.setOverlayImage(eImages.Overlay_Speech_SHARE);
     		//moEntity.setOverlayImage(eImages.Overlay_Action_OuterSpeech_Eat);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.faceTowardsRelative(new Angle(oCommand.getAngle()/360*Math.PI));
     	}

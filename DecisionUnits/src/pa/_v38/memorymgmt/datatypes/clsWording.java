@@ -39,12 +39,12 @@ public class clsWording {
 			
 	} 
 	
-		/**
+	/*	*//**
 	 * DOCUMENT (hinterleitner) - insert description 
 	 *
 	 * @since 16.02.2013 14:38:13
 	 *
-	 */
+	 *//*
 	public clsWording() {
 		// TODO (hinterleitner) - Auto-generated constructor stub
 	}
@@ -54,7 +54,7 @@ public class clsWording {
 			String NewEnv = "Eat";
 			return NewEnv;
 				
-		}
+		}*/
 
 	
 		public String SetWording(String getmoWording){

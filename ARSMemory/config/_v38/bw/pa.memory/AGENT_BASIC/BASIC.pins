@@ -1,4 +1,4 @@
-; Sat Sep 07 13:06:49 CEST 2013
+; Sat Sep 14 16:49:13 CEST 2013
 ; 
 ;+ (version "3.4.8")
 ;+ (build "Build 629")
@@ -2673,10 +2673,8 @@
 	(action [WPM%3AACTION%3AL1_SPEAK])
 	(consequence [WP%3AACTION%3AFLEE])
 	(emotion [EMOTION%3AJOY])
-	(precondition
-		[WPM%3AENTITY%3ACAKE]
-		[WPM%3AENTITY%3AARSIN_ADAM]
-		[WPM%3AIMAGE%3ACARL_CAKE_L01_I03_NEAR])
+	(instance_association [WPM%3AIMAGE%3AA02_STONEWAYPOINTS_L01_I03])
+	(precondition [WPM%3AIMAGE%3AA01_EAT_L01])
 	(value_type "EAT"))
 
 ([DM%3ABEAT%3ABODO%3AANAL] of  DM_anal
@@ -4494,6 +4492,17 @@
 
 	(value "WALL")
 	(value_type "ENTITY"))
+
+([WPM%3AIMAGE%3AA01_EAT_L01] of  WPM%3AIMAGE
+
+	(class_association
+		[DM%3ABEAT%3ABODO%3AANAL]
+		[EMOTION%3AJOY]
+		[WPM%3AENTITY%3ACAKE]
+		[WP%3APOSITION%3ALEFT]
+		[WPM%3AACTION%3AL1_EAT])
+	(value "A01_EAT_L01")
+	(value_type "RI"))
 
 ([WPM%3AIMAGE%3AA01_GOAROUNDSTONE_L01] of  WPM%3AIMAGE
 
