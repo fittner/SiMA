@@ -14,6 +14,7 @@ import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
+import du.itf.actions.clsActionAttackBite;
 import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDivide;
@@ -275,7 +276,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("MOVE_BACKWARD")){
 					moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_BACKWARD,1.0) );
 				} else if(oAction.equals("TURN_LEFT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 10.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 20.0));
 				} else if(oAction.equals("TURN_LEFT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 45.0));
 				} else if(oAction.equals("TURN_LEFT90")){
@@ -283,7 +284,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 				} else if(oAction.equals("TURN_LEFT180")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_LEFT, 180.0));
 				} else if(oAction.equals("TURN_RIGHT")){
-					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 10.0));
+					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 20.0));
 				} else if(oAction.equals("TURN_RIGHT45")){
 					moActionCommandList_Output.add(new clsActionTurn(eActionTurnDirection.TURN_RIGHT, 45.0));
 				} else if(oAction.equals("TURN_RIGHT90")){
@@ -472,7 +473,15 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_draft() {
 	    moActionCommandList_Output.clear();
-	    if(testSequence_drop())  return;
+	    if(mnTestCounter%2==0){
+	        moActionCommandList_Output.add(new clsActionAttackBite(1.0));
+	    }
+	    else if (mnTestCounter%2 == 1){
+	        moActionCommandList_Output.add(new clsActionBeat(1.0));
+	    }
+	    mnTestCounter++;
+	    return;
+	    //if(testSequence_drop())  return;
 	}
 
 	/* (non-Javadoc)
