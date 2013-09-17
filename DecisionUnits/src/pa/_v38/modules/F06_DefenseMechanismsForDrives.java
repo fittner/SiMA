@@ -1004,7 +1004,7 @@ protected clsDriveMesh Turning_Against_Self(clsDriveMesh poOriginalDM){
 		oOppositeTP.put("REPRESS","GUARD_DOR");
 		oOppositeTP.put("DEPOSIT","THROW_OUT_GARBAGE");
 		//Just for Test
-		oOppositeTP.put("EAT","SHARE_THE_FOOD_WITH_OTHERS");
+		oOppositeTP.put("EAT","DIVIDE");
 		 
 		
 		

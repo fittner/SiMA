@@ -55,7 +55,7 @@ import du.enums.pa.eDriveComponent;
 public class F07_SuperEgoReactive extends clsModuleBase
 	implements I5_12_receive, I5_10_receive, I5_11_send, I5_13_send, itfGraphInterface{
 
-	public static final String P_MODULENUMBER = "7";
+	public static final String P_MODULENUMBER = "07";
 	
 	public static final String P_SUPER_EGO_STRENGTH = "SUPER_EGO_STRENGTH";
 	public static final String P_PSYCHIC_ENERGY_THESHOLD = "PSYCHIC_ENERGY_THESHOLD";
@@ -118,9 +118,9 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 		applyProperties(poPrefix, poProp); 
 		
-		threshold_psychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
-		msPriorityPsychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_PSYCHIC_ENERGY_PRIORITY).getParameterInt();
-		moSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F0"+P_MODULENUMBER,P_SUPER_EGO_STRENGTH).getParameterDouble();
+		threshold_psychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PSYCHIC_ENERGY_THESHOLD).getParameterInt();
+		msPriorityPsychicEnergy = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_PSYCHIC_ENERGY_PRIORITY).getParameterInt();
+		moSuperEgoStrength  = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER,P_SUPER_EGO_STRENGTH).getParameterDouble();
 
 	}
 	
@@ -238,9 +238,32 @@ public class F07_SuperEgoReactive extends clsModuleBase
 	 */
 	@Override
 	protected void process_draft() {
-		// TODO (zeilinger) - Auto-generated method stub
-		
-	}
+
+	    try {
+            moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+	    
+	     if(moSuperEgoStrength >= 0.5) //if super ego is strong enough - 0.5 is an arbitrary value
+         {
+             //simple_rule to deal with eating in BODOs vicinity
+             
+             ArrayList<String> oEntities = new ArrayList<String> ();
+             
+             oEntities.add("BODO");
+             
+//             simple_rule(eDriveComponent.AGGRESSIVE,
+//                     eOrgan.STOMACH,
+//                     0.0, //for testing, to make sure the rule is triggered
+//                     oEntities);
+             
+             simple_rule(eDriveComponent.LIBIDINOUS,
+                     eOrgan.STOMACH,
+                     0.0, //for testing, to make sure the rule is triggered
+                     oEntities);
+         }
+    }
 
 	/* (non-Javadoc)
 	 *
@@ -255,6 +278,66 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 	}
 	
+	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota)
+	{
+	    return simple_rule(poComponent, poOrgan, pnMinQuota, new ArrayList<String>());
+	}
+	
+	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota,
+	        ArrayList<String> poPerceivedEntities)
+    {
+	    boolean rule_triggered = false;
+	    clsPair<eDriveComponent, eOrgan> oDrive;
+	    
+	    clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
+        clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
+        ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
+                
+	    //check for a fitting drive
+	    if(searchInDM(poComponent, poOrgan, pnMinQuota))
+	    {
+	        //logging for inspectors
+            oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>(
+                    poComponent.toString() + "/" + poOrgan.toString() + " >= " + pnMinQuota, //debug
+                    poComponent,
+                    poOrgan,
+                    pnMinQuota);
+	        
+            //check if entities are perceived
+            for(String oEntity : poPerceivedEntities)
+	        {
+                if(searchInTPM(eContentType.ENTITY, oEntity))
+                {
+                    oContentTypeDrives.add("ENTITY=" + oEntity);
+                }
+	        }
+
+            if(oContentTypeDrives.size() > poPerceivedEntities.size()) //should never happen
+            {
+                System.err.println("PROBLEM: found more perceivide entities than specified entities");
+            }else if(oContentTypeDrives.size() == poPerceivedEntities.size())
+            {
+              //forbid drive, if not yet forbidden
+                oDrive = new clsPair<eDriveComponent, eOrgan>(poComponent, poOrgan);
+                
+                if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
+                {
+                    moForbiddenDrives.add(oDrive);
+                    rule_triggered = true;
+                }
+                
+                //log forbidding of drive
+                oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>("SuperEgoStrength >= 0.5", oForbiddenDrive, oContentTypeDrives);
+                if(!moSuperEgoDrivesRules.contains(oDriveRules))
+                {
+                    // add rule info to inspector 
+                    moSuperEgoDrivesRules.add(oDriveRules);
+                }
+            }
+        }
+	    
+        return rule_triggered;
+    }
 	
 	/* (non-Javadoc)
 	 *
