@@ -399,7 +399,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// sample rule for repression of drives
 		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
 		if (moSuperEgoStrength >= 0.5)
-			
+		{			
 			oSuperEgoStrength="SuperEgoStrength >= 0.5";
 			
 			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
@@ -420,22 +420,23 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				// The following drive was found by Super-Ego as inappropriate or forbidden.
 				// Therefore the Super-Ego marks the drive as forbidden and sends the mark to the Ego.
 				clsPair<eDriveComponent, eOrgan> oDrive = new clsPair<eDriveComponent, eOrgan>(eDriveComponent.LIBIDINOUS, eOrgan.STOMACH);
-				if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
+				if (!moForbiddenDrives.contains(oDrive)) { // no duplicate entries
 					moForbiddenDrives.add(oDrive);
+				}
 				
 				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
 					// add Rules for drives on the Simulator --> state 
 					moSuperEgoDrivesRules.add(oDriveRules);
-					}
-
+				}
 			}
+		}
 		
 		// sample rule for denial of perceptions
 		// (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH) means "EAT"
-		if (moSuperEgoStrength >= 0.5) //0.8
+		if (moSuperEgoStrength >= 0.5) { //0.8
 			if (searchInDM (eDriveComponent.LIBIDINOUS, eOrgan.STOMACH, 0.0) &&
 				searchInTPM (eContentType.ENTITY, "BODO") &&
-				searchInTPM (eContentType.ENTITY, "CAKE"))
+				searchInTPM (eContentType.ENTITY, "CAKE")) {
 				
 								
 				// If all the conditions above are true then Super-Ego can fire.
@@ -458,24 +459,28 @@ public class F07_SuperEgoReactive extends clsModuleBase
 					if(!moSuperEgoPerceptionsRules.contains(oPerceptionRules)){
 						// add Rules for Perceptions on the Simulator --> state
 						moSuperEgoPerceptionsRules.add(oPerceptionRules);
-						}
+					}
 				}
-
+			}
+		}
+		
 		// sample rule for conversion of emotion anger into emotion fear (reversal of affect)
 		if (moSuperEgoStrength >= 0.5)
+		{
 			if (searchInEmotions (eEmotionType.ANGER))
+			{
 				// To view the Rules for Emotions on the Simulator --> state
 				oEmotionRules= new clsPair<String,String> ("moSuperEgoStrength >= 0.5","ANGER");
-				if (!moForbiddenEmotions.contains(eEmotionType.ANGER))
+				if (!moForbiddenEmotions.contains(eEmotionType.ANGER)) {
 					moForbiddenEmotions.add(eEmotionType.ANGER);
-				
+				}
 					
 				if(!moSuperEgoEmotionsRules.contains(oEmotionRules)){
 					// add Rules for Emotions on the Simulator --> state
 					moSuperEgoEmotionsRules.add(oEmotionRules);
 				}
-		
-		
+			}
+		}
 		// sample rule for conversion of emotion grief into emotion fear (reversal of affect)
 		/*if (moSuperEgoStrength >= 0.5)
 			if (searchInEmotions (eEmotionType.GRIEF))
@@ -493,7 +498,7 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		// (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH) means "BITE"
 		// (by repressing the aggressive drive energy, anxiety is produced)
 
-		if (moSuperEgoStrength >= 0.5) //0.8
+		if (moSuperEgoStrength >= 0.5) { //0.8
 			if (searchInDM (eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39)) {
 
 				
@@ -501,14 +506,15 @@ public class F07_SuperEgoReactive extends clsModuleBase
 				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>("Drive Component="+"Hunger",eDriveComponent.AGGRESSIVE, eOrgan.STOMACH, 0.39);
 				oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>(oSuperEgoStrength,oForbiddenDrive,null);
 					
-				if (!moForbiddenDrives.contains(oDrive))
+				if (!moForbiddenDrives.contains(oDrive)) {
 					moForbiddenDrives.add(oDrive);
+				}
+				
 				if(!moSuperEgoDrivesRules.contains(oDriveRules)){
 					moSuperEgoDrivesRules.add(oDriveRules);
-					}
-
+				}
 			}
-		
+		}
 	
 		
 		
