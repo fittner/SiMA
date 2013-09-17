@@ -733,17 +733,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moDescription = "The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered according to their importance to existing drive wishes. This could mean for example that an object is qualified to satisfy a bodily need. The resulting listthe package of word presentation, thing presentation, and drive whishes for each perception ordered descending by their importanceis forwarded by the interface {I2.12} to {E24} and {E25}. These two modules are part of reality check.";
 	}
 
-    /* (non-Javadoc)
-     *
-     * @since 06.09.2013 16:17:20
-     * 
-     * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_13(java.util.ArrayList)
-     */
-    @Override
-    public void receive_I6_13(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
-        // TODO (hinterleitner) - Auto-generated method stub
-        
-    }
+  
 
 
 	

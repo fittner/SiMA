@@ -102,7 +102,7 @@ public class clsExecutorMove extends clsActionExecutor{
     	switch(oCommand.getDirection() )
     	{
     	case MOVE_FORWARD:
-    		moEntity.setOverlayImage(eImages.Overlay_Action_MoveForward);
+    		moEntity.setOverlayImage(eImages.Overlay_Speech_YES);
     		((clsMobile)moEntity).getMobileObject2D().moMotionPlatform.moveForward(mrSpeedScalingFactor*oCommand.getSpeed());
             moEntity.addAction(new clsAction(1,ePercievedActionType.MOVE_FORWARD));
     		

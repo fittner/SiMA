@@ -21,15 +21,7 @@ import pa._v38.memorymgmt.datatypes.clsWording;
 
 public interface I6_13_receive {
   
-    /**
-     * DOCUMENT (hinterleitner) - insert description
-     *
-     * @since 11.05.2013 15:01:37
-     *
-     * @param moWording
-     */
-    public void receive_I6_13(clsWording moWording);
-
+  
     /**
      * DOCUMENT (hinterleitner) - insert description
      *
@@ -39,4 +31,22 @@ public interface I6_13_receive {
      * @param poAssociatedMemoriesSecondary
      */
     public void receive_I6_13(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary);
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 12.09.2013 22:14:35
+     *
+     * @param moWording
+     */
+    void receive_I6_13(clsWordPresentationMesh moWording);
+
+    /**
+     * DOCUMENT (hinterleitner) - insert description
+     *
+     * @since 12.09.2013 22:24:22
+     *
+     * @param moWording
+     */
+    void receive_I6_13(clsWording moWording);
 }
