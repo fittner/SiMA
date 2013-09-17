@@ -231,39 +231,37 @@ public class F07_SuperEgoReactive extends clsModuleBase
 
 	/* (non-Javadoc)
 	 *
-	 * @author zeilinger
-	 * 02.05.2011, 15:49:48
+	 * @author kollmann
+	 * 17.09.2013, 14:00
 	 * 
 	 * @see pa._v38.modules.clsModuleBase#process_draft()
 	 */
 	@Override
 	protected void process_draft() {
+		try {
+			moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
+		} catch (CloneNotSupportedException e) {
+			e.printStackTrace();
+		}
+		
+		//clear the list of forbidden drives, every turn
+		moForbiddenDrives.clear();
+		
+		if(moSuperEgoStrength >= 0.5) //if super ego is strong enough - 0.5 is an arbitrary value
+		{
+			//simple_rule to deal with eating in BODOs vicinity
 
-	    try {
-            moPerceptionalMesh_OUT = (clsThingPresentationMesh) moPerceptionalMesh_IN.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
-	    
-	     if(moSuperEgoStrength >= 0.5) //if super ego is strong enough - 0.5 is an arbitrary value
-         {
-             //simple_rule to deal with eating in BODOs vicinity
-             
-             ArrayList<String> oEntities = new ArrayList<String> ();
-             
-             oEntities.add("BODO");
-             
-//             simple_rule(eDriveComponent.AGGRESSIVE,
-//                     eOrgan.STOMACH,
-//                     0.0, //for testing, to make sure the rule is triggered
-//                     oEntities);
-             
-             simple_rule(eDriveComponent.LIBIDINOUS,
-                     eOrgan.STOMACH,
-                     0.0, //for testing, to make sure the rule is triggered
-                     oEntities);
-         }
-    }
+			ArrayList<String> oEntities = new ArrayList<String> ();
+
+			oEntities.add("BODO");
+
+			simple_rule(eDriveComponent.LIBIDINOUS,
+				eOrgan.STOMACH,
+				0.0, //FIXME Kollmann: The super-rule for divide should only fire above a certain QoA
+				0.1, // Kollmann: When the stomach is full -> LIB/STOM has a QoA ~ 0.04 
+				oEntities);
+		}
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -278,66 +276,99 @@ public class F07_SuperEgoReactive extends clsModuleBase
 		
 	}
 	
-	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota)
+	
+	/**
+	 * DOCUMENT (Kollmann) - alternative call to simple_rule without any perceivable entities
+	 *
+	 * @since 17.09.2013 14:16:37
+	 *
+	 * @param poComponent the drive component (poComponent.LIBIDINOUSE or poComponent.AGGRESIVE)
+	 * @param poOrgan the drive source
+	 * @param pnMinQuota the minimum quota of affect the drive needs to activate the rule
+	 * @param pnMaxQuota the maximum (>=) QoA the drive can have to activate the rule
+	 * @return true if the rule was triggered, false otherwise
+	 */
+	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota, double pnMaxQuota)
 	{
-	    return simple_rule(poComponent, poOrgan, pnMinQuota, new ArrayList<String>());
+	    return simple_rule(poComponent, poOrgan, pnMinQuota, pnMaxQuota, new ArrayList<String>());
 	}
 	
-	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota,
-	        ArrayList<String> poPerceivedEntities)
-    {
-	    boolean rule_triggered = false;
-	    clsPair<eDriveComponent, eOrgan> oDrive;
-	    
-	    clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
-        clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
-        ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
-                
-	    //check for a fitting drive
-	    if(searchInDM(poComponent, poOrgan, pnMinQuota))
-	    {
-	        //logging for inspectors
-            oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>(
-                    poComponent.toString() + "/" + poOrgan.toString() + " >= " + pnMinQuota, //debug
-                    poComponent,
-                    poOrgan,
-                    pnMinQuota);
-	        
-            //check if entities are perceived
-            for(String oEntity : poPerceivedEntities)
-	        {
-                if(searchInTPM(eContentType.ENTITY, oEntity))
-                {
-                    oContentTypeDrives.add("ENTITY=" + oEntity);
-                }
-	        }
-
-            if(oContentTypeDrives.size() > poPerceivedEntities.size()) //should never happen
-            {
-                System.err.println("PROBLEM: found more perceivide entities than specified entities");
-            }else if(oContentTypeDrives.size() == poPerceivedEntities.size())
-            {
-              //forbid drive, if not yet forbidden
-                oDrive = new clsPair<eDriveComponent, eOrgan>(poComponent, poOrgan);
-                
-                if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
-                {
-                    moForbiddenDrives.add(oDrive);
-                    rule_triggered = true;
-                }
-                
-                //log forbidding of drive
-                oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>("SuperEgoStrength >= 0.5", oForbiddenDrive, oContentTypeDrives);
-                if(!moSuperEgoDrivesRules.contains(oDriveRules))
-                {
-                    // add rule info to inspector 
-                    moSuperEgoDrivesRules.add(oDriveRules);
-                }
-            }
-        }
-	    
-        return rule_triggered;
-    }
+	/**
+	 * DOCUMENT (Kollmann) - Checks if the rule, defined by the parameters, is present and, if it is,
+	 *                       adds the corresponding eDriveComponent/eOrgan combination to the list of
+	 *                       forbidden drives
+	 *
+	 * @since 17.09.2013 14:18:15
+	 *
+	 * @param poComponent the drive component (poComponent.LIBIDINOUSE or poComponent.AGGRESIVE) 
+	 * @param poOrgan the drive source
+	 * @param pnMinQuota the minimum QoA the drive needs to activate the rule
+	 * @param pnMaxQuota the maximum QoA the drive can have to activate the rule
+	 * @param poPerceivedEntities - a list of perceivable entities - the rule will only trigger if all
+	 *                              these entities are currently perceived
+	 * @return true if the rule was triggered, false otherwise
+	 */
+	protected boolean simple_rule(eDriveComponent poComponent, eOrgan poOrgan, double pnMinQuota, double pnMaxQuota,
+			ArrayList<String> poPerceivedEntities)
+	{
+		boolean rule_triggered = false;
+		clsPair<eDriveComponent, eOrgan> oDrive;
+		
+		clsQuadruppel<String, eDriveComponent, eOrgan, Double> oForbiddenDrive = null;
+		clsTriple<String, clsQuadruppel<String, eDriveComponent, eOrgan, Double>, ArrayList<String>> oDriveRules=null;
+		ArrayList<String> oContentTypeDrives= new ArrayList<String> ();
+				
+		//check for a fitting drive
+		for(clsDriveMesh oDrives : moDrives){
+			if (oDrives.getDriveComponent().equals(poComponent) &&
+				oDrives.getActualDriveSourceAsENUM().equals(poOrgan) &&
+				oDrives.getQuotaOfAffect() >= pnMinQuota &&
+				oDrives.getQuotaOfAffect() <= pnMaxQuota)
+			{		
+				//logging for inspectors
+				oForbiddenDrive = new clsQuadruppel<String,eDriveComponent, eOrgan,Double>(
+						pnMinQuota + " =< " + poComponent.toString() + "/" + poOrgan.toString() + " >= " + pnMaxQuota,
+						poComponent,
+						poOrgan,
+						pnMinQuota);
+				
+				//check if entities are perceived
+				for(String oEntity : poPerceivedEntities)
+				{
+					if(searchInTPM(eContentType.ENTITY, oEntity))
+					{
+						oContentTypeDrives.add("ENTITY=" + oEntity);
+					}
+				}
+	
+				if(oContentTypeDrives.size() > poPerceivedEntities.size()) //should never happen
+				{
+					System.err.println("PROBLEM: found more perceivide entities than specified entities");
+				}else if(oContentTypeDrives.size() == poPerceivedEntities.size())
+				{
+				  //forbid drive, if not yet forbidden
+					oDrive = new clsPair<eDriveComponent, eOrgan>(poComponent, poOrgan);
+					
+					if (!moForbiddenDrives.contains(oDrive)) // no duplicate entries
+					{
+						moForbiddenDrives.add(oDrive);
+						rule_triggered = true;
+					}
+					
+					//log forbidding of drive
+					oDriveRules= new clsTriple<String,clsQuadruppel<String,eDriveComponent, eOrgan,Double>,ArrayList<String>>("SuperEgoStrength >= 0.5", oForbiddenDrive, oContentTypeDrives);
+					if(!moSuperEgoDrivesRules.contains(oDriveRules))
+					{
+						// add rule info to inspector 
+						moSuperEgoDrivesRules.add(oDriveRules);
+					}
+				}
+			}
+		}
+		
+		
+		return rule_triggered;
+	}
 	
 	/* (non-Javadoc)
 	 *
