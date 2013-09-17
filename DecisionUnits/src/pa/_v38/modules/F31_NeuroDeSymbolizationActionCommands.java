@@ -14,7 +14,6 @@ import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
-import du.itf.actions.clsActionAttackBite;
 import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDivide;
@@ -473,13 +472,16 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	@Override
 	protected void process_draft() {
 	    moActionCommandList_Output.clear();
-	    if(mnTestCounter%2==0){
+	    moActionCommandList_Output.add(new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0));
+	
+
+	    /*if(mnTestCounter%2==0){
 	        moActionCommandList_Output.add(new clsActionAttackBite(1.0));
 	    }
 	    else if (mnTestCounter%2 == 1){
 	        moActionCommandList_Output.add(new clsActionBeat(1.0));
 	    }
-	    mnTestCounter++;
+	    mnTestCounter++;*/
 	    return;
 	    //if(testSequence_drop())  return;
 	}

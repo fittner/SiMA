@@ -145,7 +145,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		} 
 		else {
 			//setting a overlay image, normal eating
-			moEntity.setOverlayImage(eImages.Overlay_Speech_EAT);
+			moEntity.setOverlayImage(eImages.Overlay_Action_Eat);
 		}
 			
 
