@@ -81,8 +81,8 @@ public abstract class clsMobile extends clsEntity {
 		oProp.setProperty(pre+P_START_VELOCITY_X, 0.0);
 		oProp.setProperty(pre+P_START_VELOCITY_Y, 0.0);
 		
-		oProp.setProperty(pre+P_DEF_COEFF_FRICTION , 0.5);
-		oProp.setProperty(pre+P_DEF_STATIC_FRICTION , 0.2);
+		oProp.setProperty(pre+P_DEF_COEFF_FRICTION , 0.9);
+		oProp.setProperty(pre+P_DEF_STATIC_FRICTION , 0.7);
 		oProp.setProperty(pre+P_DEF_RESTITUTION , 0.3);
 		
 		oProp.setProperty(pre+P_INVENTORY_MAX_MASS, 10000);
