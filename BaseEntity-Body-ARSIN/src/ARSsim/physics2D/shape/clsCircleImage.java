@@ -37,6 +37,8 @@ public class clsCircleImage extends Circle
 	double mrRadius; 
 	BufferedImage moImage = null;
 	//BufferedImage moImageOverlay = null;
+	
+	BufferedImage moCarriedItem =null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
@@ -214,6 +216,14 @@ public class clsCircleImage extends Circle
 							graphics.drawImage(oImageOverlay, nxArc+40, nyArc-55, 60, 60, null ); 
 			        	}
 			        }
+			        
+			        //display carriedItem
+			        	if(moCarriedItem != null){
+			        		
+				        	
+						    moCarriedItem.getGraphics();
+							graphics.drawImage(moCarriedItem, nxArc, nyArc+20, 20, 20, null ); 
+			        	}
 			      		       
 	        	}
 	        }
@@ -282,11 +292,10 @@ public class clsCircleImage extends Circle
 		   return moImage;
 	   }
 
-
-	public BufferedImage setCarriedItem(BufferedImage poOverlay) {
-		   return moImage;
-			  
+	public void setCarriedItem(BufferedImage poImage){
+		moCarriedItem = poImage;
 	}
+
 	
 	/**
 	 * @since 28.06.2013 16:00:48
