@@ -1,12 +1,31 @@
 package statictools;
 
+import java.io.IOException;
+
 public class clsGetARSPath {
 	public static String getArsPath()
 	{
-		if (System.getProperty("file.separator").equals("/"))
-			return System.getProperty("user.home") + "/ARSIN_V01"; // Unix
-		else if (System.getProperty("file.separator").equals("\\"))
-			return "S:\\ARSIN_V01"; // Windows
+		if (System.getProperty("file.separator").equals("/")){
+			try {
+				String path = new java.io.File(".").getCanonicalPath().toString();
+				path = path.substring(0, path.lastIndexOf('/'));
+				return path;
+			} catch (IOException e) {
+				return System.getProperty("user.home") + "/ARSIN_V01"; // Unix
+			}
+		}
+			
+		else if (System.getProperty("file.separator").equals("\\")){
+			try {
+				String path = new java.io.File(".").getCanonicalPath().toString();
+				path = path.substring(0, path.lastIndexOf('\\'));
+				return path;
+			} catch (IOException e) {
+				return "S:\\ARSIN_V01"; // Windows
+			}
+			
+			
+		}
 		else throw new NullPointerException("Spooky OS detected, can't find ARS-Root-Dir.");
 	}
 	

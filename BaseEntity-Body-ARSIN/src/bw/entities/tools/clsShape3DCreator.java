@@ -23,6 +23,8 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Color4f;
 import javax.vecmath.Vector3f;
 
+import statictools.clsGetARSPath;
+
 
 import bw.utils.enums.eShapeType;
 
@@ -45,7 +47,7 @@ public class clsShape3DCreator {
 		BufferedImage res = null;
 		
 		BufferedImage img = null;
-	    img = ImageIO.read(new File("S:\\ARSIN_V01\\BaseEntity-Body-ARSIN\\src\\resources\\images\\arsin_red.png"));
+	    img = ImageIO.read(new File(clsGetARSPath.getArsPath()+"\\BaseEntity-Body-ARSIN\\src\\resources\\images\\arsin_red.png"));
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int[] RGB = img.getRGB(0, 0, width, height, null, 0, width);
