@@ -16,7 +16,7 @@ import pa._v38.tools.clsPair;
  * 
  * @author deutsch
  * 23.04.2011, 16:09:48
- * 
+ * @deprecated
  */
 public class clsDLEntry_DynamicTimeChart extends clsDLEntry_Abstract implements itfInspectorGenericDynamicTimeChart {
 

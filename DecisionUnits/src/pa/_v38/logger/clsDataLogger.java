@@ -24,6 +24,13 @@ import statictools.clsGetARSPath;
  * 23.04.2011, 14:52:17
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 24.09.2013, 11:13:57
+ * @deprecated
+ */
 public class clsDataLogger {
 	public ArrayList<clsDLEntry_Abstract> moDataStorage;
 	

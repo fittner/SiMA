@@ -14,7 +14,7 @@ import pa._v38.modules.clsModuleBase;
  * 
  * @author deutsch
  * 23.04.2011, 16:05:33
- * 
+ * @deprecated
  */
 public class clsDLEntry_TimeChart extends clsDLEntry_Abstract implements itfInspectorGenericTimeChart {
 

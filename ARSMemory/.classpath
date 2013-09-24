@@ -5,8 +5,8 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/log4j-1.2.16.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/mockito-all-1.9.5-rc1.jar"/>
-	<classpathentry kind="lib" path="S:/ARSIN_V01/libraries/protegeAPI.jar"/>
+	<classpathentry kind="lib" path="/Libraries/apache-log4j-1.2.17/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/Libraries/mockito-all-1.9.5-rc1.jar"/>
+	<classpathentry kind="lib" path="/Libraries/protegeAPI.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

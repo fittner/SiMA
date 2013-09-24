@@ -20,6 +20,13 @@ import statictools.clsSimState;
  * 23.04.2011, 15:02:01
  * 
  */
+/**
+ * DOCUMENT (wendt) - insert description 
+ * 
+ * @author wendt
+ * 24.09.2013, 11:14:05
+ * @deprecated
+ */
 public abstract class clsDLEntry_Abstract implements itfInspectorTimeChartBase, itfInterfaceTimeChartHistory {
 	protected itfInspectorTimeChartBase moModule;
 	

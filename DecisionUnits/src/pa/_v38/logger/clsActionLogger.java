@@ -20,7 +20,7 @@ import statictools.clsSimState;
  * 
  * @author deutsch
  * 24.04.2011, 01:18:19
- * 
+ * @deprecated
  */
 public class clsActionLogger {
 	/** A list containing an entry of type pair with the start time (long) and the action command (string); @since 20.07.2011 16:16:59 */
