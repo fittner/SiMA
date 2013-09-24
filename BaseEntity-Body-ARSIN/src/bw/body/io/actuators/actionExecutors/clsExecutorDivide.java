@@ -14,6 +14,7 @@ import bw.body.io.actuators.clsActionExecutor;
 import bw.body.io.actuators.actionProxies.itfAPDivideable;
 import bw.body.itfget.itfGetBody;
 import bw.entities.base.clsEntity;
+import bw.factories.eImages;
 import config.clsProperties;
 import du.enums.eSensorExtType;
 import du.itf.actions.clsActionAttackLightning;
@@ -125,7 +126,7 @@ public class clsExecutorDivide extends clsActionExecutor{
 			return false;
 		} 
 		//setting a overlay image, normal eating
-//		moEntity.setOverlayImage(eImages.Overlay_Action_Divide);
+		moEntity.setOverlayImage(eImages.Overlay_Action_Divide);
 		//devide
 		oDivideEntity.devide(oCommand.getSplitFactor());
 		

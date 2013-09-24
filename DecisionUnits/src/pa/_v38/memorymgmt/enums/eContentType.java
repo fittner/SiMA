@@ -48,6 +48,9 @@ public enum eContentType {
 	
 	
 	   //--- Speech Wording ---//
+	KNOWN,
+	INVITED,
+	YES,
     EAT,
     SHARE,
     SPEAK,

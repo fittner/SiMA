@@ -37,6 +37,8 @@ public class clsCircleImage extends Circle
 	double mrRadius; 
 	BufferedImage moImage = null;
 	//BufferedImage moImageOverlay = null;
+	
+	BufferedImage moCarriedItem =null;
 	private boolean mbShowSimple = false; //can be used for testing, no image is rendered
 	double fMinImageSize = 15;  //minimal Image size to be shown
 	eImages moOverlayImage = eImages.NONE;
@@ -196,7 +198,7 @@ public class clsCircleImage extends Circle
 			        
 			        
 			      //display a Speech expressionoverlay Icon
-			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
+			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
 			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());
@@ -211,30 +213,18 @@ public class clsCircleImage extends Circle
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc+40, nyArc-55, 60, 60, null ); 
 			        	}
 			        }
-			      		        
-			        //display a Thought expressionoverlay Icon
-			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
-			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
+			        
+			        //display carriedItem
+			        	if(moCarriedItem != null){
 			        		
-				        	eImages oSpeechExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());
 				        	
-				    	   	BufferedImage oImageOverlay = null;
-				    
-				    	   	try {
-				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oSpeechExpressionImage);
-				    	   	} catch (IOException e) {
-				    	   		e.printStackTrace();
-				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
-				    	   	}
-				        	
-							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+55, nyArc+55, 60, 60, null ); 
+						    moCarriedItem.getGraphics();
+							graphics.drawImage(moCarriedItem, nxArc, nyArc+20, 20, 20, null ); 
 			        	}
-			        }
-	
+			      		       
 	        	}
 	        }
         }
@@ -302,11 +292,10 @@ public class clsCircleImage extends Circle
 		   return moImage;
 	   }
 
-
-	public BufferedImage setCarriedItem(BufferedImage poOverlay) {
-		   return moImage;
-			  
+	public void setCarriedItem(BufferedImage poImage){
+		moCarriedItem = poImage;
 	}
+
 	
 	/**
 	 * @since 28.06.2013 16:00:48

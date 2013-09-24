@@ -26,6 +26,7 @@ public class clsConcept {
      * The Concept stored as a {@link clsWordPresentationMesh} to enable integration into the memory.
      */
     protected clsWordPresentationMesh moConceptMesh;
+    public clsWordPresentationMesh moWording;
 
     /** The String representations of the ConceptEntities */
     private List<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>> moConceptEntities;
@@ -38,6 +39,8 @@ public class clsConcept {
      */
     public clsConcept() {
         moConceptMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
+                new ArrayList<clsAssociation>(), "");
+        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.DOMAIN, eContentType.YES),
                 new ArrayList<clsAssociation>(), "");
         moConceptEntities = new ArrayList<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>>();
     }
@@ -197,6 +200,16 @@ public class clsConcept {
             return moEntity;
         }
 
+        
+        /**
+         * @since 21.02.2013 20:50:12
+         * 
+         * @return the moWording
+         */
+        public clsWordPresentationMesh getWording() {
+            return moWording;
+        }
+        
         /**
          * @since 21.02.2013 20:50:12
          * 

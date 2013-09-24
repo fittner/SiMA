@@ -16,6 +16,7 @@ import bw.body.io.actuators.actionExecutors.clsExecutorAttackLightning;
 import bw.body.io.actuators.actionExecutors.clsExecutorBeat;
 import bw.body.io.actuators.actionExecutors.clsExecutorBodyColor;
 import bw.body.io.actuators.actionExecutors.clsExecutorCultivate;
+import bw.body.io.actuators.actionExecutors.clsExecutorDivide;
 import bw.body.io.actuators.actionExecutors.clsExecutorDrop;
 import bw.body.io.actuators.actionExecutors.clsExecutorEat;
 import bw.body.io.actuators.actionExecutors.clsExecutorExcrement;
@@ -54,6 +55,7 @@ import du.itf.actions.clsActionBodyColorBlue;
 import du.itf.actions.clsActionBodyColorGreen;
 import du.itf.actions.clsActionBodyColorRed;
 import du.itf.actions.clsActionCultivate;
+import du.itf.actions.clsActionDivide;
 import du.itf.actions.clsActionDrop;
 import du.itf.actions.clsActionEat;
 import du.itf.actions.clsActionExcrement;
@@ -301,6 +303,9 @@ public class clsExternalIO extends clsBaseIO {
 		
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BEAT,1);
 		oProp.putAll( clsExecutorBeat.getDefaultProperties( pre+P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BEAT) );
+		
+		oProp.setProperty(pre+P_ACTIONAVAILABLE   +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE,1);
+        oProp.putAll( clsExecutorDivide.getDefaultProperties( pre+P_ACTIONEX  +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE) );
 
 		// ** MW
 		oProp.setProperty(pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_SPEECH,1);
@@ -411,6 +416,7 @@ public class clsExternalIO extends clsBaseIO {
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA)==1) moProcessor.addCommand(clsActionMoveToEatableArea.class, new clsExecutorMoveToArea(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_MOVETOAREA,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT)==1) moProcessor.addCommand(clsActionExcrement.class, new clsExecutorExcrement(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_EXCREMENT,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BEAT)==1) moProcessor.addCommand(clsActionBeat.class, new clsExecutorBeat(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BEAT,poProp,moEntity));
+		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE    +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE)==1) moProcessor.addCommand(clsActionDivide.class, new clsExecutorDivide(poPrefix+"." + P_ACTIONEX +"."+bw.utils.enums.eBodyParts.ACTIONEX_DIVIDE,poProp,moEntity));
 
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR)==1) moProcessor.addCommand(clsActionBodyColor.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));
 		if (poProp.getPropertyInt( pre+P_ACTIONAVAILABLE	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR + P_ACTIONEX_BODYCOLORRED)==1) moProcessor.addCommand(clsActionBodyColorRed.class, new clsExecutorBodyColor(poPrefix+"." + P_ACTIONEX	+"."+bw.utils.enums.eBodyParts.ACTIONEX_BODYCOLOR,poProp,(clsMobile) moEntity));

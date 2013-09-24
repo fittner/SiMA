@@ -22,5 +22,6 @@ public enum ePercievedActionType {
 	DROP,
 	EXCREMENT,
 	PICKUP,
-	TURN
+	TURN,
+	ATTACK_BITE
 }

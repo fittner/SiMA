@@ -229,6 +229,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	@Override
 	public void execution() {
 		// no executions
+
 		
 	}
 
@@ -242,6 +243,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	@Override
 	public void processing() {
 		// no processing
+
 		
 	}
 
@@ -255,6 +257,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	@Override
 	public void sensing() {
 		// no sensing
+
 		
 	}
 

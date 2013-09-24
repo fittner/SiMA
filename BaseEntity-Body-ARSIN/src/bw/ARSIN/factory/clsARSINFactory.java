@@ -106,6 +106,13 @@ public class clsARSINFactory {
 				oEntity = oContructor.newInstance(poDU,pre,poPropEntity,uid);
 			}
 			oEntity.registerEntity();
+	//		if((oEntity).moId.equals("ARSIN_ActionlessTestPA_0 (#4)")){
+	//			clsRegisterEntity.unRegisterPhysicalObject2D(((clsARSIN)oEntity).getMobileObject2D());
+	//			oEntity.setRegistered(false);
+	//		}
+				
+
+				//oEntity.registerEntity();
 
 		} catch (Exception e) {
 			System.out.println("The entity "+pnEntityType.name() +" doesn't have the right constructor");

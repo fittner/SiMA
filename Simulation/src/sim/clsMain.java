@@ -177,22 +177,16 @@ public class clsMain extends SimState{
     public boolean getShowFaciaExpressionOverlay(){
     	return clsSingletonProperties.showFacialExpressionOverlay();
     }
-    public void setShowSpeechExpressionOverlay(boolean value){
-    	clsSingletonProperties.setShowSpeechExpressionOverlay(value);
-    }
-    
-    public boolean getShowSpeechExpressionOverlay(){
-    	return clsSingletonProperties.showSpeechExpressionOverlay();
-    }
-    
-    
-    public void setThoughtExpressionOverlay(boolean value){
+    public void setShowThoughtExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowThoughtExpressionOverlay(value);
     }
     
     public boolean getShowThoughtExpressionOverlay(){
     	return clsSingletonProperties.showThoughtExpressionOverlay();
     }
+    
+    
+    
     
     
  }

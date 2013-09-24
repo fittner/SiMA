@@ -45,6 +45,7 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eShapeType;
 //import bw.utils.inspectors.entity.clsInspectorARSin;
 import bw.body.io.clsExternalIO;
+import bw.body.io.actuators.actionProxies.itfAPAttackableBite;
 import bw.body.io.actuators.actionProxies.itfAPBeatable;
 import bw.body.io.actuators.actionProxies.itfAPKissable;
 
@@ -56,7 +57,7 @@ import bw.body.io.actuators.actionProxies.itfAPKissable;
  * @author langr
  * 
  */
-public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable {
+public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRadiation, itfAPKissable, itfAPBeatable, itfAPAttackableBite {
 	public static final String P_SHAPE_ALIVE		= "shape_alive";
 	public static final String P_SHAPE_DEAD 		= "shape_dead";
 	public static final String P_ALIVE              = "alive";
@@ -379,5 +380,36 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		return oNewEntity;
 
 	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 16.09.2013 13:44:47
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPAttackableBite#tryBite(double)
+	 */
+	@Override
+	public double tryBite(double pfForce) {
+		return 0.0;
+	}
+
+	/* (non-Javadoc)
+	 *
+	 * @since 16.09.2013 13:44:47
+	 * 
+	 * @see bw.body.io.actuators.actionProxies.itfAPAttackableBite#bite(double)
+	 */
+	@Override
+	public void bite(double pfForce) {
+		double rHurtFactor = 0.5;
+		
+			if(moBody instanceof clsComplexBody){
+				clsComplexBody oBody = (clsComplexBody) moBody;
+				oBody.getInternalSystem().getHealthSystem().hurt(pfForce * rHurtFactor);
+				
+				
+			}
+		}
+		
+	
 
 }
