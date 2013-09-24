@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsImportanceTools;
@@ -21,7 +19,6 @@ import pa._v38.tools.toText;
 import pa._v38.tools.datastructures.clsGoalTools;
 import pa._v38.tools.datastructures.clsMentalSituationTools;
 import pa._v38.tools.datastructures.clsMeshTools;
-
 import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.clsDecisionPreparationTools;
 import pa._v38.interfaces.modules.I6_13_receive;
@@ -63,7 +60,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_MODULENUMBER = "26";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	public static final String P_GOAL_PASS = "NUMBER_OF_GOALS_TO_PASS";
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";

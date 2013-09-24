@@ -35,6 +35,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	private clsWordPresentationMesh moWording_IN;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * DOCUMENT (Kohlhauser) - insert description 
 	 * 

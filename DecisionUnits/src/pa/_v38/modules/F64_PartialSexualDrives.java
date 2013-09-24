@@ -84,6 +84,8 @@ public class F64_PartialSexualDrives extends clsModuleBase implements
 
 	private HashMap<String, Double> moDriveChartData;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * Constructor
 	 *

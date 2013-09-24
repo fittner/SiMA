@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.decisionpreparation.clsDecisionEngine;
@@ -43,7 +41,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	public static final String P_MODULENUMBER = "51";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	public static final String P_MOMENT_ACTIVATION_THRESHOLD = "MOMENT_ACTIVATION_THRESHOLD";
 	public static final String P_MOMENT_MIN_RELEVANCE_THRESHOLD = "MOMENT_MIN_RELEVANCE_THRESHOLD";

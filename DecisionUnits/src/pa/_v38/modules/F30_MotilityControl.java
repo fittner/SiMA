@@ -46,6 +46,8 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * Constructor of the NeuroDeSymbolization
 	 * 

@@ -15,8 +15,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import bfg.utils.enums.eSide;
 
 import config.clsProperties;
@@ -109,7 +107,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 	private ArrayList<clsDriveMesh> moDrives_IN;
 	private boolean useAttentionMechanism = false;
 
-	private Logger log = Logger.getLogger(this.getClass());
+	//private Logger log = Logger.getLogger(this.getClass());
 	
 	/**
 	 * Constructor of F14, nothing unusual

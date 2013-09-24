@@ -49,6 +49,8 @@ public class F55_SuperEgoProactive extends clsModuleBase
 	
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

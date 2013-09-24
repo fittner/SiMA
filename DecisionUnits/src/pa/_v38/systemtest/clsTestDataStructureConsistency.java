@@ -8,7 +8,9 @@ package pa._v38.systemtest;
 
 import java.util.ArrayList;
 
-import pa._v38.logger.clsLogger;
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -25,6 +27,8 @@ import pa._v38.tools.datastructures.clsMeshTools;
  * 
  */
 public class clsTestDataStructureConsistency {
+    
+    private static final Logger log = clsLogger.getLog("Test");
 	
 	
 	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
@@ -94,7 +98,7 @@ public class clsTestDataStructureConsistency {
 				try {
 					throw new Exception(oErrorMessage);
 				} catch (Exception e) {
-					clsLogger.jlog.error(e.getMessage());
+					log.error(e.getMessage());
 					bResult=true;
 				}
 			}

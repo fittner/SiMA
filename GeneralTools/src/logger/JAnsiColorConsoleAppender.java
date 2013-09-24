@@ -1,4 +1,4 @@
-package pa._v38.logger;
+package logger;
 
 import java.io.PrintStream;
 

@@ -15,7 +15,6 @@ import pa._v38.interfaces.modules.I2_1_receive;
 import pa._v38.interfaces.modules.I2_1_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.tools.toText;
-
 import config.clsProperties;
 import du.enums.eFastMessengerSources;
 import du.enums.eSensorIntType;
@@ -37,6 +36,8 @@ public class F40_NeurosymbolizationOfLibido extends clsModuleBase implements I1_
 	
 	private HashMap<eFastMessengerSources, Double> moErogenousZoneStimuliList_OUT;
 	private HashMap<eSensorIntType, clsDataBase> moErogenousZones_IN;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * Conversion of raw data into neuro-symbols.
 	 * 

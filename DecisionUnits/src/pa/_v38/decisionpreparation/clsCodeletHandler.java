@@ -8,8 +8,9 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -27,7 +28,7 @@ import pa._v38.tools.clsPair;
  */
 public class clsCodeletHandler {
 	
-	private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+    private static Logger log = clsLogger.getLog("DecisionPreparation");
 	
 	private clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
 	

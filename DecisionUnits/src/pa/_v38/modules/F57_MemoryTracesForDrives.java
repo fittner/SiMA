@@ -57,6 +57,8 @@ public class F57_MemoryTracesForDrives extends clsModuleBaseKB
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moTimeChartData;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * DOCUMENT (zeilinger) 
 	 * 

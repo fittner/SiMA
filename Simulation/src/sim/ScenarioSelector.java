@@ -16,7 +16,7 @@ import java.io.File;
 
 import javax.swing.ImageIcon;
 
-
+import org.slf4j.Logger;
 import PropertiesInspector.clsPropertiesInspector;
 import config.clsProperties;
 import statictools.clsGetARSPath;
@@ -42,12 +42,19 @@ public class ScenarioSelector extends javax.swing.JFrame {
 	private static final String P_IMPLEMENTATIONSTAGE="implementation_stage";
 	private static final String P_AUTOSTART="autostart";
 	
+	private final Logger log = clsSimLogger.getLog("sim");
+	
 	/** Creates new form clsBWScenarioSelectorUI and initializes the JFrame and 
 	 * the other components. it also fills the List with the scenarios (config files)*/
     public ScenarioSelector() {
     	GetCurrentUser();
     	this.setTitle("ARS Scenario Selector - user: " + mUserName);
-        initComponents();
+        
+    	//PropertyConfigurator.configure("log4j_" + mUserName + ".properties");
+    	//logger.debug("Loading log properties from + log4j_" + mUserName + ".properties");
+    	log.debug("Start scenario selector");
+    	
+    	initComponents();
         FillScenarioList();
         loadSavedValues();
     }
@@ -93,7 +100,8 @@ public class ScenarioSelector extends javax.swing.JFrame {
 			mUserName = System.getProperty("user.name");
 		}
 		catch(Exception e){
-			System.out.printf(e.toString());						
+			
+			log.error("",e);						
 		}
 		
 
@@ -568,6 +576,8 @@ class ScenarioEntry {
 	  private String moFieldWidth;
 	  private String moFieldHeight;
 	  private ImageIcon moScreenshotImage;
+	  
+	  private final Logger log = clsSimLogger.getLog("sim");
 
 	  public ScenarioEntry(String poFilename) {
 	    this.moFilename = poFilename;
@@ -585,7 +595,7 @@ class ScenarioEntry {
 	        
 			File oFile = new File( oImagepath ); 
 			if(!oFile.exists()){
-				System.out.println("Image for scenario not found. Path: "+oImagepath);
+				log.warn("Image for scenario not found. Path: "+oImagepath);
 			}
 			
 	        moScreenshotImage = new ImageIcon( oImagepath , "scenario screenshot");
@@ -595,7 +605,7 @@ class ScenarioEntry {
         } catch (NullPointerException e) {
 			//not a vaiable property file
         	moName = "ERROR File "+ moFilename;
-        	System.err.println("Key not found ERROR, no property file for scenario: " + moFilename);
+        	log.error("Key not found ERROR, no property file for scenario: " + moFilename, e);
 		}
 	  }
 

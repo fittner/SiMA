@@ -12,8 +12,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
@@ -74,7 +72,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	public static final String P_MODULENUMBER = "52";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	private static final boolean m_bUseDraftPlanning = false;
 	private static final boolean m_bPrintDebugOutput = false;
@@ -168,7 +166,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			PlanningWizard.printPlanningStack(plGraph);
 
 		} catch (Exception e) {
-			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "< , stack-trace >");
+			log.error("Error initializing planning Wizard", e);
 		}
 		
 		//TEST-Internal-Plans AW
@@ -217,7 +215,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				moPlans_Output = processGoals_AW(moGoalList_IN);
 				
 				//--- System printout of all important action dates ---//
-				log.info("\n=====================\nDecided Action " + moPlans_Output.toString() + "\n===============================");
+				log.info("Loggername: {}, \n=====================\nDecided Action " + moPlans_Output.toString() + "\n===============================", log.getName());
 				//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
 				//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				
@@ -680,8 +678,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 //		System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size() + "< content >"
 //		    + currentApplicalbePlanningNodes + "<");
 		if (m_bPrintDebugOutput) {
-			System.out.println(getClass() + " ********************** start to generate a plan from perception ********************** ");
-			System.out.println(getClass() + " current applicable planning planFragments >" + currentApplicalbePlanningNodes.size()
+			log.debug(" ********************** start to generate a plan from perception ********************** ");
+			log.debug(" current applicable planning planFragments >" + currentApplicalbePlanningNodes.size()
 			    + "< content >" + currentApplicalbePlanningNodes + "<");
 		}
 		/** reset list and store new plans */
@@ -691,7 +689,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		for (clsPlanFragment plFragment : currentApplicalbePlanningNodes) {
 //			System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
 			if (m_bPrintDebugOutput) {
-				System.out.println(getClass() + " generating plan for planFragment >" + plFragment + "<");
+				log.debug(" generating plan for planFragment >" + plFragment + "<");
 			}
 
 			plGraph.setStartPlanningNode(plFragment);
@@ -885,7 +883,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			try {
 				clsMeshTools.setUniquePredicateWP(oGoalObject, eContentType.DISTANCEASSOCIATION, ePredicate.HASDISTANCE, eContentType.DISTANCE, oPF.m_effectImage.m_eDist.toString(), false);
 			} catch (Exception e) {
-				System.out.println(oPF.m_effectImage.toString());
+				log.debug(oPF.m_effectImage.toString());
 				e.printStackTrace();
 			}
 			

@@ -10,14 +10,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
-
 import edu.stanford.smi.protege.model.Instance;
 import edu.stanford.smi.protege.model.KnowledgeBase;
 import edu.stanford.smi.protege.model.Project;
 import edu.stanford.smi.protege.model.Slot;
-
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAct;
@@ -56,6 +58,8 @@ import pa._v38.memorymgmt.enums.ePredicate;
 public class clsOntologyLoader {
 	static int mrMaxStackDepth = 1000;
 	static int DS_ID = 0;
+	
+	private static final Logger log = clsLogger.getLog("memory");
 
 	public static void loadOntology(
 			HashMap<String, clsDataStructurePA> poDataStructureTable,
@@ -70,7 +74,7 @@ public class clsOntologyLoader {
 		if (poSourceName != "") {
 			initOntology(poDataStructureTable, poSourceName);
 		} else {
-			System.out.println("The search space will be set manually");
+			log.warn("The search space will be set manually");
 		}
 	}
 
@@ -82,7 +86,7 @@ public class clsOntologyLoader {
 		Collection<?> oErrorList = new ArrayList<Object>();
 		Project oOntologyPrj = Project.loadProjectFromFile(
 				"../" + poSourceName, oErrorList);
-		System.out.println("Reading ontology: " + "../" + poSourceName);
+		log.debug("Reading ontology: " + "../" + poSourceName);
 
 		KnowledgeBase oFrameKB = oOntologyPrj.getKnowledgeBase();
 
@@ -671,9 +675,8 @@ public class clsOntologyLoader {
 					oNewInstanceTPMDS = (clsThingPresentationMesh) ((clsThingPresentationMesh) oDS)
 							.clone();
 				} catch (CloneNotSupportedException e) {
-					System.out
-							.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned");
-					e.printStackTrace();
+					log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oDS could not be cloned", e);
+					
 				}
 				// IMPORTANT NOTE: InstanceIDs should only be set outside of the
 				// memory management, but as association to drives has
@@ -726,9 +729,8 @@ public class clsOntologyLoader {
 										.setMoAssociationElementB(oNewInstanceDS);
 								oDMAssList.add(oNewAssDM);
 							} catch (CloneNotSupportedException e) {
-								System.out
-										.print("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned");
-								e.printStackTrace();
+								log.error("Error in clsOntologyLoader.java in createPRIINSTANCE: oNewAssDM could not be cloned", e);
+								//e.printStackTrace();
 							}
 						}
 					}
@@ -1299,8 +1301,8 @@ public class clsOntologyLoader {
 		try {
 			oReturnValue = eDataType.valueOf(oElementType);
 		} catch (IllegalArgumentException e) {
-			System.out.println(" Element of type " + oElementType
-					+ " not handled");
+			log.error(" Element of type " + oElementType
+					+ " not handled", e);
 		}
 
 		return oReturnValue;
@@ -1313,8 +1315,8 @@ public class clsOntologyLoader {
 		try {
 			oReturnValue = eContentType.valueOf(oElementType);
 		} catch (IllegalArgumentException e) {
-			System.out.println(" Element of type " + oElementType
-					+ " not handled");
+			log.error(" Element of type " + oElementType
+					+ " not handled", e);
 		}
 
 		return oReturnValue;

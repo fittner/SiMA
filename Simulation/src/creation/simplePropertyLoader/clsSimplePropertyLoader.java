@@ -21,6 +21,8 @@ import javax.vecmath.Color3f;
 import javax.vecmath.Point3d;
 import javax.vecmath.Vector3d;
 
+import org.slf4j.Logger;
+
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
 import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
@@ -45,7 +47,6 @@ import bw.body.clsComplexBody;
 import bw.body.clsMeatBody;
 import bw.body.internalSystems.clsFlesh;
 import bw.body.internalSystems.clsInternalSystem;
-
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
@@ -58,6 +59,7 @@ import bw.utils.enums.eBodyType;
 import bw.utils.enums.eNutritions;
 import bw.utils.enums.eShapeType;
 import bw.utils.inspectors.entity.clsInspectorEntity;
+import sim.clsSimLogger;
 import sim.engine.SimState;
 import statictools.cls3DUniverse;
 import statictools.clsGetARSPath;
@@ -116,6 +118,8 @@ public class clsSimplePropertyLoader extends clsLoader {
 	public static final int mnVersion = 3;
 	/** This loader can handle old property files down to version number ... */
 	public static final int mnDownCompatibility = 3; // can read 3 and newer
+	
+	private static final Logger log = clsSimLogger.getLog("sim");
 	
 	/**
 	 * Prepares the MASON simulation environment for the to be loaded entities. 
@@ -607,19 +611,19 @@ public class clsSimplePropertyLoader extends clsLoader {
 		String pre = clsProperties.addDot( getPrefix() );
 		
 		//process all entity groups
-		System.out.print("Create "+numentitygroups+" groups:");
+		log.info("Create "+numentitygroups+" groups:");
 		for (int i=0;i<numentitygroups; i++) {
-			System.out.print(" "+i);
+			log.info(" "+i);
 			createEntityGroup(pre+P_ENTITYGROUPS+"."+i, getProperties() );
 		}	
-		System.out.print(" done;");
+		log.info(" done;");
 		
 		//create world boundaries
-		System.out.print(" create world boundaries ...");
+		log.info(" create world boundaries ...");
 		if (getProperties().getPropertyBoolean(pre+P_WORLDBOUNDARYWALLS)) {
 			generateWorldBoundaries();
 		}
-		System.out.println(" done.");
+		log.info(" done.");
 		//System.out.println("there is a glitch in the matrix ... happy coding and follow the white rabbit!"); //ein letzter gruß ... :) TD
 	}
 

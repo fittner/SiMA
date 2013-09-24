@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPhantasyTools;
@@ -44,7 +42,6 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
-
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 
@@ -86,7 +83,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 	/* Module-Parameters */
 	
 	
-	private Logger log = Logger.getLogger(this.getClass().getName());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * Association of TPMs (TP + Emotion, fantasies) with thing presentations 
 	 * raw data (from external perception). In a first step these are attached with a value to get a meaning. 

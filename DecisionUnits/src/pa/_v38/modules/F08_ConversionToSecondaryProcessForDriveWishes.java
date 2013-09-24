@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import du.enums.eShapeType;
 import pa._v38.tools.toText;
@@ -41,7 +39,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	public static final String P_MODULENUMBER = "08";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private Logger log = Logger.getLogger(this.getClass());
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
@@ -162,7 +160,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		try {
             moDriveList_Output = clsGoalTools.createGoalFromDriveMesh(moDriveList_Input, this);
         } catch (Exception e) {
-            this.log.error(e);
+            this.log.error("",e);
         } 
 
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);

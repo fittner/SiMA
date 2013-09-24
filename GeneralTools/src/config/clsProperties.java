@@ -17,11 +17,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
-
 import java.awt.Color;
+
 import config.clsRandomProperties;
 import config.clsColorParser;
+
 import java.util.regex.Matcher;
+
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
+
 
 /**
  * clsProperties is a specialization of the java.util.Properties class. 
@@ -47,6 +54,9 @@ import java.util.regex.Matcher;
  * 
  */
 public class clsProperties extends Properties {
+	
+	private static final Logger log = clsLogger.getLog("sim");
+	
 	/**
 	 * delimiter for list entries 
 	 * 
@@ -289,14 +299,14 @@ public class clsProperties extends Properties {
 		if (poFilename.length()>0) {
 	    try
 	    {
-	    	System.out.println("reading property file '"+poFilename+"'");
+	    	log.debug("reading property file '"+poFilename+"'");
 	        FileInputStream propInFile = new FileInputStream( poFilename );
 	        p2.load( propInFile );
 	        
 	    } catch ( FileNotFoundException e ) {
-          System.err.println( "Can�t find " + poFilename );
+          log.error( "Cannot find " + poFilename, e );
         } catch ( IOException e ) {
-	      System.err.println( "I/O failed." );
+	      log.error( "I/O failed.",e );
 	    }		
 		}
 		

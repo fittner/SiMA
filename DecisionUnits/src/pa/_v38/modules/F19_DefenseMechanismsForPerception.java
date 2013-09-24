@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import pa._v38.interfaces.itfInspectorBarChartF19;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
@@ -68,7 +66,7 @@ public class F19_DefenseMechanismsForPerception extends clsModuleBaseKB implemen
 	public static final String P_MODULENUMBER = "19";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	//AW 20110522: New inputs
 	//private clsPrimaryDataStructureContainer moEnvironmentalPerception_Input;

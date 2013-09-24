@@ -10,12 +10,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+
 import pa._v38.systemtest.clsTester;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.clsPrimarySpatialTools;
 import pa._v38.tools.clsTriple;
 import pa._v38.tools.datastructures.clsMeshTools;
-import pa._v38.logger.clsLogger;
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
@@ -60,6 +62,8 @@ public abstract class clsDataStructureComparisonTools {
 	private static double mrBestMatchThreshold = 1.0; //Max 1.0
 	/** This factor says how much can be added to 1.0 as a max association strength */
 	private static double mrAssociationMaxValue = 1.2;	//Max unlimited
+	
+	private static Logger log = clsLogger.getLog("Tools");
 	
 	
 	
@@ -217,7 +221,7 @@ public abstract class clsDataStructureComparisonTools {
 						try {
 							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
 						} catch (Exception e) {
-							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getCompleteMesh, clonedCompareElement", e);
+							log.error("Systemtester has an error in clsDataStructureComparison after getCompleteMesh, clonedCompareElement", e);
 						}
 					}
 					
@@ -228,7 +232,7 @@ public abstract class clsDataStructureComparisonTools {
 						try {
 							clsTester.getTester().exeTestAssociationAssignment(oClonedCompareElement);
 						} catch (Exception e) {
-							clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
+							log.error("Systemtester has an error in clsDataStructureComparison after getImageMatch, clonedCompareElement", e);
 						}
 					}
 					
@@ -262,7 +266,7 @@ public abstract class clsDataStructureComparisonTools {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oRetVal);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in clsDataStructureComparison", e);
+				log.error("Systemtester has an error in clsDataStructureComparison", e);
 			}
 		}
 		

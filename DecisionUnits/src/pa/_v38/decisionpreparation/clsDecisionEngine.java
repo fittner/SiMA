@@ -8,7 +8,9 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+
+
+import org.slf4j.Logger;
 
 import pa._v38.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import pa._v38.decisionpreparation.actioncodeletes.clsAC_FLEE;
@@ -36,6 +38,7 @@ import pa._v38.decisionpreparation.initcodelets.clsIC_InitContinuedGoalPerceptio
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedAct;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedDrive;
 import pa._v38.decisionpreparation.initcodelets.clsIC_InitUnprocessedPerception;
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -55,7 +58,7 @@ import pa._v38.tools.datastructures.clsMentalSituationTools;
 public class clsDecisionEngine {
     
     private final clsCodeletHandler moCodeletHandler;
-    private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+    private static Logger log = clsLogger.getLog("DecisionPreparation");
 
     public clsDecisionEngine(clsEnvironmentalImageMemory poEnvironmentalImageStorage, clsShortTermMemory poShortTimeMemory) {
         //Init codelethandler

@@ -8,8 +8,9 @@ package pa._v38.decisionpreparation;
 
 import java.util.ArrayList;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -33,7 +34,7 @@ public abstract class clsCodelet {
 	protected String moCodeletName = "";
 	protected String moCodeletDescription = "";
 	
-	protected static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
+	protected static Logger log = clsLogger.getLog("DecisionPreparation");
 	
 	protected ArrayList<clsConditionGroup> moPreconditionGroupList = new ArrayList<clsConditionGroup>();
 	protected ArrayList<clsConditionGroup> moPostConditionGroupList = new ArrayList<clsConditionGroup>();

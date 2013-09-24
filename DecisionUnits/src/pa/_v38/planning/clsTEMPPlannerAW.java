@@ -8,6 +8,10 @@ package pa._v38.planning;
 
 import java.util.ArrayList;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -47,6 +51,8 @@ public class clsTEMPPlannerAW {
 	
 	private static clsTEMPPlannerAW moTEMPPlanner = null;
 	
+	private static final Logger log = clsLogger.getLog("planning");
+	
 	ArrayList<clsPlanFragment> moAvailablePlanFragments;
 	PlanningGraph plGraph;
 	
@@ -65,7 +71,7 @@ public class clsTEMPPlannerAW {
 			PlanningWizard.printPlanningStack(plGraph);
 
 		} catch (Exception e) {
-			System.out.println(getClass() + "FATAL initializing planning Wizard >" + e + "< , stack-trace >");
+			log.error("FATAL initializing planning Wizard", e);
 		}
 		
 		//moAvailablePlanFragments = poAvailablePlanFragments;

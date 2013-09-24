@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -47,7 +45,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public static final String P_MODULENUMBER = "29";
     
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+    //private final Logger log = clsLogger.getLog(this.getClass().getName());
 
     private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
     private ArrayList<clsWordPresentationMesh> moActionCommands_Output;

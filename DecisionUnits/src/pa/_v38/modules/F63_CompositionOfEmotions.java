@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import pa._v38.modules.eImplementationStage;
 import pa._v38.interfaces.itfInspectorCombinedTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
@@ -85,6 +86,8 @@ public class F63_CompositionOfEmotions extends clsModuleBase
 	
 	
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	
 	
