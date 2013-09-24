@@ -39,6 +39,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
+import statictools.clsGetARSPath;
+
 
 /**
  * @author Matthias Jakubec
@@ -174,7 +176,7 @@ public class clsPropertiesInspector extends JDialog { // To appear at the deskto
 	private static final String LABEL_INFORMATION_NO_NODE_SELECTED = "You didn't select a node in the tree.\nPlease select a node.";
 	private static final String LABEL_INFORMATION_ROOT_NODE_EXISTS = "A node with the same name as the root of the to be copied subtree already exists.\nThe subtree cannot be pasted here.\n(Hint: you may use 'Paste renamed …'.)";
 	private static final String LABEL_INFORMATION_ROOT_NODE_SELECTED = "The selected node is the root, which is not allowed for this operation.\nPlease select a different node.";
-	private static final String PATH_FOR_PROPERTY_FILES_DEFAULT = "S:\\ARSIN_V01";
+	private static final String PATH_FOR_PROPERTY_FILES_DEFAULT = clsGetARSPath.getArsPath();
 	private static final String QUESTION_CONFIRMATION_DIALOG_FILE_SAVE = " already exists!\nDo you want to overwrite?";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_1 = "The properties ";
 	private static final String QUESTION_DIALOG_PROPERTIES_NOT_SAVED_PART_2 = "in file ";
