@@ -4,15 +4,6 @@
 	<classpathentry kind="src" path="junit"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry combineaccessrules="false" exported="true" kind="src" path="/EntityBase-Body-ARSIN"/>
-	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/j3dcore.jar"/>
-	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/j3dutils.jar"/>
-	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/mason.jar"/>
-	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/mason_physics2D.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="jar:file:/C:/Users/herret/Desktop/docs/classdocs/javadoc.zip!/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="S:/ARSIN_V01/libraries/vecmath.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnitInterface"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/DecisionUnits"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/GeneralTools"/>
@@ -20,5 +11,11 @@
 	<classpathentry combineaccessrules="false" kind="src" path="/ARSMemory"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/Entities"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/BodyEntityMasonInspectors"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/Libraries"/>
+	<classpathentry kind="lib" path="/Libraries/j3dcore.jar"/>
+	<classpathentry kind="lib" path="/Libraries/j3dutils.jar"/>
+	<classpathentry kind="lib" path="/Libraries/mason_physics2D.jar"/>
+	<classpathentry kind="lib" path="/Libraries/mason.jar"/>
+	<classpathentry kind="lib" path="/Libraries/vecmath.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
