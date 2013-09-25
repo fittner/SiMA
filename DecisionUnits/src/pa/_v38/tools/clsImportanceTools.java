@@ -9,6 +9,10 @@ package pa._v38.tools;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import logger.clsLogger;
+
+import org.slf4j.Logger;
+
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
@@ -26,6 +30,7 @@ import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
+import pa._v38.tools.datastructures.clsActDataStructureTools;
 import pa._v38.tools.datastructures.clsActTools;
 import pa._v38.tools.datastructures.clsGoalTools;
 import pa._v38.tools.datastructures.clsMeshTools;
@@ -49,6 +54,8 @@ public class clsImportanceTools {
 	private static final String _Delimiter03 = "|";
 	
 	private static final double rDriveEmotionValueRelation = 0.5;
+	
+	private static final Logger log = clsLogger.getLog("clsImportanceTools");
 	
 //	private static int[] mnConversionArray[] = {{-3, -700}, 
 //											{-2, -500},
@@ -435,7 +442,7 @@ public class clsImportanceTools {
 		
 		//If the list is empty return
 		if (poDriveDemandsList.isEmpty()) {
-			return oRetVal; //nothing to do. either list is empty, or it consists of one lement only
+			return oRetVal; //nothing to do. either list is empty, or it consists of one element only
 		}
 		
 		//Set list of drives in the order of drive priority, FIXME KD: Which drives have priority and how is that changed if they have the same affect
@@ -742,6 +749,94 @@ public class clsImportanceTools {
                 
             rResult += nAffectFromFeeling;
         }
+        
+        return rResult;
+    }
+    
+    /**
+     * DOCUMENT (Kollmann) - Calculates an importance value for a certain goal, if it contains a specified action. There are three cases to consider:
+     *                          - The specified action is equal to the associated action of the current moment
+     *                          - The specified action is equal to the last associated action of the current act
+     *                          - The specified action is associated somewhere else within the act
+     *
+     * @since 24.09.2013 11:42:21
+     *
+     * @param poGoal - Goal to check (if this is not associated with an act -> the function will only return 0)
+     * @param poAction - Action to check against
+     * @return
+     */
+    public static double getImpactOfAim(clsWordPresentationMeshGoal poGoal, clsWordPresentationMesh poAction)
+    {
+        double rResult = 0;
+        
+     // FIXME Kollmann: change impact increase values from hardcoded to parameter
+        double rMomentIncrease = 2.0;
+        double rLastIncrease = 1.0;
+        double rBaseIncrease = 0.5;
+        
+        log.debug("static double clsImportanceTools::getImpactOfAim(" + poGoal + ", " + poAction + ")");
+        
+        //get the supportive data structure for the goal
+        clsWordPresentationMesh oSuppDataStructure = poGoal.getSupportiveDataStructure();
+        
+        if(oSuppDataStructure != null && !oSuppDataStructure.isNullObject()) {
+            log.debug("Supportive data structure " + oSuppDataStructure + " has type " + poGoal.getSupportiveDataStructureType());
+            
+            //if goal has no intention -> do not evaluate anything else, because poGoal is not an act
+            clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSuppDataStructure);
+            if(oIntention != null && !oIntention.isNullObject()) {
+                log.debug("Goal " + poGoal + " has intention " + oIntention);
+                
+                //get the current moment in the act (if there is one) for later comparison
+                clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oSuppDataStructure);
+                
+                //itterate over all sub images and check if they have an associated action
+                ArrayList<clsWordPresentationMesh> oSubImages = clsActTools.getAllSubImages(oIntention);
+
+                for(clsWordPresentationMesh oImage : oSubImages) {
+                    log.debug("Intention " + oIntention + " has image " + oImage);
+                    //extract the images action (if any)
+                    eAction oAction = clsActTools.getRecommendedAction(oImage);
+                    
+                    //check NONE and NULLOBJECT, just in case the usage changes somehow - in both cases there should be no impact increment
+                    if(oAction != eAction.NONE && oAction != eAction.NULLOBJECT) {
+                        log.debug("Image " + oImage + " has action " + oAction);
+                        
+                        eAction oLookupAction = eAction.valueOf(poAction.getMoContent());
+                        
+                        //if the images action fits, start increasing the importance value
+                        if(oLookupAction == oAction) {
+                            rResult += rBaseIncrease; // this is the base increase for a 'normal' occurance, if it is a special occurance, increase the value later on
+                            
+                            //now check how if the image where the action was found is either the current moment or the last image (before post-condition)
+                            if(oImage == oMoment) {
+                                log.debug("Image " + oImage + " is current moment");
+                                rResult += (rMomentIncrease - rBaseIncrease); 
+                                log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                            }
+                            
+                            //if the image is the last image
+                            if(clsActTools.isLastImage(oImage)) {
+                                log.debug("Image " + oImage + " is last image");
+                                rResult += (rMomentIncrease - rLastIncrease);
+                                log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                            } else {
+                                //if it is not the last image, check if it is the second to last image and the last image has no action
+                                clsWordPresentationMesh oNextImage = clsActTools.getNextImage(oImage);
+                                if(clsActTools.isLastImage(oNextImage) && clsActTools.getRecommendedAction(oNextImage) == eAction.NONE) {
+                                    //in this case, the last image is just a post-condition so thread the second to last image like the last image
+                                    log.debug("Image " + oImage + " is last image before post-condition");
+                                    rResult += (rMomentIncrease - rLastIncrease);
+                                    log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        log.debug("clsImportanceTools::getImpactOfAim(...) -> " + rResult);
         
         return rResult;
     }

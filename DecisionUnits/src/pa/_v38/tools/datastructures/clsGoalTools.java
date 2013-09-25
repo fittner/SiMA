@@ -434,6 +434,27 @@ public class clsGoalTools {
 		return oRetVal;
 	}
 	
+    /**
+     * DOCUMENT (Kollmann) - Try to extract an intention from a goal - will only work for memorized goals
+     *
+     * @since 25.09.2013 14:50:43
+     *
+     * @param poGoal
+     * @return a word presentation mesh that contains the intention (if the goal hat one) or a NULLOBJECT.
+     */
+    public static clsWordPresentationMesh getIntention(clsWordPresentationMeshGoal poGoal) {
+        clsWordPresentationMesh oRetVal = clsMeshTools.getNullObjectWPM();
+        clsWordPresentationMesh oSuppDataStructure = poGoal.getSupportiveDataStructure();
+        
+        if(oSuppDataStructure != null && !oSuppDataStructure.isNullObject()) {
+            oRetVal = clsActDataStructureTools.getIntention(oSuppDataStructure);
+        }
+        
+        return oRetVal;
+    }
+    
+
+	
 	/**
 	 * Filter drive goals from image goals image
 	 * 
@@ -466,11 +487,14 @@ public class clsGoalTools {
 		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMeshGoal oPossibleGoal : poSortedPossibleGoalList) {
 			
+		    //TODO Kollmann: Move this to F53_... - putting it here just for testing, if I check this into the repository ... HIT ME!
+		    double rImpactOfAim = clsImportanceTools.getImpactOfAim(oPossibleGoal, poDriveGoal.getAssociatedAimAction());
+		    
 			//Get the level of affect for the object in the image of the potential goals
 		    //TODO SM: Implement logic from task setting
 		    double rImpactOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(oPossibleGoal, poFeltFeelingList);
 		    //TODO SM: Set IMPACTOFFEELING on this goal
-			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortImpact() + rImpactOfFeelings;
+			double rCurrentAffectLevel = oPossibleGoal.getImportance() + oPossibleGoal.getEffortImpact() + rImpactOfFeelings + rImpactOfAim;
 			
 			if (rCurrentAffectLevel>=prAffectLevelThreshold) {
 				//This is the sort order for the goal and it has to be fulfilled at any time
