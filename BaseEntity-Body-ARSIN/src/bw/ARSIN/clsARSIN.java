@@ -38,7 +38,7 @@ import bw.body.itfget.itfGetSensorEngine;
 import bw.entities.base.clsAnimate;
 import bw.entities.base.clsEntity;
 import bw.entities.tools.clsShape2DCreator;
-import bw.entities.tools.clsShape3DCreator;
+//import bw.entities.tools.clsShape3DCreator;
 import bw.entities.tools.eImagePositioning;
 import bw.utils.enums.eBodyAttributes;
 import bw.utils.enums.eBodyType;
@@ -146,8 +146,8 @@ public class clsARSIN extends clsAnimate implements itfGetSensorEngine, itfGetRa
 		
 		moAlive2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp, true); 
 		moDead2D = clsShape2DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
-		moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
-		moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
+		//moAlive3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_ALIVE, poProp); 
+		//moDead3D = clsShape3DCreator.createShape(pre+P_SHAPE+"."+P_SHAPE_DEAD, poProp);		
 		
 		mnAlive = poProp.getPropertyBoolean(pre+P_ALIVE);
 		mnImmortal = poProp.getPropertyBoolean(pre+P_IMMORTAL);

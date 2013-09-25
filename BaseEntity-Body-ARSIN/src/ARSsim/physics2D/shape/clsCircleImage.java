@@ -6,8 +6,10 @@ import sim.portrayal.DrawInfo2D;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Paint;
+import java.awt.image.WritableRaster;
 import java.awt.Shape;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
@@ -31,11 +33,12 @@ import bw.factories.eStrings;
  * @author muchitsch
  *  
  *///
-public class clsCircleImage extends Circle
+public class clsCircleImage extends Circle implements itfImageShape
     {
 	    
 	double mrRadius; 
 	BufferedImage moImage = null;
+	BufferedImage moOriginal = null;
 	//BufferedImage moImageOverlay = null;
 	
 	BufferedImage moCarriedItem =null;
@@ -73,6 +76,7 @@ public class clsCircleImage extends Circle
 	   	try
 	   	{
 	   		moImage = ImageIO.read( oFile );
+	   		moOriginal = moImage;
 	   	} catch (IOException e)
 	   	{
 	   		e.printStackTrace();
@@ -315,6 +319,48 @@ public class clsCircleImage extends Circle
 	 */
 	public void setShowOrientation(boolean mbShowOrientation) {
 		this.mbShowOrientation = mbShowOrientation;
+	}
+
+
+
+	/* (non-Javadoc)
+	 *
+	 * @since 25.09.2013 08:13:58
+	 * 
+	 * @see ARSsim.physics2D.shape.itfImageShape#setDisplaySize(double)
+	 */
+	@Override
+	public void setDisplaySize(double poSize) {
+		
+		if(poSize >1.0)poSize =1.0;
+		if(poSize<0.0)poSize=0.0;
+		WritableRaster raster = moOriginal.copyData(null);
+		Graphics image= moImage.getGraphics();
+		
+		//double sizeInverted = 1.0 - poSize;
+		int height = moImage.getHeight();
+		int width = moImage.getWidth();
+	//	Color oColor = new Color(0,0,0,0);
+
+		//image.setColor(oColor);
+
+		int rectHeigh = (int) ((1.0-poSize)*height);
+		//image.fillRect(0, 0, width, rectHeigh);
+		//int[] pixel1 = new int [4];
+		//int[] pixel = raster.getPixel(100, 100, pixel1);
+		
+		int[] newPixel = new int[4];
+		for(int i=0;i<newPixel.length;i++){
+			newPixel[i] =0;
+		}
+
+		for(int i=0; i<width;i++){
+			for(int k=0;k<rectHeigh;k++){
+				raster.setPixel(i, k, newPixel);
+			}
+		}
+		
+		moImage = new BufferedImage(moOriginal.getColorModel(),raster,moOriginal.getColorModel().isAlphaPremultiplied(),null);
 	}
 
    

@@ -39,6 +39,7 @@ import statictools.eventlogger.Event;
 import statictools.eventlogger.clsEventLogger;
 import statictools.eventlogger.eEvent;
 import ARSsim.physics2D.physicalObject.itfSetupFunctions;
+import ARSsim.physics2D.shape.itfImageShape;
 import ARSsim.physics2D.util.clsPose;
 
 
@@ -81,6 +82,7 @@ public abstract class clsEntity implements itfGetBody {
 	protected double mrStructuralWeight; // weight without flesh or similar dynamic parts - usually static during livetime. only changes in case of growth or similiar mechanisms
 	protected double mrVariableWeight; // flesh + carried elements + ...
 	
+	protected double mrStartTotalWeight;
 	protected eEntityType meEntityType;
 	public String moId;
 	private boolean mnRegistered;
@@ -477,6 +479,9 @@ public abstract class clsEntity implements itfGetBody {
 	}
 	
 	public void setVariableWeight(double prWeight) {
+		if(mrVariableWeight==0.0){
+			mrStartTotalWeight = mrStructuralWeight + prWeight;
+		}
 		mrVariableWeight = prWeight;
 		updateMass();
 	}
@@ -484,8 +489,12 @@ public abstract class clsEntity implements itfGetBody {
 	private void updateMass() {
 		if (moPhysicalObject2D != null) {
 			((itfSetupFunctions)moPhysicalObject2D).setMass(getTotalWeight());
+			
+			if(true)((itfImageShape)moPhysicalObject2D.getShape()).setDisplaySize(getTotalWeight()/mrStartTotalWeight);
+
 		}
 	}
+	
 	
 	
 	public void updateEntityInternals() { //called each sim step by getSteppableSensing (clsMobileObject2D and clsStationaryObject2D)

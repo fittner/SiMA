@@ -133,7 +133,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_PATH, clsGetARSPath.getRelativImagePath() + "carrot_grayscale.png");
 		oProp.setProperty(pre+P_SHAPE+"."+P_SHAPE_DEAD+"."+clsShape2DCreator.P_IMAGE_POSITIONING, eImagePositioning.DEFAULT.name());
 
-		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 5.0 );
+		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_WEIGHT, 15.0 );
 		
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_LIBIDINOUS_STIMULATION, 0.03);
 		oProp.setProperty(pre+P_BODY+"."+clsFlesh.P_AGGRESSIV_STIMULATION, 0.07);
@@ -281,7 +281,7 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 	}
 
 	private void updateShape() {
-		if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
+	/*	if (getFlesh().getTotallyConsumed() && !mnShapeUpdated) {
 			// state has changed recently to no_food_left
 			// update shape to the gray carrot
 			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
@@ -293,7 +293,8 @@ public class clsCarrot extends clsInanimate implements itfGetFlesh, itfAPEatable
 			clsEventLogger.add(new Event(this, getId(), eEvent.RESPAWN, ""));
 			mnShapeUpdated = true;
 			set2DShape(moFresh2D, getTotalWeight());
-		}		
+		}	
+	*/	
 	}
 	
 	private void regrowIt() {

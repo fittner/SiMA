@@ -303,7 +303,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat() );
+					moActionCommandList_Output.add( new clsActionEat(1.0) );
 				//} else if(oAction.equals("BITE")) {
 				//		moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("BEAT")) {
@@ -483,7 +483,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    if(testSequence_drop())  return;
+	    if(testSequenceEat())  return;
 	}
 
 	/* (non-Javadoc)
@@ -641,6 +641,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         mnTestCounter++;
         return true;
     }
+	
+	private boolean testSequenceEat(){
+		moActionCommandList_Output.add(new clsActionEat(1.0));
+		return true;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter

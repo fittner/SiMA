@@ -17,6 +17,7 @@ import statictools.eventlogger.eEvent;
 import config.clsProperties;
 import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
+import ARSsim.physics2D.shape.clsCircleImage;
 import ARSsim.physics2D.util.clsPose;
 import bw.utils.enums.eShapeType;
 import bw.body.clsBaseBody;
@@ -57,9 +58,9 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	public static final String P_SHAPE_50 		= "shape_50";
 	public static final String P_SHAPE_25 		= "shape_25";
 	
-	private Shape moShape75;
-	private Shape moShape50;
-	private Shape moShape25;
+//private Shape moShape75;
+//private Shape moShape50;
+//private Shape moShape25;
 	
 	public final clsProperties moCreationProperties;
 	
@@ -73,11 +74,11 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	private void applyProperties(String poPrefix, clsProperties poProp){		
 //		String pre = clsProperties.addDot(poPrefix);
 		
-		moShape75 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_75, poProp);
-		moShape50 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_50, poProp);
-		moShape25 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_25, poProp);
-		
+//moShape75 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_75, poProp);
+//moShape50 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_50, poProp);
+//moShape25 = clsShape2DCreator.createShape(poPrefix+P_SHAPE+"."+P_SHAPE_25, poProp);
 		setVariableWeight(getFlesh().getWeight());
+
 	}	
 	
 	public static clsProperties getDefaultProperties(String poPrefix) {
@@ -185,7 +186,7 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 	
 	private void updateShape() {
 		
-		
+/*		
 		if (this.moBody.getBodyIntegrity() < 0.25) {
 			//do nothing, will be eaten soon
 			set2DShape(moShape25, getTotalWeight());
@@ -205,6 +206,9 @@ public class clsCake extends clsInanimate implements itfGetFlesh, itfAPEatable, 
 		else{
 			// = 100% do nothing
 		}
+*/
+	
+		
 //			// state has changed recently to no_food_left
 //			// update shape to the gray carrot
 //			clsEventLogger.add(new Event(this, getId(), eEvent.CONSUMED, ""));
