@@ -9,9 +9,9 @@ package pa._v38.memorymgmt.searchspace;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
-import org.apache.log4j.Logger;
+import org.slf4j.Logger;
 
-import pa._v38.logger.clsLogger;
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -49,7 +49,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 	
 	private clsSearchSpaceHandler moSearchSpaceHandler;
 	
-	private Logger log = Logger.getLogger("pa._v38.memorymgmt");
+	private Logger log = clsLogger.getLog("Memory");
 	
 	
 	
@@ -237,7 +237,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oResult);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		
@@ -273,7 +273,7 @@ public class clsSearchSpaceManager implements itfSearchSpaceAccess {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oMatchedDataStructures);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+				log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
 			}
 		}
 		

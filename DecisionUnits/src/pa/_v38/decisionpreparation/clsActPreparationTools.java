@@ -36,7 +36,7 @@ public class clsActPreparationTools {
 	private static final int mnMovementTimeoutEstalishValue = 5;
 	
 	//private static Logger log = Logger.getLogger("pa._v38.decisionpreparation");
-	private static Logger log = Logger.getLogger("act_handling");
+	private static Logger log = Logger.getLogger("Acts");
 
 	/**
 	 * Perform basic act analysis, i. e. extract moment and expectation from an intention

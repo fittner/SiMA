@@ -60,6 +60,8 @@ implements I5_3_receive, I5_4_send, itfInspectorBarChart {
 	
 	private HashMap<String,Double> moChartInputData;
 	private HashMap<String,Double> moChartOutputData;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 
 	/**
 	 * DOCUMENT (zeilinger) - class 

@@ -40,6 +40,8 @@ public class F54_EmersionOfBlockedDriveContent extends clsModuleBase
 	private ArrayList<clsDriveMesh> moDrives;
 	private ArrayList<clsDriveMesh> moInput;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	/**
 	 * DOCUMENT (zeilinger) - insert description 
 	 * 

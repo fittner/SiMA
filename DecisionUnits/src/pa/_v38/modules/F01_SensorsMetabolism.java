@@ -14,7 +14,6 @@ import pa._v38.interfaces.modules.I0_3_receive;
 import pa._v38.interfaces.modules.I1_2_receive;
 import pa._v38.interfaces.modules.I1_2_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.tools.toText;
 import config.clsProperties;
 import du.enums.eSensorIntType;
@@ -44,6 +43,8 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_IN;
 	/** holds a map of all homoestatic values sorted by eSensorIntType as key. (OUT I1.2) @since 27.07.2011 13:09:03 */
 	private HashMap<eSensorIntType, clsDataBase> moHomeostasis_OUT;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * basic constructor
@@ -111,7 +112,7 @@ public class F01_SensorsMetabolism extends clsModuleBase implements I0_3_receive
 	 */
 	@Override
 	protected void process_basic() {
-		clsLogger.jlog.debug("\n\n\n===START OF PRIMARY PROCESS===");
+		log.debug("\n\n\n===START OF PRIMARY PROCESS===");
 		
 		moHomeostasis_OUT = moHomeostasis_IN;
 		

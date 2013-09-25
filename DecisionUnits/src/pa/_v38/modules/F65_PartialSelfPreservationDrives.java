@@ -8,7 +8,6 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-
 import java.util.SortedMap;
 import java.util.Map.Entry;
 
@@ -88,6 +87,8 @@ public class F65_PartialSelfPreservationDrives extends clsModuleBase implements 
 	//charts
 	private boolean mnChartColumnsChanged = true;
 	private HashMap<String, Double> moDriveChartData; 
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
     
     
 	/**

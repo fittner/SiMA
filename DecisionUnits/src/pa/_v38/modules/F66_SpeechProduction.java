@@ -75,6 +75,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
        // moWording = new clsWording().getWording();
         // mnSpeechThresold = poPersonalityParameterContainer.getPersonalityParameter("F"+P_MODULENUMBER, SPEECH_THRESHOLD).getParameterInt();
+        
 
     }
 

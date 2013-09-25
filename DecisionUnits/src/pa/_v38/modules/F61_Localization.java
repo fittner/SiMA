@@ -9,6 +9,7 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
@@ -38,6 +39,8 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	//TODO Localization information storage and datatype?
 

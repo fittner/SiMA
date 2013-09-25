@@ -11,8 +11,6 @@ import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -57,7 +55,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	public static final String P_MODULENUMBER = "23";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;

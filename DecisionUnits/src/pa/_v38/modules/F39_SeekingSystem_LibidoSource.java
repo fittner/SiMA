@@ -46,6 +46,8 @@ public class F39_SeekingSystem_LibidoSource extends clsModuleBase
 	
 	private HashMap<eSensorIntType, clsDataBase> moSensorSystems_OUT;
 	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
+	
 	
 	/**
 	 * basic constructor

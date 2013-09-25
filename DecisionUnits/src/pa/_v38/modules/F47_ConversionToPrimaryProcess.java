@@ -9,11 +9,11 @@ package pa._v38.modules;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I5_19_receive;
 import pa._v38.interfaces.modules.I5_19_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
@@ -22,7 +22,6 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.toText;
 import pa._v38.tools.datastructures.clsActionTools;
 import pa._v38.tools.datastructures.clsMeshTools;
-
 import config.clsProperties;
 
 /**
@@ -50,6 +49,8 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 	private ArrayList<clsWordPresentationMesh> moActionCommands_IN;
 	/** The list of associated memories of the generated actions */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor of F47. Apply properties
@@ -111,7 +112,7 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 			
 		try {
 			moReturnedTPMemory_OUT = getMemoryFromSecondaryProcess(moActionCommands_IN);
-			clsLogger.jlog.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
+			log.debug("Phantasy image: " + moReturnedTPMemory_OUT.toString());
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

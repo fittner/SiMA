@@ -10,8 +10,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import org.apache.log4j.Logger;
-
 import config.clsProperties;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.D2_1_send;
@@ -39,7 +37,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	public static final String P_MODULENUMBER = "35";
 	
 	/** Specialized Logger for this class */
-	private Logger log = Logger.getLogger(this.getClass());
+//    private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/** The blocked content storage, which is an Arraylist for data structures */
 	private DT2_BlockedContentStorage moBlockedContentStorage;
@@ -53,6 +51,7 @@ public class F35_EmersionOfBlockedContent extends clsModuleBaseKB implements I5_
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	/** Output associated activated memories */
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+
 
 	/**
 	 * Get the blocked content storage. Apply properties from the config files.  

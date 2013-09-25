@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.ListIterator;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
@@ -38,6 +39,8 @@ public class F18_CompositionOfQuotaOfAffectsForPerception extends clsModuleBase 
 	
 	private clsThingPresentationMesh moPerceptionalMesh_OUT;
 	//private ArrayList<clsPrimaryDataStructureContainer> moAssociatedMemories_OUT;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 
 	/**
 	 * F18_CompositionOfAffectsForPerception - merge all DMs by type comparison

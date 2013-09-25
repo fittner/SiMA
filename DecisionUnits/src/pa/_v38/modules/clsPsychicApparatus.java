@@ -12,16 +12,12 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import org.apache.log4j.Level;
-
-
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import pa._v38.tools.clsPair;
 import pa._v38.decisionpreparation.clsDecisionEngine;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.logger.clsDataLogger;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -168,7 +164,7 @@ public class clsPsychicApparatus {
 		this.uid = uid;
 		
 		// --- Set logger properties --- //
-		clsLogger.initLogger(Level.ERROR);	//Init root logger level
+		//clsLogger.initLogger(Level.ERROR);	//Init root logger level
 //		clsLogger.jlog.removeAllAppenders();
 //		clsLogger.jlog.setLevel(Level.DEBUG);
 //		//clsLogger.jlog.setLevel(Level.INFO);

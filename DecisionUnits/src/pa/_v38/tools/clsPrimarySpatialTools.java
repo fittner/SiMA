@@ -8,7 +8,9 @@ package pa._v38.tools;
 
 import java.util.ArrayList;
 
-import pa._v38.logger.clsLogger;
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
 import pa._v38.memorymgmt.datatypes.clsAssociationTime;
@@ -30,6 +32,8 @@ import pa._v38.systemtest.clsTester;
  */
 public class clsPrimarySpatialTools {
 		
+    private static final Logger log = clsLogger.getLog("Tools");
+    
 	/**
 	 * This function calculates the match between 2 images and returns the matching value. In this process also the RI (Remembered Image) is modified as 
 	 * associations of the distance of the PI positions are added. 
@@ -75,7 +79,7 @@ public class clsPrimarySpatialTools {
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(poRI);
 			} catch (Exception e) {
-				clsLogger.jlog.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
+				log.error("Systemtester has an error in addRIAssociations(oRIPIMatchList), poRI", e);
 			}
 		}
 		//Calculate the image match

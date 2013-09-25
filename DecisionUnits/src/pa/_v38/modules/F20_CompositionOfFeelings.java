@@ -7,9 +7,9 @@
 package pa._v38.modules;
 
 import java.util.ArrayList;
-
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
@@ -112,6 +112,8 @@ public class F20_CompositionOfFeelings extends clsModuleBaseKB implements
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 
 	private boolean add;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	/**
 	 * DOCUMENT (gelbard) - insert description 
 	 * 

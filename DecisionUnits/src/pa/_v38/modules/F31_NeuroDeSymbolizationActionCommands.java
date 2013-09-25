@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.SortedMap;
+
 import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
@@ -33,7 +34,6 @@ import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I1_5_receive;
 import pa._v38.interfaces.modules.I1_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
@@ -63,6 +63,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private static final boolean bUSEUNREAL = false;
 	
 	private int mnTestCounter =0;
+	
+	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/**
 	 * Constructor of NeuroDeSymbolization
@@ -229,7 +231,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					mnCounter = 0;
 				}
 			    
-				clsLogger.jlog.debug(
+				log.debug(
 						 "LastAction: " + lastAction.getMoContent() + ", " + 
 						 "LastRealAction: " + lastRealAction.getMoContent() + ", " + 
 				         "ThisAction: " + oActionWPM.getMoContent() + ", " + 
@@ -394,7 +396,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 			*/
 		}
 		
-		clsLogger.jlog.debug("=== END OF SECONDARY PROCESS ===\n");
+		log.debug("=== END OF SECONDARY PROCESS ===\n");
 	}
 
 	/* (non-Javadoc)

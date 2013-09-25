@@ -9,7 +9,9 @@ package pa._v38.tools.datastructures;
 import java.util.ArrayList;
 import java.util.ListIterator;
 
-import pa._v38.logger.clsLogger;
+import org.slf4j.Logger;
+
+import logger.clsLogger;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -51,7 +53,7 @@ public class clsMeshTools {
 	
 	private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
 	private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
-	
+	private static final Logger log = clsLogger.getLog("Tools");
 	
 	//=== STATIC VARIBALES --- END ===//
 	
@@ -687,7 +689,7 @@ public class clsMeshTools {
 					throw new Exception("The other element " + poThisDataStructure + " of the association " + oAss + " is not the source of the other element");
 				} catch (Exception e) {
 					// TODO (wendt) - Auto-generated catch block
-					clsLogger.jlog.error("Error: ", e);
+					log.error("Error: ", e);
 					continue;
 				}
 				
