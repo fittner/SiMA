@@ -201,7 +201,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-            send_I6_13(poWording, moAssociatedMemories_OUT);
+            send_I6_13(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
         }
 
   
