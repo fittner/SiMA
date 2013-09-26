@@ -115,18 +115,16 @@ public class F67_BodilyReactionsOnEmotions extends clsModuleBase implements I6_1
         //Wut
         //Blutdruckanstieg (Errötung), Muskelanspannung – passender Gesichtsausdruck
         
-        //CM: for testing now:
+        //IH: for testing now:
         clsInternalActionSweat test = new clsInternalActionSweat(eInternalActionIntensity.HEAVY);
        
-        //IH: for testing now:
-      //  clsActionSpeechInvited testnew = new clsActionSpeechInvited(eInternalActionIntensity.HEAVY);
         
         //IH: for testing now:
         clsActionShare testnew1 = new clsActionShare(eInternalActionIntensity.HEAVY);
         
-        
+        //Speech Trigger
         moInternalActions.add( test );
-      //  moInternalActions.add(testnew );
+       //Thought Trigger 
         moInternalActions.add(testnew1 );
     }
     
