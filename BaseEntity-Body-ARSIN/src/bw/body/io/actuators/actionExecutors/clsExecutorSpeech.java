@@ -6,16 +6,18 @@
  */
 package bw.body.io.actuators.actionExecutors;
 
-import config.clsProperties;
 import java.util.ArrayList;
 
-import bw.body.clsComplexBody;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
-import bw.entities.base.clsSpeech;
-import bw.factories.clsRegisterEntity;
-import bw.body.itfget.itfGetBody;
-import du.itf.actions.*;
+import config.clsProperties;
+import du.enums.eFacialExpression;
+import du.enums.eInternalActionIntensity;
+import du.itf.actions.clsActionAttackBite;
+import du.itf.actions.clsActionCommand;
+import du.itf.actions.clsActionEat;
+import du.itf.actions.clsActionKiss;
+import du.itf.actions.clsActionSpeech;
 
 
 /**
@@ -100,17 +102,19 @@ public class clsExecutorSpeech extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		clsActionSpeech oCommand =(clsActionSpeech) poCommand; 
-		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-
+		if (oCommand.getData()==eInternalActionIntensity.HEAVY)
+		//Test for Speech 
+		moEntity.setFacialExpressionOverlayImage(eFacialExpression.EAT);
+		
 		//Get Speech
-		clsSpeech oSpeech = oBody.getInterBodyWorldSystem().getCreateSpeech().getSpeech(oCommand.getData(), 1);
-		if (oSpeech==null) return false; 
+	//	clsSpeech oSpeech = oBody.getInterBodyWorldSystem().getCreateSpeech().getSpeech(oCommand.getData(), 1);
+	//	if (oSpeech==null) return false; 
 		
 		//Drop it in Mason
-		clsRegisterEntity.registerEntity(oSpeech);
-		oSpeech.setRegistered(true);
+	//	clsRegisterEntity.registerEntity(oSpeech);
+	//	oSpeech.setRegistered(true);
 		
-		oSpeech.addSensor();
+	//	oSpeech.addSensor();
 		
 		return true;
 	}		

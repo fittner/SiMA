@@ -588,11 +588,11 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//}
 			
 			
-			// HACK (Kivy): we replaced every EAT action with a PICKUP action to the test inventory
-			/*if(oActionWPM.getMoContent() == "EAT")
+			// HACK (Kivy/ IH): we replaced every EAT action with a SPEECH action to the test inventory
+			if(oActionWPM.getMoContent() == "EAT")
 			{
-			    oActionWPM.setMoContent("PICKUP");
-			}*/
+			    oActionWPM.setMoContent("SPEAK");
+			}
 			// END HACK (Kivy)
 			
 			if (oActionWPM.isNullObject()==false) { //&& oCurrentGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)) {

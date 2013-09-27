@@ -121,6 +121,23 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
         this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
     }
     
+  
+    /**
+     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poFeeling
+     */
+    public void addWording(clsWordPresentationMesh poSupportiveDataStructure) {
+        this.addReplaceNonUniqueProperty(poSupportiveDataStructure, ePredicate.HASACTION, true);
+    }
+    
+    
+    
+    
     /**
      * Add a list of feelings
      * 

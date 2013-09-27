@@ -6,7 +6,6 @@
  */
 package du.itf.actions;
 import du.enums.eInternalActionIntensity;
-import du.itf.tools.clsAbstractSpeech;
 
 
 /**
@@ -31,8 +30,8 @@ public class clsActionSpeech extends clsActionCommand {
 		return "<Speech>" + "" + "</Speech>"; 
 	}
 
-	public clsAbstractSpeech getData() {
-		return null;
+	public eInternalActionIntensity getData() {
+		return moAbstractSpeech;
 	}
 	
 	public void setData(eInternalActionIntensity oAbstractSpeech) {

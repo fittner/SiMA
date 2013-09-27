@@ -97,6 +97,9 @@ public class clsGoalTools {
 		oRetVal.addFeelings(oFeelingsList);
 		//clsGoalTools.addFeelings(oRetVal, oFeelingsList);
 		
+		//--- Add Wordings --- //
+        oRetVal.addWording(poSupportiveDataStructure);
+		
 		//Add Supportive Data Structure to goal if it is not null
 		oRetVal.setSupportiveDataStructure(poSupportiveDataStructure);
 //		if (poSupportiveDataStructure == null) {
