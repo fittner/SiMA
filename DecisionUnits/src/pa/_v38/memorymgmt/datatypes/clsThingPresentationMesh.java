@@ -696,8 +696,8 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 		//Add by AW
 		String oResult = "";
 		if (this.moContentType.equals(eContentType.RI) || this.moContentType.equals(eContentType.PI) || this.moContentType.equals(eContentType.PHI)) {
-			//"::"+this.moDataStructureType+"::";  
-			oResult += this.moContentType + ":" + this.moContent;
+			//"::"+this.moDataStructureType+"::"; 
+		    oResult += this.moContentType + ":" + this.moContent;
 			
 			oResult += "\nINT ASS: ";
 			for (clsAssociation oEntry : moInternalAssociatedContent) {
@@ -721,7 +721,7 @@ public class clsThingPresentationMesh extends clsPhysicalStructureComposition {
 				}
 			}
 		} else if (this.moContentType.equals(eContentType.ENTITY)) {
-			oResult += this.moContentType + ":" + this.moContent;
+			oResult += this.moContent;
 			
 			clsTriple<clsThingPresentationMesh, ePhiPosition, eRadius> oPosition = clsPrimarySpatialTools.getPosition(this);
 			

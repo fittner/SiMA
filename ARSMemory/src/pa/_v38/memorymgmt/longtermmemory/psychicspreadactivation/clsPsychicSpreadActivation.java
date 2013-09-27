@@ -37,7 +37,7 @@ public class clsPsychicSpreadActivation {
 	private double mrActivationThreshold = 0.1;
 	
 	private itfSearchSpaceAccess moModuleBase;
-	private Logger log = Logger.getLogger("pa._v38.memorymgmt.psychicspreadactivation");
+	private Logger log = Logger.getLogger("memory");
 	
 	public clsPsychicSpreadActivation(itfSearchSpaceAccess poModuleBase, double prConsumeValue, double prActivationThreshold) {
 		moDefaultConsumeValue = prConsumeValue;
@@ -108,12 +108,12 @@ public class clsPsychicSpreadActivation {
 			}
 		}
 		
-		log.trace("Create direct associations between " + poOriginImage.getMoContent() + " and ");
+		log.debug("Create direct associations between " + poOriginImage.getMoContent() + " and ");
 		if (poOriginImage.getMoContentType().equals(eContentType.PI) || poOriginImage.getMoContentType().equals(eContentType.PHI)) {
 			for (clsPair<Double,clsDataStructurePA> oPair : oSearchResultMesh) {
 				clsMeshTools.createAssociationPrimary(poOriginImage, (clsThingPresentationMesh) oPair.b, oPair.a);
 				//Now all matched images are linked with the PI
-				log.trace(((clsThingPresentationMesh)oPair.b).getMoContent() + ", value " + oPair.a + ", ");
+				log.debug(((clsThingPresentationMesh)oPair.b).getMoContent() + ", matching value: " + oPair.a + ", ");
 			}
 		}
 	}

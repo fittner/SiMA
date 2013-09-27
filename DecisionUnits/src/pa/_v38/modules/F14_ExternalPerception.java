@@ -225,6 +225,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
 		PrepareSensorInformatinForInspector(moEnvironmentalData);
+		log.debug("Incoming perception: {} ", moEnvironmentalData.toString());
 		
 		
 		//here also the body data should be processed, but nothing is coming from this path until now.
@@ -359,6 +360,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
+		
+		log.debug("Recognized obejcts: {} ", moCompleteThingPresentationMeshList.toString());
 		
 
 		
