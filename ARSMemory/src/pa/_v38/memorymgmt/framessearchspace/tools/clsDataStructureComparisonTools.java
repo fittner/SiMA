@@ -170,9 +170,7 @@ public abstract class clsDataStructureComparisonTools {
 	 * @param poContainerUnknown
 	 * @return
 	 */
-	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(
-			clsSearchSpaceHandler poSearchSpaceHandler,
-			clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
+	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(clsSearchSpaceHandler poSearchSpaceHandler, clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		ArrayList<clsPair<Double, clsDataStructurePA>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
@@ -189,6 +187,8 @@ public abstract class clsDataStructureComparisonTools {
 		//pnLevel 0: Nothing is done with the image
 		//pnLevel 1: Load only indirect associations
 		//pnLevel 2: Load the first order of indirect associations to other images
+		
+		log.trace("Input image, which shall be compared: {}", poDSUnknown);
 		
 		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
@@ -226,6 +226,7 @@ public abstract class clsDataStructureComparisonTools {
 					}
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
+					log.debug("Compared image {}, match: {}", oClonedCompareElement, oMatch);
 					
 					//=== Perform system tests ===//
 					if (clsTester.getTester().isActivated()) {
