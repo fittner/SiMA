@@ -12,11 +12,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -42,6 +39,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.old.eDataStructureMatch;
+import system.datamanipulation.clsMeshTools;
+import system.datamanipulation.clsPrimarySpatialTools;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (zeilinger) - insert description 

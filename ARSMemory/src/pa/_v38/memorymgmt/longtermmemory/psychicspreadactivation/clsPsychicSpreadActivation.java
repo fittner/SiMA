@@ -10,19 +10,18 @@ import java.util.ArrayList;
 
 import org.apache.log4j.Logger;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationPrimary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
-
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 

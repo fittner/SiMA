@@ -10,8 +10,10 @@ import java.util.ArrayList;
 import java.util.HashSet;
 
 
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
+
+
+
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
@@ -22,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.itfInternalAssociatedDataStructure;	
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
+import testfunctions.clsTester;
 
 
 /**
