@@ -12,10 +12,12 @@ import inspectors.mind.pa._v38.autocreated.cls_GenericDynamicTimeChartInspector;
 import inspectors.mind.pa._v38.autocreated.cls_GenericTimeChartInspector;
 import inspectors.mind.pa._v38.handcrafted.clsCSV_DataLoggerInspector;
 import inspectors.mind.pa._v38.handcrafted.clsDetail_DataLoggerInspector;
+
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Collections;
+
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.JScrollPane;
@@ -24,11 +26,12 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+import OLDREMOVETHISpa._v38.logger.clsDLEntry_Abstract;
+import OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.itfInspectorGenericDynamicTimeChart;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
-import pa._v38.logger.clsDLEntry_Abstract;
-import pa._v38.logger.clsDataLogger;
 import pa._v38.modules.clsPsychicApparatus;
 import pa.clsPsychoAnalysis;
 import pa._v38.clsProcessor;
