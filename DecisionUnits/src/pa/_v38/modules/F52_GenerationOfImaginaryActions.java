@@ -588,7 +588,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//}
 			
 			
-			// HACK (Kivy/ IH): we replaced every EAT action with a SPEECH action to the test inventory
+			// HACK (IH): replaced every EAT action with a SPEECH action to the test inventory
 			if(oActionWPM.getMoContent() == "EAT")
 			{
 			    oActionWPM.setMoContent("SPEAK");
