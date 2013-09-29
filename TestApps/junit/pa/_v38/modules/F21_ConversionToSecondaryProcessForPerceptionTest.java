@@ -41,8 +41,8 @@ import pa._v38.memorymgmt.longtermmemory.clsLongTermMemoryHandler;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsTriple;
 import config.clsProperties;
+import datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (havlicek) - insert description

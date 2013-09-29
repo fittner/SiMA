@@ -10,6 +10,8 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import datatypes.helpstructures.clsPair;
+
 /**
  * DOCUMENT (havlicek) - insert description 
  * 
