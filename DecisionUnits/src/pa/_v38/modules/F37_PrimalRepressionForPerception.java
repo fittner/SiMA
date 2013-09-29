@@ -25,11 +25,11 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsTriple;
 import du.enums.pa.eDriveComponent;
 import du.enums.pa.ePartialDrive;
 

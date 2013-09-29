@@ -12,12 +12,11 @@ import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
+import OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import pa._v38.tools.clsPair;
-import pa._v38.decisionpreparation.clsDecisionEngine;
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.logger.clsDataLogger;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -25,8 +24,9 @@ import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
-import pa._v38.systemtest.clsTester;
 import statictools.clsGetARSPath;
+import system.functionality.decisionpreparation.clsDecisionEngine;
+import testfunctions.clsTester;
 
 /**
  * This class holds all instances of model v38. It is responsible for their creation and configuration. Further it contains the
@@ -140,7 +140,7 @@ public class clsPsychicApparatus {
 	/** List of interfaces and the modules it connects to pair(source,target).; @since 13.07.2011 17:50:47 */
 	public HashMap<eInterfaces, clsPair<ArrayList<Integer>, ArrayList<Integer>>> moInterfaces_Recv_Send;
 	/** The data logger. Can log everything from any module that implements the corresponding interfaces. 
-	 * @see pa._v38.logger 
+	 * @see OLDREMOVETHISpa._v38.logger 
 	 * @since 13.07.2011 17:52:06 */
 	public clsDataLogger moDataLogger;
 	

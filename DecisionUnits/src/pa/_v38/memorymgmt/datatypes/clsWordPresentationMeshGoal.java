@@ -9,15 +9,15 @@ package pa._v38.memorymgmt.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

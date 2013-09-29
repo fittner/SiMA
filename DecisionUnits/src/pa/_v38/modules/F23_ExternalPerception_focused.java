@@ -12,6 +12,8 @@ import java.util.ListIterator;
 import java.util.SortedMap;
 
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
@@ -29,15 +31,13 @@ import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSecondarySpatialTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsGoalTools;
-import pa._v38.tools.datastructures.clsMentalSituationTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsActionTools;
+import system.datamanipulation.clsGoalTools;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMentalSituationTools;
+import system.datamanipulation.clsMeshTools;
+import system.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered 

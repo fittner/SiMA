@@ -11,14 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPhantasyTools;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfGraphInterface;
 import pa._v38.interfaces.modules.I5_6_receive;
 import pa._v38.interfaces.modules.I5_6_send;
@@ -42,8 +35,15 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
+import system.datamanipulation.clsEntityTools;
+import system.datamanipulation.clsMeshTools;
+import system.datamanipulation.clsPhantasyTools;
+import system.datamanipulation.clsPrimarySpatialTools;
+import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 
 /**
  * Association of TPMs (TP + Emotion, fantasies) with thing presentations raw data (from external perception). 

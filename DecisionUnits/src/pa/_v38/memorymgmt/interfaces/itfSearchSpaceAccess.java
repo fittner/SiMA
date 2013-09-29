@@ -8,10 +8,10 @@ package pa._v38.memorymgmt.interfaces;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -12,8 +12,6 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.decisionpreparation.clsDecisionEngine;
-import pa._v38.decisionpreparation.eCodeletType;
 import pa._v38.interfaces.itfInspectorGenericActivityTimeChart;
 import pa._v38.interfaces.modules.I2_5_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
@@ -39,22 +37,24 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMentalSituationTools;
-import pa._v38.tools.datastructures.clsMeshTools;
-import pa._v38.tools.planningHelpers.PlanningGraph;
-import pa._v38.tools.planningHelpers.PlanningNode;
-import pa._v38.tools.planningHelpers.PlanningWizard;
-import pa._v38.tools.planningHelpers.TestDataCreator;
-import pa._v38.tools.planningHelpers.eDirection;
-import pa._v38.tools.planningHelpers.eDistance;
-import pa._v38.tools.planningHelpers.eEntity;
+import system.algorithm.planningHelpers.PlanningGraph;
+import system.algorithm.planningHelpers.PlanningNode;
+import system.algorithm.planningHelpers.PlanningWizard;
+import system.algorithm.planningHelpers.TestDataCreator;
+import system.algorithm.planningHelpers.eDirection;
+import system.algorithm.planningHelpers.eDistance;
+import system.algorithm.planningHelpers.eEntity;
+import system.datamanipulation.clsActionTools;
+import system.datamanipulation.clsEntityTools;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMentalSituationTools;
+import system.datamanipulation.clsMeshTools;
+import system.functionality.decisionpreparation.clsDecisionEngine;
+import system.functionality.decisionpreparation.eCodeletType;
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 
 /**
  * DOCUMENT (perner) - Based on the goal delivered from module F26_Decision_Making, a set of action-plans is created in order to achieve the
@@ -215,7 +215,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 				moPlans_Output = processGoals_AW(moGoalList_IN);
 				
 				//--- System printout of all important action dates ---//
-				log.info("Loggername: {}, \n=====================\nDecided Action " + moPlans_Output.toString() + "\n===============================", log.getName());
+				log.info("\n=====================\nDecided Action " + moPlans_Output.toString() + "\n===============================");
 				//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
 				//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				

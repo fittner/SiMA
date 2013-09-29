@@ -13,7 +13,6 @@ import java.util.SortedMap;
 import config.clsProperties;
 import du.enums.eShapeType;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsGoalTools;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_3_send;
@@ -25,6 +24,7 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import system.datamanipulation.clsGoalTools;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  

@@ -9,10 +9,10 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.planningHelpers.PlanningNode;
+import system.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (hinterleitner) - insert description

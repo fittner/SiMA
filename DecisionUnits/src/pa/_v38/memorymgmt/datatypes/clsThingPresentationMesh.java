@@ -9,14 +9,14 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eActivationType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.eRadius;
+import system.datamanipulation.clsPrimarySpatialTools;
 
 /**
  * DOCUMENT (zeilinger) - The term Thing Presentation Mesh (TPM) describes a mesh of TPs which are connected via attribute associations. 

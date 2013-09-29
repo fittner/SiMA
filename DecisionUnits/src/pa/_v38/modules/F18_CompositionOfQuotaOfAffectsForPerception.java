@@ -12,9 +12,8 @@ import java.util.ListIterator;
 import java.util.SortedMap;
 
 import config.clsProperties;
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_10_receive;
 import pa._v38.interfaces.modules.I5_10_send;
@@ -23,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
