@@ -308,7 +308,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat() );
+					moActionCommandList_Output.add( new clsActionEat(1.0) );
 				//} else if(oAction.equals("BITE")) {
 				//		moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("BEAT")) {
@@ -491,7 +491,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    if(testSequence_drop())  return;
+	    if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -615,8 +615,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
-        //moActionCommandList_Output.add(new clsActionPickUp());
-        //if (true) return;
+        moActionCommandList_Output.add(new clsActionBeat(0.1));
+        if (true) return true;
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
        else if (mnTestCounter<=20){
@@ -649,6 +649,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         mnTestCounter++;
         return true;
     }
+	
+	private boolean testSequenceEat(){
+		moActionCommandList_Output.add(new clsActionEat(1.0));
+		return true;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter

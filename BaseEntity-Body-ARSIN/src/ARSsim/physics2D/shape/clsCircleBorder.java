@@ -83,6 +83,7 @@ public class clsCircleBorder extends Circle
 	public int getStartAngle(){
 		return 360-angle/2; 
 	}
+
 	
 	
 }

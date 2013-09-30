@@ -28,6 +28,9 @@ public class clsSingletonProperties {
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
 	private boolean mnShowThoughtExpressionOverlay;
+	private boolean mnShowSpeechExpressionOverlay;
+
+	private boolean mnShowLifeIndicator;
 
 	
 	protected clsSingletonProperties() {
@@ -41,7 +44,7 @@ public class clsSingletonProperties {
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
 		mnShowThoughtExpressionOverlay = false;
-		
+		mnShowLifeIndicator =false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -112,24 +115,36 @@ public class clsSingletonProperties {
 	}
 	
 	static public boolean showSpeechExpressionOverlay() {
-		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
+		return (clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay;
 	}
 	
 	static public boolean showThoughtExpressionOverlay() {
 		return (clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay;
 	}
-	
-	static public void setShowSpeechExpressionOverlay(boolean value) {
-		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
-	}
-	
 	static public void setShowThoughtExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay = value;
 	}
-
-	public static void setShowCarriedItem(boolean value) {
-		
+	
+	static public void setShowSpeechExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowSpeechExpressionOverlay = value;
 	}
 	
+
+	
+	static public void setShowLifeIndicator(boolean value) {
+		(clsSingletonProperties.instance()).mnShowLifeIndicator = value;
+	}
+	
+	static public boolean showLifeIndicator() {
+		return (clsSingletonProperties.instance()).mnShowLifeIndicator;
+	}
+	
+	static public boolean showFacialExpressionOverlay() {
+		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
+	}
+	
+	static public void setShowFacialExpressionOverlay(boolean value) {
+		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
+	}
 	
 }

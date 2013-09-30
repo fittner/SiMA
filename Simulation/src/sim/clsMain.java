@@ -170,13 +170,10 @@ public class clsMain extends SimState{
     public void setShowSpeechExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowSpeechExpressionOverlay(value);
     }
-       
-    public void setShowCarriedItem(boolean value){
-    	clsSingletonProperties.setShowCarriedItem(value) ;
-    }
     public boolean getShowSpeechExpressionOverlay(){
     	return clsSingletonProperties.showSpeechExpressionOverlay();
     }
+       
     public void setShowThoughtExpressionOverlay(boolean value){
     	clsSingletonProperties.setShowThoughtExpressionOverlay(value);
     }
@@ -185,8 +182,17 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showThoughtExpressionOverlay();
     }
     
+    public void setShowLifeIndicator(boolean value){
+    	clsSingletonProperties.setShowLifeIndicator(value);
+    }
+    public boolean getShowLifeIndicator(){
+    	return clsSingletonProperties.showLifeIndicator();
+    }
     
-    
-    
-    
+    public void setShowFacialExpressionOverlay(boolean value){
+    	clsSingletonProperties.setShowFacialExpressionOverlay(value);
+    }
+    public boolean getShowFacialExpressionOverlay(){
+    	return clsSingletonProperties.showFacialExpressionOverlay();
+    }
  }

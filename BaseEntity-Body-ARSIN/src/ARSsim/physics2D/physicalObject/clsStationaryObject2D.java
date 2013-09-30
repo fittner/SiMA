@@ -14,6 +14,7 @@ import sim.portrayal.DrawInfo2D;
 import sim.portrayal.Inspector;
 import sim.portrayal.LocationWrapper;
 import sim.display.GUIState;
+import ARSsim.physics2D.shape.clsAnimatedCircleImage;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.factories.clsSingletonMasonGetter;
@@ -258,7 +259,20 @@ public class clsStationaryObject2D extends sim.physics2D.physicalObject.Stationa
 		// TODO (hinterleitner) - Auto-generated method stub
 		
 	}
-
+	/* (non-Javadoc)
+	 *
+	 * @since 25.09.2013 15:22:00
+	 * 
+	 * @see ARSsim.physics2D.physicalObject.itfSetupFunctions#setLifeValue(double)
+	 */
+	@Override
+	public void setLifeValue(double value) {
+		Shape oShape = this.getShape();
+		if(oShape instanceof clsAnimatedCircleImage){
+			((clsAnimatedCircleImage) oShape).setLifeValue(value);
+		}
+		
+	}
 
 	
 
