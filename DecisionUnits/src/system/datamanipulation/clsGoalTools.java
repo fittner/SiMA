@@ -14,6 +14,7 @@ import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationWordPresentation;
+import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
@@ -40,6 +41,7 @@ public class clsGoalTools {
 
 	private final static clsWordPresentationMeshGoal moNullObjectWPM=null;// new clsWordPresentationMesh(new clsTriple<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	private final static double P_GOALTHRESHOLD = 0.1;
+	 private static clsWordPresentationMesh poWording;
 	private static Logger log = Logger.getLogger("pa._v38.tools.clsGoalTools");
 	
 	/**
@@ -96,7 +98,8 @@ public class clsGoalTools {
 		//clsGoalTools.addFeelings(oRetVal, oFeelingsList);
 		
 		//--- Add Wordings --- //
-        oRetVal.addWording(poSupportiveDataStructure);
+		poWording = new clsConcept().moWording;
+		oRetVal.addWording(poWording);
 		
 		//Add Supportive Data Structure to goal if it is not null
 		oRetVal.setSupportiveDataStructure(poSupportiveDataStructure);

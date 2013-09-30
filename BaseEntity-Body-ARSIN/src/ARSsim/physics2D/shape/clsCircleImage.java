@@ -213,7 +213,7 @@ public class clsCircleImage extends Circle
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+40, nyArc-55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
 			        	}
 			        }
 			        
