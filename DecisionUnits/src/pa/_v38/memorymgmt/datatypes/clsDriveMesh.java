@@ -10,6 +10,8 @@ package pa._v38.memorymgmt.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eOrgan;
 import du.enums.eOrifice;
 import du.enums.pa.eDriveComponent;
@@ -17,8 +19,6 @@ import du.enums.pa.ePartialDrive;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 /**

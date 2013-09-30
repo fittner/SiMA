@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 import pa._v38.tools.toText;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;

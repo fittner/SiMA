@@ -93,7 +93,8 @@ public enum eCondition {
 	COMPOSED_CODELET,
 	
 	//Special condition by emotions
-	PANIC;
+	PANIC,
+	SPEECH;
 	
 
 	

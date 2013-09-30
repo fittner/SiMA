@@ -9,6 +9,8 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -16,12 +18,10 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsActDataStructureTools;
-import pa._v38.tools.datastructures.clsActTools;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsActDataStructureTools;
+import system.datamanipulation.clsActTools;
+import system.datamanipulation.clsEntityTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 

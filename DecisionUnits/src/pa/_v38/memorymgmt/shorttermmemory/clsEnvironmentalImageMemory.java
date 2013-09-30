@@ -7,6 +7,9 @@
 package pa._v38.memorymgmt.shorttermmemory;
 
 import java.util.ArrayList;
+
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.interfaces.itfGraphData;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -18,11 +21,9 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsSecondarySpatialTools;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsEntityTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsEntityTools;
+import system.datamanipulation.clsMeshTools;
+import system.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

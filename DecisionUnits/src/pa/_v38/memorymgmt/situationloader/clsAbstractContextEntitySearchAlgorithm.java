@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import datatypes.helpstructures.clsPentagon;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsConcept;
@@ -21,8 +23,6 @@ import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePredicate;
-import pa._v38.tools.clsPentagon;
-import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (havlicek) - insert description 

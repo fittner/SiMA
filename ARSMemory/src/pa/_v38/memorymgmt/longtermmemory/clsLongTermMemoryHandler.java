@@ -11,6 +11,8 @@ import java.util.Arrays;
 
 import org.apache.log4j.Logger;
 
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datahandlertools.clsDataStructureGenerator;
 import pa._v38.memorymgmt.datatypes.clsAffect;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
@@ -29,9 +31,7 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivation;
 import pa._v38.tools.clsDebugTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

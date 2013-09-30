@@ -68,6 +68,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         // Prepare finals to ensure null safety.
         moConcept = new clsConcept();
         moSituation = new clsSituation();
+        //Extract wording
         poWording = new clsConcept().moWording;
         
         applyProperties(poPrefix, poProp);
@@ -110,7 +111,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
 
         text += toText.h3("Concept and Situation");
         text += toText.valueToTEXT("moConcept", moConcept.toString());
-        text += toText.valueToTEXT("moSituation", moSituation.toString());
+        text += toText.valueToTEXT("poWording", poWording.toString());
         text += toText.valueToTEXT("moShortTermMemory", moShortTermMemory.stateToTEXT());
         return text;
     }
@@ -201,7 +202,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void send() {
-            send_I6_13(poWording, moAssociatedMemories_OUT);
+            send_I6_13(moPerceptionalMesh_OUT, moAssociatedMemories_OUT);
         }
 
   

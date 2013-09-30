@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
@@ -22,8 +23,6 @@ import pa._v38.interfaces.modules.D1_5_send;
 import pa._v38.interfaces.modules.D1_6_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.enums.eDrive;
-
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**

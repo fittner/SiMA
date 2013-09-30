@@ -9,8 +9,8 @@ package pa._v38.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;

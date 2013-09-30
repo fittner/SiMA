@@ -112,7 +112,7 @@ public class clsSingletonProperties {
 		clsSingletonMasonGetter.getTPMNodeField().clear();
 	}
 	
-	static public boolean showFacialExpressionOverlay() {
+	static public boolean showSpeechExpressionOverlay() {
 		return (clsSingletonProperties.instance()).mnShowFacialExpressionOverlay;
 	}
 	
@@ -120,7 +120,7 @@ public class clsSingletonProperties {
 		return (clsSingletonProperties.instance()).mnShowThoughtExpressionOverlay;
 	}
 	
-	static public void setShowFacialExpressionOverlay(boolean value) {
+	static public void setShowSpeechExpressionOverlay(boolean value) {
 		(clsSingletonProperties.instance()).mnShowFacialExpressionOverlay = value;
 	}
 	

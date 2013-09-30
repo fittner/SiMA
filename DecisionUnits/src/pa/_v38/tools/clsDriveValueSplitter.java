@@ -6,6 +6,8 @@
  */
 package pa._v38.tools;
 
+import datatypes.helpstructures.clsPair;
+
 /**
  * DOCUMENT (deutsch) - insert description 
  * 

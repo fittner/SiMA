@@ -8,8 +8,8 @@ package pa._v38.interfaces.modules;
 
 import java.util.HashMap;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.enums.eDrive;
-import pa._v38.tools.clsPair;
 
 /**
  * read access to drive storage

@@ -20,8 +20,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsActionTools;
+import system.datamanipulation.clsMeshTools;
 import config.clsProperties;
 
 /**

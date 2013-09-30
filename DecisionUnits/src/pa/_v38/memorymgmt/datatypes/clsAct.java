@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.datatypes;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import pa._v38.tools.clsTriple;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eActState;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -24,6 +24,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * poAssociatedWordPresentations (clsAssociation):	Ordered list of combined word presentation. The ArrayList can only be filled with objects from the type clsSecondaryDataStructure
  * 
  * @author zeilinger
+ * @deprecated
  * 
  * 23.05.2010, 21:43:47
  * 

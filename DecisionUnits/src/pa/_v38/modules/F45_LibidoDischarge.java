@@ -11,10 +11,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.SortedMap;
 
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsMeshTools;
 import pa._v38.interfaces.itfInspectorGenericTimeChart;
 import pa._v38.interfaces.modules.I5_9_receive;
 import pa._v38.interfaces.modules.I5_9_send;
@@ -35,8 +32,11 @@ import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.enums.eDriveComponent;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
+import system.datamanipulation.clsMeshTools;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.pa.ePartialDrive;
 
 /**

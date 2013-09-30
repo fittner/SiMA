@@ -9,10 +9,10 @@ package pa._v38.memorymgmt.datatypes;
 import java.util.ArrayList;
 import java.util.List;
 
+import datatypes.helpstructures.clsPentagon;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import pa._v38.tools.clsPentagon;
-import pa._v38.tools.clsTriple;
 
 /**
  * DOCUMENT (havlicek) - The clsConcept class represents the collected ConceptEntities for one agent in one step.
@@ -40,7 +40,7 @@ public class clsConcept {
     public clsConcept() {
         moConceptMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
                 new ArrayList<clsAssociation>(), "");
-        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.DOMAIN, eContentType.YES),
+        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.EAT),
                 new ArrayList<clsAssociation>(), "");
         moConceptEntities = new ArrayList<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>>();
     }

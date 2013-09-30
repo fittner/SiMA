@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
-import pa._v38.systemtest.clsTester;
+import testfunctions.clsTester;
 
 /**
  * Emersion of blocked content. The inputs of the perception and associated memories are compared with

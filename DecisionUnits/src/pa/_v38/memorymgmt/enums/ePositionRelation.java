@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.enums;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 
 /**
  * Enum for position relations

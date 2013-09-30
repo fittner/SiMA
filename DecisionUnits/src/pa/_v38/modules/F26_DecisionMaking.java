@@ -8,19 +8,11 @@ package pa._v38.modules;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.ListIterator;
 import java.util.SortedMap;
 
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsGoalTools;
-import pa._v38.tools.datastructures.clsMentalSituationTools;
-import pa._v38.tools.datastructures.clsMeshTools;
-import pa._v38.decisionpreparation.clsDecisionEngine;
-import pa._v38.decisionpreparation.clsDecisionPreparationTools;
 import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_7_receive;
@@ -33,13 +25,16 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
-import pa._v38.memorymgmt.enums.eAction;
-import pa._v38.memorymgmt.enums.eEmotionType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMentalSituationTools;
+import system.functionality.decisionmaking.clsDecisionMakingFunctionality;
+import system.functionality.decisionpreparation.clsDecisionEngine;
+import system.functionality.effort.EffortTools;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -260,19 +255,15 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		//this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
 		
 		//TEMP Apply effort on goal
-        applyEffortOfGoal(moReachableGoalList_IN);
-		
+        EffortTools.applyEffortOfGoal(moReachableGoalList_IN);
 
-        
-        
-        
-        
         //Sort incoming drives
 		ArrayList<clsWordPresentationMeshGoal> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
 		log.debug("Sorted incoming drive goal list: " + oDriveGoalListSorted.toString());
 		
 		//From the list of drives, match them with the list of potential goals
-		moDecidedGoalList_OUT = processGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, bActivatePanicInfluence);
+		//TODO: This method is too long
+		moDecidedGoalList_OUT = clsDecisionMakingFunctionality.decideDriveDemandGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, this.moFeeling_IN, this.moShortTermMemory, bActivatePanicInfluence, this.mnNumberOfGoalsToPass, this.mrAffectThresold);
 		
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
@@ -302,24 +293,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		
 	}
 	
-	   /**
-     * DOCUMENT (wendt) - insert description
-     *
-     * @since 12.02.2013 11:41:40
-     *
-     * @param poGoalList
-     */
-    private void applyEffortOfGoal(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-        for (clsWordPresentationMeshGoal oGoal : poGoalList) {
-            //Get the penalty for the effort
-            double oImportanceValue = clsDecisionPreparationTools.calculateEffortPenalty(oGoal);
-            
-            oGoal.setEffortImpact(oImportanceValue);
-        }
-        
-        log.debug("Applied effort to goals:" + poGoalList.toString());
-        
-    }
+
 	
 	private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
 		String oResult = "";
@@ -434,155 +408,6 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		clsMentalSituationTools.setGoal(oCurrentMentalSituation, poGoal);
 	}
 
-	
-	
-	private ArrayList<clsWordPresentationMeshGoal> processGoals(
-			ArrayList<clsWordPresentationMeshGoal> poPossibleGoalInputs, 
-			ArrayList<clsWordPresentationMeshGoal> poDriveList, 
-			ArrayList<clsAct> poRuleList, boolean bActivateEmotionalInfluence) {
-		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
-		
-		int nAddedGoals = 0;
-		
-		//Process emotions
-		//TODO SM: Remove this function. Panic goals are generated from an act (BODO-act)
-		clsWordPresentationMeshGoal oPanicGoal = generatePanicGoalFromFeeling(this.moFeeling_IN);
-		//TODO SM: Remove Panicgoal 
-		if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
-			oRetVal.add(oPanicGoal);
-			log.trace("Added panic goal" + oPanicGoal);
-		} else {
-			//1. Process goals with Superego???
-
-			//2. Sort the goals to get the most important goal first
-			
-			//3. Remove unreachable goals direct from the list
-			//TODO: Make this fuction like a value funtion and not just remove if precondition
-			removeNonReachableGoals(poPossibleGoalInputs);
-			
-			//=== Sort and evaluate them === //
-			//TODO SM: Extend clsWordPresentationMeshGoal with Unique Property HASFEELINGIMPACT, which is eqivalent to HASIMPORTANCE and HASEFFORTLEVEL
-			ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, moFeeling_IN, mrAffectThresold);
-			
-			//Add all goals to this list
-			for (clsWordPresentationMeshGoal oReachableGoal : oSortedReachableGoalList) {
-				if (nAddedGoals<mnNumberOfGoalsToPass) {
-					oRetVal.add(oReachableGoal);
-					nAddedGoals++;
-				} else {
-					break;
-				}
-
-			}
-		}
-		
-		return oRetVal;
-	}
-	
-	
-	/**
-	 * Search the perception or memories for goals with very strong negative affect. These object are converted to drive demands
-	 * and put on the to of the priolist. This forces the agent to avoid these objects
-	 * (wendt)
-	 *
-	 * @since 17.09.2011 08:27:41
-	 *
-	 * @param poPotentialGoalList
-	 * @return
-	 */
-	private clsWordPresentationMeshGoal generatePanicGoalFromFeeling(ArrayList<clsWordPresentationMeshFeeling> poFeelingList) {
-		clsWordPresentationMeshGoal oResult = clsGoalTools.getNullObjectWPM();
-		
-		if (poFeelingList.isEmpty()==false) {
-			if (eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.ANXIETY) ||
-					eEmotionType.valueOf(poFeelingList.get(0).getMoContent()).equals(eEmotionType.CONFLICT)) {
-				oResult = clsGoalTools.createGoal("PANIC", eGoalType.EMOTIONSOURCE, -1, eAction.FLEE, new ArrayList<clsWordPresentationMeshFeeling>(), clsMeshTools.getNullObjectWPM(), clsMeshTools.getNullObjectWPM());
-				oResult.setCondition(eCondition.PANIC);
-			}	
-		}
-		
-		return oResult;
-	}
-	
-	/**
-	 * Remove all non reachable goals, which are kept in the STM
-	 * 
-	 * (wendt)
-	 *
-	 * @since 25.07.2012 11:39:25
-	 *
-	 * @param poGoalList
-	 */
-	private void removeNonReachableGoals(ArrayList<clsWordPresentationMeshGoal> poGoalList) {
-		ListIterator<clsWordPresentationMeshGoal> Iter = poGoalList.listIterator();
-		
-		ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
-		
-		//Get all goals from STM
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = this.moShortTermMemory.getMoShortTimeMemory();
-		for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
-			//Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-		    ArrayList<clsWordPresentationMesh> oTEMPLIST = clsMentalSituationTools.getExcludedGoal(oSTM.b);
-		    ArrayList<clsWordPresentationMeshGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshGoal>();
-		    for (clsWordPresentationMesh oWPM : oTEMPLIST) {
-		        oExcludedGoalList.add((clsWordPresentationMeshGoal) oWPM);
-		    }
-		    
-		     
-			oRemoveList.addAll(oExcludedGoalList);
-//			for (clsWordPresentationMesh oExcludedGoal : oExcludedGoalList) {
-//				if (clsGoalTools.checkIfConditionExists(oSTM.b, eCondition.GOAL_NOT_REACHABLE)==true) {
-//					oRemoveList.add(oSTM.b);
-//				}
-//			}
-			
-		}
-						
-		//Find all unreachable goals from STMList
-		while (Iter.hasNext()) {
-			clsWordPresentationMeshGoal oGoal = Iter.next();
-			
-			//Check if this is one of the STM goals, which shall be removed
-			for (clsWordPresentationMeshGoal oRemoveGoal : oRemoveList) {
-				if (oGoal.getGoalContentIdentifier().equals(oRemoveGoal.getGoalContentIdentifier())==true) {
-					//if yes, remove this goal		
-					Iter.remove();
-					log.debug("Non reachable goal removed: " + oGoal.toString());
-				}
-			}
-			
-		}
-		
-	}
-	
-	/**
-	 * From all of the goals in the list, they shall all be merged by type, in order to pass a complete content, of what can be found in the intention.
-	 * 
-	 * 
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @since 29.07.2011 21:21:35
-	 *
-	 * @param oFoundGoals
-	 * @return
-	 */
-	/*private ArrayList<clsSecondaryDataStructureContainer> mergeImageGoals(ArrayList<clsSecondaryDataStructureContainer> oFoundGoals, clsWordPresentationMesh poTopImage) {
-		ArrayList<clsSecondaryDataStructureContainer> oRetVal = new ArrayList<clsSecondaryDataStructureContainer>();
-		
-		//Create the ImageBase. This content shall be added to all 
-		String oContentBase = poTopImage.getMoContent();
-		
-		//For each found expression, build the goals
-		for (clsSecondaryDataStructureContainer oGoal : oFoundGoals) {
-			
-		}
-		
-		return oRetVal;
-		
-	}*/
-	
-
-	
 
 	/* (non-Javadoc)
 	 *

@@ -6,7 +6,7 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import pa._v38.tools.planningHelpers.PlanningNode;
+import system.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (perner) - insert description
