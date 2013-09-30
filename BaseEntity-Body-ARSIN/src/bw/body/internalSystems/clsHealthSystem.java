@@ -100,6 +100,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		if (moHealth.getContent()<mrIsDeadThreshold) {
 			mnIsAlive = false;
 		}
+		
 	}
 	
 	@Override
@@ -112,4 +113,7 @@ public class clsHealthSystem implements itfStepUpdateInternalState {
 		
 		updateIsAlive();
 	}
+
+	
+
 }

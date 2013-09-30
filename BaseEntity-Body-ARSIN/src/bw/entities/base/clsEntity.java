@@ -435,6 +435,10 @@ public abstract class clsEntity implements itfGetBody {
 		
 	}
 	
+	public void setLifeValue(double value){
+		((itfSetupFunctions)moPhysicalObject2D).setLifeValue(value);
+	}
+	
 	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay) {
 		mnCurrentSpeechExpressionOverlay = poOverlay;
 	}
@@ -502,6 +506,8 @@ public abstract class clsEntity implements itfGetBody {
 			updatePositionLogger();
 		}
 		updateOverlayImage();
+		
+		
 	}
 	
 	private void updatePositionLogger() {

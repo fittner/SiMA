@@ -185,6 +185,12 @@ public class clsMain extends SimState{
     	return clsSingletonProperties.showThoughtExpressionOverlay();
     }
     
+    public void setShowLifeIndicator(boolean value){
+    	clsSingletonProperties.setShowLifeIndicator(value);
+    }
+    public boolean getShowLifeIndicator(){
+    	return clsSingletonProperties.showLifeIndicator();
+    }
     
     
     

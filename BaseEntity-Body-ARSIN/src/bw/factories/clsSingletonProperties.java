@@ -28,6 +28,7 @@ public class clsSingletonProperties {
 	private boolean mnShowTPMNetworkGridPortrayal;
 	private boolean mnShowFacialExpressionOverlay;
 	private boolean mnShowThoughtExpressionOverlay;
+	private boolean mnShowLifeIndicator;
 
 	
 	protected clsSingletonProperties() {
@@ -41,7 +42,7 @@ public class clsSingletonProperties {
 		mnShowTPMNetworkGridPortrayal = false;
 		mnShowFacialExpressionOverlay = false;
 		mnShowThoughtExpressionOverlay = false;
-		
+		mnShowLifeIndicator =false;
 	}
 	
 	static private clsSingletonProperties _instance = null;
@@ -129,6 +130,14 @@ public class clsSingletonProperties {
 
 	public static void setShowCarriedItem(boolean value) {
 		
+	}
+	
+	static public void setShowLifeIndicator(boolean value) {
+		(clsSingletonProperties.instance()).mnShowLifeIndicator = value;
+	}
+	
+	static public boolean showLifeIndicator() {
+		return (clsSingletonProperties.instance()).mnShowLifeIndicator;
 	}
 	
 	
