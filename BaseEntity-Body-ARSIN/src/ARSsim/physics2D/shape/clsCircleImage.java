@@ -176,7 +176,7 @@ public class clsCircleImage extends Circle
 			        
 			        
 			      //display a facial expressionoverlay Icon
-			        if(clsSingletonProperties.showFacialExpressionOverlay()) {
+			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
 			        	if(moFacialExpressionOverlayImage != null && moFacialExpressionOverlayImage != eFacialExpression.NONE){
 			        		
 				        	eImages oFaciaExpressionImage = eImages.valueOf(moFacialExpressionOverlayImage.getEImagesString());

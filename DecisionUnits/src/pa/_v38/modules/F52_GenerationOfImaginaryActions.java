@@ -588,8 +588,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 			//}
 			
 			
-			// HACK (IH): replaced every EAT action with a SPEECH action to the test inventory
-			if(oActionWPM.getMoContent() == "EAT")
+			// HACK (IH): replaced every None action with a SPEECH action to the test inventory
+			if(oActionWPM.getMoContent() == "NONE")
 			{
 			    oActionWPM.setMoContent("SPEAK");
 			}
