@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import bw.body.io.actuators.clsActionExecutor;
 import bw.entities.base.clsEntity;
 import config.clsProperties;
-import du.enums.eFacialExpression;
 import du.enums.eInternalActionIntensity;
+import du.enums.eSpeechExpression;
 import du.itf.actions.clsActionAttackBite;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionEat;
@@ -104,7 +104,7 @@ public class clsExecutorSpeech extends clsActionExecutor{
 		clsActionSpeech oCommand =(clsActionSpeech) poCommand; 
 		if (oCommand.getData()==eInternalActionIntensity.HEAVY)
 		//Test for Speech 
-		moEntity.setFacialExpressionOverlayImage(eFacialExpression.EAT);
+		moEntity.setSpeechExpressionOverlayImage(eSpeechExpression.EAT);
 		
 		//Get Speech
 	//	clsSpeech oSpeech = oBody.getInterBodyWorldSystem().getCreateSpeech().getSpeech(oCommand.getData(), 1);

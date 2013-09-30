@@ -64,7 +64,8 @@ public enum eAction {
 	FLEE,
 	STRAFE_RIGHT,
 	STRAFE_LEFT,
-	SPEAK;
+	SPEAK,
+	SPEAK_EAT;
 	
 	public static eAction getAction(String poAction) {
 		return eAction.valueOf(poAction);

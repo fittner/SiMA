@@ -146,7 +146,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 			    	   	}
 			        	
 						oImageOverlay.getGraphics();
-						graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
+						graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
 			        }
 			        // show life indicator
 			        if(clsSingletonProperties.showLifeIndicator()==true) {
@@ -198,14 +198,34 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc-55, nyArc-55, 60, 60, null ); 	
+							graphics.drawImage(oImageOverlay, nxArc-30, nyArc+55, 60, 60, null ); 	
 							//graphics.drawImage(oImageOverlay, nxArc+30, nyArc+55, 60, 60, null ); 
 			        	}
 			        }
 			        
 			        
-			      //display a Speech expressionoverlay Icon
+			      //display a Thought expressionoverlay Icon
 			        if(clsSingletonProperties.showThoughtExpressionOverlay()) {
+			        	if(moThoughtExpressionOverlayImage != null && moThoughtExpressionOverlayImage != eSpeechExpression.NONE){
+			        		
+				        	eImages oThoughtExpressionImage = eImages.valueOf(moThoughtExpressionOverlayImage.getEImagesString());
+				        	
+				    	   	BufferedImage oImageOverlay = null;
+				    
+				    	   	try {
+				    	   		oImageOverlay = clsSingletonImageFactory.getImage(oThoughtExpressionImage);
+				    	   	} catch (IOException e) {
+				    	   		e.printStackTrace();
+				    	   		throw new NullPointerException("Image URL could not be loaded, file not found in file");
+				    	   	}
+				        	
+							oImageOverlay.getGraphics();
+							graphics.drawImage(oImageOverlay, nxArc+30, nyArc-55, 60, 60, null ); 
+			        	}
+			        }
+			        
+				      //display a Speech expressionoverlay Icon
+			        if(clsSingletonProperties.showSpeechExpressionOverlay()) {
 			        	if(moSpeechExpressionOverlayImage != null && moSpeechExpressionOverlayImage != eSpeechExpression.NONE){
 			        		
 				        	eImages oSpeechExpressionImage = eImages.valueOf(moSpeechExpressionOverlayImage.getEImagesString());
@@ -220,7 +240,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 				    	   	}
 				        	
 							oImageOverlay.getGraphics();
-							graphics.drawImage(oImageOverlay, nxArc+40, nyArc-55, 60, 60, null ); 
+							graphics.drawImage(oImageOverlay, nxArc-30, nyArc-30, 60, 60, null ); 
 			        	}
 			        }
 			        
@@ -291,7 +311,7 @@ public class clsAnimatedCircleImage extends clsCircleImage {
 	 * @param moOverlay the moOverlay to set
 	 */
 	public void setThoughtExpressionOverlayImage(eSpeechExpression moOverlay) {
-		this.moSpeechExpressionOverlayImage = moOverlay;
+		this.moThoughtExpressionOverlayImage = moOverlay;
 	}
 	
 	public void setCarriedItem(BufferedImage poImage){
