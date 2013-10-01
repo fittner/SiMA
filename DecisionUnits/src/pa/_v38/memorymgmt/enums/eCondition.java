@@ -49,7 +49,8 @@ public enum eCondition {
 	EXECUTED_BEAT,
 	EXECUTED_PICKUP,
 	EXECUTED_BITE,
-	EXECUTED_SUCK, 
+	EXECUTED_SUCK,
+	EXECUTED_DIVIDE,
 	//Actions - Unreal
 	EXECUTED_UNREAL_MOVE_TO,
 	//Internal actions

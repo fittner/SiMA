@@ -53,6 +53,11 @@ public class clsImportanceTools {
 	private static final String _Delimiter02 = "||";
 	private static final String _Delimiter03 = "|";
 	
+    // FIXME Kollmann: change impact increase values from hardcoded to parameter
+    private static double mrMomentIncrease = 2.0;
+    private static double mrLastIncrease = 1.0;
+    private static double mrBaseIncrease = 0.5;
+	
 	private static final double rDriveEmotionValueRelation = 0.5;
 	
 	private static final Logger log = clsLogger.getLog("clsImportanceTools");
@@ -769,11 +774,6 @@ public class clsImportanceTools {
     {
         double rResult = 0;
         
-     // FIXME Kollmann: change impact increase values from hardcoded to parameter
-        double rMomentIncrease = 2.0;
-        double rLastIncrease = 1.0;
-        double rBaseIncrease = 0.5;
-        
         log.debug("static double clsImportanceTools::getImpactOfAim(" + poGoal + ", " + poAction + ")");
         
         //get the supportive data structure for the goal
@@ -806,30 +806,29 @@ public class clsImportanceTools {
                         
                         //if the images action fits, start increasing the importance value
                         if(oLookupAction == oAction) {
-                            rResult += rBaseIncrease; // this is the base increase for a 'normal' occurance, if it is a special occurance, increase the value later on
+                            rResult += mrBaseIncrease; // this is the base increase for a 'normal' occurance, if it is a special occurance, increase the value later on
                             
                             //now check how if the image where the action was found is either the current moment or the last image (before post-condition)
                             if(oImage == oMoment) {
                                 log.debug("Image " + oImage + " is current moment");
-                                rResult += (rMomentIncrease - rBaseIncrease); 
-                                log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                                rResult += (mrMomentIncrease - mrBaseIncrease); 
                             }
                             
                             //if the image is the last image
                             if(clsActTools.isLastImage(oImage)) {
                                 log.debug("Image " + oImage + " is last image");
-                                rResult += (rMomentIncrease - rLastIncrease);
-                                log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                                rResult += (mrMomentIncrease - mrLastIncrease);
                             } else {
                                 //if it is not the last image, check if it is the second to last image and the last image has no action
                                 clsWordPresentationMesh oNextImage = clsActTools.getNextImage(oImage);
                                 if(clsActTools.isLastImage(oNextImage) && clsActTools.getRecommendedAction(oNextImage) == eAction.NONE) {
                                     //in this case, the last image is just a post-condition so thread the second to last image like the last image
                                     log.debug("Image " + oImage + " is last image before post-condition");
-                                    rResult += (rMomentIncrease - rLastIncrease);
-                                    log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                                    rResult += (mrMomentIncrease - mrLastIncrease);
                                 }
                             }
+                            
+                            log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
                         }
                     }
                 }

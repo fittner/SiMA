@@ -210,6 +210,9 @@ public class clsDecisionPreparationTools {
         case NULLOBJECT:
             oActionCondition = eCondition.NULLOBJECT;
             break;
+        case DIVIDE:
+            oActionCondition = eCondition.EXECUTED_DIVIDE;
+            break;
             
         default: 
             throw new Exception("This action " + poPreviousAction.toString() + " has no correspondance in the conditions. Add action to eCondition");

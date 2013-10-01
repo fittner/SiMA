@@ -487,7 +487,7 @@ public class clsGoalTools {
 		//Find those potential goals, which could fulfill the goal from the drive
 		for (clsWordPresentationMeshGoal oPossibleGoal : poSortedPossibleGoalList) {
 			
-		    //TODO Kollmann: Move this to F53_... - putting it here just for testing, if I check this into the repository ... HIT ME!
+		    //TODO Kollmann: Move this to F53_... - putting it here just for testing
 		    double rImpactOfAim = clsImportanceTools.getImpactOfAim(oPossibleGoal, poDriveGoal.getAssociatedAimAction());
 		    
 			//Get the level of affect for the object in the image of the potential goals
