@@ -1,7 +1,7 @@
-; Wed Sep 25 14:44:36 CEST 2013
+; Tue Oct 01 13:02:06 CEST 2013
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 ([ANNOTATED_INSTANCE_WIDGET] of  Widget
 
@@ -45,79 +45,70 @@
 ([ARSi10rv3_ProjectKB_Class10263] of  Property_List
 )
 
-([BASIC_ProjectKB_Class356] of  String
-
-	(name "ANTENNA_LEFT")
-	(string_value "instance_association"))
-
-([BASIC_ProjectKB_Class357] of  String
+([BASIC_ProjectKB_Class335] of  String
 
 	(name ":INSTANCE-ANNOTATION")
 	(string_value "%3AANNOTATION-TEXT"))
 
-([BASIC_ProjectKB_Class358] of  String
+([BASIC_ProjectKB_Class336] of  String
+
+	(name "ANTENNA_LEFT")
+	(string_value "instance_association"))
+
+([BASIC_ProjectKB_Class337] of  String
 
 	(name "DOMAIN")
 	(string_value "value_type"))
 
-([BASIC_ProjectKB_Class359] of  String
-
-	(name ":PAL-CONSTRAINT")
-	(string_value "%3APAL-NAME"))
-
-([BASIC_ProjectKB_Class360] of  String
+([BASIC_ProjectKB_Class338] of  String
 
 	(name ":META-CLASS")
 	(string_value "%3ANAME"))
 
-([BASIC_ProjectKB_Class361] of  Map_Entry
+([BASIC_ProjectKB_Class339] of  String
+
+	(name ":PAL-CONSTRAINT")
+	(string_value "%3APAL-NAME"))
+
+([BASIC_ProjectKB_Class340] of  Map_Entry
 
 	(key "add_name_on_instance_form")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class362] of  Map_Entry
+([BASIC_ProjectKB_Class341] of  Map_Entry
 
 	(key "change_tracking_active")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class363] of  Map
+([BASIC_ProjectKB_Class342] of  Map
 )
 
-([BASIC_ProjectKB_Class364] of  Map_Entry
+([BASIC_ProjectKB_Class343] of  Map_Entry
 
 	(key "InstanceDisplay.yellow_stickies")
 	(key_class "java.lang.String")
-	(value "BASIC_ProjectKB_Class363")
+	(value "BASIC_ProjectKB_Class342")
 	(value_class "java.util.Map"))
 
-([BASIC_ProjectKB_Class365] of  Map_Entry
+([BASIC_ProjectKB_Class344] of  Map_Entry
 
 	(key "suppress_instance_counting")
 	(key_class "java.lang.String")
 	(value "false")
 	(value_class "java.lang.String"))
 
-([BASIC_ProjectKB_Class6] of  Widget
-
-	(is_hidden TRUE)
-	(property_list [BASIC_ProjectKB_Class7])
-	(widget_class_name "org.protege.owl.mm.protege3.MappingMasterTab"))
-
-([BASIC_ProjectKB_Class7] of  Property_List
-)
-
 ([BROWSER_SLOT_NAMES] of  Property_List
 
 	(properties
-		[BASIC_ProjectKB_Class356]
-		[BASIC_ProjectKB_Class357]
-		[BASIC_ProjectKB_Class358]
-		[BASIC_ProjectKB_Class359]
-		[BASIC_ProjectKB_Class360]))
+		[BASIC_ProjectKB_Class335]
+		[BASIC_ProjectKB_Class336]
+		[BASIC_ProjectKB_Class337]
+		[BASIC_ProjectKB_Class338]
+		[BASIC_ProjectKB_Class339]))
 
 ([CLSES_TAB] of  Widget
 
@@ -170,11 +161,11 @@
 ([KB_610615_Class1] of  Map
 
 	(entries
-		[BASIC_ProjectKB_Class361]
-		[BASIC_ProjectKB_Class362]
-		[BASIC_ProjectKB_Class364]
-		[BASIC_ProjectKB_Class365])
-	(referenced_maps [BASIC_ProjectKB_Class363]))
+		[BASIC_ProjectKB_Class340]
+		[BASIC_ProjectKB_Class341]
+		[BASIC_ProjectKB_Class343]
+		[BASIC_ProjectKB_Class344])
+	(referenced_maps [BASIC_ProjectKB_Class342]))
 
 ([KB_610615_Class10] of  Property_List
 )
@@ -468,7 +459,7 @@
 
 ([KB_610615_Class65] of  Widget
 
-	(is_hidden TRUE)
+	(is_hidden FALSE)
 	(property_list [KB_610615_Class66])
 	(widget_class_name "script.ProtegeScriptTab"))
 
@@ -628,7 +619,7 @@
 ([KB_610615_Class99] of  Property_List
 )
 
-([KB_897343_Class5] of  Map
+([KB_970446_Class5] of  Map
 )
 
 ([LAYOUT_PROPERTIES] of  Property_List
@@ -740,7 +731,6 @@
 		[INSTANCES_TAB]
 		[QUERIES_TAB]
 		[KB_610615_Class17]
-		[KB_610615_Class73]
 		[KB_610615_Class77]
 		[KB_610615_Class47]
 		[KB_610615_Class43]
@@ -752,6 +742,7 @@
 		[KB_610615_Class19]
 		[KB_610615_Class3]
 		[KB_610615_Class51]
+		[KB_610615_Class73]
 		[KB_610615_Class35]
 		[KB_610615_Class29]
 		[KB_610615_Class25]
