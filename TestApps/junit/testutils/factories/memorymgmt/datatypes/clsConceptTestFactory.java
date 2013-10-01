@@ -8,13 +8,13 @@ package testutils.factories.memorymgmt.datatypes;
 
 import java.util.List;
 
+import datatypes.helpstructures.clsPentagon;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsAction;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsDistance;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsDrive;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsConcept.clsEntity;
-import pa._v38.tools.clsPentagon;
 
 /**
  * DOCUMENT (havlicek) - insert description

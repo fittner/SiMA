@@ -11,6 +11,7 @@ package pa._v38.memorymgmt.storage;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import datatypes.helpstructures.clsPair;
 import du.enums.pa.eDriveComponent;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.interfaces.itfInterfaceDescription;
@@ -19,7 +20,6 @@ import pa._v38.interfaces.modules.D4_1_send;
 import pa._v38.interfaces.modules.D4_2_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.tools.clsPair;
 import pa._v38.tools.toText;
 
 /**

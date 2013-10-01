@@ -29,9 +29,9 @@ import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsMentalSituationTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsActionTools;
+import system.datamanipulation.clsMentalSituationTools;
+import system.datamanipulation.clsMeshTools;
 import config.clsProperties;
 
 /**

@@ -15,6 +15,7 @@ import config.clsProperties;
 import du.enums.eActionMoveDirection;
 import du.enums.eActionSleepIntensity;
 import du.enums.eActionTurnDirection;
+import du.enums.eInternalActionIntensity;
 import du.itf.actions.clsActionBeat;
 import du.itf.actions.clsActionCommand;
 import du.itf.actions.clsActionDivide;
@@ -25,6 +26,7 @@ import du.itf.actions.clsActionMove;
 import du.itf.actions.clsActionPickUp;
 import du.itf.actions.clsActionSequence;
 import du.itf.actions.clsActionSequenceFactory;
+import du.itf.actions.clsActionSpeech;
 import du.itf.actions.clsActionTurnVision;
 //import du.itf.actions.clsActionSequenceFactory;
 import du.itf.actions.clsActionSleep;
@@ -38,8 +40,8 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsActionTools;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsActionTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * Conversion of neuro-symbols into raw data. F31_NeuroDeSymbolizationActionCommands should be just an empty function which forwards data to F32.
@@ -61,7 +63,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	private ArrayList<String> inputActionHistory;
 	private ArrayList<String> realActionHistory;
 	private static final boolean bUSEUNREAL = false;
-	
+	private eInternalActionIntensity moAbstractSpeech;
+
 	private int mnTestCounter =0;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
@@ -305,7 +308,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 						mnCounter = 0;
 					} 					
 				} else if(oAction.equals("EAT")) {
-					moActionCommandList_Output.add( new clsActionEat() );
+					moActionCommandList_Output.add( new clsActionEat(1.0) );
 				//} else if(oAction.equals("BITE")) {
 				//		moActionCommandList_Output.add( new clsActionEat() );
 				} else if (oAction.equals("BEAT")) {
@@ -376,7 +379,10 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 					
 				} else if (oAction.equals(eAction.PICKUP.toString())) {
 					moActionCommandList_Output.add( new clsActionPickUp() );
+				} else if (oAction.equals(eAction.SPEAK.toString())) {
+                    moActionCommandList_Output.add( new clsActionSpeech(moAbstractSpeech) );
 				}
+				
 				else {
 					throw new UnknownError("Action " + oAction + " not known");
 				}
@@ -485,7 +491,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	    }
 	    mnTestCounter++;*/
 	    //return;
-	    if(testSequence_drop())  return;
+	    if(testSequence())  return;
 	}
 
 	/* (non-Javadoc)
@@ -609,8 +615,8 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
-        //moActionCommandList_Output.add(new clsActionPickUp());
-        //if (true) return;
+        moActionCommandList_Output.add(new clsActionBeat(0.1));
+        if (true) return true;
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
        else if (mnTestCounter<=20){
@@ -643,6 +649,11 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
         mnTestCounter++;
         return true;
     }
+	
+	private boolean testSequenceEat(){
+		moActionCommandList_Output.add(new clsActionEat(1.0));
+		return true;
+	}
 	/* (non-Javadoc)
 	 *
 	 * @author brandstaetter

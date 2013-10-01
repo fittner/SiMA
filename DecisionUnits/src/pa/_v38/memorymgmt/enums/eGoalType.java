@@ -15,7 +15,7 @@ package pa._v38.memorymgmt.enums;
  */
 public enum eGoalType {
 	NULLOBJECT,
-	
+	SPEECHSOURCE,
 	DRIVESOURCE,			//Drives, which origins from the body
 	PERCEPTIONALEMOTION,	//Emotions, which origins from perception
 	MEMORYFEELING,			//Emotions, which origins from memories e. g. bad bodo

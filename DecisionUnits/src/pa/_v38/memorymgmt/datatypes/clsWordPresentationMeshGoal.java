@@ -9,15 +9,15 @@ package pa._v38.memorymgmt.datatypes;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.ElementNotFoundException;
-import pa._v38.tools.clsImportanceTools;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsImportanceTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -120,6 +120,23 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
         this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
     }
+    
+  
+    /**
+     * Add a Feeling to the goal, which is not already present. If present, then replace
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 10:37:48
+     *
+     * @param poFeeling
+     */
+    public void addWording(clsWordPresentationMesh poSupportiveDataStructure) {
+        this.addReplaceNonUniqueProperty(poSupportiveDataStructure, ePredicate.HASACTION, true);
+    }
+    
+    
+    
     
     /**
      * Add a list of feelings

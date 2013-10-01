@@ -12,11 +12,8 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsPrimarySpatialTools;
-import pa._v38.tools.clsTriple;
-import pa._v38.tools.datastructures.clsMeshTools;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationAttribute;
@@ -42,6 +39,9 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.old.eDataStructureMatch;
+import system.datamanipulation.clsMeshTools;
+import system.datamanipulation.clsPrimarySpatialTools;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (zeilinger) - insert description 
@@ -170,9 +170,7 @@ public abstract class clsDataStructureComparisonTools {
 	 * @param poContainerUnknown
 	 * @return
 	 */
-	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(
-			clsSearchSpaceHandler poSearchSpaceHandler,
-			clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
+	public static ArrayList<clsPair<Double, clsDataStructurePA>> compareDataStructuresMesh(clsSearchSpaceHandler poSearchSpaceHandler, clsDataStructurePA poDSUnknown, double prThreshold, int pnLevel) {
 		ArrayList<clsPair<Double, clsDataStructurePA>> oRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		ArrayList<clsPair<Double, clsDataStructurePA>> oPreliminaryRetVal = new ArrayList<clsPair<Double, clsDataStructurePA>>();
 		
@@ -189,6 +187,8 @@ public abstract class clsDataStructureComparisonTools {
 		//pnLevel 0: Nothing is done with the image
 		//pnLevel 1: Load only indirect associations
 		//pnLevel 2: Load the first order of indirect associations to other images
+		
+		log.trace("Input image, which shall be compared: {}", poDSUnknown);
 		
 		if (pnLevel>=1) {
 			//For each template image in the storage compare with the input image
@@ -226,6 +226,7 @@ public abstract class clsDataStructureComparisonTools {
 					}
 					
 					double oMatch = clsPrimarySpatialTools.getImageMatch((clsThingPresentationMesh) poDSUnknown, oClonedCompareElement);
+					log.debug("Compared image {}, match: {}", oClonedCompareElement, oMatch);
 					
 					//=== Perform system tests ===//
 					if (clsTester.getTester().isActivated()) {

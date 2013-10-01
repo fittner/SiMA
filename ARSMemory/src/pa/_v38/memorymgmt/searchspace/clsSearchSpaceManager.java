@@ -25,9 +25,9 @@ import pa._v38.memorymgmt.framessearchspace.enums.eDataSources;
 import pa._v38.memorymgmt.framessearchspace.enums.eSearchMethod;
 import pa._v38.memorymgmt.framessearchspace.tools.clsDataStructureComparisonTools;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
-import pa._v38.systemtest.clsTester;
-import pa._v38.tools.clsPair;
+import testfunctions.clsTester;
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
 
 /**
  * DOCUMENT (wendt) - insert description 

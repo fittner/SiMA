@@ -46,10 +46,12 @@ public class clsShape2DCreator {
 	
 
 	public static Shape createShape(String poPrefix, clsProperties poProp) {
-		return createShape( poPrefix,  poProp, false);
+		return createShape( poPrefix,  poProp, false,false);
 	}
-	
-	public static Shape createShape(String poPrefix, clsProperties poProp, boolean showOrientation) {
+	public static Shape createShapeWithOverlays(String poPrefix, clsProperties poProp, boolean showOrientation){
+		return createShape( poPrefix,  poProp, showOrientation,true);
+	}
+	private static Shape createShape(String poPrefix, clsProperties poProp, boolean showOrientation, boolean poWithOverlays) {
 		String pre = clsProperties.addDot(poPrefix);
 		
 		Shape oShape = null; 
@@ -66,7 +68,15 @@ public class clsShape2DCreator {
 		eShapeType oShapeType = eShapeType.valueOf( poProp.getPropertyString(pre +P_TYPE) );
 		
 		switch( oShapeType ) {
-			case CIRCLE:	oShape = createCircle(pre, poProp, showOrientation); break;
+			case CIRCLE:	
+				if(poWithOverlays){
+					oShape = createAnimatedCircle(pre, poProp, showOrientation);
+				}
+				else{
+					oShape = createCircle(pre, poProp);
+				}
+				 break;
+			
 			case RECTANGLE: oShape = createRectangle(pre, poProp); break;
 			case POLYGON: 	oShape = createPolygon(pre, poProp); break;
 			default: 		throw new java.lang.IllegalArgumentException();
@@ -75,7 +85,7 @@ public class clsShape2DCreator {
 		return oShape;
 	}
 	
-	private static Shape createCircle(String poPrefix, clsProperties poProp, boolean showOrientation) {
+	private static Shape createCircle(String poPrefix, clsProperties poProp) {
 		String pre = clsProperties.addDot(poPrefix);
 		Shape oShape = null; 
 		String oImagePath = "";
@@ -96,6 +106,36 @@ public class clsShape2DCreator {
 				// TODO (everyone) - image positioning not implemented yet
 			}			
 			oShape = new ARSsim.physics2D.shape.clsCircleImage(
+					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
+					poProp.getPropertyColor(pre+P_COLOR),
+					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH)
+					);
+		}
+		
+		return oShape;
+	}
+	
+	private static Shape createAnimatedCircle(String poPrefix, clsProperties poProp, boolean showOrientation) {
+		String pre = clsProperties.addDot(poPrefix);
+		Shape oShape = null; 
+		String oImagePath = "";
+		
+		try {
+			oImagePath = poProp.getPropertyString(pre+P_IMAGE_PATH);
+		} catch (java.lang.NullPointerException e) {
+			// everything is fine ...
+		}
+		
+		if (oImagePath.length() == 0 || !clsSingletonProperties.drawImages()) {
+			oShape = new sim.physics2D.shape.Circle(poProp.getPropertyDouble(pre +P_RADIUS), 
+				 poProp.getPropertyColor(pre +P_COLOR));
+		} else {
+			eImagePositioning nImagePositioning = eImagePositioning.valueOf(poProp.getPropertyString(pre+P_IMAGE_POSITIONING));
+			if (nImagePositioning != eImagePositioning.DEFAULT) {
+				throw new java.lang.NoSuchMethodError();
+				// TODO (everyone) - image positioning not implemented yet
+			}			
+			oShape = new ARSsim.physics2D.shape.clsAnimatedCircleImage(
 					poProp.getPropertyDouble(pre+ P_RADIUS),							                     
 					poProp.getPropertyColor(pre+P_COLOR),
 					clsGetARSPath.getArsPath()+poProp.getPropertyString(pre +P_IMAGE_PATH),

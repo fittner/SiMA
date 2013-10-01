@@ -8,8 +8,8 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
-import pa._v38.tools.clsPair;
 
 
 

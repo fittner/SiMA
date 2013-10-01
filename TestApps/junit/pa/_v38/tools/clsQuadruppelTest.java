@@ -12,6 +12,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import datatypes.helpstructures.clsQuadruppel;
+
 /**
  * DOCUMENT (havlicek) - insert description
  * 

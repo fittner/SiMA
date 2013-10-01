@@ -8,11 +8,11 @@ package pa._v38.memorymgmt.shorttermmemory;
 
 import java.util.ArrayList;
 
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfGraphData;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * This is a short time memory, which is used in the secondary process. 

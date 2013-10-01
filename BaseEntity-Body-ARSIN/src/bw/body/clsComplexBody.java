@@ -350,6 +350,12 @@ public class clsComplexBody extends clsBaseBody implements
 		return moInternalSystem.getHealthSystem().getIsAlive();
 	}
 	
+	public double getRelativeHealthValue(){
+		double rMax = moInternalSystem.getHealthSystem().getHealth().getMaxContent();
+		double oRetVal = moInternalSystem.getHealthSystem().getHealth().getContent()/rMax;
+		return oRetVal;
+	}
+	
 	/**
 	 * Add a bodily reaction with this method, and this method only!
 	 * When the reaction is already there, the duration will be 

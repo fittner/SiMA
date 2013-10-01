@@ -9,6 +9,7 @@ package inspectors.mind.pa._v38.autocreated;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.util.ArrayList;
+
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,9 +19,10 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
+
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfInspectorTimeChartBase;
 import pa._v38.interfaces.itfInterfaceTimeChartHistory;
-import pa._v38.tools.clsPair;
 import statictools.clsExceptionUtils;
 import statictools.clsSimState;
 

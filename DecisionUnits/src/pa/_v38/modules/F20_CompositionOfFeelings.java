@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import pa._v38.interfaces.modules.I5_17_receive;
 import pa._v38.interfaces.modules.I5_16_receive;
 import pa._v38.interfaces.modules.I6_14_receive;
@@ -61,10 +63,8 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 //import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 //import pa._v38.tools.clsGoalTools;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
-import pa._v38.tools.datastructures.clsMeshTools;
+import system.datamanipulation.clsMeshTools;
 
 /**
  * - Converts separated quota of affect into affects for the secondary process.

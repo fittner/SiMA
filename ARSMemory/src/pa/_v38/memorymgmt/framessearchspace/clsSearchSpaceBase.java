@@ -9,7 +9,7 @@ package pa._v38.memorymgmt.framessearchspace;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;

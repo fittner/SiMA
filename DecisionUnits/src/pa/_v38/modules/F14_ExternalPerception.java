@@ -16,8 +16,9 @@ import java.util.Map;
 import java.util.SortedMap;
 
 import bfg.utils.enums.eSide;
-
 import config.clsProperties;
+import datatypes.helpstructures.clsPair;
+import datatypes.helpstructures.clsTriple;
 import du.enums.eActionTurnDirection;
 import du.enums.eDistance;
 import du.enums.eSaliency;
@@ -55,13 +56,11 @@ import pa._v38.symbolization.representationsymbol.itfGetDataAccessMethods;
 import pa._v38.symbolization.representationsymbol.itfGetSymbolName;
 import pa._v38.symbolization.representationsymbol.itfIsContainer;
 import pa._v38.symbolization.representationsymbol.itfSymbol;
-import pa._v38.systemtest.clsTester;
 import du.itf.actions.clsInternalActionCommand;
 import du.itf.actions.clsInternalActionTurnVision;
 import du.itf.actions.itfInternalActionProcessor;
-import pa._v38.tools.clsPair;
-import pa._v38.tools.clsTriple;
 import pa._v38.tools.toText;
+import testfunctions.clsTester;
 
 /**
  * In this module neurosymbolic contents are transformed into thing presentations. Now, sensor sensations originating in body and 
@@ -225,6 +224,7 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 		clsDriveMesh oMemorizedDriveMesh = null;
 		
 		PrepareSensorInformatinForInspector(moEnvironmentalData);
+		log.debug("Incoming perception: {} ", moEnvironmentalData.toString());
 		
 		
 		//here also the body data should be processed, but nothing is coming from this path until now.
@@ -359,6 +359,8 @@ public class F14_ExternalPerception extends clsModuleBaseKB implements
 
 		//Convert all objects to enhanced TPMs 
 		moCompleteThingPresentationMeshList = retrieveImagesTPM(oContainerWithTypes);
+		
+		log.debug("Recognized obejcts: {} ", moCompleteThingPresentationMeshList.toString());
 		
 
 		

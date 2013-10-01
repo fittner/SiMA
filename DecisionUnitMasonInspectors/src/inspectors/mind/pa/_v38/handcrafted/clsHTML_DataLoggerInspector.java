@@ -8,7 +8,7 @@ package inspectors.mind.pa._v38.handcrafted;
 
 import java.awt.BorderLayout;
 
-import pa._v38.logger.clsDataLogger;
+import OLDREMOVETHISpa._v38.logger.clsDataLogger;
 import sim.portrayal.Inspector;
 import sim.util.gui.HTMLBrowser;
 import statictools.clsExceptionUtils;

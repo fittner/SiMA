@@ -9,11 +9,12 @@ package inspectors.mind.pa._v38.graph;
 //import java.util.HashMap;
 
 import java.util.ArrayList;
+
+import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.old.clsKnowledgeBaseHandler;
-import pa._v38.tools.clsPair;
 
 /**
  * DOCUMENT (deutsch) - insert description 

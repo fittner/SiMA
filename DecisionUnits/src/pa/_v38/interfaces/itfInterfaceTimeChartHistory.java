@@ -8,7 +8,7 @@ package pa._v38.interfaces;
 
 import java.util.ArrayList;
 
-import pa._v38.tools.clsPair;
+import datatypes.helpstructures.clsPair;
 
 /**
  * For the modules that implement this interface, a history of the provided values is stored in the data logger. Special purpose inspector tabs show the stored 
