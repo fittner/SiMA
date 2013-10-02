@@ -53,19 +53,21 @@ public class DataStructureConversion {
         // Input: TPM
         // 1. Get all Images of the Mesh
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
+        
+        //HackMethods.reduceImageListTPM("SPEAK", oRITPMList);
+        
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP
-        ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
+        //ArrayList<clsWordPresentationMesh> oRIWPMList = new ArrayList<clsWordPresentationMesh>();
         ArrayList<clsWordPresentationMesh> oEnhancedRIWPMList = new ArrayList<clsWordPresentationMesh>();
         for (clsThingPresentationMesh oRITPM : oRITPMList) {
             // Convert the complete image to WPM
             clsWordPresentationMesh oRIWPM = DataStructureConversionTools.convertCompleteTPMtoWPMRoot(ltm, oRITPM);
-            log.debug("converted PI toWPM. \n>Remembered image WPM Part:\n" + oRIWPM.toString() + "\n>Remembered image TPM part:\n" + oRITPM.toString());
             
             // 3. Search for WPM for all internal objects in the WPM if they are
             // available
-            oRIWPMList.add(oRIWPM);
-        }
+            //oRIWPMList.add(oRIWPM);
+        //}
 
         // 4. For each WPM, search for more SP-WPM-Parts and connect them
         // ArrayList<clsWordPresentationMesh> oCompleteLoadedWPMObjectList = new
@@ -73,16 +75,28 @@ public class DataStructureConversion {
         // Add all already loaded objects to the list of activated WPM
         // oCompleteLoadedWPMObjectList.addAll(oRIWPMList);
         // This is a list of single independent WPM
-        for (clsWordPresentationMesh oRIWPM : oRIWPMList) {
+        //for (clsWordPresentationMesh oRIWPM : oRIWPMList) {
             // Get the complete WPM-Object including all WPM associations until
             // level 2. Input is a WPM, therefore, only WPM is returned
             // FIXME AW: As the intention is loaded, all other connected
             // containers are loaded here. This is too specialized
             clsWordPresentationMesh oEnhancedWPM = (clsWordPresentationMesh) ltm.searchCompleteMesh(oRIWPM, 2);
+            
+            
+            //1. Add all PI-Matches as WP to each image
+            clsActTools.setPIMatchToWPM(oEnhancedWPM); //The adding is done hier at the first place as in this module only images are processed and not entities.
+            
+            //2. Delete all primary process external connections
+            clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEnhancedWPM));
+            
+            
             // Add the enhanced WPM to a new list, as the enhanced WPM are
             // complete and the former RI are not.
             oEnhancedRIWPMList.add(oEnhancedWPM);
+            log.debug("converted Image: \n>Remembered image WPM:\n" + oRIWPM.toString() + "\n>Remembered image TPM:\n" + oRITPM.toString());
 
+            
+            
             // Check if all the loaded structures can be added by getting all
             // WPM as a list
             // ArrayList<clsWordPresentationMesh> oEnhancedList =
@@ -99,7 +113,10 @@ public class DataStructureConversion {
         }
 
         // Create a List of all loaded acts and other memories
-        ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
+        ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.organizeImagesInActs(oEnhancedRIWPMList);
+        log.debug("Found acts: {}", oCategorizedRIWPMList);
+        
+        //ArrayList<clsWordPresentationMesh> oCategorizedRIWPMList = clsActTools.processMemories(oEnhancedRIWPMList);
         
 //      //=== Perform system tests ===//
 //      if (clsTester.getTester().isActivated()) {

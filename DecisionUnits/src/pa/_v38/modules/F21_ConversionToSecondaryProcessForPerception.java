@@ -194,6 +194,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	 */
 	@Override
 	protected void process_basic() {
+	    log.debug("=== module {} start ===", this.getClass().getName());
 
 		// --- Update short term memory ---//
 	    ShortTermMemoryFunctionality.createNewMentalSituation(this.moShortTermMemory);

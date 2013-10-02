@@ -157,6 +157,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	@Override
 	protected void process_basic() {
 
+	    log.debug("=== module {} start ===", this.getClass().getName());
+	    
 		//Load perception
 		//moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.getEnvironmentalImage();
 		//clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();

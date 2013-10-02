@@ -209,7 +209,8 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		
+	    log.debug("=== module {} start ===", this.getClass().getName());
+	    
 		//=== Extract all goals from perception and memories ===//
 		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshSelectableGoal>(); 
 		

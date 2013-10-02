@@ -321,13 +321,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
 					oResult += "(PIMatch=" + rPIMatch + 
 					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
-					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");"; 
+					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");";
+					oResult += "\nACTION: " + clsActTools.getRecommendedAction(this);
 				} else {  
 					oResult += this.moContentType + ":" + this.moContent;
 					if (this.moInternalAssociatedContent.isEmpty()==false) {
 						oResult += "\nINT ASS: ";
 						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-							oResult += oEntry.getLeafElement().toString() + ";";
+							if (oEntry instanceof clsAssociationWordPresentation) {
+							    oResult += "\nTPM part:";
+							}
+						    oResult += oEntry.getLeafElement().toString() + ";";
 						}
 					}
 					

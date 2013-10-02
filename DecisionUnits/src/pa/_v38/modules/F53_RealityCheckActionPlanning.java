@@ -106,6 +106,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
+	    log.debug("=== module {} start ===", this.getClass().getName());
+	    
 	    //TEMP Apply effort on goal
         EffortFunctionality.applyEffortOfGoal(selectableGoals);
         

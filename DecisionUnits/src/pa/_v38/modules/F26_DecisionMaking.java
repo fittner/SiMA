@@ -213,6 +213,8 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 */
 	@Override
 	protected void process_basic() {
+	    
+	    log.debug("=== module {} start ===", this.getClass().getName());
 	    //1. Remove non reachable goals
 	    GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_IN, moShortTermMemory);
 	    

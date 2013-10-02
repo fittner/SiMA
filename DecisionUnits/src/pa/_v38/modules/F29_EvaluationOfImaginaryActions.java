@@ -193,6 +193,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void process_basic() {
+        log.debug("=== module {} start ===", this.getClass().getName());
 
         //Select the best goal
         clsWordPresentationMeshSelectableGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);

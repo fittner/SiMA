@@ -32,22 +32,22 @@ public class clsActTools {
 	
 	// ============== ACT CATEGORIZATION START ==============================//
 	
-	public static ArrayList<clsWordPresentationMesh> processMemories(ArrayList<clsWordPresentationMesh> poSingleList) {
+	private static ArrayList<clsWordPresentationMesh> processMemories(ArrayList<clsWordPresentationMesh> poSingleList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
-		for (clsWordPresentationMesh oImage : poSingleList) {
-			//Tasks in the memory processing
-			
-			//1. Add all PI-Matches as WP to each image
-			clsActTools.setPIMatchToWPM(oImage); //The adding is done hier at the first place as in this module only images are processed and not entities.
-			
-			//2. Delete all primary process external connections
-			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
-			
-		}
+//		for (clsWordPresentationMesh oImage : poSingleList) {
+//			//Tasks in the memory processing
+//			
+//			//1. Add all PI-Matches as WP to each image
+//			clsActTools.setPIMatchToWPM(oImage); //The adding is done hier at the first place as in this module only images are processed and not entities.
+//			
+//			//2. Delete all primary process external connections
+//			clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oImage));
+//			
+//		}
 		
 		//3. Organize all loose images in acts
-		oRetVal = organizeImagesInActs(poSingleList);
+		//oRetVal = organizeImagesInActs(poSingleList);
 		
 		return oRetVal;
 	}
@@ -63,7 +63,7 @@ public class clsActTools {
 	 * @param poSingleList
 	 * @return
 	 */
-	private static ArrayList<clsWordPresentationMesh> organizeImagesInActs(ArrayList<clsWordPresentationMesh> poSingleList) {
+	public static ArrayList<clsWordPresentationMesh> organizeImagesInActs(ArrayList<clsWordPresentationMesh> poSingleList) {
 		ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
 		
 		for (clsWordPresentationMesh oRI : poSingleList) {

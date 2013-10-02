@@ -215,6 +215,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	 */
 	@Override
 	protected void process_basic() {
+	    
+	    log.debug("=== module {} start ===", this.getClass().getName());
 	      //=== Perform system tests ===//
         //if (clsTester.getTester().isActivated()) {
 	    //ArrayList<clsWordPresentationMeshGoal> temp = JACKBAUERHACKReduceGoalList(moReachableGoalList_IN);
