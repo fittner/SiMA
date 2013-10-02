@@ -118,7 +118,7 @@ public class clsExecutorAttackBite extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPAttackableBite oOpponent = (itfAPAttackableBite) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPAttackableBite.class) ;
+		itfAPAttackableBite oOpponent = (itfAPAttackableBite) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPAttackableBite.class) ;
 
 		if (oOpponent==null) {
 			//Nothing in range then send fast Messenger

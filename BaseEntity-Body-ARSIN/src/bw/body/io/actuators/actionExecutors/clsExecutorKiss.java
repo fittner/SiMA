@@ -115,7 +115,7 @@ public class clsExecutorKiss extends clsActionExecutor{
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		//Is something in range
-		itfAPKissable oKissedEntity = (itfAPKissable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKissable.class) ;
+		itfAPKissable oKissedEntity = (itfAPKissable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPKissable.class) ;
 
 		if (oKissedEntity==null) {
 			//Nothing in range then nothing happens

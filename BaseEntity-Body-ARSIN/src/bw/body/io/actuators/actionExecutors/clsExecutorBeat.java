@@ -124,7 +124,7 @@ public class clsExecutorBeat extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPBeatable oAttackEntity = (itfAPBeatable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPBeatable.class);
+		itfAPBeatable oAttackEntity = (itfAPBeatable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPBeatable.class);
 
 
 		if (oAttackEntity==null) {

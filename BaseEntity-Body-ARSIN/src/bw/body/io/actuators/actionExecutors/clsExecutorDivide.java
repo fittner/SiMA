@@ -118,7 +118,7 @@ public class clsExecutorDivide extends clsActionExecutor{
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 
 		//Is something in range
-		itfAPDivideable oDivideEntity = (itfAPDivideable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPDivideable.class);
+		itfAPDivideable oDivideEntity = (itfAPDivideable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPDivideable.class);
 
 
 		if (oDivideEntity==null) {
