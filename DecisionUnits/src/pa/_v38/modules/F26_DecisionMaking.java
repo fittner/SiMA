@@ -22,19 +22,18 @@ import pa._v38.interfaces.modules.I6_8_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
-import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import system.datamanipulation.clsImportanceTools;
-import system.datamanipulation.clsMentalSituationTools;
-import system.functionality.decisionmaking.clsDecisionMakingFunctionality;
-import system.functionality.decisionpreparation.clsDecisionEngine;
-import system.functionality.effort.EffortTools;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalProcessingFunctionality;
+import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -70,11 +69,11 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
-	private ArrayList<clsWordPresentationMeshGoal> moReachableGoalList_IN;
+	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
-	private ArrayList<clsWordPresentationMeshGoal> moDecidedGoalList_OUT;
+	private ArrayList<clsWordPresentationMeshSelectableGoal> moDecidedGoalList_OUT;
 	
-	private ArrayList<clsWordPresentationMeshGoal> moDriveGoalList_IN;
+	private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveGoalList_IN;
 	private clsWording moSpeechList_IN;
 	private clsWordPresentationMesh moPerceptionAssociations;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
@@ -85,31 +84,11 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	private final clsDecisionEngine moDecisionEngine;
 	
 	private String moTEMPDecisionString = "";
-//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
-//	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
-//	
-//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:03 */
-//	private clsDataStructureContainerPair moEnvironmentalPerception_OUT;
-//	
-//	//AW 20110602 Added expectations, intentions and the current situation
-//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
-//	private ArrayList<clsPrediction> moExtractedPrediction_IN;
-//
-//	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:05 */
-//	private ArrayList<clsPrediction> moExtractedPrediction_OUT;
-	
-//	/** Associated memories IN */
-//	//private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_IN;
-//	
-//	/** Associated memories OUT */
-//	private ArrayList<clsDataStructureContainerPair> moAssociatedMemories_OUT;
+
 	
 	// Anxiety from F20
 	private ArrayList<clsWordPresentationMeshFeeling> moFeeling_IN;
 	
-	private static String _Delimiter01 = ":"; 
-	private static String _Delimiter02 = "||";
-	private static String _Delimiter03 = "|";
 	
 	/** Number of goals to pass */
 	private int mnNumberOfGoalsToPass;
@@ -234,6 +213,10 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 */
 	@Override
 	protected void process_basic() {
+	    //1. Remove non reachable goals
+	    GoalHandlingFunctionality.removeNonReachableGoals(moReachableGoalList_IN, moShortTermMemory);
+	    
+	    
 	    //FIXME SM: This is a temp variable, which shall be replaced with real feelings
 		boolean bActivatePanicInfluence = false;
 		//HZ Up to now it is possible to define the goal by a clsWordPresentation only; it has to be 
@@ -247,38 +230,50 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		
 		
 		
-		
-		
-		
 		//TEMP Add influence of feelings to goal
 		//clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
 		//this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
 		
-		//TEMP Apply effort on goal
-        EffortTools.applyEffortOfGoal(moReachableGoalList_IN);
+
 
         //Sort incoming drives
-		ArrayList<clsWordPresentationMeshGoal> oDriveGoalListSorted = clsImportanceTools.sortGoals(moDriveGoalList_IN);
+        ArrayList<clsWordPresentationMeshAimOfDrive> oDriveGoalListSorted = GoalHandlingFunctionality.sortAimOfDrives(moDriveGoalList_IN);
 		log.debug("Sorted incoming drive goal list: " + oDriveGoalListSorted.toString());
+		
+		//Apply effects of aims of drives
+		GoalHandlingFunctionality.applyDriveDemandsOnReachableGoals(this.moReachableGoalList_IN, this.moDriveGoalList_IN, mrAffectThresold);
+		
+		//Apply effect of feelings on goals
+		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence);
+		
+		//Apply social rules on goals
+		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
+		
+		//Select the goals to be forwarded
+		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
+		
+		
 		
 		//From the list of drives, match them with the list of potential goals
 		//TODO: This method is too long
-		moDecidedGoalList_OUT = clsDecisionMakingFunctionality.decideDriveDemandGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, this.moFeeling_IN, this.moShortTermMemory, bActivatePanicInfluence, this.mnNumberOfGoalsToPass, this.mrAffectThresold);
+		//moDecidedGoalList_OUT = GoalHandlingFunctionality.decideDriveDemandGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, this.moFeeling_IN, this.moShortTermMemory, bActivatePanicInfluence, this.mnNumberOfGoalsToPass, this.mrAffectThresold);
+		
+		GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		
 		//Add the goal to the mental situation
 		if (moDecidedGoalList_OUT.isEmpty()==false) {
 		    //If it is a newly created goal, it has to be initiated, in order to be processed
-            if (moDecidedGoalList_OUT.get(0).getGoalType().equals(eGoalType.DRIVESOURCE) && moDecidedGoalList_OUT.get(0).checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
-                try {
-                    this.moDecisionEngine.initIncomingGoal(moDecidedGoalList_OUT.get(0));
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
-            }
+//            if (moDecidedGoalList_OUT.get(0).getGoalType().equals(eGoalType.DRIVESOURCE) && moDecidedGoalList_OUT.get(0).checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
+//                try {
+//                    this.moDecisionEngine.initIncomingGoal(moDecidedGoalList_OUT.get(0));
+//                } catch (Exception e) {
+//                    log.error(e.getMessage());
+//                }
+//            }
 		    
 		    //Set continued goal condition
-		    this.moDecisionEngine.declareGoalAsContinued(moDecidedGoalList_OUT.get(0));
-			addGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
+//		    this.moDecisionEngine.declareGoalAsContinued(moDecidedGoalList_OUT.get(0));
+			//xaddGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
 			
 			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
 			log.info("\n=======================\nDecided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString() + "\n==============================");
@@ -286,11 +281,9 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 
 			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
 		} else {
-			log.info("Decided goal: No goal ");
+			log.warn("Decided goal: No goal ");
 		}
-		
-		
-		
+
 	}
 	
 
@@ -315,7 +308,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		}
 		
 		//Get the AffectLevel
-		String oAffectLevel = String.valueOf(poDecidedGoal.getImportance()); 
+		String oAffectLevel = String.valueOf(poDecidedGoal.getTotalImportance()); 
 		//eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
 		
 		//Get Conditions
@@ -366,7 +359,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void receive_I6_7(ArrayList<clsWordPresentationMeshGoal> poReachableGoalList) {
+	public void receive_I6_7(ArrayList<clsWordPresentationMeshSelectableGoal> poReachableGoalList) {
 		//moReachableGoalList_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poReachableGoalList); 
 		moReachableGoalList_IN = poReachableGoalList; 
 	}
@@ -397,15 +390,8 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
-		moDriveGoalList_IN = (ArrayList<clsWordPresentationMeshGoal>)this.deepCopy(poDriveList);
-	}
-	
-	private void addGoalToMentalSituation(clsWordPresentationMeshGoal poGoal) {
-		//get the ref of the current mental situation
-		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
-		
-		clsMentalSituationTools.setGoal(oCurrentMentalSituation, poGoal);
+	public void receive_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
+		moDriveGoalList_IN = poDriveList; //(ArrayList<clsWordPresentationMeshGoal>)this.deepCopy(poDriveList);
 	}
 
 
@@ -429,7 +415,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	 * @see pa.interfaces.send.I7_1_send#send_I7_1(java.util.HashMap)
 	 */
 	@Override
-	public void send_I6_8(ArrayList<clsWordPresentationMeshGoal> poDecidedGoalList_OUT) {
+	public void send_I6_8(ArrayList<clsWordPresentationMeshSelectableGoal> poDecidedGoalList_OUT) {
 		((I6_8_receive)moModuleList.get(52)).receive_I6_8(poDecidedGoalList_OUT);
 		
 		putInterfaceData(I6_8_send.class, poDecidedGoalList_OUT);

@@ -12,7 +12,7 @@ import java.util.Collection;
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import system.algorithm.planningHelpers.PlanningNode;
+import secondaryprocess.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (hinterleitner) - insert description

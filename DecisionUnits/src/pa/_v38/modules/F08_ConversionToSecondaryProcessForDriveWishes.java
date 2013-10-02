@@ -21,10 +21,10 @@ import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import system.datamanipulation.clsGoalTools;
+import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
@@ -43,7 +43,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	
 	private ArrayList<clsDriveMesh> moDriveList_Input;
 	
-	private ArrayList<clsWordPresentationMeshGoal> moDriveList_Output = new ArrayList<clsWordPresentationMeshGoal>();
+	private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveList_Output = new ArrayList<clsWordPresentationMeshAimOfDrive>();
 
 	private final DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	
@@ -158,7 +158,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		
 		
 		try {
-            moDriveList_Output = clsGoalTools.createGoalFromDriveMesh(moDriveList_Input, this);
+            moDriveList_Output = clsGoalManipulationTools.createGoalFromDriveMesh(moDriveList_Input, this);
         } catch (Exception e) {
             this.log.error("",e);
         } 
@@ -299,9 +299,9 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I1_7_send#send_I1_7(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
-		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
-		((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
+	public void send_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
+		//((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
+		//((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
 		
 		putInterfaceData(I6_3_send.class, poDriveList);
@@ -315,7 +315,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 * @see pa.interfaces.send.I5_3_send#send_I5_3(java.util.ArrayList)
 	 */
 	@Override
-	public void send_I6_5(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
+	public void send_I6_5(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
 		((I6_5_receive)moModuleList.get(20)).receive_I6_5(poDriveList);	
 		
 		putInterfaceData(I6_5_send.class, poDriveList);		
@@ -332,7 +332,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_draft() {
 		// TODO (KOHLHAUSER) - Auto-generated method stub
 		try {
-            moDriveList_Output = clsGoalTools.createGoalFromDriveMesh(moDriveList_Input, this);
+            moDriveList_Output = clsGoalManipulationTools.createGoalFromDriveMesh(moDriveList_Input, this);
         } catch (Exception e) {
             // TODO (wendt) - Auto-generated catch block
             e.printStackTrace();

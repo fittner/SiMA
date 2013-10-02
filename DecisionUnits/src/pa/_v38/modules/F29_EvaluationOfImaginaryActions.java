@@ -6,7 +6,9 @@
  */
 package pa._v38.modules;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.SortedMap;
 
@@ -15,23 +17,18 @@ import pa._v38.interfaces.modules.I6_10_receive;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.I6_11_send;
 import pa._v38.interfaces.modules.I6_2_receive;
-import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
-import pa._v38.memorymgmt.datatypes.clsSecondaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
-import system.datamanipulation.clsActionTools;
-import system.datamanipulation.clsMentalSituationTools;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.functionality.PlanningFunctionality;
+import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
 
 /**
@@ -40,21 +37,19 @@ import config.clsProperties;
  * @author deutsch 11.08.2012, 14:57:10
  * 
  */
-public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_9_receive, I6_10_receive, I6_11_send,
+public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements I6_2_receive, I6_10_receive, I6_11_send,
         itfInspectorGenericActivityTimeChart {
     public static final String P_MODULENUMBER = "29";
-    
-	/** Specialized Logger for this class */
-    //private final Logger log = clsLogger.getLog(this.getClass().getName());
 
-    private ArrayList<clsWordPresentationMesh> moActionCommands_Input;
-    private ArrayList<clsWordPresentationMesh> moActionCommands_Output;
+    private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
+
+    private ArrayList<clsWordPresentationMeshSelectableGoal> moSelectableGoals;
+    private clsWordPresentationMesh moActionCommand;
 
     // Anxiety from F20
     private ArrayList<clsWordPresentationMeshFeeling> moAnxiety_Input;
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
-    //private clsWordPresentationMesh moPerceptionalMesh_OUT;
     
 	private clsShortTermMemory moShortTermMemory;
 	
@@ -99,9 +94,10 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     public String stateToTEXT() {
         String text = "";
 
-        text += toText.listToTEXT("moActionCommands_Input", moActionCommands_Input);
-        text += toText.listToTEXT("moActionCommands_Output", moActionCommands_Output);
+        text += toText.listToTEXT("moSelectableGoals", moSelectableGoals);
+        text += toText.valueToTEXT("moActionCommand", moActionCommand);
         text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
+        text += toText.listToTEXT("Goals and actions", moTEMPWriteLastActions);
 
         return text;
     }
@@ -167,13 +163,13 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.I7_3#receive_I7_3(int)
      */
     // deepCopy can only perform an unchecked operation
-    @Override
-    public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-        //moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
-    	//INFORMATION: DEEPCOPY REMOVED 
-        moActionCommands_Input = poActionCommands;
-        //moPerceptionalMesh_IN = poEnvironmentalPerception;
-    }
+//    @Override
+//    public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
+//        //moActionCommands_Input = (ArrayList<clsWordPresentationMesh>) deepCopy(poActionCommands);
+//    	//INFORMATION: DEEPCOPY REMOVED 
+//        moActionCommands_Input = poActionCommands;
+//        //moPerceptionalMesh_IN = poEnvironmentalPerception;
+//    }
 
     /*
      * (non-Javadoc)
@@ -183,8 +179,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.I7_6#receive_I7_6(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_10(int pnData) {
-        // TODO (perner) - Auto-generated method stub
+    public void receive_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals) {
+        moSelectableGoals = selectableGoals;
 
     }
 
@@ -198,92 +194,23 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     @Override
     protected void process_basic() {
 
-    	//Receive the perceived image
-    	this.moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.findCurrentSingleMemory();
-    	
-        // AW HACK test, in order to be able to use both WP and plan fragements at the same time
-        boolean bPlanFragement = true;
-
-        // normal use of actions -> without AW hack
-        if (bPlanFragement == true) {
-            // run over all actions and sort out the most appropriate ones
-            ArrayList<clsWordPresentationMesh> sortedActions = new ArrayList<clsWordPresentationMesh>();
-            int iCursorPos = 0;
-
-            int iIndexOfEat = -1;
-            int iIndexOfMoveForward = -1;
-            int iIndexOfFlee = -1;
-            int iIndexOfOverrideAction = -1; // stores the index of an action which should be used over all others because of interface
-                                             // I.6_2
-            for (clsWordPresentationMesh oC : moActionCommands_Input) {
-
-                String strAction = oC.getMoContent();
-
-                if (strAction.equalsIgnoreCase("EAT"))
-                    iIndexOfEat = iCursorPos;
-                if (strAction.equalsIgnoreCase("MOVE_FORWARD"))
-                    iIndexOfMoveForward = iCursorPos;
-                if (strAction.equalsIgnoreCase("FLEE"))
-                    iIndexOfFlee = iCursorPos;
-
-                iCursorPos++;
-            }
-
-            if (moAnxiety_Input.size() > 0) {
-                for (Object myPred : moAnxiety_Input) {
-
-                    if (myPred instanceof clsSecondaryDataStructureContainer) {
-                        String strVal = myPred.toString();
-
-                        if (strVal.contains("ANXIETY")) {
-                            iIndexOfOverrideAction = iIndexOfFlee;
-                        }
-                    }
-                }
-            }
-
-            // order of actions, use eat first, then move forward than all other actions
-            // flee is used as override action
-            if (iIndexOfOverrideAction > 0)
-                sortedActions.add(moActionCommands_Input.get(iIndexOfOverrideAction));
-            else if (iIndexOfEat > 0) // only use eat
-                sortedActions.add(moActionCommands_Input.get(iIndexOfEat));
-            else if (iIndexOfMoveForward > 0) // only use move forward
-                sortedActions.add(moActionCommands_Input.get(iIndexOfMoveForward));
-            else
-                // use all other actions
-                sortedActions = moActionCommands_Input;
-
-            // if agent feels anxiety -> flee and discard all other actions
-
-            ArrayList<clsWordPresentationMesh> moActionCommandsTemp = new ArrayList<clsWordPresentationMesh>();
-            for (clsWordPresentationMesh oC : sortedActions) {
-
-                // convert actions back to wordpresentation -> only wordpresentations are allowed to be handled over to motility control
-                // if (oC instanceof clsPlanFragment) {
-                // clsPlanFragment plFr = (clsPlanFragment) oC;
-                String strAction = oC.getMoContent(); // plFr.m_act.m_strAction;
-                clsWordPresentationMesh myWP = oC;//new clsWordPresentationMesh(new clsTriple<Integer, eDataType, String>(1, eDataType.WPM, strAction), oC.getMoAssociatedContent(), strAction);
-
-                moActionCommandsTemp.add(myWP);
-                // }
-            }
-
-            // No nulls are allowed
-            moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
-
-            // Get the first command
-            if (moActionCommandsTemp.isEmpty() == false) {
-                moActionCommands_Output.add(moActionCommandsTemp.get(0));
-            }
-        } else {
-            moActionCommands_Output = moActionCommands_Input;
-        }
+        //Select the best goal
+        clsWordPresentationMeshSelectableGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
+        log.info("Selected plan goal: {}", planGoal);
         
-        //Save action to the short term storage
-        if (moActionCommands_Output.isEmpty()==false) {
-        	addActionToMentalSituation(moActionCommands_Output.get(0));
-        }
+        //Get action command from goal
+        try {
+            moActionCommand = PlanningFunctionality.getActionCommandFromPlanGoal(planGoal);
+            log.info("Selected Action: {}", moActionCommand);
+        } catch (Exception e) {
+            log.error("", e);
+        }      
+        
+    	//Goal to STM
+        ShortTermMemoryFunctionality.addGoalToMentalSituation(planGoal, this.moShortTermMemory);
+        //Add action
+        ShortTermMemoryFunctionality.addActionToMentalSituation(this.moShortTermMemory, moActionCommand);
+        
         
         
 //        //=== TEST ONLY ONE ACTION === //
@@ -297,28 +224,28 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 //			}
 //		}
         
+        
+        //Get the last 10 goals and actions for the inspector
+//        clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
+//        clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
+        String oAction = "NONE";
+        
+        //if (moGoalList_OUT.isEmpty()==false) {
+        oAction = moActionCommand.getMoContent();
+        //}
+        
+        if (moTEMPWriteLastActions.size()==10) {
+            moTEMPWriteLastActions.remove(0);
+        }
+        
+        //Get System time
+        Calendar oCal = Calendar.getInstance();
+        SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
+        moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getMoContent().toString() + "; Action: " + oAction);
 
     }
     
-	private void addActionToMentalSituation(clsWordPresentationMesh poAction) {
-		//get the ref of the current mental situation
-		clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
-		
-		//Get the real connection from the reference for the action
-		clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(poAction);
-		if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
-			//get WPMRef
-			ArrayList<clsDataStructurePA> oFoundStructures = clsMeshTools.searchDataStructureOverAssociation(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true, true);
-			
-			if (oFoundStructures.isEmpty()==false) {
-				clsAssociation oAss = (clsAssociation) oFoundStructures.get(0);	
-				clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss, true);
-			}
-		}
-		
-		//Add the action to the memory
-		clsMentalSituationTools.setAction(oCurrentMentalSituation, poAction);
-	}
+
 
     /*
      * (non-Javadoc)
@@ -329,7 +256,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      */
     @Override
     protected void send() {
-        send_I6_11(moActionCommands_Output);
+        send_I6_11(moActionCommand);
 
     }
 
@@ -341,9 +268,9 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
      * @see pa.interfaces.send.I7_4_send#send_I7_4(java.util.ArrayList)
      */
     @Override
-    public void send_I6_11(ArrayList<clsWordPresentationMesh> poActionCommands) {
+    public void send_I6_11(clsWordPresentationMesh poActionCommands) {
         ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands);
-        ((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
+        //((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
 
         putInterfaceData(I6_11_send.class, poActionCommands);
     }
@@ -409,7 +336,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     @Override
     public ArrayList<Double> getTimeChartData() {
         ArrayList<Double> oRetVal = new ArrayList<Double>();
-        double rNUM_INPUT_ACTIONS = moActionCommands_Input.size();
+        double rNUM_INPUT_ACTIONS = 1;
         oRetVal.add(rNUM_INPUT_ACTIONS);
         return oRetVal;
     }

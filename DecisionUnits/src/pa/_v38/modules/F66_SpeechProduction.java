@@ -18,6 +18,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsConcept;
 import pa._v38.memorymgmt.datatypes.clsSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -46,7 +47,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
     private clsWordPresentationMesh moPerceptionalMesh_OUT;
     private clsWordPresentationMesh poWording;
     private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-    private ArrayList<clsWordPresentationMeshGoal> moDriveList_IN;
+    private ArrayList<clsWordPresentationMeshAimOfDrive> moDriveList_IN;
     private ArrayList<clsWordPresentationMeshFeeling> moSecondaryDataStructureContainer_IN;
     /** @author havlicek; Currently generated concept. */
     private clsConcept moConcept;
@@ -247,7 +248,7 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      * @see pa._v38.interfaces.modules.I6_3_receive#receive_I6_3(java.util.ArrayList)
      */
     @Override
-    public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
+    public void receive_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
         // TODO (hinterleitner) - Auto-generated method stub
         moDriveList_IN = poDriveList;
     }

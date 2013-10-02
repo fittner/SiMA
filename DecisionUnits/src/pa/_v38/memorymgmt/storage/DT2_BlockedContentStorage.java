@@ -32,8 +32,8 @@ import pa._v38.memorymgmt.datatypes.clsPrimaryDataStructureContainer;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
-import system.datamanipulation.clsMeshTools;
-import system.datamanipulation.clsPrimarySpatialTools;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 
 /**

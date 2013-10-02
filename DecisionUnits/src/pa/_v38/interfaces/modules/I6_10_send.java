@@ -6,6 +6,10 @@
  */
 package pa._v38.interfaces.modules;
 
+import java.util.ArrayList;
+
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+
 /**
  * Reality checked action plans are passed on from F53 to F29.
  * 
@@ -14,5 +18,5 @@ package pa._v38.interfaces.modules;
  * 
  */
 public interface I6_10_send {
-	public void send_I6_10(int pnData);
+	public void send_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals);
 }

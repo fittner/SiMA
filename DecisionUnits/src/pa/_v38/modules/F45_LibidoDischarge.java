@@ -32,7 +32,7 @@ import pa._v38.memorymgmt.enums.eDrive;
 import pa._v38.memorymgmt.enums.eDriveComponent;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 import datatypes.helpstructures.clsPair;

@@ -16,9 +16,11 @@ import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
+import secondaryprocess.functionality.EffortFunctionality;
 import config.clsProperties;
 
 /**
@@ -35,6 +37,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
 	private clsWordPresentationMesh moWording_IN;
+	
+	private ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -102,7 +106,14 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void process_basic() {
-		// TODO (KOHLHAUSER) - Auto-generated method stub
+	    //TEMP Apply effort on goal
+        EffortFunctionality.applyEffortOfGoal(selectableGoals);
+        
+        //Apply effort of wording
+        
+        //Apply effort/bonus of drive aim action
+        
+        
 	}
 
 	/* (non-Javadoc)
@@ -114,7 +125,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 */
 	@Override
 	protected void send() {
-		send_I6_10(0);
+		send_I6_10(selectableGoals);
 	}
 
 	/* (non-Javadoc)
@@ -149,8 +160,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.I7_3#receive_I7_3(java.util.ArrayList)
 	 */
 	@Override
-	public void receive_I6_9(ArrayList<clsWordPresentationMesh> poActionCommands) {
-		// TODO (KOHLHAUSER) - Auto-generated method stub		
+	public void receive_I6_9(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+	    selectableGoals = poSelectableGoals;
 	}
 
 	/* (non-Javadoc)
@@ -161,10 +172,10 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	 * @see pa.interfaces.send.I7_6_send#send_I7_6(int)
 	 */
 	@Override
-	public void send_I6_10(int pnData) {
-		((I6_10_receive)moModuleList.get(29)).receive_I6_10(pnData);
+	public void send_I6_10(ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoals) {
+		((I6_10_receive)moModuleList.get(29)).receive_I6_10(poSelectableGoals);
 		
-		putInterfaceData(I6_10_send.class, pnData);
+		putInterfaceData(I6_10_send.class, poSelectableGoals);
 	}
 
 	/* (non-Javadoc)

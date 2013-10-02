@@ -18,10 +18,10 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.ElementNotFoundException;
-import system.datamanipulation.clsActDataStructureTools;
-import system.datamanipulation.clsActTools;
-import system.datamanipulation.clsEntityTools;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 

@@ -21,9 +21,9 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
-import system.datamanipulation.clsEntityTools;
-import system.datamanipulation.clsMeshTools;
-import system.datamanipulation.clsSecondarySpatialTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

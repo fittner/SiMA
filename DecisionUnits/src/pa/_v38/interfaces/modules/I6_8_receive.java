@@ -9,7 +9,8 @@ package pa._v38.interfaces.modules;
 import java.util.ArrayList;
 
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 
 /**
  * Three action goals are passed on to F52. Word and thing presentations representing the result of module F26 are distributed to F52.
@@ -19,5 +20,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
  * 
  */
 public interface I6_8_receive {
-	public void receive_I6_8(ArrayList<clsWordPresentationMeshGoal> poDecidedGoalList);
+	public void receive_I6_8(ArrayList<clsWordPresentationMeshSelectableGoal> poDecidedGoalList_OUT);
 }

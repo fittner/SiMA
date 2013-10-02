@@ -6,7 +6,6 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import datatypes.helpstructures.clsTriple;
@@ -16,8 +15,7 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.eGoalType;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.tools.ElementNotFoundException;
-import system.datamanipulation.clsImportanceTools;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -26,7 +24,7 @@ import system.datamanipulation.clsMeshTools;
  * 17.05.2013, 00:28:19
  * 
  */
-public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
+public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
 
     /**
      * DOCUMENT (wendt) - insert description 
@@ -38,21 +36,16 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      * @param poContent
      */
     public clsWordPresentationMeshGoal(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier,
-            ArrayList<clsAssociation> poAssociatedStructures, Object poContent) {
+            ArrayList<clsAssociation> poAssociatedStructures, Object poContent, 
+            clsWordPresentationMesh poGoalObject,
+            String poName,
+            eGoalType oGoalType
+            ) {
         super(poDataStructureIdentifier, poAssociatedStructures, poContent);
-        // TODO (wendt) - Auto-generated constructor stub
         
-        //Init hashmap
-        //this.moAssociationMapping.put(eContentType.GOALOBJECT, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.FEELING, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.IMPORTANCE, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.EFFORTLEVEL, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.CONDITION, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.GOALNAME, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.SUPPORTIVEDATASTRUCTURE, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.GOALTYPE, new ArrayList<clsSecondaryDataStructure>());
-        //this.moAssociationMapping.put(eContentType.ACTION, new ArrayList<clsSecondaryDataStructure>());
+        setGoalObject(poGoalObject);
+        setGoalName(poName);
+        setGoalType(oGoalType);
         
         
     }
@@ -86,142 +79,36 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
         this.setUniqueProperty(poGoalObject, ePredicate.HASGOALOBJECT, true);
     }
     
-       /**
-     * Get the Feelings from a goal
-     * 
-     * (wendt)
-     *
-     * @since 26.03.2012 21:25:11
-     *
-     * @param poGoal
-     * @return
-     */
-    public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
-        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
-    
-        oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);
-        
-//        for (clsSecondaryDataStructure oF : oFeelings) {
-//            oRetVal.add((clsWordPresentationMeshFeeling) oF);
-//        }
-    
-        return oRetVal;
-    }
-    
-    /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 10:37:48
-     *
-     * @param poFeeling
-     */
-    public void addFeeling(clsWordPresentationMeshFeeling poFeeling) {
-        this.addReplaceNonUniqueProperty(poFeeling, ePredicate.HASFEELING, true);
-    }
     
   
-    /**
-     * Add a Feeling to the goal, which is not already present. If present, then replace
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 10:37:48
-     *
-     * @param poFeeling
-     */
-    public void addWording(clsWordPresentationMesh poSupportiveDataStructure) {
-        this.addReplaceNonUniqueProperty(poSupportiveDataStructure, ePredicate.HASACTION, true);
-    }
+//    /**
+//     * Add a Feeling to the goal, which is not already present. If present, then replace
+//     * 
+//     * (wendt)
+//     *
+//     * @since 17.05.2013 10:37:48
+//     *
+//     * @param poFeeling
+//     */
+//    public void addWording(clsWordPresentationMesh poSupportiveDataStructure) {
+//        this.addReplaceNonUniqueProperty(poSupportiveDataStructure, ePredicate.HASACTION, true);
+//    }
+
     
     
+//    /**
+//     * Set affectlevel
+//     * 
+//     * (wendt)
+//     *
+//     * @since 17.05.2013 11:36:43
+//     *
+//     * @param pnImportance
+//     */
+//    public void setImportance(double prImportance) {
+//        this.setUniqueProperty(String.valueOf(prImportance), eContentType.IMPORTANCE, ePredicate.HASTOTALIMPORTANCE, true);
+//    }
     
-    
-    /**
-     * Add a list of feelings
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:33:11
-     *
-     * @param poFeeling
-     */
-    public void addFeelings(ArrayList<clsWordPresentationMeshFeeling> poFeeling) {
-        for (clsWordPresentationMeshFeeling oF : poFeeling) {
-            addFeeling(oF);
-        }
-    }
-    
-    /**
-     * Get the affectlevel from a goal
-     * 
-     * (wendt)
-     *
-     * @since 26.03.2012 21:25:11
-     *
-     * @param poGoal
-     * @return
-     */
-    public double getImportance() {
-        double oRetVal = 0;
-        
-        String oAffectLevel = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
-        if (oAffectLevel.isEmpty()==false) {
-            oRetVal = Double.valueOf(oAffectLevel);
-        }
-        
-    
-        return oRetVal;
-    }
-    
-    
-    /**
-     * Set affectlevel
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:36:43
-     *
-     * @param pnImportance
-     */
-    public void setImportance(double prImportance) {
-        this.setUniqueProperty(String.valueOf(prImportance), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true);
-    }
-    
-    /**
-     * Get effort level
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:38:03
-     *
-     * @return
-     */
-    public double getEffortImpact() {
-        double rResult = 0;
-        
-        String oEffort = this.getUniqueProperty(ePredicate.HASEFFORTIMPACT);
-        
-        if (oEffort.isEmpty()==false) {
-            rResult = Double.valueOf(oEffort);
-        }
-        
-        return rResult;
-    }
-    
-    /**
-     * Set effort level
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 11:38:59
-     *
-     * @param pnImportance
-     */
-    public void setEffortImpact(double pnImportance) {
-        this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTIMPACT, ePredicate.HASEFFORTIMPACT, true);
-    }
     
     /**
      * Get goal identifier
@@ -309,14 +196,6 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      */
     public void removeCondition(eCondition poTask) throws ElementNotFoundException {
         this.removeProperty(poTask.toString(), ePredicate.HASCONDITION);
-//        
-//        ArrayList<clsWordPresentation> oFoundStructureList = getConditionDataStructure();
-//        
-//        for (clsWordPresentation oTaskStatus : oFoundStructureList) {
-//            if (oTaskStatus.getMoContent().equals(poTask.toString())) {
-//                clsMeshTools.removeAssociationInObject(this, oTaskStatus);
-//            }
-//        }
     }
     
     /**
@@ -331,32 +210,6 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     public void removeAllConditions() {
         this.removeAllProperties(ePredicate.HASCONDITION);
     }
-    
-//    /**
-//     * Get the goal name
-//     * 
-//     * "" if there is no goal name
-//     * 
-//     * (wendt)
-//     *
-//     * @since 16.07.2012 16:54:50
-//     *
-//     * @param poGoal
-//     * @return
-//     */
-//    private ArrayList<clsWordPresentation> getConditionDataStructure() {
-//        ArrayList<clsWordPresentation> oResult = new ArrayList<clsWordPresentation>();
-//        
-//        ArrayList<clsSecondaryDataStructure> oFoundTaskStatusList = this.moAssociationMapping.get(eContentType.CONDITION);//clsGoalTools.getConditionDataStructure(poGoal);
-//                
-//        for (clsSecondaryDataStructure oTaskStatus : oFoundTaskStatusList) {
-//            oResult.add((clsWordPresentation) oTaskStatus);
-//        }
-//        
-//        return oResult;
-//        
-//        //return getNonUniquePredicateWP(ePredicate.HASCONDITION);
-//    }
     
     
     /**
@@ -399,17 +252,6 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
      */
     public clsWordPresentationMesh getSupportiveDataStructure() {
         return this.getUniquePropertyWPM(ePredicate.HASSUPPORTIVEDATASTRUCTURE);
-//        
-//        clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
-//        
-//        ArrayList<clsSecondaryDataStructure> oFoundStructures = this.moAssociationMapping.get(eContentType.SUPPORTIVEDATASTRUCTURE);//poGoal.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTURE, true);
-//        
-//        if (oFoundStructures.isEmpty()==false) {
-//            //The drive object is always a WPM
-//            oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
-//        }
-//        
-//        return oRetVal;
     }
     
     /**
@@ -465,30 +307,6 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
         }
     }
     
-    
-//    /**
-//     * Get the supportive data structure for actions
-//     * 
-//     * (wendt)
-//     *
-//     * @since 16.07.2012 22:21:26
-//     *
-//     * @param poGoal
-//     * @return
-//     */
-//    public static clsWordPresentationMesh getSupportiveDataStructureForAction(clsWordPresentationMesh poGoal) {
-//        clsWordPresentationMesh oRetVal = clsGoalTools.getNullObjectWPM();
-//        
-//        ArrayList<clsSecondaryDataStructure> oFoundStructures = poGoal.findDataStructure(ePredicate.HASSUPPORTIVEDATASTRUCTUREFORACTION, true);
-//        
-//        if (oFoundStructures.isEmpty()==false) {
-//            //The drive object is always a WPM
-//            oRetVal = (clsWordPresentationMesh) oFoundStructures.get(0);
-//        }
-//        
-//        return oRetVal;
-//    }
-    
     /**
      * Get the goal type of a certain goal
      * 
@@ -523,74 +341,6 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
     }
     
     /**
-     * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
-     * 
-     * (wendt)
-     *
-     * @since 26.09.2012 12:17:57
-     *
-     * @param poGoal
-     * @return
-     */
-    public clsWordPresentationMesh getAssociatedAction() {
-        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDACTION);
-    } 
-    
-    /**
-     * Set associated action
-     * 
-     * (wendt)
-     *
-     * @since 26.09.2012 12:20:16
-     *
-     * @param poGoal
-     * @param poAssociatedAction
-     */
-    public void setAssociatedAction(clsWordPresentationMesh poAssociatedAction) {
-        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDACTION, true);
-    }
-    
-    /**
-     * In the action codelets, actions are associated with the goals. In that way a new action can be attached to a goal and extracted
-     * 
-     * (wendt)
-     *
-     * @since 26.09.2012 12:17:57
-     *
-     * @param poGoal
-     * @return
-     */
-    public clsWordPresentationMesh getAssociatedAimAction() {
-        return this.getUniquePropertyWPM(ePredicate.HASASSOCIATEDAIMACTION);
-    } 
-    
-    /**
-     * Set associated aim action
-     * 
-     * (wendt)
-     *
-     * @since 26.09.2012 12:20:16
-     *
-     * @param poGoal
-     * @param poAssociatedAction
-     */
-    public void setAssociatedAimAction(clsWordPresentationMesh poAssociatedAction) {
-        this.setUniqueProperty(poAssociatedAction, ePredicate.HASASSOCIATEDAIMACTION, true);
-    }
-    
-    /**
-     * Remove the associated action
-     * 
-     * (wendt)
-     *
-     * @since 17.05.2013 14:54:21
-     *
-     */
-    public void removeAllAssociatedAction() {
-        this.removeAllProperties(ePredicate.HASASSOCIATEDACTION);
-    }
-    
-    /**
      * Get the content type of the support data structure type of the goal
      * 
      * (wendt)
@@ -611,26 +361,28 @@ public class clsWordPresentationMeshGoal extends clsWordPresentationMesh {
         return oRetVal;
     }
     
+    public abstract double getTotalImportance();
+    
 
-    @Override
-    public String toString() {
-        String oResult = "";  
-        oResult += this.getGoalContentIdentifier();
-        //TODO SM: Goal, Tostring adaption to application of feelings together with the getter and setter
-        double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this, this.getFeelings());
-        double nTotalAffectLevel = getImportance() + getEffortImpact() + rImportanceOfFeelings;
-        
-        oResult += ":" + new DecimalFormat("0.00").format(nTotalAffectLevel);
-        oResult += ":" + this.getFeelings().toString();
-        oResult += ":" + this.getGoalObject();
-        oResult += ":" + getSupportiveDataStructure().getMoContent();
-            
-        ArrayList<eCondition> oConditionList = getCondition();
-        if (oConditionList.isEmpty()==false) {
-           oResult += " " + oConditionList.toString();
-        }
-            
-        return oResult;
-    }
+//    @Override
+//    public String toString() {
+//        String oResult = "";  
+//        oResult += this.getGoalContentIdentifier();
+//        //TODO SM: Goal, Tostring adaption to application of feelings together with the getter and setter
+//        double rImportanceOfFeelings = clsImportanceTools.getConsequencesOfFeelingsOnGoalAsImportance(this, this.getFeelings());
+//        double nTotalAffectLevel = getTotalImportance() + getEffortImpact() + rImportanceOfFeelings;
+//        
+//        oResult += ":" + new DecimalFormat("0.00").format(nTotalAffectLevel);
+//        oResult += ":" + this.getFeelings().toString();
+//        oResult += ":" + this.getGoalObject();
+//        oResult += ":" + getSupportiveDataStructure().getMoContent();
+//            
+//        ArrayList<eCondition> oConditionList = getCondition();
+//        if (oConditionList.isEmpty()==false) {
+//           oResult += " " + oConditionList.toString();
+//        }
+//            
+//        return oResult;
+//    }
     
 }
