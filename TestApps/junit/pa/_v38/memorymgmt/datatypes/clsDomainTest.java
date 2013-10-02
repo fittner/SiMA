@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import org.junit.Before;
 import org.junit.Test;
 
-import system.algorithm.planningHelpers.PlanningNode;
+import secondaryprocess.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (havlicek) - insert description
@@ -43,7 +43,7 @@ public class clsDomainTest {
 
 	/**
 	 * Test method for
-	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#pushPlanFragment(system.algorithm.planningHelpers.PlanningNode)}
+	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#pushPlanFragment(secondaryprocess.algorithm.planningHelpers.PlanningNode)}
 	 * . Test method for
 	 * {@link pa._v38.memorymgmt.datatypes.clsDomain#returnContent()}. Test
 	 * method for
