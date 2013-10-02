@@ -741,7 +741,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 		// 1. Convert Neurosymbols to TPMs
 		convertSymbolToTPM();
 						
-		addSelfToPerception();
+	//	addSelfToPerception();
 				
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, if the eatable area objects are working.

@@ -615,7 +615,7 @@ public class F31_NeuroDeSymbolizationActionCommands extends clsModuleBase
 	
 	private boolean testSequence(){
 	       //TODO: Just for test. Delete this 2 lines
-        moActionCommandList_Output.add(new clsActionBeat(0.1));
+        moActionCommandList_Output.add(new clsActionDivide(0.5));
         if (true) return true;
        if(mnTestCounter<=1) moActionCommandList_Output.add(new clsActionPickUp());
        else if(mnTestCounter<=10) moActionCommandList_Output.add( new clsActionMove(eActionMoveDirection.MOVE_FORWARD,1.0) );
