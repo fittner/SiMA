@@ -109,7 +109,7 @@ public class clsExecutorCultivate extends clsActionExecutor{
 
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
 		//Is something in range
-		itfAPCultivatable oCultivatedEntity = (itfAPCultivatable) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPCultivatable.class) ;
+		itfAPCultivatable oCultivatedEntity = (itfAPCultivatable) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPCultivatable.class) ;
 
 		if (oCultivatedEntity==null) {
 			//Nothing in range then nothing happens

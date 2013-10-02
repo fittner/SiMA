@@ -132,7 +132,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		
 		//1) take food from Object and put it in stomach
 		//Is something in range
-		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
+		clsEntity oEatenEntity = (clsEntity) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
 		
 		if (oEatenEntity==null) {
 			moEntity.setOverlayImage(eImages.Overlay_Action_EatNothing);

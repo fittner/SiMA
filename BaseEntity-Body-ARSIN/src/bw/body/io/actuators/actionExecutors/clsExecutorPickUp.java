@@ -103,7 +103,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
+		itfAPCarryable oEntity = (itfAPCarryable) findEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class) ;
 
 		//nothing there = waste energy
 		if (oEntity==null) return 0;
@@ -122,7 +122,7 @@ public class clsExecutorPickUp  extends clsActionExecutor {
 		
 		//Is something in range
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		itfAPCarryable oEntity = (itfAPCarryable) findSingleEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class);
+		itfAPCarryable oEntity = (itfAPCarryable) findEntityInRange(moEntity, oBody, moRangeSensor,itfAPCarryable.class);
 		
 		
 		if (oEntity==null){
