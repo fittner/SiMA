@@ -38,6 +38,7 @@ public interface itfSetupFunctions {
 	public void setSpeechExpressionOverlayImage(eSpeechExpression poOverlay);
 	public void setThoughtExpressionOverlayImage(eSpeechExpression poOverlay);
 	public void setCarriedItem(BufferedImage mnCarriedItem);
+	public void setLifeValue(double value);
 	
 	public clsPose getPose();
     public Shape getShape();

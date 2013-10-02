@@ -40,7 +40,6 @@ public class clsExecutorEat extends clsActionExecutor{
 	static double srStaminaDemand = 0; //0.5f;		//Stamina demand 			
 	
 	private ArrayList<Class<?>> moMutEx = new ArrayList<Class<?>>();
-	private double mrBiteSize;
 	private double mrBiteSizeMax;
 	private double mrLibidinousEatFactor;
 	private double mrAggressivEatFactor;
@@ -68,7 +67,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		String pre = clsProperties.addDot(poPrefix);
 		clsProperties oProp = clsActionExecutor.getDefaultProperties(pre);
 		oProp.setProperty(pre+P_RANGESENSOR, eSensorExtType.EATABLE_AREA.toString());
-		oProp.setProperty(pre+P_BITESIZE_MAX, 1f); //0.3f
+		oProp.setProperty(pre+P_BITESIZE_MAX, 5f); //0.3f
 		//how strong the libidinous oral mucosa is stimulated by the action eat
 		oProp.setProperty(pre+P_LIBIDINOUS_EAT_FACTOR, 0.2);
 		//how strong the aggressiv oral mucosa is stimulated by the action eat
@@ -84,7 +83,6 @@ public class clsExecutorEat extends clsActionExecutor{
 		mrLibidinousEatFactor=poProp.getPropertyFloat(pre+P_LIBIDINOUS_EAT_FACTOR);
 		mrAggressivEatFactor=poProp.getPropertyFloat(pre+P_AGGRESSIV_EAT_FACTOR);
 	
-		mrBiteSize = mrBiteSizeMax;
 	}
 	
 	/*
@@ -125,7 +123,7 @@ public class clsExecutorEat extends clsActionExecutor{
 	@Override
 	public boolean execute(clsActionCommand poCommand) {
 		clsComplexBody oBody = (clsComplexBody) ((itfGetBody)moEntity).getBody();
-		
+		clsActionEat oEatCommand = (clsActionEat) poCommand;
 		//Executing Eat has 3 parts: 
 		//1) the bodily part of getting a piece of food from the eaten entity and presenting this to the stomach
 		//2) the stimulation of the erogenous zone (the mouth, the orifice where food is passed and which leads to the stomach)
@@ -134,7 +132,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		
 		//1) take food from Object and put it in stomach
 		//Is something in range
-		clsEntity oEatenEntity = (clsEntity) findSingleEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
+		clsEntity oEatenEntity = (clsEntity) findEntityInRange(moEntity, oBody, moRangeSensor ,itfAPEatable.class) ;
 		
 		if (oEatenEntity==null) {
 			moEntity.setOverlayImage(eImages.Overlay_Action_EatNothing);
@@ -157,7 +155,7 @@ public class clsExecutorEat extends clsActionExecutor{
 		}
 		
 		//Eat!
-        clsFood oReturnedFood =((itfAPEatable)oEatenEntity).Eat(mrBiteSize);
+        clsFood oReturnedFood =((itfAPEatable)oEatenEntity).Eat(mrBiteSizeMax* oEatCommand.getMrBiteSize());
         if(oReturnedFood != null) {                
         	oBody.getInterBodyWorldSystem().getConsumeFood().digest(oReturnedFood);
         }

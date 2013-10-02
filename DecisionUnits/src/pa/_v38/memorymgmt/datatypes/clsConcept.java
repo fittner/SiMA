@@ -40,7 +40,7 @@ public class clsConcept {
     public clsConcept() {
         moConceptMesh = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.UNDEFINED),
                 new ArrayList<clsAssociation>(), "");
-        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.DOMAIN, eContentType.YES),
+        moWording = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(1, eDataType.CONCEPT, eContentType.EAT),
                 new ArrayList<clsAssociation>(), "");
         moConceptEntities = new ArrayList<clsPentagon<clsEntity, clsAction, clsEmotion, clsDistance, clsDrive>>();
     }
