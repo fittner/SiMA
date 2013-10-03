@@ -768,22 +768,24 @@ public class clsImportanceTools {
      * @param poAction - Action to check against
      * @return
      */
-    public static double getImpactOfAim(clsWordPresentationMeshGoal poGoal, clsWordPresentationMesh poAction)
+    public static double getImpactOfAim(clsWordPresentationMeshGoal poPossibleGoal, clsWordPresentationMeshGoal poDriveGoal)
     {
         double rResult = 0;
         
-        log.debug("static double clsImportanceTools::getImpactOfAim(" + poGoal + ", " + poAction + ")");
+        log.debug("static double clsImportanceTools::getImpactOfAim(" + poPossibleGoal + ", " + poDriveGoal + ")");
+        
+        clsWordPresentationMesh oActionMesh = poDriveGoal.getAssociatedAimAction();
         
         //get the supportive data structure for the goal
-        clsWordPresentationMesh oSuppDataStructure = poGoal.getSupportiveDataStructure();
+        clsWordPresentationMesh oSuppDataStructure = poPossibleGoal.getSupportiveDataStructure();
         
         if(oSuppDataStructure != null && !oSuppDataStructure.isNullObject()) {
-            log.debug("Supportive data structure " + oSuppDataStructure + " has type " + poGoal.getSupportiveDataStructureType());
+            log.debug("Supportive data structure " + oSuppDataStructure + " has type " + poPossibleGoal.getSupportiveDataStructureType());
             
             //if goal has no intention -> do not evaluate anything else, because poGoal is not an act
             clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oSuppDataStructure);
             if(oIntention != null && !oIntention.isNullObject()) {
-                log.debug("Goal " + poGoal + " has intention " + oIntention);
+                log.debug("Goal " + poPossibleGoal + " has intention " + oIntention);
                 
                 //get the current moment in the act (if there is one) for later comparison
                 clsWordPresentationMesh oMoment = clsActDataStructureTools.getMoment(oSuppDataStructure);
@@ -800,7 +802,7 @@ public class clsImportanceTools {
                     if(oAction != eAction.NONE && oAction != eAction.NULLOBJECT) {
                         log.debug("Image " + oImage + " has action " + oAction);
                         
-                        eAction oLookupAction = eAction.valueOf(poAction.getMoContent());
+                        eAction oLookupAction = eAction.valueOf(oActionMesh.getMoContent());
                         
                         //if the images action fits, start increasing the importance value
                         if(oLookupAction == oAction) {
@@ -819,14 +821,17 @@ public class clsImportanceTools {
                             } else {
                                 //if it is not the last image, check if it is the second to last image and the last image has no action
                                 clsWordPresentationMesh oNextImage = clsActTools.getNextImage(oImage);
-                                if(clsActTools.isLastImage(oNextImage) && clsActTools.getRecommendedAction(oNextImage) == eAction.NONE) {
-                                    //in this case, the last image is just a post-condition so thread the second to last image like the last image
-                                    log.debug("Image " + oImage + " is last image before post-condition");
-                                    rResult += (mrMomentIncrease - mrLastIncrease);
+                                if(clsActTools.isLastImage(oNextImage) == true) {
+                                    eAction oTempAction = clsActTools.getRecommendedAction(oNextImage);
+                                    if(oTempAction == eAction.NULLOBJECT || oTempAction == eAction.NONE) {
+                                        //in this case, the last image is just a post-condition so thread the second to last image like the last image
+                                        log.debug("Image " + oImage + " is last image before post-condition");
+                                        rResult += (mrMomentIncrease - mrLastIncrease);
+                                    }
                                 }
                             }
-                            
-                            log.info("Goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match in " + oImage.getMoContent());
+                            log.info("Action match for possible goal " + oSuppDataStructure.getMoContent() + " and drive goal " + poDriveGoal.getGoalName() + " with action " + oLookupAction + ". Increasing importance by " + rResult);
+                            //log.info("Possible goal " + oSuppDataStructure.getMoContent() + " has importance increase by " + rResult + " due to action match for " + oLookupAction + " in " + oImage.getMoContent());
                         }
                     }
                 }

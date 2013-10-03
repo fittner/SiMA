@@ -492,7 +492,7 @@ public class clsGoalTools {
 		for (clsWordPresentationMeshGoal oPossibleGoal : poSortedPossibleGoalList) {
 			
 		    //TODO Kollmann: Move this to F53_... - putting it here just for testing
-		    double rImpactOfAim = clsImportanceTools.getImpactOfAim(oPossibleGoal, poDriveGoal.getAssociatedAimAction());
+		    double rImpactOfAim = clsImportanceTools.getImpactOfAim(oPossibleGoal, poDriveGoal);
 		    
 			//Get the level of affect for the object in the image of the potential goals
 		    //TODO SM: Implement logic from task setting
