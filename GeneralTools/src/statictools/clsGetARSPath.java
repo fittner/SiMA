@@ -19,6 +19,7 @@ public class clsGetARSPath {
 			try {
 				String path = new java.io.File(".").getCanonicalPath().toString();
 				path = path.substring(0, path.lastIndexOf('\\'));
+				//path = "S:\\ARSIN_V01"; // Windows
 				return path;
 			} catch (IOException e) {
 				return "S:\\ARSIN_V01"; // Windows

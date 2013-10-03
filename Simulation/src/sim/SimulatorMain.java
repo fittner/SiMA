@@ -154,9 +154,9 @@ public class SimulatorMain extends GUIState {
 		SimulatorMain oMainWithUI = new SimulatorMain(args);
 		
 		//check if autostarting and pausing the simulation is needed
-		String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
-		Boolean nAutostart = new Boolean(oAutostart);
-		
+		//String oAutostart = clsMain.argumentForKey("-autostart", args, 0);
+		//Boolean nAutostart = new Boolean(oAutostart);
+		Boolean nAutostart = true;
 		clsSingletonMasonGetter.setConsole( new ARSsim.display.Console(oMainWithUI, nAutostart) ); // 2011/06/14 CM+TD: adapted to new ARSsim.display.Console constructor
 		Dimension windowSize = clsSingletonMasonGetter.getConsole().getSize();
 		windowSize.height+=300;
@@ -174,7 +174,7 @@ public class SimulatorMain extends GUIState {
 		if (clsSingletonSimState.getSimState()!=null) {
 			log.trace("Simulation step: {}", String.valueOf(clsSingletonSimState.getSimState().schedule.getSteps()));
 		}
-		
+
 	}
 
 	

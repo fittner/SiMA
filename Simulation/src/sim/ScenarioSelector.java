@@ -13,10 +13,14 @@ import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 
 import org.slf4j.Logger;
+
+import bw.factories.clsSingletonMasonGetter;
 import PropertiesInspector.clsPropertiesInspector;
 import config.clsProperties;
 import statictools.clsGetARSPath;
@@ -41,6 +45,8 @@ public class ScenarioSelector extends javax.swing.JFrame {
 	private static final String P_ADAPTOR="adapter";
 	private static final String P_IMPLEMENTATIONSTAGE="implementation_stage";
 	private static final String P_AUTOSTART="autostart";
+	
+
 	
 	private final Logger log = clsSimLogger.getLog("sim");
 	
@@ -280,7 +286,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
             }
         });
         
-        chkAutostart.setSelected(true);
+        chkAutostart.setSelected(false);
         chkAutostart.setText("autostart");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -389,11 +395,13 @@ public class ScenarioSelector extends javax.swing.JFrame {
         	args[0] = "-config";
         	args[1] = val;
         	
+
         	if(chkAutostart.isSelected())
         	{
-	        	args[2] = "-autostart";
+          		args[2] = "-autostart";
 	        	args[3] = "true";
 	        	oProp.setProperty(P_AUTOSTART, true);
+
         	}
         	else
         	{
@@ -401,7 +409,7 @@ public class ScenarioSelector extends javax.swing.JFrame {
 	        	args[3] = "false";
 	        	oProp.setProperty(P_AUTOSTART, false);
         	}
-        	
+       	
         	if(chkAdaptor.isSelected()) {
 	        	args[4] = "-adapter";
 	        	args[5] = "true";
@@ -433,6 +441,18 @@ public class ScenarioSelector extends javax.swing.JFrame {
     		
     		//close this
     		this.dispose();
+    		
+	    	if(chkAutostart.isSelected()){
+	    		Timer x = new Timer("test",true);
+	    		TimerTask task = new TimerTask(){
+					@Override
+					public void run() {
+						clsSingletonMasonGetter.getConsole().pressPause();
+					}
+	    		};
+	    		
+	    		x.schedule(task, 1);
+	    	}
         }
     }
 
