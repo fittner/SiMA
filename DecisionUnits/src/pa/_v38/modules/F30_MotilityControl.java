@@ -16,11 +16,13 @@ import pa._v38.interfaces.modules.I2_5_send;
 import pa._v38.interfaces.modules.I6_11_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eActionType;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 //import pa._v38.tools.clsDumper;
 import pa._v38.tools.toText;
+import secondaryprocess.functionality.PlanningFunctionality;
 import config.clsProperties;
 
 
@@ -192,10 +194,16 @@ public class F30_MotilityControl extends clsModuleBaseKB
 	 */
 	@Override
 	protected void process_basic() {
-	    
-	
+	    //Get the action if it is not an internal action
 	    moActionCommands_Output = new ArrayList<clsWordPresentationMesh>();
-	    moActionCommands_Output.add(moActionCommand_Input);
+	    clsWordPresentationMesh externalActionCommand = PlanningFunctionality.getActionOfType(moActionCommand_Input, eActionType.SINGLE_EXTERNAL);
+	    if (externalActionCommand.isNullObject()==false) {
+	        moActionCommands_Output.add(externalActionCommand);
+	    }
+
+	
+	    
+	    //moActionCommands_Output.add(moActionCommand_Input);
 		
 //	 // AW HACK test, in order to be able to use both WP and plan fragements at the same time
 //        boolean bPlanFragement = true;

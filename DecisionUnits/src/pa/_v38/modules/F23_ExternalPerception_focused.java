@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -220,7 +222,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//Extract all possible goals from the images (memories)
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractPossibleGoalsFromActs(moAssociatedMemories_IN));
 		
-		log.debug("Extracted goals : " + moReachableGoalList_OUT.toString());
+		log.debug("Extracted goals : " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		
 		
 		

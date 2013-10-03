@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -242,7 +244,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		try {
 		    log.trace("Incoming goals before init: " + moReachableGoalList_IN);
             this.moDecisionEngine.initIncomingGoals(moReachableGoalList_IN);
-            log.trace("Incoming goals after init: " + moReachableGoalList_IN);
+            log.debug("Incoming goals after init: " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
         } catch (Exception e) {
             log.error("Error at init of goals. ", e);
         }
@@ -256,7 +258,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         try {
             oContinuedGoal = this.moDecisionEngine.initContinuedGoal(moReachableGoalList_IN, moShortTimeMemory);
             log.trace("Incoming goals after getting continued goal: " + moReachableGoalList_IN);
-            log.trace("Continued goal: " + oContinuedGoal);
+            log.info("Continued goal: " + oContinuedGoal);
         } catch (Exception e) {
             this.log.error(e.getMessage());
         }
@@ -306,6 +308,8 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_IN);
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
+		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+		log.info("Provided continued goals: {}", oContinuedGoal);
 	}
 	
 

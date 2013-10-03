@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -110,6 +112,7 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    
 	    //TEMP Apply effort on goal
         EffortFunctionality.applyEffortOfGoal(selectableGoals);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(selectableGoals));
         
         //Apply effort of wording
         

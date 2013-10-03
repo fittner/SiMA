@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -24,10 +26,8 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
-import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
@@ -83,7 +83,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	
 	private final clsDecisionEngine moDecisionEngine;
 	
-	private String moTEMPDecisionString = "";
+	
 
 	
 	// Anxiety from F20
@@ -157,7 +157,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		
 		text += toText.valueToTEXT("moSpeechList", moSpeechList_IN);
 		
-		text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
+		
 		
 		return text;
 	}		
@@ -235,117 +235,44 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		//TEMP Add influence of feelings to goal
 		//clsDecisionPreparationTools.applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN, null);
 		//this.log.debug("Appended feelings to goal:" + moReachableGoalList_IN.toString());
-		
-
 
         //Sort incoming drives
         ArrayList<clsWordPresentationMeshAimOfDrive> oDriveGoalListSorted = GoalHandlingFunctionality.sortAimOfDrives(moDriveGoalList_IN);
-		log.debug("Sorted incoming drive goal list: " + oDriveGoalListSorted.toString());
+		log.debug("Sorted incoming drive goal list: " + PrintTools.printArrayListWithLineBreaks(oDriveGoalListSorted));
 		
 		//Apply effects of aims of drives
 		GoalHandlingFunctionality.applyDriveDemandsOnReachableGoals(this.moReachableGoalList_IN, this.moDriveGoalList_IN, mrAffectThresold);
+		log.debug("Aim of drives on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//Apply effect of feelings on goals
 		GoalHandlingFunctionality.applyFeelingsOnReachableGoals(moReachableGoalList_IN, moFeeling_IN, bActivatePanicInfluence);
+		log.debug("Current feelings: {}", moFeeling_IN);
+		log.debug("Current feelings on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//Apply social rules on goals
 		GoalHandlingFunctionality.applySocialRulesOnReachableGoals(moReachableGoalList_IN, moRuleList);
+	    log.debug("Social rules: {}", moRuleList);
+	    log.debug("Social rules on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//Select the goals to be forwarded
 		moDecidedGoalList_OUT = GoalHandlingFunctionality.selectSuitableReachableGoals(moReachableGoalList_IN, mnNumberOfGoalsToPass);
 		
-		
-		
-		//From the list of drives, match them with the list of potential goals
-		//TODO: This method is too long
-		//moDecidedGoalList_OUT = GoalHandlingFunctionality.decideDriveDemandGoals(moReachableGoalList_IN, oDriveGoalListSorted, moRuleList, this.moFeeling_IN, this.moShortTermMemory, bActivatePanicInfluence, this.mnNumberOfGoalsToPass, this.mrAffectThresold);
-		
 		GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
+		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
 		
 		//Add the goal to the mental situation
-		if (moDecidedGoalList_OUT.isEmpty()==false) {
-		    //If it is a newly created goal, it has to be initiated, in order to be processed
-//            if (moDecidedGoalList_OUT.get(0).getGoalType().equals(eGoalType.DRIVESOURCE) && moDecidedGoalList_OUT.get(0).checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
-//                try {
-//                    this.moDecisionEngine.initIncomingGoal(moDecidedGoalList_OUT.get(0));
-//                } catch (Exception e) {
-//                    log.error(e.getMessage());
-//                }
-//            }
-		    
-		    //Set continued goal condition
-//		    this.moDecisionEngine.declareGoalAsContinued(moDecidedGoalList_OUT.get(0));
-			//xaddGoalToMentalSituation(moDecidedGoalList_OUT.get(0));
-			
-			//oResult += "\nACT: " + clsGoalTools.getSupportiveDataStructure(this).toString();
-			log.info("\n=======================\nDecided goal: " + moDecidedGoalList_OUT.get(0) + "\nSUPPORTIVE DATASTRUCTURE: " + moDecidedGoalList_OUT.get(0).getSupportiveDataStructure().toString() + "\n==============================");
-			this.moTEMPDecisionString = setDecisionString(moDecidedGoalList_OUT.get(0));
-
-			//clsLogger.jlog.debug("Preconditions: " + clsGoalTools.getTaskStatus(moDecidedGoalList_OUT.get(0)).toString());
-		} else {
-			log.warn("Decided goal: No goal ");
+		try {
+		    if (moDecidedGoalList_OUT.isEmpty()==true) {
+	            throw new Exception("Decided goal: No goal");
+	        }
+		} catch (Exception e) {
+		    log.error("Decided goal: No goal ", e);
 		}
-
 	}
 	
 
 	
-	private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
-		String oResult = "";
-		
-		//Get the Goal String
-		String oGoalString = poDecidedGoal.getGoalName();
-		
-		//Get the goal object
-		String oGoalObjectString = poDecidedGoal.getGoalObject().toString();
-		
-		//Get the Goal source
-		String oGoalSource = "NONE"; 
-		if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
-			oGoalSource = "DRIVES (Drive goal not found in perception or acts)";
-		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
-			oGoalSource = "ACT";
-		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			oGoalSource = "PERCEPTION";
-		}
-		
-		//Get the AffectLevel
-		String oAffectLevel = String.valueOf(poDecidedGoal.getTotalImportance()); 
-		//eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
-		
-		//Get Conditions
-		String oGoalConditions = "";
-		ArrayList<eCondition> oConditionList = poDecidedGoal.getCondition();
-		for (eCondition oC : oConditionList) {
-			oGoalConditions += oC.toString() + "; ";
-		}				
-		
-		//Get the Supportive DataStructure
-		String oSupportiveDataStructureString = "";
-		if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
-			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
-		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
-			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();	
-		} else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
-			oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
-		}
-		
-		StringBuilder sb = new StringBuilder();
-		
-		//Set the current decision string
-		sb.append("============================================================================================\n");
-		sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
-		sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
-		sb.append("[GOAL SOURCE]\n   " + oGoalSource + "\n\n");
-		sb.append("[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n");
-		sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
-		sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
-		sb.append("============================================================================================\n");
-		
-		oResult = sb.toString();
-		
-		return oResult;
-	}
+
 
 
 	/* (non-Javadoc)

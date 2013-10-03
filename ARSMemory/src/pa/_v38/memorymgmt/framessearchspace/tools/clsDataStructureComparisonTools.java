@@ -63,7 +63,7 @@ public abstract class clsDataStructureComparisonTools {
 	/** This factor says how much can be added to 1.0 as a max association strength */
 	private static double mrAssociationMaxValue = 1.2;	//Max unlimited
 	
-	private static Logger log = clsLogger.getLog("Tools");
+	private static Logger log = clsLogger.getLog("Memory");
 	
 	
 	

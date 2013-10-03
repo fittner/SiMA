@@ -56,7 +56,7 @@ public class DataStructureConversionTools {
      * @return
      */
     public static clsWordPresentationMesh convertCompleteTPMtoWPMRoot(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM) {
-        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1);
+        return convertCompleteTPMtoWPM(ltm, poTPM, new ArrayList<clsThingPresentationMesh>(), 1, poTPM.getMoContentType());
     }
     
     /**
@@ -74,7 +74,7 @@ public class DataStructureConversionTools {
      * @param poSubTPM
      * @return
      */
-    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel) {
+    public static clsWordPresentationMesh convertCompleteTPMtoWPM(itfModuleMemoryAccess ltm, clsThingPresentationMesh poTPM, ArrayList<clsThingPresentationMesh> poProcessedList, int pnLevel, eContentType contentType) {
         clsWordPresentationMesh oRetVal = null;
 
         // add the current TPM to the list
@@ -157,7 +157,7 @@ public class DataStructureConversionTools {
                     clsDriveMesh oDM = (clsDriveMesh) oTPMExternalAss.getLeafElement();
                     //Get goal type
                     eGoalType goalType = eGoalType.MEMORYDRIVE;  
-                    if (poTPM.getMoContentType().equals(eContentType.PI)) {
+                    if (contentType.equals(eContentType.PI)) {
                         goalType = eGoalType.PERCEPTIONALDRIVE;
                     }
                     clsWordPresentationMeshSelectableGoal oDMWP = clsGoalManipulationTools.convertDriveMeshPerceptionToGoal(oDM, (clsWordPresentationMesh) oRetVal, goalType); //clsGoalTools.convertDriveMeshToWP(oDM);
@@ -208,7 +208,7 @@ public class DataStructureConversionTools {
 
                     clsThingPresentationMesh oSubTPM = ((clsAssociationTime) oTPMInternalAss).getLeafElement();
                     // Convert the complete structure to a WPM
-                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevel - 1);
+                    clsWordPresentationMesh oSubWPM = convertCompleteTPMtoWPM(ltm, oSubTPM, poProcessedList, pnLevel - 1, contentType);
 
                     // Add the subWPM to the WPM structure
                     clsMeshTools.createAssociationSecondary(oRetVal, 1, oSubWPM, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASPART, false);

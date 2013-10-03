@@ -194,7 +194,7 @@ public class clsGoalAlgorithmTools {
 
 		//Get the previous action
 		clsWordPresentationMesh oPreviousActionMesh = clsMentalSituationTools.getAction(oPreviousMentalSituation);
-		log.debug("Previous action " + oPreviousActionMesh);
+		log.debug("Previous action: " + oPreviousActionMesh);
 		
 		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh));
 		
@@ -305,11 +305,21 @@ public class clsGoalAlgorithmTools {
     }
     
     
+    /**
+     * Apply drive demand on a goal
+     *
+     * @author wendt
+     * @since 03.10.2013 11:47:27
+     *
+     * @param selectableGoal
+     * @param aimOfDrive
+     * @return
+     */
     private static boolean applyAimOfDriveOnGoal(clsWordPresentationMeshSelectableGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
         boolean goalMatch = false;
         
         //1. If the drive is the same
-        if (selectableGoal.getGoalContentIdentifier().equals(aimOfDrive.getGoalContentIdentifier())) {
+        if (selectableGoal.getGoalName().equals(aimOfDrive.getGoalName())) {
             goalMatch=true;
             //2. use the quota of affect of as far as the selectable goal can fulfill it
             if (selectableGoal.getPotentialDriveFulfillmentImportance()<=aimOfDrive.getTotalImportance()) {
@@ -322,10 +332,19 @@ public class clsGoalAlgorithmTools {
         return goalMatch;
     }
     
+    /**
+     * Apply drive demand sort order correction on goal
+     *
+     * @author wendt
+     * @since 03.10.2013 11:47:41
+     *
+     * @param selectableGoal
+     * @param aimOfDrive
+     */
     private static void applyDriveDemandCorrections(clsWordPresentationMeshSelectableGoal selectableGoal, clsWordPresentationMeshAimOfDrive aimOfDrive) {
         //Get the correction for drive aims, which are important due to their order
         double driveOrderCorrection = GoalArrangementTools.getDriveDemandCorrectionFactorFromDriveOrder(aimOfDrive);
-        selectableGoal.setDriveDemandImportance(driveOrderCorrection);
+        selectableGoal.setDriveDemandCorrectionImportance(driveOrderCorrection);
     }
     
     

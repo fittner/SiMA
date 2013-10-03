@@ -7,6 +7,7 @@
 package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
+
 import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsAssociationEmotion;
@@ -243,7 +244,7 @@ public class clsImportanceTools {
 	 * @return
 	 * @throws Exception 
 	 */
-	public static ArrayList<clsWordPresentationMeshSelectableGoal> getSelectableGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, boolean pbKeepDuplicates) {
+	public static ArrayList<clsWordPresentationMeshSelectableGoal> getSelectableGoalsFromWPM(clsWordPresentationMesh poImage, eGoalType poGoalType, clsWordPresentationMesh poSupportiveDataStructure, boolean pbKeepDuplicates) throws Exception {
 		ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
@@ -263,7 +264,18 @@ public class clsImportanceTools {
 			//Get the drive object
 			//clsWordPresentationMesh oGoalObject = (clsWordPresentationMesh) oAssSec.getRootElement();
 			
-			selectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(selectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
+			if (poSupportiveDataStructure.isNullObject()==true) {
+			    if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
+			        selectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(selectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
+			    } else {
+			        throw new Exception("Cannot create supportive data structure");
+			    }
+			    
+			} else {
+			    selectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
+			}
+						
+			
 			
 			selectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			

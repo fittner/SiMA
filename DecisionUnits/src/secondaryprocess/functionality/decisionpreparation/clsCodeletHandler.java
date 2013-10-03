@@ -276,7 +276,7 @@ public class clsCodeletHandler {
 		ArrayList<E> oResult = new ArrayList<E>();
 		
 		ArrayList<clsPair<Double, E>> oUnsortList = new ArrayList<clsPair<Double, E>>();
-		ArrayList<clsPair<Double, E>> oSortList = new ArrayList<clsPair<Double, E>>();
+		//ArrayList<clsPair<Double, E>> oSortList = new ArrayList<clsPair<Double, E>>();
 		
 		for (E oCodelet : poInput) {
 			double rMatch = oCodelet.checkMatchingPreconditions(poGoal);
@@ -363,11 +363,11 @@ public class clsCodeletHandler {
 			oCList = this.getMatchingConsequenceCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute conseqeunce codelets: ";
 		} else if (poCodeletType.equals(eCodeletType.INIT)) {
-			oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
+		    oCList = this.getMatchingInitCodelets(poTheExecutingObject, poGoal);
 			oTypeString = "Execute init codelets: ";
 		}
 		
-		//log.debug(oTypeString + oCList.toString());
+		log.trace(oTypeString + oCList.toString());
 		this.executeCodeletListOnGoal(oCList, poGoal, pnNumberOfExecutions);
 	}
 	

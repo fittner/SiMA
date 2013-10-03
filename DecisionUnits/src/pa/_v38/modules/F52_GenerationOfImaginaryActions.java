@@ -6,6 +6,8 @@
  */
 package pa._v38.modules;
 
+import general.datamanipulation.PrintTools;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -15,7 +17,6 @@ import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -43,8 +44,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/** Specialized Logger for this class */
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
-	private static final boolean m_bUseDraftPlanning = false;
-	private static final boolean m_bPrintDebugOutput = false;
+//	private static final boolean m_bUseDraftPlanning = false;
+//	private static final boolean m_bPrintDebugOutput = false;
 
 	// HZ Not used up to now 16.03.2011
 	private ArrayList<clsWordPresentationMeshSelectableGoal> moGoalList_IN;
@@ -53,7 +54,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 21:25:26 */
 	//private ArrayList<clsPrediction> moExtractedPrediction_IN;
 
-	private clsWordPresentationMesh moPerceptionalMesh_IN;
+//	private clsWordPresentationMesh moPerceptionalMesh_IN;
 	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
 	
 	private ArrayList<String> moTEMPWriteLastActions = new ArrayList<String>();
@@ -61,8 +62,8 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	//private clsCodeletHandler moCodeletHandler;
 	private clsDecisionEngine moDecisionEngine;
 	
-	private ArrayList<clsWordPresentationMesh> moMotilityActions_IN;
-	private ArrayList<clsWordPresentationMesh> moImaginaryActions_IN;
+//	private ArrayList<clsWordPresentationMesh> moMotilityActions_IN;
+//	private ArrayList<clsWordPresentationMesh> moImaginaryActions_IN;
 
 	/** Associated memories out */
 	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
@@ -217,7 +218,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 		    moGoalList_OUT = moGoalList_IN;
 		    
 			//--- System printout of all important action dates ---//
-			log.info("\n=====================\nActions added to the goals " + moGoalList_OUT.toString() + "\n===============================");
+			log.info("\n=============================\nActions added to the goals " + PrintTools.printArrayListWithLineBreaks(moGoalList_OUT) + "\n=============================");
 			//System.out.println("\nGoal: " +moGoalList_IN.toString() + "; Preconditions: " + clsGoalTools.getTaskStatus(moGoalList_IN.get(0)).toString() + "; Action: " + moPlans_Output.toString());
 			//System.out.println("Environmental Storage: " + this.moEnvironmentalImageStorage.toString());
 				

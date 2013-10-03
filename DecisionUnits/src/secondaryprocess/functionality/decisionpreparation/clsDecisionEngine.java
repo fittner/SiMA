@@ -128,16 +128,6 @@ public class clsDecisionEngine {
         clsWordPresentationMeshSelectableGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
         log.debug("Previous goal from STM: " + oPreviousGoal);
         
-//        try {
-//            oContinuedGoal = (clsWordPresentationMeshGoal) oPreviousGoal.clone();
-//        } catch (CloneNotSupportedException e) {
-//            // TODO (wendt) - Auto-generated catch block
-//            e.printStackTrace();
-//        }
-        
-        //Get the new continued goal
-        //this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
-        
         if (oPreviousGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
             oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
             if (oContinuedGoal.isNullObject()==false) {
@@ -150,17 +140,6 @@ public class clsDecisionEngine {
                 oContinuedGoal.setCondition(eCondition.IS_UNPROCESSED_GOAL);
             }
         }
-        
-        
-
-        
-//        //Get the current incoming goal, which correpsonds to the last goal
-//        clsWordPresentationMeshGoal oResult = clsDecisionPreparationTools.getContinuedGoal(poSTM, poGoalList);
-//        if (oResult.isNullObject()==false) {
-//            
-//            //Set new continued goal
-//            oResult.setCondition(eCondition.IS_CONTINUED_GOAL);
-//        }
         
         log.trace("Continued goal: " + oContinuedGoal);
         

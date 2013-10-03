@@ -337,7 +337,11 @@ public class clsGoalManipulationTools {
 		ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
 		
 		//Get all possibly reachable drivegoals
-		oRetVal = clsImportanceTools.getSelectableGoalsFromWPM(poImage, eGoalType.PERCEPTIONALDRIVE, true);	//Only in one image
+		try {
+            oRetVal = clsImportanceTools.getSelectableGoalsFromWPM(poImage, eGoalType.PERCEPTIONALDRIVE, clsMeshTools.getNullObjectWPM(), true);
+        } catch (Exception e) {
+            log.error("Could not extract goal from perception", e);
+        }	//Only in one image
 		
 		return oRetVal;
 	}
@@ -358,7 +362,11 @@ public class clsGoalManipulationTools {
 		clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(poAct);
 		
 		//Get all possibly reachable drivegoals from the intention
-		oRetVal.addAll(clsImportanceTools.getSelectableGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, true));	//Only in one image
+		try {
+            oRetVal.addAll(clsImportanceTools.getSelectableGoalsFromWPM(oIntention, eGoalType.MEMORYDRIVE, poAct, true));
+        } catch (Exception e) {
+            log.error("Could not extract goals from act", e);
+        }	//Only in one image
 		
 		//Get all possible feelinggoals from the act
 		oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image

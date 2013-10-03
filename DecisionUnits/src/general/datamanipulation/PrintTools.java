@@ -8,8 +8,6 @@ package general.datamanipulation;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-
 /**
  * DOCUMENT (wendt) - insert description 
  * 
@@ -18,12 +16,13 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public class PrintTools {
-    public static String printReducedImageList(ArrayList<clsWordPresentationMesh> images) {
+    public static <E extends Object> String printArrayListWithLineBreaks(ArrayList<E> images) {
         String result ="";
         
-        for (clsWordPresentationMesh i: images) {
-            result += i.getMoContent();
-            result += "; ";
+        for (E i: images) {
+            result += "\n   ";
+            result += i.toString();
+            
         }
         
         return result;

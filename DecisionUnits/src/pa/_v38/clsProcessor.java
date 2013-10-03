@@ -338,13 +338,13 @@ public class clsProcessor implements itfProcessor  {
 		//decision making
 		moPsyApp.moF26_DecisionMaking.step();
 		moPsyApp.moF52_GenerationOfImaginaryActions.step(); 
-			
-		//fantasy
-		moPsyApp.moF47_ConversionToPrimaryProcess.step();
-		
+					
 		//evaluation and pre-execution
 		moPsyApp.moF53_RealityCheckActionPlanning.step(); 
 		moPsyApp.moF29_EvaluationOfImaginaryActions.step();
+	      //fantasy
+        moPsyApp.moF47_ConversionToPrimaryProcess.step();
+        
 		moPsyApp.moF30_MotilityControl.step();
 		
 		//BODY --------------------------------------------- 

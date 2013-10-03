@@ -36,6 +36,7 @@ public class GeneralSortingTools {
     
     public static <E extends Object> ArrayList<E> sortAndFilterRatedStructures(ArrayList<clsPair<Double, E>> poInput, int pnNumberOfAllowedObjects) {
         ArrayList<clsPair<Double, E>> oResult = new ArrayList<clsPair<Double, E>>();
+        ArrayList<clsPair<Double, E>> oReducedResultSortList = new ArrayList<clsPair<Double, E>>();
         
         for (clsPair<Double, E> oP : poInput) {
             int nIndex = 0;
@@ -47,13 +48,22 @@ public class GeneralSortingTools {
             }
             
             oResult.add(nIndex, oP);
-            
-            if (pnNumberOfAllowedObjects!=-1 && oResult.size()==pnNumberOfAllowedObjects) {
-                break;
-            }
         }
         
-        ArrayList<E> reducedResult = convertSortListToList(oResult);
+        if (pnNumberOfAllowedObjects>0) {
+            for (int i=0; i<oResult.size(); i++) {
+                if (i<pnNumberOfAllowedObjects) {
+                    oReducedResultSortList.add(oResult.get(i));
+                } else {
+                    break;
+                }
+                
+            }
+        } else {
+            oReducedResultSortList.addAll(oResult);
+        }
+        
+        ArrayList<E> reducedResult = convertSortListToList(oReducedResultSortList);
         
         return reducedResult;
     }

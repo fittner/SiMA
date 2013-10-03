@@ -20,7 +20,9 @@ import pa._v38.interfaces.modules.I6_2_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
+import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -56,6 +58,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
 	private final  DT3_PsychicEnergyStorage moPsychicEnergyStorage;
+	
+	private String moTEMPDecisionString = "";
 	
     /**
      * DOCUMENT (perner) - insert description
@@ -97,6 +101,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         text += toText.listToTEXT("moSelectableGoals", moSelectableGoals);
         text += toText.valueToTEXT("moActionCommand", moActionCommand);
         text += toText.listToTEXT("moAnxiety_Input", moAnxiety_Input);
+        text += toText.valueToTEXT("CURRENT DECISION", this.moTEMPDecisionString);
         text += toText.listToTEXT("Goals and actions", moTEMPWriteLastActions);
 
         return text;
@@ -197,7 +202,8 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
         //Select the best goal
         clsWordPresentationMeshSelectableGoal planGoal = GoalHandlingFunctionality.selectPlanGoal(moSelectableGoals);
-        log.info("Selected plan goal: {}", planGoal);
+        log.info("\n=======================\nDecided goal: " + planGoal + "\nSUPPORTIVE DATASTRUCTURE: " + planGoal.getSupportiveDataStructure().toString() + "\n==============================");
+        this.moTEMPDecisionString = setDecisionString(planGoal);
         
         //Get action command from goal
         try {
@@ -205,13 +211,15 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
             log.info("Selected Action: {}", moActionCommand);
         } catch (Exception e) {
             log.error("", e);
-        }      
+        }  
         
     	//Goal to STM
         ShortTermMemoryFunctionality.addGoalToMentalSituation(planGoal, this.moShortTermMemory);
         //Add action
         ShortTermMemoryFunctionality.addActionToMentalSituation(this.moShortTermMemory, moActionCommand);
         
+        //Add text to inspector
+        addTextToLastActionsTextSequence(moActionCommand, planGoal);
         
         
 //        //=== TEST ONLY ONE ACTION === //
@@ -229,10 +237,24 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         //Get the last 10 goals and actions for the inspector
 //        clsWordPresentationMesh oCurrentMentalSituation = this.moShortTermMemory.findCurrentSingleMemory();
 //        clsWordPresentationMesh oGoal = clsMentalSituationTools.getGoal(oCurrentMentalSituation);
+        
+
+    }
+    
+    /**
+     * Create an inspector entry with running text
+     *
+     * @author wendt
+     * @since 03.10.2013 14:33:06
+     *
+     * @param actionMesh
+     * @param planGoal
+     */
+    private void addTextToLastActionsTextSequence(clsWordPresentationMesh actionMesh, clsWordPresentationMeshSelectableGoal planGoal) {
         String oAction = "NONE";
         
         //if (moGoalList_OUT.isEmpty()==false) {
-        oAction = moActionCommand.getMoContent();
+        oAction = actionMesh.getMoContent();
         //}
         
         if (moTEMPWriteLastActions.size()==10) {
@@ -243,7 +265,72 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         Calendar oCal = Calendar.getInstance();
         SimpleDateFormat oDateFormat = new SimpleDateFormat("HH:mm:ss");
         moTEMPWriteLastActions.add(oDateFormat.format(oCal.getTime()) + "> " + "Goal: " + planGoal.getMoContent().toString() + "; Action: " + oAction);
-
+    }
+    
+    /**
+     * Create a string to list the selected action
+     *
+     * @author wendt
+     * @since 03.10.2013 14:28:22
+     *
+     * @param poDecidedGoal
+     * @return
+     */
+    private String setDecisionString(clsWordPresentationMeshGoal poDecidedGoal) {
+        String oResult = "";
+        
+        //Get the Goal String
+        String oGoalString = poDecidedGoal.getGoalName();
+        
+        //Get the goal object
+        String oGoalObjectString = poDecidedGoal.getGoalObject().toString();
+        
+        //Get the Goal source
+        String oGoalSource = "NONE"; 
+        if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
+            oGoalSource = "DRIVES (Drive goal not found in perception or acts)";
+        } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+            oGoalSource = "ACT";
+        } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+            oGoalSource = "PERCEPTION";
+        }
+        
+        //Get the AffectLevel
+        String oAffectLevel = String.valueOf(poDecidedGoal.getTotalImportance()); 
+        //eAffectLevel.convertQuotaOfAffectToAffectLevel(clsGoalTools.getAffectLevel(poDecidedGoal)).toString();
+        
+        //Get Conditions
+        String oGoalConditions = "";
+        ArrayList<eCondition> oConditionList = poDecidedGoal.getCondition();
+        for (eCondition oC : oConditionList) {
+            oGoalConditions += oC.toString() + "; ";
+        }               
+        
+        //Get the Supportive DataStructure
+        String oSupportiveDataStructureString = "";
+        if (poDecidedGoal.checkIfConditionExists(eCondition.IS_DRIVE_SOURCE)) {
+            oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
+        } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {
+            oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString(); 
+        } else if (poDecidedGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)) {
+            oSupportiveDataStructureString = poDecidedGoal.getSupportiveDataStructure().toString();
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        //Set the current decision string
+        sb.append("============================================================================================\n");
+        sb.append("[GOAL NAME]\n   " + oGoalString + "\n\n");
+        sb.append("[GOAL OBJECT]\n   " + oGoalObjectString + "\n\n");
+        sb.append("[GOAL SOURCE]\n   " + oGoalSource + "\n\n");
+        sb.append("[IMPORTANCE/PLEASURELEVEL]\n   " + oAffectLevel + "\n\n");
+        sb.append("[GOAL CONDITIONS]\n   " + oGoalConditions + "\n\n");
+        sb.append("[SUPPORTIVE DATASTRUCTURE]\n   " + oSupportiveDataStructureString + "\n");
+        sb.append("============================================================================================\n");
+        
+        oResult = sb.toString();
+        
+        return oResult;
     }
     
 
@@ -271,6 +358,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
     @Override
     public void send_I6_11(clsWordPresentationMesh poActionCommands) {
         ((I6_11_receive) moModuleList.get(30)).receive_I6_11(poActionCommands);
+        ((I6_11_receive) moModuleList.get(47)).receive_I6_11(poActionCommands);
         //((I6_11_receive) moModuleList.get(52)).receive_I6_11(poActionCommands);
 
         putInterfaceData(I6_11_send.class, poActionCommands);

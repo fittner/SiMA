@@ -88,7 +88,7 @@ public class GoalHandlingFunctionality {
      * @param poRuleList
      */
     public static void applySocialRulesOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsAct> poRuleList) {
-        //TODO Implement this method
+        //TODO FG and/or SSch!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
     }
     
     /**

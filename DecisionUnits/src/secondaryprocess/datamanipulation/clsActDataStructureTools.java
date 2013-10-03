@@ -8,6 +8,8 @@ package secondaryprocess.datamanipulation;
 
 import java.util.ArrayList;
 
+import org.apache.log4j.Logger;
+
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
@@ -25,6 +27,8 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 
  */
 public class clsActDataStructureTools {
+    
+    private static Logger log = Logger.getLogger("Acts");
 	
 	/**
 	 * Create a new supportive data structure for acts
