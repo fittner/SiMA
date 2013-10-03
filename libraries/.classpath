@@ -10,7 +10,7 @@
 	<classpathentry kind="lib" path="jgraphx.jar"/>
 	<classpathentry kind="lib" path="jmf.jar"/>
 	<classpathentry kind="lib" path="l2fprod-common-all.jar"/>
-	<classpathentry kind="lib" path="mason_physics2D.jar" sourcepath="S:/MASON/MasonPhysics2D"/>
+	<classpathentry kind="lib" path="mason_physics2D.jar"/>
 	<classpathentry kind="lib" path="mason.jar"/>
 	<classpathentry kind="lib" path="mockito-all-1.9.5-rc1.jar"/>
 	<classpathentry kind="lib" path="protegeAPI.jar"/>
