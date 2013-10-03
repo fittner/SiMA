@@ -19,8 +19,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.interfaces.itfSearchSpaceAccess;
 import pa._v38.memorymgmt.longtermmemory.psychicspreadactivation.clsPsychicSpreadActivationNode;
-import system.datamanipulation.clsImportanceTools;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsImportanceTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
 
 /**

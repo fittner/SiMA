@@ -8,7 +8,7 @@ package pa._v38.interfaces.modules;
 
 import java.util.ArrayList;
 
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 
 /**
  * This interface distributes the drive wishes produced by module F8 to the modules F23 and F26.
@@ -18,5 +18,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
  * 
  */
 public interface I6_3_send {
-	public void send_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList);
+	public void send_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList);
 }

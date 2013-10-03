@@ -39,8 +39,8 @@ import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceBase;
 import pa._v38.memorymgmt.framessearchspace.clsSearchSpaceHandler;
 import pa._v38.memorymgmt.old.eDataStructureMatch;
-import system.datamanipulation.clsMeshTools;
-import system.datamanipulation.clsPrimarySpatialTools;
+import primaryprocess.datamanipulation.clsPrimarySpatialTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 import testfunctions.clsTester;
 
 /**

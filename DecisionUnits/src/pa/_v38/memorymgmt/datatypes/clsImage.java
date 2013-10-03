@@ -6,9 +6,9 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
-import system.algorithm.planningHelpers.eDirection;
-import system.algorithm.planningHelpers.eDistance;
-import system.algorithm.planningHelpers.eEntity;
+import secondaryprocess.algorithm.planningHelpers.eDirection;
+import secondaryprocess.algorithm.planningHelpers.eDistance;
+import secondaryprocess.algorithm.planningHelpers.eEntity;
 
 
 

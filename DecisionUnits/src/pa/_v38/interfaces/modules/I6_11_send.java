@@ -6,8 +6,6 @@
  */
 package pa._v38.interfaces.modules;
 
-import java.util.ArrayList;
-
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 
 /**
@@ -18,5 +16,5 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 
  */
 public interface I6_11_send {
-	public void send_I6_11(ArrayList<clsWordPresentationMesh> poActionCommands);
+	public void send_I6_11(clsWordPresentationMesh poActionCommands);
 }

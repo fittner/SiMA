@@ -18,10 +18,10 @@ import pa._v38.memorymgmt.enums.ePhiPosition;
 import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.enums.eRadius;
 import pa._v38.tools.ElementNotFoundException;
-import system.datamanipulation.clsActDataStructureTools;
-import system.datamanipulation.clsActTools;
-import system.datamanipulation.clsEntityTools;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsActDataStructureTools;
+import secondaryprocess.datamanipulation.clsActTools;
+import secondaryprocess.datamanipulation.clsEntityTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 
@@ -321,13 +321,17 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 					double rPIMatch = clsActTools.getPIMatchFlag(this);
 					oResult += "(PIMatch=" + rPIMatch + 
 					")(MomConf=" + clsActTools.getMomentConfidenceLevel(this) + 
-					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");"; 
+					")(Timeout=" + clsActTools.getMovementTimeoutValue(this) + ");";
+					oResult += "\nACTION: " + clsActTools.getRecommendedAction(this);
 				} else {  
 					oResult += this.moContentType + ":" + this.moContent;
 					if (this.moInternalAssociatedContent.isEmpty()==false) {
 						oResult += "\nINT ASS: ";
 						for (clsAssociation oEntry : this.moInternalAssociatedContent) {
-							oResult += oEntry.getLeafElement().toString() + ";";
+							if (oEntry instanceof clsAssociationWordPresentation) {
+							    oResult += "\nTPM part:";
+							}
+						    oResult += oEntry.getLeafElement().toString() + ";";
 						}
 					}
 					

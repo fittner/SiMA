@@ -12,7 +12,7 @@ import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
 import pa._v38.memorymgmt.enums.ePhiPosition;
-import system.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 

@@ -8,7 +8,7 @@ package pa._v38.memorymgmt.datatypes;
 
 import java.util.ArrayList;
 
-import system.algorithm.planningHelpers.PlanningNode;
+import secondaryprocess.algorithm.planningHelpers.PlanningNode;
 
 /**
  * DOCUMENT (perner) - insert description

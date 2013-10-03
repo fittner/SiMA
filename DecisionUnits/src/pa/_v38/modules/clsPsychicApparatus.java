@@ -24,8 +24,8 @@ import pa._v38.memorymgmt.storage.DT1_PsychicIntensityBuffer;
 import pa._v38.memorymgmt.storage.DT2_BlockedContentStorage;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.memorymgmt.storage.DT4_PleasureStorage;
+import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 import statictools.clsGetARSPath;
-import system.functionality.decisionpreparation.clsDecisionEngine;
 import testfunctions.clsTester;
 
 /**

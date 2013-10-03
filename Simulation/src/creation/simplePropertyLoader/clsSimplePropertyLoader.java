@@ -232,7 +232,7 @@ public class clsSimplePropertyLoader extends clsLoader {
 		oProp.putAll( students.lifeCycle.JAM.clsLynxMind.getDefaultProperties		(pre+eDecisionType.LYNX_JAM.name()) );
 		oProp.putAll( students.lifeCycle.IfThenElse.clsLynxMind.getDefaultProperties(pre+eDecisionType.LYNX_IFTHENELSE.name()) );
 		oProp.putAll( pa.clsPsychoAnalysis.getDefaultProperties						(pre+eDecisionType.PA.name()) );
-		oProp.putAll( testbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
+		oProp.putAll( MOVEOUTOFPROJECTtestbrains.clsActionlessTestPA.getDefaultProperties			(pre+eDecisionType.ActionlessTestPA.name()) );
 		oProp.putAll( testbrains.clsSpeechlessTestPA.getDefaultProperties           (pre+eDecisionType.SpeechlessTestPA.name()) );
 	      
 		return oProp;

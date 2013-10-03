@@ -43,7 +43,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
         
         double nResult = 0;
         
-        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASIMPORTANCE);
+        String oFeelingParameter = this.getUniqueProperty(ePredicate.HASINTENSITY);
         
         if (oFeelingParameter.isEmpty()==false) {
             nResult = Double.valueOf(oFeelingParameter);
@@ -53,7 +53,7 @@ public class clsWordPresentationMeshFeeling extends clsWordPresentationMesh {
     }
     
     public void setIntensity(double poIntensity){
-        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.IMPORTANCE, ePredicate.HASIMPORTANCE, true);
+        this.setUniqueProperty(String.valueOf(poIntensity), eContentType.INTENSITY, ePredicate.HASINTENSITY, true);
     }
     
     public double getLibido(){
