@@ -25,11 +25,13 @@ import java.util.ArrayList;
 
 
 
+
 import org.slf4j.Logger;
 
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -118,7 +120,7 @@ public class clsDecisionEngine {
         this.moCodeletHandler.executeMatchingCodelets(this, poGoal, eCodeletType.INIT, -1);
     }
     
-    public clsWordPresentationMeshSelectableGoal initContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory poSTM) throws ElementNotFoundException {
+    public clsWordPresentationMeshSelectableGoal initContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) throws ElementNotFoundException {
         
         clsWordPresentationMeshSelectableGoal oContinuedGoal = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         

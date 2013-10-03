@@ -59,12 +59,19 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
      * @return
      */
     public ArrayList<clsWordPresentationMeshFeeling> getFeelings() {
-        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
+        ArrayList<clsWordPresentationMesh> oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);;
     
-        oRetVal = this.getNonUniquePropertyWPM(ePredicate.HASFEELING);
+        ArrayList<clsWordPresentationMeshFeeling> result = new ArrayList<clsWordPresentationMeshFeeling>();
         
+        for (clsWordPresentationMesh wpm : oRetVal) {
+            if (wpm instanceof clsWordPresentationMeshFeeling) {
+                result.add((clsWordPresentationMeshFeeling) wpm);
+            } else {
+                throw new ClassCastException("This structure is no valid class for this association " + wpm);
+            }
+        }
     
-        return oRetVal;
+        return result;
     }
     
     /**

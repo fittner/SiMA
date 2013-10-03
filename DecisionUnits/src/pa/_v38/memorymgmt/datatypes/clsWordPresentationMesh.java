@@ -33,6 +33,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 
 	//private String moContent = "UNDEFINED";
+    private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -51,20 +52,34 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		// TODO (wendt) - Auto-generated constructor stub
 	}
+    
+    
+    /**
+     * @since 05.07.2012 22:04:13
+     * 
+     * @return the moNullObjectWPM
+     */
+    public static clsWordPresentationMesh getNullObjectWPM() {
+        return moNullObjectWPM;
+    }
+    
+    /**
+     * Create an instance of this type
+     *
+     * @author wendt
+     * @since 03.10.2013 15:13:41
+     *
+     * @return
+     */
+    public static clsWordPresentationMesh createInstance(eContentType contentType, String content) {
+        //Create identifiyer. All goals must have the content type "MENTALSITUATION"
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, contentType);
+        
+        //Create the basic goal structure
+        clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), content);    //Here the current step could be used
 
-//	public String getMoContent() {
-//		return moContent;
-//	}
-//
-//	/**
-//	 * @author zeilinger
-//	 * 17.03.2011, 00:52:49
-//	 * 
-//	 * @param moContent the moContent to set
-//	 */
-//	public void setMoContent(String moContent) {
-//		this.moContent = moContent;
-//	}
+        return oRetVal;
+    }
 	
 	/**
 	 * DOCUMENT (zeilinger) - insert description
@@ -1009,8 +1024,8 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * @param oContentType
      * @return
      */
-    protected ArrayList<clsWordPresentationMeshFeeling> getNonUniquePropertyWPM(ePredicate oPredicate) {
-        ArrayList<clsWordPresentationMeshFeeling> oRetVal = new ArrayList<clsWordPresentationMeshFeeling>();
+    protected ArrayList<clsWordPresentationMesh> getNonUniquePropertyWPM(ePredicate oPredicate) {
+        ArrayList<clsWordPresentationMesh> oRetVal = new ArrayList<clsWordPresentationMesh>();
     
         ArrayList<clsSecondaryDataStructure> oDS = this.moAssociationMapping.get(oPredicate);
         

@@ -17,6 +17,7 @@ import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
@@ -186,7 +187,7 @@ public class clsGoalAlgorithmTools {
 	 * @param poContinuedGoal
 	 * @param poSTM
 	 */
-	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoal, clsShortTermMemory poSTM) {
+	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) {
 		//eCondition oActionCondition = eCondition.EXECUTED_NONE;
 		
 		//--- GET PREVIOUS MENTAL SITUATION ---//

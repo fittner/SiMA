@@ -32,7 +32,7 @@ import secondaryprocess.datamanipulation.clsSecondarySpatialTools;
  * 17.07.2012, 14:23:05
  * 
  */
-public class clsEnvironmentalImageMemory extends clsShortTermMemory implements itfGraphData, itfInspectorInternalState{
+public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPresentationMesh> implements itfGraphData, itfInspectorInternalState{
 
 	private final clsWordPresentationMesh moEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENVIRONMENTALIMAGE, eContent.ENVIRONMENTALIMAGE.toString());
 	private final clsWordPresentationMesh moEnhancedEnvironmentalImage = clsMeshTools.createWPMImage(new ArrayList<clsSecondaryDataStructure>(), eContentType.ENHANCEDENVIRONMENTALIMAGE, eContent.ENHANCEDENVIRONMENTALIMAGE.toString());

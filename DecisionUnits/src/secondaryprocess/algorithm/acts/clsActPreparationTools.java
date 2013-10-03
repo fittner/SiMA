@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
@@ -49,7 +50,7 @@ public class clsActPreparationTools {
 	 * @param poPreviousAct
 	 * @return
 	 */
-	public static ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsShortTermMemory poSTM) {
+	public static ArrayList<eCondition> performBasicActAnalysis(clsWordPresentationMesh poAct, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) {
 		ArrayList<eCondition> oResult = new ArrayList<eCondition>();
 		
 		log.debug("Perform basic act analysis on: " + poAct.toString());

@@ -16,6 +16,7 @@ import pa._v38.memorymgmt.datatypes.clsAssociation;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
@@ -45,7 +46,7 @@ public class ShortTermMemoryFunctionality {
      * @param poGoal
      * @param stm
      */
-    public static void addGoalToMentalSituation(clsWordPresentationMeshGoal poGoal, clsShortTermMemory stm) {
+    public static void addGoalToMentalSituation(clsWordPresentationMeshGoal poGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         //get the ref of the current mental situation
         clsWordPresentationMesh oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
@@ -61,7 +62,7 @@ public class ShortTermMemoryFunctionality {
      * @param stm
      * @param poAction
      */
-    public static void addActionToMentalSituation(clsShortTermMemory stm, clsWordPresentationMesh poAction) {
+    public static void addActionToMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm, clsWordPresentationMesh poAction) {
         //get the ref of the current mental situation
         clsWordPresentationMesh oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
@@ -90,7 +91,7 @@ public class ShortTermMemoryFunctionality {
      *
      * @return
      */
-    public static clsWordPresentationMesh extractPlannedActionFromSTM(clsShortTermMemory stm) {
+    public static clsWordPresentationMesh extractPlannedActionFromSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         clsWordPresentationMesh oRetVal = null;
         
         clsWordPresentationMesh oLastMentalImage = stm.findPreviousSingleMemory();
@@ -137,7 +138,7 @@ public class ShortTermMemoryFunctionality {
      *
      * @param poGoalList
      */
-    public static void addNonReachableGoalsToSTM(clsShortTermMemory shortTermMemory, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
+    public static void addNonReachableGoalsToSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
         for (clsWordPresentationMeshGoal oGoal : poGoalList) {
             if (oGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
                 clsWordPresentationMesh oMentalSituation = shortTermMemory.findCurrentSingleMemory();

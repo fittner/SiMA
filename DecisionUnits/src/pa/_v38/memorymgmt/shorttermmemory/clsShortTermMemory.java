@@ -12,7 +12,6 @@ import datatypes.helpstructures.clsPair;
 import pa._v38.interfaces.itfGraphData;
 import pa._v38.interfaces.itfInspectorInternalState;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * This is a short time memory, which is used in the secondary process. 
@@ -21,16 +20,16 @@ import secondaryprocess.datamanipulation.clsMeshTools;
  * 31.08.2011, 07:12:10
  * 
  */
-public class clsShortTermMemory implements itfGraphData,itfInspectorInternalState{
+public class clsShortTermMemory<T> implements itfGraphData,itfInspectorInternalState {
 	/** The variable for the short time memory */
-	protected ArrayList<clsPair<Integer, clsWordPresentationMesh>> moShortTimeMemory;
+	protected ArrayList<clsPair<Integer, T>> moShortTimeMemory;
 	
 	/** A value for how long content is saved in the short time memory */
 	protected int mnMaxTimeValue; // = 60;
 	/** Number of objects, which can be saved in the short time memory */
 	protected int mnMaxMemorySize; // = 7;
 
-	protected clsPair<Integer, clsWordPresentationMesh> moNullMemoryObjectWPM;
+	protected clsPair<Integer, T> moNullMemoryObjectWPM;
 	
 	/**
 	 * Constructor, Init short time Memory with an empty arraylist
@@ -43,11 +42,11 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 */
 	public clsShortTermMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
-		moShortTimeMemory = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		moShortTimeMemory = new ArrayList<clsPair<Integer, T>>();
 		mnMaxTimeValue = pnMaxTimeValue;
 		mnMaxMemorySize = pnMaxMemorySize;
 		
-		moNullMemoryObjectWPM = new clsPair<Integer, clsWordPresentationMesh>(-1, clsMeshTools.getNullObjectWPM());
+		moNullMemoryObjectWPM = new clsPair<Integer, T>(-1, (T) clsWordPresentationMesh.getNullObjectWPM());
 		
 	}
 	
@@ -56,7 +55,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 * 
 	 * @return the moShortTimeMemory
 	 */
-	public ArrayList<clsPair<Integer, clsWordPresentationMesh>> getMoShortTimeMemory() {
+	public ArrayList<clsPair<Integer, T>> getMoShortTimeMemory() {
 		return moShortTimeMemory;
 	}
 	
@@ -67,8 +66,8 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 */
 	public void updateTimeSteps() {
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oRemoveObjects = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
-		for (clsPair<Integer, clsWordPresentationMesh> oSingleMemory : moShortTimeMemory) {
+		ArrayList<clsPair<Integer, T>> oRemoveObjects = new ArrayList<clsPair<Integer, T>>();
+		for (clsPair<Integer, T> oSingleMemory : moShortTimeMemory) {
 			//Update the step count
 			oSingleMemory.a++;
 			//Remove memories, which are too old and haven´t been transferred to the long time memory
@@ -77,7 +76,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 			}
 		}
 		//Remove the overdue objects
-		for (clsPair<Integer, clsWordPresentationMesh> oSingleRemoveObject : oRemoveObjects) {
+		for (clsPair<Integer, T> oSingleRemoveObject : oRemoveObjects) {
 			removeMemory(oSingleRemoveObject);
 		}
 	}
@@ -90,7 +89,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @param poRemoveMemory
 	 */
-	protected void removeMemory(clsPair<Integer, clsWordPresentationMesh> poRemoveMemory) {
+	protected void removeMemory(clsPair<Integer, T> poRemoveMemory) {
 		moShortTimeMemory.remove(poRemoveMemory);
 	}
 	
@@ -103,8 +102,8 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @param poRemoveMemory
 	 */
-	protected void removeMemory(clsWordPresentationMesh poRemoveMemory) {
-		clsPair<Integer, clsWordPresentationMesh> oRemoveMemoryEntry = this.findMemory(poRemoveMemory);
+	protected void removeMemory(T poRemoveMemory) {
+		clsPair<Integer, T> oRemoveMemoryEntry = this.findMemory(poRemoveMemory);
 		
 		moShortTimeMemory.remove(oRemoveMemoryEntry);
 	}
@@ -117,7 +116,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @param poRemoveMemory
 	 */
-	private void addMemory(clsPair<Integer, clsWordPresentationMesh> poAddMemory) {
+	private void addMemory(clsPair<Integer, T> poAddMemory) {
 		moShortTimeMemory.add(poAddMemory);
 	}
 	
@@ -129,7 +128,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @param poInput
 	 */
-	public void saveToShortTimeMemory(clsWordPresentationMesh poInput) {
+	public void saveToShortTimeMemory(T poInput) {
 		saveToShortTimeMemory(poInput, false);
 	}
 	
@@ -142,11 +141,11 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @param poInput
 	 */
-	public void saveToShortTimeMemory(clsWordPresentationMesh poInput, boolean forceSave) {
+	public void saveToShortTimeMemory(T poInput, boolean forceSave) {
 		//save only if this moID is not already saved
 		
 		//Check if this memory already exists
-		clsPair<Integer, clsWordPresentationMesh> oFoundMemory  = findMemory(poInput);
+		clsPair<Integer, T> oFoundMemory  = findMemory(poInput);
 		//Memory found and forced save true
 		if ((oFoundMemory!=null) && (forceSave==true)) {
 			//Here, the memory is replaced by the new memory, which may have some changed values
@@ -154,8 +153,8 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 				removeMemory(oFoundMemory);
 				oFoundMemory.a = 0;
 				oFoundMemory.b = poInput;
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
-				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
+				T oAddPair = (T) poInput;
+				addMemory(new clsPair<Integer, T>(0, oAddPair));
 				
 				
 			//} catch (CloneNotSupportedException e) {
@@ -165,19 +164,19 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 		//If there is free space in the short time memory, add the new memory
 		} else if (moShortTimeMemory.size()<mnMaxMemorySize) {
 			//try {
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
-				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
+				T oAddPair = (T) poInput;
+				addMemory(new clsPair<Integer, T>(0, oAddPair));
 			//} catch (CloneNotSupportedException e) {
 				// TODO (wendt) - Auto-generated catch block
 			//	e.printStackTrace();
 			//}
 		//If there is no space in the short time memory, delete the oldest one
 		} else if (moShortTimeMemory.size()>=mnMaxMemorySize) {
-			clsPair<Integer, clsWordPresentationMesh> oObsoluteMemory = getMostObsoleteMemory();
+			clsPair<Integer, T> oObsoluteMemory = getMostObsoleteMemory();
 			removeMemory(oObsoluteMemory);
 			//try {
-				clsWordPresentationMesh oAddPair = (clsWordPresentationMesh) poInput;
-				addMemory(new clsPair<Integer, clsWordPresentationMesh>(0, oAddPair));
+				T oAddPair = (T) poInput;
+				addMemory(new clsPair<Integer, T>(0, oAddPair));
 			//} catch (CloneNotSupportedException e) {
 			//	// TODO (wendt) - Auto-generated catch block
 			//	e.printStackTrace();
@@ -198,10 +197,10 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 * @param oToBeFound
 	 * @return
 	 */
-	public clsPair<Integer, clsWordPresentationMesh> findMemory(clsWordPresentationMesh oToBeFound) {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;
+	public clsPair<Integer, T> findMemory(T oToBeFound) {
+		clsPair<Integer, T> oRetVal = this.moNullMemoryObjectWPM;
 			
-		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+		for (clsPair<Integer, T> oMemory : moShortTimeMemory) {
 			if (oToBeFound.equals(oMemory.b)) {
 				oRetVal = oMemory;
 				break;
@@ -221,11 +220,11 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 * @param pnStep
 	 * @return
 	 */
-	public ArrayList<clsPair<Integer, clsWordPresentationMesh>> findMemory(int pnStep) {
+	public ArrayList<clsPair<Integer, T>> findMemory(int pnStep) {
 		
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oResult = new ArrayList<clsPair<Integer, clsWordPresentationMesh>>();
+		ArrayList<clsPair<Integer, T>> oResult = new ArrayList<clsPair<Integer, T>>();
 		
-		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+		for (clsPair<Integer, T> oMemory : moShortTimeMemory) {
 			if (oMemory.a == pnStep) {
 				oResult.add(oMemory);
 				break;
@@ -234,10 +233,10 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 		return oResult;
 	}
 	
-	private clsWordPresentationMesh findSingleMemoryFromStep(int pnStep) {
-		clsWordPresentationMesh oResult = clsMeshTools.getNullObjectWPM();
+	private T findSingleMemoryFromStep(int pnStep) {
+		T oResult = (T) clsWordPresentationMesh.getNullObjectWPM();
 		
-		ArrayList<clsPair<Integer, clsWordPresentationMesh>> oMemories = findMemory(pnStep);
+		ArrayList<clsPair<Integer, T>> oMemories = findMemory(pnStep);
 		if (oMemories.isEmpty()==false) {
 			oResult = oMemories.get(0).b;
 		}
@@ -245,132 +244,13 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 		return oResult;	
 	}
 	
-	public clsWordPresentationMesh findPreviousSingleMemory() {
+	public T findPreviousSingleMemory() {
 		return findSingleMemoryFromStep(1);
 	}
 	
-	public clsWordPresentationMesh findCurrentSingleMemory() {
+	public T findCurrentSingleMemory() {
 		return findSingleMemoryFromStep(0);
 	}
-	
-	
-//	/**
-//	 * Find all data in the short time memory, which have a certain datatype
-//	 * (wendt)
-//	 *
-//	 * @since 09.09.2011 21:29:09
-//	 *
-//	 * @param oDataType
-//	 * @return
-//	 */
-//	public ArrayList<clsPair<Integer, Object>> findMemoriesDataType (eSupportDataType oDataType) {
-//		ArrayList<clsPair<Integer, Object>> oRetVal = new ArrayList<clsPair<Integer, Object>>();
-//		
-//		for (clsPair<Integer, Object> oMemoryPair : moShortTimeMemory) {
-//			if ((oDataType == eSupportDataType.CONTAINERPAIR) && (oMemoryPair.b instanceof clsDataStructureContainerPair)) {
-//				oRetVal.add(oMemoryPair);
-//			} else if ((oDataType == eSupportDataType.PREDICTION) && (oMemoryPair.b instanceof clsPrediction)) {
-//				oRetVal.add(oMemoryPair);
-//			} else if ((oDataType == eSupportDataType.MOMENT) && (oMemoryPair.b instanceof clsPrediction)) {
-//				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent()!=null) {
-//					oRetVal.add(oMemoryPair);
-//				}
-//			} else if ((oDataType == eSupportDataType.INTENTION) && (oMemoryPair.b instanceof clsPrediction)) {
-//				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent()!=null) {
-//					oRetVal.add(oMemoryPair);
-//				}
-//			} else if ((oDataType == eSupportDataType.EXPECTATION) && (oMemoryPair.b instanceof clsPrediction)) {
-//				if (((clsPrediction)oMemoryPair.b).getExpectations().isEmpty()==false) {
-//					oRetVal.add(oMemoryPair);
-//				}
-//			}
-//		}
-//		return oRetVal;
-//	}
-	
-//	/**
-//	 * Get all container pairs of a certain classification
-//	 * (wendt)
-//	 *
-//	 * @since 31.08.2011 13:50:56
-//	 *
-//	 * @param oRefCPair
-//	 * @param poAttribute
-//	 * @return
-//	 */
-//	public ArrayList<clsPair<Integer, Object>> findMemoriesClassification(String poClassification) {
-//		ArrayList<clsPair<Integer, Object>> oRetVal = new ArrayList<clsPair<Integer, Object>>();
-//		//Case known Intention
-//		//1. Get Intention
-//		
-//		//2. Check all moments in the short time memory, if the have this intention associated
-//		for (clsPair<Integer, Object> oMemoryPair : moShortTimeMemory) {
-//			
-//			if (oMemoryPair.b instanceof clsDataStructureContainerPair) {
-//				//Check if 1. Attribute is OK
-//				clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsDataStructureContainerPair)oMemoryPair.b).getSecondaryComponent());
-//				if (oClassWP!=null) {
-//					if (oClassWP.getMoContent().equals(poClassification)) {
-//						oRetVal.add(oMemoryPair);
-//					}
-//				}
-//			} else if (oMemoryPair.b instanceof clsPrediction) {
-//				//Give back the whole Object, clsPrediction, if this classification is found
-//				//Check Intention
-//				
-//				if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
-//					//IMPORTANT: It is not allowed to save a Prediction without intention
-//					clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent());
-//					if (oClassWP!=null) {
-//						if (oClassWP.getMoContent().equals(poClassification)) {
-//							oRetVal.add(oMemoryPair);
-//							//If found, then break
-//							break;
-//						}
-//					}
-//				} 
-//				
-//				//Check Moment
-//				if (((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent() != null) {
-//					
-//					if (((clsPrediction)oMemoryPair.b).getIntention().getSecondaryComponent() != null) {
-//						//IMPORTANT: It is not allowed to save a Prediction without intention
-//						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(((clsPrediction)oMemoryPair.b).getMoment().getSecondaryComponent());
-//						if (oClassWP!=null) {
-//							if (oClassWP.getMoContent().equals(poClassification)) {
-//								oRetVal.add(oMemoryPair);
-//								//If found, then break
-//								break;
-//							}
-//						}
-//					}
-//				}
-//				
-//				//Check Expectations
-//				if (((clsPrediction)oMemoryPair.b).getExpectations().isEmpty()==false) {
-//					boolean oFoundMatch = false;
-//					for (clsDataStructureContainerPair oP : ((clsPrediction)oMemoryPair.b).getExpectations()) {
-//						clsWordPresentation oClassWP = clsDataStructureTools.getClassification(oP.getSecondaryComponent());
-//						if (oClassWP!=null) {
-//							if (oClassWP.getMoContent().equals(poClassification)) {
-//								oRetVal.add(oMemoryPair);
-//								oFoundMatch = true;
-//								//If found, then break
-//								break; //The first loop
-//								
-//							}
-//						}
-//					}
-//					
-//					if (oFoundMatch == true) {
-//						break;
-//					}
-//				}
-//			}
-//		}
-//		
-//		return oRetVal;
-//	}
 	
 	/**
 	 * Get the most obsolete memory. There are 2 criteria: 1) The oldest memory. If there are more than one memories
@@ -381,8 +261,8 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @return
 	 */
-	private clsPair<Integer, clsWordPresentationMesh> getMostObsoleteMemory() {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
+	private clsPair<Integer, T> getMostObsoleteMemory() {
+		clsPair<Integer, T> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
 		
 		//Variables, which are used to get the oldest memory. If there are several memories, which are the oldest ones,
 		//then, the memory with the lowest total affect value is selected
@@ -391,7 +271,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 			oRetVal = moShortTimeMemory.get(0);
 		}
 		
-		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+		for (clsPair<Integer, T> oMemory : moShortTimeMemory) {
 						
 			if (oMemory.a>oRetVal.a) {
 				oRetVal = oMemory;
@@ -410,14 +290,14 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @return
 	 */
-	public clsPair<Integer, clsWordPresentationMesh> getNewestMemory() {
-		clsPair<Integer, clsWordPresentationMesh> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
+	public clsPair<Integer, T> getNewestMemory() {
+		clsPair<Integer, T> oRetVal = this.moNullMemoryObjectWPM;	//This value is only null, if the memory is empty
 		
 		if (moShortTimeMemory.isEmpty()==false) {
 			oRetVal = moShortTimeMemory.get(0);
 		}
 		
-		for (clsPair<Integer, clsWordPresentationMesh> oMemory : moShortTimeMemory) {
+		for (clsPair<Integer, T> oMemory : moShortTimeMemory) {
 						
 			if (oMemory.a<oRetVal.a) {
 				oRetVal = oMemory;
@@ -436,10 +316,10 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	 *
 	 * @return
 	 */
-	public ArrayList<clsWordPresentationMesh> getAllWPMFromSTM() {
-		ArrayList<clsWordPresentationMesh> oResult = new ArrayList<clsWordPresentationMesh>();
+	public ArrayList<T> getAllWPMFromSTM() {
+		ArrayList<T> oResult = new ArrayList<T>();
 		
-		for (clsPair<Integer, clsWordPresentationMesh> oPair : this.moShortTimeMemory) {
+		for (clsPair<Integer, T> oPair : this.moShortTimeMemory) {
 			oResult.add(oPair.b);
 		}
 		
@@ -467,7 +347,7 @@ public class clsShortTermMemory implements itfGraphData,itfInspectorInternalStat
 	@Override
 	public ArrayList<Object> getGraphData() {
 		ArrayList<Object> oRetVal = new ArrayList<Object>();
-		for(clsPair<Integer, clsWordPresentationMesh> oClsPair :moShortTimeMemory){
+		for(clsPair<Integer, T> oClsPair :moShortTimeMemory){
 			oRetVal.add(oClsPair.b);
 		}
 		return oRetVal;

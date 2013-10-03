@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -29,7 +30,7 @@ public abstract class clsCodelet {
 	protected clsWordPresentationMeshSelectableGoal moGoal;	//Goal to be processed
 	protected clsEnvironmentalImageMemory moEnvironmentalImageMemory;
 	protected clsWordPresentationMesh moEnvironmentalImage;	//Current environmental image
-	protected clsShortTermMemory moShortTermMemory;	//Current STM, in order to get the previous actions
+	protected clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;	//Current STM, in order to get the previous actions
 	protected clsCodeletHandler moCodeletHandler;		//The codelethandler, in order to execute other codelets within this one
 	protected String moCodeletName = "";
 	protected String moCodeletDescription = "";
