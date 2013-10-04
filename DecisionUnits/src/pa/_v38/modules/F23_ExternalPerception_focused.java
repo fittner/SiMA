@@ -15,6 +15,7 @@ import java.util.SortedMap;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.interfaces.modules.I6_12_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
@@ -70,7 +71,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:56:18 */
 //	private ArrayList<clsDataStructureContainerPair> moAssociatedMemoriesSecondary_OUT;
 	
-	private clsShortTermMemory moShortTimeMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
 	/** As soon as DT3 is implemented, replace this variable and value */
 	private double mrAvailableFocusEnergy = 5;
@@ -233,7 +234,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		//oFocusOnGoalList.addAll(extractStrongestPerceptiveGoals(moReachableGoalList_OUT));
 		
 		//--- Process actions ---//
-		clsWordPresentationMesh oAction = ShortTermMemoryFunctionality.extractPlannedActionFromSTM(this.moShortTimeMemory);
+		clsWordPresentationMesh oAction = ShortTermMemoryFunctionality.extractPreviousPlannedActionFromSTM(this.moShortTimeMemory);
 		
 		//Extract the goal entity from the planning
 		ArrayList<clsPair<Double,clsWordPresentationMesh>> oFocusOnGoalList = FocusFunctionality.extractFilterEntitiesFromAction(moPerceptionalMesh_IN, oAction);

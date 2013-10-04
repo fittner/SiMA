@@ -49,7 +49,7 @@ public class clsIC_CheckSetFocus extends clsInitCodelet {
 	@Override
 	protected void processGoal() {
 		
-		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousPlanGoalFromShortTermMemory(moShortTermMemory);
 		
 		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_ON)) {
 			//If focus was set the last time, check if focus is still there in the STM

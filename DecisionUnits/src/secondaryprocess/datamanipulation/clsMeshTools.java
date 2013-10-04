@@ -2407,10 +2407,10 @@ public class clsMeshTools {
 				//If there are IDs with -1, it is not allowed and should be thrown as exception
 				if (oSourceWPM.getMoDS_ID()==-1) {
 					try {
-						throw new Exception("Error: DataStructureTools, mergeMesh: A TPM with ID = -1 was found");
+						throw new Exception("Error: DataStructureTools, mergeMesh: A WPM with ID = -1 was found");
 					} catch (Exception e) {
-						// TODO (wendt) - Auto-generated catch block
-						e.printStackTrace();
+						log.error("Erroneous Datastructure {}, mesh {}.",oSourceWPM, poSourceMesh, e);
+						System.exit(-1);
 					}
 				}
 				

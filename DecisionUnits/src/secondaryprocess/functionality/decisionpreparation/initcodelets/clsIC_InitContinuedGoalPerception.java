@@ -41,7 +41,7 @@ public class clsIC_InitContinuedGoalPerception extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
         
         if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
             this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);

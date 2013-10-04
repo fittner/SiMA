@@ -220,7 +220,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         ShortTermMemoryFunctionality.setPlanGoalInMentalSituation(planGoal, moShortTermMemory);
         
         //Add action
-        //ShortTermMemoryFunctionality.addActionToMentalSituation(this.moShortTermMemory, moActionCommand);
+        ShortTermMemoryFunctionality.setExecutedAction(this.moShortTermMemory, moActionCommand);
         
         //Add text to inspector
         addTextToLastActionsTextSequence(moActionCommand, planGoal);

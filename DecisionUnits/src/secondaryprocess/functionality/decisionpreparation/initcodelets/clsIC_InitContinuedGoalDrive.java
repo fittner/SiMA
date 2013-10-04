@@ -41,7 +41,7 @@ public class clsIC_InitContinuedGoalDrive extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+        clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
         
         //Transfer previous stati in general
         if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {

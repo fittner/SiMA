@@ -19,6 +19,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsEmotion;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
@@ -56,7 +57,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
 	private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
 
-	private clsShortTermMemory moShortTermMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 

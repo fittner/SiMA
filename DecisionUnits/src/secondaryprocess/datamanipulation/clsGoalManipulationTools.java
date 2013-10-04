@@ -252,6 +252,10 @@ public class clsGoalManipulationTools {
 			oResult.removeAllAssociatedAction();
 			oResult.removeAllConditions();
 			
+			//Reset all evaluations
+			oResult.removeAllImportance();
+			
+			
 		} catch (CloneNotSupportedException e) {
 			System.out.println("previous goal could not be cloned");
 			e.printStackTrace();

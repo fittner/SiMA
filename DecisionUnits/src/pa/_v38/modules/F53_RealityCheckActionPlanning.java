@@ -6,8 +6,6 @@
  */
 package pa._v38.modules;
 
-import general.datamanipulation.PrintTools;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.SortedMap;
@@ -24,7 +22,6 @@ import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
-import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
 
@@ -120,8 +117,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	    log.debug("=== module {} start ===", this.getClass().getName());
 	    
 	    //TEMP Apply effort on goal
-        EffortFunctionality.applyEffortOfGoal(selectableGoals);
-        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(selectableGoals));
+        //EffortFunctionality.applyEffortOfGoal(selectableGoals);
+        //log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(selectableGoals));
         
         //Apply effort of wording
         

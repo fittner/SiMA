@@ -186,14 +186,15 @@ public class clsGoalAlgorithmTools {
 	 * @param poContinuedGoal
 	 * @param poSTM
 	 */
-	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) {
+	public static void appendPreviousActionsAsPreconditions(clsWordPresentationMeshGoal poContinuedGoalAsPlanGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) {
 		//eCondition oActionCondition = eCondition.EXECUTED_NONE;
-		
+	    
 		//--- GET PREVIOUS MENTAL SITUATION ---//
 		clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
 
 		//Get the previous action
 		clsWordPresentationMeshSelectableGoal oPreviousActionMesh = oPreviousMentalSituation.getPlanGoal(); //clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		
 		log.debug("Previous action: " + oPreviousActionMesh);
 		eAction oPreviousAction = eAction.NULLOBJECT;
 		try {
@@ -212,10 +213,10 @@ public class clsGoalAlgorithmTools {
 		
 		
 		if (oActionCondition.equals(eCondition.NULLOBJECT)==false && oActionCondition.equals(eCondition.EXECUTED_NONE)==false) {
-		    poContinuedGoal.setCondition(oActionCondition);
+		    poContinuedGoalAsPlanGoal.setCondition(oActionCondition);
 		}
 		
-		log.debug("Append previous action, goal: Action: " + oActionCondition + ", goal: " + poContinuedGoal.toString());
+		log.debug("Append previous action, goal: Action: " + oActionCondition + ", goal: " + poContinuedGoalAsPlanGoal.toString());
 		
 	}
 	

@@ -50,24 +50,24 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
 	 */
 	@Override
 	protected void processGoal() {
-		clsWordPresentationMeshGoal oPreviousGoal = clsCommonCodeletTools.getPreviousGoalFromShortTermMemory(moShortTermMemory);
+		clsWordPresentationMeshGoal oPreviousPlanGoal = clsCommonCodeletTools.getPreviousCorrespondingGoalFromShortTermMemory(moShortTermMemory, moGoal);
 		
 		
 		//Transfer previous stati in general
-		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
+		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==true) {
 		    this.moGoal.setCondition(eCondition.SET_INTERNAL_INFO);
 		}
-		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
+		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOCUS_MOVEMENT)==true) {
 		    this.moGoal.setCondition(eCondition.SET_FOCUS_MOVEMENT);
 		}
-		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
+		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_BASIC_ACT_ANALYSIS)==true) {
 		    this.moGoal.setCondition(eCondition.SET_BASIC_ACT_ANALYSIS);
 		}
-		if (oPreviousGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
+		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.SET_FOLLOW_ACT)==true) {
 		    this.moGoal.setCondition(eCondition.SET_FOLLOW_ACT);
 		}
 		
-		if (oPreviousGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
+		if (oPreviousPlanGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
             this.moGoal.setCondition(eCondition.GOAL_NOT_REACHABLE);
         } else {
           //Check if any of the goals in the STM has a "GOAL_COMPLETED". If it has and is the same goal as here, then this goal shall receive
@@ -83,7 +83,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             clsWordPresentationMesh poNewAct = this.moGoal.getSupportiveDataStructure();
             
             //Get the act of the previous goal
-            clsWordPresentationMesh oPreviousAct = oPreviousGoal.getSupportiveDataStructure();
+            clsWordPresentationMesh oPreviousAct = oPreviousPlanGoal.getSupportiveDataStructure();
             
             //Set the Act of the previous goal as the new act of the continued goal
             if (oPreviousAct.isNullObject()==false) {

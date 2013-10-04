@@ -10,6 +10,7 @@ import java.util.ArrayList;
 
 import org.slf4j.Logger;
 
+import datatypes.helpstructures.clsPair;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
@@ -100,18 +101,54 @@ public class clsDecisionEngine {
         this.moCodeletHandler.executeMatchingCodelets(this, poGoal, eCodeletType.INIT, -1);
     }
     
-    public clsWordPresentationMeshSelectableGoal initContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) throws ElementNotFoundException {
-        
-        clsWordPresentationMeshSelectableGoal oContinuedGoal = clsWordPresentationMeshSelectableGoal.getNullObject(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+    public clsPair<clsWordPresentationMeshSelectableGoal, ArrayList<clsWordPresentationMeshSelectableGoal>> initContinuedGoalList(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
+        ArrayList<clsWordPresentationMeshSelectableGoal> resultingContinuedGoal = new ArrayList<clsWordPresentationMeshSelectableGoal>(); //new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        clsWordPresentationMeshSelectableGoal resultingPlanGoal = clsWordPresentationMeshSelectableGoal.getNullObject();
         
         //--- GET PREVIOUS MENTAL SITUATION ---//
         clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
         //Get the previous goal
-        clsWordPresentationMeshSelectableGoal oPreviousGoal = oPreviousMentalSituation.getPlanGoal();  //clsMentalSituationTools.getGoal(oPreviousMentalSituation);
-        log.debug("Previous goal from STM: " + oPreviousGoal);
+
+        //Get previous selectable, continued goals
+        ArrayList<clsWordPresentationMeshSelectableGoal> oPreviousSelectableGoals = oPreviousMentalSituation.getSelectableGoals();
         
-        if (oPreviousGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
-            oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(oPreviousGoal, poGoalList);
+        //Get previous plangoal
+        clsWordPresentationMeshSelectableGoal oPreviousPlanGoal = oPreviousMentalSituation.getPlanGoal();  //clsMentalSituationTools.getGoal(oPreviousMentalSituation);
+        log.debug("Previous goal from STM: " + oPreviousPlanGoal);
+        
+        for (clsWordPresentationMeshSelectableGoal previousSelectableGoal : oPreviousSelectableGoals) {
+            clsWordPresentationMeshSelectableGoal oContinuedGoal;
+            try {
+                oContinuedGoal = initContinuedGoal(previousSelectableGoal, poGoalList);
+                
+                
+                if (oContinuedGoal.isNullObject()==false) {
+                    if (previousSelectableGoal.equals(oPreviousPlanGoal)==true) {
+                        //Append previous actions as preconditions on the previous plan goal
+                        appendPreviousActionsAsPreconditionsOnPlanGoal(poSTM, oContinuedGoal);
+                        resultingPlanGoal = oContinuedGoal;
+                    }
+                    resultingContinuedGoal.add(oContinuedGoal);
+                }
+                
+            } catch (ElementNotFoundException e) {
+                log.error("Error at the init of continued goals", e);
+            }
+            
+        }
+        
+        clsPair<clsWordPresentationMeshSelectableGoal, ArrayList<clsWordPresentationMeshSelectableGoal>> result = new clsPair<clsWordPresentationMeshSelectableGoal, ArrayList<clsWordPresentationMeshSelectableGoal>>(resultingPlanGoal, resultingContinuedGoal);
+        
+        return result;
+    }
+    
+    private clsWordPresentationMeshSelectableGoal initContinuedGoal(clsWordPresentationMeshSelectableGoal poPreviousGoal, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) throws ElementNotFoundException {
+        
+        clsWordPresentationMeshSelectableGoal oContinuedGoal = clsWordPresentationMeshSelectableGoal.getNullObject(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+        
+        if (poPreviousGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {
+            oContinuedGoal = clsGoalManipulationTools.getContinuedGoalFromPreviousGoal(poPreviousGoal, poGoalList);
+            
             if (oContinuedGoal.isNullObject()==false) {
                 //Goal type is the only condition set
                 
@@ -128,13 +165,24 @@ public class clsDecisionEngine {
         //Apply init codelets on the continued goal
         this.moCodeletHandler.executeMatchingCodelets(this, oContinuedGoal, eCodeletType.INIT, 1);
         
-        // --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
-        clsGoalAlgorithmTools.appendPreviousActionsAsPreconditions(oContinuedGoal, poSTM);
+//        //Testfunction
+//        
+//        try {
+//            clsTestDataStructureActs.exeTestIfErroneousSupportiveDataStructureIsAssigned(oContinuedGoal);
+//        } catch (Exception e) {
+//            log.error("Testerror structure {}. Previous selectable goal {} ", oContinuedGoal, poPreviousGoal, e);
+//            System.exit(-1);
+//        }
+        
         
         log.debug("Continued goal:" + oContinuedGoal.toString());
         
         return oContinuedGoal;
-        
+    }
+    
+    private void appendPreviousActionsAsPreconditionsOnPlanGoal(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM, clsWordPresentationMeshSelectableGoal poContinuedGoal) {
+        // --- APPEND PREVIOUS PERFORMED ACTIONS AS CONDITIONS --- //
+        clsGoalAlgorithmTools.appendPreviousActionsAsPreconditions(poContinuedGoal, poSTM);
     }
     
     /**
@@ -162,11 +210,15 @@ public class clsDecisionEngine {
      * @param poGoalList
      * @param poContinuedGoal
      */
-    public void addContinuedGoalToGoalList(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsWordPresentationMeshSelectableGoal poContinuedGoal) {
-        //Add the goal to the incoming goallist. In this way all goals are handled equally in F26
-        if (poGoalList.contains(poContinuedGoal)==false && poContinuedGoal.isNullObject()==false) {
-            poGoalList.add(poContinuedGoal);
+    public void addContinuedGoalToGoalList(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, ArrayList<clsWordPresentationMeshSelectableGoal> poContinuedGoalList) {
+        for (clsWordPresentationMeshSelectableGoal oContinuedGoal : poContinuedGoalList) {
+            //Add the goal to the incoming goallist. In this way all goals are handled equally in F26
+            if (poGoalList.contains(oContinuedGoal)==false && oContinuedGoal.isNullObject()==false) {
+                poGoalList.add(oContinuedGoal);
+            }
         }
+        
+       
     }
     
     /**

@@ -308,6 +308,20 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         this.removeAllProperties(ePredicate.HASASSOCIATEDPLANACTION);
     }
     
+    /**
+     * Remove all importances
+     *
+     * @author wendt
+     * @since 04.10.2013 10:44:08
+     *
+     */
+    public void removeAllImportance() {
+        this.removeAllProperties(ePredicate.HASFEELINGSIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASDRIVEDEMANDIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASEFFORTIMPACTIMPORTANCE);
+        this.removeAllProperties(ePredicate.HASSOCIALRULESIMPORTANCE);
+    }
+    
     @Override
     public String toString() {
         String oResult = "";  

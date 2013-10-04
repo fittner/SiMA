@@ -193,5 +193,29 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         return result;
     }
     
+    /**
+     * set executed action
+     *
+     * @author wendt
+     * @since 04.10.2013 12:25:45
+     *
+     * @param action
+     */
+    public void setExecutedAction(clsWordPresentationMesh action) {
+        this.setUniqueProperty(action, ePredicate.HASACTION, true);
+    }
+    
+    /**
+     * get executed action
+     *
+     * @author wendt
+     * @since 04.10.2013 12:25:47
+     *
+     * @return
+     */
+    public clsWordPresentationMesh getExecutedAction() {
+        return this.getUniquePropertyWPM(ePredicate.HASACTION);
+    }
+    
 
 }

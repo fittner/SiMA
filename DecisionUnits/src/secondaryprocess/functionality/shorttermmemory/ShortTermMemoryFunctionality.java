@@ -158,17 +158,21 @@ public class ShortTermMemoryFunctionality {
      *
      * @return
      */
-    public static clsWordPresentationMesh extractPlannedActionFromSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static clsWordPresentationMesh extractPreviousPlannedActionFromSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         clsWordPresentationMesh oRetVal = clsWordPresentationMesh.getNullObject();
         
         clsWordPresentationMeshMentalSituation oLastMentalImage = stm.findPreviousSingleMemory();
         
         if (oLastMentalImage.isNullObject()==false) {
             
-            oRetVal = oLastMentalImage.getPlanGoal().getAssociatedPlanAction();
+            oRetVal = oLastMentalImage.getExecutedAction();
         }
         
         return oRetVal;
+    }
+    
+    public static void setExecutedAction(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm, clsWordPresentationMesh action) {
+        stm.findCurrentSingleMemory().setExecutedAction(action);
     }
     
     /**

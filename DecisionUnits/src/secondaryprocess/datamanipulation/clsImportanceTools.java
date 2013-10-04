@@ -392,6 +392,7 @@ public class clsImportanceTools {
 		//Get a list of associationsecondary, where the root element is the drive object and the leafelement the affect
 		ArrayList<clsPair<eContentType, String>> oContentTypeAndContent = new ArrayList<clsPair<eContentType, String>>();
 		oContentTypeAndContent.add(new clsPair<eContentType, String>(eContentType.AFFECT, ""));
+		
 		//Get all WPMs
 		ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poImage, pnLevel);
 		for (clsWordPresentationMesh oWPM : oAllWPM) {
@@ -537,7 +538,7 @@ public class clsImportanceTools {
 		} else if (poCondition.equals(eCondition.GOAL_NOT_REACHABLE)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.IS_CONTINUED_GOAL)) {
-			nResult+=0.1;
+			nResult+=0.2;
 		} else if (poCondition.equals(eCondition.ACT_MATCH_TOO_LOW)) {
 			nResult+=-10.00;
 		} else if (poCondition.equals(eCondition.GOAL_COMPLETED)) {

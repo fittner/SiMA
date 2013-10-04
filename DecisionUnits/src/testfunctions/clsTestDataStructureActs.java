@@ -72,6 +72,13 @@ public class clsTestDataStructureActs {
 	    return oReplaceList;
 	    
 	}
+	
+	public static void exeTestIfErroneousSupportiveDataStructureIsAssigned(clsWordPresentationMeshGoal goal) throws Exception {
+	        if (goal.getGoalType().equals(eGoalType.MEMORYDRIVE) && goal.getSupportiveDataStructure().getMoContent().equals("ENTITY2IMAGE")) {
+	            throw new Exception("Erroneous Supportive Datastructure assigned");
+	        }
+
+	}
 }
 
 

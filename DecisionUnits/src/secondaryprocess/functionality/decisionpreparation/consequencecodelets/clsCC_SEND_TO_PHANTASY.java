@@ -7,7 +7,6 @@
 package secondaryprocess.functionality.decisionpreparation.consequencecodelets;
 
 import pa._v38.memorymgmt.enums.eCondition;
-import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -50,7 +49,7 @@ public class clsCC_SEND_TO_PHANTASY extends clsConsequenceCodelet {
 			//clsGoalTools.setCondition(this.moGoal, eCondition.GOAL_NOT_REACHABLE);	//Set first focus, Trigger search no transfer between images
 			
 			//Set the focus structure for phantasy
-			clsActionTools.setSupportiveDataStructure(this.moGoal, this.moGoal.getSupportiveDataStructure());
+			//clsActionTools.setSupportiveDataStructure(this.moGoal, this.moGoal.getSupportiveDataStructure());
 		
 			
 		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)) {

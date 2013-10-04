@@ -61,8 +61,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
                 this.moGoal.createSupportiveDataStructureFromGoalObject(eContentType.PHI);
                 log.trace("Supportive data structure created for phantasy: " + this.moGoal.getSupportiveDataStructure().toString());
             } catch (Exception e) {
-                // TODO (wendt) - Auto-generated catch block
-                e.printStackTrace();
+                log.error("Error", e);
             }
 		}
 		
@@ -109,8 +108,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 				clsPhantasyTools.setPhantasyFlagTrue(oSupportDS);
 			}
 		} catch (Exception e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
+			log.error("", e);
 		}
 		
 		//Associate the action with the goal
@@ -155,8 +153,7 @@ public class clsAC_SEND_TO_PHANTASY extends clsActionCodelet {
 	    try {
             this.moGoal.removeCondition(eCondition.NEED_INTERNAL_INFO);
         } catch (Exception e) {
-            // TODO (wendt) - Auto-generated catch block
-            e.printStackTrace();
+            log.error("", e);
         }
 		
 	}
