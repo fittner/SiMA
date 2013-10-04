@@ -17,7 +17,6 @@ import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
@@ -56,7 +55,7 @@ public class clsActPreparationTools {
 		log.debug("Perform basic act analysis on: " + poAct.toString());
 		
 		//Get previous act
-		clsWordPresentationMeshGoal oPreviousGoal = clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
+		clsWordPresentationMeshGoal oPreviousGoal = poSTM.findPreviousSingleMemory().getPlanGoal(); //clsMentalSituationTools.getGoal(poSTM.findPreviousSingleMemory());
 		clsWordPresentationMesh oPreviousAct = oPreviousGoal.getSupportiveDataStructure();
 		
 		//Find the moment in the act

@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eActivationType;
@@ -504,12 +505,12 @@ public class clsGoalManipulationTools {
 	 * @param poSTM
 	 * @return
 	 */
-	public static ArrayList<clsWordPresentationMeshGoal> getAllSameGoalsFromSTM(clsWordPresentationMeshGoal poGoal, clsShortTermMemory poSTM) {
+	public static ArrayList<clsWordPresentationMeshGoal> getAllSameGoalsFromSTM(clsWordPresentationMeshGoal poGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) {
 		ArrayList<clsWordPresentationMeshGoal> oResult = new ArrayList<clsWordPresentationMeshGoal>();
 		
-		ArrayList<clsWordPresentationMesh> oMentalSituationList = poSTM.getAllWPMFromSTM();
-		for (clsWordPresentationMesh oMS : oMentalSituationList) {
-			clsWordPresentationMeshGoal oGoalFromSTM = clsMentalSituationTools.getGoal(oMS);
+		ArrayList<clsWordPresentationMeshMentalSituation> oMentalSituationList = poSTM.getAllWPMFromSTM();
+		for (clsWordPresentationMeshMentalSituation oMS : oMentalSituationList) {
+			clsWordPresentationMeshGoal oGoalFromSTM = oMS.getPlanGoal();
 			
 			if (clsGoalManipulationTools.compareGoals(poGoal, oGoalFromSTM)==true) {
 				oResult.add(oGoalFromSTM);
@@ -699,7 +700,7 @@ public class clsGoalManipulationTools {
      * @return the previous continued goal or the continued goal from the incoming goallist
      */
     public static clsWordPresentationMeshSelectableGoal getContinuedGoalFromPreviousGoal(clsWordPresentationMeshSelectableGoal poPreviousGoal, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+        clsWordPresentationMeshSelectableGoal oResult = clsWordPresentationMeshSelectableGoal.getNullObject();  // clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
         //Check if goal exists in the goal list
         ArrayList<clsWordPresentationMeshSelectableGoal> oEquivalentGoalList = clsGoalManipulationTools.getEquivalentGoalFromGoalList(poGoalList, poPreviousGoal);
@@ -732,7 +733,7 @@ public class clsGoalManipulationTools {
         try {
             clsGoalAlgorithmTools.setConditionFromGoalType(oResult);
         } catch (Exception e) {
-            log.error(e.getMessage());
+            log.error("", e);
         }
 
         

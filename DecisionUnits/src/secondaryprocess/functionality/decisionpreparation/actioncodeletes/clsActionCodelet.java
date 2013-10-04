@@ -47,11 +47,6 @@ public abstract class clsActionCodelet extends clsCodelet {
 	protected void setActionAssociationInGoal() {
 	    this.moGoal.setAssociatedPlanAction(this.moAction);
 		
-		//Get the supportive data structure
-		//clsWordPresentationMesh oSupportiveDataStructure = clsGoalTools.getSupportiveDataStructure(this.moGoal);
-				
-		//Associate this structure with the action
-		//clsActionTools.setSupportiveDataStructure(this.moAction, oSupportiveDataStructure);
 	}
 
 	

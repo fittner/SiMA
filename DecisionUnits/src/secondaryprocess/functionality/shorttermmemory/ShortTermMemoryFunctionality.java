@@ -12,19 +12,12 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
-import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eContentType;
-import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -46,41 +39,115 @@ public class ShortTermMemoryFunctionality {
      * @param poGoal
      * @param stm
      */
-    public static void addGoalToMentalSituation(clsWordPresentationMeshGoal poGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+    public static void addContinuedGoalsToMentalSituation(ArrayList<clsWordPresentationMeshSelectableGoal> poContinuedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         //get the ref of the current mental situation
-        clsWordPresentationMesh oCurrentMentalSituation = stm.findCurrentSingleMemory();
+        clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
         
-        clsMentalSituationTools.setGoal(oCurrentMentalSituation, poGoal);
+        for (clsWordPresentationMeshSelectableGoal goal : poContinuedGoals) {
+            
+            oCurrentMentalSituation.addSelectableGoal(goal);
+        }
+
     }
     
     /**
-     * Add an action to the STM. This is supposed to be the action, which is going to be executed.
+     * Set the current plan goal to STM
      *
      * @author wendt
-     * @since 02.10.2013 13:47:15
+     * @since 02.10.2013 13:46:56
+     *
+     * @param poGoal
+     * @param stm
+     */
+    public static void setPlanGoalInMentalSituation(clsWordPresentationMeshSelectableGoal planGoal, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+        //get the ref of the current mental situation
+        clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
+        
+        oCurrentMentalSituation.setPlanGoal(planGoal);
+
+    }
+    
+    /**
+     * Get the previous plan goal
+     *
+     * @author wendt
+     * @since 03.10.2013 21:22:46
      *
      * @param stm
-     * @param poAction
+     * @return
      */
-    public static void addActionToMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm, clsWordPresentationMesh poAction) {
-        //get the ref of the current mental situation
-        clsWordPresentationMesh oCurrentMentalSituation = stm.findCurrentSingleMemory();
+    public static clsWordPresentationMeshSelectableGoal getPlanGoalFromPreviousMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+        clsWordPresentationMeshMentalSituation oPreviousMentalSituation = stm.findPreviousSingleMemory();
         
-        //Get the real connection from the reference for the action
-        clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(poAction);
-        if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
-            //get WPMRef
-            ArrayList<clsDataStructurePA> oFoundStructures = clsMeshTools.searchDataStructureOverAssociation(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true, true);
-            
-            if (oFoundStructures.isEmpty()==false) {
-                clsAssociation oAss = (clsAssociation) oFoundStructures.get(0); 
-                clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss, true);
+        return oPreviousMentalSituation.getPlanGoal();
+    }
+    
+    /**
+     * Add a goal to STM, add only the aim of drives which are used in the selectable goals.
+     * 
+     * For F26
+     *
+     * @author wendt
+     * @since 02.10.2013 13:46:56
+     *
+     * @param poGoal
+     * @param stm
+     */
+    public static void addUsableAimOfDrivesToMentalSituation(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDriveList, ArrayList<clsWordPresentationMeshSelectableGoal> decidedGoals, clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+        //get the ref of the current mental situation
+        clsWordPresentationMeshMentalSituation oCurrentMentalSituation = stm.findCurrentSingleMemory();
+        
+        for (clsWordPresentationMeshSelectableGoal decidedGoal : decidedGoals) {
+            for (clsWordPresentationMeshAimOfDrive aimOfDrive : aimOfDriveList) {
+                if (decidedGoal.getGoalName().equals(aimOfDrive.getGoalName())==true) {
+                    oCurrentMentalSituation.addAimOfDrive(aimOfDrive);
+                }
             }
         }
-        
-        //Add the action to the memory
-        clsMentalSituationTools.setAction(oCurrentMentalSituation, poAction);
+
     }
+    
+    /**
+     * Get the current aim of drives
+     *
+     * @author wendt
+     * @since 03.10.2013 21:25:45
+     *
+     * @param stm
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshAimOfDrive> getCurrentAimOfDrivesFromMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
+        return stm.findCurrentSingleMemory().getAimOfDrives();
+    }
+    
+//    /**
+//     * Add an action to the STM. This is supposed to be the action, which is going to be executed.
+//     *
+//     * @author wendt
+//     * @since 02.10.2013 13:47:15
+//     *
+//     * @param stm
+//     * @param poAction
+//     */
+//    public static void addActionToMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm, clsWordPresentationMesh poAction) {
+//        //get the ref of the current mental situation
+//        clsWordPresentationMesh oCurrentMentalSituation = stm.findCurrentSingleMemory();
+//        
+//        //Get the real connection from the reference for the action
+//        clsWordPresentationMesh oSupportiveDataStructure = clsActionTools.getSupportiveDataStructure(poAction);
+//        if (oSupportiveDataStructure.getMoContent().equals(eContentType.NULLOBJECT.toString())==false) {
+//            //get WPMRef
+//            ArrayList<clsDataStructurePA> oFoundStructures = clsMeshTools.searchDataStructureOverAssociation(poAction, ePredicate.HASSUPPORTIVEDATASTRUCTURE, 0, true, true);
+//            
+//            if (oFoundStructures.isEmpty()==false) {
+//                clsAssociation oAss = (clsAssociation) oFoundStructures.get(0); 
+//                clsMeshTools.moveAssociation(oSupportiveDataStructure, (clsWordPresentationMesh)oAss.getLeafElement(), oAss, true);
+//            }
+//        }
+//        
+//        //Add the action to the memory
+//        clsMentalSituationTools.setAction(oCurrentMentalSituation, poAction);
+//    }
     
     /**
      * Extract the last applicable planned goal.
@@ -92,12 +159,13 @@ public class ShortTermMemoryFunctionality {
      * @return
      */
     public static clsWordPresentationMesh extractPlannedActionFromSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
-        clsWordPresentationMesh oRetVal = null;
+        clsWordPresentationMesh oRetVal = clsWordPresentationMesh.getNullObject();
         
-        clsWordPresentationMesh oLastMentalImage = stm.findPreviousSingleMemory();
+        clsWordPresentationMeshMentalSituation oLastMentalImage = stm.findPreviousSingleMemory();
         
-        if (oLastMentalImage!=null) {
-            oRetVal = clsMentalSituationTools.getAction(oLastMentalImage);
+        if (oLastMentalImage.isNullObject()==false) {
+            
+            oRetVal = oLastMentalImage.getPlanGoal().getAssociatedPlanAction();
         }
         
         return oRetVal;
@@ -111,10 +179,10 @@ public class ShortTermMemoryFunctionality {
      *
      * @param stm
      */
-    public static void createNewMentalSituation(clsShortTermMemory stm) {
+    public static void createNewMentalSituation(clsShortTermMemory<clsWordPresentationMeshMentalSituation> stm) {
         updateTimeStepsShortTermMemory(stm);
         
-        stm.saveToShortTimeMemory(clsMentalSituationTools.createMentalSituation());
+        stm.saveToShortTimeMemory(clsWordPresentationMeshMentalSituation.createInstance());
         
     }
     
@@ -127,7 +195,7 @@ public class ShortTermMemoryFunctionality {
      * @param shortTermMemory
      * @param environmentalImageMemory
      */
-    private static void updateTimeStepsShortTermMemory(clsShortTermMemory shortTermMemory) {
+    private static void updateTimeStepsShortTermMemory(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
         shortTermMemory.updateTimeSteps();
     }
     
@@ -139,10 +207,10 @@ public class ShortTermMemoryFunctionality {
      * @param poGoalList
      */
     public static void addNonReachableGoalsToSTM(clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory, ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList) {
-        for (clsWordPresentationMeshGoal oGoal : poGoalList) {
+        for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
             if (oGoal.checkIfConditionExists(eCondition.GOAL_NOT_REACHABLE)==true) {
-                clsWordPresentationMesh oMentalSituation = shortTermMemory.findCurrentSingleMemory();
-                clsMentalSituationTools.setExcludedGoal(oMentalSituation, oGoal);
+                clsWordPresentationMeshMentalSituation oMentalSituation = shortTermMemory.findCurrentSingleMemory();
+                oMentalSituation.addExcludedSelectableGoal(oGoal);
                 
                 log.debug("Added non reachable goal to STM : " + oGoal.toString());
             }

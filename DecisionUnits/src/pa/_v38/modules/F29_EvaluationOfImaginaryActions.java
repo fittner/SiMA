@@ -21,6 +21,7 @@ import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -53,7 +54,7 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
 
     private clsWordPresentationMesh moPerceptionalMesh_IN;
     
-	private clsShortTermMemory moShortTermMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 	
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
 	
@@ -214,9 +215,12 @@ public class F29_EvaluationOfImaginaryActions extends clsModuleBaseKB implements
         }  
         
     	//Goal to STM
-        ShortTermMemoryFunctionality.addGoalToMentalSituation(planGoal, this.moShortTermMemory);
+        //The action is already saved within the goal
+        ShortTermMemoryFunctionality.addContinuedGoalsToMentalSituation(moSelectableGoals, this.moShortTermMemory);
+        ShortTermMemoryFunctionality.setPlanGoalInMentalSituation(planGoal, moShortTermMemory);
+        
         //Add action
-        ShortTermMemoryFunctionality.addActionToMentalSituation(this.moShortTermMemory, moActionCommand);
+        //ShortTermMemoryFunctionality.addActionToMentalSituation(this.moShortTermMemory, moActionCommand);
         
         //Add text to inspector
         addTextToLastActionsTextSequence(moActionCommand, planGoal);

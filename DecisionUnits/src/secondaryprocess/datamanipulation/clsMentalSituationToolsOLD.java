@@ -27,7 +27,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 04.07.2012, 10:41:19
  * 
  */
-public class clsMentalSituationTools {
+public class clsMentalSituationToolsOLD {
 	
 	private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
 	

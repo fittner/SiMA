@@ -38,10 +38,11 @@ public class EffortFunctionality {
           //TODO: Replace this method with productions instead
           double oImportanceValue = clsGoalAlgorithmTools.calculateEffortPenalty(oGoal);
           
-          oGoal.setEffortImpactImportance(oImportanceValue);
+          oGoal.addEffortImpactImportance(oImportanceValue);
       }
       
       log.debug("Applied effort to goals:" + poGoalList.toString());
       
   }
+  
 }

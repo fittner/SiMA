@@ -30,7 +30,6 @@ import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -191,13 +190,18 @@ public class clsGoalAlgorithmTools {
 		//eCondition oActionCondition = eCondition.EXECUTED_NONE;
 		
 		//--- GET PREVIOUS MENTAL SITUATION ---//
-		clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
+		clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
 
 		//Get the previous action
-		clsWordPresentationMesh oPreviousActionMesh = clsMentalSituationTools.getAction(oPreviousMentalSituation);
+		clsWordPresentationMeshSelectableGoal oPreviousActionMesh = oPreviousMentalSituation.getPlanGoal(); //clsMentalSituationTools.getAction(oPreviousMentalSituation);
 		log.debug("Previous action: " + oPreviousActionMesh);
+		eAction oPreviousAction = eAction.NULLOBJECT;
+		try {
+		    oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh.getAssociatedPlanAction()));
+		} catch (Exception e) {
+		    log.error("Could not set enum constant", e);
+		}
 		
-		eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(oPreviousActionMesh));
 		
 		eCondition oActionCondition=null;
         try {
@@ -263,19 +267,19 @@ public class clsGoalAlgorithmTools {
      *
      * @param poGoalList
      */
-    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory shortTermMemory) {
+    public static void removeNonReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> shortTermMemory) {
         ListIterator<clsWordPresentationMeshSelectableGoal> Iter = poGoalList.listIterator();
         
         ArrayList<clsWordPresentationMeshGoal> oRemoveList = new ArrayList<clsWordPresentationMeshGoal>();
         
         //Get all goals from STM
-        ArrayList<clsPair<Integer, clsWordPresentationMesh>> oSTMList = shortTermMemory.getMoShortTimeMemory();
-        for (clsPair<Integer, clsWordPresentationMesh> oSTM : oSTMList) {
+        ArrayList<clsPair<Integer, clsWordPresentationMeshMentalSituation>> oSTMList = shortTermMemory.getMoShortTimeMemory();
+        for (clsPair<Integer, clsWordPresentationMeshMentalSituation> oSTM : oSTMList) {
             //Check if precondition GOAL_NOT_REACHABLE_EXISTS and Goal type != DRIVE_SOURCE
-            ArrayList<clsWordPresentationMesh> oTEMPLIST = clsMentalSituationTools.getExcludedGoal(oSTM.b);
-            ArrayList<clsWordPresentationMeshGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshGoal>();
-            for (clsWordPresentationMesh oWPM : oTEMPLIST) {
-                oExcludedGoalList.add((clsWordPresentationMeshGoal) oWPM);
+            ArrayList<clsWordPresentationMeshSelectableGoal> oTEMPLIST = oSTM.b.getExcludedSelectableGoals();  //clsMentalSituationTools.getExcludedGoal(oSTM.b);
+            ArrayList<clsWordPresentationMeshSelectableGoal> oExcludedGoalList = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+            for (clsWordPresentationMeshSelectableGoal oWPM : oTEMPLIST) {
+                oExcludedGoalList.add((clsWordPresentationMeshSelectableGoal) oWPM);
             }
             
              

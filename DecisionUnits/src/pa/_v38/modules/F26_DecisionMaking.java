@@ -26,6 +26,7 @@ import pa._v38.memorymgmt.datatypes.clsAct;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
@@ -34,6 +35,7 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalProcessingFunctionality;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 
 /**
  * Demands provided by reality, drives, and Superego are merged. The result is evaluated regarding which resulting wish can be used as motive for an action tendency. The list of produced motives is ordered according to their satisability. 
@@ -79,7 +81,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:01 */
 	private ArrayList<clsAct> moRuleList; 
 	
-	private clsShortTermMemory moShortTermMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTermMemory;
 	
 	private final clsDecisionEngine moDecisionEngine;
 	
@@ -260,7 +262,9 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		GoalProcessingFunctionality.initStatusOfSelectedGoals(moDecisionEngine, moDecidedGoalList_OUT);
 		log.info("Selected goals: {}", PrintTools.printArrayListWithLineBreaks(moDecidedGoalList_OUT));
 		
-		//Add the goal to the mental situation
+		//Add the aim of drives goal to the mental situation
+		ShortTermMemoryFunctionality.addUsableAimOfDrivesToMentalSituation(moDriveGoalList_IN, moDecidedGoalList_OUT, this.moShortTermMemory);
+		
 		try {
 		    if (moDecidedGoalList_OUT.isEmpty()==true) {
 	            throw new Exception("Decided goal: No goal");

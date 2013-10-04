@@ -8,28 +8,9 @@ package secondaryprocess.functionality.decisionpreparation;
 
 import java.util.ArrayList;
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 import org.slf4j.Logger;
 
 import logger.clsLogger;
-import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
@@ -39,7 +20,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_EXECUTE_EXTERNAL_ACTION;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FLEE;
 import secondaryprocess.functionality.decisionpreparation.actioncodeletes.clsAC_FOCUS_MOVEMENT;
@@ -122,12 +102,12 @@ public class clsDecisionEngine {
     
     public clsWordPresentationMeshSelectableGoal initContinuedGoal(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsShortTermMemory<clsWordPresentationMeshMentalSituation> poSTM) throws ElementNotFoundException {
         
-        clsWordPresentationMeshSelectableGoal oContinuedGoal = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
+        clsWordPresentationMeshSelectableGoal oContinuedGoal = clsWordPresentationMeshSelectableGoal.getNullObject(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
         //--- GET PREVIOUS MENTAL SITUATION ---//
-        clsWordPresentationMesh oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
+        clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
         //Get the previous goal
-        clsWordPresentationMeshSelectableGoal oPreviousGoal = clsMentalSituationTools.getGoal(oPreviousMentalSituation);
+        clsWordPresentationMeshSelectableGoal oPreviousGoal = oPreviousMentalSituation.getPlanGoal();  //clsMentalSituationTools.getGoal(oPreviousMentalSituation);
         log.debug("Previous goal from STM: " + oPreviousGoal);
         
         if (oPreviousGoal.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==true) {

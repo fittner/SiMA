@@ -48,7 +48,7 @@ public class clsEnvironmentalImageMemory extends clsShortTermMemory<clsWordPrese
 	 * @param pnMaxMemorySize
 	 */
 	public clsEnvironmentalImageMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
-		super(pnMaxTimeValue, pnMaxMemorySize);
+		super(pnMaxTimeValue, pnMaxMemorySize, clsWordPresentationMesh.getNullObject());
 	}
 	
 	/**

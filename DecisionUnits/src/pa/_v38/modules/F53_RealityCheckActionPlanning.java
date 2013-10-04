@@ -18,11 +18,14 @@ import pa._v38.interfaces.modules.I6_13_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.datatypes.clsWording;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
+import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import secondaryprocess.functionality.EffortFunctionality;
+import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
 import config.clsProperties;
 
 /**
@@ -41,6 +44,9 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 	private clsWordPresentationMesh moWording_IN;
 	
 	private ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoals;
+	
+	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
+    private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
 	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
@@ -62,12 +68,15 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
 			HashMap<Integer, clsModuleBase> poModuleList,
 			SortedMap<eInterfaces, ArrayList<Object>> poInterfaceData,
 			itfModuleMemoryAccess poLongTermMemory,
+			clsShortTermMemory<clsWordPresentationMeshMentalSituation> poShortTermMemory,
 			DT3_PsychicEnergyStorage poPsychicEnergyStorage) throws Exception {
 		super(poPrefix, poProp, poModuleList, poInterfaceData, poLongTermMemory);
 		// TODO (zeilinger) - Auto-generated constructor stub
 		
 		 this.moPsychicEnergyStorage = poPsychicEnergyStorage;
 		 this.moPsychicEnergyStorage.registerModule(mnModuleNumber);
+		 this.moShortTimeMemory = poShortTermMemory;
+		 
 	}
 	
 	/* (non-Javadoc)
@@ -117,6 +126,8 @@ public class F53_RealityCheckActionPlanning extends clsModuleBaseKB implements I
         //Apply effort of wording
         
         //Apply effort/bonus of drive aim action
+        //TODO Stefan, use this function
+        ShortTermMemoryFunctionality.getCurrentAimOfDrivesFromMentalSituation(moShortTimeMemory);
         
         
 	}

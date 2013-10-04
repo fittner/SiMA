@@ -20,7 +20,7 @@ import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
  * 31.08.2011, 07:12:10
  * 
  */
-public class clsShortTermMemory<T> implements itfGraphData,itfInspectorInternalState {
+public class clsShortTermMemory<T extends clsWordPresentationMesh> implements itfGraphData,itfInspectorInternalState {
 	/** The variable for the short time memory */
 	protected ArrayList<clsPair<Integer, T>> moShortTimeMemory;
 	
@@ -41,12 +41,12 @@ public class clsShortTermMemory<T> implements itfGraphData,itfInspectorInternalS
 	 * @since 31.08.2011 07:15:02
 	 *
 	 */
-	public clsShortTermMemory(int pnMaxTimeValue, int pnMaxMemorySize) {
+	public clsShortTermMemory(int pnMaxTimeValue, int pnMaxMemorySize, T nullobject) {
 		moShortTimeMemory = new ArrayList<clsPair<Integer, T>>();
 		mnMaxTimeValue = pnMaxTimeValue;
 		mnMaxMemorySize = pnMaxMemorySize;
 		
-		moNullMemoryObjectWPM = new clsPair<Integer, T>(-1, (T) clsWordPresentationMesh.getNullObjectWPM());
+		moNullMemoryObjectWPM = new clsPair<Integer, T>(-1, nullobject);
 		
 	}
 	
@@ -234,7 +234,10 @@ public class clsShortTermMemory<T> implements itfGraphData,itfInspectorInternalS
 	}
 	
 	private T findSingleMemoryFromStep(int pnStep) {
-		T oResult = (T) clsWordPresentationMesh.getNullObjectWPM();
+		T oResult = moNullMemoryObjectWPM.b;
+	    
+		
+		
 		
 		ArrayList<clsPair<Integer, T>> oMemories = findMemory(pnStep);
 		if (oMemories.isEmpty()==false) {

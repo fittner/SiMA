@@ -7,13 +7,10 @@
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
-import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
-import secondaryprocess.datamanipulation.clsActionTools;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -53,7 +50,7 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
         
         //Check if the previous act is the same as this one. Only then, the act match can be too low
         //boolean bSameAct = clsActPreparationTools.checkIfPreviousActIsEqualToCurrentAct(poContinuedGoal, poGoal);
-        eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory())));
+        //eAction oPreviousAction = eAction.valueOf(clsActionTools.getAction(this.moShortTermMemory.findPreviousSingleMemory().getPlanGoal().getAssociatedPlanAction())); //clsMentalSituationTools.getAction(this.moShortTermMemory.findPreviousSingleMemory())));
         double rCurrentImageMatch = 0.0;
         
         //If the act has to start with the first image:

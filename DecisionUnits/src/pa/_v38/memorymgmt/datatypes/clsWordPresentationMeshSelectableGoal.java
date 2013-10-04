@@ -24,7 +24,7 @@ import pa._v38.memorymgmt.enums.ePredicate;
  * 
  */
 public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMeshGoal {
-
+    private final static clsWordPresentationMeshSelectableGoal moNullObject = new clsWordPresentationMeshSelectableGoal(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString(), null, "", eGoalType.NULLOBJECT, 0);
 
 
     /**
@@ -46,6 +46,15 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
         super(poDataStructureIdentifier, poAssociatedStructures, poContent, poGoalObject, poName, oGoalType);
 
         setPotentialDriveFulfillmentImportance(driveDemandImportance);
+    }
+    
+    /**
+     * @since 05.07.2012 22:04:13
+     * 
+     * @return the moNullObjectWPM
+     */
+    public static clsWordPresentationMeshSelectableGoal getNullObject() {
+        return moNullObject;
     }
 
     /**
@@ -136,6 +145,19 @@ public class clsWordPresentationMeshSelectableGoal extends clsWordPresentationMe
      */
     public void setEffortImpactImportance(double pnImportance) {
         this.setUniqueProperty(String.valueOf(pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
+    }
+    
+    /**
+     * Add effort level
+     * 
+     * (wendt)
+     *
+     * @since 17.05.2013 11:38:59
+     *
+     * @param pnImportance
+     */
+    public void addEffortImpactImportance(double pnImportance) {
+        this.setUniqueProperty(String.valueOf(this.getEffortImpactImportance() + pnImportance), eContentType.EFFORTIMPACTIMPORTANCE, ePredicate.HASEFFORTIMPACTIMPORTANCE, true);
     }
     
     

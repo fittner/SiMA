@@ -22,6 +22,8 @@ import datatypes.helpstructures.clsTriple;
  */
 public class clsWordPresentationMeshMentalSituation extends clsWordPresentationMesh {
 
+    private final static clsWordPresentationMeshMentalSituation moNullObject = new clsWordPresentationMeshMentalSituation(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString()); ;
+    
     /**
      * WordPresentationMesh Mental Situation
      *
@@ -36,8 +38,23 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         super(poDataStructureIdentifier, poAssociatedStructures, poContent);
     }
     
-    public static clsWordPresentationMesh createInstance() {
-        return clsWordPresentationMesh.createInstance(eContentType.MENTALSITUATION, "MENTALSITUATION");
+    /**
+     * @since 05.07.2012 22:04:13
+     * 
+     * @return the moNullObjectWPM
+     * 
+     */
+    public static clsWordPresentationMeshMentalSituation getNullObject() {
+        return moNullObject;
+    }
+    
+    public static clsWordPresentationMeshMentalSituation createInstance() {
+        clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.MENTALSITUATION);
+        
+        //Create the basic goal structure
+        clsWordPresentationMeshMentalSituation oRetVal = new clsWordPresentationMeshMentalSituation(oDataStructureIdentifier, new ArrayList<clsAssociation>(), "MENTALSITUATION");    //Here the current step could be used
+        
+        return oRetVal;
     }
     
     //=== Getters and Setters ===//
@@ -63,7 +80,15 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      * @return
      */
     public clsWordPresentationMeshSelectableGoal getPlanGoal() {
-        return (clsWordPresentationMeshSelectableGoal) this.getUniquePropertyWPM(ePredicate.HASPLANGOAL);
+        clsWordPresentationMesh goal = this.getUniquePropertyWPM(ePredicate.HASPLANGOAL);
+        
+        clsWordPresentationMeshSelectableGoal result = clsWordPresentationMeshSelectableGoal.getNullObject();
+        
+        if (goal instanceof clsWordPresentationMeshSelectableGoal) {
+            result=(clsWordPresentationMeshSelectableGoal) goal;
+        }
+        
+        return result;
     }
     
     /**
@@ -142,7 +167,7 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
      *
      * @param poDataStructure
      */
-    public void addAimOfDrive(clsWordPresentationMeshSelectableGoal poDataStructure) {
+    public void addAimOfDrive(clsWordPresentationMeshAimOfDrive poDataStructure) {
         this.addReplaceNonUniqueProperty(poDataStructure, ePredicate.HASAIMOFDRIVE, true);       
     }
     
@@ -158,9 +183,9 @@ public class clsWordPresentationMeshMentalSituation extends clsWordPresentationM
         ArrayList<clsWordPresentationMeshAimOfDrive> result = new ArrayList<clsWordPresentationMeshAimOfDrive>();
         
         for (clsWordPresentationMesh wpm : wordPresentationMeshList) {
-            if (wpm instanceof clsWordPresentationMeshSelectableGoal) {
+            if (wpm instanceof clsWordPresentationMeshAimOfDrive) {
                 result.add((clsWordPresentationMeshAimOfDrive) wpm);
-            } else {
+            } else if (wpm.isNullObject()==false){
                 throw new ClassCastException("This structure is no valid class for this association " + wpm);
             }
         }

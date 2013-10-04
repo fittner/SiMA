@@ -45,6 +45,19 @@ public class PlanningFunctionality {
         }
     }
     
+//    /**
+//     * Set the planned action in the goal
+//     *
+//     * @author wendt
+//     * @since 03.10.2013 21:10:05
+//     *
+//     * @param planGoal
+//     * @param action
+//     */
+//    public static void setDecidedActionToPlanGoal(clsWordPresentationMeshSelectableGoal planGoal, clsWordPresentationMesh action) {
+//        planGoal.setAssociatedPlanAction(action);
+//    }
+    
     /**
      * Get action command from plan goal.
      *

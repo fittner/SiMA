@@ -33,7 +33,7 @@ import secondaryprocess.datamanipulation.clsMeshTools;
 public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 
 	//private String moContent = "UNDEFINED";
-    private final static clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
+    private final static clsWordPresentationMesh moNullObject = new clsWordPresentationMesh(new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, eContentType.NULLOBJECT), new ArrayList<clsAssociation>(), eContentType.NULLOBJECT.toString()); 
 	
 	/**
 	 * DOCUMENT (wendt) - insert description 
@@ -59,8 +59,8 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
      * 
      * @return the moNullObjectWPM
      */
-    public static clsWordPresentationMesh getNullObjectWPM() {
-        return moNullObjectWPM;
+    public static clsWordPresentationMesh getNullObject() {
+        return moNullObject;
     }
     
     /**
@@ -74,7 +74,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
     public static clsWordPresentationMesh createInstance(eContentType contentType, String content) {
         //Create identifiyer. All goals must have the content type "MENTALSITUATION"
         clsTriple<Integer, eDataType, eContentType> oDataStructureIdentifier = new clsTriple<Integer, eDataType, eContentType>(-1, eDataType.WPM, contentType);
-        
+
         //Create the basic goal structure
         clsWordPresentationMesh oRetVal = new clsWordPresentationMesh(oDataStructureIdentifier, new ArrayList<clsAssociation>(), content);    //Here the current step could be used
 
@@ -1031,7 +1031,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
         
         if (oDS!=null) {
             for (clsSecondaryDataStructure oF : oDS) {
-                oRetVal.add((clsWordPresentationMeshFeeling) oF);
+                oRetVal.add((clsWordPresentationMesh) oF);
             }
         }
         

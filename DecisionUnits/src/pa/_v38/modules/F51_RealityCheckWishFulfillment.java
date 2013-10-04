@@ -19,6 +19,7 @@ import pa._v38.interfaces.modules.I6_7_receive;
 import pa._v38.interfaces.modules.I6_7_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -26,6 +27,7 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -70,7 +72,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 	private int mnAffectThresold;
 	
 	/** (wendt) Goal memory; @since 24.05.2012 15:25:09 */
-	private clsShortTermMemory moShortTimeMemory;
+	private clsShortTermMemory<clsWordPresentationMeshMentalSituation> moShortTimeMemory;
 	
 	/** This is the storage for the localization; @since 15.11.2011 14:41:03 */
 	private clsEnvironmentalImageMemory moEnvironmentalImageStorage;
@@ -297,15 +299,20 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		//applyConsequencesOfFeelingsOnGoals(moReachableGoalList_IN);
 		//applyConsequencesOfFeelingsOnGoal(oContinuedGoal);
 		
-//		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
-//		applyEffortOfGoal(moReachableGoalList_IN);
+
 		
 		// --- ADD the previous goal to the goal list if not already added --- //
 		this.moDecisionEngine.addContinuedGoalToGoalList(moReachableGoalList_IN, oContinuedGoal);
 		
+		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+		EffortFunctionality.applyEffortOfGoal(moReachableGoalList_IN);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		// --- ADD NON REACHABLE GOALS TO THE STM --- //
 		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_IN);
+		
+		// --- SET PRELIMINARY EFFORT FOR AVAILABLE CONDITIONS --- //
+		
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));

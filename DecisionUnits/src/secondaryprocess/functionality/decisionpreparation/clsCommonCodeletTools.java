@@ -9,7 +9,6 @@ package secondaryprocess.functionality.decisionpreparation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
-import secondaryprocess.datamanipulation.clsMentalSituationTools;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -20,7 +19,7 @@ import secondaryprocess.datamanipulation.clsMentalSituationTools;
  */
 public class clsCommonCodeletTools {
 	public static clsWordPresentationMeshGoal getPreviousGoalFromShortTermMemory(clsShortTermMemory<clsWordPresentationMeshMentalSituation> poMem) {
-		return clsMentalSituationTools.getGoal(poMem.findPreviousSingleMemory());
+		return poMem.findPreviousSingleMemory().getPlanGoal(); //clsMentalSituationTools.getGoal(poMem.findPreviousSingleMemory());
 			
 	}
 	
