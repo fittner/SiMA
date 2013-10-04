@@ -31,7 +31,7 @@ public class GoalProcessingFunctionality {
         for (clsWordPresentationMeshSelectableGoal g: reducedSelectableGoalList) {
         
             //Special case if goal is generated
-            if (g.getGoalType().equals(eGoalType.DRIVESOURCE) && g.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
+            if (g.getGoalSource().equals(eGoalType.DRIVESOURCE) && g.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
                 try {
                     decisionEngine.initIncomingGoal(g);
                 } catch (Exception e) {

@@ -161,7 +161,7 @@ public class GoalHandlingFunctionality {
             
             //React on goals in the perception, which are emotion and are HIGH NEGATIVE
             if (oReachableGoal.getSupportiveDataStructureType() == eContentType.PI && 
-                    oReachableGoal.getGoalType() == eGoalType.PERCEPTIONALEMOTION &&
+                    oReachableGoal.getGoalSource() == eGoalType.PERCEPTIONALEMOTION &&
                     oReachableGoal.getTotalImportance() == strongestGoalThreshold) {
                 oRetVal.add(new clsPair<Double, clsWordPresentationMeshGoal>(oReachableGoal.getTotalImportance(), oReachableGoal));
             }

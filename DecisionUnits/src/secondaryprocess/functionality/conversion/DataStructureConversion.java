@@ -18,7 +18,6 @@ import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import secondaryprocess.algorithm.conversion.DataStructureConversionTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
-import testfunctions.HackMethods;
 import datatypes.helpstructures.clsPair;
 
 /**
@@ -55,7 +54,7 @@ public class DataStructureConversion {
         // 1. Get all Images of the Mesh
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
         
-        HackMethods.reduceImageListTPM("A08_BASE_DIVIDE_CAKE_L01", oRITPMList);
+        //HackMethods.reduceImageListTPM("A08_BASE_DIVIDE_CAKE_L01", oRITPMList);
         
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP

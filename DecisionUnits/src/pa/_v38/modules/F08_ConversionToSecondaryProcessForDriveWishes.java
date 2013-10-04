@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import config.clsProperties;
-import du.enums.eShapeType;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -20,11 +19,11 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
+import testfunctions.HackMethods;
 
 /**
  * Conversion of drive demands in the form of thing-presentations into drive-wishes in the form of word presentations associated with incoming thing-presentations. For the incoming thing presentations fitting word presentations are selected from memory. The whole packagething presentations, word presentations, and quota of affectsare now converted into a form which can be used by secondary process modules. The drive contents are now drive wishes.  
@@ -137,7 +136,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	public void receive_I5_18(ArrayList<clsDriveMesh> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
+		moDriveList_Input = poDriveList;
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 
@@ -153,7 +152,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+	    moDriveList_Input = HackMethods.JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE(moDriveList_Input, this.getLongTermMemory());
 		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
@@ -164,60 +163,6 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
         } 
 
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
-	}
-	
-	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
-		//FIXME AW .::::::: FAKE Prepare Drive input
-				ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
-				for (clsDriveMesh oDM : moDriveList_Input) {
-					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
-						//Change to cake
-						
-						clsThingPresentationMesh oTPM = this.getLongTermMemory().searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
-						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
-						
-						
-						try {
-							if (oDM.getDebugInfo().equals("nourish")) {
-								oDM.setActualDriveObject(oTPM, 1.0);
-								oDM.setQuotaOfAffect(1.0);
-								
-								oOnlyDriveMesh.add(oDM);
-							} 
-							
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-//						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
-//						for (clsAssociation oAss : oAssList) {
-//							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
-//							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-//								//Get the association with the carrot
-//								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
-//								{
-//									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-//									if(oTPM.getMoContentType() == eContentType.ENTITY) {
-//										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
-//									}
-//								}
-//							}
-//						}
-						
-						//Set mrPleasure to max
-						//oDM.setQuotaOfAffect(1.0);
-						
-						//oOnlyDriveMesh = oDM;
-						
-						//break;
-					//} 
-
-					
-				}
-				
-				//moDriveList_Input.clear();
-				//moDriveList_Input.add(oOnlyDriveMesh);
-				moDriveList_Input = oOnlyDriveMesh;
 	}
 	
 //	/**

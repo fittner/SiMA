@@ -35,7 +35,6 @@ import pa._v38.memorymgmt.enums.ePredicate;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.modules.clsModuleBaseKB;
 import secondaryprocess.algorithm.goals.GoalArrangementTools;
-import secondaryprocess.algorithm.goals.GoalGenerationTools;
 import secondaryprocess.algorithm.goals.clsGoalAlgorithmTools;
 
 /**
@@ -73,17 +72,17 @@ public class clsGoalManipulationTools {
 	 *
 	 * @since 17.07.2012 12:55:00
 	 *
-	 * @param poGoalContent
+	 * @param poGoalName
 	 * @param poGoalType
 	 * @param poAffectLevel
 	 * @param poGoalObject
 	 * @param poSupportiveDataStructure
 	 * @return
 	 */
-	public static clsWordPresentationMeshSelectableGoal createSelectableGoal(String poGoalContent, eGoalType poGoalType, double driveDemandImportance, clsWordPresentationMesh poGoalObject) {
+	public static clsWordPresentationMeshSelectableGoal createSelectableGoal(String poGoalName, eGoalType poGoalType, double driveDemandImportance, clsWordPresentationMesh poGoalObject) {
 		
 		//Generate goalidentifier
-		String oGoalID = clsGoalManipulationTools.generateGoalContentIdentifier(poGoalContent, poGoalObject, poGoalType);
+		String oGoalID = clsGoalManipulationTools.generateGoalContentIdentifier(poGoalName, poGoalObject, poGoalType);
 		
 		//--- Create goal ---//
 		//Create identifiyer. All goals must have the content type "GOAL"
@@ -120,7 +119,7 @@ public class clsGoalManipulationTools {
 //		//clsMeshTools.setUniquePredicateWP(oRetVal, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASGOALNAME, eContentType.GOALNAME, poGoalContent, true);
 //		
 		//Create the basic goal structure
-        clsWordPresentationMeshSelectableGoal oRetVal = new clsWordPresentationMeshSelectableGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalContent, poGoalType, driveDemandImportance);
+        clsWordPresentationMeshSelectableGoal oRetVal = new clsWordPresentationMeshSelectableGoal(oDataStructureIdentifier, new ArrayList<clsAssociation>(), oGoalID, poGoalObject, poGoalName, poGoalType, driveDemandImportance);
 		
 		return oRetVal;
 	}
@@ -374,7 +373,8 @@ public class clsGoalManipulationTools {
         }	//Only in one image
 		
 		//Get all possible feelinggoals from the act
-		oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
+		//FIXME: Activate goal generation from feelings again
+		//oRetVal.addAll(GoalGenerationTools.generateSelectableGoalsFromFeelingsWPM(oIntention, poAct));  //Only in one image
 		
 		
 		//Get from all subimages too
@@ -548,6 +548,8 @@ public class clsGoalManipulationTools {
         
         //Get the drive content
         String oDriveContent = poDM.getDriveIdentifier(); //clsImportanceTools.getDriveType(oAffect.getMoContent());
+        
+        //String oGoalTypeName = oDriveContent;
         
         //Get the affect level
         //double rImportance = poDM.getQuotaOfAffect();

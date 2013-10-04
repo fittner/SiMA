@@ -56,9 +56,10 @@ public enum eContentType {
     
 	//--- Goals ---//
 	CONDITION,
-	GOALTYPE,
+	GOALSOURCE,
 	GOALNAME,
 	GOALOBJECT,
+	GOALTYPENAME,
 	
 	// --- Goals->SelectableGoal --- //
 	PREFERREDACTION,

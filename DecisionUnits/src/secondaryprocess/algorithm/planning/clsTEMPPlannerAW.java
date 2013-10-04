@@ -124,7 +124,7 @@ public class clsTEMPPlannerAW {
 			boolean bActionPlanOK = false;
 
 			//Get goal type
-			eGoalType oGoalType = oGoal.getGoalType();
+			eGoalType oGoalType = oGoal.getGoalSource();
 			
 //			clsWordPresentationMesh oTopImage = clsMeshTools.getSuperStructure(clsGoalTools.getGoalObject(oGoal));
 //			if (oTopImage == null) {

@@ -261,10 +261,17 @@ public class clsImportanceTools {
 		
 		ArrayList<clsDataStructurePA> oPrelResult = getAllDriveWishAssociationsInImage(poImage, 1);
 		
+		
+		
 		//Convert the result into a drive goal, which is a triple of the drive, the intensity and the drive object
 		for (clsDataStructurePA oDSPA : oPrelResult) {
 			clsAssociationSecondary oAssSec = (clsAssociationSecondary) oDSPA;
-			clsWordPresentationMeshSelectableGoal selectableGoal = (clsWordPresentationMeshSelectableGoal) oAssSec.getLeafElement();
+			
+			//Copy goal, in order not to have erroneous references
+			clsWordPresentationMeshSelectableGoal originalSelectableGoal = (clsWordPresentationMeshSelectableGoal) oAssSec.getLeafElement();
+			
+			clsWordPresentationMeshSelectableGoal copyOfSelectableGoal = clsGoalManipulationTools.createSelectableGoal(originalSelectableGoal.getGoalName(), originalSelectableGoal.getGoalSource(), originalSelectableGoal.getPotentialDriveFulfillmentImportance(), originalSelectableGoal.getGoalObject()); 
+			
 			
 			//Get the drive
 			//String oDriveContent = ((clsWordPresentationMeshGoal)oAssSec.getLeafElement()).getGoalContentIdentifier(); //.clsImportanceTools.getDriveType(((clsSecondaryDataStructure)oAssSec.getLeafElement()).getMoContent());
@@ -278,18 +285,18 @@ public class clsImportanceTools {
 			
 			if (poSupportiveDataStructure.isNullObject()==true) {
 			    if (poGoalType.equals(eGoalType.PERCEPTIONALDRIVE)) {
-			        selectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(selectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
+			        copyOfSelectableGoal.setSupportiveDataStructure(clsMeshTools.createImageFromEntity(copyOfSelectableGoal.getGoalObject(), eContentType.PERCEPTIONSUPPORT));
 			    } else {
 			        throw new Exception("Cannot create supportive data structure");
 			    }
 			    
 			} else {
-			    selectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
+			    copyOfSelectableGoal.setSupportiveDataStructure(poSupportiveDataStructure);
 			}
 						
 			
 			
-			selectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
+			copyOfSelectableGoal.addFeelings(clsGoalManipulationTools.getFeelingsFromImage(poImage));
 			
 			//clsWordPresentationMeshGoal oGoal = clsGoalTools.createSelectableGoal(oDriveContent, poGoalType, oImportance, eAction.NULLOBJECT, new ArrayList<clsWordPresentationMeshFeeling>(), oGoalObject, clsMeshTools.createImageFromEntity(oGoalObject, eContentType.PERCEPTIONSUPPORT));
 
@@ -297,19 +304,19 @@ public class clsImportanceTools {
 			if (pbKeepDuplicates==false) {
 				boolean bFound = false;
 				for (clsWordPresentationMeshGoal oGoalTriple : oRetVal) {
-					if (selectableGoal.getGoalName() == oGoalTriple.getGoalName() && 
-					        selectableGoal.getTotalImportance() == oGoalTriple.getTotalImportance() && 
-					                selectableGoal.getGoalObject().getMoContent().equals(oGoalTriple.getGoalObject().getMoContent())) {
+					if (copyOfSelectableGoal.getGoalName() == oGoalTriple.getGoalName() && 
+					        copyOfSelectableGoal.getTotalImportance() == oGoalTriple.getTotalImportance() && 
+					                copyOfSelectableGoal.getGoalObject().getMoContent().equals(oGoalTriple.getGoalObject().getMoContent())) {
 						bFound = true;
 						break;
 					}
 				}
 				
 				if (bFound==false) {
-					oRetVal.add(selectableGoal);
+					oRetVal.add(copyOfSelectableGoal);
 				}
 			} else {
-				oRetVal.add(selectableGoal);
+				oRetVal.add(copyOfSelectableGoal);
 			}
 		}
 		
