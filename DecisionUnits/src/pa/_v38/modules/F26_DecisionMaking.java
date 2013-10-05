@@ -62,15 +62,6 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	public static final String P_AFFECT_THRESHOLD = "AFFECT_THRESHOLD";
 	public static final String P_AVOIC_INTENSITY = "AVOID_INTENSITY";
 	
-	/** Perception IN */
-	//private clsWordPresentationMesh moPerceptionalMesh_IN;
-	/** Associated Memories IN; @since 07.02.2012 15:54:51 */
-	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_IN;
-	/** Perception OUT */
-	//private clsWordPresentationMesh moPerceptionalMesh_OUT;
-	/** Associated Memories OUT; @since 07.02.2012 15:54:51 */
-	//private ArrayList<clsWordPresentationMesh> moAssociatedMemories_OUT;
-	/** List of drive goals IN; @since 07.02.2012 19:10:20 */
 	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_IN;
 	/** DOCUMENT (wendt) - insert description; @since 31.07.2011 14:14:07 */
 	private ArrayList<clsWordPresentationMeshSelectableGoal> moDecidedGoalList_OUT;
@@ -243,7 +234,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 		log.debug("Sorted incoming drive goal list: " + PrintTools.printArrayListWithLineBreaks(oDriveGoalListSorted));
 		
 		//Apply effects of aims of drives
-		GoalHandlingFunctionality.applyDriveDemandsOnReachableGoals(this.moReachableGoalList_IN, this.moDriveGoalList_IN, mrAffectThresold);
+		GoalHandlingFunctionality.applyDriveDemandsOnReachableGoals(this.moReachableGoalList_IN, this.moDriveGoalList_IN);
 		log.debug("Aim of drives on selectable goals applied: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		//Apply effect of feelings on goals

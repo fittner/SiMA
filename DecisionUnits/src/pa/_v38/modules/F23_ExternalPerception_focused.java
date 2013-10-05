@@ -15,9 +15,11 @@ import java.util.SortedMap;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshMentalSituation;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.interfaces.modules.I6_12_receive;
+import pa._v38.interfaces.modules.I6_3_receive;
 import pa._v38.interfaces.modules.I6_6_receive;
 import pa._v38.interfaces.modules.I6_6_send;
 import pa._v38.interfaces.modules.eInterfaces;
@@ -41,11 +43,8 @@ import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionali
  * 11.08.2009, 14:46:53
  * 
  */
-public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_6_send {
+public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I6_12_receive, I6_3_receive, I6_6_send {
 	public static final String P_MODULENUMBER = "23";
-	
-	/** Specialized Logger for this class */
-	//private final Logger log = clsLogger.getLog(this.getClass().getName());
 	
 	/** Perception IN */
 	private clsWordPresentationMesh moPerceptionalMesh_IN;
@@ -58,6 +57,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	
 	private ArrayList<clsWordPresentationMeshSelectableGoal> moReachableGoalList_OUT;
 	
+	private ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives;
 	
 //	/** DOCUMENT (wendt) - insert description; @since 04.08.2011 13:55:35 */
 //	private clsDataStructureContainerPair moEnvironmentalPerception_IN;
@@ -178,14 +178,6 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 			ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
 		
 		moPerceptionalMesh_IN = poPerception;
-//		try {
-//			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
-//		} catch (CloneNotSupportedException e) {
-//			// TODO (wendt) - Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		//AW 20110602 Added Associtated memories
-		//moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
 		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 		
 	}	
@@ -197,11 +189,10 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	 * 
 	 * @see pa.interfaces.I1_7#receive_I1_7(int)
 	 */
-//	@SuppressWarnings("unchecked")
-//	@Override
-//	public void receive_I6_3(ArrayList<clsWordPresentationMeshGoal> poDriveList) {
-//		moDriveGoalList_IN = (ArrayList<clsWordPresentationMeshGoal>)this.deepCopy(poDriveList);
-//	}
+	@Override
+	public void receive_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
+	    aimOfDrives = poDriveList;
+	}
 
 	/* (non-Javadoc)
 	 *
@@ -218,10 +209,13 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshSelectableGoal>(); 
 		
 		//Extract all possible goals in the perception
-		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractPossibleGoalsFromPerception(moPerceptionalMesh_IN));
+		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromPerception(moPerceptionalMesh_IN));
 		
 		//Extract all possible goals from the images (memories)
-		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractPossibleGoalsFromActs(moAssociatedMemories_IN));
+		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromActs(moAssociatedMemories_IN));
+		
+		//Extract basic goals directly from the drives, to be used if there is nothing in perception
+		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromAimOfDrives(aimOfDrives));
 		
 		log.debug("Extracted goals : " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
 		

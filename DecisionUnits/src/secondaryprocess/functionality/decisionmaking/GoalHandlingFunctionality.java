@@ -57,8 +57,8 @@ public class GoalHandlingFunctionality {
      *
      * @since 29.09.2013 12:55:38
      */
-    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList, double thresholdForDriveAimToSelectableGoal) {
-        clsGoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList, thresholdForDriveAimToSelectableGoal);
+    public static void applyDriveDemandsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> selectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poDriveDemandList) {
+        clsGoalAlgorithmTools.applyDriveDemandsOnDriveGoal(selectableGoalList, poDriveDemandList);
         
         //ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(selectableGoalList, poDriveDemandList, currentFeelingsList, affectThreashold);
     }
@@ -180,7 +180,7 @@ public class GoalHandlingFunctionality {
      * @param moActList
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractPossibleGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromActs(ArrayList<clsWordPresentationMesh> moActList) {
         ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
     
         for (clsWordPresentationMesh oAct : moActList) {
@@ -199,9 +199,28 @@ public class GoalHandlingFunctionality {
      * @param poImage
      * @return
      */
-    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractPossibleGoalsFromPerception(clsWordPresentationMesh poImage) {
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromPerception(clsWordPresentationMesh poImage) {
         return clsGoalManipulationTools.extractPossibleGoalsFromPerception(poImage);
         
+    }
+    
+    /**
+     * Extract selectable goals from aim of drives
+     *
+     * @author wendt
+     * @since 05.10.2013 14:15:02
+     *
+     * @param aimOfDrives
+     * @return
+     */
+    public static ArrayList<clsWordPresentationMeshSelectableGoal> extractSelectableGoalsFromAimOfDrives(ArrayList<clsWordPresentationMeshAimOfDrive> aimOfDrives) {
+        ArrayList<clsWordPresentationMeshSelectableGoal> result = new ArrayList<clsWordPresentationMeshSelectableGoal>();
+        
+        for (clsWordPresentationMeshAimOfDrive aimOfDrive : aimOfDrives) {
+            result.add(GoalGenerationTools.createDriveSourceGoal(aimOfDrive));
+        }
+        
+        return result;
     }
     
     /**
@@ -227,54 +246,4 @@ public class GoalHandlingFunctionality {
         
         return oRetVal;
     }
-    
-
-    
-//    public static ArrayList<clsWordPresentationMeshGoal> decideDriveDemandGoals(
-//            ArrayList<clsWordPresentationMeshGoal> poPossibleGoalInputs, 
-//            ArrayList<clsWordPresentationMeshGoal> poDriveList, 
-//            ArrayList<clsAct> poRuleList,
-//            ArrayList<clsWordPresentationMeshFeeling> currentFeelingsList,
-//            clsShortTermMemory shortTermMemory,
-//            boolean bActivateEmotionalInfluence,
-//            int numberOfGoalsToPass,
-//            double affectThreashold) {
-//        ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
-//        
-//        int nAddedGoals = 0;
-//        
-//        //Process emotions
-//        //TODO SM: Remove this function. Panic goals are generated from an act (BODO-act)
-//        clsWordPresentationMeshGoal oPanicGoal = clsGoalAlgorithmTools.generatePanicGoalFromFeeling(currentFeelingsList);
-//        //TODO SM: Remove Panicgoal 
-//        if (oPanicGoal.isNullObject()==false && bActivateEmotionalInfluence==true) {
-//            oRetVal.add(oPanicGoal);
-//            log.trace("Added panic goal" + oPanicGoal);
-//        } else {
-//            //1. Process goals with Superego???
-//
-//            //2. Sort the goals to get the most important goal first
-//            
-//            //3. Remove unreachable goals direct from the list
-//            //TODO: Make this fuction like a value funtion and not just remove if precondition
-//            clsGoalAlgorithmTools.removeNonReachableGoals(poPossibleGoalInputs, shortTermMemory);
-//            
-//            //=== Sort and evaluate them === //
-//            //TODO SM: Extend clsWordPresentationMeshGoal with Unique Property HASFEELINGIMPACT, which is eqivalent to HASIMPORTANCE and HASEFFORTLEVEL
-//            ArrayList<clsWordPresentationMeshGoal> oSortedReachableGoalList = clsGoalTools.sortAndEnhanceGoals(poPossibleGoalInputs, poDriveList, currentFeelingsList, affectThreashold);
-//            
-//            //Add all goals to this list
-//            for (clsWordPresentationMeshGoal oReachableGoal : oSortedReachableGoalList) {
-//                if (nAddedGoals<numberOfGoalsToPass) {
-//                    oRetVal.add(oReachableGoal);
-//                    nAddedGoals++;
-//                } else {
-//                    break;
-//                }
-//
-//            }
-//        }
-//        
-//        return oRetVal;
-//    }
 }

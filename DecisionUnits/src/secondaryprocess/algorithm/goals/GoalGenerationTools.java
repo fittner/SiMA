@@ -9,6 +9,7 @@ package secondaryprocess.algorithm.goals;
 import java.util.ArrayList;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshFeeling;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.enums.eAction;
@@ -116,5 +117,36 @@ public class GoalGenerationTools {
         }
      
         return oResult;
+    }
+    
+    /**
+     * Create a selectable goal based on the aim of drives
+     *
+     * @author wendt
+     * @since 04.10.2013 22:29:42
+     *
+     * @param oAimOfDrive
+     * @return
+     */
+    public static clsWordPresentationMeshSelectableGoal createDriveSourceGoal(clsWordPresentationMeshAimOfDrive oAimOfDrive) {
+        //Get the potential pleasure of the drivemesh
+        clsWordPresentationMesh oGoalObject = oAimOfDrive.getGoalObject();
+        //Get potential satisfaction of goalobject
+        //FIXME Here, the potential fulfillment by the driveobject should be taken. Because this value is hard to receive, a temp value is taken here
+        double potentialImportance = oAimOfDrive.getQuotaOfAffectAsImportance()/2;
+        
+        
+        
+        clsWordPresentationMeshSelectableGoal generatedSelectableGoal = clsGoalManipulationTools.createSelectableGoal(oAimOfDrive.getGoalName(), eGoalType.DRIVESOURCE, potentialImportance, oAimOfDrive.getGoalObject());
+        
+        //Apply the same as the other goals
+        //applyAimOfDriveOnGoal(generatedSelectableGoal, oAimOfDrive);
+        //applyDriveDemandCorrections(generatedSelectableGoal, oAimOfDrive);
+        
+        //Apply effort values of conditions
+        
+        
+        
+        return generatedSelectableGoal;
     }
 }

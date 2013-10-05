@@ -2400,7 +2400,6 @@ public class clsMeshTools {
 		}
 	}
 	
-	
 	/**
 	 * Merge 2 meshes. Only WPM are allowed. Move all associations from the new mesh to the source mesh
 	 * 

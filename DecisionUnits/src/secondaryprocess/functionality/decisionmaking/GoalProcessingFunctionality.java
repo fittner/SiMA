@@ -13,8 +13,6 @@ import logger.clsLogger;
 import org.slf4j.Logger;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
-import pa._v38.memorymgmt.enums.eCondition;
-import pa._v38.memorymgmt.enums.eGoalType;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 
 /**
@@ -30,14 +28,14 @@ public class GoalProcessingFunctionality {
     public static void initStatusOfSelectedGoals(clsDecisionEngine decisionEngine, ArrayList<clsWordPresentationMeshSelectableGoal> reducedSelectableGoalList) {
         for (clsWordPresentationMeshSelectableGoal g: reducedSelectableGoalList) {
         
-            //Special case if goal is generated
-            if (g.getGoalSource().equals(eGoalType.DRIVESOURCE) && g.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
-                try {
-                    decisionEngine.initIncomingGoal(g);
-                } catch (Exception e) {
-                    log.error(e.getMessage());
-                }
-            }
+//            //Special case if goal is generated
+//            if (g.getGoalSource().equals(eGoalType.DRIVESOURCE) && g.checkIfConditionExists(eCondition.IS_CONTINUED_GOAL)==false) {
+//                try {
+//                    decisionEngine.initIncomingGoal(g);
+//                } catch (Exception e) {
+//                    log.error(e.getMessage());
+//                }
+//            }
             
             //Set continued goal condition
             decisionEngine.declareGoalAsContinued(g);

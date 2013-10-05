@@ -28,7 +28,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 
 /**
@@ -366,7 +365,7 @@ public class clsGoalAlgorithmTools {
      * @param pnNumberOfGoalsToPass
      * @return
      */
-    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList, double pnAimOfDriveImportanceThreshold) {
+    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
         
         //ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
@@ -386,48 +385,27 @@ public class clsGoalAlgorithmTools {
                 }
             }
             
-            //If an aim of drive is above a threshold and there is no reachable goal, a new goal is created out of the drive goal
-            if (selectableGoalFound==false && oAimOfDrive.getTotalImportance()>=pnAimOfDriveImportanceThreshold) {
-                //Create a new goal, which is added to the list
-                clsWordPresentationMeshSelectableGoal generatedSelectableGoal = createDriveSourceGoal(oAimOfDrive);
-                
-                poSelectableGoalList.add(generatedSelectableGoal);
-                log.trace("No selectable goals were found for aim of drive {} and therefore the selectable goal {} was created", oAimOfDrive, generatedSelectableGoal);
+            if (selectableGoalFound==false) {
+                try {
+                    throw new Exception("There is no goal for this aim of drive. There must be one, which is created in F23. " + oAimOfDrive);
+                } catch (Exception e) {
+                    log.error("No goal found", e);
+                }
             }
+//            
+//            //If an aim of drive is above a threshold and there is no reachable goal, a new goal is created out of the drive goal
+//            if (selectableGoalFound==false && oAimOfDrive.getTotalImportance()>=pnAimOfDriveImportanceThreshold) {
+//                //Create a new goal, which is added to the list
+//                clsWordPresentationMeshSelectableGoal generatedSelectableGoal = createDriveSourceGoal(oAimOfDrive);
+//                
+//                poSelectableGoalList.add(generatedSelectableGoal);
+//                log.trace("No selectable goals were found for aim of drive {} and therefore the selectable goal {} was created", oAimOfDrive, generatedSelectableGoal);
+//            }
         }
 
     }
     
-    /**
-     * Create a selectable goal based on the aim of drives
-     *
-     * @author wendt
-     * @since 04.10.2013 22:29:42
-     *
-     * @param oAimOfDrive
-     * @return
-     */
-    private static clsWordPresentationMeshSelectableGoal createDriveSourceGoal(clsWordPresentationMeshAimOfDrive oAimOfDrive) {
-        //Get the potential pleasure of the drivemesh
-        clsWordPresentationMesh oGoalObject = oAimOfDrive.getGoalObject();
-        //Get potential satisfaction of goalobject
-        //FIXME Here, the potential fulfillment by the driveobject should be taken. Because this value is hard to receive, a temp value is taken here
-        double potentialImportance = oAimOfDrive.getQuotaOfAffectAsImportance()/2;
-        
-        
-        
-        clsWordPresentationMeshSelectableGoal generatedSelectableGoal = clsGoalManipulationTools.createSelectableGoal(oAimOfDrive.getGoalName(), eGoalType.DRIVESOURCE, potentialImportance, oAimOfDrive.getGoalObject());
-        
-        //Apply the same as the other goals
-        applyAimOfDriveOnGoal(generatedSelectableGoal, oAimOfDrive);
-        applyDriveDemandCorrections(generatedSelectableGoal, oAimOfDrive);
-        
-        //Apply effort values of conditions
-        
-        
-        
-        return generatedSelectableGoal;
-    }
+
     
     
 //    /**
