@@ -2049,10 +2049,7 @@ public class clsMeshTools {
 	public static ArrayList<clsThingPresentationMesh> getAllTPMImages(clsThingPresentationMesh poPerceptionalMesh, int pnLevel) {
 		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
-		
-		//Get all TPM in the mesh
-		//ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
-		
+
 		//Add PI. There is only one
 		ArrayList<eContentType> oContentTypePI = new ArrayList<eContentType>();
 		oContentTypePI.add(eContentType.PI);
@@ -2069,6 +2066,32 @@ public class clsMeshTools {
 		
 		return oRetVal;
 	}
+	
+	/**
+     * Get all images in a mesh, i. e. contentType = RI or PI
+     * 
+     * (wendt)
+     *
+     * @since 28.12.2011 10:30:25
+     *
+     * @param poPerceptionalMesh
+     * @param pnLevel
+     * @return
+     */
+    public static ArrayList<clsThingPresentationMesh> getAllTPMEntities(clsThingPresentationMesh poMesh, int pnLevel) {
+        ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+        ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+
+        ArrayList<eContentType> oContentTypePI = new ArrayList<eContentType>();
+        oContentTypePI.add(eContentType.ENTITY);
+        oFoundImages.addAll(getDataStructureInTPM(poMesh, eDataType.TPM, oContentTypePI, false, pnLevel));
+        
+        for (clsDataStructurePA oTPM : oFoundImages) {
+            oRetVal.add((clsThingPresentationMesh) oTPM);
+        }
+        
+        return oRetVal;
+    }
 	
 	/**
 	 * Merge 2 meshes. Only TPM are allowed. Move all associations from the new mesh to the source mesh
