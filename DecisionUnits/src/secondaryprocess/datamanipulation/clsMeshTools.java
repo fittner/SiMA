@@ -53,7 +53,7 @@ public class clsMeshTools {
 	
 	private static final clsThingPresentationMesh moNullObjectTPM = clsDataStructureGenerator.generateTPM(new clsTriple<eContentType, ArrayList<clsThingPresentation>, Object>(eContentType.NULLOBJECT, new ArrayList<clsThingPresentation>(), eContentType.NULLOBJECT.toString()));
 	private static final clsWordPresentationMesh moNullObjectWPM = clsDataStructureGenerator.generateWPM(new clsPair<eContentType, Object>(eContentType.NULLOBJECT, eContentType.NULLOBJECT.toString()), new ArrayList<clsAssociation>());
-	private static final Logger log = clsLogger.getLog("Tools");
+	private static final Logger log = clsLogger.getLog("Meshtools");
 	
 	//=== STATIC VARIBALES --- END ===//
 	
@@ -1210,8 +1210,19 @@ public class clsMeshTools {
 	private static void searchDataStructureInWPM(clsWordPresentationMesh poMesh, ArrayList<clsWordPresentationMesh> poAddedElements, ArrayList<clsDataStructurePA> poRetVal, eDataType poDataType, ArrayList<clsPair<eContentType, String>> poContentTypeAndContent, boolean pbStopAtFirstMatch, int pnLevel) {
 		//ArrayList<clsThingPresentationMesh> oRetVal = poAddedElements;
 		
-		//Add this element, in order not to search it through 2 times
+		for (clsWordPresentationMesh mesh : poAddedElements) {
+		    if (poMesh.getMoDS_ID()>-1 && poMesh.getMoContentType().equals(eContentType.RI) && poMesh.getMoDS_ID()==mesh.getMoDS_ID() && poMesh.equals(mesh)==false) {
+		        try {
+                    throw new Exception("Erroneous mesh structure. The element " + poMesh + " already exists but is not the same instance with the structure " + mesh);
+                } catch (Exception e) {
+                    log.error("Error in mesh structure", e);
+                }
+		    }
+		}
+	    
 		poAddedElements.add(poMesh);
+		
+		
 		//Add the structure itself to the list of passed elements
 		//Check this data structure for filter options and add the result to the result list if filter fits
 		if (poDataType.equals(eDataType.WPM)==true) {
@@ -2038,10 +2049,7 @@ public class clsMeshTools {
 	public static ArrayList<clsThingPresentationMesh> getAllTPMImages(clsThingPresentationMesh poPerceptionalMesh, int pnLevel) {
 		ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
 		ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
-		
-		//Get all TPM in the mesh
-		//ArrayList<clsThingPresentationMesh> oAllTPM = getTPMInMesh(poPerceptionalMesh, pnLevel);
-		
+
 		//Add PI. There is only one
 		ArrayList<eContentType> oContentTypePI = new ArrayList<eContentType>();
 		oContentTypePI.add(eContentType.PI);
@@ -2058,6 +2066,32 @@ public class clsMeshTools {
 		
 		return oRetVal;
 	}
+	
+	/**
+     * Get all images in a mesh, i. e. contentType = RI or PI
+     * 
+     * (wendt)
+     *
+     * @since 28.12.2011 10:30:25
+     *
+     * @param poPerceptionalMesh
+     * @param pnLevel
+     * @return
+     */
+    public static ArrayList<clsThingPresentationMesh> getAllTPMEntities(clsThingPresentationMesh poMesh, int pnLevel) {
+        ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+        ArrayList<clsThingPresentationMesh> oRetVal = new ArrayList<clsThingPresentationMesh>();
+
+        ArrayList<eContentType> oContentTypePI = new ArrayList<eContentType>();
+        oContentTypePI.add(eContentType.ENTITY);
+        oFoundImages.addAll(getDataStructureInTPM(poMesh, eDataType.TPM, oContentTypePI, false, pnLevel));
+        
+        for (clsDataStructurePA oTPM : oFoundImages) {
+            oRetVal.add((clsThingPresentationMesh) oTPM);
+        }
+        
+        return oRetVal;
+    }
 	
 	/**
 	 * Merge 2 meshes. Only TPM are allowed. Move all associations from the new mesh to the source mesh
@@ -2366,7 +2400,6 @@ public class clsMeshTools {
 		}
 	}
 	
-	
 	/**
 	 * Merge 2 meshes. Only WPM are allowed. Move all associations from the new mesh to the source mesh
 	 * 
@@ -2465,7 +2498,7 @@ public class clsMeshTools {
 		}
 		
 		//Create a removelist
-		ArrayList<clsAssociation> oRemoveIntAssList = new ArrayList<clsAssociation>();
+		//ArrayList<clsAssociation> oRemoveIntAssList = new ArrayList<clsAssociation>();
 		
 		//Internal associations
 		for (clsAssociation oIntMoveFromAss : poMoveFromMesh.getMoInternalAssociatedContent()) {

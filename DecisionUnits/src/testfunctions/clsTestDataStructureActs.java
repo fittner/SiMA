@@ -53,7 +53,7 @@ public class clsTestDataStructureActs {
 	    ArrayList<clsWordPresentationMeshGoal> oReplaceList = new ArrayList<clsWordPresentationMeshGoal>();
 	    
 	    for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
-	        eGoalType oGoalType = oG.getGoalType();
+	        eGoalType oGoalType = oG.getGoalSource();
 	        
 	        if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE")) {
 	            oReplaceList.add(oG);
@@ -74,7 +74,7 @@ public class clsTestDataStructureActs {
 	}
 	
 	public static void exeTestIfErroneousSupportiveDataStructureIsAssigned(clsWordPresentationMeshGoal goal) throws Exception {
-	        if (goal.getGoalType().equals(eGoalType.MEMORYDRIVE) && goal.getSupportiveDataStructure().getMoContent().equals("ENTITY2IMAGE")) {
+	        if (goal.getGoalSource().equals(eGoalType.MEMORYDRIVE) && goal.getSupportiveDataStructure().getMoContent().equals("ENTITY2IMAGE")) {
 	            throw new Exception("Erroneous Supportive Datastructure assigned");
 	        }
 

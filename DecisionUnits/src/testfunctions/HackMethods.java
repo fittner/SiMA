@@ -13,10 +13,13 @@ import logger.clsLogger;
 
 import org.slf4j.Logger;
 
+import du.enums.eShapeType;
+import pa._v38.memorymgmt.datatypes.clsDriveMesh;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eGoalType;
+import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -40,7 +43,7 @@ public class HackMethods {
         ArrayList<clsWordPresentationMeshGoal> oReplaceList = new ArrayList<clsWordPresentationMeshGoal>();
         
         for (clsWordPresentationMeshGoal oG : moReachableGoalList_IN) {
-            eGoalType oGoalType = oG.getGoalType();
+            eGoalType oGoalType = oG.getGoalSource();
             
             if (bPerceivedFound==false && oGoalType.equals(eGoalType.PERCEPTIONALDRIVE) && oG.getGoalObject().getMoContent().equals("CAKE") && oG.getGoalName().equals("LIBIDINOUSSTOMACH")) {
                 oReplaceList.add(oG);
@@ -95,6 +98,39 @@ public class HackMethods {
                 iter.remove();
             }
         }
+    }
+    
+    public static ArrayList<clsDriveMesh> JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE(ArrayList<clsDriveMesh> driveList_Input, itfModuleMemoryAccess memoryAccess) {
+        log.warn("HACKMETHOD JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE ACTIVATED");
+        //FIXME AW .::::::: FAKE Prepare Drive input
+                ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
+                for (clsDriveMesh oDM : driveList_Input) {
+                    //if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
+                        //Change to cake
+                        
+                        clsThingPresentationMesh oTPM = memoryAccess.searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
+                        //clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
+                        
+                        
+                        try {
+                            if (oDM.getDebugInfo().equals("nourish")) {
+                                oDM.setActualDriveObject(oTPM, 1.0);
+                                oDM.setQuotaOfAffect(1.0);
+                                
+                                oOnlyDriveMesh.add(oDM);
+                            } 
+                            
+                        } catch (Exception e) {
+                            // TODO (wendt) - Auto-generated catch block
+                            e.printStackTrace();
+                        }
+
+                    
+                }
+                
+                //moDriveList_Input.clear();
+                //moDriveList_Input.add(oOnlyDriveMesh);
+                return oOnlyDriveMesh;
     }
     
 }

@@ -28,7 +28,6 @@ import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
-import secondaryprocess.datamanipulation.clsGoalManipulationTools;
 import secondaryprocess.datamanipulation.clsImportanceTools;
 
 /**
@@ -83,7 +82,7 @@ public class clsGoalAlgorithmTools {
      * @throws Exception
      */
     public static void setConditionFromGoalType(clsWordPresentationMeshGoal poGoal) throws Exception {
-        eCondition oCondition = clsGoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalType());
+        eCondition oCondition = clsGoalAlgorithmTools.getConditionFromGoalType(poGoal.getGoalSource());
         poGoal.removeCondition(eCondition.IS_DRIVE_SOURCE);
         poGoal.removeCondition(eCondition.IS_MEMORY_SOURCE);
         poGoal.removeCondition(eCondition.IS_PERCEPTIONAL_SOURCE);
@@ -366,7 +365,7 @@ public class clsGoalAlgorithmTools {
      * @param pnNumberOfGoalsToPass
      * @return
      */
-    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList, double pnAimOfDriveImportanceThreshold) {
+    public static void applyDriveDemandsOnDriveGoal (ArrayList<clsWordPresentationMeshSelectableGoal> poSelectableGoalList, ArrayList<clsWordPresentationMeshAimOfDrive> poAimOfDriveListGoalList) {
         
         //ArrayList<clsWordPresentationMeshSelectableGoal> oRetVal = new ArrayList<clsWordPresentationMeshSelectableGoal>();
         
@@ -377,72 +376,36 @@ public class clsGoalAlgorithmTools {
             //Apply effect of drive to selectable goal on each possible goal
             for (clsWordPresentationMeshSelectableGoal selectableGoal : poSelectableGoalList) {
                 boolean goalMatch = applyAimOfDriveOnGoal(selectableGoal, oAimOfDrive);
-                applyDriveDemandCorrections(selectableGoal, oAimOfDrive);
                 
                 //If at least one goal was found, set true
                 if (goalMatch==true) {
+                    applyDriveDemandCorrections(selectableGoal, oAimOfDrive);
                     log.trace("For aim of drive {}, the following selectable goal was found: {}", oAimOfDrive, selectableGoal);
                     selectableGoalFound=true;
                 }
             }
             
-            //If an aim of drive is above a threshold and there is no reachable goal, a new goal is created out of the drive goal
-            if (selectableGoalFound==false && oAimOfDrive.getTotalImportance()>=pnAimOfDriveImportanceThreshold) {
-                //Create a new goal, which is added to the list
-                clsWordPresentationMeshSelectableGoal generatedSelectableGoal = clsGoalManipulationTools.createSelectableGoal(oAimOfDrive.getGoalName(), eGoalType.DRIVESOURCE, oAimOfDrive.getTotalImportance(), oAimOfDrive.getGoalObject());
-                //Apply the same as the other goals
-                applyAimOfDriveOnGoal(generatedSelectableGoal, oAimOfDrive);
-                applyDriveDemandCorrections(generatedSelectableGoal, oAimOfDrive);
-                
-                poSelectableGoalList.add(generatedSelectableGoal);
-                log.trace("No selectable goals were found for aim of drive {} and therefore the selectable goal {} was created", oAimOfDrive, generatedSelectableGoal);
+            if (selectableGoalFound==false) {
+                try {
+                    throw new Exception("There is no goal for this aim of drive. There must be one, which is created in F23. " + oAimOfDrive);
+                } catch (Exception e) {
+                    log.error("No goal found", e);
+                }
             }
+//            
+//            //If an aim of drive is above a threshold and there is no reachable goal, a new goal is created out of the drive goal
+//            if (selectableGoalFound==false && oAimOfDrive.getTotalImportance()>=pnAimOfDriveImportanceThreshold) {
+//                //Create a new goal, which is added to the list
+//                clsWordPresentationMeshSelectableGoal generatedSelectableGoal = createDriveSourceGoal(oAimOfDrive);
+//                
+//                poSelectableGoalList.add(generatedSelectableGoal);
+//                log.trace("No selectable goals were found for aim of drive {} and therefore the selectable goal {} was created", oAimOfDrive, generatedSelectableGoal);
+//            }
         }
-        
-        
-//        //1. Go through the list of drives, which are used as filter
-//        for (int i=0; i<poSortedDriveGoalList.size();i++) {
-//            ArrayList<clsPair<Double, clsWordPresentationMeshGoal>> oPreliminarySortList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
-//            //Get drive goal
-//            clsWordPresentationMeshAimOfDrive oDriveGoal = poSortedDriveGoalList.get(i);
-//            
-//            ArrayList<clsPair<Double, clsWordPresentationMeshSelectableGoal>> oPreliminaryGoalList = new ArrayList<clsPair<Double, clsWordPresentationMeshGoal>>();
-//            
-//            //Extract all remembered goals from the image, which match the drive goal
-//            ArrayList<clsPair<Double,clsWordPresentationMeshSelectableGoal>> filterDriveGoalsFromImageGoals = filterDriveGoalsFromImageGoals(oDriveGoal, poFeltFeelingList, poSortedPossibleGoalList, pnAffectLevelThreshold);
-//            oPreliminaryGoalList.addAll(filterDriveGoalsFromImageGoals);
-//            log.trace("for drivegoal " + oDriveGoal.getGoalContentIdentifier() + " the following reachable goals were extracted: " + oPreliminaryGoalList);
-//            
-//            //Some goals are important although they are not in the perception. Therefore, the drive goals will be passed
-//            if (oPreliminaryGoalList.isEmpty()==true && oDriveGoal.getTotalImportance()>=pnAffectLevelThreshold) {
-//                //There is no current affect level
-//                //This sort order shall have the last priority
-//                
-//                double rCurrentPISortOrder = 0;
-//                double rTotalCurrentAffectLevel = Math.abs(0 * 10 + rCurrentPISortOrder);
-//                oPreliminaryGoalList.add(new clsPair<Double, clsWordPresentationMeshSelectableGoal>(rTotalCurrentAffectLevel, oDriveGoal));
-//            }
-//            
-//            //Sort reachable goals for each drive goal
-//            for (clsPair<Double, clsWordPresentationMeshSelectableGoal> oPair : oPreliminaryGoalList) {
-//                int nIndex = 0;
-//                //Increase index if the list is not empty
-//                while((oPreliminarySortList.isEmpty()==false) && 
-//                        (nIndex<oPreliminarySortList.size()) &&
-//                        (oPreliminarySortList.get(nIndex).a > oPair.a)) {
-//                    nIndex++;
-//                }
-//                
-//                oPreliminarySortList.add(nIndex, oPair);
-//            }
-//            
-//            for (clsPair<Double, clsWordPresentationMeshGoal> oPair : oPreliminarySortList) {
-//                oRetVal.add(oPair.b);
-//            }
-//        }   
-//        
-//        return oRetVal;
+
     }
+    
+
     
     
 //    /**

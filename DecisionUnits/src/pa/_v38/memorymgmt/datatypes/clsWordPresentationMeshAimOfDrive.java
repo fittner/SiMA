@@ -76,7 +76,6 @@ public class clsWordPresentationMeshAimOfDrive extends clsWordPresentationMeshGo
             oRetVal = Double.valueOf(oAffectLevel);
         }
         
-    
         return oRetVal;
     }
     

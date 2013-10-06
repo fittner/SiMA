@@ -43,7 +43,7 @@ public class GoalArrangementTools {
     public static clsWordPresentationMeshSelectableGoal getSpatiallyNearestGoalFromPerception(ArrayList<clsWordPresentationMeshSelectableGoal> poGoalList, clsWordPresentationMeshSelectableGoal poCompareGoal) {
         clsWordPresentationMeshSelectableGoal oResult = clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
         
-        eGoalType oCompareGoalType = poCompareGoal.getGoalType();
+        eGoalType oCompareGoalType = poCompareGoal.getGoalSource();
         
         if (oCompareGoalType.equals(eGoalType.PERCEPTIONALDRIVE)==false && oCompareGoalType.equals(eGoalType.PERCEPTIONALEMOTION)==false) {
             try {
@@ -98,7 +98,7 @@ public class GoalArrangementTools {
         double rBestDistance = -1;
         
         for (clsWordPresentationMeshSelectableGoal oGoal : poGoalList) {
-            eGoalType oGoalTypeFromListGoal = oGoal.getGoalType();
+            eGoalType oGoalTypeFromListGoal = oGoal.getGoalSource();
             
             if (oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALDRIVE) || oGoalTypeFromListGoal.equals(eGoalType.PERCEPTIONALEMOTION)) {
                 double rCurrentDistance = clsSecondarySpatialTools.getDistance(oGoal.getGoalObject(), poCompareGoal.getGoalObject());

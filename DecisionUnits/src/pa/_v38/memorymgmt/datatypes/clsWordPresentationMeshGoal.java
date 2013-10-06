@@ -45,7 +45,7 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
         
         setGoalObject(poGoalObject);
         setGoalName(poName);
-        setGoalType(oGoalType);
+        setGoalSource(oGoalType);
         
         
     }
@@ -78,36 +78,6 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
     public void setGoalObject(clsWordPresentationMesh poGoalObject) {
         this.setUniqueProperty(poGoalObject, ePredicate.HASGOALOBJECT, true);
     }
-    
-    
-  
-//    /**
-//     * Add a Feeling to the goal, which is not already present. If present, then replace
-//     * 
-//     * (wendt)
-//     *
-//     * @since 17.05.2013 10:37:48
-//     *
-//     * @param poFeeling
-//     */
-//    public void addWording(clsWordPresentationMesh poSupportiveDataStructure) {
-//        this.addReplaceNonUniqueProperty(poSupportiveDataStructure, ePredicate.HASACTION, true);
-//    }
-
-    
-    
-//    /**
-//     * Set affectlevel
-//     * 
-//     * (wendt)
-//     *
-//     * @since 17.05.2013 11:36:43
-//     *
-//     * @param pnImportance
-//     */
-//    public void setImportance(double prImportance) {
-//        this.setUniqueProperty(String.valueOf(prImportance), eContentType.IMPORTANCE, ePredicate.HASTOTALIMPORTANCE, true);
-//    }
     
     
     /**
@@ -238,6 +208,34 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
      */
     public String getGoalName() {
         return this.getUniqueProperty(ePredicate.HASGOALNAME);
+    }
+    
+    /**
+     * Set goal name
+     * 
+     * (wendt)
+     *
+     * @since 23.07.2012 16:04:54
+     *
+     * @param poGoal
+     * @param poName
+     */
+    public void setGoalTypeName(String poName) {
+        this.setUniqueProperty(poName, eContentType.GOALTYPENAME, ePredicate.HASGOALTYPENAME, true);
+    }
+    
+    /**
+     * Get the goal content
+     * 
+     * (wendt)
+     *
+     * @since 26.03.2012 21:29:45
+     *
+     * @param poGoal
+     * @return
+     */
+    public String getGoalTypeName() {
+        return this.getUniqueProperty(ePredicate.HASGOALTYPENAME);
     } 
     
     /**
@@ -317,10 +315,10 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
      * @param poGoal
      * @return
      */
-    public eGoalType getGoalType() {
+    public eGoalType getGoalSource() {
         eGoalType oRetVal = eGoalType.NULLOBJECT;
         
-        String oGoalType = this.getUniqueProperty(ePredicate.HASGOALTYPE);
+        String oGoalType = this.getUniqueProperty(ePredicate.HASGOALSOURCE);
         if (oGoalType.equals("")==false) {
             oRetVal = eGoalType.valueOf(oGoalType);
         }
@@ -336,8 +334,8 @@ public abstract class clsWordPresentationMeshGoal extends clsWordPresentationMes
      *
      * @param oGoalType
      */
-    public void setGoalType(eGoalType oGoalType) {
-        this.setUniqueProperty(oGoalType.toString(), eContentType.GOALTYPE, ePredicate.HASGOALTYPE, true);        
+    public void setGoalSource(eGoalType oGoalType) {
+        this.setUniqueProperty(oGoalType.toString(), eContentType.GOALSOURCE, ePredicate.HASGOALSOURCE, true);        
     }
     
     /**

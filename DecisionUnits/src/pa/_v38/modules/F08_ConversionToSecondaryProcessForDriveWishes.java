@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.SortedMap;
 
 import config.clsProperties;
-import du.enums.eShapeType;
 import pa._v38.tools.toText;
 import pa._v38.interfaces.modules.I5_18_receive;
 import pa._v38.interfaces.modules.I6_3_receive;
@@ -20,7 +19,6 @@ import pa._v38.interfaces.modules.I6_5_receive;
 import pa._v38.interfaces.modules.I6_5_send;
 import pa._v38.interfaces.modules.eInterfaces;
 import pa._v38.memorymgmt.datatypes.clsDriveMesh;
-import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshAimOfDrive;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
@@ -137,7 +135,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	@Override
 	public void receive_I5_18(ArrayList<clsDriveMesh> poDriveList) {
 		//TODO (Kohlhauser) adapt Module to new Input 
-		moDriveList_Input = (ArrayList<clsDriveMesh>)deepCopy(poDriveList);
+		moDriveList_Input = poDriveList;
 		//moDriveList_Input = new ArrayList<clsDriveMesh>(); 
 	}
 
@@ -153,7 +151,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	protected void process_basic() {
 
 		//Fixme: Remove this hack
-		//JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE();
+	    //moDriveList_Input = HackMethods.JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE(moDriveList_Input, this.getLongTermMemory());
 		//log.warn("HACK IMPLEMENTED: All drives except Aggressive Stomach are deactivaed");
 		
 		
@@ -166,116 +164,6 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 		double rReceivedPsychicEnergy = moPsychicEnergyStorage.send_D3_1(mnModuleNumber, 3, 1);
 	}
 	
-	private void JACKBAUERHASHACKEDHERETOGETTHENOURISHCAKEDRIVEASASINGLEDRIVE() {
-		//FIXME AW .::::::: FAKE Prepare Drive input
-				ArrayList<clsDriveMesh> oOnlyDriveMesh = new ArrayList<clsDriveMesh>();
-				for (clsDriveMesh oDM : moDriveList_Input) {
-					//if (oDM.getActualDriveObject().getMoContent().equals("BODO")) {
-						//Change to cake
-						
-						clsThingPresentationMesh oTPM = this.getLongTermMemory().searchExactEntityFromInternalAttributes("CAKE", eShapeType.CIRCLE.toString(), "FFAFAF");
-						//clsThingPresentationMesh oTPM = this.debugGetThingPresentationMeshEntity("CARROT", eShapeType.CIRCLE.toString(), "FFC800");
-						
-						
-						try {
-							if (oDM.getDebugInfo().equals("nourish")) {
-								oDM.setActualDriveObject(oTPM, 1.0);
-								oDM.setQuotaOfAffect(1.0);
-								
-								oOnlyDriveMesh.add(oDM);
-							} 
-							
-						} catch (Exception e) {
-							// TODO (wendt) - Auto-generated catch block
-							e.printStackTrace();
-						}
-//						ArrayList<clsAssociation> oAssList = oDM.getExternalMoAssociatedContent();
-//						for (clsAssociation oAss : oAssList) {
-//							clsDriveMesh oOtherDM = (clsDriveMesh) ((clsAssociationPrimaryDM)oAss).getTheOtherElement(oDM);
-//							if (oOtherDM.getActualDriveObject().getMoContent().equals("CAKE")) {
-//								//Get the association with the carrot
-//								for(clsAssociation oAA : oDM.getMoInternalAssociatedContent())
-//								{
-//									clsThingPresentationMesh oTPM = (clsThingPresentationMesh)oAA.getMoAssociationElementB();
-//									if(oTPM.getMoContentType() == eContentType.ENTITY) {
-//										oAA.setMoAssociationElementB(oOtherDM.getActualDriveObject());
-//									}
-//								}
-//							}
-//						}
-						
-						//Set mrPleasure to max
-						//oDM.setQuotaOfAffect(1.0);
-						
-						//oOnlyDriveMesh = oDM;
-						
-						//break;
-					//} 
-
-					
-				}
-				
-				//moDriveList_Input.clear();
-				//moDriveList_Input.add(oOnlyDriveMesh);
-				moDriveList_Input = oOnlyDriveMesh;
-	}
-	
-//	/**
-//	 * DOCUMENT (kohlhauser) - insert description
-//	 *
-//	 * @author kohlhauser
-//	 * 19.03.2011, 09:17:07
-//	 *
-//	 * @return
-//	 */
-//	private ArrayList<clsWordPresentationMeshGoal> getWPAssociations(ArrayList<clsDriveMesh> poDriveList_Input) {
-//		ArrayList<clsWordPresentationMeshGoal> oRetVal = new ArrayList<clsWordPresentationMeshGoal>();
-//		
-//		for (clsDriveMesh oPair : poDriveList_Input) {			
-//			if (oPair.getDriveComponent()==null) {
-//				//Break as there is an error
-//				break;
-//			}
-//			
-//			//Convert drive to affect
-////			clsWordPresentation oAffect = clsGoalTools.convertDriveMeshToWP(oPair);
-//			
-//			//Get the drive content
-//			String oDriveContent = oPair.getDriveIdentifier(); //clsImportanceTools.getDriveType(oAffect.getMoContent());
-//			
-//			//Get the affect level
-//			double rImportance = oPair.getQuotaOfAffect();
-//			//eAffectLevel oAffectLevel = clsImportanceTools.getDriveIntensityAsAffectLevel(oAffect.getMoContent());
-//			
-//			//Get the preferred action name
-//			String oActionString = oPair.getActualDriveAim().getMoContent();
-//			eAction oAction = eAction.NULLOBJECT;
-//			try {
-//				oAction =  eAction.getAction(oActionString);
-//
-//			} catch (Exception e) {
-//				e.printStackTrace();
-//			}
-//			
-//			//Convert the object to a WPM
-//			clsWordPresentationMesh oDriveObject = null;
-//			clsAssociationWordPresentation oWPforObject = this.getLongTermMemory().getSecondaryDataStructure(oPair.getActualDriveObject(), 1.0);
-//			if (oWPforObject!=null) {
-//				if (oWPforObject.getLeafElement() instanceof clsWordPresentationMesh) {
-//					oDriveObject = (clsWordPresentationMesh) oWPforObject.getLeafElement();
-//					oDriveObject.getExternalAssociatedContent().add(oWPforObject);
-//				}
-//			}
-//			
-//			if ((oDriveContent!=null) && (oDriveObject!=null) && (oAffectLevel!=null)) {
-//				//If these values exist, create a new container with the word presentation
-//				//oRetVal.add(new clsTriple<String, eAffectLevel, clsWordPresentationMesh>(oDriveContent, oAffectLevel, oDriveObject));
-//				oRetVal.add(clsGoalTools.createGoal(oDriveContent, eGoalType.DRIVESOURCE, oAffectLevel, oAction, new ArrayList<clsWordPresentationMeshFeeling>(), oDriveObject, clsMeshTools.getNullObjectWPM()));
-//			}
-//		}
-//		
-//		return oRetVal;
-//	}
 	
 	/* (non-Javadoc)
 	 *
@@ -300,7 +188,7 @@ public class F08_ConversionToSecondaryProcessForDriveWishes extends clsModuleBas
 	 */
 	@Override
 	public void send_I6_3(ArrayList<clsWordPresentationMeshAimOfDrive> poDriveList) {
-		//((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
+		((I6_3_receive)moModuleList.get(23)).receive_I6_3(poDriveList);
 		//((I6_3_receive)moModuleList.get(51)).receive_I6_3(poDriveList);
 		((I6_3_receive)moModuleList.get(26)).receive_I6_3(poDriveList);
 		
