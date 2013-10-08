@@ -47,12 +47,13 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 06.07.2011, 10:59:56
  * 
  */
-public abstract class clsDataStructurePA implements Cloneable, itfComparable{
+public abstract class clsDataStructurePA implements Cloneable, itfComparable {
 
 	protected int moDS_ID;
 	protected eDataType moDataStructureType;
 	protected eContentType moContentType;
 	protected String moDebugInfo;
+	//protected String content = "UNDEFINED";
 	//AW 20110706: New Identifier for instances
 	/*As there are no possibility to identify a root element with a unique key, an instance ID have to be used
 	 * in order to be able to assign the root elements in the associated data structures in the containers with
@@ -345,5 +346,11 @@ public abstract class clsDataStructurePA implements Cloneable, itfComparable{
 		}
 		return oClone;
 	}
+	
+//	@Override
+//    public abstract Object clone() throws CloneNotSupportedException; // {
+        //return super.clone();
+	    
+	//};
 
 }

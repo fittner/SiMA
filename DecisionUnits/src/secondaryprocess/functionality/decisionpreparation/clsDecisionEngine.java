@@ -111,7 +111,7 @@ public class clsDecisionEngine {
         //Get the previous goal
         
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("Systemtester active");

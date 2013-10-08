@@ -622,8 +622,23 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
 		moExternalAssociatedContent.addAll(poAssociatedDataStructures); 
 	}
 	
+	 /**
+     * Alternative clone for cloning directed graphs
+     * 
+     * (wendt)
+     *
+     * @since 01.12.2011 16:29:38
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
 	@Override
 	public Object clone() throws CloneNotSupportedException {
+        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+    }
+	
+	
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
         try {
         	clsDriveMesh  oClone = (clsDriveMesh)super.clone();
         	oClone.mrQuotaOfAffect = this.mrQuotaOfAffect;
@@ -632,7 +647,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		
         		for(clsAssociation oAssociation : moInternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moInternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;
@@ -645,7 +660,7 @@ public class clsDriveMesh extends clsHomeostaticRepresentation implements itfInt
         		
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
         			try { 
-    					Object dupl = oAssociation.clone(this, oClone, new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>()); 
+    					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     				} catch (Exception e) {
     					return e;

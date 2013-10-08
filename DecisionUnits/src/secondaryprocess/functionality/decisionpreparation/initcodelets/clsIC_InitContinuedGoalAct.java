@@ -104,6 +104,20 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             
             if (oPreviousAct.isNullObject()==false) {
                 try {
+                    //=== Perform system tests ===//
+                    clsTester.getTester().setActivated(true);
+                    if (clsTester.getTester().isActivated()) {
+                        try {
+                            log.warn("System tester active");
+                            clsTester.getTester().exeTestCheckLooseAssociations(oPreviousAct); 
+                            clsTester.getTester().exeTestAssociationAssignment(oPreviousAct);
+                            
+                        } catch (Exception e) {
+                            log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+                        }
+                    }
+                    
+                    log.trace("Previous act: {}", oPreviousAct);
                     clsWordPresentationMesh oClonedPreviousAct = (clsWordPresentationMesh) oPreviousAct.clone();
                     //Set the cloned act as this act
                     this.moGoal.setSupportiveDataStructure(oClonedPreviousAct);
@@ -111,6 +125,18 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
                 } catch (CloneNotSupportedException e) {
                     // TODO (wendt) - Auto-generated catch block
                     e.printStackTrace();
+                }
+            }
+            
+            clsTester.getTester().setActivated(true);
+            if (clsTester.getTester().isActivated()) {
+                try {
+                    log.warn("System tester active");
+                    for (clsWordPresentationMesh mesh : new ArrayList<clsWordPresentationMesh>(Arrays.asList(oPreviousAct))) {
+                        clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                    }
+                } catch (Exception e) {
+                    log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
                 }
             }
             

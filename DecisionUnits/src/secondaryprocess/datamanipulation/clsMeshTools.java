@@ -1904,6 +1904,32 @@ public class clsMeshTools {
 		}
 	}
 	
+	/**
+	 * Remove the TPM part from the WPM part
+	 *
+	 * @author wendt
+	 * @since 08.10.2013 22:40:17
+	 *
+	 * @param mesh
+	 */
+	public static void removeTPMPartOfWPM(clsWordPresentationMesh input) {
+	    ArrayList<clsWordPresentationMesh> meshList = clsMeshTools.getAllWPMObjects(input, 10);
+	    
+	    for (clsWordPresentationMesh mesh : meshList) {
+	        clsAssociationWordPresentation foundAss = null;
+	        for (clsAssociation oAss : mesh.getExternalAssociatedContent()) {
+	            if (oAss instanceof clsAssociationWordPresentation) {
+	                foundAss = (clsAssociationWordPresentation) oAss;
+	                break;
+	            }
+	        }
+	        
+	        if (foundAss!=null) {
+	            mesh.getExternalAssociatedContent().remove(foundAss);
+	        }
+	    }
+	}
+	
 	//=== REMOVE DATA STRUCTURES IN TPM GENERAL --- END ===//
 	
 	/**

@@ -207,7 +207,7 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	    log.debug("=== module {} start ===", this.getClass().getName());
 	    
 	    //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("Systemtester activated");

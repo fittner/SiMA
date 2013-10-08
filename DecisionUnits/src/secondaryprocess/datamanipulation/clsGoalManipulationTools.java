@@ -9,7 +9,6 @@ package secondaryprocess.datamanipulation;
 import general.datamanipulation.GeneralSortingTools;
 
 import java.util.ArrayList;
-
 import org.apache.log4j.Logger;
 
 import datatypes.helpstructures.clsPair;
@@ -243,8 +242,7 @@ public class clsGoalManipulationTools {
 	 */
 	public static clsWordPresentationMeshSelectableGoal copyGoalWithoutTaskStatusAndAction(clsWordPresentationMeshSelectableGoal poGoal) {
 	    clsWordPresentationMeshSelectableGoal oResult = null;
-		
-		try {
+		try {   
 			oResult = (clsWordPresentationMeshSelectableGoal) poGoal.clone();
 			
 			//Remove all task status from the goal

@@ -163,7 +163,7 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	    log.debug("=== module {} start ===", this.getClass().getName());
 	    
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");

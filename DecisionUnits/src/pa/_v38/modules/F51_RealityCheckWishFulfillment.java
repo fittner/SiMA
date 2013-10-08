@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
+import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
@@ -325,8 +326,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		// --- ADD NON REACHABLE GOALS TO THE STM --- //
 		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_IN);
 		
-		// --- SET PRELIMINARY EFFORT FOR AVAILABLE CONDITIONS --- //
-		//This is done in F53
+		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_IN);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));

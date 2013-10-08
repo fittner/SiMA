@@ -220,7 +220,7 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		moAssociatedMemories_OUT = oWPMConstruct.b;
 		
 	      //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("Systemtests activated");

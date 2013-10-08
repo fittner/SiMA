@@ -6,6 +6,9 @@
  */
 package pa._v38.memorymgmt.datatypes;
 
+import java.util.ArrayList;
+
+import datatypes.helpstructures.clsPair;
 import datatypes.helpstructures.clsTriple;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.eDataType;
@@ -87,10 +90,26 @@ public class clsWordPresentation extends clsSecondaryDataStructure{
 		return oRetVal;
 	}
 	
-	@Override
-	public Object clone() throws CloneNotSupportedException {
+    /**
+     * Alternative clone for cloning directed graphs
+     * 
+     * (wendt)
+     *
+     * @since 01.12.2011 16:29:38
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+    }
+    
+	
+	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
         try {
         	clsWordPresentation oClone = (clsWordPresentation)super.clone();
+        	poClonedNodeList.add(new clsPair<clsDataStructurePA, clsDataStructurePA>(this, oClone));
            	return oClone;
         } catch (CloneNotSupportedException e) {
            return e;

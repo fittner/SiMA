@@ -54,7 +54,7 @@ public class DataStructureConversion {
         // 1. Get all Images of the Mesh
         ArrayList<clsThingPresentationMesh> oRITPMList = clsMeshTools.getAllTPMMemories(poPerceivedImage, 4);
         
-        //HackMethods.reduceImageListTPM("A08_BASE_DIVIDE_CAKE_L01", oRITPMList);
+        //HackMethods.reduceImageListTPM("A05_EXECUTE_WC_L01", oRITPMList);
         
         // 2. Search for WPM for the image and add the found image to a list.
         // The WPM is connected with the TPM by an associationWP
@@ -87,8 +87,10 @@ public class DataStructureConversion {
             clsActTools.setPIMatchToWPM(oEnhancedWPM); //The adding is done hier at the first place as in this module only images are processed and not entities.
             
             //2. Delete all primary process external connections
-            clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEnhancedWPM));
+            //clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEnhancedWPM));
             
+            //Delete primary process structures
+            clsMeshTools.removeTPMPartOfWPM(oEnhancedWPM);
             
             // Add the enhanced WPM to a new list, as the enhanced WPM are
             // complete and the former RI are not.

@@ -146,6 +146,21 @@ public class clsEmotion extends clsPrimaryDataStructure implements itfExternalAs
 		return oResult; 
 	}
 	
+	/**
+     * Alternative clone for cloning directed graphs
+     * 
+     * (wendt)
+     *
+     * @since 01.12.2011 16:29:38
+     *
+     * @return
+     * @throws CloneNotSupportedException
+     */
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return clone(new ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>>());
+    }
+	
 	
 	public Object clone(ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
 		clsEmotion oClone = null;

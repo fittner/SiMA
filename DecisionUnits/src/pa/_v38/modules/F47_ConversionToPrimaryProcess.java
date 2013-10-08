@@ -22,6 +22,7 @@ import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.tools.toText;
 import secondaryprocess.datamanipulation.clsActionTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 import config.clsProperties;
 
 /**
@@ -116,6 +117,20 @@ public class F47_ConversionToPrimaryProcess extends clsModuleBase implements I6_
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+	      //=== Perform system tests ===//
+        if (clsTester.getTester().isActivated()) {
+            log.warn("Systemtester is activated");
+            try {
+                
+                if (moReturnedTPMemory_OUT.isEmpty()==false) {
+                    clsTester.getTester().exeTestAssociationAssignment(moReturnedTPMemory_OUT.get(0));
+                }
+                
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 	}
 
 	/* (non-Javadoc)

@@ -211,7 +211,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
 	    log.debug("=== module {} start ===", this.getClass().getName());
 	    
         //=== Perform system tests ===//
-        clsTester.getTester().setActivated(true);
+        clsTester.getTester().setActivated(false);
         if (clsTester.getTester().isActivated()) {
             try {
                 log.warn("System tests activated");
@@ -219,6 +219,7 @@ I6_13_receive, I6_2_receive, I6_3_receive, I6_7_receive, I6_8_send {
                     
                     clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
                 }
+                clsTester.getTester().setActivated(false);
             } catch (Exception e) {
                 log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
             }
