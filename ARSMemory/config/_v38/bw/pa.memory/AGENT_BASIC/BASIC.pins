@@ -1,7 +1,7 @@
-; Fri Oct 04 22:11:56 CEST 2013
+; Tue Oct 08 14:29:00 CEST 2013
 ; 
-;+ (version "3.4.8")
-;+ (build "Build 629")
+;+ (version "3.4.4")
+;+ (build "Build 579")
 
 ([AA%3AA01_GOAROUNDSTONE_L01_I01%3ACAKE%3APOSITION%3ACENTER] of  ASSOCIATIONATTRIBUTE
 
@@ -5118,12 +5118,12 @@
 ([WPM%3AACTION%3AL1_SPEAK_EAT] of  WPM%3AACTION%3AL1
 
 	(value "SPEAK_EAT")
-	(value_type "SPEAK"))
+	(value_type "ACTION"))
 
 ([WPM%3AACTION%3AL1_SPEAK_SHARE] of  WPM%3AACTION%3AL1
 
 	(value "SPEAK_SHARE")
-	(value_type "SPEAK"))
+	(value_type "ACTION"))
 
 ([WPM%3AACTION%3AL1_SPEAK_YES] of  WPM%3AACTION%3AL1
 
