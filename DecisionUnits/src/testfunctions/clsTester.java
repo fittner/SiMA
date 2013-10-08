@@ -14,6 +14,8 @@ import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
 import pa._v38.memorymgmt.enums.eAction;
+import testfunctions.meshtester.clsTestDataStructureConsistency;
+import testfunctions.meshtester.clsTestDataStructureNullPointers;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -58,10 +60,10 @@ public class clsTester {
 		this.mbActivated = mbActivated;
 	}
 	
-	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
-		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImage);
-	}
-	
+//	public void exeTestAssociationAssignment(clsThingPresentationMesh poImage) throws Exception {
+//		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImage);
+//	}
+//	
 	public void exeTestAssociationAssignmentTPMArray(ArrayList<clsThingPresentationMesh> poImageList) throws Exception {
 		clsTestDataStructureConsistency.debugFindAllErroneousLinksInImage(poImageList);
 	} 
@@ -87,11 +89,14 @@ public class clsTester {
 	}
 	
 	public void exeTestDMReference(clsThingPresentationMesh poInput) throws Exception {
-		clsTestDataStructureConsistency.debugCheckDMQoAGrowing(poInput);
+		TestValues.debugCheckDMQoAGrowing(poInput);
 	}
 	
 	public void exeTestReduceGoalList(ArrayList<clsWordPresentationMeshGoal> yoReachableGoalList_IN) {
 	    yoReachableGoalList_IN = clsTestDataStructureActs.exeTestReduceGoalList(yoReachableGoalList_IN);
 	}
 	
+	public void exeTestCheckLooseAssociations(clsWordPresentationMesh input) throws TestException {
+	    clsTestDataStructureConsistency.testNoLooseAssociations(input);
+	}
 }

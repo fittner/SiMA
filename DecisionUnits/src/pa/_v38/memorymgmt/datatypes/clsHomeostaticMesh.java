@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 23.05.2010, 21:50:26
- * 
+ * @deprecated
  */
 public class clsHomeostaticMesh extends clsHomeostaticRepresentation{
 	private clsDriveDemand moDriveDemand = null;

@@ -34,6 +34,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author hinterleitner 19.05.2012, 16:28:04
  * @author havlicek 13.07.2012 17:32:05
+ * 
  */
 public class clsDrive {
 

@@ -12,7 +12,7 @@ import secondaryprocess.algorithm.planningHelpers.PlanningNode;
  * DOCUMENT (perner) - insert description
  * 
  * @author perner 03.07.2011, 15:38:18
- * 
+ * @deprecated
  */
 public class clsPlanFragment extends PlanningNode {
 

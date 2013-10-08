@@ -4,7 +4,7 @@
  * 14.02.2013 wendt - File created
  *
  */
-package testfunctions;
+package testfunctions.meshtester;
 
 import java.util.ArrayList;
 

@@ -788,25 +788,7 @@ public class clsMeshTools {
 	}
 	
 
-	/**
-	 * Create a string with the images in a mesh
-	 * 
-	 * (wendt)
-	 *
-	 * @since 04.03.2013 11:18:08
-	 *
-	 * @param poImage
-	 * @return
-	 */
-	public static String printImagesInMesh(clsThingPresentationMesh poImage) {
-		String oResult = "";
-		ArrayList<clsThingPresentationMesh> oList = clsMeshTools.getAllTPMImages(poImage, 5);
-		for (clsThingPresentationMesh oTPM : oList) {
-			oResult += oTPM.getMoContent() + ", ";
-		}
-		
-		return oResult;
-	}
+
 	
 	
 	//=== SEARCH DATA STRUCTURES IN TPM GENERAL --- END ===//
@@ -920,6 +902,39 @@ public class clsMeshTools {
 		oRetVal.addAll(searchAssociationListSecondary(poInput.getMoInternalAssociatedContent(), poInput, poPredicate, pnMode, pbGetWholeAssociation, pbStopAtFirstMatch));
 					
 		return oRetVal;
+	}
+	
+	/**
+	 * Get all associations within the whole mesh for all WPMs
+	 *
+	 * @author wendt
+	 * @since 07.10.2013 21:41:14
+	 *
+	 * @param poInput
+	 * @param level
+	 * @return
+	 */
+	public static ArrayList<clsAssociationSecondary> getAllAssociationSecondaryInMesh(clsWordPresentationMesh poInput, int level) {
+	    ArrayList<clsAssociationSecondary> result = new ArrayList<clsAssociationSecondary>();
+	    //Get all objects, which could have meshes
+	    ArrayList<clsWordPresentationMesh> oAllWPM = clsMeshTools.getAllWPMObjects(poInput, level);
+	    //Get all associations from all wpm
+	    for (clsWordPresentationMesh wpm : oAllWPM) {
+	        for (clsAssociation oAssExt : wpm.getExternalAssociatedContent()) {
+	            if (oAssExt instanceof clsAssociationSecondary) {
+	                result.add((clsAssociationSecondary) oAssExt);
+	            }
+	        }
+	        
+	        for (clsAssociation oAssInt : wpm.getMoInternalAssociatedContent()) {
+	            if (oAssInt instanceof clsAssociationSecondary) {
+                    result.add((clsAssociationSecondary) oAssInt);
+                }
+	        }
+	        
+	    }
+	    
+        return result;
 	}
 	
 	/**
@@ -1213,7 +1228,7 @@ public class clsMeshTools {
 		for (clsWordPresentationMesh mesh : poAddedElements) {
 		    if (poMesh.getMoDS_ID()>-1 && poMesh.getMoContentType().equals(eContentType.RI) && poMesh.getMoDS_ID()==mesh.getMoDS_ID() && poMesh.equals(mesh)==false) {
 		        try {
-                    throw new Exception("Erroneous mesh structure. The element " + poMesh + " already exists but is not the same instance with the structure " + mesh);
+                    throw new Exception("Erroneous mesh structure. The element " + poMesh.getMoContent() + " hashcode " +  poMesh.hashCode() + " already exists but is not the same instance with the structure " + mesh.getMoContent() + " hashcode " +  mesh.hashCode());
                 } catch (Exception e) {
                     log.error("Error in mesh structure", e);
                 }
@@ -2331,6 +2346,42 @@ public class clsMeshTools {
 		
 		return oRetVal;
 	}
+	
+	   /**
+     * Get all images in a WPM mesh, i. e. contentType = RI
+     * 
+     * (wendt)
+     *
+     * @since 28.12.2011 10:30:25
+     *
+     * @param poPerceptionalMesh
+     * @param pnLevel
+     * @return
+     */
+    public static ArrayList<clsSecondaryDataStructure> getAllSecondaryDataStructureObjects(clsWordPresentationMesh poMesh, int pnLevel) {
+        ArrayList<clsDataStructurePA> oFoundImages = new ArrayList<clsDataStructurePA>();
+        ArrayList<clsSecondaryDataStructure> oRetVal = new ArrayList<clsSecondaryDataStructure>();
+        
+        //Add all RI. 
+        ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+        oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.NOTHING, ""));
+        oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WPM, oContentTypeAndContentPairRI, false, pnLevel));
+        
+        //ArrayList<clsPair<eContentType, String>> oContentTypeAndContentPairRI = new ArrayList<clsPair<eContentType, String>>();
+        oContentTypeAndContentPairRI.add(new clsPair<eContentType, String>(eContentType.NOTHING, ""));
+        oFoundImages.addAll(getDataStructureInWPM(poMesh, eDataType.WP, oContentTypeAndContentPairRI, false, pnLevel));
+        
+        for (clsDataStructurePA oWPM : oFoundImages) {
+            if (oWPM instanceof clsAssociation) {
+                oRetVal.add((clsSecondaryDataStructure) ((clsAssociation) oWPM).getLeafElement());
+            } else {
+                oRetVal.add((clsSecondaryDataStructure) oWPM);
+            }
+            
+        }
+        
+        return oRetVal;
+    }
 	
 	/**
 	 * Get all action WPMs in a mesh

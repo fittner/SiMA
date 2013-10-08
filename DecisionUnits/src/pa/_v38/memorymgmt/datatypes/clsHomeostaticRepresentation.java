@@ -23,7 +23,7 @@ public abstract class clsHomeostaticRepresentation extends clsPrimaryDataStructu
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 12:57:01
-	 *
+	 *@deprecated
 	 */
 	public clsHomeostaticRepresentation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier); 

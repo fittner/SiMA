@@ -233,62 +233,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		 } catch (CloneNotSupportedException e) {
 			 return e;
 		 }
-	}		
-
-//	/**
-//	 * special clone method. prevents infinite loops while cloning object A which has association X with object B.
-//	 * A.clone() calls X.clone() which - consecutively - creates a new clone from A ... Thus, references to A and its clone A' 
-//	 * are passed to the clone method from X. If X.moA refers to A, it is redirected to A'; if X.moB refers to B, it is 
-//	 * redirected to A'.
-//	 *
-//	 * @author deutsch
-//	 * 19.10.2009, 16:17:12
-//	 * 20.07.2010, 08:20:00	adapted by zeilinger for the use in pa._v38.memorymgmt.datatypes	 
-//	 *
-//	 * @param obj_orig
-//	 * @param obj_clon
-//	 * @return oClone
-//	 * @throws CloneNotSupportedException
-//	 */
-//	public Object clone(Object obj_orig, Object obj_clon) throws CloneNotSupportedException {
-//		//FIXME HZ; checkDepth Method lowers performance 
-//		//checkStackDepth();
-//		
-//		clsAssociation oClone = null;
-//	    try { 
-//	    	oClone = (clsAssociation) super.clone(); 
-//	    } catch (CloneNotSupportedException e) { 
-//	    	throw e; 
-//	    }
-//	    try {
-//	    	if (this.moAssociationElementA.equals(obj_orig)) {
-//	    		oClone.moAssociationElementA = (clsDataStructurePA) obj_clon;
-//	    	} else {
-//	    		Class<?> clzz = this.moAssociationElementA.getClass();
-//	    		Method   meth = clzz.getMethod("clone", new Class[0]);
-//				Object   dupl = meth.invoke(this.moAssociationElementA, new Object[0]);
-//				oClone.moAssociationElementA = (clsDataStructurePA) dupl; // unchecked warning
-//	    	}
-//	    } catch (Exception e) {
-//	    	 //...
-//	    }
-//	    try {
-//	    	if (this.moAssociationElementB.equals(obj_orig)) {
-//	    		oClone.moAssociationElementB = (clsDataStructurePA) obj_clon;
-//	    	} else {	    	
-//				Class<?> clzz = this.moAssociationElementB.getClass();
-//				Method   meth = clzz.getMethod("clone", new Class[0]);
-//				Object   dupl = meth.invoke(this.moAssociationElementB, new Object[0]);
-//				oClone.moAssociationElementB = (clsDataStructurePA) dupl; // unchecked warning
-//	    	}
-//	    } catch (Exception e) {
-//	    	//...
-//	    } 
-//		
-//	    return oClone;
-//	}
-	
-
+	}
 			
 			
 	public Object clone(Object poOriginalObject, Object poClonedObject, ArrayList<clsPair<clsDataStructurePA, clsDataStructurePA>> poClonedNodeList) throws CloneNotSupportedException {
@@ -383,6 +328,29 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		return oResult; 
 	}
 	
+	 /**
+     * Check if two instances, which are not the same instance are the same
+     *
+     * @author wendt
+     * @since 08.10.2013 10:14:28
+     *
+     * @param ds
+     * @return
+     */
+    public <E extends clsAssociation> boolean isEquivalentDataStructure(E ds) {
+        boolean isEqual = false;
+        
+        if (ds.getClass().getName().equals(this.getClass().getName()) &&
+            ds.getMoDS_ID()==this.moDS_ID &&
+            ds.getMoContentType()==this.getMoContentType() &&
+            ds.getLeafElement().isEquivalentDataStructure(this.getLeafElement()) &&
+            ds.getRootElement().isEquivalentDataStructure(this.getRootElement())) {
+            isEqual=true;
+        }
+        
+        return isEqual;
+    }
+	
 	/* (non-Javadoc)
 	 *
 	 * @author gelbard
@@ -421,13 +389,4 @@ public abstract class clsAssociation extends clsDataStructurePA{
 		return oResult;
 	}
 	
-
-	/**
-	 * DOCUMENT (wendt) - insert description
-	 *
-	 * @author wendt
-	 * 28.05.2011, 10:28:09
-	 *
-	 * @return
-	 */
 }

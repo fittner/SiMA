@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * 
  * @author perner
  * 03.07.2011, 15:52:27
- * 
+ * @deprecated
  */
 public class clsActionPlan {
 	

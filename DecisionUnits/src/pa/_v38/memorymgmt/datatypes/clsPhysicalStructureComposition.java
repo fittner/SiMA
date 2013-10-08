@@ -18,7 +18,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:15
- * 
+ * @deprecated
  */
 public abstract class clsPhysicalStructureComposition extends clsPhysicalRepresentation implements itfInternalAssociatedDataStructure, itfExternalAssociatedDataStructure{
 	/** External associations to location, DMs or other TPMs (Images) are placed here; @since 29.11.2011 11:13:42 */

@@ -165,12 +165,12 @@ public class DataStructureConversionTools {
                     // Create an association between the both structures and add
                     // the association to the external associationlist of the
                     // RetVal-Structure (WPM)
-                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
+                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oDMWP, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASAFFECT, false);
                 } else if (oTPMExternalAss instanceof clsAssociationEmotion) {
                     clsEmotion oEmotion = (clsEmotion) oTPMExternalAss.getLeafElement();
                     clsWordPresentationMeshFeeling oFeeling = clsGoalManipulationTools.convertEmotionToFeeling(oEmotion);
                     
-                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 0, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
+                    clsMeshTools.createAssociationSecondary(oRetVal, 2, oFeeling, 2, 1.0, eContentType.ASSOCIATIONSECONDARY, ePredicate.HASFEELING, false);
                 }
                 
                 

@@ -109,6 +109,30 @@ public class clsAssociationSecondary extends clsAssociation{
 		this.moPredicate = oPredicate;
 	}
 	
+    /**
+     * Check if two instances, which are not the same instance are the same
+     *
+     * @author wendt
+     * @since 08.10.2013 10:14:28
+     *
+     * @param ds
+     * @return
+     */
+    public boolean isEquivalentDataStructure(clsAssociationSecondary ds) {
+        boolean isEqual = false;
+        
+        if (ds.getClass().getName().equals(this.getClass().getName()) &&
+            ds.getMoDS_ID()==this.moDS_ID &&
+            ds.getMoContentType()==this.getMoContentType() &&
+            ds.getMoPredicate().equals(this.getMoPredicate()) &&
+            ds.getLeafElement().isEquivalentDataStructure(this.getLeafElement()) &&
+            ds.getRootElement().isEquivalentDataStructure(this.getRootElement())) {
+            isEqual=true;
+        }
+        
+        return isEqual;
+    }
+	
 	@Override
 	public String toString(){
 		String oResult = "::"+this.moDataStructureType+"::";  

@@ -22,6 +22,7 @@ import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 
@@ -302,6 +303,18 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			
 		} catch (CloneNotSupportedException e) {
            return e;
+        }
+		
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tester active");
+                clsTester.getTester().exeTestCheckLooseAssociations(this);
+                clsTester.getTester().exeTestCheckLooseAssociations(oClone);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
         }
 		
 		return oClone;

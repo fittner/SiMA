@@ -47,6 +47,7 @@ import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_Ini
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedAct;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedDrive;
 import secondaryprocess.functionality.decisionpreparation.initcodelets.clsIC_InitUnprocessedPerception;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -108,6 +109,19 @@ public class clsDecisionEngine {
         //--- GET PREVIOUS MENTAL SITUATION ---//
         clsWordPresentationMeshMentalSituation oPreviousMentalSituation = poSTM.findPreviousSingleMemory();
         //Get the previous goal
+        
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("Systemtester active");
+                for (clsWordPresentationMeshSelectableGoal mesh : oPreviousMentalSituation.getSelectableGoals()) {
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh.getSupportiveDataStructure()); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 
         //Get previous selectable, continued goals
         ArrayList<clsWordPresentationMeshSelectableGoal> oPreviousSelectableGoals = oPreviousMentalSituation.getSelectableGoals();
