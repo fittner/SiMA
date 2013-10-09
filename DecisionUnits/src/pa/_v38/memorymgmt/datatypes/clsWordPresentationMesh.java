@@ -690,7 +690,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
             if (oDS instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
                 
-                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+                if (oWPM.equals(poAddWPM)==true) {
                     bWPFound = true;    //Do nothing as it is already set
                     break;
                 }

@@ -87,10 +87,10 @@ public class DataStructureConversion {
             clsActTools.setPIMatchToWPM(oEnhancedWPM); //The adding is done hier at the first place as in this module only images are processed and not entities.
             
             //2. Delete all primary process external connections
-            //clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEnhancedWPM));
+            clsMeshTools.removeAllExternalAssociationsTPM(clsMeshTools.getPrimaryDataStructureOfWPM(oEnhancedWPM));
             
             //Delete primary process structures
-            clsMeshTools.removeTPMPartOfWPM(oEnhancedWPM);
+            //clsMeshTools.removeTPMPartOfWPM(oEnhancedWPM);
             
             // Add the enhanced WPM to a new list, as the enhanced WPM are
             // complete and the former RI are not.

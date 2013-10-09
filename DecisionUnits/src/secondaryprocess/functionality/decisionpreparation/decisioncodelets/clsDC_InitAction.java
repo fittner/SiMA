@@ -7,6 +7,7 @@
 package secondaryprocess.functionality.decisionpreparation.decisioncodelets;
 
 import pa._v38.memorymgmt.enums.eCondition;
+import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
 
@@ -45,10 +46,19 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 			        this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
 			    this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
 			}
-		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
-		    this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
+		} else if (this.moGoal.checkIfConditionExists(eCondition.IS_MEMORY_SOURCE)==true) {
+            
+            if (this.moGoal.checkIfConditionExists(eCondition.SET_INTERNAL_INFO)==false &&
+                    this.moGoal.checkIfConditionExists(eCondition.EXECUTED_SEND_TO_PHANTASY)==false) {
+                this.moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+            }
+        } else if (this.moGoal.checkIfConditionExists(eCondition.IS_PERCEPTIONAL_SOURCE)==true) {
+            this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
+            this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
+            this.moGoal.setCondition(eCondition.NEED_GOAL_FOCUS);
 		}
 			
+		this.moGoal.setCondition(eCondition.IS_CONTINUED_GOAL);
 		
 	}
 
@@ -60,8 +70,9 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	 */
 	@Override
 	protected void setPreconditions() {
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE));
-		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_DRIVE_SOURCE, eCondition.IS_NEW_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_PERCEPTIONAL_SOURCE, eCondition.IS_NEW_GOAL));
+		this.moPreconditionGroupList.add(new clsConditionGroup(eCondition.IS_MEMORY_SOURCE, eCondition.IS_NEW_GOAL));
 		
 	}
 
@@ -84,8 +95,8 @@ public class clsDC_InitAction extends clsDecisionCodelet {
 	 * @see pa._v38.decisionpreparation.clsCodelet#removeTriggerCondition()
 	 */
 	@Override
-	protected void removeTriggerCondition() {
-		// TODO (wendt) - Auto-generated method stub
+	protected void removeTriggerCondition() throws ElementNotFoundException {
+	    this.moGoal.removeCondition(eCondition.IS_NEW_GOAL);
 		
 	}
 

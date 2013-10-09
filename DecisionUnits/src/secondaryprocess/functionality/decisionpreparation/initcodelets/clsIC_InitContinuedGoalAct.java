@@ -105,7 +105,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             if (oPreviousAct.isNullObject()==false) {
                 try {
                     //=== Perform system tests ===//
-                    clsTester.getTester().setActivated(true);
+                    clsTester.getTester().setActivated(false);
                     if (clsTester.getTester().isActivated()) {
                         try {
                             log.warn("System tester active");
@@ -128,7 +128,7 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
                 }
             }
             
-            clsTester.getTester().setActivated(true);
+            clsTester.getTester().setActivated(false);
             if (clsTester.getTester().isActivated()) {
                 try {
                     log.warn("System tester active");

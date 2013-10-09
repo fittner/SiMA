@@ -74,8 +74,10 @@ public class clsIC_InitUnprocessedAct extends clsInitCodelet {
             moGoal.setCondition(eCondition.ACT_MATCH_TOO_LOW);
         } else {
             //Set the need to perform a basic act recognition analysis
-            moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+            //moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
         }
+        
+        moGoal.setCondition(eCondition.IS_NEW_GOAL);
         
     }
 

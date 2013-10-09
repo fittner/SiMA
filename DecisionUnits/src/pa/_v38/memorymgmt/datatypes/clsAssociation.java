@@ -340,7 +340,7 @@ public abstract class clsAssociation extends clsDataStructurePA{
 	                 if (moAssociationElementB instanceof clsThingPresentationMesh) {
 	                    oClone.moAssociationElementB = (clsDataStructurePA) ((clsThingPresentationMesh)this.moAssociationElementB).clone(poClonedNodeList);                     
 	                 } else if (moAssociationElementB instanceof clsThingPresentation) {
-	                     oClone.moAssociationElementB = (clsDataStructurePA) ((clsThingPresentation)this.moAssociationElementB).clone(poClonedNodeList);
+	                     oClone.moAssociationElementB = (clsDataStructurePA) ((clsThingPresentation)this.moAssociationElementB).clone();
                      } else if (moAssociationElementB instanceof clsDriveMesh) {
                          oClone.moAssociationElementB = (clsDataStructurePA) ((clsDriveMesh)this.moAssociationElementB).clone(poClonedNodeList);
                      } else if (moAssociationElementB instanceof clsEmotion) {
