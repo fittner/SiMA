@@ -27,9 +27,11 @@ import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
 import pa._v38.memorymgmt.shorttermmemory.clsShortTermMemory;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
+import secondaryprocess.functionality.EffortFunctionality;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
 import secondaryprocess.functionality.shorttermmemory.EnvironmentalImageFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 
 /**
  * The external world is evaluated regarding the available possibilities for drive satisfaction and which requirements arise. This is done by utilization of semantic knowledge provided by {E25} and incoming word and things presentations from {E23}. The result influences the generation of motives in {E26}. 
@@ -240,6 +242,18 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 
 		
 		//From now, only the environmental image is used
+		
+	    //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                for (clsWordPresentationMeshSelectableGoal mesh : moReachableGoalList_IN) {
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh.getSupportiveDataStructure()); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 	
 		// --- INIT INCOMING GOALS --- //
 		try {
@@ -249,6 +263,7 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
         } catch (Exception e) {
             log.error("Error at init of goals. ", e);
         }
+		
 		
 		// --- INIT CONTINUED GOAL --- //
 		 clsPair<clsWordPresentationMeshSelectableGoal, ArrayList<clsWordPresentationMeshSelectableGoal>> oContinuedGoalList = null; //new ArrayList<clsWordPresentationMeshSelectableGoal>(); //clsGoalManipulationTools.getNullObjectWPMSelectiveGoal();
@@ -311,8 +326,9 @@ public class F51_RealityCheckWishFulfillment extends clsModuleBaseKB implements 
 		// --- ADD NON REACHABLE GOALS TO THE STM --- //
 		ShortTermMemoryFunctionality.addNonReachableGoalsToSTM(this.moShortTimeMemory, moReachableGoalList_IN);
 		
-		// --- SET PRELIMINARY EFFORT FOR AVAILABLE CONDITIONS --- //
-		//This is done in F53
+		// --- ADD EFFORT VALUES TO THE AFFECT LEVEL --- //
+        EffortFunctionality.applyEffortOfGoal(moReachableGoalList_IN);
+        log.info("Applied efforts on selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_IN));
 		
 		moReachableGoalList_OUT = moReachableGoalList_IN;
 		log.info("Provided selectable goals: {}", PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));

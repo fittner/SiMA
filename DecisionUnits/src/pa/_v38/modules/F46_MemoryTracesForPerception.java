@@ -188,6 +188,7 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		clsMeshTools.addTPMToTPMImage(oPerceivedImage, oEmptySpaceList);
 		//=== Perform system tests ===//
 		if (clsTester.getTester().isActivated()) {
+		    log.warn("Systemtester activated");
 			try {
 				clsTester.getTester().exeTestAssociationAssignment(oPerceivedImage);
 			} catch (Exception e) {
@@ -199,6 +200,15 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		
 		//Get the phantasy input
 		clsThingPresentationMesh oBestPhantasyInput = this.processPhantasyInput(moReturnedPhantasy_IN);
+		
+		if (clsTester.getTester().isActivated()) {
+            log.warn("Systemtester activated");
+            try {
+                clsTester.getTester().exeTestAssociationAssignment(oBestPhantasyInput);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 		
 		//Activate memories (Spread activation)
 		activateMemories(oPerceivedImage, oBestPhantasyInput);
@@ -593,7 +603,8 @@ public class F46_MemoryTracesForPerception extends clsModuleBaseKB implements I2
 		} else {						//Activate with returned memory
 			//Add SELF to the image if it does not exist
 			if (clsMeshTools.getSELF(poReturnedPhantasyImage).isNullObject()==true) {
-				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "", "");
+			    //FIXME AW SELF should be loaded somewhere else.
+				clsThingPresentationMesh oSELF = this.getLongTermMemory().searchExactEntityFromInternalAttributes("SELF", "CIRCLE", "#FFFFBF");
 				ArrayList<clsThingPresentationMesh> oSELFList = new ArrayList<clsThingPresentationMesh>();
 				oSELFList.add(oSELF);
 				clsMeshTools.addTPMToTPMImage(poReturnedPhantasyImage, oSELFList);

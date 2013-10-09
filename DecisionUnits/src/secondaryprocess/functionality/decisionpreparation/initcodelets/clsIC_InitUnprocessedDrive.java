@@ -39,7 +39,8 @@ public class clsIC_InitUnprocessedDrive extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+        //moGoal.setCondition(eCondition.NEED_INTERNAL_INFO);
+        moGoal.setCondition(eCondition.IS_NEW_GOAL);
     }
 
     /* (non-Javadoc)

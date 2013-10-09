@@ -22,7 +22,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 14.08.2010, 16:11:11
- * 
+ * @deprecated
  */
 public class clsAffect extends clsHomeostaticRepresentation{
 	private double moContent = 0.0; 

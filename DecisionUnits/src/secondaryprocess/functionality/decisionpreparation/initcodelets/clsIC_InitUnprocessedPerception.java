@@ -39,8 +39,7 @@ public class clsIC_InitUnprocessedPerception extends clsInitCodelet {
      */
     @Override
     protected void processGoal() {
-        this.moGoal.setCondition(eCondition.COMPOSED_CODELET);
-        this.moGoal.setCondition(eCondition.GOTO_GOAL_IN_PERCEPTION);
+        moGoal.setCondition(eCondition.IS_NEW_GOAL);
     }
 
     /* (non-Javadoc)

@@ -138,14 +138,10 @@ public class F61_Localization extends clsModuleBase implements I6_1_receive, I6_
 	 */
 	@Override
 	public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-		try {
-			moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
-		} catch (CloneNotSupportedException e) {
-			// TODO (wendt) - Auto-generated catch block
-			e.printStackTrace();
-		}
+	    moPerceptionalMesh_IN = poPerception;
+
 		//AW 20110602 Added Associtated memories
-		moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>)this.deepCopy(poAssociatedMemoriesSecondary);
+		moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
 	}
 
 

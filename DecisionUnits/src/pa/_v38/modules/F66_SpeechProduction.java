@@ -28,6 +28,7 @@ import pa._v38.memorymgmt.situationloader.itfConceptLoader;
 import pa._v38.memorymgmt.situationloader.itfSituationLoader;
 import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
+import testfunctions.clsTester;
 import config.clsProperties;
 import config.personality_parameter.clsPersonalityParameterContainer;
 
@@ -126,6 +127,20 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     protected void process_basic() {
+        
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tests activated");
+                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
+                    
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 
         this.moShortTermMemory.updateTimeSteps();
         // generation of the situation and the concept.
@@ -155,6 +170,20 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
         
         moPerceptionalMesh_OUT = moPerceptionalMesh_IN;
         moAssociatedMemories_OUT = moAssociatedMemories_IN;
+        
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tests activated");
+                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
+                    
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
     }
 
     @Override
@@ -232,13 +261,10 @@ public class F66_SpeechProduction extends clsModuleBase implements I6_1_receive,
      */
     @Override
     public void receive_I6_1(clsWordPresentationMesh poPerception, ArrayList<clsWordPresentationMesh> poAssociatedMemoriesSecondary) {
-        try {
-            moPerceptionalMesh_IN = (clsWordPresentationMesh) poPerception.clone();
-        } catch (CloneNotSupportedException e) {
-            e.printStackTrace();
-        }
+        moPerceptionalMesh_IN = poPerception;
+
         // AW 20110602 Added Associtated memories
-        moAssociatedMemories_IN = (ArrayList<clsWordPresentationMesh>) this.deepCopy(poAssociatedMemoriesSecondary);
+        moAssociatedMemories_IN = poAssociatedMemoriesSecondary;
     }
 
     /*

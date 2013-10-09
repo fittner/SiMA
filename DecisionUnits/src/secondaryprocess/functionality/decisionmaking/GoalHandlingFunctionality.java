@@ -75,6 +75,14 @@ public class GoalHandlingFunctionality {
     public static void applyFeelingsOnReachableGoals(ArrayList<clsWordPresentationMeshSelectableGoal> reachableGoalList, ArrayList<clsWordPresentationMeshFeeling> currentFeelings, boolean activateEmotionalInfluence) {
         GoalGenerationTools.TEMP_METHOD_generatePanicGoal(reachableGoalList, currentFeelings, activateEmotionalInfluence);
         
+        //TODO SHAHIN replace this function
+        for (clsWordPresentationMeshSelectableGoal goal : reachableGoalList) {
+           if (goal.getFeelings().isEmpty()==false) {
+               goal.setFeelingsImportance(goal.getFeelings().get(0).getIntensity());
+           }
+            
+        }
+        
         
     }
     

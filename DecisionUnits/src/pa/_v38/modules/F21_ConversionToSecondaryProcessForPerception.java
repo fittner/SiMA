@@ -27,6 +27,7 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.conversion.DataStructureConversion;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 import config.clsProperties;
 import datatypes.helpstructures.clsPair;
 
@@ -217,6 +218,19 @@ public class F21_ConversionToSecondaryProcessForPerception extends
 		// Assign the output to the meshes
 		moPerceptionalMesh_OUT = oWPMConstruct.a;
 		moAssociatedMemories_OUT = oWPMConstruct.b;
+		
+	      //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("Systemtests activated");
+                for (clsWordPresentationMesh mesh :moAssociatedMemories_OUT) {
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 		
 
 		// debug

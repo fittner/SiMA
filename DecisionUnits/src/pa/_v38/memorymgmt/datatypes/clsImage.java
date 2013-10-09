@@ -18,7 +18,7 @@ import secondaryprocess.algorithm.planningHelpers.eEntity;
  * 
  * @author perner
  * 03.07.2011, 15:39:58
- * 
+ * @deprecated
  */
 public class clsImage {
 

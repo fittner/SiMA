@@ -19,6 +19,7 @@ import pa._v38.memorymgmt.enums.eAction;
 import pa._v38.memorymgmt.enums.eCondition;
 import pa._v38.memorymgmt.enums.eContentType;
 import pa._v38.memorymgmt.enums.ePredicate;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 
 /**
  * This class contains all functions, which are used in the processing of acts and are used in more than one module
@@ -77,7 +78,11 @@ public class clsActTools {
 			//3.a If act exists, then check if the match of the current moment, if exists, is lower than this image
 			if (oExistentPrediction.isNullObject()==false) {
 				//Merge meshes
-			    clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
+			    
+			    MeshProcessor x = new MeshProcessor();
+			    x.setSafeControlMode(true);
+			    x.complementMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
+			    //clsMeshTools.mergeMesh(clsActDataStructureTools.getIntention(oExistentPrediction), oRI);
 			} else {
 				//Create prediction
 				clsWordPresentationMesh oPrediction = clsActDataStructureTools.createActDataStructure(oSuperStructure);

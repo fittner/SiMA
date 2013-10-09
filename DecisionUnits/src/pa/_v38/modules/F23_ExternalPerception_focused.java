@@ -30,6 +30,7 @@ import pa._v38.tools.toText;
 import secondaryprocess.functionality.FocusFunctionality;
 import secondaryprocess.functionality.decisionmaking.GoalHandlingFunctionality;
 import secondaryprocess.functionality.shorttermmemory.ShortTermMemoryFunctionality;
+import testfunctions.clsTester;
 
 /**
  * The task of this module is to focus the external perception on ``important'' things. Thus, the word presentations originating from perception are ordered 
@@ -205,6 +206,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 	protected void process_basic() {
 	    log.debug("=== module {} start ===", this.getClass().getName());
 	    
+	    //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("Systemtester activated");
+                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
+	    
 		//=== Extract all goals from perception and memories ===//
 		moReachableGoalList_OUT = new ArrayList<clsWordPresentationMeshSelectableGoal>(); 
 		
@@ -218,6 +232,19 @@ public class F23_ExternalPerception_focused extends clsModuleBaseKB implements I
 		moReachableGoalList_OUT.addAll(GoalHandlingFunctionality.extractSelectableGoalsFromAimOfDrives(aimOfDrives));
 		
 		log.debug("Extracted goals : " + PrintTools.printArrayListWithLineBreaks(moReachableGoalList_OUT));
+		
+		
+		//=== Perform system tests ===//
+		clsTester.getTester().setActivated(true);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                for (clsWordPresentationMesh mesh :moAssociatedMemories_IN) {
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 		
 		
 		

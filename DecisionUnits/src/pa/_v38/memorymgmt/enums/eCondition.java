@@ -30,6 +30,7 @@ public enum eCondition {
 	// --- Decision codelets preprocessing --- //
 	IS_CONTINUED_GOAL,
 	IS_UNPROCESSED_GOAL,
+	IS_NEW_GOAL,
 	
 	// --- Executed actions as preconditions --- //
 	//Actions - Movement single

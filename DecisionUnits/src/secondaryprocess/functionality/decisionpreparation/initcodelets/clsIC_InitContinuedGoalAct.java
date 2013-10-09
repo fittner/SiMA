@@ -7,6 +7,7 @@
 package secondaryprocess.functionality.decisionpreparation.initcodelets;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshGoal;
@@ -15,10 +16,11 @@ import pa._v38.tools.ElementNotFoundException;
 import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsGoalManipulationTools;
-import secondaryprocess.datamanipulation.clsMeshTools;
+import secondaryprocess.datamanipulation.meshprocessor.MeshProcessor;
 import secondaryprocess.functionality.decisionpreparation.clsCodeletHandler;
 import secondaryprocess.functionality.decisionpreparation.clsCommonCodeletTools;
 import secondaryprocess.functionality.decisionpreparation.clsConditionGroup;
+import testfunctions.clsTester;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -86,8 +88,36 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
             clsWordPresentationMesh oPreviousAct = oPreviousPlanGoal.getSupportiveDataStructure();
             
             //Set the Act of the previous goal as the new act of the continued goal
+            
+            //=== Perform system tests ===//
+            clsTester.getTester().setActivated(true);
+            if (clsTester.getTester().isActivated()) {
+                try {
+                    log.warn("System tester active");
+                    for (clsWordPresentationMesh mesh : new ArrayList<clsWordPresentationMesh>(Arrays.asList(oPreviousAct))) {
+                        clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                    }
+                } catch (Exception e) {
+                    log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+                }
+            }
+            
             if (oPreviousAct.isNullObject()==false) {
                 try {
+                    //=== Perform system tests ===//
+                    clsTester.getTester().setActivated(false);
+                    if (clsTester.getTester().isActivated()) {
+                        try {
+                            log.warn("System tester active");
+                            clsTester.getTester().exeTestCheckLooseAssociations(oPreviousAct); 
+                            clsTester.getTester().exeTestAssociationAssignment(oPreviousAct);
+                            
+                        } catch (Exception e) {
+                            log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+                        }
+                    }
+                    
+                    log.trace("Previous act: {}", oPreviousAct);
                     clsWordPresentationMesh oClonedPreviousAct = (clsWordPresentationMesh) oPreviousAct.clone();
                     //Set the cloned act as this act
                     this.moGoal.setSupportiveDataStructure(oClonedPreviousAct);
@@ -98,13 +128,30 @@ public class clsIC_InitContinuedGoalAct extends clsInitCodelet {
                 }
             }
             
+            clsTester.getTester().setActivated(false);
+            if (clsTester.getTester().isActivated()) {
+                try {
+                    log.warn("System tester active");
+                    for (clsWordPresentationMesh mesh : new ArrayList<clsWordPresentationMesh>(Arrays.asList(oPreviousAct))) {
+                        clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                    }
+                } catch (Exception e) {
+                    log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+                }
+            }
+            
             //Remove all PI-matches from the images in this goal
             clsWordPresentationMesh oContinuedSupportiveDataStructure = this.moGoal.getSupportiveDataStructure();
             clsWordPresentationMesh oIntention = clsActDataStructureTools.getIntention(oContinuedSupportiveDataStructure);
             clsActTools.removePIMatchFromWPMAndSubImages(oIntention);
             
             //Merge the acts
-            clsMeshTools.mergeMesh(oContinuedSupportiveDataStructure, poNewAct);
+            MeshProcessor processor = new MeshProcessor();
+            processor.setSafeControlMode(true);
+            processor.complementMesh(oContinuedSupportiveDataStructure, poNewAct);
+            
+            
+            //clsMeshTools.mergeMesh(oContinuedSupportiveDataStructure, poNewAct);
 
             //-----------------------------------------------//
             

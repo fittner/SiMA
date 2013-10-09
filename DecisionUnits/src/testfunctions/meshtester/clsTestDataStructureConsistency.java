@@ -4,7 +4,7 @@
  * 25.10.2012 wendt - File created
  *
  */
-package testfunctions;
+package testfunctions.meshtester;
 
 import java.util.ArrayList;
 
@@ -13,11 +13,13 @@ import org.slf4j.Logger;
 import datatypes.helpstructures.clsPair;
 import logger.clsLogger;
 import pa._v38.memorymgmt.datatypes.clsAssociation;
-import pa._v38.memorymgmt.datatypes.clsAssociationDriveMesh;
+import pa._v38.memorymgmt.datatypes.clsAssociationSecondary;
 import pa._v38.memorymgmt.datatypes.clsDataStructurePA;
 import pa._v38.memorymgmt.datatypes.clsThingPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
+import pa._v38.memorymgmt.enums.eContentType;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.TestException;
 
 /**
  * DOCUMENT (wendt) - insert description 
@@ -31,7 +33,7 @@ public class clsTestDataStructureConsistency {
     private static final Logger log = clsLogger.getLog("Test");
 	
 	
-	public static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
+	private static boolean debugFindErroneousLinks(clsThingPresentationMesh poTPM) throws Exception {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poTPM.getExternalMoAssociatedContent()) {
@@ -72,7 +74,7 @@ public class clsTestDataStructureConsistency {
 	}
 	
 	
-	public static boolean debugFindErroneousLinks(clsWordPresentationMesh poWPM) throws Exception {
+	private static boolean debugFindErroneousLinks(clsWordPresentationMesh poWPM) throws Exception {
 		boolean bResult = false;
 		
 		for (clsAssociation oAss : poWPM.getExternalAssociatedContent()) {
@@ -120,7 +122,7 @@ public class clsTestDataStructureConsistency {
 		
 	}
 	
-	public static void debugFindAllErroneousLinksInImage(clsThingPresentationMesh poImage) throws Exception {
+	private static void debugFindAllErroneousLinksInImage(clsThingPresentationMesh poImage) throws Exception {
 		
 		ArrayList<clsThingPresentationMesh> oTPMList = clsMeshTools.getAllTPMObjects(poImage, 4);
 		
@@ -130,7 +132,7 @@ public class clsTestDataStructureConsistency {
 		
 	}
 	
-	public static void debugFindAllErroneousLinksInImage(clsWordPresentationMesh poImage) throws Exception {
+	private static void debugFindAllErroneousLinksInImage(clsWordPresentationMesh poImage) throws Exception {
 		
 		ArrayList<clsWordPresentationMesh> oTPMList = clsMeshTools.getAllWPMObjects(poImage, 4);
 		
@@ -155,21 +157,49 @@ public class clsTestDataStructureConsistency {
 		}
 	}
 	
-	public static void debugCheckDMQoAGrowing(clsThingPresentationMesh poTPM) throws Exception {
-		
-		
-		for (clsThingPresentationMesh oTPM : clsMeshTools.getAllTPMObjects(poTPM, 5)) {
-			ArrayList<clsAssociationDriveMesh> oDMList = new ArrayList<clsAssociationDriveMesh>();
-			oDMList.addAll(clsMeshTools.getAllDMInMesh(oTPM));
-			for (clsAssociationDriveMesh oDM : oDMList) {
-				if (oDM.getDM().getQuotaOfAffect()>1.0) {
-					throw new Exception("Error in " + oTPM.getMoContent() + " in Drive mesh " + oDM.getRootElement() + ". QoA=" + oDM.getDM().getQuotaOfAffect() + " which is higher than allowed, i. e. the reference of the DM is bad");
-				}
-			}
-		}
-		
-		
-		
+	public static void testCheckIfMeshHasErroneousID(clsWordPresentationMesh poImage) throws TestException {
+	    ArrayList<clsDataStructurePA> testStructure = new ArrayList<clsDataStructurePA>();
+	    
+	    testStructure.addAll(clsMeshTools.getAllWPMObjects(poImage, 10));
+	    
+	    for (clsDataStructurePA test : testStructure) {
+	        if (test.getMoContentType().equals(eContentType.RI)==true && test.getMoDS_ID()==-1) {
+	            throw new TestException("Data structure " + test + " in mesh " + poImage + " has ID -1");
+	        }
+	    }
+	}
+	
+	public static void testCheckIfMultipleIDsLoaded(clsWordPresentationMesh poImage) throws TestException {
+	    ArrayList<clsDataStructurePA> testStructure = new ArrayList<clsDataStructurePA>();
+        
+        testStructure.addAll(clsMeshTools.getAllWPMObjects(poImage, 10));
+        for (clsDataStructurePA test : testStructure) {
+            for (clsDataStructurePA test2 : testStructure) {
+                if (test.getMoDS_ID()!=-1 && test.equals(test2)==false && test.getMoDS_ID()==test2.getMoDS_ID() && test.getMoContentType().equals(eContentType.RI)) {
+                    throw new TestException("Data structure " + test + " and " + test2 + " in mesh " + poImage + " has the same ID although it is not allowed");
+                }
+            }
+            
+        }
+	}
+	
+	public static void testNoLooseAssociations(clsWordPresentationMesh poImage) throws TestException {
+	    for (clsAssociationSecondary oAss : clsMeshTools.getAllAssociationSecondaryInMesh(poImage, 10)) {
+	        if (oAss.getRootElement() instanceof clsWordPresentationMesh) {
+	            clsWordPresentationMesh root = (clsWordPresentationMesh) oAss.getRootElement();
+	            if (root.getExternalAssociatedContent().contains(oAss)==false && root.getMoInternalAssociatedContent().contains(oAss)==false && root.getMoDS_ID()!=-1 && root.getMoContentType().equals(eContentType.RI)==false && root.getMoContentType().equals(eContentType.ENTITY)==false && root.getMoContentType().equals(eContentType.ACTION)==false) {
+	                throw new TestException("The association " + oAss + " does not exist in data structure " + root);
+	            }
+	        }
+	        
+	        if (oAss.getLeafElement() instanceof clsWordPresentationMesh) {
+                clsWordPresentationMesh leaf = (clsWordPresentationMesh) oAss.getLeafElement();
+                if (leaf.getExternalAssociatedContent().contains(oAss)==false && leaf.getMoInternalAssociatedContent().contains(oAss)==false && leaf.getMoDS_ID()!=-1 && leaf.getMoContentType().equals(eContentType.RI)==false && leaf.getMoContentType().equals(eContentType.ENTITY)==false && leaf.getMoContentType().equals(eContentType.ACTION)==false) {
+                    throw new TestException("The association " + oAss + " does not exist in data structure " + leaf);
+                }
+            }
+	            
+	    }
 	}
 	
 	

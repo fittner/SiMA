@@ -52,4 +52,26 @@ public abstract class clsSecondaryDataStructure extends clsDataStructurePA{
 	public clsSecondaryDataStructure(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier);
 	}
+	
+	/**
+	 * Check if two instances, which are not the same instance are the same
+	 *
+	 * @author wendt
+	 * @since 08.10.2013 10:14:28
+	 *
+	 * @param ds
+	 * @return
+	 */
+	public <E extends clsSecondaryDataStructure> boolean isEquivalentDataStructure(E ds) {
+	    boolean isEqual = false;
+	    
+	    if (ds.getClass().getName().equals(this.getClass().getName()) &&
+	        ds.getMoDS_ID()==this.moDS_ID &&
+	        ds.getMoContent()==this.getMoContent() &&
+	        ds.getMoContentType()==this.getMoContentType()) {
+	        isEqual=true;
+	    }
+	    
+	    return isEqual;
+	}
 }

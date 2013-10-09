@@ -17,6 +17,7 @@ import pa._v38.interfaces.modules.I6_8_receive;
 import pa._v38.interfaces.modules.I6_9_receive;
 import pa._v38.interfaces.modules.I6_9_send;
 import pa._v38.interfaces.modules.eInterfaces;
+import pa._v38.memorymgmt.datatypes.clsWordPresentationMesh;
 import pa._v38.memorymgmt.datatypes.clsWordPresentationMeshSelectableGoal;
 import pa._v38.memorymgmt.interfaces.itfModuleMemoryAccess;
 import pa._v38.memorymgmt.shorttermmemory.clsEnvironmentalImageMemory;
@@ -25,6 +26,7 @@ import pa._v38.memorymgmt.storage.DT3_PsychicEnergyStorage;
 import pa._v38.tools.toText;
 import secondaryprocess.functionality.PlanningFunctionality;
 import secondaryprocess.functionality.decisionpreparation.clsDecisionEngine;
+import testfunctions.clsTester;
 import config.clsProperties;
 
 /**
@@ -159,6 +161,20 @@ public class F52_GenerationOfImaginaryActions extends clsModuleBaseKB implements
 	protected void process_basic() {
 
 	    log.debug("=== module {} start ===", this.getClass().getName());
+	    
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tests activated");
+                for (clsWordPresentationMesh mesh : this.moGoalList_IN) {
+                    
+                    clsTester.getTester().exeTestCheckLooseAssociations(mesh); 
+                }
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
+        }
 	    
 		//Load perception
 		//moPerceptionalMesh_IN = this.moEnvironmentalImageStorage.getEnvironmentalImage();

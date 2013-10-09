@@ -3,6 +3,7 @@
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45
+ * 
  */
 package pa._v38.memorymgmt.datatypes;
 
@@ -24,7 +25,7 @@ import pa._v38.memorymgmt.enums.eDataType;
  * 
  * @author zeilinger
  * 23.05.2010, 21:49:45
- * 
+ * @deprecated
  */
 public class clsTemplateImage extends clsPhysicalStructureComposition {
 	private String moContent = "UNDEFINED";	

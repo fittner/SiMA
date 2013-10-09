@@ -30,7 +30,7 @@ public class clsDriveDemand extends clsHomeostaticRepresentation{
 	 * 
 	 * @author zeilinger
 	 * 24.05.2010, 13:24:07
-	 *
+	 *@deprecated
 	 */
 	public clsDriveDemand(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier, double prDemandTension) {
 		super(poDataStructureIdentifier); 

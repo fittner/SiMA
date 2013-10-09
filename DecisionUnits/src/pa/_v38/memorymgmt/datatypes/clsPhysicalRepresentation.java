@@ -25,7 +25,7 @@ public abstract class clsPhysicalRepresentation extends clsPrimaryDataStructure{
 	 * @author zeilinger
 	 * 24.05.2010, 12:39:08
 	 * @param poWordPresentationAssociation 
-	 *
+	 *@deprecated
 	 */
 	public clsPhysicalRepresentation(clsTriple<Integer, eDataType, eContentType> poDataStructureIdentifier) {
 		super(poDataStructureIdentifier); 

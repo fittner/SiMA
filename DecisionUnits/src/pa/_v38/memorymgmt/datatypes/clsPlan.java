@@ -14,7 +14,7 @@ import secondaryprocess.algorithm.planningHelpers.PlanningNode;
  * DOCUMENT (perner) - insert description
  * 
  * @author perner 30.03.2012, 16:28:04
- * 
+ * @deprecated
  */
 public class clsPlan {
 

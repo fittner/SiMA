@@ -22,6 +22,7 @@ import secondaryprocess.datamanipulation.clsActDataStructureTools;
 import secondaryprocess.datamanipulation.clsActTools;
 import secondaryprocess.datamanipulation.clsEntityTools;
 import secondaryprocess.datamanipulation.clsMeshTools;
+import testfunctions.clsTester;
 
 /**
  * A mesh of >=1 word presentations. If a word presentation is a word, then the word presentation is a sentence 
@@ -239,6 +240,15 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 		
 		try {
 			//Clone the data structure without associated content. They only exists as empty lists
+		    
+		    //Check if structure already exists in the list
+		    for (clsPair<clsDataStructurePA, clsDataStructurePA> pair : poClonedNodeList) {
+		        if (this.equals(pair.a)) {
+		            //Return clone if this data structure already exists
+		            return pair.b;
+		        }
+		    }
+		    
 			oClone = (clsWordPresentationMesh)super.clone();
 			oClone.moInternalAssociatedContent = new ArrayList<clsAssociation>();
 			oClone.moExternalAssociatedContent = new ArrayList<clsAssociation>();
@@ -279,7 +289,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			if (moExternalAssociatedContent != null) {
 				//Add internal associations to oClone 
         		for(clsAssociation oAssociation : moExternalAssociatedContent){
-        			try { 
+        			try {
     					Object dupl = oAssociation.clone(this, oClone, poClonedNodeList); 
     					oClone.moExternalAssociatedContent.add((clsAssociation)dupl); // unchecked warning
     					
@@ -302,6 +312,22 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
 			
 		} catch (CloneNotSupportedException e) {
            return e;
+        }
+		
+        //=== Perform system tests ===//
+        clsTester.getTester().setActivated(false);
+        if (clsTester.getTester().isActivated()) {
+            try {
+                log.warn("System tester active");
+                log.debug("Testing original {}", this.getMoContent());
+                clsTester.getTester().exeTestCheckLooseAssociations(this);
+                clsTester.getTester().exeTestAssociationAssignment(this);
+                log.debug("Testing clone {}", this.getMoContent());
+                clsTester.getTester().exeTestCheckLooseAssociations(oClone);
+                clsTester.getTester().exeTestAssociationAssignment(this);
+            } catch (Exception e) {
+                log.error("Systemtester has an error in " + this.getClass().getSimpleName(), e);
+            }
         }
 		
 		return oClone;
@@ -664,7 +690,7 @@ public class clsWordPresentationMesh extends clsLogicalStructureComposition {
             if (oDS instanceof clsWordPresentationMesh) {
                 clsWordPresentationMesh oWPM = (clsWordPresentationMesh) oDS;
                 
-                if (oWPM.getMoContent().equals(poAddWPM.getMoContent()) && oWPM.getMoContentType().equals(poAddWPM.getMoContentType())) {
+                if (oWPM.equals(poAddWPM)==true) {
                     bWPFound = true;    //Do nothing as it is already set
                     break;
                 }
