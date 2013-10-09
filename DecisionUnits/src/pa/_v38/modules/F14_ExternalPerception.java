@@ -745,7 +745,7 @@ private void PrepareSensorInformatinForAttention( HashMap<eSymbolExtType, itfSym
 				
 		//Workaround of Bug Eatable/Manipulatable sensors bug
 		//TODO CM: Remove this function, if the eatable area objects are working.
-		solveBUGFIXEATABLEAREA(moEnvironmentalTP);
+		//solveBUGFIXEATABLEAREA(moEnvironmentalTP);
 						
 		// 2. drives activate exemplars. embodiment categorization criterion: activate entities from hallucinatory wish fulfillment. 
 		// since drive objects may be associated to multiple drives, criterion activation in embodiment activation must be done after hallucinatory wishfulfillment (where only source activaiton is done) 

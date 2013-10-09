@@ -57,5 +57,20 @@ public abstract class clsInanimate extends clsMobile {
 	
 		
 	}	
+	
+	
+	@Override
+	public void sensing() {}
+	
+	@Override
+	public void processing() {}
+
+	@Override
+	public void execution() {}
+
+	@Override
+	public boolean isAlive() {
+		return false;
+	}
 
 }

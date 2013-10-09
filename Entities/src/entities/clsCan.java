@@ -14,6 +14,7 @@ import java.awt.Color;
 import ARSsim.physics2D.util.clsPose;
 import bw.entities.base.clsEntity;
 import bw.entities.base.clsInanimate;
+import bw.entities.base.clsUnorganic;
 import bw.entities.tools.clsShape2DCreator;
 
 import config.clsProperties;
@@ -21,7 +22,7 @@ import du.enums.eEntityType;
 import entities.factory.clsEntityFactory;
 import bw.utils.enums.eShapeType;
 
-public class clsCan extends clsInanimate {
+public class clsCan extends clsUnorganic {
 	public static final String CONFIG_FILE_NAME = "can.default.properties";
 	public clsCan(String poPrefix, clsProperties poProp, int uid) {
 		super(poPrefix, poProp, uid); 
@@ -61,42 +62,6 @@ public class clsCan extends clsInanimate {
 		
 	}
 
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#sensing()
-	 */
-	@Override
-	public void sensing() {
-		// nothing to do
-		
-	}
-
-	/* (non-Javadoc)
-	 * @see bw.clsEntity#execution(java.util.ArrayList)
-	 */
-	@Override
-	public void execution() {
-		// nothing to do
-		
-	}
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:34:14
-	 * 
-	 * @see bw.entities.clsEntity#processing(java.util.ArrayList)
-	 */
-	@Override
-	public void processing() {
-		// nothing to do
-		
-	}
-	/* (non-Javadoc)
-	 *
-	 * @author langr
-	 * 25.02.2009, 17:34:14
-	 * 
-	 * @see bw.entities.clsEntity#updateInternalState()
-	 */
 	@Override
 	public void updateInternalState() {
 		// nothing to do
